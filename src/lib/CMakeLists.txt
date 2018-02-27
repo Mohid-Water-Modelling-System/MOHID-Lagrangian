@@ -16,5 +16,7 @@ source_group("LagrTracerLib" FILES ${LIB_SRC})
 # Also adds sources to the Solution Explorer
 ADD_LIBRARY(${LIB} ${LIB_SRC})
 
+link_directories(${CMAKE_SOURCE_DIR}/Libs/Build/lib/RELEASE)
+
 # Properties->General->Output Directory
 SET_TARGET_PROPERTIES(${LIB} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION} SOVERSION ${${PROJECT_NAME}_SOVERSION})

@@ -102,6 +102,8 @@ IF(NOT ${BUILD_SHARED_LIBS})
     SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a ${CMAKE_FIND_LIBRARY_SUFFIXES}")
 ENDIF()
 
+#ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/Libs/Build/lib/RELEASE) #going to search for the libs
+
 #################################################################
 # ADD SOURCE SUBDIRS
 #################################################################

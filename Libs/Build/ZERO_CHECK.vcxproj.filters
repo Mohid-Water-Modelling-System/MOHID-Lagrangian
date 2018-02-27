@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\Libs\Build\CMakeFiles\aa7165ac146b0647c50bf4d79899176c\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{9D141B14-F42A-310E-93E6-A8F4E3FF01F9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

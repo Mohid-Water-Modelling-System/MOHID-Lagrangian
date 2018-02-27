@@ -6,8 +6,11 @@ include_directories (${PROJECT_SOURCE_DIR}/src/lib)
 # Adds sources to the Solution Explorer
 add_executable (MOHID_LagrTracer main.f90)
 
+link_directories(${CMAKE_SOURCE_DIR}/build/lib/RELEASE)
 # Properties->Linker->Input->Additional Dependencies
-target_link_libraries (MOHID_LagrTracer  src/lib)
+target_link_libraries (MOHID_LagrTracer  LagrTracer)
+
+link_directories(${CMAKE_SOURCE_DIR}/Libs/Build/lib/RELEASE)
 
 # Creates a folder "executables" and adds target 
 # project (app.vcproj) under it
