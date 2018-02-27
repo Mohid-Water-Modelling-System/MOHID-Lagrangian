@@ -1,25 +1,23 @@
 #################################################################
 # HEADER
 #################################################################
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.7)
-PROJECT(MOHID_LagrTracer Fortran)
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+# Maps to Visual Studio solution file (Tutorial.sln)
+# The solution will have all targets (exe, lib, dll) 
+# as Visual Studio projects (.vcproj)
+project(LagrTracer)
+enable_language(Fortran)
+
+# Turn on the ability to create folders to organize projects (.vcproj)
+# It creates "CMakePredefinedTargets" folder by default and adds CMake
+# defined projects like INSTALL.vcproj and ZERO_CHECK.vcproj
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 SET(${PROJECT_NAME}_VERSION 0.0.1)
 SET(${PROJECT_NAME}_SOVERSION 1)
 SET(LIB ${PROJECT_NAME})
 
 #SET(CMAKE_VERBOSE_MAKEFILE TRUE)
-
-#################################################################
-# DEFINE PATHS
-#################################################################
-
-SET(SRC_PATH ${CMAKE_SOURCE_DIR}/src)
-SET(LIB_PATH ${SRC_PATH}/lib)
-SET(TESTS_PATH ${SRC_PATH}/tests)
-
-#SET(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake/Modules/")
-
 
 #################################################################
 # BUILD PATHS
@@ -37,16 +35,12 @@ INCLUDE_DIRECTORIES(${CMAKE_Fortran_MODULE_DIRECTORY})
 
 SET(CMAKE_CONFIGURATION_TYPES DEBUG RELEASE)
 IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE DEBUG CACHE STRING
+  SET(CMAKE_BUILD_TYPE RELEASE CACHE STRING
       "Choose the type of build, options are: NONE DEBUG RELEASE"
       FORCE)
 
   SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS NONE DEBUG RELEASE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
-
-IF(NOT ${PROJECT_NAME}_ENABLE_TESTS)
-    OPTION(${PROJECT_NAME}_ENABLE_TESTS "Enable/disable tests compilation" OFF)
-ENDIF(NOT ${PROJECT_NAME}_ENABLE_TESTS)
 
 #################################################################
 # FFLAGS depend on the compiler and the build type
@@ -99,15 +93,6 @@ message (STATUS "CMAKE_Fortran_FLAGS: " ${CMAKE_Fortran_FLAGS})
 message (STATUS "CMAKE_Fortran_FLAGS_RELEASE: " ${CMAKE_Fortran_FLAGS_RELEASE})
 message (STATUS "CMAKE_Fortran_FLAGS_DEBUG: " ${CMAKE_Fortran_FLAGS_DEBUG})
 
-#################################################################
-# ENABLE TESTING
-#################################################################
-
-SET(BUILDNAME ${CMAKE_Fortran_COMPILER_ID}_${CMAKE_BUILD_TYPE}_MKL=${${PROJECT_NAME}_ENABLE_MKL} CACHE STRING "" )
-IF(${PROJECT_NAME}_ENABLE_TESTS)
-    ENABLE_TESTING()
-    INCLUDE(CTest)
-ENDIF()
 
 #################################################################
 # STATIC LIBRARIES
@@ -121,8 +106,5 @@ ENDIF()
 # ADD SOURCE SUBDIRS
 #################################################################
 
-ADD_SUBDIRECTORY(${LIB_PATH})
-IF(${PROJECT_NAME}_ENABLE_TESTS)
-  ADD_SUBDIRECTORY(${TESTS_PATH})
-ENDIF()
-
+ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src/lib)
+ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src/app)

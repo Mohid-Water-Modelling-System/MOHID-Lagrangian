@@ -1,0 +1,14 @@
+\indexentry{tracer@{tracer}|hyperpage}{5}
+\indexentry{tracer2d@{tracer2d}|hyperpage}{5}
+\indexentry{tracer2d@{tracer2d}!tracer2d\+\_\+init@{tracer2d\+\_\+init}|hyperpage}{6}
+\indexentry{tracer2d\+\_\+init@{tracer2d\+\_\+init}!tracer2d@{tracer2d}|hyperpage}{6}
+\indexentry{tracer3d@{tracer3d}|hyperpage}{6}
+\indexentry{tracer3d@{tracer3d}!tracer\+\_\+init@{tracer\+\_\+init}|hyperpage}{7}
+\indexentry{tracer\+\_\+init@{tracer\+\_\+init}!tracer3d@{tracer3d}|hyperpage}{7}
+\indexentry{tracer\+\_\+precision@{tracer\+\_\+precision}|hyperpage}{7}
+\indexentry{tracer3d\+::tracer\+\_\+class@{tracer3d\+::tracer\+\_\+class}|hyperpage}{9}
+\indexentry{tracer3d\+::tracer\+\_\+dep\+\_\+class@{tracer3d\+::tracer\+\_\+dep\+\_\+class}|hyperpage}{9}
+\indexentry{tracer3d\+::tracer\+\_\+par\+\_\+class@{tracer3d\+::tracer\+\_\+par\+\_\+class}|hyperpage}{10}
+\indexentry{tracer3d\+::tracer\+\_\+par\+\_\+trans\+\_\+class@{tracer3d\+::tracer\+\_\+par\+\_\+trans\+\_\+class}|hyperpage}{10}
+\indexentry{tracer3d\+::tracer\+\_\+state\+\_\+class@{tracer3d\+::tracer\+\_\+state\+\_\+class}|hyperpage}{11}
+\indexentry{tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}|hyperpage}{11}
