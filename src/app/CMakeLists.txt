@@ -1,21 +1,24 @@
-# Properties->Fortran->General->Additional Include Directories
-include_directories (${PROJECT_SOURCE_DIR}/src/lib)
-
 # Set Properties->General->Configuration Type to Application(.exe)
 # Creates app.exe with the listed sources (main.cxx)
 # Adds sources to the Solution Explorer
-add_executable (MOHID_LagrTracer main.f90)
+add_executable (MOHIDLagrangian main.f90)
 
-link_directories(${CMAKE_SOURCE_DIR}/build/lib/RELEASE)
+# Properties->Fortran->General->Additional Include Directories
+include_directories (${PROJECT_SOURCE_DIR}/src/lib)
+include_directories (${PROJECT_SOURCE_DIR}/Libs/build/lib/RELEASE)
+
 # Properties->Linker->Input->Additional Dependencies
-target_link_libraries (MOHID_LagrTracer  LagrTracer)
-
-link_directories(${CMAKE_SOURCE_DIR}/Libs/Build/lib/RELEASE)
+target_link_libraries (MOHIDLagrangian  MOHIDLagrangianLib)
+target_link_libraries (MOHIDLagrangian  PENF)
 
 # Creates a folder "executables" and adds target 
 # project (app.vcproj) under it
-set_property(TARGET MOHID_LagrTracer PROPERTY FOLDER "executables")
+set_property(TARGET MOHIDLagrangian PROPERTY FOLDER "executables")
 
 # Properties->General->Output Directory
-set_target_properties(MOHID_LagrTracer PROPERTIES
+set_target_properties(MOHIDLagrangian PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+					  
+# Adds logic to INSTALL.vcproj to copy app.exe to destination directory
+install (TARGETS MOHIDLagrangian
+         RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/_install)

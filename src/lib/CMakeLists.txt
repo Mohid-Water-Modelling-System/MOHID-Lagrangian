@@ -8,15 +8,17 @@ SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
 
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
-source_group("LagrTracerLib" FILES ${LIB_SRC})
+source_group("MOHIDLagrangianLib" FILES ${LIB_SRC})
 
-#################################################################
-# Library target
-#################################################################
+# Properties->C/C++->General->Additional Include Directories
+include_directories (.)
+
 # Also adds sources to the Solution Explorer
-ADD_LIBRARY(${LIB} ${LIB_SRC})
+ADD_LIBRARY(MOHIDLagrangianLib ${LIB_SRC})
 
-link_directories(${CMAKE_SOURCE_DIR}/Libs/Build/lib/RELEASE)
+# Creates folder "libraries" and adds target project (math.vcproj)
+set_property(TARGET MOHIDLagrangianLib PROPERTY FOLDER "libraries")
 
 # Properties->General->Output Directory
-SET_TARGET_PROPERTIES(${LIB} PROPERTIES VERSION ${${PROJECT_NAME}_VERSION} SOVERSION ${${PROJECT_NAME}_SOVERSION})
+set_target_properties(MOHIDLagrangianLib PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)

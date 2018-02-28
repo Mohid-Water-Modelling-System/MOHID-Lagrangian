@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\CMakeFiles\5bee236ac924616c336fc973fe24d623\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F06CC9EE-AE13-3629-BC03-20F55ECD0BAF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

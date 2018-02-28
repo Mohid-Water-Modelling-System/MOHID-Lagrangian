@@ -1,21 +1,14 @@
-#################################################################
-# HEADER
-#################################################################
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # Maps to Visual Studio solution file (Tutorial.sln)
 # The solution will have all targets (exe, lib, dll) 
 # as Visual Studio projects (.vcproj)
-project(LagrTracer)
+project(MOHID-Lagrangian)
 enable_language(Fortran)
 
 # Turn on the ability to create folders to organize projects (.vcproj)
 # It creates "CMakePredefinedTargets" folder by default and adds CMake
 # defined projects like INSTALL.vcproj and ZERO_CHECK.vcproj
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-SET(${PROJECT_NAME}_VERSION 0.0.1)
-SET(${PROJECT_NAME}_SOVERSION 1)
-SET(LIB ${PROJECT_NAME})
 
 #SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
@@ -26,7 +19,6 @@ SET(LIB ${PROJECT_NAME})
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/modules)
-SET(THIRDPARTY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/thirdparty)
 INCLUDE_DIRECTORIES(${CMAKE_Fortran_MODULE_DIRECTORY})
 
 #################################################################
@@ -66,10 +58,10 @@ IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES
   set (CMAKE_Fortran_FLAGS_DEBUG   "-g -fbacktrace -fbounds-check -fprofile-arcs -ftest-coverage -Wimplicit-interface ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
 ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME MATCHES "ifort*")
   # ifort (untested)
-  set(FORTRAN_FLAGS "-r8 -fpp -W1 ${EXTRA_FLAGS} ")
+  set(FORTRAN_FLAGS " -fpp -W1 ${EXTRA_FLAGS} ")
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES}" CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -traceback -g -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
+  set (CMAKE_Fortran_FLAGS_DEBUG   "-traceback -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
 # A partir de CMake 3.1
 # -prof-gen:srcpos -prof-dir${PROJECT_BINARY_DIR}
 
@@ -93,16 +85,6 @@ message (STATUS "CMAKE_Fortran_FLAGS: " ${CMAKE_Fortran_FLAGS})
 message (STATUS "CMAKE_Fortran_FLAGS_RELEASE: " ${CMAKE_Fortran_FLAGS_RELEASE})
 message (STATUS "CMAKE_Fortran_FLAGS_DEBUG: " ${CMAKE_Fortran_FLAGS_DEBUG})
 
-
-#################################################################
-# STATIC LIBRARIES
-#################################################################
-# Try to search first static libraries
-IF(NOT ${BUILD_SHARED_LIBS})
-    SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a ${CMAKE_FIND_LIBRARY_SUFFIXES}")
-ENDIF()
-
-#ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/Libs/Build/lib/RELEASE) #going to search for the libs
 
 #################################################################
 # ADD SOURCE SUBDIRS

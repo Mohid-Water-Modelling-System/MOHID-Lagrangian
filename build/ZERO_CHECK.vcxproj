@@ -64,7 +64,7 @@
     <CustomBuild Include="C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\CMakeFiles\5bee236ac924616c336fc973fe24d623\generate.stamp.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">Checking Build System</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer -BC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build/LagrTracer.sln
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer -BC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build/MOHID-Lagrangian.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -77,7 +77,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">Checking Build System</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer -BC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build/LagrTracer.sln
+"C:\Program Files\CMake\bin\cmake.exe" -HC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer -BC:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build/MOHID-Lagrangian.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
