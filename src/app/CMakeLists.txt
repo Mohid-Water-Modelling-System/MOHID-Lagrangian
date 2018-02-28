@@ -5,11 +5,10 @@ add_executable (MOHIDLagrangian main.f90)
 
 # Properties->Fortran->General->Additional Include Directories
 include_directories (${PROJECT_SOURCE_DIR}/src/lib)
-include_directories (${PROJECT_SOURCE_DIR}/Libs/build/lib/RELEASE)
+include_directories (${PROJECT_SOURCE_DIR}/Libs/build/modules/RELEASE)
 
 # Properties->Linker->Input->Additional Dependencies
 target_link_libraries (MOHIDLagrangian  MOHIDLagrangianLib)
-target_link_libraries (MOHIDLagrangian  PENF)
 
 # Creates a folder "executables" and adds target 
 # project (app.vcproj) under it

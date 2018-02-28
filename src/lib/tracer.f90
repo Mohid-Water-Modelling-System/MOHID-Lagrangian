@@ -26,6 +26,8 @@
     
 module tracer 
      
+    use PENF
+    
     use tracer_precision
     use tracer_interp 
     

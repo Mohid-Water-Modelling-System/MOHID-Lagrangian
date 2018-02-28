@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{37817886-EC04-3337-BD25-2D89409F967C}</ProjectGuid>
+    <ProjectGuid>{A9E6857F-F494-320F-9412-EA03A782C892}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <Platform>x64</Platform>
     <ProjectName>INSTALL</ProjectName>
@@ -42,7 +42,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -64,7 +64,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\modules;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -85,7 +85,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\CMakeFiles\5bee236ac924616c336fc973fe24d623\INSTALL_force.rule">
+    <CustomBuild Include="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\CMakeFiles\9213be06f1e81b373ecbdd745bc2ff12\INSTALL_force.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'"> </Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">setlocal
 cd .
@@ -96,8 +96,8 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">C:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build/CMakeFiles/5bee236ac924616c336fc973fe24d623/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\CMakeFiles\INSTALL_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/build/CMakeFiles/9213be06f1e81b373ecbdd745bc2ff12/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\CMakeFiles\INSTALL_force</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'"> </Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">setlocal
@@ -109,18 +109,18 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">C:/Users/administrator/Documents/GitHub/MOHID_LagrTracer/build/CMakeFiles/5bee236ac924616c336fc973fe24d623/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\CMakeFiles\INSTALL_force</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/build/CMakeFiles/9213be06f1e81b373ecbdd745bc2ff12/INSTALL_force.rule;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\CMakeFiles\INSTALL_force</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\ZERO_CHECK.vcxproj">
-      <Project>{64C455E0-3BEA-39A7-B9E8-94D4F8A5AE8C}</Project>
+    <ProjectReference Include="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\ZERO_CHECK.vcxproj">
+      <Project>{CDBE6374-C566-398C-AC3D-E91B4DA6C253}</Project>
       <Name>ZERO_CHECK</Name>
     </ProjectReference>
-    <ProjectReference Include="C:\Users\administrator\Documents\GitHub\MOHID_LagrTracer\build\ALL_BUILD.vcxproj">
-      <Project>{3B36CD97-CB18-3A07-987B-67C7D59365E1}</Project>
+    <ProjectReference Include="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\ALL_BUILD.vcxproj">
+      <Project>{A7E99DC6-66AC-3905-ACB1-C977F63C89C3}</Project>
       <Name>ALL_BUILD</Name>
     </ProjectReference>
   </ItemGroup>
