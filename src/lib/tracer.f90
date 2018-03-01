@@ -25,15 +25,13 @@
 !------------------------------------------------------------------------------
     
 module tracer 
-     
-    use PENF
     
     use tracer_precision
-    use tracer_interp 
+    use tracer_interp
     
-    use tracer3D 
-    use tracer2D 
+    use tracer3D
+    use tracer2D
 
-    use tracer_io 
+    use tracer_io
 
 end module tracer 

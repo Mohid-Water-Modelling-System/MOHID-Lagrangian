@@ -12,7 +12,9 @@ source_group("MOHIDLagrangianLib" FILES ${LIB_SRC})
 
 # Properties->C/C++->General->Additional Include Directories
 include_directories (.)
+include_directories (${PROJECT_SOURCE_DIR}/Libs)
 include_directories (${PROJECT_SOURCE_DIR}/Libs/build/modules/RELEASE)
+include_directories (${PROJECT_SOURCE_DIR}/Libs/build/lib/RELEASE)
 
 # Also adds sources to the Solution Explorer
 ADD_LIBRARY(MOHIDLagrangianLib ${LIB_SRC})

@@ -23,101 +23,59 @@
 module tracer3D 
 
     use tracer_precision
-    use tracer_interp   
+    use tracer_interp
+    
+    use penf
+    use vecfor ! load vector type and all helpers
 
-    implicit none 
+    implicit none
+    private
 
-    type tracer_par_trans_class !>Type - transient parameters of a pure Lagrangian tracer object        
-        
-    end type 
-
-    type tracer_par_class !>Type - parameters of a pure Lagrangian tracer object
-        integer :: n, n_active, n_max_dep, id_max 
-        logical :: is_sigma                     ! Is the defined z-axis in sigma coords
-        real(prec_time) :: dt, dt_dep, dt_write 
-        real(prec) :: thk_min                   ! Minimum thickness of tracer (m)
-        real(prec) :: H_min                     ! Minimum ice thickness to track (m)
-        real(prec) :: depth_max                 ! Maximum depth of tracer (fraction)
-        real(prec) :: U_max                     ! Maximum horizontal velocity of tracer to track (m/a)
-        real(prec) :: U_max_dep                 ! Maximum horizontal velocity allowed for tracer deposition (m/a)
-        real(prec) :: H_min_dep                 ! Minimum ice thickness for tracer deposition (m)
-        real(prec) :: alpha                     ! Slope of probability function
-        character(len=56) :: weight             ! Weighting function for generating prob. distribution
-        logical    :: noise                     ! Add noise to gridded deposition location
-        real(prec) :: dens_z_lim                ! Distance from surface to count density
-        integer    :: dens_max                  ! Max allowed density of particles at surface
-        character(len=56) :: interp_method  
-
-        ! Transient parameters 
+    type tracer_par_trans_class             !>Type - transient parameters of a pure Lagrangian tracer object        
         character(len=512) :: par_trans_file 
         logical            :: use_par_trans
-        type(tracer_par_trans_class) :: tpar 
-
     end type 
 
-    type tracer_state_class !>Type - state variables of a pure Lagrangian tracer object
-        real(prec_time) :: time, time_old
-        real(prec_time) :: time_dep, time_write 
-        real(prec_time) :: dt  
-        integer, allocatable :: active(:), id(:)
-        real(prec), allocatable :: x(:), y(:), z(:), sigma(:)
-        real(prec), allocatable :: ux(:), uy(:), uz(:)
-        real(prec), allocatable :: ax(:), ay(:), az(:)
-        real(prec), allocatable :: dpth(:), z_srf(:)
-        real(prec), allocatable :: thk(:)            ! Tracer thickness (for compression)
-        real(prec), allocatable :: T(:)              ! Current temperature of the tracer (for borehole comparison, internal melting...)
-        real(prec), allocatable :: H(:)
-
+    type tracer_par_class                   !>Type - parameters of a pure Lagrangian tracer object
+        integer :: id                           !> unique tracer identification (integer)
+        integer :: group                        !> Group to which the tracer belongs (usually by source)
+        real(prec) :: vel_max                   !> Maximum velocity of tracer to track (m/s)
+        logical    :: noise                     !  Add noise to location - TODO
+        character(len=56) :: interp_method      !> interpolation method this tracer calls
+        ! Transient parameters         
+        type(tracer_par_trans_class) :: tpar    !> access to the transient parameters is done through this
     end type 
 
-    type tracer_stats_class !>Type - statistical variables of a pure Lagrangian tracer object
-        
-        ! All stats variables at writing precision (prec_wrt), default is single precision
-        real(prec_wrt), allocatable :: x(:), y(:)
-        real(prec_wrt), allocatable :: depth_norm(:)
-        real(prec_wrt), allocatable :: age_iso(:) 
-
-        real(prec_wrt), allocatable :: depth_iso(:,:,:)
-        real(prec_wrt), allocatable :: depth_iso_err(:,:,:)
-        real(prec_wrt), allocatable :: dep_z_iso(:,:,:)
-        integer,    allocatable :: density_iso(:,:,:)
-        
-        real(prec_wrt), allocatable :: ice_age(:,:,:)
-        real(prec_wrt), allocatable :: ice_age_err(:,:,:)
-        integer,    allocatable :: density(:,:,:)
-           
-    end type
-
-    type tracer_dep_class 
-        ! Standard deposition information (time and place)
-        real(prec), allocatable :: time(:) 
-        real(prec), allocatable :: H(:) 
-        real(prec), allocatable :: x(:), y(:), z(:)
-        real(prec), allocatable :: lon(:), lat(:) 
-
-        ! Additional tracer deposition information (climate, isotopes, etc)
-        real(prec), allocatable :: t2m_ann(:), t2m_sum(:)      
-        real(prec), allocatable :: pr_ann(:), pr_sum(:)     
-        real(prec), allocatable :: t2m_prann(:) ! Precip-weighted temp
-        real(prec), allocatable :: d18O_ann(:)
-!         real(prec), allocatable :: dD(:)
-
+    type tracer_state_class             !>Type - state variables of a pure Lagrangian tracer object
+        real(prec_time) :: time, age        ! time variables
+        real(prec_time) :: dt
+        logical :: active                   !> active switch
+        type(vector) :: pos                 !> Position of the tracer (m)
+        type(vector) :: vel                 !> Velocity of the tracer (m s-1)
+        type(vector) :: acc                 !> Acceleration of the tracer (m s-2)
+        real(prec) :: depth                 !> Depth of the tracer (m)
+        real(prec) :: T                     !> Temperature of the tracer (Celcius)
     end type 
 
-    type tracer_class !>Type - a pure Lagrangian tracer object
-        type(tracer_par_class)   :: par 
-        type(tracer_state_class) :: now 
-        type(tracer_dep_class)   :: dep
-        type(tracer_stats_class) :: stats 
+    type tracer_stats_class             !>Type - statistical variables of a pure Lagrangian tracer object        
+        ! All stats variables at writing precision (prec_wrt)
+        ! Avegarge variable is computed by Accumulated_var / ns
+        type(vector) :: acc_pos             !> Accumulated position of the tracer (m)
+        type(vector) :: acc_vel             !> Accumulated velocity of the tracer (m s-1)
+        real(prec_wrt) :: acc_depth         !> Accumulated depth of the tracer (m)
+        real(prec_wrt) :: acc_T             !> Accumulated temperature of the tracer (Celcius)
+        integer :: ns                       !> Number of sampling steps
+    end type    
 
+    type tracer_class                   !>Type - a pure Lagrangian tracer class
+        type(tracer_par_class)   :: par     !>To access parameters
+        type(tracer_state_class) :: now     !>To access state variables
+        type(tracer_stats_class) :: stats   !>To access statistics
     end type 
 
-    private 
-
-    ! For other tracer modules
+    ! For other tracer modules, altough we want them to inherit from tracer_class directly
     public :: tracer_par_class
     public :: tracer_state_class
-    public :: tracer_dep_class
     public :: tracer_stats_class
 
     ! General public 
@@ -133,7 +91,7 @@ contains
    ! DESCRIPTION: 
    !> Brief description of routine. 
    !> @brief
-   !> Tracer inititialization routine - Generates a tracer collection and initializes their variables
+   !> Tracer inititialization routine - Generates a tracer and initializes its variables
    !
    ! REVISION HISTORY:
    ! TODO_dd_mmm_yyyy - TODO_describe_appropriate_changes - TODO_name
@@ -141,19 +99,30 @@ contains
    !> @param[out] trc      
    !> @param[in] filename
    !---------------------------------------------------------------------------
-    subroutine tracer_init(trc,filename,time,x,y,is_sigma)
+    subroutine tracer_init(trc,id,time,x,y,z)
 
-        implicit none 
+        implicit none
 
-        type(tracer_class),   intent(OUT) :: trc 
-        character(len=*),     intent(IN)  :: filename 
-        real(prec), intent(IN) :: x(:), y(:)
-        logical,    intent(IN) :: is_sigma  
+        type(tracer_class),   intent(OUT) :: trc
+        integer, intent(IN) :: id
+        real(prec), intent(IN) :: x, y, z  
         real(prec_time), intent(IN) :: time 
 
         ! Local variables 
         integer :: i         
-
+        
+        ! initialize parameters
+        trc%par%id = id
+        !vel_max, noise, interp_method
+                
+        ! Initialize position
+        trc%now%pos = x*ex + y*ey + z*ez    !ex ... are versors along the x... axis
+        !for depth, T we need info from the hydrodynamic solution and the mesh
+        
+        ! Initialize statistical accumulator variables
+        
+        !Initialize transient parameters
+        
         return 
 
     end subroutine tracer_init   

@@ -2,7 +2,7 @@
 # Search F90 files recursively in all subdirs
 #################################################################
 
-FILE(GLOB_RECURSE LIB_SRC *.f90 *.F90 *.c)
+FILE(GLOB LIB_SRC *.f90 *.F90 *.c)
 
 #################################################################
 # Library target

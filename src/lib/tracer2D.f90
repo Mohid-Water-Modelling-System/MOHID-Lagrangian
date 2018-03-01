@@ -63,7 +63,7 @@ contains
         y(1:5) = [0.0,0.25,0.50,0.75,1.0] 
 
         ! Call 3D tracer_init
-        call tracer_init(trc,filename,time,x,y,is_sigma)
+        !call tracer_init(trc,filename,time,x,y,is_sigma)
 
         return 
 

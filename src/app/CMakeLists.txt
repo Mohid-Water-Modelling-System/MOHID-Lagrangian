@@ -4,11 +4,14 @@
 add_executable (MOHIDLagrangian main.f90)
 
 # Properties->Fortran->General->Additional Include Directories
-include_directories (${PROJECT_SOURCE_DIR}/src/lib)
-include_directories (${PROJECT_SOURCE_DIR}/Libs/build/modules/RELEASE)
+include_directories (${LIB_PATH})
+include_directories (${LIBRARY_OUTPUT_PATH})
 
 # Properties->Linker->Input->Additional Dependencies
-target_link_libraries (MOHIDLagrangian  MOHIDLagrangianLib)
+file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib") #This needs to be changed to enable library debug
+file(GLOB EXTERNAL_LIBS "${CMAKE_SOURCE_DIR}/Libs/build/lib/RELEASE/*.lib") #sub-ideal linking solution, want to avoid external libs at application level
+target_link_libraries (MOHIDLagrangian  ${LIBS})
+target_link_libraries (MOHIDLagrangian  ${EXTERNAL_LIBS})
 
 # Creates a folder "executables" and adds target 
 # project (app.vcproj) under it
