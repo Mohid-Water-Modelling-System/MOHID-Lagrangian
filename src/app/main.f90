@@ -1,55 +1,57 @@
-program MOHIDLagrangian
+    program MOHIDLagrangian
 
-    use tracer    
+    use tracer
     use PENF
+    use CLA    !Command line argument module
+
     !-----------------------------------------------------------------------------------------------------------------------------------
-!< FoXy test.
-!-----------------------------------------------------------------------------------------------------------------------------------
-!use foxy, only: xml_file
-!-----------------------------------------------------------------------------------------------------------------------------------
+    implicit none
+    character(len=:), allocatable :: parsedxml      !< String containing the parsed XML data
+    type(xml_file)                :: xfile          !< XML file handler
+    integer                       :: xunit          !< XML file unit
+    !-----------------------------------------------------------------------------------------------------------------------------------
+    character(len=STRLEN)  :: defxmlfilename
+    character(len=STRLEN)  :: outdefxmlfilename
+    character(4) :: xmlextention = '.xml'
+    character(len=STRLEN)  :: outpath
+    !-----------------------------------------------------------------------------------------------------------------------------------
 
-!-----------------------------------------------------------------------------------------------------------------------------------
-implicit none
-character(len=:), allocatable :: source         !< String containing the source XML data.
-character(len=:), allocatable :: parsed         !< String containing the parsed XML data.
-type(xml_file)                :: xfile          !< XML file handler.
-integer                       :: xunit          !< XML file unit.
-logical                       :: test_passed(1) !< List of passed tests.
-!-----------------------------------------------------------------------------------------------------------------------------------
 
-!-----------------------------------------------------------------------------------------------------------------------------------
-test_passed = .false.
+    ! Initialize command line arguments
+    call cla_init
 
-print "(A)", 'Input XML data:'
-source = '<first x="1" y="c" z="2">lorem ipsum...</first>'//new_line('a')//&
-         '<second a1="2"/>'//new_line('a')//&
-         '<third>bye</third>'//new_line('a')//&
-         '<fourth a="3">bye bye Mrs. Robinson</fourth>'//new_line('a')//&
-         '<fift>'//new_line('a')//&
-         '  <nested level="1">I am supported! Nested tag at level 1</nested>'//new_line('a')//&
-         '  <nested2 level="1">'//new_line('a')//&
-         '    <nested3 level="2">Nested tag at level 2</nested3>'//new_line('a')//&
-         '  </nested2>'//new_line('a')//&
-         '</fift>'
-print "(A)", source
-open(newunit=xunit, file='parse_file_simple.xml', access='STREAM', form='UNFORMATTED')
-write(unit=xunit)source
-close(unit=xunit)
+    ! Register your keys for key/value pairs.
+    ! EACH KEY MUST BEGIN WITH -
+    call cla_register('-i','--infile','input definition file (xml)', cla_char, 'defxmlfilename')
+    call cla_register('-o','--outpath','output path', cla_char, 'outpath')
 
-print "(A)", 'Parsing file'
-call xfile%parse(filename='Advdiff_Def.xml')
-print "(A)", 'Parsed data'
-parsed = xfile%stringify()
-print "(A)", parsed
-!test_passed(1) = trim(source)==trim(parsed)
-!print "(A,L1)", 'Is parsed data correct? ', test_passed(1)
-!
-!open(newunit=xunit, file='parse_file_simple.xml')
-!close(unit=xunit, status='DELETE')
-!
-!print "(A,L1)", new_line('a')//'Are all tests passed? ', all(test_passed)
-!stop
-    
-    
-    
-end program MOHIDLagrangian
+    ! Store the arguments with each respective variable
+    call cla_get('-i',defxmlfilename)
+    call cla_get('-o',outpath)
+    !print *,' --infile     = ',trim(defxmlfilename)
+    !print *,' --outpath    = ',trim(outpath)
+
+    ! Completing the names with file extensions
+    defxmlfilename=trim(defxmlfilename)//xmlextention
+    outpath=trim(outpath)//'\'
+    print "(A)",' defxmlfilename     = ',defxmlfilename
+    print "(A)",' outpath     = ',outpath
+
+    !Reading input XML file
+    call xfile%parse(filename=defxmlfilename)
+    parsedxml = xfile%stringify()
+    !print "(A)", parsedxml
+    if (parsedxml == '') then !file is empty, might as well stop now
+        print *, 'Definition file', defxmlfilename, 'is empty. Stoping run.'
+        stop
+    endif
+
+    !writting the xml file to the output path
+    outdefxmlfilename=outpath//defxmlfilename
+    outdefxmlfilename=trim(outdefxmlfilename)
+    print "(A)",' outdefxmlfilename     = ',outdefxmlfilename
+    open(newunit=xunit, file=outdefxmlfilename, access='STREAM', form='UNFORMATTED')
+    write(unit=xunit)parsedxml
+    close(unit=xunit)
+
+    end program MOHIDLagrangian

@@ -20,6 +20,7 @@ SET(BeFoR64_PATH ${CMAKE_SOURCE_DIR}/BeFoR64)
 SET(StringiFor_PATH ${CMAKE_SOURCE_DIR}/StringiFor)
 SET(FoXy_PATH ${CMAKE_SOURCE_DIR}/FoXy)
 SET(VTKFortran_PATH ${CMAKE_SOURCE_DIR}/VTKFortran)
+SET(CLA_PATH ${CMAKE_SOURCE_DIR}/CLA)
 
 #################################################################
 # BUILD PATHS
@@ -114,5 +115,6 @@ ADD_SUBDIRECTORY(${BeFoR64_PATH})
 ADD_SUBDIRECTORY(${StringiFor_PATH})
 ADD_SUBDIRECTORY(${FoXy_PATH})
 ADD_SUBDIRECTORY(${VTKFortran_PATH})
+ADD_SUBDIRECTORY(${CLA_PATH})
 
 #add_dependencies(${VECFOR_PATH} ${PENF_PATH}) on every subdirectory cmakelists

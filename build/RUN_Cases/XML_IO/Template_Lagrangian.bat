@@ -19,7 +19,7 @@ if not exist %dirout% mkdir %dirout%
 
 rem CODES are executed according the selected parameters of execution in this testcase
 
-%mohidlagrangian% %name%_Def %dirout%/%name% -save:all
+%mohidlagrangian% -i %name%_Def -o %dirout%
 if not "%ERRORLEVEL%" == "0" goto fail
 
 :success
