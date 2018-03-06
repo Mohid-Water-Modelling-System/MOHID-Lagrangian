@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['n',['n',['../structtracer3d_1_1tracer__par__class.html#afee9b223da2104cc94d7925a09ce1b5b',1,'tracer3d::tracer_par_class']]],
-  ['nt',['nt',['../structtracer3d_1_1tracer__par__trans__class.html#acd1f347b090a9d50fb5c248bfd5382e4',1,'tracer3d::tracer_par_trans_class']]]
+  ['err_5fdist',['err_dist',['../namespacetracer__precision.html#ac58a793d67c36de01068a6315cb0211f',1,'tracer_precision']]],
+  ['err_5find',['err_ind',['../namespacetracer__precision.html#a8a4267e1aa9cc99d32b65d07cb31cb2a',1,'tracer_precision']]]
 ];

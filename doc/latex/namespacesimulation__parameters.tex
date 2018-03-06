@@ -1,0 +1,78 @@
+\hypertarget{namespacesimulation__parameters}{}\section{simulation\+\_\+parameters Module Reference}
+\label{namespacesimulation__parameters}\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+
+
+Module to hold all the simulation related parameters and methods.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_af905a4701f68f0ad0a50606101fda7d6}{setsimparameter}} (parmkey, parmvalue)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer, public \mbox{\hyperlink{namespacesimulation__parameters_a0a398ad974eef004e43a347105e8ad81}{integrator}} = 1
+\item 
+real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_add65346bea9045d3ea4573be190f7cdc}{initfreeze}} = 0.\+0
+\item 
+real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_aedd90d7d1a6db61fcac836ac37034e75}{timemax}} = MV
+\item 
+real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_a70ee14718c33544ce34bf7990211e5cc}{timeout}} = MV
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to hold all the simulation related parameters and methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulation__parameters_af905a4701f68f0ad0a50606101fda7d6}\label{namespacesimulation__parameters_af905a4701f68f0ad0a50606101fda7d6}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimparameter@{setsimparameter}}
+\index{setsimparameter@{setsimparameter}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{setsimparameter()}{setsimparameter()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimparameter (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{parmkey,  }\item[{type(string), intent(in)}]{parmvalue }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public parameter setting routine. Builds the simulation parametric space from the input xml case file. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em parmkey} & \\
+\hline
+\mbox{\tt in}  & {\em parmvalue} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulation__parameters_add65346bea9045d3ea4573be190f7cdc}\label{namespacesimulation__parameters_add65346bea9045d3ea4573be190f7cdc}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!initfreeze@{initfreeze}}
+\index{initfreeze@{initfreeze}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{initfreeze}{initfreeze}}
+{\footnotesize\ttfamily real(prec), public simulation\+\_\+parameters\+::initfreeze = 0.\+0}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_a0a398ad974eef004e43a347105e8ad81}\label{namespacesimulation__parameters_a0a398ad974eef004e43a347105e8ad81}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!integrator@{integrator}}
+\index{integrator@{integrator}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{integrator}{integrator}}
+{\footnotesize\ttfamily integer, public simulation\+\_\+parameters\+::integrator = 1}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_aedd90d7d1a6db61fcac836ac37034e75}\label{namespacesimulation__parameters_aedd90d7d1a6db61fcac836ac37034e75}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!timemax@{timemax}}
+\index{timemax@{timemax}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{timemax}{timemax}}
+{\footnotesize\ttfamily real(prec), public simulation\+\_\+parameters\+::timemax = MV}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_a70ee14718c33544ce34bf7990211e5cc}\label{namespacesimulation__parameters_a70ee14718c33544ce34bf7990211e5cc}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!timeout@{timeout}}
+\index{timeout@{timeout}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{timeout}{timeout}}
+{\footnotesize\ttfamily real(prec), public simulation\+\_\+parameters\+::timeout = MV}
+

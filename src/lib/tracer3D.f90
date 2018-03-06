@@ -25,8 +25,7 @@ module tracer3D
     use tracer_precision
     use tracer_interp
     
-    use penf
-    use vecfor ! load vector type and all helpers
+    use commom_modules
 
     implicit none
     private
@@ -82,20 +81,15 @@ module tracer3D
     public :: tracer_class 
     public :: tracer_init
 
-contains 
+    contains 
     
    !---------------------------------------------------------------------------  
    !> @Ricardo Birjukovs Canelas - MARETEC
-   !> Routine Author Name and Affiliation.
-   !
-   ! DESCRIPTION: 
-   !> Brief description of routine. 
+   ! Routine Author Name and Affiliation.
+   ! 
    !> @brief
    !> Tracer inititialization routine - Generates a tracer and initializes its variables
-   !
-   ! REVISION HISTORY:
-   ! TODO_dd_mmm_yyyy - TODO_describe_appropriate_changes - TODO_name
-   !
+   ! 
    !> @param[out] trc      
    !> @param[in] filename
    !---------------------------------------------------------------------------

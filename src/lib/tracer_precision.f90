@@ -13,11 +13,7 @@
 !> Ricardo Birjukovs Canelas
 !
 ! DESCRIPTION: 
-!> Module to control the precision of the Lagrangian tracer modules.
-!
-! REVISION HISTORY:
-! 26 02 2018 - Initial Version
-! TODO_dd_mmm_yyyy - TODO_describe_appropriate_changes - TODO_name
+!> Module to control the precision of the variables trough the project.
 !------------------------------------------------------------------------------
     
 module tracer_precision

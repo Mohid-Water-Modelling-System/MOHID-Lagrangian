@@ -32,6 +32,6 @@ module tracer
     use tracer3D
     use tracer2D
 
-    use tracer_io
+    use initialize
 
 end module tracer 

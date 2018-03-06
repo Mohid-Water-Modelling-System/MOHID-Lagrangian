@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # Maps to Visual Studio solution file (Tutorial.sln)
 # The solution will have all targets (exe, lib, dll) 
 # as Visual Studio projects (.vcproj)
-project(MOHID-Lagrangian)
+project(MOHIDLagrangian)
 enable_language(Fortran)
 
 # Turn on the ability to create folders to organize projects (.vcproj)

@@ -1,57 +1,39 @@
     program MOHIDLagrangian
 
-    use tracer
-    use PENF
+    use source
     use CLA    !Command line argument module
+    use commom_modules
 
-    !-----------------------------------------------------------------------------------------------------------------------------------
     implicit none
-    character(len=:), allocatable :: parsedxml      !< String containing the parsed XML data
-    type(xml_file)                :: xfile          !< XML file handler
-    integer                       :: xunit          !< XML file unit
-    !-----------------------------------------------------------------------------------------------------------------------------------
-    character(len=STRLEN)  :: defxmlfilename
-    character(len=STRLEN)  :: outdefxmlfilename
-    character(4) :: xmlextention = '.xml'
-    character(len=STRLEN)  :: outpath
-    !-----------------------------------------------------------------------------------------------------------------------------------
 
+    !-----------------------------------------------------------------------------------------------------------------------------------
+    character(len=STRLEN)  :: defxmlfilename_char
+    character(len=STRLEN)  :: outpath_char
+    type(string) :: defxmlfilename
+    type(string) :: outpath
+    character(4) :: xmlextention = '.xml'
+    !-----------------------------------------------------------------------------------------------------------------------------------
 
     ! Initialize command line arguments
     call cla_init
 
-    ! Register your keys for key/value pairs.
-    ! EACH KEY MUST BEGIN WITH -
+    ! Register keys for key/value pairs.
     call cla_register('-i','--infile','input definition file (xml)', cla_char, 'defxmlfilename')
     call cla_register('-o','--outpath','output path', cla_char, 'outpath')
 
     ! Store the arguments with each respective variable
-    call cla_get('-i',defxmlfilename)
-    call cla_get('-o',outpath)
-    !print *,' --infile     = ',trim(defxmlfilename)
-    !print *,' --outpath    = ',trim(outpath)
+    call cla_get('-i',defxmlfilename_char)
+    call cla_get('-o',outpath_char)
+    ! CLA uses chars, we use 'strings'
+    defxmlfilename=trim(defxmlfilename_char)
+    outpath=trim(outpath_char)
 
     ! Completing the names with file extensions
-    defxmlfilename=trim(defxmlfilename)//xmlextention
-    outpath=trim(outpath)//'\'
-    print "(A)",' defxmlfilename     = ',defxmlfilename
-    print "(A)",' outpath     = ',outpath
+    defxmlfilename=defxmlfilename//xmlextention
+    outpath=outpath//'\'
 
-    !Reading input XML file
-    call xfile%parse(filename=defxmlfilename)
-    parsedxml = xfile%stringify()
-    !print "(A)", parsedxml
-    if (parsedxml == '') then !file is empty, might as well stop now
-        print *, 'Definition file', defxmlfilename, 'is empty. Stoping run.'
-        stop
-    endif
+    ! Initialization routines to build the xml-defined case
+    call init_mohidlagrangian(defxmlfilename)
 
-    !writting the xml file to the output path
-    outdefxmlfilename=outpath//defxmlfilename
-    outdefxmlfilename=trim(outdefxmlfilename)
-    print "(A)",' outdefxmlfilename     = ',outdefxmlfilename
-    open(newunit=xunit, file=outdefxmlfilename, access='STREAM', form='UNFORMATTED')
-    write(unit=xunit)parsedxml
-    close(unit=xunit)
 
     end program MOHIDLagrangian

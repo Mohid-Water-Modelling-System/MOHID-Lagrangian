@@ -42,7 +42,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUG|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\modules;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\.;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\modules\RELEASE;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\lib\RELEASE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\modules;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\.;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\modules;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -64,7 +64,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RELEASE|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\modules;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\.;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\modules\RELEASE;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\lib\RELEASE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\modules;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\.;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\modules;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\build\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
