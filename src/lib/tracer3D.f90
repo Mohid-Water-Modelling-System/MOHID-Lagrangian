@@ -14,17 +14,11 @@
 !
 ! DESCRIPTION: 
 !> Module that defines a pure Lagrangian tracer class and related methods.
-!
-! REVISION HISTORY:
-! 26 02 2018 - Initial Version
-! TODO_dd_mmm_yyyy - TODO_describe_appropriate_changes - TODO_name
 !------------------------------------------------------------------------------
     
 module tracer3D 
 
-    use tracer_precision
-    use tracer_interp
-    
+    use tracer_interp    
     use commom_modules
 
     implicit none
@@ -46,8 +40,7 @@ module tracer3D
     end type 
 
     type tracer_state_class             !>Type - state variables of a pure Lagrangian tracer object
-        real(prec_time) :: time, age        ! time variables
-        real(prec_time) :: dt
+        real(prec_time) :: age              ! time variables
         logical :: active                   !> active switch
         type(vector) :: pos                 !> Position of the tracer (m)
         type(vector) :: vel                 !> Velocity of the tracer (m s-1)
@@ -66,19 +59,19 @@ module tracer3D
         integer :: ns                       !> Number of sampling steps
     end type    
 
-    type tracer_class                   !>Type - a pure Lagrangian tracer class
+    type tracer_class                   !>Type - The pure Lagrangian tracer class
         type(tracer_par_class)   :: par     !>To access parameters
         type(tracer_state_class) :: now     !>To access state variables
         type(tracer_stats_class) :: stats   !>To access statistics
     end type 
 
     ! For other tracer modules, altough we want them to inherit from tracer_class directly
-    public :: tracer_par_class
-    public :: tracer_state_class
-    public :: tracer_stats_class
+    !public :: tracer_par_class
+    !public :: tracer_state_class
+    !public :: tracer_stats_class
 
     ! General public 
-    public :: tracer_class 
+    public :: tracer_class
     public :: tracer_init
 
     contains 
