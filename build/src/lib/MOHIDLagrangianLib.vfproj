@@ -26,6 +26,7 @@
 	<Files>
 		<Filter Name="MOHIDLagrangianLib">
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\common_modules.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\geometry.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\initialize.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_parameters.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source.f90"/>

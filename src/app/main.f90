@@ -33,7 +33,7 @@
     outpath=outpath//'\'
 
     ! Initialization routines to build the xml-defined case
-    call init_mohidlagrangian(defxmlfilename)
+    call initMohidLagrangian(defxmlfilename)
 
 
     end program MOHIDLagrangian

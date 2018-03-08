@@ -32,6 +32,4 @@ module tracer
     use tracer3D
     use tracer2D
 
-    use initialize
-
 end module tracer 

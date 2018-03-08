@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['missing_5fvalue_5fdefault',['missing_value_default',['../namespacetracer__precision.html#ac24699f2eab5a0427f3ec0f8f7715a40',1,'tracer_precision']]],
-  ['mv',['mv',['../namespacetracer__precision.html#a783785f78c8f38be24eef86ccd426c6e',1,'tracer_precision']]],
-  ['mv_5fint',['mv_int',['../namespacetracer__precision.html#abddd3613902872af708334a2c29dc468',1,'tracer_precision']]]
+  ['err_5fdist',['err_dist',['../namespacetracer__precision.html#ac58a793d67c36de01068a6315cb0211f',1,'tracer_precision']]],
+  ['err_5find',['err_ind',['../namespacetracer__precision.html#a8a4267e1aa9cc99d32b65d07cb31cb2a',1,'tracer_precision']]]
 ];

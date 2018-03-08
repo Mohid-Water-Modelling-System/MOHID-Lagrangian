@@ -90,7 +90,7 @@ module tracer3D
 
         implicit none
 
-        type(tracer_class),   intent(OUT) :: trc
+        type(tracer_class),   intent(inout) :: trc
         integer, intent(IN) :: id
         real(prec), intent(IN) :: x, y, z  
         real(prec_time), intent(IN) :: time 

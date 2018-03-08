@@ -96,7 +96,7 @@ $(document).ready(function(){initNavTree('namespacesimulation__parameters.html',
 </div><!--header-->
 <div class="contents">
 
-<p>Module to hold all the simulation related parameters and methods.  
+<p>Module to hold all the simulation related parameters, definitions and methods.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -104,22 +104,134 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:af905a4701f68f0ad0a50606101fda7d6"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#af905a4701f68f0ad0a50606101fda7d6">setsimparameter</a> (parmkey, parmvalue)</td></tr>
 <tr class="memdesc:af905a4701f68f0ad0a50606101fda7d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#af905a4701f68f0ad0a50606101fda7d6">More...</a><br /></td></tr>
 <tr class="separator:af905a4701f68f0ad0a50606101fda7d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21b04e29ccee801263abc6e27fba026f"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a21b04e29ccee801263abc6e27fba026f">setsimgravity</a> (grav)</td></tr>
+<tr class="memdesc:a21b04e29ccee801263abc6e27fba026f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a21b04e29ccee801263abc6e27fba026f">More...</a><br /></td></tr>
+<tr class="separator:a21b04e29ccee801263abc6e27fba026f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4190b1bba60a505d50ba93973f158e5f"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a4190b1bba60a505d50ba93973f158e5f">setsimrho</a> (rho)</td></tr>
+<tr class="memdesc:a4190b1bba60a505d50ba93973f158e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a4190b1bba60a505d50ba93973f158e5f">More...</a><br /></td></tr>
+<tr class="separator:a4190b1bba60a505d50ba93973f158e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a757c1773e1c21deb9f3bfd2dc258bd1a"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a757c1773e1c21deb9f3bfd2dc258bd1a">setsimdp</a> (read_dp)</td></tr>
+<tr class="memdesc:a757c1773e1c21deb9f3bfd2dc258bd1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a757c1773e1c21deb9f3bfd2dc258bd1a">More...</a><br /></td></tr>
+<tr class="separator:a757c1773e1c21deb9f3bfd2dc258bd1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71f285f54b412efac79d40c9ecd58037"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a71f285f54b412efac79d40c9ecd58037">setsimbounds</a> (point_, coords)</td></tr>
+<tr class="memdesc:a71f285f54b412efac79d40c9ecd58037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a71f285f54b412efac79d40c9ecd58037">More...</a><br /></td></tr>
+<tr class="separator:a71f285f54b412efac79d40c9ecd58037"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a0a398ad974eef004e43a347105e8ad81"><td class="memItemLeft" align="right" valign="top">integer, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a0a398ad974eef004e43a347105e8ad81">integrator</a> = 1</td></tr>
 <tr class="separator:a0a398ad974eef004e43a347105e8ad81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82ce5585265987eedbbaad0cd9cac673"><td class="memItemLeft" align="right" valign="top">real(prec), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a82ce5585265987eedbbaad0cd9cac673">cfl</a> = 0.5</td></tr>
+<tr class="separator:a82ce5585265987eedbbaad0cd9cac673"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add65346bea9045d3ea4573be190f7cdc"><td class="memItemLeft" align="right" valign="top">real(prec), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#add65346bea9045d3ea4573be190f7cdc">initfreeze</a> = 0.0</td></tr>
 <tr class="separator:add65346bea9045d3ea4573be190f7cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedd90d7d1a6db61fcac836ac37034e75"><td class="memItemLeft" align="right" valign="top">real(prec), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#aedd90d7d1a6db61fcac836ac37034e75">timemax</a> = MV</td></tr>
 <tr class="separator:aedd90d7d1a6db61fcac836ac37034e75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70ee14718c33544ce34bf7990211e5cc"><td class="memItemLeft" align="right" valign="top">real(prec), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a70ee14718c33544ce34bf7990211e5cc">timeout</a> = MV</td></tr>
 <tr class="separator:a70ee14718c33544ce34bf7990211e5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe85a1735413a2cc7a220910f68bd214"><td class="memItemLeft" align="right" valign="top">real(prec), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#afe85a1735413a2cc7a220910f68bd214">dp</a> = MV</td></tr>
+<tr class="separator:afe85a1735413a2cc7a220910f68bd214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb9016ab495389a3b970541d9ec585cf"><td class="memItemLeft" align="right" valign="top">type(vector), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#acb9016ab495389a3b970541d9ec585cf">pointmin</a></td></tr>
+<tr class="separator:acb9016ab495389a3b970541d9ec585cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8471983089d031118d18a4b498d4e0d"><td class="memItemLeft" align="right" valign="top">type(vector), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#ac8471983089d031118d18a4b498d4e0d">pointmax</a></td></tr>
+<tr class="separator:ac8471983089d031118d18a4b498d4e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f4b25aae7394e93796760f8720af525"><td class="memItemLeft" align="right" valign="top">type(vector), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#a5f4b25aae7394e93796760f8720af525">gravity</a></td></tr>
+<tr class="separator:a5f4b25aae7394e93796760f8720af525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afde4a9da604d884c51389f6fa871e521"><td class="memItemLeft" align="right" valign="top">real(prec), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__parameters.html#afde4a9da604d884c51389f6fa871e521">rho_ref</a> = 1000.0</td></tr>
+<tr class="separator:afde4a9da604d884c51389f6fa871e521"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Module to hold all the simulation related parameters and methods. </p>
+<div class="textblock"><p>Module to hold all the simulation related parameters, definitions and methods. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
+<a id="a71f285f54b412efac79d40c9ecd58037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71f285f54b412efac79d40c9ecd58037">&#9670;&nbsp;</a></span>setsimbounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public simulation_parameters::setsimbounds </td>
+          <td>(</td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
+          <td class="paramname"><em>point_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), dimension(3), intent(in)&#160;</td>
+          <td class="paramname"><em>coords</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Public bounding box setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">point_,coords</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a757c1773e1c21deb9f3bfd2dc258bd1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a757c1773e1c21deb9f3bfd2dc258bd1a">&#9670;&nbsp;</a></span>setsimdp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public simulation_parameters::setsimdp </td>
+          <td>(</td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>read_dp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Public dp setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">read_dp</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a21b04e29ccee801263abc6e27fba026f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21b04e29ccee801263abc6e27fba026f">&#9670;&nbsp;</a></span>setsimgravity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public simulation_parameters::setsimgravity </td>
+          <td>(</td>
+          <td class="paramtype">real(prec), dimension(3), intent(in)&#160;</td>
+          <td class="paramname"><em>grav</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Public Gravity setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">grav</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af905a4701f68f0ad0a50606101fda7d6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af905a4701f68f0ad0a50606101fda7d6">&#9670;&nbsp;</a></span>setsimparameter()</h2>
 
@@ -157,7 +269,75 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a4190b1bba60a505d50ba93973f158e5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4190b1bba60a505d50ba93973f158e5f">&#9670;&nbsp;</a></span>setsimrho()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public simulation_parameters::setsimrho </td>
+          <td>(</td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>rho</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Public Rho_Ref setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rho</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a82ce5585265987eedbbaad0cd9cac673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82ce5585265987eedbbaad0cd9cac673">&#9670;&nbsp;</a></span>cfl</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec), public simulation_parameters::cfl = 0.5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe85a1735413a2cc7a220910f68bd214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe85a1735413a2cc7a220910f68bd214">&#9670;&nbsp;</a></span>dp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec), public simulation_parameters::dp = MV</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f4b25aae7394e93796760f8720af525"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f4b25aae7394e93796760f8720af525">&#9670;&nbsp;</a></span>gravity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(vector), public simulation_parameters::gravity</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="add65346bea9045d3ea4573be190f7cdc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add65346bea9045d3ea4573be190f7cdc">&#9670;&nbsp;</a></span>initfreeze</h2>
 
@@ -180,6 +360,48 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">integer, public simulation_parameters::integrator = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8471983089d031118d18a4b498d4e0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8471983089d031118d18a4b498d4e0d">&#9670;&nbsp;</a></span>pointmax</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(vector), public simulation_parameters::pointmax</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb9016ab495389a3b970541d9ec585cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb9016ab495389a3b970541d9ec585cf">&#9670;&nbsp;</a></span>pointmin</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(vector), public simulation_parameters::pointmin</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afde4a9da604d884c51389f6fa871e521"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afde4a9da604d884c51389f6fa871e521">&#9670;&nbsp;</a></span>rho_ref</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec), public simulation_parameters::rho_ref = 1000.0</td>
         </tr>
       </table>
 </div><div class="memdoc">

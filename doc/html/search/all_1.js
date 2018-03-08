@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['err_5fdist',['err_dist',['../namespacetracer__precision.html#ac58a793d67c36de01068a6315cb0211f',1,'tracer_precision']]],
-  ['err_5find',['err_ind',['../namespacetracer__precision.html#a8a4267e1aa9cc99d32b65d07cb31cb2a',1,'tracer_precision']]]
+  ['dp',['dp',['../namespacesimulation__parameters.html#afe85a1735413a2cc7a220910f68bd214',1,'simulation_parameters']]]
 ];

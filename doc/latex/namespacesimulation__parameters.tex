@@ -2,29 +2,49 @@
 \label{namespacesimulation__parameters}\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}}
 
 
-Module to hold all the simulation related parameters and methods.  
+Module to hold all the simulation related parameters, definitions and methods.  
 
 
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
 subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_af905a4701f68f0ad0a50606101fda7d6}{setsimparameter}} (parmkey, parmvalue)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a21b04e29ccee801263abc6e27fba026f}{setsimgravity}} (grav)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a4190b1bba60a505d50ba93973f158e5f}{setsimrho}} (rho)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a757c1773e1c21deb9f3bfd2dc258bd1a}{setsimdp}} (read\+\_\+dp)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a71f285f54b412efac79d40c9ecd58037}{setsimbounds}} (point\+\_\+, coords)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 integer, public \mbox{\hyperlink{namespacesimulation__parameters_a0a398ad974eef004e43a347105e8ad81}{integrator}} = 1
 \item 
+real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_a82ce5585265987eedbbaad0cd9cac673}{cfl}} = 0.\+5
+\item 
 real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_add65346bea9045d3ea4573be190f7cdc}{initfreeze}} = 0.\+0
 \item 
 real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_aedd90d7d1a6db61fcac836ac37034e75}{timemax}} = MV
 \item 
 real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_a70ee14718c33544ce34bf7990211e5cc}{timeout}} = MV
+\item 
+real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_afe85a1735413a2cc7a220910f68bd214}{dp}} = MV
+\item 
+type(vector), public \mbox{\hyperlink{namespacesimulation__parameters_acb9016ab495389a3b970541d9ec585cf}{pointmin}}
+\item 
+type(vector), public \mbox{\hyperlink{namespacesimulation__parameters_ac8471983089d031118d18a4b498d4e0d}{pointmax}}
+\item 
+type(vector), public \mbox{\hyperlink{namespacesimulation__parameters_a5f4b25aae7394e93796760f8720af525}{gravity}}
+\item 
+real(prec), public \mbox{\hyperlink{namespacesimulation__parameters_afde4a9da604d884c51389f6fa871e521}{rho\+\_\+ref}} = 1000.\+0
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-Module to hold all the simulation related parameters and methods. 
+Module to hold all the simulation related parameters, definitions and methods. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas 
@@ -32,6 +52,51 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulation__parameters_a71f285f54b412efac79d40c9ecd58037}\label{namespacesimulation__parameters_a71f285f54b412efac79d40c9ecd58037}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimbounds@{setsimbounds}}
+\index{setsimbounds@{setsimbounds}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{setsimbounds()}{setsimbounds()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimbounds (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{point\+\_\+,  }\item[{real(prec), dimension(3), intent(in)}]{coords }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public bounding box setting routine. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em point\+\_\+,coords} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesimulation__parameters_a757c1773e1c21deb9f3bfd2dc258bd1a}\label{namespacesimulation__parameters_a757c1773e1c21deb9f3bfd2dc258bd1a}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimdp@{setsimdp}}
+\index{setsimdp@{setsimdp}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{setsimdp()}{setsimdp()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimdp (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public dp setting routine. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em read\+\_\+dp} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesimulation__parameters_a21b04e29ccee801263abc6e27fba026f}\label{namespacesimulation__parameters_a21b04e29ccee801263abc6e27fba026f}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimgravity@{setsimgravity}}
+\index{setsimgravity@{setsimgravity}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{setsimgravity()}{setsimgravity()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimgravity (\begin{DoxyParamCaption}\item[{real(prec), dimension(3), intent(in)}]{grav }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public Gravity setting routine. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em grav} & \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{namespacesimulation__parameters_af905a4701f68f0ad0a50606101fda7d6}\label{namespacesimulation__parameters_af905a4701f68f0ad0a50606101fda7d6}} 
 \index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimparameter@{setsimparameter}}
 \index{setsimparameter@{setsimparameter}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
@@ -49,9 +114,42 @@ Public parameter setting routine. Builds the simulation parametric space from th
 \mbox{\tt in}  & {\em parmvalue} & \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{namespacesimulation__parameters_a4190b1bba60a505d50ba93973f158e5f}\label{namespacesimulation__parameters_a4190b1bba60a505d50ba93973f158e5f}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimrho@{setsimrho}}
+\index{setsimrho@{setsimrho}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{setsimrho()}{setsimrho()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimrho (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{rho }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public Rho\+\_\+\+Ref setting routine. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rho} & \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulation__parameters_a82ce5585265987eedbbaad0cd9cac673}\label{namespacesimulation__parameters_a82ce5585265987eedbbaad0cd9cac673}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!cfl@{cfl}}
+\index{cfl@{cfl}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{cfl}{cfl}}
+{\footnotesize\ttfamily real(prec), public simulation\+\_\+parameters\+::cfl = 0.\+5}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_afe85a1735413a2cc7a220910f68bd214}\label{namespacesimulation__parameters_afe85a1735413a2cc7a220910f68bd214}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!dp@{dp}}
+\index{dp@{dp}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{dp}{dp}}
+{\footnotesize\ttfamily real(prec), public simulation\+\_\+parameters\+::dp = MV}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_a5f4b25aae7394e93796760f8720af525}\label{namespacesimulation__parameters_a5f4b25aae7394e93796760f8720af525}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!gravity@{gravity}}
+\index{gravity@{gravity}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{gravity}{gravity}}
+{\footnotesize\ttfamily type(vector), public simulation\+\_\+parameters\+::gravity}
+
 \mbox{\Hypertarget{namespacesimulation__parameters_add65346bea9045d3ea4573be190f7cdc}\label{namespacesimulation__parameters_add65346bea9045d3ea4573be190f7cdc}} 
 \index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!initfreeze@{initfreeze}}
 \index{initfreeze@{initfreeze}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
@@ -63,6 +161,24 @@ Public parameter setting routine. Builds the simulation parametric space from th
 \index{integrator@{integrator}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
 \subsubsection{\texorpdfstring{integrator}{integrator}}
 {\footnotesize\ttfamily integer, public simulation\+\_\+parameters\+::integrator = 1}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_ac8471983089d031118d18a4b498d4e0d}\label{namespacesimulation__parameters_ac8471983089d031118d18a4b498d4e0d}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!pointmax@{pointmax}}
+\index{pointmax@{pointmax}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{pointmax}{pointmax}}
+{\footnotesize\ttfamily type(vector), public simulation\+\_\+parameters\+::pointmax}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_acb9016ab495389a3b970541d9ec585cf}\label{namespacesimulation__parameters_acb9016ab495389a3b970541d9ec585cf}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!pointmin@{pointmin}}
+\index{pointmin@{pointmin}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{pointmin}{pointmin}}
+{\footnotesize\ttfamily type(vector), public simulation\+\_\+parameters\+::pointmin}
+
+\mbox{\Hypertarget{namespacesimulation__parameters_afde4a9da604d884c51389f6fa871e521}\label{namespacesimulation__parameters_afde4a9da604d884c51389f6fa871e521}} 
+\index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!rho\+\_\+ref@{rho\+\_\+ref}}
+\index{rho\+\_\+ref@{rho\+\_\+ref}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
+\subsubsection{\texorpdfstring{rho\+\_\+ref}{rho\_ref}}
+{\footnotesize\ttfamily real(prec), public simulation\+\_\+parameters\+::rho\+\_\+ref = 1000.\+0}
 
 \mbox{\Hypertarget{namespacesimulation__parameters_aedd90d7d1a6db61fcac836ac37034e75}\label{namespacesimulation__parameters_aedd90d7d1a6db61fcac836ac37034e75}} 
 \index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!timemax@{timemax}}
