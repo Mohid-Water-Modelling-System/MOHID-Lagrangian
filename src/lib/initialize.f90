@@ -15,6 +15,113 @@
     public :: initMohidLagrangian
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private attribute xml parser routine.
+    !
+    !> @param[in] xmlnode, tag, vec
+    !---------------------------------------------------------------------------
+    subroutine readxmlatt(xmlnode, tag, att_name, att_value)
+    implicit none
+    type(Node), intent(in), pointer :: xmlnode
+    type(string), intent(in) :: tag
+    type(string), intent(in) :: att_name
+    type(string), intent(out) :: att_value
+    
+    character(80) :: att_value_chars
+    type(NodeList), pointer :: nodeList
+    type(Node), pointer :: nodedetail
+
+    nullify(nodeList)
+    nodeList => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
+    if (associated(nodeList)) then
+        nodedetail => item(nodeList, 0)
+        call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
+        att_value=trim(att_value_chars)
+    else
+        print*, "Could not find any", tag, " tag for xml node ", getNodeName(xmlnode), ", stoping."
+        stop
+    endif
+    end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private vector xml parser routine.
+    !
+    !> @param[in] xmlnode, tag, vec
+    !---------------------------------------------------------------------------
+    subroutine readxmlvector(xmlnode, tag, vec)
+    implicit none
+    type(Node), intent(in), pointer :: xmlnode
+    type(string), intent(in) :: tag
+    type(vector), intent(out) :: vec
+
+    type(NodeList), pointer :: nodeList
+    type(Node), pointer :: nodedetail
+
+    nullify(nodeList)
+    nodeList => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
+    if (associated(nodeList)) then
+        nodedetail => item(nodeList, 0)
+        call extractDataAttribute(nodedetail, "x", vec%x)
+        call extractDataAttribute(nodedetail, "y", vec%y)
+        call extractDataAttribute(nodedetail, "z", vec%z)
+    else
+        print*, "Could not find any", tag, " tag for xml node ", getNodeName(xmlnode), ", stoping."
+        stop
+    endif
+    end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private geometry xml parser routine.
+    !
+    !> @param[in] source, geometry
+    !---------------------------------------------------------------------------
+    subroutine read_xml_geometry(source,source_detail,geometry)
+    implicit none
+    type(Node), intent(in), pointer :: source
+    type(Node), intent(in), pointer :: source_detail
+    !type(string), intent(in) :: name
+    class(shape), intent(inout) :: geometry
+
+    type(string) :: tag
+
+    select type (geometry)
+    type is (shape)
+        !nothing to do
+    class is (box)
+        tag='point'
+        call readxmlvector(source,tag,geometry%pt)
+        tag='size'
+        call readxmlvector(source,tag,geometry%size)
+    class is (point)
+        tag='point'
+        call readxmlvector(source,tag,geometry%pt)        
+    class is (line)
+        tag='pointa'
+        call readxmlvector(source,tag,geometry%pt)
+        tag='pointb'
+        call readxmlvector(source,tag,geometry%last)
+    class is (sphere)
+        tag='point'
+        call readxmlvector(source,tag,geometry%pt)
+        call extractDataAttribute(source_detail, "radius", geometry%radius)        
+    class default
+        stop 'read_xml_geometry: unexpected type for geometry object!'
+    end select
+
+    end subroutine
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -38,66 +145,56 @@
     integer :: i, j, k
     !source vars
     integer :: id
-    type(string) :: name, source_geometry
-    character(80) :: name_char, source_geometry_char
+    type(string) :: name, source_geometry, tag, att_name, att_val
+    character(80) :: val, name_char, source_geometry_char
     real(prec) :: emitting_rate
-    class(*), allocatable :: geometry
+    class(shape), allocatable :: geometry
 
     nullify(sourcedefList)
     nullify(sourceList)
     sourcedefList => getElementsByTagname(parsedxml, "sourcedef")       !searching for tags with the 'simulationdefs' name
     sourcedef => item(sourcedefList,0)
-    sourceList => getElementsByTagname(sourcedef, "source")
-    print*, "There are ", getLength(sourceList), " tracer sources"
+    sourceList => getElementsByTagname(sourcedef, "source")    
 
     call allocSources(getLength(sourceList))                         !allocating the source objects
 
     do j = 0, getLength(sourceList) - 1
-        source => item(sourceList,j)
-        nullify(sourcedetailList)
-        sourcedetailList => getElementsByTagname(source, "setsource")   !searching for tags with the 'setsource' name
-        if (associated(sourcedetailList)) then
-            source_detail => item(sourcedetailList, 0)
-            call extractDataAttribute(source_detail, "id", id)
-            call extractDataAttribute(source_detail, "name", name_char)
-            name=trim(name_char)
-        else
-            print*, "Could not find any 'setsource' tag for source", j, "in input file, stoping."
-            stop
-        endif
-        nullify(sourcedetailList)
-        sourcedetailList => getElementsByTagname(source, "set")         !searching for tags with the 'set' name
-        if (associated(sourcedetailList)) then
-            source_detail => item(sourcedetailList, 0)
-            call extractDataAttribute(source_detail, "emitting_rate", emitting_rate)
-        else
-            print*, "Could not find any 'set' tag for source", j, "in input file, stoping."
-            stop
-        endif
+        source => item(sourceList,j)        
+        tag="setsource"
+        att_name="id"
+        call readxmlatt(source, tag, att_name, att_val)
+        id=att_val%to_number(I1P)
+        att_name="name"
+        call readxmlatt(source, tag, att_name, name)        
+        tag="set"
+        att_name="emitting_rate"
+        call readxmlatt(source, tag, att_name, att_val)
+        val = att_val%chars()
+        read(val,*)emitting_rate
         !now we need to find out the geometry of the source and read accordingly
         nullify(sourcedetailList)
-        source_detail => item(getChildNodes(source),5)                       !this is really ugly, but there seems to be a bug here. This effectivelly hardcodes the geometry position in the xml...
+        source_detail => item(getChildNodes(source),5)   !this is really ugly, but there seems to be a bug here. This effectivelly hardcodes the geometry position in the xml...
         source_geometry = getNodeName(source_detail)
-        print*, "Source ",name ," is a ", source_geometry
-        select case (name%chars())
+        !print*, "Source ",name ," ID=", id,", is a ", source_geometry, "with EM=", emitting_rate
+        select case (source_geometry%chars())
         case ('point')
-            allocate(type(point)::geometry)            
+            allocate(point::geometry)
         case ('sphere')
-            allocate(type(sphere)::geometry)
+            allocate(sphere::geometry)            
         case ('box')
-            allocate(type(box)::geometry)
+            allocate(box::geometry)
         case ('line')
-            allocate(type(line)::geometry)
+            allocate(line::geometry)
         case default
-            print*, "Source", j, " geometry type is not supported, stopping"
-            stop
+            stop 'init_sources: unexpected type for geometry object!'
         end select
+        call read_xml_geometry(source,source_detail,geometry)
 
+        !initializing Source j
+        call initSource(j+1,id,name,emitting_rate,source_geometry,geometry)
+
+        deallocate(geometry)
     enddo
-
-
-
-
 
     return
     end subroutine
@@ -115,36 +212,19 @@
     implicit none
     type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
 
-    type(NodeList), pointer :: parameterList        !> Node list for parameters
-    type(Node), pointer :: parmt                    !> Single parameter block to process
-    real(prec) :: points(3), i
-    type(string) :: pts(2)
+    real(prec) :: i
+    type(string) :: pts(2), tag, att_name, att_val
+    type(vector) :: coords
 
-    nullify(parameterList)
-    parameterList => getElementsByTagname(parsedxml, "resolution")       !searching for tags with the 'simulationdefs' name
-    if (associated(parameterList)) then
-        parmt => item(parameterList, 0)
-        call extractDataAttribute(parmt, "dp", points(1))
-        call setSimDp(points(1))
-    else
-        print*, "Could not find any 'simulationdefs' tag in input file, stoping."
-        stop
-    endif
+    tag="resolution"
+    att_name="dp"
+    call readxmlatt(parsedxml, tag, att_name, att_val)    
+    call setSimDp(att_val)    
 
     pts=(/ 'pointmin', 'pointmax'/) !strings to search for
     do i=1, size(pts)
-        nullify(parameterList)
-        parameterList => getElementsByTagname(parsedxml, pts(i)%chars())       !searching for tags with the 'pts(i)' name
-        if (associated(parameterList)) then
-            parmt => item(parameterList, 0)
-            call extractDataAttribute(parmt, "x", points(1))
-            call extractDataAttribute(parmt, "y", points(2))
-            call extractDataAttribute(parmt, "z", points(3))
-            call setSimBounds(pts(i), points)
-        else
-            print*, "Could not find any ", pts(i)%chars(), " tag in input file, stoping"
-            stop
-        endif
+        call readxmlvector(parsedxml, pts(i), coords)
+        call setSimBounds(pts(i), coords)        
     enddo
 
     return
@@ -163,33 +243,18 @@
     implicit none
     type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
 
-    type(NodeList), pointer :: parameterList        !> Node list for parameters
-    type(Node), pointer :: parmt                    !> Single parameter block to process
-    real(prec) :: points(3)
+    type(string) :: tag, att_name, att_val
+    type(vector) :: coords
 
-    nullify(parameterList)
-    parameterList => getElementsByTagname(parsedxml, "Gravity")       !searching for tags with the 'Gravity' name
-    if (associated(parameterList)) then
-        parmt => item(parameterList, 0)
-        call extractDataAttribute(parmt, "x", points(1))
-        call extractDataAttribute(parmt, "y", points(2))
-        call extractDataAttribute(parmt, "z", points(3))
-        call setSimGravity(points)
-    else
-        print*, "Could not find any 'Gravity' tag in input file, assuming (0,0,-9.81) m s-2."
-        call setSimGravity((/0.0,0.0,-9.81/))
-    endif
-    nullify(parameterList)
-
-    parameterList => getElementsByTagname(parsedxml, "Rho_ref")       !searching for tags with the 'Rho_ref' name
-    if (associated(parameterList)) then
-        parmt => item(parameterList, 0)
-        call extractDataAttribute(parmt, "value", points(1))
-        call setSimRho(points(1))
-    else
-        print*, "Could not find any 'Rho_ref' tag in input file, will assume 1000 kg m-3."
-    endif
-
+    tag="Gravity"
+    call readxmlvector(parsedxml, tag, coords)
+    call setSimGravity(coords)
+    
+    tag="Rho_ref"
+    att_name="value"
+    call readxmlatt(parsedxml, tag, att_name, att_val)    
+    call setSimRho(att_val) 
+    
     return
     end subroutine
 

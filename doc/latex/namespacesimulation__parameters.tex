@@ -12,7 +12,7 @@ subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_af905a4701f6
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a21b04e29ccee801263abc6e27fba026f}{setsimgravity}} (grav)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a4190b1bba60a505d50ba93973f158e5f}{setsimrho}} (rho)
+subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a877176f5e4ba2c41a2514b824520f315}{setsimrho}} (read\+\_\+rho)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine, public \mbox{\hyperlink{namespacesimulation__parameters_a757c1773e1c21deb9f3bfd2dc258bd1a}{setsimdp}} (read\+\_\+dp)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
@@ -56,7 +56,7 @@ Ricardo Birjukovs Canelas
 \index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimbounds@{setsimbounds}}
 \index{setsimbounds@{setsimbounds}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
 \subsubsection{\texorpdfstring{setsimbounds()}{setsimbounds()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimbounds (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{point\+\_\+,  }\item[{real(prec), dimension(3), intent(in)}]{coords }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimbounds (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{point\+\_\+,  }\item[{type(vector)}]{coords }\end{DoxyParamCaption})}
 
 
 
@@ -71,7 +71,7 @@ Public bounding box setting routine.
 \index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimdp@{setsimdp}}
 \index{setsimdp@{setsimdp}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
 \subsubsection{\texorpdfstring{setsimdp()}{setsimdp()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimdp (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimdp (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})}
 
 
 
@@ -86,7 +86,7 @@ Public dp setting routine.
 \index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimgravity@{setsimgravity}}
 \index{setsimgravity@{setsimgravity}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
 \subsubsection{\texorpdfstring{setsimgravity()}{setsimgravity()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimgravity (\begin{DoxyParamCaption}\item[{real(prec), dimension(3), intent(in)}]{grav }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimgravity (\begin{DoxyParamCaption}\item[{type(vector)}]{grav }\end{DoxyParamCaption})}
 
 
 
@@ -114,11 +114,11 @@ Public parameter setting routine. Builds the simulation parametric space from th
 \mbox{\tt in}  & {\em parmvalue} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{namespacesimulation__parameters_a4190b1bba60a505d50ba93973f158e5f}\label{namespacesimulation__parameters_a4190b1bba60a505d50ba93973f158e5f}} 
+\mbox{\Hypertarget{namespacesimulation__parameters_a877176f5e4ba2c41a2514b824520f315}\label{namespacesimulation__parameters_a877176f5e4ba2c41a2514b824520f315}} 
 \index{simulation\+\_\+parameters@{simulation\+\_\+parameters}!setsimrho@{setsimrho}}
 \index{setsimrho@{setsimrho}!simulation\+\_\+parameters@{simulation\+\_\+parameters}}
 \subsubsection{\texorpdfstring{setsimrho()}{setsimrho()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimrho (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{rho }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+parameters\+::setsimrho (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{read\+\_\+rho }\end{DoxyParamCaption})}
 
 
 

@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['pointmax',['pointmax',['../namespacesimulation__parameters.html#ac8471983089d031118d18a4b498d4e0d',1,'simulation_parameters']]],
-  ['pointmin',['pointmin',['../namespacesimulation__parameters.html#acb9016ab495389a3b970541d9ec585cf',1,'simulation_parameters']]],
-  ['prec',['prec',['../namespacetracer__precision.html#a8a01094f67c69ab389329d205a7c4cc6',1,'tracer_precision']]],
-  ['prec_5ftime',['prec_time',['../namespacetracer__precision.html#acd72fad1267e87137f00ec7d21d5a0cb',1,'tracer_precision']]],
-  ['prec_5fwrt',['prec_wrt',['../namespacetracer__precision.html#a57302c8b2d241e00360158d172f89d3c',1,'tracer_precision']]]
+  ['initfreeze',['initfreeze',['../namespacesimulation__parameters.html#add65346bea9045d3ea4573be190f7cdc',1,'simulation_parameters']]],
+  ['initialize',['initialize',['../namespaceinitialize.html',1,'']]],
+  ['initialize_2ef90',['initialize.f90',['../initialize_8f90.html',1,'']]],
+  ['initmohidlagrangian',['initmohidlagrangian',['../namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804',1,'initialize']]],
+  ['initsource',['initsource',['../namespacesource__identity.html#a3939e59172252d0edce57e00ea41758d',1,'source_identity']]],
+  ['integrator',['integrator',['../namespacesimulation__parameters.html#a0a398ad974eef004e43a347105e8ad81',1,'simulation_parameters']]]
 ];

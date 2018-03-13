@@ -1,6 +1,7 @@
 var namespaces_dup =
 [
     [ "commom_modules", "namespacecommom__modules.html", null ],
+    [ "geometry", "namespacegeometry.html", null ],
     [ "initialize", "namespaceinitialize.html", null ],
     [ "simulation_parameters", "namespacesimulation__parameters.html", null ],
     [ "source", "namespacesource.html", null ],

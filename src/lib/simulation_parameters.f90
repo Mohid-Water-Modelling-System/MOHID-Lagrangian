@@ -27,9 +27,9 @@
     public :: Integrator, CFL
     public :: InitFreeze
     public :: TimeMax, TimeOut
-    public :: dp, pointmin, pointmax
-    public :: gravity
-    public :: rho_ref
+    public :: Dp, Pointmin, Pointmax
+    public :: Gravity
+    public :: Rho_ref
 
     !Public access procedures
     public :: setSimParameter, setSimGravity, setSimRho, setSimDp, setSimBounds
@@ -41,9 +41,9 @@
     real(prec) :: TimeMax = MV          !> Simulation duration
     real(prec) :: TimeOut = MV          !> Time out data (1/Hz)
     !Simulation definitions
-    real(prec) :: dp = MV               !> Initial particle spacing at source generation
-    type(vector)    ::  pointmin        !> Point that defines the lowest corner of the simulation bounding box
-    type(vector)    ::  pointmax        !> Point that defines the upper corner of the simulation bounding box
+    real(prec) :: Dp = MV               !> Initial particle spacing at source generation
+    type(vector)    ::  Pointmin        !> Point that defines the lowest corner of the simulation bounding box
+    type(vector)    ::  Pointmax        !> Point that defines the upper corner of the simulation bounding box
     !Case Constants
     type(vector) :: Gravity             !> Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
     real(prec) :: Rho_ref = 1000.0      !> Reference density of the medium (default=1000.0) (kg m-3)
@@ -76,7 +76,7 @@
         TimeMax=parmvalue%to_number(prec)
     elseif(parmkey%chars()=="TimeOut") then
         TimeOut=parmvalue%to_number(prec)
-    endif
+    endif    
     return
     end subroutine
     
@@ -90,9 +90,9 @@
     !> @param[in] grav
     !---------------------------------------------------------------------------
     subroutine setSimGravity (grav)
-    implicit none
-    real(prec), intent(in) :: grav(3)
-    Gravity= grav(1)*ex + grav(2)*ey + grav(3)*ez
+    implicit none    
+    type(vector) :: grav
+    Gravity= grav
     return
     end subroutine
     
@@ -105,10 +105,15 @@
     !
     !> @param[in] rho
     !---------------------------------------------------------------------------
-    subroutine setSimRho(rho)
+    subroutine setSimRho(read_rho)
     implicit none
-    real(prec), intent(in) :: rho
-    Rho_ref = rho
+    type(string), intent(in) :: read_rho    
+    character(80) :: chars    
+    chars = read_rho%chars()
+    read(chars,*)Rho_ref    
+    if (Rho_ref.le.0.0) then
+        stop 'Rho_ref must be positive and non-zero, stopping.'
+    endif
     return
     end subroutine
     
@@ -123,8 +128,13 @@
     !---------------------------------------------------------------------------
     subroutine setSimDp(read_dp)
     implicit none
-    real(prec), intent(in) :: read_dp
-    dp = read_dp
+    type(string), intent(in) :: read_dp    
+    character(80) :: chars    
+    chars = read_dp%chars()
+    read(chars,*)Dp    
+    if (Dp.le.0.0) then
+        stop 'Dp must be positive and non-zero, stopping.'
+    endif
     return
     end subroutine
     
@@ -140,12 +150,12 @@
     subroutine setSimBounds(point_, coords)
     implicit none
     type(string), intent(in) :: point_
-    real(prec), intent(in) :: coords(3)
+    type(vector) :: coords
     if (point_%chars() == "pointmin") then
-        pointmin= coords(1)*ex + coords(2)*ey + coords(3)*ez
+        Pointmin= coords
     elseif (point_%chars() == "pointmax") then
-        pointmax= coords(1)*ex + coords(2)*ey + coords(3)*ez
-    endif
+        Pointmax= coords
+    endif    
     return
     end subroutine
     

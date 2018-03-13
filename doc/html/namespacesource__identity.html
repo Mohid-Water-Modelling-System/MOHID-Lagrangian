@@ -90,7 +90,8 @@ $(document).ready(function(){initNavTree('namespacesource__identity.html','');})
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Types</a> &#124;
-<a href="#func-members">Functions/Subroutines</a>  </div>
+<a href="#func-members">Functions/Subroutines</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">source_identity Module Reference</div>  </div>
 </div><!--header-->
@@ -101,31 +102,59 @@ $(document).ready(function(){initNavTree('namespacesource__identity.html','');})
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:acc9ae0204f68acff7c8db0a66c19ec5e"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#acc9ae0204f68acff7c8db0a66c19ec5e">source_init</a> (source, name, id, emitting_rate, source_geometry, coords)</td></tr>
-<tr class="memdesc:acc9ae0204f68acff7c8db0a66c19ec5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#acc9ae0204f68acff7c8db0a66c19ec5e">More...</a><br /></td></tr>
-<tr class="separator:acc9ae0204f68acff7c8db0a66c19ec5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a716b4cb4acec5756a6d4dcf20eee588e"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#a716b4cb4acec5756a6d4dcf20eee588e">allocsources</a> (nsources)</td></tr>
+<tr class="memdesc:a716b4cb4acec5756a6d4dcf20eee588e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a716b4cb4acec5756a6d4dcf20eee588e">More...</a><br /></td></tr>
+<tr class="separator:a716b4cb4acec5756a6d4dcf20eee588e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3939e59172252d0edce57e00ea41758d"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#a3939e59172252d0edce57e00ea41758d">initsource</a> (num, id, name, emitting_rate, source_geometry, geometry)</td></tr>
+<tr class="memdesc:a3939e59172252d0edce57e00ea41758d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a3939e59172252d0edce57e00ea41758d">More...</a><br /></td></tr>
+<tr class="separator:a3939e59172252d0edce57e00ea41758d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5ed8006613af7461c6a2ff1cdaeb8f0f"><td class="memItemLeft" align="right" valign="top">type(source_class), dimension(:), allocatable, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#a5ed8006613af7461c6a2ff1cdaeb8f0f">source</a></td></tr>
+<tr class="separator:a5ed8006613af7461c6a2ff1cdaeb8f0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Module that defines a source class and related methods. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="acc9ae0204f68acff7c8db0a66c19ec5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc9ae0204f68acff7c8db0a66c19ec5e">&#9670;&nbsp;</a></span>source_init()</h2>
+<a id="a716b4cb4acec5756a6d4dcf20eee588e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a716b4cb4acec5756a6d4dcf20eee588e">&#9670;&nbsp;</a></span>allocsources()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public source_identity::source_init </td>
+          <td class="memname">subroutine, public source_identity::allocsources </td>
           <td>(</td>
-          <td class="paramtype">type(source_class), intent(inout)&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>nsources</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>source allocation routine - allocates the sources objects </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">nsources</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3939e59172252d0edce57e00ea41758d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3939e59172252d0edce57e00ea41758d">&#9670;&nbsp;</a></span>initsource()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine, public source_identity::initsource </td>
+          <td>(</td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>num</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -136,20 +165,26 @@ Functions/Subroutines</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
           <td class="paramname"><em>emitting_rate</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
           <td class="paramname"><em>source_geometry</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">type(vector), intent(in)&#160;</td>
-          <td class="paramname"><em>coords</em>&#160;</td>
+          <td class="paramtype">class(<a class="el" href="structgeometry_1_1shape.html">shape</a>), intent(in)&#160;</td>
+          <td class="paramname"><em>geometry</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -162,12 +197,26 @@ Functions/Subroutines</h2></td></tr>
 <p>Birjukovs Canelas - MARETEC </p>
 <p>source inititialization routine - Generates a source and initializes its variables </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">source</td><td><br />
-</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">source,name,id,emitting_rate,source_geometry,coords</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">source</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">num,id,name,emitting_rate,source_geometry</td><td></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a5ed8006613af7461c6a2ff1cdaeb8f0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed8006613af7461c6a2ff1cdaeb8f0f">&#9670;&nbsp;</a></span>source</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(source_class), dimension(:), allocatable, public source_identity::source</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

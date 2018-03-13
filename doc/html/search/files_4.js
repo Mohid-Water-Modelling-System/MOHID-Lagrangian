@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['tracer_2ef90',['tracer.f90',['../tracer_8f90.html',1,'']]],
-  ['tracer2d_2ef90',['tracer2D.f90',['../tracer2_d_8f90.html',1,'']]],
-  ['tracer3d_2ef90',['tracer3D.f90',['../tracer3_d_8f90.html',1,'']]],
-  ['tracer_5finterp_2ef90',['tracer_interp.f90',['../tracer__interp_8f90.html',1,'']]],
-  ['tracer_5fprecision_2ef90',['tracer_precision.f90',['../tracer__precision_8f90.html',1,'']]]
+  ['simulation_5fparameters_2ef90',['simulation_parameters.f90',['../simulation__parameters_8f90.html',1,'']]],
+  ['source_2ef90',['source.f90',['../source_8f90.html',1,'']]],
+  ['source_5femitter_2ef90',['source_emitter.f90',['../source__emitter_8f90.html',1,'']]],
+  ['source_5fidentity_2ef90',['source_identity.f90',['../source__identity_8f90.html',1,'']]]
 ];

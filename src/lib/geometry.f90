@@ -22,24 +22,24 @@ module geometry
     use tracer_precision
     
     implicit none
-    private
     
-    type point              !>Type - point class
-        type(vector) :: coord   !> Coordinates of the point
+    type shape                                  !>Type - extendable shape class
+        type(vector) :: pt      !> Coordinates of a point
     end type
     
-    type line               !>Type - line class
-        type(vector) :: first   !> Coordinates of the initial point
+    type, extends(shape) :: point               !>Type - point class
+    end type
+    
+    type, extends(shape) :: line               !>Type - line class
         type(vector) :: last    !> Coordinates of the end point
     end type
     
-    type sphere             !>Type - sphere class
-        type(vector) :: coord   !> Coordinates of the point
+    type, extends(shape) :: sphere             !>Type - sphere class
         real(prec) :: radius    !> Sphere radius
     end type
     
-    type box                !>Type - point class
-        type(vector) :: coord   !> Coordinates of the lower left corner point
+    type, extends(shape) :: box                !>Type - point class
+        !> Coordinates of the lower left corner point are defined by shape class
         type(vector) :: size    !> Box size
     end type
     

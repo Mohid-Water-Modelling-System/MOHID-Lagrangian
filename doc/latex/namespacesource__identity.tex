@@ -8,8 +8,15 @@ Module that defines a source class and related methods.
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \mbox{\hyperlink{namespacesource__identity_acc9ae0204f68acff7c8db0a66c19ec5e}{source\+\_\+init}} (source, name, id, emitting\+\_\+rate, source\+\_\+geometry, coords)
+subroutine, public \mbox{\hyperlink{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}{allocsources}} (nsources)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespacesource__identity_a3939e59172252d0edce57e00ea41758d}{initsource}} (num, id, name, emitting\+\_\+rate, source\+\_\+geometry, geometry)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(source\+\_\+class), dimension(\+:), allocatable, public \mbox{\hyperlink{namespacesource__identity_a5ed8006613af7461c6a2ff1cdaeb8f0f}{source}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -21,11 +28,26 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespacesource__identity_acc9ae0204f68acff7c8db0a66c19ec5e}\label{namespacesource__identity_acc9ae0204f68acff7c8db0a66c19ec5e}} 
-\index{source\+\_\+identity@{source\+\_\+identity}!source\+\_\+init@{source\+\_\+init}}
-\index{source\+\_\+init@{source\+\_\+init}!source\+\_\+identity@{source\+\_\+identity}}
-\subsubsection{\texorpdfstring{source\+\_\+init()}{source\_init()}}
-{\footnotesize\ttfamily subroutine, public source\+\_\+identity\+::source\+\_\+init (\begin{DoxyParamCaption}\item[{type(source\+\_\+class), intent(inout)}]{source,  }\item[{}]{name,  }\item[{integer, intent(in)}]{id,  }\item[{}]{emitting\+\_\+rate,  }\item[{}]{source\+\_\+geometry,  }\item[{type(vector), intent(in)}]{coords }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}\label{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}} 
+\index{source\+\_\+identity@{source\+\_\+identity}!allocsources@{allocsources}}
+\index{allocsources@{allocsources}!source\+\_\+identity@{source\+\_\+identity}}
+\subsubsection{\texorpdfstring{allocsources()}{allocsources()}}
+{\footnotesize\ttfamily subroutine, public source\+\_\+identity\+::allocsources (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{nsources }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source allocation routine -\/ allocates the sources objects 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em nsources} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesource__identity_a3939e59172252d0edce57e00ea41758d}\label{namespacesource__identity_a3939e59172252d0edce57e00ea41758d}} 
+\index{source\+\_\+identity@{source\+\_\+identity}!initsource@{initsource}}
+\index{initsource@{initsource}!source\+\_\+identity@{source\+\_\+identity}}
+\subsubsection{\texorpdfstring{initsource()}{initsource()}}
+{\footnotesize\ttfamily subroutine, public source\+\_\+identity\+::initsource (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{num,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\mbox{\hyperlink{structgeometry_1_1shape}{shape}}), intent(in)}]{geometry }\end{DoxyParamCaption})}
 
 
 
@@ -33,9 +55,17 @@ Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 
 source inititialization routine -\/ Generates a source and initializes its variables 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt out}  & {\em source} & ~\newline
-\\
+\mbox{\tt out}  & {\em source} & \\
 \hline
-\mbox{\tt in}  & {\em source,name,id,emitting\+\_\+rate,source\+\_\+geometry,coords} & \\
+\mbox{\tt in}  & {\em num,id,name,emitting\+\_\+rate,source\+\_\+geometry} & \\
 \hline
 \end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesource__identity_a5ed8006613af7461c6a2ff1cdaeb8f0f}\label{namespacesource__identity_a5ed8006613af7461c6a2ff1cdaeb8f0f}} 
+\index{source\+\_\+identity@{source\+\_\+identity}!source@{source}}
+\index{source@{source}!source\+\_\+identity@{source\+\_\+identity}}
+\subsubsection{\texorpdfstring{source}{source}}
+{\footnotesize\ttfamily type(source\+\_\+class), dimension(\+:), allocatable, public source\+\_\+identity\+::source}
+

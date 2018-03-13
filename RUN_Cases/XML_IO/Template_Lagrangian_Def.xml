@@ -6,16 +6,16 @@
             <Rho_ref value="1100" comment="Reference density of the fluid" units_comment="kg/m^3" />
         </constantsdef>
 		<simulationdefs>
-			<resolution dp="0.5" units_comment="metres (m)"/>
-            <pointmin x="0.0" y="0.0" z="-500" />
-            <pointmax x="10000" y="20000.0" z="4.0" />
+			<resolution dp="1.5" units_comment="metres (m)"/>
+            <pointmin x="0.0" y="0.0" z="-500.01" />
+            <pointmax x="10000" y="20005.0" z="4.0574" />
         </simulationdefs>        
         <sourcedef>
            	<source>
 				<setsource id="0" name="Spill_007" />
 				<set emitting_rate="0.1" units_comment="Hz" />
 				<box>                        
-					<point x="0" y="0" z="0" />
+					<point x="0.2458" y="0" z="0" />
 					<size x="1" y="1" z="1" />
 				</box>
 			</source>
@@ -28,8 +28,8 @@
 				<setsource id="2" name="Plankton_2" />
 				<set emitting_rate="0.2" units_comment="Hz" />
 				<line>
-					<point x="1" y="2" z="3" />
-					<point x="11" y="21" z="31" />
+					<pointa x="1" y="2" z="3" />
+					<pointb x="11" y="21" z="31" />
 				</line>
 			</source>
 			<source>

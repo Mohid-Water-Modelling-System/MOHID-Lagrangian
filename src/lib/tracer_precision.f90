@@ -18,14 +18,16 @@
     
 module tracer_precision
 
+    use penf    
+
     implicit none
     private
     public :: prec, prec_time, prec_wrt
     public :: MISSING_VALUE_DEFAULT, MV, MV_INT
     public :: ERR_DIST, ERR_IND
 
-    integer,  parameter :: sp  = kind(1.0)  !> Simple precision definition switch
-    integer,  parameter :: dp  = kind(1.d0) !> Double precision definition switch
+    integer,  parameter :: sp  = kind(1._R4P)  !> Simple precision definition switch
+    integer,  parameter :: dp  = kind(1._R8P) !> Double precision definition switch
 
     ! Precision used throughout is define here. Change at will.
     integer,  parameter :: prec      = sp 

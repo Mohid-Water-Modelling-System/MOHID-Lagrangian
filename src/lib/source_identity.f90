@@ -30,7 +30,7 @@
         type(string) :: name                !> source name
         type(string) :: property_name       !> source property name
         type(string) :: source_geometry     !> Source type : 'point', 'line', 'sphere', 'box'
-        class(*), allocatable :: geometry   !> Source geometry
+        class(shape), allocatable :: geometry   !> Source geometry
     end type
 
     type source_state_class             !>Type - state variables of a source object
@@ -59,7 +59,7 @@
     !Simulation variables
     type(source_class), allocatable, dimension(:) :: Source
 
-
+    
     !Public access vars
     public :: Source
     !Public access procedures
@@ -82,7 +82,7 @@
         integer err
         allocate(Source(nsources), stat=err)
         if(err==0)then
-            print*, nsources, " sources allocated"
+            !print*, nsources, " sources allocated"
         else
             print*, "Can't allocate ", nsources, ", stoping"
         endif
@@ -96,37 +96,54 @@
     !> source inititialization routine - Generates a source and initializes its variables
     !
     !> @param[out] source
-    !> @param[in] source, name, id, emitting_rate, source_geometry, coords
+    !> @param[in] num, id, name, emitting_rate, source_geometry
     !---------------------------------------------------------------------------
-    subroutine initSource(src,name,id,emitting_rate,source_geometry,coords)
+    subroutine initSource(num,id,name,emitting_rate,source_geometry,geometry)
     implicit none
-    type(source_class),   intent(inout) :: src
-    type(string), intent(in) :: name
+    integer, intent(in) :: num
     integer, intent(in) :: id
+    type(string), intent(in) :: name
     real(prec), intent(in) :: emitting_rate
     type(string), intent(in) :: source_geometry
-    type(vector), intent(in) :: coords
-
+    class(shape), intent(in) :: geometry
+    
     !Setting parameters
-    src%par%id=id
-    src%par%emitting_rate=emitting_rate
-    src%par%name=name
-    src%par%source_geometry=source_geometry
+    Source(num)%par%id=id
+    Source(num)%par%emitting_rate=emitting_rate
+    Source(num)%par%name=name
+    Source(num)%par%source_geometry=source_geometry
+    allocate(Source(num)%par%geometry, source=geometry)
 
     !Setting state variables
-    src%now%age=0.0
-    src%now%active=.false. !disabled by default
-    src%now%pos=coords
+    Source(num)%now%age=0.0
+    Source(num)%now%active=.false. !disabled by default    
+    Source(num)%now%pos=Source(num)%par%geometry%pt !coords of the Source (meaning depends on the geometry type!)
 
     !setting statistical samplers
-    src%stats%particles_emitted=0
-    src%stats%acc_T=0.0
-    src%stats%ns=0
+    Source(num)%stats%particles_emitted=0
+    Source(num)%stats%acc_T=0.0
+    Source(num)%stats%ns=0
 
+    print*, "Source ", Source(num)%par%id, "named ", Source(num)%par%name, " was initialized. Congrats."
+    
     end subroutine
-
-
-
-
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> source print routine - prints a source info on console/log
+    !
+    !> @param[in] src
+    !---------------------------------------------------------------------------
+    subroutine printsource(src)
+    implicit none
+    type(source_class), intent(in) :: src
+    
+    
+    
+    end subroutine
+    
 
     end module source_identity
