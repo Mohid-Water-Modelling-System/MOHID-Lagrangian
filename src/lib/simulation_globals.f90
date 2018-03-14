@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : simulation_parameters
+    ! MODULE        : simulation_globals
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : March 2018
@@ -13,10 +13,10 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module to hold all the simulation related parameters, definitions and methods
+    !> Module to hold all the simulation related parameters and other globals, definitions and methods
     !------------------------------------------------------------------------------
 
-    module simulation_parameters
+    module simulation_globals
 
     use commom_modules
 
@@ -30,7 +30,7 @@
     public :: Dp, Pointmin, Pointmax
     public :: Gravity
     public :: Rho_ref
-
+    
     !Public access procedures
     public :: setSimParameter, setSimGravity, setSimRho, setSimDp, setSimBounds
 
@@ -47,7 +47,7 @@
     !Case Constants
     type(vector) :: Gravity             !> Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
     real(prec) :: Rho_ref = 1000.0      !> Reference density of the medium (default=1000.0) (kg m-3)
-    
+       
 
     contains
 
@@ -107,12 +107,15 @@
     !---------------------------------------------------------------------------
     subroutine setSimRho(read_rho)
     implicit none
-    type(string), intent(in) :: read_rho    
+    type(string), intent(in) :: read_rho  
+    type(string) :: outext
     character(80) :: chars    
     chars = read_rho%chars()
     read(chars,*)Rho_ref    
     if (Rho_ref.le.0.0) then
-        stop 'Rho_ref must be positive and non-zero, stopping.'
+        outext='Rho_ref must be positive and non-zero, stopping'
+        call ToLog(outext)
+        stop
     endif
     return
     end subroutine
@@ -128,12 +131,15 @@
     !---------------------------------------------------------------------------
     subroutine setSimDp(read_dp)
     implicit none
-    type(string), intent(in) :: read_dp    
+    type(string), intent(in) :: read_dp
+    type(string) :: outext
     character(80) :: chars    
     chars = read_dp%chars()
     read(chars,*)Dp    
     if (Dp.le.0.0) then
-        stop 'Dp must be positive and non-zero, stopping.'
+        outext='Dp must be positive and non-zero, stopping'
+        call ToLog(outext)
+        stop
     endif
     return
     end subroutine
@@ -158,7 +164,5 @@
     endif    
     return
     end subroutine
-    
-    
 
-    end module simulation_parameters
+    end module simulation_globals

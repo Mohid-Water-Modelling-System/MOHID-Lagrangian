@@ -1,0 +1,36 @@
+2018-3-14 @18:1:17 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-3-14 @18:1:17 -->Reading case parameters
+2018-3-14 @18:1:17 -->Reading case constants
+2018-3-14 @18:1:17 -->Reading case simulation definitions
+2018-3-14 @18:1:17 ->Source Spill_007 allocated
+  Id = +0
+  Geometry type is box
+  Initially at coordinates
+   +0.245800000000000E+000
+    0.000000000000000E+000
+    0.000000000000000E+000
+  Emitting rate of +0.100000E+00 Hz
+2018-3-14 @18:1:17 ->Source Litter_plastic allocated
+  Id = +1
+  Geometry type is point
+  Initially at coordinates
+   +0.490000000000000E+000
+   +0.490000000000000E+000
+   +0.750000000000000E+000
+  Emitting rate of +0.100000E-01 Hz
+2018-3-14 @18:1:17 ->Source Plankton_2 allocated
+  Id = +2
+  Geometry type is line
+  Initially at coordinates
+   +0.100000000000000E+001
+   +0.200000000000000E+001
+   +0.300000000000000E+001
+  Emitting rate of +0.200000E+00 Hz
+2018-3-14 @18:1:17 ->Source Mistery_discharge_0 allocated
+  Id = +3
+  Geometry type is sphere
+  Initially at coordinates
+   +0.100000000000000E+001
+   +0.100000000000000E+001
+    0.000000000000000E+000
+  Emitting rate of +0.500000E-01 Hz

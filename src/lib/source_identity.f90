@@ -80,11 +80,14 @@
         implicit none
         integer, intent(in) :: nsources
         integer err
+        type(string) :: outext
         allocate(Source(nsources), stat=err)
         if(err==0)then
             !print*, nsources, " sources allocated"
         else
-            print*, "Can't allocate ", nsources, ", stoping"
+            outext='Cannot allocate Sources, stoping'
+            call ToLog(outext)
+            stop
         endif
     end subroutine
 
@@ -113,18 +116,16 @@
     Source(num)%par%name=name
     Source(num)%par%source_geometry=source_geometry
     allocate(Source(num)%par%geometry, source=geometry)
-
     !Setting state variables
     Source(num)%now%age=0.0
     Source(num)%now%active=.false. !disabled by default    
     Source(num)%now%pos=Source(num)%par%geometry%pt !coords of the Source (meaning depends on the geometry type!)
-
     !setting statistical samplers
     Source(num)%stats%particles_emitted=0
     Source(num)%stats%acc_T=0.0
-    Source(num)%stats%ns=0
-
-    print*, "Source ", Source(num)%par%id, "named ", Source(num)%par%name, " was initialized. Congrats."
+    Source(num)%stats%ns=0  
+    
+    call printsource(Source(num))
     
     end subroutine
     
@@ -141,9 +142,26 @@
     implicit none
     type(source_class), intent(in) :: src
     
+    type(string) :: outext
+    type(string) :: output_str
+    type(string) :: temp_str(3)    
+        
+    temp_str(1)=src%par%id    
+    outext = '->Source '//src%par%name//' allocated'//new_line('a')//&
+                 '  Id = '//temp_str(1)//new_line('a')//&
+                 '  Geometry type is '//src%par%source_geometry//new_line('a')    
+    temp_str(1)=src%now%pos%x
+    temp_str(2)=src%now%pos%y
+    temp_str(3)=src%now%pos%z    
+    outext = outext//'  Initially at coordinates'//new_line('a')//&
+                            '   '//temp_str(1)//new_line('a')//&
+                            '   '//temp_str(2)//new_line('a')//&
+                            '   '//temp_str(3)//new_line('a')
+    temp_str(1)=src%par%emitting_rate
+    outext = outext//'  Emitting rate of '//temp_str(1)//' Hz'
     
+    call ToLog(outext)    
     
-    end subroutine
-    
+    end subroutine    
 
     end module source_identity

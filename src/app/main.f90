@@ -31,7 +31,10 @@
     ! Completing the names with file extensions
     defxmlfilename=defxmlfilename//xmlextention
     outpath=outpath//'\'
-
+    
+    ! Initialize logger - this is mandatory
+    call initMohidLagrangianLog(outpath)
+    
     ! Initialization routines to build the xml-defined case
     call initMohidLagrangian(defxmlfilename)
 

@@ -28,7 +28,8 @@
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\common_modules.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\geometry.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\initialize.f90"/>
-		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_parameters.f90"/>
+		<File RelativePath="..\..\..\src\lib\simulation_globals.f90"/>
+		<File RelativePath=".\simulation_logger.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source_emitter.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source_identity.f90"/>

@@ -20,11 +20,6 @@ module source_emitter
     
     use commom_modules
     use source_identity
-    
-    implicit none
-    private
-    
-    
-    
+        
     
 end module source_emitter 

@@ -2,7 +2,7 @@
     module initialize
 
     use tracer3D
-    use simulation_parameters
+    use simulation_globals
     use source_identity
 
     use FoX_dom
@@ -15,6 +15,7 @@
     public :: initMohidLagrangian
 
     contains
+    
     
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -32,6 +33,7 @@
     type(string), intent(in) :: att_name
     type(string), intent(out) :: att_value
     
+    type(string) :: outext
     character(80) :: att_value_chars
     type(NodeList), pointer :: nodeList
     type(Node), pointer :: nodedetail
@@ -43,7 +45,8 @@
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
         att_value=trim(att_value_chars)
     else
-        print*, "Could not find any", tag, " tag for xml node ", getNodeName(xmlnode), ", stoping."
+        outext='Could not find any '//tag//' tag for xml node '//getNodeName(xmlnode)//', stoping'
+        call ToLog(outext)        
         stop
     endif
     end subroutine
@@ -63,6 +66,7 @@
     type(string), intent(in) :: tag
     type(vector), intent(out) :: vec
 
+    type(string) :: outext
     type(NodeList), pointer :: nodeList
     type(Node), pointer :: nodedetail
 
@@ -74,7 +78,8 @@
         call extractDataAttribute(nodedetail, "y", vec%y)
         call extractDataAttribute(nodedetail, "z", vec%z)
     else
-        print*, "Could not find any", tag, " tag for xml node ", getNodeName(xmlnode), ", stoping."
+        outext='Could not find any '//tag//' tag for xml node '//getNodeName(xmlnode)//', stoping'
+        call ToLog(outext)
         stop
     endif
     end subroutine
@@ -92,9 +97,9 @@
     implicit none
     type(Node), intent(in), pointer :: source
     type(Node), intent(in), pointer :: source_detail
-    !type(string), intent(in) :: name
+    
+    type(string) :: outext
     class(shape), intent(inout) :: geometry
-
     type(string) :: tag
 
     select type (geometry)
@@ -118,7 +123,9 @@
         call readxmlvector(source,tag,geometry%pt)
         call extractDataAttribute(source_detail, "radius", geometry%radius)        
     class default
-        stop 'read_xml_geometry: unexpected type for geometry object!'
+        outext='read_xml_geometry: unexpected type for geometry object!'
+        call ToLog(outext)
+        stop
     end select
 
     end subroutine
@@ -136,6 +143,7 @@
     implicit none
     type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
 
+    type(string) :: outext
     type(NodeList), pointer :: sourcedefList    !> Node list for simulationdefs
     type(NodeList), pointer :: sourceList       !> Node list for sources
     type(NodeList), pointer :: sourcedetailList
@@ -186,7 +194,9 @@
         case ('line')
             allocate(line::geometry)
         case default
-            stop 'init_sources: unexpected type for geometry object!'
+            outext='init_sources: unexpected type for geometry object!'
+            call ToLog(outext)
+            stop
         end select
         call read_xml_geometry(source,source_detail,geometry)
 
@@ -212,10 +222,14 @@
     implicit none
     type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
 
+    type(string) :: outext
     real(prec) :: i
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
-
+    
+    outext='-->Reading case simulation definitions'
+    call ToLog(outext)
+    
     tag="resolution"
     att_name="dp"
     call readxmlatt(parsedxml, tag, att_name, att_val)    
@@ -243,9 +257,13 @@
     implicit none
     type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
 
+    type(string) :: outext
     type(string) :: tag, att_name, att_val
     type(vector) :: coords
-
+    
+    outext='-->Reading case constants'
+    call ToLog(outext)
+    
     tag="Gravity"
     call readxmlvector(parsedxml, tag, coords)
     call setSimGravity(coords)
@@ -271,11 +289,15 @@
     implicit none
     type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
 
+    type(string) :: outext
     type(NodeList), pointer :: parameterList        !> Node list for parameters
     type(Node), pointer :: parmt                    !> Single parameter block to process
     integer :: i
     type(string) :: parmkey, parmvalue
     character(80) :: parmkey_char, parmvalue_char
+    
+    outext='-->Reading case parameters'
+    call ToLog(outext)    
 
     nullify(parameterList)
     parameterList => getElementsByTagname(parsedxml, "parameter")       !searching for tags with the 'parameter' name
@@ -289,7 +311,8 @@
             call setSimParameter(parmkey,parmvalue)
         enddo
     else
-        print*, "Could not find any 'parameter' tag in input file, stopping."
+        outext='Could not find any parameter tag in input file, stopping'
+        call ToLog(outext)        
         stop
     endif
 
@@ -311,12 +334,19 @@
     type(string), intent(in) :: xmlfilename         !> .xml file name
 
     !local vars
+    type(string) :: outext
     type(Node), pointer :: xmldoc                   !> .xml file handle
-    integer :: i
+    integer :: i  
+    
+    !check if log file exists - if not stop here
 
     xmldoc => parseFile(xmlfilename%chars(), iostat=i)
-    if (i/=0) then
-        print*, "Could not open", xmlfilename%chars(), " input file, give me at least that!"
+    if (i==0) then
+        outext='->Reading case definition from '//xmlfilename
+        call ToLog(outext)
+    else
+        outext='Could not open '//xmlfilename//' input file, give me at least that!'
+        call ToLog(outext)        
         stop
     endif
 

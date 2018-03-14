@@ -24,5 +24,6 @@ module commom_modules
     
     use tracer_precision
     use geometry
+    use simulation_logger
     
 end module commom_modules 
