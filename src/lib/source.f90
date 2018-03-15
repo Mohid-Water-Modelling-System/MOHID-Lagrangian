@@ -20,6 +20,7 @@ module source
     
     use tracer    
     use initialize
+    use finalize
 
     use source_identity
     use source_emitter

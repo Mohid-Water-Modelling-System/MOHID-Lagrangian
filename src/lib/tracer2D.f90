@@ -25,7 +25,7 @@ module tracer2D
     ! Makes calls to main tracer code by reshaping profile into
     ! 3D array with y-dimension thickness of 1. 
 
-    use tracer_precision
+    use simulation_precision
     use tracer3D
     
     implicit none 

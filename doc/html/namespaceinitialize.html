@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="MOHID_Logo.jpg"/></td>
+  <td id="projectlogo"><img alt="Logo" src="ML_logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHIDLagrangian
    &#160;<span id="projectnumber">0.01</span>
@@ -94,14 +94,259 @@ $(document).ready(function(){initNavTree('namespaceinitialize.html','');});
 <div class="title">initialize Module Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Module with the simulation initialization related definitions and methods. Has one public access routine that is incharge of building the simulation space from input files.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
+<tr class="memitem:aba73c51d0609ff6d0c3bb172f00620e3"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#aba73c51d0609ff6d0c3bb172f00620e3">readxmlatt</a> (xmlnode, tag, att_name, att_value)</td></tr>
+<tr class="memdesc:aba73c51d0609ff6d0c3bb172f00620e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#aba73c51d0609ff6d0c3bb172f00620e3">More...</a><br /></td></tr>
+<tr class="separator:aba73c51d0609ff6d0c3bb172f00620e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a2b47aebc09a89d9c795635fa393c6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6">readxmlvector</a> (xmlnode, tag, vec)</td></tr>
+<tr class="memdesc:af6a2b47aebc09a89d9c795635fa393c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#af6a2b47aebc09a89d9c795635fa393c6">More...</a><br /></td></tr>
+<tr class="separator:af6a2b47aebc09a89d9c795635fa393c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad36e4f602dab66c06a1f0e2474e9f0a6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#ad36e4f602dab66c06a1f0e2474e9f0a6">read_xml_geometry</a> (source, source_detail, geometry)</td></tr>
+<tr class="memdesc:ad36e4f602dab66c06a1f0e2474e9f0a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ad36e4f602dab66c06a1f0e2474e9f0a6">More...</a><br /></td></tr>
+<tr class="separator:ad36e4f602dab66c06a1f0e2474e9f0a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad44abf161e353eb8a253ff5c02cd160b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b">init_sources</a> (parsedxml)</td></tr>
+<tr class="memdesc:ad44abf161e353eb8a253ff5c02cd160b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ad44abf161e353eb8a253ff5c02cd160b">More...</a><br /></td></tr>
+<tr class="separator:ad44abf161e353eb8a253ff5c02cd160b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bd773485c427abd68ca801c02b1b08c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#a9bd773485c427abd68ca801c02b1b08c">init_simdefs</a> (parsedxml)</td></tr>
+<tr class="memdesc:a9bd773485c427abd68ca801c02b1b08c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a9bd773485c427abd68ca801c02b1b08c">More...</a><br /></td></tr>
+<tr class="separator:a9bd773485c427abd68ca801c02b1b08c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00eae5cde006bc91bc7a03e640e6ee83"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#a00eae5cde006bc91bc7a03e640e6ee83">init_caseconstants</a> (parsedxml)</td></tr>
+<tr class="memdesc:a00eae5cde006bc91bc7a03e640e6ee83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a00eae5cde006bc91bc7a03e640e6ee83">More...</a><br /></td></tr>
+<tr class="separator:a00eae5cde006bc91bc7a03e640e6ee83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0de593b39b1b0389d225f93de17dc15d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#a0de593b39b1b0389d225f93de17dc15d">init_parameters</a> (parsedxml)</td></tr>
+<tr class="memdesc:a0de593b39b1b0389d225f93de17dc15d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a0de593b39b1b0389d225f93de17dc15d">More...</a><br /></td></tr>
+<tr class="separator:a0de593b39b1b0389d225f93de17dc15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45b7ca20c45cf272acbc391950cbb804"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804">initmohidlagrangian</a> (xmlfilename)</td></tr>
 <tr class="memdesc:a45b7ca20c45cf272acbc391950cbb804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a45b7ca20c45cf272acbc391950cbb804">More...</a><br /></td></tr>
 <tr class="separator:a45b7ca20c45cf272acbc391950cbb804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function/Subroutine Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Module with the simulation initialization related definitions and methods. Has one public access routine that is incharge of building the simulation space from input files. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
+</div><h2 class="groupheader">Function/Subroutine Documentation</h2>
+<a id="a00eae5cde006bc91bc7a03e640e6ee83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00eae5cde006bc91bc7a03e640e6ee83">&#9670;&nbsp;</a></span>init_caseconstants()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine initialize::init_caseconstants </td>
+          <td>(</td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>parsedxml</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private case constant parser routine. Builds the simulation parametric space from the input xml case file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td>.xml file handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph.png" border="0" usemap="#namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph" alt=""/></div>
+<map name="namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph" id="namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="240,5,397,32"/>
+<area shape="rect" id="node3" href="namespacesimulation__globals.html#abe9252e2e73b8a074700d49b705664ef" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="254,57,383,98"/>
+<area shape="rect" id="node4" href="namespaceinitialize.html#aba73c51d0609ff6d0c3bb172f00620e3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="249,123,388,149"/>
+<area shape="rect" id="node5" href="namespacesimulation__globals.html#acb970c567557ee852be95afe8d3f2b0f" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="254,174,383,215"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph.png" border="0" usemap="#namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph" alt=""/></div>
+<map name="namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph" id="namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="240,5,428,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0de593b39b1b0389d225f93de17dc15d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0de593b39b1b0389d225f93de17dc15d">&#9670;&nbsp;</a></span>init_parameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine initialize::init_parameters </td>
+          <td>(</td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>parsedxml</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private parameter parser routine. Builds the simulation parametric space from the input xml case file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td>.xml file handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph.png" border="0" usemap="#namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph" alt=""/></div>
+<map name="namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph" id="namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph">
+<area shape="rect" id="node2" href="namespacesimulation__globals.html#a7a127d09219ed57ad8db3507dbbefe5b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="226,5,355,47"/>
+<area shape="rect" id="node3" href="namespacesimulation__globals.html#a1e5d10f7d7954c9d5346294c72a738c1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="220,71,361,112"/>
+<area shape="rect" id="node4" href="namespacesimulation__globals.html#a2c6bf88542c503d1da58280ab3dcf772" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="409,71,544,112"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph.png" border="0" usemap="#namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph" alt=""/></div>
+<map name="namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph" id="namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="220,5,408,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9bd773485c427abd68ca801c02b1b08c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bd773485c427abd68ca801c02b1b08c">&#9670;&nbsp;</a></span>init_simdefs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine initialize::init_simdefs </td>
+          <td>(</td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>parsedxml</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td>.xml file handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph.png" border="0" usemap="#namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph" alt=""/></div>
+<map name="namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph" id="namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#aba73c51d0609ff6d0c3bb172f00620e3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="209,5,348,32"/>
+<area shape="rect" id="node3" href="namespacesimulation__globals.html#a279b7a2988da04ca81146f0a8f154ca9" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="214,57,343,98"/>
+<area shape="rect" id="node4" href="namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="200,123,357,149"/>
+<area shape="rect" id="node5" href="namespacesimulation__globals.html#a8e4aaa3352a4aa807b5cdf0a537c13e8" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="214,174,343,215"/>
+<area shape="rect" id="node6" href="namespacesimulation__globals.html#a1683e8f5cab2101e7e3dbc91108b64a3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="214,239,343,281"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph.png" border="0" usemap="#namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph" alt=""/></div>
+<map name="namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph" id="namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="200,5,388,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad44abf161e353eb8a253ff5c02cd160b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad44abf161e353eb8a253ff5c02cd160b">&#9670;&nbsp;</a></span>init_sources()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine initialize::init_sources </td>
+          <td>(</td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>parsedxml</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private source definitions parser routine. Builds the tracer sources from the input xml case file. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">parsedxml</td><td>.xml file handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph.png" border="0" usemap="#namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph" alt=""/></div>
+<map name="namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph" id="namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph">
+<area shape="rect" id="node2" href="namespacesource__identity.html#a716b4cb4acec5756a6d4dcf20eee588e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="200,5,391,32"/>
+<area shape="rect" id="node3" href="namespaceinitialize.html#aba73c51d0609ff6d0c3bb172f00620e3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="226,56,365,83"/>
+<area shape="rect" id="node4" href="namespaceinitialize.html#ad36e4f602dab66c06a1f0e2474e9f0a6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="230,107,361,149"/>
+<area shape="rect" id="node6" href="namespacesource__identity.html#a3939e59172252d0edce57e00ea41758d" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="208,173,383,200"/>
+<area shape="rect" id="node5" href="namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="451,115,609,141"/>
+<area shape="rect" id="node7" href="namespacesource__identity.html#ac4fc3a54de91016023a7948d261f84a5" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="439,173,621,200"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph.png" border="0" usemap="#namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph" alt=""/></div>
+<map name="namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph" id="namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="200,5,388,32"/>
+</map>
+</div>
+
+</div>
+</div>
 <a id="a45b7ca20c45cf272acbc391950cbb804"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45b7ca20c45cf272acbc391950cbb804">&#9670;&nbsp;</a></span>initmohidlagrangian()</h2>
 
@@ -122,9 +367,240 @@ Functions/Subroutines</h2></td></tr>
 <p>Public xml parser routine. Builds the simulation space from the input xml case file. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">xmlfilename</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">xmlfilename</td><td>.xml file name </td></tr>
   </table>
   </dd>
 </dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph.png" border="0" usemap="#namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph" alt=""/></div>
+<map name="namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph" id="namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#a00eae5cde006bc91bc7a03e640e6ee83" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="241,297,428,324"/>
+<area shape="rect" id="node7" href="namespaceinitialize.html#a9bd773485c427abd68ca801c02b1b08c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="261,436,408,463"/>
+<area shape="rect" id="node11" href="namespaceinitialize.html#a0de593b39b1b0389d225f93de17dc15d" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="251,661,418,688"/>
+<area shape="rect" id="node15" href="namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="261,115,408,141"/>
+<area shape="rect" id="node3" href="namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="727,356,885,383"/>
+<area shape="rect" id="node4" href="namespacesimulation__globals.html#abe9252e2e73b8a074700d49b705664ef" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,290,636,331"/>
+<area shape="rect" id="node5" href="namespaceinitialize.html#aba73c51d0609ff6d0c3bb172f00620e3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="502,173,641,200"/>
+<area shape="rect" id="node6" href="namespacesimulation__globals.html#acb970c567557ee852be95afe8d3f2b0f" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,225,636,266"/>
+<area shape="rect" id="node8" href="namespacesimulation__globals.html#a279b7a2988da04ca81146f0a8f154ca9" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,523,636,565"/>
+<area shape="rect" id="node9" href="namespacesimulation__globals.html#a8e4aaa3352a4aa807b5cdf0a537c13e8" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,589,636,630"/>
+<area shape="rect" id="node10" href="namespacesimulation__globals.html#a1683e8f5cab2101e7e3dbc91108b64a3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,458,636,499"/>
+<area shape="rect" id="node12" href="namespacesimulation__globals.html#a7a127d09219ed57ad8db3507dbbefe5b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,719,636,761"/>
+<area shape="rect" id="node13" href="namespacesimulation__globals.html#a1e5d10f7d7954c9d5346294c72a738c1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="501,654,642,695"/>
+<area shape="rect" id="node14" href="namespacesimulation__globals.html#a2c6bf88542c503d1da58280ab3dcf772" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="739,654,873,695"/>
+<area shape="rect" id="node16" href="namespacesource__identity.html#a716b4cb4acec5756a6d4dcf20eee588e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="476,56,667,83"/>
+<area shape="rect" id="node17" href="namespaceinitialize.html#ad36e4f602dab66c06a1f0e2474e9f0a6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="506,107,637,149"/>
+<area shape="rect" id="node18" href="namespacesource__identity.html#a3939e59172252d0edce57e00ea41758d" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="484,5,659,32"/>
+<area shape="rect" id="node19" href="namespacesource__identity.html#ac4fc3a54de91016023a7948d261f84a5" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="715,5,897,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad36e4f602dab66c06a1f0e2474e9f0a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad36e4f602dab66c06a1f0e2474e9f0a6">&#9670;&nbsp;</a></span>read_xml_geometry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine initialize::read_xml_geometry </td>
+          <td>(</td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>source_detail</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class(<a class="el" href="structgeometry_1_1shape.html">shape</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>geometry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">source,geometry</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>Working xml node</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source_detail</td><td>Working xml node details </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph.png" border="0" usemap="#namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph" alt=""/></div>
+<map name="namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph" id="namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="184,13,341,39"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph.png" border="0" usemap="#namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph" alt=""/></div>
+<map name="namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph" id="namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="184,13,331,39"/>
+<area shape="rect" id="node3" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="379,13,567,39"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aba73c51d0609ff6d0c3bb172f00620e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba73c51d0609ff6d0c3bb172f00620e3">&#9670;&nbsp;</a></span>readxmlatt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine initialize::readxmlatt </td>
+          <td>(</td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>xmlnode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
+          <td class="paramname"><em>att_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(string), intent(out)&#160;</td>
+          <td class="paramname"><em>att_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private attribute xml parser routine. In the format &lt;Tag att_name="att_value" </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode,tag,vec</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode</td><td>Working xml node</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tag</td><td>Tag to search in xml node</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">att_name</td><td>Atribute name to collect from tag</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">att_value</td><td>Attribute value </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph.png" border="0" usemap="#namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph" alt=""/></div>
+<map name="namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph" id="namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="212,5,359,32"/>
+<area shape="rect" id="node4" href="namespaceinitialize.html#a9bd773485c427abd68ca801c02b1b08c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="212,56,359,83"/>
+<area shape="rect" id="node5" href="namespaceinitialize.html#a00eae5cde006bc91bc7a03e640e6ee83" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="192,107,379,133"/>
+<area shape="rect" id="node3" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="427,56,615,83"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="af6a2b47aebc09a89d9c795635fa393c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6a2b47aebc09a89d9c795635fa393c6">&#9670;&nbsp;</a></span>readxmlvector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine initialize::readxmlvector </td>
+          <td>(</td>
+          <td class="paramtype">type(node), intent(in), pointer&#160;</td>
+          <td class="paramname"><em>xmlnode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(vector), intent(out)&#160;</td>
+          <td class="paramname"><em>vec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private vector xml parser routine. Vector must be in format &lt;Tag x="vec%x" y="vec%y" z="vec%z"&gt; </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode,tag,vec</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode</td><td>Working xml node</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tag</td><td>Tag to search in xml node</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">vec</td><td>Vector to fill with read contents </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph.png" border="0" usemap="#namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph" alt=""/></div>
+<map name="namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph" id="namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph">
+<area shape="rect" id="node2" href="namespaceinitialize.html#ad36e4f602dab66c06a1f0e2474e9f0a6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="239,5,369,47"/>
+<area shape="rect" id="node5" href="namespaceinitialize.html#a9bd773485c427abd68ca801c02b1b08c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="445,71,592,98"/>
+<area shape="rect" id="node6" href="namespaceinitialize.html#a00eae5cde006bc91bc7a03e640e6ee83" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="211,122,397,149"/>
+<area shape="rect" id="node3" href="namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="445,17,592,43"/>
+<area shape="rect" id="node4" href="namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="640,71,828,98"/>
+</map>
+</div>
 
 </div>
 </div>

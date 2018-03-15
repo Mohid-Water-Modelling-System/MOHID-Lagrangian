@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.5)  13 MAR 2018 17:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.5)  15 MAR 2018 12:22
 entering extended mode
 **./refman.tex
 (refman.tex
@@ -1206,20 +1206,20 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 66.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 6.29996pt on input line 66.
- [2]
-Underfull \hbox (badness 10000) in paragraph at lines 94--94
+ [2] [3] [4] [5]
+Underfull \hbox (badness 10000) in paragraph at lines 166--166
  [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
 M[]O[]H[]I[]D-[]Lagrangian/src/lib/common[]_[]modules.f90 File 
  []
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 97--97
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--169
  [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
-M[]O[]H[]I[]D-[]Lagrangian/src/lib/simulation[]_[]parameters.f90 
+M[]O[]H[]I[]D-[]Lagrangian/src/lib/simulation[]_[]globals.f90 File 
  []
 
 
-Underfull \hbox (badness 968) in paragraph at lines 100--100
+Underfull \hbox (badness 968) in paragraph at lines 172--172
  [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
 M[]O[]H[]I[]D-[]Lagrangian/src/lib/source[]_[]identity.f90 File Ref- 
  []
@@ -1228,7 +1228,7 @@ M[]O[]H[]I[]D-[]Lagrangian/src/lib/source[]_[]identity.f90 File Ref-
 \tf@toc=\write5
 \openout5 = `refman.toc'.
 
- [4]
+ [6]
 Package hyperref Info: Option `pageanchor' set `true' on input line 138.
 
 Chapter 1.
@@ -1291,81 +1291,510 @@ File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
 LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
 (Font)              scaled to size 8.99994pt on input line 11.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 8.09995pt on input line 14.
+(Font)              scaled to size 8.09995pt on input line 12.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 14.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 12.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 8.09995pt on input line 14.
+(Font)              scaled to size 8.09995pt on input line 12.
 
 Underfull \hbox (badness 10000) detected at line 26
 [][][]
  []
 
-) (namespaceinitialize.tex
+) (namespaceinitialize.tex [9]
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 7.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 6.29996pt on input line 7.
- [9]
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.19995pt on input line 15.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 15.
+(Font)              scaled to size 7.19995pt on input line 29.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 29.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd"
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 15.
-)
-(namespacesimulation__parameters.tex [10]
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 29.
+<namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph.pdf, id=1106, pag
+ebox=cropbox, 375.4025pt x 238.8925pt>
+File: namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph.pdf Graphic 
+file (type pdf)
+<use namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_
+cgraph.pdf  used on input line 44. on input line 44.
+Package pdftex.def Info: Requested size: 350.0pt x 222.74pt on input line 44.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10]
+<namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph.pdf, id=1123, pa
+gebox=cropbox, 398.48875pt x 100.375pt>
+File: namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_
+icgraph.pdf  used on input line 51. on input line 51.
+Package pdftex.def Info: Requested size: 350.0pt x 88.16484pt on input line 51.
+
+<namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph.pdf, id=1124, pag
+ebox=cropbox, 339.2675pt x 111.41624pt>
+File: namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph.pdf Graphic 
+file (type pdf)
+<use namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_
+cgraph.pdf  used on input line 73. on input line 73.
+Package pdftex.def Info: Requested size: 338.0pt x 111.00455pt on input line 73
+.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11 <./namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph.pdf> <./na
+mespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize_a00eae5cde006bc91bc7a0
+3e640e6ee83_icgraph.pdf): PDF inclusion: multiple pdfs with page group included
+ in a single page
+>]
+<namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph.pdf, id=1150, pa
+gebox=cropbox, 383.4325pt x 100.375pt>
+File: namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_
+icgraph.pdf  used on input line 80. on input line 80.
+Package pdftex.def Info: Requested size: 350.0pt x 91.62778pt on input line 80.
+
+<namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph.pdf, id=1151, pag
+ebox=cropbox, 345.29pt x 238.8925pt>
+File: namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph.pdf Graphic 
+file (type pdf)
+<use namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_
+cgraph.pdf  used on input line 102. on input line 102.
+Package pdftex.def Info: Requested size: 344.0pt x 238.00247pt on input line 10
+2.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [12 <./namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_cgraph.pdf> <./na
+mespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize_a0de593b39b1b0389d225f
+93de17dc15d_icgraph.pdf): PDF inclusion: multiple pdfs with page group included
+ in a single page
+>]
+<namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph.pdf, id=1176, pa
+gebox=cropbox, 368.37625pt x 100.375pt>
+File: namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_
+icgraph.pdf  used on input line 109. on input line 109.
+Package pdftex.def Info: Requested size: 350.0pt x 95.36641pt on input line 109
+.
+<namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph.pdf, id=1177, pag
+ebox=cropbox, 544.0325pt x 226.8475pt>
+File: namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph.pdf Graphic 
+file (type pdf)
+<use namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_
+cgraph.pdf  used on input line 131. on input line 131.
+Package pdftex.def Info: Requested size: 350.0pt x 145.94687pt on input line 13
+1.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13 <./namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph.pdf> <./na
+mespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize_a9bd773485c427abd68ca8
+01c02b1b08c_icgraph.pdf): PDF inclusion: multiple pdfs with page group included
+ in a single page
+>]
+<namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph.pdf, id=1202, pa
+gebox=cropbox, 368.37625pt x 100.375pt>
+File: namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_
+icgraph.pdf  used on input line 138. on input line 138.
+Package pdftex.def Info: Requested size: 350.0pt x 95.36641pt on input line 138
+.
+<namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph.pdf, id=1203, pag
+ebox=cropbox, 751.80875pt x 540.0175pt>
+File: namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph.pdf Graphic 
+file (type pdf)
+<use namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_
+cgraph.pdf  used on input line 160. on input line 160.
+Package pdftex.def Info: Requested size: 350.0pt x 251.41042pt on input line 16
+0.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14 <./namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph.pdf> <./na
+mespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize_ad44abf161e353eb8a253f
+f5c02cd160b_icgraph.pdf): PDF inclusion: multiple pdfs with page group included
+ in a single page
+>]
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 167.
+<namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph.pdf, id=1229, pag
+ebox=cropbox, 333.245pt x 111.41624pt>
+File: namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph.pdf Graphic 
+file (type pdf)
+<use namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_
+cgraph.pdf  used on input line 182. on input line 182.
+Package pdftex.def Info: Requested size: 332.0pt x 111.00795pt on input line 18
+2.
+<namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph.pdf, id=1230, pa
+gebox=cropbox, 502.87875pt x 111.41624pt>
+File: namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_
+icgraph.pdf  used on input line 189. on input line 189.
+Package pdftex.def Info: Requested size: 350.0pt x 77.54372pt on input line 189
+.
+ [15 <./namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph.pdf> <./na
+mespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize_ad36e4f602dab66c06a1f0
+e2474e9f0a6_cgraph.pdf): PDF inclusion: multiple pdfs with page group included 
+in a single page
+>]
+<namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph.pdf, id=1255, pa
+gebox=cropbox, 539.01375pt x 176.66pt>
+File: namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_
+icgraph.pdf  used on input line 211. on input line 211.
+Package pdftex.def Info: Requested size: 350.0pt x 114.71172pt on input line 21
+1.
+ [16 <./namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph.pdf> <./n
+amespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize_aba73c51d0609ff6d0c3bb
+172f00620e3_icgraph.pdf): PDF inclusion: multiple pdfs with page group included
+ in a single page
+>]
+<namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph.pdf, id=1280, pa
+gebox=cropbox, 699.61375pt x 188.705pt>
+File: namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_
+icgraph.pdf  used on input line 233. on input line 233.
+Package pdftex.def Info: Requested size: 350.0pt x 94.40697pt on input line 233
+.
+) (namespacesimulation__globals.tex [17 <./namespaceinitialize_af6a2b47aebc09a8
+9d9c795635fa393c6_icgraph.pdf>]
 Underfull \hbox (badness 10000) detected at line 49
 [][][]
  []
 
-LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 59.
-[11] [12] [13]) (namespacesource.tex
+<namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8_icgraph.pdf, id
+=1325, pagebox=cropbox, 501.875pt x 111.41624pt>
+File: namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8_icgraph.pd
+f Graphic file (type pdf)
+<use namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8_icgraph.pdf
+>
+Package pdftex.def Info: namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a
+537c13e8_icgraph.pdf  used on input line 74. on input line 74.
+Package pdftex.def Info: Requested size: 350.0pt x 77.70352pt on input line 74.
+
+[18 <./namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8_icgraph.p
+df>]
+<namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9_icgraph.pdf, id
+=1345, pagebox=cropbox, 501.875pt x 111.41624pt>
+File: namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9_icgraph.pd
+f Graphic file (type pdf)
+<use namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9_icgraph.pdf
+>
+Package pdftex.def Info: namespacesimulation__globals_a279b7a2988da04ca81146f0a
+8f154ca9_icgraph.pdf  used on input line 96. on input line 96.
+Package pdftex.def Info: Requested size: 350.0pt x 77.70352pt on input line 96.
+
+<namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef_icgraph.pdf, id
+=1346, pagebox=cropbox, 531.9875pt x 111.41624pt>
+File: namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef_icgraph.pd
+f Graphic file (type pdf)
+<use namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef_icgraph.pdf
+>
+Package pdftex.def Info: namespacesimulation__globals_abe9252e2e73b8a074700d49b
+705664ef_icgraph.pdf  used on input line 118. on input line 118.
+Package pdftex.def Info: Requested size: 350.0pt x 73.30373pt on input line 118
+.
+ [19 <./namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9_icgraph.
+pdf> <./namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef_icgraph.
+pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespacesimulation__globals_abe9252e2e73b
+8a074700d49b705664ef_icgraph.pdf): PDF inclusion: multiple pdfs with page group
+ included in a single page
+>]
+<namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b_icgraph.pdf, id
+=1372, pagebox=cropbox, 516.93124pt x 111.41624pt>
+File: namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b_icgraph.pd
+f Graphic file (type pdf)
+<use namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b_icgraph.pdf
+>
+Package pdftex.def Info: namespacesimulation__globals_a7a127d09219ed57ad8db3507
+dbbefe5b_icgraph.pdf  used on input line 142. on input line 142.
+Package pdftex.def Info: Requested size: 350.0pt x 75.43903pt on input line 142
+.
+<namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f_icgraph.pdf, id
+=1373, pagebox=cropbox, 531.9875pt x 111.41624pt>
+File: namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f_icgraph.pd
+f Graphic file (type pdf)
+<use namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f_icgraph.pdf
+>
+Package pdftex.def Info: namespacesimulation__globals_acb970c567557ee852be95afe
+8d3f2b0f_icgraph.pdf  used on input line 164. on input line 164.
+Package pdftex.def Info: Requested size: 350.0pt x 73.30373pt on input line 164
+.
+ [20 <./namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b_icgraph.
+pdf> <./namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f_icgraph.
+pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespacesimulation__globals_acb970c567557
+ee852be95afe8d3f2b0f_icgraph.pdf): PDF inclusion: multiple pdfs with page group
+ included in a single page
+>] [21]) (namespacesource.tex
 Underfull \hbox (badness 10000) detected at line 13
 [][][]
  []
 
-) (namespacesource__emitter.tex
+) (namespacesource__emitter.tex [22]
 Underfull \hbox (badness 10000) detected at line 13
 [][][]
  []
 
-) (namespacesource__identity.tex [14]
-Underfull \hbox (badness 10000) detected at line 25
+) (namespacesource__identity.tex
+Underfull \hbox (badness 10000) detected at line 38
 [][][]
  []
 
-[15]) (namespacetracer.tex
+[23]
+<namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e_icgraph.pdf, id=14
+28, pagebox=cropbox, 548.0475pt x 100.375pt>
+File: namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e_icgraph.pdf G
+raphic file (type pdf)
+<use namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e_icgraph.pdf>
+Package pdftex.def Info: namespacesource__identity_a716b4cb4acec5756a6d4dcf20ee
+e588e_icgraph.pdf  used on input line 63. on input line 63.
+Package pdftex.def Info: Requested size: 350.0pt x 64.10345pt on input line 63.
+
+<namespacesource__identity_a3939e59172252d0edce57e00ea41758d_cgraph.pdf, id=143
+0, pagebox=cropbox, 385.44pt x 100.375pt>
+File: namespacesource__identity_a3939e59172252d0edce57e00ea41758d_cgraph.pdf Gr
+aphic file (type pdf)
+<use namespacesource__identity_a3939e59172252d0edce57e00ea41758d_cgraph.pdf>
+Package pdftex.def Info: namespacesource__identity_a3939e59172252d0edce57e00ea4
+1758d_cgraph.pdf  used on input line 87. on input line 87.
+Package pdftex.def Info: Requested size: 350.0pt x 91.14532pt on input line 87.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [24 <./namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e_icgraph.pdf
+>]
+<namespacesource__identity_a3939e59172252d0edce57e00ea41758d_icgraph.pdf, id=14
+47, pagebox=cropbox, 536.0025pt x 100.375pt>
+File: namespacesource__identity_a3939e59172252d0edce57e00ea41758d_icgraph.pdf G
+raphic file (type pdf)
+<use namespacesource__identity_a3939e59172252d0edce57e00ea41758d_icgraph.pdf>
+Package pdftex.def Info: namespacesource__identity_a3939e59172252d0edce57e00ea4
+1758d_icgraph.pdf  used on input line 94. on input line 94.
+Package pdftex.def Info: Requested size: 350.0pt x 65.54315pt on input line 94.
+
+<namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5_icgraph.pdf, id=14
+49, pagebox=cropbox, 709.65125pt x 100.375pt>
+File: namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5_icgraph.pdf G
+raphic file (type pdf)
+<use namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5_icgraph.pdf>
+Package pdftex.def Info: namespacesource__identity_ac4fc3a54de91016023a7948d261
+f84a5_icgraph.pdf  used on input line 116. on input line 116.
+Package pdftex.def Info: Requested size: 350.0pt x 49.5058pt on input line 116.
+
+)
+(namespacetracer.tex [25 <./namespacesource__identity_a3939e59172252d0edce57e00
+ea41758d_cgraph.pdf> <./namespacesource__identity_a3939e59172252d0edce57e00ea41
+758d_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespacesource__identity_a3939e59172252d0
+edce57e00ea41758d_icgraph.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+> <./namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespacesource__identity_ac4fc3a54de91016
+023a7948d261f84a5_icgraph.pdf): PDF inclusion: multiple pdfs with page group in
+cluded in a single page
+>]
 Underfull \hbox (badness 10000) detected at line 15
 [][][]
  []
 
-) (namespacetracer2d.tex [16]
+) (namespacetracer2d.tex
 Underfull \hbox (badness 10000) detected at line 18
 [][][]
  []
 
-) (namespacetracer3d.tex [17]
-Underfull \hbox (badness 10000) detected at line 18
+[26]) (namespacetracer3d.tex
+Underfull \hbox (badness 10000) detected at line 31
 [][][]
  []
 
-) (namespacetracer__interp.tex) (namespacetracer__precision.tex [18]
-Underfull \hbox (badness 10000) detected at line 32
+[27]) (namespacetracer__interp.tex) (namespacetracer__precision.tex
+Underfull \hbox (badness 10000) detected at line 36
 [][][]
  []
 
-) [19] [20
+[28]) [29] [30
 
 ]
 Chapter 6.
-(structgeometry_1_1box.tex) (structgeometry_1_1line.tex [21])
-(structgeometry_1_1point.tex) (structgeometry_1_1shape.tex [22])
-(structgeometry_1_1sphere.tex [23]) [24]
+(structgeometry_1_1box.tex
+<structgeometry_1_1box__inherit__graph.pdf, id=1556, pagebox=cropbox, 169.63374
+pt x 156.585pt>
+File: structgeometry_1_1box__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1box__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1box__inherit__graph.pdf  used on inp
+ut line 14. on input line 14.
+Package pdftex.def Info: Requested size: 169.0pt x 156.0064pt on input line 14.
+
+<structgeometry_1_1box__coll__graph.pdf, id=1557, pagebox=cropbox, 169.63374pt 
+x 156.585pt>
+File: structgeometry_1_1box__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1box__coll__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1box__coll__graph.pdf  used on input 
+line 23. on input line 23.
+Package pdftex.def Info: Requested size: 169.0pt x 156.0064pt on input line 23.
+
+ [31 <./structgeometry_1_1box__inherit__graph.pdf> <./structgeometry_1_1box__co
+ll__graph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structgeometry_1_1box__coll__graph.pdf): P
+DF inclusion: multiple pdfs with page group included in a single page
+>]) (structgeometry_1_1line.tex
+<structgeometry_1_1line__inherit__graph.pdf, id=1583, pagebox=cropbox, 169.6337
+4pt x 156.585pt>
+File: structgeometry_1_1line__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1line__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1line__inherit__graph.pdf  used on in
+put line 14. on input line 14.
+Package pdftex.def Info: Requested size: 169.0pt x 156.0064pt on input line 14.
+
+<structgeometry_1_1line__coll__graph.pdf, id=1584, pagebox=cropbox, 169.63374pt
+ x 156.585pt>
+File: structgeometry_1_1line__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1line__coll__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1line__coll__graph.pdf  used on input
+ line 23. on input line 23.
+Package pdftex.def Info: Requested size: 169.0pt x 156.0064pt on input line 23.
+
+ [32 <./structgeometry_1_1line__inherit__graph.pdf>]) (structgeometry_1_1point.
+tex
+<structgeometry_1_1point__inherit__graph.pdf, id=1603, pagebox=cropbox, 169.633
+74pt x 156.585pt>
+File: structgeometry_1_1point__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1point__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1point__inherit__graph.pdf  used on i
+nput line 14. on input line 14.
+Package pdftex.def Info: Requested size: 169.0pt x 156.0064pt on input line 14.
+
+ [33 <./structgeometry_1_1line__coll__graph.pdf>]
+<structgeometry_1_1point__coll__graph.pdf, id=1620, pagebox=cropbox, 169.63374p
+t x 156.585pt>
+File: structgeometry_1_1point__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1point__coll__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1point__coll__graph.pdf  used on inpu
+t line 23. on input line 23.
+Package pdftex.def Info: Requested size: 169.0pt x 156.0064pt on input line 23.
+
+) (structgeometry_1_1shape.tex
+<structgeometry_1_1shape__inherit__graph.pdf, id=1622, pagebox=cropbox, 469.755
+pt x 156.585pt>
+File: structgeometry_1_1shape__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1shape__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1shape__inherit__graph.pdf  used on i
+nput line 14. on input line 14.
+Package pdftex.def Info: Requested size: 350.0pt x 116.6667pt on input line 14.
+
+ [34 <./structgeometry_1_1point__inherit__graph.pdf> <./structgeometry_1_1point
+__coll__graph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structgeometry_1_1point__coll__graph.pdf):
+ PDF inclusion: multiple pdfs with page group included in a single page
+>]) (structsource__identity_1_1source__class.tex
+<structsource__identity_1_1source__class__coll__graph.pdf, id=1649, pagebox=cro
+pbox, 378.41376pt x 209.78375pt>
+File: structsource__identity_1_1source__class__coll__graph.pdf Graphic file (ty
+pe pdf)
+<use structsource__identity_1_1source__class__coll__graph.pdf>
+Package pdftex.def Info: structsource__identity_1_1source__class__coll__graph.p
+df  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 350.0pt x 194.0341pt on input line 14.
+
+ [35 <./structgeometry_1_1shape__inherit__graph.pdf>] [36 <./structsource__iden
+tity_1_1source__class__coll__graph.pdf>]) (structsource__identity_1_1source__pa
+r__class.tex
+LaTeX Font Info:    Font shape `TS1/phv/m/it' in size <9> not available
+(Font)              Font shape `TS1/phv/m/sl' tried instead on input line 15.
+LaTeX Font Info:    Font shape `TS1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 15.
+ [37])
+(structsource__identity_1_1source__state__class.tex [38] [39])
+(structsource__identity_1_1source__stats__class.tex [40])
+(structgeometry_1_1sphere.tex
+<structgeometry_1_1sphere__inherit__graph.pdf, id=1749, pagebox=cropbox, 172.64
+5pt x 156.585pt>
+File: structgeometry_1_1sphere__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1sphere__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1sphere__inherit__graph.pdf  used on 
+input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 172.0pt x 156.00162pt on input line 14
+.
+<structgeometry_1_1sphere__coll__graph.pdf, id=1750, pagebox=cropbox, 172.645pt
+ x 156.585pt>
+File: structgeometry_1_1sphere__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry_1_1sphere__coll__graph.pdf>
+Package pdftex.def Info: structgeometry_1_1sphere__coll__graph.pdf  used on inp
+ut line 23. on input line 23.
+Package pdftex.def Info: Requested size: 172.0pt x 156.00162pt on input line 23
+.
+ [41 <./structgeometry_1_1sphere__inherit__graph.pdf>]) (structtracer3d_1_1trac
+er__class.tex
+<structtracer3d_1_1tracer__class__coll__graph.pdf, id=1768, pagebox=cropbox, 52
+0.94624pt x 209.78375pt>
+File: structtracer3d_1_1tracer__class__coll__graph.pdf Graphic file (type pdf)
+<use structtracer3d_1_1tracer__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer3d_1_1tracer__class__coll__graph.pdf  used
+ on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 350.0pt x 140.94489pt on input line 14
+.
+ [42 <./structgeometry_1_1sphere__coll__graph.pdf>] [43 <./structtracer3d_1_1tr
+acer__class__coll__graph.pdf>])
+(structtracer3d_1_1tracer__par__class.tex
+<structtracer3d_1_1tracer__par__class__coll__graph.pdf, id=1813, pagebox=cropbo
+x, 181.67876pt x 189.70876pt>
+File: structtracer3d_1_1tracer__par__class__coll__graph.pdf Graphic file (type 
+pdf)
+<use structtracer3d_1_1tracer__par__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer3d_1_1tracer__par__class__coll__graph.pdf 
+ used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 181.0pt x 189.00485pt on input line 14
+.
+ [44 <./structtracer3d_1_1tracer__par__class__coll__graph.pdf>]) (structtracer3
+d_1_1tracer__par__trans__class.tex
+[45]) (structtracer3d_1_1tracer__state__class.tex [46] [47])
+(structtracer3d_1_1tracer__stats__class.tex [48]) [49] [50
+
+]
 Chapter 7.
 (main_8f90.tex
 Underfull \hbox (badness 5970) in paragraph at lines 1--1
@@ -1391,15 +1820,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []I[]D-[]Lagrangian/src/lib/initialize.f90
  []
 
-[25
-
-]) (simulation__parameters_8f90.tex
+[51]) (simulation__globals_8f90.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
 []I[]D-[]Lagrangian/src/lib/simulation[]_[]
  []
 
-) (source_8f90.tex) (source__emitter_8f90.tex [26]
+[52]) (source_8f90.tex) (source__emitter_8f90.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
 []I[]D-[]Lagrangian/src/lib/source[]_[]
@@ -1411,7 +1838,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []I[]D-[]Lagrangian/src/lib/source[]_[]
  []
 
-) (tracer_8f90.tex
+[53]) (tracer_8f90.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
 []I[]D-[]Lagrangian/src/lib/tracer.f90 File
@@ -1423,13 +1850,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []I[]D-[]Lagrangian/src/lib/tracer2D.f90
  []
 
-[27]) (tracer3_d_8f90.tex
+) (tracer3_d_8f90.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
 []I[]D-[]Lagrangian/src/lib/tracer3D.f90
  []
 
-) (tracer__interp_8f90.tex
+[54]) (tracer__interp_8f90.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
 []I[]D-[]Lagrangian/src/lib/tracer[]_[]
@@ -1441,29 +1868,25 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--1
 []I[]D-[]Lagrangian/src/lib/tracer[]_[]
  []
 
-) [28] (refman.ind [29
-
-
-
-
-])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 192.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 192.
- (refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 192.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 192.
+[55]) [56]
+No file refman.ind.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 201.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 201.
+(refman.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 201.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 201.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: CA652C6C9DCA611D98D4D316BDA1FEB5;24511.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 192.
+(rerunfilecheck)             Checksum: B237D5B6C7C08AC17DFE1F6958D08A2D;38649.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 201.
  ) 
 Here is how much of TeX's memory you used:
- 15290 strings out of 493312
- 224462 string characters out of 3138876
- 313987 words of memory out of 3000000
- 18270 multiletter control sequences out of 15000+200000
- 65722 words of font info for 84 fonts, out of 3000000 for 9000
+ 15820 strings out of 493312
+ 248202 string characters out of 3138876
+ 320806 words of memory out of 3000000
+ 18544 multiletter control sequences out of 15000+200000
+ 66073 words of font info for 85 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,16n,92p,1691b,630s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 53i,16n,92p,1688b,630s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
@@ -1473,9 +1896,9 @@ fb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program
  Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8ac.pfb><C:/Program Files/MiKTeX
  2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
 e1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (35 pages, 269454 bytes).
+Output written on refman.pdf (64 pages, 913856 bytes).
 PDF statistics:
- 1075 PDF objects out of 1200 (max. 8388607)
- 253 named destinations out of 1000 (max. 500000)
- 849 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2146 PDF objects out of 2487 (max. 8388607)
+ 458 named destinations out of 1000 (max. 500000)
+ 1587 words of extra memory for PDF output out of 10000 (max. 10000000)
 

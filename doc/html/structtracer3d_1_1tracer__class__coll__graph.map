@@ -1,0 +1,6 @@
+<map id="tracer3d::tracer_class" name="tracer3d::tracer_class">
+<area shape="rect" id="node2" href="$structtracer3d_1_1tracer__stats__class.html" title="Type &#45; statistical variables of a pure Lagrangian tracer object. " alt="" coords="215,5,361,47"/>
+<area shape="rect" id="node3" href="$structtracer3d_1_1tracer__state__class.html" title="Type &#45; state variables of a pure Lagrangian tracer object. " alt="" coords="215,71,361,112"/>
+<area shape="rect" id="node4" href="$structtracer3d_1_1tracer__par__class.html" title="Type &#45; parameters of a pure Lagrangian tracer object. " alt="" coords="221,136,355,177"/>
+<area shape="rect" id="node5" href="$structtracer3d_1_1tracer__par__trans__class.html" title="tracer3d::tracer_par\l_trans_class" alt="" coords="5,136,140,177"/>
+</map>

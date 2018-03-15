@@ -1,9 +1,28 @@
 
+    !------------------------------------------------------------------------------
+    !        IST/MARETEC, Water Modelling Group, Mohid modelling system
+    !------------------------------------------------------------------------------
+    !
+    ! TITLE         : Mohid Model
+    ! PROJECT       : Mohid Lagrangian Tracer
+    ! MODULE        : initialize
+    ! URL           : http://www.mohid.com
+    ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
+    ! DATE          : March 2018
+    ! REVISION      : Canelas 0.1
+    !> @author
+    !> Ricardo Birjukovs Canelas
+    !
+    ! DESCRIPTION:
+    !> Module with the simulation initialization related definitions and methods. Has one public access routine that is incharge of building the simulation space from input files.
+    !------------------------------------------------------------------------------
+    
     module initialize
 
     use tracer3D
     use simulation_globals
     use source_identity
+    use about
 
     use FoX_dom
     use commom_modules
@@ -14,24 +33,23 @@
     !Public access procedures
     public :: initMohidLagrangian
 
-    contains
-    
+    contains    
     
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private attribute xml parser routine.
+    !> Private attribute xml parser routine. In the format <Tag att_name="att_value"
     !
     !> @param[in] xmlnode, tag, vec
     !---------------------------------------------------------------------------
     subroutine readxmlatt(xmlnode, tag, att_name, att_value)
     implicit none
-    type(Node), intent(in), pointer :: xmlnode
-    type(string), intent(in) :: tag
-    type(string), intent(in) :: att_name
-    type(string), intent(out) :: att_value
+    type(Node), intent(in), pointer :: xmlnode  !<Working xml node
+    type(string), intent(in) :: tag             !<Tag to search in xml node
+    type(string), intent(in) :: att_name        !<Atribute name to collect from tag
+    type(string), intent(out) :: att_value      !<Attribute value
     
     type(string) :: outext
     character(80) :: att_value_chars
@@ -56,15 +74,15 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private vector xml parser routine.
+    !> Private vector xml parser routine. Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z" /> 
     !
     !> @param[in] xmlnode, tag, vec
     !---------------------------------------------------------------------------
     subroutine readxmlvector(xmlnode, tag, vec)
     implicit none
-    type(Node), intent(in), pointer :: xmlnode
-    type(string), intent(in) :: tag
-    type(vector), intent(out) :: vec
+    type(Node), intent(in), pointer :: xmlnode  !<Working xml node
+    type(string), intent(in) :: tag             !<Tag to search in xml node
+    type(vector), intent(out) :: vec            !<Vector to fill with read contents
 
     type(string) :: outext
     type(NodeList), pointer :: nodeList
@@ -89,14 +107,14 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private geometry xml parser routine.
+    !> Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node
     !
     !> @param[in] source, geometry
     !---------------------------------------------------------------------------
     subroutine read_xml_geometry(source,source_detail,geometry)
     implicit none
-    type(Node), intent(in), pointer :: source
-    type(Node), intent(in), pointer :: source_detail
+    type(Node), intent(in), pointer :: source           !<Working xml node
+    type(Node), intent(in), pointer :: source_detail    !<Working xml node details 
     
     type(string) :: outext
     class(shape), intent(inout) :: geometry
@@ -141,14 +159,14 @@
     !---------------------------------------------------------------------------
     subroutine init_sources(parsedxml)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
+    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
 
     type(string) :: outext
-    type(NodeList), pointer :: sourcedefList    !> Node list for simulationdefs
-    type(NodeList), pointer :: sourceList       !> Node list for sources
+    type(NodeList), pointer :: sourcedefList        !< Node list for simulationdefs
+    type(NodeList), pointer :: sourceList           !< Node list for sources
     type(NodeList), pointer :: sourcedetailList
     type(Node), pointer :: sourcedef
-    type(Node), pointer :: source               !> Single source block to process
+    type(Node), pointer :: source                   !< Single source block to process
     type(Node), pointer :: source_detail
     integer :: i, j, k
     !source vars
@@ -183,7 +201,6 @@
         nullify(sourcedetailList)
         source_detail => item(getChildNodes(source),5)   !this is really ugly, but there seems to be a bug here. This effectivelly hardcodes the geometry position in the xml...
         source_geometry = getNodeName(source_detail)
-        !print*, "Source ",name ," ID=", id,", is a ", source_geometry, "with EM=", emitting_rate
         select case (source_geometry%chars())
         case ('point')
             allocate(point::geometry)
@@ -220,27 +237,33 @@
     !---------------------------------------------------------------------------
     subroutine init_simdefs(parsedxml)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
+    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
 
+    type(NodeList), pointer :: defsList       !< Node list for simdefs
+    type(Node), pointer :: simdefs            !< Single simdefs block to process
     type(string) :: outext
     real(prec) :: i
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
     
     outext='-->Reading case simulation definitions'
-    call ToLog(outext)
+    call ToLog(outext,.false.)
     
+    nullify(defsList)
+    defsList => getElementsByTagname(parsedxml, "simulationdefs")       !searching for nodes with the 'simulationdefs' name
+    simdefs => item(defsList,0)
     tag="resolution"
     att_name="dp"
-    call readxmlatt(parsedxml, tag, att_name, att_val)    
+    call readxmlatt(simdefs, tag, att_name, att_val)    
     call setSimDp(att_val)    
 
     pts=(/ 'pointmin', 'pointmax'/) !strings to search for
     do i=1, size(pts)
-        call readxmlvector(parsedxml, pts(i), coords)
+        call readxmlvector(simdefs, pts(i), coords)
         call setSimBounds(pts(i), coords)        
     enddo
-
+    call printSimDefs
+    
     return
     end subroutine
 
@@ -255,22 +278,26 @@
     !---------------------------------------------------------------------------
     subroutine init_caseconstants(parsedxml)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
+    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
 
+    type(NodeList), pointer :: constsList       !< Node list for constants
+    type(Node), pointer :: constants            !< Single constants block to process
     type(string) :: outext
     type(string) :: tag, att_name, att_val
     type(vector) :: coords
     
     outext='-->Reading case constants'
-    call ToLog(outext)
-    
+    call ToLog(outext,.false.)
+       
+    nullify(constsList)
+    constsList => getElementsByTagname(parsedxml, "constantsdef")       !searching for nodes with the 'constantsdef' name
+    constants => item(constsList,0)    
     tag="Gravity"
-    call readxmlvector(parsedxml, tag, coords)
-    call setSimGravity(coords)
-    
+    call readxmlvector(constants, tag, coords)
+    call setSimGravity(coords)    
     tag="Rho_ref"
     att_name="value"
-    call readxmlatt(parsedxml, tag, att_name, att_val)    
+    call readxmlatt(constants, tag, att_name, att_val)    
     call setSimRho(att_val) 
     
     return
@@ -287,20 +314,23 @@
     !---------------------------------------------------------------------------
     subroutine init_parameters(parsedxml)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !>.xml file handle
+    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
 
     type(string) :: outext
-    type(NodeList), pointer :: parameterList        !> Node list for parameters
-    type(Node), pointer :: parmt                    !> Single parameter block to process
+    type(NodeList), pointer :: parameterList, parametersList        !< Node list for parameters
+    type(Node), pointer :: parmt, parameters                    !< Single parameter block to process
     integer :: i
     type(string) :: parmkey, parmvalue
     character(80) :: parmkey_char, parmvalue_char
     
     outext='-->Reading case parameters'
-    call ToLog(outext)    
+    call ToLog(outext,.false.)    
 
     nullify(parameterList)
-    parameterList => getElementsByTagname(parsedxml, "parameter")       !searching for tags with the 'parameter' name
+    nullify(parametersList)
+    parametersList => getElementsByTagname(parsedxml, "parameters")
+    parameters => item(parametersList,0)
+    parameterList => getElementsByTagname(parameters, "parameter")       !searching for tags with the 'parameter' name
     if (associated(parameterList)) then                                !checking if the list is not empty
         do i = 0, getLength(parameterList) - 1                          !extracting parameter tags one by one
             parmt => item(parameterList, i)
@@ -315,7 +345,9 @@
         call ToLog(outext)        
         stop
     endif
-
+    
+    call printSimParameters
+    
     return
     end subroutine
 
@@ -331,14 +363,22 @@
     !---------------------------------------------------------------------------
     subroutine initMohidLagrangian(xmlfilename)
     implicit none
-    type(string), intent(in) :: xmlfilename         !> .xml file name
+    type(string), intent(in) :: xmlfilename         !< .xml file name
 
     !local vars
     type(string) :: outext
-    type(Node), pointer :: xmldoc                   !> .xml file handle
-    integer :: i  
+    type(Node), pointer :: xmldoc                   !< .xml file handle
+    integer :: i
     
-    !check if log file exists - if not stop here
+    call PrintLicPreamble
+    
+    !check if log file was opened - if not stop here
+    if (Log_unit==0) then
+        outext='->Logger initialized'
+        call ToLog(outext)
+    else
+        stop 'Logger has not been initialized, stopping'
+    end if    
 
     xmldoc => parseFile(xmlfilename%chars(), iostat=i)
     if (i==0) then
@@ -349,10 +389,10 @@
         call ToLog(outext)        
         stop
     endif
-
-    call init_parameters(xmldoc)     !Reading the parameters
-    call init_caseconstants(xmldoc)  !Reading the case constants
+   
+    call init_caseconstants(xmldoc)
     call init_simdefs(xmldoc)
+    call init_parameters(xmldoc)
     call init_sources(xmldoc)
 
     call destroy(xmldoc)
@@ -360,11 +400,6 @@
     return
 
     end subroutine
-
-
-
-
-
 
 
     end module initialize

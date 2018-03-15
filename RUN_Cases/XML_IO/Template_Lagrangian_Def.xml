@@ -64,9 +64,9 @@
         <parameters>            
             <parameter key="Integrator" value="1" comment="Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)" />            
 			<parameter key="CFL" value="0.8" comment="Courant–Friedrichs–Lewy condition number (default=0.5)" />
-            <parameter key="InitFreeze" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />            
+            <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />            
             <parameter key="TimeMax" value="100.0" comment="Simulation duration" units_comment="seconds" />
-            <parameter key="TimeOut" value="1" comment="Time out data (1/Hz)" units_comment="seconds" />            
+            <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />            
         </parameters>
     </execution>
 </case>

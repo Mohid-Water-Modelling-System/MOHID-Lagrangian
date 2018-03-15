@@ -29,7 +29,7 @@
     public :: Log_unit
     
     !File handling
-    integer, parameter :: Log_unit=0    !> 'Number' of log file
+    integer :: Log_unit = -1    !< 'Number' of log file
     
      !Public access procedures
     public :: initMohidLagrangianLog, ToLog, getTimeStamp
@@ -70,11 +70,15 @@
     !
     !> @param[in] outpath
     !---------------------------------------------------------------------------
-    subroutine ToLog(tologstr)
+    subroutine ToLog(tologstr,timeoption)
     implicit none
     type(string), intent(in) :: tologstr
+    logical, intent(in), optional :: timeoption
     type(string) :: timestamp
     call getTimeStamp(timestamp)
+    if(present(timeoption).and.timeoption==0)then
+        timestamp=''
+    endif
     timestamp=timestamp//' '//tologstr
     write(Log_unit,"(A)") timestamp%chars()
     print'(A)', timestamp%chars()
@@ -95,8 +99,8 @@
     type(string), intent(in) :: outpath    
     type(string) :: logfile        
     logfile = outpath//'MOHIDLagrangianRun.out'
-    open (unit=Log_unit,file=logfile%chars(),action="write",status="replace")    
-    call getTimeStamp(logfile)        
+    Log_unit = 0 !this way we can use it as a logical for open and closed.
+    open (unit=Log_unit,file=logfile%chars(),action="write",status="replace")      
     end subroutine
     
     end module simulation_logger

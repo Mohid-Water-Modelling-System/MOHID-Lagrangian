@@ -1,0 +1,109 @@
+\hypertarget{namespacesimulation__precision}{}\section{simulation\+\_\+precision Module Reference}
+\label{namespacesimulation__precision}\index{simulation\+\_\+precision@{simulation\+\_\+precision}}
+
+
+Module to control the precision of the variables trough the project.  
+
+
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer, parameter \mbox{\hyperlink{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}{sp}} = kind(1.\+\_\+\+R4P)
+\begin{DoxyCompactList}\small\item\em Simple precision definition switch. \end{DoxyCompactList}\item 
+integer, parameter \mbox{\hyperlink{namespacesimulation__precision_af01fc62f503e0ff9a95c9ee2960c9a7f}{dp}} = kind(1.\+\_\+\+R8P)
+\begin{DoxyCompactList}\small\item\em Double precision definition switch. \end{DoxyCompactList}\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}} = \mbox{\hyperlink{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}{sp}}
+\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision_a09a1db15abeed81ff2f54b363128ffed}{prec\+\_\+time}} = \mbox{\hyperlink{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}{sp}}
+\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision_a049e8de4fad9c285d2cc71e8982e2971}{prec\+\_\+wrt}} = \mbox{\hyperlink{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}{sp}}
+\item 
+real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision_a5983f631bbe7a6e5d43d2a458db81460}{missing\+\_\+value\+\_\+default}} = -\/9999.\+0\+\_\+dp
+\item 
+real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision_a4416a112b4fc53848f9f18fe5e9003db}{mv}} = M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT
+\item 
+real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision_ae23a853ee1499839ea702b3c01e443fc}{mv\+\_\+int}} = int(M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT)
+\item 
+real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision_acb6a32a47c43de36b53bb8033aa2738e}{err\+\_\+dist}} = 1\+E8\+\_\+dp
+\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision_a531d4e8c47b468cf4212393a5b84c7c8}{err\+\_\+ind}} = -\/1
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to control the precision of the variables trough the project. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulation__precision_af01fc62f503e0ff9a95c9ee2960c9a7f}\label{namespacesimulation__precision_af01fc62f503e0ff9a95c9ee2960c9a7f}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!dp@{dp}}
+\index{dp@{dp}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{dp}{dp}}
+{\footnotesize\ttfamily integer, parameter simulation\+\_\+precision\+::dp = kind(1.\+\_\+\+R8P)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Double precision definition switch. 
+
+\mbox{\Hypertarget{namespacesimulation__precision_acb6a32a47c43de36b53bb8033aa2738e}\label{namespacesimulation__precision_acb6a32a47c43de36b53bb8033aa2738e}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!err\+\_\+dist@{err\+\_\+dist}}
+\index{err\+\_\+dist@{err\+\_\+dist}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{err\+\_\+dist}{err\_dist}}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public simulation\+\_\+precision\+::err\+\_\+dist = 1\+E8\+\_\+dp}
+
+\mbox{\Hypertarget{namespacesimulation__precision_a531d4e8c47b468cf4212393a5b84c7c8}\label{namespacesimulation__precision_a531d4e8c47b468cf4212393a5b84c7c8}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!err\+\_\+ind@{err\+\_\+ind}}
+\index{err\+\_\+ind@{err\+\_\+ind}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{err\+\_\+ind}{err\_ind}}
+{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+::err\+\_\+ind = -\/1}
+
+\mbox{\Hypertarget{namespacesimulation__precision_a5983f631bbe7a6e5d43d2a458db81460}\label{namespacesimulation__precision_a5983f631bbe7a6e5d43d2a458db81460}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!missing\+\_\+value\+\_\+default@{missing\+\_\+value\+\_\+default}}
+\index{missing\+\_\+value\+\_\+default@{missing\+\_\+value\+\_\+default}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{missing\+\_\+value\+\_\+default}{missing\_value\_default}}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public simulation\+\_\+precision\+::missing\+\_\+value\+\_\+default = -\/9999.\+0\+\_\+dp}
+
+\mbox{\Hypertarget{namespacesimulation__precision_a4416a112b4fc53848f9f18fe5e9003db}\label{namespacesimulation__precision_a4416a112b4fc53848f9f18fe5e9003db}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!mv@{mv}}
+\index{mv@{mv}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{mv}{mv}}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public simulation\+\_\+precision\+::mv = M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT}
+
+\mbox{\Hypertarget{namespacesimulation__precision_ae23a853ee1499839ea702b3c01e443fc}\label{namespacesimulation__precision_ae23a853ee1499839ea702b3c01e443fc}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!mv\+\_\+int@{mv\+\_\+int}}
+\index{mv\+\_\+int@{mv\+\_\+int}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{mv\+\_\+int}{mv\_int}}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}{prec}}), parameter, public simulation\+\_\+precision\+::mv\+\_\+int = int(M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT)}
+
+\mbox{\Hypertarget{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}\label{namespacesimulation__precision_a6d3bcd3b4ff2cfb92ec9fe36ecad405b}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!prec@{prec}}
+\index{prec@{prec}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{prec}{prec}}
+{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+::prec = \mbox{\hyperlink{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}{sp}}}
+
+\mbox{\Hypertarget{namespacesimulation__precision_a09a1db15abeed81ff2f54b363128ffed}\label{namespacesimulation__precision_a09a1db15abeed81ff2f54b363128ffed}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!prec\+\_\+time@{prec\+\_\+time}}
+\index{prec\+\_\+time@{prec\+\_\+time}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{prec\+\_\+time}{prec\_time}}
+{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+::prec\+\_\+time = \mbox{\hyperlink{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}{sp}}}
+
+\mbox{\Hypertarget{namespacesimulation__precision_a049e8de4fad9c285d2cc71e8982e2971}\label{namespacesimulation__precision_a049e8de4fad9c285d2cc71e8982e2971}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!prec\+\_\+wrt@{prec\+\_\+wrt}}
+\index{prec\+\_\+wrt@{prec\+\_\+wrt}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{prec\+\_\+wrt}{prec\_wrt}}
+{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+::prec\+\_\+wrt = \mbox{\hyperlink{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}{sp}}}
+
+\mbox{\Hypertarget{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}\label{namespacesimulation__precision_a3657003647318cfe37c797ab37448a2e}} 
+\index{simulation\+\_\+precision@{simulation\+\_\+precision}!sp@{sp}}
+\index{sp@{sp}!simulation\+\_\+precision@{simulation\+\_\+precision}}
+\subsubsection{\texorpdfstring{sp}{sp}}
+{\footnotesize\ttfamily integer, parameter simulation\+\_\+precision\+::sp = kind(1.\+\_\+\+R4P)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Simple precision definition switch. 
+

@@ -18,42 +18,41 @@
 
     module source_identity
 
-    use tracer
     use commom_modules
 
     implicit none
     private
 
-    type source_par_class               !>Type - parameters of a source object
-        integer :: id                       !> unique source identification (integer)
-        real(prec) :: emitting_rate         !> Emitting rate of the source (Hz)
-        type(string) :: name                !> source name
-        type(string) :: property_name       !> source property name
-        type(string) :: source_geometry     !> Source type : 'point', 'line', 'sphere', 'box'
-        class(shape), allocatable :: geometry   !> Source geometry
+    type source_par_class               !<Type - parameters of a source object
+        integer :: id                       !< unique source identification (integer)
+        real(prec) :: emitting_rate         !< Emitting rate of the source (Hz)
+        type(string) :: name                !< source name
+        type(string) :: property_name       !< source property name
+        type(string) :: source_geometry     !< Source type : 'point', 'line', 'sphere', 'box'
+        class(shape), allocatable :: geometry   !< Source geometry
     end type
 
-    type source_state_class             !>Type - state variables of a source object
+    type source_state_class             !<Type - state variables of a source object
         real(prec_time) :: age              ! time variables
-        logical :: active                   !> active switch
-        type(vector) :: pos                 !> Position of the source baricenter (m)
-        type(vector) :: vel                 !> Velocity of the source (m s-1)
-        real(prec) :: depth                 !> Depth of the source baricenter (m)
-        real(prec) :: T                     !> Temperature of the source (Celcius)
+        logical :: active                   !< active switch
+        type(vector) :: pos                 !< Position of the source baricenter (m)
+        type(vector) :: vel                 !< Velocity of the source (m s-1)
+        real(prec) :: depth                 !< Depth of the source baricenter (m)
+        real(prec) :: T                     !< Temperature of the source (Celcius)
     end type
 
-    type source_stats_class             !>Type - statistical variables of a source object
+    type source_stats_class             !<Type - statistical variables of a source object
         ! All stats variables at writing precision (prec_wrt)
         ! Avegarge variable is computed by Accumulated_var / ns
-        integer ::particles_emitted         !> Number of emitted particles by this source
-        real(prec_wrt) :: acc_T             !> Accumulated temperature of the tracer (Celcius)
-        integer :: ns                       !> Number of sampling steps
+        integer ::particles_emitted         !< Number of emitted particles by this source
+        real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
+        integer :: ns                       !< Number of sampling steps
     end type
 
-    type source_class                   !>Type - The source class
-        type(source_par_class)   :: par     !>To access parameters
-        type(source_state_class) :: now     !>To access state variables
-        type(source_stats_class) :: stats   !>To access statistics
+    type source_class                   !<Type - The source class
+        type(source_par_class)   :: par     !<To access parameters
+        type(source_state_class) :: now     !<To access state variables
+        type(source_stats_class) :: stats   !<To access statistics
     end type
 
     !Simulation variables
@@ -143,24 +142,23 @@
     type(source_class), intent(in) :: src
     
     type(string) :: outext
-    type(string) :: output_str
     type(string) :: temp_str(3)    
         
     temp_str(1)=src%par%id    
-    outext = '->Source '//src%par%name//' allocated'//new_line('a')//&
-                 '  Id = '//temp_str(1)//new_line('a')//&
-                 '  Geometry type is '//src%par%source_geometry//new_line('a')    
+    outext = '-->Source '//src%par%name//' allocated'//new_line('a')//&
+                 '       Id = '//temp_str(1)//new_line('a')//&
+                 '       Geometry type is '//src%par%source_geometry//new_line('a')    
     temp_str(1)=src%now%pos%x
     temp_str(2)=src%now%pos%y
     temp_str(3)=src%now%pos%z    
-    outext = outext//'  Initially at coordinates'//new_line('a')//&
-                            '   '//temp_str(1)//new_line('a')//&
-                            '   '//temp_str(2)//new_line('a')//&
-                            '   '//temp_str(3)//new_line('a')
+    outext = outext//'       Initially at coordinates'//new_line('a')//&
+                            '       '//temp_str(1)//new_line('a')//&
+                            '       '//temp_str(2)//new_line('a')//&
+                            '       '//temp_str(3)//new_line('a')
     temp_str(1)=src%par%emitting_rate
-    outext = outext//'  Emitting rate of '//temp_str(1)//' Hz'
+    outext = outext//'       Emitting rate of '//temp_str(1)//' Hz'
     
-    call ToLog(outext)    
+    call ToLog(outext,.false.)    
     
     end subroutine    
 

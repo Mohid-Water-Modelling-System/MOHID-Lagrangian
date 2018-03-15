@@ -19,28 +19,37 @@
 module geometry
     
     use vecfor
-    use tracer_precision
+    use simulation_precision
     
     implicit none
     
-    type shape                                  !>Type - extendable shape class
-        type(vector) :: pt      !> Coordinates of a point
+    !>Type - extendable shape class
+    type shape
+        !> Coordinates of a point
+        type(vector) :: pt      
     end type
     
-    type, extends(shape) :: point               !>Type - point class
+    !>Type - point class
+    type, extends(shape) :: point               
     end type
     
-    type, extends(shape) :: line               !>Type - line class
-        type(vector) :: last    !> Coordinates of the end point
+    !>Type - line class
+    type, extends(shape) :: line
+        !> Coordinates of the end point
+        type(vector) :: last    
     end type
     
-    type, extends(shape) :: sphere             !>Type - sphere class
-        real(prec) :: radius    !> Sphere radius
+    !>Type - sphere class
+    type, extends(shape) :: sphere  
+        !> Sphere radius
+        real(prec) :: radius    
     end type
     
-    type, extends(shape) :: box                !>Type - point class
-        !> Coordinates of the lower left corner point are defined by shape class
-        type(vector) :: size    !> Box size
+    !>Type - point class
+    type, extends(shape) :: box                
+        ! Coordinates of the lower left corner point are defined by shape class
+        !> Box size
+        type(vector) :: size    
     end type
     
     

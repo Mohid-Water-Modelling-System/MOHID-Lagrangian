@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['tracer2d_5finit',['tracer2d_init',['../namespacetracer2d.html#abebf96ac23ed37832000c68fea45f584',1,'tracer2d']]],
-  ['tracer_5finit',['tracer_init',['../namespacetracer3d.html#a42aa514ae0b5c46c797ddaaa48c49991',1,'tracer3d']]]
+  ['printsimdefs',['printsimdefs',['../namespacesimulation__globals.html#a1683e8f5cab2101e7e3dbc91108b64a3',1,'simulation_globals']]],
+  ['printsimparameters',['printsimparameters',['../namespacesimulation__globals.html#a1e5d10f7d7954c9d5346294c72a738c1',1,'simulation_globals']]],
+  ['printsource',['printsource',['../namespacesource__identity.html#ac4fc3a54de91016023a7948d261f84a5',1,'source_identity']]]
 ];

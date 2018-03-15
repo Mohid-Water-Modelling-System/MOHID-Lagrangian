@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['the',['the',['../structgeometry_1_1line.html#a5afd4d15030233739e7a7dee4fb8d9cb',1,'geometry::line']]],
-  ['timemax',['timemax',['../namespacesimulation__parameters.html#aedd90d7d1a6db61fcac836ac37034e75',1,'simulation_parameters']]],
-  ['timeout',['timeout',['../namespacesimulation__parameters.html#a70ee14718c33544ce34bf7990211e5cc',1,'simulation_parameters']]],
+  ['t',['t',['../structsource__identity_1_1source__state__class.html#aa6b7ef1194f4f7379e86242b4dffc03f',1,'source_identity::source_state_class::t()'],['../structtracer3d_1_1tracer__state__class.html#a0b11fa789fa23c2c183b93f320fe854e',1,'tracer3d::tracer_state_class::t()']]],
+  ['timemax',['timemax',['../namespacesimulation__globals.html#aca61ad35c1c57ca41152ce3707d412e3',1,'simulation_globals']]],
+  ['timeout',['timeout',['../namespacesimulation__globals.html#ac867a68f020b7352cd68bbe996cfdf24',1,'simulation_globals']]],
+  ['tpar',['tpar',['../structtracer3d_1_1tracer__par__class.html#a4486f0959101435f0fdeb1c845d4bbf4',1,'tracer3d::tracer_par_class']]],
   ['tracer',['tracer',['../namespacetracer.html',1,'']]],
   ['tracer_2ef90',['tracer.f90',['../tracer_8f90.html',1,'']]],
   ['tracer2d',['tracer2d',['../namespacetracer2d.html',1,'']]],
@@ -10,9 +11,12 @@ var searchData=
   ['tracer2d_5finit',['tracer2d_init',['../namespacetracer2d.html#abebf96ac23ed37832000c68fea45f584',1,'tracer2d']]],
   ['tracer3d',['tracer3d',['../namespacetracer3d.html',1,'']]],
   ['tracer3d_2ef90',['tracer3D.f90',['../tracer3_d_8f90.html',1,'']]],
+  ['tracer_5fclass',['tracer_class',['../structtracer3d_1_1tracer__class.html',1,'tracer3d']]],
   ['tracer_5finit',['tracer_init',['../namespacetracer3d.html#a42aa514ae0b5c46c797ddaaa48c49991',1,'tracer3d']]],
   ['tracer_5finterp',['tracer_interp',['../namespacetracer__interp.html',1,'']]],
   ['tracer_5finterp_2ef90',['tracer_interp.f90',['../tracer__interp_8f90.html',1,'']]],
-  ['tracer_5fprecision',['tracer_precision',['../namespacetracer__precision.html',1,'']]],
-  ['tracer_5fprecision_2ef90',['tracer_precision.f90',['../tracer__precision_8f90.html',1,'']]]
+  ['tracer_5fpar_5fclass',['tracer_par_class',['../structtracer3d_1_1tracer__par__class.html',1,'tracer3d']]],
+  ['tracer_5fpar_5ftrans_5fclass',['tracer_par_trans_class',['../structtracer3d_1_1tracer__par__trans__class.html',1,'tracer3d']]],
+  ['tracer_5fstate_5fclass',['tracer_state_class',['../structtracer3d_1_1tracer__state__class.html',1,'tracer3d']]],
+  ['tracer_5fstats_5fclass',['tracer_stats_class',['../structtracer3d_1_1tracer__stats__class.html',1,'tracer3d']]]
 ];

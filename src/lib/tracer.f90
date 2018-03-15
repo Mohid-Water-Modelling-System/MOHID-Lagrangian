@@ -26,7 +26,7 @@
     
 module tracer 
     
-    use tracer_precision
+    use simulation_precision
     use tracer_interp
     
     use tracer3D

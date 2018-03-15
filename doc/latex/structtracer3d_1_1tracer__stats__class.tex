@@ -1,43 +1,81 @@
 \hypertarget{structtracer3d_1_1tracer__stats__class}{}\section{tracer3d\+:\+:tracer\+\_\+stats\+\_\+class Type Reference}
 \label{structtracer3d_1_1tracer__stats__class}\index{tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}}
-\subsection*{Public Attributes}
+
+
+Type -\/ statistical variables of a pure Lagrangian tracer object.  
+
+
+\subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a750469bccc9315fe015620cfc0372dfe}\label{structtracer3d_1_1tracer__stats__class_a750469bccc9315fe015620cfc0372dfe}} 
-real(prec\+\_\+wrt), dimension(\+:), allocatable \mbox{\hyperlink{structtracer3d_1_1tracer__stats__class_a750469bccc9315fe015620cfc0372dfe}{x}}
-\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_ae94ba5c4f5b52177aa5a41ce6a148614}\label{structtracer3d_1_1tracer__stats__class_ae94ba5c4f5b52177aa5a41ce6a148614}} 
-real(prec\+\_\+wrt), dimension(\+:), allocatable {\bfseries y}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a4899ddcdd6e2400c6b57307cb0639dbd}\label{structtracer3d_1_1tracer__stats__class_a4899ddcdd6e2400c6b57307cb0639dbd}} 
-real(prec\+\_\+wrt), dimension(\+:), allocatable {\bfseries depth\+\_\+norm}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a49b6cc3608dc340fe6be374b3a2373c0}\label{structtracer3d_1_1tracer__stats__class_a49b6cc3608dc340fe6be374b3a2373c0}} 
-real(prec\+\_\+wrt), dimension(\+:), allocatable {\bfseries age\+\_\+iso}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_aabccc48aabf79b2432bfcc2afcd95e39}\label{structtracer3d_1_1tracer__stats__class_aabccc48aabf79b2432bfcc2afcd95e39}} 
-real(prec\+\_\+wrt), dimension(\+:,\+:,\+:), allocatable {\bfseries depth\+\_\+iso}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a5871290f233762da617a4624778110cd}\label{structtracer3d_1_1tracer__stats__class_a5871290f233762da617a4624778110cd}} 
-real(prec\+\_\+wrt), dimension(\+:,\+:,\+:), allocatable {\bfseries depth\+\_\+iso\+\_\+err}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_af5c5194f11c1a13f0a5e2b4becd11cb1}\label{structtracer3d_1_1tracer__stats__class_af5c5194f11c1a13f0a5e2b4becd11cb1}} 
-real(prec\+\_\+wrt), dimension(\+:,\+:,\+:), allocatable {\bfseries dep\+\_\+z\+\_\+iso}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a9f30d08dd57b8d11a6609aace825d2ab}\label{structtracer3d_1_1tracer__stats__class_a9f30d08dd57b8d11a6609aace825d2ab}} 
-integer, dimension(\+:,\+:,\+:), allocatable {\bfseries density\+\_\+iso}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_aaf14826847e5b8ed1adbbc1778545125}\label{structtracer3d_1_1tracer__stats__class_aaf14826847e5b8ed1adbbc1778545125}} 
-real(prec\+\_\+wrt), dimension(\+:,\+:,\+:), allocatable {\bfseries ice\+\_\+age}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_ad56a9df4a9b46a785ac42dfa07fbc605}\label{structtracer3d_1_1tracer__stats__class_ad56a9df4a9b46a785ac42dfa07fbc605}} 
-real(prec\+\_\+wrt), dimension(\+:,\+:,\+:), allocatable {\bfseries ice\+\_\+age\+\_\+err}
-\item 
-\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a40c3393808bd198f7b7fa97bd0417701}\label{structtracer3d_1_1tracer__stats__class_a40c3393808bd198f7b7fa97bd0417701}} 
-integer, dimension(\+:,\+:,\+:), allocatable {\bfseries density}
-\end{DoxyCompactItemize}
+type(vector) \mbox{\hyperlink{structtracer3d_1_1tracer__stats__class_a1a9df2788c632bb2dcba4e303dc83e78}{acc\+\_\+pos}}
+\begin{DoxyCompactList}\small\item\em Accumulated position of the tracer (m) \end{DoxyCompactList}\item 
+type(vector) \mbox{\hyperlink{structtracer3d_1_1tracer__stats__class_a623f27a49b6e37a3e5c21b8bab55a323}{acc\+\_\+vel}}
+\begin{DoxyCompactList}\small\item\em Accumulated velocity of the tracer (m s-\/1) \end{DoxyCompactList}\item 
+real(prec\+\_\+wrt) \mbox{\hyperlink{structtracer3d_1_1tracer__stats__class_af9e6304d89967e9ade6b1188101391b6}{acc\+\_\+depth}}
+\begin{DoxyCompactList}\small\item\em Accumulated depth of the tracer (m) \end{DoxyCompactList}\item 
+real(prec\+\_\+wrt) \mbox{\hyperlink{structtracer3d_1_1tracer__stats__class_acdca78550575d7690eb26482ed75aeef}{acc\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Accumulated temperature of the tracer (Celcius) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structtracer3d_1_1tracer__stats__class_a0a07132ada5734cd6f132bc9ffd327b2}{ns}}
+\begin{DoxyCompactList}\small\item\em Number of sampling steps. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Type -\/ statistical variables of a pure Lagrangian tracer object. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_af9e6304d89967e9ade6b1188101391b6}\label{structtracer3d_1_1tracer__stats__class_af9e6304d89967e9ade6b1188101391b6}} 
+\index{tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}!acc\+\_\+depth@{acc\+\_\+depth}}
+\index{acc\+\_\+depth@{acc\+\_\+depth}!tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{acc\+\_\+depth}{acc\_depth}}
+{\footnotesize\ttfamily real(prec\+\_\+wrt) tracer3d\+::tracer\+\_\+stats\+\_\+class\+::acc\+\_\+depth\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated depth of the tracer (m) 
+
+\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a1a9df2788c632bb2dcba4e303dc83e78}\label{structtracer3d_1_1tracer__stats__class_a1a9df2788c632bb2dcba4e303dc83e78}} 
+\index{tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}!acc\+\_\+pos@{acc\+\_\+pos}}
+\index{acc\+\_\+pos@{acc\+\_\+pos}!tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{acc\+\_\+pos}{acc\_pos}}
+{\footnotesize\ttfamily type(vector) tracer3d\+::tracer\+\_\+stats\+\_\+class\+::acc\+\_\+pos\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated position of the tracer (m) 
+
+\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_acdca78550575d7690eb26482ed75aeef}\label{structtracer3d_1_1tracer__stats__class_acdca78550575d7690eb26482ed75aeef}} 
+\index{tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}!acc\+\_\+t@{acc\+\_\+t}}
+\index{acc\+\_\+t@{acc\+\_\+t}!tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{acc\+\_\+t}{acc\_t}}
+{\footnotesize\ttfamily real(prec\+\_\+wrt) tracer3d\+::tracer\+\_\+stats\+\_\+class\+::acc\+\_\+t\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated temperature of the tracer (Celcius) 
+
+\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a623f27a49b6e37a3e5c21b8bab55a323}\label{structtracer3d_1_1tracer__stats__class_a623f27a49b6e37a3e5c21b8bab55a323}} 
+\index{tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}!acc\+\_\+vel@{acc\+\_\+vel}}
+\index{acc\+\_\+vel@{acc\+\_\+vel}!tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{acc\+\_\+vel}{acc\_vel}}
+{\footnotesize\ttfamily type(vector) tracer3d\+::tracer\+\_\+stats\+\_\+class\+::acc\+\_\+vel\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Accumulated velocity of the tracer (m s-\/1) 
+
+\mbox{\Hypertarget{structtracer3d_1_1tracer__stats__class_a0a07132ada5734cd6f132bc9ffd327b2}\label{structtracer3d_1_1tracer__stats__class_a0a07132ada5734cd6f132bc9ffd327b2}} 
+\index{tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}!ns@{ns}}
+\index{ns@{ns}!tracer3d\+::tracer\+\_\+stats\+\_\+class@{tracer3d\+::tracer\+\_\+stats\+\_\+class}}
+\subsubsection{\texorpdfstring{ns}{ns}}
+{\footnotesize\ttfamily integer tracer3d\+::tracer\+\_\+stats\+\_\+class\+::ns\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Number of sampling steps. 
+
 
 
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/lib/tracer3\+D.\+f90\end{DoxyCompactItemize}
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{tracer3_d_8f90}{tracer3\+D.\+f90}}\end{DoxyCompactItemize}

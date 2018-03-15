@@ -13,13 +13,17 @@
 !> Ricardo Birjukovs Canelas
 !
 ! DESCRIPTION: 
-!> Module that defines a source geometry class, emitter class and related methods.
+!> Module that defines an emitter class and related methods.
 !------------------------------------------------------------------------------
     
 module source_emitter
     
     use commom_modules
     use source_identity
+    
+    implicit none
+    private
+    
         
     
 end module source_emitter 

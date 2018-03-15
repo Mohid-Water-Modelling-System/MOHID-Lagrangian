@@ -22,7 +22,7 @@ module commom_modules
     use vecfor
     use stringifor
     
-    use tracer_precision
+    use simulation_precision
     use geometry
     use simulation_logger
     

@@ -2,6 +2,11 @@
 \label{structgeometry_1_1box}\index{geometry\+::box@{geometry\+::box}}
 
 
+Type -\/ point class.  
+
+
+
+
 Inheritance diagram for geometry\+:\+:box\+:
 % FIG 0
 
@@ -12,18 +17,13 @@ Collaboration diagram for geometry\+:\+:box\+:
 \begin{DoxyCompactItemize}
 \item 
 type(vector) \mbox{\hyperlink{structgeometry_1_1box_a77c6ce50ff2a5d421ef59cf929f81f3d}{size}}
-\begin{DoxyCompactList}\small\item\em Type -\/ point class Coordinates of the lower left corner point are defined by shape class. \end{DoxyCompactList}\item 
-type(vector) \mbox{\hyperlink{structgeometry_1_1box_a381b1d3709c63ea9f3b6def610cd50fd}{box}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Box size. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Type -\/ point class. 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structgeometry_1_1box_a381b1d3709c63ea9f3b6def610cd50fd}\label{structgeometry_1_1box_a381b1d3709c63ea9f3b6def610cd50fd}} 
-\index{geometry\+::box@{geometry\+::box}!box@{box}}
-\index{box@{box}!geometry\+::box@{geometry\+::box}}
-\subsubsection{\texorpdfstring{box}{box}}
-{\footnotesize\ttfamily type(vector) geometry\+::box\+::box}
-
 \mbox{\Hypertarget{structgeometry_1_1box_a77c6ce50ff2a5d421ef59cf929f81f3d}\label{structgeometry_1_1box_a77c6ce50ff2a5d421ef59cf929f81f3d}} 
 \index{geometry\+::box@{geometry\+::box}!size@{size}}
 \index{size@{size}!geometry\+::box@{geometry\+::box}}
@@ -32,7 +32,7 @@ type(vector) \mbox{\hyperlink{structgeometry_1_1box_a381b1d3709c63ea9f3b6def610c
 
 
 
-Type -\/ point class Coordinates of the lower left corner point are defined by shape class. 
+Box size. 
 
 
 

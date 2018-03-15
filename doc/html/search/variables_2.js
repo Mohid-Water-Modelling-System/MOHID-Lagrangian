@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['cfl',['cfl',['../namespacesimulation__parameters.html#a82ce5585265987eedbbaad0cd9cac673',1,'simulation_parameters']]],
-  ['coordinates',['coordinates',['../structgeometry_1_1shape.html#ae31a17702996581b8a7d9f0b601e426e',1,'geometry::shape::coordinates()'],['../structgeometry_1_1line.html#a80238f3749a81a1baecb3b2bd905124f',1,'geometry::line::coordinates()']]]
+  ['depth',['depth',['../structsource__identity_1_1source__state__class.html#a67b39860ac7d45545c522a2f3cd851e8',1,'source_identity::source_state_class::depth()'],['../structtracer3d_1_1tracer__state__class.html#a0f8b523edbed09e372976f6cd1f6050a',1,'tracer3d::tracer_state_class::depth()']]],
+  ['dp',['dp',['../namespacesimulation__globals.html#ad8772390891d3fa9d701db0fc341a1ab',1,'simulation_globals::dp()'],['../namespacesimulation__precision.html#af01fc62f503e0ff9a95c9ee2960c9a7f',1,'simulation_precision::dp()']]]
 ];

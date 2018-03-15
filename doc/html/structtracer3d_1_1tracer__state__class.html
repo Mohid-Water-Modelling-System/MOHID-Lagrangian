@@ -5,10 +5,18 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID_LagrTracer: tracer3d::tracer_state_class Type Reference</title>
+<title>MOHIDLagrangian: tracer3d::tracer_state_class Type Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+  $(document).ready(initResizable);
+/* @license-end */</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -20,9 +28,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="MOHID_Logo.jpg"/></td>
+  <td id="projectlogo"><img alt="Logo" src="ML_logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">MOHID_LagrTracer
+   <div id="projectname">MOHIDLagrangian
    &#160;<span id="projectnumber">0.01</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
@@ -48,6 +56,23 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('structtracer3d_1_1tracer__state__class.html','');});
+/* @license-end */
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -62,99 +87,223 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacetracer3d.html">tracer3d</a></li><li class="navelem"><a class="el" href="structtracer3d_1_1tracer__state__class.html">tracer_state_class</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="structtracer3d_1_1tracer__state__class-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">tracer3d::tracer_state_class Type Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Type - state variables of a pure Lagrangian tracer object.  
+ <a href="structtracer3d_1_1tracer__state__class.html#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:ad2c406b0c70535b9eefc6a58b5155228"><td class="memItemLeft" align="right" valign="top"><a id="ad2c406b0c70535b9eefc6a58b5155228"></a>
-real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#ad2c406b0c70535b9eefc6a58b5155228">time</a></td></tr>
-<tr class="memdesc:ad2c406b0c70535b9eefc6a58b5155228"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - state variables of a pure Lagrangian tracer object. <br /></td></tr>
-<tr class="separator:ad2c406b0c70535b9eefc6a58b5155228"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff3f9a1333320499aae96ab6e0d31ded"><td class="memItemLeft" align="right" valign="top"><a id="aff3f9a1333320499aae96ab6e0d31ded"></a>
-real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><b>time_old</b></td></tr>
-<tr class="separator:aff3f9a1333320499aae96ab6e0d31ded"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45e7a5c8c9fb20695d004397ab2ceaee"><td class="memItemLeft" align="right" valign="top"><a id="a45e7a5c8c9fb20695d004397ab2ceaee"></a>
-real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><b>time_dep</b></td></tr>
-<tr class="separator:a45e7a5c8c9fb20695d004397ab2ceaee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4778a9a01005ff19c20dbba6c081c4b9"><td class="memItemLeft" align="right" valign="top"><a id="a4778a9a01005ff19c20dbba6c081c4b9"></a>
-real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><b>time_write</b></td></tr>
-<tr class="separator:a4778a9a01005ff19c20dbba6c081c4b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff1762f7b19fc4480e8ab2562ccbb9e6"><td class="memItemLeft" align="right" valign="top"><a id="aff1762f7b19fc4480e8ab2562ccbb9e6"></a>
-real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><b>dt</b></td></tr>
-<tr class="separator:aff1762f7b19fc4480e8ab2562ccbb9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab350c849df637157d07b05d6df6cd035"><td class="memItemLeft" align="right" valign="top"><a id="ab350c849df637157d07b05d6df6cd035"></a>
-integer, dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>active</b></td></tr>
-<tr class="separator:ab350c849df637157d07b05d6df6cd035"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a047e35293ddbc8f44235b95db1400cc6"><td class="memItemLeft" align="right" valign="top"><a id="a047e35293ddbc8f44235b95db1400cc6"></a>
-integer, dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
-<tr class="separator:a047e35293ddbc8f44235b95db1400cc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dd71636cabb59e0138620d91b936b78"><td class="memItemLeft" align="right" valign="top"><a id="a3dd71636cabb59e0138620d91b936b78"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>x</b></td></tr>
-<tr class="separator:a3dd71636cabb59e0138620d91b936b78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af37256105de6c1965ad3ec817d1793c2"><td class="memItemLeft" align="right" valign="top"><a id="af37256105de6c1965ad3ec817d1793c2"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>y</b></td></tr>
-<tr class="separator:af37256105de6c1965ad3ec817d1793c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae68109f8656e4a460ac598a09fcd7d91"><td class="memItemLeft" align="right" valign="top"><a id="ae68109f8656e4a460ac598a09fcd7d91"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>z</b></td></tr>
-<tr class="separator:ae68109f8656e4a460ac598a09fcd7d91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2327dc43d8a234c7898d7d6804eb9674"><td class="memItemLeft" align="right" valign="top"><a id="a2327dc43d8a234c7898d7d6804eb9674"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>sigma</b></td></tr>
-<tr class="separator:a2327dc43d8a234c7898d7d6804eb9674"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab91de1a2ec3332cf6ab5f694fb6c7e8b"><td class="memItemLeft" align="right" valign="top"><a id="ab91de1a2ec3332cf6ab5f694fb6c7e8b"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>ux</b></td></tr>
-<tr class="separator:ab91de1a2ec3332cf6ab5f694fb6c7e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6822a2f1d48bd274351eef5257e3757"><td class="memItemLeft" align="right" valign="top"><a id="ae6822a2f1d48bd274351eef5257e3757"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>uy</b></td></tr>
-<tr class="separator:ae6822a2f1d48bd274351eef5257e3757"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8379b1be1b73a1ce6737fcd332cca3dc"><td class="memItemLeft" align="right" valign="top"><a id="a8379b1be1b73a1ce6737fcd332cca3dc"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>uz</b></td></tr>
-<tr class="separator:a8379b1be1b73a1ce6737fcd332cca3dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82dbab042574c76501610500805392c2"><td class="memItemLeft" align="right" valign="top"><a id="a82dbab042574c76501610500805392c2"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>ax</b></td></tr>
-<tr class="separator:a82dbab042574c76501610500805392c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add9d471862791f397e2788e4e14b345b"><td class="memItemLeft" align="right" valign="top"><a id="add9d471862791f397e2788e4e14b345b"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>ay</b></td></tr>
-<tr class="separator:add9d471862791f397e2788e4e14b345b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbe58ebc71d95db831507b307d28a5b6"><td class="memItemLeft" align="right" valign="top"><a id="afbe58ebc71d95db831507b307d28a5b6"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>az</b></td></tr>
-<tr class="separator:afbe58ebc71d95db831507b307d28a5b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b967658f4f0a5c0d727b02be993e241"><td class="memItemLeft" align="right" valign="top"><a id="a1b967658f4f0a5c0d727b02be993e241"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>dpth</b></td></tr>
-<tr class="separator:a1b967658f4f0a5c0d727b02be993e241"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5dd01566aa84508017ea302356a263b"><td class="memItemLeft" align="right" valign="top"><a id="ae5dd01566aa84508017ea302356a263b"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>z_srf</b></td></tr>
-<tr class="separator:ae5dd01566aa84508017ea302356a263b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba3e3096026a8e8f090c2580944fd681"><td class="memItemLeft" align="right" valign="top"><a id="aba3e3096026a8e8f090c2580944fd681"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>thk</b></td></tr>
-<tr class="separator:aba3e3096026a8e8f090c2580944fd681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae64e9e0c66c93ee01bf9fa9049c9a381"><td class="memItemLeft" align="right" valign="top"><a id="ae64e9e0c66c93ee01bf9fa9049c9a381"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>t</b></td></tr>
-<tr class="separator:ae64e9e0c66c93ee01bf9fa9049c9a381"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b97bd7e1174f0b475186c6784b0d5ec"><td class="memItemLeft" align="right" valign="top"><a id="a8b97bd7e1174f0b475186c6784b0d5ec"></a>
-real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><b>h</b></td></tr>
-<tr class="separator:a8b97bd7e1174f0b475186c6784b0d5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:af6fed1305d203d1081664934e2d6bcbc"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#af6fed1305d203d1081664934e2d6bcbc">age</a></td></tr>
+<tr class="separator:af6fed1305d203d1081664934e2d6bcbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8651aaf59c074ff965f0bf1d783fa574"><td class="memItemLeft" align="right" valign="top">logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#a8651aaf59c074ff965f0bf1d783fa574">active</a></td></tr>
+<tr class="memdesc:a8651aaf59c074ff965f0bf1d783fa574"><td class="mdescLeft">&#160;</td><td class="mdescRight">active switch  <a href="#a8651aaf59c074ff965f0bf1d783fa574">More...</a><br /></td></tr>
+<tr class="separator:a8651aaf59c074ff965f0bf1d783fa574"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25f9790ae2d566076ee53216bae4305c"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#a25f9790ae2d566076ee53216bae4305c">pos</a></td></tr>
+<tr class="memdesc:a25f9790ae2d566076ee53216bae4305c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position of the tracer (m)  <a href="#a25f9790ae2d566076ee53216bae4305c">More...</a><br /></td></tr>
+<tr class="separator:a25f9790ae2d566076ee53216bae4305c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cb6681f1a9d48fbe5c2fc6f0808cdb5"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#a4cb6681f1a9d48fbe5c2fc6f0808cdb5">vel</a></td></tr>
+<tr class="memdesc:a4cb6681f1a9d48fbe5c2fc6f0808cdb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Velocity of the tracer (m s-1)  <a href="#a4cb6681f1a9d48fbe5c2fc6f0808cdb5">More...</a><br /></td></tr>
+<tr class="separator:a4cb6681f1a9d48fbe5c2fc6f0808cdb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad155c188002bd9560151d9f8216ea39"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#aad155c188002bd9560151d9f8216ea39">acc</a></td></tr>
+<tr class="memdesc:aad155c188002bd9560151d9f8216ea39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acceleration of the tracer (m s-2)  <a href="#aad155c188002bd9560151d9f8216ea39">More...</a><br /></td></tr>
+<tr class="separator:aad155c188002bd9560151d9f8216ea39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f8b523edbed09e372976f6cd1f6050a"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#a0f8b523edbed09e372976f6cd1f6050a">depth</a></td></tr>
+<tr class="memdesc:a0f8b523edbed09e372976f6cd1f6050a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Depth of the tracer (m)  <a href="#a0f8b523edbed09e372976f6cd1f6050a">More...</a><br /></td></tr>
+<tr class="separator:a0f8b523edbed09e372976f6cd1f6050a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b11fa789fa23c2c183b93f320fe854e"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer3d_1_1tracer__state__class.html#a0b11fa789fa23c2c183b93f320fe854e">t</a></td></tr>
+<tr class="memdesc:a0b11fa789fa23c2c183b93f320fe854e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temperature of the tracer (Celcius)  <a href="#a0b11fa789fa23c2c183b93f320fe854e">More...</a><br /></td></tr>
+<tr class="separator:a0b11fa789fa23c2c183b93f320fe854e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Type - state variables of a pure Lagrangian tracer object. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="aad155c188002bd9560151d9f8216ea39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad155c188002bd9560151d9f8216ea39">&#9670;&nbsp;</a></span>acc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(vector) tracer3d::tracer_state_class::acc</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Acceleration of the tracer (m s-2) </p>
+
+</div>
+</div>
+<a id="a8651aaf59c074ff965f0bf1d783fa574"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8651aaf59c074ff965f0bf1d783fa574">&#9670;&nbsp;</a></span>active</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">logical tracer3d::tracer_state_class::active</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>active switch </p>
+
+</div>
+</div>
+<a id="af6fed1305d203d1081664934e2d6bcbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6fed1305d203d1081664934e2d6bcbc">&#9670;&nbsp;</a></span>age</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec_time) tracer3d::tracer_state_class::age</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f8b523edbed09e372976f6cd1f6050a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f8b523edbed09e372976f6cd1f6050a">&#9670;&nbsp;</a></span>depth</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) tracer3d::tracer_state_class::depth</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Depth of the tracer (m) </p>
+
+</div>
+</div>
+<a id="a25f9790ae2d566076ee53216bae4305c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25f9790ae2d566076ee53216bae4305c">&#9670;&nbsp;</a></span>pos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(vector) tracer3d::tracer_state_class::pos</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Position of the tracer (m) </p>
+
+</div>
+</div>
+<a id="a0b11fa789fa23c2c183b93f320fe854e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b11fa789fa23c2c183b93f320fe854e">&#9670;&nbsp;</a></span>t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) tracer3d::tracer_state_class::t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Temperature of the tracer (Celcius) </p>
+
+</div>
+</div>
+<a id="a4cb6681f1a9d48fbe5c2fc6f0808cdb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cb6681f1a9d48fbe5c2fc6f0808cdb5">&#9670;&nbsp;</a></span>vel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(vector) tracer3d::tracer_state_class::vel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Velocity of the tracer (m s-1) </p>
+
+</div>
+</div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>src/lib/tracer3D.f90</li>
+<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="tracer3_d_8f90.html">tracer3D.f90</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacetracer3d.html">tracer3d</a></li><li class="navelem"><a class="el" href="structtracer3d_1_1tracer__state__class.html">tracer_state_class</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>
+  </ul>
+</div>
 </body>
 </html>

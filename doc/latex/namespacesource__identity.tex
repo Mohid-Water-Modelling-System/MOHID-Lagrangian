@@ -5,17 +5,30 @@
 Module that defines a source class and related methods.  
 
 
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ The source class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsource__identity_1_1source__par__class}{source\+\_\+par\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structsource__identity_1_1source__state__class}{source\+\_\+state\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ state variables of a source object. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsource__identity_1_1source__stats__class}{source\+\_\+stats\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
 subroutine, public \mbox{\hyperlink{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}{allocsources}} (nsources)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine, public \mbox{\hyperlink{namespacesource__identity_a3939e59172252d0edce57e00ea41758d}{initsource}} (num, id, name, emitting\+\_\+rate, source\+\_\+geometry, geometry)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5}{printsource}} (src)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(source\+\_\+class), dimension(\+:), allocatable, public \mbox{\hyperlink{namespacesource__identity_a5ed8006613af7461c6a2ff1cdaeb8f0f}{source}}
+type(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}}), dimension(\+:), allocatable, public \mbox{\hyperlink{namespacesource__identity_a5ed8006613af7461c6a2ff1cdaeb8f0f}{source}}
 \end{DoxyCompactItemize}
 
 
@@ -43,6 +56,13 @@ source allocation routine -\/ allocates the sources objects
 \mbox{\tt in}  & {\em nsources} & \\
 \hline
 \end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e_icgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{namespacesource__identity_a3939e59172252d0edce57e00ea41758d}\label{namespacesource__identity_a3939e59172252d0edce57e00ea41758d}} 
 \index{source\+\_\+identity@{source\+\_\+identity}!initsource@{initsource}}
 \index{initsource@{initsource}!source\+\_\+identity@{source\+\_\+identity}}
@@ -60,6 +80,42 @@ source inititialization routine -\/ Generates a source and initializes its varia
 \mbox{\tt in}  & {\em num,id,name,emitting\+\_\+rate,source\+\_\+geometry} & \\
 \hline
 \end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesource__identity_a3939e59172252d0edce57e00ea41758d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesource__identity_a3939e59172252d0edce57e00ea41758d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5}\label{namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5}} 
+\index{source\+\_\+identity@{source\+\_\+identity}!printsource@{printsource}}
+\index{printsource@{printsource}!source\+\_\+identity@{source\+\_\+identity}}
+\subsubsection{\texorpdfstring{printsource()}{printsource()}}
+{\footnotesize\ttfamily subroutine source\+\_\+identity\+::printsource (\begin{DoxyParamCaption}\item[{type(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}}), intent(in)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source print routine -\/ prints a source info on console/log 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em src} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesource__identity_ac4fc3a54de91016023a7948d261f84a5_icgraph}
+\end{center}
+\end{figure}
 
 
 \subsection{Variable Documentation}
@@ -67,5 +123,5 @@ source inititialization routine -\/ Generates a source and initializes its varia
 \index{source\+\_\+identity@{source\+\_\+identity}!source@{source}}
 \index{source@{source}!source\+\_\+identity@{source\+\_\+identity}}
 \subsubsection{\texorpdfstring{source}{source}}
-{\footnotesize\ttfamily type(source\+\_\+class), dimension(\+:), allocatable, public source\+\_\+identity\+::source}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}}), dimension(\+:), allocatable, public source\+\_\+identity\+::source}
 

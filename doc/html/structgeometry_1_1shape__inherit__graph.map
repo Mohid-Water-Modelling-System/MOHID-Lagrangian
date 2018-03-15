@@ -1,0 +1,6 @@
+<map id="geometry::shape" name="geometry::shape">
+<area shape="rect" id="node2" href="$structgeometry_1_1box.html" title="Type &#45; point class. " alt="" coords="5,80,111,107"/>
+<area shape="rect" id="node3" href="$structgeometry_1_1line.html" title="Type &#45; line class. " alt="" coords="135,80,239,107"/>
+<area shape="rect" id="node4" href="$structgeometry_1_1point.html" title="Type &#45; point class. " alt="" coords="263,80,375,107"/>
+<area shape="rect" id="node5" href="$structgeometry_1_1sphere.html" title="Type &#45; sphere class. " alt="" coords="399,80,522,107"/>
+</map>

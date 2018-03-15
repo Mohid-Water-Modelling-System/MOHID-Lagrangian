@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['end',['end',['../structgeometry_1_1line.html#abb0cc12686d150b6b47d1aeee924cbd9',1,'geometry::line']]],
-  ['err_5fdist',['err_dist',['../namespacetracer__precision.html#ac58a793d67c36de01068a6315cb0211f',1,'tracer_precision']]],
-  ['err_5find',['err_ind',['../namespacetracer__precision.html#a8a4267e1aa9cc99d32b65d07cb31cb2a',1,'tracer_precision']]]
+  ['emitting_5frate',['emitting_rate',['../structsource__identity_1_1source__par__class.html#a26353d5ad314f4214d45e9258412130e',1,'source_identity::source_par_class']]],
+  ['err_5fdist',['err_dist',['../namespacesimulation__precision.html#acb6a32a47c43de36b53bb8033aa2738e',1,'simulation_precision']]],
+  ['err_5find',['err_ind',['../namespacesimulation__precision.html#a531d4e8c47b468cf4212393a5b84c7c8',1,'simulation_precision']]]
 ];

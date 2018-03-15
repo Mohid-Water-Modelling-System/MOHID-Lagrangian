@@ -1,7 +1,7 @@
 
 module tracer_interp 
 
-    use tracer_precision    
+    use simulation_precision    
 
     implicit none 
 

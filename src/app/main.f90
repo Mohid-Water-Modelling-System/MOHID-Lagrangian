@@ -38,5 +38,7 @@
     ! Initialization routines to build the xml-defined case
     call initMohidLagrangian(defxmlfilename)
 
+    ! Finalization of the program - deallocation, file closing, etc
+    call finalizeMohidLagrangian
 
     end program MOHIDLagrangian
