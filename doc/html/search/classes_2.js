@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['point',['point',['../structgeometry_1_1point.html',1,'geometry']]]
+  ['line',['line',['../structgeometry_1_1line.html',1,'geometry']]]
 ];

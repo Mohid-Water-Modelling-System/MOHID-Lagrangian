@@ -16,7 +16,7 @@
     ! DESCRIPTION:
     !> Module with the simulation initialization related definitions and methods. Has one public access routine that is incharge of building the simulation space from input files.
     !------------------------------------------------------------------------------
-    
+
     module initialize
 
     use tracer3D
@@ -33,8 +33,8 @@
     !Public access procedures
     public :: initMohidLagrangian
 
-    contains    
-    
+    contains
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -50,7 +50,7 @@
     type(string), intent(in) :: tag             !<Tag to search in xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
     type(string), intent(out) :: att_value      !<Attribute value
-    
+
     type(string) :: outext
     character(80) :: att_value_chars
     type(NodeList), pointer :: nodeList
@@ -64,17 +64,17 @@
         att_value=trim(att_value_chars)
     else
         outext='Could not find any '//tag//' tag for xml node '//getNodeName(xmlnode)//', stoping'
-        call ToLog(outext)        
+        call ToLog(outext)
         stop
     endif
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private vector xml parser routine. Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z" /> 
+    !> Private vector xml parser routine. Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z" />
     !
     !> @param[in] xmlnode, tag, vec
     !---------------------------------------------------------------------------
@@ -114,8 +114,8 @@
     subroutine read_xml_geometry(source,source_detail,geometry)
     implicit none
     type(Node), intent(in), pointer :: source           !<Working xml node
-    type(Node), intent(in), pointer :: source_detail    !<Working xml node details 
-    
+    type(Node), intent(in), pointer :: source_detail    !<Working xml node details
+
     type(string) :: outext
     class(shape), intent(inout) :: geometry
     type(string) :: tag
@@ -130,7 +130,7 @@
         call readxmlvector(source,tag,geometry%size)
     class is (point)
         tag='point'
-        call readxmlvector(source,tag,geometry%pt)        
+        call readxmlvector(source,tag,geometry%pt)
     class is (line)
         tag='pointa'
         call readxmlvector(source,tag,geometry%pt)
@@ -139,8 +139,8 @@
     class is (sphere)
         tag='point'
         call readxmlvector(source,tag,geometry%pt)
-        call extractDataAttribute(source_detail, "radius", geometry%radius)        
-    class default
+        call extractDataAttribute(source_detail, "radius", geometry%radius)
+        class default
         outext='read_xml_geometry: unexpected type for geometry object!'
         call ToLog(outext)
         stop
@@ -164,9 +164,9 @@
     type(string) :: outext
     type(NodeList), pointer :: sourcedefList        !< Node list for simulationdefs
     type(NodeList), pointer :: sourceList           !< Node list for sources
-    type(NodeList), pointer :: sourcedetailList
+    type(NodeList), pointer :: sourceChildren      !< Node list for source node children nodes
     type(Node), pointer :: sourcedef
-    type(Node), pointer :: source                   !< Single source block to process
+    type(Node), pointer :: source_node                   !< Single source block to process
     type(Node), pointer :: source_detail
     integer :: i, j, k
     !source vars
@@ -180,45 +180,50 @@
     nullify(sourceList)
     sourcedefList => getElementsByTagname(parsedxml, "sourcedef")       !searching for tags with the 'simulationdefs' name
     sourcedef => item(sourcedefList,0)
-    sourceList => getElementsByTagname(sourcedef, "source")    
+    sourceList => getElementsByTagname(sourcedef, "source")
 
     call allocSources(getLength(sourceList))                         !allocating the source objects
 
     do j = 0, getLength(sourceList) - 1
-        source => item(sourceList,j)        
+        source_node => item(sourceList,j)
         tag="setsource"
         att_name="id"
-        call readxmlatt(source, tag, att_name, att_val)
+        call readxmlatt(source_node, tag, att_name, att_val)
         id=att_val%to_number(I1P)
         att_name="name"
-        call readxmlatt(source, tag, att_name, name)        
+        call readxmlatt(source_node, tag, att_name, name)
         tag="set"
         att_name="emitting_rate"
-        call readxmlatt(source, tag, att_name, att_val)
+        call readxmlatt(source_node, tag, att_name, att_val)
         val = att_val%chars()
         read(val,*)emitting_rate
         !now we need to find out the geometry of the source and read accordingly
-        nullify(sourcedetailList)
-        source_detail => item(getChildNodes(source),5)   !this is really ugly, but there seems to be a bug here. This effectivelly hardcodes the geometry position in the xml...
-        source_geometry = getNodeName(source_detail)
-        select case (source_geometry%chars())
-        case ('point')
-            allocate(point::geometry)
-        case ('sphere')
-            allocate(sphere::geometry)            
-        case ('box')
-            allocate(box::geometry)
-        case ('line')
-            allocate(line::geometry)
-        case default
-            outext='init_sources: unexpected type for geometry object!'
-            call ToLog(outext)
-            stop
-        end select
-        call read_xml_geometry(source,source_detail,geometry)
+        sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
+        do i=0, getLength(sourceChildren)-1
+            source_detail => item(sourceChildren,i) !grabing a node
+            source_geometry = getLocalName(source_detail)  !finding its name          
+            if (IsValidGeom(source_geometry)) then  !if the node is a valid geometry name
+                select case (source_geometry%chars())
+                case ('point')
+                    allocate(point::geometry)
+                case ('sphere')
+                    allocate(sphere::geometry)
+                case ('box')
+                    allocate(box::geometry)
+                case ('line')
+                    allocate(line::geometry)
+                case default
+                    outext='init_sources: unexpected type for geometry object!'
+                    call ToLog(outext)
+                    stop
+                end select
+                call read_xml_geometry(source_node,source_detail,geometry)
+                exit
+            endif
+        enddo        
 
         !initializing Source j
-        call initSource(j+1,id,name,emitting_rate,source_geometry,geometry)
+        call Source(j+1)%initialize(id,name,emitting_rate,source_geometry,geometry)
 
         deallocate(geometry)
     enddo
@@ -240,30 +245,30 @@
     type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
 
     type(NodeList), pointer :: defsList       !< Node list for simdefs
-    type(Node), pointer :: simdefs            !< Single simdefs block to process
+    type(Node), pointer :: simdefs_node            !< Single simdefs block to process
     type(string) :: outext
     real(prec) :: i
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
-    
+
     outext='-->Reading case simulation definitions'
     call ToLog(outext,.false.)
-    
+
     nullify(defsList)
     defsList => getElementsByTagname(parsedxml, "simulationdefs")       !searching for nodes with the 'simulationdefs' name
-    simdefs => item(defsList,0)
+    simdefs_node => item(defsList,0)
     tag="resolution"
     att_name="dp"
-    call readxmlatt(simdefs, tag, att_name, att_val)    
-    call setSimDp(att_val)    
+    call readxmlatt(simdefs_node, tag, att_name, att_val)
+    call SimDefs%setdp(att_val)
 
     pts=(/ 'pointmin', 'pointmax'/) !strings to search for
     do i=1, size(pts)
-        call readxmlvector(simdefs, pts(i), coords)
-        call setSimBounds(pts(i), coords)        
+        call readxmlvector(simdefs_node, pts(i), coords)
+        call SimDefs%setboundingbox(pts(i), coords)
     enddo
-    call printSimDefs
-    
+    call SimDefs%printout()
+
     return
     end subroutine
 
@@ -281,25 +286,25 @@
     type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
 
     type(NodeList), pointer :: constsList       !< Node list for constants
-    type(Node), pointer :: constants            !< Single constants block to process
+    type(Node), pointer :: constants_node            !< Single constants block to process
     type(string) :: outext
     type(string) :: tag, att_name, att_val
     type(vector) :: coords
-    
+
     outext='-->Reading case constants'
     call ToLog(outext,.false.)
-       
+
     nullify(constsList)
     constsList => getElementsByTagname(parsedxml, "constantsdef")       !searching for nodes with the 'constantsdef' name
-    constants => item(constsList,0)    
+    constants_node => item(constsList,0)
     tag="Gravity"
-    call readxmlvector(constants, tag, coords)
-    call setSimGravity(coords)    
+    call readxmlvector(constants_node, tag, coords)
+    call Constants%setgravity(coords)
     tag="Rho_ref"
     att_name="value"
-    call readxmlatt(constants, tag, att_name, att_val)    
-    call setSimRho(att_val) 
-    
+    call readxmlatt(constants_node, tag, att_name, att_val)
+    call Constants%setrho(att_val)
+
     return
     end subroutine
 
@@ -318,19 +323,19 @@
 
     type(string) :: outext
     type(NodeList), pointer :: parameterList, parametersList        !< Node list for parameters
-    type(Node), pointer :: parmt, parameters                    !< Single parameter block to process
+    type(Node), pointer :: parmt, parameters_node                    !< Single parameter block to process
     integer :: i
     type(string) :: parmkey, parmvalue
     character(80) :: parmkey_char, parmvalue_char
-    
+
     outext='-->Reading case parameters'
-    call ToLog(outext,.false.)    
+    call ToLog(outext,.false.)
 
     nullify(parameterList)
     nullify(parametersList)
     parametersList => getElementsByTagname(parsedxml, "parameters")
-    parameters => item(parametersList,0)
-    parameterList => getElementsByTagname(parameters, "parameter")       !searching for tags with the 'parameter' name
+    parameters_node => item(parametersList,0)
+    parameterList => getElementsByTagname(parameters_node, "parameter")       !searching for tags with the 'parameter' name
     if (associated(parameterList)) then                                !checking if the list is not empty
         do i = 0, getLength(parameterList) - 1                          !extracting parameter tags one by one
             parmt => item(parameterList, i)
@@ -338,16 +343,16 @@
             call extractDataAttribute(parmt, "value", parmvalue_char)   !value of the parameter
             parmkey=trim(parmkey_char)
             parmvalue=trim(parmvalue_char)
-            call setSimParameter(parmkey,parmvalue)
+            call Parameters%setparameter(parmkey,parmvalue)
         enddo
     else
         outext='Could not find any parameter tag in input file, stopping'
-        call ToLog(outext)        
+        call ToLog(outext)
         stop
     endif
-    
-    call printSimParameters
-    
+
+    call Parameters%printout()
+
     return
     end subroutine
 
@@ -369,16 +374,17 @@
     type(string) :: outext
     type(Node), pointer :: xmldoc                   !< .xml file handle
     integer :: i
-    
+
     call PrintLicPreamble
-    
+    call AllocateGeomList
+
     !check if log file was opened - if not stop here
     if (Log_unit==0) then
         outext='->Logger initialized'
         call ToLog(outext)
     else
         stop 'Logger has not been initialized, stopping'
-    end if    
+    end if
 
     xmldoc => parseFile(xmlfilename%chars(), iostat=i)
     if (i==0) then
@@ -386,10 +392,10 @@
         call ToLog(outext)
     else
         outext='Could not open '//xmlfilename//' input file, give me at least that!'
-        call ToLog(outext)        
+        call ToLog(outext)
         stop
     endif
-   
+
     call init_caseconstants(xmldoc)
     call init_simdefs(xmldoc)
     call init_parameters(xmldoc)

@@ -1,20 +1,10 @@
 <map id="initialize::initmohidlagrangian" name="initialize::initmohidlagrangian">
-<area shape="rect" id="node2" href="$namespaceinitialize.html#a00eae5cde006bc91bc7a03e640e6ee83" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="241,297,428,324"/>
-<area shape="rect" id="node7" href="$namespaceinitialize.html#a9bd773485c427abd68ca801c02b1b08c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="261,436,408,463"/>
-<area shape="rect" id="node11" href="$namespaceinitialize.html#a0de593b39b1b0389d225f93de17dc15d" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="251,661,418,688"/>
-<area shape="rect" id="node15" href="$namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="261,115,408,141"/>
-<area shape="rect" id="node3" href="$namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="727,356,885,383"/>
-<area shape="rect" id="node4" href="$namespacesimulation__globals.html#abe9252e2e73b8a074700d49b705664ef" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,290,636,331"/>
-<area shape="rect" id="node5" href="$namespaceinitialize.html#aba73c51d0609ff6d0c3bb172f00620e3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="502,173,641,200"/>
-<area shape="rect" id="node6" href="$namespacesimulation__globals.html#acb970c567557ee852be95afe8d3f2b0f" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,225,636,266"/>
-<area shape="rect" id="node8" href="$namespacesimulation__globals.html#a279b7a2988da04ca81146f0a8f154ca9" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,523,636,565"/>
-<area shape="rect" id="node9" href="$namespacesimulation__globals.html#a8e4aaa3352a4aa807b5cdf0a537c13e8" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,589,636,630"/>
-<area shape="rect" id="node10" href="$namespacesimulation__globals.html#a1683e8f5cab2101e7e3dbc91108b64a3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,458,636,499"/>
-<area shape="rect" id="node12" href="$namespacesimulation__globals.html#a7a127d09219ed57ad8db3507dbbefe5b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="507,719,636,761"/>
-<area shape="rect" id="node13" href="$namespacesimulation__globals.html#a1e5d10f7d7954c9d5346294c72a738c1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="501,654,642,695"/>
-<area shape="rect" id="node14" href="$namespacesimulation__globals.html#a2c6bf88542c503d1da58280ab3dcf772" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="739,654,873,695"/>
-<area shape="rect" id="node16" href="$namespacesource__identity.html#a716b4cb4acec5756a6d4dcf20eee588e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="476,56,667,83"/>
-<area shape="rect" id="node17" href="$namespaceinitialize.html#ad36e4f602dab66c06a1f0e2474e9f0a6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="506,107,637,149"/>
-<area shape="rect" id="node18" href="$namespacesource__identity.html#a3939e59172252d0edce57e00ea41758d" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="484,5,659,32"/>
-<area shape="rect" id="node19" href="$namespacesource__identity.html#ac4fc3a54de91016023a7948d261f84a5" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="715,5,897,32"/>
+<area shape="rect" id="node2" href="$namespaceinitialize.html#a00eae5cde006bc91bc7a03e640e6ee83" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="241,122,428,149"/>
+<area shape="rect" id="node5" href="$namespaceinitialize.html#a9bd773485c427abd68ca801c02b1b08c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="261,173,408,199"/>
+<area shape="rect" id="node6" href="$namespaceinitialize.html#a0de593b39b1b0389d225f93de17dc15d" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="251,223,418,250"/>
+<area shape="rect" id="node7" href="$namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="261,71,408,98"/>
+<area shape="rect" id="node3" href="$namespaceinitialize.html#af6a2b47aebc09a89d9c795635fa393c6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="715,122,872,149"/>
+<area shape="rect" id="node4" href="$namespaceinitialize.html#aba73c51d0609ff6d0c3bb172f00620e3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="502,173,641,199"/>
+<area shape="rect" id="node8" href="$namespacesource__identity.html#a716b4cb4acec5756a6d4dcf20eee588e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="476,71,667,98"/>
+<area shape="rect" id="node9" href="$namespaceinitialize.html#ad36e4f602dab66c06a1f0e2474e9f0a6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="506,5,637,47"/>
 </map>

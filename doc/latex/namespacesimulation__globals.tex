@@ -5,48 +5,43 @@
 Module to finalize the simulation. This presents a public routine that is in charge of deallocating all global variables, closing all files and print some simulation-\/related statistics.  
 
 
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Case Constants class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation definitions class. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b}{setsimparameter}} (parmkey, parmvalue)
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a541b7227b2876577661cf199d4e7a890}{setparameter}} (parm, parmkey, parmvalue)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef}{setsimgravity}} (grav)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f}{setsimrho}} (read\+\_\+rho)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9}{setsimdp}} (read\+\_\+dp)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8}{setsimbounds}} (point\+\_\+, coords)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a1683e8f5cab2101e7e3dbc91108b64a3}{printsimdefs}}
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a1e5d10f7d7954c9d5346294c72a738c1}{printsimparameters}}
+subroutine \mbox{\hyperlink{namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa}{printsimparameters}} (parm)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772}{getintegratorname}} (name, code)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_ac655f60155581a71b312f3c1a8c87db2}{setgravity}} (self, grav)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_acfdc640757f0275bccb1d8de7bd7dc92}{setrho}} (self, read\+\_\+rho)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a9a8e88c06937b7cf6be9d9bf30f54ba9}{setdp}} (self, read\+\_\+dp)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a1fc4653684d73efecdbd140b6cafe541}{setboundingbox}} (self, point\+\_\+, coords)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_ad90d6959da1d43e2cd1febff82187ed5}{printsimdefs}} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-integer, public \mbox{\hyperlink{namespacesimulation__globals_a56eb8ca9469c8bc172fa289bee344a85}{integrator}} = 1
-\begin{DoxyCompactList}\small\item\em Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_ab022711051f6c5905fa22f5f715d0efb}{cfl}} = 0.\+5
-\begin{DoxyCompactList}\small\item\em Courant Friedrichs Lewy condition number. \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_a1be81c2d5db4400cd1a9a1c4e25728d2}{warmuptime}} = 0.\+0
-\begin{DoxyCompactList}\small\item\em Time to freeze the tracers at simulation start (warmup) (s) (default=0.\+0) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_aca61ad35c1c57ca41152ce3707d412e3}{timemax}} = MV
-\begin{DoxyCompactList}\small\item\em Simulation duration (s) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_ac867a68f020b7352cd68bbe996cfdf24}{timeout}} = MV
-\begin{DoxyCompactList}\small\item\em Time out data (1/\+Hz) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_ad8772390891d3fa9d701db0fc341a1ab}{dp}} = MV
-\begin{DoxyCompactList}\small\item\em Initial particle spacing at source generation. \end{DoxyCompactList}\item 
-type(vector), public \mbox{\hyperlink{namespacesimulation__globals_ab2427b2b4beb2d54ecc2b61862c09dcf}{pointmin}}
-\begin{DoxyCompactList}\small\item\em Point that defines the lowest corner of the simulation bounding box. \end{DoxyCompactList}\item 
-type(vector), public \mbox{\hyperlink{namespacesimulation__globals_aa7feec60259c6f63f3dba3a523ed5a60}{pointmax}}
-\begin{DoxyCompactList}\small\item\em Point that defines the upper corner of the simulation bounding box. \end{DoxyCompactList}\item 
-type(vector), public \mbox{\hyperlink{namespacesimulation__globals_a7308742dbca1348161d6cb02a06aa2a2}{gravity}}
-\begin{DoxyCompactList}\small\item\em Gravitational acceleration vector (default=(0 0 -\/9.\+81)) (m s-\/2) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_a401ef3172f26620b9e089d7b297b36a0}{rho\+\_\+ref}} = 1000.\+0
-\begin{DoxyCompactList}\small\item\em Reference density of the medium (default=1000.\+0) (kg m-\/3) \end{DoxyCompactList}\end{DoxyCompactItemize}
+type(\mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_\+t}}), public \mbox{\hyperlink{namespacesimulation__globals_ac23e87cbb2256792d683ab1bf5dc5e21}{parameters}}
+\item 
+type(\mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}}), public \mbox{\hyperlink{namespacesimulation__globals_ae851f977b442737307cd4bb76f2f68be}{simdefs}}
+\item 
+type(\mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}}), public \mbox{\hyperlink{namespacesimulation__globals_aa3e1a54abbb08d2c09978a3509ec4303}{constants}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -73,58 +68,42 @@ private routine to get integrator scheme name Here is the caller graph for this 
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772_icgraph}
+\includegraphics[width=323pt]{namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{namespacesimulation__globals_a1683e8f5cab2101e7e3dbc91108b64a3}\label{namespacesimulation__globals_a1683e8f5cab2101e7e3dbc91108b64a3}} 
+\mbox{\Hypertarget{namespacesimulation__globals_ad90d6959da1d43e2cd1febff82187ed5}\label{namespacesimulation__globals_ad90d6959da1d43e2cd1febff82187ed5}} 
 \index{simulation\+\_\+globals@{simulation\+\_\+globals}!printsimdefs@{printsimdefs}}
 \index{printsimdefs@{printsimdefs}!simulation\+\_\+globals@{simulation\+\_\+globals}}
 \subsubsection{\texorpdfstring{printsimdefs()}{printsimdefs()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+globals\+::printsimdefs (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::printsimdefs (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}})}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-Public simulation definitions printing routine. Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_a1683e8f5cab2101e7e3dbc91108b64a3_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespacesimulation__globals_a1e5d10f7d7954c9d5346294c72a738c1}\label{namespacesimulation__globals_a1e5d10f7d7954c9d5346294c72a738c1}} 
+Public simulation definitions printing routine. \mbox{\Hypertarget{namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa}\label{namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa}} 
 \index{simulation\+\_\+globals@{simulation\+\_\+globals}!printsimparameters@{printsimparameters}}
 \index{printsimparameters@{printsimparameters}!simulation\+\_\+globals@{simulation\+\_\+globals}}
 \subsubsection{\texorpdfstring{printsimparameters()}{printsimparameters()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+globals\+::printsimparameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::printsimparameters (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_\+t}})}]{parm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-Public parameter printing routine. Here is the call graph for this function\+:
+Private parameter printing routine. Here is the call graph for this function\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=323pt]{namespacesimulation__globals_a1e5d10f7d7954c9d5346294c72a738c1_cgraph}
+\includegraphics[width=323pt]{namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_a1e5d10f7d7954c9d5346294c72a738c1_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8}\label{namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setsimbounds@{setsimbounds}}
-\index{setsimbounds@{setsimbounds}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{setsimbounds()}{setsimbounds()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+globals\+::setsimbounds (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{point\+\_\+,  }\item[{type(vector)}]{coords }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacesimulation__globals_a1fc4653684d73efecdbd140b6cafe541}\label{namespacesimulation__globals_a1fc4653684d73efecdbd140b6cafe541}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setboundingbox@{setboundingbox}}
+\index{setboundingbox@{setboundingbox}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{setboundingbox()}{setboundingbox()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::setboundingbox (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}})}]{self,  }\item[{type(string), intent(in)}]{point\+\_\+,  }\item[{type(vector)}]{coords }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -135,19 +114,11 @@ Public bounding box setting routine.
 \mbox{\tt in}  & {\em point\+\_\+,coords} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9}\label{namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setsimdp@{setsimdp}}
-\index{setsimdp@{setsimdp}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{setsimdp()}{setsimdp()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+globals\+::setsimdp (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacesimulation__globals_a9a8e88c06937b7cf6be9d9bf30f54ba9}\label{namespacesimulation__globals_a9a8e88c06937b7cf6be9d9bf30f54ba9}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setdp@{setdp}}
+\index{setdp@{setdp}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{setdp()}{setdp()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::setdp (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}})}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -158,19 +129,11 @@ Public dp setting routine.
 \mbox{\tt in}  & {\em read\+\_\+dp} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef}\label{namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setsimgravity@{setsimgravity}}
-\index{setsimgravity@{setsimgravity}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{setsimgravity()}{setsimgravity()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+globals\+::setsimgravity (\begin{DoxyParamCaption}\item[{type(vector)}]{grav }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacesimulation__globals_ac655f60155581a71b312f3c1a8c87db2}\label{namespacesimulation__globals_ac655f60155581a71b312f3c1a8c87db2}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setgravity@{setgravity}}
+\index{setgravity@{setgravity}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{setgravity()}{setgravity()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::setgravity (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}})}]{self,  }\item[{type(vector)}]{grav }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -181,42 +144,26 @@ Public Gravity setting routine.
 \mbox{\tt in}  & {\em grav} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b}\label{namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setsimparameter@{setsimparameter}}
-\index{setsimparameter@{setsimparameter}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{setsimparameter()}{setsimparameter()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+globals\+::setsimparameter (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{parmkey,  }\item[{type(string), intent(in)}]{parmvalue }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacesimulation__globals_a541b7227b2876577661cf199d4e7a890}\label{namespacesimulation__globals_a541b7227b2876577661cf199d4e7a890}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setparameter@{setparameter}}
+\index{setparameter@{setparameter}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{setparameter()}{setparameter()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::setparameter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_\+t}})}]{parm,  }\item[{type(string), intent(in)}]{parmkey,  }\item[{type(string), intent(in)}]{parmvalue }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-Public parameter setting routine. Builds the simulation parametric space from the input xml case file. 
+Private parameter setting routine. Builds the simulation parametric space from the input case file. 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parmkey,parmvalue} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f}\label{namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setsimrho@{setsimrho}}
-\index{setsimrho@{setsimrho}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{setsimrho()}{setsimrho()}}
-{\footnotesize\ttfamily subroutine, public simulation\+\_\+globals\+::setsimrho (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{read\+\_\+rho }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacesimulation__globals_acfdc640757f0275bccb1d8de7bd7dc92}\label{namespacesimulation__globals_acfdc640757f0275bccb1d8de7bd7dc92}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!setrho@{setrho}}
+\index{setrho@{setrho}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{setrho()}{setrho()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::setrho (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}})}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+rho }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -227,114 +174,24 @@ Public Rho\+\_\+\+Ref setting routine.
 \mbox{\tt in}  & {\em read\+\_\+rho} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f_icgraph}
-\end{center}
-\end{figure}
 
 
 \subsection{Variable Documentation}
-\mbox{\Hypertarget{namespacesimulation__globals_ab022711051f6c5905fa22f5f715d0efb}\label{namespacesimulation__globals_ab022711051f6c5905fa22f5f715d0efb}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!cfl@{cfl}}
-\index{cfl@{cfl}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{cfl}{cfl}}
-{\footnotesize\ttfamily real(prec), public simulation\+\_\+globals\+::cfl = 0.\+5}
+\mbox{\Hypertarget{namespacesimulation__globals_aa3e1a54abbb08d2c09978a3509ec4303}\label{namespacesimulation__globals_aa3e1a54abbb08d2c09978a3509ec4303}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!constants@{constants}}
+\index{constants@{constants}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{constants}{constants}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}}), public simulation\+\_\+globals\+::constants}
 
+\mbox{\Hypertarget{namespacesimulation__globals_ac23e87cbb2256792d683ab1bf5dc5e21}\label{namespacesimulation__globals_ac23e87cbb2256792d683ab1bf5dc5e21}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!parameters@{parameters}}
+\index{parameters@{parameters}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{parameters}{parameters}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_\+t}}), public simulation\+\_\+globals\+::parameters}
 
-
-Courant Friedrichs Lewy condition number. 
-
-\mbox{\Hypertarget{namespacesimulation__globals_ad8772390891d3fa9d701db0fc341a1ab}\label{namespacesimulation__globals_ad8772390891d3fa9d701db0fc341a1ab}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!dp@{dp}}
-\index{dp@{dp}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{dp}{dp}}
-{\footnotesize\ttfamily real(prec), public simulation\+\_\+globals\+::dp = MV}
-
-
-
-Initial particle spacing at source generation. 
-
-\mbox{\Hypertarget{namespacesimulation__globals_a7308742dbca1348161d6cb02a06aa2a2}\label{namespacesimulation__globals_a7308742dbca1348161d6cb02a06aa2a2}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!gravity@{gravity}}
-\index{gravity@{gravity}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{gravity}{gravity}}
-{\footnotesize\ttfamily type(vector), public simulation\+\_\+globals\+::gravity}
-
-
-
-Gravitational acceleration vector (default=(0 0 -\/9.\+81)) (m s-\/2) 
-
-\mbox{\Hypertarget{namespacesimulation__globals_a56eb8ca9469c8bc172fa289bee344a85}\label{namespacesimulation__globals_a56eb8ca9469c8bc172fa289bee344a85}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!integrator@{integrator}}
-\index{integrator@{integrator}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{integrator}{integrator}}
-{\footnotesize\ttfamily integer, public simulation\+\_\+globals\+::integrator = 1}
-
-
-
-Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) 
-
-\mbox{\Hypertarget{namespacesimulation__globals_aa7feec60259c6f63f3dba3a523ed5a60}\label{namespacesimulation__globals_aa7feec60259c6f63f3dba3a523ed5a60}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!pointmax@{pointmax}}
-\index{pointmax@{pointmax}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{pointmax}{pointmax}}
-{\footnotesize\ttfamily type(vector), public simulation\+\_\+globals\+::pointmax}
-
-
-
-Point that defines the upper corner of the simulation bounding box. 
-
-\mbox{\Hypertarget{namespacesimulation__globals_ab2427b2b4beb2d54ecc2b61862c09dcf}\label{namespacesimulation__globals_ab2427b2b4beb2d54ecc2b61862c09dcf}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!pointmin@{pointmin}}
-\index{pointmin@{pointmin}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{pointmin}{pointmin}}
-{\footnotesize\ttfamily type(vector), public simulation\+\_\+globals\+::pointmin}
-
-
-
-Point that defines the lowest corner of the simulation bounding box. 
-
-\mbox{\Hypertarget{namespacesimulation__globals_a401ef3172f26620b9e089d7b297b36a0}\label{namespacesimulation__globals_a401ef3172f26620b9e089d7b297b36a0}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!rho\+\_\+ref@{rho\+\_\+ref}}
-\index{rho\+\_\+ref@{rho\+\_\+ref}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{rho\+\_\+ref}{rho\_ref}}
-{\footnotesize\ttfamily real(prec), public simulation\+\_\+globals\+::rho\+\_\+ref = 1000.\+0}
-
-
-
-Reference density of the medium (default=1000.\+0) (kg m-\/3) 
-
-\mbox{\Hypertarget{namespacesimulation__globals_aca61ad35c1c57ca41152ce3707d412e3}\label{namespacesimulation__globals_aca61ad35c1c57ca41152ce3707d412e3}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!timemax@{timemax}}
-\index{timemax@{timemax}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{timemax}{timemax}}
-{\footnotesize\ttfamily real(prec), public simulation\+\_\+globals\+::timemax = MV}
-
-
-
-Simulation duration (s) 
-
-\mbox{\Hypertarget{namespacesimulation__globals_ac867a68f020b7352cd68bbe996cfdf24}\label{namespacesimulation__globals_ac867a68f020b7352cd68bbe996cfdf24}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!timeout@{timeout}}
-\index{timeout@{timeout}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{timeout}{timeout}}
-{\footnotesize\ttfamily real(prec), public simulation\+\_\+globals\+::timeout = MV}
-
-
-
-Time out data (1/\+Hz) 
-
-\mbox{\Hypertarget{namespacesimulation__globals_a1be81c2d5db4400cd1a9a1c4e25728d2}\label{namespacesimulation__globals_a1be81c2d5db4400cd1a9a1c4e25728d2}} 
-\index{simulation\+\_\+globals@{simulation\+\_\+globals}!warmuptime@{warmuptime}}
-\index{warmuptime@{warmuptime}!simulation\+\_\+globals@{simulation\+\_\+globals}}
-\subsubsection{\texorpdfstring{warmuptime}{warmuptime}}
-{\footnotesize\ttfamily real(prec), public simulation\+\_\+globals\+::warmuptime = 0.\+0}
-
-
-
-Time to freeze the tracers at simulation start (warmup) (s) (default=0.\+0) 
+\mbox{\Hypertarget{namespacesimulation__globals_ae851f977b442737307cd4bb76f2f68be}\label{namespacesimulation__globals_ae851f977b442737307cd4bb76f2f68be}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!simdefs@{simdefs}}
+\index{simdefs@{simdefs}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{simdefs}{simdefs}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}}), public simulation\+\_\+globals\+::simdefs}
 

@@ -18,10 +18,6 @@
 !> built as derived of this class, with the necessary modifiers to model the desired behaviour.
 !> Basic tracer data (parameters, variables) are implemented.
 !> Tracer methods such as I/O, integration and interpolation routines are implemented.
-!
-! REVISION HISTORY:
-! 26 02 2018 - Initial Version
-! TODO_dd_mmm_yyyy - TODO_describe_appropriate_changes - TODO_name
 !------------------------------------------------------------------------------
     
 module tracer 

@@ -18,8 +18,8 @@
 
 MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
 =====================================================================
-2018-3-15 @17:41:22 ->Logger initialized
-2018-3-15 @17:41:22 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-3-16 @18:55:17 ->Logger initialized
+2018-3-16 @18:55:17 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case constants
  -->Reading case simulation definitions
        Initial resolution is +0.150000E+01 m
@@ -32,7 +32,7 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        +0.200050000000000E+005
        +0.405740000000000E+001
  -->Reading case parameters
-       Integrator scheme is Verlet
+       Integrator scheme is Runge-Kuta 4
        CFL=+0.800000E+00
        WarmUpTime=+0.100000E+00 s
        TimeMax=+0.100000E+03 s
@@ -69,4 +69,4 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        +0.100000000000000E+001
         0.000000000000000E+000
        Emitting rate of +0.500000E-01 Hz
-2018-3-15 @17:41:22 Simulation ended, freeing resources. See you next time
+2018-3-16 @18:55:17 Simulation ended, freeing resources. See you next time

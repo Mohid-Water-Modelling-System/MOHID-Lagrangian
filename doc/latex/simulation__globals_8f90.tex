@@ -1,5 +1,14 @@
 \hypertarget{simulation__globals_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+globals.f90 File Reference}
 \label{simulation__globals_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+globals.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+globals.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{simulation\+\_\+globals\+::parameters\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simulation\+\_\+globals\+::simdefs\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation definitions class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulation__globals_1_1constants__t}{simulation\+\_\+globals\+::constants\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Case Constants class. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
 \item 
@@ -8,42 +17,28 @@ module \mbox{\hyperlink{namespacesimulation__globals}{simulation\+\_\+globals}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a7a127d09219ed57ad8db3507dbbefe5b}{simulation\+\_\+globals\+::setsimparameter}} (parmkey, parmvalue)
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a541b7227b2876577661cf199d4e7a890}{simulation\+\_\+globals\+::setparameter}} (parm, parmkey, parmvalue)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_abe9252e2e73b8a074700d49b705664ef}{simulation\+\_\+globals\+::setsimgravity}} (grav)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_acb970c567557ee852be95afe8d3f2b0f}{simulation\+\_\+globals\+::setsimrho}} (read\+\_\+rho)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a279b7a2988da04ca81146f0a8f154ca9}{simulation\+\_\+globals\+::setsimdp}} (read\+\_\+dp)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a8e4aaa3352a4aa807b5cdf0a537c13e8}{simulation\+\_\+globals\+::setsimbounds}} (point\+\_\+, coords)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a1683e8f5cab2101e7e3dbc91108b64a3}{simulation\+\_\+globals\+::printsimdefs}}
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesimulation__globals_a1e5d10f7d7954c9d5346294c72a738c1}{simulation\+\_\+globals\+::printsimparameters}}
+subroutine \mbox{\hyperlink{namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa}{simulation\+\_\+globals\+::printsimparameters}} (parm)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772}{simulation\+\_\+globals\+::getintegratorname}} (name, code)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_ac655f60155581a71b312f3c1a8c87db2}{simulation\+\_\+globals\+::setgravity}} (self, grav)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_acfdc640757f0275bccb1d8de7bd7dc92}{simulation\+\_\+globals\+::setrho}} (self, read\+\_\+rho)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a9a8e88c06937b7cf6be9d9bf30f54ba9}{simulation\+\_\+globals\+::setdp}} (self, read\+\_\+dp)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a1fc4653684d73efecdbd140b6cafe541}{simulation\+\_\+globals\+::setboundingbox}} (self, point\+\_\+, coords)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_ad90d6959da1d43e2cd1febff82187ed5}{simulation\+\_\+globals\+::printsimdefs}} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-integer, public \mbox{\hyperlink{namespacesimulation__globals_a56eb8ca9469c8bc172fa289bee344a85}{simulation\+\_\+globals\+::integrator}} = 1
-\begin{DoxyCompactList}\small\item\em Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_ab022711051f6c5905fa22f5f715d0efb}{simulation\+\_\+globals\+::cfl}} = 0.\+5
-\begin{DoxyCompactList}\small\item\em Courant Friedrichs Lewy condition number. \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_a1be81c2d5db4400cd1a9a1c4e25728d2}{simulation\+\_\+globals\+::warmuptime}} = 0.\+0
-\begin{DoxyCompactList}\small\item\em Time to freeze the tracers at simulation start (warmup) (s) (default=0.\+0) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_aca61ad35c1c57ca41152ce3707d412e3}{simulation\+\_\+globals\+::timemax}} = MV
-\begin{DoxyCompactList}\small\item\em Simulation duration (s) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_ac867a68f020b7352cd68bbe996cfdf24}{simulation\+\_\+globals\+::timeout}} = MV
-\begin{DoxyCompactList}\small\item\em Time out data (1/\+Hz) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_ad8772390891d3fa9d701db0fc341a1ab}{simulation\+\_\+globals\+::dp}} = MV
-\begin{DoxyCompactList}\small\item\em Initial particle spacing at source generation. \end{DoxyCompactList}\item 
-type(vector), public \mbox{\hyperlink{namespacesimulation__globals_ab2427b2b4beb2d54ecc2b61862c09dcf}{simulation\+\_\+globals\+::pointmin}}
-\begin{DoxyCompactList}\small\item\em Point that defines the lowest corner of the simulation bounding box. \end{DoxyCompactList}\item 
-type(vector), public \mbox{\hyperlink{namespacesimulation__globals_aa7feec60259c6f63f3dba3a523ed5a60}{simulation\+\_\+globals\+::pointmax}}
-\begin{DoxyCompactList}\small\item\em Point that defines the upper corner of the simulation bounding box. \end{DoxyCompactList}\item 
-type(vector), public \mbox{\hyperlink{namespacesimulation__globals_a7308742dbca1348161d6cb02a06aa2a2}{simulation\+\_\+globals\+::gravity}}
-\begin{DoxyCompactList}\small\item\em Gravitational acceleration vector (default=(0 0 -\/9.\+81)) (m s-\/2) \end{DoxyCompactList}\item 
-real(prec), public \mbox{\hyperlink{namespacesimulation__globals_a401ef3172f26620b9e089d7b297b36a0}{simulation\+\_\+globals\+::rho\+\_\+ref}} = 1000.\+0
-\begin{DoxyCompactList}\small\item\em Reference density of the medium (default=1000.\+0) (kg m-\/3) \end{DoxyCompactList}\end{DoxyCompactItemize}
+type(parameters\+\_\+t), public \mbox{\hyperlink{namespacesimulation__globals_ac23e87cbb2256792d683ab1bf5dc5e21}{simulation\+\_\+globals\+::parameters}}
+\item 
+type(simdefs\+\_\+t), public \mbox{\hyperlink{namespacesimulation__globals_ae851f977b442737307cd4bb76f2f68be}{simulation\+\_\+globals\+::simdefs}}
+\item 
+type(constants\+\_\+t), public \mbox{\hyperlink{namespacesimulation__globals_aa3e1a54abbb08d2c09978a3509ec4303}{simulation\+\_\+globals\+::constants}}
+\end{DoxyCompactItemize}

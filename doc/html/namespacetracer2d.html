@@ -88,84 +88,17 @@ $(document).ready(function(){initNavTree('namespacetracer2d.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#func-members">Functions/Subroutines</a>  </div>
   <div class="headertitle">
 <div class="title">tracer2d Module Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Module that defines a pure Lagrangian 2D tracer class and related methods, as a subset of the tracer3D module.  
+<p>Module that holds the functions for 2D tracer models - typicaly these are called to cancel the vertical component computed for a general tracer.  
 <a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
-Functions/Subroutines</h2></td></tr>
-<tr class="memitem:abebf96ac23ed37832000c68fea45f584"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetracer2d.html#abebf96ac23ed37832000c68fea45f584">tracer2d_init</a> (trc, filename, time, x, is_sigma)</td></tr>
-<tr class="memdesc:abebf96ac23ed37832000c68fea45f584"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC Routine Author Name and Affiliation.  <a href="#abebf96ac23ed37832000c68fea45f584">More...</a><br /></td></tr>
-<tr class="separator:abebf96ac23ed37832000c68fea45f584"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Module that defines a pure Lagrangian 2D tracer class and related methods, as a subset of the tracer3D module. </p>
+<div class="textblock"><p>Module that holds the functions for 2D tracer models - typicaly these are called to cancel the vertical component computed for a general tracer. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
-</div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="abebf96ac23ed37832000c68fea45f584"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abebf96ac23ed37832000c68fea45f584">&#9670;&nbsp;</a></span>tracer2d_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine tracer2d::tracer2d_init </td>
-          <td>(</td>
-          <td class="paramtype">type(tracer_class), intent(out)&#160;</td>
-          <td class="paramname"><em>trc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character(len=*), intent(in)&#160;</td>
-          <td class="paramname"><em>filename</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(prec_time)&#160;</td>
-          <td class="paramname"><em>time</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(prec), dimension(:), intent(in)&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical, intent(in)&#160;</td>
-          <td class="paramname"><em>is_sigma</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Birjukovs Canelas - MARETEC Routine Author Name and Affiliation. </p>
-<p>Brief description of routine.</p>
-<p>2D Tracer inititialization routine - Generates a tracer collection and initializes their variables </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">trc</td><td><br />
-</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
