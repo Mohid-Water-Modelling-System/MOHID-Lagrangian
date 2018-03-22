@@ -13,7 +13,9 @@
 !> Ricardo Birjukovs Canelas
 !
 ! DESCRIPTION: 
-!> Module that defines an emitter class and related methods.
+!> Module that defines an emitter class and related methods. This module is 
+!> responsible for building a potential tracer list based on the availble 
+!> sources and calling their initializers.
 !------------------------------------------------------------------------------
     
 module source_emitter
@@ -23,6 +25,8 @@ module source_emitter
     
     implicit none
     private
+    
+    
     
         
     

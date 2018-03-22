@@ -19,7 +19,7 @@
 
     module initialize
 
-    use tracer3D
+    use tracer_base
     use simulation_globals
     use source_identity
     use about
@@ -34,7 +34,7 @@
     public :: initMohidLagrangian
 
     contains
-
+    
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -67,6 +67,7 @@
         call ToLog(outext)
         stop
     endif
+
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -115,9 +116,8 @@
     implicit none
     type(Node), intent(in), pointer :: source           !<Working xml node
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
-
-    type(string) :: outext
-    class(shape), intent(inout) :: geometry
+    class(shape), intent(inout) :: geometry             !<Geometrical object to fill
+    type(string) :: outext    
     type(string) :: tag
 
     select type (geometry)
@@ -168,12 +168,12 @@
     type(Node), pointer :: sourcedef
     type(Node), pointer :: source_node                   !< Single source block to process
     type(Node), pointer :: source_detail
-    integer :: i, j, k
+    integer :: i, j
     !source vars
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val
     character(80) :: val, name_char, source_geometry_char
-    real(prec) :: emitting_rate
+    real(prec) :: emitting_rate, start, finish
     class(shape), allocatable :: geometry
 
     nullify(sourcedefList)
@@ -189,19 +189,30 @@
         tag="setsource"
         att_name="id"
         call readxmlatt(source_node, tag, att_name, att_val)
-        id=att_val%to_number(I1P)
+        id=att_val%to_number(kind=1_I1P)
         att_name="name"
         call readxmlatt(source_node, tag, att_name, name)
         tag="set"
         att_name="emitting_rate"
         call readxmlatt(source_node, tag, att_name, att_val)
-        val = att_val%chars()
-        read(val,*)emitting_rate
+        emitting_rate = att_val%to_number(kind=1._R4P)
+        tag="active"
+        att_name='start'
+        call readxmlatt(source_node, tag, att_name, att_val)
+        start = att_val%to_number(kind=1._R4P)
+        tag="active"
+        att_name='end'
+        call readxmlatt(source_node, tag, att_name, att_val)
+        if (att_val%chars() == 'end') then
+            finish = Parameters%TimeMax
+        else
+            finish = att_val%to_number(kind=1._R4P)
+        endif
         !now we need to find out the geometry of the source and read accordingly
         sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
         do i=0, getLength(sourceChildren)-1
             source_detail => item(sourceChildren,i) !grabing a node
-            source_geometry = getLocalName(source_detail)  !finding its name          
+            source_geometry = getLocalName(source_detail)  !finding its name
             if (IsValidGeom(source_geometry)) then  !if the node is a valid geometry name
                 select case (source_geometry%chars())
                 case ('point')
@@ -212,7 +223,7 @@
                     allocate(box::geometry)
                 case ('line')
                     allocate(line::geometry)
-                case default
+                    case default
                     outext='init_sources: unexpected type for geometry object!'
                     call ToLog(outext)
                     stop
@@ -220,10 +231,10 @@
                 call read_xml_geometry(source_node,source_detail,geometry)
                 exit
             endif
-        enddo        
+        enddo
 
         !initializing Source j
-        call Source(j+1)%initialize(id,name,emitting_rate,source_geometry,geometry)
+        call Source(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,geometry)
 
         deallocate(geometry)
     enddo
@@ -261,7 +272,10 @@
     att_name="dp"
     call readxmlatt(simdefs_node, tag, att_name, att_val)
     call SimDefs%setdp(att_val)
-
+    tag="timestep"
+    att_name="dt"
+    call readxmlatt(simdefs_node, tag, att_name, att_val)
+    call SimDefs%setdt(att_val)
     pts=(/ 'pointmin', 'pointmax'/) !strings to search for
     do i=1, size(pts)
         call readxmlvector(simdefs_node, pts(i), coords)
@@ -377,6 +391,7 @@
 
     call PrintLicPreamble
     call AllocateGeomList
+    SimTime = 0.
 
     !check if log file was opened - if not stop here
     if (Log_unit==0) then
@@ -396,15 +411,20 @@
         stop
     endif
 
+    !initializing memory log
+    call SimMemory%init()
+
     call init_caseconstants(xmldoc)
     call init_simdefs(xmldoc)
     call init_parameters(xmldoc)
     call init_sources(xmldoc)
 
+    !printing memory occupation at the time
+    call SimMemory%printout()
+
     call destroy(xmldoc)
 
     return
-
     end subroutine
 
 

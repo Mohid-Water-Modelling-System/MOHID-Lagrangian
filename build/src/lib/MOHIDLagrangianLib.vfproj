@@ -25,21 +25,21 @@
 				<Tool Name="VFManifestTool"/></Configuration></Configurations>
 	<Files>
 		<Filter Name="MOHIDLagrangianLib">
-		<File RelativePath=".\about.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\about.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\common_modules.f90"/>
-		<File RelativePath=".\finalize.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\finalize.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\geometry.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\initialize.f90"/>
-		<File RelativePath="..\..\..\src\lib\simulation_globals.f90"/>
-		<File RelativePath=".\simulation_logger.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_globals.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_logger.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_memory.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_precision.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source_emitter.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source_identity.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\tracer.f90"/>
-		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\tracer2D.f90"/>
-		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\tracer3D.f90"/>
-		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\tracer_interp.f90"/>
-		<File RelativePath="..\..\..\src\lib\simulation_precision.f90"/></Filter>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\tracer_base.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\tracer_interp.f90"/></Filter>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\CMakeLists.txt">
 			<FileConfiguration Name="RELEASE|x64">
 				<Tool Name="VFCustomBuildTool" CommandLine="setlocal&#xA;&quot;C:\Program Files\CMake\bin\cmake.exe&quot; -HC:/Users/administrator/Documents/GitHub/MOHID-Lagrangian -BC:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/build --check-stamp-file C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/build/src/lib/CMakeFiles/generate.stamp&#xA;if %errorlevel% neq 0 goto :cmEnd&#xA;:cmEnd&#xA;endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone&#xA;:cmErrorLevel&#xA;exit /b %1&#xA;:cmDone&#xA;if %errorlevel% neq 0 goto :VCEnd" Description="Building Custom Rule C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/CMakeLists.txt" Outputs="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build\src\lib\CMakeFiles\generate.stamp" AdditionalDependencies="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\CMakeLists.txt;C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\CMakeLists.txt;"/></FileConfiguration>

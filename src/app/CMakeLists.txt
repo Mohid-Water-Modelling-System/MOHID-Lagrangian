@@ -4,10 +4,12 @@
 add_executable (MOHIDLagrangian main.f90)
 
 # Properties->Fortran->General->Additional Include Directories
-include_directories (${LIB_PATH})
+#include_directories (${LIB_PATH})
 include_directories (${LIBRARY_OUTPUT_PATH})
 set(EXTERNAL_LIBS_MODULES ${CMAKE_SOURCE_DIR}/Libs/build/modules)
+set(EXTERNAL_LIBS_LIB ${CMAKE_SOURCE_DIR}/Libs/build/lib)
 include_directories (${EXTERNAL_LIBS_MODULES})
+include_directories (${EXTERNAL_LIBS_LIB})
 
 # Properties->Linker->Input->Additional Dependencies
 file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib") #This needs to be changed to enable library debug

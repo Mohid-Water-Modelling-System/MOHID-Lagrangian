@@ -19,9 +19,9 @@ include_directories (${PROJECT_SOURCE_DIR}/Libs/build/lib)
 # Also adds sources to the Solution Explorer
 ADD_LIBRARY(MOHIDLagrangianLib ${LIB_SRC})
 
-# Creates folder "libraries" and adds target project (math.vcproj)
+# Creates folder "libraries" and adds target project (MOHIDLagrangianLib.vcproj)
 set_property(TARGET MOHIDLagrangianLib PROPERTY FOLDER "libraries")
 
 # Properties->General->Output Directory
-set_target_properties(MOHIDLagrangianLib PROPERTIES
-                      RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+#set_target_properties(MOHIDLagrangianLib PROPERTIES
+#                      RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)

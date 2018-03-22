@@ -7,6 +7,7 @@
         </constantsdef>
 		<simulationdefs>
 			<resolution dp="1.5" units_comment="metres (m)"/>
+			<timestep dt="30.0" units_comment="seconds (s)"/>
             <pointmin x="0.0" y="0.0" z="-500.01" />
             <pointmax x="10000" y="20005.0" z="4.0574" />
         </simulationdefs>        
@@ -14,6 +15,7 @@
            	<source>
 				<setsource id="0" name="Spill_007" />
 				<set emitting_rate="0.1" units_comment="Hz" />
+				<active start="15" end="end"/>
 				<box>                        
 					<point x="0.2458" y="0" z="0" />
 					<size x="1" y="1" z="1" />
@@ -22,11 +24,13 @@
 			<source>
 				<setsource id="1" name="Litter_plastic" />
 				<set emitting_rate="0.01" units_comment="Hz" />
+				<active start="15" end="90"/>
 				<point x="0.49" y="0.49" z="0.75" />
 			</source>
 			<source>
 				<setsource id="2" name="Plankton_2" />
 				<set emitting_rate="0.2" units_comment="Hz" />
+				<active start="0.0" end="end"/>
 				<line>
 					<pointa x="1" y="2" z="3" />
 					<pointb x="11" y="21" z="31" />
@@ -35,6 +39,7 @@
 			<source>
 				<setsource id="3" name="Mistery_discharge_0" />
 				<set emitting_rate="0.05" units_comment="Hz" />
+				<active start="1.125" end="end"/>
 				<sphere radius="0.5">
 					<point x="1" y="1" z="0" />
 				</sphere>

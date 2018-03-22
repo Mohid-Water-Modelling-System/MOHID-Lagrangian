@@ -4,7 +4,7 @@
 !
 ! TITLE         : Mohid Model
 ! PROJECT       : Mohid Lagrangian Tracer
-! MODULE        : tracer3D
+! MODULE        : tracer_base
 ! URL           : http://www.mohid.com
 ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
 ! DATE          : Feb 2018
@@ -16,7 +16,7 @@
 !> Module that defines a pure Lagrangian tracer class and related methods.
 !------------------------------------------------------------------------------
     
-module tracer3D 
+module tracer_base
 
     use tracer_interp    
     use commom_modules
@@ -87,14 +87,14 @@ module tracer3D
    !> @param[in] filename
    !---------------------------------------------------------------------------
     subroutine tracer_init(trc,id,time,x,y,z)
-
+   
         implicit none
-
+   
         type(tracer_class),   intent(inout) :: trc
         integer, intent(IN) :: id
         real(prec), intent(IN) :: x, y, z  
         real(prec_time), intent(IN) :: time 
-
+   
         ! Local variables 
         integer :: i         
         
@@ -111,9 +111,9 @@ module tracer3D
         !Initialize transient parameters
         
         return 
-
+   
     end subroutine tracer_init   
 
-end module tracer3D 
+end module tracer_base 
 
 

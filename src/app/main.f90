@@ -1,8 +1,9 @@
     program MOHIDLagrangian
-
+    
     use source
     use CLA    !Command line argument module
     use commom_modules
+    use simulation_globals
 
     implicit none
 
@@ -35,8 +36,19 @@
     ! Initialize logger - this is mandatory
     call initMohidLagrangianLog(outpath)
     
-    ! Initialization routines to build the xml-defined case
+    ! Initialization routines to build the simulation
     call initMohidLagrangian(defxmlfilename)
+    
+    !main cycle 
+    do while (SimTime .LT. Parameters%TimeMax)
+    
+    
+    
+    
+    
+    
+    SimTime = SimTime + SimDefs%dt
+    enddo
 
     ! Finalization of the program - deallocation, file closing, etc
     call finalizeMohidLagrangian

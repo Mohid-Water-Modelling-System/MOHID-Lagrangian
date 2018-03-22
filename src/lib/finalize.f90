@@ -18,7 +18,7 @@
     
     module finalize
 
-    use tracer3D
+    use tracer_base
     use simulation_globals
     use source_identity
 

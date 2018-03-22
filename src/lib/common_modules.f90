@@ -22,8 +22,9 @@ module commom_modules
     use vecfor
     use stringifor
     
-    use simulation_precision
     use geometry
+    use simulation_precision    
     use simulation_logger
+    use simulation_memory
     
 end module commom_modules 
