@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['initialize',['initialize',['../namespaceinitialize.html',1,'']]]
+  ['finalize',['finalize',['../namespacefinalize.html',1,'']]]
 ];

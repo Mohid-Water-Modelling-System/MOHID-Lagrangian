@@ -1,0 +1,120 @@
+\hypertarget{namespacesimulation__memory}{}\section{simulation\+\_\+memory Module Reference}
+\label{namespacesimulation__memory}\index{simulation\+\_\+memory@{simulation\+\_\+memory}}
+
+
+Module to hold the simulation memory managment class and its methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulation__memory_a638f6d140103702b9e9cc46e2c060c61}{init}} (self)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__memory_a8589522c4e28cf60741a5439477cdb31}{getotal}} (self, size)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__memory_acf01ce7bcb2d7571d37fb2c0338e5bd2}{addsource}} (self, size)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__memory_a4d6c8bd027a99cb6c7f9ad2eb55c744f}{addtracer}} (self, size)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__memory_a62d5641dbec45bc279575c173b0f0f24}{adddef}} (self, size)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__memory_a5827bef8479b809a453af147ceaa8c7c}{printmemory}} (self)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), public \mbox{\hyperlink{namespacesimulation__memory_a8ed2bc20b0c49405084442d02fc76d42}{simmemory}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to hold the simulation memory managment class and its methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulation__memory_a62d5641dbec45bc279575c173b0f0f24}\label{namespacesimulation__memory_a62d5641dbec45bc279575c173b0f0f24}} 
+\index{simulation\+\_\+memory@{simulation\+\_\+memory}!adddef@{adddef}}
+\index{adddef@{adddef}!simulation\+\_\+memory@{simulation\+\_\+memory}}
+\subsubsection{\texorpdfstring{adddef()}{adddef()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+memory\+::adddef (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private method to add the size of a definition to the memory log. \mbox{\Hypertarget{namespacesimulation__memory_acf01ce7bcb2d7571d37fb2c0338e5bd2}\label{namespacesimulation__memory_acf01ce7bcb2d7571d37fb2c0338e5bd2}} 
+\index{simulation\+\_\+memory@{simulation\+\_\+memory}!addsource@{addsource}}
+\index{addsource@{addsource}!simulation\+\_\+memory@{simulation\+\_\+memory}}
+\subsubsection{\texorpdfstring{addsource()}{addsource()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+memory\+::addsource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private method to add the size of a Source to the memory log. \mbox{\Hypertarget{namespacesimulation__memory_a4d6c8bd027a99cb6c7f9ad2eb55c744f}\label{namespacesimulation__memory_a4d6c8bd027a99cb6c7f9ad2eb55c744f}} 
+\index{simulation\+\_\+memory@{simulation\+\_\+memory}!addtracer@{addtracer}}
+\index{addtracer@{addtracer}!simulation\+\_\+memory@{simulation\+\_\+memory}}
+\subsubsection{\texorpdfstring{addtracer()}{addtracer()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+memory\+::addtracer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private method to add the size of a Tracer to the memory log. \mbox{\Hypertarget{namespacesimulation__memory_a8589522c4e28cf60741a5439477cdb31}\label{namespacesimulation__memory_a8589522c4e28cf60741a5439477cdb31}} 
+\index{simulation\+\_\+memory@{simulation\+\_\+memory}!getotal@{getotal}}
+\index{getotal@{getotal}!simulation\+\_\+memory@{simulation\+\_\+memory}}
+\subsubsection{\texorpdfstring{getotal()}{getotal()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+memory\+::getotal (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(out)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private method to retreive the total size of the allocated memory. \mbox{\Hypertarget{namespacesimulation__memory_a638f6d140103702b9e9cc46e2c060c61}\label{namespacesimulation__memory_a638f6d140103702b9e9cc46e2c060c61}} 
+\index{simulation\+\_\+memory@{simulation\+\_\+memory}!init@{init}}
+\index{init@{init}!simulation\+\_\+memory@{simulation\+\_\+memory}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+memory\+::init (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private memory logger initialization method. \mbox{\Hypertarget{namespacesimulation__memory_a5827bef8479b809a453af147ceaa8c7c}\label{namespacesimulation__memory_a5827bef8479b809a453af147ceaa8c7c}} 
+\index{simulation\+\_\+memory@{simulation\+\_\+memory}!printmemory@{printmemory}}
+\index{printmemory@{printmemory}!simulation\+\_\+memory@{simulation\+\_\+memory}}
+\subsubsection{\texorpdfstring{printmemory()}{printmemory()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+memory\+::printmemory (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private method to print the allocated memory. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__memory_a5827bef8479b809a453af147ceaa8c7c_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulation__memory_a8ed2bc20b0c49405084442d02fc76d42}\label{namespacesimulation__memory_a8ed2bc20b0c49405084442d02fc76d42}} 
+\index{simulation\+\_\+memory@{simulation\+\_\+memory}!simmemory@{simmemory}}
+\index{simmemory@{simmemory}!simulation\+\_\+memory@{simulation\+\_\+memory}}
+\subsubsection{\texorpdfstring{simmemory}{simmemory}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__memory_1_1memory__t}{memory\+\_\+t}}), public simulation\+\_\+memory\+::simmemory}
+

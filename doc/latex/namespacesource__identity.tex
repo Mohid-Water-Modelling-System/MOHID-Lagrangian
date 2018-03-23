@@ -15,13 +15,15 @@ type \mbox{\hyperlink{structsource__identity_1_1source__par}{source\+\_\+par}}
 type \mbox{\hyperlink{structsource__identity_1_1source__state}{source\+\_\+state}}
 \begin{DoxyCompactList}\small\item\em Type -\/ state variables of a source object. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsource__identity_1_1source__stats}{source\+\_\+stats}}
-\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsource__identity_1_1source__stencil}{source\+\_\+stencil}}
+\begin{DoxyCompactList}\small\item\em Type -\/ holder for the tracer creation stencil of the source. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
 subroutine, public \mbox{\hyperlink{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}{allocsources}} (nsources)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesource__identity_a891e32a81b0e3c86d9de1971a4ca6501}{initialize}} (src, id, name, emitting\+\_\+rate, source\+\_\+geometry, geometry)
+subroutine \mbox{\hyperlink{namespacesource__identity_a8d7aaa58c575f6ed78f5ca29d64615d7}{initialize}} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, geometry)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesource__identity_a9715a7d707b4c80aa2d2ebd08712f6a9}{printout}} (src)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -63,11 +65,11 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{namespacesource__identity_a891e32a81b0e3c86d9de1971a4ca6501}\label{namespacesource__identity_a891e32a81b0e3c86d9de1971a4ca6501}} 
+\mbox{\Hypertarget{namespacesource__identity_a8d7aaa58c575f6ed78f5ca29d64615d7}\label{namespacesource__identity_a8d7aaa58c575f6ed78f5ca29d64615d7}} 
 \index{source\+\_\+identity@{source\+\_\+identity}!initialize@{initialize}}
 \index{initialize@{initialize}!source\+\_\+identity@{source\+\_\+identity}}
 \subsubsection{\texorpdfstring{initialize()}{initialize()}}
-{\footnotesize\ttfamily subroutine source\+\_\+identity\+::initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\mbox{\hyperlink{structgeometry_1_1shape}{shape}}), intent(in)}]{geometry }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine source\+\_\+identity\+::initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\mbox{\hyperlink{structgeometry_1_1shape}{shape}}), intent(in)}]{geometry }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['initialize_2ef90',['initialize.f90',['../initialize_8f90.html',1,'']]]
+  ['finalize_2ef90',['finalize.f90',['../finalize_8f90.html',1,'']]]
 ];

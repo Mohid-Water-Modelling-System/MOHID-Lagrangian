@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['tracer_5fclass',['tracer_class',['../structtracer3d_1_1tracer__class.html',1,'tracer3d']]],
-  ['tracer_5fpar_5fclass',['tracer_par_class',['../structtracer3d_1_1tracer__par__class.html',1,'tracer3d']]],
-  ['tracer_5fpar_5ftrans_5fclass',['tracer_par_trans_class',['../structtracer3d_1_1tracer__par__trans__class.html',1,'tracer3d']]],
-  ['tracer_5fstate_5fclass',['tracer_state_class',['../structtracer3d_1_1tracer__state__class.html',1,'tracer3d']]],
-  ['tracer_5fstats_5fclass',['tracer_stats_class',['../structtracer3d_1_1tracer__stats__class.html',1,'tracer3d']]]
+  ['shape',['shape',['../structgeometry_1_1shape.html',1,'geometry']]],
+  ['simdefs_5ft',['simdefs_t',['../structsimulation__globals_1_1simdefs__t.html',1,'simulation_globals']]],
+  ['source_5fclass',['source_class',['../structsource__identity_1_1source__class.html',1,'source_identity']]],
+  ['source_5fpar',['source_par',['../structsource__identity_1_1source__par.html',1,'source_identity']]],
+  ['source_5fstate',['source_state',['../structsource__identity_1_1source__state.html',1,'source_identity']]],
+  ['source_5fstats',['source_stats',['../structsource__identity_1_1source__stats.html',1,'source_identity']]],
+  ['source_5fstencil',['source_stencil',['../structsource__identity_1_1source__stencil.html',1,'source_identity']]],
+  ['sphere',['sphere',['../structgeometry_1_1sphere.html',1,'geometry']]]
 ];

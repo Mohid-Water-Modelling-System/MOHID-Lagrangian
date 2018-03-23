@@ -18,13 +18,13 @@
 
 MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
 =====================================================================
-2018-3-22 @15:9:24 ->Logger initialized
-2018-3-22 @15:9:24 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-3-23 @17:13:31 ->Logger initialized
+2018-3-23 @17:13:31 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case constants
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
        Pointmin (BB) is 
-        0.000000000000000E+000
+       -0.100000000000000E+002
         0.000000000000000E+000
        -0.500010000000000E+003
        Pointmax (BB) is 
@@ -41,7 +41,7 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        Id = +0
        Geometry type is box
        Initially at coordinates
-       +0.245800000000000E+000
+       -0.550000000000000E+001
         0.000000000000000E+000
         0.000000000000000E+000
        Emitting rate of +0.100000E+00 Hz
@@ -68,10 +68,10 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        Id = +3
        Geometry type is sphere
        Initially at coordinates
-       +0.100000000000000E+001
-       +0.100000000000000E+001
+        0.000000000000000E+000
+        0.000000000000000E+000
         0.000000000000000E+000
        Emitting rate of +0.500000E-01 Hz
        Active from +0.112500E+01 to+0.100000E+03 seconds
-2018-3-22 @15:9:24 ->Total allocated memory: +0.164000E-02mb
-2018-3-22 @15:9:24 Simulation ended, freeing resources. See you next time
+2018-3-23 @17:13:31 ->Total allocated memory: +0.189600E-02mb
+2018-3-23 @17:13:31 Simulation ended, freeing resources. See you next time

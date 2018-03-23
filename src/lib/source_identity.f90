@@ -55,7 +55,7 @@
     type source_stencil         !<Type - holder for the tracer creation stencil of the source
         integer :: np                       !<number of tracers by emission
         integer :: total_np                 !< Total number of tracers that this source will generate
-        type(vector), allocatable :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission
+        type(vector), allocatable, dimension(:) :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission
     end type
 
     type source_class           !<Type - The source class
@@ -78,62 +78,7 @@
     public :: allocSources
 
     contains
-    
-    
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Private source stencil initialization routine
-    !
-    !> @param[in] np, total_np, plist, geometry
-    !---------------------------------------------------------------------------
-    subroutine setnpstencil(np,total_np,geometry)
-    implicit none
-    integer, intent(inout) :: np
-    integer, intent(inout) :: total_np
-    class(shape), intent(in) :: geometry
-    type(vector) :: temp
-    type(string) :: outext
-    
-    select type (geometry)
-    type is (shape)
-        !nothing to do
-    class is (box)
-        np = int(geometry%size%x/SimDefs%Dp)*int(geometry%size%y/SimDefs%Dp)*int(geometry%size%z/SimDefs%Dp)        
-    class is (point)
-        np = 1
-    class is (line)
-        temp = geometry%pt-geometry%last !simply the difference
-        np = int(temp%normL2()/SimDefs%Dp)
-    class is (sphere)
         
-        class default
-        outext='setnpstencil: unexpected type for geometry object!'
-        call ToLog(outext)
-        stop
-    end select
-    
-    end subroutine
-    
-    
-    !!---------------------------------------------------------------------------
-    !!> @Ricardo Birjukovs Canelas - MARETEC
-    !! Routine Author Name and Affiliation.
-    !!
-    !!> @brief
-    !!> Private source stencil initialization and allocation routine
-    !!
-    !!> @param[in] np, total_np, plist, geometry
-    !!---------------------------------------------------------------------------
-    !subroutine setsourcestencil(np,total_np,plist,geometry)
-    !implicit none
-    !integer, intent(inout) :: np
-    !integer, intent(inout) :: total_np
-    !
-    !end subroutine
-    
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -175,7 +120,9 @@
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: geometry
-    integer :: size
+    integer :: size, i
+    type(string) :: outext
+    integer err
 
     !Setting parameters
     src%par%id=id
@@ -194,12 +141,23 @@
     src%stats%acc_T=0.0
     src%stats%ns=0
     !setting stencil variables
-    !call setsourcestencil(src%stencil%np,src%stencil%total_np,src%stencil%plist,src%par%geometry)
+    call src%par%geometry%getnp(src%stencil%np,SimDefs%Dp)
+    allocate(src%stencil%ptlist(src%stencil%np), stat=err)
+    if(err/=0)then
+        outext='Cannot allocate point list for Source '// src%par%name //', stoping'
+        call ToLog(outext)
+        stop
+    endif
+    call src%par%geometry%getpointdistribution(src%stencil%np,SimDefs%Dp,src%stencil%ptlist)
     
     size = sizeof(src)
     call SimMemory%addsource(size)
     call src%printout()
-
+    
+    do i=1, src%stencil%np
+    print*, src%stencil%ptlist(i)
+    end do
+        
     end subroutine
     
     !---------------------------------------------------------------------------

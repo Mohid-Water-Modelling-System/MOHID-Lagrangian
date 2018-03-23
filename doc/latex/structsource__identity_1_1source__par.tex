@@ -5,8 +5,12 @@
 \item 
 integer \mbox{\hyperlink{structsource__identity_1_1source__par_a05b6d325908a1b552f98dada275a3465}{id}}
 \begin{DoxyCompactList}\small\item\em unique source identification (integer) \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsource__identity_1_1source__par_a6e02501b6e0f33bb5e226c1cc38403fa}{emitting\+\_\+rate}}
+real(prec\+\_\+time) \mbox{\hyperlink{structsource__identity_1_1source__par_a746a02960ffcba9f699ae45fa55dd8b4}{emitting\+\_\+rate}}
 \begin{DoxyCompactList}\small\item\em Emitting rate of the source (Hz) \end{DoxyCompactList}\item 
+real(prec\+\_\+time) \mbox{\hyperlink{structsource__identity_1_1source__par_a045a39745c631b294c313ba1112ec9f4}{starttime}}
+\begin{DoxyCompactList}\small\item\em time to start emitting tracers \end{DoxyCompactList}\item 
+real(prec\+\_\+time) \mbox{\hyperlink{structsource__identity_1_1source__par_a3ab5e22242b41bdcd56480b9d0496efa}{stoptime}}
+\begin{DoxyCompactList}\small\item\em time to stop emitting tracers \end{DoxyCompactList}\item 
 type(string) \mbox{\hyperlink{structsource__identity_1_1source__par_a71ef7dc8c6268d014247e0bca3005311}{name}}
 \begin{DoxyCompactList}\small\item\em source name \end{DoxyCompactList}\item 
 type(string) \mbox{\hyperlink{structsource__identity_1_1source__par_a0205c62b7673e76c7f1de2bfcecabd84}{property\+\_\+name}}
@@ -18,11 +22,11 @@ class(\mbox{\hyperlink{structgeometry_1_1shape}{shape}}), allocatable \mbox{\hyp
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structsource__identity_1_1source__par_a6e02501b6e0f33bb5e226c1cc38403fa}\label{structsource__identity_1_1source__par_a6e02501b6e0f33bb5e226c1cc38403fa}} 
+\mbox{\Hypertarget{structsource__identity_1_1source__par_a746a02960ffcba9f699ae45fa55dd8b4}\label{structsource__identity_1_1source__par_a746a02960ffcba9f699ae45fa55dd8b4}} 
 \index{source\+\_\+identity\+::source\+\_\+par@{source\+\_\+identity\+::source\+\_\+par}!emitting\+\_\+rate@{emitting\+\_\+rate}}
 \index{emitting\+\_\+rate@{emitting\+\_\+rate}!source\+\_\+identity\+::source\+\_\+par@{source\+\_\+identity\+::source\+\_\+par}}
 \subsubsection{\texorpdfstring{emitting\+\_\+rate}{emitting\_rate}}
-{\footnotesize\ttfamily real(prec) source\+\_\+identity\+::source\+\_\+par\+::emitting\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily real(prec\+\_\+time) source\+\_\+identity\+::source\+\_\+par\+::emitting\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -77,6 +81,26 @@ source property name
 
 
 Source type \+: \textquotesingle{}point\textquotesingle{}, \textquotesingle{}line\textquotesingle{}, \textquotesingle{}sphere\textquotesingle{}, \textquotesingle{}box\textquotesingle{}. 
+
+\mbox{\Hypertarget{structsource__identity_1_1source__par_a045a39745c631b294c313ba1112ec9f4}\label{structsource__identity_1_1source__par_a045a39745c631b294c313ba1112ec9f4}} 
+\index{source\+\_\+identity\+::source\+\_\+par@{source\+\_\+identity\+::source\+\_\+par}!starttime@{starttime}}
+\index{starttime@{starttime}!source\+\_\+identity\+::source\+\_\+par@{source\+\_\+identity\+::source\+\_\+par}}
+\subsubsection{\texorpdfstring{starttime}{starttime}}
+{\footnotesize\ttfamily real(prec\+\_\+time) source\+\_\+identity\+::source\+\_\+par\+::starttime\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+time to start emitting tracers 
+
+\mbox{\Hypertarget{structsource__identity_1_1source__par_a3ab5e22242b41bdcd56480b9d0496efa}\label{structsource__identity_1_1source__par_a3ab5e22242b41bdcd56480b9d0496efa}} 
+\index{source\+\_\+identity\+::source\+\_\+par@{source\+\_\+identity\+::source\+\_\+par}!stoptime@{stoptime}}
+\index{stoptime@{stoptime}!source\+\_\+identity\+::source\+\_\+par@{source\+\_\+identity\+::source\+\_\+par}}
+\subsubsection{\texorpdfstring{stoptime}{stoptime}}
+{\footnotesize\ttfamily real(prec\+\_\+time) source\+\_\+identity\+::source\+\_\+par\+::stoptime\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+time to stop emitting tracers 
 
 
 

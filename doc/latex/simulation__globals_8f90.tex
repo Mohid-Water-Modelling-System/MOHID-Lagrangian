@@ -13,13 +13,13 @@ type \mbox{\hyperlink{structsimulation__globals_1_1constants__t}{simulation\+\_\
 \begin{DoxyCompactItemize}
 \item 
 module \mbox{\hyperlink{namespacesimulation__globals}{simulation\+\_\+globals}}
-\begin{DoxyCompactList}\small\item\em Module to finalize the simulation. This presents a public routine that is in charge of deallocating all global variables, closing all files and print some simulation-\/related statistics. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Module to hold the simulation global parameter classes and their methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespacesimulation__globals_a541b7227b2876577661cf199d4e7a890}{simulation\+\_\+globals\+::setparameter}} (parm, parmkey, parmvalue)
+subroutine \mbox{\hyperlink{namespacesimulation__globals_aed3f671899558008ae9f0f009f581baf}{simulation\+\_\+globals\+::setparameter}} (self, parmkey, parmvalue)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa}{simulation\+\_\+globals\+::printsimparameters}} (parm)
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1}{simulation\+\_\+globals\+::printsimparameters}} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772}{simulation\+\_\+globals\+::getintegratorname}} (name, code)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
@@ -29,12 +29,16 @@ subroutine \mbox{\hyperlink{namespacesimulation__globals_acfdc640757f0275bccb1d8
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_a9a8e88c06937b7cf6be9d9bf30f54ba9}{simulation\+\_\+globals\+::setdp}} (self, read\+\_\+dp)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a3ef0462db5a60ac79304cabd2fdd914d}{simulation\+\_\+globals\+::setdt}} (self, read\+\_\+dt)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_a1fc4653684d73efecdbd140b6cafe541}{simulation\+\_\+globals\+::setboundingbox}} (self, point\+\_\+, coords)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_ad90d6959da1d43e2cd1febff82187ed5}{simulation\+\_\+globals\+::printsimdefs}} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
+\item 
+real(prec\+\_\+time), public \mbox{\hyperlink{namespacesimulation__globals_a10daac198c63b06f99ec0c01b614a352}{simulation\+\_\+globals\+::simtime}}
 \item 
 type(parameters\+\_\+t), public \mbox{\hyperlink{namespacesimulation__globals_ac23e87cbb2256792d683ab1bf5dc5e21}{simulation\+\_\+globals\+::parameters}}
 \item 

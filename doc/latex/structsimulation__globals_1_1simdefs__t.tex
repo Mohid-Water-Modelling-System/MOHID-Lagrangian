@@ -10,6 +10,8 @@ Simulation definitions class.
 \item 
 procedure \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_ac1951dc05be68a08a70d55b0da627f04}{setdp}}
 \item 
+procedure \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_a1e748701b60ee8883871fb3bca30aa4b}{setdt}}
+\item 
 procedure \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_aae43bf7d19c5cfceb113c35bc13cca8d}{setboundingbox}}
 \item 
 procedure \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_aade8e069ae929a97a9c78cc52d1078f7}{printout}} =$>$ \mbox{\hyperlink{namespacesimulation__globals_ad90d6959da1d43e2cd1febff82187ed5}{printsimdefs}}
@@ -19,6 +21,8 @@ procedure \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_aade8e069ae92
 \item 
 real(prec) \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_a416b838aca82edb2df262f5f503a00ae}{dp}} = MV
 \begin{DoxyCompactList}\small\item\em Initial particle spacing at source generation. \end{DoxyCompactList}\item 
+real(prec\+\_\+time) \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_a4fc7292599841fe5a63e66e5577d49d2}{dt}}
+\begin{DoxyCompactList}\small\item\em Timestep for fixed step integrators (s) \end{DoxyCompactList}\item 
 type(vector) \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_a76b66c4e9d305de6a0c3b8f1bd2ef319}{pointmin}}
 \begin{DoxyCompactList}\small\item\em Point that defines the lowest corner of the simulation bounding box. \end{DoxyCompactList}\item 
 type(vector) \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t_a8c7a365078a69252312ea200c619bcb6}{pointmax}}
@@ -47,6 +51,12 @@ Simulation definitions class.
 \subsubsection{\texorpdfstring{setdp()}{setdp()}}
 {\footnotesize\ttfamily procedure simulation\+\_\+globals\+::simdefs\+\_\+t\+::setdp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
+\mbox{\Hypertarget{structsimulation__globals_1_1simdefs__t_a1e748701b60ee8883871fb3bca30aa4b}\label{structsimulation__globals_1_1simdefs__t_a1e748701b60ee8883871fb3bca30aa4b}} 
+\index{simulation\+\_\+globals\+::simdefs\+\_\+t@{simulation\+\_\+globals\+::simdefs\+\_\+t}!setdt@{setdt}}
+\index{setdt@{setdt}!simulation\+\_\+globals\+::simdefs\+\_\+t@{simulation\+\_\+globals\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{setdt()}{setdt()}}
+{\footnotesize\ttfamily procedure simulation\+\_\+globals\+::simdefs\+\_\+t\+::setdt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
 
 
 \subsection{Member Data Documentation}
@@ -59,6 +69,16 @@ Simulation definitions class.
 
 
 Initial particle spacing at source generation. 
+
+\mbox{\Hypertarget{structsimulation__globals_1_1simdefs__t_a4fc7292599841fe5a63e66e5577d49d2}\label{structsimulation__globals_1_1simdefs__t_a4fc7292599841fe5a63e66e5577d49d2}} 
+\index{simulation\+\_\+globals\+::simdefs\+\_\+t@{simulation\+\_\+globals\+::simdefs\+\_\+t}!dt@{dt}}
+\index{dt@{dt}!simulation\+\_\+globals\+::simdefs\+\_\+t@{simulation\+\_\+globals\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{dt}{dt}}
+{\footnotesize\ttfamily real(prec\+\_\+time) simulation\+\_\+globals\+::simdefs\+\_\+t\+::dt\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Timestep for fixed step integrators (s) 
 
 \mbox{\Hypertarget{structsimulation__globals_1_1simdefs__t_a8c7a365078a69252312ea200c619bcb6}\label{structsimulation__globals_1_1simdefs__t_a8c7a365078a69252312ea200c619bcb6}} 
 \index{simulation\+\_\+globals\+::simdefs\+\_\+t@{simulation\+\_\+globals\+::simdefs\+\_\+t}!pointmax@{pointmax}}

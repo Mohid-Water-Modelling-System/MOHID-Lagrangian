@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getintegratorname',['getintegratorname',['../namespacesimulation__globals.html#a2c6bf88542c503d1da58280ab3dcf772',1,'simulation_globals']]]
+  ['closelog',['closelog',['../namespacefinalize.html#ac448631d05fe5daa8739f32c95e89152',1,'finalize']]]
 ];

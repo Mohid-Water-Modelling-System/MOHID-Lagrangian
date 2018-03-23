@@ -97,7 +97,7 @@ $(document).ready(function(){initNavTree('namespacesimulation__globals.html','')
 </div><!--header-->
 <div class="contents">
 
-<p>Module to finalize the simulation. This presents a public routine that is in charge of deallocating all global variables, closing all files and print some simulation-related statistics.  
+<p>Module to hold the simulation global parameter classes and their methods.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -113,12 +113,12 @@ Data Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:a541b7227b2876577661cf199d4e7a890"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#a541b7227b2876577661cf199d4e7a890">setparameter</a> (parm, parmkey, parmvalue)</td></tr>
-<tr class="memdesc:a541b7227b2876577661cf199d4e7a890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a541b7227b2876577661cf199d4e7a890">More...</a><br /></td></tr>
-<tr class="separator:a541b7227b2876577661cf199d4e7a890"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab481887940af0d76b2d7aa844382faa"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#aab481887940af0d76b2d7aa844382faa">printsimparameters</a> (parm)</td></tr>
-<tr class="memdesc:aab481887940af0d76b2d7aa844382faa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#aab481887940af0d76b2d7aa844382faa">More...</a><br /></td></tr>
-<tr class="separator:aab481887940af0d76b2d7aa844382faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed3f671899558008ae9f0f009f581baf"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#aed3f671899558008ae9f0f009f581baf">setparameter</a> (self, parmkey, parmvalue)</td></tr>
+<tr class="memdesc:aed3f671899558008ae9f0f009f581baf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#aed3f671899558008ae9f0f009f581baf">More...</a><br /></td></tr>
+<tr class="separator:aed3f671899558008ae9f0f009f581baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b17b2f2e9e7dbbad7c9d735217c1ee1"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#a0b17b2f2e9e7dbbad7c9d735217c1ee1">printsimparameters</a> (self)</td></tr>
+<tr class="memdesc:a0b17b2f2e9e7dbbad7c9d735217c1ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a0b17b2f2e9e7dbbad7c9d735217c1ee1">More...</a><br /></td></tr>
+<tr class="separator:a0b17b2f2e9e7dbbad7c9d735217c1ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c6bf88542c503d1da58280ab3dcf772"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#a2c6bf88542c503d1da58280ab3dcf772">getintegratorname</a> (name, code)</td></tr>
 <tr class="memdesc:a2c6bf88542c503d1da58280ab3dcf772"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a2c6bf88542c503d1da58280ab3dcf772">More...</a><br /></td></tr>
 <tr class="separator:a2c6bf88542c503d1da58280ab3dcf772"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +131,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a9a8e88c06937b7cf6be9d9bf30f54ba9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#a9a8e88c06937b7cf6be9d9bf30f54ba9">setdp</a> (self, read_dp)</td></tr>
 <tr class="memdesc:a9a8e88c06937b7cf6be9d9bf30f54ba9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a9a8e88c06937b7cf6be9d9bf30f54ba9">More...</a><br /></td></tr>
 <tr class="separator:a9a8e88c06937b7cf6be9d9bf30f54ba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ef0462db5a60ac79304cabd2fdd914d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#a3ef0462db5a60ac79304cabd2fdd914d">setdt</a> (self, read_dt)</td></tr>
+<tr class="memdesc:a3ef0462db5a60ac79304cabd2fdd914d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a3ef0462db5a60ac79304cabd2fdd914d">More...</a><br /></td></tr>
+<tr class="separator:a3ef0462db5a60ac79304cabd2fdd914d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fc4653684d73efecdbd140b6cafe541"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#a1fc4653684d73efecdbd140b6cafe541">setboundingbox</a> (self, point_, coords)</td></tr>
 <tr class="memdesc:a1fc4653684d73efecdbd140b6cafe541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a1fc4653684d73efecdbd140b6cafe541">More...</a><br /></td></tr>
 <tr class="separator:a1fc4653684d73efecdbd140b6cafe541"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +143,8 @@ Functions/Subroutines</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a10daac198c63b06f99ec0c01b614a352"><td class="memItemLeft" align="right" valign="top">real(prec_time), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#a10daac198c63b06f99ec0c01b614a352">simtime</a></td></tr>
+<tr class="separator:a10daac198c63b06f99ec0c01b614a352"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac23e87cbb2256792d683ab1bf5dc5e21"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structsimulation__globals_1_1parameters__t.html">parameters_t</a>), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#ac23e87cbb2256792d683ab1bf5dc5e21">parameters</a></td></tr>
 <tr class="separator:ac23e87cbb2256792d683ab1bf5dc5e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae851f977b442737307cd4bb76f2f68be"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__globals.html#ae851f977b442737307cd4bb76f2f68be">simdefs</a></td></tr>
@@ -148,7 +153,7 @@ Variables</h2></td></tr>
 <tr class="separator:aa3e1a54abbb08d2c09978a3509ec4303"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Module to finalize the simulation. This presents a public routine that is in charge of deallocating all global variables, closing all files and print some simulation-related statistics. </p>
+<div class="textblock"><p>Module to hold the simulation global parameter classes and their methods. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
 <a id="a2c6bf88542c503d1da58280ab3dcf772"></a>
@@ -192,7 +197,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772_icgraph.png" border="0" usemap="#namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772_icgraph" alt=""/></div>
 <map name="namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772_icgraph" id="namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772_icgraph">
-<area shape="rect" id="node2" href="namespacesimulation__globals.html#aab481887940af0d76b2d7aa844382faa" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="188,5,329,47"/>
+<area shape="rect" id="node2" href="namespacesimulation__globals.html#a0b17b2f2e9e7dbbad7c9d735217c1ee1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="188,5,329,47"/>
 </map>
 </div>
 
@@ -210,7 +215,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">subroutine simulation_globals::printsimdefs </td>
           <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>)&#160;</td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>), intent(in)&#160;</td>
           <td class="paramname"><em>self</em></td><td>)</td>
           <td></td>
         </tr>
@@ -227,8 +232,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aab481887940af0d76b2d7aa844382faa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab481887940af0d76b2d7aa844382faa">&#9670;&nbsp;</a></span>printsimparameters()</h2>
+<a id="a0b17b2f2e9e7dbbad7c9d735217c1ee1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b17b2f2e9e7dbbad7c9d735217c1ee1">&#9670;&nbsp;</a></span>printsimparameters()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,8 +244,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">subroutine simulation_globals::printsimparameters </td>
           <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1parameters__t.html">parameters_t</a>)&#160;</td>
-          <td class="paramname"><em>parm</em></td><td>)</td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1parameters__t.html">parameters_t</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -256,8 +261,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa_cgraph.png" border="0" usemap="#namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa_cgraph" alt=""/></div>
-<map name="namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa_cgraph" id="namespacesimulation__globals_aab481887940af0d76b2d7aa844382faa_cgraph">
+<div class="center"><img src="namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1_cgraph.png" border="0" usemap="#namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1_cgraph" alt=""/></div>
+<map name="namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1_cgraph" id="namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1_cgraph">
 <area shape="rect" id="node2" href="namespacesimulation__globals.html#a2c6bf88542c503d1da58280ab3dcf772" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="195,5,329,47"/>
 </map>
 </div>
@@ -276,7 +281,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">subroutine simulation_globals::setboundingbox </td>
           <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>)&#160;</td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>), intent(inout)&#160;</td>
           <td class="paramname"><em>self</em>, </td>
         </tr>
         <tr>
@@ -305,7 +310,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Birjukovs Canelas - MARETEC </p>
-<p>Public bounding box setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Private bounding box setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">point_,coords</td><td></td></tr>
   </table>
@@ -326,7 +331,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">subroutine simulation_globals::setdp </td>
           <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>)&#160;</td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>), intent(inout)&#160;</td>
           <td class="paramname"><em>self</em>, </td>
         </tr>
         <tr>
@@ -349,9 +354,53 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Birjukovs Canelas - MARETEC </p>
-<p>Public dp setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Private dp setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">read_dp</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3ef0462db5a60ac79304cabd2fdd914d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ef0462db5a60ac79304cabd2fdd914d">&#9670;&nbsp;</a></span>setdt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine simulation_globals::setdt </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
+          <td class="paramname"><em>read_dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>Private dt setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">read_dt</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -370,7 +419,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">subroutine simulation_globals::setgravity </td>
           <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1constants__t.html">constants_t</a>)&#160;</td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1constants__t.html">constants_t</a>), intent(inout)&#160;</td>
           <td class="paramname"><em>self</em>, </td>
         </tr>
         <tr>
@@ -402,8 +451,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a541b7227b2876577661cf199d4e7a890"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a541b7227b2876577661cf199d4e7a890">&#9670;&nbsp;</a></span>setparameter()</h2>
+<a id="aed3f671899558008ae9f0f009f581baf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed3f671899558008ae9f0f009f581baf">&#9670;&nbsp;</a></span>setparameter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -414,8 +463,8 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">subroutine simulation_globals::setparameter </td>
           <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1parameters__t.html">parameters_t</a>)&#160;</td>
-          <td class="paramname"><em>parm</em>, </td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1parameters__t.html">parameters_t</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -464,7 +513,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">subroutine simulation_globals::setrho </td>
           <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1constants__t.html">constants_t</a>)&#160;</td>
+          <td class="paramtype">class(<a class="el" href="structsimulation__globals_1_1constants__t.html">constants_t</a>), intent(inout)&#160;</td>
           <td class="paramname"><em>self</em>, </td>
         </tr>
         <tr>
@@ -487,7 +536,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Birjukovs Canelas - MARETEC </p>
-<p>Public Rho_Ref setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Provate Rho_Ref setting routine. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">read_rho</td><td></td></tr>
   </table>
@@ -533,6 +582,20 @@ Here is the call graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">type(<a class="el" href="structsimulation__globals_1_1simdefs__t.html">simdefs_t</a>), public simulation_globals::simdefs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a10daac198c63b06f99ec0c01b614a352"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10daac198c63b06f99ec0c01b614a352">&#9670;&nbsp;</a></span>simtime</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec_time), public simulation_globals::simtime</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -113,15 +113,18 @@ Data Types</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__stats.html">source_stats</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - statistical variables of a source object.  <a href="structsource__identity_1_1source__stats.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__stencil.html">source_stencil</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - holder for the tracer creation stencil of the source.  <a href="structsource__identity_1_1source__stencil.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a716b4cb4acec5756a6d4dcf20eee588e"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#a716b4cb4acec5756a6d4dcf20eee588e">allocsources</a> (nsources)</td></tr>
 <tr class="memdesc:a716b4cb4acec5756a6d4dcf20eee588e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a716b4cb4acec5756a6d4dcf20eee588e">More...</a><br /></td></tr>
 <tr class="separator:a716b4cb4acec5756a6d4dcf20eee588e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a891e32a81b0e3c86d9de1971a4ca6501"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#a891e32a81b0e3c86d9de1971a4ca6501">initialize</a> (src, id, name, emitting_rate, source_geometry, geometry)</td></tr>
-<tr class="memdesc:a891e32a81b0e3c86d9de1971a4ca6501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a891e32a81b0e3c86d9de1971a4ca6501">More...</a><br /></td></tr>
-<tr class="separator:a891e32a81b0e3c86d9de1971a4ca6501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d7aaa58c575f6ed78f5ca29d64615d7"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#a8d7aaa58c575f6ed78f5ca29d64615d7">initialize</a> (src, id, name, emitting_rate, start, finish, source_geometry, geometry)</td></tr>
+<tr class="memdesc:a8d7aaa58c575f6ed78f5ca29d64615d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a8d7aaa58c575f6ed78f5ca29d64615d7">More...</a><br /></td></tr>
+<tr class="separator:a8d7aaa58c575f6ed78f5ca29d64615d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9715a7d707b4c80aa2d2ebd08712f6a9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesource__identity.html#a9715a7d707b4c80aa2d2ebd08712f6a9">printout</a> (src)</td></tr>
 <tr class="memdesc:a9715a7d707b4c80aa2d2ebd08712f6a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a9715a7d707b4c80aa2d2ebd08712f6a9">More...</a><br /></td></tr>
 <tr class="separator:a9715a7d707b4c80aa2d2ebd08712f6a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,8 +173,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a891e32a81b0e3c86d9de1971a4ca6501"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a891e32a81b0e3c86d9de1971a4ca6501">&#9670;&nbsp;</a></span>initialize()</h2>
+<a id="a8d7aaa58c575f6ed78f5ca29d64615d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d7aaa58c575f6ed78f5ca29d64615d7">&#9670;&nbsp;</a></span>initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -202,6 +205,18 @@ Here is the caller graph for this function:</div>
           <td></td>
           <td class="paramtype">real(prec), intent(in)&#160;</td>
           <td class="paramname"><em>emitting_rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>finish</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

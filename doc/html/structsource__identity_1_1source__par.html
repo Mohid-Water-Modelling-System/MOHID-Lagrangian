@@ -101,9 +101,15 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a05b6d325908a1b552f98dada275a3465"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__par.html#a05b6d325908a1b552f98dada275a3465">id</a></td></tr>
 <tr class="memdesc:a05b6d325908a1b552f98dada275a3465"><td class="mdescLeft">&#160;</td><td class="mdescRight">unique source identification (integer)  <a href="#a05b6d325908a1b552f98dada275a3465">More...</a><br /></td></tr>
 <tr class="separator:a05b6d325908a1b552f98dada275a3465"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e02501b6e0f33bb5e226c1cc38403fa"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__par.html#a6e02501b6e0f33bb5e226c1cc38403fa">emitting_rate</a></td></tr>
-<tr class="memdesc:a6e02501b6e0f33bb5e226c1cc38403fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emitting rate of the source (Hz)  <a href="#a6e02501b6e0f33bb5e226c1cc38403fa">More...</a><br /></td></tr>
-<tr class="separator:a6e02501b6e0f33bb5e226c1cc38403fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a746a02960ffcba9f699ae45fa55dd8b4"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__par.html#a746a02960ffcba9f699ae45fa55dd8b4">emitting_rate</a></td></tr>
+<tr class="memdesc:a746a02960ffcba9f699ae45fa55dd8b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emitting rate of the source (Hz)  <a href="#a746a02960ffcba9f699ae45fa55dd8b4">More...</a><br /></td></tr>
+<tr class="separator:a746a02960ffcba9f699ae45fa55dd8b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a045a39745c631b294c313ba1112ec9f4"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__par.html#a045a39745c631b294c313ba1112ec9f4">starttime</a></td></tr>
+<tr class="memdesc:a045a39745c631b294c313ba1112ec9f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">time to start emitting tracers  <a href="#a045a39745c631b294c313ba1112ec9f4">More...</a><br /></td></tr>
+<tr class="separator:a045a39745c631b294c313ba1112ec9f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ab5e22242b41bdcd56480b9d0496efa"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__par.html#a3ab5e22242b41bdcd56480b9d0496efa">stoptime</a></td></tr>
+<tr class="memdesc:a3ab5e22242b41bdcd56480b9d0496efa"><td class="mdescLeft">&#160;</td><td class="mdescRight">time to stop emitting tracers  <a href="#a3ab5e22242b41bdcd56480b9d0496efa">More...</a><br /></td></tr>
+<tr class="separator:a3ab5e22242b41bdcd56480b9d0496efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71ef7dc8c6268d014247e0bca3005311"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsource__identity_1_1source__par.html#a71ef7dc8c6268d014247e0bca3005311">name</a></td></tr>
 <tr class="memdesc:a71ef7dc8c6268d014247e0bca3005311"><td class="mdescLeft">&#160;</td><td class="mdescRight">source name  <a href="#a71ef7dc8c6268d014247e0bca3005311">More...</a><br /></td></tr>
 <tr class="separator:a71ef7dc8c6268d014247e0bca3005311"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,8 +124,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a96d4d1aebbc4cf365220f0bf0eabca97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a6e02501b6e0f33bb5e226c1cc38403fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e02501b6e0f33bb5e226c1cc38403fa">&#9670;&nbsp;</a></span>emitting_rate</h2>
+<a id="a746a02960ffcba9f699ae45fa55dd8b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a746a02960ffcba9f699ae45fa55dd8b4">&#9670;&nbsp;</a></span>emitting_rate</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -128,7 +134,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec) source_identity::source_par::emitting_rate</td>
+          <td class="memname">real(prec_time) source_identity::source_par::emitting_rate</td>
         </tr>
       </table>
   </td>
@@ -259,6 +265,54 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Source type : 'point', 'line', 'sphere', 'box'. </p>
+
+</div>
+</div>
+<a id="a045a39745c631b294c313ba1112ec9f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a045a39745c631b294c313ba1112ec9f4">&#9670;&nbsp;</a></span>starttime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec_time) source_identity::source_par::starttime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>time to start emitting tracers </p>
+
+</div>
+</div>
+<a id="a3ab5e22242b41bdcd56480b9d0496efa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ab5e22242b41bdcd56480b9d0496efa">&#9670;&nbsp;</a></span>stoptime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec_time) source_identity::source_par::stoptime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>time to stop emitting tracers </p>
 
 </div>
 </div>

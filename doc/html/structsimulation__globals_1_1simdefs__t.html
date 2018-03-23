@@ -104,6 +104,8 @@ $(document).ready(function(){initNavTree('structsimulation__globals_1_1simdefs__
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ac1951dc05be68a08a70d55b0da627f04"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals_1_1simdefs__t.html#ac1951dc05be68a08a70d55b0da627f04">setdp</a></td></tr>
 <tr class="separator:ac1951dc05be68a08a70d55b0da627f04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e748701b60ee8883871fb3bca30aa4b"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals_1_1simdefs__t.html#a1e748701b60ee8883871fb3bca30aa4b">setdt</a></td></tr>
+<tr class="separator:a1e748701b60ee8883871fb3bca30aa4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae43bf7d19c5cfceb113c35bc13cca8d"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals_1_1simdefs__t.html#aae43bf7d19c5cfceb113c35bc13cca8d">setboundingbox</a></td></tr>
 <tr class="separator:aae43bf7d19c5cfceb113c35bc13cca8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aade8e069ae929a97a9c78cc52d1078f7"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals_1_1simdefs__t.html#aade8e069ae929a97a9c78cc52d1078f7">printout</a> =&gt; <a class="el" href="namespacesimulation__globals.html#ad90d6959da1d43e2cd1febff82187ed5">printsimdefs</a></td></tr>
@@ -114,6 +116,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a416b838aca82edb2df262f5f503a00ae"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals_1_1simdefs__t.html#a416b838aca82edb2df262f5f503a00ae">dp</a> = MV</td></tr>
 <tr class="memdesc:a416b838aca82edb2df262f5f503a00ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial particle spacing at source generation.  <a href="#a416b838aca82edb2df262f5f503a00ae">More...</a><br /></td></tr>
 <tr class="separator:a416b838aca82edb2df262f5f503a00ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fc7292599841fe5a63e66e5577d49d2"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals_1_1simdefs__t.html#a4fc7292599841fe5a63e66e5577d49d2">dt</a></td></tr>
+<tr class="memdesc:a4fc7292599841fe5a63e66e5577d49d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestep for fixed step integrators (s)  <a href="#a4fc7292599841fe5a63e66e5577d49d2">More...</a><br /></td></tr>
+<tr class="separator:a4fc7292599841fe5a63e66e5577d49d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76b66c4e9d305de6a0c3b8f1bd2ef319"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals_1_1simdefs__t.html#a76b66c4e9d305de6a0c3b8f1bd2ef319">pointmin</a></td></tr>
 <tr class="memdesc:a76b66c4e9d305de6a0c3b8f1bd2ef319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Point that defines the lowest corner of the simulation bounding box.  <a href="#a76b66c4e9d305de6a0c3b8f1bd2ef319">More...</a><br /></td></tr>
 <tr class="separator:a76b66c4e9d305de6a0c3b8f1bd2ef319"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,6 +204,31 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a1e748701b60ee8883871fb3bca30aa4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e748701b60ee8883871fb3bca30aa4b">&#9670;&nbsp;</a></span>setdt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure simulation_globals::simdefs_t::setdt </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="a416b838aca82edb2df262f5f503a00ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a416b838aca82edb2df262f5f503a00ae">&#9670;&nbsp;</a></span>dp</h2>
@@ -221,6 +251,30 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initial particle spacing at source generation. </p>
+
+</div>
+</div>
+<a id="a4fc7292599841fe5a63e66e5577d49d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fc7292599841fe5a63e66e5577d49d2">&#9670;&nbsp;</a></span>dt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec_time) simulation_globals::simdefs_t::dt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Timestep for fixed step integrators (s) </p>
 
 </div>
 </div>
