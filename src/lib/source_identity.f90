@@ -154,9 +154,10 @@
     call SimMemory%addsource(size)
     call src%printout()
     
-    do i=1, src%stencil%np
-    print*, src%stencil%ptlist(i)
-    end do
+    !DBG
+    !do i=1, src%stencil%np
+    !print*, src%stencil%ptlist(i)
+    !end do
         
     end subroutine
     
@@ -184,14 +185,12 @@
     temp_str(2)=src%now%pos%y
     temp_str(3)=src%now%pos%z
     outext = outext//'       Initially at coordinates'//new_line('a')//&
-        '       '//temp_str(1)//new_line('a')//&
-        '       '//temp_str(2)//new_line('a')//&
-        '       '//temp_str(3)//new_line('a')
+        '       '//temp_str(1)//temp_str(2)//temp_str(3)//new_line('a')
     temp_str(1)=src%par%emitting_rate
     outext = outext//'       Emitting rate of '//temp_str(1)//' Hz'//new_line('a')
     temp_str(1)=src%par%starttime
     temp_str(2)=src%par%stoptime
-    outext = outext//'       Active from '//temp_str(1)//' to'//temp_str(2)//' seconds'
+    outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'
 
     call ToLog(outext,.false.)
 

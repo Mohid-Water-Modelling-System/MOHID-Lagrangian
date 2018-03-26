@@ -418,6 +418,8 @@
     call init_simdefs(xmldoc)
     call init_parameters(xmldoc)
     call init_sources(xmldoc)
+    
+    !With the Sources initialized, now we initialize the tracers
 
     !printing memory occupation at the time
     call SimMemory%printout()

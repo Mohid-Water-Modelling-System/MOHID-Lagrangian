@@ -29,36 +29,26 @@
     !Update with any new additions as they are added
     type(string), allocatable, dimension(:) :: GeomList !< String list (array) with the name of possible geometry types.
 
-    !>Type - extendable shape class
-    type shape
-        !> Coordinates of a point
-        type(vector) :: pt
+    type shape                      !<Type - extendable shape class        
+        type(vector) :: pt              !< Coordinates of a point
     contains
-    procedure :: getnp
-    procedure :: getpointdistribution
+    procedure :: getnp                  !<Gets the number of points that define that geometry (base on GLOBALS::dp)
+    procedure :: getpointdistribution   !<Gets the actual list of points always referant to the origin
+    end type
+    
+    type, extends(shape) :: point   !<Type - point class
     end type
 
-    !>Type - point class
-    type, extends(shape) :: point
+    type, extends(shape) :: line    !<Type - line class        
+        type(vector) :: last            !< Coordinates of the end point
     end type
 
-    !>Type - line class
-    type, extends(shape) :: line
-        !> Coordinates of the end point
-        type(vector) :: last
+    type, extends(shape) :: sphere  !<Type - sphere class        
+        real(prec) :: radius            !< Sphere radius
     end type
-
-    !>Type - sphere class
-    type, extends(shape) :: sphere
-        !> Sphere radius
-        real(prec) :: radius
-    end type
-
-    !>Type - point class
-    type, extends(shape) :: box
-        ! Coordinates of the lower left corner point are defined by shape class
-        !> Box size
-        type(vector) :: size
+    
+    type, extends(shape) :: box     !<Type - point class        
+        type(vector) :: size            !< Box size
     end type
 
     public :: shape, point, line, sphere, box
@@ -66,79 +56,6 @@
     public :: AllocateGeomList, IsValidGeom
 
     contains
-
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> method to get the number of points that fill a given geometry
-    !
-    !> @param[in] self, np
-    !---------------------------------------------------------------------------
-    subroutine getnp(self,np,dp)
-    implicit none
-    class(shape) :: self
-    integer, intent(out) :: np
-    real(prec), intent(in) :: dp
-    type(vector) :: temp
-    type(string) :: outext
-
-    select type (self)
-    type is (shape)
-    class is (box)
-        np = max(int(self%size%x/dp)*int(self%size%y/dp)*int(self%size%z/dp),1)
-    class is (point)
-        np = 1
-    class is (line)
-        temp = self%pt-self%last !simply the difference
-        np = max(int(temp%normL2()/dp),1)
-    class is (sphere)
-        call sphere_np_count(dp, self%radius, self%pt, np)
-        class default
-        outext='geometry::getnp : unexpected type for geometry object!'
-        call ToLog(outext)
-        stop
-    end select
-
-    end subroutine
-    
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> method to get the number of points that fill a given geometry
-    !
-    !> @param[in] self, np
-    !---------------------------------------------------------------------------
-    subroutine getpointdistribution(self,np,dp,ptlist)
-    implicit none
-    class(shape) :: self
-    integer, intent(in) :: np
-    real(prec), intent(in) :: dp
-    type(vector), intent(inout) :: ptlist(np)
-    type(vector) :: temp
-    type(string) :: outext
-
-    select type (self)
-    type is (shape)
-    class is (box)
-        
-    class is (point)
-        
-    class is (line)
-        
-    class is (sphere)
-        call sphere_grid(dp, self%radius, self%pt, np, ptlist)
-        class default
-        outext='geometry::getpointdistribution : unexpected type for geometry object!'
-        call ToLog(outext)
-        stop
-    end select
-
-    end subroutine
-
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -178,181 +95,207 @@
     end function IsValidGeom
 
     !---------------------------------------------------------------------------
-    !> @John Burkardt
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method to get the number of points that fill a given geometry
+    !
+    !> @param[in] self, np
+    !---------------------------------------------------------------------------
+    subroutine getnp(self,np,dp)
+    implicit none
+    class(shape) :: self
+    integer, intent(out) :: np
+    real(prec), intent(in) :: dp
+    type(vector) :: temp
+    type(string) :: outext
+
+    select type (self)
+    type is (shape)
+    class is (box)
+        np = max((int(self%size%x/dp)+1)*(int(self%size%y/dp)+1)*(int(self%size%z/dp)+1),1)
+    class is (point)
+        np = 1
+    class is (line)
+        temp = self%pt-self%last !simply the difference
+        np = max(int(temp%normL2()/dp),1)
+    class is (sphere)
+        call sphere_np_count(dp, self%radius, np)
+        class default
+        outext='geometry::getnp : unexpected type for geometry object!'
+        call ToLog(outext)
+        stop
+    end select
+
+    end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method to get the number of points that fill a given geometry
+    !
+    !> @param[in] self, np
+    !---------------------------------------------------------------------------
+    subroutine getpointdistribution(self,np,dp,ptlist)
+    implicit none
+    class(shape) :: self
+    integer, intent(in) :: np
+    real(prec), intent(in) :: dp
+    type(vector), intent(inout) :: ptlist(np)
+    type(vector) :: temp
+    type(string) :: outext
+
+    select type (self)
+    type is (shape)
+    class is (box)
+        call box_grid(dp, self%size, np, ptlist)
+    class is (point)
+        ptlist(1)=self%pt
+    class is (line)
+        call line_grid(dp, self%last-self%pt, np, ptlist)
+    class is (sphere)
+        call sphere_grid(dp, self%radius, np, ptlist)
+        class default
+        outext='geometry::getpointdistribution : unexpected type for geometry object!'
+        call ToLog(outext)
+        stop
+    end select
+
+    end subroutine
+
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
     !> private routine that returns the number of points distributed on a grid
-    !> inside a sphere, centered on its center.
-    !    The grid is defined by specifying the radius and center of the sphere,
-    !    and the number of subintervals N into which the horizontal radius
-    !    should be divided.  Thus, a value of N = 2 will result in 5 points
-    !    along that horizontal line.
+    !> with spacing dp inside a sphere
     !
-    !> @param[in] dp, r, c, ng
-    !Input, real dp, point spacing
-    !Input, real r, the radius of the sphere.
-    !Input, real c(3), the coordinates of the center of the sphere.
-    !Output, integer ng, the number of grid points inside the sphere.
+    !> @param[in] dp, r, np
     !---------------------------------------------------------------------------
-    subroutine sphere_np_count(dp, r, center, ng)
+    subroutine sphere_np_count(dp, r, np)
     implicit none
     real(prec), intent(in) :: dp
     real(prec), intent(in) :: r
-    type(vector), intent(in) :: center
-    integer, intent(out) :: ng
+    integer, intent(out) :: np
     integer :: i, j, k, n
-    real(prec) :: x, y, z, c(3)
-
-    c(1)=center%x
-    c(2)=center%y
-    c(3)=center%z
-    n = int(r/dp)
-    !print*, "N = ", n
-    ng = 0
-    do i = 0, n
-        x = c(1) + r * real ( 2 * i, kind = 8 ) / real ( 2 * n + 1, kind = 8 )
-        do j = 0, n
-            y = c(2) + r * real ( 2 * j, kind = 8 ) / real ( 2 * n + 1, kind = 8 )
-            do k = 0, n
-                z = c(3) + r * real ( 2 * k, kind = 8 ) / real ( 2 * n + 1, kind = 8 )
-                if ( r * r < ( x - c(1) )**2 &
-                    + ( y - c(2) )**2 &
-                    + ( z - c(3) )**2 ) then
-                exit
-                end if
-                ng = ng + 1
-                if ( 0 < i ) then
-                    ng = ng + 1
-                end if
-                if ( 0 < j ) then
-                    ng = ng + 1
-                end if
-                if ( 0 < k ) then
-                    ng = ng + 1
-                end if
-                if ( 0 < i .and. 0 < j ) then
-                    ng = ng + 1
-                end if
-                if ( 0 < i .and. 0 < k ) then
-                    ng = ng + 1
-                end if
-                if ( 0 < j .and. 0 < k ) then
-                    ng = ng + 1
-                end if
-                if ( 0 < i .and. 0 < j .and. 0 < k ) then
-                    ng = ng + 1
+    type(vector) :: pts
+    n=int(3*r/dp)
+    do i=1, n
+        do j=1, n
+            do k=1, n
+                pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+                if (pts%normL2() .le. r) then
+                    np=np+1
                 end if
             end do
         end do
     end do
-
+    if (np == 0) then !Just the center point
+        np=1
+    end if
     return
-    end
+    end subroutine
 
-    
     !---------------------------------------------------------------------------
-    !> @John Burkardt
+    !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> private routine that returns points distributed on a grid
-    !> inside a sphere, centered on its center.
-    !    The grid is defined by specifying the radius and center of the sphere,
-    !    and the number of subintervals N into which the horizontal radius
-    !    should be divided.  Thus, a value of N = 2 will result in 5 points
-    !    along that horizontal line.
+    !> private routine that returns the points distributed on a grid
+    !> with spacing dp inside a sphere
     !
-    !> @param[in] dp, r, center, ng, ptlist
-    !Input, real dp, point spacing
-    !Input, real r, the radius of the sphere.
-    !Input, real c(3), the coordinates of the center of the sphere.
-    !Input, integer ng, the number of grid points inside the sphere.
+    !> @param[in] dp, r, np, ptlist
     !---------------------------------------------------------------------------
-    subroutine sphere_grid(dp, r, center, ng, ptlist)   
+    subroutine sphere_grid(dp, r, np, ptlist)
     implicit none
     real(prec), intent(in) :: dp
     real(prec), intent(in) :: r
-    type(vector), intent(in) :: center
-    integer, intent(in)::  ng
-    type(vector), intent(out) :: ptlist(ng)
-    real(prec) :: bg(3,ng)
+    integer, intent(in)::  np
+    type(vector), intent(out) :: ptlist(np)
     integer :: i, j, k, p, n
-    real(prec) :: x, y, z, c(3)
-
-    c(1)=center%x
-    c(2)=center%y
-    c(3)=center%z
-    n = int(r/dp)
-    p = 0
-    do i = 0, n
-        x = c(1) + r * real ( 2 * i, kind = 8 ) / real ( 2 * n + 1, kind = 8 )
-        do j = 0, n
-            y = c(2) + r * real ( 2 * j, kind = 8 ) / real ( 2 * n + 1, kind = 8 )
-            do k = 0, n
-                z = c(3) + r * real ( 2 * k, kind = 8 ) / real ( 2 * n + 1, kind = 8 )
-                if ( r * r < ( x - c(1) )**2 &
-                    + ( y - c(2) )**2 &
-                    + ( z - c(3) )**2 ) then
-                exit
-                end if
-                p = p + 1
-                bg(1,p) = x
-                bg(2,p) = y
-                bg(3,p) = z
-                if ( 0 < i ) then
-                    p = p + 1
-                    bg(1,p) = 2.0D+00 * c(1) - x
-                    bg(2,p) = y
-                    bg(3,p) = z
-                end if
-                if ( 0 < j ) then
-                    p = p + 1
-                    bg(1,p) = x
-                    bg(2,p) = 2.0D+00 * c(2) - y
-                    bg(3,p) = z
-                end if
-                if ( 0 < k ) then
-                    p = p + 1
-                    bg(1,p) = x
-                    bg(2,p) = y
-                    bg(3,p) = 2.0D+00 * c(3) - z
-                end if
-                if ( 0 < i .and. 0 < j ) then
-                    p = p + 1
-                    bg(1,p) = 2.0D+00 * c(1) - x
-                    bg(2,p) = 2.0D+00 * c(2) - y
-                    bg(3,p) = z
-                end if
-                if ( 0 < i .and. 0 < k ) then
-                    p = p + 1
-                    bg(1,p) = 2.0D+00 * c(1) - x
-                    bg(2,p) = y
-                    bg(3,p) = 2.0D+00 * c(3) - z
-                end if
-                if ( 0 < j .and. 0 < k ) then
-                    p = p + 1
-                    bg(1,p) = x
-                    bg(2,p) = 2.0D+00 * c(2) - y
-                    bg(3,p) = 2.0D+00 * c(3) - z
-                end if
-                if ( 0 < i .and. 0 < j .and. 0 < k ) then
-                    p = p + 1
-                    bg(1,p) = 2.0D+00 * c(1) - x
-                    bg(2,p) = 2.0D+00 * c(2) - y
-                    bg(3,p) = 2.0D+00 * c(3) - z
+    type(vector) :: pts
+    n=int(3*r/dp)
+    p=0
+    do i=1, n
+        do j=1, n
+            do k=1, n
+                pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+                if (pts%normL2() .le. r) then
+                    p=p+1
+                    ptlist(p)=pts
                 end if
             end do
         end do
     end do
-    
-    do p=1, ng
-        ptlist(p)%x=bg(1,p)
-        ptlist(p)%y=bg(2,p)
-        ptlist(p)%z=bg(3,p)
-    end do
-
+    if (np == 1) then !Just the center point
+        ptlist(1)= 0*ex + 0*ey +0*ez
+    end if
     return
-    end
+    end subroutine
+
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> private routine that returns the points distributed on a grid
+    !> with spacing dp inside a box
+    !
+    !> @param[in] dp, size, np, ptlist
+    !---------------------------------------------------------------------------
+    subroutine box_grid(dp, size, np, ptlist)
+    implicit none
+    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: size
+    integer, intent(in)::  np
+    type(vector), intent(out) :: ptlist(np)
+    integer :: i, j, k, p
+    p=0
+    do i=1, int(size%x/dp)+1
+        do j=1, int(size%y/dp)+1
+            do k=1, int(size%z/dp)+1
+                p=p+1
+                ptlist(p) = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1))
+            end do
+        end do
+    end do
+    if (np == 1) then !Just the origin
+        ptlist(1)= 0*ex + 0*ey +0*ez
+    end if
+    return
+    end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> private routine that returns the points distributed on a grid
+    !> with spacing dp along a line
+    !
+    !> @param[in] dp, size, np, ptlist
+    !---------------------------------------------------------------------------
+    subroutine line_grid(dp, dist, np, ptlist)
+    implicit none
+    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: dist
+    integer, intent(in)::  np
+    type(vector), intent(out) :: ptlist(np)
+    integer :: i, j, k, p
+
+    do p=1, np
+        ptlist(p) = dp/np*(dist*(p-1))
+    end do
+    if (np == 1) then !Just the origin
+        ptlist(1)= 0*ex + 0*ey +0*ez
+    end if
+    return
+    end subroutine
 
     end module geometry

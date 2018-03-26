@@ -18,7 +18,7 @@
 				<active start="15" end="end"/>
 				<box>                        
 					<point x="-5.5" y="0" z="0" />
-					<size x="5" y="15" z="2.9" />
+					<size x="0.5" y="3" z="4.5" />
 				</box>
 			</source>
 			<source>
