@@ -29,7 +29,7 @@
         integer :: size_of_tracers   !< Size of the tracers in memory (bytes)
         integer :: size_of_defs      !< Size of the parameters and definitions in memory (bytes)
     contains
-    procedure :: init
+    procedure :: initialize
     procedure :: addsource
     procedure :: addtracer
     procedure :: adddef
@@ -52,7 +52,7 @@
     !> @brief
     !> Private memory logger initialization method.
     !---------------------------------------------------------------------------
-    subroutine init(self)
+    subroutine initialize(self)
     implicit none
     class(memory_t), intent(inout) :: self
     self%size_of_sources = 0

@@ -22,6 +22,7 @@
     use tracer_base
     use simulation_globals
     use source_identity
+    use source_emitter
     use about
 
     use FoX_dom
@@ -412,14 +413,15 @@
     endif
 
     !initializing memory log
-    call SimMemory%init()
+    call SimMemory%initialize()
 
     call init_caseconstants(xmldoc)
     call init_simdefs(xmldoc)
     call init_parameters(xmldoc)
     call init_sources(xmldoc)
     
-    !With the Sources initialized, now we initialize the tracers
+    !With the Sources initialized, now we initialize the Emmiter class
+    call Emitter%initialize(Source,size(Source))
 
     !printing memory occupation at the time
     call SimMemory%printout()

@@ -292,12 +292,12 @@
     temp_str(2)=self%Pointmin%y
     temp_str(3)=self%Pointmin%z
     outext = outext//'       Pointmin (BB) is '//new_line('a')//&
-        '       '//temp_str(1)//temp_str(2)//temp_str(3)//new_line('a')
+        '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
     temp_str(1)=self%Pointmax%x
     temp_str(2)=self%Pointmax%y
     temp_str(3)=self%Pointmax%z
     outext = outext//'       Pointmax (BB) is '//new_line('a')//&
-        '       '//temp_str(1)//temp_str(2)//temp_str(3)
+        '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)
 
     call ToLog(outext,.false.)
     end subroutine

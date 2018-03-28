@@ -19,8 +19,8 @@
     module geometry
 
     use vecfor
-    use simulation_precision
     use stringifor
+    use simulation_precision    
     use simulation_logger
 
     implicit none
@@ -28,12 +28,12 @@
 
     !Update with any new additions as they are added
     type(string), allocatable, dimension(:) :: GeomList !< String list (array) with the name of possible geometry types.
-
-    type shape                      !<Type - extendable shape class        
+        
+    type, abstract :: shape                      !<Type - extendable shape class        
         type(vector) :: pt              !< Coordinates of a point
     contains
-    procedure :: getnp                  !<Gets the number of points that define that geometry (base on GLOBALS::dp)
-    procedure :: getpointdistribution   !<Gets the actual list of points always referant to the origin
+    procedure :: getnp                  !<Gets the number of points that define that geometry (based on GLOBALS::dp)
+    procedure :: getpointdistribution   !<Gets the actual list of points always referant to the origin (based on GLOBALS::dp)
     end type
     
     type, extends(shape) :: point   !<Type - point class

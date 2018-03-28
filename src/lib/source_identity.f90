@@ -27,7 +27,7 @@
     type source_par               !<Type - parameters of a source object
         integer :: id                       !< unique source identification (integer)
         real(prec_time) :: emitting_rate    !< Emitting rate of the source (Hz)
-        real(prec_time) :: starttime        !< time to start emitting tracers
+        real(prec_time) :: startime        !< time to start emitting tracers
         real(prec_time) :: stoptime         !< time to stop emitting tracers
         type(string) :: name                !< source name
         type(string) :: property_name       !< source property name
@@ -73,7 +73,7 @@
 
 
     !Public access vars
-    public :: Source
+    public :: Source, source_class
     !Public access procedures
     public :: allocSources
 
@@ -127,7 +127,7 @@
     !Setting parameters
     src%par%id=id
     src%par%emitting_rate=emitting_rate
-    src%par%starttime=start
+    src%par%startime=start
     src%par%stoptime=finish
     src%par%name=name
     src%par%source_geometry=source_geometry
@@ -185,10 +185,11 @@
     temp_str(2)=src%now%pos%y
     temp_str(3)=src%now%pos%z
     outext = outext//'       Initially at coordinates'//new_line('a')//&
-        '       '//temp_str(1)//temp_str(2)//temp_str(3)//new_line('a')
+        '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
     temp_str(1)=src%par%emitting_rate
-    outext = outext//'       Emitting rate of '//temp_str(1)//' Hz'//new_line('a')
-    temp_str(1)=src%par%starttime
+    temp_str(2)=src%stencil%np
+    outext = outext//'       Emitting '//temp_str(2)//' tracers at a rate of '//temp_str(1)//' Hz'//new_line('a')
+    temp_str(1)=src%par%startime
     temp_str(2)=src%par%stoptime
     outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'
 

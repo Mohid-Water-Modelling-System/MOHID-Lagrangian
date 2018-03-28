@@ -18,16 +18,15 @@
 
 MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
 =====================================================================
-2018-3-26 @17:37:35 ->Logger initialized
-2018-3-26 @17:37:35 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-3-27 @18:14:50 ->Logger initialized
+2018-3-27 @18:14:50 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case constants
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
        Pointmin (BB) is 
-       -0.100000000000000E+002 0.000000000000000E+000-0.500010000000000E+003
+       -0.100000000000000E+002  0.000000000000000E+000 -0.500010000000000E+003
        Pointmax (BB) is 
-       +0.100000000000000E+005+0.200050000000000E+005+0.405740000000000E+001
-
+       +0.100000000000000E+005 +0.200050000000000E+005 +0.405740000000000E+001
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL=+0.800000E+00
@@ -38,29 +37,29 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        Id = +0
        Geometry type is box
        Initially at coordinates
-       -0.550000000000000E+001 0.000000000000000E+000 0.000000000000000E+000
-       Emitting rate of +0.100000E+00 Hz
-       Active from +0.150000E+02 to+0.100000E+03 seconds
+       -0.550000000000000E+001  0.000000000000000E+000  0.000000000000000E+000
+       Emitting +20 tracers at a rate of +0.100000E+00 Hz
+       Active from +0.150000E+02 to +0.100000E+03 seconds
  -->Source Litter_plastic allocated
        Id = +1
        Geometry type is point
        Initially at coordinates
-       +0.490000000000000E+000+0.490000000000000E+000+0.750000000000000E+000
-       Emitting rate of +0.100000E-01 Hz
-       Active from +0.150000E+02 to+0.900000E+02 seconds
+       +0.490000000000000E+000 +0.490000000000000E+000 +0.750000000000000E+000
+       Emitting +1 tracers at a rate of +0.900000E-01 Hz
+       Active from +0.150000E+02 to +0.900000E+02 seconds
  -->Source Plankton_2 allocated
        Id = +2
        Geometry type is line
        Initially at coordinates
-       +0.100000000000000E+001+0.200000000000000E+001+0.300000000000000E+001
-       Emitting rate of +0.200000E+00 Hz
-       Active from  0.000000E+00 to+0.100000E+03 seconds
+       +0.100000000000000E+001 +0.200000000000000E+001 +0.300000000000000E+001
+       Emitting +35 tracers at a rate of +0.200000E+00 Hz
+       Active from  0.000000E+00 to +0.100000E+03 seconds
  -->Source Mistery_discharge_0 allocated
        Id = +3
        Geometry type is sphere
        Initially at coordinates
-        0.000000000000000E+000 0.000000000000000E+000 0.000000000000000E+000
-       Emitting rate of +0.500000E-01 Hz
-       Active from +0.112500E+01 to+0.100000E+03 seconds
-2018-3-26 @17:37:35 ->Total allocated memory: +0.189600E-02mb
-2018-3-26 @17:37:35 Simulation ended, freeing resources. See you next time
+       +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
+       Emitting +672 tracers at a rate of +0.500000E-01 Hz
+       Active from +0.112500E+01 to +0.100000E+03 seconds
+2018-3-27 @18:14:50 ->Total allocated memory: +0.189600E-02mb
+2018-3-27 @18:14:50 Simulation ended, freeing resources. See you next time

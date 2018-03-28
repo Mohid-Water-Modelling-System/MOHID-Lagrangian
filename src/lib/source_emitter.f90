@@ -26,6 +26,61 @@ module source_emitter
     implicit none
     private
     
+    type :: emitter_t
+        integer :: emitted
+    contains
+    procedure :: initialize
+    end type
+    
+    type(emitter_t) ::  Emitter
+    
+    !Public access vars
+    public :: Emitter
+    
+    contains
+    
+    
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method that returns the total number of tracers an input 
+    !> source can potentially create
+    !
+    !> @param[in] self, src
+    !---------------------------------------------------------------------------
+    subroutine initialize(self, srcs, nsrcs)
+    implicit none
+    class(emitter_t), intent(in) :: self
+    class(source_class), intent(inout) :: srcs(nsrcs)
+    integer, intent(in) :: nsrcs
+    integer :: i
+    
+    do i=1, nsrcs
+        call setotalnp(srcs(i))
+        !print*, srcs(i)%stencil%total_np
+    end do
+    
+    end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> private routine that returns the total number of tracers an input 
+    !> source will potentially create
+    !
+    !> @param[in] src
+    !---------------------------------------------------------------------------
+    subroutine setotalnp(src)
+    implicit none
+    class(source_class), intent(inout) :: src
+    src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np
+    end subroutine
+    
     
     
         

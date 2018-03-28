@@ -23,7 +23,7 @@
 			</source>
 			<source>
 				<setsource id="1" name="Litter_plastic" />
-				<set emitting_rate="0.01" units_comment="Hz" />
+				<set emitting_rate="0.09" units_comment="Hz" />
 				<active start="15" end="90"/>
 				<point x="0.49" y="0.49" z="0.75" />
 			</source>
@@ -40,8 +40,8 @@
 				<setsource id="3" name="Mistery_discharge_0" />
 				<set emitting_rate="0.05" units_comment="Hz" />
 				<active start="1.125" end="end"/>
-				<sphere radius="1.5">
-					<point x="0" y="0" z="0" />
+				<sphere radius="5.5">
+					<point x="50" y="0" z="0" />
 				</sphere>
 			</source>
         </sourcedef>
@@ -53,16 +53,7 @@
                 <link source="3" property="sed1" comment="Property for the sediment scalar" />
 				<link source="2" property="plastic001" comment="Property for a plastic type" />
             </links>
-            <property name="sed1">
-                <Ci value="0.95" />
-                <Rs value="0.0004" />
-                <Cmax value="0.95" />
-                <RhoS value="2.00" />
-            </property>
-			<property name="plastic001">                
-                <Rs value="0.04" />                
-                <RhoS value="0.90" />
-            </property>
+            <propertyfile name="Lagrangian_props"/>            
         </properties>		
     </casedef>
     <execution>
