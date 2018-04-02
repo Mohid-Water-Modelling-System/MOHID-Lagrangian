@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['line',['line',['../structgeometry_1_1line.html',1,'geometry']]]
+  ['emitter_5ft',['emitter_t',['../structsource__emitter_1_1emitter__t.html',1,'source_emitter']]]
 ];

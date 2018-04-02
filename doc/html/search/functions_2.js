@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['deallocate_5fsimulation',['deallocate_simulation',['../namespacefinalize.html#a2b6733e6db5a768ac96ad9274685ad43',1,'finalize']]]
+  ['closelog',['closelog',['../namespacefinalize.html#ac448631d05fe5daa8739f32c95e89152',1,'finalize']]]
 ];

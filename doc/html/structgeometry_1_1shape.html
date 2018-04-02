@@ -20,6 +20,12 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -114,8 +120,10 @@ Inheritance diagram for geometry::shape:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ad661871b6433bc48b165c400524dde90"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeometry_1_1shape.html#ad661871b6433bc48b165c400524dde90">getnp</a></td></tr>
+<tr class="memdesc:ad661871b6433bc48b165c400524dde90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of points that define that geometry (based on GLOBALS::dp)  <a href="#ad661871b6433bc48b165c400524dde90">More...</a><br /></td></tr>
 <tr class="separator:ad661871b6433bc48b165c400524dde90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9df712486b716b472955c14057eab7ff"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeometry_1_1shape.html#a9df712486b716b472955c14057eab7ff">getpointdistribution</a></td></tr>
+<tr class="memdesc:a9df712486b716b472955c14057eab7ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the actual list of points always referant to the origin (based on GLOBALS::dp)  <a href="#a9df712486b716b472955c14057eab7ff">More...</a><br /></td></tr>
 <tr class="separator:a9df712486b716b472955c14057eab7ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -150,6 +158,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets the number of points that define that geometry (based on GLOBALS::dp) </p>
+
 </div>
 </div>
 <a id="a9df712486b716b472955c14057eab7ff"></a>
@@ -174,6 +184,8 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets the actual list of points always referant to the origin (based on GLOBALS::dp) </p>
 
 </div>
 </div>

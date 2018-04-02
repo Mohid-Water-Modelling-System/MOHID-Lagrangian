@@ -35,6 +35,7 @@
     procedure :: adddef
     procedure :: getotal
     procedure :: printout => printmemory
+    procedure :: detailedprintout => printmemorydetailed
     end type
 
     !Simulation variables
@@ -139,6 +140,39 @@
     sizemb = size*1E-6
     temp= sizemb
     outext='->Total allocated memory: '//temp//'mb'
+    call ToLog(outext)
+
+    return
+    end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private method to print the allocated memory.
+    !---------------------------------------------------------------------------
+    subroutine printmemorydetailed(self)
+    implicit none
+    class(memory_t), intent(inout) :: self
+    integer :: size
+    real :: sizemb
+    type(string) :: outext,temp(4)
+
+    call self%getotal(size)
+    sizemb = size*1E-6
+    temp(1)= sizemb
+    sizemb = self%size_of_sources*1E-6
+    temp(2)= sizemb
+    sizemb = self%size_of_tracers*1E-6
+    temp(3)= sizemb
+    sizemb = self%size_of_defs*1E-6
+    temp(4)= sizemb
+    
+    outext='->Total allocated memory: '//temp(1)//'mb'//new_line('a')//&
+        '       Allocated memory for Sources = '//temp(2)//'mb'//new_line('a')//&
+        '       Allocated memory for Tracers = '//temp(3)//'mb'//new_line('a')//&
+        '       Allocated memory for Consts  = '//temp(4)//'mb'
     call ToLog(outext)
 
     return

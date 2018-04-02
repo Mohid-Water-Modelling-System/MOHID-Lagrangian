@@ -1,5 +1,5 @@
   <MOHIDLagrangian> Copyright (C) 2018 by
-  R. Birjukovs Canelas
+  R. Birjukovs Canelas, R. Neves, F. Campuzano, H. de Pablo Lenonardo
 
   MARETEC - Research Centre for Marine, Environment and Technology
 
@@ -16,10 +16,10 @@
   along with MOHIDLagrangian. If not, see <http://www.gnu.org/licenses/>.,
 
 
-MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
+MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
 =====================================================================
-2018-3-27 @18:14:50 ->Logger initialized
-2018-3-27 @18:14:50 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-4-2 @16:51:19 ->Logger initialized
+2018-4-2 @16:51:19 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case constants
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
@@ -31,7 +31,7 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        Integrator scheme is Runge-Kuta 4
        CFL=+0.800000E+00
        WarmUpTime=+0.100000E+00 s
-       TimeMax=+0.100000E+03 s
+       TimeMax=+0.152000E+04 s
        TimeOut=+0.110000E+01 Hz
  -->Source Spill_007 allocated
        Id = +0
@@ -39,7 +39,7 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        Initially at coordinates
        -0.550000000000000E+001  0.000000000000000E+000  0.000000000000000E+000
        Emitting +20 tracers at a rate of +0.100000E+00 Hz
-       Active from +0.150000E+02 to +0.100000E+03 seconds
+       Active from +0.150000E+02 to +0.152000E+04 seconds
  -->Source Litter_plastic allocated
        Id = +1
        Geometry type is point
@@ -53,13 +53,17 @@ MOHIDLagrangian v0.0.1 (R. Birjukovs Canelas) (15-03-2018)
        Initially at coordinates
        +0.100000000000000E+001 +0.200000000000000E+001 +0.300000000000000E+001
        Emitting +35 tracers at a rate of +0.200000E+00 Hz
-       Active from  0.000000E+00 to +0.100000E+03 seconds
+       Active from  0.000000E+00 to +0.152000E+04 seconds
  -->Source Mistery_discharge_0 allocated
        Id = +3
        Geometry type is sphere
        Initially at coordinates
        +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
        Emitting +672 tracers at a rate of +0.500000E-01 Hz
-       Active from +0.112500E+01 to +0.100000E+03 seconds
-2018-3-27 @18:14:50 ->Total allocated memory: +0.189600E-02mb
-2018-3-27 @18:14:50 Simulation ended, freeing resources. See you next time
+       Active from +0.112500E+01 to +0.152000E+04 seconds
+2018-4-2 @16:51:19 Allocated +64690 Tracers.
+2018-4-2 @16:51:19 ->Total allocated memory: +0.134574E+02mb
+       Allocated memory for Sources = +0.180000E-02mb
+       Allocated memory for Tracers = +0.134555E+02mb
+       Allocated memory for Consts  = +0.104000E-03mb
+2018-4-2 @16:51:19 Simulation ended, freeing resources. See you next time

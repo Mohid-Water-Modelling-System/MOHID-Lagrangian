@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['closelog',['closelog',['../namespacefinalize.html#ac448631d05fe5daa8739f32c95e89152',1,'finalize']]]
+  ['box_5fgrid',['box_grid',['../namespacegeometry.html#ab7f40c137db819829d3110dac77a2977',1,'geometry']]]
 ];

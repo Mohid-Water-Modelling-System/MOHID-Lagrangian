@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['finalizemohidlagrangian',['finalizemohidlagrangian',['../namespacefinalize.html#a57aceaa0eb3b16c1942dd2cb013010e4',1,'finalize']]]
+  ['deallocate_5fsimulation',['deallocate_simulation',['../namespacefinalize.html#a2b6733e6db5a768ac96ad9274685ad43',1,'finalize']]]
 ];

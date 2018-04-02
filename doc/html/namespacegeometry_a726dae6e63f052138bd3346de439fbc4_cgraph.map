@@ -1,5 +1,7 @@
 <map id="geometry::getpointdistribution" name="geometry::getpointdistribution">
-<area shape="rect" id="node2" href="$namespacegeometry.html#ae1ab88f5bfa764765180e1ba417e4bdf" title="Burkardt " alt="" coords="247,5,397,32"/>
-<area shape="rect" id="node3" href="$namespacesimulation__logger.html#a3aaa69ec168b6f34d703fb4033a22d92" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="257,57,387,98"/>
-<area shape="rect" id="node4" href="$namespacesimulation__logger.html#a13446c36aac51547a72b39003f735257" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="445,57,576,98"/>
+<area shape="rect" id="node2" href="$namespacegeometry.html#ab7f40c137db819829d3110dac77a2977" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="255,5,389,32"/>
+<area shape="rect" id="node3" href="$namespacegeometry.html#a7d580229bc67448e6389d0beef0c04cb" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="256,56,388,83"/>
+<area shape="rect" id="node4" href="$namespacegeometry.html#a9629040285de7053d42f434333528702" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="247,107,397,133"/>
+<area shape="rect" id="node5" href="$namespacesimulation__logger.html#a3aaa69ec168b6f34d703fb4033a22d92" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="257,158,387,199"/>
+<area shape="rect" id="node6" href="$namespacesimulation__logger.html#a13446c36aac51547a72b39003f735257" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="445,158,576,199"/>
 </map>

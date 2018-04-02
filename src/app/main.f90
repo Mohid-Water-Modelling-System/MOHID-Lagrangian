@@ -1,9 +1,8 @@
     program MOHIDLagrangian
     
-    use source
     use CLA    !Command line argument module
     use commom_modules
-    use simulation_globals
+    use sources
 
     implicit none
 

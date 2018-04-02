@@ -53,7 +53,7 @@
     end type
     
     type source_stencil         !<Type - holder for the tracer creation stencil of the source
-        integer :: np                       !<number of tracers by emission
+        integer :: np                       !< Number of tracers by emission
         integer :: total_np                 !< Total number of tracers that this source will generate
         type(vector), allocatable, dimension(:) :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission
     end type
@@ -120,7 +120,7 @@
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: geometry
-    integer :: size, i
+    integer :: sizem, i
     type(string) :: outext
     integer err
 
@@ -150,8 +150,8 @@
     endif
     call src%par%geometry%getpointdistribution(src%stencil%np,SimDefs%Dp,src%stencil%ptlist)
     
-    size = sizeof(src)
-    call SimMemory%addsource(size)
+    sizem = sizeof(src)
+    call SimMemory%addsource(sizem)
     call src%printout()
     
     !DBG

@@ -18,7 +18,13 @@
 
     module simulation_globals
 
-    use commom_modules
+    use penf
+    use vecfor
+    use stringifor
+    
+    use simulation_precision    
+    use simulation_logger
+    use simulation_memory
 
     implicit none
     private
@@ -81,25 +87,25 @@
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
     character(80) :: value
-    integer :: size
+    integer :: sizem
     !add new parameters to this search
     if (parmkey%chars()=="Integrator") then
         self%Integrator=parmvalue%to_number(kind=1_I1P)
-        size=sizeof(self%Integrator)
+        sizem=sizeof(self%Integrator)
     elseif(parmkey%chars()=="CFL") then
         self%CFL=parmvalue%to_number(kind=1._R4P)
-        size=sizeof(self%CFL)
+        sizem=sizeof(self%CFL)
     elseif(parmkey%chars()=="WarmUpTime") then
         self%WarmUpTime=parmvalue%to_number(kind=1._R4P)
-        size=sizeof(self%WarmUpTime)
+        sizem=sizeof(self%WarmUpTime)
     elseif(parmkey%chars()=="TimeMax") then
         self%TimeMax=parmvalue%to_number(kind=1._R4P)
-        size=sizeof(self%TimeMax)
+        sizem=sizeof(self%TimeMax)
     elseif(parmkey%chars()=="TimeOut") then
         self%TimeOut=parmvalue%to_number(kind=1._R4P)
-        size=sizeof(self%TimeOut)        
+        sizem=sizeof(self%TimeOut)        
     endif
-    call SimMemory%adddef(size)
+    call SimMemory%adddef(sizem)
     return
     end subroutine
 
@@ -161,10 +167,10 @@
     implicit none
     class(constants_t), intent(inout) :: self
     type(vector) :: grav
-    integer :: size
+    integer :: sizem
     self%Gravity= grav
-    size=sizeof(self%Gravity)
-    call SimMemory%adddef(size)
+    sizem=sizeof(self%Gravity)
+    call SimMemory%adddef(sizem)
     return
     end subroutine
 
@@ -182,15 +188,15 @@
     class(constants_t), intent(inout) :: self
     type(string), intent(in) :: read_rho
     type(string) :: outext
-    integer :: size
+    integer :: sizem
     self%Rho_ref=read_rho%to_number(kind=1._R4P)
     if (self%Rho_ref.le.0.0) then
         outext='Rho_ref must be positive and non-zero, stopping'
         call ToLog(outext)
         stop
     endif
-    size = sizeof(self%Rho_ref)
-    call SimMemory%adddef(size)
+    sizem = sizeof(self%Rho_ref)
+    call SimMemory%adddef(sizem)
     return
     end subroutine
 
@@ -208,15 +214,15 @@
     class(simdefs_t), intent(inout) :: self
     type(string), intent(in) :: read_dp
     type(string) :: outext
-    integer :: size
+    integer :: sizem
     self%Dp=read_dp%to_number(kind=1._R4P)
     if (self%Dp.le.0.0) then
         outext='Dp must be positive and non-zero, stopping'
         call ToLog(outext)
         stop
     endif
-    size = sizeof(self%Dp)
-    call SimMemory%adddef(size)
+    sizem = sizeof(self%Dp)
+    call SimMemory%adddef(sizem)
     return
     end subroutine
     
@@ -234,15 +240,15 @@
     class(simdefs_t), intent(inout) :: self
     type(string), intent(in) :: read_dt
     type(string) :: outext
-    integer :: size
+    integer :: sizem
     self%dt=read_dt%to_number(kind=1._R4P)
     if (self%dt.le.0.0) then
         outext='dt must be positive and non-zero, stopping'
         call ToLog(outext)
         stop
     endif
-    size = sizeof(self%dt)
-    call SimMemory%adddef(size)
+    sizem = sizeof(self%dt)
+    call SimMemory%adddef(sizem)
     return
     end subroutine
 
@@ -260,14 +266,14 @@
     class(simdefs_t), intent(inout) :: self
     type(string), intent(in) :: point_
     type(vector) :: coords
-    integer :: size
+    integer :: sizem
     if (point_%chars() == "pointmin") then
         self%Pointmin= coords
     elseif (point_%chars() == "pointmax") then
         self%Pointmax= coords
     endif
-    size=sizeof(coords)
-    call SimMemory%adddef(size)
+    sizem=sizeof(coords)
+    call SimMemory%adddef(sizem)
     return
     end subroutine
 

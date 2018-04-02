@@ -35,7 +35,7 @@
     public :: initMohidLagrangian
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -118,7 +118,7 @@
     type(Node), intent(in), pointer :: source           !<Working xml node
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
     class(shape), intent(inout) :: geometry             !<Geometrical object to fill
-    type(string) :: outext    
+    type(string) :: outext
     type(string) :: tag
 
     select type (geometry)
@@ -384,8 +384,6 @@
     subroutine initMohidLagrangian(xmlfilename)
     implicit none
     type(string), intent(in) :: xmlfilename         !< .xml file name
-
-    !local vars
     type(string) :: outext
     type(Node), pointer :: xmldoc                   !< .xml file handle
     integer :: i
@@ -415,21 +413,23 @@
     !initializing memory log
     call SimMemory%initialize()
 
+    ! building the simulation basic structures according to the case definition file
+    ! every other structure in the simulation is built from these, i.e., not defined by the user
     call init_caseconstants(xmldoc)
     call init_simdefs(xmldoc)
     call init_parameters(xmldoc)
     call init_sources(xmldoc)
-    
-    !With the Sources initialized, now we initialize the Emmiter class
-    call Emitter%initialize(Source,size(Source))
+
+    !With the Sources initialized, now we initialize the Emmiter class, that automatically
+    !allocates and initializes all of the useable tracers
+    call Emitter%initialize(Source)
 
     !printing memory occupation at the time
-    call SimMemory%printout()
+    call SimMemory%detailedprintout()
 
     call destroy(xmldoc)
 
     return
     end subroutine
-
 
     end module initialize

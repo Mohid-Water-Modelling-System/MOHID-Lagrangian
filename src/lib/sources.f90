@@ -16,13 +16,13 @@
 !> Module to hold and wrap all the tracer sources respective modules. Defines a source class and related methods.
 !------------------------------------------------------------------------------
     
-module source 
+module sources 
     
-    use tracer    
+    use tracers    
     use initialize
     use finalize
 
     use source_identity
     use source_emitter
     
-end module source 
+end module sources 

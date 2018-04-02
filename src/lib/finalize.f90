@@ -21,6 +21,7 @@
     use tracer_base
     use simulation_globals
     use source_identity
+    use tracer_base
 
     use commom_modules
 
@@ -57,8 +58,9 @@
     !---------------------------------------------------------------------------
     subroutine deallocate_simulation
     implicit none    
-    !deallocating Sources
+    !deallocating large memory structures
     deallocate(Source)
+    deallocate(Tracer)
     end subroutine
     
     !---------------------------------------------------------------------------

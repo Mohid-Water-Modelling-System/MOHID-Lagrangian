@@ -44,12 +44,12 @@
     implicit none
     type(string) :: outext
     
-    version  ="v0.0.1"
+    version  ="v0.0.2"
     author   ="R. Birjukovs Canelas"
-    date     ="15-03-2018"
+    date     ="02-04-2018"
 
     outext = ' <MOHIDLagrangian> Copyright (C) 2018 by'//new_line('a')//&
-        '  R. Birjukovs Canelas'//new_line('a')//&
+        '  R. Birjukovs Canelas, R. Neves, F. Campuzano, H. de Pablo Lenonardo'//new_line('a')//&
         ''//new_line('a')//&
         '  MARETEC - Research Centre for Marine, Environment and Technology'//new_line('a')//&
         ''//new_line('a')//&

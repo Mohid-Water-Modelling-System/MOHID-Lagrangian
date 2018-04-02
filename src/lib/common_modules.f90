@@ -26,5 +26,6 @@ module commom_modules
     use simulation_precision    
     use simulation_logger
     use simulation_memory
+    use simulation_globals
     
 end module commom_modules 

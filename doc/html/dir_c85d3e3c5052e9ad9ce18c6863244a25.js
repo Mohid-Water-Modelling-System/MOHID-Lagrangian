@@ -10,7 +10,7 @@ var dir_c85d3e3c5052e9ad9ce18c6863244a25 =
     [ "simulation_memory.f90", "simulation__memory_8f90.html", "simulation__memory_8f90" ],
     [ "simulation_precision.f90", "simulation__precision_8f90.html", "simulation__precision_8f90" ],
     [ "source.f90", "source_8f90.html", null ],
-    [ "source_emitter.f90", "source__emitter_8f90.html", null ],
+    [ "source_emitter.f90", "source__emitter_8f90.html", "source__emitter_8f90" ],
     [ "source_identity.f90", "source__identity_8f90.html", "source__identity_8f90" ],
     [ "tracer.f90", "tracer_8f90.html", null ],
     [ "tracer_base.f90", "tracer__base_8f90.html", "tracer__base_8f90" ],

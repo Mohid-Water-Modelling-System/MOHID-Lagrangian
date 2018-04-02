@@ -1,6 +1,7 @@
 var hierarchy =
 [
     [ "simulation_globals::constants_t", "structsimulation__globals_1_1constants__t.html", null ],
+    [ "source_emitter::emitter_t", "structsource__emitter_1_1emitter__t.html", null ],
     [ "simulation_memory::memory_t", "structsimulation__memory_1_1memory__t.html", null ],
     [ "simulation_globals::parameters_t", "structsimulation__globals_1_1parameters__t.html", null ],
     [ "geometry::shape", "structgeometry_1_1shape.html", [

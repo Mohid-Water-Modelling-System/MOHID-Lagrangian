@@ -1,43 +1,36 @@
-!------------------------------------------------------------------------------
-!        IST/MARETEC, Water Modelling Group, Mohid modelling system
-!------------------------------------------------------------------------------
-!
-! TITLE         : Mohid Model
-! PROJECT       : Mohid Lagrangian Tracer
-! MODULE        : tracer_base
-! URL           : http://www.mohid.com
-! AFFILIATION   : IST/MARETEC, Marine Modelling Group
-! DATE          : Feb 2018
-! REVISION      : Canelas 0.1
-!> @author
-!> Ricardo Birjukovs Canelas
-!
-! DESCRIPTION: 
-!> Module that defines a pure Lagrangian tracer class and related methods.
-!------------------------------------------------------------------------------
-    
-module tracer_base
+    !------------------------------------------------------------------------------
+    !        IST/MARETEC, Water Modelling Group, Mohid modelling system
+    !------------------------------------------------------------------------------
+    !
+    ! TITLE         : Mohid Model
+    ! PROJECT       : Mohid Lagrangian Tracer
+    ! MODULE        : tracer_base
+    ! URL           : http://www.mohid.com
+    ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
+    ! DATE          : April 2018
+    ! REVISION      : Canelas 0.1
+    !> @author
+    !> Ricardo Birjukovs Canelas
+    !
+    ! DESCRIPTION:
+    !> Module that defines a pure Lagrangian tracer class and related methods.
+    !------------------------------------------------------------------------------
 
-    use tracer_interp    
+    module tracer_base
+
+    use tracer_interp
     use commom_modules
 
     implicit none
     private
 
-    type tracer_par_trans_class             !<Type - transient parameters of a pure Lagrangian tracer object        
-        character(len=512) :: par_trans_file 
-        logical            :: use_par_trans
-    end type 
-
-    type tracer_par_class                   !<Type - parameters of a pure Lagrangian tracer object
-        integer :: id                           !< unique tracer identification (integer)
-        integer :: group                        !< Group to which the tracer belongs (usually by source)
-        real(prec) :: vel_max                   !< Maximum velocity of tracer to track (m/s)
-        logical    :: noise                     !  Add noise to location - TODO
-        character(len=56) :: interp_method      !< interpolation method this tracer calls
-        ! Transient parameters         
-        type(tracer_par_trans_class) :: tpar    !< access to the transient parameters is done through this
-    end type 
+    type tracer_par_class               !<Type - parameters of a pure Lagrangian tracer object
+        integer :: id                       !< unique tracer identification
+        integer :: idsource                 !< Source to which the tracer belongs
+        real(prec) :: velmax                !< Maximum velocity of tracer to track (m/s)
+        logical    :: noise                 !  Add noise to location
+        type(string) :: interp_method       !< interpolation method this tracer calls
+    end type
 
     type tracer_state_class             !<Type - state variables of a pure Lagrangian tracer object
         real(prec_time) :: age              ! time variables
@@ -46,74 +39,73 @@ module tracer_base
         type(vector) :: vel                 !< Velocity of the tracer (m s-1)
         type(vector) :: acc                 !< Acceleration of the tracer (m s-2)
         real(prec) :: depth                 !< Depth of the tracer (m)
-        real(prec) :: T                     !< Temperature of the tracer (Celcius)
-    end type 
+        !real(prec) :: T                     !< Temperature of the tracer (Celcius)
+    end type
 
-    type tracer_stats_class             !<Type - statistical variables of a pure Lagrangian tracer object        
+    type tracer_stats_class             !<Type - statistical variables of a pure Lagrangian tracer object
         ! All stats variables at writing precision (prec_wrt)
         ! Avegarge variable is computed by Accumulated_var / ns
         type(vector) :: acc_pos             !< Accumulated position of the tracer (m)
         type(vector) :: acc_vel             !< Accumulated velocity of the tracer (m s-1)
         real(prec_wrt) :: acc_depth         !< Accumulated depth of the tracer (m)
-        real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
+        !real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
         integer :: ns                       !< Number of sampling steps
-    end type    
+    end type
 
     type tracer_class                   !<Type - The pure Lagrangian tracer class
         type(tracer_par_class)   :: par     !<To access parameters
         type(tracer_state_class) :: now     !<To access state variables
         type(tracer_stats_class) :: stats   !<To access statistics
-    end type 
+    contains
+    procedure :: initialize
+    end type
 
-    ! For other tracer modules, altough we want them to inherit from tracer_class directly
-    !public :: tracer_par_class
-    !public :: tracer_state_class
-    !public :: tracer_stats_class
+    !Simulation variables
+    type(tracer_class), allocatable, dimension(:) :: Tracer
 
-    ! General public 
-    public :: tracer_class
-    public :: tracer_init
+    !Public access vars
+    public :: Tracer
 
-    contains 
-    
-   !---------------------------------------------------------------------------  
-   !> @Ricardo Birjukovs Canelas - MARETEC
-   ! Routine Author Name and Affiliation.
-   ! 
-   !> @brief
-   !> Tracer inititialization routine - Generates a tracer and initializes its variables
-   ! 
-   !> @param[out] trc      
-   !> @param[in] filename
-   !---------------------------------------------------------------------------
-    subroutine tracer_init(trc,id,time,x,y,z)
-   
-        implicit none
-   
-        type(tracer_class),   intent(inout) :: trc
-        integer, intent(IN) :: id
-        real(prec), intent(IN) :: x, y, z  
-        real(prec_time), intent(IN) :: time 
-   
-        ! Local variables 
-        integer :: i         
-        
-        ! initialize parameters
-        trc%par%id = id
-        !vel_max, noise, interp_method
-                
-        ! Initialize position
-        trc%now%pos = x*ex + y*ey + z*ez    !ex ... are versors along the x... axis
-        !for depth, T we need info from the hydrodynamic solution and the mesh
-        
-        ! Initialize statistical accumulator variables
-        
-        !Initialize transient parameters
-        
-        return 
-   
-    end subroutine tracer_init   
+    contains
 
-end module tracer_base 
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Tracer inititialization method
+    !
+    !> @param[in]
+    !---------------------------------------------------------------------------
+    subroutine initialize(trc,id,id_source,time,pt)
+    implicit none
+    class(tracer_class) :: trc
+    integer, intent(in) :: id
+    integer, intent(in) :: id_source
+    type(vector), intent(in) :: pt
+    real(prec_time), intent(in) :: time
+
+    ! initialize parameters
+    trc%par%id = id
+    trc%par%idsource = id_source
+    trc%par%velmax = 15.0 !(m/s, just a placeholder)
+    ! interp_method - TODO
+    ! initialize tracer state
+    trc%now%age=0.0
+    trc%now%active = .false.
+    trc%now%pos = pt
+    trc%now%vel = 0.0
+    trc%now%acc = 0.0
+    trc%now%depth = 0.0
+    ! Initialize statistical accumulator variables
+    trc%stats%acc_pos = 0.0
+    trc%stats%acc_vel = 0.0
+    trc%stats%acc_depth = 0.0
+    trc%stats%ns = 0
+
+    return
+    end subroutine
+
+    end module tracer_base
 
 

@@ -20,6 +20,12 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -120,24 +126,30 @@ Data Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:ad14d7800ac13b9a6722ac96b06ce94c9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#ad14d7800ac13b9a6722ac96b06ce94c9">getnp</a> (self, np, dp)</td></tr>
-<tr class="memdesc:ad14d7800ac13b9a6722ac96b06ce94c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ad14d7800ac13b9a6722ac96b06ce94c9">More...</a><br /></td></tr>
-<tr class="separator:ad14d7800ac13b9a6722ac96b06ce94c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a726dae6e63f052138bd3346de439fbc4"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4">getpointdistribution</a> (self, np, dp, ptlist)</td></tr>
-<tr class="memdesc:a726dae6e63f052138bd3346de439fbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a726dae6e63f052138bd3346de439fbc4">More...</a><br /></td></tr>
-<tr class="separator:a726dae6e63f052138bd3346de439fbc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17652db20fde3f883b4fc778e0e6cdda"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#a17652db20fde3f883b4fc778e0e6cdda">allocategeomlist</a></td></tr>
 <tr class="memdesc:a17652db20fde3f883b4fc778e0e6cdda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a17652db20fde3f883b4fc778e0e6cdda">More...</a><br /></td></tr>
 <tr class="separator:a17652db20fde3f883b4fc778e0e6cdda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56488a00edf7ba4e670ceffd5c36f13f"><td class="memItemLeft" align="right" valign="top">logical function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#a56488a00edf7ba4e670ceffd5c36f13f">isvalidgeom</a> (geomname)</td></tr>
 <tr class="memdesc:a56488a00edf7ba4e670ceffd5c36f13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a56488a00edf7ba4e670ceffd5c36f13f">More...</a><br /></td></tr>
 <tr class="separator:a56488a00edf7ba4e670ceffd5c36f13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb10fc3d303c98de110234acf3615274"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#afb10fc3d303c98de110234acf3615274">sphere_np_count</a> (dp, r, center, ng)</td></tr>
-<tr class="memdesc:afb10fc3d303c98de110234acf3615274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Burkardt  <a href="#afb10fc3d303c98de110234acf3615274">More...</a><br /></td></tr>
-<tr class="separator:afb10fc3d303c98de110234acf3615274"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1ab88f5bfa764765180e1ba417e4bdf"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#ae1ab88f5bfa764765180e1ba417e4bdf">sphere_grid</a> (dp, r, center, ng, ptlist)</td></tr>
-<tr class="memdesc:ae1ab88f5bfa764765180e1ba417e4bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Burkardt  <a href="#ae1ab88f5bfa764765180e1ba417e4bdf">More...</a><br /></td></tr>
-<tr class="separator:ae1ab88f5bfa764765180e1ba417e4bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad14d7800ac13b9a6722ac96b06ce94c9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#ad14d7800ac13b9a6722ac96b06ce94c9">getnp</a> (self, np, dp)</td></tr>
+<tr class="memdesc:ad14d7800ac13b9a6722ac96b06ce94c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ad14d7800ac13b9a6722ac96b06ce94c9">More...</a><br /></td></tr>
+<tr class="separator:ad14d7800ac13b9a6722ac96b06ce94c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a726dae6e63f052138bd3346de439fbc4"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4">getpointdistribution</a> (self, np, dp, ptlist)</td></tr>
+<tr class="memdesc:a726dae6e63f052138bd3346de439fbc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a726dae6e63f052138bd3346de439fbc4">More...</a><br /></td></tr>
+<tr class="separator:a726dae6e63f052138bd3346de439fbc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f070ef95bffe3bbb21bd251ae5ca6c7"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#a4f070ef95bffe3bbb21bd251ae5ca6c7">sphere_np_count</a> (dp, r, np)</td></tr>
+<tr class="memdesc:a4f070ef95bffe3bbb21bd251ae5ca6c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a4f070ef95bffe3bbb21bd251ae5ca6c7">More...</a><br /></td></tr>
+<tr class="separator:a4f070ef95bffe3bbb21bd251ae5ca6c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9629040285de7053d42f434333528702"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#a9629040285de7053d42f434333528702">sphere_grid</a> (dp, r, np, ptlist)</td></tr>
+<tr class="memdesc:a9629040285de7053d42f434333528702"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a9629040285de7053d42f434333528702">More...</a><br /></td></tr>
+<tr class="separator:a9629040285de7053d42f434333528702"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7f40c137db819829d3110dac77a2977"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#ab7f40c137db819829d3110dac77a2977">box_grid</a> (dp, size, np, ptlist)</td></tr>
+<tr class="memdesc:ab7f40c137db819829d3110dac77a2977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ab7f40c137db819829d3110dac77a2977">More...</a><br /></td></tr>
+<tr class="separator:ab7f40c137db819829d3110dac77a2977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d580229bc67448e6389d0beef0c04cb"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry.html#a7d580229bc67448e6389d0beef0c04cb">line_grid</a> (dp, dist, np, ptlist)</td></tr>
+<tr class="memdesc:a7d580229bc67448e6389d0beef0c04cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a7d580229bc67448e6389d0beef0c04cb">More...</a><br /></td></tr>
+<tr class="separator:a7d580229bc67448e6389d0beef0c04cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -166,6 +178,70 @@ Variables</h2></td></tr>
 
 <p>Birjukovs Canelas - MARETEC </p>
 <p>Public routine to allocate the possible geometry name list </p>
+
+</div>
+</div>
+<a id="ab7f40c137db819829d3110dac77a2977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7f40c137db819829d3110dac77a2977">&#9670;&nbsp;</a></span>box_grid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine geometry::box_grid </td>
+          <td>(</td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>dp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(vector), intent(in)&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>np</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(vector), dimension(np), intent(out)&#160;</td>
+          <td class="paramname"><em>ptlist</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>private routine that returns the points distributed on a grid with spacing dp inside a box </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dp,size,np,ptlist</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacegeometry_ab7f40c137db819829d3110dac77a2977_icgraph.png" border="0" usemap="#namespacegeometry_ab7f40c137db819829d3110dac77a2977_icgraph" alt=""/></div>
+<map name="namespacegeometry_ab7f40c137db819829d3110dac77a2977_icgraph" id="namespacegeometry_ab7f40c137db819829d3110dac77a2977_icgraph">
+<area shape="rect" id="node2" href="namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="187,5,380,32"/>
+</map>
+</div>
 
 </div>
 </div>
@@ -221,7 +297,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacegeometry_ad14d7800ac13b9a6722ac96b06ce94c9_cgraph.png" border="0" usemap="#namespacegeometry_ad14d7800ac13b9a6722ac96b06ce94c9_cgraph" alt=""/></div>
 <map name="namespacegeometry_ad14d7800ac13b9a6722ac96b06ce94c9_cgraph" id="namespacegeometry_ad14d7800ac13b9a6722ac96b06ce94c9_cgraph">
-<area shape="rect" id="node2" href="namespacegeometry.html#afb10fc3d303c98de110234acf3615274" title="Burkardt " alt="" coords="169,5,313,47"/>
+<area shape="rect" id="node2" href="namespacegeometry.html#a4f070ef95bffe3bbb21bd251ae5ca6c7" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="169,5,313,47"/>
 <area shape="rect" id="node3" href="namespacesimulation__logger.html#a3aaa69ec168b6f34d703fb4033a22d92" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="176,71,307,112"/>
 <area shape="rect" id="node4" href="namespacesimulation__logger.html#a13446c36aac51547a72b39003f735257" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="361,71,492,112"/>
 </map>
@@ -287,9 +363,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacegeometry_a726dae6e63f052138bd3346de439fbc4_cgraph.png" border="0" usemap="#namespacegeometry_a726dae6e63f052138bd3346de439fbc4_cgraph" alt=""/></div>
 <map name="namespacegeometry_a726dae6e63f052138bd3346de439fbc4_cgraph" id="namespacegeometry_a726dae6e63f052138bd3346de439fbc4_cgraph">
-<area shape="rect" id="node2" href="namespacegeometry.html#ae1ab88f5bfa764765180e1ba417e4bdf" title="Burkardt " alt="" coords="247,5,397,32"/>
-<area shape="rect" id="node3" href="namespacesimulation__logger.html#a3aaa69ec168b6f34d703fb4033a22d92" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="257,57,387,98"/>
-<area shape="rect" id="node4" href="namespacesimulation__logger.html#a13446c36aac51547a72b39003f735257" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="445,57,576,98"/>
+<area shape="rect" id="node2" href="namespacegeometry.html#ab7f40c137db819829d3110dac77a2977" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="255,5,389,32"/>
+<area shape="rect" id="node3" href="namespacegeometry.html#a7d580229bc67448e6389d0beef0c04cb" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="256,56,388,83"/>
+<area shape="rect" id="node4" href="namespacegeometry.html#a9629040285de7053d42f434333528702" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="247,107,397,133"/>
+<area shape="rect" id="node5" href="namespacesimulation__logger.html#a3aaa69ec168b6f34d703fb4033a22d92" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="257,158,387,199"/>
+<area shape="rect" id="node6" href="namespacesimulation__logger.html#a13446c36aac51547a72b39003f735257" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="445,158,576,199"/>
 </map>
 </div>
 
@@ -321,8 +399,72 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ae1ab88f5bfa764765180e1ba417e4bdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1ab88f5bfa764765180e1ba417e4bdf">&#9670;&nbsp;</a></span>sphere_grid()</h2>
+<a id="a7d580229bc67448e6389d0beef0c04cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d580229bc67448e6389d0beef0c04cb">&#9670;&nbsp;</a></span>line_grid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine geometry::line_grid </td>
+          <td>(</td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>dp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(vector), intent(in)&#160;</td>
+          <td class="paramname"><em>dist</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>np</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(vector), dimension(np), intent(out)&#160;</td>
+          <td class="paramname"><em>ptlist</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Birjukovs Canelas - MARETEC </p>
+<p>private routine that returns the points distributed on a grid with spacing dp along a line </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">dp,size,np,ptlist</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacegeometry_a7d580229bc67448e6389d0beef0c04cb_icgraph.png" border="0" usemap="#namespacegeometry_a7d580229bc67448e6389d0beef0c04cb_icgraph" alt=""/></div>
+<map name="namespacegeometry_a7d580229bc67448e6389d0beef0c04cb_icgraph" id="namespacegeometry_a7d580229bc67448e6389d0beef0c04cb_icgraph">
+<area shape="rect" id="node2" href="namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="185,5,379,32"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9629040285de7053d42f434333528702"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9629040285de7053d42f434333528702">&#9670;&nbsp;</a></span>sphere_grid()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,19 +487,13 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">type(vector), intent(in)&#160;</td>
-          <td class="paramname"><em>center</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">integer, intent(in)&#160;</td>
-          <td class="paramname"><em>ng</em>, </td>
+          <td class="paramname"><em>np</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">type(vector), dimension(ng), intent(out)&#160;</td>
+          <td class="paramtype">type(vector), dimension(np), intent(out)&#160;</td>
           <td class="paramname"><em>ptlist</em>&#160;</td>
         </tr>
         <tr>
@@ -373,26 +509,26 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Burkardt </p>
-<p>private routine that returns points distributed on a grid inside a sphere, centered on its center. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Birjukovs Canelas - MARETEC </p>
+<p>private routine that returns the points distributed on a grid with spacing dp inside a sphere </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">dp,r,center,ng,ptlist</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dp,r,np,ptlist</td><td></td></tr>
   </table>
   </dd>
 </dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacegeometry_ae1ab88f5bfa764765180e1ba417e4bdf_icgraph.png" border="0" usemap="#namespacegeometry_ae1ab88f5bfa764765180e1ba417e4bdf_icgraph" alt=""/></div>
-<map name="namespacegeometry_ae1ab88f5bfa764765180e1ba417e4bdf_icgraph" id="namespacegeometry_ae1ab88f5bfa764765180e1ba417e4bdf_icgraph">
+<div class="center"><img src="namespacegeometry_a9629040285de7053d42f434333528702_icgraph.png" border="0" usemap="#namespacegeometry_a9629040285de7053d42f434333528702_icgraph" alt=""/></div>
+<map name="namespacegeometry_a9629040285de7053d42f434333528702_icgraph" id="namespacegeometry_a9629040285de7053d42f434333528702_icgraph">
 <area shape="rect" id="node2" href="namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="204,5,397,32"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="afb10fc3d303c98de110234acf3615274"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb10fc3d303c98de110234acf3615274">&#9670;&nbsp;</a></span>sphere_np_count()</h2>
+<a id="a4f070ef95bffe3bbb21bd251ae5ca6c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f070ef95bffe3bbb21bd251ae5ca6c7">&#9670;&nbsp;</a></span>sphere_np_count()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -415,14 +551,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">type(vector), intent(in)&#160;</td>
-          <td class="paramname"><em>center</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">integer, intent(out)&#160;</td>
-          <td class="paramname"><em>ng</em>&#160;</td>
+          <td class="paramname"><em>np</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -437,18 +567,18 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Burkardt </p>
-<p>private routine that returns the number of points distributed on a grid inside a sphere, centered on its center. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Birjukovs Canelas - MARETEC </p>
+<p>private routine that returns the number of points distributed on a grid with spacing dp inside a sphere </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">dp,r,c,ng</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dp,r,np</td><td></td></tr>
   </table>
   </dd>
 </dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacegeometry_afb10fc3d303c98de110234acf3615274_icgraph.png" border="0" usemap="#namespacegeometry_afb10fc3d303c98de110234acf3615274_icgraph" alt=""/></div>
-<map name="namespacegeometry_afb10fc3d303c98de110234acf3615274_icgraph" id="namespacegeometry_afb10fc3d303c98de110234acf3615274_icgraph">
+<div class="center"><img src="namespacegeometry_a4f070ef95bffe3bbb21bd251ae5ca6c7_icgraph.png" border="0" usemap="#namespacegeometry_a4f070ef95bffe3bbb21bd251ae5ca6c7_icgraph" alt=""/></div>
+<map name="namespacegeometry_a4f070ef95bffe3bbb21bd251ae5ca6c7_icgraph" id="namespacegeometry_a4f070ef95bffe3bbb21bd251ae5ca6c7_icgraph">
 <area shape="rect" id="node2" href="namespacegeometry.html#ad14d7800ac13b9a6722ac96b06ce94c9" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="197,13,313,39"/>
 </map>
 </div>

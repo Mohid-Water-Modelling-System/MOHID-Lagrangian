@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['setboundingbox',['setboundingbox',['../structsimulation__globals_1_1simdefs__t.html#aae43bf7d19c5cfceb113c35bc13cca8d',1,'simulation_globals::simdefs_t::setboundingbox()'],['../namespacesimulation__globals.html#a1fc4653684d73efecdbd140b6cafe541',1,'simulation_globals::setboundingbox()']]],
-  ['setdp',['setdp',['../structsimulation__globals_1_1simdefs__t.html#ac1951dc05be68a08a70d55b0da627f04',1,'simulation_globals::simdefs_t::setdp()'],['../namespacesimulation__globals.html#a9a8e88c06937b7cf6be9d9bf30f54ba9',1,'simulation_globals::setdp()']]],
-  ['setdt',['setdt',['../structsimulation__globals_1_1simdefs__t.html#a1e748701b60ee8883871fb3bca30aa4b',1,'simulation_globals::simdefs_t::setdt()'],['../namespacesimulation__globals.html#a3ef0462db5a60ac79304cabd2fdd914d',1,'simulation_globals::setdt()']]],
-  ['setgravity',['setgravity',['../structsimulation__globals_1_1constants__t.html#a5037e6304087d5731de4aa741ea25a62',1,'simulation_globals::constants_t::setgravity()'],['../namespacesimulation__globals.html#ac655f60155581a71b312f3c1a8c87db2',1,'simulation_globals::setgravity()']]],
-  ['setparameter',['setparameter',['../structsimulation__globals_1_1parameters__t.html#ad59ffcdf9208a52e7d3dae903197be74',1,'simulation_globals::parameters_t::setparameter()'],['../namespacesimulation__globals.html#aed3f671899558008ae9f0f009f581baf',1,'simulation_globals::setparameter()']]],
-  ['setrho',['setrho',['../structsimulation__globals_1_1constants__t.html#a67ddcf6c24df193c78cfd51574b49e4d',1,'simulation_globals::constants_t::setrho()'],['../namespacesimulation__globals.html#acfdc640757f0275bccb1d8de7bd7dc92',1,'simulation_globals::setrho()']]],
-  ['simulation_5fend',['simulation_end',['../namespacefinalize.html#a57fbc96712f416103b529ff969479250',1,'finalize']]],
-  ['sphere_5fgrid',['sphere_grid',['../namespacegeometry.html#ae1ab88f5bfa764765180e1ba417e4bdf',1,'geometry']]],
-  ['sphere_5fnp_5fcount',['sphere_np_count',['../namespacegeometry.html#afb10fc3d303c98de110234acf3615274',1,'geometry']]]
+  ['printlicpreamble',['printlicpreamble',['../namespaceabout.html#aca93132913ea2de3a9eb9aa3d1c0ec9c',1,'about']]],
+  ['printmemory',['printmemory',['../namespacesimulation__memory.html#a5827bef8479b809a453af147ceaa8c7c',1,'simulation_memory']]],
+  ['printout',['printout',['../structsimulation__globals_1_1parameters__t.html#a6b56d89976f9cef3fef2e8f54fcb1bdf',1,'simulation_globals::parameters_t::printout()'],['../structsimulation__globals_1_1simdefs__t.html#aade8e069ae929a97a9c78cc52d1078f7',1,'simulation_globals::simdefs_t::printout()'],['../structsimulation__memory_1_1memory__t.html#a1972d13f7be392f9ebd5d27e90dfc4e5',1,'simulation_memory::memory_t::printout()'],['../structsource__identity_1_1source__class.html#ac9866a62bf8838665bb929deff5bce24',1,'source_identity::source_class::printout()'],['../namespacesource__identity.html#a9715a7d707b4c80aa2d2ebd08712f6a9',1,'source_identity::printout()']]],
+  ['printsimdefs',['printsimdefs',['../namespacesimulation__globals.html#ad90d6959da1d43e2cd1febff82187ed5',1,'simulation_globals']]],
+  ['printsimparameters',['printsimparameters',['../namespacesimulation__globals.html#a0b17b2f2e9e7dbbad7c9d735217c1ee1',1,'simulation_globals']]]
 ];

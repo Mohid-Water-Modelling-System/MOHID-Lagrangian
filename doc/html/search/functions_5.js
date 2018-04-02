@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['init',['init',['../structsimulation__memory_1_1memory__t.html#a328790eca35321a9513f037d86cd91ad',1,'simulation_memory::memory_t::init()'],['../namespacesimulation__memory.html#a638f6d140103702b9e9cc46e2c060c61',1,'simulation_memory::init()']]],
-  ['init_5fcaseconstants',['init_caseconstants',['../namespaceinitialize.html#a00eae5cde006bc91bc7a03e640e6ee83',1,'initialize']]],
-  ['init_5fparameters',['init_parameters',['../namespaceinitialize.html#a0de593b39b1b0389d225f93de17dc15d',1,'initialize']]],
-  ['init_5fsimdefs',['init_simdefs',['../namespaceinitialize.html#a9bd773485c427abd68ca801c02b1b08c',1,'initialize']]],
-  ['init_5fsources',['init_sources',['../namespaceinitialize.html#ad44abf161e353eb8a253ff5c02cd160b',1,'initialize']]],
-  ['initialize',['initialize',['../structsource__identity_1_1source__class.html#af232e5b647bcb16f34dcc2f797ef7a95',1,'source_identity::source_class::initialize()'],['../namespacesource__identity.html#a8d7aaa58c575f6ed78f5ca29d64615d7',1,'source_identity::initialize()']]],
-  ['initmohidlagrangian',['initmohidlagrangian',['../namespaceinitialize.html#a45b7ca20c45cf272acbc391950cbb804',1,'initialize']]],
-  ['initmohidlagrangianlog',['initmohidlagrangianlog',['../namespacesimulation__logger.html#a9c7922c1d3cd57c8322f047799fc6053',1,'simulation_logger']]],
-  ['isvalidgeom',['isvalidgeom',['../namespacegeometry.html#a56488a00edf7ba4e670ceffd5c36f13f',1,'geometry']]]
+  ['getintegratorname',['getintegratorname',['../namespacesimulation__globals.html#a2c6bf88542c503d1da58280ab3dcf772',1,'simulation_globals']]],
+  ['getnp',['getnp',['../structgeometry_1_1shape.html#ad661871b6433bc48b165c400524dde90',1,'geometry::shape::getnp()'],['../namespacegeometry.html#ad14d7800ac13b9a6722ac96b06ce94c9',1,'geometry::getnp()']]],
+  ['getotal',['getotal',['../structsimulation__memory_1_1memory__t.html#a1677c1871975872cba406a8729fbedb5',1,'simulation_memory::memory_t::getotal()'],['../namespacesimulation__memory.html#a8589522c4e28cf60741a5439477cdb31',1,'simulation_memory::getotal()']]],
+  ['getpointdistribution',['getpointdistribution',['../structgeometry_1_1shape.html#a9df712486b716b472955c14057eab7ff',1,'geometry::shape::getpointdistribution()'],['../namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4',1,'geometry::getpointdistribution()']]],
+  ['gettimestamp',['gettimestamp',['../namespacesimulation__logger.html#a13446c36aac51547a72b39003f735257',1,'simulation_logger']]]
 ];

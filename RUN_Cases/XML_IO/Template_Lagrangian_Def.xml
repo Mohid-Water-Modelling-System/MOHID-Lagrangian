@@ -53,7 +53,7 @@
                 <link source="3" property="sed1" comment="Property for the sediment scalar" />
 				<link source="2" property="plastic001" comment="Property for a plastic type" />
             </links>
-            <propertyfile name="Lagrangian_props"/>            
+            <propertyfile name="Lagrangian_props.xml"/>            
         </properties>		
     </casedef>
     <execution>
@@ -61,7 +61,7 @@
             <parameter key="Integrator" value="3" comment="Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)" />            
 			<parameter key="CFL" value="0.8" comment="Courant–Friedrichs–Lewy condition number (default=0.5)" />
             <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />            
-            <parameter key="TimeMax" value="100.0" comment="Simulation duration" units_comment="seconds" />
+            <parameter key="TimeMax" value="1520.0" comment="Simulation duration" units_comment="seconds" />
             <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />            
         </parameters>
     </execution>
