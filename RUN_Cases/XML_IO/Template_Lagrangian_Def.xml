@@ -10,13 +10,13 @@
 			<timestep dt="30.0" units_comment="seconds (s)"/>
             <pointmin x="-10.0" y="0.0" z="-500.01" />
             <pointmax x="10000" y="20005.0" z="4.0574" />
-        </simulationdefs>        
+        </simulationdefs>
         <sourcedef>
            	<source>
 				<setsource id="0" name="Spill_007" />
 				<set emitting_rate="0.1" units_comment="Hz" />
 				<active start="15" end="end"/>
-				<box>                        
+				<box>
 					<point x="-5.5" y="0" z="0" />
 					<size x="0.5" y="3" z="4.5" />
 				</box>
@@ -46,23 +46,24 @@
 			</source>
         </sourcedef>
 		<initials>
-			<velocity source="1" ux="1" uy="0.0" uz="-0.1"/>
+			<velocity source="1" ux="15" uy="0.0" uz="-0.1"/>
 		</initials>
 		<properties>
 			<links>
-                <link source="3" property="sed1" comment="Property for the sediment scalar" />
-				<link source="2" property="plastic001" comment="Property for a plastic type" />
+                <link source="3" type='plastic' property="bag_1" comment="" />
+				<link source="2" type='paper' property="cardboard_1" comment="" />
+				<link source="2" type='plastic' property="expanded_polysryrene_1" comment="" />
             </links>
-            <propertyfile name="Lagrangian_props.xml"/>            
-        </properties>		
+            <propertyfile name="Material_props.xml"/>
+        </properties>
     </casedef>
     <execution>
-        <parameters>            
-            <parameter key="Integrator" value="3" comment="Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)" />            
+        <parameters>
+            <parameter key="Integrator" value="3" comment="Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)" />
 			<parameter key="CFL" value="0.8" comment="Courant–Friedrichs–Lewy condition number (default=0.5)" />
-            <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />            
+            <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />
             <parameter key="TimeMax" value="1520.0" comment="Simulation duration" units_comment="seconds" />
-            <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />            
+            <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
         </parameters>
     </execution>
 </case>

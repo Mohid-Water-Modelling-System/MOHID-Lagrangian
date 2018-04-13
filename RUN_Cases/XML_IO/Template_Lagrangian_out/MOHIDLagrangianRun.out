@@ -18,8 +18,8 @@
 
 MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
 =====================================================================
-2018-4-2 @16:51:19 ->Logger initialized
-2018-4-2 @16:51:19 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-4-13 @11:20:17 ->Logger initialized
+2018-4-13 @11:20:17 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case constants
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
@@ -61,9 +61,9 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
        Emitting +672 tracers at a rate of +0.500000E-01 Hz
        Active from +0.112500E+01 to +0.152000E+04 seconds
-2018-4-2 @16:51:19 Allocated +64690 Tracers.
-2018-4-2 @16:51:19 ->Total allocated memory: +0.134574E+02mb
+2018-4-13 @11:20:17 Allocated +64690 Tracers.
+2018-4-13 @11:20:17 ->Total allocated memory: +0.134574E+02mb
        Allocated memory for Sources = +0.180000E-02mb
        Allocated memory for Tracers = +0.134555E+02mb
        Allocated memory for Consts  = +0.104000E-03mb
-2018-4-2 @16:51:19 Simulation ended, freeing resources. See you next time
+2018-4-13 @11:20:17 Simulation ended, freeing resources. See you next time
