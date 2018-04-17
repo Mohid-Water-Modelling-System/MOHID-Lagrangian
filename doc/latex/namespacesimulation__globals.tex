@@ -10,6 +10,8 @@ Module to hold the simulation global parameter classes and their methods.
 \item 
 type \mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Case Constants class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulation__globals_1_1filenames__t}{filenames\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em File names class. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_\+t}}
 \item 
 type \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}}
@@ -18,6 +20,8 @@ type \mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}}
 \begin{DoxyCompactItemize}
 \item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_aed3f671899558008ae9f0f009f581baf}{setparameter}} (self, parmkey, parmvalue)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__globals_a3867df0f77dca3700c9470aea24fd048}{check}} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1}{printsimparameters}} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
@@ -45,6 +49,8 @@ type(\mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_
 type(\mbox{\hyperlink{structsimulation__globals_1_1simdefs__t}{simdefs\+\_\+t}}), public \mbox{\hyperlink{namespacesimulation__globals_ae851f977b442737307cd4bb76f2f68be}{simdefs}}
 \item 
 type(\mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}}), public \mbox{\hyperlink{namespacesimulation__globals_aa3e1a54abbb08d2c09978a3509ec4303}{constants}}
+\item 
+type(\mbox{\hyperlink{structsimulation__globals_1_1filenames__t}{filenames\+\_\+t}}), public \mbox{\hyperlink{namespacesimulation__globals_ada5ae97821ffcb77674c3470431101e3}{filenames}}
 \end{DoxyCompactItemize}
 
 
@@ -57,6 +63,24 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulation__globals_a3867df0f77dca3700c9470aea24fd048}\label{namespacesimulation__globals_a3867df0f77dca3700c9470aea24fd048}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!check@{check}}
+\index{check@{check}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{check()}{check()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+globals\+::check (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__globals_1_1parameters__t}{parameters\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private parameter checking method. Checks if mandatory parameters were set Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__globals_a3867df0f77dca3700c9470aea24fd048_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772}\label{namespacesimulation__globals_a2c6bf88542c503d1da58280ab3dcf772}} 
 \index{simulation\+\_\+globals@{simulation\+\_\+globals}!getintegratorname@{getintegratorname}}
 \index{getintegratorname@{getintegratorname}!simulation\+\_\+globals@{simulation\+\_\+globals}}
@@ -67,7 +91,8 @@ Ricardo Birjukovs Canelas
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-private routine to get integrator scheme name Here is the caller graph for this function\+:\nopagebreak
+private routine to get integrator scheme name Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -84,7 +109,15 @@ private routine to get integrator scheme name Here is the caller graph for this 
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-Public simulation definitions printing routine. \mbox{\Hypertarget{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1}\label{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1}} 
+Public simulation definitions printing routine. Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__globals_ad90d6959da1d43e2cd1febff82187ed5_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1}\label{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1}} 
 \index{simulation\+\_\+globals@{simulation\+\_\+globals}!printsimparameters@{printsimparameters}}
 \index{printsimparameters@{printsimparameters}!simulation\+\_\+globals@{simulation\+\_\+globals}}
 \subsubsection{\texorpdfstring{printsimparameters()}{printsimparameters()}}
@@ -94,11 +127,12 @@ Public simulation definitions printing routine. \mbox{\Hypertarget{namespacesimu
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-Private parameter printing routine. Here is the call graph for this function\+:\nopagebreak
+Private parameter printing method. Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=323pt]{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1_cgraph}
+\includegraphics[width=350pt]{namespacesimulation__globals_a0b17b2f2e9e7dbbad7c9d735217c1ee1_cgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{namespacesimulation__globals_a1fc4653684d73efecdbd140b6cafe541}\label{namespacesimulation__globals_a1fc4653684d73efecdbd140b6cafe541}} 
@@ -131,6 +165,14 @@ Private dp setting routine.
 \mbox{\tt in}  & {\em read\+\_\+dp} & \\
 \hline
 \end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__globals_a9a8e88c06937b7cf6be9d9bf30f54ba9_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{namespacesimulation__globals_a3ef0462db5a60ac79304cabd2fdd914d}\label{namespacesimulation__globals_a3ef0462db5a60ac79304cabd2fdd914d}} 
 \index{simulation\+\_\+globals@{simulation\+\_\+globals}!setdt@{setdt}}
 \index{setdt@{setdt}!simulation\+\_\+globals@{simulation\+\_\+globals}}
@@ -146,6 +188,14 @@ Private dt setting routine.
 \mbox{\tt in}  & {\em read\+\_\+dt} & \\
 \hline
 \end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__globals_a3ef0462db5a60ac79304cabd2fdd914d_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{namespacesimulation__globals_ac655f60155581a71b312f3c1a8c87db2}\label{namespacesimulation__globals_ac655f60155581a71b312f3c1a8c87db2}} 
 \index{simulation\+\_\+globals@{simulation\+\_\+globals}!setgravity@{setgravity}}
 \index{setgravity@{setgravity}!simulation\+\_\+globals@{simulation\+\_\+globals}}
@@ -171,7 +221,7 @@ Public Gravity setting routine.
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-Private parameter setting routine. Builds the simulation parametric space from the input case file. 
+Private parameter setting method. Builds the simulation parametric space from the input case file. 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parmkey,parmvalue} & \\
 \hline
@@ -191,6 +241,14 @@ Provate Rho\+\_\+\+Ref setting routine.
 \mbox{\tt in}  & {\em read\+\_\+rho} & \\
 \hline
 \end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__globals_acfdc640757f0275bccb1d8de7bd7dc92_cgraph}
+\end{center}
+\end{figure}
 
 
 \subsection{Variable Documentation}
@@ -199,6 +257,12 @@ Provate Rho\+\_\+\+Ref setting routine.
 \index{constants@{constants}!simulation\+\_\+globals@{simulation\+\_\+globals}}
 \subsubsection{\texorpdfstring{constants}{constants}}
 {\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__globals_1_1constants__t}{constants\+\_\+t}}), public simulation\+\_\+globals\+::constants}
+
+\mbox{\Hypertarget{namespacesimulation__globals_ada5ae97821ffcb77674c3470431101e3}\label{namespacesimulation__globals_ada5ae97821ffcb77674c3470431101e3}} 
+\index{simulation\+\_\+globals@{simulation\+\_\+globals}!filenames@{filenames}}
+\index{filenames@{filenames}!simulation\+\_\+globals@{simulation\+\_\+globals}}
+\subsubsection{\texorpdfstring{filenames}{filenames}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__globals_1_1filenames__t}{filenames\+\_\+t}}), public simulation\+\_\+globals\+::filenames}
 
 \mbox{\Hypertarget{namespacesimulation__globals_ac23e87cbb2256792d683ab1bf5dc5e21}\label{namespacesimulation__globals_ac23e87cbb2256792d683ab1bf5dc5e21}} 
 \index{simulation\+\_\+globals@{simulation\+\_\+globals}!parameters@{parameters}}

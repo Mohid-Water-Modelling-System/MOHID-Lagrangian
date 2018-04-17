@@ -13,7 +13,7 @@
         </simulationdefs>
         <sourcedef>
            	<source>
-				<setsource id="0" name="Spill_007" />
+				<setsource id="18" name="Spill_007" />
 				<set emitting_rate="0.1" units_comment="Hz" />
 				<active start="15" end="end"/>
 				<box>
@@ -28,9 +28,8 @@
 				<point x="0.49" y="0.49" z="0.75" />
 			</source>
 			<source>
-				<setsource id="2" name="Plankton_2" />
+				<setsource id="2" name="Emissary_2" />
 				<set emitting_rate="0.2" units_comment="Hz" />
-				<active start="0.0" end="end"/>
 				<line>
 					<pointa x="1" y="2" z="3" />
 					<pointb x="11" y="21" z="31" />
@@ -52,7 +51,7 @@
 			<links>
                 <link source="3" type='plastic' property="bag_1" comment="" />
 				<link source="2" type='paper' property="cardboard_1" comment="" />
-				<link source="2" type='plastic' property="expanded_polysryrene_1" comment="" />
+				<link source="10" type='plastic' property="expanded_polysryrene_10" comment="" />
             </links>
             <propertyfile name="Material_props.xml"/>
         </properties>

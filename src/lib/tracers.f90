@@ -25,5 +25,8 @@ module tracers
     use simulation_precision
     use tracer_interp    
     use tracer_base
+    
+    use tracer_plastic
+    use tracer_paper
 
 end module tracers

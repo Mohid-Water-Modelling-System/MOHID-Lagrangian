@@ -1,9 +1,8 @@
 var structtracer__base_1_1tracer__par__class =
 [
-    [ "group", "structtracer__base_1_1tracer__par__class.html#ad943229367c5ab92dc815f23b0ee6aad", null ],
     [ "id", "structtracer__base_1_1tracer__par__class.html#ad7d0637c337b16787b0469e0bf5dfced", null ],
-    [ "interp_method", "structtracer__base_1_1tracer__par__class.html#ae32e258384f0f03418bf8f3aa0181662", null ],
+    [ "idsource", "structtracer__base_1_1tracer__par__class.html#a645bcb4eb7a0087394bd7eced244819d", null ],
+    [ "interp_method", "structtracer__base_1_1tracer__par__class.html#a12aa1da016c290ce194cd779b1b00854", null ],
     [ "noise", "structtracer__base_1_1tracer__par__class.html#a6ed144d3b2b37e7e6d3fe9294cbb568d", null ],
-    [ "tpar", "structtracer__base_1_1tracer__par__class.html#a75aac21ea81301a4358ccc3d0df8236a", null ],
-    [ "vel_max", "structtracer__base_1_1tracer__par__class.html#a04159d779af0b8bc161100b0cb83a3b1", null ]
+    [ "velmax", "structtracer__base_1_1tracer__par__class.html#a7a6df785a9abc654a774b25fedb3c1e6", null ]
 ];

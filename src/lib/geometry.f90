@@ -29,7 +29,7 @@
     !Update with any new additions as they are added
     type(string), allocatable, dimension(:) :: GeomList !< String list (array) with the name of possible geometry types.
         
-    type, abstract :: shape                      !<Type - extendable shape class        
+    type :: shape                      !<Type - extendable shape class        
         type(vector) :: pt              !< Coordinates of a point
     contains
     procedure :: getnp                  !<Gets the number of points that define that geometry (based on GLOBALS::dp)

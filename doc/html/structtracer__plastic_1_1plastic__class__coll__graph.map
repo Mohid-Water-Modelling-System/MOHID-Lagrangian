@@ -1,0 +1,8 @@
+<map id="tracer_plastic::plastic_class" name="tracer_plastic::plastic_class">
+<area shape="rect" id="node2" href="$structtracer__base_1_1tracer__class.html" title="Type &#45; The pure Lagrangian tracer class. " alt="" coords="225,71,356,112"/>
+<area shape="rect" id="node3" href="$structtracer__base_1_1tracer__stats__class.html" title="Type &#45; statistical variables of a pure Lagrangian tracer object. " alt="" coords="5,5,136,47"/>
+<area shape="rect" id="node4" href="$structtracer__base_1_1tracer__par__class.html" title="tracer_base::tracer\l_par_class" alt="" coords="5,71,136,112"/>
+<area shape="rect" id="node5" href="$structtracer__base_1_1tracer__state__class.html" title="Type &#45; state variables of a pure Lagrangian tracer object. " alt="" coords="5,136,136,177"/>
+<area shape="rect" id="node6" href="$structtracer__plastic_1_1plastic__par__class.html" title="tracer_plastic::plastic\l_par_class" alt="" coords="217,136,364,177"/>
+<area shape="rect" id="node7" href="$structtracer__plastic_1_1plastic__state__class.html" title="Type &#45; State variables of a tracer object representing a plastic material. " alt="" coords="217,201,364,243"/>
+</map>

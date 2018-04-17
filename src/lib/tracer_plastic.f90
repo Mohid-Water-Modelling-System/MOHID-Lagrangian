@@ -46,9 +46,6 @@
     procedure :: initialize => plastic_initialize
     end type
 
-    !Simulation variables
-    !type(plastic_class), allocatable, dimension(:) :: Tracer
-
     !Public access vars
     public :: plastic_class
 
@@ -59,7 +56,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Tracer inititialization method
+    !> Tracer initialization method
     !
     !> @param[in]
     !---------------------------------------------------------------------------

@@ -96,7 +96,8 @@ $(document).ready(function(){initNavTree('namespacetracer__base.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Types</a> &#124;
-<a href="#func-members">Functions/Subroutines</a>  </div>
+<a href="#func-members">Functions/Subroutines</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">tracer_base Module Reference</div>  </div>
 </div><!--header-->
@@ -111,9 +112,6 @@ Data Types</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - The pure Lagrangian tracer class.  <a href="structtracer__base_1_1tracer__class.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base_1_1tracer__par__class.html">tracer_par_class</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - parameters of a pure Lagrangian tracer object.  <a href="structtracer__base_1_1tracer__par__class.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base_1_1tracer__par__trans__class.html">tracer_par_trans_class</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base_1_1tracer__state__class.html">tracer_state_class</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - state variables of a pure Lagrangian tracer object.  <a href="structtracer__base_1_1tracer__state__class.html#details">More...</a><br /></td></tr>
@@ -124,24 +122,32 @@ Data Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:ac4eda3326a346308d0a7fb42b4af9cb9"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetracer__base.html#ac4eda3326a346308d0a7fb42b4af9cb9">tracer_init</a> (trc, id, time, x, y, z)</td></tr>
-<tr class="memdesc:ac4eda3326a346308d0a7fb42b4af9cb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ac4eda3326a346308d0a7fb42b4af9cb9">More...</a><br /></td></tr>
-<tr class="separator:ac4eda3326a346308d0a7fb42b4af9cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad712d20080a9daa44024d61afae670a4"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetracer__base.html#ad712d20080a9daa44024d61afae670a4">initialize</a> (trc, id, id_source, time, pt)</td></tr>
+<tr class="memdesc:ad712d20080a9daa44024d61afae670a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ad712d20080a9daa44024d61afae670a4">More...</a><br /></td></tr>
+<tr class="separator:ad712d20080a9daa44024d61afae670a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7f839546575f08e3b944dafdf5e0b2d2"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structtracer__base_1_1tracer__class.html">tracer_class</a>), dimension(:), allocatable, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetracer__base.html#a7f839546575f08e3b944dafdf5e0b2d2">tracer</a></td></tr>
+<tr class="separator:a7f839546575f08e3b944dafdf5e0b2d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Module that defines a pure Lagrangian tracer class and related methods. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="ac4eda3326a346308d0a7fb42b4af9cb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4eda3326a346308d0a7fb42b4af9cb9">&#9670;&nbsp;</a></span>tracer_init()</h2>
+<a id="ad712d20080a9daa44024d61afae670a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad712d20080a9daa44024d61afae670a4">&#9670;&nbsp;</a></span>initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public tracer_base::tracer_init </td>
+          <td class="memname">subroutine tracer_base::initialize </td>
           <td>(</td>
-          <td class="paramtype">type(<a class="el" href="structtracer__base_1_1tracer__class.html">tracer_class</a>), intent(inout)&#160;</td>
+          <td class="paramtype">class(<a class="el" href="structtracer__base_1_1tracer__class.html">tracer_class</a>)&#160;</td>
           <td class="paramname"><em>trc</em>, </td>
         </tr>
         <tr>
@@ -153,26 +159,20 @@ Functions/Subroutines</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">integer, intent(in)&#160;</td>
+          <td class="paramname"><em>id_source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">real(prec_time), intent(in)&#160;</td>
           <td class="paramname"><em>time</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">real(prec), intent(in)&#160;</td>
-          <td class="paramname"><em>x</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(prec), intent(in)&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(prec), intent(in)&#160;</td>
-          <td class="paramname"><em>z</em>&#160;</td>
+          <td class="paramtype">type(vector), intent(in)&#160;</td>
+          <td class="paramname"><em>pt</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -180,17 +180,35 @@ Functions/Subroutines</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Birjukovs Canelas - MARETEC </p>
-<p>Tracer inititialization routine - Generates a tracer and initializes its variables </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Tracer initialization method </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">trc</td><td><br />
-</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname"></td><td></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a7f839546575f08e3b944dafdf5e0b2d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f839546575f08e3b944dafdf5e0b2d2">&#9670;&nbsp;</a></span>tracer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(<a class="el" href="structtracer__base_1_1tracer__class.html">tracer_class</a>), dimension(:), allocatable, public tracer_base::tracer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

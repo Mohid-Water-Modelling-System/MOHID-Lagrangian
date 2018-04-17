@@ -38,7 +38,7 @@
     ! Initialization routines to build the simulation
     call initMohidLagrangian(defxmlfilename)
     
-    !main cycle 
+    !main time cycle 
     do while (SimTime .LT. Parameters%TimeMax)
     
     

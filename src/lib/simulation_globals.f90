@@ -37,6 +37,7 @@
         real(prec) :: TimeOut = MV          !< Time out data (1/Hz)
     contains
     procedure :: setparameter
+    procedure :: check
     procedure :: printout => printsimparameters
     end type
     
@@ -60,15 +61,21 @@
     procedure :: setrho
     end type
     
+    type filenames_t    !<File names class
+        type(string) :: mainxmlfilename     !< Input .xml file name
+        type(string) :: propsxmlfilename    !< Properties .xml file name
+    end type
+        
     real(prec_time) :: SimTime
        
     !Simulation variables
     type(parameters_t)  :: Parameters
     type(simdefs_t)     :: SimDefs
     type(constants_t)   :: Constants
+    type(filenames_t)   :: FileNames
     
     !Public access vars
-    public :: SimTime, Parameters, SimDefs, Constants
+    public :: SimTime, Parameters, SimDefs, Constants, FileNames
 
     contains
     
@@ -77,7 +84,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private parameter setting routine. Builds the simulation parametric space from the input case file.
+    !> Private parameter setting method. Builds the simulation parametric space from the input case file.
     !
     !> @param[in] parmkey, parmvalue
     !---------------------------------------------------------------------------
@@ -108,13 +115,39 @@
     call SimMemory%adddef(sizem)
     return
     end subroutine
+    
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private parameter checking method. Checks if mandatory parameters were set 
+    !---------------------------------------------------------------------------
+    subroutine check(self)
+    implicit none
+    class(parameters_t), intent(inout) :: self
+    type(string) :: outext
+    
+    !add new parameters to this search
+    if (self%TimeMax==MV) then
+        outext = 'Maximum simulation time parameter (TimeMax) is not set, stoping'
+        call ToLog(outext)
+        stop
+    elseif (self%TimeOut==MV) then
+        outext = 'Simulation sampling rate parameter (TimeOut) is not set, stoping'
+        call ToLog(outext)
+        stop       
+    endif
+    return
+    end subroutine
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private parameter printing routine.
+    !> Private parameter printing method.
     !---------------------------------------------------------------------------
     subroutine printsimparameters(self)
     implicit none

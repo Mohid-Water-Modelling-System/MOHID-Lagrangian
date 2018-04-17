@@ -76,7 +76,7 @@
     logical, intent(in), optional :: timeoption
     type(string) :: timestamp
     call getTimeStamp(timestamp)
-    if(present(timeoption).and.timeoption==0)then
+    if(present(timeoption).and.timeoption.eqv..false.)then
         timestamp=''
     endif
     timestamp=timestamp//' '//tologstr

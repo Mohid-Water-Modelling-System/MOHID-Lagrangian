@@ -8,19 +8,19 @@ Module with the simulation initialization related definitions and methods. Has o
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3}{readxmlatt}} (xmlnode, tag, att\+\_\+name, att\+\_\+value)
+subroutine \mbox{\hyperlink{namespaceinitialize_ab91b27efd537a161ee9ca4b2d9efde1a}{linkpropertysources}} (links\+Node)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6}{readxmlvector}} (xmlnode, tag, vec)
+subroutine \mbox{\hyperlink{namespaceinitialize_a4640ad15e29b88467ec842f274f64b62}{init\+\_\+properties}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6}{read\+\_\+xml\+\_\+geometry}} (source, source\+\_\+detail, geometry)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b}{init\+\_\+sources}} (parsedxml)
+subroutine \mbox{\hyperlink{namespaceinitialize_a9ed75476e5dd07928aed3442281930be}{init\+\_\+sources}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c}{init\+\_\+simdefs}} (parsedxml)
+subroutine \mbox{\hyperlink{namespaceinitialize_adb972e92da4789506ee6b62b702df2b3}{init\+\_\+simdefs}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83}{init\+\_\+caseconstants}} (parsedxml)
+subroutine \mbox{\hyperlink{namespaceinitialize_a4c982b312ab10bf112dd3d2bc314569e}{init\+\_\+caseconstants}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d}{init\+\_\+parameters}} (parsedxml)
+subroutine \mbox{\hyperlink{namespaceinitialize_a7a54dc126f448bea2b566339a449f85c}{init\+\_\+parameters}} (execution\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine, public \mbox{\hyperlink{namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804}{initmohidlagrangian}} (xmlfilename)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -35,11 +35,11 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83}\label{namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83}} 
+\mbox{\Hypertarget{namespaceinitialize_a4c982b312ab10bf112dd3d2bc314569e}\label{namespaceinitialize_a4c982b312ab10bf112dd3d2bc314569e}} 
 \index{initialize@{initialize}!init\+\_\+caseconstants@{init\+\_\+caseconstants}}
 \index{init\+\_\+caseconstants@{init\+\_\+caseconstants}!initialize@{initialize}}
 \subsubsection{\texorpdfstring{init\+\_\+caseconstants()}{init\_caseconstants()}}
-{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+caseconstants (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{parsedxml }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+caseconstants (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{case\+\_\+node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -49,28 +49,28 @@ Private case constant parser routine. Builds the simulation parametric space fro
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
-\mbox{\tt in}  & {\em parsedxml} & .xml file handle \\
-\hline
 \end{DoxyParams}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_cgraph}
+\includegraphics[width=350pt]{namespaceinitialize_a4c982b312ab10bf112dd3d2bc314569e_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_a00eae5cde006bc91bc7a03e640e6ee83_icgraph}
+\includegraphics[width=350pt]{namespaceinitialize_a4c982b312ab10bf112dd3d2bc314569e_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d}\label{namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d}} 
+\mbox{\Hypertarget{namespaceinitialize_a7a54dc126f448bea2b566339a449f85c}\label{namespaceinitialize_a7a54dc126f448bea2b566339a449f85c}} 
 \index{initialize@{initialize}!init\+\_\+parameters@{init\+\_\+parameters}}
 \index{init\+\_\+parameters@{init\+\_\+parameters}!initialize@{initialize}}
 \subsubsection{\texorpdfstring{init\+\_\+parameters()}{init\_parameters()}}
-{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+parameters (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{parsedxml }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+parameters (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{execution\+\_\+node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -80,21 +80,59 @@ Private parameter parser routine. Builds the simulation parametric space from th
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
-\mbox{\tt in}  & {\em parsedxml} & .xml file handle \\
-\hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_a0de593b39b1b0389d225f93de17dc15d_icgraph}
+\includegraphics[width=350pt]{namespaceinitialize_a7a54dc126f448bea2b566339a449f85c_cgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c}\label{namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c}} 
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceinitialize_a7a54dc126f448bea2b566339a449f85c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceinitialize_a4640ad15e29b88467ec842f274f64b62}\label{namespaceinitialize_a4640ad15e29b88467ec842f274f64b62}} 
+\index{initialize@{initialize}!init\+\_\+properties@{init\+\_\+properties}}
+\index{init\+\_\+properties@{init\+\_\+properties}!initialize@{initialize}}
+\subsubsection{\texorpdfstring{init\+\_\+properties()}{init\_properties()}}
+{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+properties (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{case\+\_\+node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em parsedxml} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceinitialize_a4640ad15e29b88467ec842f274f64b62_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceinitialize_a4640ad15e29b88467ec842f274f64b62_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceinitialize_adb972e92da4789506ee6b62b702df2b3}\label{namespaceinitialize_adb972e92da4789506ee6b62b702df2b3}} 
 \index{initialize@{initialize}!init\+\_\+simdefs@{init\+\_\+simdefs}}
 \index{init\+\_\+simdefs@{init\+\_\+simdefs}!initialize@{initialize}}
 \subsubsection{\texorpdfstring{init\+\_\+simdefs()}{init\_simdefs()}}
-{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+simdefs (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{parsedxml }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+simdefs (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{case\+\_\+node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -104,28 +142,28 @@ Private simulation definitions parser routine. Builds the simulation geometric s
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
-\mbox{\tt in}  & {\em parsedxml} & .xml file handle \\
-\hline
 \end{DoxyParams}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=344pt]{namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_cgraph}
+\includegraphics[width=335pt]{namespaceinitialize_adb972e92da4789506ee6b62b702df2b3_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_a9bd773485c427abd68ca801c02b1b08c_icgraph}
+\includegraphics[width=350pt]{namespaceinitialize_adb972e92da4789506ee6b62b702df2b3_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b}\label{namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b}} 
+\mbox{\Hypertarget{namespaceinitialize_a9ed75476e5dd07928aed3442281930be}\label{namespaceinitialize_a9ed75476e5dd07928aed3442281930be}} 
 \index{initialize@{initialize}!init\+\_\+sources@{init\+\_\+sources}}
 \index{init\+\_\+sources@{init\+\_\+sources}!initialize@{initialize}}
 \subsubsection{\texorpdfstring{init\+\_\+sources()}{init\_sources()}}
-{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+sources (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{parsedxml }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine initialize\+::init\+\_\+sources (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{case\+\_\+node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -135,21 +173,21 @@ Private source definitions parser routine. Builds the tracer sources from the in
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
-\mbox{\tt in}  & {\em parsedxml} & .xml file handle \\
-\hline
 \end{DoxyParams}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_cgraph}
+\includegraphics[width=350pt]{namespaceinitialize_a9ed75476e5dd07928aed3442281930be_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_ad44abf161e353eb8a253ff5c02cd160b_icgraph}
+\includegraphics[width=350pt]{namespaceinitialize_a9ed75476e5dd07928aed3442281930be_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804}\label{namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804}} 
@@ -169,11 +207,43 @@ Public xml parser routine. Builds the simulation space from the input xml case f
 \mbox{\tt in}  & {\em xmlfilename} & .xml file name \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{namespaceinitialize_a45b7ca20c45cf272acbc391950cbb804_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceinitialize_ab91b27efd537a161ee9ca4b2d9efde1a}\label{namespaceinitialize_ab91b27efd537a161ee9ca4b2d9efde1a}} 
+\index{initialize@{initialize}!linkpropertysources@{linkpropertysources}}
+\index{linkpropertysources@{linkpropertysources}!initialize@{initialize}}
+\subsubsection{\texorpdfstring{linkpropertysources()}{linkpropertysources()}}
+{\footnotesize\ttfamily subroutine initialize\+::linkpropertysources (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{links\+Node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em parsedxml} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceinitialize_ab91b27efd537a161ee9ca4b2d9efde1a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceinitialize_ab91b27efd537a161ee9ca4b2d9efde1a_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6}\label{namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6}} 
@@ -197,75 +267,19 @@ Private geometry xml parser routine. Reads a geometry from the xml depending on 
 \mbox{\tt in,out}  & {\em geometry} & Geometrical object to fill \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=332pt]{namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph}
+\includegraphics[width=323pt]{namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{namespaceinitialize_ad36e4f602dab66c06a1f0e2474e9f0a6_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3}\label{namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3}} 
-\index{initialize@{initialize}!readxmlatt@{readxmlatt}}
-\index{readxmlatt@{readxmlatt}!initialize@{initialize}}
-\subsubsection{\texorpdfstring{readxmlatt()}{readxmlatt()}}
-{\footnotesize\ttfamily subroutine initialize\+::readxmlatt (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{xmlnode,  }\item[{type(string), intent(in)}]{tag,  }\item[{type(string), intent(in)}]{att\+\_\+name,  }\item[{type(string), intent(out)}]{att\+\_\+value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
-Private attribute xml parser routine. In the format $<$Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{} 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em xmlnode,tag,vec} & \\
-\hline
-\mbox{\tt in}  & {\em xmlnode} & Working xml node\\
-\hline
-\mbox{\tt in}  & {\em tag} & Tag to search in xml node\\
-\hline
-\mbox{\tt in}  & {\em att\+\_\+name} & Atribute name to collect from tag\\
-\hline
-\mbox{\tt out}  & {\em att\+\_\+value} & Attribute value \\
-\hline
-\end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_aba73c51d0609ff6d0c3bb172f00620e3_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6}\label{namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6}} 
-\index{initialize@{initialize}!readxmlvector@{readxmlvector}}
-\index{readxmlvector@{readxmlvector}!initialize@{initialize}}
-\subsubsection{\texorpdfstring{readxmlvector()}{readxmlvector()}}
-{\footnotesize\ttfamily subroutine initialize\+::readxmlvector (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{xmlnode,  }\item[{type(string), intent(in)}]{tag,  }\item[{type(vector), intent(out)}]{vec }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
-Private vector xml parser routine. Vector must be in format $<$\+Tag x=\char`\"{}vec\%x\char`\"{} y=\char`\"{}vec\%y\char`\"{} z=\char`\"{}vec\%z\char`\"{}$>$ 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em xmlnode,tag,vec} & \\
-\hline
-\mbox{\tt in}  & {\em xmlnode} & Working xml node\\
-\hline
-\mbox{\tt in}  & {\em tag} & Tag to search in xml node\\
-\hline
-\mbox{\tt out}  & {\em vec} & Vector to fill with read contents \\
-\hline
-\end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespaceinitialize_af6a2b47aebc09a89d9c795635fa393c6_icgraph}
 \end{center}
 \end{figure}

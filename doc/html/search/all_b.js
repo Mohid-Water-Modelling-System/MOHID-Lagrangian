@@ -1,10 +1,18 @@
 var searchData=
 [
+  ['paper_5fclass',['paper_class',['../structtracer__paper_1_1paper__class.html',1,'tracer_paper']]],
+  ['paper_5finitialize',['paper_initialize',['../namespacetracer__paper.html#aad494497e50de353bb7458cc82fd617d',1,'tracer_paper']]],
+  ['paper_5fpar_5fclass',['paper_par_class',['../structtracer__paper_1_1paper__par__class.html',1,'tracer_paper']]],
+  ['paper_5fstate_5fclass',['paper_state_class',['../structtracer__paper_1_1paper__state__class.html',1,'tracer_paper']]],
   ['par',['par',['../structsource__identity_1_1source__class.html#a99403ddb327779cbdbb98f15ca9116a8',1,'source_identity::source_class::par()'],['../structtracer__base_1_1tracer__class.html#a65acca4d35b24ec0b60eb32574004364',1,'tracer_base::tracer_class::par()']]],
-  ['par_5ftrans_5ffile',['par_trans_file',['../structtracer__base_1_1tracer__par__trans__class.html#a0ce3a3ba08af8f239ea0a747d3457953',1,'tracer_base::tracer_par_trans_class']]],
   ['parameters',['parameters',['../namespacesimulation__globals.html#ac23e87cbb2256792d683ab1bf5dc5e21',1,'simulation_globals']]],
   ['parameters_5ft',['parameters_t',['../structsimulation__globals_1_1parameters__t.html',1,'simulation_globals']]],
   ['particles_5femitted',['particles_emitted',['../structsource__identity_1_1source__stats.html#a1b11065093e55320520604392399d1c9',1,'source_identity::source_stats']]],
+  ['particulate',['particulate',['../structtracer__paper_1_1paper__par__class.html#aeab5446446cfc5d4cb33952a9fbb3c57',1,'tracer_paper::paper_par_class::particulate()'],['../structtracer__plastic_1_1plastic__par__class.html#abf8dcf5f65aef6d095a75a2d10dc5517',1,'tracer_plastic::plastic_par_class::particulate()']]],
+  ['plastic_5fclass',['plastic_class',['../structtracer__plastic_1_1plastic__class.html',1,'tracer_plastic']]],
+  ['plastic_5finitialize',['plastic_initialize',['../namespacetracer__plastic.html#a9a4e16b71bcd88b95c80ddb9c3ddb7d1',1,'tracer_plastic']]],
+  ['plastic_5fpar_5fclass',['plastic_par_class',['../structtracer__plastic_1_1plastic__par__class.html',1,'tracer_plastic']]],
+  ['plastic_5fstate_5fclass',['plastic_state_class',['../structtracer__plastic_1_1plastic__state__class.html',1,'tracer_plastic']]],
   ['point',['point',['../structgeometry_1_1point.html',1,'geometry']]],
   ['pointmax',['pointmax',['../structsimulation__globals_1_1simdefs__t.html#a8c7a365078a69252312ea200c619bcb6',1,'simulation_globals::simdefs_t']]],
   ['pointmin',['pointmin',['../structsimulation__globals_1_1simdefs__t.html#a76b66c4e9d305de6a0c3b8f1bd2ef319',1,'simulation_globals::simdefs_t']]],
@@ -14,10 +22,13 @@ var searchData=
   ['prec_5fwrt',['prec_wrt',['../namespacesimulation__precision.html#a049e8de4fad9c285d2cc71e8982e2971',1,'simulation_precision']]],
   ['printlicpreamble',['printlicpreamble',['../namespaceabout.html#aca93132913ea2de3a9eb9aa3d1c0ec9c',1,'about']]],
   ['printmemory',['printmemory',['../namespacesimulation__memory.html#a5827bef8479b809a453af147ceaa8c7c',1,'simulation_memory']]],
+  ['printmemorydetailed',['printmemorydetailed',['../namespacesimulation__memory.html#af2a472000acc1ff59cb6e63679617699',1,'simulation_memory']]],
   ['printout',['printout',['../structsimulation__globals_1_1parameters__t.html#a6b56d89976f9cef3fef2e8f54fcb1bdf',1,'simulation_globals::parameters_t::printout()'],['../structsimulation__globals_1_1simdefs__t.html#aade8e069ae929a97a9c78cc52d1078f7',1,'simulation_globals::simdefs_t::printout()'],['../structsimulation__memory_1_1memory__t.html#a1972d13f7be392f9ebd5d27e90dfc4e5',1,'simulation_memory::memory_t::printout()'],['../structsource__identity_1_1source__class.html#ac9866a62bf8838665bb929deff5bce24',1,'source_identity::source_class::printout()'],['../namespacesource__identity.html#a9715a7d707b4c80aa2d2ebd08712f6a9',1,'source_identity::printout()']]],
   ['printsimdefs',['printsimdefs',['../namespacesimulation__globals.html#ad90d6959da1d43e2cd1febff82187ed5',1,'simulation_globals']]],
   ['printsimparameters',['printsimparameters',['../namespacesimulation__globals.html#a0b17b2f2e9e7dbbad7c9d735217c1ee1',1,'simulation_globals']]],
   ['property_5fname',['property_name',['../structsource__identity_1_1source__par.html#a0205c62b7673e76c7f1de2bfcecabd84',1,'source_identity::source_par']]],
+  ['property_5ftype',['property_type',['../structsource__identity_1_1source__par.html#a3d7091aedcb1154665c1debba07bee2c',1,'source_identity::source_par']]],
+  ['propsxmlfilename',['propsxmlfilename',['../structsimulation__globals_1_1filenames__t.html#a7574fc21683b726bc0cc9d41bf8f4513',1,'simulation_globals::filenames_t']]],
   ['pt',['pt',['../structgeometry_1_1shape.html#aada595aa3503cf22350737caf2931e6a',1,'geometry::shape']]],
   ['ptlist',['ptlist',['../structsource__identity_1_1source__stencil.html#a91822da10e869f72071fa29e2bb2c080',1,'source_identity::source_stencil']]]
 ];

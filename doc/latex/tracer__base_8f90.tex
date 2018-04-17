@@ -3,10 +3,8 @@
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \mbox{\hyperlink{structtracer__base_1_1tracer__par__trans__class}{tracer\+\_\+base\+::tracer\+\_\+par\+\_\+trans\+\_\+class}}
-\item 
 type \mbox{\hyperlink{structtracer__base_1_1tracer__par__class}{tracer\+\_\+base\+::tracer\+\_\+par\+\_\+class}}
-\begin{DoxyCompactList}\small\item\em Type -\/ parameters of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
+\item 
 type \mbox{\hyperlink{structtracer__base_1_1tracer__state__class}{tracer\+\_\+base\+::tracer\+\_\+state\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ state variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structtracer__base_1_1tracer__stats__class}{tracer\+\_\+base\+::tracer\+\_\+stats\+\_\+class}}
@@ -21,5 +19,10 @@ module \mbox{\hyperlink{namespacetracer__base}{tracer\+\_\+base}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \mbox{\hyperlink{namespacetracer__base_ac4eda3326a346308d0a7fb42b4af9cb9}{tracer\+\_\+base\+::tracer\+\_\+init}} (trc, id, time, x, y, z)
+subroutine \mbox{\hyperlink{namespacetracer__base_ad712d20080a9daa44024d61afae670a4}{tracer\+\_\+base\+::initialize}} (trc, id, id\+\_\+source, time, pt)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(tracer\+\_\+class), dimension(\+:), allocatable, public \mbox{\hyperlink{namespacetracer__base_a7f839546575f08e3b944dafdf5e0b2d2}{tracer\+\_\+base\+::tracer}}
+\end{DoxyCompactItemize}

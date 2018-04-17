@@ -8,7 +8,3 @@ If you need help with MOHIDLagrangian or MOHID, want to keep up with progress, c
 
 ## License
 GNU General Public License. See the [GNU General Public License](http://www.gnu.org/copyleft/gpl.html) web page for more information.
-
-### TODO
-
--catch exception in xml parsing - currently we have a seg fault if xml tags are not correct or present.

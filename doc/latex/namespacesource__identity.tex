@@ -23,7 +23,11 @@ type \mbox{\hyperlink{structsource__identity_1_1source__stencil}{source\+\_\+ste
 \item 
 subroutine, public \mbox{\hyperlink{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}{allocsources}} (nsources)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25}{setsourceproperties}} (srcid, ptype, pname)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesource__identity_a8d7aaa58c575f6ed78f5ca29d64615d7}{initialize}} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, geometry)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesource__identity_a43fd5b86e85ddeadf982708445286e26}{linkproperty}} (src, ptype, pname)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesource__identity_a9715a7d707b4c80aa2d2ebd08712f6a9}{printout}} (src)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -58,7 +62,8 @@ source allocation routine -\/ allocates the sources objects
 \mbox{\tt in}  & {\em nsources} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -80,6 +85,21 @@ source inititialization proceadure -\/ initializes Source variables
 \mbox{\tt in}  & {\em src,id,name,emitting\+\_\+rate,source\+\_\+geometry} & \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{namespacesource__identity_a43fd5b86e85ddeadf982708445286e26}\label{namespacesource__identity_a43fd5b86e85ddeadf982708445286e26}} 
+\index{source\+\_\+identity@{source\+\_\+identity}!linkproperty@{linkproperty}}
+\index{linkproperty@{linkproperty}!source\+\_\+identity@{source\+\_\+identity}}
+\subsubsection{\texorpdfstring{linkproperty()}{linkproperty()}}
+{\footnotesize\ttfamily subroutine source\+\_\+identity\+::linkproperty (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source property setting proceadure -\/ initializes Source variables 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em src,ptype,pname} & \\
+\hline
+\end{DoxyParams}
 \mbox{\Hypertarget{namespacesource__identity_a9715a7d707b4c80aa2d2ebd08712f6a9}\label{namespacesource__identity_a9715a7d707b4c80aa2d2ebd08712f6a9}} 
 \index{source\+\_\+identity@{source\+\_\+identity}!printout@{printout}}
 \index{printout@{printout}!source\+\_\+identity@{source\+\_\+identity}}
@@ -95,6 +115,35 @@ source print routine -\/ prints a source info on console/log
 \mbox{\tt in}  & {\em src} & \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25}\label{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25}} 
+\index{source\+\_\+identity@{source\+\_\+identity}!setsourceproperties@{setsourceproperties}}
+\index{setsourceproperties@{setsourceproperties}!source\+\_\+identity@{source\+\_\+identity}}
+\subsubsection{\texorpdfstring{setsourceproperties()}{setsourceproperties()}}
+{\footnotesize\ttfamily subroutine, public source\+\_\+identity\+::setsourceproperties (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{srcid,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source property setting routine, calls source by id to set its properties 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em srcid,ptype,pname} & \\
+\hline
+\mbox{\tt in}  & {\em srcid} & Source id tag\\
+\hline
+\mbox{\tt in}  & {\em ptype} & Property type to set\\
+\hline
+\mbox{\tt in}  & {\em pname} & Property name to set \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25_icgraph}
+\end{center}
+\end{figure}
 
 
 \subsection{Variable Documentation}

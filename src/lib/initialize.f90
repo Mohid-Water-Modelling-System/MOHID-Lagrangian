@@ -21,6 +21,7 @@
 
     use tracer_base
     use simulation_globals
+    use simulation_xmlparser
     use source_identity
     use source_emitter
     use about
@@ -35,75 +36,80 @@
     public :: initMohidLagrangian
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private property xml parser routine. Reads the properties tab from the xml
+    !> file and links these to the corresponding source
+    !
+    !> @param[in] parsedxml
+    !---------------------------------------------------------------------------
+    subroutine linkPropertySources(linksNode)
+    implicit none
+    type(Node), intent(in), pointer :: linksNode
+    
+    type(NodeList), pointer :: linkList
+    type(Node), pointer :: linknode
+    integer :: i
+    character(80) :: sourceid_char, sourcetype_char, sourceprop_char
+    type(string) :: sourceid, sourcetype, sourceprop
+    
+    linkList => getElementsByTagname(linksNode, "link")
+    do i = 0, getLength(linkList) - 1
+        linknode => item(linkList,i)
+        call extractDataAttribute(linknode, "source", sourceid_char)
+        call extractDataAttribute(linknode, "type", sourcetype_char)
+        call extractDataAttribute(linknode, "property", sourceprop_char)
+        sourceid=trim(sourceid_char)
+        sourcetype=trim(sourcetype_char)
+        sourceprop=trim(sourceprop_char)
+        call setSourceProperties(sourceid%to_number(kind=1_I1P),sourcetype,sourceprop)
+    enddo
+    
+    return    
+    end subroutine
+    
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private attribute xml parser routine. In the format <Tag att_name="att_value"
+    !> Private property xml parser routine. Reads the properties tab from the xml
+    !> file and links these to the corresponding source
     !
-    !> @param[in] xmlnode, tag, vec
+    !> @param[in] parsedxml
     !---------------------------------------------------------------------------
-    subroutine readxmlatt(xmlnode, tag, att_name, att_value)
+    subroutine init_properties(case_node)
     implicit none
-    type(Node), intent(in), pointer :: xmlnode  !<Working xml node
-    type(string), intent(in) :: tag             !<Tag to search in xml node
-    type(string), intent(in) :: att_name        !<Atribute name to collect from tag
-    type(string), intent(out) :: att_value      !<Attribute value
+    type(Node), intent(in), pointer :: case_node
 
+    type(Node), pointer :: props_node          !< Single properties block to process
     type(string) :: outext
-    character(80) :: att_value_chars
-    type(NodeList), pointer :: nodeList
-    type(Node), pointer :: nodedetail
+    type(string) :: tag, att_name
 
-    nullify(nodeList)
-    nodeList => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
-    if (associated(nodeList)) then
-        nodedetail => item(nodeList, 0)
-        call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
-        att_value=trim(att_value_chars)
-    else
-        outext='Could not find any '//tag//' tag for xml node '//getNodeName(xmlnode)//', stoping'
+    tag="properties"    !the node we want
+    call gotoChildNode(case_node,props_node,tag)
+    if (associated(props_node)) then
+        tag="propertyfile"
+        att_name="name"
+        call readxmlatt(props_node, tag, att_name, FileNames%propsxmlfilename)  !getting the file name from that tag
+        outext='-->Properties to link to Sources found at '//FileNames%propsxmlfilename
         call ToLog(outext)
-        stop
+        tag="links"
+        call gotoChildNode(props_node,props_node,tag,.true.) !getting the links node
+        call linkPropertySources(props_node)                 !calling the property linker 
+    else
+        outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
+        call ToLog(outext)
     endif
 
     end subroutine
 
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Private vector xml parser routine. Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z" />
-    !
-    !> @param[in] xmlnode, tag, vec
-    !---------------------------------------------------------------------------
-    subroutine readxmlvector(xmlnode, tag, vec)
-    implicit none
-    type(Node), intent(in), pointer :: xmlnode  !<Working xml node
-    type(string), intent(in) :: tag             !<Tag to search in xml node
-    type(vector), intent(out) :: vec            !<Vector to fill with read contents
-
-    type(string) :: outext
-    type(NodeList), pointer :: nodeList
-    type(Node), pointer :: nodedetail
-
-    nullify(nodeList)
-    nodeList => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
-    if (associated(nodeList)) then
-        nodedetail => item(nodeList, 0)
-        call extractDataAttribute(nodedetail, "x", vec%x)
-        call extractDataAttribute(nodedetail, "y", vec%y)
-        call extractDataAttribute(nodedetail, "z", vec%z)
-    else
-        outext='Could not find any '//tag//' tag for xml node '//getNodeName(xmlnode)//', stoping'
-        call ToLog(outext)
-        stop
-    endif
-    end subroutine
-
+    
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -126,20 +132,20 @@
         !nothing to do
     class is (box)
         tag='point'
-        call readxmlvector(source,tag,geometry%pt)
+        call readxmlvector(source_detail,tag,geometry%pt)
         tag='size'
-        call readxmlvector(source,tag,geometry%size)
+        call readxmlvector(source_detail,tag,geometry%size)
     class is (point)
         tag='point'
         call readxmlvector(source,tag,geometry%pt)
     class is (line)
         tag='pointa'
-        call readxmlvector(source,tag,geometry%pt)
+        call readxmlvector(source_detail,tag,geometry%pt)
         tag='pointb'
-        call readxmlvector(source,tag,geometry%last)
+        call readxmlvector(source_detail,tag,geometry%last)
     class is (sphere)
         tag='point'
-        call readxmlvector(source,tag,geometry%pt)
+        call readxmlvector(source_detail,tag,geometry%pt)
         call extractDataAttribute(source_detail, "radius", geometry%radius)
         class default
         outext='read_xml_geometry: unexpected type for geometry object!'
@@ -149,6 +155,7 @@
 
     end subroutine
 
+    
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -158,9 +165,9 @@
     !
     !> @param[in] parsedxml
     !---------------------------------------------------------------------------
-    subroutine init_sources(parsedxml)
+    subroutine init_sources(case_node)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
+    type(Node), intent(in), pointer :: case_node
 
     type(string) :: outext
     type(NodeList), pointer :: sourcedefList        !< Node list for simulationdefs
@@ -176,11 +183,12 @@
     character(80) :: val, name_char, source_geometry_char
     real(prec) :: emitting_rate, start, finish
     class(shape), allocatable :: geometry
+    
+    outext='-->Reading case Sources'
+    call ToLog(outext,.false.)
 
-    nullify(sourcedefList)
-    nullify(sourceList)
-    sourcedefList => getElementsByTagname(parsedxml, "sourcedef")       !searching for tags with the 'simulationdefs' name
-    sourcedef => item(sourcedefList,0)
+    tag="sourcedef"    !the node we want
+    call gotoChildNode(case_node,sourcedef,tag,.true.)
     sourceList => getElementsByTagname(sourcedef, "source")
 
     call allocSources(getLength(sourceList))                         !allocating the source objects
@@ -189,25 +197,28 @@
         source_node => item(sourceList,j)
         tag="setsource"
         att_name="id"
-        call readxmlatt(source_node, tag, att_name, att_val)
+        call ReadXMLatt(source_node, tag, att_name, att_val)
         id=att_val%to_number(kind=1_I1P)
         att_name="name"
-        call readxmlatt(source_node, tag, att_name, name)
+        call ReadXMLatt(source_node, tag, att_name, name)
         tag="set"
         att_name="emitting_rate"
-        call readxmlatt(source_node, tag, att_name, att_val)
+        call ReadXMLatt(source_node, tag, att_name, att_val)
         emitting_rate = att_val%to_number(kind=1._R4P)
         tag="active"
         att_name='start'
-        call readxmlatt(source_node, tag, att_name, att_val)
-        start = att_val%to_number(kind=1._R4P)
-        tag="active"
-        att_name='end'
-        call readxmlatt(source_node, tag, att_name, att_val)
-        if (att_val%chars() == 'end') then
-            finish = Parameters%TimeMax
+        call ReadXMLatt(source_node, tag, att_name, att_val,.false.)
+        if (att_val%is_number()) then
+            start = att_val%to_number(kind=1._R4P)
         else
+            start = 0.0
+        endif
+        att_name='end'
+        call ReadXMLatt(source_node, tag, att_name, att_val,.false.)
+        if (att_val%is_number()) then
             finish = att_val%to_number(kind=1._R4P)
+        else
+            finish = Parameters%TimeMax
         endif
         !now we need to find out the geometry of the source and read accordingly
         sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
@@ -252,23 +263,22 @@
     !
     !> @param[in] parsedxml
     !---------------------------------------------------------------------------
-    subroutine init_simdefs(parsedxml)
+    subroutine init_simdefs(case_node)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
+    type(Node), intent(in), pointer :: case_node
 
     type(NodeList), pointer :: defsList       !< Node list for simdefs
-    type(Node), pointer :: simdefs_node            !< Single simdefs block to process
+    type(Node), pointer :: simdefs_node       !< Single simdefs block to process
     type(string) :: outext
-    real(prec) :: i
+    integer :: i
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
 
     outext='-->Reading case simulation definitions'
     call ToLog(outext,.false.)
 
-    nullify(defsList)
-    defsList => getElementsByTagname(parsedxml, "simulationdefs")       !searching for nodes with the 'simulationdefs' name
-    simdefs_node => item(defsList,0)
+    tag="simulationdefs"    !the node we want
+    call gotoChildNode(case_node,simdefs_node,tag,.true.)
     tag="resolution"
     att_name="dp"
     call readxmlatt(simdefs_node, tag, att_name, att_val)
@@ -296,12 +306,11 @@
     !
     !> @param[in] parsedxml
     !---------------------------------------------------------------------------
-    subroutine init_caseconstants(parsedxml)
+    subroutine init_caseconstants(case_node)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
-
-    type(NodeList), pointer :: constsList       !< Node list for constants
-    type(Node), pointer :: constants_node            !< Single constants block to process
+    type(Node), intent(in), pointer :: case_node    
+    
+    type(Node), pointer :: constants_node       !< Single constants block to process
     type(string) :: outext
     type(string) :: tag, att_name, att_val
     type(vector) :: coords
@@ -309,9 +318,8 @@
     outext='-->Reading case constants'
     call ToLog(outext,.false.)
 
-    nullify(constsList)
-    constsList => getElementsByTagname(parsedxml, "constantsdef")       !searching for nodes with the 'constantsdef' name
-    constants_node => item(constsList,0)
+    tag="constantsdef"    !the node we want
+    call gotoChildNode(case_node,constants_node,tag,.true.)
     tag="Gravity"
     call readxmlvector(constants_node, tag, coords)
     call Constants%setgravity(coords)
@@ -332,40 +340,32 @@
     !
     !> @param[in] parsedxml
     !---------------------------------------------------------------------------
-    subroutine init_parameters(parsedxml)
+    subroutine init_parameters(execution_node)
     implicit none
-    type(Node), intent(in), pointer :: parsedxml    !<.xml file handle
+    type(Node), intent(in), pointer :: execution_node
 
     type(string) :: outext
-    type(NodeList), pointer :: parameterList, parametersList        !< Node list for parameters
-    type(Node), pointer :: parmt, parameters_node                    !< Single parameter block to process
+    type(NodeList), pointer :: parameterList        !< Node list for parameters
+    type(Node), pointer :: parmt, parameters_node
     integer :: i
-    type(string) :: parmkey, parmvalue
+    type(string) :: parmkey, parmvalue, tag
     character(80) :: parmkey_char, parmvalue_char
 
     outext='-->Reading case parameters'
     call ToLog(outext,.false.)
 
-    nullify(parameterList)
-    nullify(parametersList)
-    parametersList => getElementsByTagname(parsedxml, "parameters")
-    parameters_node => item(parametersList,0)
+    tag="parameters"    !the node we want
+    call gotoChildNode(execution_node,parameters_node,tag,.true.)
     parameterList => getElementsByTagname(parameters_node, "parameter")       !searching for tags with the 'parameter' name
-    if (associated(parameterList)) then                                !checking if the list is not empty
-        do i = 0, getLength(parameterList) - 1                          !extracting parameter tags one by one
-            parmt => item(parameterList, i)
-            call extractDataAttribute(parmt, "key", parmkey_char)       !name of the parameter
-            call extractDataAttribute(parmt, "value", parmvalue_char)   !value of the parameter
-            parmkey=trim(parmkey_char)
-            parmvalue=trim(parmvalue_char)
-            call Parameters%setparameter(parmkey,parmvalue)
-        enddo
-    else
-        outext='Could not find any parameter tag in input file, stopping'
-        call ToLog(outext)
-        stop
-    endif
-
+    do i = 0, getLength(parameterList) - 1                          !extracting parameter tags one by one
+        parmt => item(parameterList, i)
+        call extractDataAttribute(parmt, "key", parmkey_char)       !name of the parameter
+        call extractDataAttribute(parmt, "value", parmvalue_char)   !value of the parameter
+        parmkey=trim(parmkey_char)
+        parmvalue=trim(parmvalue_char)
+        call Parameters%setparameter(parmkey,parmvalue)
+    enddo
+    call Parameters%check()
     call Parameters%printout()
 
     return
@@ -384,8 +384,10 @@
     subroutine initMohidLagrangian(xmlfilename)
     implicit none
     type(string), intent(in) :: xmlfilename         !< .xml file name
-    type(string) :: outext
+    type(string) :: outext, tag
     type(Node), pointer :: xmldoc                   !< .xml file handle
+    type(Node), pointer :: case_node
+    type(Node), pointer :: execution_node
     integer :: i
 
     call PrintLicPreamble
@@ -404,21 +406,32 @@
     if (i==0) then
         outext='->Reading case definition from '//xmlfilename
         call ToLog(outext)
+        FileNames%mainxmlfilename = xmlfilename
     else
         outext='Could not open '//xmlfilename//' input file, give me at least that!'
         call ToLog(outext)
         stop
     endif
+    
+    tag="case"          !base document node
+    call gotoChildNode(xmldoc,execution_node,tag,.true.)
+    tag="execution"     !finding execution node
+    call gotoChildNode(execution_node,execution_node,tag,.true.)
+    tag="case"          !base document node
+    call gotoChildNode(xmldoc,case_node,tag,.true.)
+    tag="casedef"     !finding execution node
+    call gotoChildNode(case_node,case_node,tag,.true.)
 
     !initializing memory log
     call SimMemory%initialize()
 
     ! building the simulation basic structures according to the case definition file
-    ! every other structure in the simulation is built from these, i.e., not defined by the user
-    call init_caseconstants(xmldoc)
-    call init_simdefs(xmldoc)
-    call init_parameters(xmldoc)
-    call init_sources(xmldoc)
+    ! every other structure in the simulation is built from these, i.e., not defined by the user directly
+    call init_parameters(execution_node)
+    call init_caseconstants(case_node)
+    call init_simdefs(case_node)
+    call init_sources(case_node)
+    call init_properties(case_node)    
 
     !With the Sources initialized, now we initialize the Emmiter class, that automatically
     !allocates and initializes all of the useable tracers

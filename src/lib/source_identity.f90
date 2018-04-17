@@ -27,9 +27,10 @@
     type source_par               !<Type - parameters of a source object
         integer :: id                       !< unique source identification (integer)
         real(prec_time) :: emitting_rate    !< Emitting rate of the source (Hz)
-        real(prec_time) :: startime        !< time to start emitting tracers
+        real(prec_time) :: startime         !< time to start emitting tracers
         real(prec_time) :: stoptime         !< time to stop emitting tracers
         type(string) :: name                !< source name
+        type(string) :: property_type       !< source property type (plastic, paper, fish, etc)
         type(string) :: property_name       !< source property name
         type(string) :: source_geometry     !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
@@ -65,6 +66,7 @@
         type(source_stats) :: stats         !<To access statistics
     contains
     procedure :: initialize
+    procedure :: linkproperty
     procedure :: printout
     end type
 
@@ -75,7 +77,7 @@
     !Public access vars
     public :: Source, source_class
     !Public access procedures
-    public :: allocSources
+    public :: allocSources, setSourceProperties
 
     contains
         
@@ -100,6 +102,44 @@
         stop
     endif
     end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> source property setting routine, calls source by id to set its properties
+    !
+    !> @param[in] srcid,ptype,pname
+    !---------------------------------------------------------------------------
+    subroutine setSourceProperties(srcid,ptype,pname)
+    implicit none
+    integer, intent(in) :: srcid        !<Source id tag
+    type(string), intent(in) :: ptype   !<Property type to set
+    type(string), intent(in) :: pname   !<Property name to set
+    
+    type(string) :: outext, temp
+    integer :: i
+    logical :: notlinked
+    
+    notlinked = .true.  !assuming not linked
+    do i=1, size(Source)        
+        if (Source(i)%par%id == srcid) then ! found the correct source to link to
+            call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
+            temp = Source(i)%par%id
+            outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name 
+            call ToLog(outext)
+            notlinked = .false. ! we linked it
+            exit
+        endif
+    enddo
+    if (notlinked) then ! property has no corresponding Source
+        temp = srcid
+        outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring' 
+        call ToLog(outext)
+    endif
+    return
+    end subroutine
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -120,9 +160,10 @@
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: geometry
+    
     integer :: sizem, i
     type(string) :: outext
-    integer err
+    integer :: err
 
     !Setting parameters
     src%par%id=id
@@ -132,6 +173,8 @@
     src%par%name=name
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=geometry)
+    src%par%property_type = "pure" ! pure Lagrangian trackers by default
+    src%par%property_name = "pure"
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
@@ -158,8 +201,30 @@
     !do i=1, src%stencil%np
     !print*, src%stencil%ptlist(i)
     !end do
+    return  
+    end subroutine   
         
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> source property setting proceadure - initializes Source variables
+    !
+    !> @param[in] src,ptype,pname
+    !---------------------------------------------------------------------------
+    subroutine linkproperty(src,ptype,pname)
+    implicit none
+    class(source_class) :: src
+    type(string), intent(in) :: ptype
+    type(string), intent(in) :: pname
+    
+    src%par%property_type = ptype
+    src%par%property_name = pname
+    return
     end subroutine
+    
     
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

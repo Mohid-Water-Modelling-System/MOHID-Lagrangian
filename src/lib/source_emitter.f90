@@ -94,11 +94,17 @@
     integer err
     type(string) :: outext, temp
 
-    allocate(Tracer(self%emittable), stat=err)
-    if(err/=0)then
-        outext='Emitter::alloctracers : Cannot allocate Tracers, stoping'
+    if (self%emittable .le. 0) then
+        outext='Emitter::alloctracers : No Tracers will be simulated, stoping'
         call ToLog(outext)
         stop
+    else
+        allocate(Tracer(self%emittable), stat=err)
+        if(err/=0)then
+            outext='Emitter::alloctracers : Cannot allocate Tracers, stoping'
+            call ToLog(outext)
+            stop
+        endif
     endif
 
     temp = size(Tracer)
@@ -128,7 +134,7 @@
     self%emitted = 0
     self%emittable = 0
     do i=1, size(srcs)
-        call setotalnp(srcs(i))
+        call setotalnp(srcs(i)) !finding the total tracers this Source will pass the emmiter
         self%emittable = self%emittable + srcs(i)%stencil%total_np
         !print*, srcs(i)%stencil%total_np
     end do

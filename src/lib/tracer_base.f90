@@ -73,7 +73,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Tracer inititialization method
+    !> Tracer initialization method
     !
     !> @param[in]
     !---------------------------------------------------------------------------

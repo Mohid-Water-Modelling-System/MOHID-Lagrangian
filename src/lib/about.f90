@@ -48,7 +48,14 @@
     author   ="R. Birjukovs Canelas"
     date     ="02-04-2018"
 
-    outext = ' <MOHIDLagrangian> Copyright (C) 2018 by'//new_line('a')//&
+    outext = ' __  __  ___  _   _ ___ ____  _                                      _             '//new_line('a')//&
+             ' |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  '//new_line('a')//&
+             ' | |\/| | | | | |_| || || | | | |   / _` |/ _` | __/  _` |  _ \ / _` | |/ _` |  _ \ '//new_line('a')//&
+             ' | |  | | |_| |  _  || || |_| | |__| (_| | (_| | | | (_| | | | | (_| | | (_| | | | |'//new_line('a')//&
+             ' |_|  |_|\___/|_| |_|___|____/|_____\__,_|\__, |_|  \__,_|_| |_|\__, |_|\__,_|_| |_|'//new_line('a')//&
+             '                                          |___/                 |___/               '//new_line('a')//&
+        
+        '  <MOHIDLagrangian> Copyright (C) 2018 by'//new_line('a')//&
         '  R. Birjukovs Canelas, R. Neves, F. Campuzano, H. de Pablo Lenonardo'//new_line('a')//&
         ''//new_line('a')//&
         '  MARETEC - Research Centre for Marine, Environment and Technology'//new_line('a')//&

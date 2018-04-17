@@ -34,6 +34,7 @@
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_logger.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_memory.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_precision.f90"/>
+		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\simulation_xmlparser.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source_emitter.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\source_identity.f90"/>
 		<File RelativePath="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\src\lib\sources.f90"/>

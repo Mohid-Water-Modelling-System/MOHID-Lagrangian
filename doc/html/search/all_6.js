@@ -8,6 +8,6 @@ var searchData=
   ['getotal',['getotal',['../structsimulation__memory_1_1memory__t.html#a1677c1871975872cba406a8729fbedb5',1,'simulation_memory::memory_t::getotal()'],['../namespacesimulation__memory.html#a8589522c4e28cf60741a5439477cdb31',1,'simulation_memory::getotal()']]],
   ['getpointdistribution',['getpointdistribution',['../structgeometry_1_1shape.html#a9df712486b716b472955c14057eab7ff',1,'geometry::shape::getpointdistribution()'],['../namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4',1,'geometry::getpointdistribution()']]],
   ['gettimestamp',['gettimestamp',['../namespacesimulation__logger.html#a13446c36aac51547a72b39003f735257',1,'simulation_logger']]],
-  ['gravity',['gravity',['../structsimulation__globals_1_1constants__t.html#a4eec4dda6ff156f096dbfbaac5ea2a6b',1,'simulation_globals::constants_t']]],
-  ['group',['group',['../structtracer__base_1_1tracer__par__class.html#ad943229367c5ab92dc815f23b0ee6aad',1,'tracer_base::tracer_par_class']]]
+  ['gotochildnode',['gotochildnode',['../namespacesimulation__xmlparser.html#a9a66c3a491ca567688fef7148e2d12d8',1,'simulation_xmlparser']]],
+  ['gravity',['gravity',['../structsimulation__globals_1_1constants__t.html#a4eec4dda6ff156f096dbfbaac5ea2a6b',1,'simulation_globals::constants_t']]]
 ];

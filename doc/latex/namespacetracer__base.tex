@@ -11,8 +11,6 @@ Module that defines a pure Lagrangian tracer class and related methods.
 type \mbox{\hyperlink{structtracer__base_1_1tracer__class}{tracer\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ The pure Lagrangian tracer class. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structtracer__base_1_1tracer__par__class}{tracer\+\_\+par\+\_\+class}}
-\begin{DoxyCompactList}\small\item\em Type -\/ parameters of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structtracer__base_1_1tracer__par__trans__class}{tracer\+\_\+par\+\_\+trans\+\_\+class}}
 \item 
 type \mbox{\hyperlink{structtracer__base_1_1tracer__state__class}{tracer\+\_\+state\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ state variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
@@ -21,8 +19,13 @@ type \mbox{\hyperlink{structtracer__base_1_1tracer__stats__class}{tracer\+\_\+st
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \mbox{\hyperlink{namespacetracer__base_ac4eda3326a346308d0a7fb42b4af9cb9}{tracer\+\_\+init}} (trc, id, time, x, y, z)
+subroutine \mbox{\hyperlink{namespacetracer__base_ad712d20080a9daa44024d61afae670a4}{initialize}} (trc, id, id\+\_\+source, time, pt)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structtracer__base_1_1tracer__class}{tracer\+\_\+class}}), dimension(\+:), allocatable, public \mbox{\hyperlink{namespacetracer__base_a7f839546575f08e3b944dafdf5e0b2d2}{tracer}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -34,21 +37,27 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespacetracer__base_ac4eda3326a346308d0a7fb42b4af9cb9}\label{namespacetracer__base_ac4eda3326a346308d0a7fb42b4af9cb9}} 
-\index{tracer\+\_\+base@{tracer\+\_\+base}!tracer\+\_\+init@{tracer\+\_\+init}}
-\index{tracer\+\_\+init@{tracer\+\_\+init}!tracer\+\_\+base@{tracer\+\_\+base}}
-\subsubsection{\texorpdfstring{tracer\+\_\+init()}{tracer\_init()}}
-{\footnotesize\ttfamily subroutine, public tracer\+\_\+base\+::tracer\+\_\+init (\begin{DoxyParamCaption}\item[{type(\mbox{\hyperlink{structtracer__base_1_1tracer__class}{tracer\+\_\+class}}), intent(inout)}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{x,  }\item[{real(prec), intent(in)}]{y,  }\item[{real(prec), intent(in)}]{z }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacetracer__base_ad712d20080a9daa44024d61afae670a4}\label{namespacetracer__base_ad712d20080a9daa44024d61afae670a4}} 
+\index{tracer\+\_\+base@{tracer\+\_\+base}!initialize@{initialize}}
+\index{initialize@{initialize}!tracer\+\_\+base@{tracer\+\_\+base}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+base\+::initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__base_1_1tracer__class}{tracer\+\_\+class}})}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{integer, intent(in)}]{id\+\_\+source,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 
-Tracer inititialization routine -\/ Generates a tracer and initializes its variables 
+Tracer initialization method 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt out}  & {\em trc} & ~\newline
-\\
-\hline
-\mbox{\tt in}  & {\em filename} & \\
+\mbox{\tt in}  & {\em } & \\
 \hline
 \end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetracer__base_a7f839546575f08e3b944dafdf5e0b2d2}\label{namespacetracer__base_a7f839546575f08e3b944dafdf5e0b2d2}} 
+\index{tracer\+\_\+base@{tracer\+\_\+base}!tracer@{tracer}}
+\index{tracer@{tracer}!tracer\+\_\+base@{tracer\+\_\+base}}
+\subsubsection{\texorpdfstring{tracer}{tracer}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracer__base_1_1tracer__class}{tracer\+\_\+class}}), dimension(\+:), allocatable, public tracer\+\_\+base\+::tracer}
+

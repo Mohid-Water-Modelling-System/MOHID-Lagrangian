@@ -1,5 +1,12 @@
 <map id="simulation_logger::tolog" name="simulation_logger::tolog">
 <area shape="rect" id="node2" href="$namespacegeometry.html#ad14d7800ac13b9a6722ac96b06ce94c9" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="223,5,339,32"/>
 <area shape="rect" id="node3" href="$namespacegeometry.html#a726dae6e63f052138bd3346de439fbc4" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="184,56,377,83"/>
-<area shape="rect" id="node4" href="$namespacesimulation__memory.html#a5827bef8479b809a453af147ceaa8c7c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="209,107,352,149"/>
+<area shape="rect" id="node4" href="$namespacesimulation__globals.html#a3867df0f77dca3700c9470aea24fd048" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="216,107,345,149"/>
+<area shape="rect" id="node5" href="$namespacesimulation__globals.html#a0b17b2f2e9e7dbbad7c9d735217c1ee1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="210,173,351,214"/>
+<area shape="rect" id="node6" href="$namespacesimulation__globals.html#acfdc640757f0275bccb1d8de7bd7dc92" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="216,238,345,279"/>
+<area shape="rect" id="node7" href="$namespacesimulation__globals.html#a9a8e88c06937b7cf6be9d9bf30f54ba9" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="216,303,345,345"/>
+<area shape="rect" id="node8" href="$namespacesimulation__globals.html#a3ef0462db5a60ac79304cabd2fdd914d" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="216,369,345,410"/>
+<area shape="rect" id="node9" href="$namespacesimulation__globals.html#ad90d6959da1d43e2cd1febff82187ed5" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="216,434,345,475"/>
+<area shape="rect" id="node10" href="$namespacesimulation__memory.html#a5827bef8479b809a453af147ceaa8c7c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="209,499,352,541"/>
+<area shape="rect" id="node11" href="$namespacesimulation__memory.html#af2a472000acc1ff59cb6e63679617699" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="209,565,352,606"/>
 </map>

@@ -50,7 +50,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"about_8f90.html"
+"about_8f90.html",
+"structtracer__paper_1_1paper__par__class.html#aeab5446446cfc5d4cb33952a9fbb3c57"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

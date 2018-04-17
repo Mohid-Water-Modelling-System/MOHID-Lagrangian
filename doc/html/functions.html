@@ -108,7 +108,6 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>acc_t
 : <a class="el" href="structsource__identity_1_1source__stats.html#a76eafb42aad8f5a2a859f12c0fd6f683">source_identity::source_stats</a>
-, <a class="el" href="structtracer__base_1_1tracer__stats__class.html#a32e1843f4809696a7c58d5b911d4a745">tracer_base::tracer_stats_class</a>
 </li>
 <li>acc_vel
 : <a class="el" href="structtracer__base_1_1tracer__stats__class.html#af5c29fc910469ddabe6e549a3743c310">tracer_base::tracer_stats_class</a>
@@ -130,6 +129,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="structsource__identity_1_1source__state.html#a311e00a4f1872202e513c0ac498e0619">source_identity::source_state</a>
 , <a class="el" href="structtracer__base_1_1tracer__state__class.html#a23ee8b78946c85f5e079ad0f5fc08b29">tracer_base::tracer_state_class</a>
 </li>
+<li>alloctracers()
+: <a class="el" href="structsource__emitter_1_1emitter__t.html#a30562aff6a891e4e2d4836ba833e5b55">source_emitter::emitter_t</a>
+</li>
 </ul>
 
 
@@ -137,13 +139,35 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>cfl
 : <a class="el" href="structsimulation__globals_1_1parameters__t.html#a247fb6881af8bd66653818f2f712d86f">simulation_globals::parameters_t</a>
 </li>
+<li>check()
+: <a class="el" href="structsimulation__globals_1_1parameters__t.html#a5402a171a26d5e6a73b5bf284bf0aa57">simulation_globals::parameters_t</a>
+</li>
+<li>concentration
+: <a class="el" href="structtracer__paper_1_1paper__state__class.html#aa470bc7607345df98b01f08b2450640e">tracer_paper::paper_state_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__state__class.html#a132bc977b49dc7bd320ca843bca6eab1">tracer_plastic::plastic_state_class</a>
+</li>
+<li>condition
+: <a class="el" href="structtracer__paper_1_1paper__state__class.html#a1e2ac1d6419a5ec39dd8529f8cd83112">tracer_paper::paper_state_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__state__class.html#a6420065359daf0885201b79212f13b5f">tracer_plastic::plastic_state_class</a>
+</li>
 </ul>
 
 
 <h3><a id="index_d"></a>- d -</h3><ul>
+<li>degradation_rate
+: <a class="el" href="structtracer__paper_1_1paper__par__class.html#a123352996efb1f5edbc9bffdb1460554">tracer_paper::paper_par_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__par__class.html#afce16ca3606bcfc7f4455c46232aa057">tracer_plastic::plastic_par_class</a>
+</li>
+<li>density
+: <a class="el" href="structtracer__paper_1_1paper__par__class.html#a6d5b6834f7eae793f44202e07f4357df">tracer_paper::paper_par_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__par__class.html#af0ae9b2aec29bff71a16780c5f75c8e2">tracer_plastic::plastic_par_class</a>
+</li>
 <li>depth
 : <a class="el" href="structsource__identity_1_1source__state.html#a1986d6dec1ccc5bbfd54e4bbc8f2e4d5">source_identity::source_state</a>
 , <a class="el" href="structtracer__base_1_1tracer__state__class.html#a87200472c310a7b3f95653cd43eda82f">tracer_base::tracer_state_class</a>
+</li>
+<li>detailedprintout()
+: <a class="el" href="structsimulation__memory_1_1memory__t.html#a742a2dddb7feb68044886b534cdc871d">simulation_memory::memory_t</a>
 </li>
 <li>dp
 : <a class="el" href="structsimulation__globals_1_1simdefs__t.html#a416b838aca82edb2df262f5f503a00ae">simulation_globals::simdefs_t</a>
@@ -155,6 +179,9 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 
 <h3><a id="index_e"></a>- e -</h3><ul>
+<li>emittable
+: <a class="el" href="structsource__emitter_1_1emitter__t.html#acfae676591a37474f44f9c49c1079c98">source_emitter::emitter_t</a>
+</li>
 <li>emitted
 : <a class="el" href="structsource__emitter_1_1emitter__t.html#a30062afe1a31dcfd77c90762d8c8cb5c">source_emitter::emitter_t</a>
 </li>
@@ -180,9 +207,6 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>gravity
 : <a class="el" href="structsimulation__globals_1_1constants__t.html#a4eec4dda6ff156f096dbfbaac5ea2a6b">simulation_globals::constants_t</a>
 </li>
-<li>group
-: <a class="el" href="structtracer__base_1_1tracer__par__class.html#ad943229367c5ab92dc815f23b0ee6aad">tracer_base::tracer_par_class</a>
-</li>
 </ul>
 
 
@@ -191,16 +215,25 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="structsource__identity_1_1source__par.html#a05b6d325908a1b552f98dada275a3465">source_identity::source_par</a>
 , <a class="el" href="structtracer__base_1_1tracer__par__class.html#ad7d0637c337b16787b0469e0bf5dfced">tracer_base::tracer_par_class</a>
 </li>
+<li>idsource
+: <a class="el" href="structtracer__base_1_1tracer__par__class.html#a645bcb4eb7a0087394bd7eced244819d">tracer_base::tracer_par_class</a>
+</li>
 <li>initialize()
 : <a class="el" href="structsimulation__memory_1_1memory__t.html#a39beb04a9ab65e562b834d9db3b4e214">simulation_memory::memory_t</a>
 , <a class="el" href="structsource__emitter_1_1emitter__t.html#aed2db993a937e50d5252b41cefcf6e35">source_emitter::emitter_t</a>
 , <a class="el" href="structsource__identity_1_1source__class.html#af232e5b647bcb16f34dcc2f797ef7a95">source_identity::source_class</a>
+, <a class="el" href="structtracer__base_1_1tracer__class.html#aab3bfe327561e03610aace11ddd284f6">tracer_base::tracer_class</a>
+, <a class="el" href="structtracer__paper_1_1paper__class.html#a28797096bc098f48acb6e379be438e12">tracer_paper::paper_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__class.html#a2460619b14f3a61f4883e076646dd4e9">tracer_plastic::plastic_class</a>
+</li>
+<li>initracers()
+: <a class="el" href="structsource__emitter_1_1emitter__t.html#ad016a19c24542b2cd39cba9436902305">source_emitter::emitter_t</a>
 </li>
 <li>integrator
 : <a class="el" href="structsimulation__globals_1_1parameters__t.html#a8b3bbd4f8977640124204c376a404fd0">simulation_globals::parameters_t</a>
 </li>
 <li>interp_method
-: <a class="el" href="structtracer__base_1_1tracer__par__class.html#ae32e258384f0f03418bf8f3aa0181662">tracer_base::tracer_par_class</a>
+: <a class="el" href="structtracer__base_1_1tracer__par__class.html#a12aa1da016c290ce194cd779b1b00854">tracer_base::tracer_par_class</a>
 </li>
 </ul>
 
@@ -208,6 +241,24 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <h3><a id="index_l"></a>- l -</h3><ul>
 <li>last
 : <a class="el" href="structgeometry_1_1line.html#ab899fb3b6da58896cd14e2f1a474c457">geometry::line</a>
+</li>
+<li>linkproperty()
+: <a class="el" href="structsource__identity_1_1source__class.html#ad889c3a7ce279e199ecf059a50a73ca2">source_identity::source_class</a>
+</li>
+</ul>
+
+
+<h3><a id="index_m"></a>- m -</h3><ul>
+<li>mainxmlfilename
+: <a class="el" href="structsimulation__globals_1_1filenames__t.html#aa869049343f7c4d46c36eb056bfd17a5">simulation_globals::filenames_t</a>
+</li>
+<li>mnow
+: <a class="el" href="structtracer__paper_1_1paper__class.html#ac2b241e565b97f483d07dc132460c62f">tracer_paper::paper_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__class.html#ab03eb153c19d97a9ac0f76bb3218d242">tracer_plastic::plastic_class</a>
+</li>
+<li>mpar
+: <a class="el" href="structtracer__paper_1_1paper__class.html#a789f1e935ab5f16f67b1859710632d45">tracer_paper::paper_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__class.html#a5f8a2635cad07f5b1e30e97cf7754e98">tracer_plastic::plastic_class</a>
 </li>
 </ul>
 
@@ -238,11 +289,12 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="structsource__identity_1_1source__class.html#a99403ddb327779cbdbb98f15ca9116a8">source_identity::source_class</a>
 , <a class="el" href="structtracer__base_1_1tracer__class.html#a65acca4d35b24ec0b60eb32574004364">tracer_base::tracer_class</a>
 </li>
-<li>par_trans_file
-: <a class="el" href="structtracer__base_1_1tracer__par__trans__class.html#a0ce3a3ba08af8f239ea0a747d3457953">tracer_base::tracer_par_trans_class</a>
-</li>
 <li>particles_emitted
 : <a class="el" href="structsource__identity_1_1source__stats.html#a1b11065093e55320520604392399d1c9">source_identity::source_stats</a>
+</li>
+<li>particulate
+: <a class="el" href="structtracer__paper_1_1paper__par__class.html#aeab5446446cfc5d4cb33952a9fbb3c57">tracer_paper::paper_par_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__par__class.html#abf8dcf5f65aef6d095a75a2d10dc5517">tracer_plastic::plastic_par_class</a>
 </li>
 <li>pointmax
 : <a class="el" href="structsimulation__globals_1_1simdefs__t.html#a8c7a365078a69252312ea200c619bcb6">simulation_globals::simdefs_t</a>
@@ -263,6 +315,12 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>property_name
 : <a class="el" href="structsource__identity_1_1source__par.html#a0205c62b7673e76c7f1de2bfcecabd84">source_identity::source_par</a>
 </li>
+<li>property_type
+: <a class="el" href="structsource__identity_1_1source__par.html#a3d7091aedcb1154665c1debba07bee2c">source_identity::source_par</a>
+</li>
+<li>propsxmlfilename
+: <a class="el" href="structsimulation__globals_1_1filenames__t.html#a7574fc21683b726bc0cc9d41bf8f4513">simulation_globals::filenames_t</a>
+</li>
 <li>pt
 : <a class="el" href="structgeometry_1_1shape.html#aada595aa3503cf22350737caf2931e6a">geometry::shape</a>
 </li>
@@ -275,6 +333,8 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <h3><a id="index_r"></a>- r -</h3><ul>
 <li>radius
 : <a class="el" href="structgeometry_1_1sphere.html#a906fbbdb8c6b56e7d45cea4e96b6e04d">geometry::sphere</a>
+, <a class="el" href="structtracer__paper_1_1paper__state__class.html#a931d90e457142607c7e1079b99f72298">tracer_paper::paper_state_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__state__class.html#a88e8fcff3faa943e9134fd3b43264d38">tracer_plastic::plastic_state_class</a>
 </li>
 <li>rho_ref
 : <a class="el" href="structsimulation__globals_1_1constants__t.html#af9496305e46cea74e54758362274a701">simulation_globals::constants_t</a>
@@ -303,6 +363,8 @@ $(document).ready(function(){initNavTree('functions.html','');});
 </li>
 <li>size
 : <a class="el" href="structgeometry_1_1box.html#a77c6ce50ff2a5d421ef59cf929f81f3d">geometry::box</a>
+, <a class="el" href="structtracer__paper_1_1paper__par__class.html#a6e14c2ad93dba6e524d9eb1665af56e8">tracer_paper::paper_par_class</a>
+, <a class="el" href="structtracer__plastic_1_1plastic__par__class.html#ae7f5294e339ec13e0d5f0213fe66e026">tracer_plastic::plastic_par_class</a>
 </li>
 <li>size_of_defs
 : <a class="el" href="structsimulation__memory_1_1memory__t.html#adba405ad7926a890f3e4feaa9c0cf904">simulation_memory::memory_t</a>
@@ -335,7 +397,6 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <h3><a id="index_t"></a>- t -</h3><ul>
 <li>t
 : <a class="el" href="structsource__identity_1_1source__state.html#ac370880f81e096a7aabb9fca144143fb">source_identity::source_state</a>
-, <a class="el" href="structtracer__base_1_1tracer__state__class.html#a9c46c74fa11fc342836842e435b51343">tracer_base::tracer_state_class</a>
 </li>
 <li>timemax
 : <a class="el" href="structsimulation__globals_1_1parameters__t.html#a2034c850c5652c2e294729fe34b47529">simulation_globals::parameters_t</a>
@@ -346,16 +407,6 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>total_np
 : <a class="el" href="structsource__identity_1_1source__stencil.html#a11f7462457253157db252466b51000f2">source_identity::source_stencil</a>
 </li>
-<li>tpar
-: <a class="el" href="structtracer__base_1_1tracer__par__class.html#a75aac21ea81301a4358ccc3d0df8236a">tracer_base::tracer_par_class</a>
-</li>
-</ul>
-
-
-<h3><a id="index_u"></a>- u -</h3><ul>
-<li>use_par_trans
-: <a class="el" href="structtracer__base_1_1tracer__par__trans__class.html#a3ab2d73cfe7ac5249dfddd7df10454b1">tracer_base::tracer_par_trans_class</a>
-</li>
 </ul>
 
 
@@ -364,8 +415,8 @@ $(document).ready(function(){initNavTree('functions.html','');});
 : <a class="el" href="structsource__identity_1_1source__state.html#aea32db0332ef565f04ab210f5b17dba1">source_identity::source_state</a>
 , <a class="el" href="structtracer__base_1_1tracer__state__class.html#a46296517bb40271bcff0fe9c85024e7c">tracer_base::tracer_state_class</a>
 </li>
-<li>vel_max
-: <a class="el" href="structtracer__base_1_1tracer__par__class.html#a04159d779af0b8bc161100b0cb83a3b1">tracer_base::tracer_par_class</a>
+<li>velmax
+: <a class="el" href="structtracer__base_1_1tracer__par__class.html#a7a6df785a9abc654a774b25fedb3c1e6">tracer_base::tracer_par_class</a>
 </li>
 </ul>
 

@@ -1,3 +1,9 @@
+  __  __  ___  _   _ ___ ____  _                                      _             
+ |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  
+ | |\/| | | | | |_| || || | | | |   / _` |/ _` | __/  _` |  _ \ / _` | |/ _` |  _ \ 
+ | |  | | |_| |  _  || || |_| | |__| (_| | (_| | | | (_| | | | | (_| | | (_| | | | |
+ |_|  |_|\___/|_| |_|___|____/|_____\__,_|\__, |_|  \__,_|_| |_|\__, |_|\__,_|_| |_|
+                                          |___/                 |___/               
   <MOHIDLagrangian> Copyright (C) 2018 by
   R. Birjukovs Canelas, R. Neves, F. Campuzano, H. de Pablo Lenonardo
 
@@ -18,8 +24,14 @@
 
 MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
 =====================================================================
-2018-4-13 @11:20:17 ->Logger initialized
-2018-4-13 @11:20:17 ->Reading case definition from Template_Lagrangian_Def.xml
+ ->Logger initialized
+ ->Reading case definition from Template_Lagrangian_Def.xml
+ -->Reading case parameters
+       Integrator scheme is Runge-Kuta 4
+       CFL=+0.800000E+00
+       WarmUpTime=+0.100000E+00 s
+       TimeMax=+0.152000E+04 s
+       TimeOut=+0.110000E+01 Hz
  -->Reading case constants
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
@@ -27,14 +39,9 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        -0.100000000000000E+002  0.000000000000000E+000 -0.500010000000000E+003
        Pointmax (BB) is 
        +0.100000000000000E+005 +0.200050000000000E+005 +0.405740000000000E+001
- -->Reading case parameters
-       Integrator scheme is Runge-Kuta 4
-       CFL=+0.800000E+00
-       WarmUpTime=+0.100000E+00 s
-       TimeMax=+0.152000E+04 s
-       TimeOut=+0.110000E+01 Hz
+ -->Reading case Sources
  -->Source Spill_007 allocated
-       Id = +0
+       Id = +18
        Geometry type is box
        Initially at coordinates
        -0.550000000000000E+001  0.000000000000000E+000  0.000000000000000E+000
@@ -47,7 +54,7 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        +0.490000000000000E+000 +0.490000000000000E+000 +0.750000000000000E+000
        Emitting +1 tracers at a rate of +0.900000E-01 Hz
        Active from +0.150000E+02 to +0.900000E+02 seconds
- -->Source Plankton_2 allocated
+ -->Source Emissary_2 allocated
        Id = +2
        Geometry type is line
        Initially at coordinates
@@ -61,9 +68,13 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
        Emitting +672 tracers at a rate of +0.500000E-01 Hz
        Active from +0.112500E+01 to +0.152000E+04 seconds
-2018-4-13 @11:20:17 Allocated +64690 Tracers.
-2018-4-13 @11:20:17 ->Total allocated memory: +0.134574E+02mb
-       Allocated memory for Sources = +0.180000E-02mb
+ -->Properties to link to Sources found at Material_props.xml
+       Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
+       Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
+       Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
+ Allocated +64690 Tracers.
+ ->Total allocated memory: +0.134576E+02mb
+       Allocated memory for Sources = +0.199200E-02mb
        Allocated memory for Tracers = +0.134555E+02mb
        Allocated memory for Consts  = +0.104000E-03mb
-2018-4-13 @11:20:17 Simulation ended, freeing resources. See you next time
+ Simulation ended, freeing resources. See you next time
