@@ -55,7 +55,7 @@
 
     type(string) :: outext, nodename
     character(80) :: att_value_chars
-    type(NodeList), pointer :: nodeList, nodeChildren
+    type(NodeList), pointer :: target_node_list, nodeChildren
     type(Node), pointer :: nodedetail
     logical :: validtag
     integer :: i
@@ -71,8 +71,8 @@
         endif
     enddo
     if (validtag) then
-        nodeList => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
-        nodedetail => item(nodeList, 0)
+        target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
+        nodedetail => item(target_node_list, 0)
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
         att_value=trim(att_value_chars)
     else
@@ -104,7 +104,7 @@
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
 
     type(string) :: outext, nodename
-    type(NodeList), pointer :: nodeList, nodeChildren
+    type(NodeList), pointer :: target_node_list, nodeChildren
     type(Node), pointer :: nodedetail
     logical :: validtag
     integer :: i
@@ -120,8 +120,8 @@
         endif
     enddo
     if (validtag) then
-        nodeList => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
-        nodedetail => item(nodeList, 0)
+        target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
+        nodedetail => item(target_node_list, 0)
         call extractDataAttribute(nodedetail, "x", vec%x)
         call extractDataAttribute(nodedetail, "y", vec%y)
         call extractDataAttribute(nodedetail, "z", vec%z)
@@ -142,7 +142,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private routine to retrieve a node within a node. 
+    !> Private routine to retrieve a node within a node.
     !> Returns a nullifyed pointer if not found, stops if mandatory.
     !
     !> @param[in] currentNode, targetNode, targetNodeName, mandatory

@@ -13,7 +13,7 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module that defines a Lagrangian tracer class for paper modelling and related methods. 
+    !> Module that defines a Lagrangian tracer class for paper modelling and related methods.
     !> The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all
     !> of it's data and methods
     !------------------------------------------------------------------------------
@@ -27,16 +27,16 @@
     private
 
     type :: paper_par_class               !<Type - parameters of a Lagrangian tracer object representing a paper material
-        real(prec) :: density                       !< density of the material        
+        real(prec) :: density                       !< density of the material
         real(prec) :: degradation_rate              !< degradation rate of the material
         logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type
-    
+
     type :: paper_state_class             !<Type - State variables of a tracer object representing a paper material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: condition                     !< Material condition (1-0)
-        real(prec) :: Concentration                 !< Particle concentration
+        real(prec) :: concentration                !< Particle concentration
     end type
 
     type, extends(tracer_class) :: paper_class    !<Type - The plastic material Lagrangian tracer class
@@ -90,5 +90,3 @@
     end subroutine
 
     end module tracer_paper
-
-

@@ -36,7 +36,7 @@
     public :: initMohidLagrangian
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -50,13 +50,13 @@
     subroutine linkPropertySources(linksNode)
     implicit none
     type(Node), intent(in), pointer :: linksNode
-    
+
     type(NodeList), pointer :: linkList
     type(Node), pointer :: linknode
     integer :: i
     character(80) :: sourceid_char, sourcetype_char, sourceprop_char
     type(string) :: sourceid, sourcetype, sourceprop
-    
+
     linkList => getElementsByTagname(linksNode, "link")
     do i = 0, getLength(linkList) - 1
         linknode => item(linkList,i)
@@ -66,12 +66,12 @@
         sourceid=trim(sourceid_char)
         sourcetype=trim(sourcetype_char)
         sourceprop=trim(sourceprop_char)
-        call setSourceProperties(sourceid%to_number(kind=1_I1P),sourcetype,sourceprop)
+        call setSourceProperties(sourceid,sourcetype,sourceprop)
     enddo
-    
-    return    
+
+    return
     end subroutine
-    
+
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -101,7 +101,7 @@
         call ToLog(outext)
         tag="links"
         call gotoChildNode(props_node,props_node,tag,.true.) !getting the links node
-        call linkPropertySources(props_node)                 !calling the property linker 
+        call linkPropertySources(props_node)                 !calling the property linker
     else
         outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
         call ToLog(outext)
@@ -109,7 +109,7 @@
 
     end subroutine
 
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -155,7 +155,7 @@
 
     end subroutine
 
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -183,7 +183,7 @@
     character(80) :: val, name_char, source_geometry_char
     real(prec) :: emitting_rate, start, finish
     class(shape), allocatable :: geometry
-    
+
     outext='-->Reading case Sources'
     call ToLog(outext,.false.)
 
@@ -308,8 +308,8 @@
     !---------------------------------------------------------------------------
     subroutine init_caseconstants(case_node)
     implicit none
-    type(Node), intent(in), pointer :: case_node    
-    
+    type(Node), intent(in), pointer :: case_node
+
     type(Node), pointer :: constants_node       !< Single constants block to process
     type(string) :: outext
     type(string) :: tag, att_name, att_val
@@ -412,7 +412,7 @@
         call ToLog(outext)
         stop
     endif
-    
+
     tag="case"          !base document node
     call gotoChildNode(xmldoc,execution_node,tag,.true.)
     tag="execution"     !finding execution node
@@ -431,7 +431,7 @@
     call init_caseconstants(case_node)
     call init_simdefs(case_node)
     call init_sources(case_node)
-    call init_properties(case_node)    
+    call init_properties(case_node)
 
     !With the Sources initialized, now we initialize the Emmiter class, that automatically
     !allocates and initializes all of the useable tracers

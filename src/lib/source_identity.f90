@@ -52,7 +52,7 @@
         real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
         integer :: ns                       !< Number of sampling steps
     end type
-    
+
     type source_stencil         !<Type - holder for the tracer creation stencil of the source
         integer :: np                       !< Number of tracers by emission
         integer :: total_np                 !< Total number of tracers that this source will generate
@@ -80,7 +80,7 @@
     public :: allocSources, setSourceProperties
 
     contains
-        
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -102,7 +102,7 @@
         stop
     endif
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -112,22 +112,24 @@
     !
     !> @param[in] srcid,ptype,pname
     !---------------------------------------------------------------------------
-    subroutine setSourceProperties(srcid,ptype,pname)
+    subroutine setSourceProperties(srcid_str,ptype,pname)
     implicit none
-    integer, intent(in) :: srcid        !<Source id tag
+    type(string), intent(in) :: srcid_str      !<Source id tag
     type(string), intent(in) :: ptype   !<Property type to set
     type(string), intent(in) :: pname   !<Property name to set
-    
+
+    integer :: srcid
     type(string) :: outext, temp
     integer :: i
     logical :: notlinked
-    
+
+    srcid = srcid_str%to_number(kind=1_I1P)
     notlinked = .true.  !assuming not linked
-    do i=1, size(Source)        
+    do i=1, size(Source)
         if (Source(i)%par%id == srcid) then ! found the correct source to link to
             call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
             temp = Source(i)%par%id
-            outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name 
+            outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
             call ToLog(outext)
             notlinked = .false. ! we linked it
             exit
@@ -135,7 +137,7 @@
     enddo
     if (notlinked) then ! property has no corresponding Source
         temp = srcid
-        outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring' 
+        outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
         call ToLog(outext)
     endif
     return
@@ -160,7 +162,7 @@
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: geometry
-    
+
     integer :: sizem, i
     type(string) :: outext
     integer :: err
@@ -192,19 +194,19 @@
         stop
     endif
     call src%par%geometry%getpointdistribution(src%stencil%np,SimDefs%Dp,src%stencil%ptlist)
-    
+
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
     call src%printout()
-    
+
     !DBG
     !do i=1, src%stencil%np
     !print*, src%stencil%ptlist(i)
     !end do
-    return  
-    end subroutine   
-        
-    
+    return
+    end subroutine
+
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -219,13 +221,13 @@
     class(source_class) :: src
     type(string), intent(in) :: ptype
     type(string), intent(in) :: pname
-    
+
     src%par%property_type = ptype
     src%par%property_name = pname
     return
     end subroutine
-    
-    
+
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
