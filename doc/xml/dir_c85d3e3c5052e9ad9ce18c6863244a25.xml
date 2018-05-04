@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_c85d3e3c5052e9ad9ce18c6863244a25" kind="dir">
+    <compoundname>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib</compoundname>
+    <innerfile refid="about_8f90">about.f90</innerfile>
+    <innerfile refid="common__modules_8f90">common_modules.f90</innerfile>
+    <innerfile refid="finalize_8f90">finalize.f90</innerfile>
+    <innerfile refid="geometry_8f90">geometry.f90</innerfile>
+    <innerfile refid="initialize_8f90">initialize.f90</innerfile>
+    <innerfile refid="simulation__globals_8f90">simulation_globals.f90</innerfile>
+    <innerfile refid="simulation__logger_8f90">simulation_logger.f90</innerfile>
+    <innerfile refid="simulation__memory_8f90">simulation_memory.f90</innerfile>
+    <innerfile refid="simulation__precision_8f90">simulation_precision.f90</innerfile>
+    <innerfile refid="simulation__xmlparser_8f90">simulation_xmlparser.f90</innerfile>
+    <innerfile refid="source__emitter_8f90">source_emitter.f90</innerfile>
+    <innerfile refid="source__identity_8f90">source_identity.f90</innerfile>
+    <innerfile refid="sources_8f90">sources.f90</innerfile>
+    <innerfile refid="tracer__base_8f90">tracer_base.f90</innerfile>
+    <innerfile refid="tracer__interp_8f90">tracer_interp.f90</innerfile>
+    <innerfile refid="tracer__paper_8f90">tracer_paper.f90</innerfile>
+    <innerfile refid="tracer__plastic_8f90">tracer_plastic.f90</innerfile>
+    <innerfile refid="tracers_8f90">tracers.f90</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/"/>
+  </compounddef>
+</doxygen>

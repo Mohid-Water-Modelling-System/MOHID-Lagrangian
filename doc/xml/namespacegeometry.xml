@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacegeometry" kind="namespace" language="Fortran">
+    <compoundname>geometry</compoundname>
+    <innerclass refid="structgeometry_1_1box" prot="private">geometry::box</innerclass>
+    <innerclass refid="structgeometry_1_1line" prot="private">geometry::line</innerclass>
+    <innerclass refid="structgeometry_1_1point" prot="private">geometry::point</innerclass>
+    <innerclass refid="structgeometry_1_1shape" prot="private">geometry::shape</innerclass>
+    <innerclass refid="structgeometry_1_1sphere" prot="private">geometry::sphere</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacegeometry_1a879bd9ccab6fc42f051bbfc9f0560a62" prot="public" static="no" mutable="no">
+        <type>type(string), dimension(:), allocatable, public</type>
+        <definition>type(string), dimension(:), allocatable, public geometry::geomlist</definition>
+        <argsstring></argsstring>
+        <name>geomlist</name>
+        <briefdescription>
+<para>String list (array) with the name of possible geometry types. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="30" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="30" bodyend="30"/>
+        <referencedby refid="namespacegeometry_1a17652db20fde3f883b4fc778e0e6cdda" compoundref="geometry_8f90" startline="68" endline="73">allocategeomlist</referencedby>
+        <referencedby refid="namespacegeometry_1a56488a00edf7ba4e670ceffd5c36f13f" compoundref="geometry_8f90" startline="86" endline="94">isvalidgeom</referencedby>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacegeometry_1a17652db20fde3f883b4fc778e0e6cdda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine, public</type>
+        <definition>subroutine, public geometry::allocategeomlist</definition>
+        <argsstring></argsstring>
+        <name>allocategeomlist</name>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Public routine to allocate the possible geometry name list </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="67" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="68" bodyend="73"/>
+        <references refid="namespacegeometry_1a879bd9ccab6fc42f051bbfc9f0560a62" compoundref="geometry_8f90" startline="30" endline="30">geomlist</references>
+      </memberdef>
+      <memberdef kind="function" id="namespacegeometry_1a56488a00edf7ba4e670ceffd5c36f13f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>logical function, public</type>
+        <definition>logical function, public geometry::isvalidgeom</definition>
+        <argsstring>(geomname)</argsstring>
+        <name>isvalidgeom</name>
+        <param>
+          <type>geomname</type>
+          <defname>geomname</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Public function that returns a logical if the input geometry name is valid <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geomname</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="85" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="86" bodyend="94"/>
+        <references refid="namespacegeometry_1a879bd9ccab6fc42f051bbfc9f0560a62" compoundref="geometry_8f90" startline="30" endline="30">geomlist</references>
+      </memberdef>
+      <memberdef kind="function" id="namespacegeometry_1ad14d7800ac13b9a6722ac96b06ce94c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine geometry::getnp</definition>
+        <argsstring>(self, np, dp)</argsstring>
+        <name>getnp</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>np</type>
+          <defname>np</defname>
+        </param>
+        <param>
+          <type>dp</type>
+          <defname>dp</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>method to get the number of points that fill a given geometry <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">self</parametername>
+<parametername direction="in">np</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="106" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="107" bodyend="130"/>
+        <references refid="namespacegeometry_1a4f070ef95bffe3bbb21bd251ae5ca6c7" compoundref="geometry_8f90" startline="181" endline="201">sphere_np_count</references>
+        <references refid="namespacesimulation__logger_1a3aaa69ec168b6f34d703fb4033a22d92" compoundref="simulation__logger_8f90" startline="74" endline="84">simulation_logger::tolog</references>
+      </memberdef>
+      <memberdef kind="function" id="namespacegeometry_1a726dae6e63f052138bd3346de439fbc4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine geometry::getpointdistribution</definition>
+        <argsstring>(self, np, dp, ptlist)</argsstring>
+        <name>getpointdistribution</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>np</type>
+          <defname>np</defname>
+        </param>
+        <param>
+          <type>dp</type>
+          <defname>dp</defname>
+        </param>
+        <param>
+          <type>ptlist</type>
+          <defname>ptlist</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>method to get the number of points that fill a given geometry <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">self</parametername>
+<parametername direction="in">np</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="142" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="143" bodyend="166"/>
+        <references refid="namespacegeometry_1ab7f40c137db819829d3110dac77a2977" compoundref="geometry_8f90" startline="253" endline="271">box_grid</references>
+        <references refid="namespacegeometry_1a7d580229bc67448e6389d0beef0c04cb" compoundref="geometry_8f90" startline="285" endline="298">line_grid</references>
+        <references refid="namespacegeometry_1a9629040285de7053d42f434333528702" compoundref="geometry_8f90" startline="215" endline="238">sphere_grid</references>
+        <references refid="namespacesimulation__logger_1a3aaa69ec168b6f34d703fb4033a22d92" compoundref="simulation__logger_8f90" startline="74" endline="84">simulation_logger::tolog</references>
+      </memberdef>
+      <memberdef kind="function" id="namespacegeometry_1a4f070ef95bffe3bbb21bd251ae5ca6c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine geometry::sphere_np_count</definition>
+        <argsstring>(dp, r, np)</argsstring>
+        <name>sphere_np_count</name>
+        <param>
+          <type>dp</type>
+          <defname>dp</defname>
+        </param>
+        <param>
+          <type>r</type>
+          <defname>r</defname>
+        </param>
+        <param>
+          <type>np</type>
+          <defname>np</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>private routine that returns the number of points distributed on a grid with spacing dp inside a sphere <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dp</parametername>
+<parametername direction="in">r</parametername>
+<parametername direction="in">np</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="180" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="181" bodyend="201"/>
+        <referencedby refid="namespacegeometry_1ad14d7800ac13b9a6722ac96b06ce94c9" compoundref="geometry_8f90" startline="107" endline="130">getnp</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacegeometry_1a9629040285de7053d42f434333528702" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine geometry::sphere_grid</definition>
+        <argsstring>(dp, r, np, ptlist)</argsstring>
+        <name>sphere_grid</name>
+        <param>
+          <type>dp</type>
+          <defname>dp</defname>
+        </param>
+        <param>
+          <type>r</type>
+          <defname>r</defname>
+        </param>
+        <param>
+          <type>np</type>
+          <defname>np</defname>
+        </param>
+        <param>
+          <type>ptlist</type>
+          <defname>ptlist</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>private routine that returns the points distributed on a grid with spacing dp inside a sphere <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dp</parametername>
+<parametername direction="in">r</parametername>
+<parametername direction="in">np</parametername>
+<parametername direction="in">ptlist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="214" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="215" bodyend="238"/>
+        <referencedby refid="namespacegeometry_1a726dae6e63f052138bd3346de439fbc4" compoundref="geometry_8f90" startline="143" endline="166">getpointdistribution</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacegeometry_1ab7f40c137db819829d3110dac77a2977" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine geometry::box_grid</definition>
+        <argsstring>(dp, size, np, ptlist)</argsstring>
+        <name>box_grid</name>
+        <param>
+          <type>dp</type>
+          <defname>dp</defname>
+        </param>
+        <param>
+          <type>size</type>
+          <defname>size</defname>
+        </param>
+        <param>
+          <type>np</type>
+          <defname>np</defname>
+        </param>
+        <param>
+          <type>ptlist</type>
+          <defname>ptlist</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>private routine that returns the points distributed on a grid with spacing dp inside a box <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dp</parametername>
+<parametername direction="in">size</parametername>
+<parametername direction="in">np</parametername>
+<parametername direction="in">ptlist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="252" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="253" bodyend="271"/>
+        <referencedby refid="namespacegeometry_1a726dae6e63f052138bd3346de439fbc4" compoundref="geometry_8f90" startline="143" endline="166">getpointdistribution</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacegeometry_1a7d580229bc67448e6389d0beef0c04cb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine geometry::line_grid</definition>
+        <argsstring>(dp, dist, np, ptlist)</argsstring>
+        <name>line_grid</name>
+        <param>
+          <type>dp</type>
+          <defname>dp</defname>
+        </param>
+        <param>
+          <type>dist</type>
+          <defname>dist</defname>
+        </param>
+        <param>
+          <type>np</type>
+          <defname>np</defname>
+        </param>
+        <param>
+          <type>ptlist</type>
+          <defname>ptlist</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>private routine that returns the points distributed on a grid with spacing dp along a line <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dp</parametername>
+<parametername direction="in">size</parametername>
+<parametername direction="in">np</parametername>
+<parametername direction="in">ptlist</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="284" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="285" bodyend="298"/>
+        <referencedby refid="namespacegeometry_1a726dae6e63f052138bd3346de439fbc4" compoundref="geometry_8f90" startline="143" endline="166">getpointdistribution</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Module that defines geometry classes and related methods. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ricardo Birjukovs Canelas </para></simplesect>
+</para>    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="19" column="1"/>
+  </compounddef>
+</doxygen>

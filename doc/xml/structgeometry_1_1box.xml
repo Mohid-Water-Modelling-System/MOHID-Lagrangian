@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structgeometry_1_1box" kind="type" language="Fortran" prot="private">
+    <compoundname>geometry::box</compoundname>
+    <basecompoundref refid="structgeometry_1_1shape" prot="public" virt="non-virtual">geometry::shape</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structgeometry_1_1box_1a77c6ce50ff2a5d421ef59cf929f81f3d" prot="private" static="no" mutable="no">
+        <type>type(vector)</type>
+        <definition>type(vector) geometry::box::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <briefdescription>
+<para>Box size. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="51" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="51" bodyend="51"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Type - point class. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="0">
+        <label>geometry::box</label>
+        <link refid="structgeometry_1_1box"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>geometry::shape</label>
+        <link refid="structgeometry_1_1shape"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>geometry::box</label>
+        <link refid="structgeometry_1_1box"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>geometry::shape</label>
+        <link refid="structgeometry_1_1shape"/>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="50" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="50" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structgeometry_1_1box_1a77c6ce50ff2a5d421ef59cf929f81f3d" prot="private" virt="non-virtual"><scope>geometry::box</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

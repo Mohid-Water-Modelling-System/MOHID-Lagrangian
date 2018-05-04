@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtracer__paper_1_1paper__class" kind="type" language="Fortran" prot="private">
+    <compoundname>tracer_paper::paper_class</compoundname>
+    <basecompoundref refid="structtracer__base_1_1tracer__class" prot="public" virt="non-virtual">tracer_base::tracer_class</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structtracer__paper_1_1paper__class_1a789f1e935ab5f16f67b1859710632d45" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structtracer__paper_1_1paper__par__class" kindref="compound">paper_par_class</ref>)</type>
+        <definition>type(paper_par_class) tracer_paper::paper_class::mpar</definition>
+        <argsstring></argsstring>
+        <name>mpar</name>
+        <briefdescription>
+<para>To access material parameters. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="43" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__paper_1_1paper__class_1ac2b241e565b97f483d07dc132460c62f" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structtracer__paper_1_1paper__state__class" kindref="compound">paper_state_class</ref>)</type>
+        <definition>type(paper_state_class) tracer_paper::paper_class::mnow</definition>
+        <argsstring></argsstring>
+        <name>mnow</name>
+        <briefdescription>
+<para>To access material state variables. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="44" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="44" bodyend="44"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="structtracer__paper_1_1paper__class_1a28797096bc098f48acb6e379be438e12" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure tracer_paper::paper_class::initialize</definition>
+        <argsstring>=&gt; paper_initialize</argsstring>
+        <name>initialize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="46" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Type - The plastic material Lagrangian tracer class. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="16">
+        <label>tracer_paper::paper_class</label>
+        <link refid="structtracer__paper_1_1paper__class"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>tracer_base::tracer_class</label>
+        <link refid="structtracer__base_1_1tracer__class"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="22">
+        <label>tracer_base::tracer_state_class</label>
+        <link refid="structtracer__base_1_1tracer__state__class"/>
+      </node>
+      <node id="18">
+        <label>tracer_paper::paper_class</label>
+        <link refid="structtracer__paper_1_1paper__class"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+        <childnode refid="23" relation="usage">
+          <edgelabel>mpar</edgelabel>
+        </childnode>
+        <childnode refid="24" relation="usage">
+          <edgelabel>mnow</edgelabel>
+        </childnode>
+      </node>
+      <node id="19">
+        <label>tracer_base::tracer_class</label>
+        <link refid="structtracer__base_1_1tracer__class"/>
+        <childnode refid="20" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
+          <edgelabel>par</edgelabel>
+        </childnode>
+        <childnode refid="22" relation="usage">
+          <edgelabel>now</edgelabel>
+        </childnode>
+      </node>
+      <node id="21">
+        <label>tracer_base::tracer_par_class</label>
+        <link refid="structtracer__base_1_1tracer__par__class"/>
+      </node>
+      <node id="24">
+        <label>tracer_paper::paper_state_class</label>
+        <link refid="structtracer__paper_1_1paper__state__class"/>
+      </node>
+      <node id="23">
+        <label>tracer_paper::paper_par_class</label>
+        <link refid="structtracer__paper_1_1paper__par__class"/>
+      </node>
+      <node id="20">
+        <label>tracer_base::tracer_stats_class</label>
+        <link refid="structtracer__base_1_1tracer__stats__class"/>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="42" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="42" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structtracer__paper_1_1paper__class_1a28797096bc098f48acb6e379be438e12" prot="private" virt="non-virtual"><scope>tracer_paper::paper_class</scope><name>initialize</name></member>
+      <member refid="structtracer__paper_1_1paper__class_1ac2b241e565b97f483d07dc132460c62f" prot="private" virt="non-virtual"><scope>tracer_paper::paper_class</scope><name>mnow</name></member>
+      <member refid="structtracer__paper_1_1paper__class_1a789f1e935ab5f16f67b1859710632d45" prot="private" virt="non-virtual"><scope>tracer_paper::paper_class</scope><name>mpar</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

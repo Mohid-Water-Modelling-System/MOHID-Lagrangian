@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsource__identity_1_1source__stencil" kind="type" language="Fortran" prot="private">
+    <compoundname>source_identity::source_stencil</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structsource__identity_1_1source__stencil_1a2d71d3aefbd9e69874f490ddae97ce64" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer source_identity::source_stencil::np</definition>
+        <argsstring></argsstring>
+        <name>np</name>
+        <briefdescription>
+<para>Number of tracers by emission. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="57" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsource__identity_1_1source__stencil_1a11f7462457253157db252466b51000f2" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer source_identity::source_stencil::total_np</definition>
+        <argsstring></argsstring>
+        <name>total_np</name>
+        <briefdescription>
+<para>Total number of tracers that this source will generate. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="58" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsource__identity_1_1source__stencil_1a91822da10e869f72071fa29e2bb2c080" prot="private" static="no" mutable="no">
+        <type>type(vector), dimension(:), allocatable</type>
+        <definition>type(vector), dimension(:), allocatable source_identity::source_stencil::ptlist</definition>
+        <argsstring></argsstring>
+        <name>ptlist</name>
+        <briefdescription>
+<para>list of points (coordinates), relative to the source geometry point, to be generated at every emission </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="59" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="59" bodyend="59"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Type - holder for the tracer creation stencil of the source. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="56" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="56" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structsource__identity_1_1source__stencil_1a2d71d3aefbd9e69874f490ddae97ce64" prot="private" virt="non-virtual"><scope>source_identity::source_stencil</scope><name>np</name></member>
+      <member refid="structsource__identity_1_1source__stencil_1a91822da10e869f72071fa29e2bb2c080" prot="private" virt="non-virtual"><scope>source_identity::source_stencil</scope><name>ptlist</name></member>
+      <member refid="structsource__identity_1_1source__stencil_1a11f7462457253157db252466b51000f2" prot="private" virt="non-virtual"><scope>source_identity::source_stencil</scope><name>total_np</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

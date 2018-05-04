@@ -27,7 +27,8 @@ include_directories (${EXTERNAL_LIBS_MODULES})
 include_directories (${EXTERNAL_LIBS_LIB})
 
 # Properties->Linker->Input->Additional Dependencies
-file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib") #This needs to be changed to enable library debug
+file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib")
+file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/DEBUG/*.lib")
 file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/*.lib")
 if(WINDOWS)
   file(GLOB EXTERNAL_LIBS "${CMAKE_SOURCE_DIR}/Libs/build_win/lib/RELEASE/*.lib")
@@ -35,6 +36,7 @@ elseif(LINUX)
   file(GLOB EXTERNAL_LIBS "${CMAKE_SOURCE_DIR}/Libs/build_linux/lib/*.lib")
 endif()
 
+target_link_libraries (MOHIDLagrangian  ${LIB_NAME})
 target_link_libraries (MOHIDLagrangian  ${LIBS})
 target_link_libraries (MOHIDLagrangian  ${EXTERNAL_LIBS})
 

@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacesimulation__xmlparser" kind="namespace" language="Fortran">
+    <compoundname>simulation_xmlparser</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesimulation__xmlparser_1ae5a51c63402f76781f333aead6d1084d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine, public</type>
+        <definition>subroutine, public simulation_xmlparser::readxmlatt</definition>
+        <argsstring>(xmlnode, tag, att_name, att_value, mandatory)</argsstring>
+        <name>readxmlatt</name>
+        <param>
+          <type>xmlnode</type>
+          <defname>xmlnode</defname>
+        </param>
+        <param>
+          <type>tag</type>
+          <defname>tag</defname>
+        </param>
+        <param>
+          <type>att_name</type>
+          <defname>att_name</defname>
+        </param>
+        <param>
+          <type>att_value</type>
+          <defname>att_value</defname>
+        </param>
+        <param>
+          <type>mandatory</type>
+          <defname>mandatory</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private attribute xml parser routine. In the format &lt;Tag att_name=&quot;att_value&quot; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xmlnode</parametername>
+<parametername direction="in">tag</parametername>
+<parametername direction="in">vec</parametername>
+<parametername direction="in">mandatory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">xmlnode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Working xml node</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tag to search in xml node</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">att_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Atribute name to collect from tag</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">att_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attribute value</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mandatory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Swich for optional or mandatory tags </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_xmlparser.f90" line="48" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_xmlparser.f90" bodystart="49" bodyend="87"/>
+        <referencedby refid="namespaceinitialize_1a4640ad15e29b88467ec842f274f64b62" compoundref="initialize_8f90" startline="87" endline="109">initialize::init_properties</referencedby>
+        <referencedby refid="namespaceinitialize_1a9ed75476e5dd07928aed3442281930be" compoundref="initialize_8f90" startline="169" endline="254">initialize::init_sources</referencedby>
+        <referencedby refid="namespaceinitialize_1adb972e92da4789506ee6b62b702df2b3" compoundref="initialize_8f90" startline="267" endline="297">initialize::init_simdefs</referencedby>
+        <referencedby refid="namespaceinitialize_1a4c982b312ab10bf112dd3d2bc314569e" compoundref="initialize_8f90" startline="310" endline="331">initialize::init_caseconstants</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__xmlparser_1aa20b02586a497ea7ef90cb5b05cb2af7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine, public</type>
+        <definition>subroutine, public simulation_xmlparser::readxmlvector</definition>
+        <argsstring>(xmlnode, tag, vec, mandatory)</argsstring>
+        <name>readxmlvector</name>
+        <param>
+          <type>xmlnode</type>
+          <defname>xmlnode</defname>
+        </param>
+        <param>
+          <type>tag</type>
+          <defname>tag</defname>
+        </param>
+        <param>
+          <type>vec</type>
+          <defname>vec</defname>
+        </param>
+        <param>
+          <type>mandatory</type>
+          <defname>mandatory</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private vector xml parser routine. Vector must be in format &lt;Tag x=&quot;vec%x&quot; y=&quot;vec%y&quot; z=&quot;vec%z&quot;&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xmlnode</parametername>
+<parametername direction="in">tag</parametername>
+<parametername direction="in">vec</parametername>
+<parametername direction="in">mandatory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">xmlnode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Working xml node</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tag to search in xml node</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector to fill with read contents</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mandatory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Swich for optional or mandatory tags </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_xmlparser.f90" line="99" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_xmlparser.f90" bodystart="100" bodyend="136"/>
+        <referencedby refid="namespaceinitialize_1ad36e4f602dab66c06a1f0e2474e9f0a6" compoundref="initialize_8f90" startline="123" endline="155">initialize::read_xml_geometry</referencedby>
+        <referencedby refid="namespaceinitialize_1adb972e92da4789506ee6b62b702df2b3" compoundref="initialize_8f90" startline="267" endline="297">initialize::init_simdefs</referencedby>
+        <referencedby refid="namespaceinitialize_1a4c982b312ab10bf112dd3d2bc314569e" compoundref="initialize_8f90" startline="310" endline="331">initialize::init_caseconstants</referencedby>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__xmlparser_1a9a66c3a491ca567688fef7148e2d12d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine, public</type>
+        <definition>subroutine, public simulation_xmlparser::gotochildnode</definition>
+        <argsstring>(currentNode, targetNode, targetNodeName, mandatory)</argsstring>
+        <name>gotochildnode</name>
+        <param>
+          <type>currentNode</type>
+          <defname>currentNode</defname>
+        </param>
+        <param>
+          <type>targetNode</type>
+          <defname>targetNode</defname>
+        </param>
+        <param>
+          <type>targetNodeName</type>
+          <defname>targetNodeName</defname>
+        </param>
+        <param>
+          <type>mandatory</type>
+          <defname>mandatory</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">currentNode</parametername>
+<parametername direction="in">targetNode</parametername>
+<parametername direction="in">targetNodeName</parametername>
+<parametername direction="in">mandatory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mandatory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Swich for optional or mandatory tags </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_xmlparser.f90" line="150" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_xmlparser.f90" bodystart="151" bodyend="183"/>
+        <referencedby refid="namespaceinitialize_1a4640ad15e29b88467ec842f274f64b62" compoundref="initialize_8f90" startline="87" endline="109">initialize::init_properties</referencedby>
+        <referencedby refid="namespaceinitialize_1a9ed75476e5dd07928aed3442281930be" compoundref="initialize_8f90" startline="169" endline="254">initialize::init_sources</referencedby>
+        <referencedby refid="namespaceinitialize_1adb972e92da4789506ee6b62b702df2b3" compoundref="initialize_8f90" startline="267" endline="297">initialize::init_simdefs</referencedby>
+        <referencedby refid="namespaceinitialize_1a4c982b312ab10bf112dd3d2bc314569e" compoundref="initialize_8f90" startline="310" endline="331">initialize::init_caseconstants</referencedby>
+        <referencedby refid="namespaceinitialize_1a7a54dc126f448bea2b566339a449f85c" compoundref="initialize_8f90" startline="344" endline="371">initialize::init_parameters</referencedby>
+        <referencedby refid="namespaceinitialize_1a45b7ca20c45cf272acbc391950cbb804" compoundref="initialize_8f90" startline="385" endline="445">initialize::initmohidlagrangian</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Module with the simulation xml parsing related definitions and routines. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ricardo Birjukovs Canelas </para></simplesect>
+</para>    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_xmlparser.f90" line="20" column="1"/>
+  </compounddef>
+</doxygen>

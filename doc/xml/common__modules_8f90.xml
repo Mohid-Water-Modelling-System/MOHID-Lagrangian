@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="common__modules_8f90" kind="file" language="Fortran">
+    <compoundname>common_modules.f90</compoundname>
+    <innernamespace refid="namespacecommom__modules">commom_modules</innernamespace>
+    <innernamespace refid="namespacepenf">penf</innernamespace>
+    <innernamespace refid="namespacevecfor">vecfor</innernamespace>
+    <innernamespace refid="namespacestringifor">stringifor</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IST/MARETEC,<sp/>Water<sp/>Modelling<sp/>Group,<sp/>Mohid<sp/>modelling<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">!<sp/>TITLE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Mohid<sp/>Model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">!<sp/>PROJECT<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Mohid<sp/>Lagrangian<sp/>Tracer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">!<sp/>MODULE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>commom_modules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">!<sp/>URL<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>http://www.mohid.com</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">!<sp/>AFFILIATION<sp/><sp/><sp/>:<sp/>IST/MARETEC,<sp/>Marine<sp/>Modelling<sp/>Group</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">!<sp/>DATE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>March<sp/>2018</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">!<sp/>REVISION<sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Canelas<sp/>0.1</highlight></codeline>
+<codeline lineno="14"><highlight class="comment">!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">!<sp/>DESCRIPTION:<sp/></highlight></codeline>
+<codeline lineno="17"><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19" refid="namespacecommom__modules" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">module</highlight><highlight class="normal"><sp/><ref refid="namespacecommom__modules" kindref="compound">commom_modules</ref><sp/></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal">penf</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal">vecfor</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal">stringifor</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacegeometry" kindref="compound">geometry</ref></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__precision" kindref="compound">simulation_precision</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__logger" kindref="compound">simulation_logger</ref></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__memory" kindref="compound">simulation_memory</ref></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__globals" kindref="compound">simulation_globals</ref></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">end<sp/>module<sp/></highlight><highlight class="normal"><ref refid="namespacecommom__modules" kindref="compound">commom_modules</ref><sp/></highlight></codeline>
+    </programlisting>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/common_modules.f90"/>
+  </compounddef>
+</doxygen>

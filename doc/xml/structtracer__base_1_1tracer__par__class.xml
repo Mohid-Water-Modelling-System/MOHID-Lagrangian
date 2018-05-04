@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtracer__base_1_1tracer__par__class" kind="type" language="Fortran" prot="private">
+    <compoundname>tracer_base::tracer_par_class</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__par__class_1ad7d0637c337b16787b0469e0bf5dfced" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer tracer_base::tracer_par_class::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <briefdescription>
+<para>unique tracer identification </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="28" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__par__class_1a645bcb4eb7a0087394bd7eced244819d" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer tracer_base::tracer_par_class::idsource</definition>
+        <argsstring></argsstring>
+        <name>idsource</name>
+        <briefdescription>
+<para>Source to which the tracer belongs. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="29" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__par__class_1a7a6df785a9abc654a774b25fedb3c1e6" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) tracer_base::tracer_par_class::velmax</definition>
+        <argsstring></argsstring>
+        <name>velmax</name>
+        <briefdescription>
+<para>Maximum velocity of tracer to track (m/s) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="30" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__par__class_1a6ed144d3b2b37e7e6d3fe9294cbb568d" prot="private" static="no" mutable="no">
+        <type>logical</type>
+        <definition>logical tracer_base::tracer_par_class::noise</definition>
+        <argsstring></argsstring>
+        <name>noise</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="31" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__par__class_1a12aa1da016c290ce194cd779b1b00854" prot="private" static="no" mutable="no">
+        <type>type(string)</type>
+        <definition>type(string) tracer_base::tracer_par_class::interp_method</definition>
+        <argsstring></argsstring>
+        <name>interp_method</name>
+        <briefdescription>
+<para>interpolation method this tracer calls </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="32" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="32" bodyend="32"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="27" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="27" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structtracer__base_1_1tracer__par__class_1ad7d0637c337b16787b0469e0bf5dfced" prot="private" virt="non-virtual"><scope>tracer_base::tracer_par_class</scope><name>id</name></member>
+      <member refid="structtracer__base_1_1tracer__par__class_1a645bcb4eb7a0087394bd7eced244819d" prot="private" virt="non-virtual"><scope>tracer_base::tracer_par_class</scope><name>idsource</name></member>
+      <member refid="structtracer__base_1_1tracer__par__class_1a12aa1da016c290ce194cd779b1b00854" prot="private" virt="non-virtual"><scope>tracer_base::tracer_par_class</scope><name>interp_method</name></member>
+      <member refid="structtracer__base_1_1tracer__par__class_1a6ed144d3b2b37e7e6d3fe9294cbb568d" prot="private" virt="non-virtual"><scope>tracer_base::tracer_par_class</scope><name>noise</name></member>
+      <member refid="structtracer__base_1_1tracer__par__class_1a7a6df785a9abc654a774b25fedb3c1e6" prot="private" virt="non-virtual"><scope>tracer_base::tracer_par_class</scope><name>velmax</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

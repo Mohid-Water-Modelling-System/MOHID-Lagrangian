@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtracer__plastic_1_1plastic__par__class" kind="type" language="Fortran" prot="private">
+    <compoundname>tracer_plastic::plastic_par_class</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structtracer__plastic_1_1plastic__par__class_1af0ae9b2aec29bff71a16780c5f75c8e2" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) tracer_plastic::plastic_par_class::density</definition>
+        <argsstring></argsstring>
+        <name>density</name>
+        <briefdescription>
+<para>density of the material </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" line="30" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__plastic_1_1plastic__par__class_1afce16ca3606bcfc7f4455c46232aa057" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) tracer_plastic::plastic_par_class::degradation_rate</definition>
+        <argsstring></argsstring>
+        <name>degradation_rate</name>
+        <briefdescription>
+<para>degradation rate of the material </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" line="31" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__plastic_1_1plastic__par__class_1abf8dcf5f65aef6d095a75a2d10dc5517" prot="private" static="no" mutable="no">
+        <type>logical</type>
+        <definition>logical tracer_plastic::plastic_par_class::particulate</definition>
+        <argsstring></argsstring>
+        <name>particulate</name>
+        <briefdescription>
+<para>flag to indicate if the material is a particle (false) or a collection of particles (true) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" line="32" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__plastic_1_1plastic__par__class_1ae7f5294e339ec13e0d5f0213fe66e026" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) tracer_plastic::plastic_par_class::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <briefdescription>
+<para>Size (radius) of the particles (equals to the tracer radius if particulate==false) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" line="33" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" bodystart="33" bodyend="33"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" line="29" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_plastic.f90" bodystart="29" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structtracer__plastic_1_1plastic__par__class_1afce16ca3606bcfc7f4455c46232aa057" prot="private" virt="non-virtual"><scope>tracer_plastic::plastic_par_class</scope><name>degradation_rate</name></member>
+      <member refid="structtracer__plastic_1_1plastic__par__class_1af0ae9b2aec29bff71a16780c5f75c8e2" prot="private" virt="non-virtual"><scope>tracer_plastic::plastic_par_class</scope><name>density</name></member>
+      <member refid="structtracer__plastic_1_1plastic__par__class_1abf8dcf5f65aef6d095a75a2d10dc5517" prot="private" virt="non-virtual"><scope>tracer_plastic::plastic_par_class</scope><name>particulate</name></member>
+      <member refid="structtracer__plastic_1_1plastic__par__class_1ae7f5294e339ec13e0d5f0213fe66e026" prot="private" virt="non-virtual"><scope>tracer_plastic::plastic_par_class</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

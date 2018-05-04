@@ -1,0 +1,67 @@
+.TH "source_identity::source_state" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+source_identity::source_state \- Type - state variables of a source object\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "real(prec_time) \fBage\fP"
+.br
+.ti -1c
+.RI "logical \fBactive\fP"
+.br
+.RI "active switch "
+.ti -1c
+.RI "type(vector) \fBpos\fP"
+.br
+.RI "Position of the source baricenter (m) "
+.ti -1c
+.RI "type(vector) \fBvel\fP"
+.br
+.RI "Velocity of the source (m s-1) "
+.ti -1c
+.RI "real(prec) \fBdepth\fP"
+.br
+.RI "Depth of the source baricenter (m) "
+.ti -1c
+.RI "real(prec) \fBt\fP"
+.br
+.RI "Temperature of the source (Celcius) "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Type - state variables of a source object\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "logical source_identity::source_state::active\fC [private]\fP"
+
+.PP
+active switch 
+.SS "real(prec_time) source_identity::source_state::age\fC [private]\fP"
+
+.SS "real(prec) source_identity::source_state::depth\fC [private]\fP"
+
+.PP
+Depth of the source baricenter (m) 
+.SS "type(vector) source_identity::source_state::pos\fC [private]\fP"
+
+.PP
+Position of the source baricenter (m) 
+.SS "real(prec) source_identity::source_state::t\fC [private]\fP"
+
+.PP
+Temperature of the source (Celcius) 
+.SS "type(vector) source_identity::source_state::vel\fC [private]\fP"
+
+.PP
+Velocity of the source (m s-1) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

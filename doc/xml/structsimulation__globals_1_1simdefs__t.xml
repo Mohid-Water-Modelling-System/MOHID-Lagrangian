@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsimulation__globals_1_1simdefs__t" kind="type" language="Fortran" prot="private">
+    <compoundname>simulation_globals::simdefs_t</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structsimulation__globals_1_1simdefs__t_1a416b838aca82edb2df262f5f503a00ae" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) simulation_globals::simdefs_t::dp</definition>
+        <argsstring></argsstring>
+        <name>dp</name>
+        <initializer>= MV</initializer>
+        <briefdescription>
+<para>Initial particle spacing at source generation. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="45" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1simdefs__t_1a4fc7292599841fe5a63e66e5577d49d2" prot="private" static="no" mutable="no">
+        <type>real(prec_time)</type>
+        <definition>real(prec_time) simulation_globals::simdefs_t::dt</definition>
+        <argsstring></argsstring>
+        <name>dt</name>
+        <briefdescription>
+<para>Timestep for fixed step integrators (s) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="46" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1simdefs__t_1a76b66c4e9d305de6a0c3b8f1bd2ef319" prot="private" static="no" mutable="no">
+        <type>type(vector)</type>
+        <definition>type(vector) simulation_globals::simdefs_t::pointmin</definition>
+        <argsstring></argsstring>
+        <name>pointmin</name>
+        <briefdescription>
+<para>Point that defines the lowest corner of the simulation bounding box. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="47" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1simdefs__t_1a8c7a365078a69252312ea200c619bcb6" prot="private" static="no" mutable="no">
+        <type>type(vector)</type>
+        <definition>type(vector) simulation_globals::simdefs_t::pointmax</definition>
+        <argsstring></argsstring>
+        <name>pointmax</name>
+        <briefdescription>
+<para>Point that defines the upper corner of the simulation bounding box. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="48" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="48" bodyend="48"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="structsimulation__globals_1_1simdefs__t_1ac1951dc05be68a08a70d55b0da627f04" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::simdefs_t::setdp</definition>
+        <argsstring></argsstring>
+        <name>setdp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="50" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__globals_1_1simdefs__t_1a1e748701b60ee8883871fb3bca30aa4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::simdefs_t::setdt</definition>
+        <argsstring></argsstring>
+        <name>setdt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="51" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__globals_1_1simdefs__t_1aae43bf7d19c5cfceb113c35bc13cca8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::simdefs_t::setboundingbox</definition>
+        <argsstring></argsstring>
+        <name>setboundingbox</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="52" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__globals_1_1simdefs__t_1aade8e069ae929a97a9c78cc52d1078f7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::simdefs_t::printout</definition>
+        <argsstring>=&gt; printsimdefs</argsstring>
+        <name>printout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="53" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Simulation definitions class. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="44" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="44" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structsimulation__globals_1_1simdefs__t_1a416b838aca82edb2df262f5f503a00ae" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>dp</name></member>
+      <member refid="structsimulation__globals_1_1simdefs__t_1a4fc7292599841fe5a63e66e5577d49d2" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>dt</name></member>
+      <member refid="structsimulation__globals_1_1simdefs__t_1a8c7a365078a69252312ea200c619bcb6" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>pointmax</name></member>
+      <member refid="structsimulation__globals_1_1simdefs__t_1a76b66c4e9d305de6a0c3b8f1bd2ef319" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>pointmin</name></member>
+      <member refid="structsimulation__globals_1_1simdefs__t_1aade8e069ae929a97a9c78cc52d1078f7" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>printout</name></member>
+      <member refid="structsimulation__globals_1_1simdefs__t_1aae43bf7d19c5cfceb113c35bc13cca8d" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>setboundingbox</name></member>
+      <member refid="structsimulation__globals_1_1simdefs__t_1ac1951dc05be68a08a70d55b0da627f04" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>setdp</name></member>
+      <member refid="structsimulation__globals_1_1simdefs__t_1a1e748701b60ee8883871fb3bca30aa4b" prot="private" virt="non-virtual"><scope>simulation_globals::simdefs_t</scope><name>setdt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

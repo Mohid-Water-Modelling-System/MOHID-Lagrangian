@@ -1,0 +1,46 @@
+.TH "source_identity::source_stencil" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+source_identity::source_stencil \- Type - holder for the tracer creation stencil of the source\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "integer \fBnp\fP"
+.br
+.RI "Number of tracers by emission\&. "
+.ti -1c
+.RI "integer \fBtotal_np\fP"
+.br
+.RI "Total number of tracers that this source will generate\&. "
+.ti -1c
+.RI "type(vector), dimension(:), allocatable \fBptlist\fP"
+.br
+.RI "list of points (coordinates), relative to the source geometry point, to be generated at every emission "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Type - holder for the tracer creation stencil of the source\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "integer source_identity::source_stencil::np\fC [private]\fP"
+
+.PP
+Number of tracers by emission\&. 
+.SS "type(vector), dimension(:), allocatable source_identity::source_stencil::ptlist\fC [private]\fP"
+
+.PP
+list of points (coordinates), relative to the source geometry point, to be generated at every emission 
+.SS "integer source_identity::source_stencil::total_np\fC [private]\fP"
+
+.PP
+Total number of tracers that this source will generate\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

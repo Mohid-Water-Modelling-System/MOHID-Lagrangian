@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+    <casedef>
+        <constantsdef>
+			<Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration" units_comment="m/s^2" />
+            <Rho_ref value="1100" comment="Reference density of the fluid" units_comment="kg/m^3" />
+        </constantsdef>
+		<simulationdefs>
+			<resolution dp="1.0" units_comment="metres (m)"/>
+			<timestep dt="30.0" units_comment="seconds (s)"/>
+            <pointmin x="0.0" y="0.0" z="-500.01" />
+            <pointmax x="10000" y="20000" z="100.0" />
+        </simulationdefs>
+        <sourcedef>
+           	<source>
+				<setsource id="18" name="Spill_007" />
+				<set emitting_rate="0.1" units_comment="Hz" />
+				<active start="15" end="end"/>
+				<box>
+					<point x="100" y="1000" z="0" />
+					<size x="0.5" y="3" z="4.5" />
+				</box>
+			</source>
+			<source>
+				<setsource id="1" name="Litter_plastic" />
+				<set emitting_rate="0.09" units_comment="Hz" />
+				<active start="15" end="90"/>
+				<point x="1000" y="3500" z="-100" />
+			</source>
+			<source>
+				<setsource id="2" name="Emissary_2" />
+				<set emitting_rate="0.2" units_comment="Hz" />
+				<line>
+					<pointa x="500" y="6000" z="0" />
+					<pointb x="550" y="7000" z="31" />
+				</line>
+			</source>
+			<source>
+				<setsource id="3" name="Mistery_discharge_0" />
+				<set emitting_rate="0.05" units_comment="Hz" />
+				<active start="1.125" end="end"/>
+				<sphere radius="5.5">
+					<point x="750" y="15000" z="-300" />
+				</sphere>
+			</source>
+        </sourcedef>
+		<initials>
+			<velocity source="1" ux="15" uy="0.0" uz="-0.1"/>
+		</initials>
+		<properties>
+			<links>
+                <link source="3" type='plastic' property="bag_1" comment="" />
+				<link source="2" type='paper' property="cardboard_1" comment="" />
+				<link source="10" type='plastic' property="expanded_polysryrene_10" comment="" />
+            </links>
+            <propertyfile name="Material_props.xml"/>
+        </properties>
+    </casedef>
+    <execution>
+        <parameters>
+            <parameter key="Integrator" value="3" comment="Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)" />
+			<parameter key="CFL" value="0.8" comment="Courant–Friedrichs–Lewy condition number (default=0.5)" />
+            <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />
+            <parameter key="TimeMax" value="1520.0" comment="Simulation duration" units_comment="seconds" />
+            <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
+        </parameters>
+    </execution>
+</case>

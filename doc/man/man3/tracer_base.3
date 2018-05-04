@@ -1,0 +1,75 @@
+.TH "tracer_base" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tracer_base \- Module that defines a pure Lagrangian tracer class and related methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Types"
+
+.in +1c
+.ti -1c
+.RI "type \fBtracer_class\fP"
+.br
+.RI "Type - The pure Lagrangian tracer class\&. "
+.ti -1c
+.RI "type \fBtracer_par_class\fP"
+.br
+.ti -1c
+.RI "type \fBtracer_state_class\fP"
+.br
+.RI "Type - state variables of a pure Lagrangian tracer object\&. "
+.ti -1c
+.RI "type \fBtracer_stats_class\fP"
+.br
+.RI "Type - statistical variables of a pure Lagrangian tracer object\&. "
+.in -1c
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine \fBinitialize\fP (trc, id, id_source, time, pt)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "type(\fBtracer_class\fP), dimension(:), allocatable, public \fBtracer\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module that defines a pure Lagrangian tracer class and related methods\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine tracer_base::initialize (class(\fBtracer_class\fP) trc, integer, intent(in) id, integer, intent(in) id_source, real(prec_time), intent(in) time, type(vector), intent(in) pt)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC Tracer initialization method 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fP 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "type(\fBtracer_class\fP), dimension(:), allocatable, public tracer_base::tracer"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

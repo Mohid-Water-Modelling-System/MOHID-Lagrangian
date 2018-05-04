@@ -1,0 +1,108 @@
+.TH "source_emitter" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+source_emitter \- Module that defines an emitter class and related methods\&. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Types"
+
+.in +1c
+.ti -1c
+.RI "type \fBemitter_t\fP"
+.br
+.in -1c
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine \fBinitracers\fP (self, srcs)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBalloctracers\fP (self, srcs)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBinitialize\fP (self, srcs)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBsetotalnp\fP (src)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "type(\fBemitter_t\fP), public \fBemitter\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module that defines an emitter class and related methods\&. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine source_emitter::alloctracers (class(\fBemitter_t\fP), intent(inout) self, class(\fBsource_class\fP), dimension(:), intent(inout) srcs)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC method that initializes an emmiter class object\&. Computes the total emittable particles this emmiter will allocate and sets other variables 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIself,src\fP 
+.RE
+.PP
+
+.SS "subroutine source_emitter::initialize (class(\fBemitter_t\fP), intent(inout) self, class(\fBsource_class\fP), dimension(:), intent(inout) srcs)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC method that initializes an emmiter class object\&. Computes the total emittable particles this emmiter will allocate and sets other variables 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIself,src\fP 
+.RE
+.PP
+
+.SS "subroutine source_emitter::initracers (class(\fBemitter_t\fP), intent(inout) self, class(\fBsource_class\fP), dimension(:), intent(inout) srcs)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC method that calls the tracer initialization from the emmiter object 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIself,src\fP 
+.RE
+.PP
+
+.SS "subroutine source_emitter::setotalnp (class(\fBsource_class\fP), intent(inout) src)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC private routine that returns the total number of tracers an input source will potentially create 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsrc\fP 
+.RE
+.PP
+${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}$ 
+.SH "Variable Documentation"
+.PP 
+.SS "type(\fBemitter_t\fP), public source_emitter::emitter"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

@@ -1,0 +1,90 @@
+.TH "source_identity::source_par" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+source_identity::source_par
+.SH SYNOPSIS
+.br
+.PP
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "integer \fBid\fP"
+.br
+.RI "unique source identification (integer) "
+.ti -1c
+.RI "real(prec_time) \fBemitting_rate\fP"
+.br
+.RI "Emitting rate of the source (Hz) "
+.ti -1c
+.RI "real(prec_time) \fBstartime\fP"
+.br
+.RI "time to start emitting tracers "
+.ti -1c
+.RI "real(prec_time) \fBstoptime\fP"
+.br
+.RI "time to stop emitting tracers "
+.ti -1c
+.RI "type(string) \fBname\fP"
+.br
+.RI "source name "
+.ti -1c
+.RI "type(string) \fBproperty_type\fP"
+.br
+.RI "source property type (plastic, paper, fish, etc) "
+.ti -1c
+.RI "type(string) \fBproperty_name\fP"
+.br
+.RI "source property name "
+.ti -1c
+.RI "type(string) \fBsource_geometry\fP"
+.br
+.RI "Source type : 'point', 'line', 'sphere', 'box'\&. "
+.ti -1c
+.RI "class(\fBshape\fP), allocatable \fBgeometry\fP"
+.br
+.RI "Source geometry\&. "
+.in -1c
+.SH "Member Data Documentation"
+.PP 
+.SS "real(prec_time) source_identity::source_par::emitting_rate\fC [private]\fP"
+
+.PP
+Emitting rate of the source (Hz) 
+.SS "class(\fBshape\fP), allocatable source_identity::source_par::geometry\fC [private]\fP"
+
+.PP
+Source geometry\&. 
+.SS "integer source_identity::source_par::id\fC [private]\fP"
+
+.PP
+unique source identification (integer) 
+.SS "type(string) source_identity::source_par::name\fC [private]\fP"
+
+.PP
+source name 
+.SS "type(string) source_identity::source_par::property_name\fC [private]\fP"
+
+.PP
+source property name 
+.SS "type(string) source_identity::source_par::property_type\fC [private]\fP"
+
+.PP
+source property type (plastic, paper, fish, etc) 
+.SS "type(string) source_identity::source_par::source_geometry\fC [private]\fP"
+
+.PP
+Source type : 'point', 'line', 'sphere', 'box'\&. 
+.SS "real(prec_time) source_identity::source_par::startime\fC [private]\fP"
+
+.PP
+time to start emitting tracers 
+.SS "real(prec_time) source_identity::source_par::stoptime\fC [private]\fP"
+
+.PP
+time to stop emitting tracers 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

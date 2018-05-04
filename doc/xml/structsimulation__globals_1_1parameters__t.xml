@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsimulation__globals_1_1parameters__t" kind="type" language="Fortran" prot="private">
+    <compoundname>simulation_globals::parameters_t</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structsimulation__globals_1_1parameters__t_1a8b3bbd4f8977640124204c376a404fd0" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer simulation_globals::parameters_t::integrator</definition>
+        <argsstring></argsstring>
+        <name>integrator</name>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="33" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1parameters__t_1a247fb6881af8bd66653818f2f712d86f" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) simulation_globals::parameters_t::cfl</definition>
+        <argsstring></argsstring>
+        <name>cfl</name>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Courant Friedrichs Lewy condition number. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="34" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1parameters__t_1ad187b9779c3a5c156824c359eef4c52e" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) simulation_globals::parameters_t::warmuptime</definition>
+        <argsstring></argsstring>
+        <name>warmuptime</name>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Time to freeze the tracers at simulation start (warmup) (s) (default=0.0) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="35" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1parameters__t_1a2034c850c5652c2e294729fe34b47529" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) simulation_globals::parameters_t::timemax</definition>
+        <argsstring></argsstring>
+        <name>timemax</name>
+        <initializer>= MV</initializer>
+        <briefdescription>
+<para>Simulation duration (s) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="36" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1parameters__t_1adcb4a704bd6bf2d3b84642faad2384c4" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) simulation_globals::parameters_t::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <initializer>= MV</initializer>
+        <briefdescription>
+<para>Time out data (1/Hz) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="37" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="37" bodyend="37"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="structsimulation__globals_1_1parameters__t_1ad59ffcdf9208a52e7d3dae903197be74" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::parameters_t::setparameter</definition>
+        <argsstring></argsstring>
+        <name>setparameter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="39" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__globals_1_1parameters__t_1a5402a171a26d5e6a73b5bf284bf0aa57" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::parameters_t::check</definition>
+        <argsstring></argsstring>
+        <name>check</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="40" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__globals_1_1parameters__t_1a6b56d89976f9cef3fef2e8f54fcb1bdf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::parameters_t::printout</definition>
+        <argsstring>=&gt; printsimparameters</argsstring>
+        <name>printout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="41" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="32" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="32" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structsimulation__globals_1_1parameters__t_1a247fb6881af8bd66653818f2f712d86f" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>cfl</name></member>
+      <member refid="structsimulation__globals_1_1parameters__t_1a5402a171a26d5e6a73b5bf284bf0aa57" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>check</name></member>
+      <member refid="structsimulation__globals_1_1parameters__t_1a8b3bbd4f8977640124204c376a404fd0" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>integrator</name></member>
+      <member refid="structsimulation__globals_1_1parameters__t_1a6b56d89976f9cef3fef2e8f54fcb1bdf" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>printout</name></member>
+      <member refid="structsimulation__globals_1_1parameters__t_1ad59ffcdf9208a52e7d3dae903197be74" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>setparameter</name></member>
+      <member refid="structsimulation__globals_1_1parameters__t_1a2034c850c5652c2e294729fe34b47529" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>timemax</name></member>
+      <member refid="structsimulation__globals_1_1parameters__t_1adcb4a704bd6bf2d3b84642faad2384c4" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>timeout</name></member>
+      <member refid="structsimulation__globals_1_1parameters__t_1ad187b9779c3a5c156824c359eef4c52e" prot="private" virt="non-virtual"><scope>simulation_globals::parameters_t</scope><name>warmuptime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

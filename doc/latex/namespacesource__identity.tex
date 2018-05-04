@@ -8,33 +8,33 @@ Module that defines a source class and related methods.
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}}
+type \hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}
 \begin{DoxyCompactList}\small\item\em Type -\/ The source class. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structsource__identity_1_1source__par}{source\+\_\+par}}
+type \hyperlink{structsource__identity_1_1source__par}{source\+\_\+par}
 \item 
-type \mbox{\hyperlink{structsource__identity_1_1source__state}{source\+\_\+state}}
+type \hyperlink{structsource__identity_1_1source__state}{source\+\_\+state}
 \begin{DoxyCompactList}\small\item\em Type -\/ state variables of a source object. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structsource__identity_1_1source__stats}{source\+\_\+stats}}
+type \hyperlink{structsource__identity_1_1source__stats}{source\+\_\+stats}
 \begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structsource__identity_1_1source__stencil}{source\+\_\+stencil}}
+type \hyperlink{structsource__identity_1_1source__stencil}{source\+\_\+stencil}
 \begin{DoxyCompactList}\small\item\em Type -\/ holder for the tracer creation stencil of the source. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \mbox{\hyperlink{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}{allocsources}} (nsources)
+subroutine, public \hyperlink{namespacesource__identity_a716b4cb4acec5756a6d4dcf20eee588e}{allocsources} (nsources)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \mbox{\hyperlink{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25}{setsourceproperties}} (srcid, ptype, pname)
+subroutine, public \hyperlink{namespacesource__identity_a8b07a03d4f79249743896163e9c85f55}{setsourceproperties} (srcid\+\_\+str, ptype, pname)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesource__identity_a8d7aaa58c575f6ed78f5ca29d64615d7}{initialize}} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, geometry)
+subroutine \hyperlink{namespacesource__identity_a8d7aaa58c575f6ed78f5ca29d64615d7}{initialize} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, geometry)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesource__identity_a43fd5b86e85ddeadf982708445286e26}{linkproperty}} (src, ptype, pname)
+subroutine \hyperlink{namespacesource__identity_a43fd5b86e85ddeadf982708445286e26}{linkproperty} (src, ptype, pname)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesource__identity_a9715a7d707b4c80aa2d2ebd08712f6a9}{printout}} (src)
+subroutine \hyperlink{namespacesource__identity_a9715a7d707b4c80aa2d2ebd08712f6a9}{printout} (src)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}}), dimension(\+:), allocatable, public \mbox{\hyperlink{namespacesource__identity_a5ed8006613af7461c6a2ff1cdaeb8f0f}{source}}
+type(\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}), dimension(\+:), allocatable, public \hyperlink{namespacesource__identity_a5ed8006613af7461c6a2ff1cdaeb8f0f}{source}
 \end{DoxyCompactItemize}
 
 
@@ -62,8 +62,7 @@ source allocation routine -\/ allocates the sources objects
 \mbox{\tt in}  & {\em nsources} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -74,7 +73,7 @@ Here is the caller graph for this function\+:
 \index{source\+\_\+identity@{source\+\_\+identity}!initialize@{initialize}}
 \index{initialize@{initialize}!source\+\_\+identity@{source\+\_\+identity}}
 \subsubsection{\texorpdfstring{initialize()}{initialize()}}
-{\footnotesize\ttfamily subroutine source\+\_\+identity\+::initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\mbox{\hyperlink{structgeometry_1_1shape}{shape}}), intent(in)}]{geometry }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine source\+\_\+identity\+::initialize (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\hyperlink{structgeometry_1_1shape}{shape}), intent(in)}]{geometry }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -89,7 +88,7 @@ source inititialization proceadure -\/ initializes Source variables
 \index{source\+\_\+identity@{source\+\_\+identity}!linkproperty@{linkproperty}}
 \index{linkproperty@{linkproperty}!source\+\_\+identity@{source\+\_\+identity}}
 \subsubsection{\texorpdfstring{linkproperty()}{linkproperty()}}
-{\footnotesize\ttfamily subroutine source\+\_\+identity\+::linkproperty (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine source\+\_\+identity\+::linkproperty (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class})}]{src,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -104,7 +103,7 @@ source property setting proceadure -\/ initializes Source variables
 \index{source\+\_\+identity@{source\+\_\+identity}!printout@{printout}}
 \index{printout@{printout}!source\+\_\+identity@{source\+\_\+identity}}
 \subsubsection{\texorpdfstring{printout()}{printout()}}
-{\footnotesize\ttfamily subroutine source\+\_\+identity\+::printout (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}})}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine source\+\_\+identity\+::printout (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class})}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -115,11 +114,11 @@ source print routine -\/ prints a source info on console/log
 \mbox{\tt in}  & {\em src} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25}\label{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25}} 
+\mbox{\Hypertarget{namespacesource__identity_a8b07a03d4f79249743896163e9c85f55}\label{namespacesource__identity_a8b07a03d4f79249743896163e9c85f55}} 
 \index{source\+\_\+identity@{source\+\_\+identity}!setsourceproperties@{setsourceproperties}}
 \index{setsourceproperties@{setsourceproperties}!source\+\_\+identity@{source\+\_\+identity}}
 \subsubsection{\texorpdfstring{setsourceproperties()}{setsourceproperties()}}
-{\footnotesize\ttfamily subroutine, public source\+\_\+identity\+::setsourceproperties (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{srcid,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine, public source\+\_\+identity\+::setsourceproperties (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{srcid\+\_\+str,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})}
 
 
 
@@ -129,19 +128,18 @@ source property setting routine, calls source by id to set its properties
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em srcid,ptype,pname} & \\
 \hline
-\mbox{\tt in}  & {\em srcid} & Source id tag\\
+\mbox{\tt in}  & {\em srcid\+\_\+str} & Source id tag\\
 \hline
 \mbox{\tt in}  & {\em ptype} & Property type to set\\
 \hline
 \mbox{\tt in}  & {\em pname} & Property name to set \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespacesource__identity_abf228e9179ba7c28cc5de2f63562ac25_icgraph}
+\includegraphics[width=350pt]{namespacesource__identity_a8b07a03d4f79249743896163e9c85f55_icgraph}
 \end{center}
 \end{figure}
 
@@ -151,5 +149,5 @@ Here is the caller graph for this function\+:
 \index{source\+\_\+identity@{source\+\_\+identity}!source@{source}}
 \index{source@{source}!source\+\_\+identity@{source\+\_\+identity}}
 \subsubsection{\texorpdfstring{source}{source}}
-{\footnotesize\ttfamily type(\mbox{\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}}), dimension(\+:), allocatable, public source\+\_\+identity\+::source}
+{\footnotesize\ttfamily type(\hyperlink{structsource__identity_1_1source__class}{source\+\_\+class}), dimension(\+:), allocatable, public source\+\_\+identity\+::source}
 

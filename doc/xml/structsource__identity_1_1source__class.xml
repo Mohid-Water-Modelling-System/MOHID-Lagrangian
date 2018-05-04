@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsource__identity_1_1source__class" kind="type" language="Fortran" prot="private">
+    <compoundname>source_identity::source_class</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structsource__identity_1_1source__class_1a99403ddb327779cbdbb98f15ca9116a8" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structsource__identity_1_1source__par" kindref="compound">source_par</ref>)</type>
+        <definition>type(source_par) source_identity::source_class::par</definition>
+        <argsstring></argsstring>
+        <name>par</name>
+        <briefdescription>
+<para>To access parameters. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="63" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsource__identity_1_1source__class_1a75abb328a740fa4c23201e1c311312d1" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structsource__identity_1_1source__state" kindref="compound">source_state</ref>)</type>
+        <definition>type(source_state) source_identity::source_class::now</definition>
+        <argsstring></argsstring>
+        <name>now</name>
+        <briefdescription>
+<para>To access state variables. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="64" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsource__identity_1_1source__class_1a470518874a42bab9225f3c72be0128ba" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structsource__identity_1_1source__stencil" kindref="compound">source_stencil</ref>)</type>
+        <definition>type(source_stencil) source_identity::source_class::stencil</definition>
+        <argsstring></argsstring>
+        <name>stencil</name>
+        <briefdescription>
+<para>To acess stencil variables. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="65" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsource__identity_1_1source__class_1a630571a5e588a6ced99787b473bf5e2f" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structsource__identity_1_1source__stats" kindref="compound">source_stats</ref>)</type>
+        <definition>type(source_stats) source_identity::source_class::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <briefdescription>
+<para>To access statistics. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="66" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="66" bodyend="66"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="structsource__identity_1_1source__class_1af232e5b647bcb16f34dcc2f797ef7a95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure source_identity::source_class::initialize</definition>
+        <argsstring></argsstring>
+        <name>initialize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="68" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsource__identity_1_1source__class_1ad889c3a7ce279e199ecf059a50a73ca2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure source_identity::source_class::linkproperty</definition>
+        <argsstring></argsstring>
+        <name>linkproperty</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="69" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsource__identity_1_1source__class_1ac9866a62bf8838665bb929deff5bce24" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure source_identity::source_class::printout</definition>
+        <argsstring></argsstring>
+        <name>printout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="70" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Type - The source class. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="57">
+        <label>source_identity::source_class</label>
+        <link refid="structsource__identity_1_1source__class"/>
+        <childnode refid="58" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+        <childnode refid="59" relation="usage">
+          <edgelabel>now</edgelabel>
+        </childnode>
+        <childnode refid="60" relation="usage">
+          <edgelabel>par</edgelabel>
+        </childnode>
+        <childnode refid="61" relation="usage">
+          <edgelabel>stencil</edgelabel>
+        </childnode>
+      </node>
+      <node id="58">
+        <label>source_identity::source_stats</label>
+        <link refid="structsource__identity_1_1source__stats"/>
+      </node>
+      <node id="59">
+        <label>source_identity::source_state</label>
+        <link refid="structsource__identity_1_1source__state"/>
+      </node>
+      <node id="61">
+        <label>source_identity::source_stencil</label>
+        <link refid="structsource__identity_1_1source__stencil"/>
+      </node>
+      <node id="60">
+        <label>source_identity::source_par</label>
+        <link refid="structsource__identity_1_1source__par"/>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" line="62" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_identity.f90" bodystart="62" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structsource__identity_1_1source__class_1af232e5b647bcb16f34dcc2f797ef7a95" prot="private" virt="non-virtual"><scope>source_identity::source_class</scope><name>initialize</name></member>
+      <member refid="structsource__identity_1_1source__class_1ad889c3a7ce279e199ecf059a50a73ca2" prot="private" virt="non-virtual"><scope>source_identity::source_class</scope><name>linkproperty</name></member>
+      <member refid="structsource__identity_1_1source__class_1a75abb328a740fa4c23201e1c311312d1" prot="private" virt="non-virtual"><scope>source_identity::source_class</scope><name>now</name></member>
+      <member refid="structsource__identity_1_1source__class_1a99403ddb327779cbdbb98f15ca9116a8" prot="private" virt="non-virtual"><scope>source_identity::source_class</scope><name>par</name></member>
+      <member refid="structsource__identity_1_1source__class_1ac9866a62bf8838665bb929deff5bce24" prot="private" virt="non-virtual"><scope>source_identity::source_class</scope><name>printout</name></member>
+      <member refid="structsource__identity_1_1source__class_1a630571a5e588a6ced99787b473bf5e2f" prot="private" virt="non-virtual"><scope>source_identity::source_class</scope><name>stats</name></member>
+      <member refid="structsource__identity_1_1source__class_1a470518874a42bab9225f3c72be0128ba" prot="private" virt="non-virtual"><scope>source_identity::source_class</scope><name>stencil</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

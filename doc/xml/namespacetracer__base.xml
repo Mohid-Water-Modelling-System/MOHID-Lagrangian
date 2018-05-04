@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacetracer__base" kind="namespace" language="Fortran">
+    <compoundname>tracer_base</compoundname>
+    <innerclass refid="structtracer__base_1_1tracer__class" prot="private">tracer_base::tracer_class</innerclass>
+    <innerclass refid="structtracer__base_1_1tracer__par__class" prot="private">tracer_base::tracer_par_class</innerclass>
+    <innerclass refid="structtracer__base_1_1tracer__state__class" prot="private">tracer_base::tracer_state_class</innerclass>
+    <innerclass refid="structtracer__base_1_1tracer__stats__class" prot="private">tracer_base::tracer_stats_class</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacetracer__base_1a7f839546575f08e3b944dafdf5e0b2d2" prot="public" static="no" mutable="no">
+        <type>type(<ref refid="structtracer__base_1_1tracer__class" kindref="compound">tracer_class</ref>), dimension(:), allocatable, public</type>
+        <definition>type(tracer_class), dimension(:), allocatable, public tracer_base::tracer</definition>
+        <argsstring></argsstring>
+        <name>tracer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="64" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="64" bodyend="64"/>
+        <referencedby refid="namespacefinalize_1a2b6733e6db5a768ac96ad9274685ad43" compoundref="finalize_8f90" startline="60" endline="63">finalize::deallocate_simulation</referencedby>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacetracer__base_1ad712d20080a9daa44024d61afae670a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine tracer_base::initialize</definition>
+        <argsstring>(trc, id, id_source, time, pt)</argsstring>
+        <name>initialize</name>
+        <param>
+          <type>trc</type>
+          <defname>trc</defname>
+        </param>
+        <param>
+          <type>id</type>
+          <defname>id</defname>
+        </param>
+        <param>
+          <type>id_source</type>
+          <defname>id_source</defname>
+        </param>
+        <param>
+          <type>time</type>
+          <defname>time</defname>
+        </param>
+        <param>
+          <type>pt</type>
+          <defname>pt</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Tracer initialization method <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+</parameternamelist>
+<parameterdescription>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="80" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="81" bodyend="106"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Module that defines a pure Lagrangian tracer class and related methods. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ricardo Birjukovs Canelas </para></simplesect>
+</para>    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="19" column="1"/>
+  </compounddef>
+</doxygen>

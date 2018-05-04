@@ -1,0 +1,181 @@
+.TH "geometry" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+geometry \- Module that defines geometry classes and related methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Types"
+
+.in +1c
+.ti -1c
+.RI "type \fBbox\fP"
+.br
+.RI "Type - point class\&. "
+.ti -1c
+.RI "type \fBline\fP"
+.br
+.RI "Type - line class\&. "
+.ti -1c
+.RI "type \fBpoint\fP"
+.br
+.RI "Type - point class\&. "
+.ti -1c
+.RI "type \fBshape\fP"
+.br
+.RI "Type - extendable shape class\&. "
+.ti -1c
+.RI "type \fBsphere\fP"
+.br
+.RI "Type - sphere class\&. "
+.in -1c
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine, public \fBallocategeomlist\fP"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "logical function, public \fBisvalidgeom\fP (geomname)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgetnp\fP (self, np, dp)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgetpointdistribution\fP (self, np, dp, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBsphere_np_count\fP (dp, r, np)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBsphere_grid\fP (dp, r, np, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBbox_grid\fP (dp, size, np, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBline_grid\fP (dp, dist, np, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "type(string), dimension(:), allocatable, public \fBgeomlist\fP"
+.br
+.RI "String list (array) with the name of possible geometry types\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module that defines geometry classes and related methods\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine, public geometry::allocategeomlist ()"
+
+.PP
+Birjukovs Canelas - MARETEC Public routine to allocate the possible geometry name list 
+.SS "subroutine geometry::box_grid (real(prec), intent(in) dp, type(vector), intent(in) size, integer, intent(in) np, type(vector), dimension(np), intent(out) ptlist)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC private routine that returns the points distributed on a grid with spacing dp inside a box 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdp,size,np,ptlist\fP 
+.RE
+.PP
+
+.SS "subroutine geometry::getnp (class(\fBshape\fP) self, integer, intent(out) np, real(prec), intent(in) dp)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC method to get the number of points that fill a given geometry 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIself,np\fP 
+.RE
+.PP
+
+.SS "subroutine geometry::getpointdistribution (class(\fBshape\fP) self, integer, intent(in) np, real(prec), intent(in) dp, type(vector), dimension(np), intent(inout) ptlist)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC method to get the number of points that fill a given geometry 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIself,np\fP 
+.RE
+.PP
+
+.SS "logical function, public geometry::isvalidgeom (type(string), intent(in) geomname)"
+
+.PP
+Birjukovs Canelas - MARETEC Public function that returns a logical if the input geometry name is valid 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgeomname\fP 
+.RE
+.PP
+
+.SS "subroutine geometry::line_grid (real(prec), intent(in) dp, type(vector), intent(in) dist, integer, intent(in) np, type(vector), dimension(np), intent(out) ptlist)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC private routine that returns the points distributed on a grid with spacing dp along a line 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdp,size,np,ptlist\fP 
+.RE
+.PP
+
+.SS "subroutine geometry::sphere_grid (real(prec), intent(in) dp, real(prec), intent(in) r, integer, intent(in) np, type(vector), dimension(np), intent(out) ptlist)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC private routine that returns the points distributed on a grid with spacing dp inside a sphere 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdp,r,np,ptlist\fP 
+.RE
+.PP
+
+.SS "subroutine geometry::sphere_np_count (real(prec), intent(in) dp, real(prec), intent(in) r, integer, intent(out) np)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC private routine that returns the number of points distributed on a grid with spacing dp inside a sphere 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdp,r,np\fP 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "type(string), dimension(:), allocatable, public geometry::geomlist"
+
+.PP
+String list (array) with the name of possible geometry types\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

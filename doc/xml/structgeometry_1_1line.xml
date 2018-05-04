@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structgeometry_1_1line" kind="type" language="Fortran" prot="private">
+    <compoundname>geometry::line</compoundname>
+    <basecompoundref refid="structgeometry_1_1shape" prot="public" virt="non-virtual">geometry::shape</basecompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structgeometry_1_1line_1ab899fb3b6da58896cd14e2f1a474c457" prot="private" static="no" mutable="no">
+        <type>type(vector)</type>
+        <definition>type(vector) geometry::line::last</definition>
+        <argsstring></argsstring>
+        <name>last</name>
+        <briefdescription>
+<para>Coordinates of the end point. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="43" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="43" bodyend="43"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Type - line class. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="10">
+        <label>geometry::line</label>
+        <link refid="structgeometry_1_1line"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>geometry::shape</label>
+        <link refid="structgeometry_1_1shape"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="12">
+        <label>geometry::line</label>
+        <link refid="structgeometry_1_1line"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>geometry::shape</label>
+        <link refid="structgeometry_1_1shape"/>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" line="42" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" bodystart="42" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structgeometry_1_1line_1ab899fb3b6da58896cd14e2f1a474c457" prot="private" virt="non-virtual"><scope>geometry::line</scope><name>last</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

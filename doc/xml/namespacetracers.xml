@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacetracers" kind="namespace" language="Fortran">
+    <compoundname>tracers</compoundname>
+    <briefdescription>
+<para>Module to hold and wrap all the tracer respective modules. Defines a pure Lagrangian tracer block. This is intended to serve as the base class for every type of tracer class needed, that should be built as derived of this class, with the necessary modifiers to model the desired behaviour. Basic tracer data (parameters, variables) are implemented. Tracer methods such as I/O, integration and interpolation routines are implemented. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ricardo Birjukovs Canelas </para></simplesect>
+</para>    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracers.f90" line="23" column="1"/>
+  </compounddef>
+</doxygen>

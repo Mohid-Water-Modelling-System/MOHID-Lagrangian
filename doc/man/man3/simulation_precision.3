@@ -1,0 +1,86 @@
+.TH "simulation_precision" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+simulation_precision \- Module to control the precision of the variables trough the project\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "integer, parameter \fBsp\fP = kind(1\&._R4P)"
+.br
+.RI "Simple precision definition switch\&. "
+.ti -1c
+.RI "integer, parameter \fBdp\fP = kind(1\&._R8P)"
+.br
+.RI "Double precision definition switch\&. "
+.ti -1c
+.RI "integer, parameter, public \fBprec\fP = \fBsp\fP"
+.br
+.ti -1c
+.RI "integer, parameter, public \fBprec_time\fP = \fBsp\fP"
+.br
+.ti -1c
+.RI "integer, parameter, public \fBprec_wrt\fP = \fBsp\fP"
+.br
+.ti -1c
+.RI "real(\fBprec\fP), parameter, public \fBmissing_value_default\fP = \-9999\&.0_dp"
+.br
+.ti -1c
+.RI "real(\fBprec\fP), parameter, public \fBmv\fP = MISSING_VALUE_DEFAULT"
+.br
+.ti -1c
+.RI "real(\fBprec\fP), parameter, public \fBmv_int\fP = int(MISSING_VALUE_DEFAULT)"
+.br
+.ti -1c
+.RI "real(\fBprec\fP), parameter, public \fBerr_dist\fP = 1E8_dp"
+.br
+.ti -1c
+.RI "integer, parameter, public \fBerr_ind\fP = \-1"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module to control the precision of the variables trough the project\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "integer, parameter simulation_precision::dp = kind(1\&._R8P)\fC [private]\fP"
+
+.PP
+Double precision definition switch\&. 
+.SS "real(\fBprec\fP), parameter, public simulation_precision::err_dist = 1E8_dp"
+
+.SS "integer, parameter, public simulation_precision::err_ind = \-1"
+
+.SS "real(\fBprec\fP), parameter, public simulation_precision::missing_value_default = \-9999\&.0_dp"
+
+.SS "real(\fBprec\fP), parameter, public simulation_precision::mv = MISSING_VALUE_DEFAULT"
+
+.SS "real(\fBprec\fP), parameter, public simulation_precision::mv_int = int(MISSING_VALUE_DEFAULT)"
+
+.SS "integer, parameter, public simulation_precision::prec = \fBsp\fP"
+
+.SS "integer, parameter, public simulation_precision::prec_time = \fBsp\fP"
+
+.SS "integer, parameter, public simulation_precision::prec_wrt = \fBsp\fP"
+
+.SS "integer, parameter simulation_precision::sp = kind(1\&._R4P)\fC [private]\fP"
+
+.PP
+Simple precision definition switch\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

@@ -1,0 +1,89 @@
+.TH "simulation_logger" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+simulation_logger \- Module to hold all the simulation logger related definitions and methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine, public \fBgettimestamp\fP (timestamp)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine, public \fBtolog\fP (tologstr, timeoption)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine, public \fBinitmohidlagrangianlog\fP (outpath)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "integer, public \fBlog_unit\fP = \-1"
+.br
+.RI "'Number' of log file "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module to hold all the simulation logger related definitions and methods\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine, public simulation_logger::gettimestamp (type(string), intent(out) timestamp)"
+
+.PP
+Birjukovs Canelas - MARETEC Public timestamp builder 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItimestamp\fP 
+.RE
+.PP
+
+.SS "subroutine, public simulation_logger::initmohidlagrangianlog (type(string), intent(in) outpath)"
+
+.PP
+Birjukovs Canelas - MARETEC Public log file initizalization routine\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIoutpath\fP 
+.RE
+.PP
+
+.SS "subroutine, public simulation_logger::tolog (type(string), intent(in) tologstr, logical, intent(in), optional timeoption)"
+
+.PP
+Birjukovs Canelas - MARETEC Public log serialization routine 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIoutpath\fP 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "integer, public simulation_logger::log_unit = \-1"
+
+.PP
+'Number' of log file 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

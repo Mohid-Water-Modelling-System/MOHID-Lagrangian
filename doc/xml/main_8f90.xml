@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="main_8f90" kind="file" language="Fortran">
+    <compoundname>main.f90</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">program</highlight><highlight class="normal"><sp/>mohidlagrangian</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal">cla<sp/><sp/><sp/><sp/></highlight><highlight class="comment">!Command<sp/>line<sp/>argument<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacecommom__modules" kindref="compound">commom_modules</ref></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacesources" kindref="compound">sources</ref></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!-----------------------------------------------------------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character(len=STRLEN)</highlight><highlight class="normal"><sp/><sp/>::<sp/>defxmlfilename_char</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character(len=STRLEN)</highlight><highlight class="normal"><sp/><sp/>::<sp/>outpath_char</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string)<sp/>::<sp/>defxmlfilename</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string)<sp/>::<sp/>outpath</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character(4)</highlight><highlight class="normal"><sp/>::<sp/>xmlextention<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;.xml&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!-----------------------------------------------------------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Initialize<sp/>command<sp/>line<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">cla_init</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Register<sp/>keys<sp/>for<sp/>key/value<sp/>pairs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">cla_register(</highlight><highlight class="stringliteral">&apos;-i&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;--infile&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;input<sp/>definition<sp/>file<sp/>(xml)&apos;</highlight><highlight class="normal">,<sp/>cla_char,<sp/></highlight><highlight class="stringliteral">&apos;defxmlfilename&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">cla_register(</highlight><highlight class="stringliteral">&apos;-o&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;--outpath&apos;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&apos;output<sp/>path&apos;</highlight><highlight class="normal">,<sp/>cla_char,<sp/></highlight><highlight class="stringliteral">&apos;outpath&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Store<sp/>the<sp/>arguments<sp/>with<sp/>each<sp/>respective<sp/>variable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">cla_get(</highlight><highlight class="stringliteral">&apos;-i&apos;</highlight><highlight class="normal">,defxmlfilename_char)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">cla_get(</highlight><highlight class="stringliteral">&apos;-o&apos;</highlight><highlight class="normal">,outpath_char)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>CLA<sp/>uses<sp/>chars,<sp/>we<sp/>use<sp/>&apos;strings&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>defxmlfilename=trim(defxmlfilename_char)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>outpath=trim(outpath_char)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Completing<sp/>the<sp/>names<sp/>with<sp/>file<sp/>extensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>defxmlfilename=defxmlfilename//xmlextention</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>outpath=outpath//</highlight><highlight class="stringliteral">&apos;\&apos;</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>!<sp/>Initialize<sp/>logger<sp/>-<sp/>this<sp/>is<sp/>mandatory</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>call<sp/>initMohidLagrangianLog(outpath)</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>!<sp/>Initialization<sp/>routines<sp/>to<sp/>build<sp/>the<sp/>simulation</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>call<sp/>initMohidLagrangian(defxmlfilename)</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>!main<sp/>time<sp/>cycle<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"></highlight><highlight class="normal">.LT.</highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>do<sp/>while<sp/>(SimTime<sp/><sp/>Parameters%TimeMax)</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>SimTime<sp/>=<sp/>SimTime<sp/>+<sp/>SimDefs%dt</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>enddo</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"></highlight><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>!<sp/>Finalization<sp/>of<sp/>the<sp/>program<sp/>-<sp/>deallocation,<sp/>file<sp/>closing,<sp/>etc</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"></highlight><highlight class="stringliteral"><sp/><sp/><sp/><sp/>call<sp/>finalizeMohidLagrangian</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"></highlight><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"></highlight></codeline>
+    </programlisting>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/app/main.f90"/>
+  </compounddef>
+</doxygen>

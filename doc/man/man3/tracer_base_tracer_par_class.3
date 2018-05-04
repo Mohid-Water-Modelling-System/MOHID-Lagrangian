@@ -1,0 +1,55 @@
+.TH "tracer_base::tracer_par_class" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tracer_base::tracer_par_class
+.SH SYNOPSIS
+.br
+.PP
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "integer \fBid\fP"
+.br
+.RI "unique tracer identification "
+.ti -1c
+.RI "integer \fBidsource\fP"
+.br
+.RI "Source to which the tracer belongs\&. "
+.ti -1c
+.RI "real(prec) \fBvelmax\fP"
+.br
+.RI "Maximum velocity of tracer to track (m/s) "
+.ti -1c
+.RI "logical \fBnoise\fP"
+.br
+.ti -1c
+.RI "type(string) \fBinterp_method\fP"
+.br
+.RI "interpolation method this tracer calls "
+.in -1c
+.SH "Member Data Documentation"
+.PP 
+.SS "integer tracer_base::tracer_par_class::id\fC [private]\fP"
+
+.PP
+unique tracer identification 
+.SS "integer tracer_base::tracer_par_class::idsource\fC [private]\fP"
+
+.PP
+Source to which the tracer belongs\&. 
+.SS "type(string) tracer_base::tracer_par_class::interp_method\fC [private]\fP"
+
+.PP
+interpolation method this tracer calls 
+.SS "logical tracer_base::tracer_par_class::noise\fC [private]\fP"
+
+.SS "real(prec) tracer_base::tracer_par_class::velmax\fC [private]\fP"
+
+.PP
+Maximum velocity of tracer to track (m/s) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

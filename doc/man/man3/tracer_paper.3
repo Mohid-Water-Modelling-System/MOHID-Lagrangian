@@ -1,0 +1,60 @@
+.TH "tracer_paper" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tracer_paper \- Module that defines a Lagrangian tracer class for paper modelling and related methods\&. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it's data and methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Types"
+
+.in +1c
+.ti -1c
+.RI "type \fBpaper_class\fP"
+.br
+.RI "Type - The plastic material Lagrangian tracer class\&. "
+.ti -1c
+.RI "type \fBpaper_par_class\fP"
+.br
+.ti -1c
+.RI "type \fBpaper_state_class\fP"
+.br
+.RI "Type - State variables of a tracer object representing a paper material\&. "
+.in -1c
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine \fBpaper_initialize\fP (trc, id, id_source, time, pt)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module that defines a Lagrangian tracer class for paper modelling and related methods\&. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it's data and methods\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine tracer_paper::paper_initialize (class(\fBpaper_class\fP) trc, integer, intent(in) id, integer, intent(in) id_source, real(prec_time), intent(in) time, type(vector), intent(in) pt)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC Tracer initialization method 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="simulation__logger_8f90" kind="file" language="Fortran">
+    <compoundname>simulation_logger.f90</compoundname>
+    <innernamespace refid="namespacesimulation__logger">simulation_logger</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IST/MARETEC,<sp/>Water<sp/>Modelling<sp/>Group,<sp/>Mohid<sp/>modelling<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>TITLE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Mohid<sp/>Model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>PROJECT<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Mohid<sp/>Lagrangian<sp/>Tracer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>MODULE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>simulation_logger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>URL<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>http://www.mohid.com</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>AFFILIATION<sp/><sp/><sp/>:<sp/>IST/MARETEC,<sp/>Marine<sp/>Modelling<sp/>Group</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>DATE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>March<sp/>2018</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>REVISION<sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Canelas<sp/>0.1</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>DESCRIPTION:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19" refid="namespacesimulation__logger" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">module</highlight><highlight class="normal"><sp/><ref refid="namespacesimulation__logger" kindref="compound">simulation_logger</ref></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal">penf</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal">vecfor</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal">stringifor</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">private</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!Public<sp/>access<sp/>vars</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">public</highlight><highlight class="normal"><sp/>::<sp/><ref refid="namespacesimulation__logger_1a9ef3d703b0c79dd563330003a82c99d9" kindref="member">log_unit</ref></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!File<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacesimulation__logger_1a9ef3d703b0c79dd563330003a82c99d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>::<sp/><ref refid="namespacesimulation__logger_1a9ef3d703b0c79dd563330003a82c99d9" kindref="member">log_unit</ref><sp/>=<sp/>-1</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!Public<sp/>access<sp/>procedures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">public</highlight><highlight class="normal"><sp/>::<sp/><ref refid="namespacesimulation__logger_1a9c7922c1d3cd57c8322f047799fc6053" kindref="member">initmohidlagrangianlog</ref>,<sp/><ref refid="namespacesimulation__logger_1a3aaa69ec168b6f34d703fb4033a22d92" kindref="member">tolog</ref>,<sp/><ref refid="namespacesimulation__logger_1a13446c36aac51547a72b39003f735257" kindref="member">gettimestamp</ref></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">contains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Routine<sp/>Author<sp/>Name<sp/>and<sp/>Affiliation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__logger_1a13446c36aac51547a72b39003f735257" kindref="member">gettimestamp</ref>(timestamp)</highlight></codeline>
+<codeline lineno="50" refid="namespacesimulation__logger_1a13446c36aac51547a72b39003f735257" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string),<sp/></highlight><highlight class="keywordtype">intent(out)</highlight><highlight class="normal"><sp/>::<sp/>timestamp</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">character(80)</highlight><highlight class="normal"><sp/>::<sp/>temp(8)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>::<sp/>values(8),i<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">date_and_time(values=values)<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>i=1,8</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(temp(i),*)<sp/>values(i)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/>enddo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>timestamp=trim(adjustl(temp(1)))//</highlight><highlight class="stringliteral">&apos;-&apos;</highlight><highlight class="normal">//trim(adjustl(temp(2)))//</highlight><highlight class="stringliteral">&apos;-&apos;</highlight><highlight class="normal">//trim(adjustl(temp(3)))//</highlight><highlight class="stringliteral">&apos;<sp/>@&apos;</highlight><highlight class="normal">//trim(adjustl(temp(5)))//</highlight><highlight class="stringliteral">&apos;:&apos;</highlight><highlight class="normal">//trim(adjustl(temp(6)))//</highlight><highlight class="stringliteral">&apos;:&apos;</highlight><highlight class="normal">//trim(adjustl(temp(7)))</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>subroutine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Routine<sp/>Author<sp/>Name<sp/>and<sp/>Affiliation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__logger_1a3aaa69ec168b6f34d703fb4033a22d92" kindref="member">tolog</ref>(tologstr,timeoption)</highlight></codeline>
+<codeline lineno="74" refid="namespacesimulation__logger_1a3aaa69ec168b6f34d703fb4033a22d92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string),<sp/></highlight><highlight class="keywordtype">intent(in)</highlight><highlight class="normal"><sp/>::<sp/>tologstr</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">logical</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">intent(in)</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">optional</highlight><highlight class="normal"><sp/>::<sp/>timeoption</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string)<sp/>::<sp/>timestamp</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__logger_1a13446c36aac51547a72b39003f735257" kindref="member">gettimestamp</ref>(timestamp)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(</highlight><highlight class="keyword">present</highlight><highlight class="normal">(timeoption).and.timeoption.eqv..false.)</highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timestamp=</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>timestamp=timestamp//</highlight><highlight class="stringliteral">&apos;<sp/>&apos;</highlight><highlight class="normal">//tologstr</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">write</highlight><highlight class="normal">(<ref refid="namespacesimulation__logger_1a9ef3d703b0c79dd563330003a82c99d9" kindref="member">log_unit</ref>,</highlight><highlight class="stringliteral">&quot;(A)&quot;</highlight><highlight class="normal">)<sp/>timestamp%chars()</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>print</highlight><highlight class="stringliteral">&apos;(A)&apos;</highlight><highlight class="normal">,<sp/>timestamp%chars()</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>subroutine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Routine<sp/>Author<sp/>Name<sp/>and<sp/>Affiliation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__logger_1a9c7922c1d3cd57c8322f047799fc6053" kindref="member">initmohidlagrangianlog</ref>(outpath)</highlight></codeline>
+<codeline lineno="98" refid="namespacesimulation__logger_1a9c7922c1d3cd57c8322f047799fc6053" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string),<sp/></highlight><highlight class="keywordtype">intent(in)</highlight><highlight class="normal"><sp/>::<sp/>outpath<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string)<sp/>::<sp/>logfile<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>logfile<sp/>=<sp/>outpath//</highlight><highlight class="stringliteral">&apos;MOHIDLagrangianRun.out&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacesimulation__logger_1a9ef3d703b0c79dd563330003a82c99d9" kindref="member">log_unit</ref><sp/>=<sp/>0<sp/></highlight><highlight class="comment">!this<sp/>way<sp/>we<sp/>can<sp/>use<sp/>it<sp/>as<sp/>a<sp/>logical<sp/>for<sp/>open<sp/>and<sp/>closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">open</highlight><highlight class="normal"><sp/>(unit=<ref refid="namespacesimulation__logger_1a9ef3d703b0c79dd563330003a82c99d9" kindref="member">log_unit</ref>,file=logfile%chars(),action=</highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,status=</highlight><highlight class="stringliteral">&quot;replace&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>subroutine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>module<sp/></highlight><highlight class="normal"><ref refid="namespacesimulation__logger" kindref="compound">simulation_logger</ref></highlight></codeline>
+    </programlisting>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_logger.f90"/>
+  </compounddef>
+</doxygen>

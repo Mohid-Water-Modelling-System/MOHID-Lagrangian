@@ -1,0 +1,145 @@
+.TH "source_identity" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+source_identity \- Module that defines a source class and related methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Types"
+
+.in +1c
+.ti -1c
+.RI "type \fBsource_class\fP"
+.br
+.RI "Type - The source class\&. "
+.ti -1c
+.RI "type \fBsource_par\fP"
+.br
+.ti -1c
+.RI "type \fBsource_state\fP"
+.br
+.RI "Type - state variables of a source object\&. "
+.ti -1c
+.RI "type \fBsource_stats\fP"
+.br
+.RI "Type - statistical variables of a source object\&. "
+.ti -1c
+.RI "type \fBsource_stencil\fP"
+.br
+.RI "Type - holder for the tracer creation stencil of the source\&. "
+.in -1c
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine, public \fBallocsources\fP (nsources)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine, public \fBsetsourceproperties\fP (srcid_str, ptype, pname)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBinitialize\fP (src, id, name, emitting_rate, start, finish, source_geometry, geometry)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBlinkproperty\fP (src, ptype, pname)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBprintout\fP (src)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "type(\fBsource_class\fP), dimension(:), allocatable, public \fBsource\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module that defines a source class and related methods\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine, public source_identity::allocsources (integer, intent(in) nsources)"
+
+.PP
+Birjukovs Canelas - MARETEC source allocation routine - allocates the sources objects 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInsources\fP 
+.RE
+.PP
+
+.SS "subroutine source_identity::initialize (class(\fBsource_class\fP) src, integer, intent(in) id, type(string), intent(in) name, real(prec), intent(in) emitting_rate, real(prec), intent(in) start, real(prec), intent(in) finish, type(string), intent(in) source_geometry, class(\fBshape\fP), intent(in) geometry)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC source inititialization proceadure - initializes Source variables 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsrc,id,name,emitting_rate,source_geometry\fP 
+.RE
+.PP
+
+.SS "subroutine source_identity::linkproperty (class(\fBsource_class\fP) src, type(string), intent(in) ptype, type(string), intent(in) pname)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC source property setting proceadure - initializes Source variables 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsrc,ptype,pname\fP 
+.RE
+.PP
+
+.SS "subroutine source_identity::printout (class(\fBsource_class\fP) src)\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC source print routine - prints a source info on console/log 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsrc\fP 
+.RE
+.PP
+
+.SS "subroutine, public source_identity::setsourceproperties (type(string), intent(in) srcid_str, type(string), intent(in) ptype, type(string), intent(in) pname)"
+
+.PP
+Birjukovs Canelas - MARETEC source property setting routine, calls source by id to set its properties 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsrcid,ptype,pname\fP 
+.br
+\fIsrcid_str\fP Source id tag
+.br
+\fIptype\fP Property type to set
+.br
+\fIpname\fP Property name to set 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "type(\fBsource_class\fP), dimension(:), allocatable, public source_identity::source"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

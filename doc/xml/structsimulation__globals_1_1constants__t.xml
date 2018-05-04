@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsimulation__globals_1_1constants__t" kind="type" language="Fortran" prot="private">
+    <compoundname>simulation_globals::constants_t</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structsimulation__globals_1_1constants__t_1a4eec4dda6ff156f096dbfbaac5ea2a6b" prot="private" static="no" mutable="no">
+        <type>type(vector)</type>
+        <definition>type(vector) simulation_globals::constants_t::gravity</definition>
+        <argsstring></argsstring>
+        <name>gravity</name>
+        <briefdescription>
+<para>Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="57" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__globals_1_1constants__t_1af9496305e46cea74e54758362274a701" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) simulation_globals::constants_t::rho_ref</definition>
+        <argsstring></argsstring>
+        <name>rho_ref</name>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+<para>Reference density of the medium (default=1000.0) (kg m-3) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="58" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="58" bodyend="58"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="structsimulation__globals_1_1constants__t_1a5037e6304087d5731de4aa741ea25a62" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::constants_t::setgravity</definition>
+        <argsstring></argsstring>
+        <name>setgravity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="60" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__globals_1_1constants__t_1a67ddcf6c24df193c78cfd51574b49e4d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_globals::constants_t::setrho</definition>
+        <argsstring></argsstring>
+        <name>setrho</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="61" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Case Constants class. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" line="56" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_globals.f90" bodystart="56" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structsimulation__globals_1_1constants__t_1a4eec4dda6ff156f096dbfbaac5ea2a6b" prot="private" virt="non-virtual"><scope>simulation_globals::constants_t</scope><name>gravity</name></member>
+      <member refid="structsimulation__globals_1_1constants__t_1af9496305e46cea74e54758362274a701" prot="private" virt="non-virtual"><scope>simulation_globals::constants_t</scope><name>rho_ref</name></member>
+      <member refid="structsimulation__globals_1_1constants__t_1a5037e6304087d5731de4aa741ea25a62" prot="private" virt="non-virtual"><scope>simulation_globals::constants_t</scope><name>setgravity</name></member>
+      <member refid="structsimulation__globals_1_1constants__t_1a67ddcf6c24df193c78cfd51574b49e4d" prot="private" virt="non-virtual"><scope>simulation_globals::constants_t</scope><name>setrho</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

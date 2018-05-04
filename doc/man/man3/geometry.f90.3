@@ -1,0 +1,87 @@
+.TH "C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/geometry.f90
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Types"
+
+.in +1c
+.ti -1c
+.RI "type \fBgeometry::shape\fP"
+.br
+.RI "Type - extendable shape class\&. "
+.ti -1c
+.RI "type \fBgeometry::point\fP"
+.br
+.RI "Type - point class\&. "
+.ti -1c
+.RI "type \fBgeometry::line\fP"
+.br
+.RI "Type - line class\&. "
+.ti -1c
+.RI "type \fBgeometry::sphere\fP"
+.br
+.RI "Type - sphere class\&. "
+.ti -1c
+.RI "type \fBgeometry::box\fP"
+.br
+.RI "Type - point class\&. "
+.in -1c
+.SS "Modules"
+
+.in +1c
+.ti -1c
+.RI "module \fBgeometry\fP"
+.br
+.RI "Module that defines geometry classes and related methods\&. "
+.in -1c
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine, public \fBgeometry::allocategeomlist\fP"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "logical function, public \fBgeometry::isvalidgeom\fP (geomname)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgeometry::getnp\fP (self, np, dp)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgeometry::getpointdistribution\fP (self, np, dp, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgeometry::sphere_np_count\fP (dp, r, np)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgeometry::sphere_grid\fP (dp, r, np, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgeometry::box_grid\fP (dp, size, np, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBgeometry::line_grid\fP (dp, dist, np, ptlist)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "type(string), dimension(:), allocatable, public \fBgeometry::geomlist\fP"
+.br
+.RI "String list (array) with the name of possible geometry types\&. "
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

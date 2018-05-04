@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacesimulation__memory" kind="namespace" language="Fortran">
+    <compoundname>simulation_memory</compoundname>
+    <innerclass refid="structsimulation__memory_1_1memory__t" prot="private">simulation_memory::memory_t</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesimulation__memory_1a8ed2bc20b0c49405084442d02fc76d42" prot="public" static="no" mutable="no">
+        <type>type(<ref refid="structsimulation__memory_1_1memory__t" kindref="compound">memory_t</ref>), public</type>
+        <definition>type(memory_t), public simulation_memory::simmemory</definition>
+        <argsstring></argsstring>
+        <name>simmemory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="42" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="42" bodyend="42"/>
+        <referencedby refid="namespacesimulation__globals_1aed3f671899558008ae9f0f009f581baf" compoundref="simulation__globals_8f90" startline="92" endline="116">simulation_globals::setparameter</referencedby>
+        <referencedby refid="namespacesimulation__globals_1ac655f60155581a71b312f3c1a8c87db2" compoundref="simulation__globals_8f90" startline="200" endline="207">simulation_globals::setgravity</referencedby>
+        <referencedby refid="namespacesimulation__globals_1acfdc640757f0275bccb1d8de7bd7dc92" compoundref="simulation__globals_8f90" startline="220" endline="233">simulation_globals::setrho</referencedby>
+        <referencedby refid="namespacesimulation__globals_1a9a8e88c06937b7cf6be9d9bf30f54ba9" compoundref="simulation__globals_8f90" startline="246" endline="259">simulation_globals::setdp</referencedby>
+        <referencedby refid="namespacesimulation__globals_1a3ef0462db5a60ac79304cabd2fdd914d" compoundref="simulation__globals_8f90" startline="272" endline="285">simulation_globals::setdt</referencedby>
+        <referencedby refid="namespacesimulation__globals_1a1fc4653684d73efecdbd140b6cafe541" compoundref="simulation__globals_8f90" startline="298" endline="310">simulation_globals::setboundingbox</referencedby>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesimulation__memory_1a3b8f4e0766c90e6d6bd99e2fa49ea91b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine simulation_memory::initialize</definition>
+        <argsstring>(self)</argsstring>
+        <name>initialize</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private memory logger initialization method. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="56" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__memory_1a8589522c4e28cf60741a5439477cdb31" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine simulation_memory::getotal</definition>
+        <argsstring>(self, size)</argsstring>
+        <name>getotal</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>size</type>
+          <defname>size</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private method to retreive the total size of the allocated memory. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="72" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__memory_1acf01ce7bcb2d7571d37fb2c0338e5bd2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine simulation_memory::addsource</definition>
+        <argsstring>(self, size)</argsstring>
+        <name>addsource</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>size</type>
+          <defname>size</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private method to add the size of a Source to the memory log. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="87" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__memory_1a4d6c8bd027a99cb6c7f9ad2eb55c744f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine simulation_memory::addtracer</definition>
+        <argsstring>(self, size)</argsstring>
+        <name>addtracer</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>size</type>
+          <defname>size</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private method to add the size of a Tracer to the memory log. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="102" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="103" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__memory_1a62d5641dbec45bc279575c173b0f0f24" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine simulation_memory::adddef</definition>
+        <argsstring>(self, size)</argsstring>
+        <name>adddef</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>size</type>
+          <defname>size</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private method to add the size of a definition to the memory log. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="117" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__memory_1a5827bef8479b809a453af147ceaa8c7c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine simulation_memory::printmemory</definition>
+        <argsstring>(self)</argsstring>
+        <name>printmemory</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private method to print the allocated memory. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="132" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="133" bodyend="145"/>
+        <references refid="namespacesimulation__logger_1a3aaa69ec168b6f34d703fb4033a22d92" compoundref="simulation__logger_8f90" startline="74" endline="84">simulation_logger::tolog</references>
+      </memberdef>
+      <memberdef kind="function" id="namespacesimulation__memory_1af2a472000acc1ff59cb6e63679617699" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine simulation_memory::printmemorydetailed</definition>
+        <argsstring>(self)</argsstring>
+        <name>printmemorydetailed</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>Private method to print the allocated memory. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="155" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="156" bodyend="178"/>
+        <references refid="namespacesimulation__logger_1a3aaa69ec168b6f34d703fb4033a22d92" compoundref="simulation__logger_8f90" startline="74" endline="84">simulation_logger::tolog</references>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Module to hold the simulation memory managment class and its methods. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ricardo Birjukovs Canelas </para></simplesect>
+</para>    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="19" column="1"/>
+  </compounddef>
+</doxygen>

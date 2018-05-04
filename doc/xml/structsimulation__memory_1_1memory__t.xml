@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structsimulation__memory_1_1memory__t" kind="type" language="Fortran" prot="private">
+    <compoundname>simulation_memory::memory_t</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structsimulation__memory_1_1memory__t_1ad912536f320cd23924d860c4b6810f8a" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer simulation_memory::memory_t::size_of_sources</definition>
+        <argsstring></argsstring>
+        <name>size_of_sources</name>
+        <briefdescription>
+<para>Size of the sources in memory (bytes) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="28" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__memory_1_1memory__t_1aa8a0070dcb1efa0b14a86d40fee9e03d" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer simulation_memory::memory_t::size_of_tracers</definition>
+        <argsstring></argsstring>
+        <name>size_of_tracers</name>
+        <briefdescription>
+<para>Size of the tracers in memory (bytes) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="29" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsimulation__memory_1_1memory__t_1adba405ad7926a890f3e4feaa9c0cf904" prot="private" static="no" mutable="no">
+        <type>integer</type>
+        <definition>integer simulation_memory::memory_t::size_of_defs</definition>
+        <argsstring></argsstring>
+        <name>size_of_defs</name>
+        <briefdescription>
+<para>Size of the parameters and definitions in memory (bytes) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="30" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="30" bodyend="30"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="structsimulation__memory_1_1memory__t_1a39beb04a9ab65e562b834d9db3b4e214" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_memory::memory_t::initialize</definition>
+        <argsstring></argsstring>
+        <name>initialize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="32" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__memory_1_1memory__t_1a55a678b567d22acf18437743f3afdfdf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_memory::memory_t::addsource</definition>
+        <argsstring></argsstring>
+        <name>addsource</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="33" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__memory_1_1memory__t_1a52610485fd6c793751a506db0ecb3f27" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_memory::memory_t::addtracer</definition>
+        <argsstring></argsstring>
+        <name>addtracer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="34" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__memory_1_1memory__t_1a5a231dfd0c9f39ad6c949519ad168f70" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_memory::memory_t::adddef</definition>
+        <argsstring></argsstring>
+        <name>adddef</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="35" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__memory_1_1memory__t_1a1677c1871975872cba406a8729fbedb5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_memory::memory_t::getotal</definition>
+        <argsstring></argsstring>
+        <name>getotal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="36" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__memory_1_1memory__t_1a1972d13f7be392f9ebd5d27e90dfc4e5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_memory::memory_t::printout</definition>
+        <argsstring>=&gt; printmemory</argsstring>
+        <name>printout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="37" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="function" id="structsimulation__memory_1_1memory__t_1a742a2dddb7feb68044886b534cdc871d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure simulation_memory::memory_t::detailedprintout</definition>
+        <argsstring>=&gt; printmemorydetailed</argsstring>
+        <name>detailedprintout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="38" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" line="27" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_memory.f90" bodystart="27" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structsimulation__memory_1_1memory__t_1a5a231dfd0c9f39ad6c949519ad168f70" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>adddef</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1a55a678b567d22acf18437743f3afdfdf" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>addsource</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1a52610485fd6c793751a506db0ecb3f27" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>addtracer</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1a742a2dddb7feb68044886b534cdc871d" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>detailedprintout</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1a1677c1871975872cba406a8729fbedb5" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>getotal</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1a39beb04a9ab65e562b834d9db3b4e214" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>initialize</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1a1972d13f7be392f9ebd5d27e90dfc4e5" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>printout</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1adba405ad7926a890f3e4feaa9c0cf904" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>size_of_defs</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1ad912536f320cd23924d860c4b6810f8a" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>size_of_sources</name></member>
+      <member refid="structsimulation__memory_1_1memory__t_1aa8a0070dcb1efa0b14a86d40fee9e03d" prot="private" virt="non-virtual"><scope>simulation_memory::memory_t</scope><name>size_of_tracers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

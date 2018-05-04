@@ -1,0 +1,62 @@
+.TH "finalize" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+finalize \- Module with the simulation closing related definitions and methods\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine \fBsimulation_end\fP"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBdeallocate_simulation\fP"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine \fBcloselog\fP"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine, public \fBfinalizemohidlagrangian\fP"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module with the simulation closing related definitions and methods\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine finalize::closelog ()\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC Private logfile closing routine\&. 
+.SS "subroutine finalize::deallocate_simulation ()\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC Private globals deallocation routine\&. 
+.SS "subroutine, public finalize::finalizemohidlagrangian ()"
+
+.PP
+Birjukovs Canelas - MARETEC Public finalization routine\&. Destroys, deallocates and closes the simulation space 
+.SS "subroutine finalize::simulation_end ()\fC [private]\fP"
+
+.PP
+Birjukovs Canelas - MARETEC Private closing statement routine\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

@@ -7,7 +7,7 @@ var searchData=
   ['setotalnp',['setotalnp',['../namespacesource__emitter.html#a73d054a39fc1fccfde74173a5c7f2c58',1,'source_emitter']]],
   ['setparameter',['setparameter',['../structsimulation__globals_1_1parameters__t.html#ad59ffcdf9208a52e7d3dae903197be74',1,'simulation_globals::parameters_t::setparameter()'],['../namespacesimulation__globals.html#aed3f671899558008ae9f0f009f581baf',1,'simulation_globals::setparameter()']]],
   ['setrho',['setrho',['../structsimulation__globals_1_1constants__t.html#a67ddcf6c24df193c78cfd51574b49e4d',1,'simulation_globals::constants_t::setrho()'],['../namespacesimulation__globals.html#acfdc640757f0275bccb1d8de7bd7dc92',1,'simulation_globals::setrho()']]],
-  ['setsourceproperties',['setsourceproperties',['../namespacesource__identity.html#abf228e9179ba7c28cc5de2f63562ac25',1,'source_identity']]],
+  ['setsourceproperties',['setsourceproperties',['../namespacesource__identity.html#a8b07a03d4f79249743896163e9c85f55',1,'source_identity']]],
   ['simulation_5fend',['simulation_end',['../namespacefinalize.html#a57fbc96712f416103b529ff969479250',1,'finalize']]],
   ['sphere_5fgrid',['sphere_grid',['../namespacegeometry.html#a9629040285de7053d42f434333528702',1,'geometry']]],
   ['sphere_5fnp_5fcount',['sphere_np_count',['../namespacegeometry.html#a4f070ef95bffe3bbb21bd251ae5ca6c7',1,'geometry']]]

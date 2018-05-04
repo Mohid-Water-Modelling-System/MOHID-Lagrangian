@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtracer__paper_1_1paper__state__class" kind="type" language="Fortran" prot="private">
+    <compoundname>tracer_paper::paper_state_class</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structtracer__paper_1_1paper__state__class_1a931d90e457142607c7e1079b99f72298" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) tracer_paper::paper_state_class::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+<para>Tracer radius (m) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="37" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__paper_1_1paper__state__class_1a1e2ac1d6419a5ec39dd8529f8cd83112" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) tracer_paper::paper_state_class::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <briefdescription>
+<para>Material condition (1-0) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="38" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__paper_1_1paper__state__class_1aa470bc7607345df98b01f08b2450640e" prot="private" static="no" mutable="no">
+        <type>real(prec)</type>
+        <definition>real(prec) tracer_paper::paper_state_class::concentration</definition>
+        <argsstring></argsstring>
+        <name>concentration</name>
+        <briefdescription>
+<para>Particle concentration. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="39" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="39" bodyend="39"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Type - State variables of a tracer object representing a paper material. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" line="36" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_paper.f90" bodystart="36" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structtracer__paper_1_1paper__state__class_1aa470bc7607345df98b01f08b2450640e" prot="private" virt="non-virtual"><scope>tracer_paper::paper_state_class</scope><name>concentration</name></member>
+      <member refid="structtracer__paper_1_1paper__state__class_1a1e2ac1d6419a5ec39dd8529f8cd83112" prot="private" virt="non-virtual"><scope>tracer_paper::paper_state_class</scope><name>condition</name></member>
+      <member refid="structtracer__paper_1_1paper__state__class_1a931d90e457142607c7e1079b99f72298" prot="private" virt="non-virtual"><scope>tracer_paper::paper_state_class</scope><name>radius</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -8,7 +8,7 @@ SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
 
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
-source_group("MOHIDLagrangianLib" FILES ${LIB_SRC})
+source_group(${LIB_NAME} FILES ${LIB_SRC})
 
 # Check platforms
 if (CMAKE_HOST_WIN32)
@@ -32,11 +32,11 @@ elseif(LINUX)
 endif()
 
 # Also adds sources to the Solution Explorer
-ADD_LIBRARY(MOHIDLagrangianLib ${LIB_SRC})
+ADD_LIBRARY(${LIB_NAME} ${LIB_SRC})
 
 # Creates folder "libraries" and adds target project (MOHIDLagrangianLib.vcproj)
-set_property(TARGET MOHIDLagrangianLib PROPERTY FOLDER "libraries")
+set_property(TARGET ${LIB_NAME} PROPERTY FOLDER "libraries")
 
 # Properties->General->Output Directory
-#set_target_properties(MOHIDLagrangianLib PROPERTIES
+#set_target_properties(${LIB_NAME} PROPERTIES
 #                      RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)

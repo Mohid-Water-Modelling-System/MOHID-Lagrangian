@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacesimulation__precision" kind="namespace" language="Fortran">
+    <compoundname>simulation_precision</compoundname>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesimulation__precision_1a3657003647318cfe37c797ab37448a2e" prot="private" static="no" mutable="no">
+        <type>integer, parameter</type>
+        <definition>integer, parameter simulation_precision::sp</definition>
+        <argsstring></argsstring>
+        <name>sp</name>
+        <initializer>= kind(1._R4P)</initializer>
+        <briefdescription>
+<para>Simple precision definition switch. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="29" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1af01fc62f503e0ff9a95c9ee2960c9a7f" prot="private" static="no" mutable="no">
+        <type>integer, parameter</type>
+        <definition>integer, parameter simulation_precision::dp</definition>
+        <argsstring></argsstring>
+        <name>dp</name>
+        <initializer>= kind(1._R8P)</initializer>
+        <briefdescription>
+<para>Double precision definition switch. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="30" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1a6d3bcd3b4ff2cfb92ec9fe36ecad405b" prot="public" static="no" mutable="no">
+        <type>integer, parameter, public</type>
+        <definition>integer, parameter, public simulation_precision::prec</definition>
+        <argsstring></argsstring>
+        <name>prec</name>
+        <initializer>= <ref refid="namespacesimulation__precision_1a3657003647318cfe37c797ab37448a2e" kindref="member">sp</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="33" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1a09a1db15abeed81ff2f54b363128ffed" prot="public" static="no" mutable="no">
+        <type>integer, parameter, public</type>
+        <definition>integer, parameter, public simulation_precision::prec_time</definition>
+        <argsstring></argsstring>
+        <name>prec_time</name>
+        <initializer>= <ref refid="namespacesimulation__precision_1a3657003647318cfe37c797ab37448a2e" kindref="member">sp</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="34" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1a049e8de4fad9c285d2cc71e8982e2971" prot="public" static="no" mutable="no">
+        <type>integer, parameter, public</type>
+        <definition>integer, parameter, public simulation_precision::prec_wrt</definition>
+        <argsstring></argsstring>
+        <name>prec_wrt</name>
+        <initializer>= <ref refid="namespacesimulation__precision_1a3657003647318cfe37c797ab37448a2e" kindref="member">sp</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="35" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1a5983f631bbe7a6e5d43d2a458db81460" prot="public" static="no" mutable="no">
+        <type>real(<ref refid="namespacesimulation__precision_1a6d3bcd3b4ff2cfb92ec9fe36ecad405b" kindref="member">prec</ref>), parameter, public</type>
+        <definition>real(prec), parameter, public simulation_precision::missing_value_default</definition>
+        <argsstring></argsstring>
+        <name>missing_value_default</name>
+        <initializer>= -9999.0_dp</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="38" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1a4416a112b4fc53848f9f18fe5e9003db" prot="public" static="no" mutable="no">
+        <type>real(<ref refid="namespacesimulation__precision_1a6d3bcd3b4ff2cfb92ec9fe36ecad405b" kindref="member">prec</ref>), parameter, public</type>
+        <definition>real(prec), parameter, public simulation_precision::mv</definition>
+        <argsstring></argsstring>
+        <name>mv</name>
+        <initializer>= MISSING_VALUE_DEFAULT</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="39" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="39" bodyend="39"/>
+        <referencedby refid="namespacesimulation__globals_1a3867df0f77dca3700c9470aea24fd048" compoundref="simulation__globals_8f90" startline="128" endline="142">simulation_globals::check</referencedby>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1ae23a853ee1499839ea702b3c01e443fc" prot="public" static="no" mutable="no">
+        <type>real(<ref refid="namespacesimulation__precision_1a6d3bcd3b4ff2cfb92ec9fe36ecad405b" kindref="member">prec</ref>), parameter, public</type>
+        <definition>real(prec), parameter, public simulation_precision::mv_int</definition>
+        <argsstring></argsstring>
+        <name>mv_int</name>
+        <initializer>= int(MISSING_VALUE_DEFAULT)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="40" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1acb6a32a47c43de36b53bb8033aa2738e" prot="public" static="no" mutable="no">
+        <type>real(<ref refid="namespacesimulation__precision_1a6d3bcd3b4ff2cfb92ec9fe36ecad405b" kindref="member">prec</ref>), parameter, public</type>
+        <definition>real(prec), parameter, public simulation_precision::err_dist</definition>
+        <argsstring></argsstring>
+        <name>err_dist</name>
+        <initializer>= 1E8_dp</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="43" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesimulation__precision_1a531d4e8c47b468cf4212393a5b84c7c8" prot="public" static="no" mutable="no">
+        <type>integer, parameter, public</type>
+        <definition>integer, parameter, public simulation_precision::err_ind</definition>
+        <argsstring></argsstring>
+        <name>err_ind</name>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="44" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" bodystart="44" bodyend="44"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Module to control the precision of the variables trough the project. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ricardo Birjukovs Canelas </para></simplesect>
+</para>    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation_precision.f90" line="19" column="1"/>
+  </compounddef>
+</doxygen>

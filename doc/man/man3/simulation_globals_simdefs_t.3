@@ -1,0 +1,80 @@
+.TH "simulation_globals::simdefs_t" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+simulation_globals::simdefs_t \- Simulation definitions class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "procedure \fBsetdp\fP"
+.br
+.ti -1c
+.RI "procedure \fBsetdt\fP"
+.br
+.ti -1c
+.RI "procedure \fBsetboundingbox\fP"
+.br
+.ti -1c
+.RI "procedure \fBprintout\fP => \fBprintsimdefs\fP"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "real(prec) \fBdp\fP = MV"
+.br
+.RI "Initial particle spacing at source generation\&. "
+.ti -1c
+.RI "real(prec_time) \fBdt\fP"
+.br
+.RI "Timestep for fixed step integrators (s) "
+.ti -1c
+.RI "type(vector) \fBpointmin\fP"
+.br
+.RI "Point that defines the lowest corner of the simulation bounding box\&. "
+.ti -1c
+.RI "type(vector) \fBpointmax\fP"
+.br
+.RI "Point that defines the upper corner of the simulation bounding box\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Simulation definitions class\&. 
+.SH "Member Function/Subroutine Documentation"
+.PP 
+.SS "procedure simulation_globals::simdefs_t::printout ()\fC [private]\fP"
+
+.SS "procedure simulation_globals::simdefs_t::setboundingbox ()\fC [private]\fP"
+
+.SS "procedure simulation_globals::simdefs_t::setdp ()\fC [private]\fP"
+
+.SS "procedure simulation_globals::simdefs_t::setdt ()\fC [private]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "real(prec) simulation_globals::simdefs_t::dp = MV\fC [private]\fP"
+
+.PP
+Initial particle spacing at source generation\&. 
+.SS "real(prec_time) simulation_globals::simdefs_t::dt\fC [private]\fP"
+
+.PP
+Timestep for fixed step integrators (s) 
+.SS "type(vector) simulation_globals::simdefs_t::pointmax\fC [private]\fP"
+
+.PP
+Point that defines the upper corner of the simulation bounding box\&. 
+.SS "type(vector) simulation_globals::simdefs_t::pointmin\fC [private]\fP"
+
+.PP
+Point that defines the lowest corner of the simulation bounding box\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

@@ -1,0 +1,67 @@
+.TH "tracer_base::tracer_state_class" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tracer_base::tracer_state_class \- Type - state variables of a pure Lagrangian tracer object\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "real(prec_time) \fBage\fP"
+.br
+.ti -1c
+.RI "logical \fBactive\fP"
+.br
+.RI "active switch "
+.ti -1c
+.RI "type(vector) \fBpos\fP"
+.br
+.RI "Position of the tracer (m) "
+.ti -1c
+.RI "type(vector) \fBvel\fP"
+.br
+.RI "Velocity of the tracer (m s-1) "
+.ti -1c
+.RI "type(vector) \fBacc\fP"
+.br
+.RI "Acceleration of the tracer (m s-2) "
+.ti -1c
+.RI "real(prec) \fBdepth\fP"
+.br
+.RI "Depth of the tracer (m) "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Type - state variables of a pure Lagrangian tracer object\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "type(vector) tracer_base::tracer_state_class::acc\fC [private]\fP"
+
+.PP
+Acceleration of the tracer (m s-2) 
+.SS "logical tracer_base::tracer_state_class::active\fC [private]\fP"
+
+.PP
+active switch 
+.SS "real(prec_time) tracer_base::tracer_state_class::age\fC [private]\fP"
+
+.SS "real(prec) tracer_base::tracer_state_class::depth\fC [private]\fP"
+
+.PP
+Depth of the tracer (m) 
+.SS "type(vector) tracer_base::tracer_state_class::pos\fC [private]\fP"
+
+.PP
+Position of the tracer (m) 
+.SS "type(vector) tracer_base::tracer_state_class::vel\fC [private]\fP"
+
+.PP
+Velocity of the tracer (m s-1) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

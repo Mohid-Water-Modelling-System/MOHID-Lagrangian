@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="source__emitter_8f90" kind="file" language="Fortran">
+    <compoundname>source_emitter.f90</compoundname>
+    <innerclass refid="structsource__emitter_1_1emitter__t" prot="private">source_emitter::emitter_t</innerclass>
+    <innernamespace refid="namespacesource__emitter">source_emitter</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IST/MARETEC,<sp/>Water<sp/>Modelling<sp/>Group,<sp/>Mohid<sp/>modelling<sp/>system</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>TITLE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Mohid<sp/>Model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>PROJECT<sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Mohid<sp/>Lagrangian<sp/>Tracer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>MODULE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>source_emitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>URL<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>http://www.mohid.com</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>AFFILIATION<sp/><sp/><sp/>:<sp/>IST/MARETEC,<sp/>Marine<sp/>Modelling<sp/>Group</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>DATE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>April<sp/>2018</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>REVISION<sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>Canelas<sp/>0.1</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>DESCRIPTION:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!------------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacesource__emitter" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">module</highlight><highlight class="normal"><sp/><ref refid="namespacesource__emitter" kindref="compound">source_emitter</ref></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacecommom__modules" kindref="compound">commom_modules</ref></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacesource__identity" kindref="compound">source_identity</ref></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">use<sp/></highlight><highlight class="normal"><ref refid="namespacetracers" kindref="compound">tracers</ref></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">private</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structsource__emitter_1_1emitter__t" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">type</highlight><highlight class="normal"><sp/>::<sp/><ref refid="structsource__emitter_1_1emitter__t" kindref="compound">emitter_t</ref></highlight></codeline>
+<codeline lineno="31" refid="structsource__emitter_1_1emitter__t_1a30062afe1a31dcfd77c90762d8c8cb5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>::<sp/>emitted</highlight></codeline>
+<codeline lineno="32" refid="structsource__emitter_1_1emitter__t_1acfae676591a37474f44f9c49c1079c98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>::<sp/>emittable</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">contains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structsource__emitter_1_1emitter__t_1aed2db993a937e50d5252b41cefcf6e35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">procedure</highlight><highlight class="normal"><sp/>::<sp/>initialize</highlight></codeline>
+<codeline lineno="35" refid="structsource__emitter_1_1emitter__t_1a30562aff6a891e4e2d4836ba833e5b55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">procedure</highlight><highlight class="normal"><sp/>::<sp/>alloctracers</highlight></codeline>
+<codeline lineno="36" refid="structsource__emitter_1_1emitter__t_1ad016a19c24542b2cd39cba9436902305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">procedure</highlight><highlight class="normal"><sp/>::<sp/>initracers</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!procedure<sp/>::<sp/>activecheck</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacesource__emitter_1a357876a84a74e23c44e92ab8ef7dc35e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(<ref refid="structsource__emitter_1_1emitter__t" kindref="compound">emitter_t</ref>)<sp/>::<sp/><sp/><ref refid="namespacesource__emitter_1a357876a84a74e23c44e92ab8ef7dc35e" kindref="member">emitter</ref></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!Public<sp/>access<sp/>vars</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">public</highlight><highlight class="normal"><sp/>::<sp/><ref refid="namespacesource__emitter_1a357876a84a74e23c44e92ab8ef7dc35e" kindref="member">emitter</ref></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">contains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Routine<sp/>Author<sp/>Name<sp/>and<sp/>Affiliation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="namespacesource__emitter_1a2fb64d19c0016b31bd9dab0a13785d61" kindref="member">initracers</ref>(self,<sp/>srcs)</highlight></codeline>
+<codeline lineno="57" refid="namespacesource__emitter_1a2fb64d19c0016b31bd9dab0a13785d61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">class</highlight><highlight class="normal">(<ref refid="structsource__emitter_1_1emitter__t" kindref="compound">emitter_t</ref>),<sp/></highlight><highlight class="keywordtype">intent(inout)</highlight><highlight class="normal"><sp/>::<sp/>self</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">class</highlight><highlight class="normal">(<ref refid="structsource__identity_1_1source__class" kindref="compound">source_class</ref>),<sp/></highlight><highlight class="keywordtype">dimension(:)</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">intent(inout)</highlight><highlight class="normal"><sp/>::<sp/>srcs</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>num_emiss,<sp/>i,<sp/>j,<sp/>k,<sp/>p</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string)<sp/>::<sp/>outext,<sp/>temp(4)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>::<sp/>sizem</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>p=0</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>i=1,<sp/></highlight><highlight class="keyword">size</highlight><highlight class="normal">(srcs)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>num_emiss<sp/>=<sp/>srcs(i)%stencil%total_np/</highlight><highlight class="keyword">size</highlight><highlight class="normal">(srcs(i)%stencil%ptlist)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>j=1,<sp/>num_emiss</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>k=1,<sp/></highlight><highlight class="keyword">size</highlight><highlight class="normal">(srcs(i)%stencil%ptlist)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p=p+1</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">tracer(p)%initialize(p,<sp/>srcs(i)%par%id,<sp/>simtime,<sp/>srcs(i)%stencil%ptlist(k))</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enddo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>enddo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/>enddo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>sizem<sp/>=<sp/>sizeof(tracer)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">simmemory%addtracer(sizem)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>subroutine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Routine<sp/>Author<sp/>Name<sp/>and<sp/>Affiliation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="namespacesource__emitter_1a54e88b7aa868ff9de8cf018208a20585" kindref="member">alloctracers</ref>(self,<sp/>srcs)</highlight></codeline>
+<codeline lineno="91" refid="namespacesource__emitter_1a54e88b7aa868ff9de8cf018208a20585" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">class</highlight><highlight class="normal">(<ref refid="structsource__emitter_1_1emitter__t" kindref="compound">emitter_t</ref>),<sp/></highlight><highlight class="keywordtype">intent(inout)</highlight><highlight class="normal"><sp/>::<sp/>self</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">class</highlight><highlight class="normal">(<ref refid="structsource__identity_1_1source__class" kindref="compound">source_class</ref>),<sp/></highlight><highlight class="keywordtype">dimension(:)</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">intent(inout)</highlight><highlight class="normal"><sp/>::<sp/>srcs</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>err</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">type</highlight><highlight class="normal">(string)<sp/>::<sp/>outext,<sp/>temp</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(self%emittable<sp/>.le.<sp/>0)<sp/></highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outext=</highlight><highlight class="stringliteral">&apos;Emitter::alloctracers<sp/>:<sp/>No<sp/>Tracers<sp/>will<sp/>be<sp/>simulated,<sp/>stoping&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">tolog(outext)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">allocate</highlight><highlight class="normal">(tracer(self%emittable),<sp/>stat=err)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(err/=0)</highlight><highlight class="keywordflow">then</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outext=</highlight><highlight class="stringliteral">&apos;Emitter::alloctracers<sp/>:<sp/>Cannot<sp/>allocate<sp/>Tracers,<sp/>stoping&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">tolog(outext)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>temp<sp/>=<sp/></highlight><highlight class="keyword">size</highlight><highlight class="normal">(tracer)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>outext=</highlight><highlight class="stringliteral">&apos;Allocated<sp/>&apos;</highlight><highlight class="normal">//<sp/>temp<sp/>//<sp/></highlight><highlight class="stringliteral">&apos;<sp/>Tracers.&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">tolog(outext)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!receiving<sp/>Sources<sp/>as<sp/>argument<sp/>so<sp/>latter<sp/>we<sp/>can<sp/>differentiate<sp/>between<sp/>tracer<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>subroutine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Routine<sp/>Author<sp/>Name<sp/>and<sp/>Affiliation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="namespaceinitialize" kindref="compound">initialize</ref>(self,<sp/>srcs)</highlight></codeline>
+<codeline lineno="128" refid="namespacesource__emitter_1a6400b97541c15fcf0ec523b359aacac9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">class</highlight><highlight class="normal">(<ref refid="structsource__emitter_1_1emitter__t" kindref="compound">emitter_t</ref>),<sp/></highlight><highlight class="keywordtype">intent(inout)</highlight><highlight class="normal"><sp/>::<sp/>self</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">class</highlight><highlight class="normal">(<ref refid="structsource__identity_1_1source__class" kindref="compound">source_class</ref>),<sp/></highlight><highlight class="keywordtype">dimension(:)</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">intent(inout)</highlight><highlight class="normal"><sp/>::<sp/>srcs</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>::<sp/>i</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>::<sp/>sizem</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>self%emitted<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>self%emittable<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">do</highlight><highlight class="normal"><sp/>i=1,<sp/></highlight><highlight class="keyword">size</highlight><highlight class="normal">(srcs)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal"><ref refid="namespacesource__emitter_1a73d054a39fc1fccfde74173a5c7f2c58" kindref="member">setotalnp</ref>(srcs(i))<sp/></highlight><highlight class="comment">!finding<sp/>the<sp/>total<sp/>tracers<sp/>this<sp/>Source<sp/>will<sp/>pass<sp/>the<sp/>emmiter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self%emittable<sp/>=<sp/>self%emittable<sp/>+<sp/>srcs(i)%stencil%total_np</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!print*,<sp/>srcs(i)%stencil%total_np</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="keywordflow"><sp/><sp/><sp/><sp/>end<sp/>do</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>sizem<sp/>=<sp/>sizeof(self)</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">simmemory%addsource(sizem)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!allocating<sp/>and<sp/>initializing<sp/>the<sp/>tracers<sp/>by<sp/>the<sp/>emitter,<sp/>for<sp/>all<sp/>sources</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">self%alloctracers(srcs)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">self%initracers(srcs)</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>subroutine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!<sp/>Routine<sp/>Author<sp/>Name<sp/>and<sp/>Affiliation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">!---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="namespacesource__emitter_1a73d054a39fc1fccfde74173a5c7f2c58" kindref="member">setotalnp</ref>(src)</highlight></codeline>
+<codeline lineno="161" refid="namespacesource__emitter_1a73d054a39fc1fccfde74173a5c7f2c58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">class</highlight><highlight class="normal">(<ref refid="structsource__identity_1_1source__class" kindref="compound">source_class</ref>),<sp/></highlight><highlight class="keywordtype">intent(inout)</highlight><highlight class="normal"><sp/>::<sp/>src</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>subroutine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>end<sp/>module<sp/></highlight><highlight class="normal"><ref refid="namespacesource__emitter" kindref="compound">source_emitter</ref></highlight></codeline>
+    </programlisting>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90"/>
+  </compounddef>
+</doxygen>

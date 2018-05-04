@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacesource__emitter" kind="namespace" language="Fortran">
+    <compoundname>source_emitter</compoundname>
+    <innerclass refid="structsource__emitter_1_1emitter__t" prot="private">source_emitter::emitter_t</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesource__emitter_1a357876a84a74e23c44e92ab8ef7dc35e" prot="public" static="no" mutable="no">
+        <type>type(<ref refid="structsource__emitter_1_1emitter__t" kindref="compound">emitter_t</ref>), public</type>
+        <definition>type(emitter_t), public source_emitter::emitter</definition>
+        <argsstring></argsstring>
+        <name>emitter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" line="40" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" bodystart="40" bodyend="40"/>
+        <referencedby refid="namespaceinitialize_1a45b7ca20c45cf272acbc391950cbb804" compoundref="initialize_8f90" startline="385" endline="445">initialize::initmohidlagrangian</referencedby>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesource__emitter_1a2fb64d19c0016b31bd9dab0a13785d61" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine source_emitter::initracers</definition>
+        <argsstring>(self, srcs)</argsstring>
+        <name>initracers</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>srcs</type>
+          <defname>srcs</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>method that calls the tracer initialization from the emmiter object <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">self</parametername>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" line="56" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" bodystart="57" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesource__emitter_1a54e88b7aa868ff9de8cf018208a20585" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine source_emitter::alloctracers</definition>
+        <argsstring>(self, srcs)</argsstring>
+        <name>alloctracers</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>srcs</type>
+          <defname>srcs</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>method that initializes an emmiter class object. Computes the total emittable particles this emmiter will allocate and sets other variables <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">self</parametername>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" line="90" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" bodystart="91" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesource__emitter_1a6400b97541c15fcf0ec523b359aacac9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine source_emitter::initialize</definition>
+        <argsstring>(self, srcs)</argsstring>
+        <name>initialize</name>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>srcs</type>
+          <defname>srcs</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>method that initializes an emmiter class object. Computes the total emittable particles this emmiter will allocate and sets other variables <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">self</parametername>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" line="127" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" bodystart="128" bodyend="147"/>
+        <references refid="namespacesource__emitter_1a73d054a39fc1fccfde74173a5c7f2c58" compoundref="source__emitter_8f90" startline="161" endline="164">setotalnp</references>
+      </memberdef>
+      <memberdef kind="function" id="namespacesource__emitter_1a73d054a39fc1fccfde74173a5c7f2c58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine source_emitter::setotalnp</definition>
+        <argsstring>(src)</argsstring>
+        <name>setotalnp</name>
+        <param>
+          <type>src</type>
+          <defname>src</defname>
+        </param>
+        <briefdescription>
+<para>Birjukovs Canelas - MARETEC </para>        </briefdescription>
+        <detaileddescription>
+<para>private routine that returns the total number of tracers an input source will potentially create <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+<para><formula id="0">${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}$</formula> </para>        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" line="160" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" bodystart="161" bodyend="164"/>
+        <referencedby refid="namespacesource__emitter_1a6400b97541c15fcf0ec523b359aacac9" compoundref="source__emitter_8f90" startline="128" endline="147">initialize</referencedby>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Module that defines an emitter class and related methods. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Ricardo Birjukovs Canelas </para></simplesect>
+</para>    </detaileddescription>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/source_emitter.f90" line="21" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,95 @@
+.TH "simulation_xmlparser" 3 "Wed May 2 2018" "Version 0.01" "MOHIDLagrangian" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+simulation_xmlparser \- Module with the simulation xml parsing related definitions and routines\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions/Subroutines"
+
+.in +1c
+.ti -1c
+.RI "subroutine, public \fBreadxmlatt\fP (xmlnode, tag, att_name, att_value, mandatory)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine, public \fBreadxmlvector\fP (xmlnode, tag, vec, mandatory)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.ti -1c
+.RI "subroutine, public \fBgotochildnode\fP (currentNode, targetNode, targetNodeName, mandatory)"
+.br
+.RI "Birjukovs Canelas - MARETEC "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Module with the simulation xml parsing related definitions and routines\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Ricardo Birjukovs Canelas 
+.RE
+.PP
+
+.SH "Function/Subroutine Documentation"
+.PP 
+.SS "subroutine, public simulation_xmlparser::gotochildnode (type(node), intent(in), pointer currentNode, type(node), intent(out), pointer targetNode, type(string), intent(in) targetNodeName, logical, intent(in), optional mandatory)"
+
+.PP
+Birjukovs Canelas - MARETEC Private routine to retrieve a node within a node\&. Returns a nullifyed pointer if not found, stops if mandatory\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcurrentNode,targetNode,targetNodeName,mandatory\fP 
+.br
+\fImandatory\fP Swich for optional or mandatory tags 
+.RE
+.PP
+
+.SS "subroutine, public simulation_xmlparser::readxmlatt (type(node), intent(in), pointer xmlnode, type(string), intent(in) tag, type(string), intent(in) att_name, type(string), intent(out) att_value, logical, intent(in), optional mandatory)"
+
+.PP
+Birjukovs Canelas - MARETEC Private attribute xml parser routine\&. In the format <Tag att_name='att_value' 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIxmlnode,tag,vec,mandatory\fP 
+.br
+\fIxmlnode\fP Working xml node
+.br
+\fItag\fP Tag to search in xml node
+.br
+\fIatt_name\fP Atribute name to collect from tag
+.br
+\fIatt_value\fP Attribute value
+.br
+\fImandatory\fP Swich for optional or mandatory tags 
+.RE
+.PP
+
+.SS "subroutine, public simulation_xmlparser::readxmlvector (type(node), intent(in), pointer xmlnode, type(string), intent(in) tag, type(vector), intent(out) vec, logical, intent(in), optional mandatory)"
+
+.PP
+Birjukovs Canelas - MARETEC Private vector xml parser routine\&. Vector must be in format <Tag x='vec%x' y='vec%y' z='vec%z'> 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIxmlnode,tag,vec,mandatory\fP 
+.br
+\fIxmlnode\fP Working xml node
+.br
+\fItag\fP Tag to search in xml node
+.br
+\fIvec\fP Vector to fill with read contents
+.br
+\fImandatory\fP Swich for optional or mandatory tags 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MOHIDLagrangian from the source code\&.

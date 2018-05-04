@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtracer__base_1_1tracer__class" kind="type" language="Fortran" prot="private">
+    <compoundname>tracer_base::tracer_class</compoundname>
+    <derivedcompoundref refid="structtracer__paper_1_1paper__class" prot="public" virt="non-virtual">tracer_paper::paper_class</derivedcompoundref>
+    <derivedcompoundref refid="structtracer__plastic_1_1plastic__class" prot="public" virt="non-virtual">tracer_plastic::plastic_class</derivedcompoundref>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__class_1a65acca4d35b24ec0b60eb32574004364" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structtracer__base_1_1tracer__par__class" kindref="compound">tracer_par_class</ref>)</type>
+        <definition>type(tracer_par_class) tracer_base::tracer_class::par</definition>
+        <argsstring></argsstring>
+        <name>par</name>
+        <briefdescription>
+<para>To access parameters. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="56" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__class_1aa0489335062707afec2dbbb978f0c68d" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structtracer__base_1_1tracer__state__class" kindref="compound">tracer_state_class</ref>)</type>
+        <definition>type(tracer_state_class) tracer_base::tracer_class::now</definition>
+        <argsstring></argsstring>
+        <name>now</name>
+        <briefdescription>
+<para>To access state variables. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="57" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtracer__base_1_1tracer__class_1a44167d106dc210e434106087e4a19578" prot="private" static="no" mutable="no">
+        <type>type(<ref refid="structtracer__base_1_1tracer__stats__class" kindref="compound">tracer_stats_class</ref>)</type>
+        <definition>type(tracer_stats_class) tracer_base::tracer_class::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <briefdescription>
+<para>To access statistics. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="58" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="58" bodyend="58"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="structtracer__base_1_1tracer__class_1aab3bfe327561e03610aace11ddd284f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>procedure</type>
+        <definition>procedure tracer_base::tracer_class::initialize</definition>
+        <argsstring></argsstring>
+        <name>initialize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="60" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Type - The pure Lagrangian tracer class. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="75">
+        <label>tracer_paper::paper_class</label>
+        <link refid="structtracer__paper_1_1paper__class"/>
+        <childnode refid="74" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>tracer_plastic::plastic_class</label>
+        <link refid="structtracer__plastic_1_1plastic__class"/>
+        <childnode refid="74" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>tracer_base::tracer_class</label>
+        <link refid="structtracer__base_1_1tracer__class"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="80">
+        <label>tracer_base::tracer_state_class</label>
+        <link refid="structtracer__base_1_1tracer__state__class"/>
+      </node>
+      <node id="77">
+        <label>tracer_base::tracer_class</label>
+        <link refid="structtracer__base_1_1tracer__class"/>
+        <childnode refid="78" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+        <childnode refid="79" relation="usage">
+          <edgelabel>par</edgelabel>
+        </childnode>
+        <childnode refid="80" relation="usage">
+          <edgelabel>now</edgelabel>
+        </childnode>
+      </node>
+      <node id="79">
+        <label>tracer_base::tracer_par_class</label>
+        <link refid="structtracer__base_1_1tracer__par__class"/>
+      </node>
+      <node id="78">
+        <label>tracer_base::tracer_stats_class</label>
+        <link refid="structtracer__base_1_1tracer__stats__class"/>
+      </node>
+    </collaborationgraph>
+    <location file="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" line="55" column="1" bodyfile="C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/tracer_base.f90" bodystart="55" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structtracer__base_1_1tracer__class_1aab3bfe327561e03610aace11ddd284f6" prot="private" virt="non-virtual"><scope>tracer_base::tracer_class</scope><name>initialize</name></member>
+      <member refid="structtracer__base_1_1tracer__class_1aa0489335062707afec2dbbb978f0c68d" prot="private" virt="non-virtual"><scope>tracer_base::tracer_class</scope><name>now</name></member>
+      <member refid="structtracer__base_1_1tracer__class_1a65acca4d35b24ec0b60eb32574004364" prot="private" virt="non-virtual"><scope>tracer_base::tracer_class</scope><name>par</name></member>
+      <member refid="structtracer__base_1_1tracer__class_1a44167d106dc210e434106087e4a19578" prot="private" virt="non-virtual"><scope>tracer_base::tracer_class</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
