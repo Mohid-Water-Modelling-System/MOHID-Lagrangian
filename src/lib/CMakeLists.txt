@@ -10,11 +10,26 @@ SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
 # Empty name lists them directly under the .vcproj
 source_group("MOHIDLagrangianLib" FILES ${LIB_SRC})
 
+# Check platforms
+if (CMAKE_HOST_WIN32)
+    set(WINDOWS 1)
+elseif(CMAKE_HOST_APPLE)
+    set(LINUX 1)
+elseif(CMAKE_HOST_UNIX)
+    set(LINUX 1)
+endif()
+
 # Properties->C/C++->General->Additional Include Directories
 include_directories (.)
-include_directories (${PROJECT_SOURCE_DIR}/Libs)
-include_directories (${PROJECT_SOURCE_DIR}/Libs/build/modules)
-include_directories (${PROJECT_SOURCE_DIR}/Libs/build/lib)
+if(WINDOWS)
+  include_directories (${PROJECT_SOURCE_DIR}/Libs)
+  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_win/modules)
+  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_win/lib)
+elseif(LINUX)
+  include_directories (${PROJECT_SOURCE_DIR}/Libs)
+  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_linux/modules)
+  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_linux/lib)
+endif()
 
 # Also adds sources to the Solution Explorer
 ADD_LIBRARY(MOHIDLagrangianLib ${LIB_SRC})
