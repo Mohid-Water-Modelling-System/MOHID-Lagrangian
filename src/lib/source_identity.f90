@@ -186,14 +186,14 @@
     src%stats%acc_T=0.0
     src%stats%ns=0
     !setting stencil variables
-    call src%par%geometry%getnp(src%stencil%np,SimDefs%Dp)
+    call src%par%geometry%getnp(src%stencil%np,Globals%SimDefs%Dp)
     allocate(src%stencil%ptlist(src%stencil%np), stat=err)
     if(err/=0)then
         outext='Cannot allocate point list for Source '// src%par%name //', stoping'
         call ToLog(outext)
         stop
     endif
-    call src%par%geometry%getpointdistribution(src%stencil%np,SimDefs%Dp,src%stencil%ptlist)
+    call src%par%geometry%getpointdistribution(src%stencil%np,Globals%SimDefs%Dp,src%stencil%ptlist)
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)

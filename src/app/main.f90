@@ -39,14 +39,14 @@
     call initMohidLagrangian(defxmlfilename)
     
     !main time cycle 
-    do while (SimTime .LT. Parameters%TimeMax)
+    do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
     
     
     
     
     
     
-    SimTime = SimTime + SimDefs%dt
+    Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
     enddo
 
     ! Finalization of the program - deallocation, file closing, etc

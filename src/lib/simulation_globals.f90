@@ -65,17 +65,20 @@
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
     end type
-        
-    real(prec_time) :: SimTime
+     
+    type globals_type   !<Globals class - This is a container for every global variable on the simulation
+        type(parameters_t)  :: Parameters
+        type(simdefs_t)     :: SimDefs
+        type(constants_t)   :: Constants
+        type(filenames_t)   :: FileNames
+        real(prec_time)     :: SimTime
+    end type
        
     !Simulation variables
-    type(parameters_t)  :: Parameters
-    type(simdefs_t)     :: SimDefs
-    type(constants_t)   :: Constants
-    type(filenames_t)   :: FileNames
+    type(globals_type) :: Globals
     
     !Public access vars
-    public :: SimTime, Parameters, SimDefs, Constants, FileNames
+    public :: Globals
 
     contains
     
@@ -199,9 +202,15 @@
     subroutine setgravity (self,grav)
     implicit none
     class(constants_t), intent(inout) :: self
-    type(vector) :: grav
+    type(vector), intent(in) :: grav
     integer :: sizem
+    type(string) :: outext
     self%Gravity= grav
+    if (grav%x==MV) then !Gravity was not read, setting default
+        self%Gravity= -9.81*ez
+        outext = '       Gravity not specified, setting to default value = (0,0,-9.81)'
+        call ToLog(outext,.false.)
+    endif
     sizem=sizeof(self%Gravity)
     call SimMemory%adddef(sizem)
     return

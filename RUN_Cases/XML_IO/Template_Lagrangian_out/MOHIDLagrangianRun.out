@@ -33,6 +33,7 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        TimeMax=+0.152000E+04 s
        TimeOut=+0.110000E+01 Hz
  -->Reading case constants
+        Gravity not specified, setting to default value = (0,0,-9.81)
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
        Pointmin (BB) is 
@@ -45,7 +46,7 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        Geometry type is box
        Initially at coordinates
        -0.550000000000000E+001  0.000000000000000E+000  0.000000000000000E+000
-       Emitting +20 tracers at a rate of +0.100000E+00 Hz
+       Emitting +24 tracers at a rate of +0.100000E+00 Hz
        Active from +0.150000E+02 to +0.152000E+04 seconds
  -->Source Litter_plastic allocated
        Id = +1
@@ -59,22 +60,22 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        Geometry type is line
        Initially at coordinates
        +0.100000000000000E+001 +0.200000000000000E+001 +0.300000000000000E+001
-       Emitting +35 tracers at a rate of +0.200000E+00 Hz
+       Emitting +41 tracers at a rate of +0.200000E+00 Hz
        Active from  0.000000E+00 to +0.152000E+04 seconds
  -->Source Mistery_discharge_0 allocated
        Id = +3
        Geometry type is sphere
        Initially at coordinates
        +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
-       Emitting +672 tracers at a rate of +0.500000E-01 Hz
+       Emitting +1088 tracers at a rate of +0.500000E-01 Hz
        Active from +0.112500E+01 to +0.152000E+04 seconds
  -->Properties to link to Sources found at Material_props.xml
        Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
        Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
        Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
- Allocated +64690 Tracers.
- ->Total allocated memory: +0.134576E+02mb
+ Allocated +98708 Tracers.
+ ->Total allocated memory: +0.205334E+02mb
        Allocated memory for Sources = +0.199200E-02mb
-       Allocated memory for Tracers = +0.134555E+02mb
+       Allocated memory for Tracers = +0.205313E+02mb
        Allocated memory for Consts  = +0.104000E-03mb
  Simulation ended, freeing resources. See you next time

@@ -67,7 +67,7 @@
         do j=1, num_emiss
             do k=1, size(srcs(i)%stencil%ptlist)
                 p=p+1
-                call Tracer(p)%initialize(p, srcs(i)%par%id, SimTime, srcs(i)%stencil%ptlist(k))
+                call Tracer(p)%initialize(p, srcs(i)%par%id, Globals%SimTime, srcs(i)%stencil%ptlist(k))
             enddo
         enddo
     enddo

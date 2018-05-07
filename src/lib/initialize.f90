@@ -96,8 +96,8 @@
     if (associated(props_node)) then
         tag="propertyfile"
         att_name="name"
-        call readxmlatt(props_node, tag, att_name, FileNames%propsxmlfilename)  !getting the file name from that tag
-        outext='-->Properties to link to Sources found at '//FileNames%propsxmlfilename
+        call readxmlatt(props_node, tag, att_name, Globals%FileNames%propsxmlfilename)  !getting the file name from that tag
+        outext='-->Properties to link to Sources found at '//Globals%FileNames%propsxmlfilename
         call ToLog(outext)
         tag="links"
         call gotoChildNode(props_node,props_node,tag,.true.) !getting the links node
@@ -218,7 +218,7 @@
         if (att_val%is_number()) then
             finish = att_val%to_number(kind=1._R4P)
         else
-            finish = Parameters%TimeMax
+            finish = Globals%Parameters%TimeMax
         endif
         !now we need to find out the geometry of the source and read accordingly
         sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
@@ -282,17 +282,17 @@
     tag="resolution"
     att_name="dp"
     call readxmlatt(simdefs_node, tag, att_name, att_val)
-    call SimDefs%setdp(att_val)
+    call Globals%SimDefs%setdp(att_val)
     tag="timestep"
     att_name="dt"
     call readxmlatt(simdefs_node, tag, att_name, att_val)
-    call SimDefs%setdt(att_val)
+    call Globals%SimDefs%setdt(att_val)
     pts=(/ 'pointmin', 'pointmax'/) !strings to search for
     do i=1, size(pts)
         call readxmlvector(simdefs_node, pts(i), coords)
-        call SimDefs%setboundingbox(pts(i), coords)
+        call Globals%SimDefs%setboundingbox(pts(i), coords)
     enddo
-    call SimDefs%printout()
+    call Globals%SimDefs%printout()
 
     return
     end subroutine
@@ -321,12 +321,12 @@
     tag="constantsdef"    !the node we want
     call gotoChildNode(case_node,constants_node,tag,.true.)
     tag="Gravity"
-    call readxmlvector(constants_node, tag, coords)
-    call Constants%setgravity(coords)
+    call readxmlvector(constants_node, tag, coords,.false.)
+    call Globals%Constants%setgravity(coords)
     tag="Rho_ref"
     att_name="value"
     call readxmlatt(constants_node, tag, att_name, att_val)
-    call Constants%setrho(att_val)
+    call Globals%Constants%setrho(att_val)
 
     return
     end subroutine
@@ -363,10 +363,10 @@
         call extractDataAttribute(parmt, "value", parmvalue_char)   !value of the parameter
         parmkey=trim(parmkey_char)
         parmvalue=trim(parmvalue_char)
-        call Parameters%setparameter(parmkey,parmvalue)
+        call Globals%Parameters%setparameter(parmkey,parmvalue)
     enddo
-    call Parameters%check()
-    call Parameters%printout()
+    call Globals%Parameters%check()
+    call Globals%Parameters%printout()
 
     return
     end subroutine
@@ -392,7 +392,7 @@
 
     call PrintLicPreamble
     call AllocateGeomList
-    SimTime = 0.
+    Globals%SimTime = 0.
 
     !check if log file was opened - if not stop here
     if (Log_unit==0) then
@@ -406,7 +406,7 @@
     if (i==0) then
         outext='->Reading case definition from '//xmlfilename
         call ToLog(outext)
-        FileNames%mainxmlfilename = xmlfilename
+        Globals%FileNames%mainxmlfilename = xmlfilename
     else
         outext='Could not open '//xmlfilename//' input file, give me at least that!'
         call ToLog(outext)

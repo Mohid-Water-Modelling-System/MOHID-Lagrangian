@@ -76,8 +76,10 @@
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
         att_value=trim(att_value_chars)
     else
-        if(present(mandatory).and.mandatory.eqv..false.) then
-            att_value='not_read'
+        if(present(mandatory)) then
+            if(mandatory.eqv..true.) then
+                att_value='not_read'
+            endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
             call ToLog(outext)
@@ -108,7 +110,8 @@
     type(Node), pointer :: nodedetail
     logical :: validtag
     integer :: i
-
+    
+    vec%x=MV !marking the array as not read
     validtag = .false.
     nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info)
     do i=0, getLength(nodeChildren)-1
@@ -126,8 +129,10 @@
         call extractDataAttribute(nodedetail, "y", vec%y)
         call extractDataAttribute(nodedetail, "z", vec%z)
     else
-        if(present(mandatory).and.mandatory.eqv..true.) then
-            !some marker here
+        if(present(mandatory)) then
+            if(mandatory.eqv..true.) then
+                !some marker here
+            endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
             call ToLog(outext)
