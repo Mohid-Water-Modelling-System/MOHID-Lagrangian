@@ -24,13 +24,16 @@
     use commom_modules
     use simulation_globals
 
+    use pointer_linked_list
+    !use container_linked_list
+
     implicit none
     private
 
     type block_class
       integer :: id
-      type(container_list) :: Source_stack
-      type(container_list) :: Tracer_stack
+      !type(container_list) :: Source_stack
+      !type(container_list) :: Tracer_stack
       type(pointer_list)   :: Tracer_list
 
       real(prec) :: xmin = 0._R8P  !> x limit min

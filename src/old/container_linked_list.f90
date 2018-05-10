@@ -19,7 +19,7 @@
     !------------------------------------------------------------------------------
     module container_linked_list
 
-      use container_link_list
+      use container_link_class
 
       private
       public :: container_list
@@ -96,87 +96,3 @@
       end function isEmpty
 
     end module container_linked_list
-
-
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Module that defines a container link.
-    !---------------------------------------------------------------------------
-    module container_link_list
-      private
-      public :: container_link
-      type container_link
-         private
-         class(*) :: value !> value stored in link
-         type(container_link), pointer :: next => null()!> next link in list
-         contains
-         procedure :: getValue    !> return value
-         procedure :: nextLink    !> return next pointer
-         procedure :: setNextLink !> set next link
-      end type container_link
-
-      interface container_link
-        procedure constructor !> construct/initialize a link
-      end interface
-
-    contains
-
-      !---------------------------------------------------------------------------
-      !> @Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> Returns next link.
-      !---------------------------------------------------------------------------
-      function nextLink(this)
-      class(container_link) :: this
-      class(container_link), pointer :: nextLink
-        nextLink => this%next
-      end function nextLink
-
-      !---------------------------------------------------------------------------
-      !> @Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> Sets the next link.
-      !---------------------------------------------------------------------------
-      subroutine setNextLink(this,next)
-      class(container_link) :: this
-      class(container_link), pointer :: next
-         this%next => next
-      end subroutine setNextLink
-
-      !---------------------------------------------------------------------------
-      !> @Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> Returns the value the link contains.
-      !---------------------------------------------------------------------------
-      function getValue(this)
-      class(container_link) :: this
-      class(*) :: getValue
-        getValue = this%value
-      end function getValue
-
-      !---------------------------------------------------------------------------
-      !> @Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> Container link constructor. Used as container_link(value_to_store, next_link)
-      !---------------------------------------------------------------------------
-      function constructor(value, next)
-        class(container_link) :: constructor
-        class(*) :: value
-        class(container_link), pointer :: next
-        allocate(constructor)
-        constructor%next => next
-        allocate(constructor%value, source=value)
-      end function constructor
-
-    end module container_link_list
