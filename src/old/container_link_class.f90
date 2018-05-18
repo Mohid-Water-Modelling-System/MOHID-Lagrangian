@@ -20,14 +20,15 @@
     module container_link_class
       private
       public :: container_link
+      
       type container_link
          private
          class(*), allocatable :: value !> value stored in link
          type(container_link), pointer :: next => null()!> next link in list
          contains
-         !procedure :: getValue    !> return value
+         procedure :: getValue    !> return value
          procedure :: nextLink    !> return next pointer
-         !procedure :: setNextLink !> set next link
+         procedure :: setNextLink !> set next link
       end type container_link
 
       interface container_link
@@ -45,7 +46,7 @@
       !---------------------------------------------------------------------------
       function nextLink(this)
       class(container_link) :: this
-      class(container_link) :: nextLink
+      type(container_link) :: nextLink
         nextLink = this%next
       end function nextLink
 
@@ -56,11 +57,11 @@
       !> @brief
       !> Sets the next link.
       !---------------------------------------------------------------------------
-      ! subroutine setNextLink(this,next)
-      ! class(container_link) :: this
-      ! class(container_link), pointer :: next
-      !    this%next => next
-      ! end subroutine setNextLink
+       subroutine setNextLink(this,next)
+       class(container_link) :: this
+       class(container_link), pointer :: next
+          this%next => next
+       end subroutine setNextLink
 
       !---------------------------------------------------------------------------
       !> @Ricardo Birjukovs Canelas - MARETEC
@@ -69,11 +70,11 @@
       !> @brief
       !> Returns the value the link contains.
       !---------------------------------------------------------------------------
-      ! function getValue(this)
-      ! class(container_link) :: this
-      ! class(*), allocatable :: getValue
-      !   allocate(getValue, source=this%value)
-      ! end function getValue
+       function getValue(this)
+       class(container_link) :: this
+       class(*), allocatable :: getValue
+         allocate(getValue, source=this%value)
+       end function getValue
 
       !---------------------------------------------------------------------------
       !> @Ricardo Birjukovs Canelas - MARETEC
@@ -83,7 +84,7 @@
       !> Container link constructor. Used as container_link(value_to_store, next_link)
       !---------------------------------------------------------------------------
       function constructor(value, next)
-        class(container_link) :: constructor
+        type(container_link) :: constructor
         class(*), intent(in) :: value
         class(container_link), pointer :: next
         constructor%next => next

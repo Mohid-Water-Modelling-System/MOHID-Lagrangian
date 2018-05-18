@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Build\CMakeFiles\IntelVSImplicitPath\CMakeFiles\22013f57c8d31413fcf9a2de40613544\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{D5DD0601-F36D-34FD-97C9-323CA3686DDF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

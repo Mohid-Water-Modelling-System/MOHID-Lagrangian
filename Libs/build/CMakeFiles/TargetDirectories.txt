@@ -1,0 +1,9 @@
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/CMakeFiles/ALL_BUILD.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/PENF/CMakeFiles/PENF.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/VecFor/CMakeFiles/VecFor.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/BeFoR64/CMakeFiles/BeFoR64.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/StringiFor/CMakeFiles/StringiFor.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/FoXy/CMakeFiles/Foxy.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/VTKFortran/CMakeFiles/VTKFortran.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Build/CLA/CMakeFiles/CLA.dir

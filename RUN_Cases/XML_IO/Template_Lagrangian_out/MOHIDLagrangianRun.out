@@ -33,7 +33,6 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        TimeMax=+0.152000E+04 s
        TimeOut=+0.110000E+01 Hz
  -->Reading case constants
-        Gravity not specified, setting to default value = (0,0,-9.81)
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
        Pointmin (BB) is 

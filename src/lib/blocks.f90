@@ -34,7 +34,7 @@
       integer :: id
       !type(container_list) :: Source_stack
       !type(container_list) :: Tracer_stack
-      type(pointer_list)   :: Tracer_list
+      !type(pointer_list)   :: Tracer_list
 
       real(prec) :: xmin = 0._R8P  !> x limit min
       real(prec) :: xmax = 0._R8P  !> x limit max
