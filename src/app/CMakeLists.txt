@@ -1,7 +1,7 @@
 # Set Properties->General->Configuration Type to Application(.exe)
 # Creates app.exe with the listed sources (main.cxx)
 # Adds sources to the Solution Explorer
-add_executable (MOHIDLagrangian main.f90)
+add_executable (MOHIDLagrangian MOHIDLagrangian.f90)
 
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)

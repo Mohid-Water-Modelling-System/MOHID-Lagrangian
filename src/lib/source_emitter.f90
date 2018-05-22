@@ -31,7 +31,7 @@
         integer :: emitted
         integer :: emittable
     contains
-    procedure :: initialize
+    procedure :: initialize => initializeEmitter
     procedure :: alloctracers
     procedure :: initracers
     !procedure :: activecheck
@@ -124,7 +124,7 @@
     !
     !> @param[in] self, src
     !---------------------------------------------------------------------------
-    subroutine initialize(self, srcs)
+    subroutine initializeEmitter(self, srcs)
     implicit none
     class(emitter_t), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs

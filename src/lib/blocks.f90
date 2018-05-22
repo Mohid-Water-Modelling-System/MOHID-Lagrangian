@@ -24,7 +24,7 @@
     use commom_modules
     use simulation_globals
 
-    use pointer_linked_list
+    !use pointer_linked_list
     !use container_linked_list
 
     implicit none

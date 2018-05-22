@@ -19,15 +19,14 @@
 
     module initialize
 
+    use commom_modules
     use tracer_base
-    use simulation_globals
     use simulation_xmlparser
     use source_identity
     use source_emitter
     use about
 
     use FoX_dom
-    use commom_modules
 
     implicit none
     private

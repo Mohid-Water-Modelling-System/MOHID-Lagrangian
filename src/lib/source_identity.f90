@@ -65,7 +65,7 @@
         type(source_stencil) :: stencil     !<To acess stencil variables
         type(source_stats) :: stats         !<To access statistics
     contains
-    procedure :: initialize
+    procedure :: initialize => initializeSource
     procedure :: linkproperty
     procedure :: printout
     end type
@@ -152,7 +152,7 @@
     !
     !> @param[in] src, id, name, emitting_rate, source_geometry
     !---------------------------------------------------------------------------
-    subroutine initialize(src,id,name,emitting_rate,start,finish,source_geometry,geometry)
+    subroutine initializeSource(src,id,name,emitting_rate,start,finish,source_geometry,geometry)
     implicit none
     class(source_class) :: src
     integer, intent(in) :: id
