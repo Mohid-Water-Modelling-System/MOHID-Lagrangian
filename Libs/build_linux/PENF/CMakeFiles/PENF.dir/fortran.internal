@@ -1,0 +1,6 @@
+# The fortran modules provided by this target.
+provides
+ penf
+ penf_b_size
+ penf_global_parameters_variables
+ penf_stringify

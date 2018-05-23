@@ -16,10 +16,10 @@
     !> Module to hold the simulation memory managment class and its methods
     !------------------------------------------------------------------------------
 
-    module simulation_memory
+    module simulation_memory_mod
 
     use stringifor
-    use simulation_logger
+    use simulation_logger_mod
 
     implicit none
     private
@@ -29,7 +29,7 @@
         integer :: size_of_tracers   !< Size of the tracers in memory (bytes)
         integer :: size_of_defs      !< Size of the parameters and definitions in memory (bytes)
     contains
-    procedure :: initialize
+    procedure :: initialize => initializeMemory
     procedure :: addsource
     procedure :: addtracer
     procedure :: adddef
@@ -53,7 +53,7 @@
     !> @brief
     !> Private memory logger initialization method.
     !---------------------------------------------------------------------------
-    subroutine initialize(self)
+    subroutine initializeMemory(self)
     implicit none
     class(memory_t), intent(inout) :: self
     self%size_of_sources = 0
@@ -144,7 +144,7 @@
 
     return
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -168,7 +168,7 @@
     temp(3)= sizemb
     sizemb = self%size_of_defs*1E-6
     temp(4)= sizemb
-    
+
     outext='->Total allocated memory: '//temp(1)//'mb'//new_line('a')//&
         '       Allocated memory for Sources = '//temp(2)//'mb'//new_line('a')//&
         '       Allocated memory for Tracers = '//temp(3)//'mb'//new_line('a')//&
@@ -178,4 +178,4 @@
     return
     end subroutine
 
-    end module simulation_memory
+  end module simulation_memory_mod

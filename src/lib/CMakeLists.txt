@@ -1,3 +1,5 @@
+message("At Library CMAKE file")
+
 #################################################################
 # Search F90 files recursively in all subdirs
 #################################################################
@@ -5,6 +7,8 @@
 # Collect sources into the variable LIB_SRC
 FILE(GLOB_RECURSE LIB_SRC *.f90 *.F90 *.c)
 SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
+
+message(STATUS "Library source files " ${LIB_SRC})
 
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
@@ -20,16 +24,23 @@ elseif(CMAKE_HOST_UNIX)
 endif()
 
 # Properties->C/C++->General->Additional Include Directories
-include_directories (.)
 if(WINDOWS)
-  include_directories (${PROJECT_SOURCE_DIR}/Libs)
-  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_win/modules)
-  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_win/lib)
+  set(EXTERNAL_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/build_win)
+  set(EXTERNAL_LIBS_MODULES_PATH ${PROJECT_SOURCE_DIR}/Libs/build_win/modules)
+  set(EXTERNAL_LIBS_LIB_PATH ${PROJECT_SOURCE_DIR}/Libs/build_win/lib)
 elseif(LINUX)
-  include_directories (${PROJECT_SOURCE_DIR}/Libs)
-  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_linux/modules)
-  include_directories (${PROJECT_SOURCE_DIR}/Libs/build_linux/lib)
+  set(EXTERNAL_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/build_linux)
+  set(EXTERNAL_LIBS_MODULES_PATH ${PROJECT_SOURCE_DIR}/Libs/build_linux/modules)
+  set(EXTERNAL_LIBS_LIB_PATH ${PROJECT_SOURCE_DIR}/Libs/build_linux/lib)
 endif()
+include_directories (.)
+include_directories(${EXTERNAL_LIBS_PATH})
+include_directories(${EXTERNAL_LIBS_MODULES_PATH})
+include_directories(${EXTERNAL_LIBS_LIB_PATH})
+
+message(STATUS "Added External Library path " ${EXTERNAL_LIBS_PATH})
+message(STATUS "Added External Library module path " ${EXTERNAL_LIBS_MODULES_PATH})
+message(STATUS "Added External Library compile path " ${EXTERNAL_LIBS_LIB_PATH})
 
 # Also adds sources to the Solution Explorer
 ADD_LIBRARY(${LIB_NAME} ${LIB_SRC})

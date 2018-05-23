@@ -18,11 +18,11 @@
     !> sources and calling their initializers.
     !------------------------------------------------------------------------------
 
-    module source_emitter
+    module source_emitter_mod
 
     use commom_modules
-    use source_identity
-    use tracers
+    use source_identity_mod
+    use tracers_mod
 
     implicit none
     private
@@ -31,7 +31,7 @@
         integer :: emitted
         integer :: emittable
     contains
-    procedure :: initialize
+    procedure :: initialize => initializeEmitter
     procedure :: alloctracers
     procedure :: initracers
     !procedure :: activecheck
@@ -124,7 +124,7 @@
     !
     !> @param[in] self, src
     !---------------------------------------------------------------------------
-    subroutine initialize(self, srcs)
+    subroutine initializeEmitter(self, srcs)
     implicit none
     class(emitter_t), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs
@@ -164,4 +164,4 @@
     src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np
     end subroutine
 
-    end module source_emitter
+  end module source_emitter_mod

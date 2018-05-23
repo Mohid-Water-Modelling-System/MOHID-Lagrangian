@@ -16,9 +16,9 @@
     !> Module that defines a pure Lagrangian tracer class and related methods.
     !------------------------------------------------------------------------------
 
-    module tracer_base
+    module tracer_base_mod
 
-    use tracer_interp
+    use tracer_interp_mod
     use commom_modules
 
     implicit none
@@ -106,4 +106,4 @@
     return
     end subroutine
 
-    end module tracer_base
+  end module tracer_base_mod

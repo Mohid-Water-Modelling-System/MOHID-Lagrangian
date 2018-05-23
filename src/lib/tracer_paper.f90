@@ -18,9 +18,9 @@
     !> of it's data and methods
     !------------------------------------------------------------------------------
 
-    module tracer_paper
+    module tracer_paper_mod
 
-    use tracer_base
+    use tracer_base_mod
     use commom_modules
 
     implicit none
@@ -89,4 +89,4 @@
     return
     end subroutine
 
-    end module tracer_paper
+  end module tracer_paper_mod

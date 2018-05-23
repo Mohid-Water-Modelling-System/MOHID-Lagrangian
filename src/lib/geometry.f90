@@ -16,38 +16,38 @@
     !> Module that defines geometry classes and related methods.
     !------------------------------------------------------------------------------
 
-    module geometry
+    module geometry_mod
 
     use vecfor
     use stringifor
-    use simulation_precision    
-    use simulation_logger
+    use simulation_precision_mod
+    use simulation_logger_mod
 
     implicit none
     private
 
     !Update with any new additions as they are added
     type(string), allocatable, dimension(:) :: GeomList !< String list (array) with the name of possible geometry types.
-        
-    type :: shape                      !<Type - extendable shape class        
+
+    type :: shape                      !<Type - extendable shape class
         type(vector) :: pt              !< Coordinates of a point
     contains
     procedure :: getnp                  !<Gets the number of points that define that geometry (based on GLOBALS::dp)
     procedure :: getpointdistribution   !<Gets the actual list of points always referant to the origin (based on GLOBALS::dp)
     end type
-    
+
     type, extends(shape) :: point   !<Type - point class
     end type
 
-    type, extends(shape) :: line    !<Type - line class        
+    type, extends(shape) :: line    !<Type - line class
         type(vector) :: last            !< Coordinates of the end point
     end type
 
-    type, extends(shape) :: sphere  !<Type - sphere class        
+    type, extends(shape) :: sphere  !<Type - sphere class
         real(prec) :: radius            !< Sphere radius
     end type
-    
-    type, extends(shape) :: box     !<Type - point class        
+
+    type, extends(shape) :: box     !<Type - point class
         type(vector) :: size            !< Box size
     end type
 
@@ -298,4 +298,4 @@
     return
     end subroutine
 
-    end module geometry
+  end module geometry_mod

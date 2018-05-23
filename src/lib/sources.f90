@@ -12,17 +12,17 @@
 !> @author
 !> Ricardo Birjukovs Canelas
 !
-! DESCRIPTION: 
+! DESCRIPTION:
 !> Module to hold and wrap all the tracer sources respective modules. Defines a source class and related methods.
 !------------------------------------------------------------------------------
-    
-module sources 
-    
-    use tracers    
-    use initialize
-    use finalize
 
-    use source_identity
-    use source_emitter
-    
-end module sources 
+module sources_mod
+
+    use tracers_mod
+    use initialize_mod
+    use finalize_mod
+
+    use source_identity_mod
+    use source_emitter_mod
+
+end module sources_mod

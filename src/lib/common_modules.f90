@@ -12,20 +12,20 @@
 !> @author
 !> Ricardo Birjukovs Canelas
 !
-! DESCRIPTION: 
+! DESCRIPTION:
 !> Module to hold all of the commonly used base modules.
 !------------------------------------------------------------------------------
-    
-module commom_modules 
-    
+
+module commom_modules
+
     use penf
     use vecfor
     use stringifor
-    
-    use geometry
-    use simulation_precision    
-    use simulation_logger
-    use simulation_memory
-    use simulation_globals
-    
-end module commom_modules 
+
+    use geometry_mod
+    use simulation_precision_mod
+    use simulation_logger_mod
+    use simulation_memory_mod
+    use simulation_globals_mod
+
+end module commom_modules

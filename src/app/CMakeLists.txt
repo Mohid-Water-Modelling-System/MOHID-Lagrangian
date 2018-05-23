@@ -1,7 +1,10 @@
+message("At Application CMAKE file")
+
 # Set Properties->General->Configuration Type to Application(.exe)
 # Creates app.exe with the listed sources (main.cxx)
 # Adds sources to the Solution Explorer
-add_executable (MOHIDLagrangian main.f90)
+
+add_executable(MOHIDLagrangian MOHIDLagrangian.f90)
 
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)
@@ -15,26 +18,37 @@ endif()
 #include_directories (${LIB_PATH})
 include_directories (${LIBRARY_OUTPUT_PATH})
 
+message(STATUS "Added " ${LIB_NAME} " output path " ${LIBRARY_OUTPUT_PATH})
+
 if(WINDOWS)
-  set(EXTERNAL_LIBS_MODULES ${CMAKE_SOURCE_DIR}/Libs/build_win/modules)
-  set(EXTERNAL_LIBS_LIB ${CMAKE_SOURCE_DIR}/Libs/build_win/lib)
+  set(EXTERNAL_LIBS_MODULES ${PROJECT_SOURCE_DIR}/Libs/build_win/modules)
+  set(EXTERNAL_LIBS_LIB ${PROJECT_SOURCE_DIR}/Libs/build_win/lib)
 elseif(LINUX)
-  set(EXTERNAL_LIBS_MODULES ${CMAKE_SOURCE_DIR}/Libs/build_linux/modules)
-  set(EXTERNAL_LIBS_LIB ${CMAKE_SOURCE_DIR}/Libs/build_linux/lib)
+  set(EXTERNAL_LIBS_MODULES ${PROJECT_SOURCE_DIR}/Libs/build_linux/modules)
+  set(EXTERNAL_LIBS_LIB ${PROJECT_SOURCE_DIR}/Libs/build_linux/lib)
 endif()
 
 include_directories (${EXTERNAL_LIBS_MODULES})
 include_directories (${EXTERNAL_LIBS_LIB})
 
+message(STATUS "Added External Library module path " ${EXTERNAL_LIBS_MODULES})
+message(STATUS "Added External Library .lib path " ${EXTERNAL_LIBS_LIB})
+
 # Properties->Linker->Input->Additional Dependencies
-file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib")
-file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/DEBUG/*.lib")
-file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/*.lib")
+
 if(WINDOWS)
-  file(GLOB EXTERNAL_LIBS "${CMAKE_SOURCE_DIR}/Libs/build_win/lib/RELEASE/*.lib")
+  file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib")
+  file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/*.lib")
+  file(GLOB EXTERNAL_LIBS "${PROJECT_SOURCE_DIR}/Libs/build_win/lib/RELEASE/*.lib")
 elseif(LINUX)
-  file(GLOB EXTERNAL_LIBS "${CMAKE_SOURCE_DIR}/Libs/build_linux/lib/*.lib")
+  file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.a")
+  file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/*.a")
+  file(GLOB EXTERNAL_LIBS "${PROJECT_SOURCE_DIR}/Libs/build_linux/lib/*.a")
 endif()
+
+message(STATUS "Targeting library " ${LIB_NAME})
+message(STATUS "Targeting " ${LIBS})
+message(STATUS "Targeting external libraries " ${EXTERNAL_LIBS})
 
 target_link_libraries (MOHIDLagrangian  ${LIB_NAME})
 target_link_libraries (MOHIDLagrangian  ${LIBS})

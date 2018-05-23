@@ -3,6 +3,14 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # The solution will have all targets (exe, lib, dll)
 # as Visual Studio projects (.vcproj)
 
+#-----------------------------------------------------------------------------
+# Prevent in-source builds.
+#-----------------------------------------------------------------------------
+
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    message( FATAL_ERROR  "In-source build is not possible and not recommended. Choose an empty directory for build output.")
+endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+
 project(MOHIDLagrangian)
 enable_language(Fortran)
 
@@ -13,6 +21,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 SET(BIN_NAME MOHIDLagrangian)
 SET(LIB_NAME MOHIDLagrangianLib)
+
+message("Project name " ${BIN_NAME})
+message("Library name " ${LIB_NAME})
 
 #SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
@@ -25,17 +36,22 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/modules)
 INCLUDE_DIRECTORIES(${CMAKE_Fortran_MODULE_DIRECTORY})
 
+message(STATUS "Building paths")
+message(STATUS "Executable output path " ${EXECUTABLE_OUTPUT_PATH})
+message(STATUS "Library output path " ${LIBRARY_OUTPUT_PATH})
+message(STATUS "Modules output path " ${CMAKE_Fortran_MODULE_DIRECTORY})
+
 #################################################################
 # CONFIGURATION TYPES & BUILD MODE & BUILD_TESTS
 #################################################################
 
-SET(CMAKE_CONFIGURATION_TYPES DEBUG RELEASE)
+SET(CMAKE_CONFIGURATION_TYPES RELEASE)
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE RELEASE CACHE STRING
-      "Choose the type of build, options are: NONE DEBUG RELEASE"
+      "Choose the type of build, options are: NONE RELEASE"
       FORCE)
 
-  SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS NONE DEBUG RELEASE)
+  SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS NONE RELEASE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 
 #################################################################
@@ -43,12 +59,6 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 #################################################################
 
 GET_FILENAME_COMPONENT(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
-
-IF(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
-#   SET(MACROS "${MACROS} -DDEBUG -Dmemcheck")
-    ADD_DEFINITIONS(-DDEBUG)
-    ADD_DEFINITIONS(-Dmemcheck)
-ENDIF()
 
 ADD_DEFINITIONS(-D${CMAKE_Fortran_COMPILER_ID})
 
@@ -87,12 +97,16 @@ ENDIF ()
 message (STATUS "CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
 message (STATUS "CMAKE_Fortran_FLAGS: " ${CMAKE_Fortran_FLAGS})
 message (STATUS "CMAKE_Fortran_FLAGS_RELEASE: " ${CMAKE_Fortran_FLAGS_RELEASE})
-message (STATUS "CMAKE_Fortran_FLAGS_DEBUG: " ${CMAKE_Fortran_FLAGS_DEBUG})
-
 
 #################################################################
 # ADD SOURCE SUBDIRS
 #################################################################
 
-ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src/lib)
-ADD_SUBDIRECTORY(${CMAKE_SOURCE_DIR}/src/app)
+SET(LIBRARY_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/lib)
+SET(APP_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/app)
+
+message(STATUS "Library source path " ${LIBRARY_SOURCE_PATH})
+message(STATUS "Application source path " ${APP_SOURCE_PATH})
+
+ADD_SUBDIRECTORY(${LIBRARY_SOURCE_PATH})
+ADD_SUBDIRECTORY(${APP_SOURCE_PATH})

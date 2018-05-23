@@ -9,25 +9,26 @@
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : March 2018
-    ! REVISION      : Canelas 0.1
+    ! REVISION      : Canelas 0.2
     !> @author
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module with the simulation initialization related definitions and methods. Has one public access routine that is incharge of building the simulation space from input files.
+    !> Module with the simulation initialization related definitions and methods.
+    !> Has one public access routine that is incharge of building the simulation
+    !> space from input files.
     !------------------------------------------------------------------------------
 
-    module initialize
+    module initialize_mod
 
-    use tracer_base
-    use simulation_globals
-    use simulation_xmlparser
-    use source_identity
-    use source_emitter
-    use about
+    use commom_modules
+    use tracer_base_mod
+    use simulation_xmlparser_mod
+    use source_identity_mod
+    use source_emitter_mod
+    use about_mod
 
     use FoX_dom
-    use commom_modules
 
     implicit none
     private
@@ -445,4 +446,4 @@
     return
     end subroutine
 
-    end module initialize
+  end module initialize_mod

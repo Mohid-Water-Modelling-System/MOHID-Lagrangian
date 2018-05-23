@@ -16,15 +16,15 @@
     !> Module to hold the simulation global parameter classes and their methods
     !------------------------------------------------------------------------------
 
-    module simulation_globals
+    module simulation_globals_mod
 
     use penf
     use vecfor
     use stringifor
-    
-    use simulation_precision    
-    use simulation_logger
-    use simulation_memory
+
+    use simulation_precision_mod
+    use simulation_logger_mod
+    use simulation_memory_mod
 
     implicit none
     private
@@ -40,7 +40,7 @@
     procedure :: check
     procedure :: printout => printsimparameters
     end type
-    
+
     type simdefs_t  !< Simulation definitions class
         real(prec) :: Dp = MV               !< Initial particle spacing at source generation
         real(prec_time) :: dt               !< Timestep for fixed step integrators (s)
@@ -52,7 +52,7 @@
     procedure :: setboundingbox
     procedure :: printout => printsimdefs
     end type
-    
+
     type constants_t    !< Case Constants class
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec) :: Rho_ref = 1000.0      !< Reference density of the medium (default=1000.0) (kg m-3)
@@ -60,12 +60,12 @@
     procedure :: setgravity
     procedure :: setrho
     end type
-    
+
     type filenames_t    !<File names class
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
     end type
-     
+
     type globals_type   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
@@ -73,15 +73,15 @@
         type(filenames_t)   :: FileNames
         real(prec_time)     :: SimTime
     end type
-       
+
     !Simulation variables
     type(globals_type) :: Globals
-    
+
     !Public access vars
     public :: Globals
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -113,25 +113,25 @@
         sizem=sizeof(self%TimeMax)
     elseif(parmkey%chars()=="TimeOut") then
         self%TimeOut=parmvalue%to_number(kind=1._R4P)
-        sizem=sizeof(self%TimeOut)        
+        sizem=sizeof(self%TimeOut)
     endif
     call SimMemory%adddef(sizem)
     return
     end subroutine
-    
-    
+
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private parameter checking method. Checks if mandatory parameters were set 
+    !> Private parameter checking method. Checks if mandatory parameters were set
     !---------------------------------------------------------------------------
     subroutine check(self)
     implicit none
     class(parameters_t), intent(inout) :: self
     type(string) :: outext
-    
+
     !add new parameters to this search
     if (self%TimeMax==MV) then
         outext = 'Maximum simulation time parameter (TimeMax) is not set, stoping'
@@ -140,7 +140,7 @@
     elseif (self%TimeOut==MV) then
         outext = 'Simulation sampling rate parameter (TimeOut) is not set, stoping'
         call ToLog(outext)
-        stop       
+        stop
     endif
     return
     end subroutine
@@ -267,7 +267,7 @@
     call SimMemory%adddef(sizem)
     return
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -350,4 +350,4 @@
     call ToLog(outext,.false.)
     end subroutine
 
-    end module simulation_globals
+  end module simulation_globals_mod
