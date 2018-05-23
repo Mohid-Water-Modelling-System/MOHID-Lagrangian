@@ -18,9 +18,9 @@
     !> of it's data and methods
     !------------------------------------------------------------------------------
 
-    module tracer_plastic
+    module tracer_plastic_mod
 
-    use tracer_base
+    use tracer_base_mod
     use commom_modules
 
     implicit none
@@ -89,4 +89,4 @@
     return
     end subroutine
 
-    end module tracer_plastic
+  end module tracer_plastic_mod

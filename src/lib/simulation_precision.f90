@@ -12,13 +12,13 @@
 !> @author
 !> Ricardo Birjukovs Canelas
 !
-! DESCRIPTION: 
+! DESCRIPTION:
 !> Module to control the precision of the variables trough the project.
 !------------------------------------------------------------------------------
-    
-module simulation_precision
 
-    use penf    
+module simulation_precision_mod
+
+    use penf
 
     implicit none
     private
@@ -30,17 +30,17 @@ module simulation_precision
     integer,  parameter :: dp  = kind(1._R8P)   !< Double precision definition switch
 
     ! Precision used throughout is define here. Change at will.
-    integer,  parameter :: prec      = sp 
-    integer,  parameter :: prec_time = sp 
-    integer,  parameter :: prec_wrt  = sp 
+    integer,  parameter :: prec      = sp
+    integer,  parameter :: prec_time = sp
+    integer,  parameter :: prec_wrt  = sp
 
-    ! Missing value aliases 
-    real(prec), parameter :: MISSING_VALUE_DEFAULT = -9999.0_dp 
+    ! Missing value aliases
+    real(prec), parameter :: MISSING_VALUE_DEFAULT = -9999.0_dp
     real(prec), parameter :: MV     = MISSING_VALUE_DEFAULT
     real(prec), parameter :: MV_INT = int(MISSING_VALUE_DEFAULT)
 
     ! Error values
-    real(prec), parameter :: ERR_DIST = 1E8_dp 
-    integer,  parameter   :: ERR_IND  = -1 
-    
-end module simulation_precision 
+    real(prec), parameter :: ERR_DIST = 1E8_dp
+    integer,  parameter   :: ERR_IND  = -1
+
+end module simulation_precision_mod

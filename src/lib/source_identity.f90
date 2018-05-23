@@ -16,10 +16,10 @@
     !> Module that defines a source class and related methods.
     !------------------------------------------------------------------------------
 
-    module source_identity
+    module source_identity_mod
 
     use commom_modules
-    use simulation_globals
+    use simulation_globals_mod
 
     implicit none
     private
@@ -264,4 +264,4 @@
 
     end subroutine
 
-    end module source_identity
+  end module source_identity_mod

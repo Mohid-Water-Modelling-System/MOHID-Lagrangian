@@ -18,11 +18,11 @@
     !> sources and calling their initializers.
     !------------------------------------------------------------------------------
 
-    module source_emitter
+    module source_emitter_mod
 
     use commom_modules
-    use source_identity
-    use tracers
+    use source_identity_mod
+    use tracers_mod
 
     implicit none
     private
@@ -164,4 +164,4 @@
     src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np
     end subroutine
 
-    end module source_emitter
+  end module source_emitter_mod

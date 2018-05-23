@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libFoxy.a  CMakeFiles/Foxy.dir/foxy.f90.o CMakeFiles/Foxy.dir/foxy_xml_file.f90.o CMakeFiles/Foxy.dir/foxy_xml_tag.f90.o
-/usr/bin/ranlib ../lib/libFoxy.a

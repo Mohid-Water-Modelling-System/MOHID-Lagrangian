@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libPENF.a  CMakeFiles/PENF.dir/penf.F90.o CMakeFiles/PENF.dir/penf_b_size.F90.o CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.o CMakeFiles/PENF.dir/penf_stringify.F90.o
-/usr/bin/ranlib ../lib/libPENF.a

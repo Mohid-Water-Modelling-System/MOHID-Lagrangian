@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libStringiFor.a  CMakeFiles/StringiFor.dir/stringifor.F90.o CMakeFiles/StringiFor.dir/stringifor_string_t.F90.o
-/usr/bin/ranlib ../lib/libStringiFor.a

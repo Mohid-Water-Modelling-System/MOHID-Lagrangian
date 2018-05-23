@@ -11,8 +11,7 @@ rem "executables" are renamed and called from their directory
 set tools=../../build_win/bin/RELEASE
 set mohidlagrangian="%tools%/MOHIDLagrangian.exe"
 
-rem "dirout" is created to store results or it is removed if it already exists
-
+rem "dirout" is created to store results or it is cleaned if it already exists
 if exist %dirout% del /Q %dirout%\*.*
 if not exist %dirout% mkdir %dirout%
 
@@ -30,4 +29,3 @@ echo Execution aborted.
 
 :end
 pause
-

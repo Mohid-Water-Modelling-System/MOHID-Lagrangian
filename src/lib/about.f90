@@ -16,7 +16,7 @@
     !> Module to print version, licence, preambles.
     !------------------------------------------------------------------------------
 
-    module about
+    module about_mod
 
     use commom_modules
 
@@ -30,7 +30,7 @@
     type(string) :: version
     type(string) :: author
     type(string) :: date
-    
+
     contains
 
     !---------------------------------------------------------------------------
@@ -43,10 +43,10 @@
     subroutine PrintLicPreamble
     implicit none
     type(string) :: outext
-    
-    version  ="v0.0.2"
+
+    version  ="v0.0.3"
     author   ="R. Birjukovs Canelas"
-    date     ="02-04-2018"
+    date     ="23-05-2018"
 
     outext = ' __  __  ___  _   _ ___ ____  _                                      _             '//new_line('a')//&
              ' |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  '//new_line('a')//&
@@ -54,7 +54,7 @@
              ' | |  | | |_| |  _  || || |_| | |__| (_| | (_| | | | (_| | | | | (_| | | (_| | | | |'//new_line('a')//&
              ' |_|  |_|\___/|_| |_|___|____/|_____\__,_|\__, |_|  \__,_|_| |_|\__, |_|\__,_|_| |_|'//new_line('a')//&
              '                                          |___/                 |___/               '//new_line('a')//&
-        
+
         '  <MOHIDLagrangian> Copyright (C) 2018 by'//new_line('a')//&
         '  R. Birjukovs Canelas, R. Neves, F. Campuzano, H. de Pablo Lenonardo'//new_line('a')//&
         ''//new_line('a')//&
@@ -80,4 +80,4 @@
 
     end subroutine
 
-    end module about
+    end module about_mod

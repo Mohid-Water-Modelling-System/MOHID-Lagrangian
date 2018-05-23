@@ -15,13 +15,13 @@
     ! DESCRIPTION:
     !> Module with the simulation closing related definitions and methods
     !------------------------------------------------------------------------------
-    
-    module finalize
 
-    use tracer_base
-    use simulation_globals
-    use source_identity
-    use tracer_base
+    module finalize_mod
+
+    use tracer_base_mod
+    use simulation_globals_mod
+    use source_identity_mod
+    use tracer_base_mod
 
     use commom_modules
 
@@ -32,8 +32,8 @@
     public :: finalizeMohidLagrangian
 
     contains
-    
-    
+
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -46,9 +46,9 @@
     type(string) :: outext
     outext='Simulation ended, freeing resources. See you next time'
     call ToLog(outext)
-    
+
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -57,12 +57,12 @@
     !> Private globals deallocation routine.
     !---------------------------------------------------------------------------
     subroutine deallocate_simulation
-    implicit none    
+    implicit none
     !deallocating large memory structures
     deallocate(Source)
     deallocate(Tracer)
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -72,7 +72,7 @@
     !---------------------------------------------------------------------------
     subroutine closelog
     implicit none
-    close(Log_unit)    
+    close(Log_unit)
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -83,12 +83,12 @@
     !> Public finalization routine. Destroys, deallocates and closes the simulation space
     !---------------------------------------------------------------------------
     subroutine finalizeMohidLagrangian
-    implicit none    
-    
+    implicit none
+
     call simulation_end
     call deallocate_simulation
     call closelog
-    
+
     end subroutine
 
-    end module finalize
+  end module finalize_mod

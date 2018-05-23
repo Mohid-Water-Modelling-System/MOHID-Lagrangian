@@ -16,10 +16,10 @@
     !> Module to hold the simulation memory managment class and its methods
     !------------------------------------------------------------------------------
 
-    module simulation_memory
+    module simulation_memory_mod
 
     use stringifor
-    use simulation_logger
+    use simulation_logger_mod
 
     implicit none
     private
@@ -178,4 +178,4 @@
     return
     end subroutine
 
-    end module simulation_memory
+  end module simulation_memory_mod

@@ -1,8 +1,8 @@
 
-module tracer_interp 
+module tracer_interp_mod
 
-    use simulation_precision    
+    use simulation_precision_mod
 
-    implicit none 
+    implicit none
 
-end module tracer_interp 
+end module tracer_interp_mod

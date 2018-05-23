@@ -17,13 +17,7 @@
     !> Module with the simulation xml parsing related definitions and routines.
     !------------------------------------------------------------------------------
 
-    module simulation_xmlparser
-
-    !use tracer_base
-    !use simulation_globals
-    !use source_identity
-    !use source_emitter
-    !use about
+    module simulation_xmlparser_mod
 
     use FoX_dom
     use commom_modules
@@ -110,7 +104,7 @@
     type(Node), pointer :: nodedetail
     logical :: validtag
     integer :: i
-    
+
     vec%x=MV !marking the array as not read
     validtag = .false.
     nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info)
@@ -188,4 +182,4 @@
 
     end subroutine
 
-    end module simulation_xmlparser
+  end module simulation_xmlparser_mod
