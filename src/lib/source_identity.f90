@@ -67,7 +67,7 @@
     contains
     procedure :: initialize => initializeSource
     procedure :: linkproperty
-    procedure :: printout
+    procedure :: print
     end type
 
     !Simulation variables
@@ -197,7 +197,7 @@
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
-    call src%printout()
+    call src%print()
 
     !DBG
     !do i=1, src%stencil%np
@@ -237,7 +237,7 @@
     !
     !> @param[in] src
     !---------------------------------------------------------------------------
-    subroutine printout(src)
+    subroutine print(src)
     implicit none
     class(source_class) :: src
 

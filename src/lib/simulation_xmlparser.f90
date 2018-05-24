@@ -39,12 +39,13 @@
     !
     !> @param[in] xmlnode, tag, vec, mandatory
     !---------------------------------------------------------------------------
-    subroutine ReadXMLatt(xmlnode, tag, att_name, att_value, mandatory)
+    subroutine ReadXMLatt(xmlnode, tag, att_name, att_value, read_flag, mandatory)
     implicit none
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
     type(string), intent(out) :: att_value      !<Attribute value
+    logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
 
     type(string) :: outext, nodename
@@ -69,10 +70,15 @@
         nodedetail => item(target_node_list, 0)
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
         att_value=trim(att_value_chars)
+        if (present(read_flag)) then
+          read_flag =.true.
+        endif
     else
         if(present(mandatory)) then
-            if(mandatory.eqv..true.) then
-                att_value='not_read'
+            if(mandatory.eqv..false.) then
+              if (present(read_flag)) then
+                read_flag =.false.
+              endif
             endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
@@ -92,11 +98,12 @@
     !
     !> @param[in] xmlnode, tag, vec, mandatory
     !---------------------------------------------------------------------------
-    subroutine ReadXMLvector(xmlnode, tag, vec, mandatory)
+    subroutine ReadXMLvector(xmlnode, tag, vec, read_flag, mandatory)
     implicit none
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
     type(vector), intent(out) :: vec            !<Vector to fill with read contents
+    logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
 
     type(string) :: outext, nodename
@@ -112,7 +119,7 @@
         nodedetail => item(nodeChildren,i) !grabing a node
         nodename = getLocalName(nodedetail)  !finding its name
         if (nodename == tag) then
-            validtag=.true.
+            validtag =.true.
             exit
         endif
     enddo
@@ -122,10 +129,15 @@
         call extractDataAttribute(nodedetail, "x", vec%x)
         call extractDataAttribute(nodedetail, "y", vec%y)
         call extractDataAttribute(nodedetail, "z", vec%z)
+        if (present(read_flag)) then
+          read_flag =.true.
+        endif
     else
         if(present(mandatory)) then
-            if(mandatory.eqv..true.) then
-                !some marker here
+            if(mandatory.eqv..false.) then
+              if (present(read_flag)) then
+                read_flag =.false.
+              endif
             endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
@@ -146,12 +158,13 @@
     !
     !> @param[in] currentNode, targetNode, targetNodeName, mandatory
     !---------------------------------------------------------------------------
-    subroutine GotoChildNode(currentNode, targetNode, targetNodeName, mandatory)
+    subroutine GotoChildNode(currentNode, targetNode, targetNodeName, read_flag, mandatory)
     implicit none
     type(Node), intent(in), pointer :: currentNode
     type(Node), intent(out), pointer :: targetNode
     type(string), intent(in) :: targetNodeName
-    logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
+    logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
+    logical, intent(in), optional :: mandatory   !<Swich for optional or mandatory tags
 
     type(NodeList), pointer :: target_node_list
     type(string) :: outext, nodename
@@ -165,18 +178,30 @@
         nodename = getLocalName(targetNode)  !finding its name
         if (nodename == targetNodeName) then !found our target node
             target_node_exists = .true.
+            if (present(read_flag)) then
+              read_flag =.true.
+            endif
             exit
         endif
     enddo
     if (target_node_exists .eqv. .false.) then
         nullify(targetNode)
-        if(present(mandatory).and.mandatory.eqv..true.) then
+        if(present(mandatory)) then
+          if (mandatory.eqv..false.) then
+            outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
+            call ToLog(outext)
+            if (present(read_flag)) then
+              read_flag =.false.
+            endif
+          else
             outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
             call ToLog(outext)
             stop
+          endif
         else
-            outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
-            call ToLog(outext)
+          outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
+          call ToLog(outext)
+          stop
         endif
     endif
 

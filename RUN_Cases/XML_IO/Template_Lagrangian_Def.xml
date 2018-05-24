@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <case>
   <casedef>
-    <constantsdef>
-      <Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration" units_comment="m/s^2" />
-      <Rho_ref value="1100" comment="Reference density of the fluid" units_comment="kg/m^3" />
-    </constantsdef>
+    <!-- <constantsdef>
+      <Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />
+      <Z0 value="2.16" comment="Reference local 'zero' level. Default = 0.0" units_comment="m" />
+      <Rho_ref value="1100" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />
+    </constantsdef> -->
     <simulationdefs>
       <resolution dp="0.85" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
       <pointmin x="-10.0" y="0.0" z="-500.01" />
       <pointmax x="10000" y="20005.0" z="4.0574" />
+      <block_size value="auto" />
     </simulationdefs>
     <sourcedef>
       <source>
@@ -35,14 +37,14 @@
           <pointb x="11" y="21" z="31" />
         </line>
       </source>
-      <source>
+      <!-- <source>
         <setsource id="3" name="Mistery_discharge_0" />
-        <set emitting_rate="0.05" units_comment="Hz" />
+        <set emitting_rate="0.005" units_comment="Hz" />
         <active start="1.125" end="end"/>
         <sphere radius="5.5">
           <point x="50" y="0" z="0" />
         </sphere>
-      </source>
+      </source> -->
     </sourcedef>
     <initials>
       <velocity source="1" ux="15" uy="0.0" uz="-0.1"/>

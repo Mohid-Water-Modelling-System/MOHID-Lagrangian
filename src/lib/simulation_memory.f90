@@ -34,8 +34,8 @@
     procedure :: addtracer
     procedure :: adddef
     procedure :: getotal
-    procedure :: printout => printmemory
-    procedure :: detailedprintout => printmemorydetailed
+    procedure :: print => printmemory
+    procedure :: detailedprint => printmemorydetailed
     end type
 
     !Simulation variables

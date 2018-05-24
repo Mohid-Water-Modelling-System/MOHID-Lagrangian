@@ -101,7 +101,7 @@
         outext='-->Properties to link to Sources found at '//Globals%FileNames%propsxmlfilename
         call ToLog(outext)
         tag="links"
-        call gotoChildNode(props_node,props_node,tag,.true.) !getting the links node
+        call gotoChildNode(props_node,props_node,tag) !getting the links node
         call linkPropertySources(props_node)                 !calling the property linker
     else
         outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
@@ -178,6 +178,7 @@
     type(Node), pointer :: source_node                   !< Single source block to process
     type(Node), pointer :: source_detail
     integer :: i, j
+    logical :: readflag
     !source vars
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val
@@ -189,7 +190,7 @@
     call ToLog(outext,.false.)
 
     tag="sourcedef"    !the node we want
-    call gotoChildNode(case_node,sourcedef,tag,.true.)
+    call gotoChildNode(case_node,sourcedef,tag)
     sourceList => getElementsByTagname(sourcedef, "source")
 
     call allocSources(getLength(sourceList))                         !allocating the source objects
@@ -208,15 +209,15 @@
         emitting_rate = att_val%to_number(kind=1._R4P)
         tag="active"
         att_name='start'
-        call ReadXMLatt(source_node, tag, att_name, att_val,.false.)
-        if (att_val%is_number()) then
+        call ReadXMLatt(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
             start = att_val%to_number(kind=1._R4P)
         else
             start = 0.0
         endif
         att_name='end'
-        call ReadXMLatt(source_node, tag, att_name, att_val,.false.)
-        if (att_val%is_number()) then
+        call ReadXMLatt(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag.and.att_val%is_number()) then
             finish = att_val%to_number(kind=1._R4P)
         else
             finish = Globals%Parameters%TimeMax
@@ -279,7 +280,7 @@
     call ToLog(outext,.false.)
 
     tag="simulationdefs"    !the node we want
-    call gotoChildNode(case_node,simdefs_node,tag,.true.)
+    call gotoChildNode(case_node,simdefs_node,tag)
     tag="resolution"
     att_name="dp"
     call readxmlatt(simdefs_node, tag, att_name, att_val)
@@ -293,7 +294,7 @@
         call readxmlvector(simdefs_node, pts(i), coords)
         call Globals%SimDefs%setboundingbox(pts(i), coords)
     enddo
-    call Globals%SimDefs%printout()
+    call Globals%SimDefs%print()
 
     return
     end subroutine
@@ -315,19 +316,35 @@
     type(string) :: outext
     type(string) :: tag, att_name, att_val
     type(vector) :: coords
+    logical :: readflag
 
     outext='-->Reading case constants'
     call ToLog(outext,.false.)
 
+    call Globals%Constants%setdefaults()
+
     tag="constantsdef"    !the node we want
-    call gotoChildNode(case_node,constants_node,tag,.true.)
-    tag="Gravity"
-    call readxmlvector(constants_node, tag, coords,.false.)
-    call Globals%Constants%setgravity(coords)
-    tag="Rho_ref"
-    att_name="value"
-    call readxmlatt(constants_node, tag, att_name, att_val)
-    call Globals%Constants%setrho(att_val)
+    call gotoChildNode(case_node,constants_node,tag,readflag,.false.)
+    if (readflag) then !if the node exists, since his one is not mandatory
+      tag="Gravity"
+      call readxmlvector(constants_node,tag,coords,readflag,.false.)
+      if (readflag) then
+        call Globals%Constants%setgravity(coords)
+      endif
+      tag="Z0"
+      att_name="value"
+      call readxmlatt(constants_node, tag, att_name, att_val,readflag,.false.)
+      if (readflag) then
+        call Globals%Constants%setz0(att_val)
+      endif
+      tag="Rho_ref"
+      att_name="value"
+      call readxmlatt(constants_node, tag, att_name, att_val,readflag,.false.)
+      if (readflag) then
+        call Globals%Constants%setrho(att_val)
+      endif
+    endif
+    call Globals%Constants%print()
 
     return
     end subroutine
@@ -356,7 +373,7 @@
     call ToLog(outext,.false.)
 
     tag="parameters"    !the node we want
-    call gotoChildNode(execution_node,parameters_node,tag,.true.)
+    call gotoChildNode(execution_node,parameters_node,tag)
     parameterList => getElementsByTagname(parameters_node, "parameter")       !searching for tags with the 'parameter' name
     do i = 0, getLength(parameterList) - 1                          !extracting parameter tags one by one
         parmt => item(parameterList, i)
@@ -367,7 +384,7 @@
         call Globals%Parameters%setparameter(parmkey,parmvalue)
     enddo
     call Globals%Parameters%check()
-    call Globals%Parameters%printout()
+    call Globals%Parameters%print()
 
     return
     end subroutine
@@ -415,13 +432,13 @@
     endif
 
     tag="case"          !base document node
-    call gotoChildNode(xmldoc,execution_node,tag,.true.)
+    call gotoChildNode(xmldoc,execution_node,tag)
     tag="execution"     !finding execution node
-    call gotoChildNode(execution_node,execution_node,tag,.true.)
+    call gotoChildNode(execution_node,execution_node,tag)
     tag="case"          !base document node
-    call gotoChildNode(xmldoc,case_node,tag,.true.)
+    call gotoChildNode(xmldoc,case_node,tag)
     tag="casedef"     !finding execution node
-    call gotoChildNode(case_node,case_node,tag,.true.)
+    call gotoChildNode(case_node,case_node,tag)
 
     !initializing memory log
     call SimMemory%initialize()
@@ -439,7 +456,7 @@
     call Emitter%initialize(Source)
 
     !printing memory occupation at the time
-    call SimMemory%detailedprintout()
+    call SimMemory%detailedprint()
 
     call destroy(xmldoc)
 

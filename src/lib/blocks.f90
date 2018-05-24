@@ -34,10 +34,8 @@
       type(SourceArray) :: Source_stack
       type(TracerArray) :: Tracer_stack
 
-      real(prec) :: xmin = 0._R8P  !< x limit min
-      real(prec) :: xmax = 0._R8P  !< x limit max
-      real(prec) :: ymin = 0._R8P  !< y limit min
-      real(prec) :: ymax = 0._R8P  !< y limit max
+      type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the block
+      type(vector)    ::  Pointmax        !< Point that defines the upper corner of the block
     end type block_class
 
     !Simulation variables

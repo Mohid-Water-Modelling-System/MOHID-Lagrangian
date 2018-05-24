@@ -38,35 +38,43 @@
     contains
     procedure :: setparameter
     procedure :: check
-    procedure :: printout => printsimparameters
+    procedure :: print => printsimparameters
     end type
 
     type simdefs_t  !< Simulation definitions class
-        real(prec) :: Dp = MV               !< Initial particle spacing at source generation
-        real(prec_time) :: dt               !< Timestep for fixed step integrators (s)
+        real(prec)      ::  Dp = MV         !< Initial particle spacing at source generation
+        real(prec_time) ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
+        logical         ::  autoblocksize = .false.   !< Flag for automatic Block sizing
+        type(vector)    ::  blocksize       !< Size (width & heigth) of a Block (sub-domain)
     contains
     procedure :: setdp
     procedure :: setdt
     procedure :: setboundingbox
-    procedure :: printout => printsimdefs
+    procedure :: setblocksize
+    procedure :: print => printsimdefs
     end type
 
     type constants_t    !< Case Constants class
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
-        real(prec) :: Rho_ref = 1000.0      !< Reference density of the medium (default=1000.0) (kg m-3)
+        real(prec)   :: Z0 = 0.0            !< Reference local sea level
+        real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
     contains
+    procedure :: setdefaults
     procedure :: setgravity
+    procedure :: setz0
     procedure :: setrho
+    procedure :: print => printconstants
     end type
 
     type filenames_t    !<File names class
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
+        type(string) :: tempfilename        !< Generic temporary file name
     end type
 
-    type globals_type   !<Globals class - This is a container for every global variable on the simulation
+    type globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
@@ -75,7 +83,7 @@
     end type
 
     !Simulation variables
-    type(globals_type) :: Globals
+    type(globals_class) :: Globals
 
     !Public access vars
     public :: Globals
@@ -125,7 +133,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private parameter checking method. Checks if mandatory parameters were set
+    !> Parameter checking method. Checks if mandatory parameters were set
     !---------------------------------------------------------------------------
     subroutine check(self)
     implicit none
@@ -150,7 +158,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private parameter printing method.
+    !> Parameter printing method.
     !---------------------------------------------------------------------------
     subroutine printsimparameters(self)
     implicit none
@@ -160,13 +168,13 @@
     call getintegratorname(temp_str,self%Integrator)
     outext = '      Integrator scheme is '//temp_str//new_line('a')
     temp_str=self%CFL
-    outext = outext//'       CFL='//temp_str//new_line('a')
+    outext = outext//'       CFL = '//temp_str//new_line('a')
     temp_str=self%WarmUpTime
-    outext = outext//'       WarmUpTime='//temp_str//' s'//new_line('a')
+    outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeMax
-    outext = outext//'       TimeMax='//temp_str//' s'//new_line('a')
+    outext = outext//'       TimeMax = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeOut
-    outext = outext//'       TimeOut='//temp_str//' Hz'
+    outext = outext//'       TimeOut = '//temp_str//' Hz'
     call ToLog(outext,.false.)
     end subroutine
 
@@ -175,7 +183,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> private routine to get integrator scheme name
+    !> Routine to get integrator scheme name
     !---------------------------------------------------------------------------
     subroutine getintegratorname(name,code)
     implicit none
@@ -195,7 +203,28 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Public Gravity setting routine.
+    !> Cosntants default setting routine.
+    !
+    !> @param[in] grav
+    !---------------------------------------------------------------------------
+    subroutine setdefaults (self)
+    implicit none
+    class(constants_t), intent(inout) :: self
+    integer :: sizem
+    self%Gravity= -9.81*ez
+    self%Z0 = 0.0
+    self%Rho_ref = 1000.0
+    sizem=sizeof(self)
+    call SimMemory%adddef(sizem)
+    return
+    end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Gravity setting routine.
     !
     !> @param[in] grav
     !---------------------------------------------------------------------------
@@ -221,7 +250,27 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Provate Rho_Ref setting routine.
+    !> Z0 setting routine.
+    !
+    !> @param[in] read_z0
+    !---------------------------------------------------------------------------
+    subroutine setz0(self,read_z0)
+    implicit none
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_z0
+    integer :: sizem
+    self%Z0=read_z0%to_number(kind=1._R4P)
+    sizem = sizeof(self%Z0)
+    call SimMemory%adddef(sizem)
+    return
+    end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Rho_Ref setting routine.
     !
     !> @param[in] read_rho
     !---------------------------------------------------------------------------
@@ -247,7 +296,34 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private dp setting routine.
+    !> Public constants printing routine.
+    !---------------------------------------------------------------------------
+    subroutine printconstants(self)
+    implicit none
+    class(constants_t), intent(in) :: self
+    type(string) :: outext
+    type(string) :: temp_str(3)
+
+
+    temp_str(1)=self%Gravity%x
+    temp_str(2)=self%Gravity%y
+    temp_str(3)=self%Gravity%z
+    outext = '      Gravity is '//new_line('a')//&
+        '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
+    temp_str(1)=self%Z0
+    outext = outext//'       Z0 = '//temp_str(1)//' m'//new_line('a')
+    temp_str(1)=self%Rho_ref
+    outext = outext//'       Rho_ref = '//temp_str(1)//' kg/m^3'
+
+    call ToLog(outext,.false.)
+    end subroutine printconstants
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Dp setting routine.
     !
     !> @param[in] read_dp
     !---------------------------------------------------------------------------
@@ -273,7 +349,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private dt setting routine.
+    !> Dt setting routine.
     !
     !> @param[in] read_dt
     !---------------------------------------------------------------------------
@@ -299,7 +375,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private bounding box setting routine.
+    !> Bounding box setting routine.
     !
     !> @param[in] point_, coords
     !---------------------------------------------------------------------------
@@ -315,6 +391,30 @@
         self%Pointmax= coords
     endif
     sizem=sizeof(coords)
+    call SimMemory%adddef(sizem)
+    return
+    end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> blocksize box setting routine. Calls a Block sizer routine, based on the
+    !> bounding box, to compute the size, if the user sets 'auto'
+    !
+    !> @param[in] bsize
+    !---------------------------------------------------------------------------
+    subroutine setblocksize(self, bsize)
+    implicit none
+    class(simdefs_t), intent(inout) :: self
+    type(vector) :: bsize
+    integer :: sizem
+
+    !Check if the size is given or we need to call BlockSizer beacuse user requested 'auto'
+
+    self%blocksize = bsize
+    sizem = sizeof(bsize)
     call SimMemory%adddef(sizem)
     return
     end subroutine
@@ -345,7 +445,11 @@
     temp_str(2)=self%Pointmax%y
     temp_str(3)=self%Pointmax%z
     outext = outext//'       Pointmax (BB) is '//new_line('a')//&
-        '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)
+        '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
+    temp_str(1)=self%blocksize%x
+    temp_str(2)=self%blocksize%y
+    outext = outext//'       Blocks are sized '//new_line('a')//&
+        '       '//temp_str(1)//' X '//temp_str(2)
 
     call ToLog(outext,.false.)
     end subroutine

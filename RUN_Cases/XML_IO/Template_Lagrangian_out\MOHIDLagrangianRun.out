@@ -22,23 +22,30 @@
   along with MOHIDLagrangian. If not, see <http://www.gnu.org/licenses/>.,
 
 
-MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
+MOHIDLagrangian v0.0.3 (R. Birjukovs Canelas) (23-05-2018)
 =====================================================================
  ->Logger initialized
  ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
-       CFL=+0.800000E+00
-       WarmUpTime=+0.100000E+00 s
-       TimeMax=+0.152000E+04 s
-       TimeOut=+0.110000E+01 Hz
+       CFL = +0.800000E+00
+       WarmUpTime = +0.100000E+00 s
+       TimeMax = +0.152000E+04 s
+       TimeOut = +0.110000E+01 Hz
  -->Reading case constants
+ Could not find any node called "constantsdef" in the xml file, ignoring
+       Gravity is 
+       -0.000000000000000E+000 -0.000000000000000E+000 -0.981000000000000E+001
+       Z0 =  0.000000E+00 m
+       Rho_ref = +0.100000E+04 kg/m^3
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
        Pointmin (BB) is 
        -0.100000000000000E+002  0.000000000000000E+000 -0.500010000000000E+003
        Pointmax (BB) is 
        +0.100000000000000E+005 +0.200050000000000E+005 +0.405740000000000E+001
+       Blocks are sized 
+        0.000000000000000E+000 X  0.000000000000000E+000
  -->Reading case Sources
  -->Source Spill_007 allocated
        Id = +18
@@ -61,20 +68,13 @@ MOHIDLagrangian v0.0.2 (R. Birjukovs Canelas) (02-04-2018)
        +0.100000000000000E+001 +0.200000000000000E+001 +0.300000000000000E+001
        Emitting +41 tracers at a rate of +0.200000E+00 Hz
        Active from  0.000000E+00 to +0.152000E+04 seconds
- -->Source Mistery_discharge_0 allocated
-       Id = +3
-       Geometry type is sphere
-       Initially at coordinates
-       +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
-       Emitting +1089 tracers at a rate of +0.500000E-01 Hz
-       Active from +0.112500E+01 to +0.152000E+04 seconds
  -->Properties to link to Sources found at Material_props.xml
-       Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
+       Source id = +3 not listed, property bag_1, of type plastic not linked, ignoring
        Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
        Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
- Allocated +98784 Tracers.
- ->Total allocated memory: +0.173870240000000E+002mb
-       Allocated memory for Sources = +0.936000000000000E-003mb
-       Allocated memory for Tracers = +0.173859840000000E+002mb
-       Allocated memory for Consts  = +0.104000000000000E-003mb
+ Allocated +16082 Tracers.
+ ->Total allocated memory: +0.283124400000000E+001mb
+       Allocated memory for Sources = +0.704000000000000E-003mb
+       Allocated memory for Tracers = +0.283043200000000E+001mb
+       Allocated memory for Consts  = +0.108000000000000E-003mb
  Simulation ended, freeing resources. See you next time
