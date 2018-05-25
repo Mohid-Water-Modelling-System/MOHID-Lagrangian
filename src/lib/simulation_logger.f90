@@ -57,7 +57,6 @@
         write(temp(i),*) values(i)
     enddo
     timestamp=trim(adjustl(temp(1)))//'-'//trim(adjustl(temp(2)))//'-'//trim(adjustl(temp(3)))//' @'//trim(adjustl(temp(5)))//':'//trim(adjustl(temp(6)))//':'//trim(adjustl(temp(7)))
-
     end subroutine
 
 
@@ -76,8 +75,10 @@
     logical, intent(in), optional :: timeoption
     type(string) :: timestamp
     call getTimeStamp(timestamp)
-    if(present(timeoption).and.timeoption.eqv..false.)then
+    if (present(timeoption)) then
+      if (timeoption.eqv..false.) then
         timestamp=''
+      endif
     endif
     timestamp=timestamp//' '//tologstr
     write(Log_unit,"(A)") timestamp%chars()

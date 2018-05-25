@@ -24,7 +24,7 @@
     implicit none
     private
 
-    type source_par               !<Type - parameters of a source object
+    type :: source_par               !<Type - parameters of a source object
         integer :: id                       !< unique source identification (integer)
         real(prec_time) :: emitting_rate    !< Emitting rate of the source (Hz)
         real(prec_time) :: startime         !< time to start emitting tracers
@@ -36,7 +36,7 @@
         class(shape), allocatable :: geometry   !< Source geometry
     end type
 
-    type source_state             !<Type - state variables of a source object
+    type :: source_state             !<Type - state variables of a source object
         real(prec_time) :: age              ! time variables
         logical :: active                   !< active switch
         type(vector) :: pos                 !< Position of the source baricenter (m)
@@ -45,7 +45,7 @@
         real(prec) :: T                     !< Temperature of the source (Celcius)
     end type
 
-    type source_stats             !<Type - statistical variables of a source object
+    type :: source_stats             !<Type - statistical variables of a source object
         ! All stats variables at writing precision (prec_wrt)
         ! Avegarge variable is computed by Accumulated_var / ns
         integer :: particles_emitted        !< Number of emitted particles by this source
@@ -53,13 +53,13 @@
         integer :: ns                       !< Number of sampling steps
     end type
 
-    type source_stencil         !<Type - holder for the tracer creation stencil of the source
+    type :: source_stencil         !<Type - holder for the tracer creation stencil of the source
         integer :: np                       !< Number of tracers by emission
         integer :: total_np                 !< Total number of tracers that this source will generate
         type(vector), allocatable, dimension(:) :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission
     end type
 
-    type source_class           !<Type - The source class
+    type :: source_class           !<Type - The source class
         type(source_par)   :: par           !<To access parameters
         type(source_state) :: now           !<To access state variables
         type(source_stencil) :: stencil     !<To acess stencil variables
@@ -70,9 +70,16 @@
     procedure :: print
     end type
 
+    type :: source_group_class
+      type(source_class), allocatable, dimension(:) :: src
+    contains
+    procedure :: initialize => initSources
+    procedure :: setProps
+    end type
+
     !Simulation variables
     type(source_class), allocatable, dimension(:) :: Source
-
+    type(source_group_class) :: Sources
 
     !Public access vars
     public :: Source, source_class
@@ -80,6 +87,71 @@
     public :: allocSources, setSourceProperties
 
     contains
+
+      !---------------------------------------------------------------------------
+      !> @Ricardo Birjukovs Canelas - MARETEC
+      ! Routine Author Name and Affiliation.
+      !
+      !> @brief
+      !> source allocation routine - allocates the sources objects
+      !
+      !> @param[in] nsources
+      !---------------------------------------------------------------------------
+      subroutine initSources(self,nsources)
+      implicit none
+      class(source_group_class), intent(inout) :: self
+      integer, intent(in) :: nsources
+      integer err
+      type(string) :: outext
+      allocate(Sources%src(nsources), stat=err)
+      if(err/=0)then
+          outext='[initSources]: Cannot allocate Sources, stoping'
+          call ToLog(outext)
+          stop
+      endif
+      end subroutine
+
+
+      !---------------------------------------------------------------------------
+      !> @Ricardo Birjukovs Canelas - MARETEC
+      ! Routine Author Name and Affiliation.
+      !
+      !> @brief
+      !> source property setting routine, calls source by id to set its properties
+      !
+      !> @param[in] srcid,ptype,pname
+      !---------------------------------------------------------------------------
+      subroutine setProps(self,srcid_str,ptype,pname)
+      implicit none
+      class(source_group_class), intent(inout) :: self
+      type(string), intent(in) :: srcid_str      !<Source id tag
+      type(string), intent(in) :: ptype          !<Property type to set
+      type(string), intent(in) :: pname          !<Property name to set
+
+      integer :: srcid
+      type(string) :: outext, temp
+      integer :: i
+      logical :: notlinked
+
+      srcid = srcid_str%to_number(kind=1_I1P)
+      notlinked = .true.  !assuming not linked
+      do i=1, size(Source)
+          if (Source(i)%par%id == srcid) then ! found the correct source to link to
+              call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
+              temp = Source(i)%par%id
+              outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
+              call ToLog(outext)
+              notlinked = .false. ! we linked it
+              exit
+          endif
+      enddo
+      if (notlinked) then ! property has no corresponding Source
+          temp = srcid
+          outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
+          call ToLog(outext)
+      endif
+      return
+      end subroutine
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

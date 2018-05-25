@@ -27,7 +27,12 @@
     private
 
     !Update with any new additions as they are added
-    type(string), allocatable, dimension(:) :: GeomList !< String list (array) with the name of possible geometry types.
+    type :: geometry_class
+      type(string), allocatable, dimension(:) :: list !< String list (array) with the name of possible geometry types.
+    contains
+      procedure :: initialize => allocatelist
+      procedure :: inlist
+    end type
 
     type :: shape                      !<Type - extendable shape class
         type(vector) :: pt              !< Coordinates of a point
@@ -51,48 +56,52 @@
         type(vector) :: size            !< Box size
     end type
 
+    type(geometry_class) :: Geometry
+
     public :: shape, point, line, sphere, box
-    public :: GeomList
-    public :: AllocateGeomList, IsValidGeom
+    public :: Geometry
 
     contains
 
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Public routine to allocate the possible geometry name list
-    !---------------------------------------------------------------------------
-    subroutine AllocateGeomList
-    implicit none
-    allocate(GeomList(4))
-    GeomList(1) ='point'
-    GeomList(2) ='line'
-    GeomList(3) ='box'
-    GeomList(4) ='sphere'
-    end subroutine
 
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Public function that returns a logical if the input geometry name is valid
-    !
-    !> @param[in] geomname
-    !---------------------------------------------------------------------------
-    logical function IsValidGeom(geomname) result(tf)
-    implicit none
-    type(string), intent(in) :: geomname
-    integer :: i
-    tf = .false.
-    do i=1, size(GeomList)
-        if (geomname == GeomList(i)) then
-            tf = .true.
-        endif
-    enddo
-    end function IsValidGeom
+      !---------------------------------------------------------------------------
+      !> @Ricardo Birjukovs Canelas - MARETEC
+      ! Routine Author Name and Affiliation.
+      !
+      !> @brief
+      !> Public routine to allocate the possible geometry name list
+      !---------------------------------------------------------------------------
+      subroutine allocatelist(self)
+      implicit none
+      class(geometry_class), intent(inout) :: self
+      allocate(self%list(4))
+      self%list(1) ='point'
+      self%list(2) ='line'
+      self%list(3) ='box'
+      self%list(4) ='sphere'
+      end subroutine
+
+      !---------------------------------------------------------------------------
+      !> @Ricardo Birjukovs Canelas - MARETEC
+      ! Routine Author Name and Affiliation.
+      !
+      !> @brief
+      !> Public function that returns a logical if the input geometry name is valid
+      !
+      !> @param[in] geomname
+      !---------------------------------------------------------------------------
+      logical function inlist(self, geomname) result(tf)
+      implicit none
+      class(geometry_class), intent(in) :: self
+      type(string), intent(in) :: geomname
+      integer :: i
+      tf = .false.
+      do i=1, size(self%list)
+          if (geomname == self%list(i)) then
+              tf = .true.
+          endif
+      enddo
+      end function inlist
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

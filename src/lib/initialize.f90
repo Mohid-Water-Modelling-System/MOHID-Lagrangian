@@ -118,38 +118,38 @@
     !> @brief
     !> Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node
     !
-    !> @param[in] source, geometry
+    !> @param[in] source, source_detail, source_shape
     !---------------------------------------------------------------------------
-    subroutine read_xml_geometry(source,source_detail,geometry)
+    subroutine read_xml_geometry(source,source_detail,source_shape)
     implicit none
     type(Node), intent(in), pointer :: source           !<Working xml node
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
-    class(shape), intent(inout) :: geometry             !<Geometrical object to fill
+    class(shape), intent(inout) :: source_shape             !<Geometrical object to fill
     type(string) :: outext
     type(string) :: tag
 
-    select type (geometry)
+    select type (source_shape)
     type is (shape)
         !nothing to do
     class is (box)
         tag='point'
-        call readxmlvector(source_detail,tag,geometry%pt)
+        call readxmlvector(source_detail,tag,source_shape%pt)
         tag='size'
-        call readxmlvector(source_detail,tag,geometry%size)
+        call readxmlvector(source_detail,tag,source_shape%size)
     class is (point)
         tag='point'
-        call readxmlvector(source,tag,geometry%pt)
+        call readxmlvector(source,tag,source_shape%pt)
     class is (line)
         tag='pointa'
-        call readxmlvector(source_detail,tag,geometry%pt)
+        call readxmlvector(source_detail,tag,source_shape%pt)
         tag='pointb'
-        call readxmlvector(source_detail,tag,geometry%last)
+        call readxmlvector(source_detail,tag,source_shape%last)
     class is (sphere)
         tag='point'
-        call readxmlvector(source_detail,tag,geometry%pt)
-        call extractDataAttribute(source_detail, "radius", geometry%radius)
+        call readxmlvector(source_detail,tag,source_shape%pt)
+        call extractDataAttribute(source_detail, "radius", source_shape%radius)
         class default
-        outext='read_xml_geometry: unexpected type for geometry object!'
+        outext='[read_xml_geometry]: unexpected type for geometry object!'
         call ToLog(outext)
         stop
     end select
@@ -164,7 +164,7 @@
     !> @brief
     !> Private source definitions parser routine. Builds the tracer sources from the input xml case file.
     !
-    !> @param[in] parsedxml
+    !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_sources(case_node)
     implicit none
@@ -173,9 +173,9 @@
     type(string) :: outext
     type(NodeList), pointer :: sourcedefList        !< Node list for simulationdefs
     type(NodeList), pointer :: sourceList           !< Node list for sources
-    type(NodeList), pointer :: sourceChildren      !< Node list for source node children nodes
+    type(NodeList), pointer :: sourceChildren       !< Node list for source node children nodes
     type(Node), pointer :: sourcedef
-    type(Node), pointer :: source_node                   !< Single source block to process
+    type(Node), pointer :: source_node              !< Single source block to process
     type(Node), pointer :: source_detail
     integer :: i, j
     logical :: readflag
@@ -184,7 +184,7 @@
     type(string) :: name, source_geometry, tag, att_name, att_val
     character(80) :: val, name_char, source_geometry_char
     real(prec) :: emitting_rate, start, finish
-    class(shape), allocatable :: geometry
+    class(shape), allocatable :: source_shape
 
     outext='-->Reading case Sources'
     call ToLog(outext,.false.)
@@ -193,7 +193,8 @@
     call gotoChildNode(case_node,sourcedef,tag)
     sourceList => getElementsByTagname(sourcedef, "source")
 
-    call allocSources(getLength(sourceList))                         !allocating the source objects
+    !allocating the temporary source objects
+    call allocSources(getLength(sourceList))
 
     do j = 0, getLength(sourceList) - 1
         source_node => item(sourceList,j)
@@ -208,14 +209,14 @@
         call ReadXMLatt(source_node, tag, att_name, att_val)
         emitting_rate = att_val%to_number(kind=1._R4P)
         tag="active"
-        att_name='start'
+        att_name="start"
         call ReadXMLatt(source_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             start = att_val%to_number(kind=1._R4P)
         else
             start = 0.0
         endif
-        att_name='end'
+        att_name="end"
         call ReadXMLatt(source_node, tag, att_name, att_val,readflag,.false.)
         if (readflag.and.att_val%is_number()) then
             finish = att_val%to_number(kind=1._R4P)
@@ -227,30 +228,29 @@
         do i=0, getLength(sourceChildren)-1
             source_detail => item(sourceChildren,i) !grabing a node
             source_geometry = getLocalName(source_detail)  !finding its name
-            if (IsValidGeom(source_geometry)) then  !if the node is a valid geometry name
+            if (Geometry%inlist(source_geometry)) then  !if the node is a valid geometry name
                 select case (source_geometry%chars())
                 case ('point')
-                    allocate(point::geometry)
+                    allocate(point::source_shape)
                 case ('sphere')
-                    allocate(sphere::geometry)
+                    allocate(sphere::source_shape)
                 case ('box')
-                    allocate(box::geometry)
+                    allocate(box::source_shape)
                 case ('line')
-                    allocate(line::geometry)
+                    allocate(line::source_shape)
                     case default
-                    outext='init_sources: unexpected type for geometry object!'
+                    outext='[init_sources]: unexpected type for geometry object!'
                     call ToLog(outext)
                     stop
                 end select
-                call read_xml_geometry(source_node,source_detail,geometry)
+                call read_xml_geometry(source_node,source_detail,source_shape)
                 exit
             endif
         enddo
-
         !initializing Source j
-        call Source(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,geometry)
-
-        deallocate(geometry)
+        call Source(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
+        
+        deallocate(source_shape)
     enddo
 
     return
@@ -320,8 +320,6 @@
 
     outext='-->Reading case constants'
     call ToLog(outext,.false.)
-
-    call Globals%Constants%setdefaults()
 
     tag="constantsdef"    !the node we want
     call gotoChildNode(case_node,constants_node,tag,readflag,.false.)
@@ -409,11 +407,16 @@
     integer :: i
 
     call PrintLicPreamble
-    call AllocateGeomList
-    Globals%SimTime = 0.
+
+    !setting every global variable and input parameter to their default
+    call Globals%initialize()
+    !initializing memory log
+    call SimMemory%initialize()
+    !initializing geometry class
+    call Geometry%initialize()
 
     !check if log file was opened - if not stop here
-    if (Log_unit==0) then
+    if (Log_unit==0) then !unit 0 is reserved for the log
         outext='->Logger initialized'
         call ToLog(outext)
     else
@@ -439,9 +442,6 @@
     call gotoChildNode(xmldoc,case_node,tag)
     tag="casedef"     !finding execution node
     call gotoChildNode(case_node,case_node,tag)
-
-    !initializing memory log
-    call SimMemory%initialize()
 
     ! building the simulation basic structures according to the case definition file
     ! every other structure in the simulation is built from these, i.e., not defined by the user directly

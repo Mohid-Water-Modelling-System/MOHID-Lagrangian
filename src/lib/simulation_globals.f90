@@ -61,7 +61,6 @@
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
         real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
     contains
-    procedure :: setdefaults
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
@@ -80,6 +79,8 @@
         type(constants_t)   :: Constants
         type(filenames_t)   :: FileNames
         real(prec_time)     :: SimTime
+      contains
+      procedure :: initialize => setdefaults
     end type
 
     !Simulation variables
@@ -89,6 +90,46 @@
     public :: Globals
 
     contains
+
+      !---------------------------------------------------------------------------
+      !> @Ricardo Birjukovs Canelas - MARETEC
+      ! Routine Author Name and Affiliation.
+      !
+      !> @brief
+      !> Globals default setting routine.
+      !---------------------------------------------------------------------------
+      subroutine setdefaults(self)
+      implicit none
+      class(globals_class), intent(inout) :: self
+      integer :: sizem
+      !parameters
+      self%Parameters%Integrator = 1
+      self%Parameters%CFL = 0.5
+      self%Parameters%WarmUpTime = 0.0
+      self%Parameters%TimeOut = MV
+      self%Parameters%TimeOut = MV
+      !Simulation definitions
+      self%SimDefs%autoblocksize =.true.
+      self%SimDefs%blocksize = 0.0
+      self%SimDefs%Dp = MV
+      self%SimDefs%dt = MV
+      self%SimDefs%Pointmin = 0.0
+      self%SimDefs%Pointmax = 0.0
+      !simulation constants
+      self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
+      self%Constants%Z0 = 0.0
+      self%Constants%Rho_ref = 1000.0
+      !filenames
+      self%FileNames%mainxmlfilename = 'not_set'
+      self%FileNames%propsxmlfilename = 'not_set'
+      self%FileNames%tempfilename = 'not_set'
+      !global time
+      self%SimTime = 0.0
+
+      sizem=sizeof(self)
+      call SimMemory%adddef(sizem)
+      return
+      end subroutine
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -198,26 +239,6 @@
     endif
     end subroutine
 
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Cosntants default setting routine.
-    !
-    !> @param[in] grav
-    !---------------------------------------------------------------------------
-    subroutine setdefaults (self)
-    implicit none
-    class(constants_t), intent(inout) :: self
-    integer :: sizem
-    self%Gravity= -9.81*ez
-    self%Z0 = 0.0
-    self%Rho_ref = 1000.0
-    sizem=sizeof(self)
-    call SimMemory%adddef(sizem)
-    return
-    end subroutine
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
