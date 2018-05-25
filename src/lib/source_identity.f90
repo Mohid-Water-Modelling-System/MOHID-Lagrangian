@@ -106,7 +106,7 @@
       allocate(Sources%src(nsources), stat=err)
       if(err/=0)then
           outext='[initSources]: Cannot allocate Sources, stoping'
-          call ToLog(outext)
+          call Log%put(outext)
           stop
       endif
       end subroutine
@@ -140,7 +140,7 @@
               call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
               temp = Source(i)%par%id
               outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
-              call ToLog(outext)
+              call Log%put(outext)
               notlinked = .false. ! we linked it
               exit
           endif
@@ -148,7 +148,7 @@
       if (notlinked) then ! property has no corresponding Source
           temp = srcid
           outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
-          call ToLog(outext)
+          call Log%put(outext)
       endif
       return
       end subroutine
@@ -170,7 +170,7 @@
     allocate(Source(nsources), stat=err)
     if(err/=0)then
         outext='Cannot allocate Sources, stoping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     endif
     end subroutine
@@ -202,7 +202,7 @@
             call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
             temp = Source(i)%par%id
             outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
-            call ToLog(outext)
+            call Log%put(outext)
             notlinked = .false. ! we linked it
             exit
         endif
@@ -210,7 +210,7 @@
     if (notlinked) then ! property has no corresponding Source
         temp = srcid
         outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
-        call ToLog(outext)
+        call Log%put(outext)
     endif
     return
     end subroutine
@@ -262,7 +262,7 @@
     allocate(src%stencil%ptlist(src%stencil%np), stat=err)
     if(err/=0)then
         outext='Cannot allocate point list for Source '// src%par%name //', stoping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     endif
     call src%par%geometry%getpointdistribution(src%stencil%np,Globals%SimDefs%Dp,src%stencil%ptlist)
@@ -332,7 +332,7 @@
     temp_str(2)=src%par%stoptime
     outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'
 
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     end subroutine
 

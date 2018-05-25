@@ -140,7 +140,7 @@
     sizemb = size*1E-6
     temp= sizemb
     outext='->Total allocated memory: '//temp//'mb'
-    call ToLog(outext)
+    call Log%put(outext)
 
     return
     end subroutine
@@ -173,7 +173,7 @@
         '       Allocated memory for Sources = '//temp(2)//'mb'//new_line('a')//&
         '       Allocated memory for Tracers = '//temp(3)//'mb'//new_line('a')//&
         '       Allocated memory for Consts  = '//temp(4)//'mb'
-    call ToLog(outext)
+    call Log%put(outext)
 
     return
     end subroutine

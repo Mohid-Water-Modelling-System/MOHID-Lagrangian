@@ -133,7 +133,7 @@
         call sphere_np_count(dp, self%radius, np)
         class default
         outext='geometry::getnp : unexpected type for geometry object!'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     end select
 
@@ -169,7 +169,7 @@
         call sphere_grid(dp, self%radius, np, ptlist)
         class default
         outext='geometry::getpointdistribution : unexpected type for geometry object!'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     end select
 

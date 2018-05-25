@@ -76,7 +76,8 @@
         'MOHIDLagrangian '//version//' ('//author//') ('//date//')'//new_line('a')//&
         '====================================================================='
 
-    call ToLog(outext,.false.)
+    !call Log%put(outext,.false.)
+    call Log%put(outext,.false.)
 
     end subroutine
 

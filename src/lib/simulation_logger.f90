@@ -24,19 +24,88 @@
 
     implicit none
     private
+    
+    type :: logger_class
+        private
+        integer :: log_unit = -1
+    contains
+    procedure :: initialize => initLog
+    procedure :: finalize   => closeLog
+    procedure :: put        => put_inLog
+    end type logger_class
+    
+    type(logger_class) :: Log
 
     !Public access vars
-    public :: Log_unit
-
-    !File handling
-    integer :: Log_unit = -1    !< 'Number' of log file
+    public :: Log
 
      !Public access procedures
-    public :: initMohidLagrangianLog, ToLog, getTimeStamp
+    public :: getTimeStamp
 
     contains
 
-
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Log file initizalization routine.
+    !
+    !> @param[in] outpath
+    !---------------------------------------------------------------------------
+    subroutine initLog(self,outpath)
+    implicit none
+    class(logger_class), intent(inout) :: self
+    type(string), intent(in) :: outpath !< output path were to point the logger
+    type(string) :: logfile
+    
+    logfile = outpath//'MOHIDLagrangianRun.out'
+    self%log_unit = 0
+    open (unit=self%log_unit,file=logfile%chars(),action="write",status="replace")
+    
+    end subroutine initLog
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Log file closure routine.
+    !---------------------------------------------------------------------------
+    subroutine closeLog(self)
+    implicit none
+    class(logger_class), intent(inout) :: self            
+    close(self%log_unit)       
+    end subroutine closeLog
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Log serialization routine
+    !
+    !> @param[in] tologstr,timeoption
+    !---------------------------------------------------------------------------
+    subroutine put_inLog(self,tologstr,timeoption)
+    implicit none
+    class(logger_class), intent(in) :: self
+    type(string), intent(inout) :: tologstr
+    logical, intent(in), optional :: timeoption
+    type(string) :: timestamp
+    
+    call getTimeStamp(timestamp)
+    if (present(timeoption)) then
+      if (.not.timeoption) then
+        timestamp=''
+      endif
+    endif
+    tologstr=timestamp//' '//tologstr
+    write(self%log_unit,"(A)") tologstr%chars()
+    print'(A)', tologstr%chars()
+    
+    end subroutine put_inLog
+        
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -57,51 +126,6 @@
         write(temp(i),*) values(i)
     enddo
     timestamp=trim(adjustl(temp(1)))//'-'//trim(adjustl(temp(2)))//'-'//trim(adjustl(temp(3)))//' @'//trim(adjustl(temp(5)))//':'//trim(adjustl(temp(6)))//':'//trim(adjustl(temp(7)))
-    end subroutine
-
-
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Public log serialization routine
-    !
-    !> @param[in] outpath
-    !---------------------------------------------------------------------------
-    subroutine ToLog(tologstr,timeoption)
-    implicit none
-    type(string), intent(in) :: tologstr
-    logical, intent(in), optional :: timeoption
-    type(string) :: timestamp
-    call getTimeStamp(timestamp)
-    if (present(timeoption)) then
-      if (timeoption.eqv..false.) then
-        timestamp=''
-      endif
-    endif
-    timestamp=timestamp//' '//tologstr
-    write(Log_unit,"(A)") timestamp%chars()
-    print'(A)', timestamp%chars()
-    end subroutine
-
-
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Public log file initizalization routine.
-    !
-    !> @param[in] outpath
-    !---------------------------------------------------------------------------
-    subroutine initMohidLagrangianLog(outpath)
-    implicit none
-    type(string), intent(in) :: outpath
-    type(string) :: logfile
-    logfile = outpath//'MOHIDLagrangianRun.out'
-    Log_unit = 0 !this way we can use it as a logical for open and closed.
-    open (unit=Log_unit,file=logfile%chars(),action="write",status="replace")
-    end subroutine
+    end subroutine getTimeStamp
 
   end module simulation_logger_mod

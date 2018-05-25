@@ -96,20 +96,20 @@
 
     if (self%emittable .le. 0) then
         outext='Emitter::alloctracers : No Tracers will be simulated, stoping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     else
         allocate(Tracer(self%emittable), stat=err)
         if(err/=0)then
             outext='Emitter::alloctracers : Cannot allocate Tracers, stoping'
-            call ToLog(outext)
+            call Log%put(outext)
             stop
         endif
     endif
 
     temp = size(Tracer)
     outext='Allocated '// temp // ' Tracers.'
-    call ToLog(outext)
+    call Log%put(outext)
     !receiving Sources as argument so latter we can differentiate between tracer types
 
     end subroutine

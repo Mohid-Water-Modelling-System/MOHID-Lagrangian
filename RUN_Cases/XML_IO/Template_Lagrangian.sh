@@ -27,7 +27,7 @@ mkdir $dirout
 # CODES are executed according the selected parameters of execution in this testcase
 errcode=0
 if [ $errcode -eq 0 ]; then
-  $mohidlagrangian -i ${name}_Def -o $dirout
+  $mohidlagrangian -i ${name}_Def.xml -o $dirout
   errcode=$?
 fi
 

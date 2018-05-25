@@ -26,30 +26,27 @@
     !-----------------------------------------------------------------------------------------------------------------------------------
     character(len=STRLEN)  :: casefilename_char
     character(len=STRLEN)  :: outpath_char
-    type(string) :: casefilename
-    type(string) :: outpath
+    type(string) :: casefilename !< Simulation input case file
+    type(string) :: outpath      !< Simulation output path
     
-    type(simulation_class) :: Sim
+    type(simulation_class) :: Sim !< Simulation object
     
     !-----------------------------------------------------------------------------------------------------------------------------------
 
     ! Initialize command line arguments
     call cla_init
-
     ! Register keys for key/value pairs.
     call cla_register('-i','--infile','input definition file (xml)', cla_char, 'casefilename')
     call cla_register('-o','--outpath','output path', cla_char, 'outpath')
-
     ! Store the arguments with each respective variable
     call cla_get('-i',casefilename_char)
     call cla_get('-o',outpath_char)
-    ! CLA uses chars, we use 'strings'
     casefilename=trim(casefilename_char)
     outpath=trim(outpath_char)
-
     ! Completing the outpath with the separator
     outpath=outpath//'/'
     
+    !Our Lagrangian adventure starts here. Strap on.
     call Sim%initialize(casefilename,outpath)
 
     !main time cycle
@@ -64,6 +61,7 @@
     enddo
 
     ! Finalization of the program - deallocation, file closing, etc
-    call finalizeMohidLagrangian
-
+    !call finalizeMohidLagrangian
+    call Sim%finalize()
+    
     end program MOHIDLagrangian

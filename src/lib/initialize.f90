@@ -34,7 +34,7 @@
     private
 
     !Public access procedures
-    public :: initMohidLagrangian
+    public :: InitFromXml
 
     contains
 
@@ -99,13 +99,13 @@
         att_name="name"
         call readxmlatt(props_node, tag, att_name, Globals%FileNames%propsxmlfilename)  !getting the file name from that tag
         outext='-->Properties to link to Sources found at '//Globals%FileNames%propsxmlfilename
-        call ToLog(outext)
+        call Log%put(outext)
         tag="links"
         call gotoChildNode(props_node,props_node,tag) !getting the links node
         call linkPropertySources(props_node)                 !calling the property linker
     else
         outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
-        call ToLog(outext)
+        call Log%put(outext)
     endif
 
     end subroutine
@@ -150,7 +150,7 @@
         call extractDataAttribute(source_detail, "radius", source_shape%radius)
         class default
         outext='[read_xml_geometry]: unexpected type for geometry object!'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     end select
 
@@ -185,7 +185,7 @@
     class(shape), allocatable :: source_shape
 
     outext='-->Reading case Sources'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="sourcedef"    !the node we want
     call gotoChildNode(case_node,sourcedef,tag)
@@ -238,7 +238,7 @@
                     allocate(line::source_shape)
                     case default
                     outext='[init_sources]: unexpected type for geometry object!'
-                    call ToLog(outext)
+                    call Log%put(outext)
                     stop
                 end select
                 call read_xml_geometry(source_node,source_detail,source_shape)
@@ -275,7 +275,7 @@
     type(vector) :: coords
 
     outext='-->Reading case simulation definitions'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="simulationdefs"    !the node we want
     call gotoChildNode(case_node,simdefs_node,tag)
@@ -317,7 +317,7 @@
     logical :: readflag
 
     outext='-->Reading case constants'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="constantsdef"    !the node we want
     call gotoChildNode(case_node,constants_node,tag,readflag,.false.)
@@ -366,7 +366,7 @@
     character(80) :: parmkey_char, parmvalue_char
 
     outext='-->Reading case parameters'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="parameters"    !the node we want
     call gotoChildNode(execution_node,parameters_node,tag)
@@ -395,7 +395,7 @@
     !
     !> @param[in] xmlfilename
     !---------------------------------------------------------------------------
-    subroutine initMohidLagrangian(xmlfilename)
+    subroutine InitFromXml(xmlfilename)
     implicit none
     type(string), intent(in) :: xmlfilename         !< .xml file name
     type(string) :: outext, tag
@@ -404,31 +404,14 @@
     type(Node), pointer :: execution_node
     integer :: i
 
-    call PrintLicPreamble
-
-    !setting every global variable and input parameter to their default
-    call Globals%initialize()
-    !initializing memory log
-    call SimMemory%initialize()
-    !initializing geometry class
-    call Geometry%initialize()
-
-    !check if log file was opened - if not stop here
-    if (Log_unit==0) then !unit 0 is reserved for the log
-        outext='->Logger initialized'
-        call ToLog(outext)
-    else
-        stop 'Logger has not been initialized, stopping'
-    end if
-
     xmldoc => parseFile(xmlfilename%chars(), iostat=i)
     if (i==0) then
         outext='->Reading case definition from '//xmlfilename
-        call ToLog(outext)
+        call Log%put(outext)
         Globals%FileNames%mainxmlfilename = xmlfilename
     else
         outext='[initMohidLagrangian]: no '//xmlfilename//' input file, give me at least that!'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     endif
 
@@ -459,6 +442,6 @@
     call destroy(xmldoc)
 
     return
-    end subroutine
+    end subroutine InitFromXml
 
   end module initialize_mod
