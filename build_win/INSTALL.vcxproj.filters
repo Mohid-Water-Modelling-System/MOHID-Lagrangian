@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\build_win\CMakeFiles\3cfb9216b6b05b996fdf3d11e123cec4\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{53C1CE1E-73A3-3AB8-A9CF-7E3C03060A3D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

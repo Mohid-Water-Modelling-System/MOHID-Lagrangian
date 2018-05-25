@@ -37,14 +37,14 @@
           <pointb x="11" y="21" z="31" />
         </line>
       </source>
-      <!-- <source>
+      <source>
         <setsource id="3" name="Mistery_discharge_0" />
         <set emitting_rate="0.005" units_comment="Hz" />
         <active start="1.125" end="end"/>
         <sphere radius="5.5">
           <point x="50" y="0" z="0" />
         </sphere>
-      </source> -->
+      </source>
     </sourcedef>
     <initials>
       <velocity source="1" ux="15" uy="0.0" uz="-0.1"/>

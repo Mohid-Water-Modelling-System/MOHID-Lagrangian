@@ -24,8 +24,8 @@
 
 MOHIDLagrangian v0.0.3 (R. Birjukovs Canelas) (23-05-2018)
 =====================================================================
-2018-5-24 @22:11:6 ->Logger initialized
-2018-5-24 @22:11:6 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-5-25 @15:11:7 ->Logger initialized
+2018-5-25 @15:11:7 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000E+00
@@ -67,13 +67,20 @@ MOHIDLagrangian v0.0.3 (R. Birjukovs Canelas) (23-05-2018)
        +0.100000000000000E+001 +0.200000000000000E+001 +0.300000000000000E+001
        Emitting +41 tracers at a rate of +0.200000E+00 Hz
        Active from  0.000000E+00 to +0.152000E+04 seconds
-2018-5-24 @22:11:6 -->Properties to link to Sources found at Material_props.xml
-2018-5-24 @22:11:6       Source id = +3 not listed, property bag_1, of type plastic not linked, ignoring
-2018-5-24 @22:11:6       Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
-2018-5-24 @22:11:6       Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
-2018-5-24 @22:11:6 Allocated +16082 Tracers.
-2018-5-24 @22:11:6 ->Total allocated memory: +0.283124400000000E+001mb
-       Allocated memory for Sources = +0.704000000000000E-003mb
-       Allocated memory for Tracers = +0.283043200000000E+001mb
-       Allocated memory for Consts  = +0.108000000000000E-003mb
-2018-5-24 @22:11:6 Simulation ended, freeing resources. See you next time
+ -->Source Mistery_discharge_0 allocated
+       Id = +3
+       Geometry type is sphere
+       Initially at coordinates
+       +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
+       Emitting +1088 tracers at a rate of +0.500000E-02 Hz
+       Active from +0.112500E+01 to +0.152000E+04 seconds
+2018-5-25 @15:11:7 -->Properties to link to Sources found at Material_props.xml
+2018-5-25 @15:11:7       Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
+2018-5-25 @15:11:7       Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
+2018-5-25 @15:11:7       Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
+2018-5-25 @15:11:7 Allocated +24344 Tracers.
+2018-5-25 @15:11:7 ->Total allocated memory: +0.506565E+01mb
+       Allocated memory for Sources = +0.199200E-02mb
+       Allocated memory for Tracers = +0.506355E+01mb
+       Allocated memory for Consts  = +0.108000E-03mb
+2018-5-25 @15:11:7 Simulation ended, freeing resources. See you next time

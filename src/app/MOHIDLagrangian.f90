@@ -19,40 +19,38 @@
     use CLA    !Command line argument module
     use commom_modules
     use sources_mod
+    use simulation_mod
 
     implicit none
 
     !-----------------------------------------------------------------------------------------------------------------------------------
-    character(len=STRLEN)  :: defxmlfilename_char
+    character(len=STRLEN)  :: casefilename_char
     character(len=STRLEN)  :: outpath_char
-    type(string) :: defxmlfilename
+    type(string) :: casefilename
     type(string) :: outpath
-    character(4) :: xmlextention = '.xml'
+    
+    type(simulation_class) :: Sim
+    
     !-----------------------------------------------------------------------------------------------------------------------------------
 
     ! Initialize command line arguments
     call cla_init
 
     ! Register keys for key/value pairs.
-    call cla_register('-i','--infile','input definition file (xml)', cla_char, 'defxmlfilename')
+    call cla_register('-i','--infile','input definition file (xml)', cla_char, 'casefilename')
     call cla_register('-o','--outpath','output path', cla_char, 'outpath')
 
     ! Store the arguments with each respective variable
-    call cla_get('-i',defxmlfilename_char)
+    call cla_get('-i',casefilename_char)
     call cla_get('-o',outpath_char)
     ! CLA uses chars, we use 'strings'
-    defxmlfilename=trim(defxmlfilename_char)
+    casefilename=trim(casefilename_char)
     outpath=trim(outpath_char)
 
-    ! Completing the names with file extensions
-    defxmlfilename=defxmlfilename//xmlextention
+    ! Completing the outpath with the separator
     outpath=outpath//'/'
-
-    ! Initialize logger - this is mandatory
-    call initMohidLagrangianLog(outpath)
-
-    ! Initialization routines to build the simulation objects and space
-    call initMohidLagrangian(defxmlfilename)
+    
+    call Sim%initialize(casefilename,outpath)
 
     !main time cycle
     do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)

@@ -124,7 +124,7 @@
     implicit none
     type(Node), intent(in), pointer :: source           !<Working xml node
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
-    class(shape), intent(inout) :: source_shape             !<Geometrical object to fill
+    class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
     type(string) :: outext
     type(string) :: tag
 
@@ -171,7 +171,6 @@
     type(Node), intent(in), pointer :: case_node
 
     type(string) :: outext
-    type(NodeList), pointer :: sourcedefList        !< Node list for simulationdefs
     type(NodeList), pointer :: sourceList           !< Node list for sources
     type(NodeList), pointer :: sourceChildren       !< Node list for source node children nodes
     type(Node), pointer :: sourcedef
@@ -182,7 +181,6 @@
     !source vars
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val
-    character(80) :: val, name_char, source_geometry_char
     real(prec) :: emitting_rate, start, finish
     class(shape), allocatable :: source_shape
 
@@ -263,7 +261,7 @@
     !> @brief
     !> Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file.
     !
-    !> @param[in] parsedxml
+    !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_simdefs(case_node)
     implicit none
@@ -306,7 +304,7 @@
     !> @brief
     !> Private case constant parser routine. Builds the simulation parametric space from the input xml case file.
     !
-    !> @param[in] parsedxml
+    !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_caseconstants(case_node)
     implicit none
@@ -354,7 +352,7 @@
     !> @brief
     !> Private parameter parser routine. Builds the simulation parametric space from the input xml case file.
     !
-    !> @param[in] parsedxml
+    !> @param[in] execution_node
     !---------------------------------------------------------------------------
     subroutine init_parameters(execution_node)
     implicit none
@@ -429,7 +427,7 @@
         call ToLog(outext)
         Globals%FileNames%mainxmlfilename = xmlfilename
     else
-        outext='Could not open '//xmlfilename//' input file, give me at least that!'
+        outext='[initMohidLagrangian]: no '//xmlfilename//' input file, give me at least that!'
         call ToLog(outext)
         stop
     endif
