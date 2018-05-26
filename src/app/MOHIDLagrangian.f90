@@ -28,9 +28,9 @@
     character(len=STRLEN)  :: outpath_char
     type(string) :: casefilename !< Simulation input case file
     type(string) :: outpath      !< Simulation output path
-    
+
     type(simulation_class) :: Sim !< Simulation object
-    
+
     !-----------------------------------------------------------------------------------------------------------------------------------
 
     ! Initialize command line arguments
@@ -45,23 +45,14 @@
     outpath=trim(outpath_char)
     ! Completing the outpath with the separator
     outpath=outpath//'/'
-    
+
     !Our Lagrangian adventure starts here. Strap on.
     call Sim%initialize(casefilename,outpath)
 
-    !main time cycle
-    do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
-
-
-
-        !Do your Lagrangian things here :D
-
-
-    Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
-    enddo
+    !Main time cycle
+    call Sim%run()
 
     ! Finalization of the program - deallocation, file closing, etc
-    !call finalizeMohidLagrangian
     call Sim%finalize()
-    
+
     end program MOHIDLagrangian

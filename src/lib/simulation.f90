@@ -30,15 +30,36 @@
     contains
     procedure :: initialize => initSimulation
     procedure :: finalize   => closeSimulation
+    procedure :: run
     end type
-
 
     !Simulation variables
     public :: simulation_class
     !Public access vars
 
-
     contains
+
+      !---------------------------------------------------------------------------
+      !> @Ricardo Birjukovs Canelas - MARETEC
+      ! Routine Author Name and Affiliation.
+      !
+      !> @brief
+      !> Simulation run method. Runs the initialized case main time cycle.
+      !---------------------------------------------------------------------------
+      subroutine run(self)
+      implicit none
+      class(simulation_class), intent(inout) :: self
+      type(string) :: outext
+
+      !main time cycle
+      do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
+
+          !Do your Lagrangian things here :D
+
+      Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
+      enddo
+
+      end subroutine run
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -67,8 +88,8 @@
     !initializing memory log
     call SimMemory%initialize()
     !initializing geometry class
-    call Geometry%initialize()    
-    
+    call Geometry%initialize()
+
     !Check if case file has .xml extension
     if (casefilename%extension() == '.xml') then
         ! Initialization routines to build the simulation from the input case file
@@ -80,7 +101,7 @@
     endif
 
     end subroutine initSimulation
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -92,12 +113,12 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
-    
+
     outext='Simulation ended, freeing resources. See you next time'
     call Log%put(outext)
     call Log%finalize()
-    
+
     end subroutine closeSimulation
-    
+
 
     end module simulation_mod

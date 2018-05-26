@@ -224,7 +224,7 @@
     !
     !> @param[in] src, id, name, emitting_rate, source_geometry
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src,id,name,emitting_rate,start,finish,source_geometry,geometry)
+    subroutine initializeSource(src,id,name,emitting_rate,start,finish,source_geometry,shapetype)
     implicit none
     class(source_class) :: src
     integer, intent(in) :: id
@@ -233,7 +233,7 @@
     real(prec), intent(in) :: start
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
-    class(shape), intent(in) :: geometry
+    class(shape), intent(in) :: shapetype
 
     integer :: sizem, i
     type(string) :: outext
@@ -246,7 +246,7 @@
     src%par%stoptime=finish
     src%par%name=name
     src%par%source_geometry=source_geometry
-    allocate(src%par%geometry, source=geometry)
+    allocate(src%par%geometry, source=shapetype)
     src%par%property_type = "pure" ! pure Lagrangian trackers by default
     src%par%property_name = "pure"
     !Setting state variables
@@ -258,14 +258,14 @@
     src%stats%acc_T=0.0
     src%stats%ns=0
     !setting stencil variables
-    call src%par%geometry%getnp(src%stencil%np,Globals%SimDefs%Dp)
+    src%stencil%np = Geometry%fillsize(src%par%geometry)
     allocate(src%stencil%ptlist(src%stencil%np), stat=err)
     if(err/=0)then
         outext='Cannot allocate point list for Source '// src%par%name //', stoping'
         call Log%put(outext)
         stop
     endif
-    call src%par%geometry%getpointdistribution(src%stencil%np,Globals%SimDefs%Dp,src%stencil%ptlist)
+    call Geometry%fill(src%par%geometry, src%stencil%np, src%stencil%ptlist)
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)

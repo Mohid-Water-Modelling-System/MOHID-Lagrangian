@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : source_emitter
+    ! MODULE        : emitter
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : April 2018
@@ -18,7 +18,7 @@
     !> sources and calling their initializers.
     !------------------------------------------------------------------------------
 
-    module source_emitter_mod
+    module emitter_mod
 
     use commom_modules
     use source_identity_mod
@@ -37,7 +37,7 @@
     !procedure :: activecheck
     end type
 
-    type(emitter_t) ::  Emitter
+    type(emitter_t) :: Emitter
 
     !Public access vars
     public :: Emitter
@@ -164,4 +164,4 @@
     src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np
     end subroutine
 
-  end module source_emitter_mod
+  end module emitter_mod

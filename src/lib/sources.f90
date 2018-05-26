@@ -20,9 +20,8 @@ module sources_mod
 
     use tracers_mod
     use initialize_mod
-    use finalize_mod
 
     use source_identity_mod
-    use source_emitter_mod
+    use emitter_mod
 
 end module sources_mod

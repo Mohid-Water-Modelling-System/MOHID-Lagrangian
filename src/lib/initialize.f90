@@ -25,7 +25,7 @@
     use tracer_base_mod
     use simulation_xmlparser_mod
     use source_identity_mod
-    use source_emitter_mod
+    use emitter_mod
     use about_mod
 
     use FoX_dom
@@ -247,7 +247,7 @@
         enddo
         !initializing Source j
         call Source(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
-        
+
         deallocate(source_shape)
     enddo
 
