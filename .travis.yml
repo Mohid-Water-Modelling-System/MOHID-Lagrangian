@@ -25,7 +25,7 @@ before_install:
     fi
 
 install: 
-    - cd bin
+    #- cd bin
     - cmake ..
     - make
     
