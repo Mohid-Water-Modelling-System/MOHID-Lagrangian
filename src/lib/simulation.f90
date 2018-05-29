@@ -20,6 +20,8 @@
 
     use commom_modules
     use initialize_mod
+    use emitter_mod
+    use source_identity_mod
     use about_mod
 
     implicit none
@@ -99,6 +101,13 @@
         call Log%put(outext)
         stop
     endif
+
+    !With the Sources initialized, now we initialize the Emmiter class, that automatically
+    !allocates and initializes all of the useable tracers from basic sources
+    call Emitter%initialize(Source)
+
+    !printing memory occupation at the time
+    call SimMemory%detailedprint()
 
     end subroutine initSimulation
 

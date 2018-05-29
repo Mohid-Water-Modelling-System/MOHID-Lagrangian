@@ -18,7 +18,6 @@
 
     use CLA    !Command line argument module
     use commom_modules
-    use sources_mod
     use simulation_mod
 
     implicit none

@@ -25,8 +25,6 @@
     use tracer_base_mod
     use simulation_xmlparser_mod
     use source_identity_mod
-    use emitter_mod
-    use about_mod
 
     use FoX_dom
 
@@ -431,13 +429,6 @@
     call init_simdefs(case_node)
     call init_sources(case_node)
     call init_properties(case_node)
-
-    !With the Sources initialized, now we initialize the Emmiter class, that automatically
-    !allocates and initializes all of the useable tracers
-    call Emitter%initialize(Source)
-
-    !printing memory occupation at the time
-    call SimMemory%detailedprint()
 
     call destroy(xmldoc)
 

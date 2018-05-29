@@ -27,7 +27,7 @@
     implicit none
     private
 
-    type :: emitter_t
+    type :: emitter_class
         integer :: emitted
         integer :: emittable
     contains
@@ -37,10 +37,10 @@
     !procedure :: activecheck
     end type
 
-    type(emitter_t) :: Emitter
+    type(emitter_class) :: Emitter
 
     !Public access vars
-    public :: Emitter
+    public :: emitter_class, Emitter
 
     contains
 
@@ -55,7 +55,7 @@
     !---------------------------------------------------------------------------
     subroutine initracers(self, srcs)
     implicit none
-    class(emitter_t), intent(inout) :: self
+    class(emitter_class), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs
     integer num_emiss, i, j, k, p
     type(string) :: outext, temp(4)
@@ -89,7 +89,7 @@
     !---------------------------------------------------------------------------
     subroutine alloctracers(self, srcs)
     implicit none
-    class(emitter_t), intent(inout) :: self
+    class(emitter_class), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs
     integer err
     type(string) :: outext, temp
@@ -126,7 +126,7 @@
     !---------------------------------------------------------------------------
     subroutine initializeEmitter(self, srcs)
     implicit none
-    class(emitter_t), intent(inout) :: self
+    class(emitter_class), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs
     integer :: i
     integer :: sizem
