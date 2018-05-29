@@ -184,11 +184,11 @@
     !add new parameters to this search
     if (self%TimeMax==MV) then
         outext = 'Maximum simulation time parameter (TimeMax) is not set, stoping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     elseif (self%TimeOut==MV) then
         outext = 'Simulation sampling rate parameter (TimeOut) is not set, stoping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     endif
     return
@@ -216,7 +216,7 @@
     outext = outext//'       TimeMax = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeOut
     outext = outext//'       TimeOut = '//temp_str//' Hz'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -259,7 +259,7 @@
     if (grav%x==MV) then !Gravity was not read, setting default
         self%Gravity= -9.81*ez
         outext = '       Gravity not specified, setting to default value = (0,0,-9.81)'
-        call ToLog(outext,.false.)
+        call Log%put(outext,.false.)
     endif
     sizem=sizeof(self%Gravity)
     call SimMemory%adddef(sizem)
@@ -304,7 +304,7 @@
     self%Rho_ref=read_rho%to_number(kind=1._R4P)
     if (self%Rho_ref.le.0.0) then
         outext='Rho_ref must be positive and non-zero, stopping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     endif
     sizem = sizeof(self%Rho_ref)
@@ -336,7 +336,7 @@
     temp_str(1)=self%Rho_ref
     outext = outext//'       Rho_ref = '//temp_str(1)//' kg/m^3'
 
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
     end subroutine printconstants
 
     !---------------------------------------------------------------------------
@@ -357,7 +357,7 @@
     self%Dp=read_dp%to_number(kind=1._R4P)
     if (self%Dp.le.0.0) then
         outext='Dp must be positive and non-zero, stopping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     endif
     sizem = sizeof(self%Dp)
@@ -383,7 +383,7 @@
     self%dt=read_dt%to_number(kind=1._R4P)
     if (self%dt.le.0.0) then
         outext='dt must be positive and non-zero, stopping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     endif
     sizem = sizeof(self%dt)
@@ -472,7 +472,7 @@
     outext = outext//'       Blocks are sized '//new_line('a')//&
         '       '//temp_str(1)//' X '//temp_str(2)
 
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
     end subroutine
 
   end module simulation_globals_mod

@@ -18,54 +18,40 @@
 
     use CLA    !Command line argument module
     use commom_modules
-    use sources_mod
+    use simulation_mod
 
     implicit none
 
     !-----------------------------------------------------------------------------------------------------------------------------------
-    character(len=STRLEN)  :: defxmlfilename_char
+    character(len=STRLEN)  :: casefilename_char
     character(len=STRLEN)  :: outpath_char
-    type(string) :: defxmlfilename
-    type(string) :: outpath
-    character(4) :: xmlextention = '.xml'
+    type(string) :: casefilename !< Simulation input case file
+    type(string) :: outpath      !< Simulation output path
+
+    type(simulation_class) :: Sim !< Simulation object
+
     !-----------------------------------------------------------------------------------------------------------------------------------
 
     ! Initialize command line arguments
     call cla_init
-
     ! Register keys for key/value pairs.
-    call cla_register('-i','--infile','input definition file (xml)', cla_char, 'defxmlfilename')
+    call cla_register('-i','--infile','input definition file (xml)', cla_char, 'casefilename')
     call cla_register('-o','--outpath','output path', cla_char, 'outpath')
-
     ! Store the arguments with each respective variable
-    call cla_get('-i',defxmlfilename_char)
+    call cla_get('-i',casefilename_char)
     call cla_get('-o',outpath_char)
-    ! CLA uses chars, we use 'strings'
-    defxmlfilename=trim(defxmlfilename_char)
+    casefilename=trim(casefilename_char)
     outpath=trim(outpath_char)
-
-    ! Completing the names with file extensions
-    defxmlfilename=defxmlfilename//xmlextention
+    ! Completing the outpath with the separator
     outpath=outpath//'/'
 
-    ! Initialize logger - this is mandatory
-    call initMohidLagrangianLog(outpath)
+    !Our Lagrangian adventure starts here. Strap on.
+    call Sim%initialize(casefilename,outpath)
 
-    ! Initialization routines to build the simulation objects and space
-    call initMohidLagrangian(defxmlfilename)
-
-    !main time cycle
-    do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
-
-
-
-        !Do your Lagrangian things here :D
-
-
-    Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
-    enddo
+    !Main time cycle
+    call Sim%run()
 
     ! Finalization of the program - deallocation, file closing, etc
-    call finalizeMohidLagrangian
+    call Sim%finalize()
 
     end program MOHIDLagrangian

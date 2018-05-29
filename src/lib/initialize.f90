@@ -25,8 +25,6 @@
     use tracer_base_mod
     use simulation_xmlparser_mod
     use source_identity_mod
-    use source_emitter_mod
-    use about_mod
 
     use FoX_dom
 
@@ -34,7 +32,7 @@
     private
 
     !Public access procedures
-    public :: initMohidLagrangian
+    public :: InitFromXml
 
     contains
 
@@ -99,13 +97,13 @@
         att_name="name"
         call readxmlatt(props_node, tag, att_name, Globals%FileNames%propsxmlfilename)  !getting the file name from that tag
         outext='-->Properties to link to Sources found at '//Globals%FileNames%propsxmlfilename
-        call ToLog(outext)
+        call Log%put(outext)
         tag="links"
         call gotoChildNode(props_node,props_node,tag) !getting the links node
         call linkPropertySources(props_node)                 !calling the property linker
     else
         outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
-        call ToLog(outext)
+        call Log%put(outext)
     endif
 
     end subroutine
@@ -124,7 +122,7 @@
     implicit none
     type(Node), intent(in), pointer :: source           !<Working xml node
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
-    class(shape), intent(inout) :: source_shape             !<Geometrical object to fill
+    class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
     type(string) :: outext
     type(string) :: tag
 
@@ -150,7 +148,7 @@
         call extractDataAttribute(source_detail, "radius", source_shape%radius)
         class default
         outext='[read_xml_geometry]: unexpected type for geometry object!'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     end select
 
@@ -171,7 +169,6 @@
     type(Node), intent(in), pointer :: case_node
 
     type(string) :: outext
-    type(NodeList), pointer :: sourcedefList        !< Node list for simulationdefs
     type(NodeList), pointer :: sourceList           !< Node list for sources
     type(NodeList), pointer :: sourceChildren       !< Node list for source node children nodes
     type(Node), pointer :: sourcedef
@@ -182,12 +179,11 @@
     !source vars
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val
-    character(80) :: val, name_char, source_geometry_char
     real(prec) :: emitting_rate, start, finish
     class(shape), allocatable :: source_shape
 
     outext='-->Reading case Sources'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="sourcedef"    !the node we want
     call gotoChildNode(case_node,sourcedef,tag)
@@ -240,7 +236,7 @@
                     allocate(line::source_shape)
                     case default
                     outext='[init_sources]: unexpected type for geometry object!'
-                    call ToLog(outext)
+                    call Log%put(outext)
                     stop
                 end select
                 call read_xml_geometry(source_node,source_detail,source_shape)
@@ -249,7 +245,7 @@
         enddo
         !initializing Source j
         call Source(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
-        
+
         deallocate(source_shape)
     enddo
 
@@ -263,7 +259,7 @@
     !> @brief
     !> Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file.
     !
-    !> @param[in] parsedxml
+    !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_simdefs(case_node)
     implicit none
@@ -277,7 +273,7 @@
     type(vector) :: coords
 
     outext='-->Reading case simulation definitions'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="simulationdefs"    !the node we want
     call gotoChildNode(case_node,simdefs_node,tag)
@@ -306,7 +302,7 @@
     !> @brief
     !> Private case constant parser routine. Builds the simulation parametric space from the input xml case file.
     !
-    !> @param[in] parsedxml
+    !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_caseconstants(case_node)
     implicit none
@@ -319,7 +315,7 @@
     logical :: readflag
 
     outext='-->Reading case constants'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="constantsdef"    !the node we want
     call gotoChildNode(case_node,constants_node,tag,readflag,.false.)
@@ -354,7 +350,7 @@
     !> @brief
     !> Private parameter parser routine. Builds the simulation parametric space from the input xml case file.
     !
-    !> @param[in] parsedxml
+    !> @param[in] execution_node
     !---------------------------------------------------------------------------
     subroutine init_parameters(execution_node)
     implicit none
@@ -368,7 +364,7 @@
     character(80) :: parmkey_char, parmvalue_char
 
     outext='-->Reading case parameters'
-    call ToLog(outext,.false.)
+    call Log%put(outext,.false.)
 
     tag="parameters"    !the node we want
     call gotoChildNode(execution_node,parameters_node,tag)
@@ -397,7 +393,7 @@
     !
     !> @param[in] xmlfilename
     !---------------------------------------------------------------------------
-    subroutine initMohidLagrangian(xmlfilename)
+    subroutine InitFromXml(xmlfilename)
     implicit none
     type(string), intent(in) :: xmlfilename         !< .xml file name
     type(string) :: outext, tag
@@ -406,31 +402,14 @@
     type(Node), pointer :: execution_node
     integer :: i
 
-    call PrintLicPreamble
-
-    !setting every global variable and input parameter to their default
-    call Globals%initialize()
-    !initializing memory log
-    call SimMemory%initialize()
-    !initializing geometry class
-    call Geometry%initialize()
-
-    !check if log file was opened - if not stop here
-    if (Log_unit==0) then !unit 0 is reserved for the log
-        outext='->Logger initialized'
-        call ToLog(outext)
-    else
-        stop 'Logger has not been initialized, stopping'
-    end if
-
     xmldoc => parseFile(xmlfilename%chars(), iostat=i)
     if (i==0) then
         outext='->Reading case definition from '//xmlfilename
-        call ToLog(outext)
+        call Log%put(outext)
         Globals%FileNames%mainxmlfilename = xmlfilename
     else
-        outext='Could not open '//xmlfilename//' input file, give me at least that!'
-        call ToLog(outext)
+        outext='[initMohidLagrangian]: no '//xmlfilename//' input file, give me at least that!'
+        call Log%put(outext)
         stop
     endif
 
@@ -451,16 +430,9 @@
     call init_sources(case_node)
     call init_properties(case_node)
 
-    !With the Sources initialized, now we initialize the Emmiter class, that automatically
-    !allocates and initializes all of the useable tracers
-    call Emitter%initialize(Source)
-
-    !printing memory occupation at the time
-    call SimMemory%detailedprint()
-
     call destroy(xmldoc)
 
     return
-    end subroutine
+    end subroutine InitFromXml
 
   end module initialize_mod

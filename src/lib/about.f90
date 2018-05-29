@@ -44,9 +44,9 @@
     implicit none
     type(string) :: outext
 
-    version  ="v0.0.3"
+    version  ="v0.0.4"
     author   ="R. Birjukovs Canelas"
-    date     ="23-05-2018"
+    date     ="29-05-2018"
 
     outext = ' __  __  ___  _   _ ___ ____  _                                      _             '//new_line('a')//&
              ' |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  '//new_line('a')//&
@@ -76,7 +76,8 @@
         'MOHIDLagrangian '//version//' ('//author//') ('//date//')'//new_line('a')//&
         '====================================================================='
 
-    call ToLog(outext,.false.)
+    !call Log%put(outext,.false.)
+    call Log%put(outext,.false.)
 
     end subroutine
 

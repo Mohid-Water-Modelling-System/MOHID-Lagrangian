@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : source_emitter
+    ! MODULE        : emitter
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : April 2018
@@ -18,7 +18,7 @@
     !> sources and calling their initializers.
     !------------------------------------------------------------------------------
 
-    module source_emitter_mod
+    module emitter_mod
 
     use commom_modules
     use source_identity_mod
@@ -27,7 +27,7 @@
     implicit none
     private
 
-    type :: emitter_t
+    type :: emitter_class
         integer :: emitted
         integer :: emittable
     contains
@@ -37,10 +37,10 @@
     !procedure :: activecheck
     end type
 
-    type(emitter_t) ::  Emitter
+    type(emitter_class) :: Emitter
 
     !Public access vars
-    public :: Emitter
+    public :: emitter_class, Emitter
 
     contains
 
@@ -55,7 +55,7 @@
     !---------------------------------------------------------------------------
     subroutine initracers(self, srcs)
     implicit none
-    class(emitter_t), intent(inout) :: self
+    class(emitter_class), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs
     integer num_emiss, i, j, k, p
     type(string) :: outext, temp(4)
@@ -89,27 +89,27 @@
     !---------------------------------------------------------------------------
     subroutine alloctracers(self, srcs)
     implicit none
-    class(emitter_t), intent(inout) :: self
+    class(emitter_class), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs
     integer err
     type(string) :: outext, temp
 
     if (self%emittable .le. 0) then
         outext='Emitter::alloctracers : No Tracers will be simulated, stoping'
-        call ToLog(outext)
+        call Log%put(outext)
         stop
     else
         allocate(Tracer(self%emittable), stat=err)
         if(err/=0)then
             outext='Emitter::alloctracers : Cannot allocate Tracers, stoping'
-            call ToLog(outext)
+            call Log%put(outext)
             stop
         endif
     endif
 
     temp = size(Tracer)
     outext='Allocated '// temp // ' Tracers.'
-    call ToLog(outext)
+    call Log%put(outext)
     !receiving Sources as argument so latter we can differentiate between tracer types
 
     end subroutine
@@ -126,7 +126,7 @@
     !---------------------------------------------------------------------------
     subroutine initializeEmitter(self, srcs)
     implicit none
-    class(emitter_t), intent(inout) :: self
+    class(emitter_class), intent(inout) :: self
     class(source_class), dimension(:), intent(inout) :: srcs
     integer :: i
     integer :: sizem
@@ -164,4 +164,4 @@
     src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np
     end subroutine
 
-  end module source_emitter_mod
+  end module emitter_mod

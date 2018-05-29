@@ -22,6 +22,7 @@
     use stringifor
     use simulation_precision_mod
     use simulation_logger_mod
+    use simulation_globals_mod
 
     implicit none
     private
@@ -32,13 +33,12 @@
     contains
       procedure :: initialize => allocatelist
       procedure :: inlist
+      procedure :: fillsize !<Gets the number of points that fill a geometry (based on GLOBALS::dp)
+      procedure :: fill !<Gets the list of points that fill a geometry (based on GLOBALS::dp)
     end type
 
     type :: shape                      !<Type - extendable shape class
         type(vector) :: pt              !< Coordinates of a point
-    contains
-    procedure :: getnp                  !<Gets the number of points that define that geometry (based on GLOBALS::dp)
-    procedure :: getpointdistribution   !<Gets the actual list of points always referant to the origin (based on GLOBALS::dp)
     end type
 
     type, extends(shape) :: point   !<Type - point class
@@ -103,77 +103,79 @@
       enddo
       end function inlist
 
+      !---------------------------------------------------------------------------
+      !> @Ricardo Birjukovs Canelas - MARETEC
+      ! Routine Author Name and Affiliation.
+      !
+      !> @brief
+      !> method to get the number of points that fill a given geometry
+      !
+      !> @param[in] shapetype
+      !---------------------------------------------------------------------------
+      function fillsize(self, shapetype)
+      implicit none
+      class(geometry_class), intent(in) :: self
+      class(shape), intent(in) :: shapetype
+      real(prec) :: dp
+      integer :: fillsize
+      type(vector) :: temp
+      type(string) :: outext
+
+      dp = Globals%SimDefs%Dp
+      select type (shapetype)
+      type is (shape)
+      class is (box)
+          fillsize = max((int(shapetype%size%x/dp)+1)*(int(shapetype%size%y/dp)+1)*(int(shapetype%size%z/dp)+1),1)
+      class is (point)
+          fillsize = 1
+      class is (line)
+          temp = shapetype%pt-shapetype%last
+          fillsize = max(int(temp%normL2()/dp),1)
+      class is (sphere)
+          fillsize = sphere_np_count(dp, shapetype%radius)
+          class default
+          outext='[geometry::np] : unexpected type for geometry object, stoping'
+          call Log%put(outext)
+          stop
+      end select
+
+    end function fillsize
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> method to get the number of points that fill a given geometry
+    !> method to get the list of points that fill a given geometry
     !
-    !> @param[in] self, np
+    !> @param[in] shapetype,fillsize,ptlist
     !---------------------------------------------------------------------------
-    subroutine getnp(self,np,dp)
+    subroutine fill(self,shapetype,fillsize,ptlist)
     implicit none
-    class(shape) :: self
-    integer, intent(out) :: np
-    real(prec), intent(in) :: dp
+    class(geometry_class), intent(in) :: self
+    class(shape) :: shapetype
+    integer, intent(in) :: fillsize
+    type(vector), intent(out) :: ptlist(fillsize)
     type(vector) :: temp
     type(string) :: outext
 
-    select type (self)
+    select type (shapetype)
     type is (shape)
     class is (box)
-        np = max((int(self%size%x/dp)+1)*(int(self%size%y/dp)+1)*(int(self%size%z/dp)+1),1)
+        call box_grid(Globals%SimDefs%Dp, shapetype%size, fillsize, ptlist)
     class is (point)
-        np = 1
+        ptlist(1)=shapetype%pt
     class is (line)
-        temp = self%pt-self%last !simply the difference
-        np = max(int(temp%normL2()/dp),1)
+        call line_grid(Globals%SimDefs%Dp, shapetype%last-shapetype%pt, fillsize, ptlist)
     class is (sphere)
-        call sphere_np_count(dp, self%radius, np)
+        call sphere_grid(Globals%SimDefs%Dp, shapetype%radius, fillsize, ptlist)
         class default
-        outext='geometry::getnp : unexpected type for geometry object!'
-        call ToLog(outext)
+        outext='[geometry::fill] : unexpected type for geometry object, stoping'
+        call Log%put(outext)
         stop
     end select
 
-    end subroutine
-
-    !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> method to get the number of points that fill a given geometry
-    !
-    !> @param[in] self, np
-    !---------------------------------------------------------------------------
-    subroutine getpointdistribution(self,np,dp,ptlist)
-    implicit none
-    class(shape) :: self
-    integer, intent(in) :: np
-    real(prec), intent(in) :: dp
-    type(vector), intent(inout) :: ptlist(np)
-    type(vector) :: temp
-    type(string) :: outext
-
-    select type (self)
-    type is (shape)
-    class is (box)
-        call box_grid(dp, self%size, np, ptlist)
-    class is (point)
-        ptlist(1)=self%pt
-    class is (line)
-        call line_grid(dp, self%last-self%pt, np, ptlist)
-    class is (sphere)
-        call sphere_grid(dp, self%radius, np, ptlist)
-        class default
-        outext='geometry::getpointdistribution : unexpected type for geometry object!'
-        call ToLog(outext)
-        stop
-    end select
-
-    end subroutine
+  end subroutine fill
 
 
     !---------------------------------------------------------------------------
@@ -181,18 +183,19 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> private routine that returns the number of points distributed on a grid
+    !> private function that returns the number of points distributed on a grid
     !> with spacing dp inside a sphere
     !
-    !> @param[in] dp, r, np
+    !> @param[in] dp, r
     !---------------------------------------------------------------------------
-    subroutine sphere_np_count(dp, r, np)
+    function sphere_np_count(dp, r) result(np)
     implicit none
     real(prec), intent(in) :: dp
     real(prec), intent(in) :: r
-    integer, intent(out) :: np
+    integer :: np
     integer :: i, j, k, n
     type(vector) :: pts
+    np=0
     n=int(3*r/dp)
     do i=1, n
         do j=1, n
@@ -208,7 +211,7 @@
         np=1
     end if
     return
-    end subroutine
+    end function
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

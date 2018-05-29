@@ -17,7 +17,7 @@ if not exist %dirout% mkdir %dirout%
 
 rem CODES are executed according the selected parameters of execution in this case
 
-%mohidlagrangian% -i %name%_Def -o %dirout%
+%mohidlagrangian% -i %name%_Def.xml -o %dirout%
 if not "%ERRORLEVEL%" == "0" goto fail
 
 :success

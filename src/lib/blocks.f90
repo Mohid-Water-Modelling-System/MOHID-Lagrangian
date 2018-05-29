@@ -25,17 +25,19 @@
     use simulation_globals_mod
     use tracer_array_mod
     use sources_array_mod
+    use emitter_mod
 
     implicit none
     private
 
     type block_class
       integer :: id
-      type(SourceArray) :: Source_stack
-      type(TracerArray) :: Tracer_stack
+      type(box) :: extents !< shape::box that defines the extents of this block
 
-      type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the block
-      type(vector)    ::  Pointmax        !< Point that defines the upper corner of the block
+      type(SourceArray) :: BlockSource
+      type(TracerArray) :: BlockTracer
+
+      type(emitter_class) :: BlockEmitter
     end type block_class
 
     !Simulation variables

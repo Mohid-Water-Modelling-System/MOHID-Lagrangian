@@ -82,7 +82,7 @@
             endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
-            call ToLog(outext)
+            call Log%put(outext)
             stop
         endif
     endif
@@ -141,7 +141,7 @@
             endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
-            call ToLog(outext)
+            call Log%put(outext)
             stop
         endif
     endif
@@ -189,18 +189,18 @@
         if(present(mandatory)) then
           if (mandatory.eqv..false.) then
             outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
-            call ToLog(outext)
+            call Log%put(outext)
             if (present(read_flag)) then
               read_flag =.false.
             endif
           else
             outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
-            call ToLog(outext)
+            call Log%put(outext)
             stop
           endif
         else
           outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
-          call ToLog(outext)
+          call Log%put(outext)
           stop
         endif
     endif
