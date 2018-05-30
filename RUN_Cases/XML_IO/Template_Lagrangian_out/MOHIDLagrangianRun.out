@@ -24,7 +24,7 @@
 
 MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
 =====================================================================
-2018-5-30 @1:1:21 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-5-30 @16:28:55 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000E+00
@@ -41,10 +41,11 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Pointmin (BB) is 
        -0.100000000000000E+002  0.000000000000000E+000 -0.500010000000000E+003
        Pointmax (BB) is 
-       +0.100000000000000E+005 +0.200050000000000E+005 +0.405740000000000E+001
+       +0.300000000000000E+002 +0.200000000000000E+002 +0.405740000000000E+001
        Blocks are sized 
         0.000000000000000E+000 X  0.000000000000000E+000
  -->Reading case Sources
+2018-5-30 @16:28:55 Allocated +4 Sources.
  -->Source Spill_007 allocated
        Id = +18
        Geometry type is box
@@ -73,13 +74,15 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
        Emitting +126 tracers at a rate of +0.500000E-02 Hz
        Active from +0.112500E+01 to +0.152000E+04 seconds
-2018-5-30 @1:1:21 -->Properties to link to Sources found at Material_props.xml
-2018-5-30 @1:1:21       Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
-2018-5-30 @1:1:21       Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
-2018-5-30 @1:1:21       Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
-2018-5-30 @1:1:21 Allocated +17038 Tracers.
-2018-5-30 @1:1:21 ->Total allocated memory: +0.299973200000000E+001mb
-       Allocated memory for Sources = +0.936000000000000E-003mb
-       Allocated memory for Tracers = +0.299868800000000E+001mb
-       Allocated memory for Consts  = +0.108000000000000E-003mb
-2018-5-30 @1:1:21 Simulation ended, freeing resources. See you next time
+ -->Properties to link to Sources found at Material_props.xml
+       Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
+       Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
+       Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
+2018-5-30 @16:28:55 Allocated +16 Blocks.
+ -->Automatic domain decomposition finished. Domain is +8 X +2 Blocks
+2018-5-30 @16:28:55 Allocated +17038 Tracers.
+2018-5-30 @16:28:55 ->Total allocated memory: +0.354600E+01mb
+       Allocated memory for Sources = +0.199200E-02mb
+       Allocated memory for Tracers = +0.354390E+01mb
+       Allocated memory for Consts  = +0.108000E-03mb
+2018-5-30 @16:28:55 Simulation ended, freeing resources. See you next time

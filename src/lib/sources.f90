@@ -102,12 +102,16 @@
       class(source_group_class), intent(inout) :: self
       integer, intent(in) :: nsources
       integer err
-      type(string) :: outext
+      type(string) :: outext, temp
       allocate(Sources%src(nsources), stat=err)
       if(err/=0)then
           outext='[initSources]: Cannot allocate Sources, stoping'
           call Log%put(outext)
           stop
+      else
+          temp = nsources
+          outext = 'Allocated '// temp // ' Sources.'
+          call Log%put(outext)
       endif
       end subroutine
 
@@ -140,7 +144,7 @@
               call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
               temp = Source(i)%par%id
               outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
-              call Log%put(outext)
+              call Log%put(outext,.false.)
               notlinked = .false. ! we linked it
               exit
           endif
@@ -148,7 +152,7 @@
       if (notlinked) then ! property has no corresponding Source
           temp = srcid
           outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
-          call Log%put(outext)
+          call Log%put(outext,.false.)
       endif
       return
       end subroutine
@@ -166,12 +170,16 @@
     implicit none
     integer, intent(in) :: nsources
     integer err
-    type(string) :: outext
+    type(string) :: outext, temp
     allocate(Source(nsources), stat=err)
     if(err/=0)then
         outext='Cannot allocate Sources, stoping'
         call Log%put(outext)
         stop
+    else
+          temp = nsources
+          outext = 'Allocated '// temp // ' Sources.'
+          call Log%put(outext)
     endif
     end subroutine
 
@@ -202,7 +210,7 @@
             call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
             temp = Source(i)%par%id
             outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
-            call Log%put(outext)
+            call Log%put(outext,.false.)
             notlinked = .false. ! we linked it
             exit
         endif
@@ -210,7 +218,7 @@
     if (notlinked) then ! property has no corresponding Source
         temp = srcid
         outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
-        call Log%put(outext)
+        call Log%put(outext,.false.)
     endif
     return
     end subroutine

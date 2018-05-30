@@ -27,5 +27,6 @@ module commom_modules
     use simulation_logger_mod
     use simulation_memory_mod
     use simulation_globals_mod
+    use utilities_mod
 
 end module commom_modules

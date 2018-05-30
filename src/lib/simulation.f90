@@ -34,6 +34,7 @@
     contains
     procedure :: initialize => initSimulation
     procedure :: finalize   => closeSimulation
+    procedure :: decompose  => DecomposeDomain
     procedure :: run
     end type
 
@@ -43,27 +44,27 @@
 
     contains
 
-      !---------------------------------------------------------------------------
-      !> @Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> Simulation run method. Runs the initialized case main time cycle.
-      !---------------------------------------------------------------------------
-      subroutine run(self)
-      implicit none
-      class(simulation_class), intent(inout) :: self
-      type(string) :: outext
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation run method. Runs the initialized case main time cycle.
+    !---------------------------------------------------------------------------
+    subroutine run(self)
+    implicit none
+    class(simulation_class), intent(inout) :: self
+    type(string) :: outext
 
-      !main time cycle
-      do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
+    !main time cycle
+    do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
 
-          !Do your Lagrangian things here :D
+        !Do your Lagrangian things here :D
 
-      Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
-      enddo
+        Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
+    enddo
 
-      end subroutine run
+    end subroutine run
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -103,11 +104,13 @@
         call Log%put(outext)
         stop
     endif
-
+    !Case was read and now we can build/initialize our simulation objects that are case-dependent
+    
     !initilize simulation bounding box
     call BBox%initialize()
     !call BBox%print()
 
+    call self%decompose()
     !call Block%initialize()
 
     !With the Sources initialized, now we initialize the Emmiter class, that automatically
@@ -118,6 +121,31 @@
     call SimMemory%detailedprint()
 
     end subroutine initSimulation
+    
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation method to do domain decomposition and define the Blocks
+    !---------------------------------------------------------------------------
+    subroutine DecomposeDomain(self)
+    implicit none
+    class(simulation_class), intent(inout) :: self
+    type(string) :: outext
+
+    if (Globals%SimDefs%autoblocksize) then
+      call allocBlocks(Globals%SimDefs%numblocks)
+    else
+      outext='[DecomposeDomain]: Only automatic Block sizing at the moment, stoping'
+      call Log%put(outext)
+      stop
+    end if
+    
+    call DBlock(1)%initialize()
+
+    end subroutine DecomposeDomain
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

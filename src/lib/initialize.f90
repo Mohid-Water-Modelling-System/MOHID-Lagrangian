@@ -97,13 +97,13 @@
         att_name="name"
         call readxmlatt(props_node, tag, att_name, Globals%FileNames%propsxmlfilename)  !getting the file name from that tag
         outext='-->Properties to link to Sources found at '//Globals%FileNames%propsxmlfilename
-        call Log%put(outext)
+        call Log%put(outext,.false.)
         tag="links"
         call gotoChildNode(props_node,props_node,tag) !getting the links node
         call linkPropertySources(props_node)                 !calling the property linker
     else
         outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
-        call Log%put(outext)
+        call Log%put(outext,.false.)
     endif
 
     end subroutine
