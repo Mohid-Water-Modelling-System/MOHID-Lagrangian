@@ -28,10 +28,13 @@
         integer :: size_of_sources   !< Size of the sources in memory (bytes)
         integer :: size_of_tracers   !< Size of the tracers in memory (bytes)
         integer :: size_of_defs      !< Size of the parameters and definitions in memory (bytes)
+        integer :: size_of_blocks    !< Size of the Blocks in memory (bytes)
     contains
     procedure :: initialize => initializeMemory
+    procedure :: addblock
     procedure :: addsource
     procedure :: addtracer
+    procedure :: removetracer
     procedure :: adddef
     procedure :: getotal
     procedure :: print => printmemory
@@ -59,6 +62,7 @@
     self%size_of_sources = 0
     self%size_of_tracers = 0
     self%size_of_defs = 0
+    self%size_of_blocks = 0
     return
     end subroutine
 
@@ -73,10 +77,25 @@
     implicit none
     class(memory_t), intent(inout) :: self
     integer, intent(out) :: size
-    size = self%size_of_sources + self%size_of_tracers + self%size_of_defs
+    size = self%size_of_sources + self%size_of_tracers + self%size_of_defs + self%size_of_blocks
     return
     end subroutine
-
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private method to add the size of a Block to the memory log.
+    !---------------------------------------------------------------------------
+    subroutine addblock(self,size)
+    implicit none
+    class(memory_t), intent(inout) :: self
+    integer, intent(in) :: size
+    self%size_of_blocks = self%size_of_blocks + size
+    return
+    end subroutine
+    
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -104,6 +123,21 @@
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
     self%size_of_tracers = self%size_of_tracers + size
+    return
+    end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private method to remove the size of a Tracer from the memory log.
+    !---------------------------------------------------------------------------
+    subroutine removetracer(self,size)
+    implicit none
+    class(memory_t), intent(inout) :: self
+    integer, intent(in) :: size
+    self%size_of_tracers = self%size_of_tracers - size
     return
     end subroutine
 
@@ -157,7 +191,7 @@
     class(memory_t), intent(inout) :: self
     integer :: size
     real :: sizemb
-    type(string) :: outext,temp(4)
+    type(string) :: outext,temp(5)
 
     call self%getotal(size)
     sizemb = size*1E-6
@@ -168,8 +202,11 @@
     temp(3)= sizemb
     sizemb = self%size_of_defs*1E-6
     temp(4)= sizemb
+    sizemb = self%size_of_blocks*1E-6
+    temp(5)= sizemb
 
     outext='->Total allocated memory: '//temp(1)//'mb'//new_line('a')//&
+        '       Allocated memory for Blocks  = '//temp(5)//'mb'//new_line('a')//&
         '       Allocated memory for Sources = '//temp(2)//'mb'//new_line('a')//&
         '       Allocated memory for Tracers = '//temp(3)//'mb'//new_line('a')//&
         '       Allocated memory for Consts  = '//temp(4)//'mb'

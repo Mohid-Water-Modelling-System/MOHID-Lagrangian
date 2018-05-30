@@ -59,7 +59,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> method to allocate and initialize the simulation blocks
+    !> method to allocate and initialize all the simulation blocks
     !
     !> @param[in] self
     !---------------------------------------------------------------------------
@@ -71,11 +71,37 @@
 
     call set_blocks_extents(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks)
 
-    !sizem = sizeof(Tracer)
-    !call SimMemory%addtracer(sizem)
+    sizem = sizeof(self)*Globals%SimDefs%numblocks
+    call SimMemory%addblock(sizem)
 
     return
     end subroutine initBlocks
+    
+    
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Method to populate the Blocks with their initial Sources and Tracers
+    !> This copies the Sources from their temporary global position and then 
+    !> allocates the foreseable tracers in their arrays.
+    !
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine populate(self)
+    implicit none
+    class(block_class), intent(inout) :: self
+    type(string) :: outext
+    integer :: sizem, err
+
+    
+
+    return
+    end subroutine populate
+    
+    
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

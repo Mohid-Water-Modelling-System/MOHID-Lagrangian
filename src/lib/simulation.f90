@@ -143,7 +143,7 @@
       stop
     end if
     
-    call DBlock(1)%initialize()
+    call DBlock(1)%initialize() !This initializes all the Blocks
 
     end subroutine DecomposeDomain
 
