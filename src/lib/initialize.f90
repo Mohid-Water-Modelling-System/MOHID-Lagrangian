@@ -24,7 +24,7 @@
     use commom_modules
     use tracer_base_mod
     use simulation_xmlparser_mod
-    use source_identity_mod
+    use sources_mod
 
     use FoX_dom
 

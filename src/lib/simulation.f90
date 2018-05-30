@@ -20,8 +20,10 @@
 
     use commom_modules
     use initialize_mod
+    use boundingbox_mod
     use emitter_mod
-    use source_identity_mod
+    use sources_mod
+    use blocks_mod
     use about_mod
 
     implicit none
@@ -101,6 +103,12 @@
         call Log%put(outext)
         stop
     endif
+
+    !initilize simulation bounding box
+    call BBox%initialize()
+    !call BBox%print()
+
+    !call Block%initialize()
 
     !With the Sources initialized, now we initialize the Emmiter class, that automatically
     !allocates and initializes all of the useable tracers from basic sources

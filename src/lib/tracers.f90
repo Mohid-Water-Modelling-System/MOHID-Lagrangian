@@ -24,8 +24,8 @@ module tracers_mod
 
     use simulation_precision_mod
     use tracer_interp_mod
-    use tracer_base_mod
 
+    use tracer_base_mod
     use tracer_plastic_mod
     use tracer_paper_mod
 

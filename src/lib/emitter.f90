@@ -21,7 +21,7 @@
     module emitter_mod
 
     use commom_modules
-    use source_identity_mod
+    use sources_mod
     use tracers_mod
 
     implicit none

@@ -46,8 +46,9 @@
         real(prec_time) ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
-        logical         ::  autoblocksize = .false.   !< Flag for automatic Block sizing
+        logical         ::  autoblocksize = .true.   !< Flag for automatic Block sizing
         type(vector)    ::  blocksize       !< Size (width & heigth) of a Block (sub-domain)
+        integer         ::  numblocks       !< Number of blocks in the simulation
     contains
     procedure :: setdp
     procedure :: setdt
@@ -111,6 +112,7 @@
       !Simulation definitions
       self%SimDefs%autoblocksize =.true.
       self%SimDefs%blocksize = 0.0
+      self%SimDefs%numblocks = 16  !placeholder number, should be numThreads or numProcesses or computed by user dimensions
       self%SimDefs%Dp = MV
       self%SimDefs%dt = MV
       self%SimDefs%Pointmin = 0.0
