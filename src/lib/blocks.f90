@@ -41,7 +41,7 @@
         type(emitter_class) :: BlockEmitter
     contains
     private
-    procedure, public :: initialize => initBlocks
+    procedure, public :: initialize => initBlock
     end type block_class
 
     !Simulation variables
@@ -50,7 +50,7 @@
     !Public access vars
     public :: DBlock
     !Public access procedures
-    public :: allocBlocks
+    public :: allocBlocks, setBlocks
 
     contains
 
@@ -59,33 +59,34 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> method to allocate and initialize all the simulation blocks
+    !> method to allocate and initialize blocks
     !
-    !> @param[in] self
+    !> @param[in] self, templatebox
     !---------------------------------------------------------------------------
-    subroutine initBlocks(self)
+    subroutine initBlock(self, templatebox)
     implicit none
     class(block_class), intent(inout) :: self
-    type(string) :: outext
-    integer :: sizem, err
+    type(box), intent(in) :: templatebox
+    integer :: sizem
 
-    call set_blocks_extents(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks)
+    self%extents%pt = templatebox%pt
+    self%extents%size = templatebox%size
 
-    sizem = sizeof(self)*Globals%SimDefs%numblocks
+    sizem = sizeof(self)
     call SimMemory%addblock(sizem)
 
     return
-    end subroutine initBlocks
-    
-    
-    
+    end subroutine initBlock
+
+
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
     !> Method to populate the Blocks with their initial Sources and Tracers
-    !> This copies the Sources from their temporary global position and then 
+    !> This copies the Sources from their temporary global position and then
     !> allocates the foreseable tracers in their arrays.
     !
     !> @param[in] self
@@ -96,33 +97,34 @@
     type(string) :: outext
     integer :: sizem, err
 
-    
+
 
     return
     end subroutine populate
-    
-    
+
+
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> routine to set the simulation blocks extents
+    !> routine to set the simulation blocks extents and call the block initializer
     !
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine set_blocks_extents(auto, nblk)
+    subroutine setBlocks(auto, nblk)
     implicit none
     logical, intent(in) ::  auto
     integer, intent(in) ::  nblk
     type(string) :: outext, temp(2)
     integer :: i, j, b, nxi, nyi
     real(prec) :: ar
+    type(box) :: tempbox
 
     if (auto) then
         ar = BBox%size%x/BBox%size%y
-        ar = get_closest_twopow(ar) !aspect ratio of our bounding box        
+        ar = get_closest_twopow(ar) !aspect ratio of our bounding box
         nyi = sqrt(nblk/ar)
         if (nyi == 0) then
             temp(1) = ar
@@ -131,13 +133,14 @@
             stop
         endif
         nxi = (nblk/nyi)
-        
+
         b=1
         do i=1, nxi
             do j=1, nyi
-                DBlock(b)%extents%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey - BBox%pt%z*ez
-                DBlock(b)%extents%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey
-                b=b+1
+              tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey - BBox%pt%z*ez
+              tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey
+              call DBlock(b)%initialize(tempbox)
+              b=b+1
             end do
         end do
         temp(1) = nxi
@@ -146,11 +149,8 @@
         call Log%put(outext,.false.)
     end if
 
-    !sizem = sizeof(Tracer)
-    !call SimMemory%addtracer(sizem)
-
     return
-    end subroutine set_blocks_extents
+  end subroutine setBlocks
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

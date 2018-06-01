@@ -105,7 +105,7 @@
         stop
     endif
     !Case was read and now we can build/initialize our simulation objects that are case-dependent
-    
+
     !initilize simulation bounding box
     call BBox%initialize()
     !call BBox%print()
@@ -121,8 +121,8 @@
     call SimMemory%detailedprint()
 
     end subroutine initSimulation
-    
-    
+
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -142,8 +142,9 @@
       call Log%put(outext)
       stop
     end if
-    
-    call DBlock(1)%initialize() !This initializes all the Blocks
+
+    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks) 
+    !This initializes all the Blocks
 
     end subroutine DecomposeDomain
 
