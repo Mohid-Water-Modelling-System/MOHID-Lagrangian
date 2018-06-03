@@ -19,6 +19,7 @@
 module commom_modules
 
     use penf
+    !use vecfor_R4P !Should include a switch, but vecfor is broken at the moment
     use vecfor
     use stringifor
 

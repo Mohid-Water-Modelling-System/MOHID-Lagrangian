@@ -20,6 +20,7 @@
 
     use stringifor
     use simulation_logger_mod
+    use simulation_precision_mod
 
     implicit none
     private
@@ -80,7 +81,7 @@
     size = self%size_of_sources + self%size_of_tracers + self%size_of_defs + self%size_of_blocks
     return
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -95,7 +96,7 @@
     self%size_of_blocks = self%size_of_blocks + size
     return
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -125,7 +126,7 @@
     self%size_of_tracers = self%size_of_tracers + size
     return
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -161,19 +162,19 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Private method to print the allocated memory.
+    !> Method to print the total allocated memory.
     !---------------------------------------------------------------------------
     subroutine printmemory(self)
     implicit none
     class(memory_t), intent(inout) :: self
     integer :: size
-    real :: sizemb
+    real(prec) :: sizemb
     type(string) :: outext,temp
 
     call self%getotal(size)
     sizemb = size*1E-6
     temp= sizemb
-    outext='->Total allocated memory: '//temp//'mb'
+    outext='->Total allocated memory: '//temp//' mb'
     call Log%put(outext)
 
     return
@@ -190,7 +191,7 @@
     implicit none
     class(memory_t), intent(inout) :: self
     integer :: size
-    real :: sizemb
+    real(prec) :: sizemb
     type(string) :: outext,temp(5)
 
     call self%getotal(size)
@@ -205,11 +206,11 @@
     sizemb = self%size_of_blocks*1E-6
     temp(5)= sizemb
 
-    outext='->Total allocated memory: '//temp(1)//'mb'//new_line('a')//&
-        '       Allocated memory for Blocks  = '//temp(5)//'mb'//new_line('a')//&
-        '       Allocated memory for Sources = '//temp(2)//'mb'//new_line('a')//&
-        '       Allocated memory for Tracers = '//temp(3)//'mb'//new_line('a')//&
-        '       Allocated memory for Consts  = '//temp(4)//'mb'
+    outext='->Total allocated memory: '//temp(1)//' mb'//new_line('a')//&
+        '       Allocated memory for Blocks  = '//temp(5)//' mb'//new_line('a')//&
+        '       Allocated memory for Sources = '//temp(2)//' mb'//new_line('a')//&
+        '       Allocated memory for Tracers = '//temp(3)//' mb'//new_line('a')//&
+        '       Allocated memory for Consts  = '//temp(4)//' mb'
     call Log%put(outext)
 
     return

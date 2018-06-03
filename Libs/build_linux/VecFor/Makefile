@@ -152,6 +152,87 @@ vecfor.F90.s:
 	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor.F90.s
 .PHONY : vecfor.F90.s
 
+vecfor_R16P.o: vecfor_R16P.F90.o
+
+.PHONY : vecfor_R16P.o
+
+# target to build an object file
+vecfor_R16P.F90.o:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o
+.PHONY : vecfor_R16P.F90.o
+
+vecfor_R16P.i: vecfor_R16P.F90.i
+
+.PHONY : vecfor_R16P.i
+
+# target to preprocess a source file
+vecfor_R16P.F90.i:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.i
+.PHONY : vecfor_R16P.F90.i
+
+vecfor_R16P.s: vecfor_R16P.F90.s
+
+.PHONY : vecfor_R16P.s
+
+# target to generate assembly for a file
+vecfor_R16P.F90.s:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.s
+.PHONY : vecfor_R16P.F90.s
+
+vecfor_R4P.o: vecfor_R4P.F90.o
+
+.PHONY : vecfor_R4P.o
+
+# target to build an object file
+vecfor_R4P.F90.o:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o
+.PHONY : vecfor_R4P.F90.o
+
+vecfor_R4P.i: vecfor_R4P.F90.i
+
+.PHONY : vecfor_R4P.i
+
+# target to preprocess a source file
+vecfor_R4P.F90.i:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.i
+.PHONY : vecfor_R4P.F90.i
+
+vecfor_R4P.s: vecfor_R4P.F90.s
+
+.PHONY : vecfor_R4P.s
+
+# target to generate assembly for a file
+vecfor_R4P.F90.s:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.s
+.PHONY : vecfor_R4P.F90.s
+
+vecfor_R8P.o: vecfor_R8P.F90.o
+
+.PHONY : vecfor_R8P.o
+
+# target to build an object file
+vecfor_R8P.F90.o:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o
+.PHONY : vecfor_R8P.F90.o
+
+vecfor_R8P.i: vecfor_R8P.F90.i
+
+.PHONY : vecfor_R8P.i
+
+# target to preprocess a source file
+vecfor_R8P.F90.i:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.i
+.PHONY : vecfor_R8P.F90.i
+
+vecfor_R8P.s: vecfor_R8P.F90.s
+
+.PHONY : vecfor_R8P.s
+
+# target to generate assembly for a file
+vecfor_R8P.F90.s:
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux && $(MAKE) -f VecFor/CMakeFiles/VecFor.dir/build.make VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.s
+.PHONY : vecfor_R8P.F90.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -164,6 +245,15 @@ help:
 	@echo "... vecfor.o"
 	@echo "... vecfor.i"
 	@echo "... vecfor.s"
+	@echo "... vecfor_R16P.o"
+	@echo "... vecfor_R16P.i"
+	@echo "... vecfor_R16P.s"
+	@echo "... vecfor_R4P.o"
+	@echo "... vecfor_R4P.i"
+	@echo "... vecfor_R4P.s"
+	@echo "... vecfor_R8P.o"
+	@echo "... vecfor_R8P.i"
+	@echo "... vecfor_R8P.s"
 .PHONY : help
 
 
