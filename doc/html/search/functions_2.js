@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['check',['check',['../structsimulation__globals_1_1parameters__t.html#a5402a171a26d5e6a73b5bf284bf0aa57',1,'simulation_globals::parameters_t::check()'],['../namespacesimulation__globals.html#a3867df0f77dca3700c9470aea24fd048',1,'simulation_globals::check()']]],
-  ['closelog',['closelog',['../namespacefinalize.html#ac448631d05fe5daa8739f32c95e89152',1,'finalize']]]
+  ['check',['check',['../structsimulation__globals__mod_1_1parameters__t.html#ab0dc483d1a0d000e43726c19c892a65d',1,'simulation_globals_mod::parameters_t::check()'],['../namespacesimulation__globals__mod.html#a41249abb5c33ef9e8bff448f0b3826fa',1,'simulation_globals_mod::check()']]],
+  ['closelog',['closelog',['../namespacesimulation__logger__mod.html#aa6d1aaea74403186da0f98afb74ecebe',1,'simulation_logger_mod']]],
+  ['closesimulation',['closesimulation',['../namespacesimulation__mod.html#a4285722eaa589fa671233554b54c74f8',1,'simulation_mod']]],
+  ['constructor',['constructor',['../namespacecontainer__mod.html#a6262df4ff34024d566cf8261dc20a248',1,'container_mod']]]
 ];

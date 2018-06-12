@@ -1,12 +1,14 @@
 var simulation__memory_8f90 =
 [
-    [ "memory_t", "structsimulation__memory_1_1memory__t.html", "structsimulation__memory_1_1memory__t" ],
-    [ "adddef", "simulation__memory_8f90.html#a62d5641dbec45bc279575c173b0f0f24", null ],
-    [ "addsource", "simulation__memory_8f90.html#acf01ce7bcb2d7571d37fb2c0338e5bd2", null ],
-    [ "addtracer", "simulation__memory_8f90.html#a4d6c8bd027a99cb6c7f9ad2eb55c744f", null ],
-    [ "getotal", "simulation__memory_8f90.html#a8589522c4e28cf60741a5439477cdb31", null ],
-    [ "initialize", "simulation__memory_8f90.html#a3b8f4e0766c90e6d6bd99e2fa49ea91b", null ],
-    [ "printmemory", "simulation__memory_8f90.html#a5827bef8479b809a453af147ceaa8c7c", null ],
-    [ "printmemorydetailed", "simulation__memory_8f90.html#af2a472000acc1ff59cb6e63679617699", null ],
-    [ "simmemory", "simulation__memory_8f90.html#a8ed2bc20b0c49405084442d02fc76d42", null ]
+    [ "memory_t", "structsimulation__memory__mod_1_1memory__t.html", "structsimulation__memory__mod_1_1memory__t" ],
+    [ "addblock", "simulation__memory_8f90.html#a4169689db37b3ba35e092096a7019f80", null ],
+    [ "adddef", "simulation__memory_8f90.html#ac6d6853bc462947d24a8f6234d625138", null ],
+    [ "addsource", "simulation__memory_8f90.html#a940ff42fa3a49423f9ac98da2bffa54c", null ],
+    [ "addtracer", "simulation__memory_8f90.html#a5770021491589bbd61ea112d113a9c9d", null ],
+    [ "getotal", "simulation__memory_8f90.html#acf04d6b930ed3ffbc0950afd86033c51", null ],
+    [ "initializememory", "simulation__memory_8f90.html#ac8306165e4ec88fec9a2b8b719f61893", null ],
+    [ "printmemory", "simulation__memory_8f90.html#a16a7a1c7e88fe5a5523d23f83f0e04a0", null ],
+    [ "printmemorydetailed", "simulation__memory_8f90.html#a894bd4ec7462fd634d328ee5be4c6483", null ],
+    [ "removetracer", "simulation__memory_8f90.html#a5f95539e9740401e7046b79c40ad2ecd", null ],
+    [ "simmemory", "simulation__memory_8f90.html#af3e2714796469b4b1ec247569b184088", null ]
 ];

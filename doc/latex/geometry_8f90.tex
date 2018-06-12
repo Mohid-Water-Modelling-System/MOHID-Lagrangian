@@ -3,42 +3,46 @@
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structgeometry_1_1shape}{geometry\+::shape}
+type \hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+mod\+::geometry\+\_\+class}
+\item 
+type \hyperlink{structgeometry__mod_1_1shape}{geometry\+\_\+mod\+::shape}
 \begin{DoxyCompactList}\small\item\em Type -\/ extendable shape class. \end{DoxyCompactList}\item 
-type \hyperlink{structgeometry_1_1point}{geometry\+::point}
+type \hyperlink{structgeometry__mod_1_1point}{geometry\+\_\+mod\+::point}
 \begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\item 
-type \hyperlink{structgeometry_1_1line}{geometry\+::line}
+type \hyperlink{structgeometry__mod_1_1line}{geometry\+\_\+mod\+::line}
 \begin{DoxyCompactList}\small\item\em Type -\/ line class. \end{DoxyCompactList}\item 
-type \hyperlink{structgeometry_1_1sphere}{geometry\+::sphere}
+type \hyperlink{structgeometry__mod_1_1sphere}{geometry\+\_\+mod\+::sphere}
 \begin{DoxyCompactList}\small\item\em Type -\/ sphere class. \end{DoxyCompactList}\item 
-type \hyperlink{structgeometry_1_1box}{geometry\+::box}
+type \hyperlink{structgeometry__mod_1_1box}{geometry\+\_\+mod\+::box}
 \begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
 \item 
-module \hyperlink{namespacegeometry}{geometry}
+module \hyperlink{namespacegeometry__mod}{geometry\+\_\+mod}
 \begin{DoxyCompactList}\small\item\em Module that defines geometry classes and related methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \hyperlink{namespacegeometry_a17652db20fde3f883b4fc778e0e6cdda}{geometry\+::allocategeomlist}
+subroutine \hyperlink{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}{geometry\+\_\+mod\+::allocatelist} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-logical function, public \hyperlink{namespacegeometry_a56488a00edf7ba4e670ceffd5c36f13f}{geometry\+::isvalidgeom} (geomname)
+logical function \hyperlink{namespacegeometry__mod_a22dd77024fce56da299445a697256155}{geometry\+\_\+mod\+::inlist} (self, geomname)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacegeometry_ad14d7800ac13b9a6722ac96b06ce94c9}{geometry\+::getnp} (self, np, dp)
+integer function \hyperlink{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685}{geometry\+\_\+mod\+::fillsize} (self, shapetype)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacegeometry_a726dae6e63f052138bd3346de439fbc4}{geometry\+::getpointdistribution} (self, np, dp, ptlist)
+subroutine \hyperlink{namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065}{geometry\+\_\+mod\+::fill} (self, shapetype, fillsize, ptlist)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacegeometry_a4f070ef95bffe3bbb21bd251ae5ca6c7}{geometry\+::sphere\+\_\+np\+\_\+count} (dp, r, np)
+subroutine \hyperlink{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}{geometry\+\_\+mod\+::printgeometry} (self, shapetype)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacegeometry_a9629040285de7053d42f434333528702}{geometry\+::sphere\+\_\+grid} (dp, r, np, ptlist)
+integer function \hyperlink{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}{geometry\+\_\+mod\+::sphere\+\_\+np\+\_\+count} (dp, r)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacegeometry_ab7f40c137db819829d3110dac77a2977}{geometry\+::box\+\_\+grid} (dp, size, np, ptlist)
+subroutine \hyperlink{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}{geometry\+\_\+mod\+::sphere\+\_\+grid} (dp, r, np, ptlist)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacegeometry_a7d580229bc67448e6389d0beef0c04cb}{geometry\+::line\+\_\+grid} (dp, dist, np, ptlist)
+subroutine \hyperlink{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}{geometry\+\_\+mod\+::box\+\_\+grid} (dp, size, np, ptlist)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}{geometry\+\_\+mod\+::line\+\_\+grid} (dp, dist, np, ptlist)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(string), dimension(\+:), allocatable, public \hyperlink{namespacegeometry_a879bd9ccab6fc42f051bbfc9f0560a62}{geometry\+::geomlist}
-\begin{DoxyCompactList}\small\item\em String list (array) with the name of possible geometry types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+type(geometry\+\_\+class), public \hyperlink{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}{geometry\+\_\+mod\+::geometry}
+\end{DoxyCompactItemize}

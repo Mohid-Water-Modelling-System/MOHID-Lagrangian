@@ -1,0 +1,141 @@
+\hypertarget{namespacesources__mod}{}\section{sources\+\_\+mod Module Reference}
+\label{namespacesources__mod}\index{sources\+\_\+mod@{sources\+\_\+mod}}
+
+
+Module that defines a source class and related methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}
+\begin{DoxyCompactList}\small\item\em Type -\/ The source class. \end{DoxyCompactList}\item 
+type \hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}
+\item 
+type \hyperlink{structsources__mod_1_1source__par}{source\+\_\+par}
+\item 
+type \hyperlink{structsources__mod_1_1source__state}{source\+\_\+state}
+\begin{DoxyCompactList}\small\item\em Type -\/ state variables of a source object. \end{DoxyCompactList}\item 
+type \hyperlink{structsources__mod_1_1source__stats}{source\+\_\+stats}
+\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\item 
+type \hyperlink{structsources__mod_1_1source__stencil}{source\+\_\+stencil}
+\begin{DoxyCompactList}\small\item\em Type -\/ holder for the tracer creation stencil of the source. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}{initsources} (self, nsources)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}{setprops} (self, srcid\+\_\+str, ptype, pname)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}{initializesource} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, shapetype)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}{linkproperty} (src, ptype, pname)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}{printsource} (src)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), public \hyperlink{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}{tempsources}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a source class and related methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}\label{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!initializesource@{initializesource}}
+\index{initializesource@{initializesource}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{initializesource()}{initializesource()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initializesource (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\hyperlink{structgeometry__mod_1_1shape}{shape}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source inititialization proceadure -\/ initializes Source variables 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em src,id,name,emitting\+\_\+rate,source\+\_\+geometry} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}\label{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!initsources@{initsources}}
+\index{initsources@{initsources}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{initsources()}{initsources()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initsources (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{nsources }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source allocation routine -\/ allocates the sources objects 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em nsources} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}\label{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!linkproperty@{linkproperty}}
+\index{linkproperty@{linkproperty}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{linkproperty()}{linkproperty()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::linkproperty (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class})}]{src,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source property setting proceadure -\/ initializes Source variables 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em src,ptype,pname} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}\label{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!printsource@{printsource}}
+\index{printsource@{printsource}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{printsource()}{printsource()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::printsource (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class})}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source print routine -\/ prints a source info on console/log 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em src} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}\label{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!setprops@{setprops}}
+\index{setprops@{setprops}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{setprops()}{setprops()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::setprops (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{srcid\+\_\+str,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+source property setting routine, calls source by id to set its properties 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em srcid,ptype,pname} & \\
+\hline
+\mbox{\tt in}  & {\em srcid\+\_\+str} & Source id tag\\
+\hline
+\mbox{\tt in}  & {\em ptype} & Property type to set\\
+\hline
+\mbox{\tt in}  & {\em pname} & Property name to set \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}\label{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!tempsources@{tempsources}}
+\index{tempsources@{tempsources}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{tempsources}{tempsources}}
+{\footnotesize\ttfamily type(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), public sources\+\_\+mod\+::tempsources}
+

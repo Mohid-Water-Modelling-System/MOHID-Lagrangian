@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['id',['id',['../structsource__identity_1_1source__par.html#a05b6d325908a1b552f98dada275a3465',1,'source_identity::source_par::id()'],['../structtracer__base_1_1tracer__par__class.html#ad7d0637c337b16787b0469e0bf5dfced',1,'tracer_base::tracer_par_class::id()']]],
-  ['idsource',['idsource',['../structtracer__base_1_1tracer__par__class.html#a645bcb4eb7a0087394bd7eced244819d',1,'tracer_base::tracer_par_class']]],
-  ['integrator',['integrator',['../structsimulation__globals_1_1parameters__t.html#a8b3bbd4f8977640124204c376a404fd0',1,'simulation_globals::parameters_t']]],
-  ['interp_5fmethod',['interp_method',['../structtracer__base_1_1tracer__par__class.html#a12aa1da016c290ce194cd779b1b00854',1,'tracer_base::tracer_par_class']]]
+  ['geometry',['geometry',['../structsources__mod_1_1source__par.html#abf09d59fd65f02d1a8139e2f9f477207',1,'sources_mod::source_par::geometry()'],['../namespacegeometry__mod.html#ad2ad4f7e1138beaad5f37d5c15b7b457',1,'geometry_mod::geometry()']]],
+  ['globals',['globals',['../namespacesimulation__globals__mod.html#a04123075b6de525703edb89697fc39e9',1,'simulation_globals_mod']]],
+  ['gravity',['gravity',['../structsimulation__globals__mod_1_1constants__t.html#ab1d29ee73044e2bb7b47ca302e2cfdf9',1,'simulation_globals_mod::constants_t']]]
 ];

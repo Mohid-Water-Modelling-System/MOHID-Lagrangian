@@ -1,0 +1,141 @@
+\hypertarget{namespaceblocks__mod}{}\section{blocks\+\_\+mod Module Reference}
+\label{namespaceblocks__mod}\index{blocks\+\_\+mod@{blocks\+\_\+mod}}
+
+
+Module that defines a block class and related methods. A block is a fundamental type of the model. It contains a sub-\/domain of the simulation bounding box, holding all entities inside that sub-\/domain. It maps to a domain decomposition parallelization strategy, if needed.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}{initblock} (self, id, templatebox)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespaceblocks__mod_a7585844eb1b43604c04cb7a24c56205e}{populate} (self)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{printblock} (self)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7}{setblocks} (auto, nblk)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}{allocblocks} (nblk)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), dimension(\+:), allocatable, public \hyperlink{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}{dblock}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a block class and related methods. A block is a fundamental type of the model. It contains a sub-\/domain of the simulation bounding box, holding all entities inside that sub-\/domain. It maps to a domain decomposition parallelization strategy, if needed. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}\label{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!allocblocks@{allocblocks}}
+\index{allocblocks@{allocblocks}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{allocblocks()}{allocblocks()}}
+{\footnotesize\ttfamily subroutine, public blocks\+\_\+mod\+::allocblocks (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{nblk }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+routine to allocate the simulation blocks 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em nblk} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}\label{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!initblock@{initblock}}
+\index{initblock@{initblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{initblock()}{initblock()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::initblock (\begin{DoxyParamCaption}\item[{class(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{id,  }\item[{type(\hyperlink{structgeometry__mod_1_1box}{box}), intent(in)}]{templatebox }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method to allocate and initialize blocks and their emitters 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,templatebox} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceblocks__mod_a7585844eb1b43604c04cb7a24c56205e}\label{namespaceblocks__mod_a7585844eb1b43604c04cb7a24c56205e}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!populate@{populate}}
+\index{populate@{populate}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{populate()}{populate()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::populate (\begin{DoxyParamCaption}\item[{class(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Method to populate the Blocks with their initial Sources and Tracers This copies the Sources from their temporary global position and then allocates the foreseable tracers in their arrays. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}\label{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!printblock@{printblock}}
+\index{printblock@{printblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{printblock()}{printblock()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::printblock (\begin{DoxyParamCaption}\item[{class(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Method to print basic info about the block 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7}\label{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!setblocks@{setblocks}}
+\index{setblocks@{setblocks}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{setblocks()}{setblocks()}}
+{\footnotesize\ttfamily subroutine, public blocks\+\_\+mod\+::setblocks (\begin{DoxyParamCaption}\item[{logical, intent(in)}]{auto,  }\item[{integer, intent(in)}]{nblk }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+routine to set the simulation blocks extents and call the block initializer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}\label{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!dblock@{dblock}}
+\index{dblock@{dblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{dblock}{dblock}}
+{\footnotesize\ttfamily type(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), dimension(\+:), allocatable, public blocks\+\_\+mod\+::dblock}
+

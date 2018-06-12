@@ -1,21 +1,28 @@
 \hypertarget{simulation__logger_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+logger.f90 File Reference}
 \label{simulation__logger_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+logger.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+logger.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structsimulation__logger__mod_1_1logger__class}{simulation\+\_\+logger\+\_\+mod\+::logger\+\_\+class}
+\end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
 \item 
-module \hyperlink{namespacesimulation__logger}{simulation\+\_\+logger}
+module \hyperlink{namespacesimulation__logger__mod}{simulation\+\_\+logger\+\_\+mod}
 \begin{DoxyCompactList}\small\item\em Module to hold all the simulation logger related definitions and methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \hyperlink{namespacesimulation__logger_a13446c36aac51547a72b39003f735257}{simulation\+\_\+logger\+::gettimestamp} (timestamp)
+subroutine \hyperlink{namespacesimulation__logger__mod_abf603e657da9104a8060ab53c72f0aca}{simulation\+\_\+logger\+\_\+mod\+::initlog} (self, outpath)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespacesimulation__logger_a3aaa69ec168b6f34d703fb4033a22d92}{simulation\+\_\+logger\+::tolog} (tologstr, timeoption)
+subroutine \hyperlink{namespacesimulation__logger__mod_aa6d1aaea74403186da0f98afb74ecebe}{simulation\+\_\+logger\+\_\+mod\+::closelog} (self)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespacesimulation__logger_a9c7922c1d3cd57c8322f047799fc6053}{simulation\+\_\+logger\+::initmohidlagrangianlog} (outpath)
+subroutine \hyperlink{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}{simulation\+\_\+logger\+\_\+mod\+::put\+\_\+inlog} (self, tologstr, timeoption)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}{simulation\+\_\+logger\+\_\+mod\+::gettimestamp} (timestamp)
 \begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-integer, public \hyperlink{namespacesimulation__logger_a9ef3d703b0c79dd563330003a82c99d9}{simulation\+\_\+logger\+::log\+\_\+unit} = -\/1
-\begin{DoxyCompactList}\small\item\em \textquotesingle{}Number\textquotesingle{} of log file \end{DoxyCompactList}\end{DoxyCompactItemize}
+type(logger\+\_\+class), public \hyperlink{namespacesimulation__logger__mod_aa778de9905350741e1f40bb04fdc1cf6}{simulation\+\_\+logger\+\_\+mod\+::log}
+\end{DoxyCompactItemize}

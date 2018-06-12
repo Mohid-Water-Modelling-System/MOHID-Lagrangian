@@ -1,0 +1,129 @@
+\hypertarget{structabstract__container__array__mod_1_1container__array}{}\section{abstract\+\_\+container\+\_\+array\+\_\+mod\+:\+:container\+\_\+array Type Reference}
+\label{structabstract__container__array__mod_1_1container__array}\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+
+
+Inheritance diagram for abstract\+\_\+container\+\_\+array\+\_\+mod\+:\+:container\+\_\+array\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structabstract__container__array__mod_1_1container__array__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \hyperlink{structabstract__container__array__mod_1_1container__array_ac75fccc4c778eb745479dc50f46bf1fe}{resize} =$>$ resize\+Array
+\begin{DoxyCompactList}\small\item\em Grows (adds empty space) or shrinks (discards the last entries) of the array. \end{DoxyCompactList}\item 
+procedure \hyperlink{structabstract__container__array__mod_1_1container__array_acae485dab14440247585b9dd68d1211e}{init} =$>$ init\+Array
+\begin{DoxyCompactList}\small\item\em Allocates the container array. Deallocates if already allocated. \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \hyperlink{structabstract__container__array__mod_1_1container__array_ad7ed6004aa303b5ff71404ac843fb007}{getvalue}
+\begin{DoxyCompactList}\small\item\em returns the requested entry (pointer) \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \hyperlink{structabstract__container__array__mod_1_1container__array_a1c164143f59afb9b88591592b4e1730c}{putvalue}
+\begin{DoxyCompactList}\small\item\em stores a value on the requested index \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \hyperlink{structabstract__container__array__mod_1_1container__array_ab91570b2196a2f5aafb0aa51a114b451}{getlength}
+\begin{DoxyCompactList}\small\item\em returns the length of the array \end{DoxyCompactList}\item 
+generic \hyperlink{structabstract__container__array__mod_1_1container__array_a91473b9204b6235110b4c9469e152de7}{put} =$>$ put\+Value
+\item 
+generic \hyperlink{structabstract__container__array__mod_1_1container__array_a3dfae16ca3f2afa43766e4241f73dd1b}{get} =$>$ get\+Value
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+class(\hyperlink{structcontainer__mod_1_1container}{container}), dimension(\+:), allocatable \hyperlink{structabstract__container__array__mod_1_1container__array_a506bf56ce508f7041b765c7d19959902}{contents}
+\begin{DoxyCompactList}\small\item\em Allocatable unlimited polymorphic container array. \end{DoxyCompactList}\item 
+integer \hyperlink{structabstract__container__array__mod_1_1container__array_a0ec81671d521b7a118a83e79f1d40b56}{length}
+\begin{DoxyCompactList}\small\item\em Lenght of the array, for easy access. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_a3dfae16ca3f2afa43766e4241f73dd1b}\label{structabstract__container__array__mod_1_1container__array_a3dfae16ca3f2afa43766e4241f73dd1b}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!get@{get}}
+\index{get@{get}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily generic abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_ab91570b2196a2f5aafb0aa51a114b451}\label{structabstract__container__array__mod_1_1container__array_ab91570b2196a2f5aafb0aa51a114b451}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!getlength@{getlength}}
+\index{getlength@{getlength}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{getlength()}{getlength()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::getlength (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the length of the array 
+
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_ad7ed6004aa303b5ff71404ac843fb007}\label{structabstract__container__array__mod_1_1container__array_ad7ed6004aa303b5ff71404ac843fb007}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!getvalue@{getvalue}}
+\index{getvalue@{getvalue}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{getvalue()}{getvalue()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::getvalue (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the requested entry (pointer) 
+
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_acae485dab14440247585b9dd68d1211e}\label{structabstract__container__array__mod_1_1container__array_acae485dab14440247585b9dd68d1211e}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!init@{init}}
+\index{init@{init}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily procedure abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Allocates the container array. Deallocates if already allocated. 
+
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_a91473b9204b6235110b4c9469e152de7}\label{structabstract__container__array__mod_1_1container__array_a91473b9204b6235110b4c9469e152de7}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!put@{put}}
+\index{put@{put}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{put()}{put()}}
+{\footnotesize\ttfamily generic abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::put (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_a1c164143f59afb9b88591592b4e1730c}\label{structabstract__container__array__mod_1_1container__array_a1c164143f59afb9b88591592b4e1730c}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!putvalue@{putvalue}}
+\index{putvalue@{putvalue}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{putvalue()}{putvalue()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::putvalue (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+stores a value on the requested index 
+
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_ac75fccc4c778eb745479dc50f46bf1fe}\label{structabstract__container__array__mod_1_1container__array_ac75fccc4c778eb745479dc50f46bf1fe}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!resize@{resize}}
+\index{resize@{resize}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{resize()}{resize()}}
+{\footnotesize\ttfamily procedure abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::resize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Grows (adds empty space) or shrinks (discards the last entries) of the array. 
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_a506bf56ce508f7041b765c7d19959902}\label{structabstract__container__array__mod_1_1container__array_a506bf56ce508f7041b765c7d19959902}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!contents@{contents}}
+\index{contents@{contents}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{contents}{contents}}
+{\footnotesize\ttfamily class(\hyperlink{structcontainer__mod_1_1container}{container}), dimension(\+:), allocatable abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::contents\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Allocatable unlimited polymorphic container array. 
+
+\mbox{\Hypertarget{structabstract__container__array__mod_1_1container__array_a0ec81671d521b7a118a83e79f1d40b56}\label{structabstract__container__array__mod_1_1container__array_a0ec81671d521b7a118a83e79f1d40b56}} 
+\index{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}!length@{length}}
+\index{length@{length}!abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array@{abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array}}
+\subsubsection{\texorpdfstring{length}{length}}
+{\footnotesize\ttfamily integer abstract\+\_\+container\+\_\+array\+\_\+mod\+::container\+\_\+array\+::length\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Lenght of the array, for easy access. 
+
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\hyperlink{abstract__container__array_8f90}{abstract\+\_\+container\+\_\+array.\+f90}\end{DoxyCompactItemize}

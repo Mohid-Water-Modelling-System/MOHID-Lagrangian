@@ -1,0 +1,122 @@
+\hypertarget{namespacesimulation__xmlparser__mod}{}\section{simulation\+\_\+xmlparser\+\_\+mod Module Reference}
+\label{namespacesimulation__xmlparser__mod}\index{simulation\+\_\+xmlparser\+\_\+mod@{simulation\+\_\+xmlparser\+\_\+mod}}
+
+
+Module with the simulation xml parsing related definitions and routines.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \hyperlink{namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab}{readxmlatt} (xmlnode, tag, att\+\_\+name, att\+\_\+value, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d}{readxmlvector} (xmlnode, tag, vec, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f}{gotochildnode} (current\+Node, target\+Node, target\+Node\+Name, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module with the simulation xml parsing related definitions and routines. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f}\label{namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f}} 
+\index{simulation\+\_\+xmlparser\+\_\+mod@{simulation\+\_\+xmlparser\+\_\+mod}!gotochildnode@{gotochildnode}}
+\index{gotochildnode@{gotochildnode}!simulation\+\_\+xmlparser\+\_\+mod@{simulation\+\_\+xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{gotochildnode()}{gotochildnode()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+xmlparser\+\_\+mod\+::gotochildnode (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{current\+Node,  }\item[{type(node), intent(out), pointer}]{target\+Node,  }\item[{type(string), intent(in)}]{target\+Node\+Name,  }\item[{logical, intent(out), optional}]{read\+\_\+flag,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em current\+Node,target\+Node,target\+Node\+Name,mandatory} & \\
+\hline
+\mbox{\tt out}  & {\em read\+\_\+flag} & Optional flag to capture read/non-\/read status\\
+\hline
+\mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab}\label{namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab}} 
+\index{simulation\+\_\+xmlparser\+\_\+mod@{simulation\+\_\+xmlparser\+\_\+mod}!readxmlatt@{readxmlatt}}
+\index{readxmlatt@{readxmlatt}!simulation\+\_\+xmlparser\+\_\+mod@{simulation\+\_\+xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{readxmlatt()}{readxmlatt()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+xmlparser\+\_\+mod\+::readxmlatt (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{xmlnode,  }\item[{type(string), intent(in)}]{tag,  }\item[{type(string), intent(in)}]{att\+\_\+name,  }\item[{type(string), intent(out)}]{att\+\_\+value,  }\item[{logical, intent(out), optional}]{read\+\_\+flag,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private attribute xml parser routine. In the format $<$Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{} 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em xmlnode,tag,vec,mandatory} & \\
+\hline
+\mbox{\tt in}  & {\em xmlnode} & Working xml node\\
+\hline
+\mbox{\tt in}  & {\em tag} & Tag to search in xml node\\
+\hline
+\mbox{\tt in}  & {\em att\+\_\+name} & Atribute name to collect from tag\\
+\hline
+\mbox{\tt out}  & {\em att\+\_\+value} & Attribute value\\
+\hline
+\mbox{\tt out}  & {\em read\+\_\+flag} & Optional flag to capture read/non-\/read status\\
+\hline
+\mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d}\label{namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d}} 
+\index{simulation\+\_\+xmlparser\+\_\+mod@{simulation\+\_\+xmlparser\+\_\+mod}!readxmlvector@{readxmlvector}}
+\index{readxmlvector@{readxmlvector}!simulation\+\_\+xmlparser\+\_\+mod@{simulation\+\_\+xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{readxmlvector()}{readxmlvector()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+xmlparser\+\_\+mod\+::readxmlvector (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{xmlnode,  }\item[{type(string), intent(in)}]{tag,  }\item[{type(vector), intent(out)}]{vec,  }\item[{logical, intent(out), optional}]{read\+\_\+flag,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Private vector xml parser routine. Vector must be in format $<$\+Tag x=\char`\"{}vec\%x\char`\"{} y=\char`\"{}vec\%y\char`\"{} z=\char`\"{}vec\%z\char`\"{}$>$ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em xmlnode,tag,vec,mandatory} & \\
+\hline
+\mbox{\tt in}  & {\em xmlnode} & Working xml node\\
+\hline
+\mbox{\tt in}  & {\em tag} & Tag to search in xml node\\
+\hline
+\mbox{\tt out}  & {\em vec} & Vector to fill with read contents\\
+\hline
+\mbox{\tt out}  & {\em read\+\_\+flag} & Optional flag to capture read/non-\/read status\\
+\hline
+\mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icgraph}
+\end{center}
+\end{figure}

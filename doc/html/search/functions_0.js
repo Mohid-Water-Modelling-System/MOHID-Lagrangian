@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['adddef',['adddef',['../structsimulation__memory_1_1memory__t.html#a5a231dfd0c9f39ad6c949519ad168f70',1,'simulation_memory::memory_t::adddef()'],['../namespacesimulation__memory.html#a62d5641dbec45bc279575c173b0f0f24',1,'simulation_memory::adddef()']]],
-  ['addsource',['addsource',['../structsimulation__memory_1_1memory__t.html#a55a678b567d22acf18437743f3afdfdf',1,'simulation_memory::memory_t::addsource()'],['../namespacesimulation__memory.html#acf01ce7bcb2d7571d37fb2c0338e5bd2',1,'simulation_memory::addsource()']]],
-  ['addtracer',['addtracer',['../structsimulation__memory_1_1memory__t.html#a52610485fd6c793751a506db0ecb3f27',1,'simulation_memory::memory_t::addtracer()'],['../namespacesimulation__memory.html#a4d6c8bd027a99cb6c7f9ad2eb55c744f',1,'simulation_memory::addtracer()']]],
-  ['allocategeomlist',['allocategeomlist',['../namespacegeometry.html#a17652db20fde3f883b4fc778e0e6cdda',1,'geometry']]],
-  ['allocsources',['allocsources',['../namespacesource__identity.html#a716b4cb4acec5756a6d4dcf20eee588e',1,'source_identity']]],
-  ['alloctracers',['alloctracers',['../structsource__emitter_1_1emitter__t.html#a30562aff6a891e4e2d4836ba833e5b55',1,'source_emitter::emitter_t::alloctracers()'],['../namespacesource__emitter.html#a54e88b7aa868ff9de8cf018208a20585',1,'source_emitter::alloctracers()']]]
+  ['addblock',['addblock',['../structsimulation__memory__mod_1_1memory__t.html#a374c166c7b2412805d1c4e513bdba93b',1,'simulation_memory_mod::memory_t::addblock()'],['../namespacesimulation__memory__mod.html#a4169689db37b3ba35e092096a7019f80',1,'simulation_memory_mod::addblock()']]],
+  ['adddef',['adddef',['../structsimulation__memory__mod_1_1memory__t.html#a911dd049cf53d2ed80069303ddb3ed9e',1,'simulation_memory_mod::memory_t::adddef()'],['../namespacesimulation__memory__mod.html#ac6d6853bc462947d24a8f6234d625138',1,'simulation_memory_mod::adddef()']]],
+  ['addsource',['addsource',['../structemitter__mod_1_1emitter__class.html#a162685b7b0bf96b555fee37e129c9783',1,'emitter_mod::emitter_class::addsource()'],['../structsimulation__memory__mod_1_1memory__t.html#a29800fdc8fd46bbe3d3217b2a3fb3da9',1,'simulation_memory_mod::memory_t::addsource()'],['../namespaceemitter__mod.html#ab704fb0e2eb9b3b4b9542706b6fb4eaf',1,'emitter_mod::addsource()'],['../namespacesimulation__memory__mod.html#a940ff42fa3a49423f9ac98da2bffa54c',1,'simulation_memory_mod::addsource()']]],
+  ['addtracer',['addtracer',['../structsimulation__memory__mod_1_1memory__t.html#a6ad9a6c98265df362aa17cef6f90e59d',1,'simulation_memory_mod::memory_t::addtracer()'],['../namespacesimulation__memory__mod.html#a5770021491589bbd61ea112d113a9c9d',1,'simulation_memory_mod::addtracer()']]],
+  ['allocatelist',['allocatelist',['../namespacegeometry__mod.html#a1b6f259b0b6be71e02ffae7670f7d8ba',1,'geometry_mod']]],
+  ['allocblocks',['allocblocks',['../namespaceblocks__mod.html#a639beb0fee2290d46353f4b4702d6711',1,'blocks_mod']]],
+  ['alloctracers',['alloctracers',['../structemitter__mod_1_1emitter__class.html#a2e8c9f860c170e5ca3c33e801471c387',1,'emitter_mod::emitter_class::alloctracers()'],['../namespaceemitter__mod.html#a7c677125988390e4c57909e4ea82d902',1,'emitter_mod::alloctracers()']]]
 ];

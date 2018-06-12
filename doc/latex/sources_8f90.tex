@@ -1,7 +1,40 @@
 \hypertarget{sources_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.f90 File Reference}
 \label{sources_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structsources__mod_1_1source__par}{sources\+\_\+mod\+::source\+\_\+par}
+\item 
+type \hyperlink{structsources__mod_1_1source__state}{sources\+\_\+mod\+::source\+\_\+state}
+\begin{DoxyCompactList}\small\item\em Type -\/ state variables of a source object. \end{DoxyCompactList}\item 
+type \hyperlink{structsources__mod_1_1source__stats}{sources\+\_\+mod\+::source\+\_\+stats}
+\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\item 
+type \hyperlink{structsources__mod_1_1source__stencil}{sources\+\_\+mod\+::source\+\_\+stencil}
+\begin{DoxyCompactList}\small\item\em Type -\/ holder for the tracer creation stencil of the source. \end{DoxyCompactList}\item 
+type \hyperlink{structsources__mod_1_1source__class}{sources\+\_\+mod\+::source\+\_\+class}
+\begin{DoxyCompactList}\small\item\em Type -\/ The source class. \end{DoxyCompactList}\item 
+type \hyperlink{structsources__mod_1_1source__group__class}{sources\+\_\+mod\+::source\+\_\+group\+\_\+class}
+\end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
 \item 
-module \hyperlink{namespacesources}{sources}
-\begin{DoxyCompactList}\small\item\em Module to hold and wrap all the tracer sources respective modules. Defines a source class and related methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+module \hyperlink{namespacesources__mod}{sources\+\_\+mod}
+\begin{DoxyCompactList}\small\item\em Module that defines a source class and related methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}{sources\+\_\+mod\+::initsources} (self, nsources)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}{sources\+\_\+mod\+::setprops} (self, srcid\+\_\+str, ptype, pname)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}{sources\+\_\+mod\+::initializesource} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, shapetype)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}{sources\+\_\+mod\+::linkproperty} (src, ptype, pname)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}{sources\+\_\+mod\+::printsource} (src)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(source\+\_\+group\+\_\+class), public \hyperlink{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}{sources\+\_\+mod\+::tempsources}
+\end{DoxyCompactItemize}

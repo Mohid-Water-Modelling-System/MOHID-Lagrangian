@@ -1,18 +1,9 @@
 var searchData=
 [
-  ['par',['par',['../structsource__identity_1_1source__class.html#a99403ddb327779cbdbb98f15ca9116a8',1,'source_identity::source_class::par()'],['../structtracer__base_1_1tracer__class.html#a65acca4d35b24ec0b60eb32574004364',1,'tracer_base::tracer_class::par()']]],
-  ['parameters',['parameters',['../namespacesimulation__globals.html#ac23e87cbb2256792d683ab1bf5dc5e21',1,'simulation_globals']]],
-  ['particles_5femitted',['particles_emitted',['../structsource__identity_1_1source__stats.html#a1b11065093e55320520604392399d1c9',1,'source_identity::source_stats']]],
-  ['particulate',['particulate',['../structtracer__paper_1_1paper__par__class.html#aeab5446446cfc5d4cb33952a9fbb3c57',1,'tracer_paper::paper_par_class::particulate()'],['../structtracer__plastic_1_1plastic__par__class.html#abf8dcf5f65aef6d095a75a2d10dc5517',1,'tracer_plastic::plastic_par_class::particulate()']]],
-  ['pointmax',['pointmax',['../structsimulation__globals_1_1simdefs__t.html#a8c7a365078a69252312ea200c619bcb6',1,'simulation_globals::simdefs_t']]],
-  ['pointmin',['pointmin',['../structsimulation__globals_1_1simdefs__t.html#a76b66c4e9d305de6a0c3b8f1bd2ef319',1,'simulation_globals::simdefs_t']]],
-  ['pos',['pos',['../structsource__identity_1_1source__state.html#a070917562792ada99bdb2eaa2b5274e8',1,'source_identity::source_state::pos()'],['../structtracer__base_1_1tracer__state__class.html#a3c966719f4a6961697a7e939694cb550',1,'tracer_base::tracer_state_class::pos()']]],
-  ['prec',['prec',['../namespacesimulation__precision.html#a6d3bcd3b4ff2cfb92ec9fe36ecad405b',1,'simulation_precision']]],
-  ['prec_5ftime',['prec_time',['../namespacesimulation__precision.html#a09a1db15abeed81ff2f54b363128ffed',1,'simulation_precision']]],
-  ['prec_5fwrt',['prec_wrt',['../namespacesimulation__precision.html#a049e8de4fad9c285d2cc71e8982e2971',1,'simulation_precision']]],
-  ['property_5fname',['property_name',['../structsource__identity_1_1source__par.html#a0205c62b7673e76c7f1de2bfcecabd84',1,'source_identity::source_par']]],
-  ['property_5ftype',['property_type',['../structsource__identity_1_1source__par.html#a3d7091aedcb1154665c1debba07bee2c',1,'source_identity::source_par']]],
-  ['propsxmlfilename',['propsxmlfilename',['../structsimulation__globals_1_1filenames__t.html#a7574fc21683b726bc0cc9d41bf8f4513',1,'simulation_globals::filenames_t']]],
-  ['pt',['pt',['../structgeometry_1_1shape.html#aada595aa3503cf22350737caf2931e6a',1,'geometry::shape']]],
-  ['ptlist',['ptlist',['../structsource__identity_1_1source__stencil.html#a91822da10e869f72071fa29e2bb2c080',1,'source_identity::source_stencil']]]
+  ['name',['name',['../structsources__mod_1_1source__par.html#ac56d7761e7da3a906a3f0fbf4c7f49f8',1,'sources_mod::source_par']]],
+  ['noise',['noise',['../structtracer__base__mod_1_1tracer__par__class.html#ae331d822841461c650cb0f3ebdf511b3',1,'tracer_base_mod::tracer_par_class']]],
+  ['now',['now',['../structsources__mod_1_1source__class.html#aa79ef3a745f7e6e934acdda367e8995c',1,'sources_mod::source_class::now()'],['../structtracer__base__mod_1_1tracer__class.html#a282d3a68cbf79a87706e0b0bb974dd8f',1,'tracer_base_mod::tracer_class::now()']]],
+  ['np',['np',['../structsources__mod_1_1source__stencil.html#a11ed46a8e923b5902cc02420d88158c5',1,'sources_mod::source_stencil']]],
+  ['ns',['ns',['../structsources__mod_1_1source__stats.html#a77ba33fcefa55c8d8e440844ee7f4640',1,'sources_mod::source_stats::ns()'],['../structtracer__base__mod_1_1tracer__stats__class.html#a5e01cdc2592ecf31711151cf54e3b4d5',1,'tracer_base_mod::tracer_stats_class::ns()']]],
+  ['numblocks',['numblocks',['../structsimulation__globals__mod_1_1simdefs__t.html#a6b7497df8a36fe045f2096963db3bdde',1,'simulation_globals_mod::simdefs_t']]]
 ];

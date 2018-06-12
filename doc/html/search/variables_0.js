@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['acc',['acc',['../structtracer__base_1_1tracer__state__class.html#a5a66d6eaa3610d07fe073a04727ffb6e',1,'tracer_base::tracer_state_class']]],
-  ['acc_5fdepth',['acc_depth',['../structtracer__base_1_1tracer__stats__class.html#a33ecd4e2ae6ac454806fc383dbc0855a',1,'tracer_base::tracer_stats_class']]],
-  ['acc_5fpos',['acc_pos',['../structtracer__base_1_1tracer__stats__class.html#ae01f6d724c6a81e28d959571187e5949',1,'tracer_base::tracer_stats_class']]],
-  ['acc_5ft',['acc_t',['../structsource__identity_1_1source__stats.html#a76eafb42aad8f5a2a859f12c0fd6f683',1,'source_identity::source_stats']]],
-  ['acc_5fvel',['acc_vel',['../structtracer__base_1_1tracer__stats__class.html#af5c29fc910469ddabe6e549a3743c310',1,'tracer_base::tracer_stats_class']]],
-  ['active',['active',['../structsource__identity_1_1source__state.html#ae70b1762af6a3fd60f76226ac858cd6d',1,'source_identity::source_state::active()'],['../structtracer__base_1_1tracer__state__class.html#aeb73b96dfbc525803fab32c3d3ae3ab8',1,'tracer_base::tracer_state_class::active()']]],
-  ['age',['age',['../structsource__identity_1_1source__state.html#a311e00a4f1872202e513c0ac498e0619',1,'source_identity::source_state::age()'],['../structtracer__base_1_1tracer__state__class.html#a23ee8b78946c85f5e079ad0f5fc08b29',1,'tracer_base::tracer_state_class::age()']]],
-  ['author',['author',['../namespaceabout.html#a157e082adf984f1d88804d2f8217a632',1,'about']]]
+  ['acc',['acc',['../structtracer__base__mod_1_1tracer__state__class.html#adb9c1ee8cf97beb75d338ea0911c7fbb',1,'tracer_base_mod::tracer_state_class']]],
+  ['acc_5fdepth',['acc_depth',['../structtracer__base__mod_1_1tracer__stats__class.html#ace9d4e6796a669eba7001671ab0b38b8',1,'tracer_base_mod::tracer_stats_class']]],
+  ['acc_5fpos',['acc_pos',['../structtracer__base__mod_1_1tracer__stats__class.html#aa60964087b2515e7ae6824f38470594e',1,'tracer_base_mod::tracer_stats_class']]],
+  ['acc_5ft',['acc_t',['../structsources__mod_1_1source__stats.html#a0b7d9fa17124a4e891bcfc00e39473e0',1,'sources_mod::source_stats']]],
+  ['acc_5fvel',['acc_vel',['../structtracer__base__mod_1_1tracer__stats__class.html#adab48ad9efa9431a5101e6f22c6b16d1',1,'tracer_base_mod::tracer_stats_class']]],
+  ['active',['active',['../structsources__mod_1_1source__state.html#ab31d51c870b76a1e4ca9b03f5847a7c2',1,'sources_mod::source_state::active()'],['../structtracer__base__mod_1_1tracer__state__class.html#ab32056ce018eb780a7af79f1598db58d',1,'tracer_base_mod::tracer_state_class::active()']]],
+  ['age',['age',['../structsources__mod_1_1source__state.html#a4ec18178b2bfbf4769892f26d62aa6f7',1,'sources_mod::source_state::age()'],['../structtracer__base__mod_1_1tracer__state__class.html#a626e0afcfae26bbab40a6ed5e4e6d67b',1,'tracer_base_mod::tracer_state_class::age()']]],
+  ['author',['author',['../namespaceabout__mod.html#a7c3a72ae7ba5fc7d8a4bf133605f58c3',1,'about_mod']]],
+  ['autoblocksize',['autoblocksize',['../structsimulation__globals__mod_1_1simdefs__t.html#a3ff72d630a17daa1ca1494e67bc6d087',1,'simulation_globals_mod::simdefs_t']]]
 ];

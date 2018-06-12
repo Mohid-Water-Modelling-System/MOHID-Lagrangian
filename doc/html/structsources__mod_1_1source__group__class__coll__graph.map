@@ -1,0 +1,7 @@
+<map id="sources_mod::source_group_class" name="sources_mod::source_group_class">
+<area shape="rect" id="node2" href="$structsources__mod_1_1source__class.html" title="Type &#45; The source class. " alt="" coords="268,90,415,131"/>
+<area shape="rect" id="node3" href="$structsources__mod_1_1source__par.html" title="sources_mod::source_par" alt="" coords="5,5,177,32"/>
+<area shape="rect" id="node4" href="$structsources__mod_1_1source__stats.html" title="Type &#45; statistical variables of a source object. " alt="" coords="18,57,165,98"/>
+<area shape="rect" id="node5" href="$structsources__mod_1_1source__stencil.html" title="Type &#45; holder for the tracer creation stencil of the source. " alt="" coords="18,122,165,163"/>
+<area shape="rect" id="node6" href="$structsources__mod_1_1source__state.html" title="Type &#45; state variables of a source object. " alt="" coords="18,187,165,229"/>
+</map>

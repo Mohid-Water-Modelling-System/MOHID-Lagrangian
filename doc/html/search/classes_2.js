@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['emitter_5ft',['emitter_t',['../structsource__emitter_1_1emitter__t.html',1,'source_emitter']]]
+  ['emitter_5fclass',['emitter_class',['../structemitter__mod_1_1emitter__class.html',1,'emitter_mod']]]
 ];

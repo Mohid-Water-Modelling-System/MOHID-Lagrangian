@@ -1,0 +1,246 @@
+\hypertarget{namespacegeometry__mod}{}\section{geometry\+\_\+mod Module Reference}
+\label{namespacegeometry__mod}\index{geometry\+\_\+mod@{geometry\+\_\+mod}}
+
+
+Module that defines geometry classes and related methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structgeometry__mod_1_1box}{box}
+\begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\item 
+type \hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}
+\item 
+type \hyperlink{structgeometry__mod_1_1line}{line}
+\begin{DoxyCompactList}\small\item\em Type -\/ line class. \end{DoxyCompactList}\item 
+type \hyperlink{structgeometry__mod_1_1point}{point}
+\begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\item 
+type \hyperlink{structgeometry__mod_1_1shape}{shape}
+\begin{DoxyCompactList}\small\item\em Type -\/ extendable shape class. \end{DoxyCompactList}\item 
+type \hyperlink{structgeometry__mod_1_1sphere}{sphere}
+\begin{DoxyCompactList}\small\item\em Type -\/ sphere class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}{allocatelist} (self)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+logical function \hyperlink{namespacegeometry__mod_a22dd77024fce56da299445a697256155}{inlist} (self, geomname)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+integer function \hyperlink{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685}{fillsize} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065}{fill} (self, shapetype, \hyperlink{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685}{fillsize}, ptlist)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}{printgeometry} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+integer function \hyperlink{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}{sphere\+\_\+np\+\_\+count} (dp, r)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}{sphere\+\_\+grid} (dp, r, np, ptlist)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}{box\+\_\+grid} (dp, size, np, ptlist)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}{line\+\_\+grid} (dp, dist, np, ptlist)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}), public \hyperlink{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}{geometry}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines geometry classes and related methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}\label{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!allocatelist@{allocatelist}}
+\index{allocatelist@{allocatelist}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{allocatelist()}{allocatelist()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::allocatelist (\begin{DoxyParamCaption}\item[{class(\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public routine to allocate the possible geometry name list \mbox{\Hypertarget{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}\label{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!box\+\_\+grid@{box\+\_\+grid}}
+\index{box\+\_\+grid@{box\+\_\+grid}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{box\+\_\+grid()}{box\_grid()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::box\+\_\+grid (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{type(vector), intent(in)}]{size,  }\item[{integer, intent(in)}]{np,  }\item[{type(vector), dimension(np), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+private routine that returns the points distributed on a grid with spacing dp inside a box 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,size,np,ptlist} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065}\label{namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!fill@{fill}}
+\index{fill@{fill}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{fill()}{fill()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::fill (\begin{DoxyParamCaption}\item[{class(\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}), intent(in)}]{self,  }\item[{class(\hyperlink{structgeometry__mod_1_1shape}{shape})}]{shapetype,  }\item[{integer, intent(in)}]{fillsize,  }\item[{type(vector), dimension(\hyperlink{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685}{fillsize}), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method to get the list of points that fill a given geometry 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em shapetype,fillsize,ptlist} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685}\label{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!fillsize@{fillsize}}
+\index{fillsize@{fillsize}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{fillsize()}{fillsize()}}
+{\footnotesize\ttfamily integer function geometry\+\_\+mod\+::fillsize (\begin{DoxyParamCaption}\item[{class(\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}), intent(in)}]{self,  }\item[{class(\hyperlink{structgeometry__mod_1_1shape}{shape}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method to get the number of points that fill a given geometry 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em shapetype} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a22dd77024fce56da299445a697256155}\label{namespacegeometry__mod_a22dd77024fce56da299445a697256155}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!inlist@{inlist}}
+\index{inlist@{inlist}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{inlist()}{inlist()}}
+{\footnotesize\ttfamily logical function geometry\+\_\+mod\+::inlist (\begin{DoxyParamCaption}\item[{class(\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}), intent(in)}]{self,  }\item[{type(string), intent(in)}]{geomname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public function that returns a logical if the input geometry name is valid 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em geomname} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}\label{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!line\+\_\+grid@{line\+\_\+grid}}
+\index{line\+\_\+grid@{line\+\_\+grid}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{line\+\_\+grid()}{line\_grid()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::line\+\_\+grid (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{type(vector), intent(in)}]{dist,  }\item[{integer, intent(in)}]{np,  }\item[{type(vector), dimension(np), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+private routine that returns the points distributed on a grid with spacing dp along a line 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,size,np,ptlist} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}\label{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!printgeometry@{printgeometry}}
+\index{printgeometry@{printgeometry}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{printgeometry()}{printgeometry()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::printgeometry (\begin{DoxyParamCaption}\item[{class(\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}), intent(in)}]{self,  }\item[{class(\hyperlink{structgeometry__mod_1_1shape}{shape})}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method to print the details of a given geometry 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em shapetype} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}\label{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!sphere\+\_\+grid@{sphere\+\_\+grid}}
+\index{sphere\+\_\+grid@{sphere\+\_\+grid}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{sphere\+\_\+grid()}{sphere\_grid()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::sphere\+\_\+grid (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{real(prec), intent(in)}]{r,  }\item[{integer, intent(in)}]{np,  }\item[{type(vector), dimension(np), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+private routine that returns the points distributed on a grid with spacing dp inside a sphere 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,r,np,ptlist} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}\label{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!sphere\+\_\+np\+\_\+count@{sphere\+\_\+np\+\_\+count}}
+\index{sphere\+\_\+np\+\_\+count@{sphere\+\_\+np\+\_\+count}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{sphere\+\_\+np\+\_\+count()}{sphere\_np\_count()}}
+{\footnotesize\ttfamily integer function geometry\+\_\+mod\+::sphere\+\_\+np\+\_\+count (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{real(prec), intent(in)}]{r }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+private function that returns the number of points distributed on a grid with spacing dp inside a sphere 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,r} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}\label{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!geometry@{geometry}}
+\index{geometry@{geometry}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{geometry}{geometry}}
+{\footnotesize\ttfamily type(\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}), public geometry\+\_\+mod\+::geometry}
+

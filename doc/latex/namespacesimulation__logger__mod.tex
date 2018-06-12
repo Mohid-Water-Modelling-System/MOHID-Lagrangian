@@ -1,0 +1,121 @@
+\hypertarget{namespacesimulation__logger__mod}{}\section{simulation\+\_\+logger\+\_\+mod Module Reference}
+\label{namespacesimulation__logger__mod}\index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
+
+
+Module to hold all the simulation logger related definitions and methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{namespacesimulation__logger__mod_abf603e657da9104a8060ab53c72f0aca}{initlog} (self, outpath)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesimulation__logger__mod_aa6d1aaea74403186da0f98afb74ecebe}{closelog} (self)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}{put\+\_\+inlog} (self, tologstr, timeoption)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine, public \hyperlink{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}{gettimestamp} (timestamp)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), public \hyperlink{namespacesimulation__logger__mod_aa778de9905350741e1f40bb04fdc1cf6}{log}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to hold all the simulation logger related definitions and methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulation__logger__mod_aa6d1aaea74403186da0f98afb74ecebe}\label{namespacesimulation__logger__mod_aa6d1aaea74403186da0f98afb74ecebe}} 
+\index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!closelog@{closelog}}
+\index{closelog@{closelog}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
+\subsubsection{\texorpdfstring{closelog()}{closelog()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::closelog (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Log file closure routine. \mbox{\Hypertarget{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}\label{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}} 
+\index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!gettimestamp@{gettimestamp}}
+\index{gettimestamp@{gettimestamp}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
+\subsubsection{\texorpdfstring{gettimestamp()}{gettimestamp()}}
+{\footnotesize\ttfamily subroutine, public simulation\+\_\+logger\+\_\+mod\+::gettimestamp (\begin{DoxyParamCaption}\item[{type(string), intent(out)}]{timestamp }\end{DoxyParamCaption})}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Public timestamp builder 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em timestamp} & \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacesimulation__logger__mod_abf603e657da9104a8060ab53c72f0aca}\label{namespacesimulation__logger__mod_abf603e657da9104a8060ab53c72f0aca}} 
+\index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!initlog@{initlog}}
+\index{initlog@{initlog}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
+\subsubsection{\texorpdfstring{initlog()}{initlog()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::initlog (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{outpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Log file initizalization routine. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em outpath} & \\
+\hline
+\mbox{\tt in}  & {\em outpath} & output path were to point the logger \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}\label{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}} 
+\index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!put\+\_\+inlog@{put\+\_\+inlog}}
+\index{put\+\_\+inlog@{put\+\_\+inlog}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
+\subsubsection{\texorpdfstring{put\+\_\+inlog()}{put\_inlog()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::put\+\_\+inlog (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), intent(in)}]{self,  }\item[{type(string), intent(inout)}]{tologstr,  }\item[{logical, intent(in), optional}]{timeoption }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Log serialization routine 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em tologstr,timeoption} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulation__logger__mod_aa778de9905350741e1f40bb04fdc1cf6}\label{namespacesimulation__logger__mod_aa778de9905350741e1f40bb04fdc1cf6}} 
+\index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!log@{log}}
+\index{log@{log}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
+\subsubsection{\texorpdfstring{log}{log}}
+{\footnotesize\ttfamily type(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), public simulation\+\_\+logger\+\_\+mod\+::log}
+

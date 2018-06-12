@@ -1,0 +1,127 @@
+\hypertarget{namespaceemitter__mod}{}\section{emitter\+\_\+mod Module Reference}
+\label{namespaceemitter__mod}\index{emitter\+\_\+mod@{emitter\+\_\+mod}}
+
+
+Module that defines an emitter class and related methods. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \hyperlink{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}{initracers} (self, srcs)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespaceemitter__mod_a7c677125988390e4c57909e4ea82d902}{alloctracers} (self, src)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}{initializeemitter} (self)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}{addsource} (self, src)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}{setotalnp} (src)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines an emitter class and related methods. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}\label{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!addsource@{addsource}}
+\index{addsource@{addsource}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{addsource()}{addsource()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::addsource (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self,  }\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method to compute the total emittable particles per source and allocate them 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,src} & \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceemitter__mod_a7c677125988390e4c57909e4ea82d902}\label{namespaceemitter__mod_a7c677125988390e4c57909e4ea82d902}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!alloctracers@{alloctracers}}
+\index{alloctracers@{alloctracers}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{alloctracers()}{alloctracers()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::alloctracers (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self,  }\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method that allocates the tracers respective to a given source 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,src} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}\label{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!initializeemitter@{initializeemitter}}
+\index{initializeemitter@{initializeemitter}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{initializeemitter()}{initializeemitter()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::initializeemitter (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method that initializes an emmiter class object. Sets default values 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}\label{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!initracers@{initracers}}
+\index{initracers@{initracers}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{initracers()}{initracers()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::initracers (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self,  }\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), dimension(\+:), intent(inout)}]{srcs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+method that calls the tracer initialization from the emmiter object 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,src} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}\label{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!setotalnp@{setotalnp}}
+\index{setotalnp@{setotalnp}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{setotalnp()}{setotalnp()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::setotalnp (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+private routine that returns the total number of tracers an input source will potentially create 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em src} & \\
+\hline
+\end{DoxyParams}
+${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}$ Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph}
+\end{center}
+\end{figure}

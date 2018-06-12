@@ -1,0 +1,94 @@
+\hypertarget{namespacecontainer__mod}{}\section{container\+\_\+mod Module Reference}
+\label{namespacecontainer__mod}\index{container\+\_\+mod@{container\+\_\+mod}}
+
+
+Module that defines an unlimited polymorphic container class and related methods. A container is a fundamental entity allowing to build data structures such as lists and arrays.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+interface \hyperlink{structcontainer__mod_1_1container}{container}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+class($\ast$) function, pointer \hyperlink{namespacecontainer__mod_a23a016e747d896622127c0c21dca9836}{getcontent} (this)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacecontainer__mod_ace49cee012b6cd3c41c03556ab0dd884}{storecontent} (this, to\+\_\+store)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+subroutine \hyperlink{namespacecontainer__mod_abf1785185971a527e437d3a489462724}{printcontainer} (this)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+class(\hyperlink{structcontainer__mod_1_1container}{container}) function, pointer \hyperlink{namespacecontainer__mod_a6262df4ff34024d566cf8261dc20a248}{constructor} (to\+\_\+store)
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines an unlimited polymorphic container class and related methods. A container is a fundamental entity allowing to build data structures such as lists and arrays. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacecontainer__mod_a6262df4ff34024d566cf8261dc20a248}\label{namespacecontainer__mod_a6262df4ff34024d566cf8261dc20a248}} 
+\index{container\+\_\+mod@{container\+\_\+mod}!constructor@{constructor}}
+\index{constructor@{constructor}!container\+\_\+mod@{container\+\_\+mod}}
+\subsubsection{\texorpdfstring{constructor()}{constructor()}}
+{\footnotesize\ttfamily class(\hyperlink{structcontainer__mod_1_1container}{container}) function, pointer container\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{class($\ast$), intent(in)}]{to\+\_\+store }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Container constructor, can be used with the \textquotesingle{}container\textquotesingle{} name since it is defined as an interface 
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacecontainer__mod_a23a016e747d896622127c0c21dca9836}\label{namespacecontainer__mod_a23a016e747d896622127c0c21dca9836}} 
+\index{container\+\_\+mod@{container\+\_\+mod}!getcontent@{getcontent}}
+\index{getcontent@{getcontent}!container\+\_\+mod@{container\+\_\+mod}}
+\subsubsection{\texorpdfstring{getcontent()}{getcontent()}}
+{\footnotesize\ttfamily class($\ast$) function, pointer container\+\_\+mod\+::getcontent (\begin{DoxyParamCaption}\item[{class(\hyperlink{structcontainer__mod_1_1container}{container}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Method that returns a pointer to the values stored in the container 
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacecontainer__mod_abf1785185971a527e437d3a489462724}\label{namespacecontainer__mod_abf1785185971a527e437d3a489462724}} 
+\index{container\+\_\+mod@{container\+\_\+mod}!printcontainer@{printcontainer}}
+\index{printcontainer@{printcontainer}!container\+\_\+mod@{container\+\_\+mod}}
+\subsubsection{\texorpdfstring{printcontainer()}{printcontainer()}}
+{\footnotesize\ttfamily subroutine container\+\_\+mod\+::printcontainer (\begin{DoxyParamCaption}\item[{class(\hyperlink{structcontainer__mod_1_1container}{container}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Method to print the stored value. Only knows about instrinsic types, ignores (but warns) if other types are passed. 
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespacecontainer__mod_ace49cee012b6cd3c41c03556ab0dd884}\label{namespacecontainer__mod_ace49cee012b6cd3c41c03556ab0dd884}} 
+\index{container\+\_\+mod@{container\+\_\+mod}!storecontent@{storecontent}}
+\index{storecontent@{storecontent}!container\+\_\+mod@{container\+\_\+mod}}
+\subsubsection{\texorpdfstring{storecontent()}{storecontent()}}
+{\footnotesize\ttfamily subroutine container\+\_\+mod\+::storecontent (\begin{DoxyParamCaption}\item[{class(\hyperlink{structcontainer__mod_1_1container}{container}), intent(inout)}]{this,  }\item[{class($\ast$), intent(in)}]{to\+\_\+store }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Method that stores the provided value in the container using sourced allocation 
+\begin{DoxyParams}{Parameters}
+{\em } & \\
+\hline
+\end{DoxyParams}
