@@ -66,6 +66,7 @@
         sourcetype=trim(sourcetype_char)
         sourceprop=trim(sourceprop_char)
         call setSourceProperties(sourceid,sourcetype,sourceprop)
+        call tempSources%setProps(sourceid,sourcetype,sourceprop)
     enddo
 
     return
@@ -100,7 +101,7 @@
         call Log%put(outext,.false.)
         tag="links"
         call gotoChildNode(props_node,props_node,tag) !getting the links node
-        call linkPropertySources(props_node)                 !calling the property linker
+        call linkPropertySources(props_node)          !calling the property linker
     else
         outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
         call Log%put(outext,.false.)
@@ -191,6 +192,7 @@
 
     !allocating the temporary source objects
     call allocSources(getLength(sourceList))
+    call tempSources%initialize(getLength(sourceList))
 
     do j = 0, getLength(sourceList) - 1
         source_node => item(sourceList,j)
@@ -245,6 +247,7 @@
         enddo
         !initializing Source j
         call Source(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
+        call tempSources%src(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
 
         deallocate(source_shape)
     enddo

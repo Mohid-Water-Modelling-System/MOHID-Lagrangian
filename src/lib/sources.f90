@@ -79,10 +79,11 @@
 
     !Simulation variables
     type(source_class), allocatable, dimension(:) :: Source
-    type(source_group_class) :: Sources
+    type(source_group_class) :: tempSources
 
     !Public access vars
     public :: Source, source_class
+    public :: tempSources, source_group_class
     !Public access procedures
     public :: allocSources, setSourceProperties
 
@@ -103,7 +104,7 @@
       integer, intent(in) :: nsources
       integer err
       type(string) :: outext, temp
-      allocate(Sources%src(nsources), stat=err)
+      allocate(self%src(nsources), stat=err)
       if(err/=0)then
           outext='[initSources]: Cannot allocate Sources, stoping'
           call Log%put(outext)
@@ -139,11 +140,11 @@
 
       srcid = srcid_str%to_number(kind=1_I1P)
       notlinked = .true.  !assuming not linked
-      do i=1, size(Source)
-          if (Source(i)%par%id == srcid) then ! found the correct source to link to
-              call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
-              temp = Source(i)%par%id
-              outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
+      do i=1, size(self%src)
+          if (self%src(i)%par%id == srcid) then ! found the correct source to link to
+              call self%src(i)%linkproperty(ptype,pname) ! calling Source method to link property
+              temp = self%src(i)%par%id
+              outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%par%property_type //', with property name ' // self%src(i)%par%property_name
               call Log%put(outext,.false.)
               notlinked = .false. ! we linked it
               exit
