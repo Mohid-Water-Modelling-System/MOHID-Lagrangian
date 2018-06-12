@@ -24,7 +24,7 @@
 
 MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
 =====================================================================
-2018-6-3 @1:31:21 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-6-12 @17:31:28 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000E+00
@@ -33,57 +33,104 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        TimeOut = +0.110000E+01 Hz
  -->Reading case constants
        Gravity is 
-        0.000000000000000E+000  0.000000000000000E+000 -0.981000000000000E+001
+        0.000000E+00  0.000000E+00 -0.981000E+01
        Z0 = +0.216000E+01 m
        Rho_ref = +0.110000E+04 kg/m^3
  -->Reading case simulation definitions
        Timestep is +0.300000E+02 s
        Pointmin (BB) is 
-       -0.100000000000000E+002  0.000000000000000E+000 -0.500010000000000E+003
+       -0.100000E+02  0.000000E+00 -0.500010E+03
        Pointmax (BB) is 
-       +0.300000000000000E+002 +0.250000000000000E+002 +0.405740000000000E+001
+       +0.300000E+02 +0.250000E+02 +0.405740E+01
        Blocks are sized 
-        0.000000000000000E+000 X  0.000000000000000E+000
+        0.000000E+00 X  0.000000E+00
  -->Reading case Sources
-2018-6-3 @1:31:21 Allocated +4 Sources.
+2018-6-12 @17:31:28 Allocated +4 Sources.
  -->Source Spill_007 allocated
        Id = +18
        Geometry type is box
        Initially at coordinates
-       -0.550000000000000E+001  0.000000000000000E+000  0.000000000000000E+000
+       -0.550000E+01  0.000000E+00  0.000000E+00
        Emitting +24 tracers at a rate of +0.100000E+00 Hz
        Active from +0.150000E+02 to +0.152000E+04 seconds
  -->Source Litter_plastic allocated
        Id = +1
        Geometry type is point
        Initially at coordinates
-       +0.490000000000000E+000 +0.490000000000000E+000 +0.750000000000000E+000
+       +0.490000E+00 +0.490000E+00 +0.750000E+00
        Emitting +1 tracers at a rate of +0.900000E-01 Hz
        Active from +0.150000E+02 to +0.900000E+02 seconds
  -->Source Emissary_2 allocated
        Id = +2
        Geometry type is line
        Initially at coordinates
-       +0.100000000000000E+001 +0.200000000000000E+001 +0.300000000000000E+001
+       +0.100000E+01 +0.200000E+01 +0.300000E+01
        Emitting +41 tracers at a rate of +0.200000E+00 Hz
        Active from  0.000000E+00 to +0.152000E+04 seconds
  -->Source Mistery_discharge_0 allocated
        Id = +3
        Geometry type is sphere
        Initially at coordinates
-       +0.500000000000000E+002  0.000000000000000E+000  0.000000000000000E+000
+       +0.500000E+02  0.000000E+00  0.000000E+00
        Emitting +126 tracers at a rate of +0.500000E-02 Hz
        Active from +0.112500E+01 to +0.152000E+04 seconds
  -->Properties to link to Sources found at Material_props.xml
        Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
        Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
        Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
-2018-6-3 @1:31:21 Allocated +16 Blocks.
- -->Automatic domain decomposition finished. Domain is +8 X +2 Blocks
-2018-6-3 @1:31:21 Allocated +17038 Tracers.
-2018-6-3 @1:31:21 ->Total allocated memory: +0.300280E+01 mb
-       Allocated memory for Blocks  = +0.307200E-02 mb
-       Allocated memory for Sources = +0.936000E-03 mb
-       Allocated memory for Tracers = +0.299869E+01 mb
-       Allocated memory for Consts  = +0.108000E-03 mb
-2018-6-3 @1:31:21 Simulation ended, freeing resources. See you next time
+2018-6-12 @17:31:28 Allocated +16 Blocks.
+ -->Automatic domain decomposition sucessful. Domain is +8 X +2 Blocks
+ -->Block +1 is a
+       Box at -0.100000E+02  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +2 is a
+       Box at -0.100000E+02 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +3 is a
+       Box at -0.500000E+01  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +4 is a
+       Box at -0.500000E+01 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +5 is a
+       Box at  0.000000E+00  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +6 is a
+       Box at  0.000000E+00 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +7 is a
+       Box at +0.500000E+01  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +8 is a
+       Box at +0.500000E+01 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +9 is a
+       Box at +0.100000E+02  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +10 is a
+       Box at +0.100000E+02 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +11 is a
+       Box at +0.150000E+02  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +12 is a
+       Box at +0.150000E+02 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +13 is a
+       Box at +0.200000E+02  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +14 is a
+       Box at +0.200000E+02 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +15 is a
+       Box at +0.250000E+02  0.000000E+00  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+ -->Block +16 is a
+       Box at +0.250000E+02 +0.125000E+02  0.000000E+00
+       with +0.500000E+01 X +0.125000E+02 X  0.000000E+00
+2018-6-12 @17:31:28 ->Total allocated memory: +0.772000E-02 mb
+       Allocated memory for Blocks  = +0.576000E-02 mb
+       Allocated memory for Sources = +0.188800E-02 mb
+       Allocated memory for Tracers =  0.000000E+00 mb
+       Allocated memory for Consts  = +0.720000E-04 mb
+2018-6-12 @17:31:28 Simulation ended, freeing resources. See you next time
