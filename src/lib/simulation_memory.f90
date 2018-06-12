@@ -64,7 +64,6 @@
     self%size_of_tracers = 0
     self%size_of_defs = 0
     self%size_of_blocks = 0
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -79,7 +78,6 @@
     class(memory_t), intent(inout) :: self
     integer, intent(out) :: size
     size = self%size_of_sources + self%size_of_tracers + self%size_of_defs + self%size_of_blocks
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -94,7 +92,6 @@
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
     self%size_of_blocks = self%size_of_blocks + size
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -109,7 +106,6 @@
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
     self%size_of_sources = self%size_of_sources + size
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -124,7 +120,6 @@
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
     self%size_of_tracers = self%size_of_tracers + size
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -139,7 +134,6 @@
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
     self%size_of_tracers = self%size_of_tracers - size
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -154,7 +148,6 @@
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
     self%size_of_defs = self%size_of_defs + size
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -170,14 +163,11 @@
     integer :: size
     real(prec) :: sizemb
     type(string) :: outext,temp
-
     call self%getotal(size)
     sizemb = size*1E-6
     temp= sizemb
     outext='->Total allocated memory: '//temp//' mb'
-    call Log%put(outext)
-
-    return
+    call Log%put(outext)    
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -213,7 +203,6 @@
         '       Allocated memory for Consts  = '//temp(4)//' mb'
     call Log%put(outext)
 
-    return
     end subroutine
 
   end module simulation_memory_mod

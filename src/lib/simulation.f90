@@ -115,7 +115,7 @@
 
     !With the Sources initialized, now we initialize the Emmiter class, that automatically
     !allocates and initializes all of the useable tracers from basic sources
-    call Emitter%initialize(Source)
+    !call Emitter%initialize()
 
     !printing memory occupation at the time
     call SimMemory%detailedprint()
@@ -142,9 +142,8 @@
       call Log%put(outext)
       stop
     end if
-
+    ! Initializing the blocks
     call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks) 
-    !This initializes all the Blocks
 
     end subroutine DecomposeDomain
 

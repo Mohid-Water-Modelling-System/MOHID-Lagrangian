@@ -19,8 +19,8 @@
 module commom_modules
 
     use penf
-    !use vecfor_R4P !Should include a switch, but vecfor is broken at the moment
-    use vecfor
+    use vecfor_R4P !Should include a preprocessor switch
+    !use vecfor
     use stringifor
 
     use geometry_mod

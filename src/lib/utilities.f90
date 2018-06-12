@@ -18,7 +18,8 @@
 
     module utilities_mod
 
-    use vecfor
+    use vecfor_r4p !Should include a preprocessor switch
+    !use vecfor
     use stringifor
     use simulation_precision_mod
     use simulation_logger_mod

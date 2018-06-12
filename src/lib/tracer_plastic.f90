@@ -86,7 +86,6 @@
     trc%stats%acc_depth = 0.0
     trc%stats%ns = 0
 
-    return
     end subroutine
 
   end module tracer_plastic_mod

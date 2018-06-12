@@ -67,96 +67,25 @@
     contains
     procedure :: initialize => initializeSource
     procedure :: linkproperty
-    procedure :: print
+    procedure :: print => printSource
     end type
 
     type :: source_group_class
-      type(source_class), allocatable, dimension(:) :: src
+        type(source_class), allocatable, dimension(:) :: src
     contains
     procedure :: initialize => initSources
     procedure :: setProps
     end type
 
     !Simulation variables
-    type(source_class), allocatable, dimension(:) :: Source
+    !type(source_class), allocatable, dimension(:) :: Source
     type(source_group_class) :: tempSources
 
     !Public access vars
-    public :: Source, source_class
-    public :: tempSources, source_group_class
+    public :: tempSources, source_group_class, source_class
     !Public access procedures
-    public :: allocSources, setSourceProperties
 
     contains
-
-      !---------------------------------------------------------------------------
-      !> @Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> source allocation routine - allocates the sources objects
-      !
-      !> @param[in] nsources
-      !---------------------------------------------------------------------------
-      subroutine initSources(self,nsources)
-      implicit none
-      class(source_group_class), intent(inout) :: self
-      integer, intent(in) :: nsources
-      integer err
-      type(string) :: outext, temp
-      allocate(self%src(nsources), stat=err)
-      if(err/=0)then
-          outext='[initSources]: Cannot allocate Sources, stoping'
-          call Log%put(outext)
-          stop
-      else
-          temp = nsources
-          outext = 'Allocated '// temp // ' Sources.'
-          call Log%put(outext)
-      endif
-      end subroutine
-
-
-      !---------------------------------------------------------------------------
-      !> @Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> source property setting routine, calls source by id to set its properties
-      !
-      !> @param[in] srcid,ptype,pname
-      !---------------------------------------------------------------------------
-      subroutine setProps(self,srcid_str,ptype,pname)
-      implicit none
-      class(source_group_class), intent(inout) :: self
-      type(string), intent(in) :: srcid_str      !<Source id tag
-      type(string), intent(in) :: ptype          !<Property type to set
-      type(string), intent(in) :: pname          !<Property name to set
-
-      integer :: srcid
-      type(string) :: outext, temp
-      integer :: i
-      logical :: notlinked
-
-      srcid = srcid_str%to_number(kind=1_I1P)
-      notlinked = .true.  !assuming not linked
-      do i=1, size(self%src)
-          if (self%src(i)%par%id == srcid) then ! found the correct source to link to
-              call self%src(i)%linkproperty(ptype,pname) ! calling Source method to link property
-              temp = self%src(i)%par%id
-              outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%par%property_type //', with property name ' // self%src(i)%par%property_name
-              call Log%put(outext,.false.)
-              notlinked = .false. ! we linked it
-              exit
-          endif
-      enddo
-      if (notlinked) then ! property has no corresponding Source
-          temp = srcid
-          outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
-          call Log%put(outext,.false.)
-      endif
-      return
-      end subroutine
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -167,22 +96,24 @@
     !
     !> @param[in] nsources
     !---------------------------------------------------------------------------
-    subroutine allocSources(nsources)
+    subroutine initSources(self,nsources)
     implicit none
+    class(source_group_class), intent(inout) :: self
     integer, intent(in) :: nsources
     integer err
     type(string) :: outext, temp
-    allocate(Source(nsources), stat=err)
+    allocate(self%src(nsources), stat=err)
     if(err/=0)then
-        outext='Cannot allocate Sources, stoping'
+        outext='[initSources]: Cannot allocate Sources, stoping'
         call Log%put(outext)
         stop
     else
-          temp = nsources
-          outext = 'Allocated '// temp // ' Sources.'
-          call Log%put(outext)
+        temp = nsources
+        outext = 'Allocated '// temp // ' Sources.'
+        call Log%put(outext)
     endif
     end subroutine
+
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -193,11 +124,12 @@
     !
     !> @param[in] srcid,ptype,pname
     !---------------------------------------------------------------------------
-    subroutine setSourceProperties(srcid_str,ptype,pname)
+    subroutine setProps(self,srcid_str,ptype,pname)
     implicit none
+    class(source_group_class), intent(inout) :: self
     type(string), intent(in) :: srcid_str      !<Source id tag
-    type(string), intent(in) :: ptype   !<Property type to set
-    type(string), intent(in) :: pname   !<Property name to set
+    type(string), intent(in) :: ptype          !<Property type to set
+    type(string), intent(in) :: pname          !<Property name to set
 
     integer :: srcid
     type(string) :: outext, temp
@@ -206,11 +138,11 @@
 
     srcid = srcid_str%to_number(kind=1_I1P)
     notlinked = .true.  !assuming not linked
-    do i=1, size(Source)
-        if (Source(i)%par%id == srcid) then ! found the correct source to link to
-            call Source(i)%linkproperty(ptype,pname) ! calling Source method to link property
-            temp = Source(i)%par%id
-            outext='      Source id = '// temp // ', '// Source(i)%par%name //' is of type '// Source(i)%par%property_type //', with property name ' // Source(i)%par%property_name
+    do i=1, size(self%src)
+        if (self%src(i)%par%id == srcid) then ! found the correct source to link to
+            call self%src(i)%linkproperty(ptype,pname) ! calling Source method to link property
+            temp = self%src(i)%par%id
+            outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%par%property_type //', with property name ' // self%src(i)%par%property_name
             call Log%put(outext,.false.)
             notlinked = .false. ! we linked it
             exit
@@ -221,7 +153,6 @@
         outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
         call Log%put(outext,.false.)
     endif
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -284,7 +215,6 @@
     !do i=1, src%stencil%np
     !print*, src%stencil%ptlist(i)
     !end do
-    return
     end subroutine
 
 
@@ -302,12 +232,9 @@
     class(source_class) :: src
     type(string), intent(in) :: ptype
     type(string), intent(in) :: pname
-
     src%par%property_type = ptype
     src%par%property_name = pname
-    return
     end subroutine
-
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -318,7 +245,7 @@
     !
     !> @param[in] src
     !---------------------------------------------------------------------------
-    subroutine print(src)
+    subroutine printSource(src)
     implicit none
     class(source_class) :: src
 
@@ -343,6 +270,6 @@
 
     call Log%put(outext,.false.)
 
-    end subroutine
+    end subroutine printSource
 
-  end module sources_mod
+    end module sources_mod

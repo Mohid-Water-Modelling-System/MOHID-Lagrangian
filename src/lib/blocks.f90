@@ -16,7 +16,7 @@
     !> Module that defines a block class and related methods. A block is a fundamental
     !> type of the model. It contains a sub-domain of the simulation bounding box,
     !> holding all entities inside that sub-domain. It maps to a domain decomposition
-    !> parallelization strategy, in any memory architecture.
+    !> parallelization strategy, if needed.
     !------------------------------------------------------------------------------
 
     module blocks_mod
@@ -33,15 +33,14 @@
 
     type block_class
         integer :: id
-        type(box) :: extents !< shape::box that defines the extents of this block
-
-        type(SourceArray) :: BlockSource
-        type(TracerArray) :: BlockTracer
-
-        type(emitter_class) :: BlockEmitter
+        type(box) :: extents            !< shape::box that defines the extents of this block
+        type(SourceArray) :: Source     !< List of Sources currently on this block
+        type(TracerArray) :: Tracer     !< List of Tracers currently on this block
+        type(emitter_class) :: Emitter  !< Block Emitter
     contains
     private
     procedure, public :: initialize => initBlock
+    procedure, public :: print => printBlock
     end type block_class
 
     !Simulation variables
@@ -59,26 +58,26 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> method to allocate and initialize blocks
+    !> method to allocate and initialize blocks and their emitters
     !
     !> @param[in] self, templatebox
     !---------------------------------------------------------------------------
-    subroutine initBlock(self, templatebox)
+    subroutine initBlock(self, id, templatebox)
     implicit none
     class(block_class), intent(inout) :: self
+    integer, intent(in) :: id
     type(box), intent(in) :: templatebox
     integer :: sizem
-
+    self%id = id
+    !setting the block sub-domain
     self%extents%pt = templatebox%pt
-    self%extents%size = templatebox%size
-
+    self%extents%size = templatebox%size    
+    !initializing the block emitter
+    call self%Emitter%initialize()
+    !logging the ocupied space by the block
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
-
-    return
     end subroutine initBlock
-
-
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
@@ -99,9 +98,27 @@
 
 
 
-    return
-    end subroutine populate
 
+    end subroutine populate
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Method to print basic info about the block
+    !
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine printBlock(self)
+    implicit none
+    class(block_class), intent(inout) :: self
+    type(string) :: outext, temp_str
+    temp_str = self%id
+    outext='-->Block '//temp_str//' is a'
+    call Log%put(outext,.false.)
+    call Geometry%print(self%extents)
+    end subroutine printBlock
 
 
     !---------------------------------------------------------------------------
@@ -128,7 +145,7 @@
         nyi = sqrt(nblk/ar)
         if (nyi == 0) then
             temp(1) = ar
-            outext='[set_blocks_extents]: block auto sizing failed. Bouding box aspect ratio = '//temp(1)//'. Stoping'
+            outext='[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '//temp(1)//'. Stoping'
             call Log%put(outext)
             stop
         endif
@@ -139,15 +156,18 @@
             do j=1, nyi
               tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey - BBox%pt%z*ez
               tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey
-              call DBlock(b)%initialize(tempbox)
+              call DBlock(b)%initialize(b,tempbox)
               b=b+1
             end do
         end do
         temp(1) = nxi
         temp(2) = nyi
-        outext='-->Automatic domain decomposition finished. Domain is '//temp(1)// ' X ' //temp(2)//' Blocks'
+        outext='-->Automatic domain decomposition sucessful. Domain is '//temp(1)// ' X ' //temp(2)//' Blocks'
         call Log%put(outext,.false.)
     end if
+    do i=1, size(DBlock)
+        call DBlock(i)%print()
+    enddo
 
     return
   end subroutine setBlocks

@@ -19,7 +19,8 @@
     module simulation_globals_mod
 
     use penf
-    use vecfor
+    use vecfor_r4p !Should include a preprocessor switch
+    !use vecfor
     use stringifor
 
     use simulation_precision_mod
@@ -130,7 +131,7 @@
 
       sizem=sizeof(self)
       call SimMemory%adddef(sizem)
-      return
+
       end subroutine
 
     !---------------------------------------------------------------------------
@@ -167,7 +168,7 @@
         sizem=sizeof(self%TimeOut)
     endif
     call SimMemory%adddef(sizem)
-    return
+
     end subroutine
 
 
@@ -193,7 +194,6 @@
         call Log%put(outext)
         stop
     endif
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -265,7 +265,6 @@
     endif
     sizem=sizeof(self%Gravity)
     call SimMemory%adddef(sizem)
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -285,7 +284,6 @@
     self%Z0=read_z0%to_number(kind=1._R4P)
     sizem = sizeof(self%Z0)
     call SimMemory%adddef(sizem)
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -311,7 +309,6 @@
     endif
     sizem = sizeof(self%Rho_ref)
     call SimMemory%adddef(sizem)
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -326,7 +323,6 @@
     class(constants_t), intent(in) :: self
     type(string) :: outext
     type(string) :: temp_str(3)
-
 
     temp_str(1)=self%Gravity%x
     temp_str(2)=self%Gravity%y
@@ -364,7 +360,6 @@
     endif
     sizem = sizeof(self%Dp)
     call SimMemory%adddef(sizem)
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -390,7 +385,6 @@
     endif
     sizem = sizeof(self%dt)
     call SimMemory%adddef(sizem)
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -415,7 +409,6 @@
     endif
     sizem=sizeof(coords)
     call SimMemory%adddef(sizem)
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -423,8 +416,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> blocksize box setting routine. Calls a Block sizer routine, based on the
-    !> bounding box, to compute the size, if the user sets 'auto'
+    !> blocksize box setting routine.
     !
     !> @param[in] bsize
     !---------------------------------------------------------------------------
@@ -433,13 +425,9 @@
     class(simdefs_t), intent(inout) :: self
     type(vector) :: bsize
     integer :: sizem
-
-    !Check if the size is given or we need to call BlockSizer beacuse user requested 'auto'
-
     self%blocksize = bsize
     sizem = sizeof(bsize)
     call SimMemory%adddef(sizem)
-    return
     end subroutine
 
     !---------------------------------------------------------------------------

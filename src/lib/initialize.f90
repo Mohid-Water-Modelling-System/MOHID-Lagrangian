@@ -65,11 +65,9 @@
         sourceid=trim(sourceid_char)
         sourcetype=trim(sourcetype_char)
         sourceprop=trim(sourceprop_char)
-        call setSourceProperties(sourceid,sourcetype,sourceprop)
         call tempSources%setProps(sourceid,sourcetype,sourceprop)
     enddo
 
-    return
     end subroutine
 
 
@@ -191,7 +189,6 @@
     sourceList => getElementsByTagname(sourcedef, "source")
 
     !allocating the temporary source objects
-    call allocSources(getLength(sourceList))
     call tempSources%initialize(getLength(sourceList))
 
     do j = 0, getLength(sourceList) - 1
@@ -245,14 +242,12 @@
                 exit
             endif
         enddo
-        !initializing Source j
-        call Source(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
+        !initializing Source j       
         call tempSources%src(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
 
         deallocate(source_shape)
     enddo
 
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -295,7 +290,6 @@
     enddo
     call Globals%SimDefs%print()
 
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -343,7 +337,6 @@
     endif
     call Globals%Constants%print()
 
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -383,7 +376,6 @@
     call Globals%Parameters%check()
     call Globals%Parameters%print()
 
-    return
     end subroutine
 
 
@@ -435,7 +427,6 @@
 
     call destroy(xmldoc)
 
-    return
     end subroutine InitFromXml
 
   end module initialize_mod

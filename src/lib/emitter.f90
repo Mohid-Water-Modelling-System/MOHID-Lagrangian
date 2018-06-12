@@ -32,15 +32,14 @@
         integer :: emittable
     contains
     procedure :: initialize => initializeEmitter
+    procedure :: addSource
     procedure :: alloctracers
     procedure :: initracers
     !procedure :: activecheck
     end type
 
-    type(emitter_class) :: Emitter
-
     !Public access vars
-    public :: emitter_class, Emitter
+    public :: emitter_class
 
     contains
 
@@ -74,7 +73,6 @@
     sizem = sizeof(Tracer)
     call SimMemory%addtracer(sizem)
 
-    return
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -82,26 +80,25 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> method that initializes an emmiter class object. Computes the total emittable
-    !> particles this emmiter will allocate and sets other variables
+    !> method that allocates the tracers respective to a given source
     !
     !> @param[in] self, src
     !---------------------------------------------------------------------------
-    subroutine alloctracers(self, srcs)
+    subroutine alloctracers(self, src)
     implicit none
     class(emitter_class), intent(inout) :: self
-    class(source_class), dimension(:), intent(inout) :: srcs
+    class(source_class), intent(inout) :: src
     integer err
     type(string) :: outext, temp
 
     if (self%emittable .le. 0) then
-        outext='Emitter::alloctracers : No Tracers will be simulated, stoping'
+        outext='[Emitter::alloctracers]: No Tracers will be simulated, stoping'
         call Log%put(outext)
         stop
     else
         allocate(Tracer(self%emittable), stat=err)
         if(err/=0)then
-            outext='Emitter::alloctracers : Cannot allocate Tracers, stoping'
+            outext='[Emitter::alloctracers]: Cannot allocate Tracers, stoping'
             call Log%put(outext)
             stop
         endif
@@ -119,33 +116,42 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> method that initializes an emmiter class object. Computes the total emittable
-    !> particles this emmiter will allocate and sets other variables
+    !> method that initializes an emmiter class object. Sets default values
+    !
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine initializeEmitter(self)
+    implicit none
+    class(emitter_class), intent(inout) :: self
+    self%emitted = 0
+    self%emittable = 0
+    end subroutine initializeEmitter
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method to compute the total emittable particles per source and allocate 
+    !> them
     !
     !> @param[in] self, src
     !---------------------------------------------------------------------------
-    subroutine initializeEmitter(self, srcs)
+    subroutine addSource(self, src)
     implicit none
     class(emitter_class), intent(inout) :: self
-    class(source_class), dimension(:), intent(inout) :: srcs
+    class(source_class),intent(inout) :: src
     integer :: i
-    integer :: sizem
-
-    self%emitted = 0
-    self%emittable = 0
-    do i=1, size(srcs)
-        call setotalnp(srcs(i)) !finding the total tracers this Source will pass the emmiter
-        self%emittable = self%emittable + srcs(i)%stencil%total_np
+    
+    call setotalnp(src) !finding the total tracers this Source will pass the emmiter
+    self%emittable = self%emittable + src%stencil%total_np
         !print*, srcs(i)%stencil%total_np
-    end do
-    sizem = sizeof(self)
-    call SimMemory%addsource(sizem)
-
+   
     !allocating and initializing the tracers by the emitter, for all sources
-    call self%alloctracers(srcs)
-    call self%initracers(srcs)
+    call self%alloctracers(src)
+    !call self%initracers(srcs)
 
-    end subroutine
+    end subroutine addSource
 
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC

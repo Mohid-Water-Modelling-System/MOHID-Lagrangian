@@ -103,7 +103,6 @@
     trc%stats%acc_depth = 0.0
     trc%stats%ns = 0
 
-    return
-    end subroutine
+    end subroutine initialize
 
   end module tracer_base_mod
