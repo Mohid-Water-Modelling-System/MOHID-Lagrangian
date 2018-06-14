@@ -7,3 +7,5 @@ C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/StringiF
 C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/FoXy/CMakeFiles/Foxy.dir
 C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/VTKFortran/CMakeFiles/VTKFortran.dir
 C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/CLA/CMakeFiles/CLA.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/FACE/CMakeFiles/FACE.dir
+C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/FLAP/CMakeFiles/FLAP.dir

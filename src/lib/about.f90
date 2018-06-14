@@ -34,7 +34,7 @@
     contains
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief

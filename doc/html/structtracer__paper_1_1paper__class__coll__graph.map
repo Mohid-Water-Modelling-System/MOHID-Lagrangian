@@ -1,8 +1,0 @@
-<map id="tracer_paper::paper_class" name="tracer_paper::paper_class">
-<area shape="rect" id="node2" href="$structtracer__base_1_1tracer__class.html" title="Type &#45; The pure Lagrangian tracer class. " alt="" coords="219,71,350,112"/>
-<area shape="rect" id="node3" href="$structtracer__base_1_1tracer__stats__class.html" title="Type &#45; statistical variables of a pure Lagrangian tracer object. " alt="" coords="5,5,136,47"/>
-<area shape="rect" id="node4" href="$structtracer__base_1_1tracer__par__class.html" title="tracer_base::tracer\l_par_class" alt="" coords="5,71,136,112"/>
-<area shape="rect" id="node5" href="$structtracer__base_1_1tracer__state__class.html" title="Type &#45; state variables of a pure Lagrangian tracer object. " alt="" coords="5,136,136,177"/>
-<area shape="rect" id="node6" href="$structtracer__paper_1_1paper__par__class.html" title="tracer_paper::paper\l_par_class" alt="" coords="217,136,352,177"/>
-<area shape="rect" id="node7" href="$structtracer__paper_1_1paper__state__class.html" title="Type &#45; State variables of a tracer object representing a paper material. " alt="" coords="217,201,352,243"/>
-</map>

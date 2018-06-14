@@ -15,7 +15,6 @@
     ! DESCRIPTION:
     !> Module to hold the simulation class and its methods
     !------------------------------------------------------------------------------
-
     module simulation_mod
 
     use commom_modules
@@ -45,8 +44,7 @@
     contains
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !
     !> @brief
     !> Simulation run method. Runs the initialized case main time cycle.
@@ -67,14 +65,14 @@
     end subroutine run
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
     !> Simulation initialization method. Effectively builds and populates the
     !> simulation objects that will be used latter on.
     !
-    !> @param[in] xmlfilename
+    !> @param[in] casefilename, outpath
     !---------------------------------------------------------------------------
     subroutine initSimulation(self, casefilename, outpath)
     implicit none
@@ -124,7 +122,7 @@
 
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
@@ -136,19 +134,19 @@
     type(string) :: outext
 
     if (Globals%SimDefs%autoblocksize) then
-      call allocBlocks(Globals%SimDefs%numblocks)
+        call allocBlocks(Globals%SimDefs%numblocks)
     else
-      outext='[DecomposeDomain]: Only automatic Block sizing at the moment, stoping'
-      call Log%put(outext)
-      stop
+        outext='[DecomposeDomain]: Only automatic Block sizing at the moment, stoping'
+        call Log%put(outext)
+        stop
     end if
     ! Initializing the blocks
-    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks) 
+    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks)
 
     end subroutine DecomposeDomain
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief

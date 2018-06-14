@@ -1,8 +1,8 @@
 <map id="simulation_xmlparser_mod::readxmlvector" name="simulation_xmlparser_mod::readxmlvector">
-<area shape="rect" id="node2" href="$namespaceinitialize__mod.html#aebe8236f74bc6665b16463683c478602" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,9,333,51"/>
-<area shape="rect" id="node6" href="$namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="381,71,508,112"/>
-<area shape="rect" id="node7" href="$namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="203,129,329,171"/>
-<area shape="rect" id="node3" href="$namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="381,5,508,47"/>
-<area shape="rect" id="node4" href="$namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="556,78,728,105"/>
-<area shape="rect" id="node5" href="$namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="776,78,973,105"/>
+<area shape="rect" id="node2" href="$namespaceinitialize__mod.html#aebe8236f74bc6665b16463683c478602" title="Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of ..." alt="" coords="199,9,333,51"/>
+<area shape="rect" id="node6" href="$namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Private simulation definitions parser routine. Builds the simulation geometric space from the input x..." alt="" coords="381,71,508,112"/>
+<area shape="rect" id="node7" href="$namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Private case constant parser routine. Builds the simulation parametric space from the input xml case ..." alt="" coords="203,129,329,171"/>
+<area shape="rect" id="node3" href="$namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Private source definitions parser routine. Builds the tracer sources from the input xml case file..." alt="" coords="381,5,508,47"/>
+<area shape="rect" id="node4" href="$namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Public xml parser routine. Builds the simulation space from the input xml case file. " alt="" coords="556,78,728,105"/>
+<area shape="rect" id="node5" href="$namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Simulation initialization method. Effectively builds and populates the simulation objects that will b..." alt="" coords="776,78,973,105"/>
 </map>

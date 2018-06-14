@@ -34,7 +34,7 @@ module boundingbox_mod
   contains
 
   !---------------------------------------------------------------------------
-  !> @Ricardo Birjukovs Canelas - MARETEC
+  !> @author Ricardo Birjukovs Canelas - MARETEC
   ! Routine Author Name and Affiliation.
   !
   !> @brief
@@ -48,7 +48,7 @@ module boundingbox_mod
   end subroutine initboundingbox
 
   !---------------------------------------------------------------------------
-  !> @Ricardo Birjukovs Canelas - MARETEC
+  !> @author Ricardo Birjukovs Canelas - MARETEC
   ! Routine Author Name and Affiliation.
   !
   !> @brief

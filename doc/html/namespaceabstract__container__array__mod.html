@@ -107,19 +107,19 @@ Data Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a2b3e0aec504d76c73bf7f18158924af4"><td class="memItemLeft" align="right" valign="top">class(*) function, pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a2b3e0aec504d76c73bf7f18158924af4">getvalue</a> (this, index)</td></tr>
-<tr class="memdesc:a2b3e0aec504d76c73bf7f18158924af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a2b3e0aec504d76c73bf7f18158924af4">More...</a><br /></td></tr>
+<tr class="memdesc:a2b3e0aec504d76c73bf7f18158924af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that returns returns the requested entry (pointer)  <a href="#a2b3e0aec504d76c73bf7f18158924af4">More...</a><br /></td></tr>
 <tr class="separator:a2b3e0aec504d76c73bf7f18158924af4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae1f6309c51e282a528ce78f128443e0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#aae1f6309c51e282a528ce78f128443e0">putvalue</a> (this, index, value)</td></tr>
-<tr class="memdesc:aae1f6309c51e282a528ce78f128443e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#aae1f6309c51e282a528ce78f128443e0">More...</a><br /></td></tr>
+<tr class="memdesc:aae1f6309c51e282a528ce78f128443e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that stores a value on the requested index.  <a href="#aae1f6309c51e282a528ce78f128443e0">More...</a><br /></td></tr>
 <tr class="separator:aae1f6309c51e282a528ce78f128443e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22d71ca3f03bf0bb5d3737338e5e349a"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a22d71ca3f03bf0bb5d3737338e5e349a">getlength</a> (this)</td></tr>
-<tr class="memdesc:a22d71ca3f03bf0bb5d3737338e5e349a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a22d71ca3f03bf0bb5d3737338e5e349a">More...</a><br /></td></tr>
+<tr class="memdesc:a22d71ca3f03bf0bb5d3737338e5e349a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that returns the length of the array.  <a href="#a22d71ca3f03bf0bb5d3737338e5e349a">More...</a><br /></td></tr>
 <tr class="separator:a22d71ca3f03bf0bb5d3737338e5e349a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2d73eb111ffde938f81e3f93b0cb3e0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#ac2d73eb111ffde938f81e3f93b0cb3e0">resizearray</a> (this, newsize)</td></tr>
-<tr class="memdesc:ac2d73eb111ffde938f81e3f93b0cb3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ac2d73eb111ffde938f81e3f93b0cb3e0">More...</a><br /></td></tr>
+<tr class="memdesc:ac2d73eb111ffde938f81e3f93b0cb3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move_alloc()  <a href="#ac2d73eb111ffde938f81e3f93b0cb3e0">More...</a><br /></td></tr>
 <tr class="separator:ac2d73eb111ffde938f81e3f93b0cb3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a8e7af177f333262aba941775d6c245"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a6a8e7af177f333262aba941775d6c245">initarray</a> (this, entries, tocopy)</td></tr>
-<tr class="memdesc:a6a8e7af177f333262aba941775d6c245"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a6a8e7af177f333262aba941775d6c245">More...</a><br /></td></tr>
+<tr class="memdesc:a6a8e7af177f333262aba941775d6c245"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that allocates the container array. Deallocates if already allocated.  <a href="#a6a8e7af177f333262aba941775d6c245">More...</a><br /></td></tr>
 <tr class="separator:a6a8e7af177f333262aba941775d6c245"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -150,8 +150,9 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Method that returns the length of the array </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Method that returns the length of the array. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname"></td><td></td></tr>
   </table>
@@ -194,8 +195,9 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Method that returns returns the requested entry (pointer) </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Method that returns returns the requested entry (pointer) </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname"></td><td></td></tr>
   </table>
@@ -244,8 +246,9 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Method that allocates the container array. Deallocates if already allocated </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Method that allocates the container array. Deallocates if already allocated. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname"></td><td></td></tr>
   </table>
@@ -294,8 +297,9 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Method that stores a value on the requested index </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Method that stores a value on the requested index. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname"></td><td></td></tr>
   </table>
@@ -338,8 +342,9 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move_alloc() </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move_alloc() </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname"></td><td></td></tr>
   </table>

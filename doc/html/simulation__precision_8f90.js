@@ -1,5 +1,6 @@
 var simulation__precision_8f90 =
 [
+    [ "char_len", "simulation__precision_8f90.html#a8a3305091ff953708508525398aa7129", null ],
     [ "dp", "simulation__precision_8f90.html#a4d49b0033a5e2bc6693c5b2dfb63a032", null ],
     [ "err_dist", "simulation__precision_8f90.html#ae3222dd2d51f6b7221be1ca1c70e3e6c", null ],
     [ "err_ind", "simulation__precision_8f90.html#a82a4b689dc26018c961193b991c489d4", null ],

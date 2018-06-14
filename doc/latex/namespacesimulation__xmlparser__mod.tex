@@ -9,11 +9,11 @@ Module with the simulation xml parsing related definitions and routines.
 \begin{DoxyCompactItemize}
 \item 
 subroutine, public \hyperlink{namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab}{readxmlatt} (xmlnode, tag, att\+\_\+name, att\+\_\+value, read\+\_\+flag, mandatory)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private attribute xml parser routine. In the format $<$Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{}. \end{DoxyCompactList}\item 
 subroutine, public \hyperlink{namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d}{readxmlvector} (xmlnode, tag, vec, read\+\_\+flag, mandatory)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private vector xml parser routine. Vector must be in format $<$\+Tag x=\char`\"{}vec\%x\char`\"{} y=\char`\"{}vec\%y\char`\"{} z=\char`\"{}vec\%z\char`\"{}$>$ \end{DoxyCompactList}\item 
 subroutine, public \hyperlink{namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f}{gotochildnode} (current\+Node, target\+Node, target\+Node\+Name, read\+\_\+flag, mandatory)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -33,9 +33,12 @@ Ricardo Birjukovs Canelas
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em current\+Node,target\+Node,target\+Node\+Name,mandatory} & \\
 \hline
@@ -44,8 +47,7 @@ Private routine to retrieve a node within a node. Returns a nullifyed pointer if
 \mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -60,9 +62,12 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Private attribute xml parser routine. In the format $<$Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{}. 
 
-Private attribute xml parser routine. In the format $<$Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{} 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em xmlnode,tag,vec,mandatory} & \\
 \hline
@@ -79,8 +84,7 @@ Private attribute xml parser routine. In the format $<$Tag att\+\_\+name=\char`\
 \mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -95,9 +99,12 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Private vector xml parser routine. Vector must be in format $<$\+Tag x=\char`\"{}vec\%x\char`\"{} y=\char`\"{}vec\%y\char`\"{} z=\char`\"{}vec\%z\char`\"{}$>$ 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em xmlnode,tag,vec,mandatory} & \\
 \hline
@@ -112,8 +119,7 @@ Private vector xml parser routine. Vector must be in format $<$\+Tag x=\char`\"{
 \mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

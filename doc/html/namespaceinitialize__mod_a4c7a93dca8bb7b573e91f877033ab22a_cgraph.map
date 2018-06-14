@@ -1,5 +1,5 @@
 <map id="initialize_mod::init_properties" name="initialize_mod::init_properties">
-<area shape="rect" id="node2" href="$namespacesimulation__xmlparser__mod.html#a3167fcb99b40cdc25d2ba18418bd8b9f" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="219,5,364,47"/>
-<area shape="rect" id="node3" href="$namespacesimulation__xmlparser__mod.html#ab062c8e064b043446d4f6ac695b306ab" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="219,71,364,112"/>
-<area shape="rect" id="node4" href="$namespaceinitialize__mod.html#af38ade977df8d56db1d125bc4cc03a4a" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="180,137,403,163"/>
+<area shape="rect" id="node2" href="$namespacesimulation__xmlparser__mod.html#a3167fcb99b40cdc25d2ba18418bd8b9f" title="Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found..." alt="" coords="219,5,364,47"/>
+<area shape="rect" id="node3" href="$namespacesimulation__xmlparser__mod.html#ab062c8e064b043446d4f6ac695b306ab" title="Private attribute xml parser routine. In the format &lt;Tag att_name=&quot;att_value&quot;. " alt="" coords="219,71,364,112"/>
+<area shape="rect" id="node4" href="$namespaceinitialize__mod.html#af38ade977df8d56db1d125bc4cc03a4a" title="Private property xml parser routine. Reads the properties tab from the xml file and links these to th..." alt="" coords="180,137,403,163"/>
 </map>

@@ -14,15 +14,15 @@ type \hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}
 \begin{DoxyCompactItemize}
 \item 
 subroutine \hyperlink{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}{initracers} (self, srcs)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em method that calls the tracer initialization from the emmiter object \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceemitter__mod_a7c677125988390e4c57909e4ea82d902}{alloctracers} (self, src)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em method that allocates the tracers respective to a given source \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}{initializeemitter} (self)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em method that initializes an emmiter class object. Sets default values \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}{addsource} (self, src)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em method to compute the total emittable particles per source and allocate them \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}{setotalnp} (src)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em private routine that returns the total number of tracers an input source will potentially create \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -42,15 +42,17 @@ Ricardo Birjukovs Canelas
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 method to compute the total emittable particles per source and allocate them 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self,src} & \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -65,9 +67,12 @@ Here is the call graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 method that allocates the tracers respective to a given source 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self,src} & \\
 \hline
@@ -80,9 +85,12 @@ method that allocates the tracers respective to a given source
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 method that initializes an emmiter class object. Sets default values 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self} & \\
 \hline
@@ -95,9 +103,12 @@ method that initializes an emmiter class object. Sets default values
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 method that calls the tracer initialization from the emmiter object 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self,src} & \\
 \hline
@@ -110,15 +121,17 @@ method that calls the tracer initialization from the emmiter object
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 private routine that returns the total number of tracers an input source will potentially create 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em src} & \\
 \hline
 \end{DoxyParams}
-${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}$ Here is the caller graph for this function\+:
-\nopagebreak
+${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}$ Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

@@ -1,8 +1,0 @@
-var namespacetracer3d =
-[
-    [ "tracer_class", "structtracer3d_1_1tracer__class.html", "structtracer3d_1_1tracer__class" ],
-    [ "tracer_par_class", "structtracer3d_1_1tracer__par__class.html", "structtracer3d_1_1tracer__par__class" ],
-    [ "tracer_par_trans_class", "structtracer3d_1_1tracer__par__trans__class.html", "structtracer3d_1_1tracer__par__trans__class" ],
-    [ "tracer_state_class", "structtracer3d_1_1tracer__state__class.html", "structtracer3d_1_1tracer__state__class" ],
-    [ "tracer_stats_class", "structtracer3d_1_1tracer__stats__class.html", "structtracer3d_1_1tracer__stats__class" ]
-];

@@ -1,30 +1,33 @@
-!MARETEC - Research Centre for Marine, Environment and Technology
-!Copyright (C) 2018  Ricardo Birjukovs Canelas
-!
-!This program is free software: you can redistribute it and/or modify
-!it under the terms of the GNU General Public License as published by
-!the Free Software Foundation, either version 3 of the License, or
-!(at your option) any later version.
-!
-!This program is distributed in the hope that it will be useful,
-!but WITHOUT ANY WARRANTY; without even the implied warranty of
-!MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-!GNU General Public License for more details.
-!
-!You should have received a copy of the GNU General Public License
-!along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    !MARETEC - Research Centre for Marine, Environment and Technology
+    !Copyright (C) 2018  Ricardo Birjukovs Canelas
+    !
+    !This program is free software: you can redistribute it and/or modify
+    !it under the terms of the GNU General Public License as published by
+    !the Free Software Foundation, either version 3 of the License, or
+    !(at your option) any later version.
+    !
+    !This program is distributed in the hope that it will be useful,
+    !but WITHOUT ANY WARRANTY; without even the implied warranty of
+    !MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    !GNU General Public License for more details.
+    !
+    !You should have received a copy of the GNU General Public License
+    !along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     program MOHIDLagrangian
 
-    use CLA    !Command line argument module
+    use flap !Command line argument lib   
     use commom_modules
     use simulation_mod
 
     implicit none
 
     !-----------------------------------------------------------------------------------------------------------------------------------
-    character(len=STRLEN)  :: casefilename_char
-    character(len=STRLEN)  :: outpath_char
+    type(command_line_interface) :: cli
+    integer :: ierr
+    
+    character(len=CHAR_LEN)  :: casefilename_char
+    character(len=CHAR_LEN)  :: outpath_char
     type(string) :: casefilename !< Simulation input case file
     type(string) :: outpath      !< Simulation output path
 
@@ -33,13 +36,22 @@
     !-----------------------------------------------------------------------------------------------------------------------------------
 
     ! Initialize command line arguments
-    call cla_init
+    call cli%init(description = 'MOHID Lagrangian command line argument parser')
+
     ! Register keys for key/value pairs.
-    call cla_register('-i','--infile','input definition file (xml)', cla_char, 'casefilename')
-    call cla_register('-o','--outpath','output path', cla_char, 'outpath')
-    ! Store the arguments with each respective variable
-    call cla_get('-i',casefilename_char)
-    call cla_get('-o',outpath_char)
+    call cli%add( switch = '--infile', switch_ab = '-i', &
+        help = 'input definition file (.xml)', &
+        required = .true., act = 'store', error = ierr )
+    if (ierr/=0) stop
+    call cli%add( switch = '--outpath', switch_ab = '-o', &
+        help = 'output path', required = .true., &
+        act = 'store', error = ierr )
+    if (ierr/=0) stop
+    call cli%get( switch = '-i', val = casefilename_char, error = ierr )
+    if (ierr/=0) stop
+    call cli%get( switch = '-o', val = outpath_char, error = ierr )
+    if (ierr/=0) stop
+    ! Store the arguments with each respective variable    
     casefilename=trim(casefilename_char)
     outpath=trim(outpath_char)
     ! Completing the outpath with the separator

@@ -46,7 +46,7 @@
     contains
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
@@ -67,7 +67,7 @@
     end subroutine initLog
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
@@ -80,7 +80,7 @@
     end subroutine closeLog
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
@@ -108,7 +108,7 @@
     end subroutine put_inLog
         
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief

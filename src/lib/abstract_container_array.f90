@@ -59,7 +59,7 @@
 
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns returns the requested entry (pointer)
     !> @param[this, index]
@@ -76,7 +76,7 @@
     end function getValue
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that stores a value on the requested index
     !> @param[this, index, value]
@@ -93,7 +93,7 @@
     end subroutine putValue
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the length of the array
     !> @param[this]
@@ -105,7 +105,7 @@
     end function getLength
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that grows (adds empty space) or shrinks (discards the
     !> last entries) of the array. Use sparsely as this might get expensive
@@ -126,7 +126,7 @@
     end subroutine resizeArray
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that allocates the container array. Deallocates if already allocated
     !> @param[this, entries, tocopy]

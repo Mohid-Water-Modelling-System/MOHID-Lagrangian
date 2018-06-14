@@ -101,13 +101,13 @@ $(document).ready(function(){initNavTree('namespacesimulation__xmlparser__mod.ht
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ab062c8e064b043446d4f6ac695b306ab"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#ab062c8e064b043446d4f6ac695b306ab">readxmlatt</a> (xmlnode, tag, att_name, att_value, read_flag, mandatory)</td></tr>
-<tr class="memdesc:ab062c8e064b043446d4f6ac695b306ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ab062c8e064b043446d4f6ac695b306ab">More...</a><br /></td></tr>
+<tr class="memdesc:ab062c8e064b043446d4f6ac695b306ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Private attribute xml parser routine. In the format &lt;Tag att_name="att_value".  <a href="#ab062c8e064b043446d4f6ac695b306ab">More...</a><br /></td></tr>
 <tr class="separator:ab062c8e064b043446d4f6ac695b306ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48bcd153bef2149410d66842b564728d"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#a48bcd153bef2149410d66842b564728d">readxmlvector</a> (xmlnode, tag, vec, read_flag, mandatory)</td></tr>
-<tr class="memdesc:a48bcd153bef2149410d66842b564728d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a48bcd153bef2149410d66842b564728d">More...</a><br /></td></tr>
+<tr class="memdesc:a48bcd153bef2149410d66842b564728d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Private vector xml parser routine. Vector must be in format &lt;Tag x="vec%x" y="vec%y" z="vec%z"&gt;  <a href="#a48bcd153bef2149410d66842b564728d">More...</a><br /></td></tr>
 <tr class="separator:a48bcd153bef2149410d66842b564728d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3167fcb99b40cdc25d2ba18418bd8b9f"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#a3167fcb99b40cdc25d2ba18418bd8b9f">gotochildnode</a> (currentNode, targetNode, targetNodeName, read_flag, mandatory)</td></tr>
-<tr class="memdesc:a3167fcb99b40cdc25d2ba18418bd8b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a3167fcb99b40cdc25d2ba18418bd8b9f">More...</a><br /></td></tr>
+<tr class="memdesc:a3167fcb99b40cdc25d2ba18418bd8b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory.  <a href="#a3167fcb99b40cdc25d2ba18418bd8b9f">More...</a><br /></td></tr>
 <tr class="separator:a3167fcb99b40cdc25d2ba18418bd8b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -158,8 +158,9 @@ Functions/Subroutines</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">currentNode,targetNode,targetNodeName,mandatory</td><td></td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">read_flag</td><td>Optional flag to capture read/non-read status</td></tr>
@@ -172,13 +173,13 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icgraph.png" border="0" usemap="#namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icgraph" alt=""/></div>
 <map name="namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icgraph" id="namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icgraph">
-<area shape="rect" id="node2" href="namespaceinitialize__mod.html#a4c7a93dca8bb7b573e91f877033ab22a" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,5,325,47"/>
-<area shape="rect" id="node3" href="namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="373,163,545,190"/>
-<area shape="rect" id="node5" href="namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,123,325,164"/>
-<area shape="rect" id="node6" href="namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,188,325,229"/>
-<area shape="rect" id="node7" href="namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,253,325,295"/>
-<area shape="rect" id="node8" href="namespaceinitialize__mod.html#aac9d9dabb797c83e360f9ae60a7e65e3" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,319,325,360"/>
-<area shape="rect" id="node4" href="namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="593,163,791,190"/>
+<area shape="rect" id="node2" href="namespaceinitialize__mod.html#a4c7a93dca8bb7b573e91f877033ab22a" title="Private property xml parser routine. Reads the properties tab from the xml file and links these to th..." alt="" coords="199,5,325,47"/>
+<area shape="rect" id="node3" href="namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Public xml parser routine. Builds the simulation space from the input xml case file. " alt="" coords="373,163,545,190"/>
+<area shape="rect" id="node5" href="namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Private source definitions parser routine. Builds the tracer sources from the input xml case file..." alt="" coords="199,123,325,164"/>
+<area shape="rect" id="node6" href="namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Private simulation definitions parser routine. Builds the simulation geometric space from the input x..." alt="" coords="199,188,325,229"/>
+<area shape="rect" id="node7" href="namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Private case constant parser routine. Builds the simulation parametric space from the input xml case ..." alt="" coords="199,253,325,295"/>
+<area shape="rect" id="node8" href="namespaceinitialize__mod.html#aac9d9dabb797c83e360f9ae60a7e65e3" title="Private parameter parser routine. Builds the simulation parametric space from the input xml case file..." alt="" coords="199,319,325,360"/>
+<area shape="rect" id="node4" href="namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Simulation initialization method. Effectively builds and populates the simulation objects that will b..." alt="" coords="593,163,791,190"/>
 </map>
 </div>
 
@@ -234,8 +235,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Private attribute xml parser routine. In the format &lt;Tag att_name="att_value" </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Private attribute xml parser routine. In the format &lt;Tag att_name="att_value". </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode,tag,vec,mandatory</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode</td><td>Working xml node</td></tr>
@@ -252,12 +254,12 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icgraph.png" border="0" usemap="#namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icgraph" alt=""/></div>
 <map name="namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icgraph" id="namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icgraph">
-<area shape="rect" id="node2" href="namespaceinitialize__mod.html#a4c7a93dca8bb7b573e91f877033ab22a" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,5,325,47"/>
-<area shape="rect" id="node5" href="namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,71,325,112"/>
-<area shape="rect" id="node6" href="namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,136,325,177"/>
-<area shape="rect" id="node7" href="namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,201,325,243"/>
-<area shape="rect" id="node3" href="namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="373,111,545,138"/>
-<area shape="rect" id="node4" href="namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="593,111,791,138"/>
+<area shape="rect" id="node2" href="namespaceinitialize__mod.html#a4c7a93dca8bb7b573e91f877033ab22a" title="Private property xml parser routine. Reads the properties tab from the xml file and links these to th..." alt="" coords="199,5,325,47"/>
+<area shape="rect" id="node5" href="namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Private source definitions parser routine. Builds the tracer sources from the input xml case file..." alt="" coords="199,71,325,112"/>
+<area shape="rect" id="node6" href="namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Private simulation definitions parser routine. Builds the simulation geometric space from the input x..." alt="" coords="199,136,325,177"/>
+<area shape="rect" id="node7" href="namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Private case constant parser routine. Builds the simulation parametric space from the input xml case ..." alt="" coords="199,201,325,243"/>
+<area shape="rect" id="node3" href="namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Public xml parser routine. Builds the simulation space from the input xml case file. " alt="" coords="373,111,545,138"/>
+<area shape="rect" id="node4" href="namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Simulation initialization method. Effectively builds and populates the simulation objects that will b..." alt="" coords="593,111,791,138"/>
 </map>
 </div>
 
@@ -307,8 +309,9 @@ Here is the caller graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Private vector xml parser routine. Vector must be in format &lt;Tag x="vec%x" y="vec%y" z="vec%z"&gt; </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Private vector xml parser routine. Vector must be in format &lt;Tag x="vec%x" y="vec%y" z="vec%z"&gt; </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode,tag,vec,mandatory</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">xmlnode</td><td>Working xml node</td></tr>
@@ -324,12 +327,12 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icgraph.png" border="0" usemap="#namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icgraph" alt=""/></div>
 <map name="namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icgraph" id="namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icgraph">
-<area shape="rect" id="node2" href="namespaceinitialize__mod.html#aebe8236f74bc6665b16463683c478602" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="199,9,333,51"/>
-<area shape="rect" id="node6" href="namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="381,71,508,112"/>
-<area shape="rect" id="node7" href="namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="203,129,329,171"/>
-<area shape="rect" id="node3" href="namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="381,5,508,47"/>
-<area shape="rect" id="node4" href="namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="556,78,728,105"/>
-<area shape="rect" id="node5" href="namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="776,78,973,105"/>
+<area shape="rect" id="node2" href="namespaceinitialize__mod.html#aebe8236f74bc6665b16463683c478602" title="Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of ..." alt="" coords="199,9,333,51"/>
+<area shape="rect" id="node6" href="namespaceinitialize__mod.html#a18736cca205403067232125b8e510ab2" title="Private simulation definitions parser routine. Builds the simulation geometric space from the input x..." alt="" coords="381,71,508,112"/>
+<area shape="rect" id="node7" href="namespaceinitialize__mod.html#a9d19665b9ac12c3db8b0842bfdb6fa0c" title="Private case constant parser routine. Builds the simulation parametric space from the input xml case ..." alt="" coords="203,129,329,171"/>
+<area shape="rect" id="node3" href="namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Private source definitions parser routine. Builds the tracer sources from the input xml case file..." alt="" coords="381,5,508,47"/>
+<area shape="rect" id="node4" href="namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Public xml parser routine. Builds the simulation space from the input xml case file. " alt="" coords="556,78,728,105"/>
+<area shape="rect" id="node5" href="namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Simulation initialization method. Effectively builds and populates the simulation objects that will b..." alt="" coords="776,78,973,105"/>
 </map>
 </div>
 

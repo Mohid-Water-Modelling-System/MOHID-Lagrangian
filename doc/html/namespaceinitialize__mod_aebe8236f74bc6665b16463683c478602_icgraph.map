@@ -1,5 +1,5 @@
 <map id="initialize_mod::read_xml_geometry" name="initialize_mod::read_xml_geometry">
-<area shape="rect" id="node2" href="$namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="188,5,315,47"/>
-<area shape="rect" id="node3" href="$namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="363,13,535,39"/>
-<area shape="rect" id="node4" href="$namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="583,13,780,39"/>
+<area shape="rect" id="node2" href="$namespaceinitialize__mod.html#aae6a35bca190cdf65a6146f254264cd1" title="Private source definitions parser routine. Builds the tracer sources from the input xml case file..." alt="" coords="188,5,315,47"/>
+<area shape="rect" id="node3" href="$namespaceinitialize__mod.html#a107012ffec69fe2d7c524d240193439e" title="Public xml parser routine. Builds the simulation space from the input xml case file. " alt="" coords="363,13,535,39"/>
+<area shape="rect" id="node4" href="$namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Simulation initialization method. Effectively builds and populates the simulation objects that will b..." alt="" coords="583,13,780,39"/>
 </map>

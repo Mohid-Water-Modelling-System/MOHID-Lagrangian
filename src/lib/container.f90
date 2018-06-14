@@ -53,7 +53,7 @@
     contains
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns a pointer to the values stored in the container
     !> @param[this]
@@ -65,7 +65,7 @@
     end function getContent
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that stores the provided value in the container using 
     !> sourced allocation
@@ -78,7 +78,7 @@
     end subroutine storeContent
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to print the stored value. Only knows about instrinsic types, 
     !> ignores (but warns) if other types are passed.
@@ -99,7 +99,7 @@
     end subroutine printContainer
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Container constructor, can be used with the 'container' name since it is 
     !> defined as an interface

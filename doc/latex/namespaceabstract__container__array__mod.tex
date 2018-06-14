@@ -14,15 +14,15 @@ type \hyperlink{structabstract__container__array__mod_1_1container__array}{conta
 \begin{DoxyCompactItemize}
 \item 
 class($\ast$) function, pointer \hyperlink{namespaceabstract__container__array__mod_a2b3e0aec504d76c73bf7f18158924af4}{getvalue} (this, index)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method that returns returns the requested entry (pointer) \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceabstract__container__array__mod_aae1f6309c51e282a528ce78f128443e0}{putvalue} (this, index, value)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method that stores a value on the requested index. \end{DoxyCompactList}\item 
 integer function \hyperlink{namespaceabstract__container__array__mod_a22d71ca3f03bf0bb5d3737338e5e349a}{getlength} (this)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method that returns the length of the array. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceabstract__container__array__mod_ac2d73eb111ffde938f81e3f93b0cb3e0}{resizearray} (this, newsize)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move\+\_\+alloc() \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceabstract__container__array__mod_a6a8e7af177f333262aba941775d6c245}{initarray} (this, entries, tocopy)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Method that allocates the container array. Deallocates if already allocated. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -42,9 +42,12 @@ Ricardo Birjukovs Canelas
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Method that returns the length of the array. 
 
-Method that returns the length of the array 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}{Parameters}
 {\em } & \\
 \hline
@@ -57,9 +60,12 @@ Method that returns the length of the array
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Method that returns returns the requested entry (pointer) 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}{Parameters}
 {\em } & \\
 \hline
@@ -72,9 +78,12 @@ Method that returns returns the requested entry (pointer)
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Method that allocates the container array. Deallocates if already allocated. 
 
-Method that allocates the container array. Deallocates if already allocated 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}{Parameters}
 {\em } & \\
 \hline
@@ -87,9 +96,12 @@ Method that allocates the container array. Deallocates if already allocated
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Method that stores a value on the requested index. 
 
-Method that stores a value on the requested index 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}{Parameters}
 {\em } & \\
 \hline
@@ -102,9 +114,12 @@ Method that stores a value on the requested index
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move\+\_\+alloc() 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}{Parameters}
 {\em } & \\
 \hline

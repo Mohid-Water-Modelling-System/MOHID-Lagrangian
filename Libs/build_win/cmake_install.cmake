@@ -41,6 +41,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/FoXy/cmake_install.cmake")
   include("C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/VTKFortran/cmake_install.cmake")
   include("C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/CLA/cmake_install.cmake")
+  include("C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/FACE/cmake_install.cmake")
+  include("C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/build_win/FLAP/cmake_install.cmake")
 
 endif()
 

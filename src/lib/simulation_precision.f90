@@ -25,6 +25,7 @@ module simulation_precision_mod
     public :: prec, prec_time, prec_wrt
     public :: MISSING_VALUE_DEFAULT, MV, MV_INT
     public :: ERR_DIST, ERR_IND
+    public :: CHAR_LEN
 
     integer,  parameter :: sp  = kind(1._R4P)   !< Simple precision definition switch
     integer,  parameter :: dp  = kind(1._R8P)   !< Double precision definition switch
@@ -42,5 +43,8 @@ module simulation_precision_mod
     ! Error values
     real(prec), parameter :: ERR_DIST = 1E8_dp
     integer,  parameter   :: ERR_IND  = -1
+    
+    ! char handling
+    integer, parameter :: CHAR_LEN = 99
 
 end module simulation_precision_mod

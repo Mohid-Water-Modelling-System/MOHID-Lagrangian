@@ -1,6 +1,0 @@
-<map id="source_identity::source_class" name="source_identity::source_class">
-<area shape="rect" id="node2" href="$structsource__identity_1_1source__stats.html" title="Type &#45; statistical variables of a source object. " alt="" coords="18,5,175,47"/>
-<area shape="rect" id="node3" href="$structsource__identity_1_1source__state.html" title="Type &#45; state variables of a source object. " alt="" coords="18,71,175,112"/>
-<area shape="rect" id="node4" href="$structsource__identity_1_1source__par.html" title="source_identity::source_par" alt="" coords="5,137,188,163"/>
-<area shape="rect" id="node5" href="$structsource__identity_1_1source__stencil.html" title="Type &#45; holder for the tracer creation stencil of the source. " alt="" coords="18,188,175,229"/>
-</map>

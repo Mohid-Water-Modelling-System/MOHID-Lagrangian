@@ -9,21 +9,21 @@ Module with the simulation initialization related definitions and methods. Has o
 \begin{DoxyCompactItemize}
 \item 
 subroutine \hyperlink{namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc03a4a}{linkpropertysources} (links\+Node)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a}{init\+\_\+properties} (case\+\_\+node)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602}{read\+\_\+xml\+\_\+geometry} (source, source\+\_\+detail, source\+\_\+shape)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1}{init\+\_\+sources} (case\+\_\+node)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private source definitions parser routine. Builds the tracer sources from the input xml case file. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceinitialize__mod_a18736cca205403067232125b8e510ab2}{init\+\_\+simdefs} (case\+\_\+node)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c}{init\+\_\+caseconstants} (case\+\_\+node)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private case constant parser routine. Builds the simulation parametric space from the input xml case file. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3}{init\+\_\+parameters} (execution\+\_\+node)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Private parameter parser routine. Builds the simulation parametric space from the input xml case file. \end{DoxyCompactList}\item 
 subroutine, public \hyperlink{namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e}{initfromxml} (xmlfilename)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Public xml parser routine. Builds the simulation space from the input xml case file. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -43,23 +43,24 @@ Ricardo Birjukovs Canelas
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Private case constant parser routine. Builds the simulation parametric space from the input xml case file. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em case\+\_\+node} & \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=320pt]{namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -74,23 +75,24 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Private parameter parser routine. Builds the simulation parametric space from the input xml case file. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em execution\+\_\+node} & \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=320pt]{namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -105,23 +107,24 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. 
 
-Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -136,23 +139,24 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em case\+\_\+node} & \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=320pt]{namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -167,23 +171,24 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Private source definitions parser routine. Builds the tracer sources from the input xml case file. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em case\+\_\+node} & \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -198,25 +203,26 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Public xml parser routine. Builds the simulation space from the input xml case file. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em xmlfilename} & \\
 \hline
 \mbox{\tt in}  & {\em xmlfilename} & .xml file name \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -231,15 +237,17 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. 
 
-Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
 \end{DoxyParams}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -254,9 +262,12 @@ Here is the caller graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node. 
 
-Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em source,source\+\_\+detail,source\+\_\+shape} & \\
 \hline
@@ -267,16 +278,14 @@ Private geometry xml parser routine. Reads a geometry from the xml depending on 
 \mbox{\tt in,out}  & {\em source\+\_\+shape} & Geometrical object to fill \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=326pt]{namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

@@ -14,13 +14,13 @@ type \hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+clas
 \begin{DoxyCompactItemize}
 \item 
 subroutine \hyperlink{namespacesimulation__mod_a73bd78c4ac76c51f1e10f5847c25c4df}{run} (self)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Simulation run method. Runs the initialized case main time cycle. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}{initsimulation} (self, casefilename, outpath)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Simulation initialization method. Effectively builds and populates the simulation objects that will be used latter on. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}{decomposedomain} (self)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Simulation method to do domain decomposition and define the Blocks. \end{DoxyCompactList}\item 
 subroutine \hyperlink{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}{closesimulation} (self)
-\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Simulation finishing method. Closes output files and writes the final messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -40,9 +40,12 @@ Ricardo Birjukovs Canelas
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Simulation finishing method. Closes output files and writes the final messages. 
 
-Simulation finishing method. Closes output files and writes the final messages \mbox{\Hypertarget{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}\label{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}} 
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+\mbox{\Hypertarget{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}\label{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!decomposedomain@{decomposedomain}}
 \index{decomposedomain@{decomposedomain}!simulation\+\_\+mod@{simulation\+\_\+mod}}
 \subsubsection{\texorpdfstring{decomposedomain()}{decomposedomain()}}
@@ -50,10 +53,12 @@ Simulation finishing method. Closes output files and writes the final messages \
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Simulation method to do domain decomposition and define the Blocks. 
 
-Simulation method to do domain decomposition and define the Blocks Here is the call graph for this function\+:
-\nopagebreak
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -68,19 +73,21 @@ Simulation method to do domain decomposition and define the Blocks Here is the c
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Simulation initialization method. Effectively builds and populates the simulation objects that will be used latter on. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em xmlfilename} & \\
+\mbox{\tt in}  & {\em casefilename,outpath} & \\
 \hline
 \mbox{\tt in}  & {\em casefilename} & case file name\\
 \hline
 \mbox{\tt in}  & {\em outpath} & Output path \\
 \hline
 \end{DoxyParams}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -95,6 +102,8 @@ Here is the call graph for this function\+:
 
 
 
-Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-
 Simulation run method. Runs the initialized case main time cycle. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}

@@ -107,19 +107,19 @@ Data Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ad89dfc083eae7362441c353225a74ebc"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#ad89dfc083eae7362441c353225a74ebc">initracers</a> (self, srcs)</td></tr>
-<tr class="memdesc:ad89dfc083eae7362441c353225a74ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ad89dfc083eae7362441c353225a74ebc">More...</a><br /></td></tr>
+<tr class="memdesc:ad89dfc083eae7362441c353225a74ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that calls the tracer initialization from the emmiter object  <a href="#ad89dfc083eae7362441c353225a74ebc">More...</a><br /></td></tr>
 <tr class="separator:ad89dfc083eae7362441c353225a74ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c677125988390e4c57909e4ea82d902"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a7c677125988390e4c57909e4ea82d902">alloctracers</a> (self, src)</td></tr>
-<tr class="memdesc:a7c677125988390e4c57909e4ea82d902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a7c677125988390e4c57909e4ea82d902">More...</a><br /></td></tr>
+<tr class="memdesc:a7c677125988390e4c57909e4ea82d902"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that allocates the tracers respective to a given source  <a href="#a7c677125988390e4c57909e4ea82d902">More...</a><br /></td></tr>
 <tr class="separator:a7c677125988390e4c57909e4ea82d902"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6376ad0f8e1739b29caf672aa0750373"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a6376ad0f8e1739b29caf672aa0750373">initializeemitter</a> (self)</td></tr>
-<tr class="memdesc:a6376ad0f8e1739b29caf672aa0750373"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a6376ad0f8e1739b29caf672aa0750373">More...</a><br /></td></tr>
+<tr class="memdesc:a6376ad0f8e1739b29caf672aa0750373"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that initializes an emmiter class object. Sets default values  <a href="#a6376ad0f8e1739b29caf672aa0750373">More...</a><br /></td></tr>
 <tr class="separator:a6376ad0f8e1739b29caf672aa0750373"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#ab704fb0e2eb9b3b4b9542706b6fb4eaf">addsource</a> (self, src)</td></tr>
-<tr class="memdesc:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ab704fb0e2eb9b3b4b9542706b6fb4eaf">More...</a><br /></td></tr>
+<tr class="memdesc:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to compute the total emittable particles per source and allocate them  <a href="#ab704fb0e2eb9b3b4b9542706b6fb4eaf">More...</a><br /></td></tr>
 <tr class="separator:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c219dd6692a761ad4bf968ae750fcc6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a5c219dd6692a761ad4bf968ae750fcc6">setotalnp</a> (src)</td></tr>
-<tr class="memdesc:a5c219dd6692a761ad4bf968ae750fcc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#a5c219dd6692a761ad4bf968ae750fcc6">More...</a><br /></td></tr>
+<tr class="memdesc:a5c219dd6692a761ad4bf968ae750fcc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">private routine that returns the total number of tracers an input source will potentially create  <a href="#a5c219dd6692a761ad4bf968ae750fcc6">More...</a><br /></td></tr>
 <tr class="separator:a5c219dd6692a761ad4bf968ae750fcc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -160,8 +160,9 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>method to compute the total emittable particles per source and allocate them </p><dl class="params"><dt>Parameters</dt><dd>
+<p>method to compute the total emittable particles per source and allocate them </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">self,src</td><td></td></tr>
   </table>
@@ -172,7 +173,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph.png" border="0" usemap="#namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph" alt=""/></div>
 <map name="namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph" id="namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph">
-<area shape="rect" id="node2" href="namespaceemitter__mod.html#a5c219dd6692a761ad4bf968ae750fcc6" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="216,5,371,32"/>
+<area shape="rect" id="node2" href="namespaceemitter__mod.html#a5c219dd6692a761ad4bf968ae750fcc6" title="private routine that returns the total number of tracers an input source will potentially create ..." alt="" coords="216,5,371,32"/>
 </map>
 </div>
 
@@ -212,8 +213,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>method that allocates the tracers respective to a given source </p><dl class="params"><dt>Parameters</dt><dd>
+<p>method that allocates the tracers respective to a given source </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">self,src</td><td></td></tr>
   </table>
@@ -246,8 +248,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>method that initializes an emmiter class object. Sets default values </p><dl class="params"><dt>Parameters</dt><dd>
+<p>method that initializes an emmiter class object. Sets default values </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">self</td><td></td></tr>
   </table>
@@ -290,8 +293,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>method that calls the tracer initialization from the emmiter object </p><dl class="params"><dt>Parameters</dt><dd>
+<p>method that calls the tracer initialization from the emmiter object </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">self,src</td><td></td></tr>
   </table>
@@ -324,8 +328,9 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>private routine that returns the total number of tracers an input source will potentially create </p><dl class="params"><dt>Parameters</dt><dd>
+<p>private routine that returns the total number of tracers an input source will potentially create </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">src</td><td></td></tr>
   </table>
@@ -337,7 +342,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph.png" border="0" usemap="#namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph" alt=""/></div>
 <map name="namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph" id="namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph">
-<area shape="rect" id="node2" href="namespaceemitter__mod.html#ab704fb0e2eb9b3b4b9542706b6fb4eaf" title="Birjukovs Canelas &#45; MARETEC " alt="" coords="208,5,371,32"/>
+<area shape="rect" id="node2" href="namespaceemitter__mod.html#ab704fb0e2eb9b3b4b9542706b6fb4eaf" title="method to compute the total emittable particles per source and allocate them " alt="" coords="208,5,371,32"/>
 </map>
 </div>
 
