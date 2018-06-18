@@ -71,6 +71,7 @@
     type(box), intent(in) :: templatebox
     integer :: sizem
     self%id = id
+    !Setting 2D representation - Not strictly necessary but usefull and fast
     self%nbx = nx
     self%nby = ny
     !setting the block sub-domain

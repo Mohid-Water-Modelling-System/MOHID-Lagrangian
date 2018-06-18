@@ -36,6 +36,7 @@
     procedure :: initialize => initSimulation
     procedure :: finalize   => closeSimulation
     procedure :: decompose  => DecomposeDomain
+    procedure :: DistributeSources
     procedure :: run
     end type
 
@@ -112,7 +113,7 @@
 
     call self%decompose()
     
-
+    call self%DistributeSources()
 
     !printing memory occupation at the time
     call SimMemory%detailedprint()
@@ -130,8 +131,21 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
+    integer :: i, ix, iy
+    real(prec) :: dx, dy
     
-        
+    !this is easy because all the blocks are the same
+    dx = DBlock(1)%extents%size%x
+    dy = DBlock(1)%extents%size%y
+    !Now we find the 2D coordinates
+    do i=1, size(tempSources%src)
+        ix = int(abs(tempSources%src(i)%now%pos%x/dx)) + 1
+        iy = int(abs(tempSources%src(i)%now%pos%y/dy)) + 1
+        print*, 'Source position'
+        print*, tempSources%src(i)%now%pos
+        print*, 'Source grid position'
+        print*, ix, iy
+    end do
     
     end subroutine DistributeSources
 
