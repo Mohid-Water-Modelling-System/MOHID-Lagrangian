@@ -201,6 +201,32 @@ CLA/fast:
 	$(MAKE) -f CLA/CMakeFiles/CLA.dir/build.make CLA/CMakeFiles/CLA.dir/build
 .PHONY : CLA/fast
 
+#=============================================================================
+# Target rules for targets named FACE
+
+# Build rule for target.
+FACE: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 FACE
+.PHONY : FACE
+
+# fast build rule for target.
+FACE/fast:
+	$(MAKE) -f FACE/CMakeFiles/FACE.dir/build.make FACE/CMakeFiles/FACE.dir/build
+.PHONY : FACE/fast
+
+#=============================================================================
+# Target rules for targets named FLAP
+
+# Build rule for target.
+FLAP: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 FLAP
+.PHONY : FLAP
+
+# fast build rule for target.
+FLAP/fast:
+	$(MAKE) -f FLAP/CMakeFiles/FLAP.dir/build.make FLAP/CMakeFiles/FLAP.dir/build
+.PHONY : FLAP/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -216,6 +242,8 @@ help:
 	@echo "... Foxy"
 	@echo "... VTKFortran"
 	@echo "... CLA"
+	@echo "... FACE"
+	@echo "... FLAP"
 .PHONY : help
 
 

@@ -25,6 +25,8 @@
     use blocks_mod
     use about_mod
 
+    !use simulation_objects_mod
+
     implicit none
     private
 
@@ -109,16 +111,29 @@
     !call BBox%print()
 
     call self%decompose()
-    !call Block%initialize()
+    
 
-    !With the Sources initialized, now we initialize the Emmiter class, that automatically
-    !allocates and initializes all of the useable tracers from basic sources
-    !call Emitter%initialize()
 
     !printing memory occupation at the time
     call SimMemory%detailedprint()
 
     end subroutine initSimulation
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation to distribute the Sources to the blocks
+    !---------------------------------------------------------------------------
+    subroutine DistributeSources(self)
+    implicit none
+    class(simulation_class), intent(inout) :: self
+    type(string) :: outext
+    
+        
+    
+    end subroutine DistributeSources
 
 
     !---------------------------------------------------------------------------

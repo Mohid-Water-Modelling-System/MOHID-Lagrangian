@@ -41,6 +41,8 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FoXy/cmake_install.cmake")
   include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/VTKFortran/cmake_install.cmake")
   include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/CLA/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FACE/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FLAP/cmake_install.cmake")
 
 endif()
 

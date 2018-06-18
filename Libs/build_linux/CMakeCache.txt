@@ -150,10 +150,10 @@ CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //If set, runtime paths are not added when installing shared libraries,
 // but are added when building.
-CMAKE_SKIP_INSTALL_RPATH:BOOL=NO
+CMAKE_SKIP_INSTALL_RPATH:BOOL=OFF
 
 //If set, runtime paths are not added when using shared libraries.
-CMAKE_SKIP_RPATH:BOOL=NO
+CMAKE_SKIP_RPATH:BOOL=OFF
 
 //Flags used by the linker during the creation of static libraries
 // during all build types.
@@ -182,7 +182,13 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // .SILENT directive, and all commands will be echoed to the console
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
-CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+CMAKE_VERBOSE_MAKEFILE:BOOL=OFF
+
+//Dependencies for target
+FACE_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
+FLAP_LIB_DEPENDS:STATIC=
 
 //Dependencies for target
 Foxy_LIB_DEPENDS:STATIC=
@@ -294,7 +300,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=10
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

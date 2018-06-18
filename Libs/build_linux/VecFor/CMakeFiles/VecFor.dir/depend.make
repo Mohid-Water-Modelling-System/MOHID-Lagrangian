@@ -4,9 +4,39 @@
 # Note that incremental build could trigger a call to cmake_copy_f90_mod on each re-build
 
 VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o: modules/penf.mod
+VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o: VecFor/CMakeFiles/VecFor.dir/vecfor_r16p.mod.stamp
+VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o: VecFor/CMakeFiles/VecFor.dir/vecfor_r4p.mod.stamp
+VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o: VecFor/CMakeFiles/VecFor.dir/vecfor_r8p.mod.stamp
 VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o.provides.build: VecFor/CMakeFiles/VecFor.dir/vecfor.mod.stamp
 VecFor/CMakeFiles/VecFor.dir/vecfor.mod.stamp: VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o
 	$(CMAKE_COMMAND) -E cmake_copy_f90_mod modules/vecfor VecFor/CMakeFiles/VecFor.dir/vecfor.mod.stamp GNU
 VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o.provides.build:
 	$(CMAKE_COMMAND) -E touch VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o.provides.build
 VecFor/CMakeFiles/VecFor.dir/build: VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o.provides.build
+VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o: ../VecFor/vecfor_RPP.INC
+
+VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o: modules/penf.mod
+VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o.provides.build: VecFor/CMakeFiles/VecFor.dir/vecfor_r16p.mod.stamp
+VecFor/CMakeFiles/VecFor.dir/vecfor_r16p.mod.stamp: VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o
+	$(CMAKE_COMMAND) -E cmake_copy_f90_mod modules/vecfor_r16p VecFor/CMakeFiles/VecFor.dir/vecfor_r16p.mod.stamp GNU
+VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o.provides.build:
+	$(CMAKE_COMMAND) -E touch VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o.provides.build
+VecFor/CMakeFiles/VecFor.dir/build: VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o.provides.build
+VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o: ../VecFor/vecfor_RPP.INC
+
+VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o: modules/penf.mod
+VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o.provides.build: VecFor/CMakeFiles/VecFor.dir/vecfor_r4p.mod.stamp
+VecFor/CMakeFiles/VecFor.dir/vecfor_r4p.mod.stamp: VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o
+	$(CMAKE_COMMAND) -E cmake_copy_f90_mod modules/vecfor_r4p VecFor/CMakeFiles/VecFor.dir/vecfor_r4p.mod.stamp GNU
+VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o.provides.build:
+	$(CMAKE_COMMAND) -E touch VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o.provides.build
+VecFor/CMakeFiles/VecFor.dir/build: VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o.provides.build
+VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o: ../VecFor/vecfor_RPP.INC
+
+VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o: modules/penf.mod
+VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o.provides.build: VecFor/CMakeFiles/VecFor.dir/vecfor_r8p.mod.stamp
+VecFor/CMakeFiles/VecFor.dir/vecfor_r8p.mod.stamp: VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o
+	$(CMAKE_COMMAND) -E cmake_copy_f90_mod modules/vecfor_r8p VecFor/CMakeFiles/VecFor.dir/vecfor_r8p.mod.stamp GNU
+VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o.provides.build:
+	$(CMAKE_COMMAND) -E touch VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o.provides.build
+VecFor/CMakeFiles/VecFor.dir/build: VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o.provides.build

@@ -21,3 +21,9 @@
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/CLA/CMakeFiles/rebuild_cache.dir
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/CLA/CMakeFiles/edit_cache.dir
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/CLA/CMakeFiles/CLA.dir
+/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FACE/CMakeFiles/rebuild_cache.dir
+/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FACE/CMakeFiles/edit_cache.dir
+/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FACE/CMakeFiles/FACE.dir
+/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FLAP/CMakeFiles/rebuild_cache.dir
+/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FLAP/CMakeFiles/edit_cache.dir
+/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/FLAP/CMakeFiles/FLAP.dir

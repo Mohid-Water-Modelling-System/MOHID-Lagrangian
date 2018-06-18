@@ -33,6 +33,7 @@
 
     type block_class
         integer :: id
+        integer :: nbx, nby               !< number of blocks in 2D
         type(box) :: extents            !< shape::box that defines the extents of this block
         type(SourceArray) :: Source     !< List of Sources currently on this block
         type(TracerArray) :: Tracer     !< List of Tracers currently on this block
@@ -47,7 +48,7 @@
     type(block_class), allocatable, dimension(:) :: DBlock
 
     !Public access vars
-    public :: DBlock
+    public :: DBlock, block_class
     !Public access procedures
     public :: allocBlocks, setBlocks
 
@@ -62,13 +63,16 @@
     !
     !> @param[in] self, templatebox
     !---------------------------------------------------------------------------
-    subroutine initBlock(self, id, templatebox)
+    subroutine initBlock(self, id, nx, ny, templatebox)
     implicit none
     class(block_class), intent(inout) :: self
     integer, intent(in) :: id
+    integer, intent(in) :: nx, ny
     type(box), intent(in) :: templatebox
     integer :: sizem
     self%id = id
+    self%nbx = nx
+    self%nby = ny
     !setting the block sub-domain
     self%extents%pt = templatebox%pt
     self%extents%size = templatebox%size    
@@ -156,7 +160,7 @@
             do j=1, nyi
               tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey - BBox%pt%z*ez
               tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey
-              call DBlock(b)%initialize(b,tempbox)
+              call DBlock(b)%initialize(b, nxi, nyi, tempbox)
               b=b+1
             end do
         end do
