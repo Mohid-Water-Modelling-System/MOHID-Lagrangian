@@ -31,7 +31,7 @@
     private
 
     type :: simulation_class   !< Parameters class
-
+        integer :: nbx, nby               !< number of blocks in 2D
     contains
     procedure :: initialize => initSimulation
     procedure :: finalize   => closeSimulation
@@ -131,20 +131,24 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
-    integer :: i, ix, iy
+    integer :: i, ix, iy, blk
     real(prec) :: dx, dy
     
     !this is easy because all the blocks are the same
     dx = DBlock(1)%extents%size%x
     dy = DBlock(1)%extents%size%y
-    !Now we find the 2D coordinates
+    !iterate every Source to distribute
     do i=1, size(tempSources%src)
-        ix = int(abs(tempSources%src(i)%now%pos%x/dx)) + 1
-        iy = int(abs(tempSources%src(i)%now%pos%y/dy)) + 1
+        !finding the 2D coordinates of the corresponding Block
+        ix = min(int((tempSources%src(i)%now%pos%x + BBox%offset%x)/dx) + 1, self%nbx)
+        iy = min(int((tempSources%src(i)%now%pos%y + BBox%offset%y)/dy) + 1, self%nby)
         print*, 'Source position'
         print*, tempSources%src(i)%now%pos
         print*, 'Source grid position'
         print*, ix, iy
+        !Converting to the 1D index - Notice how the blocks were built in [Blocks::setBlocks]
+        blk = 2*ix + iy -2
+        print*, blk
     end do
     
     end subroutine DistributeSources
@@ -170,7 +174,7 @@
         stop
     end if
     ! Initializing the blocks
-    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks)
+    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,self%nbx,self%nby)
 
     end subroutine DecomposeDomain
 

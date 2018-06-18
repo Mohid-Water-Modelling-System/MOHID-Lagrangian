@@ -10,7 +10,7 @@
       <resolution dp="0.85" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
       <pointmin x="-10.0" y="0.0" z="-500.01" />
-      <pointmax x="30.0" y="25.0" z="4.0574" />
+      <pointmax x="10.0" y="10.0" z="4.0574" />
       <block_size value="auto" />
     </simulationdefs>
     <sourcedef>
@@ -27,14 +27,14 @@
         <setsource id="1" name="Litter_plastic" />
         <set emitting_rate="0.09" units_comment="Hz" />
         <active start="15" end="90"/>
-        <point x="0.49" y="20.0" z="0.75" />
+        <point x="2.5" y="5.5" z="0.75" />
       </source>
       <source>
         <setsource id="2" name="Emissary_2" />
         <set emitting_rate="0.2" units_comment="Hz" />
         <line>
           <pointa x="1" y="2" z="3" />
-          <pointb x="11" y="21" z="31" />
+          <pointb x="9" y="8" z="31" />
         </line>
       </source>
       <source>
@@ -42,7 +42,7 @@
         <set emitting_rate="0.005" units_comment="Hz" />
         <active start="1.125" end="end"/>
         <sphere radius="2.65">
-          <point x="24.0" y="22" z="0" />
+          <point x="9.0" y="8.0" z="0" />
         </sphere>
       </source>
     </sourcedef>

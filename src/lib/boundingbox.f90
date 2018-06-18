@@ -24,6 +24,7 @@ module boundingbox_mod
   private
 
   type, extends(box) :: boundingbox_class
+  type(vector) :: offset
   contains
     procedure :: initialize => initboundingbox
     procedure :: print => printboundingbox
@@ -45,6 +46,7 @@ module boundingbox_mod
     class(boundingbox_class), intent(inout) :: self
     self%pt = Globals%SimDefs%Pointmin
     self%size = Globals%SimDefs%Pointmax - Globals%SimDefs%Pointmin
+    self%offset = -self%pt !distance to the origin - local reference
   end subroutine initboundingbox
 
   !---------------------------------------------------------------------------

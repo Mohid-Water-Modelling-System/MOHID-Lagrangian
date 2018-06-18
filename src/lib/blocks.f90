@@ -33,7 +33,6 @@
 
     type block_class
         integer :: id
-        integer :: nbx, nby               !< number of blocks in 2D
         type(box) :: extents            !< shape::box that defines the extents of this block
         type(SourceArray) :: Source     !< List of Sources currently on this block
         type(TracerArray) :: Tracer     !< List of Tracers currently on this block
@@ -63,22 +62,21 @@
     !
     !> @param[in] self, templatebox
     !---------------------------------------------------------------------------
-    subroutine initBlock(self, id, nx, ny, templatebox)
+    subroutine initBlock(self, id, templatebox)
     implicit none
     class(block_class), intent(inout) :: self
     integer, intent(in) :: id
-    integer, intent(in) :: nx, ny
     type(box), intent(in) :: templatebox
     integer :: sizem
     self%id = id
-    !Setting 2D representation - Not strictly necessary but usefull and fast
-    self%nbx = nx
-    self%nby = ny
     !setting the block sub-domain
     self%extents%pt = templatebox%pt
     self%extents%size = templatebox%size    
     !initializing the block emitter
     call self%Emitter%initialize()
+    !initializing the Sources and Tracers arrays
+
+    
     !logging the ocupied space by the block
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
@@ -135,12 +133,13 @@
     !
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine setBlocks(auto, nblk)
+    subroutine setBlocks(auto, nblk, nxi, nyi)
     implicit none
     logical, intent(in) ::  auto
     integer, intent(in) ::  nblk
+    integer, intent(out) :: nxi, nyi
     type(string) :: outext, temp(2)
-    integer :: i, j, b, nxi, nyi
+    integer :: i, j, b
     real(prec) :: ar
     type(box) :: tempbox
 
@@ -161,7 +160,7 @@
             do j=1, nyi
               tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey - BBox%pt%z*ez
               tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey
-              call DBlock(b)%initialize(b, nxi, nyi, tempbox)
+              call DBlock(b)%initialize(b, tempbox)
               b=b+1
             end do
         end do
