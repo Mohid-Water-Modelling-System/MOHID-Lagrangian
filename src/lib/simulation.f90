@@ -149,9 +149,17 @@
         !Converting to the 1D index - Notice how the blocks were built in [Blocks::setBlocks]
         blk = 2*ix + iy -2
         print*, blk
+        if (blk > size(DBlock)) then
+            outext='[DistributeSources]: problem in getting correct Block index, stoping'
+            call Log%put(outext)
+            stop
+        end if
         call DBlock(blk)%putSource(tempSources%src(i))
     end do
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
+    do i=1, size(DBlock)
+        call DBlock(i)%detailedprint()
+    enddo
     
     end subroutine DistributeSources
 

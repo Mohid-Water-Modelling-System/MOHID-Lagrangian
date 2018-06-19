@@ -36,11 +36,11 @@
     class(SourceArray), intent(in) :: this
     class(*), pointer :: curr
     integer :: i
-    do i=1, this%getLength()
+    do i=1, this%usedLength
         curr => this%get(i)
         select type(curr)
         type is (source_class)
-            !call curr%print()
+            call curr%print()
             class default
             stop '[print_SourceArray]: unexepected type of content: not a Source or derived type'
         end select
@@ -51,11 +51,11 @@
     class(SourceArray), intent(in) :: this
     integer, intent(in) :: index
     class(*), pointer :: curr
-    if (index .le. this%getLength()) then
+    if (index .le. this%usedLength) then
         curr => this%get(index)
         select type(curr)
         type is (source_class)
-            !call curr%print()
+            call curr%print()
             class default
             stop '[print_SourceArray_Element]: unexepected type of content, not a Source or derived type'
         end select

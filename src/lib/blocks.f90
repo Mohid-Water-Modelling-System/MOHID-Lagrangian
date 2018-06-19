@@ -43,6 +43,7 @@
     procedure, public :: initialize => initBlock
     procedure, public :: putSource
     procedure, public :: print => printBlock
+    procedure, public :: detailedprint => printdetailBlock
     end type block_class
 
     !Simulation variables
@@ -127,7 +128,34 @@
     outext='-->Block '//temp_str//' is a'
     call Log%put(outext,.false.)
     call Geometry%print(self%extents)
+    temp_str = self%Source%usedLength
+    outext='      and has '//temp_str//' Sources'
+    call Log%put(outext,.false.)
     end subroutine printBlock
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Method to print detailed info about the block
+    !
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine printdetailBlock(self)
+    implicit none
+    class(block_class), intent(inout) :: self
+    type(string) :: outext, temp_str
+    integer :: i
+    temp_str = self%id
+    outext='-->Block '//temp_str//' is a'
+    call Log%put(outext,.false.)
+    call Geometry%print(self%extents)
+    temp_str = self%Source%usedLength
+    outext='      and has '//temp_str//' Sources'
+    call Log%put(outext,.false.)
+    call self%Source%printArray()
+    end subroutine printdetailBlock
 
 
     !---------------------------------------------------------------------------
