@@ -75,8 +75,8 @@
     !initializing the block emitter
     call self%Emitter%initialize()
     !initializing the Sources and Tracers arrays
-
-    
+    call self%Source%init(1) !Starting the Sources array with one position
+    call self%Tracer%init(1) !Starting the Tracers array with one position
     !logging the ocupied space by the block
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
@@ -87,22 +87,22 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Method to populate the Blocks with their initial Sources and Tracers
-    !> This copies the Sources from their temporary global position and then
-    !> allocates the foreseable tracers in their arrays.
+    !> Method to place a Source on the Block SourceArray. Checks for space and 
+    !> allocates more if needed.
     !
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine populate(self)
+    subroutine putSource(self, sourcetoput)
     implicit none
     class(block_class), intent(inout) :: self
+    class(source_class), intent(inout) :: sourcetoput
     type(string) :: outext
-    integer :: sizem, err
+    
 
 
 
 
-    end subroutine populate
+    end subroutine putSource
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

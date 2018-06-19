@@ -24,7 +24,7 @@
 
 MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
 =====================================================================
-2018-6-18 @22:23:1 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-6-19 @9:46:5 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000E+00
@@ -45,7 +45,7 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Blocks are sized 
         0.000000E+00 X  0.000000E+00
  -->Reading case Sources
-2018-6-18 @22:23:1 Allocated +4 Sources.
+2018-6-19 @9:46:5 Allocated +4 Sources.
  -->Source Spill_007 allocated
        Id = +18
        Geometry type is box
@@ -78,11 +78,11 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
        Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
        Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
-2018-6-18 @22:23:1 Allocated +16 Blocks.
+2018-6-19 @9:46:5 Allocated +16 Blocks.
  -->Automatic domain decomposition sucessful. Domain is +8 X +2 Blocks
-2018-6-18 @22:23:1 ->Total allocated memory: +0.359200E-02 mb
+2018-6-19 @9:46:5 ->Total allocated memory: +0.359200E-02 mb
        Allocated memory for Blocks  = +0.268800E-02 mb
        Allocated memory for Sources = +0.832000E-03 mb
        Allocated memory for Tracers =  0.000000E+00 mb
        Allocated memory for Consts  = +0.720000E-04 mb
-2018-6-18 @22:23:1 Simulation ended, freeing resources. See you next time
+2018-6-19 @9:46:5 Simulation ended, freeing resources. See you next time
