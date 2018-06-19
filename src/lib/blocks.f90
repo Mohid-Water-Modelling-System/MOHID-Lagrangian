@@ -26,6 +26,7 @@
     use boundingbox_mod
     use tracer_array_mod
     use sources_array_mod
+    use sources_mod
     use emitter_mod
 
     implicit none
@@ -40,6 +41,7 @@
     contains
     private
     procedure, public :: initialize => initBlock
+    procedure, public :: putSource
     procedure, public :: print => printBlock
     end type block_class
 
@@ -75,8 +77,10 @@
     !initializing the block emitter
     call self%Emitter%initialize()
     !initializing the Sources and Tracers arrays
-    call self%Source%init(1) !Starting the Sources array with one position
-    call self%Tracer%init(1) !Starting the Tracers array with one position
+    call self%Source%init(1)   !Starting the Sources array with one position
+    self%Source%usedLength = 0 !But there are no stored Sources
+    call self%Tracer%init(1)   !Starting the Tracers array with one position
+    self%Tracer%usedLength = 0 !But there are no stored Tracers
     !logging the ocupied space by the block
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
@@ -88,19 +92,21 @@
     !
     !> @brief
     !> Method to place a Source on the Block SourceArray. Checks for space and 
-    !> allocates more if needed.
+    !> allocates more if needed. The array gets incremented by une unit at a time
     !
-    !> @param[in] self
+    !> @param[in] self, sourcetoput
     !---------------------------------------------------------------------------
     subroutine putSource(self, sourcetoput)
     implicit none
     class(block_class), intent(inout) :: self
-    class(source_class), intent(inout) :: sourcetoput
-    type(string) :: outext
+    class(source_class), intent(inout) :: sourcetoput !< Source object to store
     
-
-
-
+    !Check if the array is at capacity and needs to be resized
+    if (self%Source%usedLength == self%Source%getLength()) then
+        call self%Source%resize(self%Source%getLength()+1) !incrementing one entry
+    end if
+    self%Source%usedLength = self%Source%usedLength + 1
+    call self%Source%put(self%Source%usedLength, sourcetoput)
 
     end subroutine putSource
     

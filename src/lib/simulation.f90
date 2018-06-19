@@ -149,7 +149,9 @@
         !Converting to the 1D index - Notice how the blocks were built in [Blocks::setBlocks]
         blk = 2*ix + iy -2
         print*, blk
+        call DBlock(blk)%putSource(tempSources%src(i))
     end do
+    call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     
     end subroutine DistributeSources
 

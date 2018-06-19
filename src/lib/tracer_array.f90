@@ -24,6 +24,7 @@
     public :: TracerArray
 
     type, extends(container_array) :: TracerArray
+        integer :: usedLength
     contains
     procedure :: printArray => print_TracerArray
     procedure :: printElement => print_TracerArray_Element
@@ -36,7 +37,7 @@
     class(*), pointer :: curr
     integer :: i
     do i=1, this%getLength()
-        curr => this%getValue(i)
+        curr => this%get(i)
         select type(curr)
         type is (tracer_class)
             !call curr%print()
@@ -55,7 +56,7 @@
     integer, intent(in) :: index
     class(*), pointer :: curr
     if (index .le. this%getLength()) then
-        curr => this%getValue(index)
+        curr => this%get(index)
         select type(curr)
         type is (tracer_class)
             !call curr%print()

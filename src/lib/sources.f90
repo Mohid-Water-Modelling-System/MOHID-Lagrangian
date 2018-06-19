@@ -74,11 +74,11 @@
         type(source_class), allocatable, dimension(:) :: src
     contains
     procedure :: initialize => initSources
+    procedure :: finalize => killSources
     procedure :: setProps
     end type
 
     !Simulation variables
-    !type(source_class), allocatable, dimension(:) :: Source
     type(source_group_class) :: tempSources
 
     !Public access vars
@@ -92,7 +92,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> source allocation routine - allocates the sources objects
+    !> source allocation routine - allocates sources objects
     !
     !> @param[in] nsources
     !---------------------------------------------------------------------------
@@ -112,7 +112,27 @@
         outext = 'Allocated '// temp // ' Sources.'
         call Log%put(outext)
     endif
-    end subroutine
+    end subroutine initSources
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> source group destructor - deallocates sources objects
+    !---------------------------------------------------------------------------
+    subroutine killSources(self)
+    implicit none
+    class(source_group_class), intent(inout) :: self
+    integer err
+    type(string) :: outext
+    if (ALLOCATED(self%src)) deallocate(self%src, stat=err)    
+    if(err/=0)then
+        outext='[killSources]: Cannot deallocate Sources, stoping'
+        call Log%put(outext)
+        stop    
+    endif
+    end subroutine killSources
 
 
     !---------------------------------------------------------------------------

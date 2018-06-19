@@ -24,6 +24,7 @@
     public :: SourceArray
 
     type, extends(container_array) :: SourceArray
+        integer :: usedLength
     contains
     procedure :: printArray => print_SourceArray
     procedure :: printElement => print_SourceArray_Element
@@ -36,7 +37,7 @@
     class(*), pointer :: curr
     integer :: i
     do i=1, this%getLength()
-        curr => this%getValue(i)
+        curr => this%get(i)
         select type(curr)
         type is (source_class)
             !call curr%print()
@@ -51,7 +52,7 @@
     integer, intent(in) :: index
     class(*), pointer :: curr
     if (index .le. this%getLength()) then
-        curr => this%getValue(index)
+        curr => this%get(index)
         select type(curr)
         type is (source_class)
             !call curr%print()

@@ -48,11 +48,9 @@
     contains
     procedure :: resize => resizeArray  !< Grows (adds empty space) or shrinks (discards the last entries) of the array
     procedure :: init => initArray !< Allocates the container array. Deallocates if already allocated
-    procedure, non_overridable :: getValue !< returns the requested entry (pointer)
-    procedure, non_overridable :: putValue !< stores a value on the requested index
+    procedure, non_overridable :: get => getValue !< returns the requested entry (pointer)
+    procedure, non_overridable :: put => putValue !< stores a value on the requested index
     procedure, non_overridable :: getLength !< returns the length of the array
-    generic :: put => putValue
-    generic :: get => getValue
     end type container_array
 
     contains
@@ -120,7 +118,7 @@
     tocopy=min(this%getLength(),newsize)
     allocate(temp(newsize))
     do i=1, tocopy
-        call temp(i)%storeContent(this%getValue(i))
+        call temp(i)%storeContent(this%get(i))
     enddo
     call this%init(newsize,temp)
     end subroutine resizeArray
