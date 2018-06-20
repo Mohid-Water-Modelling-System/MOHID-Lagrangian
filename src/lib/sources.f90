@@ -276,7 +276,7 @@
     type(string) :: temp_str(3)
 
     temp_str(1)=src%par%id
-    outext = '-->Source '//src%par%name//' allocated'//new_line('a')//&
+    outext = '-->Source '//src%par%name//new_line('a')//&
         '       Id = '//temp_str(1)//new_line('a')//&
         '       Geometry type is '//src%par%source_geometry//new_line('a')
     temp_str(1)=src%now%pos%x

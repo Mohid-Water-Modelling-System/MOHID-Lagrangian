@@ -61,10 +61,10 @@
     end type
 
     !Simulation variables
-    type(tracer_class), allocatable, dimension(:) :: Tracer
+    !type(tracer_class), allocatable, dimension(:) :: Tracer
 
     !Public access vars
-    public :: Tracer, tracer_class
+    public :: tracer_class!, Tracer 
 
     contains
 

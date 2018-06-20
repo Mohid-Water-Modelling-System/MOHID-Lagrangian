@@ -45,6 +45,20 @@
           <point x="9.0" y="8.0" z="0" />
         </sphere>
       </source>
+	  <source>
+        <setsource id="6" name="Mistery_discharge_1" />
+        <set emitting_rate="0.05" units_comment="Hz" />
+        <active start="1.125" end="end"/>
+        <sphere radius="0.65">
+          <point x="9.05" y="8.0" z="0" />
+        </sphere>
+      </source>
+	  <source>
+        <setsource id="7" name="Mistery_discharge_2" />
+        <set emitting_rate="0.025" units_comment="Hz" />
+        <active start="10.125" end="end"/>
+        <point x="9.025" y="8.0" z="0.75" />
+      </source>
     </sourcedef>
     <initials>
       <velocity source="1" ux="15" uy="0.0" uz="-0.1"/>

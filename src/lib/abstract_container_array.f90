@@ -52,12 +52,15 @@
     procedure, non_overridable :: put => putValue !< stores a value on the requested index
     procedure, non_overridable :: getLength !< returns the length of the array
     end type container_array
+    
+    logical, parameter :: MISSING_content_DEFAULT = .true.
+    logical, parameter :: MC = MISSING_content_DEFAULT
 
     contains
 
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns returns the requested entry (pointer)
     !> @param[this, index]
@@ -74,7 +77,7 @@
     end function getValue
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that stores a value on the requested index
     !> @param[this, index, value]
@@ -91,7 +94,7 @@
     end subroutine putValue
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the length of the array
     !> @param[this]
@@ -103,7 +106,7 @@
     end function getLength
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that grows (adds empty space) or shrinks (discards the
     !> last entries) of the array. Use sparsely as this might get expensive
@@ -120,11 +123,14 @@
     do i=1, tocopy
         call temp(i)%storeContent(this%get(i))
     enddo
+    do i= tocopy+1, newsize
+        call temp(i)%storeContent(MC)
+    end do
     call this%init(newsize,temp)
     end subroutine resizeArray
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that allocates the container array. Deallocates if already allocated
     !> @param[this, entries, tocopy]
@@ -133,13 +139,19 @@
     class(container_array), intent(inout) :: this
     integer, intent(in) :: entries
     type(container), dimension(:), optional, intent(in) :: tocopy
+    type(container), dimension(:), allocatable :: emptyarray
+    integer :: i
     if (allocated(this%contents)) then
         deallocate(this%contents)
     end if
-    if (.not.present(tocopy)) then !allocating an empty array with 'entries'
-        allocate(this%contents(entries))
-        this%length=entries
-    else if (present(tocopy)) then !using sourced allocation
+    if (.not.present(tocopy)) then !allocating an empty array with size 'entries'
+        allocate(emptyarray(entries))
+        do i = 1, entries
+            call emptyarray(i)%storeContent(MC)
+        end do
+        allocate(this%contents, source=emptyarray)
+        this%length=entries        
+    else if (present(tocopy)) then !using sourced allocation        
       allocate(this%contents, source=tocopy)
       this%length=size(tocopy)
     endif

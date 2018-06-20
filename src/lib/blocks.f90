@@ -78,9 +78,9 @@
     !initializing the block emitter
     call self%Emitter%initialize()
     !initializing the Sources and Tracers arrays
-    call self%Source%init(1)   !Starting the Sources array with one position
+    call self%Source%init(1)   !Starting the Sources array with one position    
     self%Source%usedLength = 0 !But there are no stored Sources
-    call self%Tracer%init(1)   !Starting the Tracers array with one position
+    call self%Tracer%init(1)   !Starting the Tracers array with one position    
     self%Tracer%usedLength = 0 !But there are no stored Tracers
     !logging the ocupied space by the block
     sizem = sizeof(self)
@@ -93,7 +93,8 @@
     !
     !> @brief
     !> Method to place a Source on the Block SourceArray. Checks for space and 
-    !> allocates more if needed. The array gets incremented by une unit at a time
+    !> allocates more if needed. The array gets incremented by one unit at a time
+    !> Allocates space in the Blocks Tracer array
     !
     !> @param[in] self, sourcetoput
     !---------------------------------------------------------------------------
@@ -108,6 +109,10 @@
     end if
     self%Source%usedLength = self%Source%usedLength + 1
     call self%Source%put(self%Source%usedLength, sourcetoput)
+    !adding this Source to the Block Emitter pool
+    call self%Emitter%addSource(sourcetoput)
+    !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
+    call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np)
 
     end subroutine putSource
     

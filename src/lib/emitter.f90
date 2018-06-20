@@ -33,8 +33,10 @@
     contains
     procedure :: initialize => initializeEmitter
     procedure :: addSource
-    procedure :: alloctracers
-    procedure :: initracers
+    procedure :: removeSource
+    procedure :: emitt
+    !procedure :: alloctracers
+    !procedure :: initracers
     !procedure :: activecheck
     end type
 
@@ -42,75 +44,7 @@
     public :: emitter_class
 
     contains
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> method that calls the tracer initialization from the emmiter object
-    !
-    !> @param[in] self, src
-    !---------------------------------------------------------------------------
-    subroutine initracers(self, srcs)
-    implicit none
-    class(emitter_class), intent(inout) :: self
-    class(source_class), dimension(:), intent(inout) :: srcs
-    integer num_emiss, i, j, k, p
-    type(string) :: outext, temp(4)
-    integer :: sizem
-
-    p=0
-    do i=1, size(srcs)
-        num_emiss = srcs(i)%stencil%total_np/size(srcs(i)%stencil%ptlist)
-        do j=1, num_emiss
-            do k=1, size(srcs(i)%stencil%ptlist)
-                p=p+1
-                call Tracer(p)%initialize(p, srcs(i)%par%id, Globals%SimTime, srcs(i)%stencil%ptlist(k))
-            enddo
-        enddo
-    enddo
-    sizem = sizeof(Tracer)
-    call SimMemory%addtracer(sizem)
-
-    end subroutine
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> method that allocates the tracers respective to a given source
-    !
-    !> @param[in] self, src
-    !---------------------------------------------------------------------------
-    subroutine alloctracers(self, src)
-    implicit none
-    class(emitter_class), intent(inout) :: self
-    class(source_class), intent(inout) :: src
-    integer err
-    type(string) :: outext, temp
-
-    if (self%emittable .le. 0) then
-        outext='[Emitter::alloctracers]: No Tracers will be simulated, stoping'
-        call Log%put(outext)
-        stop
-    else
-        allocate(Tracer(self%emittable), stat=err)
-        if(err/=0)then
-            outext='[Emitter::alloctracers]: Cannot allocate Tracers, stoping'
-            call Log%put(outext)
-            stop
-        endif
-    endif
-
-    temp = size(Tracer)
-    outext='Allocated '// temp // ' Tracers.'
-    call Log%put(outext)
-    !receiving Sources as argument so latter we can differentiate between tracer types
-
-    end subroutine
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -133,7 +67,7 @@
     !
     !> @brief
     !> method to compute the total emittable particles per source and allocate 
-    !> them
+    !> that space in the Blocks Tracer array
     !
     !> @param[in] self, src
     !---------------------------------------------------------------------------
@@ -141,17 +75,129 @@
     implicit none
     class(emitter_class), intent(inout) :: self
     class(source_class),intent(inout) :: src
-    integer :: i
-    
     call setotalnp(src) !finding the total tracers this Source will pass the emmiter
     self%emittable = self%emittable + src%stencil%total_np
-        !print*, srcs(i)%stencil%total_np
-   
-    !allocating and initializing the tracers by the emitter, for all sources
-    call self%alloctracers(src)
-    !call self%initracers(srcs)
-
     end subroutine addSource
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method to remove from the total emittable particles count a Source
+    !
+    !> @param[in] self, src
+    !---------------------------------------------------------------------------
+    subroutine removeSource(self, src)
+    implicit none
+    class(emitter_class), intent(inout) :: self
+    class(source_class),intent(inout) :: src
+    self%emittable = self%emittable - src%stencil%total_np
+    end subroutine removeSource
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method that emitts the Tracers, based on the Sources on this Block Emitter
+    !
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine emitt(self)
+    implicit none
+    class(emitter_class), intent(inout) :: self    
+    integer err
+    type(string) :: outext, temp
+
+    if (self%emittable .le. 0) then
+        !nothing to do as we have no Sources or no emittable Tracers
+    else
+        
+        
+        !allocate(Tracer(self%emittable), stat=err)
+        !if(err/=0)then
+        !    outext='[Emitter::alloctracers]: Cannot allocate Tracers, stoping'
+        !    call Log%put(outext)
+        !    stop
+        !endif
+    endif
+
+    !temp = size(Tracer)
+    !outext='Allocated '// temp // ' Tracers.'
+    !call Log%put(outext)
+    !!receiving Sources as argument so latter we can differentiate between tracer types
+
+    end subroutine
+    
+    
+    !!---------------------------------------------------------------------------
+    !!> @author Ricardo Birjukovs Canelas - MARETEC
+    !! Routine Author Name and Affiliation.
+    !!
+    !!> @brief
+    !!> method that calls the tracer initialization from the emmiter object
+    !!
+    !!> @param[in] self, src
+    !!---------------------------------------------------------------------------
+    !subroutine initracers(self, srcs)
+    !implicit none
+    !class(emitter_class), intent(inout) :: self
+    !class(source_class), dimension(:), intent(inout) :: srcs
+    !integer num_emiss, i, j, k, p
+    !type(string) :: outext, temp(4)
+    !integer :: sizem
+    !
+    !p=0
+    !do i=1, size(srcs)
+    !    num_emiss = srcs(i)%stencil%total_np/size(srcs(i)%stencil%ptlist)
+    !    do j=1, num_emiss
+    !        do k=1, size(srcs(i)%stencil%ptlist)
+    !            p=p+1
+    !            call Tracer(p)%initialize(p, srcs(i)%par%id, Globals%SimTime, srcs(i)%stencil%ptlist(k))
+    !        enddo
+    !    enddo
+    !enddo
+    !sizem = sizeof(Tracer)
+    !call SimMemory%addtracer(sizem)
+    !
+    !end subroutine
+    !
+    !!---------------------------------------------------------------------------
+    !!> @author Ricardo Birjukovs Canelas - MARETEC
+    !! Routine Author Name and Affiliation.
+    !!
+    !!> @brief
+    !!> method that allocates the tracers respective to a given source
+    !!
+    !!> @param[in] self, src
+    !!---------------------------------------------------------------------------
+    !subroutine alloctracers(self, src)
+    !implicit none
+    !class(emitter_class), intent(inout) :: self
+    !class(source_class), intent(inout) :: src
+    !integer err
+    !type(string) :: outext, temp
+    !
+    !if (self%emittable .le. 0) then
+    !    outext='[Emitter::alloctracers]: No Tracers will be simulated, stoping'
+    !    call Log%put(outext)
+    !    stop
+    !else
+    !    allocate(Tracer(self%emittable), stat=err)
+    !    if(err/=0)then
+    !        outext='[Emitter::alloctracers]: Cannot allocate Tracers, stoping'
+    !        call Log%put(outext)
+    !        stop
+    !    endif
+    !endif
+    !
+    !temp = size(Tracer)
+    !outext='Allocated '// temp // ' Tracers.'
+    !call Log%put(outext)
+    !!receiving Sources as argument so latter we can differentiate between tracer types
+    !
+    !end subroutine
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

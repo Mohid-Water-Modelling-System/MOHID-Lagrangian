@@ -113,7 +113,7 @@
 
     call self%decompose()
     
-    call self%DistributeSources()
+    
 
     !printing memory occupation at the time
     call SimMemory%detailedprint()
@@ -144,15 +144,15 @@
         !finding the 2D coordinates of the corresponding Block
         ix = min(int((coords%x + BBox%offset%x)/dx) + 1, self%nbx)
         iy = min(int((coords%y + BBox%offset%y)/dy) + 1, self%nby)
-        print*, 'Source pt position'
-        print*, tempSources%src(i)%now%pos
-        print*, 'Source center position'
-        print*, coords
-        print*, 'Source grid position'
-        print*, ix, iy
+        !print*, 'Source pt position'
+        !print*, tempSources%src(i)%now%pos
+        !print*, 'Source center position'
+        !print*, coords
+        !print*, 'Source grid position'
+        !print*, ix, iy
         !Converting to the 1D index - Notice how the blocks were built in [Blocks::setBlocks]
         blk = 2*ix + iy -2
-        print*, blk
+        !print*, blk
         if (blk > size(DBlock)) then
             outext='[DistributeSources]: problem in getting correct Block index, stoping'
             call Log%put(outext)
@@ -161,9 +161,11 @@
         call DBlock(blk)%putSource(tempSources%src(i))
     end do
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
-    do i=1, size(DBlock)
-        call DBlock(i)%detailedprint()
-    enddo
+    !do i=1, size(DBlock)
+    !    call DBlock(i)%detailedprint()
+    !enddo
+    outext='-->Sources allocated to their current Blocks'
+    call Log%put(outext,.false.)
     
     end subroutine DistributeSources
 
@@ -189,6 +191,8 @@
     end if
     ! Initializing the blocks
     call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,self%nbx,self%nby)
+    
+    call self%DistributeSources()
 
     end subroutine DecomposeDomain
 
