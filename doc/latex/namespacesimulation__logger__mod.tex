@@ -8,23 +8,23 @@ Module to hold all the simulation logger related definitions and methods.
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}
+type \mbox{\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespacesimulation__logger__mod_abf603e657da9104a8060ab53c72f0aca}{initlog} (self, outpath)
+subroutine \mbox{\hyperlink{namespacesimulation__logger__mod_abf603e657da9104a8060ab53c72f0aca}{initlog}} (self, outpath)
 \begin{DoxyCompactList}\small\item\em Log file initizalization routine. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesimulation__logger__mod_aa6d1aaea74403186da0f98afb74ecebe}{closelog} (self)
+subroutine \mbox{\hyperlink{namespacesimulation__logger__mod_aa6d1aaea74403186da0f98afb74ecebe}{closelog}} (self)
 \begin{DoxyCompactList}\small\item\em Log file closure routine. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}{put\+\_\+inlog} (self, tologstr, timeoption)
+subroutine \mbox{\hyperlink{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}{put\+\_\+inlog}} (self, tologstr, timeoption)
 \begin{DoxyCompactList}\small\item\em Log serialization routine. \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}{gettimestamp} (timestamp)
+subroutine, public \mbox{\hyperlink{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}{gettimestamp}} (timestamp)
 \begin{DoxyCompactList}\small\item\em Public timestamp builder. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), public \hyperlink{namespacesimulation__logger__mod_aa778de9905350741e1f40bb04fdc1cf6}{log}
+type(\mbox{\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}}), public \mbox{\hyperlink{namespacesimulation__logger__mod_aa778de9905350741e1f40bb04fdc1cf6}{log}}
 \end{DoxyCompactItemize}
 
 
@@ -41,7 +41,7 @@ Ricardo Birjukovs Canelas
 \index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!closelog@{closelog}}
 \index{closelog@{closelog}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
 \subsubsection{\texorpdfstring{closelog()}{closelog()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::closelog (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::closelog (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -50,6 +50,16 @@ Log file closure routine.
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
+
+
+Definition at line 77 of file simulation\+\_\+logger.\+f90.
+
+
+\begin{DoxyCode}
+77     \textcolor{keywordtype}{implicit none}
+78     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(inout)} :: self            
+79     \textcolor{keyword}{close}(self%log\_unit)       
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}\label{namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989}} 
 \index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!gettimestamp@{gettimestamp}}
 \index{gettimestamp@{gettimestamp}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
@@ -61,13 +71,31 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 Public timestamp builder. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em timestamp} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 120 of file simulation\+\_\+logger.\+f90.
+
+
+\begin{DoxyCode}
+120     \textcolor{keywordtype}{implicit none}
+121     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: timestamp
+122     \textcolor{keywordtype}{character(80)} :: temp(8)
+123     \textcolor{keywordtype}{integer} :: values(8),i
+124 
+125     \textcolor{keyword}{call }date\_and\_time(values=values)
+126     \textcolor{keywordflow}{do} i=1,8
+127         \textcolor{keyword}{write}(temp(i),*) values(i)
+128 \textcolor{keywordflow}{    enddo}
+129     timestamp=trim(adjustl(temp(1)))//\textcolor{stringliteral}{'-'}//trim(adjustl(temp(2)))//\textcolor{stringliteral}{'-'}//trim(adjustl(temp(3)))//\textcolor{stringliteral}{' @'}//trim(
+      adjustl(temp(5)))//\textcolor{stringliteral}{':'}//trim(adjustl(temp(6)))//\textcolor{stringliteral}{':'}//trim(adjustl(temp(7)))
+\end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -79,14 +107,14 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!initlog@{initlog}}
 \index{initlog@{initlog}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
 \subsubsection{\texorpdfstring{initlog()}{initlog()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::initlog (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{outpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::initlog (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{outpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Log file initizalization routine. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
@@ -95,24 +123,63 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \mbox{\tt in}  & {\em outpath} & output path were to point the logger \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 58 of file simulation\+\_\+logger.\+f90.
+
+
+\begin{DoxyCode}
+58     \textcolor{keywordtype}{implicit none}
+59     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(inout)} :: self
+60     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: outpath
+61     \textcolor{keywordtype}{type}(string) :: logfile
+62     
+63     logfile = outpath//\textcolor{stringliteral}{'MOHIDLagrangianRun.out'}
+64     self%log\_unit = 0
+65     \textcolor{keyword}{open} (unit=self%log\_unit,file=logfile%chars(),action=\textcolor{stringliteral}{"write"},status=\textcolor{stringliteral}{"replace"})
+66     
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}\label{namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c}} 
 \index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!put\+\_\+inlog@{put\+\_\+inlog}}
 \index{put\+\_\+inlog@{put\+\_\+inlog}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
 \subsubsection{\texorpdfstring{put\+\_\+inlog()}{put\_inlog()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::put\+\_\+inlog (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), intent(in)}]{self,  }\item[{type(string), intent(inout)}]{tologstr,  }\item[{logical, intent(in), optional}]{timeoption }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+logger\+\_\+mod\+::put\+\_\+inlog (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), intent(inout)}]{tologstr,  }\item[{logical, intent(in), optional}]{timeoption }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Log serialization routine. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em tologstr,timeoption} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 92 of file simulation\+\_\+logger.\+f90.
+
+
+\begin{DoxyCode}
+92     \textcolor{keywordtype}{implicit none}
+93     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(in)} :: self
+94     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(inout)} :: tologstr
+95     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: timeoption
+96     \textcolor{keywordtype}{type}(string) :: timestamp
+97     
+98     \textcolor{keyword}{call }gettimestamp(timestamp)
+99     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(timeoption)) \textcolor{keywordflow}{then}
+100       \textcolor{keywordflow}{if} (.not.timeoption) \textcolor{keywordflow}{then}
+101         timestamp=\textcolor{stringliteral}{''}
+102 \textcolor{keywordflow}{      endif}
+103 \textcolor{keywordflow}{    endif}
+104     tologstr=timestamp//\textcolor{stringliteral}{' '}//tologstr
+105     \textcolor{keyword}{write}(self%log\_unit,\textcolor{stringliteral}{"(A)"}) tologstr%chars()
+106     print\textcolor{stringliteral}{'(A)'}, tologstr%chars()
+107     
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -127,5 +194,13 @@ Here is the call graph for this function\+:\nopagebreak
 \index{simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}!log@{log}}
 \index{log@{log}!simulation\+\_\+logger\+\_\+mod@{simulation\+\_\+logger\+\_\+mod}}
 \subsubsection{\texorpdfstring{log}{log}}
-{\footnotesize\ttfamily type(\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}), public simulation\+\_\+logger\+\_\+mod\+::log}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__logger__mod_1_1logger__class}{logger\+\_\+class}}), public simulation\+\_\+logger\+\_\+mod\+::log}
 
+
+
+Definition at line 38 of file simulation\+\_\+logger.\+f90.
+
+
+\begin{DoxyCode}
+38     \textcolor{keywordtype}{type}(logger\_class) :: Log
+\end{DoxyCode}

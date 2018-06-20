@@ -8,23 +8,23 @@ Module that defines a pure Lagrangian tracer class and related methods.
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ The pure Lagrangian tracer class. \end{DoxyCompactList}\item 
-type \hyperlink{structtracer__base__mod_1_1tracer__par__class}{tracer\+\_\+par\+\_\+class}
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__par__class}{tracer\+\_\+par\+\_\+class}}
 \item 
-type \hyperlink{structtracer__base__mod_1_1tracer__state__class}{tracer\+\_\+state\+\_\+class}
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__state__class}{tracer\+\_\+state\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ state variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
-type \hyperlink{structtracer__base__mod_1_1tracer__stats__class}{tracer\+\_\+stats\+\_\+class}
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__stats__class}{tracer\+\_\+stats\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespacetracer__base__mod_ae73e3d1fd8818cf3e1a8593aafebea43}{initialize} (trc, id, id\+\_\+source, time, pt)
+subroutine \mbox{\hyperlink{namespacetracer__base__mod_ae73e3d1fd8818cf3e1a8593aafebea43}{initialize}} (trc, id, id\+\_\+source, time, pt)
 \begin{DoxyCompactList}\small\item\em Tracer initialization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}), dimension(\+:), allocatable, public \hyperlink{namespacetracer__base__mod_a8e683639ef8cd4f4bdcff33fffe21fc2}{tracer}
+type(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}), dimension(\+:), allocatable, public \mbox{\hyperlink{namespacetracer__base__mod_a8e683639ef8cd4f4bdcff33fffe21fc2}{tracer}}
 \end{DoxyCompactItemize}
 
 
@@ -41,14 +41,14 @@ Ricardo Birjukovs Canelas
 \index{tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}!initialize@{initialize}}
 \index{initialize@{initialize}!tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}}
 \subsubsection{\texorpdfstring{initialize()}{initialize()}}
-{\footnotesize\ttfamily subroutine tracer\+\_\+base\+\_\+mod\+::initialize (\begin{DoxyParamCaption}\item[{class(\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class})}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{integer, intent(in)}]{id\+\_\+source,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+base\+\_\+mod\+::initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}})}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{integer, intent(in)}]{id\+\_\+source,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Tracer initialization method. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
@@ -57,10 +57,50 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
+Definition at line 81 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+81     \textcolor{keywordtype}{implicit none}
+82     \textcolor{keywordtype}{class}(tracer\_class) :: trc
+83     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+84     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id\_source
+85     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
+86     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+87 
+88     \textcolor{comment}{! initialize parameters}
+89     trc%par%id = id
+90     trc%par%idsource = id\_source
+91     trc%par%velmax = 15.0 \textcolor{comment}{!(m/s, just a placeholder)}
+92     \textcolor{comment}{! interp\_method - TODO}
+93     \textcolor{comment}{! initialize tracer state}
+94     trc%now%age=0.0
+95     trc%now%active = .false.
+96     trc%now%pos = pt
+97     trc%now%vel = 0.0
+98     trc%now%acc = 0.0
+99     trc%now%depth = 0.0
+100     \textcolor{comment}{! Initialize statistical accumulator variables}
+101     trc%stats%acc\_pos = 0.0
+102     trc%stats%acc\_vel = 0.0
+103     trc%stats%acc\_depth = 0.0
+104     trc%stats%ns = 0
+105 
+\end{DoxyCode}
+
+
 \subsection{Variable Documentation}
 \mbox{\Hypertarget{namespacetracer__base__mod_a8e683639ef8cd4f4bdcff33fffe21fc2}\label{namespacetracer__base__mod_a8e683639ef8cd4f4bdcff33fffe21fc2}} 
 \index{tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}!tracer@{tracer}}
 \index{tracer@{tracer}!tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}}
 \subsubsection{\texorpdfstring{tracer}{tracer}}
-{\footnotesize\ttfamily type(\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}), dimension(\+:), allocatable, public tracer\+\_\+base\+\_\+mod\+::tracer}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}), dimension(\+:), allocatable, public tracer\+\_\+base\+\_\+mod\+::tracer}
 
+
+
+Definition at line 64 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+64     \textcolor{keywordtype}{type}(tracer\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: Tracer
+\end{DoxyCode}

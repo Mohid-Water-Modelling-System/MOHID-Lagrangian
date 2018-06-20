@@ -8,27 +8,27 @@ Module to control the precision of the variables trough the project.
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-integer, parameter \hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp} = kind(1.\+\_\+\+R4P)
+integer, parameter \mbox{\hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}} = kind(1.\+\_\+\+R4P)
 \begin{DoxyCompactList}\small\item\em Simple precision definition switch. \end{DoxyCompactList}\item 
-integer, parameter \hyperlink{namespacesimulation__precision__mod_a4d49b0033a5e2bc6693c5b2dfb63a032}{dp} = kind(1.\+\_\+\+R8P)
+integer, parameter \mbox{\hyperlink{namespacesimulation__precision__mod_a4d49b0033a5e2bc6693c5b2dfb63a032}{dp}} = kind(1.\+\_\+\+R8P)
 \begin{DoxyCompactList}\small\item\em Double precision definition switch. \end{DoxyCompactList}\item 
-integer, parameter, public \hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec} = \hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}} = \mbox{\hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}
 \item 
-integer, parameter, public \hyperlink{namespacesimulation__precision__mod_a3833ad1bc52c3738ac861591b7492737}{prec\+\_\+time} = \hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a3833ad1bc52c3738ac861591b7492737}{prec\+\_\+time}} = \mbox{\hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}
 \item 
-integer, parameter, public \hyperlink{namespacesimulation__precision__mod_ad515822198607dfee68a6ed8b246c7da}{prec\+\_\+wrt} = \hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_ad515822198607dfee68a6ed8b246c7da}{prec\+\_\+wrt}} = \mbox{\hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}
 \item 
-real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public \hyperlink{namespacesimulation__precision__mod_a1fb0f91226452bb43d4c61cae32a9a6d}{missing\+\_\+value\+\_\+default} = -\/9999.\+0\+\_\+dp
+real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a1fb0f91226452bb43d4c61cae32a9a6d}{missing\+\_\+value\+\_\+default}} = -\/9999.\+0\+\_\+dp
 \item 
-real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public \hyperlink{namespacesimulation__precision__mod_a39845d8a0d331a7b9225feb5fe19ba3b}{mv} = M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT
+real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a39845d8a0d331a7b9225feb5fe19ba3b}{mv}} = M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT
 \item 
-real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public \hyperlink{namespacesimulation__precision__mod_abcad51274c804cb573d8f5720c5dfa05}{mv\+\_\+int} = int(M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT)
+real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_abcad51274c804cb573d8f5720c5dfa05}{mv\+\_\+int}} = int(M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT)
 \item 
-real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public \hyperlink{namespacesimulation__precision__mod_ae3222dd2d51f6b7221be1ca1c70e3e6c}{err\+\_\+dist} = 1\+E8\+\_\+dp
+real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_ae3222dd2d51f6b7221be1ca1c70e3e6c}{err\+\_\+dist}} = 1\+E8\+\_\+dp
 \item 
-integer, parameter, public \hyperlink{namespacesimulation__precision__mod_a82a4b689dc26018c961193b991c489d4}{err\+\_\+ind} = -\/1
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a82a4b689dc26018c961193b991c489d4}{err\+\_\+ind}} = -\/1
 \item 
-integer, parameter, public \hyperlink{namespacesimulation__precision__mod_a8a3305091ff953708508525398aa7129}{char\+\_\+len} = 99
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a8a3305091ff953708508525398aa7129}{char\+\_\+len}} = 99
 \end{DoxyCompactItemize}
 
 
@@ -47,6 +47,14 @@ Ricardo Birjukovs Canelas
 \subsubsection{\texorpdfstring{char\+\_\+len}{char\_len}}
 {\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::char\+\_\+len = 99}
 
+
+
+Definition at line 48 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+48     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{parameter} :: CHAR\_LEN = 99
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_a4d49b0033a5e2bc6693c5b2dfb63a032}\label{namespacesimulation__precision__mod_a4d49b0033a5e2bc6693c5b2dfb63a032}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!dp@{dp}}
 \index{dp@{dp}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
@@ -57,54 +65,126 @@ Ricardo Birjukovs Canelas
 
 Double precision definition switch. 
 
+
+
+Definition at line 31 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+31     \textcolor{keywordtype}{integer},  \textcolor{keywordtype}{parameter} :: dp  = kind(1.\_r8p)   
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_ae3222dd2d51f6b7221be1ca1c70e3e6c}\label{namespacesimulation__precision__mod_ae3222dd2d51f6b7221be1ca1c70e3e6c}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!err\+\_\+dist@{err\+\_\+dist}}
 \index{err\+\_\+dist@{err\+\_\+dist}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{err\+\_\+dist}{err\_dist}}
-{\footnotesize\ttfamily real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public simulation\+\_\+precision\+\_\+mod\+::err\+\_\+dist = 1\+E8\+\_\+dp}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public simulation\+\_\+precision\+\_\+mod\+::err\+\_\+dist = 1\+E8\+\_\+dp}
 
+
+
+Definition at line 44 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+44     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{parameter} :: ERR\_DIST = 1e8\_dp
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_a82a4b689dc26018c961193b991c489d4}\label{namespacesimulation__precision__mod_a82a4b689dc26018c961193b991c489d4}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!err\+\_\+ind@{err\+\_\+ind}}
 \index{err\+\_\+ind@{err\+\_\+ind}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{err\+\_\+ind}{err\_ind}}
 {\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::err\+\_\+ind = -\/1}
 
+
+
+Definition at line 45 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+45     \textcolor{keywordtype}{integer},  \textcolor{keywordtype}{parameter}   :: ERR\_IND  = -1
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_a1fb0f91226452bb43d4c61cae32a9a6d}\label{namespacesimulation__precision__mod_a1fb0f91226452bb43d4c61cae32a9a6d}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!missing\+\_\+value\+\_\+default@{missing\+\_\+value\+\_\+default}}
 \index{missing\+\_\+value\+\_\+default@{missing\+\_\+value\+\_\+default}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{missing\+\_\+value\+\_\+default}{missing\_value\_default}}
-{\footnotesize\ttfamily real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public simulation\+\_\+precision\+\_\+mod\+::missing\+\_\+value\+\_\+default = -\/9999.\+0\+\_\+dp}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public simulation\+\_\+precision\+\_\+mod\+::missing\+\_\+value\+\_\+default = -\/9999.\+0\+\_\+dp}
 
+
+
+Definition at line 39 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+39     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{parameter} :: MISSING\_VALUE\_DEFAULT = -9999.0\_dp
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_a39845d8a0d331a7b9225feb5fe19ba3b}\label{namespacesimulation__precision__mod_a39845d8a0d331a7b9225feb5fe19ba3b}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!mv@{mv}}
 \index{mv@{mv}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{mv}{mv}}
-{\footnotesize\ttfamily real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public simulation\+\_\+precision\+\_\+mod\+::mv = M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public simulation\+\_\+precision\+\_\+mod\+::mv = M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT}
 
+
+
+Definition at line 40 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+40     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{parameter} :: MV     = missing\_value\_default
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_abcad51274c804cb573d8f5720c5dfa05}\label{namespacesimulation__precision__mod_abcad51274c804cb573d8f5720c5dfa05}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!mv\+\_\+int@{mv\+\_\+int}}
 \index{mv\+\_\+int@{mv\+\_\+int}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{mv\+\_\+int}{mv\_int}}
-{\footnotesize\ttfamily real(\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}), parameter, public simulation\+\_\+precision\+\_\+mod\+::mv\+\_\+int = int(M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT)}
+{\footnotesize\ttfamily real(\mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{prec}}), parameter, public simulation\+\_\+precision\+\_\+mod\+::mv\+\_\+int = int(M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT)}
 
+
+
+Definition at line 41 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+41     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{parameter} :: MV\_INT = int(missing\_value\_default)
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}\label{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!prec@{prec}}
 \index{prec@{prec}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{prec}{prec}}
-{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::prec = \hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}
+{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::prec = \mbox{\hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}}
 
+
+
+Definition at line 34 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+34     \textcolor{keywordtype}{integer},  \textcolor{keywordtype}{parameter} :: prec      = sp
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_a3833ad1bc52c3738ac861591b7492737}\label{namespacesimulation__precision__mod_a3833ad1bc52c3738ac861591b7492737}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!prec\+\_\+time@{prec\+\_\+time}}
 \index{prec\+\_\+time@{prec\+\_\+time}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{prec\+\_\+time}{prec\_time}}
-{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::prec\+\_\+time = \hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}
+{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::prec\+\_\+time = \mbox{\hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}}
 
+
+
+Definition at line 35 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+35     \textcolor{keywordtype}{integer},  \textcolor{keywordtype}{parameter} :: prec\_time = sp
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_ad515822198607dfee68a6ed8b246c7da}\label{namespacesimulation__precision__mod_ad515822198607dfee68a6ed8b246c7da}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!prec\+\_\+wrt@{prec\+\_\+wrt}}
 \index{prec\+\_\+wrt@{prec\+\_\+wrt}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
 \subsubsection{\texorpdfstring{prec\+\_\+wrt}{prec\_wrt}}
-{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::prec\+\_\+wrt = \hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}
+{\footnotesize\ttfamily integer, parameter, public simulation\+\_\+precision\+\_\+mod\+::prec\+\_\+wrt = \mbox{\hyperlink{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}{sp}}}
 
+
+
+Definition at line 36 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+36     \textcolor{keywordtype}{integer},  \textcolor{keywordtype}{parameter} :: prec\_wrt  = sp
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}\label{namespacesimulation__precision__mod_a15b1ab993f9b11430e9d9d3dc6c77614}} 
 \index{simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}!sp@{sp}}
 \index{sp@{sp}!simulation\+\_\+precision\+\_\+mod@{simulation\+\_\+precision\+\_\+mod}}
@@ -115,3 +195,11 @@ Double precision definition switch.
 
 Simple precision definition switch. 
 
+
+
+Definition at line 30 of file simulation\+\_\+precision.\+f90.
+
+
+\begin{DoxyCode}
+30     \textcolor{keywordtype}{integer},  \textcolor{keywordtype}{parameter} :: sp  = kind(1.\_r4p)   
+\end{DoxyCode}

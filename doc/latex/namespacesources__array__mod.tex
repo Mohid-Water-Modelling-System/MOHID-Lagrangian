@@ -3,14 +3,14 @@
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structsources__array__mod_1_1sourcearray}{sourcearray}
+type \mbox{\hyperlink{structsources__array__mod_1_1sourcearray}{sourcearray}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespacesources__array__mod_aa2e56a704fb4483fff2b2bd65c8db8da}{print\+\_\+sourcearray} (this)
+subroutine \mbox{\hyperlink{namespacesources__array__mod_aa2e56a704fb4483fff2b2bd65c8db8da}{print\+\_\+sourcearray}} (this)
 \item 
-subroutine \hyperlink{namespacesources__array__mod_a83b399b5839262af19adcae73824874e}{print\+\_\+sourcearray\+\_\+element} (this, index)
+subroutine \mbox{\hyperlink{namespacesources__array__mod_a83b399b5839262af19adcae73824874e}{print\+\_\+sourcearray\+\_\+element}} (this, index)
 \end{DoxyCompactItemize}
 
 
@@ -19,11 +19,51 @@ subroutine \hyperlink{namespacesources__array__mod_a83b399b5839262af19adcae73824
 \index{sources\+\_\+array\+\_\+mod@{sources\+\_\+array\+\_\+mod}!print\+\_\+sourcearray@{print\+\_\+sourcearray}}
 \index{print\+\_\+sourcearray@{print\+\_\+sourcearray}!sources\+\_\+array\+\_\+mod@{sources\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{print\+\_\+sourcearray()}{print\_sourcearray()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+array\+\_\+mod\+::print\+\_\+sourcearray (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__array__mod_1_1sourcearray}{sourcearray}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+array\+\_\+mod\+::print\+\_\+sourcearray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__array__mod_1_1sourcearray}{sourcearray}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 36 of file sources\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+36     \textcolor{keywordtype}{class}(SourceArray), \textcolor{keywordtype}{intent(in)} :: this
+37     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+38     \textcolor{keywordtype}{integer} :: i
+39     \textcolor{keywordflow}{do} i=1, this%usedLength
+40         curr => this%get(i)
+41         \textcolor{keywordflow}{select type}(curr)
+42 \textcolor{keywordflow}{        type is} (source\_class)
+43             \textcolor{keyword}{call }curr%print()
+44 \textcolor{keywordflow}{            class default}
+45             stop \textcolor{stringliteral}{'[print\_SourceArray]: unexepected type of content: not a Source or derived type'}
+46 \textcolor{keywordflow}{        end select}
+47 \textcolor{keywordflow}{    end do}
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__array__mod_a83b399b5839262af19adcae73824874e}\label{namespacesources__array__mod_a83b399b5839262af19adcae73824874e}} 
 \index{sources\+\_\+array\+\_\+mod@{sources\+\_\+array\+\_\+mod}!print\+\_\+sourcearray\+\_\+element@{print\+\_\+sourcearray\+\_\+element}}
 \index{print\+\_\+sourcearray\+\_\+element@{print\+\_\+sourcearray\+\_\+element}!sources\+\_\+array\+\_\+mod@{sources\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{print\+\_\+sourcearray\+\_\+element()}{print\_sourcearray\_element()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+array\+\_\+mod\+::print\+\_\+sourcearray\+\_\+element (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__array__mod_1_1sourcearray}{sourcearray}), intent(in)}]{this,  }\item[{integer, intent(in)}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+array\+\_\+mod\+::print\+\_\+sourcearray\+\_\+element (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__array__mod_1_1sourcearray}{sourcearray}}), intent(in)}]{this,  }\item[{integer, intent(in)}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 51 of file sources\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+51     \textcolor{keywordtype}{class}(SourceArray), \textcolor{keywordtype}{intent(in)} :: this
+52     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: index
+53     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+54     \textcolor{keywordflow}{if} (index .le. this%usedLength) \textcolor{keywordflow}{then}
+55         curr => this%get(index)
+56         \textcolor{keywordflow}{select type}(curr)
+57 \textcolor{keywordflow}{        type is} (source\_class)
+58             \textcolor{keyword}{call }curr%print()
+59 \textcolor{keywordflow}{            class default}
+60             stop \textcolor{stringliteral}{'[print\_SourceArray\_Element]: unexepected type of content, not a Source or derived type'}
+61 \textcolor{keywordflow}{        end select}
+62     \textcolor{keywordflow}{else}
+63         stop \textcolor{stringliteral}{'[print\_SourceArray\_Element]: index out of bounds'}
+64 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}

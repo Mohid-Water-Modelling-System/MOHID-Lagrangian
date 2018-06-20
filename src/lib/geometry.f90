@@ -36,6 +36,7 @@
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
     procedure :: fillsize                   !<Gets the number of points that fill a geometry (based on GLOBALS::dp)
     procedure :: fill                       !<Gets the list of points that fill a geometry (based on GLOBALS::dp)
+    procedure :: getCenter                  !<Gets the shape baricenter
     procedure :: print => printGeometry     !<prints the geometry type and contents
     end type
 
@@ -178,6 +179,40 @@
     end select
 
     end subroutine fill
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method to get the baricenter of a given geometry
+    !
+    !> @param[in] shapetype, center
+    !---------------------------------------------------------------------------
+    subroutine getCenter(self, shapetype, center)
+    implicit none
+    class(geometry_class), intent(in) :: self
+    class(shape), intent(in) :: shapetype
+    type(vector), intent(out) :: center
+    type(string) :: outext
+
+    select type (shapetype)
+    type is (shape)
+    class is (box)
+        center = shapetype%pt + shapetype%size/2.0
+    class is (point)
+        center = shapetype%pt
+    class is (line)
+        center = shapetype%pt + shapetype%last/2.0
+    class is (sphere)
+        center = shapetype%pt
+        class default
+        outext='[geometry::getCenter] : unexpected type for geometry object, stoping'
+        call Log%put(outext)
+        stop
+    end select
+
+    end subroutine getCenter
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

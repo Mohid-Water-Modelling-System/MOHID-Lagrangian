@@ -1,18 +1,34 @@
 \hypertarget{structtracer__base__mod_1_1tracer__par__class}{}\section{tracer\+\_\+base\+\_\+mod\+:\+:tracer\+\_\+par\+\_\+class Type Reference}
 \label{structtracer__base__mod_1_1tracer__par__class}\index{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
+
+
+Collaboration diagram for tracer\+\_\+base\+\_\+mod\+:\+:tracer\+\_\+par\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{structtracer__base__mod_1_1tracer__par__class__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-integer \hyperlink{structtracer__base__mod_1_1tracer__par__class_a659d37298b1c0a06c7627e33085eaf77}{id}
+integer \mbox{\hyperlink{structtracer__base__mod_1_1tracer__par__class_a659d37298b1c0a06c7627e33085eaf77}{id}}
 \begin{DoxyCompactList}\small\item\em unique tracer identification \end{DoxyCompactList}\item 
-integer \hyperlink{structtracer__base__mod_1_1tracer__par__class_ad8fa9b92761b2a1f833d77c48adbb2b3}{idsource}
+integer \mbox{\hyperlink{structtracer__base__mod_1_1tracer__par__class_ad8fa9b92761b2a1f833d77c48adbb2b3}{idsource}}
 \begin{DoxyCompactList}\small\item\em Source to which the tracer belongs. \end{DoxyCompactList}\item 
-real(prec) \hyperlink{structtracer__base__mod_1_1tracer__par__class_a58ad740d66f1c65d200ad7bd22fbcb77}{velmax}
+real(prec) \mbox{\hyperlink{structtracer__base__mod_1_1tracer__par__class_a58ad740d66f1c65d200ad7bd22fbcb77}{velmax}}
 \begin{DoxyCompactList}\small\item\em Maximum velocity of tracer to track (m/s) \end{DoxyCompactList}\item 
-logical \hyperlink{structtracer__base__mod_1_1tracer__par__class_ae331d822841461c650cb0f3ebdf511b3}{noise}
+logical \mbox{\hyperlink{structtracer__base__mod_1_1tracer__par__class_ae331d822841461c650cb0f3ebdf511b3}{noise}}
 \item 
-type(string) \hyperlink{structtracer__base__mod_1_1tracer__par__class_a95251de762dbf5b8e29235c3d61a6e0e}{interp\+\_\+method}
+type(string) \mbox{\hyperlink{structtracer__base__mod_1_1tracer__par__class_a95251de762dbf5b8e29235c3d61a6e0e}{interp\+\_\+method}}
 \begin{DoxyCompactList}\small\item\em interpolation method this tracer calls \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 27 of file tracer\+\_\+base.\+f90.
+
 
 
 \subsection{Member Data Documentation}
@@ -26,6 +42,14 @@ type(string) \hyperlink{structtracer__base__mod_1_1tracer__par__class_a95251de76
 
 unique tracer identification 
 
+
+
+Definition at line 28 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+28         \textcolor{keywordtype}{integer} :: id
+\end{DoxyCode}
 \mbox{\Hypertarget{structtracer__base__mod_1_1tracer__par__class_ad8fa9b92761b2a1f833d77c48adbb2b3}\label{structtracer__base__mod_1_1tracer__par__class_ad8fa9b92761b2a1f833d77c48adbb2b3}} 
 \index{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}!idsource@{idsource}}
 \index{idsource@{idsource}!tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
@@ -36,6 +60,14 @@ unique tracer identification
 
 Source to which the tracer belongs. 
 
+
+
+Definition at line 29 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+29         \textcolor{keywordtype}{integer} :: idsource
+\end{DoxyCode}
 \mbox{\Hypertarget{structtracer__base__mod_1_1tracer__par__class_a95251de762dbf5b8e29235c3d61a6e0e}\label{structtracer__base__mod_1_1tracer__par__class_a95251de762dbf5b8e29235c3d61a6e0e}} 
 \index{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}!interp\+\_\+method@{interp\+\_\+method}}
 \index{interp\+\_\+method@{interp\+\_\+method}!tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
@@ -46,12 +78,28 @@ Source to which the tracer belongs.
 
 interpolation method this tracer calls 
 
+
+
+Definition at line 32 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+32         \textcolor{keywordtype}{type}(string) :: interp\_method
+\end{DoxyCode}
 \mbox{\Hypertarget{structtracer__base__mod_1_1tracer__par__class_ae331d822841461c650cb0f3ebdf511b3}\label{structtracer__base__mod_1_1tracer__par__class_ae331d822841461c650cb0f3ebdf511b3}} 
 \index{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}!noise@{noise}}
 \index{noise@{noise}!tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
 \subsubsection{\texorpdfstring{noise}{noise}}
 {\footnotesize\ttfamily logical tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class\+::noise\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 31 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+31         \textcolor{keywordtype}{logical}    :: noise                 \textcolor{comment}{!  Add noise to location}
+\end{DoxyCode}
 \mbox{\Hypertarget{structtracer__base__mod_1_1tracer__par__class_a58ad740d66f1c65d200ad7bd22fbcb77}\label{structtracer__base__mod_1_1tracer__par__class_a58ad740d66f1c65d200ad7bd22fbcb77}} 
 \index{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}!velmax@{velmax}}
 \index{velmax@{velmax}!tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracer\+\_\+base\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
@@ -64,6 +112,14 @@ Maximum velocity of tracer to track (m/s)
 
 
 
+Definition at line 30 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+30         \textcolor{keywordtype}{real(prec)} :: velmax
+\end{DoxyCode}
+
+
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\hyperlink{tracer__base_8f90}{tracer\+\_\+base.\+f90}\end{DoxyCompactItemize}
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{tracer__base_8f90}{tracer\+\_\+base.\+f90}}\end{DoxyCompactItemize}

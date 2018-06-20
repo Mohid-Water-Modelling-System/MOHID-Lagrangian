@@ -1,0 +1,27 @@
+var namespaces_dup =
+[
+    [ "about_mod", "namespaceabout__mod.html", null ],
+    [ "abstract_container_array_mod", "namespaceabstract__container__array__mod.html", null ],
+    [ "blocks_mod", "namespaceblocks__mod.html", null ],
+    [ "boundingbox_mod", "namespaceboundingbox__mod.html", null ],
+    [ "commom_modules", "namespacecommom__modules.html", null ],
+    [ "container_mod", "namespacecontainer__mod.html", null ],
+    [ "emitter_mod", "namespaceemitter__mod.html", null ],
+    [ "geometry_mod", "namespacegeometry__mod.html", null ],
+    [ "initialize_mod", "namespaceinitialize__mod.html", null ],
+    [ "simulation_globals_mod", "namespacesimulation__globals__mod.html", null ],
+    [ "simulation_logger_mod", "namespacesimulation__logger__mod.html", null ],
+    [ "simulation_memory_mod", "namespacesimulation__memory__mod.html", null ],
+    [ "simulation_mod", "namespacesimulation__mod.html", null ],
+    [ "simulation_precision_mod", "namespacesimulation__precision__mod.html", null ],
+    [ "simulation_xmlparser_mod", "namespacesimulation__xmlparser__mod.html", null ],
+    [ "sources_array_mod", "namespacesources__array__mod.html", null ],
+    [ "sources_mod", "namespacesources__mod.html", null ],
+    [ "tracer_array_mod", "namespacetracer__array__mod.html", null ],
+    [ "tracer_base_mod", "namespacetracer__base__mod.html", null ],
+    [ "tracer_interp_mod", "namespacetracer__interp__mod.html", null ],
+    [ "tracer_paper_mod", "namespacetracer__paper__mod.html", null ],
+    [ "tracer_plastic_mod", "namespacetracer__plastic__mod.html", null ],
+    [ "tracers_mod", "namespacetracers__mod.html", null ],
+    [ "utilities_mod", "namespaceutilities__mod.html", null ]
+];

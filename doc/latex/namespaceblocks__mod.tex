@@ -8,25 +8,27 @@ Module that defines a block class and related methods. A block is a fundamental 
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}
+type \mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}{initblock} (self, id, templatebox)
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}{initblock}} (self, id, templatebox)
 \begin{DoxyCompactList}\small\item\em method to allocate and initialize blocks and their emitters \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceblocks__mod_a7585844eb1b43604c04cb7a24c56205e}{populate} (self)
-\begin{DoxyCompactList}\small\item\em Method to populate the Blocks with their initial Sources and Tracers This copies the Sources from their temporary global position and then allocates the foreseable tracers in their arrays. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{printblock} (self)
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a5d11f4958d950c7f436c040bc4133ea0}{putsource}} (self, sourcetoput)
+\begin{DoxyCompactList}\small\item\em Method to place a Source on the Block Source\+Array. Checks for space and allocates more if needed. The array gets incremented by une unit at a time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{printblock}} (self)
 \begin{DoxyCompactList}\small\item\em Method to print basic info about the block. \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7}{setblocks} (auto, nblk)
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a10f356706988c45a255922fe70851488}{printdetailblock}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print detailed info about the block. \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696}{setblocks}} (auto, nblk, nxi, nyi)
 \begin{DoxyCompactList}\small\item\em routine to set the simulation blocks extents and call the block initializer \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}{allocblocks} (nblk)
+subroutine, public \mbox{\hyperlink{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}{allocblocks}} (nblk)
 \begin{DoxyCompactList}\small\item\em routine to allocate the simulation blocks \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), dimension(\+:), allocatable, public \hyperlink{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}{dblock}
+type(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), allocatable, public \mbox{\hyperlink{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}{dblock}}
 \end{DoxyCompactItemize}
 
 
@@ -50,13 +52,34 @@ Ricardo Birjukovs Canelas
 routine to allocate the simulation blocks 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em nblk} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 223 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+223     \textcolor{keywordtype}{implicit none}
+224     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+225     \textcolor{keywordtype}{type}(string) :: outext, temp
+226     \textcolor{keywordtype}{integer} err
+227     \textcolor{keyword}{allocate}(dblock(nblk), stat=err)
+228     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+229         outext=\textcolor{stringliteral}{'[allocBlobks]: Cannot allocate Blocks, stoping'}
+230         \textcolor{keyword}{call }log%put(outext)
+231         stop
+232     \textcolor{keywordflow}{else}
+233         temp = nblk
+234         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Blocks.'}
+235         \textcolor{keyword}{call }log%put(outext)
+236 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -68,79 +91,228 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!initblock@{initblock}}
 \index{initblock@{initblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
 \subsubsection{\texorpdfstring{initblock()}{initblock()}}
-{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::initblock (\begin{DoxyParamCaption}\item[{class(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{id,  }\item[{type(\hyperlink{structgeometry__mod_1_1box}{box}), intent(in)}]{templatebox }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::initblock (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{id,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{templatebox }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 method to allocate and initialize blocks and their emitters 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self,templatebox} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{namespaceblocks__mod_a7585844eb1b43604c04cb7a24c56205e}\label{namespaceblocks__mod_a7585844eb1b43604c04cb7a24c56205e}} 
-\index{blocks\+\_\+mod@{blocks\+\_\+mod}!populate@{populate}}
-\index{populate@{populate}!blocks\+\_\+mod@{blocks\+\_\+mod}}
-\subsubsection{\texorpdfstring{populate()}{populate()}}
-{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::populate (\begin{DoxyParamCaption}\item[{class(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
+Definition at line 69 of file blocks.\+f90.
 
-Method to populate the Blocks with their initial Sources and Tracers This copies the Sources from their temporary global position and then allocates the foreseable tracers in their arrays. 
 
-\begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-\end{DoxyAuthor}
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self} & \\
-\hline
-\end{DoxyParams}
+\begin{DoxyCode}
+69     \textcolor{keywordtype}{implicit none}
+70     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+71     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+72     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: templatebox
+73     \textcolor{keywordtype}{integer} :: sizem
+74     self%id = id
+75     \textcolor{comment}{!setting the block sub-domain}
+76     self%extents%pt = templatebox%pt
+77     self%extents%size = templatebox%size    
+78     \textcolor{comment}{!initializing the block emitter}
+79     \textcolor{keyword}{call }self%Emitter%initialize()
+80     \textcolor{comment}{!initializing the Sources and Tracers arrays}
+81     \textcolor{keyword}{call }self%Source%init(1)   \textcolor{comment}{!Starting the Sources array with one position}
+82     self%Source%usedLength = 0 \textcolor{comment}{!But there are no stored Sources}
+83     \textcolor{keyword}{call }self%Tracer%init(1)   \textcolor{comment}{!Starting the Tracers array with one position}
+84     self%Tracer%usedLength = 0 \textcolor{comment}{!But there are no stored Tracers}
+85     \textcolor{comment}{!logging the ocupied space by the block}
+86     sizem = sizeof(self)
+87     \textcolor{keyword}{call }simmemory%addblock(sizem)
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}\label{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!printblock@{printblock}}
 \index{printblock@{printblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
 \subsubsection{\texorpdfstring{printblock()}{printblock()}}
-{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::printblock (\begin{DoxyParamCaption}\item[{class(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::printblock (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Method to print basic info about the block. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self} & \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7}\label{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7}} 
+
+
+Definition at line 124 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+124     \textcolor{keywordtype}{implicit none}
+125     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+126     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+127     temp\_str = self%id
+128     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+129     \textcolor{keyword}{call }log%put(outext,.false.)
+130     \textcolor{keyword}{call }geometry%print(self%extents)
+131     temp\_str = self%Source%usedLength
+132     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+133     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a10f356706988c45a255922fe70851488}\label{namespaceblocks__mod_a10f356706988c45a255922fe70851488}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!printdetailblock@{printdetailblock}}
+\index{printdetailblock@{printdetailblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{printdetailblock()}{printdetailblock()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::printdetailblock (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print detailed info about the block. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 146 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+146     \textcolor{keywordtype}{implicit none}
+147     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+148     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+149     \textcolor{keywordtype}{integer} :: i
+150     temp\_str = self%id
+151     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+152     \textcolor{keyword}{call }log%put(outext,.false.)
+153     \textcolor{keyword}{call }geometry%print(self%extents)
+154     temp\_str = self%Source%usedLength
+155     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+156     \textcolor{keyword}{call }log%put(outext,.false.)
+157     \textcolor{keyword}{call }self%Source%printArray()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a5d11f4958d950c7f436c040bc4133ea0}\label{namespaceblocks__mod_a5d11f4958d950c7f436c040bc4133ea0}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!putsource@{putsource}}
+\index{putsource@{putsource}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{putsource()}{putsource()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::putsource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{sourcetoput }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to place a Source on the Block Source\+Array. Checks for space and allocates more if needed. The array gets incremented by une unit at a time. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sourcetoput} & \\
+\hline
+\mbox{\tt in,out}  & {\em sourcetoput} & Source object to store \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 101 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+101     \textcolor{keywordtype}{implicit none}
+102     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+103     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: sourcetoput
+104     
+105     \textcolor{comment}{!Check if the array is at capacity and needs to be resized}
+106     \textcolor{keywordflow}{if} (self%Source%usedLength == self%Source%getLength()) \textcolor{keywordflow}{then}
+107         \textcolor{keyword}{call }self%Source%resize(self%Source%getLength()+1) \textcolor{comment}{!incrementing one entry}
+108 \textcolor{keywordflow}{    end if}
+109     self%Source%usedLength = self%Source%usedLength + 1
+110     \textcolor{keyword}{call }self%Source%put(self%Source%usedLength, sourcetoput)
+111 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696}\label{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!setblocks@{setblocks}}
 \index{setblocks@{setblocks}!blocks\+\_\+mod@{blocks\+\_\+mod}}
 \subsubsection{\texorpdfstring{setblocks()}{setblocks()}}
-{\footnotesize\ttfamily subroutine, public blocks\+\_\+mod\+::setblocks (\begin{DoxyParamCaption}\item[{logical, intent(in)}]{auto,  }\item[{integer, intent(in)}]{nblk }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine, public blocks\+\_\+mod\+::setblocks (\begin{DoxyParamCaption}\item[{logical, intent(in)}]{auto,  }\item[{integer, intent(in)}]{nblk,  }\item[{integer, intent(out)}]{nxi,  }\item[{integer, intent(out)}]{nyi }\end{DoxyParamCaption})}
 
 
 
 routine to set the simulation blocks extents and call the block initializer 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 171 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+171     \textcolor{keywordtype}{implicit none}
+172     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} ::  auto
+173     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+174     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(out)} :: nxi, nyi
+175     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
+176     \textcolor{keywordtype}{integer} :: i, j, b
+177     \textcolor{keywordtype}{real(prec)} :: ar
+178     \textcolor{keywordtype}{type}(box) :: tempbox
+179 
+180     \textcolor{keywordflow}{if} (auto) \textcolor{keywordflow}{then}
+181         ar = bbox%size%x/bbox%size%y
+182         ar = get\_closest\_twopow(ar) \textcolor{comment}{!aspect ratio of our bounding box}
+183         nyi = sqrt(nblk/ar)
+184         \textcolor{keywordflow}{if} (nyi == 0) \textcolor{keywordflow}{then}
+185             temp(1) = ar
+186             outext=\textcolor{stringliteral}{'[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '}//temp(1)//\textcolor{stringliteral}{'.
+       Stoping'}
+187             \textcolor{keyword}{call }log%put(outext)
+188             stop
+189 \textcolor{keywordflow}{        endif}
+190         nxi = (nblk/nyi)
+191 
+192         b=1
+193         \textcolor{keywordflow}{do} i=1, nxi
+194             \textcolor{keywordflow}{do} j=1, nyi
+195               tempbox%pt = bbox%pt + bbox%size%x*(i-1)/nxi*ex + bbox%size%y*(j-1)/nyi*ey - bbox%pt%z*ez
+196               tempbox%size = bbox%size%x/nxi*ex + bbox%size%y/nyi*ey
+197               \textcolor{keyword}{call }dblock(b)%initialize(b, tempbox)
+198               b=b+1
+199 \textcolor{keywordflow}{            end do}
+200 \textcolor{keywordflow}{        end do}
+201         temp(1) = nxi
+202         temp(2) = nyi
+203         outext=\textcolor{stringliteral}{'-->Automatic domain decomposition sucessful. Domain is '}//temp(1)// \textcolor{stringliteral}{' X '} //temp(2)//\textcolor{stringliteral}{'
+       Blocks'}
+204         \textcolor{keyword}{call }log%put(outext,.false.)
+205 \textcolor{keywordflow}{    end if}
+206     \textcolor{comment}{!do i=1, size(DBlock)}
+207     \textcolor{comment}{!    call DBlock(i)%print()}
+208     \textcolor{comment}{!enddo}
+209 
+210     \textcolor{keywordflow}{return}
+\end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7_icgraph}
+\includegraphics[width=350pt]{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696_icgraph}
 \end{center}
 \end{figure}
 
@@ -150,5 +322,13 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!dblock@{dblock}}
 \index{dblock@{dblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
 \subsubsection{\texorpdfstring{dblock}{dblock}}
-{\footnotesize\ttfamily type(\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}), dimension(\+:), allocatable, public blocks\+\_\+mod\+::dblock}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), allocatable, public blocks\+\_\+mod\+::dblock}
 
+
+
+Definition at line 50 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+50     \textcolor{keywordtype}{type}(block\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: DBlock
+\end{DoxyCode}

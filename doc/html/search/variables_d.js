@@ -1,19 +1,5 @@
 var searchData=
 [
-  ['simdefs',['simdefs',['../structsimulation__globals__mod_1_1globals__class.html#aa066434c9dc6147331dce613422568ae',1,'simulation_globals_mod::globals_class']]],
-  ['simmemory',['simmemory',['../namespacesimulation__memory__mod.html#af3e2714796469b4b1ec247569b184088',1,'simulation_memory_mod']]],
-  ['simtime',['simtime',['../structsimulation__globals__mod_1_1globals__class.html#ab28ea8e0cca87c11a33e4acfb3d3b293',1,'simulation_globals_mod::globals_class']]],
-  ['size',['size',['../structgeometry__mod_1_1box.html#aca87e2761faa8b1ce447347a31fd26f9',1,'geometry_mod::box::size()'],['../structtracer__paper__mod_1_1paper__par__class.html#aeb0b4d046983cd2f631822e80e1600c4',1,'tracer_paper_mod::paper_par_class::size()'],['../structtracer__plastic__mod_1_1plastic__par__class.html#a4436f491c11ebd046b3a74987ff71eee',1,'tracer_plastic_mod::plastic_par_class::size()']]],
-  ['size_5fof_5fblocks',['size_of_blocks',['../structsimulation__memory__mod_1_1memory__t.html#aa0426bef9384f95d4317ca5b03b63428',1,'simulation_memory_mod::memory_t']]],
-  ['size_5fof_5fdefs',['size_of_defs',['../structsimulation__memory__mod_1_1memory__t.html#a14c7c2387ac9b23e6f3b5b4ab0433e50',1,'simulation_memory_mod::memory_t']]],
-  ['size_5fof_5fsources',['size_of_sources',['../structsimulation__memory__mod_1_1memory__t.html#a3e461b40b58c78011285068a2afaf2b8',1,'simulation_memory_mod::memory_t']]],
-  ['size_5fof_5ftracers',['size_of_tracers',['../structsimulation__memory__mod_1_1memory__t.html#a7b1960036177b6612be260699fcdb19a',1,'simulation_memory_mod::memory_t']]],
-  ['source',['source',['../structblocks__mod_1_1block__class.html#a398a25c84b76ebe336c1384552bda602',1,'blocks_mod::block_class']]],
-  ['source_5fgeometry',['source_geometry',['../structsources__mod_1_1source__par.html#a66e7627f128290f25c2c9eb36808eb5b',1,'sources_mod::source_par']]],
-  ['sp',['sp',['../namespacesimulation__precision__mod.html#a15b1ab993f9b11430e9d9d3dc6c77614',1,'simulation_precision_mod']]],
-  ['src',['src',['../structsources__mod_1_1source__group__class.html#af970ce2c935528f707bdbf4169995d7c',1,'sources_mod::source_group_class']]],
-  ['startime',['startime',['../structsources__mod_1_1source__par.html#afcde2655b2a557f3a3e2c952dc8a51b0',1,'sources_mod::source_par']]],
-  ['stats',['stats',['../structsources__mod_1_1source__class.html#a2ed110f187434e6b6345f21822993517',1,'sources_mod::source_class::stats()'],['../structtracer__base__mod_1_1tracer__class.html#a688d74f9059a50eba8fdd536c2f79876',1,'tracer_base_mod::tracer_class::stats()']]],
-  ['stencil',['stencil',['../structsources__mod_1_1source__class.html#a7950d4033c4b4be466479fc8a11dad1c',1,'sources_mod::source_class']]],
-  ['stoptime',['stoptime',['../structsources__mod_1_1source__par.html#ac2c04f0d36ad034e160e3de15fe0c283',1,'sources_mod::source_par']]]
+  ['radius',['radius',['../structgeometry__mod_1_1sphere.html#aea9381f351c3670047fb7a779ef44fd7',1,'geometry_mod::sphere::radius()'],['../structtracer__paper__mod_1_1paper__state__class.html#ac70463dad7537b4e18c6719e975a2a80',1,'tracer_paper_mod::paper_state_class::radius()'],['../structtracer__plastic__mod_1_1plastic__state__class.html#a597b5dbe3ba58a0d58d7897fbadaea34',1,'tracer_plastic_mod::plastic_state_class::radius()']]],
+  ['rho_5fref',['rho_ref',['../structsimulation__globals__mod_1_1constants__t.html#a7e4a2bb5206340621bfce6792b527f6d',1,'simulation_globals_mod::constants_t']]]
 ];

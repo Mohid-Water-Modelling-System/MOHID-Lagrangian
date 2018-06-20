@@ -8,20 +8,20 @@ Module that defines an emitter class and related methods. This module is respons
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}
+type \mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}{initracers} (self, srcs)
+subroutine \mbox{\hyperlink{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}{initracers}} (self, srcs)
 \begin{DoxyCompactList}\small\item\em method that calls the tracer initialization from the emmiter object \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceemitter__mod_a7c677125988390e4c57909e4ea82d902}{alloctracers} (self, src)
+subroutine \mbox{\hyperlink{namespaceemitter__mod_a7c677125988390e4c57909e4ea82d902}{alloctracers}} (self, src)
 \begin{DoxyCompactList}\small\item\em method that allocates the tracers respective to a given source \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}{initializeemitter} (self)
+subroutine \mbox{\hyperlink{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}{initializeemitter}} (self)
 \begin{DoxyCompactList}\small\item\em method that initializes an emmiter class object. Sets default values \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}{addsource} (self, src)
+subroutine \mbox{\hyperlink{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}{addsource}} (self, src)
 \begin{DoxyCompactList}\small\item\em method to compute the total emittable particles per source and allocate them \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}{setotalnp} (src)
+subroutine \mbox{\hyperlink{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}{setotalnp}} (src)
 \begin{DoxyCompactList}\small\item\em private routine that returns the total number of tracers an input source will potentially create \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -38,20 +38,40 @@ Ricardo Birjukovs Canelas
 \index{emitter\+\_\+mod@{emitter\+\_\+mod}!addsource@{addsource}}
 \index{addsource@{addsource}!emitter\+\_\+mod@{emitter\+\_\+mod}}
 \subsubsection{\texorpdfstring{addsource()}{addsource()}}
-{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::addsource (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self,  }\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::addsource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 method to compute the total emittable particles per source and allocate them 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self,src} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 141 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+141     \textcolor{keywordtype}{implicit none}
+142     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+143     \textcolor{keywordtype}{class}(source\_class),\textcolor{keywordtype}{intent(inout)} :: src
+144     \textcolor{keywordtype}{integer} :: i
+145     
+146     \textcolor{keyword}{call }setotalnp(src) \textcolor{comment}{!finding the total tracers this Source will pass the emmiter}
+147     self%emittable = self%emittable + src%stencil%total\_np
+148         \textcolor{comment}{!print*, srcs(i)%stencil%total\_np}
+149    
+150     \textcolor{comment}{!allocating and initializing the tracers by the emitter, for all sources}
+151     \textcolor{keyword}{call }self%alloctracers(src)
+152     \textcolor{comment}{!call self%initracers(srcs)}
+153 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -63,75 +83,154 @@ Here is the call graph for this function\+:\nopagebreak
 \index{emitter\+\_\+mod@{emitter\+\_\+mod}!alloctracers@{alloctracers}}
 \index{alloctracers@{alloctracers}!emitter\+\_\+mod@{emitter\+\_\+mod}}
 \subsubsection{\texorpdfstring{alloctracers()}{alloctracers()}}
-{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::alloctracers (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self,  }\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::alloctracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 method that allocates the tracers respective to a given source 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self,src} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 88 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+88     \textcolor{keywordtype}{implicit none}
+89     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+90     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: src
+91     \textcolor{keywordtype}{integer} err
+92     \textcolor{keywordtype}{type}(string) :: outext, temp
+93 
+94     \textcolor{keywordflow}{if} (self%emittable .le. 0) \textcolor{keywordflow}{then}
+95         outext=\textcolor{stringliteral}{'[Emitter::alloctracers]: No Tracers will be simulated, stoping'}
+96         \textcolor{keyword}{call }log%put(outext)
+97         stop
+98     \textcolor{keywordflow}{else}
+99         \textcolor{keyword}{allocate}(tracer(self%emittable), stat=err)
+100         \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+101             outext=\textcolor{stringliteral}{'[Emitter::alloctracers]: Cannot allocate Tracers, stoping'}
+102             \textcolor{keyword}{call }log%put(outext)
+103             stop
+104 \textcolor{keywordflow}{        endif}
+105 \textcolor{keywordflow}{    endif}
+106 
+107     temp = \textcolor{keyword}{size}(tracer)
+108     outext=\textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Tracers.'}
+109     \textcolor{keyword}{call }log%put(outext)
+110     \textcolor{comment}{!receiving Sources as argument so latter we can differentiate between tracer types}
+111 
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}\label{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}} 
 \index{emitter\+\_\+mod@{emitter\+\_\+mod}!initializeemitter@{initializeemitter}}
 \index{initializeemitter@{initializeemitter}!emitter\+\_\+mod@{emitter\+\_\+mod}}
 \subsubsection{\texorpdfstring{initializeemitter()}{initializeemitter()}}
-{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::initializeemitter (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::initializeemitter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 method that initializes an emmiter class object. Sets default values 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 124 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+124     \textcolor{keywordtype}{implicit none}
+125     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+126     self%emitted = 0
+127     self%emittable = 0
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}\label{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}} 
 \index{emitter\+\_\+mod@{emitter\+\_\+mod}!initracers@{initracers}}
 \index{initracers@{initracers}!emitter\+\_\+mod@{emitter\+\_\+mod}}
 \subsubsection{\texorpdfstring{initracers()}{initracers()}}
-{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::initracers (\begin{DoxyParamCaption}\item[{class(\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}), intent(inout)}]{self,  }\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), dimension(\+:), intent(inout)}]{srcs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::initracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), dimension(\+:), intent(inout)}]{srcs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 method that calls the tracer initialization from the emmiter object 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em self,src} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 56 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+56     \textcolor{keywordtype}{implicit none}
+57     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+58     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: srcs
+59     \textcolor{keywordtype}{integer} num\_emiss, i, j, k, p
+60     \textcolor{keywordtype}{type}(string) :: outext, temp(4)
+61     \textcolor{keywordtype}{integer} :: sizem
+62 
+63     p=0
+64     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(srcs)
+65         num\_emiss = srcs(i)%stencil%total\_np/\textcolor{keyword}{size}(srcs(i)%stencil%ptlist)
+66         \textcolor{keywordflow}{do} j=1, num\_emiss
+67             \textcolor{keywordflow}{do} k=1, \textcolor{keyword}{size}(srcs(i)%stencil%ptlist)
+68                 p=p+1
+69                 \textcolor{keyword}{call }tracer(p)%initialize(p, srcs(i)%par%id, globals%SimTime, srcs(i)%stencil%ptlist(k))
+70 \textcolor{keywordflow}{            enddo}
+71 \textcolor{keywordflow}{        enddo}
+72 \textcolor{keywordflow}{    enddo}
+73     sizem = sizeof(tracer)
+74     \textcolor{keyword}{call }simmemory%addtracer(sizem)
+75 
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}\label{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}} 
 \index{emitter\+\_\+mod@{emitter\+\_\+mod}!setotalnp@{setotalnp}}
 \index{setotalnp@{setotalnp}!emitter\+\_\+mod@{emitter\+\_\+mod}}
 \subsubsection{\texorpdfstring{setotalnp()}{setotalnp()}}
-{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::setotalnp (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::setotalnp (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 private routine that returns the total number of tracers an input source will potentially create 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em src} & \\
 \hline
 \end{DoxyParams}
-${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}$ Here is the caller graph for this function\+:\nopagebreak
+${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}$ 
+
+Definition at line 167 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+167     \textcolor{keywordtype}{implicit none}
+168     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: src
+170     src%stencil%total\_np=(src%par%stoptime-src%par%startime)*src%par%emitting\_rate*src%stencil%np
+\end{DoxyCode}
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

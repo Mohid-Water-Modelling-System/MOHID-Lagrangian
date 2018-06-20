@@ -8,16 +8,16 @@ Module to print version, licence, preambles.
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \hyperlink{namespaceabout__mod_a9fb866e1576b843b42649d84b80f4b52}{printlicpreamble}
+subroutine, public \mbox{\hyperlink{namespaceabout__mod_a9fb866e1576b843b42649d84b80f4b52}{printlicpreamble}}
 \begin{DoxyCompactList}\small\item\em Public licence and preamble printer routine. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(string) \hyperlink{namespaceabout__mod_af0051041c5a98e3eb7284580236db3a0}{version}
+type(string) \mbox{\hyperlink{namespaceabout__mod_af0051041c5a98e3eb7284580236db3a0}{version}}
 \item 
-type(string) \hyperlink{namespaceabout__mod_a7c3a72ae7ba5fc7d8a4bf133605f58c3}{author}
+type(string) \mbox{\hyperlink{namespaceabout__mod_a7c3a72ae7ba5fc7d8a4bf133605f58c3}{author}}
 \item 
-type(string) \hyperlink{namespaceabout__mod_aaac12f65380fb0f10916b3744d9e5a0b}{date}
+type(string) \mbox{\hyperlink{namespaceabout__mod_aaac12f65380fb0f10916b3744d9e5a0b}{date}}
 \end{DoxyCompactItemize}
 
 
@@ -43,6 +43,57 @@ Public licence and preamble printer routine.
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
+
+
+Definition at line 44 of file about.\+f90.
+
+
+\begin{DoxyCode}
+44     \textcolor{keywordtype}{implicit none}
+45     \textcolor{keywordtype}{type}(string) :: outext
+46 
+47     version  =\textcolor{stringliteral}{"v0.0.4"}
+48     author   =\textcolor{stringliteral}{"R. Birjukovs Canelas"}
+49     date     =\textcolor{stringliteral}{"29-05-2018"}
+50 
+51     outext = \textcolor{stringliteral}{' \_\_  \_\_  \_\_\_  \_   \_ \_\_\_ \_\_\_\_  \_                                      \_             '}//
+      new\_line(\textcolor{stringliteral}{'a'})//&
+52              \textcolor{stringliteral}{' |  \(\backslash\)/  |/ \_ \(\backslash\)| | | |\_ \_|  \_ \(\backslash\)| |    \_\_ \_  \_\_ \_ \_ \_\_ \_\_ \_ \_ \_\_   \_\_ \_(\_) \_\_ \_ \_ \_\_  '}//
+      new\_line(\textcolor{stringliteral}{'a'})//&
+53              \textcolor{stringliteral}{' | |\(\backslash\)/| | | | | |\_| || || | | | |   / \_` |/ \_` | \_\_/  \_` |  \_ \(\backslash\) / \_` | |/ \_` |  \_ \(\backslash\) '}//
+      new\_line(\textcolor{stringliteral}{'a'})//&
+54              \textcolor{stringliteral}{' | |  | | |\_| |  \_  || || |\_| | |\_\_| (\_| | (\_| | | | (\_| | | | | (\_| | | (\_| | | | |'}//
+      new\_line(\textcolor{stringliteral}{'a'})//&
+55              \textcolor{stringliteral}{' |\_|  |\_|\(\backslash\)\_\_\_/|\_| |\_|\_\_\_|\_\_\_\_/|\_\_\_\_\_\(\backslash\)\_\_,\_|\(\backslash\)\_\_, |\_|  \(\backslash\)\_\_,\_|\_| |\_|\(\backslash\)\_\_, |\_|\(\backslash\)\_\_,\_|\_| |\_|'}//
+      new\_line(\textcolor{stringliteral}{'a'})//&
+56              \textcolor{stringliteral}{'                                          |\_\_\_/                 |\_\_\_/               '}//
+      new\_line(\textcolor{stringliteral}{'a'})//&
+57 
+58         \textcolor{stringliteral}{'  <MOHIDLagrangian> Copyright (C) 2018 by'}//new\_line(\textcolor{stringliteral}{'a'})//&
+59         \textcolor{stringliteral}{'  R. Birjukovs Canelas, R. Neves, F. Campuzano, H. de Pablo Lenonardo'}//new\_line(\textcolor{stringliteral}{'a'})//&
+60         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+61         \textcolor{stringliteral}{'  MARETEC - Research Centre for Marine, Environment and Technology'}//new\_line(\textcolor{stringliteral}{'a'})//&
+62         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+63         \textcolor{stringliteral}{'  MOHIDLagrangian is free software: you can redistribute it and/or'}//new\_line(\textcolor{stringliteral}{'a'})//&
+64         \textcolor{stringliteral}{'  modify it under the terms of the GNU General Public License as'}//new\_line(\textcolor{stringliteral}{'a'})//&
+65         \textcolor{stringliteral}{'  published by the Free Software Foundation, either version 3 of'}//new\_line(\textcolor{stringliteral}{'a'})//&
+66         \textcolor{stringliteral}{'  the License, or (at your option) any later version.'}//new\_line(\textcolor{stringliteral}{'a'})//&
+67         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+68         \textcolor{stringliteral}{'  MOHIDLagrangian is distributed WITHOUT ANY WARRANTY; without even'}//new\_line(\textcolor{stringliteral}{'a'})//&
+69         \textcolor{stringliteral}{'  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR'}//new\_line(\textcolor{stringliteral}{'a'})//&
+70         \textcolor{stringliteral}{'  PURPOSE. See the GNU General Public License for more details.'}//new\_line(\textcolor{stringliteral}{'a'})//&
+71         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+72         \textcolor{stringliteral}{'  You should have received a copy of the GNU General Public License,'}//new\_line(\textcolor{stringliteral}{'a'})//&
+73         \textcolor{stringliteral}{'  along with MOHIDLagrangian. If not, see <http://www.gnu.org/licenses/>.,'}//new\_line(\textcolor{stringliteral}{'a'})//&
+74         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+75         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+76         \textcolor{stringliteral}{'MOHIDLagrangian '}//version//\textcolor{stringliteral}{' ('}//author//\textcolor{stringliteral}{') ('}//date//\textcolor{stringliteral}{')'}//new\_line(\textcolor{stringliteral}{'a'})//&
+77         \textcolor{stringliteral}{'====================================================================='}
+78 
+79     \textcolor{comment}{!call Log%put(outext,.false.)}
+80     \textcolor{keyword}{call }log%put(outext,.false.)
+81 
+\end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -59,15 +110,39 @@ Here is the caller graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{author}{author}}
 {\footnotesize\ttfamily type(string) about\+\_\+mod\+::author\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 31 of file about.\+f90.
+
+
+\begin{DoxyCode}
+31     \textcolor{keywordtype}{type}(string) :: author
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceabout__mod_aaac12f65380fb0f10916b3744d9e5a0b}\label{namespaceabout__mod_aaac12f65380fb0f10916b3744d9e5a0b}} 
 \index{about\+\_\+mod@{about\+\_\+mod}!date@{date}}
 \index{date@{date}!about\+\_\+mod@{about\+\_\+mod}}
 \subsubsection{\texorpdfstring{date}{date}}
 {\footnotesize\ttfamily type(string) about\+\_\+mod\+::date\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 32 of file about.\+f90.
+
+
+\begin{DoxyCode}
+32     \textcolor{keywordtype}{type}(string) :: date
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceabout__mod_af0051041c5a98e3eb7284580236db3a0}\label{namespaceabout__mod_af0051041c5a98e3eb7284580236db3a0}} 
 \index{about\+\_\+mod@{about\+\_\+mod}!version@{version}}
 \index{version@{version}!about\+\_\+mod@{about\+\_\+mod}}
 \subsubsection{\texorpdfstring{version}{version}}
 {\footnotesize\ttfamily type(string) about\+\_\+mod\+::version\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 30 of file about.\+f90.
+
+
+\begin{DoxyCode}
+30     \textcolor{keywordtype}{type}(string) :: version
+\end{DoxyCode}

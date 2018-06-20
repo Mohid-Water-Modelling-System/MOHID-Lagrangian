@@ -8,20 +8,20 @@ Module that defines an unlimited polymorphic container class and related methods
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}
+type \mbox{\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-class($\ast$) function, pointer \hyperlink{namespaceabstract__container__array__mod_a2b3e0aec504d76c73bf7f18158924af4}{getvalue} (this, index)
+class($\ast$) function, pointer \mbox{\hyperlink{namespaceabstract__container__array__mod_a2b3e0aec504d76c73bf7f18158924af4}{getvalue}} (this, index)
 \begin{DoxyCompactList}\small\item\em Method that returns returns the requested entry (pointer) \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceabstract__container__array__mod_aae1f6309c51e282a528ce78f128443e0}{putvalue} (this, index, value)
+subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_aae1f6309c51e282a528ce78f128443e0}{putvalue}} (this, index, value)
 \begin{DoxyCompactList}\small\item\em Method that stores a value on the requested index. \end{DoxyCompactList}\item 
-integer function \hyperlink{namespaceabstract__container__array__mod_a22d71ca3f03bf0bb5d3737338e5e349a}{getlength} (this)
+integer function \mbox{\hyperlink{namespaceabstract__container__array__mod_a22d71ca3f03bf0bb5d3737338e5e349a}{getlength}} (this)
 \begin{DoxyCompactList}\small\item\em Method that returns the length of the array. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceabstract__container__array__mod_ac2d73eb111ffde938f81e3f93b0cb3e0}{resizearray} (this, newsize)
+subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_ac2d73eb111ffde938f81e3f93b0cb3e0}{resizearray}} (this, newsize)
 \begin{DoxyCompactList}\small\item\em Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move\+\_\+alloc() \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceabstract__container__array__mod_a6a8e7af177f333262aba941775d6c245}{initarray} (this, entries, tocopy)
+subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_a6a8e7af177f333262aba941775d6c245}{initarray}} (this, entries, tocopy)
 \begin{DoxyCompactList}\small\item\em Method that allocates the container array. Deallocates if already allocated. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -38,7 +38,7 @@ Ricardo Birjukovs Canelas
 \index{abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}!getlength@{getlength}}
 \index{getlength@{getlength}!abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{getlength()}{getlength()}}
-{\footnotesize\ttfamily integer function abstract\+\_\+container\+\_\+array\+\_\+mod\+::getlength (\begin{DoxyParamCaption}\item[{class(\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily integer function abstract\+\_\+container\+\_\+array\+\_\+mod\+::getlength (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -49,14 +49,24 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}{Parameters}
-{\em } & \\
+{\em \mbox{[}this\mbox{]}} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 100 of file abstract\+\_\+container\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+100     \textcolor{keywordtype}{class}(container\_array), \textcolor{keywordtype}{intent(in)} :: this
+101     \textcolor{keywordtype}{integer} :: getLength
+102     getlength = this%length
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__container__array__mod_a2b3e0aec504d76c73bf7f18158924af4}\label{namespaceabstract__container__array__mod_a2b3e0aec504d76c73bf7f18158924af4}} 
 \index{abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}!getvalue@{getvalue}}
 \index{getvalue@{getvalue}!abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{getvalue()}{getvalue()}}
-{\footnotesize\ttfamily class($\ast$) function, pointer abstract\+\_\+container\+\_\+array\+\_\+mod\+::getvalue (\begin{DoxyParamCaption}\item[{class(\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}), intent(in)}]{this,  }\item[{integer, intent(in)}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily class($\ast$) function, pointer abstract\+\_\+container\+\_\+array\+\_\+mod\+::getvalue (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}}), intent(in)}]{this,  }\item[{integer, intent(in)}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -67,14 +77,29 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}{Parameters}
-{\em } & \\
+{\em \mbox{[}this,index\mbox{]}} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 66 of file abstract\+\_\+container\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+66     \textcolor{keywordtype}{class}(container\_array), \textcolor{keywordtype}{intent(in)} :: this
+67     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: index
+68     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: getValue
+69     \textcolor{keywordflow}{if} (index .le. this%getLength()) \textcolor{keywordflow}{then}
+70         getvalue => this%contents(index)%getContent()
+71     \textcolor{keywordflow}{else}
+72         stop \textcolor{stringliteral}{'[getValue]: index out of bounds'}
+73 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__container__array__mod_a6a8e7af177f333262aba941775d6c245}\label{namespaceabstract__container__array__mod_a6a8e7af177f333262aba941775d6c245}} 
 \index{abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}!initarray@{initarray}}
 \index{initarray@{initarray}!abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{initarray()}{initarray()}}
-{\footnotesize\ttfamily subroutine abstract\+\_\+container\+\_\+array\+\_\+mod\+::initarray (\begin{DoxyParamCaption}\item[{class(\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{entries,  }\item[{type(\hyperlink{structcontainer__mod_1_1container}{container}), dimension(\+:), intent(in), optional}]{tocopy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+container\+\_\+array\+\_\+mod\+::initarray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{entries,  }\item[{type(\mbox{\hyperlink{structcontainer__mod_1_1container}{container}}), dimension(\+:), intent(in), optional}]{tocopy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -85,14 +110,34 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}{Parameters}
-{\em } & \\
+{\em \mbox{[}this,entries,tocopy\mbox{]}} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 133 of file abstract\+\_\+container\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+133     \textcolor{keywordtype}{class}(container\_array), \textcolor{keywordtype}{intent(inout)} :: this
+134     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: entries
+135     \textcolor{keywordtype}{type}(container), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: tocopy
+136     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(this%contents)) \textcolor{keywordflow}{then}
+137         \textcolor{keyword}{deallocate}(this%contents)
+138 \textcolor{keywordflow}{    end if}
+139     \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{present}(tocopy)) \textcolor{keywordflow}{then} \textcolor{comment}{!allocating an empty array with 'entries'}
+140         \textcolor{keyword}{allocate}(this%contents(entries))
+141         this%length=entries
+142     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(tocopy)) \textcolor{keywordflow}{then} \textcolor{comment}{!using sourced allocation}
+143       \textcolor{keyword}{allocate}(this%contents, source=tocopy)
+144       this%length=\textcolor{keyword}{size}(tocopy)
+145 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__container__array__mod_aae1f6309c51e282a528ce78f128443e0}\label{namespaceabstract__container__array__mod_aae1f6309c51e282a528ce78f128443e0}} 
 \index{abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}!putvalue@{putvalue}}
 \index{putvalue@{putvalue}!abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{putvalue()}{putvalue()}}
-{\footnotesize\ttfamily subroutine abstract\+\_\+container\+\_\+array\+\_\+mod\+::putvalue (\begin{DoxyParamCaption}\item[{class(\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{index,  }\item[{class($\ast$), intent(in)}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+container\+\_\+array\+\_\+mod\+::putvalue (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{index,  }\item[{class($\ast$), intent(in)}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -103,14 +148,29 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}{Parameters}
-{\em } & \\
+{\em \mbox{[}this,index,value\mbox{]}} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 83 of file abstract\+\_\+container\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+83     \textcolor{keywordtype}{class}(container\_array), \textcolor{keywordtype}{intent(inout)} :: this
+84     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: index
+85     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: value
+86     \textcolor{keywordflow}{if} (index .le. this%getLength()) \textcolor{keywordflow}{then}
+87         \textcolor{keyword}{call }this%contents(index)%storeContent(\textcolor{keywordtype}{value})
+88     \textcolor{keywordflow}{else}
+89         stop \textcolor{stringliteral}{'[putValue]: index out of bounds'}
+90 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__container__array__mod_ac2d73eb111ffde938f81e3f93b0cb3e0}\label{namespaceabstract__container__array__mod_ac2d73eb111ffde938f81e3f93b0cb3e0}} 
 \index{abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}!resizearray@{resizearray}}
 \index{resizearray@{resizearray}!abstract\+\_\+container\+\_\+array\+\_\+mod@{abstract\+\_\+container\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{resizearray()}{resizearray()}}
-{\footnotesize\ttfamily subroutine abstract\+\_\+container\+\_\+array\+\_\+mod\+::resizearray (\begin{DoxyParamCaption}\item[{class(\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{newsize }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+container\+\_\+array\+\_\+mod\+::resizearray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__container__array__mod_1_1container__array}{container\+\_\+array}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{newsize }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -121,6 +181,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}{Parameters}
-{\em } & \\
+{\em \mbox{[}this,newsize\mbox{]}} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 114 of file abstract\+\_\+container\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+114     \textcolor{keywordtype}{class}(container\_array), \textcolor{keywordtype}{intent(inout)} :: this
+115     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: newsize
+116     \textcolor{keywordtype}{integer} :: i, tocopy
+117     \textcolor{keywordtype}{type}(container), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: temp
+118     tocopy=min(this%getLength(),newsize)
+119     \textcolor{keyword}{allocate}(temp(newsize))
+120     \textcolor{keywordflow}{do} i=1, tocopy
+121         \textcolor{keyword}{call }temp(i)%storeContent(this%get(i))
+122 \textcolor{keywordflow}{    enddo}
+123     \textcolor{keyword}{call }this%init(newsize,temp)
+\end{DoxyCode}

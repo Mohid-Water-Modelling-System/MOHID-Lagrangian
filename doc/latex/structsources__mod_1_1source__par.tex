@@ -1,26 +1,42 @@
 \hypertarget{structsources__mod_1_1source__par}{}\section{sources\+\_\+mod\+:\+:source\+\_\+par Type Reference}
 \label{structsources__mod_1_1source__par}\index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
+
+
+Collaboration diagram for sources\+\_\+mod\+:\+:source\+\_\+par\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=209pt]{structsources__mod_1_1source__par__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-integer \hyperlink{structsources__mod_1_1source__par_a88d333946d18fee527b7b207f44dd3ff}{id}
+integer \mbox{\hyperlink{structsources__mod_1_1source__par_a88d333946d18fee527b7b207f44dd3ff}{id}}
 \begin{DoxyCompactList}\small\item\em unique source identification (integer) \end{DoxyCompactList}\item 
-real(prec\+\_\+time) \hyperlink{structsources__mod_1_1source__par_af5e6a5cc49766a9fb90fedadebb64b87}{emitting\+\_\+rate}
+real(prec\+\_\+time) \mbox{\hyperlink{structsources__mod_1_1source__par_af5e6a5cc49766a9fb90fedadebb64b87}{emitting\+\_\+rate}}
 \begin{DoxyCompactList}\small\item\em Emitting rate of the source (Hz) \end{DoxyCompactList}\item 
-real(prec\+\_\+time) \hyperlink{structsources__mod_1_1source__par_afcde2655b2a557f3a3e2c952dc8a51b0}{startime}
+real(prec\+\_\+time) \mbox{\hyperlink{structsources__mod_1_1source__par_afcde2655b2a557f3a3e2c952dc8a51b0}{startime}}
 \begin{DoxyCompactList}\small\item\em time to start emitting tracers \end{DoxyCompactList}\item 
-real(prec\+\_\+time) \hyperlink{structsources__mod_1_1source__par_ac2c04f0d36ad034e160e3de15fe0c283}{stoptime}
+real(prec\+\_\+time) \mbox{\hyperlink{structsources__mod_1_1source__par_ac2c04f0d36ad034e160e3de15fe0c283}{stoptime}}
 \begin{DoxyCompactList}\small\item\em time to stop emitting tracers \end{DoxyCompactList}\item 
-type(string) \hyperlink{structsources__mod_1_1source__par_ac56d7761e7da3a906a3f0fbf4c7f49f8}{name}
+type(string) \mbox{\hyperlink{structsources__mod_1_1source__par_ac56d7761e7da3a906a3f0fbf4c7f49f8}{name}}
 \begin{DoxyCompactList}\small\item\em source name \end{DoxyCompactList}\item 
-type(string) \hyperlink{structsources__mod_1_1source__par_a91107e1b59e5ca582c1afe6ff6263e29}{property\+\_\+type}
+type(string) \mbox{\hyperlink{structsources__mod_1_1source__par_a91107e1b59e5ca582c1afe6ff6263e29}{property\+\_\+type}}
 \begin{DoxyCompactList}\small\item\em source property type (plastic, paper, fish, etc) \end{DoxyCompactList}\item 
-type(string) \hyperlink{structsources__mod_1_1source__par_a5939a7c20bad9ac30bc9bef0427a5336}{property\+\_\+name}
+type(string) \mbox{\hyperlink{structsources__mod_1_1source__par_a5939a7c20bad9ac30bc9bef0427a5336}{property\+\_\+name}}
 \begin{DoxyCompactList}\small\item\em source property name \end{DoxyCompactList}\item 
-type(string) \hyperlink{structsources__mod_1_1source__par_a66e7627f128290f25c2c9eb36808eb5b}{source\+\_\+geometry}
+type(string) \mbox{\hyperlink{structsources__mod_1_1source__par_a66e7627f128290f25c2c9eb36808eb5b}{source\+\_\+geometry}}
 \begin{DoxyCompactList}\small\item\em Source type \+: \textquotesingle{}point\textquotesingle{}, \textquotesingle{}line\textquotesingle{}, \textquotesingle{}sphere\textquotesingle{}, \textquotesingle{}box\textquotesingle{}. \end{DoxyCompactList}\item 
-class(\hyperlink{structgeometry__mod_1_1shape}{shape}), allocatable \hyperlink{structsources__mod_1_1source__par_abf09d59fd65f02d1a8139e2f9f477207}{geometry}
+class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), allocatable \mbox{\hyperlink{structsources__mod_1_1source__par_abf09d59fd65f02d1a8139e2f9f477207}{geometry}}
 \begin{DoxyCompactList}\small\item\em Source geometry. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 27 of file sources.\+f90.
+
 
 
 \subsection{Member Data Documentation}
@@ -34,16 +50,32 @@ class(\hyperlink{structgeometry__mod_1_1shape}{shape}), allocatable \hyperlink{s
 
 Emitting rate of the source (Hz) 
 
+
+
+Definition at line 29 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+29         \textcolor{keywordtype}{real(prec\_time)} :: emitting\_rate
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_abf09d59fd65f02d1a8139e2f9f477207}\label{structsources__mod_1_1source__par_abf09d59fd65f02d1a8139e2f9f477207}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!geometry@{geometry}}
 \index{geometry@{geometry}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
 \subsubsection{\texorpdfstring{geometry}{geometry}}
-{\footnotesize\ttfamily class(\hyperlink{structgeometry__mod_1_1shape}{shape}), allocatable sources\+\_\+mod\+::source\+\_\+par\+::geometry\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), allocatable sources\+\_\+mod\+::source\+\_\+par\+::geometry\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Source geometry. 
 
+
+
+Definition at line 36 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+36         \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{allocatable} :: geometry
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_a88d333946d18fee527b7b207f44dd3ff}\label{structsources__mod_1_1source__par_a88d333946d18fee527b7b207f44dd3ff}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!id@{id}}
 \index{id@{id}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
@@ -54,6 +86,14 @@ Source geometry.
 
 unique source identification (integer) 
 
+
+
+Definition at line 28 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+28         \textcolor{keywordtype}{integer} :: id
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_ac56d7761e7da3a906a3f0fbf4c7f49f8}\label{structsources__mod_1_1source__par_ac56d7761e7da3a906a3f0fbf4c7f49f8}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!name@{name}}
 \index{name@{name}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
@@ -64,6 +104,14 @@ unique source identification (integer)
 
 source name 
 
+
+
+Definition at line 32 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+32         \textcolor{keywordtype}{type}(string) :: name
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_a5939a7c20bad9ac30bc9bef0427a5336}\label{structsources__mod_1_1source__par_a5939a7c20bad9ac30bc9bef0427a5336}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!property\+\_\+name@{property\+\_\+name}}
 \index{property\+\_\+name@{property\+\_\+name}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
@@ -74,6 +122,14 @@ source name
 
 source property name 
 
+
+
+Definition at line 34 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+34         \textcolor{keywordtype}{type}(string) :: property\_name
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_a91107e1b59e5ca582c1afe6ff6263e29}\label{structsources__mod_1_1source__par_a91107e1b59e5ca582c1afe6ff6263e29}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!property\+\_\+type@{property\+\_\+type}}
 \index{property\+\_\+type@{property\+\_\+type}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
@@ -84,6 +140,14 @@ source property name
 
 source property type (plastic, paper, fish, etc) 
 
+
+
+Definition at line 33 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{type}(string) :: property\_type
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_a66e7627f128290f25c2c9eb36808eb5b}\label{structsources__mod_1_1source__par_a66e7627f128290f25c2c9eb36808eb5b}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!source\+\_\+geometry@{source\+\_\+geometry}}
 \index{source\+\_\+geometry@{source\+\_\+geometry}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
@@ -94,6 +158,14 @@ source property type (plastic, paper, fish, etc)
 
 Source type \+: \textquotesingle{}point\textquotesingle{}, \textquotesingle{}line\textquotesingle{}, \textquotesingle{}sphere\textquotesingle{}, \textquotesingle{}box\textquotesingle{}. 
 
+
+
+Definition at line 35 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{type}(string) :: source\_geometry
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_afcde2655b2a557f3a3e2c952dc8a51b0}\label{structsources__mod_1_1source__par_afcde2655b2a557f3a3e2c952dc8a51b0}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!startime@{startime}}
 \index{startime@{startime}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
@@ -104,6 +176,14 @@ Source type \+: \textquotesingle{}point\textquotesingle{}, \textquotesingle{}lin
 
 time to start emitting tracers 
 
+
+
+Definition at line 30 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+30         \textcolor{keywordtype}{real(prec\_time)} :: startime
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_ac2c04f0d36ad034e160e3de15fe0c283}\label{structsources__mod_1_1source__par_ac2c04f0d36ad034e160e3de15fe0c283}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!stoptime@{stoptime}}
 \index{stoptime@{stoptime}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
@@ -116,6 +196,14 @@ time to stop emitting tracers
 
 
 
+Definition at line 31 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+31         \textcolor{keywordtype}{real(prec\_time)} :: stoptime
+\end{DoxyCode}
+
+
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\hyperlink{sources_8f90}{sources.\+f90}\end{DoxyCompactItemize}
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{sources_8f90}{sources.\+f90}}\end{DoxyCompactItemize}

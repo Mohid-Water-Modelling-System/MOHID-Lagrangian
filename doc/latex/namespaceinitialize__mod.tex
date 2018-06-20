@@ -8,21 +8,21 @@ Module with the simulation initialization related definitions and methods. Has o
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc03a4a}{linkpropertysources} (links\+Node)
+subroutine \mbox{\hyperlink{namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc03a4a}{linkpropertysources}} (links\+Node)
 \begin{DoxyCompactList}\small\item\em Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a}{init\+\_\+properties} (case\+\_\+node)
+subroutine \mbox{\hyperlink{namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a}{init\+\_\+properties}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602}{read\+\_\+xml\+\_\+geometry} (source, source\+\_\+detail, source\+\_\+shape)
+subroutine \mbox{\hyperlink{namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602}{read\+\_\+xml\+\_\+geometry}} (source, source\+\_\+detail, source\+\_\+shape)
 \begin{DoxyCompactList}\small\item\em Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1}{init\+\_\+sources} (case\+\_\+node)
+subroutine \mbox{\hyperlink{namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1}{init\+\_\+sources}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Private source definitions parser routine. Builds the tracer sources from the input xml case file. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceinitialize__mod_a18736cca205403067232125b8e510ab2}{init\+\_\+simdefs} (case\+\_\+node)
+subroutine \mbox{\hyperlink{namespaceinitialize__mod_a18736cca205403067232125b8e510ab2}{init\+\_\+simdefs}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c}{init\+\_\+caseconstants} (case\+\_\+node)
+subroutine \mbox{\hyperlink{namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c}{init\+\_\+caseconstants}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Private case constant parser routine. Builds the simulation parametric space from the input xml case file. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3}{init\+\_\+parameters} (execution\+\_\+node)
+subroutine \mbox{\hyperlink{namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3}{init\+\_\+parameters}} (execution\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Private parameter parser routine. Builds the simulation parametric space from the input xml case file. \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e}{initfromxml} (xmlfilename)
+subroutine, public \mbox{\hyperlink{namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e}{initfromxml}} (xmlfilename)
 \begin{DoxyCompactList}\small\item\em Public xml parser routine. Builds the simulation space from the input xml case file. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -46,13 +46,55 @@ Ricardo Birjukovs Canelas
 Private case constant parser routine. Builds the simulation parametric space from the input xml case file. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em case\+\_\+node} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 305 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+305     \textcolor{keywordtype}{implicit none}
+306     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+307 
+308     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: constants\_node
+309     \textcolor{keywordtype}{type}(string) :: outext
+310     \textcolor{keywordtype}{type}(string) :: tag, att\_name, att\_val
+311     \textcolor{keywordtype}{type}(vector) :: coords
+312     \textcolor{keywordtype}{logical} :: readflag
+313 
+314     outext=\textcolor{stringliteral}{'-->Reading case constants'}
+315     \textcolor{keyword}{call }log%put(outext,.false.)
+316 
+317     tag=\textcolor{stringliteral}{"constantsdef"}    \textcolor{comment}{!the node we want}
+318     \textcolor{keyword}{call }gotochildnode(case\_node,constants\_node,tag,readflag,.false.)
+319     \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then} \textcolor{comment}{!if the node exists, since his one is not mandatory}
+320       tag=\textcolor{stringliteral}{"Gravity"}
+321       \textcolor{keyword}{call }readxmlvector(constants\_node,tag,coords,readflag,.false.)
+322       \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+323         \textcolor{keyword}{call }globals%Constants%setgravity(coords)
+324 \textcolor{keywordflow}{      endif}
+325       tag=\textcolor{stringliteral}{"Z0"}
+326       att\_name=\textcolor{stringliteral}{"value"}
+327       \textcolor{keyword}{call }readxmlatt(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+328       \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+329         \textcolor{keyword}{call }globals%Constants%setz0(att\_val)
+330 \textcolor{keywordflow}{      endif}
+331       tag=\textcolor{stringliteral}{"Rho\_ref"}
+332       att\_name=\textcolor{stringliteral}{"value"}
+333       \textcolor{keyword}{call }readxmlatt(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+334       \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+335         \textcolor{keyword}{call }globals%Constants%setrho(att\_val)
+336 \textcolor{keywordflow}{      endif}
+337 \textcolor{keywordflow}{    endif}
+338     \textcolor{keyword}{call }globals%Constants%print()
+339 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -78,13 +120,48 @@ Here is the caller graph for this function\+:\nopagebreak
 Private parameter parser routine. Builds the simulation parametric space from the input xml case file. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em execution\+\_\+node} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 352 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+352     \textcolor{keywordtype}{implicit none}
+353     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: execution\_node
+354 
+355     \textcolor{keywordtype}{type}(string) :: outext
+356     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: parameterList
+357     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: parmt, parameters\_node
+358     \textcolor{keywordtype}{integer} :: i
+359     \textcolor{keywordtype}{type}(string) :: parmkey, parmvalue, tag
+360     \textcolor{keywordtype}{character(80)} :: parmkey\_char, parmvalue\_char
+361 
+362     outext=\textcolor{stringliteral}{'-->Reading case parameters'}
+363     \textcolor{keyword}{call }log%put(outext,.false.)
+364 
+365     tag=\textcolor{stringliteral}{"parameters"}    \textcolor{comment}{!the node we want}
+366     \textcolor{keyword}{call }gotochildnode(execution\_node,parameters\_node,tag)
+367     parameterlist => getelementsbytagname(parameters\_node, \textcolor{stringliteral}{"parameter"})       \textcolor{comment}{!searching for tags with the
+       'parameter' name}
+368     \textcolor{keywordflow}{do} i = 0, getlength(parameterlist) - 1                          \textcolor{comment}{!extracting parameter tags one by one}
+369         parmt => item(parameterlist, i)
+370         \textcolor{keyword}{call }extractdataattribute(parmt, \textcolor{stringliteral}{"key"}, parmkey\_char)       \textcolor{comment}{!name of the parameter}
+371         \textcolor{keyword}{call }extractdataattribute(parmt, \textcolor{stringliteral}{"value"}, parmvalue\_char)   \textcolor{comment}{!value of the parameter}
+372         parmkey=trim(parmkey\_char)
+373         parmvalue=trim(parmvalue\_char)
+374         \textcolor{keyword}{call }globals%Parameters%setparameter(parmkey,parmvalue)
+375 \textcolor{keywordflow}{    enddo}
+376     \textcolor{keyword}{call }globals%Parameters%check()
+377     \textcolor{keyword}{call }globals%Parameters%print()
+378 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -110,13 +187,44 @@ Here is the caller graph for this function\+:\nopagebreak
 Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 85 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+85     \textcolor{keywordtype}{implicit none}
+86     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+87 
+88     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: props\_node
+89     \textcolor{keywordtype}{type}(string) :: outext
+90     \textcolor{keywordtype}{type}(string) :: tag, att\_name
+91 
+92     tag=\textcolor{stringliteral}{"properties"}    \textcolor{comment}{!the node we want}
+93     \textcolor{keyword}{call }gotochildnode(case\_node,props\_node,tag)
+94     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(props\_node)) \textcolor{keywordflow}{then}
+95         tag=\textcolor{stringliteral}{"propertyfile"}
+96         att\_name=\textcolor{stringliteral}{"name"}
+97         \textcolor{keyword}{call }readxmlatt(props\_node, tag, att\_name, globals%FileNames%propsxmlfilename)  \textcolor{comment}{!getting the file
+       name from that tag}
+98         outext=\textcolor{stringliteral}{'-->Properties to link to Sources found at '}//globals%FileNames%propsxmlfilename
+99         \textcolor{keyword}{call }log%put(outext,.false.)
+100         tag=\textcolor{stringliteral}{"links"}
+101         \textcolor{keyword}{call }gotochildnode(props\_node,props\_node,tag) \textcolor{comment}{!getting the links node}
+102         \textcolor{keyword}{call }linkpropertysources(props\_node)          \textcolor{comment}{!calling the property linker}
+103     \textcolor{keywordflow}{else}
+104         outext=\textcolor{stringliteral}{'-->No properties to link to Sources, assuming pure Lagrangian tracers'}
+105         \textcolor{keyword}{call }log%put(outext,.false.)
+106 \textcolor{keywordflow}{    endif}
+107 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -142,13 +250,50 @@ Here is the caller graph for this function\+:\nopagebreak
 Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em case\+\_\+node} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 263 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+263     \textcolor{keywordtype}{implicit none}
+264     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+265 
+266     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: defsList
+267     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: simdefs\_node
+268     \textcolor{keywordtype}{type}(string) :: outext
+269     \textcolor{keywordtype}{integer} :: i
+270     \textcolor{keywordtype}{type}(string) :: pts(2), tag, att\_name, att\_val
+271     \textcolor{keywordtype}{type}(vector) :: coords
+272 
+273     outext=\textcolor{stringliteral}{'-->Reading case simulation definitions'}
+274     \textcolor{keyword}{call }log%put(outext,.false.)
+275 
+276     tag=\textcolor{stringliteral}{"simulationdefs"}    \textcolor{comment}{!the node we want}
+277     \textcolor{keyword}{call }gotochildnode(case\_node,simdefs\_node,tag)
+278     tag=\textcolor{stringliteral}{"resolution"}
+279     att\_name=\textcolor{stringliteral}{"dp"}
+280     \textcolor{keyword}{call }readxmlatt(simdefs\_node, tag, att\_name, att\_val)
+281     \textcolor{keyword}{call }globals%SimDefs%setdp(att\_val)
+282     tag=\textcolor{stringliteral}{"timestep"}
+283     att\_name=\textcolor{stringliteral}{"dt"}
+284     \textcolor{keyword}{call }readxmlatt(simdefs\_node, tag, att\_name, att\_val)
+285     \textcolor{keyword}{call }globals%SimDefs%setdt(att\_val)
+286     pts=(/ \textcolor{stringliteral}{'pointmin'}, \textcolor{stringliteral}{'pointmax'}/) \textcolor{comment}{!strings to search for}
+287     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(pts)
+288         \textcolor{keyword}{call }readxmlvector(simdefs\_node, pts(i), coords)
+289         \textcolor{keyword}{call }globals%SimDefs%setboundingbox(pts(i), coords)
+290 \textcolor{keywordflow}{    enddo}
+291     \textcolor{keyword}{call }globals%SimDefs%print()
+292 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -174,13 +319,106 @@ Here is the caller graph for this function\+:\nopagebreak
 Private source definitions parser routine. Builds the tracer sources from the input xml case file. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em case\+\_\+node} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 167 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+167     \textcolor{keywordtype}{implicit none}
+168     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+169 
+170     \textcolor{keywordtype}{type}(string) :: outext
+171     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: sourceList
+172     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: sourceChildren
+173     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: sourcedef
+174     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_node
+175     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_detail
+176     \textcolor{keywordtype}{integer} :: i, j
+177     \textcolor{keywordtype}{logical} :: readflag
+178     \textcolor{comment}{!source vars}
+179     \textcolor{keywordtype}{integer} :: id
+180     \textcolor{keywordtype}{type}(string) :: name, source\_geometry, tag, att\_name, att\_val
+181     \textcolor{keywordtype}{real(prec)} :: emitting\_rate, start, finish
+182     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{allocatable} :: source\_shape
+183 
+184     outext=\textcolor{stringliteral}{'-->Reading case Sources'}
+185     \textcolor{keyword}{call }log%put(outext,.false.)
+186 
+187     tag=\textcolor{stringliteral}{"sourcedef"}    \textcolor{comment}{!the node we want}
+188     \textcolor{keyword}{call }gotochildnode(case\_node,sourcedef,tag)
+189     sourcelist => getelementsbytagname(sourcedef, \textcolor{stringliteral}{"source"})
+190 
+191     \textcolor{comment}{!allocating the temporary source objects}
+192     \textcolor{keyword}{call }tempsources%initialize(getlength(sourcelist))
+193 
+194     \textcolor{keywordflow}{do} j = 0, getlength(sourcelist) - 1
+195         source\_node => item(sourcelist,j)
+196         tag=\textcolor{stringliteral}{"setsource"}
+197         att\_name=\textcolor{stringliteral}{"id"}
+198         \textcolor{keyword}{call }readxmlatt(source\_node, tag, att\_name, att\_val)
+199         id=att\_val%to\_number(kind=1\_i1p)
+200         att\_name=\textcolor{stringliteral}{"name"}
+201         \textcolor{keyword}{call }readxmlatt(source\_node, tag, att\_name, name)
+202         tag=\textcolor{stringliteral}{"set"}
+203         att\_name=\textcolor{stringliteral}{"emitting\_rate"}
+204         \textcolor{keyword}{call }readxmlatt(source\_node, tag, att\_name, att\_val)
+205         emitting\_rate = att\_val%to\_number(kind=1.\_r4p)
+206         tag=\textcolor{stringliteral}{"active"}
+207         att\_name=\textcolor{stringliteral}{"start"}
+208         \textcolor{keyword}{call }readxmlatt(source\_node, tag, att\_name, att\_val,readflag,.false.)
+209         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+210             start = att\_val%to\_number(kind=1.\_r4p)
+211         \textcolor{keywordflow}{else}
+212             start = 0.0
+213 \textcolor{keywordflow}{        endif}
+214         att\_name=\textcolor{stringliteral}{"end"}
+215         \textcolor{keyword}{call }readxmlatt(source\_node, tag, att\_name, att\_val,readflag,.false.)
+216         \textcolor{keywordflow}{if} (readflag.and.att\_val%is\_number()) \textcolor{keywordflow}{then}
+217             finish = att\_val%to\_number(kind=1.\_r4p)
+218         \textcolor{keywordflow}{else}
+219             finish = globals%Parameters%TimeMax
+220 \textcolor{keywordflow}{        endif}
+221         \textcolor{comment}{!now we need to find out the geometry of the source and read accordingly}
+222         sourcechildren => getchildnodes(source\_node) \textcolor{comment}{!getting all of the nodes bellow the main source node
+       (all of it's private info)}
+223         \textcolor{keywordflow}{do} i=0, getlength(sourcechildren)-1
+224             source\_detail => item(sourcechildren,i) \textcolor{comment}{!grabing a node}
+225             source\_geometry = getlocalname(source\_detail)  \textcolor{comment}{!finding its name}
+226             \textcolor{keywordflow}{if} (geometry%inlist(source\_geometry)) \textcolor{keywordflow}{then}  \textcolor{comment}{!if the node is a valid geometry name}
+227                 \textcolor{keywordflow}{select case} (source\_geometry%chars())
+228                 \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'point'})
+229                     \textcolor{keyword}{allocate}(point::source\_shape)
+230                 \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'sphere'})
+231                     \textcolor{keyword}{allocate}(sphere::source\_shape)
+232                 \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'box'})
+233                     \textcolor{keyword}{allocate}(box::source\_shape)
+234                 \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'line'})
+235                     \textcolor{keyword}{allocate}(line::source\_shape)
+236 \textcolor{keywordflow}{                    case default}
+237                     outext=\textcolor{stringliteral}{'[init\_sources]: unexpected type for geometry object!'}
+238                     \textcolor{keyword}{call }log%put(outext)
+239                     stop
+240 \textcolor{keywordflow}{                end select}
+241                 \textcolor{keyword}{call }read\_xml\_geometry(source\_node,source\_detail,source\_shape)
+242                 \textcolor{keywordflow}{exit}
+243 \textcolor{keywordflow}{            endif}
+244 \textcolor{keywordflow}{        enddo}
+245         \textcolor{comment}{!initializing Source j       }
+246         \textcolor{keyword}{call }tempsources%src(j+1)%initialize(id,name,emitting\_rate,start,finish,source\_geometry,
+      source\_shape)
+247 
+248         \textcolor{keyword}{deallocate}(source\_shape)
+249 \textcolor{keywordflow}{    enddo}
+250 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -206,7 +444,7 @@ Here is the caller graph for this function\+:\nopagebreak
 Public xml parser routine. Builds the simulation space from the input xml case file. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
@@ -215,6 +453,51 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \mbox{\tt in}  & {\em xmlfilename} & .xml file name \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 392 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+392     \textcolor{keywordtype}{implicit none}
+393     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: xmlfilename
+394     \textcolor{keywordtype}{type}(string) :: outext, tag
+395     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmldoc
+396     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: case\_node
+397     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: execution\_node
+398     \textcolor{keywordtype}{integer} :: i
+399 
+400     xmldoc => parsefile(xmlfilename%chars(), iostat=i)
+401     \textcolor{keywordflow}{if} (i==0) \textcolor{keywordflow}{then}
+402         outext=\textcolor{stringliteral}{'->Reading case definition from '}//xmlfilename
+403         \textcolor{keyword}{call }log%put(outext)
+404         globals%FileNames%mainxmlfilename = xmlfilename
+405     \textcolor{keywordflow}{else}
+406         outext=\textcolor{stringliteral}{'[initMohidLagrangian]: no '}//xmlfilename//\textcolor{stringliteral}{' input file, give me at least that!'}
+407         \textcolor{keyword}{call }log%put(outext)
+408         stop
+409 \textcolor{keywordflow}{    endif}
+410 
+411     tag=\textcolor{stringliteral}{"case"}          \textcolor{comment}{!base document node}
+412     \textcolor{keyword}{call }gotochildnode(xmldoc,execution\_node,tag)
+413     tag=\textcolor{stringliteral}{"execution"}     \textcolor{comment}{!finding execution node}
+414     \textcolor{keyword}{call }gotochildnode(execution\_node,execution\_node,tag)
+415     tag=\textcolor{stringliteral}{"case"}          \textcolor{comment}{!base document node}
+416     \textcolor{keyword}{call }gotochildnode(xmldoc,case\_node,tag)
+417     tag=\textcolor{stringliteral}{"casedef"}     \textcolor{comment}{!finding execution node}
+418     \textcolor{keyword}{call }gotochildnode(case\_node,case\_node,tag)
+419 
+420     \textcolor{comment}{! building the simulation basic structures according to the case definition file}
+421     \textcolor{comment}{! every other structure in the simulation is built from these, i.e., not defined by the user directly}
+422     \textcolor{keyword}{call }init\_parameters(execution\_node)
+423     \textcolor{keyword}{call }init\_caseconstants(case\_node)
+424     \textcolor{keyword}{call }init\_simdefs(case\_node)
+425     \textcolor{keyword}{call }init\_sources(case\_node)
+426     \textcolor{keyword}{call }init\_properties(case\_node)
+427 
+428     \textcolor{keyword}{call }destroy(xmldoc)
+429 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -240,13 +523,41 @@ Here is the caller graph for this function\+:\nopagebreak
 Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em parsedxml} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 50 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+50     \textcolor{keywordtype}{implicit none}
+51     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: linksNode
+52 
+53     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: linkList
+54     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: linknode
+55     \textcolor{keywordtype}{integer} :: i
+56     \textcolor{keywordtype}{character(80)} :: sourceid\_char, sourcetype\_char, sourceprop\_char
+57     \textcolor{keywordtype}{type}(string) :: sourceid, sourcetype, sourceprop
+58 
+59     linklist => getelementsbytagname(linksnode, \textcolor{stringliteral}{"link"})
+60     \textcolor{keywordflow}{do} i = 0, getlength(linklist) - 1
+61         linknode => item(linklist,i)
+62         \textcolor{keyword}{call }extractdataattribute(linknode, \textcolor{stringliteral}{"source"}, sourceid\_char)
+63         \textcolor{keyword}{call }extractdataattribute(linknode, \textcolor{stringliteral}{"type"}, sourcetype\_char)
+64         \textcolor{keyword}{call }extractdataattribute(linknode, \textcolor{stringliteral}{"property"}, sourceprop\_char)
+65         sourceid=trim(sourceid\_char)
+66         sourcetype=trim(sourcetype\_char)
+67         sourceprop=trim(sourceprop\_char)
+68         \textcolor{keyword}{call }tempsources%setProps(sourceid,sourcetype,sourceprop)
+69 \textcolor{keywordflow}{    enddo}
+70 
+\end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -258,14 +569,14 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{initialize\+\_\+mod@{initialize\+\_\+mod}!read\+\_\+xml\+\_\+geometry@{read\+\_\+xml\+\_\+geometry}}
 \index{read\+\_\+xml\+\_\+geometry@{read\+\_\+xml\+\_\+geometry}!initialize\+\_\+mod@{initialize\+\_\+mod}}
 \subsubsection{\texorpdfstring{read\+\_\+xml\+\_\+geometry()}{read\_xml\_geometry()}}
-{\footnotesize\ttfamily subroutine initialize\+\_\+mod\+::read\+\_\+xml\+\_\+geometry (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{source,  }\item[{type(node), intent(in), pointer}]{source\+\_\+detail,  }\item[{class(\hyperlink{structgeometry__mod_1_1shape}{shape}), intent(inout)}]{source\+\_\+shape }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine initialize\+\_\+mod\+::read\+\_\+xml\+\_\+geometry (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{source,  }\item[{type(node), intent(in), pointer}]{source\+\_\+detail,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(inout)}]{source\+\_\+shape }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
@@ -278,6 +589,46 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \mbox{\tt in,out}  & {\em source\+\_\+shape} & Geometrical object to fill \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 121 of file initialize.\+f90.
+
+
+\begin{DoxyCode}
+121     \textcolor{keywordtype}{implicit none}
+122     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: source
+123     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: source\_detail
+124     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(inout)} :: source\_shape
+125     \textcolor{keywordtype}{type}(string) :: outext
+126     \textcolor{keywordtype}{type}(string) :: tag
+127 
+128     \textcolor{keywordflow}{select type} (source\_shape)
+129 \textcolor{keywordflow}{    type is} (shape)
+130         \textcolor{comment}{!nothing to do}
+131 \textcolor{keywordflow}{    class is} (box)
+132         tag=\textcolor{stringliteral}{'point'}
+133         \textcolor{keyword}{call }readxmlvector(source\_detail,tag,source\_shape%pt)
+134         tag=\textcolor{stringliteral}{'size'}
+135         \textcolor{keyword}{call }readxmlvector(source\_detail,tag,source\_shape%size)
+136 \textcolor{keywordflow}{    class is} (point)
+137         tag=\textcolor{stringliteral}{'point'}
+138         \textcolor{keyword}{call }readxmlvector(source,tag,source\_shape%pt)
+139 \textcolor{keywordflow}{    class is} (line)
+140         tag=\textcolor{stringliteral}{'pointa'}
+141         \textcolor{keyword}{call }readxmlvector(source\_detail,tag,source\_shape%pt)
+142         tag=\textcolor{stringliteral}{'pointb'}
+143         \textcolor{keyword}{call }readxmlvector(source\_detail,tag,source\_shape%last)
+144 \textcolor{keywordflow}{    class is} (sphere)
+145         tag=\textcolor{stringliteral}{'point'}
+146         \textcolor{keyword}{call }readxmlvector(source\_detail,tag,source\_shape%pt)
+147         \textcolor{keyword}{call }extractdataattribute(source\_detail, \textcolor{stringliteral}{"radius"}, source\_shape%radius)
+148 \textcolor{keywordflow}{        class default}
+149         outext=\textcolor{stringliteral}{'[read\_xml\_geometry]: unexpected type for geometry object!'}
+150         \textcolor{keyword}{call }log%put(outext)
+151         stop
+152 \textcolor{keywordflow}{    end select}
+153 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}

@@ -3,28 +3,30 @@
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structblocks__mod_1_1block__class}{blocks\+\_\+mod\+::block\+\_\+class}
+type \mbox{\hyperlink{structblocks__mod_1_1block__class}{blocks\+\_\+mod\+::block\+\_\+class}}
 \end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
 \item 
-module \hyperlink{namespaceblocks__mod}{blocks\+\_\+mod}
+module \mbox{\hyperlink{namespaceblocks__mod}{blocks\+\_\+mod}}
 \begin{DoxyCompactList}\small\item\em Module that defines a block class and related methods. A block is a fundamental type of the model. It contains a sub-\/domain of the simulation bounding box, holding all entities inside that sub-\/domain. It maps to a domain decomposition parallelization strategy, if needed. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}{blocks\+\_\+mod\+::initblock} (self, id, templatebox)
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}{blocks\+\_\+mod\+::initblock}} (self, id, templatebox)
 \begin{DoxyCompactList}\small\item\em method to allocate and initialize blocks and their emitters \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceblocks__mod_a7585844eb1b43604c04cb7a24c56205e}{blocks\+\_\+mod\+::populate} (self)
-\begin{DoxyCompactList}\small\item\em Method to populate the Blocks with their initial Sources and Tracers This copies the Sources from their temporary global position and then allocates the foreseable tracers in their arrays. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{blocks\+\_\+mod\+::printblock} (self)
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a5d11f4958d950c7f436c040bc4133ea0}{blocks\+\_\+mod\+::putsource}} (self, sourcetoput)
+\begin{DoxyCompactList}\small\item\em Method to place a Source on the Block Source\+Array. Checks for space and allocates more if needed. The array gets incremented by une unit at a time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{blocks\+\_\+mod\+::printblock}} (self)
 \begin{DoxyCompactList}\small\item\em Method to print basic info about the block. \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespaceblocks__mod_a3312d23e0268d67aaf99d579aa57d0e7}{blocks\+\_\+mod\+::setblocks} (auto, nblk)
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a10f356706988c45a255922fe70851488}{blocks\+\_\+mod\+::printdetailblock}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print detailed info about the block. \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696}{blocks\+\_\+mod\+::setblocks}} (auto, nblk, nxi, nyi)
 \begin{DoxyCompactList}\small\item\em routine to set the simulation blocks extents and call the block initializer \end{DoxyCompactList}\item 
-subroutine, public \hyperlink{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}{blocks\+\_\+mod\+::allocblocks} (nblk)
+subroutine, public \mbox{\hyperlink{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}{blocks\+\_\+mod\+::allocblocks}} (nblk)
 \begin{DoxyCompactList}\small\item\em routine to allocate the simulation blocks \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(block\+\_\+class), dimension(\+:), allocatable, public \hyperlink{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}{blocks\+\_\+mod\+::dblock}
+type(block\+\_\+class), dimension(\+:), allocatable, public \mbox{\hyperlink{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}{blocks\+\_\+mod\+::dblock}}
 \end{DoxyCompactItemize}

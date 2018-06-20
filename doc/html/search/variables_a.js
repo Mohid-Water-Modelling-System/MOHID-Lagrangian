@@ -1,6 +1,8 @@
 var searchData=
 [
   ['name',['name',['../structsources__mod_1_1source__par.html#ac56d7761e7da3a906a3f0fbf4c7f49f8',1,'sources_mod::source_par']]],
+  ['nbx',['nbx',['../structsimulation__mod_1_1simulation__class.html#a772b57a0802913e1a715bbe46dc67112',1,'simulation_mod::simulation_class']]],
+  ['nby',['nby',['../structsimulation__mod_1_1simulation__class.html#aaa602a0922f7c95060226627eaf5104e',1,'simulation_mod::simulation_class']]],
   ['noise',['noise',['../structtracer__base__mod_1_1tracer__par__class.html#ae331d822841461c650cb0f3ebdf511b3',1,'tracer_base_mod::tracer_par_class']]],
   ['now',['now',['../structsources__mod_1_1source__class.html#aa79ef3a745f7e6e934acdda367e8995c',1,'sources_mod::source_class::now()'],['../structtracer__base__mod_1_1tracer__class.html#a282d3a68cbf79a87706e0b0bb974dd8f',1,'tracer_base_mod::tracer_class::now()']]],
   ['np',['np',['../structsources__mod_1_1source__stencil.html#a11ed46a8e923b5902cc02420d88158c5',1,'sources_mod::source_stencil']]],

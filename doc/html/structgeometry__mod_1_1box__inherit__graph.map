@@ -1,4 +1,4 @@
 <map id="geometry_mod::box" name="geometry_mod::box">
-<area shape="rect" id="node3" href="$structboundingbox__mod_1_1boundingbox__class.html" title="boundingbox_mod::boundingbox\l_class" alt="" coords="5,155,213,196"/>
-<area shape="rect" id="node2" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="34,5,185,32"/>
+<area shape="rect" id="node3" href="$structboundingbox__mod_1_1boundingbox__class.html" title="{boundingbox_mod::boundingbox\l_class\n|&#45; offset\l|&#45; initialize()\l&#45; print()\l}" alt="" coords="5,256,213,363"/>
+<area shape="rect" id="node2" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="34,5,185,83"/>
 </map>

@@ -1,27 +1,43 @@
 \hypertarget{structsimulation__globals__mod_1_1parameters__t}{}\section{simulation\+\_\+globals\+\_\+mod\+:\+:parameters\+\_\+t Type Reference}
 \label{structsimulation__globals__mod_1_1parameters__t}\index{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}}
+
+
+Collaboration diagram for simulation\+\_\+globals\+\_\+mod\+:\+:parameters\+\_\+t\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{structsimulation__globals__mod_1_1parameters__t__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-procedure \hyperlink{structsimulation__globals__mod_1_1parameters__t_ab4df8a29214aa31b554483bb8c07004c}{setparameter}
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_ab4df8a29214aa31b554483bb8c07004c}{setparameter}}
 \item 
-procedure \hyperlink{structsimulation__globals__mod_1_1parameters__t_ab0dc483d1a0d000e43726c19c892a65d}{check}
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_ab0dc483d1a0d000e43726c19c892a65d}{check}}
 \item 
-procedure \hyperlink{structsimulation__globals__mod_1_1parameters__t_a220b7b25f77a4e33694055d5427a30dd}{print} =$>$ \hyperlink{namespacesimulation__globals__mod_a97c04d0289a9f2d004a9329cb7ab16f0}{printsimparameters}
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_a220b7b25f77a4e33694055d5427a30dd}{print}} =$>$ \mbox{\hyperlink{namespacesimulation__globals__mod_a97c04d0289a9f2d004a9329cb7ab16f0}{printsimparameters}}
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-integer \hyperlink{structsimulation__globals__mod_1_1parameters__t_a4e57d5a1897acaf67eb14e39e3e0cf21}{integrator} = 1
+integer \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_a4e57d5a1897acaf67eb14e39e3e0cf21}{integrator}} = 1
 \begin{DoxyCompactList}\small\item\em Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) \end{DoxyCompactList}\item 
-real(prec) \hyperlink{structsimulation__globals__mod_1_1parameters__t_a63d8108183b786ec9acf16af2164bda1}{cfl} = 0.\+5
+real(prec) \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_a63d8108183b786ec9acf16af2164bda1}{cfl}} = 0.\+5
 \begin{DoxyCompactList}\small\item\em Courant Friedrichs Lewy condition number. \end{DoxyCompactList}\item 
-real(prec) \hyperlink{structsimulation__globals__mod_1_1parameters__t_aed7511e2225ac602d053476e4688d49a}{warmuptime} = 0.\+0
+real(prec) \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_aed7511e2225ac602d053476e4688d49a}{warmuptime}} = 0.\+0
 \begin{DoxyCompactList}\small\item\em Time to freeze the tracers at simulation start (warmup) (s) (default=0.\+0) \end{DoxyCompactList}\item 
-real(prec) \hyperlink{structsimulation__globals__mod_1_1parameters__t_ad09359247decb284f0ec62e1b9a817b0}{timemax} = MV
+real(prec) \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_ad09359247decb284f0ec62e1b9a817b0}{timemax}} = MV
 \begin{DoxyCompactList}\small\item\em Simulation duration (s) \end{DoxyCompactList}\item 
-real(prec) \hyperlink{structsimulation__globals__mod_1_1parameters__t_af4190961e6191cf07a9b04b0b864ec95}{timeout} = MV
+real(prec) \mbox{\hyperlink{structsimulation__globals__mod_1_1parameters__t_af4190961e6191cf07a9b04b0b864ec95}{timeout}} = MV
 \begin{DoxyCompactList}\small\item\em Time out data (1/\+Hz) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 33 of file simulation\+\_\+globals.\+f90.
+
 
 
 \subsection{Member Function/\+Subroutine Documentation}
@@ -31,17 +47,29 @@ real(prec) \hyperlink{structsimulation__globals__mod_1_1parameters__t_af4190961e
 \subsubsection{\texorpdfstring{check()}{check()}}
 {\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t\+::check (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 41 of file simulation\+\_\+globals.\+f90.
+
 \mbox{\Hypertarget{structsimulation__globals__mod_1_1parameters__t_a220b7b25f77a4e33694055d5427a30dd}\label{structsimulation__globals__mod_1_1parameters__t_a220b7b25f77a4e33694055d5427a30dd}} 
 \index{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}!print@{print}}
 \index{print@{print}!simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}}
 \subsubsection{\texorpdfstring{print()}{print()}}
 {\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 42 of file simulation\+\_\+globals.\+f90.
+
 \mbox{\Hypertarget{structsimulation__globals__mod_1_1parameters__t_ab4df8a29214aa31b554483bb8c07004c}\label{structsimulation__globals__mod_1_1parameters__t_ab4df8a29214aa31b554483bb8c07004c}} 
 \index{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}!setparameter@{setparameter}}
 \index{setparameter@{setparameter}!simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}}
 \subsubsection{\texorpdfstring{setparameter()}{setparameter()}}
 {\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t\+::setparameter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 40 of file simulation\+\_\+globals.\+f90.
 
 
 
@@ -56,6 +84,14 @@ real(prec) \hyperlink{structsimulation__globals__mod_1_1parameters__t_af4190961e
 
 Courant Friedrichs Lewy condition number. 
 
+
+
+Definition at line 35 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{real(prec)} :: CFL = 0.5
+\end{DoxyCode}
 \mbox{\Hypertarget{structsimulation__globals__mod_1_1parameters__t_a4e57d5a1897acaf67eb14e39e3e0cf21}\label{structsimulation__globals__mod_1_1parameters__t_a4e57d5a1897acaf67eb14e39e3e0cf21}} 
 \index{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}!integrator@{integrator}}
 \index{integrator@{integrator}!simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}}
@@ -66,6 +102,14 @@ Courant Friedrichs Lewy condition number.
 
 Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) 
 
+
+
+Definition at line 34 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+34         \textcolor{keywordtype}{integer}    :: Integrator = 1
+\end{DoxyCode}
 \mbox{\Hypertarget{structsimulation__globals__mod_1_1parameters__t_ad09359247decb284f0ec62e1b9a817b0}\label{structsimulation__globals__mod_1_1parameters__t_ad09359247decb284f0ec62e1b9a817b0}} 
 \index{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}!timemax@{timemax}}
 \index{timemax@{timemax}!simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}}
@@ -76,6 +120,14 @@ Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1)
 
 Simulation duration (s) 
 
+
+
+Definition at line 37 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+37         \textcolor{keywordtype}{real(prec)} :: TimeMax = mv          
+\end{DoxyCode}
 \mbox{\Hypertarget{structsimulation__globals__mod_1_1parameters__t_af4190961e6191cf07a9b04b0b864ec95}\label{structsimulation__globals__mod_1_1parameters__t_af4190961e6191cf07a9b04b0b864ec95}} 
 \index{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}!timeout@{timeout}}
 \index{timeout@{timeout}!simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}}
@@ -86,6 +138,14 @@ Simulation duration (s)
 
 Time out data (1/\+Hz) 
 
+
+
+Definition at line 38 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+38         \textcolor{keywordtype}{real(prec)} :: TimeOut = mv          
+\end{DoxyCode}
 \mbox{\Hypertarget{structsimulation__globals__mod_1_1parameters__t_aed7511e2225ac602d053476e4688d49a}\label{structsimulation__globals__mod_1_1parameters__t_aed7511e2225ac602d053476e4688d49a}} 
 \index{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}!warmuptime@{warmuptime}}
 \index{warmuptime@{warmuptime}!simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::parameters\+\_\+t}}
@@ -98,6 +158,14 @@ Time to freeze the tracers at simulation start (warmup) (s) (default=0.\+0)
 
 
 
+Definition at line 36 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+36         \textcolor{keywordtype}{real(prec)} :: WarmUpTime = 0.0
+\end{DoxyCode}
+
+
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\hyperlink{simulation__globals_8f90}{simulation\+\_\+globals.\+f90}\end{DoxyCompactItemize}
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{simulation__globals_8f90}{simulation\+\_\+globals.\+f90}}\end{DoxyCompactItemize}

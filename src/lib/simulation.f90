@@ -133,17 +133,21 @@
     type(string) :: outext
     integer :: i, ix, iy, blk
     real(prec) :: dx, dy
+    type(vector) :: coords
     
     !this is easy because all the blocks are the same
     dx = DBlock(1)%extents%size%x
     dy = DBlock(1)%extents%size%y
     !iterate every Source to distribute
     do i=1, size(tempSources%src)
+        call Geometry%getCenter(tempSources%src(i)%par%geometry, coords)
         !finding the 2D coordinates of the corresponding Block
-        ix = min(int((tempSources%src(i)%now%pos%x + BBox%offset%x)/dx) + 1, self%nbx)
-        iy = min(int((tempSources%src(i)%now%pos%y + BBox%offset%y)/dy) + 1, self%nby)
-        print*, 'Source position'
+        ix = min(int((coords%x + BBox%offset%x)/dx) + 1, self%nbx)
+        iy = min(int((coords%y + BBox%offset%y)/dy) + 1, self%nby)
+        print*, 'Source pt position'
         print*, tempSources%src(i)%now%pos
+        print*, 'Source center position'
+        print*, coords
         print*, 'Source grid position'
         print*, ix, iy
         !Converting to the 1D index - Notice how the blocks were built in [Blocks::setBlocks]

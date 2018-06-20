@@ -8,35 +8,37 @@ Module that defines a source class and related methods.
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}
+type \mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ The source class. \end{DoxyCompactList}\item 
-type \hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}
+type \mbox{\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}}
 \item 
-type \hyperlink{structsources__mod_1_1source__par}{source\+\_\+par}
+type \mbox{\hyperlink{structsources__mod_1_1source__par}{source\+\_\+par}}
 \item 
-type \hyperlink{structsources__mod_1_1source__state}{source\+\_\+state}
+type \mbox{\hyperlink{structsources__mod_1_1source__state}{source\+\_\+state}}
 \begin{DoxyCompactList}\small\item\em Type -\/ state variables of a source object. \end{DoxyCompactList}\item 
-type \hyperlink{structsources__mod_1_1source__stats}{source\+\_\+stats}
+type \mbox{\hyperlink{structsources__mod_1_1source__stats}{source\+\_\+stats}}
 \begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\item 
-type \hyperlink{structsources__mod_1_1source__stencil}{source\+\_\+stencil}
+type \mbox{\hyperlink{structsources__mod_1_1source__stencil}{source\+\_\+stencil}}
 \begin{DoxyCompactList}\small\item\em Type -\/ holder for the tracer creation stencil of the source. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}{initsources} (self, nsources)
-\begin{DoxyCompactList}\small\item\em source allocation routine -\/ allocates the sources objects \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}{setprops} (self, srcid\+\_\+str, ptype, pname)
+subroutine \mbox{\hyperlink{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}{initsources}} (self, nsources)
+\begin{DoxyCompactList}\small\item\em source allocation routine -\/ allocates sources objects \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_aee745aa084adcfa41ecfc3469b90aa8e}{killsources}} (self)
+\begin{DoxyCompactList}\small\item\em source group destructor -\/ deallocates sources objects \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}{setprops}} (self, srcid\+\_\+str, ptype, pname)
 \begin{DoxyCompactList}\small\item\em source property setting routine, calls source by id to set its properties \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}{initializesource} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, shapetype)
+subroutine \mbox{\hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}{initializesource}} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, shapetype)
 \begin{DoxyCompactList}\small\item\em source inititialization proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}{linkproperty} (src, ptype, pname)
+subroutine \mbox{\hyperlink{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}{linkproperty}} (src, ptype, pname)
 \begin{DoxyCompactList}\small\item\em source property setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}{printsource} (src)
+subroutine \mbox{\hyperlink{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}{printsource}} (src)
 \begin{DoxyCompactList}\small\item\em source print routine -\/ prints a source info on console/log \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), public \hyperlink{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}{tempsources}
+type(\mbox{\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}}), public \mbox{\hyperlink{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}{tempsources}}
 \end{DoxyCompactItemize}
 
 
@@ -53,86 +55,240 @@ Ricardo Birjukovs Canelas
 \index{sources\+\_\+mod@{sources\+\_\+mod}!initializesource@{initializesource}}
 \index{initializesource@{initializesource}!sources\+\_\+mod@{sources\+\_\+mod}}
 \subsubsection{\texorpdfstring{initializesource()}{initializesource()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initializesource (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\hyperlink{structgeometry__mod_1_1shape}{shape}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initializesource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 source inititialization proceadure -\/ initializes Source variables 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em src,id,name,emitting\+\_\+rate,source\+\_\+geometry} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 191 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+191     \textcolor{keywordtype}{implicit none}
+192     \textcolor{keywordtype}{class}(source\_class) :: src
+193     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+194     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+195     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: emitting\_rate
+196     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: start
+197     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: finish
+198     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: source\_geometry
+199     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+200 
+201     \textcolor{keywordtype}{integer} :: sizem, i
+202     \textcolor{keywordtype}{type}(string) :: outext
+203     \textcolor{keywordtype}{integer} :: err
+204 
+205     \textcolor{comment}{!Setting parameters}
+206     src%par%id=id
+207     src%par%emitting\_rate=emitting\_rate
+208     src%par%startime=start
+209     src%par%stoptime=finish
+210     src%par%name=name
+211     src%par%source\_geometry=source\_geometry
+212     \textcolor{keyword}{allocate}(src%par%geometry, source=shapetype)
+213     src%par%property\_type = \textcolor{stringliteral}{"pure"} \textcolor{comment}{! pure Lagrangian trackers by default}
+214     src%par%property\_name = \textcolor{stringliteral}{"pure"}
+215     \textcolor{comment}{!Setting state variables}
+216     src%now%age=0.0
+217     src%now%active=.false. \textcolor{comment}{!disabled by default}
+218     src%now%pos=src%par%geometry%pt \textcolor{comment}{!coords of the Source (meaning depends on the geometry type!)}
+219     \textcolor{comment}{!setting statistical samplers}
+220     src%stats%particles\_emitted=0
+221     src%stats%acc\_T=0.0
+222     src%stats%ns=0
+223     \textcolor{comment}{!setting stencil variables}
+224     src%stencil%np = geometry%fillsize(src%par%geometry)
+225     \textcolor{keyword}{allocate}(src%stencil%ptlist(src%stencil%np), stat=err)
+226     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+227         outext=\textcolor{stringliteral}{'Cannot allocate point list for Source '}// src%par%name //\textcolor{stringliteral}{', stoping'}
+228         \textcolor{keyword}{call }log%put(outext)
+229         stop
+230 \textcolor{keywordflow}{    endif}
+231     \textcolor{keyword}{call }geometry%fill(src%par%geometry, src%stencil%np, src%stencil%ptlist)
+232 
+233     sizem = sizeof(src)
+234     \textcolor{keyword}{call }simmemory%addsource(sizem)
+235     \textcolor{keyword}{call }src%print()
+236 
+237     \textcolor{comment}{!DBG}
+238     \textcolor{comment}{!do i=1, src%stencil%np}
+239     \textcolor{comment}{!print*, src%stencil%ptlist(i)}
+240     \textcolor{comment}{!end do}
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}\label{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!initsources@{initsources}}
 \index{initsources@{initsources}!sources\+\_\+mod@{sources\+\_\+mod}}
 \subsubsection{\texorpdfstring{initsources()}{initsources()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initsources (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{nsources }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initsources (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{nsources }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-source allocation routine -\/ allocates the sources objects 
+source allocation routine -\/ allocates sources objects 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em nsources} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 101 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+101     \textcolor{keywordtype}{implicit none}
+102     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
+103     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: nsources
+104     \textcolor{keywordtype}{integer} err
+105     \textcolor{keywordtype}{type}(string) :: outext, temp
+106     \textcolor{keyword}{allocate}(self%src(nsources), stat=err)
+107     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+108         outext=\textcolor{stringliteral}{'[initSources]: Cannot allocate Sources, stoping'}
+109         \textcolor{keyword}{call }log%put(outext)
+110         stop
+111     \textcolor{keywordflow}{else}
+112         temp = nsources
+113         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Sources.'}
+114         \textcolor{keyword}{call }log%put(outext)
+115 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesources__mod_aee745aa084adcfa41ecfc3469b90aa8e}\label{namespacesources__mod_aee745aa084adcfa41ecfc3469b90aa8e}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!killsources@{killsources}}
+\index{killsources@{killsources}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{killsources()}{killsources()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::killsources (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+source group destructor -\/ deallocates sources objects 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 127 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+127     \textcolor{keywordtype}{implicit none}
+128     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
+129     \textcolor{keywordtype}{integer} err
+130     \textcolor{keywordtype}{type}(string) :: outext
+131     \textcolor{keywordflow}{if} (\textcolor{keyword}{ALLOCATED}(self%src)) \textcolor{keyword}{deallocate}(self%src, stat=err)    
+132     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+133         outext=\textcolor{stringliteral}{'[killSources]: Cannot deallocate Sources, stoping'}
+134         \textcolor{keyword}{call }log%put(outext)
+135         stop    
+136 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}\label{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!linkproperty@{linkproperty}}
 \index{linkproperty@{linkproperty}!sources\+\_\+mod@{sources\+\_\+mod}}
 \subsubsection{\texorpdfstring{linkproperty()}{linkproperty()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::linkproperty (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class})}]{src,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::linkproperty (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 source property setting proceadure -\/ initializes Source variables 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em src,ptype,pname} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 254 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+254     \textcolor{keywordtype}{implicit none}
+255     \textcolor{keywordtype}{class}(source\_class) :: src
+256     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: ptype
+257     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
+258     src%par%property\_type = ptype
+259     src%par%property\_name = pname
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}\label{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!printsource@{printsource}}
 \index{printsource@{printsource}!sources\+\_\+mod@{sources\+\_\+mod}}
 \subsubsection{\texorpdfstring{printsource()}{printsource()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::printsource (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class})}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::printsource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}})}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 source print routine -\/ prints a source info on console/log 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em src} & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 272 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+272     \textcolor{keywordtype}{implicit none}
+273     \textcolor{keywordtype}{class}(source\_class) :: src
+274 
+275     \textcolor{keywordtype}{type}(string) :: outext
+276     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
+277 
+278     temp\_str(1)=src%par%id
+279     outext = \textcolor{stringliteral}{'-->Source '}//src%par%name//\textcolor{stringliteral}{' allocated'}//new\_line(\textcolor{stringliteral}{'a'})//&
+280         \textcolor{stringliteral}{'       Id = '}//temp\_str(1)//new\_line(\textcolor{stringliteral}{'a'})//&
+281         \textcolor{stringliteral}{'       Geometry type is '}//src%par%source\_geometry//new\_line(\textcolor{stringliteral}{'a'})
+282     temp\_str(1)=src%now%pos%x
+283     temp\_str(2)=src%now%pos%y
+284     temp\_str(3)=src%now%pos%z
+285     outext = outext//\textcolor{stringliteral}{'       Initially at coordinates'}//new\_line(\textcolor{stringliteral}{'a'})//&
+286         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+287     temp\_str(1)=src%par%emitting\_rate
+288     temp\_str(2)=src%stencil%np
+289     outext = outext//\textcolor{stringliteral}{'       Emitting '}//temp\_str(2)//\textcolor{stringliteral}{' tracers at a rate of '}//temp\_str(1)//\textcolor{stringliteral}{' Hz'}//
+      new\_line(\textcolor{stringliteral}{'a'})
+290     temp\_str(1)=src%par%startime
+291     temp\_str(2)=src%par%stoptime
+292     outext = outext//\textcolor{stringliteral}{'       Active from '}//temp\_str(1)//\textcolor{stringliteral}{' to '}//temp\_str(2)//\textcolor{stringliteral}{' seconds'}
+293 
+294     \textcolor{keyword}{call }log%put(outext,.false.)
+295 
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}\label{namespacesources__mod_aa02996b7219ce9c9d26439e8d2d0a468}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!setprops@{setprops}}
 \index{setprops@{setprops}!sources\+\_\+mod@{sources\+\_\+mod}}
 \subsubsection{\texorpdfstring{setprops()}{setprops()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::setprops (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{srcid\+\_\+str,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::setprops (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{srcid\+\_\+str,  }\item[{type(string), intent(in)}]{ptype,  }\item[{type(string), intent(in)}]{pname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 source property setting routine, calls source by id to set its properties 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
@@ -147,10 +303,55 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
+Definition at line 150 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+150     \textcolor{keywordtype}{implicit none}
+151     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
+152     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: srcid\_str
+153     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: ptype
+154     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
+155 
+156     \textcolor{keywordtype}{integer} :: srcid
+157     \textcolor{keywordtype}{type}(string) :: outext, temp
+158     \textcolor{keywordtype}{integer} :: i
+159     \textcolor{keywordtype}{logical} :: notlinked
+160 
+161     srcid = srcid\_str%to\_number(kind=1\_i1p)
+162     notlinked = .true.  \textcolor{comment}{!assuming not linked}
+163     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%src)
+164         \textcolor{keywordflow}{if} (self%src(i)%par%id == srcid) \textcolor{keywordflow}{then} \textcolor{comment}{! found the correct source to link to}
+165             \textcolor{keyword}{call }self%src(i)%linkproperty(ptype,pname) \textcolor{comment}{! calling Source method to link property}
+166             temp = self%src(i)%par%id
+167             outext=\textcolor{stringliteral}{'      Source id = '}// temp // \textcolor{stringliteral}{', '}// self%src(i)%par%name //\textcolor{stringliteral}{' is of type '}// self%src(i
+      )%par%property\_type //\textcolor{stringliteral}{', with property name '} // self%src(i)%par%property\_name
+168             \textcolor{keyword}{call }log%put(outext,.false.)
+169             notlinked = .false. \textcolor{comment}{! we linked it}
+170             \textcolor{keywordflow}{exit}
+171 \textcolor{keywordflow}{        endif}
+172 \textcolor{keywordflow}{    enddo}
+173     \textcolor{keywordflow}{if} (notlinked) \textcolor{keywordflow}{then} \textcolor{comment}{! property has no corresponding Source}
+174         temp = srcid
+175         outext=\textcolor{stringliteral}{'      Source id = '}// temp //\textcolor{stringliteral}{' not listed, property '}// pname //\textcolor{stringliteral}{', of type '} // ptype // \textcolor{stringliteral}{'
+       not linked, ignoring'}
+176         \textcolor{keyword}{call }log%put(outext,.false.)
+177 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+
+
 \subsection{Variable Documentation}
 \mbox{\Hypertarget{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}\label{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!tempsources@{tempsources}}
 \index{tempsources@{tempsources}!sources\+\_\+mod@{sources\+\_\+mod}}
 \subsubsection{\texorpdfstring{tempsources}{tempsources}}
-{\footnotesize\ttfamily type(\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}), public sources\+\_\+mod\+::tempsources}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsources__mod_1_1source__group__class}{source\+\_\+group\+\_\+class}}), public sources\+\_\+mod\+::tempsources}
 
+
+
+Definition at line 82 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+82     \textcolor{keywordtype}{type}(source\_group\_class) :: tempSources
+\end{DoxyCode}

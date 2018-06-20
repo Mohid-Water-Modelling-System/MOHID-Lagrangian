@@ -3,14 +3,14 @@
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structtracer__array__mod_1_1tracerarray}{tracerarray}
+type \mbox{\hyperlink{structtracer__array__mod_1_1tracerarray}{tracerarray}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespacetracer__array__mod_a173acbcf343367bf87b705fe5ca0dd29}{print\+\_\+tracerarray} (this)
+subroutine \mbox{\hyperlink{namespacetracer__array__mod_a173acbcf343367bf87b705fe5ca0dd29}{print\+\_\+tracerarray}} (this)
 \item 
-subroutine \hyperlink{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e05af}{print\+\_\+tracerarray\+\_\+element} (this, index)
+subroutine \mbox{\hyperlink{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e05af}{print\+\_\+tracerarray\+\_\+element}} (this, index)
 \end{DoxyCompactItemize}
 
 
@@ -19,11 +19,59 @@ subroutine \hyperlink{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e0
 \index{tracer\+\_\+array\+\_\+mod@{tracer\+\_\+array\+\_\+mod}!print\+\_\+tracerarray@{print\+\_\+tracerarray}}
 \index{print\+\_\+tracerarray@{print\+\_\+tracerarray}!tracer\+\_\+array\+\_\+mod@{tracer\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{print\+\_\+tracerarray()}{print\_tracerarray()}}
-{\footnotesize\ttfamily subroutine tracer\+\_\+array\+\_\+mod\+::print\+\_\+tracerarray (\begin{DoxyParamCaption}\item[{class(\hyperlink{structtracer__array__mod_1_1tracerarray}{tracerarray}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+array\+\_\+mod\+::print\+\_\+tracerarray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__array__mod_1_1tracerarray}{tracerarray}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 36 of file tracer\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+36     \textcolor{keywordtype}{class}(TracerArray), \textcolor{keywordtype}{intent(in)} :: this
+37     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+38     \textcolor{keywordtype}{integer} :: i
+39     \textcolor{keywordflow}{do} i=1, this%usedLength
+40         curr => this%get(i)
+41         \textcolor{keywordflow}{select type}(curr)
+42 \textcolor{keywordflow}{        type is} (tracer\_class)
+43             \textcolor{comment}{!call curr%print()}
+44 \textcolor{keywordflow}{        class is} (paper\_class)
+45             \textcolor{comment}{!call curr%print()}
+46 \textcolor{keywordflow}{        class is} (plastic\_class)
+47             \textcolor{comment}{!call curr%print()}
+48 \textcolor{keywordflow}{            class default}
+49             stop \textcolor{stringliteral}{'[print\_TracerArray]: unexepected type of content: not a shape or derived type'}
+50 \textcolor{keywordflow}{        end select}
+51 \textcolor{keywordflow}{    end do}
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e05af}\label{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e05af}} 
 \index{tracer\+\_\+array\+\_\+mod@{tracer\+\_\+array\+\_\+mod}!print\+\_\+tracerarray\+\_\+element@{print\+\_\+tracerarray\+\_\+element}}
 \index{print\+\_\+tracerarray\+\_\+element@{print\+\_\+tracerarray\+\_\+element}!tracer\+\_\+array\+\_\+mod@{tracer\+\_\+array\+\_\+mod}}
 \subsubsection{\texorpdfstring{print\+\_\+tracerarray\+\_\+element()}{print\_tracerarray\_element()}}
-{\footnotesize\ttfamily subroutine tracer\+\_\+array\+\_\+mod\+::print\+\_\+tracerarray\+\_\+element (\begin{DoxyParamCaption}\item[{class(\hyperlink{structtracer__array__mod_1_1tracerarray}{tracerarray}), intent(in)}]{this,  }\item[{integer, intent(in)}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+array\+\_\+mod\+::print\+\_\+tracerarray\+\_\+element (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__array__mod_1_1tracerarray}{tracerarray}}), intent(in)}]{this,  }\item[{integer, intent(in)}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+Definition at line 55 of file tracer\+\_\+array.\+f90.
+
+
+\begin{DoxyCode}
+55     \textcolor{keywordtype}{class}(TracerArray), \textcolor{keywordtype}{intent(in)} :: this
+56     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: index
+57     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+58     \textcolor{keywordflow}{if} (index .le. this%usedLength) \textcolor{keywordflow}{then}
+59         curr => this%get(index)
+60         \textcolor{keywordflow}{select type}(curr)
+61 \textcolor{keywordflow}{        type is} (tracer\_class)
+62             \textcolor{comment}{!call curr%print()}
+63 \textcolor{keywordflow}{        class is} (paper\_class)
+64             \textcolor{comment}{!call curr%print()}
+65 \textcolor{keywordflow}{        class is} (plastic\_class)
+66             \textcolor{comment}{!call curr%print()}
+67 \textcolor{keywordflow}{            class default}
+68             stop \textcolor{stringliteral}{'[print\_TracerArray\_Element]: unexepected type of content, not a shape or derived type'}
+69 \textcolor{keywordflow}{        end select}
+70     \textcolor{keywordflow}{else}
+71         stop \textcolor{stringliteral}{'[print\_TracerArray\_Element]: index out of bounds'}
+72 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}

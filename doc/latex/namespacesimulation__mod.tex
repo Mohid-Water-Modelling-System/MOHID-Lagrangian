@@ -8,18 +8,20 @@ Module to hold the simulation class and its methods.
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}
+type \mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespacesimulation__mod_a73bd78c4ac76c51f1e10f5847c25c4df}{run} (self)
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a73bd78c4ac76c51f1e10f5847c25c4df}{run}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation run method. Runs the initialized case main time cycle. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}{initsimulation} (self, casefilename, outpath)
+subroutine \mbox{\hyperlink{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}{initsimulation}} (self, casefilename, outpath)
 \begin{DoxyCompactList}\small\item\em Simulation initialization method. Effectively builds and populates the simulation objects that will be used latter on. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}{decomposedomain} (self)
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a726a2e98adc73c762cafd7baa88f58fd}{distributesources}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation to distribute the Sources to the blocks. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}{decomposedomain}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to do domain decomposition and define the Blocks. \end{DoxyCompactList}\item 
-subroutine \hyperlink{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}{closesimulation} (self)
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}{closesimulation}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation finishing method. Closes output files and writes the final messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -36,7 +38,7 @@ Ricardo Birjukovs Canelas
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!closesimulation@{closesimulation}}
 \index{closesimulation@{closesimulation}!simulation\+\_\+mod@{simulation\+\_\+mod}}
 \subsubsection{\texorpdfstring{closesimulation()}{closesimulation()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::closesimulation (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::closesimulation (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -45,11 +47,26 @@ Simulation finishing method. Closes output files and writes the final messages.
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
+
+
+Definition at line 199 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+199     \textcolor{keywordtype}{implicit none}
+200     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+201     \textcolor{keywordtype}{type}(string) :: outext
+202 
+203     outext=\textcolor{stringliteral}{'Simulation ended, freeing resources. See you next time'}
+204     \textcolor{keyword}{call }log%put(outext)
+205     \textcolor{keyword}{call }log%finalize()
+206 
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}\label{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!decomposedomain@{decomposedomain}}
 \index{decomposedomain@{decomposedomain}!simulation\+\_\+mod@{simulation\+\_\+mod}}
 \subsubsection{\texorpdfstring{decomposedomain()}{decomposedomain()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::decomposedomain (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::decomposedomain (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -58,6 +75,27 @@ Simulation method to do domain decomposition and define the Blocks.
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
+
+
+Definition at line 175 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+175     \textcolor{keywordtype}{implicit none}
+176     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+177     \textcolor{keywordtype}{type}(string) :: outext
+178 
+179     \textcolor{keywordflow}{if} (globals%SimDefs%autoblocksize) \textcolor{keywordflow}{then}
+180         \textcolor{keyword}{call }allocblocks(globals%SimDefs%numblocks)
+181     \textcolor{keywordflow}{else}
+182         outext=\textcolor{stringliteral}{'[DecomposeDomain]: Only automatic Block sizing at the moment, stoping'}
+183         \textcolor{keyword}{call }log%put(outext)
+184         stop
+185 \textcolor{keywordflow}{    end if}
+186     \textcolor{comment}{! Initializing the blocks}
+187     \textcolor{keyword}{call }setblocks(globals%SimDefs%autoblocksize,globals%SimDefs%numblocks,self%nbx,self%nby)
+188 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -65,18 +103,71 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c_cgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{namespacesimulation__mod_a726a2e98adc73c762cafd7baa88f58fd}\label{namespacesimulation__mod_a726a2e98adc73c762cafd7baa88f58fd}} 
+\index{simulation\+\_\+mod@{simulation\+\_\+mod}!distributesources@{distributesources}}
+\index{distributesources@{distributesources}!simulation\+\_\+mod@{simulation\+\_\+mod}}
+\subsubsection{\texorpdfstring{distributesources()}{distributesources()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::distributesources (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Simulation to distribute the Sources to the blocks. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 131 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+131     \textcolor{keywordtype}{implicit none}
+132     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+133     \textcolor{keywordtype}{type}(string) :: outext
+134     \textcolor{keywordtype}{integer} :: i, ix, iy, blk
+135     \textcolor{keywordtype}{real(prec)} :: dx, dy
+136     
+137     \textcolor{comment}{!this is easy because all the blocks are the same}
+138     dx = dblock(1)%extents%size%x
+139     dy = dblock(1)%extents%size%y
+140     \textcolor{comment}{!iterate every Source to distribute}
+141     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(tempsources%src)
+142         \textcolor{comment}{!finding the 2D coordinates of the corresponding Block}
+143         ix = min(int((tempsources%src(i)%now%pos%x + bbox%offset%x)/dx) + 1, self%nbx)
+144         iy = min(int((tempsources%src(i)%now%pos%y + bbox%offset%y)/dy) + 1, self%nby)
+145         print*, \textcolor{stringliteral}{'Source position'}
+146         print*, tempsources%src(i)%now%pos
+147         print*, \textcolor{stringliteral}{'Source grid position'}
+148         print*, ix, iy
+149         \textcolor{comment}{!Converting to the 1D index - Notice how the blocks were built in [Blocks::setBlocks]}
+150         blk = 2*ix + iy -2
+151         print*, blk
+152         \textcolor{keywordflow}{if} (blk > \textcolor{keyword}{size}(dblock)) \textcolor{keywordflow}{then}
+153             outext=\textcolor{stringliteral}{'[DistributeSources]: problem in getting correct Block index, stoping'}
+154             \textcolor{keyword}{call }log%put(outext)
+155             stop
+156 \textcolor{keywordflow}{        end if}
+157         \textcolor{keyword}{call }dblock(blk)%putSource(tempsources%src(i))
+158 \textcolor{keywordflow}{    end do}
+159     \textcolor{keyword}{call }tempsources%finalize() \textcolor{comment}{!destroying the temporary Sources now they are shipped to the Blocks}
+160     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+161         \textcolor{keyword}{call }dblock(i)%detailedprint()
+162 \textcolor{keywordflow}{    enddo}
+163     
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}\label{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!initsimulation@{initsimulation}}
 \index{initsimulation@{initsimulation}!simulation\+\_\+mod@{simulation\+\_\+mod}}
 \subsubsection{\texorpdfstring{initsimulation()}{initsimulation()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::initsimulation (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{casefilename,  }\item[{type(string), intent(in)}]{outpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::initsimulation (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{casefilename,  }\item[{type(string), intent(in)}]{outpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Simulation initialization method. Effectively builds and populates the simulation objects that will be used latter on. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
@@ -87,6 +178,53 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \mbox{\tt in}  & {\em outpath} & Output path \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 81 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+81     \textcolor{keywordtype}{implicit none}
+82     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+83     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: casefilename
+84     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: outpath
+85     \textcolor{keywordtype}{type}(string) :: outext
+86 
+87     \textcolor{comment}{! Initialize logger}
+88     \textcolor{keyword}{call }log%initialize(outpath)
+89     \textcolor{comment}{!Print licences and build info}
+90     \textcolor{keyword}{call }printlicpreamble
+91 
+92     \textcolor{comment}{!setting every global variable and input parameter to their default}
+93     \textcolor{keyword}{call }globals%initialize()
+94     \textcolor{comment}{!initializing memory log}
+95     \textcolor{keyword}{call }simmemory%initialize()
+96     \textcolor{comment}{!initializing geometry class}
+97     \textcolor{keyword}{call }geometry%initialize()
+98 
+99     \textcolor{comment}{!Check if case file has .xml extension}
+100     \textcolor{keywordflow}{if} (casefilename%extension() == \textcolor{stringliteral}{'.xml'}) \textcolor{keywordflow}{then}
+101         \textcolor{comment}{! Initialization routines to build the simulation from the input case file}
+102         \textcolor{keyword}{call }initfromxml(casefilename)
+103     \textcolor{keywordflow}{else}
+104         outext=\textcolor{stringliteral}{'[initSimulation]: only .xml input files are supported at the time. Stopping'}
+105         \textcolor{keyword}{call }log%put(outext)
+106         stop
+107 \textcolor{keywordflow}{    endif}
+108     \textcolor{comment}{!Case was read and now we can build/initialize our simulation objects that are case-dependent}
+109 
+110     \textcolor{comment}{!initilize simulation bounding box}
+111     \textcolor{keyword}{call }bbox%initialize()
+112     \textcolor{comment}{!call BBox%print()}
+113 
+114     \textcolor{keyword}{call }self%decompose()
+115     
+116     \textcolor{keyword}{call }self%DistributeSources()
+117 
+118     \textcolor{comment}{!printing memory occupation at the time}
+119     \textcolor{keyword}{call }simmemory%detailedprint()
+120 
+\end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -98,7 +236,7 @@ Here is the call graph for this function\+:\nopagebreak
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!run@{run}}
 \index{run@{run}!simulation\+\_\+mod@{simulation\+\_\+mod}}
 \subsubsection{\texorpdfstring{run()}{run()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::run (\begin{DoxyParamCaption}\item[{class(\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::run (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -107,3 +245,22 @@ Simulation run method. Runs the initialized case main time cycle.
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
+
+
+Definition at line 56 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+56     \textcolor{keywordtype}{implicit none}
+57     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+58     \textcolor{keywordtype}{type}(string) :: outext
+59 
+60     \textcolor{comment}{!main time cycle}
+61     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while} (globals%SimTime .LT. globals%Parameters%TimeMax)
+62 
+63         \textcolor{comment}{!Do your Lagrangian things here :D}
+64 
+65         globals%SimTime = globals%SimTime + globals%SimDefs%dt
+66 \textcolor{keywordflow}{    enddo}
+67 
+\end{DoxyCode}

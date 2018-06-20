@@ -1,23 +1,39 @@
 \hypertarget{structgeometry__mod_1_1geometry__class}{}\section{geometry\+\_\+mod\+:\+:geometry\+\_\+class Type Reference}
 \label{structgeometry__mod_1_1geometry__class}\index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
+
+
+Collaboration diagram for geometry\+\_\+mod\+:\+:geometry\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{structgeometry__mod_1_1geometry__class__coll__graph}
+\end{center}
+\end{figure}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-procedure \hyperlink{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}{initialize} =$>$ \hyperlink{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}{allocatelist}
+procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}{initialize}} =$>$ \mbox{\hyperlink{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}{allocatelist}}
 \begin{DoxyCompactList}\small\item\em Builds the geometry list, possible geometry types (new types must be manually added) \end{DoxyCompactList}\item 
-procedure \hyperlink{structgeometry__mod_1_1geometry__class_a6dfcc19f822da875bebc58c3bf26e999}{inlist}
+procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a6dfcc19f822da875bebc58c3bf26e999}{inlist}}
 \begin{DoxyCompactList}\small\item\em checks if a given geometry is defined as a derived type (new types must be manually added) \end{DoxyCompactList}\item 
-procedure \hyperlink{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}{fillsize}
+procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}{fillsize}}
 \begin{DoxyCompactList}\small\item\em Gets the number of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) \end{DoxyCompactList}\item 
-procedure \hyperlink{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}{fill}
+procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}{fill}}
 \begin{DoxyCompactList}\small\item\em Gets the list of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) \end{DoxyCompactList}\item 
-procedure \hyperlink{structgeometry__mod_1_1geometry__class_afbb83bea5cd3f73708b448d3c732ea7c}{print} =$>$ print\+Geometry
+procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_afbb83bea5cd3f73708b448d3c732ea7c}{print}} =$>$ print\+Geometry
 \begin{DoxyCompactList}\small\item\em prints the geometry type and contents \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-type(string), dimension(\+:), allocatable \hyperlink{structgeometry__mod_1_1geometry__class_a218ff308d9bb94f4386573d7329babc6}{list}
+type(string), dimension(\+:), allocatable \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a218ff308d9bb94f4386573d7329babc6}{list}}
 \begin{DoxyCompactList}\small\item\em String list (array) with the name of possible geometry types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 32 of file geometry.\+f90.
+
 
 
 \subsection{Member Function/\+Subroutine Documentation}
@@ -31,6 +47,10 @@ type(string), dimension(\+:), allocatable \hyperlink{structgeometry__mod_1_1geom
 
 Gets the list of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) 
 
+
+
+Definition at line 38 of file geometry.\+f90.
+
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}\label{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!fillsize@{fillsize}}
 \index{fillsize@{fillsize}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
@@ -40,6 +60,10 @@ Gets the list of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp
 
 
 Gets the number of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) 
+
+
+
+Definition at line 37 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}\label{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!initialize@{initialize}}
@@ -51,6 +75,10 @@ Gets the number of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::
 
 Builds the geometry list, possible geometry types (new types must be manually added) 
 
+
+
+Definition at line 35 of file geometry.\+f90.
+
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a6dfcc19f822da875bebc58c3bf26e999}\label{structgeometry__mod_1_1geometry__class_a6dfcc19f822da875bebc58c3bf26e999}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!inlist@{inlist}}
 \index{inlist@{inlist}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
@@ -61,6 +89,10 @@ Builds the geometry list, possible geometry types (new types must be manually ad
 
 checks if a given geometry is defined as a derived type (new types must be manually added) 
 
+
+
+Definition at line 36 of file geometry.\+f90.
+
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_afbb83bea5cd3f73708b448d3c732ea7c}\label{structgeometry__mod_1_1geometry__class_afbb83bea5cd3f73708b448d3c732ea7c}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!print@{print}}
 \index{print@{print}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
@@ -70,6 +102,10 @@ checks if a given geometry is defined as a derived type (new types must be manua
 
 
 prints the geometry type and contents 
+
+
+
+Definition at line 39 of file geometry.\+f90.
 
 
 
@@ -86,6 +122,14 @@ String list (array) with the name of possible geometry types.
 
 
 
+Definition at line 33 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: list
+\end{DoxyCode}
+
+
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\hyperlink{geometry_8f90}{geometry.\+f90}\end{DoxyCompactItemize}
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{geometry_8f90}{geometry.\+f90}}\end{DoxyCompactItemize}

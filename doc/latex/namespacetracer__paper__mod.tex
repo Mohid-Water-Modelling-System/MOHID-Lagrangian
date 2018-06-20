@@ -8,16 +8,16 @@ Module that defines a Lagrangian tracer class for paper modelling and related me
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
-type \hyperlink{structtracer__paper__mod_1_1paper__class}{paper\+\_\+class}
+type \mbox{\hyperlink{structtracer__paper__mod_1_1paper__class}{paper\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ The plastic material Lagrangian tracer class. \end{DoxyCompactList}\item 
-type \hyperlink{structtracer__paper__mod_1_1paper__par__class}{paper\+\_\+par\+\_\+class}
+type \mbox{\hyperlink{structtracer__paper__mod_1_1paper__par__class}{paper\+\_\+par\+\_\+class}}
 \item 
-type \hyperlink{structtracer__paper__mod_1_1paper__state__class}{paper\+\_\+state\+\_\+class}
+type \mbox{\hyperlink{structtracer__paper__mod_1_1paper__state__class}{paper\+\_\+state\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ State variables of a tracer object representing a paper material. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \hyperlink{namespacetracer__paper__mod_a4e3b16f967d34cd206499188e17ac4f2}{paper\+\_\+initialize} (trc, id, id\+\_\+source, time, pt)
+subroutine \mbox{\hyperlink{namespacetracer__paper__mod_a4e3b16f967d34cd206499188e17ac4f2}{paper\+\_\+initialize}} (trc, id, id\+\_\+source, time, pt)
 \begin{DoxyCompactList}\small\item\em Tracer initialization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -34,17 +34,49 @@ Ricardo Birjukovs Canelas
 \index{tracer\+\_\+paper\+\_\+mod@{tracer\+\_\+paper\+\_\+mod}!paper\+\_\+initialize@{paper\+\_\+initialize}}
 \index{paper\+\_\+initialize@{paper\+\_\+initialize}!tracer\+\_\+paper\+\_\+mod@{tracer\+\_\+paper\+\_\+mod}}
 \subsubsection{\texorpdfstring{paper\+\_\+initialize()}{paper\_initialize()}}
-{\footnotesize\ttfamily subroutine tracer\+\_\+paper\+\_\+mod\+::paper\+\_\+initialize (\begin{DoxyParamCaption}\item[{class(\hyperlink{structtracer__paper__mod_1_1paper__class}{paper\+\_\+class})}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{integer, intent(in)}]{id\+\_\+source,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+paper\+\_\+mod\+::paper\+\_\+initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__paper__mod_1_1paper__class}{paper\+\_\+class}})}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{integer, intent(in)}]{id\+\_\+source,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
 Tracer initialization method. 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\tt in}  & {\em } & \\
 \hline
 \end{DoxyParams}
+
+
+Definition at line 64 of file tracer\+\_\+paper.\+f90.
+
+
+\begin{DoxyCode}
+64     \textcolor{keywordtype}{implicit none}
+65     \textcolor{keywordtype}{class}(paper\_class) :: trc
+66     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+67     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id\_source
+68     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
+69     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+70 
+71     \textcolor{comment}{! initialize parameters}
+72     trc%par%id = id
+73     trc%par%idsource = id\_source
+74     trc%par%velmax = 15.0 \textcolor{comment}{!(m/s, just a placeholder)}
+75     \textcolor{comment}{! interp\_method - TODO}
+76     \textcolor{comment}{! initialize tracer state}
+77     trc%now%age=0.0
+78     trc%now%active = .false.
+79     trc%now%pos = pt
+80     trc%now%vel = 0.0
+81     trc%now%acc = 0.0
+82     trc%now%depth = 0.0
+83     \textcolor{comment}{! Initialize statistical accumulator variables}
+84     trc%stats%acc\_pos = 0.0
+85     trc%stats%acc\_vel = 0.0
+86     trc%stats%acc\_depth = 0.0
+87     trc%stats%ns = 0
+88 
+\end{DoxyCode}
