@@ -52,18 +52,17 @@
     procedure, non_overridable :: put => putValue !< stores a value on the requested index
     procedure, non_overridable :: getLength !< returns the length of the array
     end type container_array
-    
-    logical, parameter :: MISSING_content_DEFAULT = .true.
-    logical, parameter :: MC = MISSING_content_DEFAULT
+
+    logical, target :: MC = .true.
 
     contains
 
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns returns the requested entry (pointer)
-    !> @param[this, index]
+    !> @param[in] this, index
     !---------------------------------------------------------------------------
     function getValue(this, index)
     class(container_array), intent(in) :: this
@@ -77,10 +76,10 @@
     end function getValue
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that stores a value on the requested index
-    !> @param[this, index, value]
+    !> @param[in] this, index, value
     !---------------------------------------------------------------------------
     subroutine putValue(this, index, value)
     class(container_array), intent(inout) :: this
@@ -94,10 +93,10 @@
     end subroutine putValue
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the length of the array
-    !> @param[this]
+    !> @param[in] this
     !---------------------------------------------------------------------------
     function getLength(this)
     class(container_array), intent(in) :: this
@@ -106,54 +105,64 @@
     end function getLength
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that grows (adds empty space) or shrinks (discards the
     !> last entries) of the array. Use sparsely as this might get expensive
     !> for large array operations. Should think of a way to use move_alloc()
-    !> @param[this, newsize]
+    !> @param[in] this, newsize
     !---------------------------------------------------------------------------
-    subroutine resizeArray(this,newsize)
+    subroutine resizeArray(this, newsize, initvalue)
     class(container_array), intent(inout) :: this
     integer, intent(in) :: newsize
+    class(*), target, optional, intent(in) :: initvalue
+    class(*), pointer :: value
     integer :: i, tocopy
     type(container), allocatable, dimension(:) :: temp
+    value => MC
     tocopy=min(this%getLength(),newsize)
     allocate(temp(newsize))
     do i=1, tocopy
         call temp(i)%storeContent(this%get(i))
     enddo
+    if (present(initvalue)) then
+        value => initvalue !pointing to the initial value to store in every entry
+    end if
     do i= tocopy+1, newsize
-        call temp(i)%storeContent(MC)
+        call temp(i)%storeContent(value)
     end do
-    call this%init(newsize,temp)
+    call this%init(newsize,source=temp)
     end subroutine resizeArray
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that allocates the container array. Deallocates if already allocated
-    !> @param[this, entries, tocopy]
+    !> @param[in] this, entries, tocopy
     !---------------------------------------------------------------------------
-    subroutine initArray(this,entries,tocopy)
+    subroutine initArray(this, entries, source, initvalue)
     class(container_array), intent(inout) :: this
     integer, intent(in) :: entries
-    type(container), dimension(:), optional, intent(in) :: tocopy
-    type(container), dimension(:), allocatable :: emptyarray
+    type(container), dimension(:), optional, intent(in) :: source
+    class(*), target, optional, intent(in) :: initvalue
+    class(*), pointer :: value
     integer :: i
+    value => MC
     if (allocated(this%contents)) then
         deallocate(this%contents)
     end if
-    if (.not.present(tocopy)) then !allocating an empty array with size 'entries'
-        allocate(emptyarray(entries))
-        do i = 1, entries
-            call emptyarray(i)%storeContent(MC)
+    if (.not.present(source)) then
+        allocate(this%contents(entries))
+        this%length=entries
+        if (present(initvalue)) then
+            value => initvalue !pointing to the initial value to store in every entry
+        end if
+        do i=1, size(this%contents)
+            call this%put(i,value)
         end do
-        allocate(this%contents, source=emptyarray)
-        this%length=entries        
-    else if (present(tocopy)) then !using sourced allocation        
-      allocate(this%contents, source=tocopy)
-      this%length=size(tocopy)
+    else if (present(source)) then !using sourced allocation
+        allocate(this%contents, source=source)
+        this%length=size(source)
     endif
     end subroutine initArray
 

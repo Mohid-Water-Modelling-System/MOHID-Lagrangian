@@ -27,6 +27,7 @@
     use tracer_array_mod
     use sources_array_mod
     use sources_mod
+    use tracers_mod
     use emitter_mod
 
     implicit none
@@ -42,6 +43,8 @@
     private
     procedure, public :: initialize => initBlock
     procedure, public :: putSource
+    procedure, public :: numActiveTracers
+    procedure, public :: numAllocTracers
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
     end type block_class
@@ -55,6 +58,38 @@
     public :: allocBlocks, setBlocks
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method that returns the total allocated Tracers in the Block
+    !
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    function numAllocTracers(self)
+    implicit none
+    class(block_class), intent(in) :: self
+    integer :: numAllocTracers
+    numAllocTracers = self%Tracer%getLength()
+    end function numAllocTracers
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method that returns the total active Tracers in the Block
+    !
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    function numActiveTracers(self)
+    implicit none
+    class(block_class), intent(in) :: self
+    integer :: numActiveTracers
+    numActiveTracers = self%Tracer%usedLength
+    end function numActiveTracers
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -80,7 +115,7 @@
     !initializing the Sources and Tracers arrays
     call self%Source%init(1)   !Starting the Sources array with one position    
     self%Source%usedLength = 0 !But there are no stored Sources
-    call self%Tracer%init(1)   !Starting the Tracers array with one position    
+    call self%Tracer%init(1, initvalue = dummyTracer)   !Starting the Tracers array with one position    
     self%Tracer%usedLength = 0 !But there are no stored Tracers
     !logging the ocupied space by the block
     sizem = sizeof(self)
@@ -94,7 +129,7 @@
     !> @brief
     !> Method to place a Source on the Block SourceArray. Checks for space and 
     !> allocates more if needed. The array gets incremented by one unit at a time
-    !> Allocates space in the Blocks Tracer array
+    !> Allocates space in the Blocks Tracer array with a dummy Tracer
     !
     !> @param[in] self, sourcetoput
     !---------------------------------------------------------------------------
@@ -112,7 +147,7 @@
     !adding this Source to the Block Emitter pool
     call self%Emitter%addSource(sourcetoput)
     !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
-    call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np)
+    call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)
 
     end subroutine putSource
     

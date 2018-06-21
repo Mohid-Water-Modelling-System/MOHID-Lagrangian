@@ -23,6 +23,8 @@
     use commom_modules
     use sources_mod
     use tracers_mod
+    use tracer_array_mod
+    use sources_array_mod    
 
     implicit none
     private
@@ -35,7 +37,6 @@
     procedure :: addSource
     procedure :: removeSource
     procedure :: emitt
-    !procedure :: alloctracers
     !procedure :: initracers
     !procedure :: activecheck
     end type
@@ -162,42 +163,7 @@
     !call SimMemory%addtracer(sizem)
     !
     !end subroutine
-    !
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !! Routine Author Name and Affiliation.
-    !!
-    !!> @brief
-    !!> method that allocates the tracers respective to a given source
-    !!
-    !!> @param[in] self, src
-    !!---------------------------------------------------------------------------
-    !subroutine alloctracers(self, src)
-    !implicit none
-    !class(emitter_class), intent(inout) :: self
-    !class(source_class), intent(inout) :: src
-    !integer err
-    !type(string) :: outext, temp
-    !
-    !if (self%emittable .le. 0) then
-    !    outext='[Emitter::alloctracers]: No Tracers will be simulated, stoping'
-    !    call Log%put(outext)
-    !    stop
-    !else
-    !    allocate(Tracer(self%emittable), stat=err)
-    !    if(err/=0)then
-    !        outext='[Emitter::alloctracers]: Cannot allocate Tracers, stoping'
-    !        call Log%put(outext)
-    !        stop
-    !    endif
-    !endif
-    !
-    !temp = size(Tracer)
-    !outext='Allocated '// temp // ' Tracers.'
-    !call Log%put(outext)
-    !!receiving Sources as argument so latter we can differentiate between tracer types
-    !
-    !end subroutine
+    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

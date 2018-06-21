@@ -53,10 +53,10 @@
     contains
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns a pointer to the values stored in the container
-    !> @param[this]
+    !> @param[in] this
     !---------------------------------------------------------------------------
     function getContent(this)
     class(container), intent(in) :: this
@@ -65,11 +65,11 @@
     end function getContent
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that stores the provided value in the container using 
     !> sourced allocation
-    !> @param[this, to_store]
+    !> @param[in] this, to_store
     !---------------------------------------------------------------------------
     subroutine storeContent(this,to_store)
     class(container), intent(inout) :: this
@@ -78,11 +78,11 @@
     end subroutine storeContent
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to print the stored value. Only knows about instrinsic types, 
     !> ignores (but warns) if other types are passed.
-    !> @param[this]
+    !> @param[in] this
     !---------------------------------------------------------------------------
     subroutine printContainer(this)
     class(container), intent(in) :: this
@@ -99,11 +99,11 @@
     end subroutine printContainer
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Container constructor, can be used with the 'container' name since it is 
     !> defined as an interface
-    !> @param[to_store]
+    !> @param[in] to_store
     !---------------------------------------------------------------------------
     function constructor(to_store)
     class(container), pointer :: constructor

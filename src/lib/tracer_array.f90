@@ -31,7 +31,13 @@
     end type TracerArray
 
     contains
-
+    
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints all the elements of the array
+    !> @param[in] this
+    !---------------------------------------------------------------------------
     subroutine print_TracerArray(this)
     class(TracerArray), intent(in) :: this
     class(*), pointer :: curr
@@ -51,6 +57,12 @@
     end do
     end subroutine print_TracerArray
 
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints an element of the array
+    !> @param[in] this, index
+    !---------------------------------------------------------------------------
     subroutine print_TracerArray_Element(this,index)
     class(TracerArray), intent(in) :: this
     integer, intent(in) :: index

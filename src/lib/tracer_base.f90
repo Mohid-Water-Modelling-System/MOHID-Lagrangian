@@ -61,10 +61,10 @@
     end type
 
     !Simulation variables
-    !type(tracer_class), allocatable, dimension(:) :: Tracer
+    type(tracer_class) :: dummyTracer !< Just a template to allocate the generic arrays to this size
 
     !Public access vars
-    public :: tracer_class!, Tracer 
+    public :: tracer_class, dummyTracer 
 
     contains
 

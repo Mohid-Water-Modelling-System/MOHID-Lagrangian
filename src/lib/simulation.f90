@@ -36,7 +36,9 @@
     procedure :: initialize => initSimulation
     procedure :: finalize   => closeSimulation
     procedure :: decompose  => DecomposeDomain
-    procedure :: DistributeSources
+    procedure :: setInitialState
+    procedure :: getTracerTotals
+    procedure :: printTracerTotals
     procedure :: run
     end type
 
@@ -109,10 +111,10 @@
 
     !initilize simulation bounding box
     call BBox%initialize()
-    !call BBox%print()
-
+    !decomposing the domain and initializing the Simulation Blocks
     call self%decompose()
-    
+    !Distributing Sources and trigerring Tracer allocation and distribution
+    call self%setInitialState()
     
 
     !printing memory occupation at the time
@@ -125,12 +127,13 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Simulation to distribute the Sources to the blocks
+    !> Simulation method to distribute the Sources to the Blocks, allocate the 
+    !> respective Tracers and redistribute if needed
     !---------------------------------------------------------------------------
-    subroutine DistributeSources(self)
+    subroutine setInitialState(self)
     implicit none
     class(simulation_class), intent(inout) :: self
-    type(string) :: outext
+    type(string) :: outext, temp(2)
     integer :: i, ix, iy, blk
     real(prec) :: dx, dy
     type(vector) :: coords
@@ -160,14 +163,54 @@
         end if
         call DBlock(blk)%putSource(tempSources%src(i))
     end do
+    
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
-    !do i=1, size(DBlock)
-    !    call DBlock(i)%detailedprint()
-    !enddo
     outext='-->Sources allocated to their current Blocks'
     call Log%put(outext,.false.)
     
-    end subroutine DistributeSources
+    call self%printTracerTotals()
+    
+    end subroutine setInitialState
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation to count Tracer numbers
+    !---------------------------------------------------------------------------
+    subroutine getTracerTotals(self, alloc, active)
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer, intent(out) :: alloc, active
+    integer :: i
+    alloc = 0
+    active = 0
+    do i=1, size(DBlock)
+        alloc = alloc + DBlock(i)%numAllocTracers()
+        active = active + DBlock(i)%numActiveTracers()
+    enddo        
+    end subroutine getTracerTotals
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation to count Tracer numbers
+    !---------------------------------------------------------------------------
+    subroutine printTracerTotals(self)
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: alloc, active
+    type(string) :: outext, temp(2)
+    call self%getTracerTotals(alloc, active)
+    temp(1) = alloc
+    temp(2) = active
+    outext='-->'//temp(1) //' Tracers allocated, '//temp(2) //' Tracers active'    
+    call Log%put(outext,.false.)    
+    end subroutine printTracerTotals
 
 
     !---------------------------------------------------------------------------
@@ -189,10 +232,8 @@
         call Log%put(outext)
         stop
     end if
-    ! Initializing the blocks
-    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,self%nbx,self%nby)
-    
-    call self%DistributeSources()
+    ! Initializing the Blocks
+    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,self%nbx,self%nby)   
 
     end subroutine DecomposeDomain
 
