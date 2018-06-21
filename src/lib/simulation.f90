@@ -22,6 +22,7 @@
     use boundingbox_mod
     use emitter_mod
     use sources_mod
+    use tracers_mod
     use blocks_mod
     use about_mod
 
@@ -39,6 +40,7 @@
     procedure :: setInitialState
     procedure :: getTracerTotals
     procedure :: printTracerTotals
+    procedure :: setTracerMemory
     procedure :: run
     end type
 
@@ -169,6 +171,7 @@
     call Log%put(outext,.false.)
     
     call self%printTracerTotals()
+    call self%setTracerMemory()
     
     end subroutine setInitialState
     
@@ -178,7 +181,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Simulation to count Tracer numbers
+    !> Simulation method to count Tracer numbers
     !---------------------------------------------------------------------------
     subroutine getTracerTotals(self, alloc, active)
     implicit none
@@ -198,7 +201,7 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Simulation to count Tracer numbers
+    !> Simulation method to count Tracer numbers
     !---------------------------------------------------------------------------
     subroutine printTracerTotals(self)
     implicit none
@@ -211,6 +214,23 @@
     outext='-->'//temp(1) //' Tracers allocated, '//temp(2) //' Tracers active'    
     call Log%put(outext,.false.)    
     end subroutine printTracerTotals
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation method to account for Tracer memory consumption
+    !---------------------------------------------------------------------------
+    subroutine setTracerMemory(self)
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: alloc, active
+    integer :: sizem
+    call self%getTracerTotals(alloc, active)
+    sizem = sizeof(dummyTracer)*alloc
+    call SimMemory%addtracer(sizem)
+    end subroutine setTracerMemory
 
 
     !---------------------------------------------------------------------------
