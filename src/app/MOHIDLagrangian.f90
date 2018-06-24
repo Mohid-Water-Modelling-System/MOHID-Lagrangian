@@ -60,6 +60,9 @@
     !Our Lagrangian adventure starts here. Strap on.
     call Sim%initialize(casefilename,outpath)
 
+    print*, 'Can we continue?'
+    read (*,*) 
+
     !Main time cycle
     call Sim%run()
 

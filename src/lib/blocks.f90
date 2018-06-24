@@ -106,6 +106,7 @@
     integer, intent(in) :: id
     type(box), intent(in) :: templatebox
     integer :: sizem
+
     self%id = id
     !setting the block sub-domain
     self%extents%pt = templatebox%pt
@@ -120,6 +121,7 @@
     !logging the ocupied space by the block
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
+    
     end subroutine initBlock
 
     !---------------------------------------------------------------------------

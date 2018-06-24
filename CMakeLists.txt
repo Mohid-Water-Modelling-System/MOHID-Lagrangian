@@ -3,16 +3,13 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # The solution will have all targets (exe, lib, dll)
 # as Visual Studio projects (.vcproj)
 
-#-----------------------------------------------------------------------------
-# Prevent in-source builds.
-#-----------------------------------------------------------------------------
-
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-    message( FATAL_ERROR  "In-source build is not possible and not recommended. Choose an empty directory for build output.")
-endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-
 project(MOHIDLagrangian)
 enable_language(Fortran)
+
+# if build type not specified, default to release
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "release")
+endif()
 
 # Turn on the ability to create folders to organize projects (.vcproj)
 # It creates "CMakePredefinedTargets" folder by default and adds CMake

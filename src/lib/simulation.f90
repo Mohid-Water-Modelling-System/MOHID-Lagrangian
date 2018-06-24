@@ -63,10 +63,17 @@
 
     !main time cycle
     do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
+        !activate suitable Sources
+        !emitt Tracers from active Sources
+        !load hydrodynamic fields from files
+        !interpolate fields to tracer coordinates
+        !Update all tracers with base behavior
+        !Update Tracers with type-specific behavior
+        !Write results if time to do so
 
-        !Do your Lagrangian things here :D
-
-        !Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
+        !update Simulation time
+        Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
+        !print*, 'Global time is ', Globals%SimTime 
     enddo
 
     end subroutine run
@@ -94,10 +101,12 @@
     !Print licences and build info
     call PrintLicPreamble
 
-    !setting every global variable and input parameter to their default
-    call Globals%initialize()
     !initializing memory log
     call SimMemory%initialize()
+
+    !setting every global variable and input parameter to their default
+    call Globals%initialize()
+    
     !initializing geometry class
     call Geometry%initialize()
 
@@ -116,9 +125,9 @@
     call BBox%initialize()
     !decomposing the domain and initializing the Simulation Blocks
     call self%decompose()
+
     !Distributing Sources and trigerring Tracer allocation and distribution
     call self%setInitialState()
-    
 
     !printing memory occupation at the time
     call SimMemory%detailedprint()
@@ -230,7 +239,8 @@
     integer :: sizem, i
     sizem = 0
     do i=1, size(DBlock)
-        sizem = sizem + DBlock(i)%Tracer%getMemSize()
+        sizem = sizem + DBlock(i)%Tracer%getMemSize() !this accounts for the array structure
+        sizem = sizem + sizeof(dummyTracer)*DBlock(i)%Tracer%getLength() !this accounts for the contents
     enddo  
     call SimMemory%addtracer(sizem)
     end subroutine setTracerMemory
