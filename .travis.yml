@@ -1,16 +1,10 @@
 language: generic
-
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
       - gfortran-6
-      
-install:
-mkdir build
-
 before_script:
-  - FC=gfortran-6 cmake build
-  - cd build
+  - FC=gfortran-6 cmake .
   - make
