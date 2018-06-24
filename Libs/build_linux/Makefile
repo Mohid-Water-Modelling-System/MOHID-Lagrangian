@@ -227,6 +227,19 @@ FLAP/fast:
 	$(MAKE) -f FLAP/CMakeFiles/FLAP.dir/build.make FLAP/CMakeFiles/FLAP.dir/build
 .PHONY : FLAP/fast
 
+#=============================================================================
+# Target rules for targets named datetime
+
+# Build rule for target.
+datetime: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 datetime
+.PHONY : datetime
+
+# fast build rule for target.
+datetime/fast:
+	$(MAKE) -f datetime-fortran/CMakeFiles/datetime.dir/build.make datetime-fortran/CMakeFiles/datetime.dir/build
+.PHONY : datetime/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -244,6 +257,7 @@ help:
 	@echo "... CLA"
 	@echo "... FACE"
 	@echo "... FLAP"
+	@echo "... datetime"
 .PHONY : help
 
 

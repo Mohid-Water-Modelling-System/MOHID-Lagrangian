@@ -34,6 +34,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "../VecFor/CMakeLists.txt"
   "CMakeFiles/3.11.0-rc2/CMakeFortranCompiler.cmake"
   "CMakeFiles/3.11.0-rc2/CMakeSystem.cmake"
+  "../datetime-fortran/CMakeLists.txt"
   )
 
 # The corresponding makefile is:
@@ -54,6 +55,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CLA/CMakeFiles/CMakeDirectoryInformation.cmake"
   "FACE/CMakeFiles/CMakeDirectoryInformation.cmake"
   "FLAP/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "datetime-fortran/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -67,4 +69,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "CLA/CMakeFiles/CLA.dir/DependInfo.cmake"
   "FACE/CMakeFiles/FACE.dir/DependInfo.cmake"
   "FLAP/CMakeFiles/FLAP.dir/DependInfo.cmake"
+  "datetime-fortran/CMakeFiles/datetime.dir/DependInfo.cmake"
   )

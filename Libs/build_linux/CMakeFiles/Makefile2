@@ -555,6 +555,61 @@ clean: FLAP/CMakeFiles/FLAP.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory datetime-fortran
+
+# Convenience name for "all" pass in the directory.
+datetime-fortran/all: datetime-fortran/CMakeFiles/datetime.dir/all
+
+.PHONY : datetime-fortran/all
+
+# Convenience name for "clean" pass in the directory.
+datetime-fortran/clean: datetime-fortran/CMakeFiles/datetime.dir/clean
+
+.PHONY : datetime-fortran/clean
+
+# Convenience name for "preinstall" pass in the directory.
+datetime-fortran/preinstall:
+
+.PHONY : datetime-fortran/preinstall
+
+#=============================================================================
+# Target rules for target datetime-fortran/CMakeFiles/datetime.dir
+
+# All Build rule for target.
+datetime-fortran/CMakeFiles/datetime.dir/all:
+	$(MAKE) -f datetime-fortran/CMakeFiles/datetime.dir/build.make datetime-fortran/CMakeFiles/datetime.dir/depend
+	$(MAKE) -f datetime-fortran/CMakeFiles/datetime.dir/build.make datetime-fortran/CMakeFiles/datetime.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/CMakeFiles --progress-num=44,45,46,47,48,49,50 "Built target datetime"
+.PHONY : datetime-fortran/CMakeFiles/datetime.dir/all
+
+# Include target in all.
+all: datetime-fortran/CMakeFiles/datetime.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+datetime-fortran/CMakeFiles/datetime.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/CMakeFiles 7
+	$(MAKE) -f CMakeFiles/Makefile2 datetime-fortran/CMakeFiles/datetime.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/build_linux/CMakeFiles 0
+.PHONY : datetime-fortran/CMakeFiles/datetime.dir/rule
+
+# Convenience name for target.
+datetime: datetime-fortran/CMakeFiles/datetime.dir/rule
+
+.PHONY : datetime
+
+# clean rule for target.
+datetime-fortran/CMakeFiles/datetime.dir/clean:
+	$(MAKE) -f datetime-fortran/CMakeFiles/datetime.dir/build.make datetime-fortran/CMakeFiles/datetime.dir/clean
+.PHONY : datetime-fortran/CMakeFiles/datetime.dir/clean
+
+# clean rule for target.
+clean: datetime-fortran/CMakeFiles/datetime.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Special targets to cleanup operation of make.
 
 # Special rule to run CMake to check the build system integrity.
