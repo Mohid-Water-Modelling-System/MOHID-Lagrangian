@@ -66,7 +66,7 @@
 
         !Do your Lagrangian things here :D
 
-        Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
+        !Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
     enddo
 
     end subroutine run
@@ -87,6 +87,7 @@
     type(string), intent(in) :: casefilename         !< case file name
     type(string), intent(in) :: outpath              !< Output path
     type(string) :: outext
+    type(vector) :: tempvec
 
     ! Initialize logger
     call Log%initialize(outpath)
@@ -226,9 +227,11 @@
     implicit none
     class(simulation_class), intent(in) :: self
     integer :: alloc, active
-    integer :: sizem
-    call self%getTracerTotals(alloc, active)
-    sizem = sizeof(dummyTracer)*alloc
+    integer :: sizem, i
+    sizem = 0
+    do i=1, size(DBlock)
+        sizem = sizem + DBlock(i)%Tracer%getMemSize()
+    enddo  
     call SimMemory%addtracer(sizem)
     end subroutine setTracerMemory
 

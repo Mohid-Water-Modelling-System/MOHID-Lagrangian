@@ -82,8 +82,8 @@
     class(tracer_class) :: trc
     integer, intent(in) :: id
     integer, intent(in) :: id_source
-    type(vector), intent(in) :: pt
     real(prec_time), intent(in) :: time
+    type(vector), intent(in) :: pt
 
     ! initialize parameters
     trc%par%id = id
