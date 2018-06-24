@@ -62,7 +62,7 @@
     type(string) :: outext
 
     !main time cycle
-    do while (Globals%SimTime .LT. Globals%Parameters%TimeMax)
+    do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
         !activate suitable Sources
         !emitt Tracers from active Sources
         !load hydrodynamic fields from files

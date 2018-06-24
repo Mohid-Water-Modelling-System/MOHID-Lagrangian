@@ -22,6 +22,7 @@ module commom_modules
     use vecfor_R4P !Should include a preprocessor switch
     !use vecfor
     use stringifor
+    use datetime_module
 
     use geometry_mod
     use simulation_precision_mod

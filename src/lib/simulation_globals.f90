@@ -22,6 +22,7 @@
     use vecfor_r4p !Should include a preprocessor switch
     !use vecfor
     use stringifor
+    use datetime_module
 
     use simulation_precision_mod
     use simulation_logger_mod
@@ -36,6 +37,8 @@
         real(prec) :: WarmUpTime = 0.0      !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
         real(prec) :: TimeMax = MV          !< Simulation duration (s)
         real(prec) :: TimeOut = MV          !< Time out data (1/Hz)
+        type(datetime) :: StartTime
+        type(datetime) :: EndTime
     contains
     procedure :: setparameter
     procedure :: check
