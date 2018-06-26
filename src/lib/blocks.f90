@@ -21,7 +21,7 @@
 
     module blocks_mod
 
-    use commom_modules
+    use common_modules
     use simulation_globals_mod
     use boundingbox_mod
     use tracer_array_mod
@@ -43,6 +43,7 @@
     private
     procedure, public :: initialize => initBlock
     procedure, public :: putSource
+    procedure, public :: CallEmitter
     procedure, public :: numActiveTracers
     procedure, public :: numAllocTracers
     procedure, public :: ToogleBlockSources
@@ -130,11 +131,8 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Method to place a Source on the Block SourceArray. Checks for space and 
-    !> allocates more if needed. The array gets incremented by one unit at a time
-    !> Allocates space in the Blocks Tracer array with a dummy Tracer
-    !
-    !> @param[in] self, sourcetoput
+    !> Method to activate and deactivate the sources on this block, based on 
+    !> Globa%SimTime
     !---------------------------------------------------------------------------
     subroutine ToogleBlockSources(self)
         implicit none
@@ -154,11 +152,39 @@
                     aSource%now%active = .false.
                 end if
             class default
-            stop '[Block::ToogleBlockSources] Unexepected type of content: not a Source'
+            stop '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
             end select
         end do
 
     end subroutine ToogleBlockSources
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Method to activate and deactivate the sources on this block, based on 
+    !> Globa%SimTime
+    !---------------------------------------------------------------------------
+    subroutine CallEmitter(self)
+        implicit none
+        class(block_class), intent(inout) :: self
+        integer :: i
+        class(*), pointer :: aSource
+
+        do i=1, self%Source%usedLength
+            aSource => self%Source%get(i)
+            select type(aSource)
+            type is (source_class)
+                if (aSource%now%active) then
+                    call self%Emitter%emitt(aSource)
+                end if
+            class default
+            stop '[Block::CallEmitter] Unexepected type of content, not a Source'
+            end select
+        end do
+
+    end subroutine CallEmitter
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

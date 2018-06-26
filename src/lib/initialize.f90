@@ -21,7 +21,7 @@
 
     module initialize_mod
 
-    use commom_modules
+    use common_modules
     use tracer_base_mod
     use simulation_xmlparser_mod
     use sources_mod

@@ -17,7 +17,7 @@
     program MOHIDLagrangian
 
     use flap !Command line argument lib   
-    use commom_modules
+    use common_modules
     use simulation_mod
 
     implicit none
@@ -60,8 +60,8 @@
     !Our Lagrangian adventure starts here. Strap on.
     call Sim%initialize(casefilename,outpath)
 
-    print*, 'Can we continue?'
-    read (*,*) 
+    ! print*, 'Can we continue?'
+    ! read (*,*) 
 
     !Main time cycle
     call Sim%run()

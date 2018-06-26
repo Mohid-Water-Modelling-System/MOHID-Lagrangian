@@ -18,7 +18,7 @@
 
     module sources_mod
 
-    use commom_modules
+    use common_modules
     use simulation_globals_mod
 
     implicit none

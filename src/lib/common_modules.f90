@@ -4,7 +4,7 @@
 !
 ! TITLE         : Mohid Model
 ! PROJECT       : Mohid Lagrangian Tracer
-! MODULE        : commom_modules
+! MODULE        : common_modules
 ! URL           : http://www.mohid.com
 ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
 ! DATE          : March 2018
@@ -16,7 +16,7 @@
 !> Module to hold all of the commonly used base modules.
 !------------------------------------------------------------------------------
 
-module commom_modules
+module common_modules
 
     use penf
     use vecfor_R4P !Should include a preprocessor switch
@@ -31,4 +31,4 @@ module commom_modules
     use simulation_globals_mod
     use utilities_mod
 
-end module commom_modules
+end module common_modules

@@ -18,7 +18,7 @@
 
     module about_mod
 
-    use commom_modules
+    use common_modules
 
     implicit none
     private

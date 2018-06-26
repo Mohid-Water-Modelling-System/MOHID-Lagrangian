@@ -20,7 +20,7 @@
     module simulation_xmlparser_mod
 
     use FoX_dom
-    use commom_modules
+    use common_modules
 
     implicit none
     private

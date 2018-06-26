@@ -17,7 +17,7 @@
     !------------------------------------------------------------------------------
     module simulation_mod
 
-    use commom_modules
+    use common_modules
     use initialize_mod
     use boundingbox_mod
     use emitter_mod
@@ -32,22 +32,23 @@
     private
 
     type :: simulation_class   !< Parameters class
+        private
         integer :: nbx, nby               !< number of blocks in 2D
     contains
-    procedure :: initialize => initSimulation
-    procedure :: finalize   => closeSimulation
-    procedure :: decompose  => DecomposeDomain
-    procedure :: ToggleSources
-    procedure :: setInitialState
-    procedure :: getTracerTotals
-    procedure :: printTracerTotals
-    procedure :: setTracerMemory
-    procedure :: run
+    procedure, public  :: initialize => initSimulation
+    procedure, public  :: run
+    procedure, public  :: finalize   => closeSimulation
+    procedure, private :: decompose  => DecomposeDomain
+    procedure, private :: ToggleSources
+    procedure, private :: BlocksEmitt
+    procedure, private :: setInitialState
+    procedure, private :: getTracerTotals
+    procedure, private :: printTracerTotals
+    procedure, private :: setTracerMemory
     end type
 
-    !Simulation variables
+    !Exposed public class
     public :: simulation_class
-    !Public access vars
 
     contains
 
@@ -67,7 +68,7 @@
         !activate suitable Sources
         call self%ToggleSources()
         !emitt Tracers from active Sources
-        
+        call self%BlocksEmitt()
         !load hydrodynamic fields from files
         !interpolate fields to tracer coordinates
         !Update all tracers with base behavior
@@ -153,6 +154,22 @@
             call DBlock(i)%ToogleBlockSources()
         enddo        
     end subroutine ToggleSources
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation method to call the Blocks to emitt tracers at current SimTime
+    !---------------------------------------------------------------------------
+    subroutine BlocksEmitt(self)
+        implicit none
+        class(simulation_class), intent(in) :: self
+        integer :: i
+        do i=1, size(DBlock)
+            call DBlock(i)%CallEmitter()
+        enddo        
+    end subroutine BlocksEmitt
 
 
     !---------------------------------------------------------------------------

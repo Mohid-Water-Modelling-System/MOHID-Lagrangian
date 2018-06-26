@@ -20,7 +20,7 @@
 
     module emitter_mod
 
-    use commom_modules
+    use common_modules
     use sources_mod
     use tracers_mod
     use tracer_array_mod
@@ -105,9 +105,10 @@
     !
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine emitt(self)
+    subroutine emitt(self, src)
     implicit none
-    class(emitter_class), intent(inout) :: self    
+    class(emitter_class), intent(inout) :: self
+    class(source_class), intent(inout) :: src
     integer err
     type(string) :: outext, temp
 
