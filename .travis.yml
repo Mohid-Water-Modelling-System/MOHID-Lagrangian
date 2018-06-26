@@ -7,6 +7,6 @@ addons:
       - gfortran-6
 before_script:
   - mkdir build_linux
-  - FC=gfortran-6 cmake build_linux
   - cd build_linux
+  - FC=gfortran-6 cmake ..
   - make
