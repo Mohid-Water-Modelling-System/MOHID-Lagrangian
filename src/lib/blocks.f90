@@ -45,6 +45,7 @@
     procedure, public :: putSource
     procedure, public :: numActiveTracers
     procedure, public :: numAllocTracers
+    procedure, public :: ToogleBlockSources
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
     end type block_class
@@ -123,6 +124,41 @@
     call SimMemory%addblock(sizem)
     
     end subroutine initBlock
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Method to place a Source on the Block SourceArray. Checks for space and 
+    !> allocates more if needed. The array gets incremented by one unit at a time
+    !> Allocates space in the Blocks Tracer array with a dummy Tracer
+    !
+    !> @param[in] self, sourcetoput
+    !---------------------------------------------------------------------------
+    subroutine ToogleBlockSources(self)
+        implicit none
+        class(block_class), intent(inout) :: self
+        integer :: i
+        class(*), pointer :: aSource
+
+        do i=1, self%Source%usedLength 
+            aSource => self%Source%get(i)
+            select type(aSource)
+            type is (source_class)
+                if (Globals%SimTime <= aSource%par%stoptime) then !SimTime smaller than Source end time
+                    if (Globals%SimTime >= aSource%par%startime) then !SimTime larger than source start time
+                        aSource%now%active = .true.
+                    end if
+                else !SimTime larger than Source end time
+                    aSource%now%active = .false.
+                end if
+            class default
+            stop '[Block::ToogleBlockSources] Unexepected type of content: not a Source'
+            end select
+        end do
+
+    end subroutine ToogleBlockSources
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

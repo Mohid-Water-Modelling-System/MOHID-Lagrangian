@@ -32,11 +32,11 @@
     private
 
     type parameters_t   !< Parameters class
-        integer    :: Integrator = 1        !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
-        real(prec) :: CFL = 0.5             !< Courant Friedrichs Lewy condition number
-        real(prec) :: WarmUpTime = 0.0      !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
-        real(prec) :: TimeMax = MV          !< Simulation duration (s)
-        real(prec) :: TimeOut = MV          !< Time out data (1/Hz)
+        integer    :: Integrator = 1            !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
+        real(prec) :: CFL = 0.5                 !< Courant Friedrichs Lewy condition number
+        real(prec_time) :: WarmUpTime = 0.0     !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
+        real(prec_time) :: TimeMax = MV         !< Simulation duration (s)
+        real(prec) :: TimeOut = MV              !< Time out data (1/Hz)
         type(datetime) :: StartTime
         type(datetime) :: EndTime
     contains
@@ -203,7 +203,6 @@
     call SimMemory%adddef(sizem)
 
     end subroutine
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

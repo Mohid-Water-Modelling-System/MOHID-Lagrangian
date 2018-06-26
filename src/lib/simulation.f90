@@ -37,6 +37,7 @@
     procedure :: initialize => initSimulation
     procedure :: finalize   => closeSimulation
     procedure :: decompose  => DecomposeDomain
+    procedure :: ToggleSources
     procedure :: setInitialState
     procedure :: getTracerTotals
     procedure :: printTracerTotals
@@ -64,7 +65,9 @@
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
         !activate suitable Sources
+        call self%ToggleSources()
         !emitt Tracers from active Sources
+        
         !load hydrodynamic fields from files
         !interpolate fields to tracer coordinates
         !Update all tracers with base behavior
@@ -133,6 +136,24 @@
     call SimMemory%detailedprint()
 
     end subroutine initSimulation
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Simulation method to activate and deactivate Sources based on the 
+    !> Global%SimTime
+    !---------------------------------------------------------------------------
+    subroutine ToggleSources(self)
+        implicit none
+        class(simulation_class), intent(in) :: self
+        integer :: i
+        do i=1, size(DBlock)
+            call DBlock(i)%ToogleBlockSources()
+        enddo        
+    end subroutine ToggleSources
+
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
