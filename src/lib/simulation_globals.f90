@@ -113,6 +113,8 @@
       self%Parameters%WarmUpTime = 0.0
       self%Parameters%TimeOut = MV
       self%Parameters%TimeOut = MV
+      self%Parameters%StartTime = datetime()
+      self%Parameters%EndTime = datetime()
       !Simulation definitions
       self%SimDefs%autoblocksize =.true.
       self%SimDefs%blocksize = 0.0
@@ -151,7 +153,8 @@
     class(parameters_t), intent(inout) :: self
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
-    character(80) :: value
+    type(string), allocatable :: dc(:)
+    integer :: i, date(6)
     integer :: sizem
     !add new parameters to this search
     if (parmkey%chars()=="Integrator") then
@@ -163,12 +166,39 @@
     elseif(parmkey%chars()=="WarmUpTime") then
         self%WarmUpTime=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%WarmUpTime)
-    elseif(parmkey%chars()=="TimeMax") then
-        self%TimeMax=parmvalue%to_number(kind=1._R4P)
-        sizem=sizeof(self%TimeMax)
     elseif(parmkey%chars()=="TimeOut") then
         self%TimeOut=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%TimeOut)
+    elseif(parmkey%chars()=="StartTime") then
+        call parmvalue%split(tokens=dc, sep=' ')
+        if (size(dc) == 6) then
+            do i=1, size(dc)
+                date(i) = dc(i)%to_number(kind=1._R4P)
+            end do
+            self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+            if (self%StartTime%isValid()) then
+            else
+                self%StartTime = datetime() !reseting to default so it is caught later on
+            end if
+            sizem=sizeof(self%StartTime)
+        else
+            stop '[Globals::setparameter] StartTime parameter not in correct format. Eg. "2009 3 1 0 0 0"'
+        end if
+    elseif(parmkey%chars()=="EndTime") then
+        call parmvalue%split(tokens=dc, sep=' ')
+        if (size(dc) == 6) then
+            do i=1, size(dc)
+                date(i) = dc(i)%to_number(kind=1._R4P)
+            end do
+            self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+            if (self%EndTime%isValid()) then
+            else
+                self%EndTime = datetime() !reseting to default so it is caught later on
+            end if
+            sizem=sizeof(self%EndTime)
+        else
+            stop '[Globals::setparameter] EndTime parameter not in correct format. Eg. "2009 3 1 0 0 0"'
+        end if
     endif
     call SimMemory%adddef(sizem)
 
@@ -186,17 +216,27 @@
     implicit none
     class(parameters_t), intent(inout) :: self
     type(string) :: outext
+    type(datetime) :: temp
+    type(timedelta) :: simtime
 
+    temp = datetime() !default initialization
     !add new parameters to this search
-    if (self%TimeMax==MV) then
-        outext = 'Maximum simulation time parameter (TimeMax) is not set, stoping'
-        call Log%put(outext)
-        stop
-    elseif (self%TimeOut==MV) then
+    if (self%TimeOut==MV) then
         outext = 'Simulation sampling rate parameter (TimeOut) is not set, stoping'
         call Log%put(outext)
         stop
+    elseif (self%StartTime==temp) then
+        outext = 'Simulation start time parameter (StartTime) is not set or invalid, stoping'
+        call Log%put(outext)
+        stop
+    elseif (self%EndTime==temp) then
+        outext = 'Simulation end time parameter (EndTime) is not set or invalid, stoping'
+        call Log%put(outext)
+        stop
     endif
+    !Build timemax from the difference between start and end time
+    simtime = self%EndTime - self%StartTime
+    self%TimeMax = simtime%total_seconds()
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -211,16 +251,23 @@
     class(parameters_t), intent(inout) :: self
     type(string) :: outext
     type(string) :: temp_str
+    character(len=23) :: temp_char
     call getintegratorname(temp_str,self%Integrator)
     outext = '      Integrator scheme is '//temp_str//new_line('a')
     temp_str=self%CFL
     outext = outext//'       CFL = '//temp_str//new_line('a')
     temp_str=self%WarmUpTime
     outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
-    temp_str=self%TimeMax
-    outext = outext//'       TimeMax = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeOut
-    outext = outext//'       TimeOut = '//temp_str//' Hz'
+    outext = outext//'       TimeOut = '//temp_str//' Hz'//new_line('a')
+    temp_char = self%StartTime%isoformat(' ')
+    temp_str = temp_char
+    outext = outext//'       StartTime = '//temp_str//new_line('a')
+    temp_char = self%EndTime%isoformat(' ')
+    temp_str = temp_char
+    outext = outext//'       EndTime   = '//temp_str//new_line('a')
+    temp_str=self%TimeMax
+    outext = outext//'       Simulation will run for '//temp_str//' s'
     call Log%put(outext,.false.)
     end subroutine
 
@@ -243,7 +290,6 @@
         name='Runge-Kuta 4'
     endif
     end subroutine
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
