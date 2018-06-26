@@ -113,6 +113,8 @@
       self%Parameters%WarmUpTime = 0.0
       self%Parameters%TimeOut = MV
       self%Parameters%TimeOut = MV
+      self%Parameters%StartTime = datetime()
+      self%Parameters%EndTime = datetime()
       !Simulation definitions
       self%SimDefs%autoblocksize =.true.
       self%SimDefs%blocksize = 0.0
@@ -151,8 +153,10 @@
     class(parameters_t), intent(inout) :: self
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
+    type(string), allocatable :: dc(:)
     character(80) :: value
     integer :: sizem
+    integer :: i, date(6)
     !add new parameters to this search
     if (parmkey%chars()=="Integrator") then
         self%Integrator=parmvalue%to_number(kind=1_I1P)
@@ -169,6 +173,26 @@
     elseif(parmkey%chars()=="TimeOut") then
         self%TimeOut=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%TimeOut)
+    elseif(parmkey%chars()=="StartTime") then
+        call parmvalue%split(tokens=dc, sep=' ')
+        if (size(dc) == 6) then
+            do i=1, size(dc)
+                date(i) = dc(i)%to_number(kind=1._R4P)
+            end do
+            self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        else
+            stop '[Globals::setparameter] StartTime parameter not in correct format. Eg. "2009 3 1 0 0 0"'
+        end if
+    elseif(parmkey%chars()=="EndTime") then
+        call parmvalue%split(tokens=dc, sep=' ')
+        if (size(dc) == 6) then
+            do i=1, size(dc)
+                date(i) = dc(i)%to_number(kind=1._R4P)
+            end do
+            self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        else
+            stop '[Globals::setparameter] EndTime parameter not in correct format. Eg. "2009 3 1 0 0 0"'
+        end if
     endif
     call SimMemory%adddef(sizem)
 
@@ -186,7 +210,9 @@
     implicit none
     class(parameters_t), intent(inout) :: self
     type(string) :: outext
+    type(datetime) :: temp
 
+    temp = datetime() !default initialization
     !add new parameters to this search
     if (self%TimeMax==MV) then
         outext = 'Maximum simulation time parameter (TimeMax) is not set, stoping'
@@ -194,6 +220,14 @@
         stop
     elseif (self%TimeOut==MV) then
         outext = 'Simulation sampling rate parameter (TimeOut) is not set, stoping'
+        call Log%put(outext)
+        stop
+    elseif ((self%StartTime==temp) .or. (self%StartTime%isValid())) then
+        outext = 'Simulation start time parameter (StartTime) is not set or invalid, stoping'
+        call Log%put(outext)
+        stop
+    elseif (self%EndTime==temp) then
+        outext = 'Simulation end time parameter (EndTime) is not set or invalid, stoping'
         call Log%put(outext)
         stop
     endif
