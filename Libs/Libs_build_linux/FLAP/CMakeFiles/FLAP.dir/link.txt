@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libFLAP.a  CMakeFiles/FLAP.dir/flap.f90.o CMakeFiles/FLAP.dir/flap_command_line_argument_t.F90.o CMakeFiles/FLAP.dir/flap_command_line_arguments_group_t.f90.o CMakeFiles/FLAP.dir/flap_command_line_interface_t.F90.o CMakeFiles/FLAP.dir/flap_object_t.f90.o CMakeFiles/FLAP.dir/flap_utils_m.f90.o
+/usr/bin/ranlib ../lib/libFLAP.a
