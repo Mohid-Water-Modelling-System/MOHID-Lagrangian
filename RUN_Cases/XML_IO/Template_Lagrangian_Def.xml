@@ -78,8 +78,8 @@
       <parameter key="CFL" value="0.8" comment="Courant–Friedrichs–Lewy condition number (default=0.5)" />
       <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />
       <parameter key="TimeMax" value="1520.0" comment="Simulation duration" units_comment="seconds" />
-      <parameter key="StartTime" value="2009 3 1 0 0 0" comment="Date of initial instant" comment="space delimited ISO 8601 format up to seconds" />
-      <parameter key="EndTime" value="2009 3 2 1 0 0" comment="Date of final instant" comment="space delimited ISO 8601 format up to seconds" />
+      <parameter key="StartTime" value="2009 3 1 0 0 0" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+      <parameter key="EndTime" value="2009 3 2 1 0 0" comment="Date of final instant" units_comment="space delimited ISO 8601 format up to seconds" />
       <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
     </parameters>
   </execution>
