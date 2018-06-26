@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libdatetime.a  CMakeFiles/datetime.dir/datetime.f90.o CMakeFiles/datetime.dir/mod_clock.f90.o CMakeFiles/datetime.dir/mod_constants.f90.o CMakeFiles/datetime.dir/mod_datetime.f90.o CMakeFiles/datetime.dir/mod_strftime.f90.o CMakeFiles/datetime.dir/mod_timedelta.f90.o
+/usr/bin/ranlib ../lib/libdatetime.a

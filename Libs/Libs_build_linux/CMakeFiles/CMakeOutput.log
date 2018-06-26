@@ -1,0 +1,208 @@
+The system is: Darwin - 17.6.0 - x86_64
+Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" succeeded.
+Compiler: /Users/rbc-laptop/local/bin/gfortran 
+Build flags: 
+Id flags: -v 
+
+The output was:
+0
+Driving: /Users/rbc-laptop/local/bin/gfortran -v CMakeFortranCompilerId.F -mmacosx-version-min=10.13.6 -asm_macosx_version_min=10.13 -l gfortran -shared-libgcc
+Using built-in specs.
+COLLECT_GCC=/Users/rbc-laptop/local/bin/gfortran
+COLLECT_LTO_WRAPPER=/Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/lto-wrapper
+Target: x86_64-apple-darwin15.6.0
+Configured with: ../gcc-7.1.0/configure --enable-languages=c++,fortran
+Thread model: posix
+gcc version 7.1.0 (GCC) 
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.6' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2'
+ /Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccz026rw.f90 -quiet -v -iprefix /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/ -D__DYNAMIC__ CMakeFortranCompilerId.F -fPIC -quiet -dumpbase CMakeFortranCompilerId.F -mmacosx-version-min=10.13.6 -mtune=core2 -auxbase CMakeFortranCompilerId -version -fintrinsic-modules-path /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/finclude -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccd1IM2J.s
+GNU Fortran (GCC) version 7.1.0 (x86_64-apple-darwin15.6.0)
+	compiled by GNU C version 7.1.0, GMP version 6.0.0, MPFR version 3.1.2-p10, MPC version 1.0.2, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../../x86_64-apple-darwin15.6.0/include"
+ignoring duplicate directory "/Users/rbc-laptop/local/bin/../lib/gcc/../../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/include"
+ignoring duplicate directory "/Users/rbc-laptop/local/bin/../lib/gcc/../../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/include-fixed"
+ignoring nonexistent directory "/Users/rbc-laptop/local/bin/../lib/gcc/../../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../../x86_64-apple-darwin15.6.0/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/finclude
+ /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/include
+ /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/include-fixed
+ /usr/local/include
+ /usr/include
+End of search list.
+GNU Fortran2008 (GCC) version 7.1.0 (x86_64-apple-darwin15.6.0)
+	compiled by GNU C version 7.1.0, GMP version 6.0.0, MPFR version 3.1.2-p10, MPC version 1.0.2, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.6'  '-shared-libgcc' '-mtune=core2'
+ as -arch x86_64 -v -force_cpusubtype_ALL -mmacosx-version-min=10.13 -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccHwn3PV.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccd1IM2J.s
+Apple LLVM version 9.1.0 (clang-902.0.39.2)
+Target: x86_64-apple-darwin17.6.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1as -triple x86_64-apple-macosx10.13.0 -filetype obj -main-file-name ccd1IM2J.s -target-cpu penryn -fdebug-compilation-dir /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/3.11.0-rc2/CompilerIdFortran -dwarf-debug-producer Apple LLVM version 9.1.0 (clang-902.0.39.2) -dwarf-version=4 -mrelocation-model pic -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccHwn3PV.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccd1IM2J.s
+Reading specs from /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../libgfortran.spec
+rename spec lib to liborig
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.6'  '-shared-libgcc' '-mtune=core2'
+COMPILER_PATH=/Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/:/Users/rbc-laptop/local/bin/../libexec/gcc/
+LIBRARY_PATH=/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/:/Users/rbc-laptop/local/bin/../lib/gcc/:/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.6'  '-shared-libgcc' '-mtune=core2'
+ /Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o a.out -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0 -L/Users/rbc-laptop/local/bin/../lib/gcc -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccHwn3PV.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+collect2 version 7.1.0
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o a.out -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0 -L/Users/rbc-laptop/local/bin/../lib/gcc -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccHwn3PV.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+@(#)PROGRAM:ld  PROJECT:ld64-351.8
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
+Library search paths:
+	/Users/rbc-laptop/local/lib/gcc/x86_64-apple-darwin15.6.0/7.1.0
+	/Users/rbc-laptop/local/lib/gcc
+	/Users/rbc-laptop/local/lib
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+ /usr/bin/nm -n /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccHwn3PV.o
+
+
+Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "a.out"
+
+The Fortran compiler identification is GNU, found in "/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/3.11.0-rc2/CompilerIdFortran/a.out"
+
+Determining if the Fortran compiler works passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_3cf0d/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_3cf0d.dir/build.make CMakeFiles/cmTC_3cf0d.dir/build
+Building Fortran object CMakeFiles/cmTC_3cf0d.dir/testFortranCompiler.f.o
+/Users/rbc-laptop/local/bin/gfortran    -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_3cf0d.dir/testFortranCompiler.f.o
+Linking Fortran executable cmTC_3cf0d
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3cf0d.dir/link.txt --verbose=1
+/Users/rbc-laptop/local/bin/gfortran      CMakeFiles/cmTC_3cf0d.dir/testFortranCompiler.f.o  -o cmTC_3cf0d 
+
+
+Detecting Fortran compiler ABI info compiled with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_383ef/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_383ef.dir/build.make CMakeFiles/cmTC_383ef.dir/build
+Building Fortran object CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o
+/Users/rbc-laptop/local/bin/gfortran    -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o
+Linking Fortran executable cmTC_383ef
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_383ef.dir/link.txt --verbose=1
+/Users/rbc-laptop/local/bin/gfortran   -v -Wl,-v   CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o  -o cmTC_383ef 
+Driving: /Users/rbc-laptop/local/bin/gfortran -v -Wl,-v CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o -o cmTC_383ef -mmacosx-version-min=10.13.6 -asm_macosx_version_min=10.13 -l gfortran -shared-libgcc
+Using built-in specs.
+COLLECT_GCC=/Users/rbc-laptop/local/bin/gfortran
+COLLECT_LTO_WRAPPER=/Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/lto-wrapper
+Target: x86_64-apple-darwin15.6.0
+Configured with: ../gcc-7.1.0/configure --enable-languages=c++,fortran
+Thread model: posix
+gcc version 7.1.0 (GCC) 
+Reading specs from /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../libgfortran.spec
+rename spec lib to liborig
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_383ef' '-mmacosx-version-min=10.13.6' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2'
+COMPILER_PATH=/Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/:/Users/rbc-laptop/local/bin/../libexec/gcc/
+LIBRARY_PATH=/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/:/Users/rbc-laptop/local/bin/../lib/gcc/:/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_383ef' '-mmacosx-version-min=10.13.6' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2'
+ /Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o cmTC_383ef -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0 -L/Users/rbc-laptop/local/bin/../lib/gcc -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../.. -v CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+collect2 version 7.1.0
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o cmTC_383ef -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0 -L/Users/rbc-laptop/local/bin/../lib/gcc -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../.. -v CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+@(#)PROGRAM:ld  PROJECT:ld64-351.8
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
+@(#)PROGRAM:ld  PROJECT:ld64-351.8
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
+Library search paths:
+	/Users/rbc-laptop/local/lib/gcc/x86_64-apple-darwin15.6.0/7.1.0
+	/Users/rbc-laptop/local/lib/gcc
+	/Users/rbc-laptop/local/lib
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+ /usr/bin/nm -n CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o
+
+
+Parsed Fortran implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_383ef/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_383ef.dir/build.make CMakeFiles/cmTC_383ef.dir/build]
+  ignore line: [Building Fortran object CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [/Users/rbc-laptop/local/bin/gfortran    -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [Linking Fortran executable cmTC_383ef]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_383ef.dir/link.txt --verbose=1]
+  ignore line: [/Users/rbc-laptop/local/bin/gfortran   -v -Wl,-v   CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o  -o cmTC_383ef ]
+  ignore line: [Driving: /Users/rbc-laptop/local/bin/gfortran -v -Wl,-v CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o -o cmTC_383ef -mmacosx-version-min=10.13.6 -asm_macosx_version_min=10.13 -l gfortran -shared-libgcc]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/Users/rbc-laptop/local/bin/gfortran]
+  ignore line: [COLLECT_LTO_WRAPPER=/Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/lto-wrapper]
+  ignore line: [Target: x86_64-apple-darwin15.6.0]
+  ignore line: [Configured with: ../gcc-7.1.0/configure --enable-languages=c++,fortran]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 7.1.0 (GCC) ]
+  ignore line: [Reading specs from /Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../libgfortran.spec]
+  ignore line: [rename spec lib to liborig]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_383ef' '-mmacosx-version-min=10.13.6' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2']
+  ignore line: [COMPILER_PATH=/Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/:/Users/rbc-laptop/local/bin/../libexec/gcc/]
+  ignore line: [LIBRARY_PATH=/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/:/Users/rbc-laptop/local/bin/../lib/gcc/:/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_383ef' '-mmacosx-version-min=10.13.6' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2']
+  link line: [ /Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.6 -weak_reference_mismatches non-weak -o cmTC_383ef -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0 -L/Users/rbc-laptop/local/bin/../lib/gcc -L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../.. -v CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v]
+    arg [/Users/rbc-laptop/local/bin/../libexec/gcc/x86_64-apple-darwin15.6.0/7.1.0/collect2] ==> ignore
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.13.6] ==> ignore
+    arg [-weak_reference_mismatches] ==> ignore
+    arg [non-weak] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_383ef] ==> ignore
+    arg [-L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0] ==> dir [/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0]
+    arg [-L/Users/rbc-laptop/local/bin/../lib/gcc] ==> dir [/Users/rbc-laptop/local/bin/../lib/gcc]
+    arg [-L/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../..] ==> dir [/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../..]
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_383ef.dir/CMakeFortranCompilerABI.F.o] ==> ignore
+    arg [-lgfortran] ==> lib [gfortran]
+    arg [-no_compact_unwind] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [-lgcc_ext.10.5] ==> lib [gcc_ext.10.5]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lquadmath] ==> lib [quadmath]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_ext.10.5] ==> lib [gcc_ext.10.5]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lSystem] ==> lib [System]
+    arg [-v] ==> ignore
+  Library search paths: [;/Users/rbc-laptop/local/lib/gcc/x86_64-apple-darwin15.6.0/7.1.0;/Users/rbc-laptop/local/lib/gcc;/Users/rbc-laptop/local/lib;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [System]
+  collapse library dir [/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0] ==> [/Users/rbc-laptop/local/lib/gcc/x86_64-apple-darwin15.6.0/7.1.0]
+  collapse library dir [/Users/rbc-laptop/local/bin/../lib/gcc] ==> [/Users/rbc-laptop/local/lib/gcc]
+  collapse library dir [/Users/rbc-laptop/local/bin/../lib/gcc/x86_64-apple-darwin15.6.0/7.1.0/../../..] ==> [/Users/rbc-laptop/local/lib]
+  collapse library dir [/Users/rbc-laptop/local/lib/gcc/x86_64-apple-darwin15.6.0/7.1.0] ==> [/Users/rbc-laptop/local/lib/gcc/x86_64-apple-darwin15.6.0/7.1.0]
+  collapse library dir [/Users/rbc-laptop/local/lib/gcc] ==> [/Users/rbc-laptop/local/lib/gcc]
+  collapse library dir [/Users/rbc-laptop/local/lib] ==> [/Users/rbc-laptop/local/lib]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
+  implicit libs: [gfortran;gcc_ext.10.5;gcc;quadmath;m;gcc_ext.10.5;gcc]
+  implicit dirs: [/Users/rbc-laptop/local/lib/gcc/x86_64-apple-darwin15.6.0/7.1.0;/Users/rbc-laptop/local/lib/gcc;/Users/rbc-laptop/local/lib;/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
+
+
+Determining if the Fortran compiler supports Fortran 90 passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e1001/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e1001.dir/build.make CMakeFiles/cmTC_e1001.dir/build
+Building Fortran object CMakeFiles/cmTC_e1001.dir/testFortranCompilerF90.f90.o
+/Users/rbc-laptop/local/bin/gfortran    -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_e1001.dir/testFortranCompilerF90.f90.o
+Linking Fortran executable cmTC_e1001
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e1001.dir/link.txt --verbose=1
+/Users/rbc-laptop/local/bin/gfortran      CMakeFiles/cmTC_e1001.dir/testFortranCompilerF90.f90.o  -o cmTC_e1001 
+
+
