@@ -1,0 +1,3044 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.2.5)  22 JUN 2018 11:46
+entering extended mode
+**./refman.tex
+(refman.tex
+LaTeX2e <2017-04-15>
+Babel <3.15> and hyphenation patterns for 75 language(s) loaded.
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\book.cls"
+Document Class: book 2014/09/29 v1.4h Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\bk10.clo"
+File: bk10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\fixltx2e.sty"
+Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
+Applying: [2015/01/01] Old fixltx2e package on input line 46.
+
+
+Package fixltx2e Warning: fixltx2e is not required with releases after 2015
+(fixltx2e)                All fixes are now in the LaTeX kernel.
+(fixltx2e)                See the latexrelease package for details.
+
+Already applied: [0000/00/00] Old fixltx2e package on input line 53.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\calc.sty"
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count88
+\calc@Bcount=\count89
+\calc@Adimen=\dimen103
+\calc@Bdimen=\dimen104
+\calc@Askip=\skip43
+\calc@Bskip=\skip44
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count90
+\calc@Cskip=\skip45
+) (doxygen.sty
+Package: doxygen 
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\alltt.sty"
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\array.sty"
+Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
+\col@sep=\dimen105
+\extrarowheight=\dimen106
+\NC@list=\toks14
+\extratabsurround=\skip46
+\backup@length=\skip47
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count91
+\float@exts=\toks15
+\float@box=\box26
+\@float@everytoks=\toks16
+\@floatcapt=\box27
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
+Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks17
+\verbatim@line=\toks18
+\verbatim@in@stream=\read1
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\xcolor\xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\color.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-def\pdftex.def"
+File: pdftex.def 2017/06/24 v1.0g Graphics/color driver for pdftex
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\colortbl\colortbl.
+sty
+Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+\everycr=\toks19
+\minrowclearance=\skip48
+)
+\rownum=\count92
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\longtable.sty"
+Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip49
+\LTright=\skip50
+\LTpre=\skip51
+\LTpost=\skip52
+\LTchunksize=\count93
+\LTcapwidth=\dimen107
+\LT@head=\box28
+\LT@firsthead=\box29
+\LT@foot=\box30
+\LT@lastfoot=\box31
+\LT@cols=\count94
+\LT@rows=\count95
+\c@LT@tables=\count96
+\c@LT@chunks=\count97
+\LT@p@ftn=\toks20
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\tabu\tabu.sty
+Package: tabu 2011/02/26 v2.8 - flexible LaTeX tabulars (FC)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\ltxmisc\varwidth.sty"
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box32
+\sift@deathcycles=\count98
+\@vwid@loff=\dimen108
+\@vwid@roff=\dimen109
+)
+\c@taburow=\count99
+\tabu@nbcols=\count100
+\tabu@cnt=\count101
+\tabu@Xcol=\count102
+\tabu@alloc=\count103
+\tabu@nested=\count104
+\tabu@target=\dimen110
+\tabu@spreadtarget=\dimen111
+\tabu@naturalX=\dimen112
+\tabucolX=\dimen113
+\tabu@Xsum=\dimen114
+\extrarowdepth=\dimen115
+\abovetabulinesep=\dimen116
+\belowtabulinesep=\dimen117
+\tabustrutrule=\dimen118
+\tabu@thebody=\toks21
+\tabu@footnotes=\toks22
+\tabu@box=\box33
+\tabu@arstrutbox=\box34
+\tabu@hleads=\box35
+\tabu@vleads=\box36
+\tabu@cellskip=\skip53
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
+Package: tabularx 2016/02/03 v2.11 `tabularx' package (DPC)
+\TX@col@width=\dimen119
+\TX@old@table=\dimen120
+\TX@old@col=\dimen121
+\TX@target=\dimen122
+\TX@delta=\dimen123
+\TX@cols=\count105
+\TX@ftn=\toks23
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\multirow\multirow.sty"
+Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
+\multirow@colwidth=\skip54
+\multirow@cntb=\count106
+\multirow@dima=\skip55
+\bigstrutjot=\dimen124
+)
+\xrefbox=\box37
+\xreflength=\skip56
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\adjustbox\adjustbo
+x.sty
+Package: adjustbox 2012/05/21 v1.0 Adjusting TeX boxes (trim, clip, ...)
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\xkeyval\xkeyval.sty"
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\xkeyval\xkeyval.tex"
+("C:\Program Files\MiKTeX 2.9\tex\generic\xkeyval\xkvutils.tex"
+\XKV@toks=\toks24
+\XKV@tempa@toks=\toks25
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\xkeyval\keyval.tex"))
+\XKV@depth=\count107
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\adjustbox\adjcalc.
+sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\adjustbox\trimclip
+.sty
+Package: trimclip 2012/05/16 v1.0 Trim and clip general TeX material
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics-cfg\graphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 99.
+)
+\Gin@req@height=\dimen125
+\Gin@req@width=\dimen126
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\collectbox\collect
+box.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box38
+)
+\tc@llx=\dimen127
+\tc@lly=\dimen128
+\tc@urx=\dimen129
+\tc@ury=\dimen130
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\adjustbox\tc-pdfte
+x.def
+File: tc-pdftex.def 2012/05/13 v1.0 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen131
+\adjbox@Height=\dimen132
+\adjbox@Depth=\dimen133
+\adjbox@Totalheight=\dimen134
+
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\ifoddpage\ifoddpag
+e.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count108
+)) ("C:\Program Files\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+Package: inputenc 2015/03/17 v1.2c Input encoding file
+\inpenc@prehook=\toks26
+\inpenc@posthook=\toks27
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+Now handling font encoding OML ...
+... no UTF-8 mapping file for font encoding OML
+Now handling font encoding T1 ...
+... processing UTF-8 mapping file for font encoding T1
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
+File: t1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00AD (decimal 173)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C4 (decimal 196)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00C7 (decimal 199)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CB (decimal 203)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00CE (decimal 206)
+   defining Unicode char U+00CF (decimal 207)
+   defining Unicode char U+00D0 (decimal 208)
+   defining Unicode char U+00D1 (decimal 209)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D6 (decimal 214)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DB (decimal 219)
+   defining Unicode char U+00DC (decimal 220)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00DE (decimal 222)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E4 (decimal 228)
+   defining Unicode char U+00E5 (decimal 229)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00E7 (decimal 231)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EB (decimal 235)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F0 (decimal 240)
+   defining Unicode char U+00F1 (decimal 241)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F6 (decimal 246)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FB (decimal 251)
+   defining Unicode char U+00FC (decimal 252)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+00FE (decimal 254)
+   defining Unicode char U+00FF (decimal 255)
+   defining Unicode char U+0100 (decimal 256)
+   defining Unicode char U+0101 (decimal 257)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0104 (decimal 260)
+   defining Unicode char U+0105 (decimal 261)
+   defining Unicode char U+0106 (decimal 262)
+   defining Unicode char U+0107 (decimal 263)
+   defining Unicode char U+0108 (decimal 264)
+   defining Unicode char U+0109 (decimal 265)
+   defining Unicode char U+010A (decimal 266)
+   defining Unicode char U+010B (decimal 267)
+   defining Unicode char U+010C (decimal 268)
+   defining Unicode char U+010D (decimal 269)
+   defining Unicode char U+010E (decimal 270)
+   defining Unicode char U+010F (decimal 271)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0112 (decimal 274)
+   defining Unicode char U+0113 (decimal 275)
+   defining Unicode char U+0114 (decimal 276)
+   defining Unicode char U+0115 (decimal 277)
+   defining Unicode char U+0116 (decimal 278)
+   defining Unicode char U+0117 (decimal 279)
+   defining Unicode char U+0118 (decimal 280)
+   defining Unicode char U+0119 (decimal 281)
+   defining Unicode char U+011A (decimal 282)
+   defining Unicode char U+011B (decimal 283)
+   defining Unicode char U+011C (decimal 284)
+   defining Unicode char U+011D (decimal 285)
+   defining Unicode char U+011E (decimal 286)
+   defining Unicode char U+011F (decimal 287)
+   defining Unicode char U+0120 (decimal 288)
+   defining Unicode char U+0121 (decimal 289)
+   defining Unicode char U+0122 (decimal 290)
+   defining Unicode char U+0123 (decimal 291)
+   defining Unicode char U+0124 (decimal 292)
+   defining Unicode char U+0125 (decimal 293)
+   defining Unicode char U+0128 (decimal 296)
+   defining Unicode char U+0129 (decimal 297)
+   defining Unicode char U+012A (decimal 298)
+   defining Unicode char U+012B (decimal 299)
+   defining Unicode char U+012C (decimal 300)
+   defining Unicode char U+012D (decimal 301)
+   defining Unicode char U+012E (decimal 302)
+   defining Unicode char U+012F (decimal 303)
+   defining Unicode char U+0130 (decimal 304)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0132 (decimal 306)
+   defining Unicode char U+0133 (decimal 307)
+   defining Unicode char U+0134 (decimal 308)
+   defining Unicode char U+0135 (decimal 309)
+   defining Unicode char U+0136 (decimal 310)
+   defining Unicode char U+0137 (decimal 311)
+   defining Unicode char U+0139 (decimal 313)
+   defining Unicode char U+013A (decimal 314)
+   defining Unicode char U+013B (decimal 315)
+   defining Unicode char U+013C (decimal 316)
+   defining Unicode char U+013D (decimal 317)
+   defining Unicode char U+013E (decimal 318)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0143 (decimal 323)
+   defining Unicode char U+0144 (decimal 324)
+   defining Unicode char U+0145 (decimal 325)
+   defining Unicode char U+0146 (decimal 326)
+   defining Unicode char U+0147 (decimal 327)
+   defining Unicode char U+0148 (decimal 328)
+   defining Unicode char U+014A (decimal 330)
+   defining Unicode char U+014B (decimal 331)
+   defining Unicode char U+014C (decimal 332)
+   defining Unicode char U+014D (decimal 333)
+   defining Unicode char U+014E (decimal 334)
+   defining Unicode char U+014F (decimal 335)
+   defining Unicode char U+0150 (decimal 336)
+   defining Unicode char U+0151 (decimal 337)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0154 (decimal 340)
+   defining Unicode char U+0155 (decimal 341)
+   defining Unicode char U+0156 (decimal 342)
+   defining Unicode char U+0157 (decimal 343)
+   defining Unicode char U+0158 (decimal 344)
+   defining Unicode char U+0159 (decimal 345)
+   defining Unicode char U+015A (decimal 346)
+   defining Unicode char U+015B (decimal 347)
+   defining Unicode char U+015C (decimal 348)
+   defining Unicode char U+015D (decimal 349)
+   defining Unicode char U+015E (decimal 350)
+   defining Unicode char U+015F (decimal 351)
+   defining Unicode char U+0160 (decimal 352)
+   defining Unicode char U+0161 (decimal 353)
+   defining Unicode char U+0162 (decimal 354)
+   defining Unicode char U+0163 (decimal 355)
+   defining Unicode char U+0164 (decimal 356)
+   defining Unicode char U+0165 (decimal 357)
+   defining Unicode char U+0168 (decimal 360)
+   defining Unicode char U+0169 (decimal 361)
+   defining Unicode char U+016A (decimal 362)
+   defining Unicode char U+016B (decimal 363)
+   defining Unicode char U+016C (decimal 364)
+   defining Unicode char U+016D (decimal 365)
+   defining Unicode char U+016E (decimal 366)
+   defining Unicode char U+016F (decimal 367)
+   defining Unicode char U+0170 (decimal 368)
+   defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0172 (decimal 370)
+   defining Unicode char U+0173 (decimal 371)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0178 (decimal 376)
+   defining Unicode char U+0179 (decimal 377)
+   defining Unicode char U+017A (decimal 378)
+   defining Unicode char U+017B (decimal 379)
+   defining Unicode char U+017C (decimal 380)
+   defining Unicode char U+017D (decimal 381)
+   defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+01CD (decimal 461)
+   defining Unicode char U+01CE (decimal 462)
+   defining Unicode char U+01CF (decimal 463)
+   defining Unicode char U+01D0 (decimal 464)
+   defining Unicode char U+01D1 (decimal 465)
+   defining Unicode char U+01D2 (decimal 466)
+   defining Unicode char U+01D3 (decimal 467)
+   defining Unicode char U+01D4 (decimal 468)
+   defining Unicode char U+01E2 (decimal 482)
+   defining Unicode char U+01E3 (decimal 483)
+   defining Unicode char U+01E6 (decimal 486)
+   defining Unicode char U+01E7 (decimal 487)
+   defining Unicode char U+01E8 (decimal 488)
+   defining Unicode char U+01E9 (decimal 489)
+   defining Unicode char U+01EA (decimal 490)
+   defining Unicode char U+01EB (decimal 491)
+   defining Unicode char U+01F0 (decimal 496)
+   defining Unicode char U+01F4 (decimal 500)
+   defining Unicode char U+01F5 (decimal 501)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
+   defining Unicode char U+0232 (decimal 562)
+   defining Unicode char U+0233 (decimal 563)
+   defining Unicode char U+1E02 (decimal 7682)
+   defining Unicode char U+1E03 (decimal 7683)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2010 (decimal 8208)
+   defining Unicode char U+2011 (decimal 8209)
+   defining Unicode char U+2012 (decimal 8210)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2015 (decimal 8213)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+   defining Unicode char U+1E20 (decimal 7712)
+   defining Unicode char U+1E21 (decimal 7713)
+)
+Now handling font encoding OT1 ...
+... processing UTF-8 mapping file for font encoding OT1
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
+File: ot1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AD (decimal 173)
+   defining Unicode char U+00B8 (decimal 184)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+)
+Now handling font encoding OMS ...
+... processing UTF-8 mapping file for font encoding OMS
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
+File: omsenc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+)
+Now handling font encoding OMX ...
+... no UTF-8 mapping file for font encoding OMX
+Now handling font encoding U ...
+... no UTF-8 mapping file for font encoding U
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+02C6 (decimal 710)
+   defining Unicode char U+02DC (decimal 732)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2026 (decimal 8230)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2423 (decimal 9251)
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\makeidx.sty"
+Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\multicol.sty"
+Package: multicol 2017/04/11 v1.8q multicolumn formatting (FMi)
+\c@tracingmulticols=\count109
+\mult@box=\box39
+\multicol@leftmargin=\dimen135
+\c@unbalance=\count110
+\c@collectmore=\count111
+\doublecol@number=\count112
+\multicoltolerance=\count113
+\multicolpretolerance=\count114
+\full@width=\dimen136
+\page@free=\dimen137
+\premulticols=\dimen138
+\postmulticols=\dimen139
+\multicolsep=\skip57
+\multicolbaselineskip=\skip58
+\partial@page=\box40
+\last@line=\box41
+\maxbalancingoverflow=\dimen140
+\mult@rightbox=\box42
+\mult@grightbox=\box43
+\mult@gfirstbox=\box44
+\mult@firstbox=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\@tempa=\box50
+\@tempa=\box51
+\@tempa=\box52
+\@tempa=\box53
+\@tempa=\box54
+\@tempa=\box55
+\@tempa=\box56
+\@tempa=\box57
+\@tempa=\box58
+\@tempa=\box59
+\@tempa=\box60
+\@tempa=\box61
+\@tempa=\box62
+\c@columnbadness=\count115
+\c@finalcolumnbadness=\count116
+\last@try=\dimen141
+\multicolovershoot=\dimen142
+\multicolundershoot=\dimen143
+\mult@nat@firstbox=\box63
+\colbreak@box=\box64
+\mc@col@check@num=\count117
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\textcomp.sty"
+Package: textcomp 2017/04/05 v2.0i Standard LaTeX package
+Package textcomp Info: Sub-encoding information:
+(textcomp)               5 = only ISO-Adobe without \textcurrency
+(textcomp)               4 = 5 + \texteuro
+(textcomp)               3 = 4 + \textohm
+(textcomp)               2 = 3 + \textestimated + \textcurrency
+(textcomp)               1 = TS1 - \textcircled - \t
+(textcomp)               0 = TS1 (full)
+(textcomp)             Font families with sub-encoding setting implement
+(textcomp)             only a restricted character set as indicated.
+(textcomp)             Family '?' is the default used for unknown fonts.
+(textcomp)             See the documentation for details.
+Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1enc.def"
+File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
+Now handling font encoding TS1 ...
+... processing UTF-8 mapping file for font encoding TS1
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1enc.dfu"
+File: ts1enc.dfu 2017/01/28 v1.1t UTF-8 support for inputenc
+   defining Unicode char U+00A2 (decimal 162)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00A4 (decimal 164)
+   defining Unicode char U+00A5 (decimal 165)
+   defining Unicode char U+00A6 (decimal 166)
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00A8 (decimal 168)
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AC (decimal 172)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00AF (decimal 175)
+   defining Unicode char U+00B0 (decimal 176)
+   defining Unicode char U+00B1 (decimal 177)
+   defining Unicode char U+00B2 (decimal 178)
+   defining Unicode char U+00B3 (decimal 179)
+   defining Unicode char U+00B4 (decimal 180)
+   defining Unicode char U+00B5 (decimal 181)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+00B9 (decimal 185)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+00BC (decimal 188)
+   defining Unicode char U+00BD (decimal 189)
+   defining Unicode char U+00BE (decimal 190)
+   defining Unicode char U+00D7 (decimal 215)
+   defining Unicode char U+00F7 (decimal 247)
+   defining Unicode char U+0192 (decimal 402)
+   defining Unicode char U+02C7 (decimal 711)
+   defining Unicode char U+02D8 (decimal 728)
+   defining Unicode char U+02DD (decimal 733)
+   defining Unicode char U+0E3F (decimal 3647)
+   defining Unicode char U+2016 (decimal 8214)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+203B (decimal 8251)
+   defining Unicode char U+203D (decimal 8253)
+   defining Unicode char U+2044 (decimal 8260)
+   defining Unicode char U+204E (decimal 8270)
+   defining Unicode char U+2052 (decimal 8274)
+   defining Unicode char U+20A1 (decimal 8353)
+   defining Unicode char U+20A4 (decimal 8356)
+   defining Unicode char U+20A6 (decimal 8358)
+   defining Unicode char U+20A9 (decimal 8361)
+   defining Unicode char U+20AB (decimal 8363)
+   defining Unicode char U+20AC (decimal 8364)
+   defining Unicode char U+20B1 (decimal 8369)
+   defining Unicode char U+2103 (decimal 8451)
+   defining Unicode char U+2116 (decimal 8470)
+   defining Unicode char U+2117 (decimal 8471)
+   defining Unicode char U+211E (decimal 8478)
+   defining Unicode char U+2120 (decimal 8480)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2126 (decimal 8486)
+   defining Unicode char U+2127 (decimal 8487)
+   defining Unicode char U+212E (decimal 8494)
+   defining Unicode char U+2190 (decimal 8592)
+   defining Unicode char U+2191 (decimal 8593)
+   defining Unicode char U+2192 (decimal 8594)
+   defining Unicode char U+2193 (decimal 8595)
+   defining Unicode char U+2329 (decimal 9001)
+   defining Unicode char U+232A (decimal 9002)
+   defining Unicode char U+2422 (decimal 9250)
+   defining Unicode char U+25E6 (decimal 9702)
+   defining Unicode char U+25EF (decimal 9711)
+   defining Unicode char U+266A (decimal 9834)
+))
+LaTeX Info: Redefining \oldstylenums on input line 334.
+Package textcomp Info: Setting cmr sub-encoding to TS1/0 on input line 349.
+Package textcomp Info: Setting cmss sub-encoding to TS1/0 on input line 350.
+Package textcomp Info: Setting cmtt sub-encoding to TS1/0 on input line 351.
+Package textcomp Info: Setting cmvtt sub-encoding to TS1/0 on input line 352.
+Package textcomp Info: Setting cmbr sub-encoding to TS1/0 on input line 353.
+Package textcomp Info: Setting cmtl sub-encoding to TS1/0 on input line 354.
+Package textcomp Info: Setting ccr sub-encoding to TS1/0 on input line 355.
+Package textcomp Info: Setting ptm sub-encoding to TS1/4 on input line 356.
+Package textcomp Info: Setting pcr sub-encoding to TS1/4 on input line 357.
+Package textcomp Info: Setting phv sub-encoding to TS1/4 on input line 358.
+Package textcomp Info: Setting ppl sub-encoding to TS1/3 on input line 359.
+Package textcomp Info: Setting pag sub-encoding to TS1/4 on input line 360.
+Package textcomp Info: Setting pbk sub-encoding to TS1/4 on input line 361.
+Package textcomp Info: Setting pnc sub-encoding to TS1/4 on input line 362.
+Package textcomp Info: Setting pzc sub-encoding to TS1/4 on input line 363.
+Package textcomp Info: Setting bch sub-encoding to TS1/4 on input line 364.
+Package textcomp Info: Setting put sub-encoding to TS1/5 on input line 365.
+Package textcomp Info: Setting uag sub-encoding to TS1/5 on input line 366.
+Package textcomp Info: Setting ugq sub-encoding to TS1/5 on input line 367.
+Package textcomp Info: Setting ul8 sub-encoding to TS1/4 on input line 368.
+Package textcomp Info: Setting ul9 sub-encoding to TS1/4 on input line 369.
+Package textcomp Info: Setting augie sub-encoding to TS1/5 on input line 370.
+Package textcomp Info: Setting dayrom sub-encoding to TS1/3 on input line 371.
+Package textcomp Info: Setting dayroms sub-encoding to TS1/3 on input line 372.
+
+Package textcomp Info: Setting pxr sub-encoding to TS1/0 on input line 373.
+Package textcomp Info: Setting pxss sub-encoding to TS1/0 on input line 374.
+Package textcomp Info: Setting pxtt sub-encoding to TS1/0 on input line 375.
+Package textcomp Info: Setting txr sub-encoding to TS1/0 on input line 376.
+Package textcomp Info: Setting txss sub-encoding to TS1/0 on input line 377.
+Package textcomp Info: Setting txtt sub-encoding to TS1/0 on input line 378.
+Package textcomp Info: Setting lmr sub-encoding to TS1/0 on input line 379.
+Package textcomp Info: Setting lmdh sub-encoding to TS1/0 on input line 380.
+Package textcomp Info: Setting lmss sub-encoding to TS1/0 on input line 381.
+Package textcomp Info: Setting lmssq sub-encoding to TS1/0 on input line 382.
+Package textcomp Info: Setting lmvtt sub-encoding to TS1/0 on input line 383.
+Package textcomp Info: Setting lmtt sub-encoding to TS1/0 on input line 384.
+Package textcomp Info: Setting qhv sub-encoding to TS1/0 on input line 385.
+Package textcomp Info: Setting qag sub-encoding to TS1/0 on input line 386.
+Package textcomp Info: Setting qbk sub-encoding to TS1/0 on input line 387.
+Package textcomp Info: Setting qcr sub-encoding to TS1/0 on input line 388.
+Package textcomp Info: Setting qcs sub-encoding to TS1/0 on input line 389.
+Package textcomp Info: Setting qpl sub-encoding to TS1/0 on input line 390.
+Package textcomp Info: Setting qtm sub-encoding to TS1/0 on input line 391.
+Package textcomp Info: Setting qzc sub-encoding to TS1/0 on input line 392.
+Package textcomp Info: Setting qhvc sub-encoding to TS1/0 on input line 393.
+Package textcomp Info: Setting futs sub-encoding to TS1/4 on input line 394.
+Package textcomp Info: Setting futx sub-encoding to TS1/4 on input line 395.
+Package textcomp Info: Setting futj sub-encoding to TS1/4 on input line 396.
+Package textcomp Info: Setting hlh sub-encoding to TS1/3 on input line 397.
+Package textcomp Info: Setting hls sub-encoding to TS1/3 on input line 398.
+Package textcomp Info: Setting hlst sub-encoding to TS1/3 on input line 399.
+Package textcomp Info: Setting hlct sub-encoding to TS1/5 on input line 400.
+Package textcomp Info: Setting hlx sub-encoding to TS1/5 on input line 401.
+Package textcomp Info: Setting hlce sub-encoding to TS1/5 on input line 402.
+Package textcomp Info: Setting hlcn sub-encoding to TS1/5 on input line 403.
+Package textcomp Info: Setting hlcw sub-encoding to TS1/5 on input line 404.
+Package textcomp Info: Setting hlcf sub-encoding to TS1/5 on input line 405.
+Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
+Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
+Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
+Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\wasysym\wasysym.st
+y
+Package: wasysym 2003/10/30 v2.0 Wasy-2 symbol support package
+\symwasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `wasy' in version `bold'
+(Font)                  U/wasy/m/n --> U/wasy/b/n on input line 90.
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
+))
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\helvet.sty"
+Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\courier.sty"
+Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks28
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\sectsty\sectsty.st
+y
+Package: sectsty 2002/02/25 v2.0.2 Commands to change all sectional heading sty
+les
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.sty"
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count118
+\Gm@cntv=\count119
+\c@Gm@tempcnt=\count120
+\Gm@bindingoffset=\dimen144
+\Gm@wd@mp=\dimen145
+\Gm@odd@mp=\dimen146
+\Gm@even@mp=\dimen147
+\Gm@layoutwidth=\dimen148
+\Gm@layoutheight=\dimen149
+\Gm@layouthoffset=\dimen150
+\Gm@layoutvoffset=\dimen151
+\Gm@dimlist=\toks29
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\geometry\geometry.cfg"))
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\fancyhdr\fancyhdr.
+sty
+Package: fancyhdr 2017/06/30 v3.9a Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip59
+\f@nch@O@elh=\skip60
+\f@nch@O@erh=\skip61
+\f@nch@O@olh=\skip62
+\f@nch@O@orh=\skip63
+\f@nch@O@elf=\skip64
+\f@nch@O@erf=\skip65
+\f@nch@O@olf=\skip66
+\f@nch@O@orf=\skip67
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\natbib\natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip68
+\bibsep=\skip69
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count121
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\tocloft\tocloft.st
+y
+Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
+Package tocloft Info: The document has chapter divisions on input line 51.
+\cftparskip=\skip70
+\cftbeforetoctitleskip=\skip71
+\cftaftertoctitleskip=\skip72
+\cftbeforepartskip=\skip73
+\cftpartnumwidth=\skip74
+\cftpartindent=\skip75
+\cftbeforechapskip=\skip76
+\cftchapindent=\skip77
+\cftchapnumwidth=\skip78
+\cftbeforesecskip=\skip79
+\cftsecindent=\skip80
+\cftsecnumwidth=\skip81
+\cftbeforesubsecskip=\skip82
+\cftsubsecindent=\skip83
+\cftsubsecnumwidth=\skip84
+\cftbeforesubsubsecskip=\skip85
+\cftsubsubsecindent=\skip86
+\cftsubsubsecnumwidth=\skip87
+\cftbeforeparaskip=\skip88
+\cftparaindent=\skip89
+\cftparanumwidth=\skip90
+\cftbeforesubparaskip=\skip91
+\cftsubparaindent=\skip92
+\cftsubparanumwidth=\skip93
+\cftbeforeloftitleskip=\skip94
+\cftafterloftitleskip=\skip95
+\cftbeforefigskip=\skip96
+\cftfigindent=\skip97
+\cftfignumwidth=\skip98
+\c@lofdepth=\count122
+\c@lotdepth=\count123
+\cftbeforelottitleskip=\skip99
+\cftafterlottitleskip=\skip100
+\cftbeforetabskip=\skip101
+\cfttabindent=\skip102
+\cfttabnumwidth=\skip103
+)
+\@indexfile=\write3
+\openout3 = `refman.idx'.
+
+
+Writing index file refman.idx
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2017/03/14 v6.85a Hypertext links for LaTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
+Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
+Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
+Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package hobsub Info: Skipping package `ifvtex' (already loaded).
+Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
+Package hobsub Info: Skipping package `ifpdf' (already loaded).
+Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
+Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
+Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO
+)
+Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
+Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
+Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
+Package: xcolor-patch 2016/05/16 xcolor patch
+Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
+Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
+Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
+)
+\@linkdim=\dimen152
+\Hy@linkcounter=\count124
+\Hy@pagecounter=\count125
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2017/03/14 v6.85a Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+\Hy@SavedSpaceFactor=\count126
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4498.
+Package hyperref Info: Link nesting OFF on input line 4503.
+Package hyperref Info: Hyper index ON on input line 4506.
+Package hyperref Info: Plain pages OFF on input line 4513.
+Package hyperref Info: Backreferencing ON on input line 4516.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4751.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\backref.sty"
+Package: backref 2016/05/21 v1.39 Bibliographical back referencing
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+))
+\c@Hy@tempcnt=\count127
+
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\url\url.sty
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 5104.
+\XeTeXLinkMargin=\dimen153
+\Fld@menulength=\count128
+\Field@Width=\dimen154
+\Fld@charsize=\dimen155
+Package hyperref Info: Hyper figures OFF on input line 6358.
+Package hyperref Info: Link nesting OFF on input line 6363.
+Package hyperref Info: Hyper index ON on input line 6366.
+Package hyperref Info: backreferencing ON on input line 6371.
+Package hyperref Info: Link coloring OFF on input line 6378.
+Package hyperref Info: Link coloring with OCG OFF on input line 6383.
+Package hyperref Info: PDF/A mode OFF on input line 6388.
+LaTeX Info: Redefining \ref on input line 6428.
+LaTeX Info: Redefining \pageref on input line 6432.
+\Hy@abspage=\count129
+\c@Item=\count130
+\c@Hfootnote=\count131
+)
+
+Package hyperref Message: Driver: hpdftex.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+File: hpdftex.def 2017/03/14 v6.85a Hyperref driver for pdfTeX
+\Fld@listcount=\count132
+\c@bookmark@seq@number=\count133
+\Hy@SectionHShift=\skip104
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 105.
+Package hyperref Info: Option `unicode' set `true' on input line 105.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\puenc.def"
+File: puenc.def 2017/03/14 v6.85a Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption.st
+y
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\caption3.s
+ty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen156
+\captionmargin@=\dimen157
+\captionwidth=\dimen158
+\caption@tempdima=\dimen159
+\caption@indent=\dimen160
+\caption@parindent=\dimen161
+\caption@hangindent=\dimen162
+)
+\c@ContinuedFloat=\count134
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\caption\ltcaption.
+sty
+Package: ltcaption 2013/06/09 v1.4-94 longtable captions (AR)
+)) (refman.aux)
+\openout1 = `refman.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 117.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 117.
+
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
+File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 117.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1phv.fd"
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 117.
+
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\context\base\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count135
+\scratchdimen=\dimen163
+\scratchbox=\box65
+\nofMPsegments=\count136
+\nofMParguments=\count137
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count138
+\MPscratchDim=\dimen164
+\MPnumerator=\count139
+\makeMPintoPDFobject=\count140
+\everyMPtoPDFconversion=\toks31
+) ("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\epstopdf-base.sty"
+Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\oberdiek\grfext.sty"
+Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+38.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 456.
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=702.78308pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-31.2056pt
+* \headheight=12.0pt
+* \headsep=18.06749pt
+* \topskip=10.0pt
+* \footskip=25.29494pt
+* \marginparwidth=125.0pt
+* \marginparsep=7.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+\AtBeginShipoutBox=\box66
+Package backref Info: ** backref set up for natbib ** on input line 117.
+Package hyperref Info: Link coloring ON on input line 117.
+("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+)
+\c@section@level=\count141
+)
+LaTeX Info: Redefining \ref on input line 117.
+LaTeX Info: Redefining \pageref on input line 117.
+LaTeX Info: Redefining \nameref on input line 117.
+
+(refman.out) (refman.out)
+\@outlinefile=\write4
+\openout4 = `refman.out'.
+
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+Package hyperref Info: Option `pageanchor' set `false' on input line 123.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 123.
+
+Package hyperref Info: Option `unicode' set `true' on input line 123.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 12.9599pt on input line 128.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 6.29996pt on input line 128.
+LaTeX Font Info:    Try loading font information for U+wasy on input line 128.
+
+(C:\Users\administrator\AppData\Roaming\MiKTeX\2.9\tex\latex\wasysym\uwasy.fd
+File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 128.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 128.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 10.79993pt on input line 128.
+ [1
+
+
+{C:/Users/administrator/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
+
+]
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 22.39185pt on input line 135.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 135.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 22.39185pt on input line 135.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 22.39185pt on input line 135.
+ (refman.toc
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 8.99994pt on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 6.29996pt on input line 1.
+
+[1
+
+] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16]
+Underfull \hbox (badness 3000) in paragraph at lines 506--506
+ [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
+M[]O[]H[]I[]D-[]Lagrangian/src/app/[]M[]O[]H[]I[]D[]Lagrangian.f90 File 
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 510--510
+ [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
+M[]O[]H[]I[]D-[]Lagrangian/src/lib/abstract[]_[]container[]_[]array.f90 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+ [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
+M[]O[]H[]I[]D-[]Lagrangian/src/lib/common[]_[]modules.f90 File 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 519--519
+ [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
+M[]O[]H[]I[]D-[]Lagrangian/src/lib/simulation[]_[]globals.f90 File 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 520--520
+ [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
+M[]O[]H[]I[]D-[]Lagrangian/src/lib/simulation[]_[]logger.f90 File 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 521--521
+ [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
+M[]O[]H[]I[]D-[]Lagrangian/src/lib/simulation[]_[]memory.f90 File 
+ []
+
+
+Underfull \hbox (badness 2020) in paragraph at lines 522--522
+ [][] [][][]\T1/phv/m/n/10 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]
+M[]O[]H[]I[]D-[]Lagrangian/src/lib/simulation[]_[]precision.f90 File 
+ []
+
+)
+\tf@toc=\write5
+\openout5 = `refman.toc'.
+
+ [18]
+Package hyperref Info: Option `pageanchor' set `true' on input line 138.
+
+Chapter 1.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 18.66588pt on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <20.74> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 18.66588pt on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 18.66588pt on input line 141.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 6.29996pt on input line 141.
+(index.tex
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 1.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd"
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 5.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 10.79993pt on input line 5.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 10.79993pt on input line 5.
+) [1
+
+
+]
+[2
+
+]
+Chapter 2.
+(namespaces.tex
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/b/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+ [3]
+LaTeX Font Info:    Try loading font information for TS1+phv on input line 23.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ts1phv.fd"
+File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
+)
+LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
+(Font)              scaled to size 8.99994pt on input line 23.
+) [4]
+Chapter 3.
+(hierarchy.tex) [5
+
+] [6
+
+]
+Chapter 4.
+(annotated.tex [7]) [8]
+Chapter 5.
+(files.tex) [9
+
+] [10
+
+]
+Chapter 6.
+(namespaceabout__mod.tex
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.09995pt on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 12.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 27.
+
+Underfull \hbox (badness 10000) detected at line 27
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 37.
+
+Underfull \hbox (badness 10000) detected at line 43
+[][][]
+ []
+
+[11]
+<namespaceabout__mod_a9fb866e1576b843b42649d84b80f4b52_icgraph.pdf, id=3104, pa
+gebox=cropbox, 404.51125pt x 100.375pt>
+File: namespaceabout__mod_a9fb866e1576b843b42649d84b80f4b52_icgraph.pdf Graphic
+ file (type pdf)
+<use namespaceabout__mod_a9fb866e1576b843b42649d84b80f4b52_icgraph.pdf>
+Package pdftex.def Info: namespaceabout__mod_a9fb866e1576b843b42649d84b80f4b52_
+icgraph.pdf  used on input line 101. on input line 101.
+Package pdftex.def Info: Requested size: 350.0pt x 86.85074pt on input line 101
+.
+ [12 <./namespaceabout__mod_a9fb866e1576b843b42649d84b80f4b52_icgraph.pdf>]) (n
+amespaceabstract__container__array__mod.tex
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <7> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 23.
+LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
+(Font)              scaled to size 6.29996pt on input line 23.
+ [13]
+Underfull \hbox (badness 10000) detected at line 31
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 41.
+
+Underfull \hbox (badness 10000) detected at line 47
+[][][]
+ []
+
+[14]
+Underfull \hbox (badness 10000) detected at line 75
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 108
+[][][]
+ []
+
+[15]
+Underfull \hbox (badness 10000) detected at line 146
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 179
+[][][]
+ []
+
+[16]) (namespaceblocks__mod.tex
+Underfull \hbox (badness 10000) detected at line 38
+[][][]
+ []
+
+[17]
+Underfull \hbox (badness 10000) detected at line 54
+[][][]
+ []
+
+<namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711_icgraph.pdf, id=3187, p
+agebox=cropbox, 414.54875pt x 100.375pt>
+File: namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711_icgraph.pdf Graphi
+c file (type pdf)
+<use namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711_icgraph.pdf>
+Package pdftex.def Info: namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711
+_icgraph.pdf  used on input line 87. on input line 87.
+Package pdftex.def Info: Requested size: 350.0pt x 84.74785pt on input line 87.
+
+[18 <./namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711_icgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 100
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 144
+[][][]
+ []
+
+[19]
+Underfull \hbox (badness 10000) detected at line 179
+[][][]
+ []
+
+[20]
+Underfull \hbox (badness 10000) detected at line 216
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 254
+[][][]
+ []
+
+[21]
+<namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696_icgraph.pdf, id=3226, p
+agebox=cropbox, 407.5225pt x 100.375pt>
+File: namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696_icgraph.pdf Graphi
+c file (type pdf)
+<use namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696_icgraph.pdf>
+Package pdftex.def Info: namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696
+_icgraph.pdf  used on input line 315. on input line 315.
+Package pdftex.def Info: Requested size: 350.0pt x 86.21053pt on input line 315
+.
+) (namespaceboundingbox__mod.tex [22 <./namespaceblocks__mod_a8f5a5d9e6cfd16cfd
+1b179092a204696_icgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 30
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 46
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 71
+[][][]
+ []
+
+[23]) (namespacecommom__modules.tex
+Underfull \hbox (badness 10000) detected at line 13
+[][][]
+ []
+
+) (namespacecontainer__mod.tex [24]
+LaTeX Font Info:    Font shape `TS1/phv/m/it' in size <9> not available
+(Font)              Font shape `TS1/phv/m/sl' tried instead on input line 23.
+LaTeX Font Info:    Font shape `TS1/phv/m/sl' will be
+(Font)              scaled to size 8.09995pt on input line 23.
+
+Underfull \hbox (badness 10000) detected at line 29
+[][][]
+ []
+
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <7> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 39.
+
+Underfull \hbox (badness 10000) detected at line 45
+[][][]
+ []
+
+[25]
+Underfull \hbox (badness 10000) detected at line 74
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 102
+[][][]
+ []
+
+[26]
+Underfull \hbox (badness 10000) detected at line 138
+[][][]
+ []
+
+) (namespaceemitter__mod.tex [27]
+Underfull \hbox (badness 10000) detected at line 31
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 47
+[][][]
+ []
+
+[28]
+<namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph.pdf, id=3317, p
+agebox=cropbox, 355.3275pt x 100.375pt>
+File: namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph.pdf Graphi
+c file (type pdf)
+<use namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph.pdf>
+Package pdftex.def Info: namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4ea
+f_cgraph.pdf  used on input line 79. on input line 79.
+Package pdftex.def Info: Requested size: 350.0pt x 98.87376pt on input line 79.
+
+
+Underfull \hbox (badness 10000) detected at line 92
+[][][]
+ []
+
+[29 <./namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf_cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 141
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 170
+[][][]
+ []
+
+[30]
+Underfull \hbox (badness 10000) detected at line 215
+[][][]
+ []
+
+<namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph.pdf, id=3346, 
+pagebox=cropbox, 355.3275pt x 100.375pt>
+File: namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph.pdf Graph
+ic file (type pdf)
+<use namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6_icgraph.pdf>
+Package pdftex.def Info: namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc
+6_icgraph.pdf  used on input line 237. on input line 237.
+Package pdftex.def Info: Requested size: 350.0pt x 98.87376pt on input line 237
+.
+) (namespacegeometry__mod.tex [31 <./namespaceemitter__mod_a5c219dd6692a761ad4b
+f968ae750fcc6_icgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 54
+[][][]
+ []
+
+[32]
+Underfull \hbox (badness 10000) detected at line 70
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 97
+[][][]
+ []
+
+[33]
+<namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b_icgraph.pdf, id=3406,
+ pagebox=cropbox, 337.26pt x 100.375pt>
+File: namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b_icgraph.pdf Grap
+hic file (type pdf)
+<use namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b_icgraph.pdf>
+Package pdftex.def Info: namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd
+0b_icgraph.pdf  used on input line 134. on input line 134.
+Package pdftex.def Info: Requested size: 336.0pt x 100.00255pt on input line 13
+4.
+
+Underfull \hbox (badness 10000) detected at line 147
+[][][]
+ []
+
+[34 <./namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b_icgraph.pdf>]
+<namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065_cgraph.pdf, id=3425, 
+pagebox=cropbox, 350.30875pt x 176.66pt>
+File: namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065_cgraph.pdf Graph
+ic file (type pdf)
+<use namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065_cgraph.pdf>
+Package pdftex.def Info: namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a0
+65_cgraph.pdf  used on input line 190. on input line 190.
+Package pdftex.def Info: Requested size: 349.0pt x 176.0126pt on input line 190
+.
+
+Underfull \hbox (badness 10000) detected at line 203
+[][][]
+ []
+
+[35 <./namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065_cgraph.pdf>]
+<namespacegeometry__mod_a92602e1198d3607613ea2722fb002685_cgraph.pdf, id=3444, 
+pagebox=cropbox, 347.2975pt x 111.41624pt>
+File: namespacegeometry__mod_a92602e1198d3607613ea2722fb002685_cgraph.pdf Graph
+ic file (type pdf)
+<use namespacegeometry__mod_a92602e1198d3607613ea2722fb002685_cgraph.pdf>
+Package pdftex.def Info: namespacegeometry__mod_a92602e1198d3607613ea2722fb0026
+85_cgraph.pdf  used on input line 249. on input line 249.
+Package pdftex.def Info: Requested size: 346.0pt x 111.00455pt on input line 24
+9.
+
+Underfull \hbox (badness 10000) detected at line 262
+[][][]
+ []
+
+[36 <./namespacegeometry__mod_a92602e1198d3607613ea2722fb002685_cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 297
+[][][]
+ []
+
+<namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3_icgraph.pdf, id=3461,
+ pagebox=cropbox, 336.25626pt x 100.375pt>
+File: namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3_icgraph.pdf Grap
+hic file (type pdf)
+<use namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3_icgraph.pdf>
+Package pdftex.def Info: namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94
+b3_icgraph.pdf  used on input line 329. on input line 329.
+Package pdftex.def Info: Requested size: 335.0pt x 100.00102pt on input line 32
+9.
+[37 <./namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3_icgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 342
+[][][]
+ []
+
+[38]
+Underfull \hbox (badness 10000) detected at line 405
+[][][]
+ []
+
+<namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc_icgraph.pdf, id=3484,
+ pagebox=cropbox, 350.30875pt x 100.375pt>
+File: namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc_icgraph.pdf Grap
+hic file (type pdf)
+<use namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc_icgraph.pdf>
+Package pdftex.def Info: namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908e
+bc_icgraph.pdf  used on input line 448. on input line 448.
+Package pdftex.def Info: Requested size: 349.0pt x 100.00716pt on input line 44
+8.
+
+Underfull \hbox (badness 10000) detected at line 461
+[][][]
+ []
+
+[39 <./namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc_icgraph.pdf>]
+<namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743_icgraph.pdf, id=3500,
+ pagebox=cropbox, 347.2975pt x 111.41624pt>
+File: namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743_icgraph.pdf Grap
+hic file (type pdf)
+<use namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743_icgraph.pdf>
+Package pdftex.def Info: namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e37
+43_icgraph.pdf  used on input line 502. on input line 502.
+Package pdftex.def Info: Requested size: 346.0pt x 111.00455pt on input line 50
+2.
+)
+(namespaceinitialize__mod.tex [40 <./namespacegeometry__mod_a05de7940b4e7df5a2b
+31f3d0414e3743_icgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 32
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 48
+[][][]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [41]
+<namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_cgraph.pdf, id=3540
+, pagebox=cropbox, 321.2pt x 209.78375pt>
+File: namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_cgraph.pdf Gra
+phic file (type pdf)
+<use namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6
+fa0c_cgraph.pdf  used on input line 102. on input line 102.
+Package pdftex.def Info: Requested size: 320.0pt x 209.00536pt on input line 10
+2.
+<namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_icgraph.pdf, id=354
+1, pagebox=cropbox, 525.965pt x 111.41624pt>
+File: namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6
+fa0c_icgraph.pdf  used on input line 109. on input line 109.
+Package pdftex.def Info: Requested size: 350.0pt x 74.14357pt on input line 109
+.
+
+[42 <./namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_cgraph.pdf> <
+./namespaceinitialize__mod_a9d19665b9ac12c3db8b0842bfdb6fa0c_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize__mod_a9d19665b9ac12c3d
+b8b0842bfdb6fa0c_icgraph.pdf): PDF inclusion: multiple pdfs with page group inc
+luded in a single page
+>]
+Underfull \hbox (badness 10000) detected at line 122
+[][][]
+ []
+
+<namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_cgraph.pdf, id=3565
+, pagebox=cropbox, 321.2pt x 111.41624pt>
+File: namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_cgraph.pdf Gra
+phic file (type pdf)
+<use namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e
+65e3_cgraph.pdf  used on input line 169. on input line 169.
+Package pdftex.def Info: Requested size: 320.0pt x 111.00284pt on input line 16
+9.
+<namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_icgraph.pdf, id=356
+6, pagebox=cropbox, 525.965pt x 111.41624pt>
+File: namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e
+65e3_icgraph.pdf  used on input line 176. on input line 176.
+Package pdftex.def Info: Requested size: 350.0pt x 74.14357pt on input line 176
+.
+[43 <./namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 189
+[][][]
+ []
+
+<namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_cgraph.pdf, id=3582
+, pagebox=cropbox, 379.4175pt x 199.74625pt>
+File: namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_cgraph.pdf Gra
+phic file (type pdf)
+<use namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033a
+b22a_cgraph.pdf  used on input line 232. on input line 232.
+Package pdftex.def Info: Requested size: 350.0pt x 184.26253pt on input line 23
+2.
+
+Underfull \vbox (badness 2744) has occurred while \output is active []
+
+ [44 <./namespaceinitialize__mod_aac9d9dabb797c83e360f9ae60a7e65e3_icgraph.pdf>
+]
+<namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_icgraph.pdf, id=359
+8, pagebox=cropbox, 525.965pt x 111.41624pt>
+File: namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033a
+b22a_icgraph.pdf  used on input line 239. on input line 239.
+Package pdftex.def Info: Requested size: 350.0pt x 74.14357pt on input line 239
+.
+
+Underfull \hbox (badness 10000) detected at line 252
+[][][]
+ []
+
+[45 <./namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_cgraph.pdf> <
+./namespaceinitialize__mod_a4c7a93dca8bb7b573e91f877033ab22a_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize__mod_a4c7a93dca8bb7b57
+3e91f877033ab22a_icgraph.pdf): PDF inclusion: multiple pdfs with page group inc
+luded in a single page
+>]
+<namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_cgraph.pdf, id=3623
+, pagebox=cropbox, 321.2pt x 209.78375pt>
+File: namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_cgraph.pdf Gra
+phic file (type pdf)
+<use namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a18736cca205403067232125b8e51
+0ab2_cgraph.pdf  used on input line 301. on input line 301.
+Package pdftex.def Info: Requested size: 320.0pt x 209.00536pt on input line 30
+1.
+<namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_icgraph.pdf, id=362
+4, pagebox=cropbox, 525.965pt x 111.41624pt>
+File: namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a18736cca205403067232125b8e51
+0ab2_icgraph.pdf  used on input line 308. on input line 308.
+Package pdftex.def Info: Requested size: 350.0pt x 74.14357pt on input line 308
+.
+ [46 <./namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_cgraph.pdf> 
+<./namespaceinitialize__mod_a18736cca205403067232125b8e510ab2_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize__mod_a18736cca20540306
+7232125b8e510ab2_icgraph.pdf): PDF inclusion: multiple pdfs with page group inc
+luded in a single page
+>]
+Underfull \hbox (badness 10000) detected at line 321
+[][][]
+ []
+
+[47]
+<namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_cgraph.pdf, id=3654
+, pagebox=cropbox, 466.74374pt x 209.78375pt>
+File: namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_cgraph.pdf Gra
+phic file (type pdf)
+<use namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_aae6a35bca190cdf65a6146f25426
+4cd1_cgraph.pdf  used on input line 426. on input line 426.
+Package pdftex.def Info: Requested size: 350.0pt x 157.3182pt on input line 426
+.
+<namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_icgraph.pdf, id=365
+5, pagebox=cropbox, 525.965pt x 111.41624pt>
+File: namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_aae6a35bca190cdf65a6146f25426
+4cd1_icgraph.pdf  used on input line 433. on input line 433.
+Package pdftex.def Info: Requested size: 350.0pt x 74.14357pt on input line 433
+.
+ [48 <./namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_cgraph.pdf> 
+<./namespaceinitialize__mod_aae6a35bca190cdf65a6146f254264cd1_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize__mod_aae6a35bca190cdf6
+5a6146f254264cd1_icgraph.pdf): PDF inclusion: multiple pdfs with page group inc
+luded in a single page
+>]
+Underfull \hbox (badness 10000) detected at line 446
+[][][]
+ []
+
+<namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_cgraph.pdf, id=3679
+, pagebox=cropbox, 690.58pt x 359.3425pt>
+File: namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_cgraph.pdf Gra
+phic file (type pdf)
+<use namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a107012ffec69fe2d7c524d240193
+439e_cgraph.pdf  used on input line 505. on input line 505.
+Package pdftex.def Info: Requested size: 350.0pt x 182.12175pt on input line 50
+5.
+<namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_icgraph.pdf, id=368
+0, pagebox=cropbox, 394.47375pt x 100.375pt>
+File: namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_a107012ffec69fe2d7c524d240193
+439e_icgraph.pdf  used on input line 512. on input line 512.
+Package pdftex.def Info: Requested size: 350.0pt x 89.0593pt on input line 512.
+
+[49 <./namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 525
+[][][]
+ []
+
+<namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc03a4a_icgraph.pdf, id=369
+6, pagebox=cropbox, 729.72626pt x 111.41624pt>
+File: namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc03a4a_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc03a4a_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc0
+3a4a_icgraph.pdf  used on input line 565. on input line 565.
+Package pdftex.def Info: Requested size: 350.0pt x 53.43839pt on input line 565
+.
+[50 <./namespaceinitialize__mod_a107012ffec69fe2d7c524d240193439e_icgraph.pdf> 
+<./namespaceinitialize__mod_af38ade977df8d56db1d125bc4cc03a4a_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize__mod_af38ade977df8d56d
+b1d125bc4cc03a4a_icgraph.pdf): PDF inclusion: multiple pdfs with page group inc
+luded in a single page
+>]
+Underfull \hbox (badness 10000) detected at line 578
+[][][]
+ []
+
+<namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602_cgraph.pdf, id=3722
+, pagebox=cropbox, 327.2225pt x 111.41624pt>
+File: namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602_cgraph.pdf Gra
+phic file (type pdf)
+<use namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602_cgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_aebe8236f74bc6665b16463683c47
+8602_cgraph.pdf  used on input line 636. on input line 636.
+Package pdftex.def Info: Requested size: 326.0pt x 110.99945pt on input line 63
+6.
+
+Underfull \vbox (badness 3547) has occurred while \output is active []
+
+ [51]
+<namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602_icgraph.pdf, id=372
+8, pagebox=cropbox, 663.47874pt x 111.41624pt>
+File: namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602_icgraph.pdf Gr
+aphic file (type pdf)
+<use namespaceinitialize__mod_aebe8236f74bc6665b16463683c478602_icgraph.pdf>
+Package pdftex.def Info: namespaceinitialize__mod_aebe8236f74bc6665b16463683c47
+8602_icgraph.pdf  used on input line 643. on input line 643.
+Package pdftex.def Info: Requested size: 350.0pt x 58.7749pt on input line 643.
+
+)
+(namespacesimulation__globals__mod.tex [52 <./namespaceinitialize__mod_aebe8236
+f74bc6665b16463683c478602_cgraph.pdf> <./namespaceinitialize__mod_aebe8236f74bc
+6665b16463683c478602_icgraph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./namespaceinitialize__mod_aebe8236f74bc6665
+b16463683c478602_icgraph.pdf): PDF inclusion: multiple pdfs with page group inc
+luded in a single page
+>]
+Underfull \hbox (badness 10000) detected at line 62
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 78
+[][][]
+ []
+
+[53]
+Underfull \hbox (badness 10000) detected at line 112
+[][][]
+ []
+
+<namespacesimulation__globals__mod_a68e871ed8e5d3930884e968c6fdafddc_icgraph.pd
+f, id=3797, pagebox=cropbox, 372.39125pt x 111.41624pt>
+File: namespacesimulation__globals__mod_a68e871ed8e5d3930884e968c6fdafddc_icgra
+ph.pdf Graphic file (type pdf)
+<use namespacesimulation__globals__mod_a68e871ed8e5d3930884e968c6fdafddc_icgrap
+h.pdf>
+Package pdftex.def Info: namespacesimulation__globals__mod_a68e871ed8e5d3930884
+e968c6fdafddc_icgraph.pdf  used on input line 136. on input line 136.
+Package pdftex.def Info: Requested size: 350.0pt x 104.72107pt on input line 13
+6.
+[54 <./namespacesimulation__globals__mod_a68e871ed8e5d3930884e968c6fdafddc_icgr
+aph.pdf>]
+Underfull \hbox (badness 10000) detected at line 149
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 185
+[][][]
+ []
+
+[55]
+Underfull \hbox (badness 10000) detected at line 230
+[][][]
+ []
+
+<namespacesimulation__globals__mod_a97c04d0289a9f2d004a9329cb7ab16f0_cgraph.pdf
+, id=3819, pagebox=cropbox, 372.39125pt x 111.41624pt>
+File: namespacesimulation__globals__mod_a97c04d0289a9f2d004a9329cb7ab16f0_cgrap
+h.pdf Graphic file (type pdf)
+<use namespacesimulation__globals__mod_a97c04d0289a9f2d004a9329cb7ab16f0_cgraph
+.pdf>
+Package pdftex.def Info: namespacesimulation__globals__mod_a97c04d0289a9f2d004a
+9329cb7ab16f0_cgraph.pdf  used on input line 259. on input line 259.
+Package pdftex.def Info: Requested size: 350.0pt x 104.72107pt on input line 25
+9.
+
+Underfull \hbox (badness 10000) detected at line 272
+[][][]
+ []
+
+[56 <./namespacesimulation__globals__mod_a97c04d0289a9f2d004a9329cb7ab16f0_cgra
+ph.pdf>]
+Underfull \hbox (badness 10000) detected at line 304
+[][][]
+ []
+
+[57]
+Underfull \hbox (badness 10000) detected at line 341
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 393
+[][][]
+ []
+
+[58]
+Underfull \hbox (badness 10000) detected at line 431
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 469
+[][][]
+ []
+
+[59]
+Underfull \hbox (badness 10000) detected at line 507
+[][][]
+ []
+
+[60]
+Underfull \hbox (badness 10000) detected at line 557
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 595
+[][][]
+ []
+
+[61]) (namespacesimulation__logger__mod.tex
+Underfull \hbox (badness 10000) detected at line 34
+[][][]
+ []
+
+[62]
+Underfull \hbox (badness 10000) detected at line 50
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 73
+[][][]
+ []
+
+[63]
+<namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989_icgraph.pdf
+, id=3898, pagebox=cropbox, 349.305pt x 111.41624pt>
+File: namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989_icgrap
+h.pdf Graphic file (type pdf)
+<use namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989_icgraph
+.pdf>
+Package pdftex.def Info: namespacesimulation__logger__mod_a0326a5eeb649b041064a
+01d96aef0989_icgraph.pdf  used on input line 103. on input line 103.
+Package pdftex.def Info: Requested size: 348.0pt x 111.00624pt on input line 10
+3.
+
+Underfull \hbox (badness 10000) detected at line 116
+[][][]
+ []
+
+[64 <./namespacesimulation__logger__mod_a0326a5eeb649b041064a01d96aef0989_icgra
+ph.pdf>]
+Underfull \hbox (badness 10000) detected at line 152
+[][][]
+ []
+
+<namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c_cgraph.pdf,
+ id=3916, pagebox=cropbox, 349.305pt x 111.41624pt>
+File: namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c_cgraph
+.pdf Graphic file (type pdf)
+<use namespacesimulation__logger__mod_a34980631cfcf2d2172aa3b491acace4c_cgraph.
+pdf>
+Package pdftex.def Info: namespacesimulation__logger__mod_a34980631cfcf2d2172aa
+3b491acace4c_cgraph.pdf  used on input line 187. on input line 187.
+Package pdftex.def Info: Requested size: 348.0pt x 111.00624pt on input line 18
+7.
+) (namespacesimulation__memory__mod.tex [65 <./namespacesimulation__logger__mod
+_a34980631cfcf2d2172aa3b491acace4c_cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 44
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 60
+[][][]
+ []
+
+[66]
+Underfull \hbox (badness 10000) detected at line 84
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 108
+[][][]
+ []
+
+[67]
+Underfull \hbox (badness 10000) detected at line 132
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 156
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 180
+[][][]
+ []
+
+[68]
+Underfull \hbox (badness 10000) detected at line 206
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 236
+[][][]
+ []
+
+[69]
+Underfull \hbox (badness 10000) detected at line 281
+[][][]
+ []
+
+) (namespacesimulation__mod.tex
+Underfull \hbox (badness 10000) detected at line 31
+[][][]
+ []
+
+[70]
+Underfull \hbox (badness 10000) detected at line 47
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 75
+[][][]
+ []
+
+<namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c_cgraph.pdf, id=4004
+, pagebox=cropbox, 414.54875pt x 138.5175pt>
+File: namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c_cgraph.pdf Gra
+phic file (type pdf)
+<use namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c_cgraph.pdf>
+Package pdftex.def Info: namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9
+740c_cgraph.pdf  used on input line 103. on input line 103.
+Package pdftex.def Info: Requested size: 350.0pt x 116.95204pt on input line 10
+3.
+[71]
+Underfull \hbox (badness 10000) detected at line 116
+[][][]
+ []
+
+[72 <./namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c_cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 169
+[][][]
+ []
+
+[73]
+<namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940_cgraph.pdf, id=4031
+, pagebox=cropbox, 885.3075pt x 362.35374pt>
+File: namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940_cgraph.pdf Gra
+phic file (type pdf)
+<use namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940_cgraph.pdf>
+Package pdftex.def Info: namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b
+5940_cgraph.pdf  used on input line 232. on input line 232.
+Package pdftex.def Info: Requested size: 350.0pt x 143.25256pt on input line 23
+2.
+
+Underfull \hbox (badness 10000) detected at line 245
+[][][]
+ []
+
+) (namespacesimulation__precision__mod.tex [74 <./namespacesimulation__mod_aedb
+ba2bb458cbcd7eb93938a5f7b5940_cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 38
+[][][]
+ []
+
+[75] [76]) (namespacesimulation__xmlparser__mod.tex [77]
+Underfull \hbox (badness 10000) detected at line 22
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 38
+[][][]
+ []
+
+[78]
+<namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icgraph.
+pdf, id=4109, pagebox=cropbox, 671.50874pt x 347.2975pt>
+File: namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icg
+raph.pdf Graphic file (type pdf)
+<use namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_icgr
+aph.pdf>
+Package pdftex.def Info: namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25
+d2ba18418bd8b9f_icgraph.pdf  used on input line 107. on input line 107.
+Package pdftex.def Info: Requested size: 350.0pt x 181.01437pt on input line 10
+7.
+ [79 <./namespacesimulation__xmlparser__mod_a3167fcb99b40cdc25d2ba18418bd8b9f_i
+cgraph.pdf>]
+Underfull \hbox (badness 10000) detected at line 120
+[][][]
+ []
+
+[80]
+<namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icgraph.
+pdf, id=4130, pagebox=cropbox, 671.50874pt x 258.9675pt>
+File: namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icg
+raph.pdf Graphic file (type pdf)
+<use namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_icgr
+aph.pdf>
+Package pdftex.def Info: namespacesimulation__xmlparser__mod_ab062c8e064b043446
+d4f6ac695b306ab_icgraph.pdf  used on input line 200. on input line 200.
+Package pdftex.def Info: Requested size: 350.0pt x 134.97603pt on input line 20
+0.
+
+Underfull \hbox (badness 10000) detected at line 213
+[][][]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [81 <./namespacesimulation__xmlparser__mod_ab062c8e064b043446d4f6ac695b306ab_i
+cgraph.pdf>]
+<namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icgraph.
+pdf, id=4146, pagebox=cropbox, 809.0225pt x 204.765pt>
+File: namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icg
+raph.pdf Graphic file (type pdf)
+<use namespacesimulation__xmlparser__mod_a48bcd153bef2149410d66842b564728d_icgr
+aph.pdf>
+Package pdftex.def Info: namespacesimulation__xmlparser__mod_a48bcd153bef214941
+0d66842b564728d_icgraph.pdf  used on input line 290. on input line 290.
+Package pdftex.def Info: Requested size: 350.0pt x 88.58775pt on input line 290
+.
+) (namespacesources__array__mod.tex [82 <./namespacesimulation__xmlparser__mod_
+a48bcd153bef2149410d66842b564728d_icgraph.pdf>]) (namespacesources__mod.tex
+[83]
+Underfull \hbox (badness 10000) detected at line 48
+[][][]
+ []
+
+[84]
+Underfull \hbox (badness 10000) detected at line 64
+[][][]
+ []
+
+[85]
+Underfull \hbox (badness 10000) detected at line 139
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 179
+[][][]
+ []
+
+[86]
+Underfull \hbox (badness 10000) detected at line 209
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 240
+[][][]
+ []
+
+[87]
+Underfull \hbox (badness 10000) detected at line 290
+[][][]
+ []
+
+[88]) (namespacetracer__array__mod.tex [89]) (namespacetracer__base__mod.tex
+[90]
+Underfull \hbox (badness 10000) detected at line 34
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 50
+[][][]
+ []
+
+[91]) (namespacetracer__interp__mod.tex) (namespacetracer__paper__mod.tex
+[92]
+Underfull \hbox (badness 10000) detected at line 27
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 43
+[][][]
+ []
+
+[93]) (namespacetracer__plastic__mod.tex
+Underfull \hbox (badness 10000) detected at line 27
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 43
+[][][]
+ []
+
+[94]) (namespacetracers__mod.tex
+Underfull \hbox (badness 10000) detected at line 13
+[][][]
+ []
+
+) (namespaceutilities__mod.tex [95]
+Underfull \hbox (badness 10000) detected at line 18
+[][][]
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 34
+[][][]
+ []
+
+) [96]
+Chapter 7.
+(structblocks__mod_1_1block__class.tex
+<structblocks__mod_1_1block__class__coll__graph.pdf, id=4312, pagebox=cropbox, 
+605.26125pt x 493.845pt>
+File: structblocks__mod_1_1block__class__coll__graph.pdf Graphic file (type pdf
+)
+<use structblocks__mod_1_1block__class__coll__graph.pdf>
+Package pdftex.def Info: structblocks__mod_1_1block__class__coll__graph.pdf  us
+ed on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 350.0pt x 285.57124pt on input line 9.
+
+ [97
+
+ <./structblocks__mod_1_1block__class__coll__graph.pdf>] [98] [99])
+(structboundingbox__mod_1_1boundingbox__class.tex
+<structboundingbox__mod_1_1boundingbox__class__inherit__graph.pdf, id=4364, pag
+ebox=cropbox, 236.885pt x 349.305pt>
+File: structboundingbox__mod_1_1boundingbox__class__inherit__graph.pdf Graphic 
+file (type pdf)
+<use structboundingbox__mod_1_1boundingbox__class__inherit__graph.pdf>
+Package pdftex.def Info: structboundingbox__mod_1_1boundingbox__class__inherit_
+_graph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 236.0pt x 348.00896pt on input line 9.
+
+<structboundingbox__mod_1_1boundingbox__class__coll__graph.pdf, id=4365, pagebo
+x=cropbox, 236.885pt x 349.305pt>
+File: structboundingbox__mod_1_1boundingbox__class__coll__graph.pdf Graphic fil
+e (type pdf)
+<use structboundingbox__mod_1_1boundingbox__class__coll__graph.pdf>
+Package pdftex.def Info: structboundingbox__mod_1_1boundingbox__class__coll__gr
+aph.pdf  used on input line 18. on input line 18.
+Package pdftex.def Info: Requested size: 236.0pt x 348.00896pt on input line 18
+.
+ [100 <./structboundingbox__mod_1_1boundingbox__class__inherit__graph.pdf>] [10
+1 <./structboundingbox__mod_1_1boundingbox__class__coll__graph.pdf>]) (structge
+ometry__mod_1_1box.tex
+<structgeometry__mod_1_1box__inherit__graph.pdf, id=4406, pagebox=cropbox, 236.
+885pt x 349.305pt>
+File: structgeometry__mod_1_1box__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1box__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1box__inherit__graph.pdf  used o
+n input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 236.0pt x 348.00896pt on input line 14
+.
+
+[102]
+<structgeometry__mod_1_1box__coll__graph.pdf, id=4411, pagebox=cropbox, 193.723
+75pt x 232.87pt>
+File: structgeometry__mod_1_1box__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1box__coll__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1box__coll__graph.pdf  used on i
+nput line 23. on input line 23.
+Package pdftex.def Info: Requested size: 193.0pt x 232.0024pt on input line 23.
+
+ [103 <./structgeometry__mod_1_1box__inherit__graph.pdf> <./structgeometry__mod
+_1_1box__coll__graph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structgeometry__mod_1_1box__coll__graph.pd
+f): PDF inclusion: multiple pdfs with page group included in a single page
+>]) (structsimulation__globals__mod_1_1constants__t.tex
+<structsimulation__globals__mod_1_1constants__t__coll__graph.pdf, id=4437, page
+box=cropbox, 178.6675pt x 204.765pt>
+File: structsimulation__globals__mod_1_1constants__t__coll__graph.pdf Graphic f
+ile (type pdf)
+<use structsimulation__globals__mod_1_1constants__t__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__globals__mod_1_1constants__t__coll__
+graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 178.0pt x 204.01147pt on input line 14
+.
+ [104 <./structsimulation__globals__mod_1_1constants__t__coll__graph.pdf>] [105
+])
+(structcontainer__mod_1_1container.tex
+<structcontainer__mod_1_1container__coll__graph.pdf, id=4476, pagebox=cropbox, 
+206.7725pt x 160.6pt>
+File: structcontainer__mod_1_1container__coll__graph.pdf Graphic file (type pdf
+)
+<use structcontainer__mod_1_1container__coll__graph.pdf>
+Package pdftex.def Info: structcontainer__mod_1_1container__coll__graph.pdf  us
+ed on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 206.0pt x 160.0041pt on input line 9.
+ [106] [107 <./structcontainer__mod_1_1container__coll__graph.pdf>])
+(structabstract__container__array__mod_1_1container__array.tex
+<structabstract__container__array__mod_1_1container__array__inherit__graph.pdf,
+ id=4507, pagebox=cropbox, 353.32pt x 321.2pt>
+File: structabstract__container__array__mod_1_1container__array__inherit__graph
+.pdf Graphic file (type pdf)
+<use structabstract__container__array__mod_1_1container__array__inherit__graph.
+pdf>
+Package pdftex.def Info: structabstract__container__array__mod_1_1container__ar
+ray__inherit__graph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 350.0pt x 318.18503pt on input line 9.
+
+ [108]
+<structabstract__container__array__mod_1_1container__array__coll__graph.pdf, id
+=4513, pagebox=cropbox, 220.825pt x 204.765pt>
+File: structabstract__container__array__mod_1_1container__array__coll__graph.pd
+f Graphic file (type pdf)
+<use structabstract__container__array__mod_1_1container__array__coll__graph.pdf
+>
+Package pdftex.def Info: structabstract__container__array__mod_1_1container__ar
+ray__coll__graph.pdf  used on input line 18. on input line 18.
+Package pdftex.def Info: Requested size: 220.0pt x 204.00835pt on input line 18
+.
+ [109 <./structabstract__container__array__mod_1_1container__array__inherit__gr
+aph.pdf> <./structabstract__container__array__mod_1_1container__array__coll__gr
+aph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structabstract__container__array__mod_1_1c
+ontainer__array__coll__graph.pdf): PDF inclusion: multiple pdfs with page group
+ included in a single page
+>] [110]
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
+\T1/pcr/m/n/8 class([]), dimension([]:), allocatable abstract[]_[]container[]_[
+]array[]_[]mod[]::container[]_[]array[]
+ []
+
+) (structemitter__mod_1_1emitter__class.tex
+<structemitter__mod_1_1emitter__class__coll__graph.pdf, id=4560, pagebox=cropbo
+x, 187.70125pt x 193.72375pt>
+File: structemitter__mod_1_1emitter__class__coll__graph.pdf Graphic file (type 
+pdf)
+<use structemitter__mod_1_1emitter__class__coll__graph.pdf>
+Package pdftex.def Info: structemitter__mod_1_1emitter__class__coll__graph.pdf 
+ used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 187.0pt x 193.01086pt on input line 9.
+
+ [111] [112 <./structemitter__mod_1_1emitter__class__coll__graph.pdf>] [113])
+(structsimulation__globals__mod_1_1filenames__t.tex
+<structsimulation__globals__mod_1_1filenames__t__coll__graph.pdf, id=4599, page
+box=cropbox, 178.6675pt x 171.64125pt>
+File: structsimulation__globals__mod_1_1filenames__t__coll__graph.pdf Graphic f
+ile (type pdf)
+<use structsimulation__globals__mod_1_1filenames__t__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__globals__mod_1_1filenames__t__coll__
+graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 178.0pt x 171.00961pt on input line 14
+.
+ [114 <./structsimulation__globals__mod_1_1filenames__t__coll__graph.pdf>])
+(structgeometry__mod_1_1geometry__class.tex
+<structgeometry__mod_1_1geometry__class__coll__graph.pdf, id=4622, pagebox=crop
+box, 208.78pt x 193.72375pt>
+File: structgeometry__mod_1_1geometry__class__coll__graph.pdf Graphic file (typ
+e pdf)
+<use structgeometry__mod_1_1geometry__class__coll__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1geometry__class__coll__graph.pd
+f  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 208.0pt x 193.01086pt on input line 9.
+
+ [115] [116 <./structgeometry__mod_1_1geometry__class__coll__graph.pdf>])
+(structsimulation__globals__mod_1_1globals__class.tex [117]
+<structsimulation__globals__mod_1_1globals__class__coll__graph.pdf, id=4661, pa
+gebox=cropbox, 533.995pt x 376.40625pt>
+File: structsimulation__globals__mod_1_1globals__class__coll__graph.pdf Graphic
+ file (type pdf)
+<use structsimulation__globals__mod_1_1globals__class__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__globals__mod_1_1globals__class__coll
+__graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 350.0pt x 246.71732pt on input line 14
+.
+ [118 <./structsimulation__globals__mod_1_1globals__class__coll__graph.pdf>] [1
+19])
+(structgeometry__mod_1_1line.tex
+<structgeometry__mod_1_1line__inherit__graph.pdf, id=4705, pagebox=cropbox, 193
+.72375pt x 232.87pt>
+File: structgeometry__mod_1_1line__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1line__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1line__inherit__graph.pdf  used 
+on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 193.0pt x 232.0024pt on input line 14.
+
+<structgeometry__mod_1_1line__coll__graph.pdf, id=4706, pagebox=cropbox, 193.72
+375pt x 232.87pt>
+File: structgeometry__mod_1_1line__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1line__coll__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1line__coll__graph.pdf  used on 
+input line 23. on input line 23.
+Package pdftex.def Info: Requested size: 193.0pt x 232.0024pt on input line 23.
+
+ [120] [121 <./structgeometry__mod_1_1line__inherit__graph.pdf> <./structgeomet
+ry__mod_1_1line__coll__graph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structgeometry__mod_1_1line__coll__graph.p
+df): PDF inclusion: multiple pdfs with page group included in a single page
+>]) (structsimulation__logger__mod_1_1logger__class.tex
+<structsimulation__logger__mod_1_1logger__class__coll__graph.pdf, id=4738, page
+box=cropbox, 196.735pt x 171.64125pt>
+File: structsimulation__logger__mod_1_1logger__class__coll__graph.pdf Graphic f
+ile (type pdf)
+<use structsimulation__logger__mod_1_1logger__class__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__logger__mod_1_1logger__class__coll__
+graph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 196.0pt x 170.99915pt on input line 9.
+
+ [122 <./structsimulation__logger__mod_1_1logger__class__coll__graph.pdf>])
+(structsimulation__memory__mod_1_1memory__t.tex
+<structsimulation__memory__mod_1_1memory__t__coll__graph.pdf, id=4762, pagebox=
+cropbox, 205.76875pt x 271.0125pt>
+File: structsimulation__memory__mod_1_1memory__t__coll__graph.pdf Graphic file 
+(type pdf)
+<use structsimulation__memory__mod_1_1memory__t__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__memory__mod_1_1memory__t__coll__grap
+h.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 205.0pt x 270.0028pt on input line 9.
+ [123] [124 <./structsimulation__memory__mod_1_1memory__t__coll__graph.pdf>] [1
+25] [126])
+(structtracer__paper__mod_1_1paper__class.tex
+<structtracer__paper__mod_1_1paper__class__inherit__graph.pdf, id=4823, pagebox
+=cropbox, 205.76875pt x 288.07625pt>
+File: structtracer__paper__mod_1_1paper__class__inherit__graph.pdf Graphic file
+ (type pdf)
+<use structtracer__paper__mod_1_1paper__class__inherit__graph.pdf>
+Package pdftex.def Info: structtracer__paper__mod_1_1paper__class__inherit__gra
+ph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 205.0pt x 287.00298pt on input line 14
+.
+ [127]
+<structtracer__paper__mod_1_1paper__class__coll__graph.pdf, id=4828, pagebox=cr
+opbox, 631.35875pt x 470.75874pt>
+File: structtracer__paper__mod_1_1paper__class__coll__graph.pdf Graphic file (t
+ype pdf)
+<use structtracer__paper__mod_1_1paper__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__paper__mod_1_1paper__class__coll__graph.
+pdf  used on input line 23. on input line 23.
+Package pdftex.def Info: Requested size: 350.0pt x 260.9725pt on input line 23.
+
+ [128 <./structtracer__paper__mod_1_1paper__class__inherit__graph.pdf> <./struc
+ttracer__paper__mod_1_1paper__class__coll__graph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structtracer__paper__mod_1_1paper__class__
+coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in a si
+ngle page
+>]) (structtracer__paper__mod_1_1paper__par__class.tex
+<structtracer__paper__mod_1_1paper__par__class__coll__graph.pdf, id=4861, pageb
+ox=cropbox, 205.76875pt x 182.6825pt>
+File: structtracer__paper__mod_1_1paper__par__class__coll__graph.pdf Graphic fi
+le (type pdf)
+<use structtracer__paper__mod_1_1paper__par__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__paper__mod_1_1paper__par__class__coll__g
+raph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 205.0pt x 182.00188pt on input line 9.
+
+ [129] [130 <./structtracer__paper__mod_1_1paper__par__class__coll__graph.pdf>]
+)
+(structtracer__paper__mod_1_1paper__state__class.tex
+<structtracer__paper__mod_1_1paper__state__class__coll__graph.pdf, id=4895, pag
+ebox=cropbox, 205.76875pt x 171.64125pt>
+File: structtracer__paper__mod_1_1paper__state__class__coll__graph.pdf Graphic 
+file (type pdf)
+<use structtracer__paper__mod_1_1paper__state__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__paper__mod_1_1paper__state__class__coll_
+_graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 205.0pt x 171.00175pt on input line 14
+.
+ [131] [132 <./structtracer__paper__mod_1_1paper__state__class__coll__graph.pdf
+>])
+(structsimulation__globals__mod_1_1parameters__t.tex
+<structsimulation__globals__mod_1_1parameters__t__coll__graph.pdf, id=4923, pag
+ebox=cropbox, 184.69pt x 215.80624pt>
+File: structsimulation__globals__mod_1_1parameters__t__coll__graph.pdf Graphic 
+file (type pdf)
+<use structsimulation__globals__mod_1_1parameters__t__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__globals__mod_1_1parameters__t__coll_
+_graph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 184.0pt x 215.00223pt on input line 9.
+
+ [133 <./structsimulation__globals__mod_1_1parameters__t__coll__graph.pdf>] [13
+4])
+(structtracer__plastic__mod_1_1plastic__class.tex [135]
+<structtracer__plastic__mod_1_1plastic__class__inherit__graph.pdf, id=4966, pag
+ebox=cropbox, 202.7575pt x 288.07625pt>
+File: structtracer__plastic__mod_1_1plastic__class__inherit__graph.pdf Graphic 
+file (type pdf)
+<use structtracer__plastic__mod_1_1plastic__class__inherit__graph.pdf>
+Package pdftex.def Info: structtracer__plastic__mod_1_1plastic__class__inherit_
+_graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 202.0pt x 287.00737pt on input line 14
+.
+<structtracer__plastic__mod_1_1plastic__class__coll__graph.pdf, id=4967, pagebo
+x=cropbox, 587.19376pt x 470.75874pt>
+File: structtracer__plastic__mod_1_1plastic__class__coll__graph.pdf Graphic fil
+e (type pdf)
+<use structtracer__plastic__mod_1_1plastic__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__plastic__mod_1_1plastic__class__coll__gr
+aph.pdf  used on input line 23. on input line 23.
+Package pdftex.def Info: Requested size: 350.0pt x 280.59698pt on input line 23
+.
+ [136 <./structtracer__plastic__mod_1_1plastic__class__inherit__graph.pdf>] [13
+7 <./structtracer__plastic__mod_1_1plastic__class__coll__graph.pdf>])
+(structtracer__plastic__mod_1_1plastic__par__class.tex
+<structtracer__plastic__mod_1_1plastic__par__class__coll__graph.pdf, id=5011, p
+agebox=cropbox, 179.67125pt x 182.6825pt>
+File: structtracer__plastic__mod_1_1plastic__par__class__coll__graph.pdf Graphi
+c file (type pdf)
+<use structtracer__plastic__mod_1_1plastic__par__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__plastic__mod_1_1plastic__par__class__col
+l__graph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 179.0pt x 182.01303pt on input line 9.
+
+ [138 <./structtracer__plastic__mod_1_1plastic__par__class__coll__graph.pdf>] [
+139])
+(structtracer__plastic__mod_1_1plastic__state__class.tex
+<structtracer__plastic__mod_1_1plastic__state__class__coll__graph.pdf, id=5040,
+ pagebox=cropbox, 187.70125pt x 171.64125pt>
+File: structtracer__plastic__mod_1_1plastic__state__class__coll__graph.pdf Grap
+hic file (type pdf)
+<use structtracer__plastic__mod_1_1plastic__state__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__plastic__mod_1_1plastic__state__class__c
+oll__graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 187.0pt x 171.00961pt on input line 14
+.
+ [140 <./structtracer__plastic__mod_1_1plastic__state__class__coll__graph.pdf>]
+)
+(structgeometry__mod_1_1point.tex
+<structgeometry__mod_1_1point__inherit__graph.pdf, id=5059, pagebox=cropbox, 19
+3.72375pt x 232.87pt>
+File: structgeometry__mod_1_1point__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1point__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1point__inherit__graph.pdf  used
+ on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 193.0pt x 232.0024pt on input line 14.
+
+ [141]
+<structgeometry__mod_1_1point__coll__graph.pdf, id=5068, pagebox=cropbox, 193.7
+2375pt x 232.87pt>
+File: structgeometry__mod_1_1point__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1point__coll__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1point__coll__graph.pdf  used on
+ input line 23. on input line 23.
+Package pdftex.def Info: Requested size: 193.0pt x 232.0024pt on input line 23.
+
+ [142 <./structgeometry__mod_1_1point__inherit__graph.pdf>]) (structgeometry__m
+od_1_1shape.tex
+<structgeometry__mod_1_1shape__inherit__graph.pdf, id=5084, pagebox=cropbox, 59
+2.2125pt x 349.305pt>
+File: structgeometry__mod_1_1shape__inherit__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1shape__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1shape__inherit__graph.pdf  used
+ on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 350.0pt x 206.44527pt on input line 14
+.
+<structgeometry__mod_1_1shape__coll__graph.pdf, id=5085, pagebox=cropbox, 193.7
+2375pt x 138.5175pt>
+File: structgeometry__mod_1_1shape__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1shape__coll__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1shape__coll__graph.pdf  used on
+ input line 23. on input line 23.
+Package pdftex.def Info: Requested size: 193.0pt x 138.00142pt on input line 23
+.
+ [143 <./structgeometry__mod_1_1point__coll__graph.pdf> <./structgeometry__mod_
+1_1shape__inherit__graph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structgeometry__mod_1_1shape__inherit__gra
+ph.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+
+>]) (structsimulation__globals__mod_1_1simdefs__t.tex
+<structsimulation__globals__mod_1_1simdefs__t__coll__graph.pdf, id=5112, pagebo
+x=cropbox, 177.66376pt x 259.97125pt>
+File: structsimulation__globals__mod_1_1simdefs__t__coll__graph.pdf Graphic fil
+e (type pdf)
+<use structsimulation__globals__mod_1_1simdefs__t__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__globals__mod_1_1simdefs__t__coll__gr
+aph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 177.0pt x 259.00667pt on input line 14
+.
+ [144 <./structgeometry__mod_1_1shape__coll__graph.pdf>] [145 <./structsimulati
+on__globals__mod_1_1simdefs__t__coll__graph.pdf>] [146] [147])
+(structsimulation__mod_1_1simulation__class.tex
+<structsimulation__mod_1_1simulation__class__coll__graph.pdf, id=5179, pagebox=
+cropbox, 215.80624pt x 204.765pt>
+File: structsimulation__mod_1_1simulation__class__coll__graph.pdf Graphic file 
+(type pdf)
+<use structsimulation__mod_1_1simulation__class__coll__graph.pdf>
+Package pdftex.def Info: structsimulation__mod_1_1simulation__class__coll__grap
+h.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 215.0pt x 204.00523pt on input line 9.
+
+ [148] [149 <./structsimulation__mod_1_1simulation__class__coll__graph.pdf>])
+(structsources__mod_1_1source__class.tex
+<structsources__mod_1_1source__class__coll__graph.pdf, id=5216, pagebox=cropbox
+, 596.2275pt x 365.365pt>
+File: structsources__mod_1_1source__class__coll__graph.pdf Graphic file (type p
+df)
+<use structsources__mod_1_1source__class__coll__graph.pdf>
+Package pdftex.def Info: structsources__mod_1_1source__class__coll__graph.pdf  
+used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 350.0pt x 214.47635pt on input line 14
+.
+ [150] [151 <./structsources__mod_1_1source__class__coll__graph.pdf>] [152])
+(structsources__mod_1_1source__group__class.tex
+<structsources__mod_1_1source__group__class__coll__graph.pdf, id=5264, pagebox=
+cropbox, 596.2275pt x 503.8825pt>
+File: structsources__mod_1_1source__group__class__coll__graph.pdf Graphic file 
+(type pdf)
+<use structsources__mod_1_1source__group__class__coll__graph.pdf>
+Package pdftex.def Info: structsources__mod_1_1source__group__class__coll__grap
+h.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 350.0pt x 295.78882pt on input line 9.
+
+ [153] [154 <./structsources__mod_1_1source__group__class__coll__graph.pdf>])
+(structsources__mod_1_1source__par.tex
+<structsources__mod_1_1source__par__coll__graph.pdf, id=5296, pagebox=cropbox, 
+209.78375pt x 226.8475pt>
+File: structsources__mod_1_1source__par__coll__graph.pdf Graphic file (type pdf
+)
+<use structsources__mod_1_1source__par__coll__graph.pdf>
+Package pdftex.def Info: structsources__mod_1_1source__par__coll__graph.pdf  us
+ed on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 209.0pt x 225.99889pt on input line 9.
+
+ [155] [156 <./structsources__mod_1_1source__par__coll__graph.pdf>] [157]) (str
+uctsources__mod_1_1source__state.tex
+<structsources__mod_1_1source__state__coll__graph.pdf, id=5342, pagebox=cropbox
+, 190.7125pt x 204.765pt>
+File: structsources__mod_1_1source__state__coll__graph.pdf Graphic file (type p
+df)
+<use structsources__mod_1_1source__state__coll__graph.pdf>
+Package pdftex.def Info: structsources__mod_1_1source__state__coll__graph.pdf  
+used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 190.0pt x 204.00835pt on input line 14
+.
+
+[158] [159 <./structsources__mod_1_1source__state__coll__graph.pdf>] [160])
+(structsources__mod_1_1source__stats.tex
+<structsources__mod_1_1source__stats__coll__graph.pdf, id=5379, pagebox=cropbox
+, 190.7125pt x 171.64125pt>
+File: structsources__mod_1_1source__stats__coll__graph.pdf Graphic file (type p
+df)
+<use structsources__mod_1_1source__stats__coll__graph.pdf>
+Package pdftex.def Info: structsources__mod_1_1source__stats__coll__graph.pdf  
+used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 190.0pt x 171.00699pt on input line 14
+.
+ [161] [162 <./structsources__mod_1_1source__stats__coll__graph.pdf>]) (structs
+ources__mod_1_1source__stencil.tex
+<structsources__mod_1_1source__stencil__coll__graph.pdf, id=5407, pagebox=cropb
+ox, 190.7125pt x 171.64125pt>
+File: structsources__mod_1_1source__stencil__coll__graph.pdf Graphic file (type
+ pdf)
+<use structsources__mod_1_1source__stencil__coll__graph.pdf>
+Package pdftex.def Info: structsources__mod_1_1source__stencil__coll__graph.pdf
+  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 190.0pt x 171.00699pt on input line 14
+.
+
+[163 <./structsources__mod_1_1source__stencil__coll__graph.pdf>])
+(structsources__array__mod_1_1sourcearray.tex
+<structsources__array__mod_1_1sourcearray__inherit__graph.pdf, id=5426, pagebox
+=cropbox, 220.825pt x 321.2pt>
+File: structsources__array__mod_1_1sourcearray__inherit__graph.pdf Graphic file
+ (type pdf)
+<use structsources__array__mod_1_1sourcearray__inherit__graph.pdf>
+Package pdftex.def Info: structsources__array__mod_1_1sourcearray__inherit__gra
+ph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 220.0pt x 320.01314pt on input line 9.
+
+ [164]
+<structsources__array__mod_1_1sourcearray__coll__graph.pdf, id=5435, pagebox=cr
+opbox, 220.825pt x 321.2pt>
+File: structsources__array__mod_1_1sourcearray__coll__graph.pdf Graphic file (t
+ype pdf)
+<use structsources__array__mod_1_1sourcearray__coll__graph.pdf>
+Package pdftex.def Info: structsources__array__mod_1_1sourcearray__coll__graph.
+pdf  used on input line 18. on input line 18.
+Package pdftex.def Info: Requested size: 220.0pt x 320.01314pt on input line 18
+.
+ [165 <./structsources__array__mod_1_1sourcearray__inherit__graph.pdf>] [166 <.
+/structsources__array__mod_1_1sourcearray__coll__graph.pdf>]) (structgeometry__
+mod_1_1sphere.tex
+<structgeometry__mod_1_1sphere__inherit__graph.pdf, id=5473, pagebox=cropbox, 1
+96.735pt x 232.87pt>
+File: structgeometry__mod_1_1sphere__inherit__graph.pdf Graphic file (type pdf)
+
+<use structgeometry__mod_1_1sphere__inherit__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1sphere__inherit__graph.pdf  use
+d on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 196.0pt x 231.99884pt on input line 14
+.
+<structgeometry__mod_1_1sphere__coll__graph.pdf, id=5474, pagebox=cropbox, 196.
+735pt x 232.87pt>
+File: structgeometry__mod_1_1sphere__coll__graph.pdf Graphic file (type pdf)
+<use structgeometry__mod_1_1sphere__coll__graph.pdf>
+Package pdftex.def Info: structgeometry__mod_1_1sphere__coll__graph.pdf  used o
+n input line 23. on input line 23.
+Package pdftex.def Info: Requested size: 196.0pt x 231.99884pt on input line 23
+.
+ [167 <./structgeometry__mod_1_1sphere__inherit__graph.pdf>])
+(structtracer__base__mod_1_1tracer__class.tex
+<structtracer__base__mod_1_1tracer__class__inherit__graph.pdf, id=5492, pagebox
+=cropbox, 323.2075pt x 288.07625pt>
+File: structtracer__base__mod_1_1tracer__class__inherit__graph.pdf Graphic file
+ (type pdf)
+<use structtracer__base__mod_1_1tracer__class__inherit__graph.pdf>
+Package pdftex.def Info: structtracer__base__mod_1_1tracer__class__inherit__gra
+ph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 322.0pt x 287.01616pt on input line 14
+.
+ [168 <./structgeometry__mod_1_1sphere__coll__graph.pdf>]
+<structtracer__base__mod_1_1tracer__class__coll__graph.pdf, id=5509, pagebox=cr
+opbox, 483.8075pt x 321.2pt>
+File: structtracer__base__mod_1_1tracer__class__coll__graph.pdf Graphic file (t
+ype pdf)
+<use structtracer__base__mod_1_1tracer__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__base__mod_1_1tracer__class__coll__graph.
+pdf  used on input line 23. on input line 23.
+Package pdftex.def Info: Requested size: 350.0pt x 232.37637pt on input line 23
+.
+ [169 <./structtracer__base__mod_1_1tracer__class__inherit__graph.pdf> <./struc
+ttracer__base__mod_1_1tracer__class__coll__graph.pdf
+
+pdfTeX warning: pdflatex.exe (file ./structtracer__base__mod_1_1tracer__class__
+coll__graph.pdf): PDF inclusion: multiple pdfs with page group included in a si
+ngle page
+>] [170]) (structtracer__base__mod_1_1tracer__par__class.tex
+<structtracer__base__mod_1_1tracer__par__class__coll__graph.pdf, id=5554, pageb
+ox=cropbox, 202.7575pt x 193.72375pt>
+File: structtracer__base__mod_1_1tracer__par__class__coll__graph.pdf Graphic fi
+le (type pdf)
+<use structtracer__base__mod_1_1tracer__par__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__base__mod_1_1tracer__par__class__coll__g
+raph.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 202.0pt x 193.00496pt on input line 9.
+
+ [171 <./structtracer__base__mod_1_1tracer__par__class__coll__graph.pdf>] [172]
+)
+(structtracer__base__mod_1_1tracer__state__class.tex
+<structtracer__base__mod_1_1tracer__state__class__coll__graph.pdf, id=5585, pag
+ebox=cropbox, 202.7575pt x 204.765pt>
+File: structtracer__base__mod_1_1tracer__state__class__coll__graph.pdf Graphic 
+file (type pdf)
+<use structtracer__base__mod_1_1tracer__state__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__base__mod_1_1tracer__state__class__coll_
+_graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 202.0pt x 204.00523pt on input line 14
+.
+ [173 <./structtracer__base__mod_1_1tracer__state__class__coll__graph.pdf>] [17
+4])
+(structtracer__base__mod_1_1tracer__stats__class.tex
+<structtracer__base__mod_1_1tracer__stats__class__coll__graph.pdf, id=5619, pag
+ebox=cropbox, 202.7575pt x 182.6825pt>
+File: structtracer__base__mod_1_1tracer__stats__class__coll__graph.pdf Graphic 
+file (type pdf)
+<use structtracer__base__mod_1_1tracer__stats__class__coll__graph.pdf>
+Package pdftex.def Info: structtracer__base__mod_1_1tracer__stats__class__coll_
+_graph.pdf  used on input line 14. on input line 14.
+Package pdftex.def Info: Requested size: 202.0pt x 182.00467pt on input line 14
+.
+ [175] [176 <./structtracer__base__mod_1_1tracer__stats__class__coll__graph.pdf
+>])
+(structtracer__array__mod_1_1tracerarray.tex
+<structtracer__array__mod_1_1tracerarray__inherit__graph.pdf, id=5648, pagebox=
+cropbox, 225.84375pt x 310.15875pt>
+File: structtracer__array__mod_1_1tracerarray__inherit__graph.pdf Graphic file 
+(type pdf)
+<use structtracer__array__mod_1_1tracerarray__inherit__graph.pdf>
+Package pdftex.def Info: structtracer__array__mod_1_1tracerarray__inherit__grap
+h.pdf  used on input line 9. on input line 9.
+Package pdftex.def Info: Requested size: 225.0pt x 309.01741pt on input line 9.
+
+ [177]
+<structtracer__array__mod_1_1tracerarray__coll__graph.pdf, id=5653, pagebox=cro
+pbox, 225.84375pt x 310.15875pt>
+File: structtracer__array__mod_1_1tracerarray__coll__graph.pdf Graphic file (ty
+pe pdf)
+<use structtracer__array__mod_1_1tracerarray__coll__graph.pdf>
+Package pdftex.def Info: structtracer__array__mod_1_1tracerarray__coll__graph.p
+df  used on input line 18. on input line 18.
+Package pdftex.def Info: Requested size: 225.0pt x 309.01741pt on input line 18
+.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [178 <./structtracer__array__mod_1_1tracerarray__inherit__graph.pdf>] [179 <./
+structtracer__array__mod_1_1tracerarray__coll__graph.pdf>]) [180]
+Chapter 8.
+(_r_e_a_d_m_e_8md.tex) (_m_o_h_i_d_lagrangian_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/app/[]M[]O[]H[]I[]D[]
+ []
+
+) (about_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/about.f90 File
+ []
+
+) (abstract__container__array_8f90.tex [181
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/abstract[]_[]
+ []
+
+) (blocks_8f90.tex
+Underfull \hbox (badness 2020) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/blocks.f90 File
+ []
+
+[182]) (boundingbox_8f90.tex) (common__modules_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/common[]_[]
+ []
+
+[183]) (container_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/container.f90
+ []
+
+) (emitter_8f90.tex [184]) (geometry_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/geometry.f90
+ []
+
+[185]) (initialize_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/initialize.f90
+ []
+
+) (simulation_8f90.tex [186]
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/simulation.f90
+ []
+
+) (simulation__globals_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/simulation[]_[]
+ []
+
+[187]) (simulation__logger_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/simulation[]_[]
+ []
+
+[188]) (simulation__memory_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/simulation[]_[]
+ []
+
+) (simulation__precision_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/simulation[]_[]
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 22.16548pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[189]) (simulation__xmlparser_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/simulation[]_[]
+ []
+
+) (sources_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/sources.f90
+ []
+
+[190]
+Underfull \hbox (badness 849) in paragraph at lines 32--33
+[]\T1/phv/m/n/10 subroutine [] (src, id, name, emitting[]_[]rate, start, fin-is
+h, source[]_[]geometry,
+ []
+
+) (sources__array_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/sources[]_[]
+ []
+
+[191]) (tracer__array_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/tracer[]_[]
+ []
+
+) (tracer__base_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/tracer[]_[]
+ []
+
+) (tracer__interp_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/tracer[]_[]
+ []
+
+[192]) (tracer__paper_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/tracer[]_[]
+ []
+
+) (tracer__plastic_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/tracer[]_[]
+ []
+
+[193]) (tracers_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/tracers.f90
+ []
+
+) (utilities_8f90.tex
+Underfull \hbox (badness 10000) in paragraph at lines 1--1
+[]\T1/phv/bc/n/14.4 C[]:/[]Users/administrator/[]Documents/[]Git[]Hub/[]M[]O[]H
+[]I[]D-[]Lagrangian/src/lib/utilities.f90
+ []
+
+) [194]
+No file refman.ind.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 251.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 251.
+(refman.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 251.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 251.
+Package rerunfilecheck Info: File `refman.out' has not changed.
+(rerunfilecheck)             Checksum: 1D0A2BE8A4DAFAD9ECBF07AE2477A3BA;119394.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 251.
+ ) 
+Here is how much of TeX's memory you used:
+ 17807 strings out of 493312
+ 325442 string characters out of 3138876
+ 349009 words of memory out of 3000000
+ 19411 multiletter control sequences out of 15000+200000
+ 68131 words of font info for 93 fonts, out of 3000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 53i,16n,92p,2137b,630s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmmi9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program
+ Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/urw/courier/ucrro8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
+/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/
+uhvb8ac.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvr8a.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (214 pages, 2511144 bytes).
+PDF statistics:
+ 6342 PDF objects out of 7423 (max. 8388607)
+ 1423 named destinations out of 1440 (max. 500000)
+ 4677 words of extra memory for PDF output out of 10000 (max. 10000000)
+
