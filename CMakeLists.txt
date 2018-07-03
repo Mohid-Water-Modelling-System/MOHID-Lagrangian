@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # The solution will have all targets (exe, lib, dll)
 # as Visual Studio projects (.vcproj)
 
-project(MOHIDLagrangian)
-enable_language(Fortran)
+project(MOHIDLagrangian C CXX Fortran) 
+#enable_language(Fortran)
 
 # if build type not specified, default to release
 if(NOT CMAKE_BUILD_TYPE)
@@ -18,6 +18,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 SET(BIN_NAME MOHIDLagrangian)
 SET(LIB_NAME MOHIDLagrangianLib)
+SET(C_LIB_NAME C_Libs)
 
 message("Project name " ${BIN_NAME})
 message("Library name " ${LIB_NAME})

@@ -5,8 +5,11 @@ message("At Library CMAKE file")
 #################################################################
 
 # Collect sources into the variable LIB_SRC
-FILE(GLOB_RECURSE LIB_SRC *.f90 *.F90 *.c)
+FILE(GLOB_RECURSE LIB_SRC *.f90 *.F90)
 SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
+
+FILE(GLOB_RECURSE C_LIB_SRC *.C *.cpp *.h)
+SET(C_LIB_SRC ${C_LIB_SRC} PARENT_SCOPE)
 
 message(STATUS "Library source files " ${LIB_SRC})
 
@@ -47,7 +50,6 @@ ADD_LIBRARY(${LIB_NAME} ${LIB_SRC})
 
 # Creates folder "libraries" and adds target project (MOHIDLagrangianLib.vcproj)
 set_property(TARGET ${LIB_NAME} PROPERTY FOLDER "libraries")
+set_property(TARGET ${LIB_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
-# Properties->General->Output Directory
-#set_target_properties(${LIB_NAME} PROPERTIES
-#                      RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+

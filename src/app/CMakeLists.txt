@@ -4,7 +4,7 @@ message("At Application CMAKE file")
 # Creates app.exe with the listed sources (main.cxx)
 # Adds sources to the Solution Explorer
 
-add_executable(MOHIDLagrangian MOHIDLagrangian.f90)
+add_executable(${BIN_NAME} MOHIDLagrangian.f90)
 
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)
@@ -50,18 +50,19 @@ message(STATUS "Targeting library " ${LIB_NAME})
 message(STATUS "Targeting " ${LIBS})
 message(STATUS "Targeting external libraries " ${EXTERNAL_LIBS})
 
-target_link_libraries (MOHIDLagrangian  ${LIB_NAME})
-target_link_libraries (MOHIDLagrangian  ${LIBS})
-target_link_libraries (MOHIDLagrangian  ${EXTERNAL_LIBS})
+target_link_libraries (${BIN_NAME}  ${LIB_NAME})
+target_link_libraries (${BIN_NAME}  ${LIBS})
+target_link_libraries (${BIN_NAME}  ${EXTERNAL_LIBS})
 
 # Creates a folder "executables" and adds target
 # project (app.vcproj) under it
-set_property(TARGET MOHIDLagrangian PROPERTY FOLDER "executables")
+set_property(TARGET ${BIN_NAME} PROPERTY FOLDER "executables")
+set_property(TARGET ${BIN_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
 # Properties->General->Output Directory
-set_target_properties(MOHIDLagrangian PROPERTIES
+set_target_properties(${BIN_NAME} PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 # Adds logic to INSTALL.vcproj to copy app.exe to destination directory
-install (TARGETS MOHIDLagrangian
-         RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/_install)
+#install (TARGETS ${BIN_NAME}
+#         RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/_install)
