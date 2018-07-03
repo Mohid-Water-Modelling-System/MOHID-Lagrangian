@@ -1,4 +1,7 @@
 ## MOHIDLagrangian
+
+Check out our [code documentation page](https://rbcanelas.github.io/MOHID-Lagrangian/)!
+
 MOHIDLagragian is a both a library for the [MOHID Water Modelling System](http://www.mohid.com) and a standalone program. The library implements all the necessary tools to generate a comprehensive Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
 
 The MOHIDLagrangian program is a specific implementation of the library, designed as a post-processing or online tool, ready to be forced with other models.
