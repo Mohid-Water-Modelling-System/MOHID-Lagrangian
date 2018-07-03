@@ -9,9 +9,9 @@ type \mbox{\hyperlink{structtracer__array__mod_1_1tracerarray}{tracerarray}}
 \begin{DoxyCompactItemize}
 \item 
 subroutine \mbox{\hyperlink{namespacetracer__array__mod_a173acbcf343367bf87b705fe5ca0dd29}{print\+\_\+tracerarray}} (this)
-\item 
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e05af}{print\+\_\+tracerarray\+\_\+element}} (this, index)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Function/\+Subroutine Documentation}
@@ -23,26 +23,35 @@ subroutine \mbox{\hyperlink{namespacetracer__array__mod_ac3b3896987e589190c759e9
 
 
 
-Definition at line 36 of file tracer\+\_\+array.\+f90.
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Method that prints all the elements of the array 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 42 of file tracer\+\_\+array.\+f90.
 
 
 \begin{DoxyCode}
-36     \textcolor{keywordtype}{class}(TracerArray), \textcolor{keywordtype}{intent(in)} :: this
-37     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-38     \textcolor{keywordtype}{integer} :: i
-39     \textcolor{keywordflow}{do} i=1, this%usedLength
-40         curr => this%get(i)
-41         \textcolor{keywordflow}{select type}(curr)
-42 \textcolor{keywordflow}{        type is} (tracer\_class)
-43             \textcolor{comment}{!call curr%print()}
-44 \textcolor{keywordflow}{        class is} (paper\_class)
-45             \textcolor{comment}{!call curr%print()}
-46 \textcolor{keywordflow}{        class is} (plastic\_class)
-47             \textcolor{comment}{!call curr%print()}
-48 \textcolor{keywordflow}{            class default}
-49             stop \textcolor{stringliteral}{'[print\_TracerArray]: unexepected type of content: not a shape or derived type'}
-50 \textcolor{keywordflow}{        end select}
-51 \textcolor{keywordflow}{    end do}
+42     \textcolor{keywordtype}{class}(TracerArray), \textcolor{keywordtype}{intent(in)} :: this
+43     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+44     \textcolor{keywordtype}{integer} :: i
+45     \textcolor{keywordflow}{do} i=1, this%usedLength
+46         curr => this%get(i)
+47         \textcolor{keywordflow}{select type}(curr)
+48 \textcolor{keywordflow}{        type is} (tracer\_class)
+49             \textcolor{comment}{!call curr%print()}
+50 \textcolor{keywordflow}{        class is} (paper\_class)
+51             \textcolor{comment}{!call curr%print()}
+52 \textcolor{keywordflow}{        class is} (plastic\_class)
+53             \textcolor{comment}{!call curr%print()}
+54 \textcolor{keywordflow}{            class default}
+55             stop \textcolor{stringliteral}{'[print\_TracerArray]: unexepected type of content: not a shape or derived type'}
+56 \textcolor{keywordflow}{        end select}
+57 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e05af}\label{namespacetracer__array__mod_ac3b3896987e589190c759e92e95e05af}} 
 \index{tracer\+\_\+array\+\_\+mod@{tracer\+\_\+array\+\_\+mod}!print\+\_\+tracerarray\+\_\+element@{print\+\_\+tracerarray\+\_\+element}}
@@ -52,26 +61,35 @@ Definition at line 36 of file tracer\+\_\+array.\+f90.
 
 
 
-Definition at line 55 of file tracer\+\_\+array.\+f90.
+Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+
+Method that prints an element of the array 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this,index} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 67 of file tracer\+\_\+array.\+f90.
 
 
 \begin{DoxyCode}
-55     \textcolor{keywordtype}{class}(TracerArray), \textcolor{keywordtype}{intent(in)} :: this
-56     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: index
-57     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-58     \textcolor{keywordflow}{if} (index .le. this%usedLength) \textcolor{keywordflow}{then}
-59         curr => this%get(index)
-60         \textcolor{keywordflow}{select type}(curr)
-61 \textcolor{keywordflow}{        type is} (tracer\_class)
-62             \textcolor{comment}{!call curr%print()}
-63 \textcolor{keywordflow}{        class is} (paper\_class)
-64             \textcolor{comment}{!call curr%print()}
-65 \textcolor{keywordflow}{        class is} (plastic\_class)
-66             \textcolor{comment}{!call curr%print()}
-67 \textcolor{keywordflow}{            class default}
-68             stop \textcolor{stringliteral}{'[print\_TracerArray\_Element]: unexepected type of content, not a shape or derived type'}
-69 \textcolor{keywordflow}{        end select}
-70     \textcolor{keywordflow}{else}
-71         stop \textcolor{stringliteral}{'[print\_TracerArray\_Element]: index out of bounds'}
-72 \textcolor{keywordflow}{    endif}
+67     \textcolor{keywordtype}{class}(TracerArray), \textcolor{keywordtype}{intent(in)} :: this
+68     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: index
+69     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+70     \textcolor{keywordflow}{if} (index .le. this%usedLength) \textcolor{keywordflow}{then}
+71         curr => this%get(index)
+72         \textcolor{keywordflow}{select type}(curr)
+73 \textcolor{keywordflow}{        type is} (tracer\_class)
+74             \textcolor{comment}{!call curr%print()}
+75 \textcolor{keywordflow}{        class is} (paper\_class)
+76             \textcolor{comment}{!call curr%print()}
+77 \textcolor{keywordflow}{        class is} (plastic\_class)
+78             \textcolor{comment}{!call curr%print()}
+79 \textcolor{keywordflow}{            class default}
+80             stop \textcolor{stringliteral}{'[print\_TracerArray\_Element]: unexepected type of content, not a shape or derived type'}
+81 \textcolor{keywordflow}{        end select}
+82     \textcolor{keywordflow}{else}
+83         stop \textcolor{stringliteral}{'[print\_TracerArray\_Element]: index out of bounds'}
+84 \textcolor{keywordflow}{    endif}
 \end{DoxyCode}

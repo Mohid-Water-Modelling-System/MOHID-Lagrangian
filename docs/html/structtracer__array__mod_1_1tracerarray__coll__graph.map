@@ -1,3 +1,3 @@
 <map id="tracer_array_mod::tracerarray" name="tracer_array_mod::tracerarray">
-<area shape="rect" id="node2" href="$structabstract__container__array__mod_1_1container__array.html" title="{abstract_container\l_array_mod::container_array\n|&#45; contents\l&#45; length\l|&#45; resize()\l&#45; init()\l&#45; get()\l&#45; put()\l&#45; getlength()\l}" alt="" coords="9,5,195,171"/>
+<area shape="rect" id="node2" href="$structabstract__container__array__mod_1_1container__array.html" title="{abstract_container\l_array_mod::container_array\n|&#45; contents\l&#45; length\l|&#45; resize()\l&#45; init()\l&#45; get()\l&#45; put()\l&#45; getlength()\l&#45; getmemsize()\l}" alt="" coords="9,5,195,185"/>
 </map>

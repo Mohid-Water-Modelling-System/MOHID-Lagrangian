@@ -18,7 +18,7 @@ module mod_datetime
 use,intrinsic :: iso_fortran_env,only:real32,real64
 use,intrinsic :: iso_c_binding,only:c_char,c_int,c_null_char
 use :: mod_timedelta,only:timedelta
-use :: mod_strftime, only:tm_struct,c_strftime,c_strptime
+use :: mod_strftime, only:tm_struct,c_strftime!,c_strptime
 use :: mod_constants
 
 implicit none
@@ -32,7 +32,7 @@ public :: daysInMonth
 public :: daysInYear
 public :: isLeapYear
 public :: num2date
-public :: strptime
+!public :: strptime
 public :: tm2date
 
 type :: datetime
@@ -1251,21 +1251,21 @@ endfunction num2date
 
 
 
-type(datetime) function strptime(str,format)
-
-  !! A wrapper function around C/C++ strptime function.
-  !! Returns a `datetime` instance. 
-
-  character(len=*),intent(in) :: str    !! time string
-  character(len=*),intent(in) :: format !! time format
-
-  integer         :: rc
-  type(tm_struct) :: tm
-
-  rc = c_strptime(trim(str)//c_null_char,trim(format)//c_null_char,tm)
-  strptime = tm2date(tm)
-
-endfunction strptime
+!type(datetime) function strptime(str,format)
+!
+!  !! A wrapper function around C/C++ strptime function.
+!  !! Returns a `datetime` instance. 
+!
+!  character(len=*),intent(in) :: str    !! time string
+!  character(len=*),intent(in) :: format !! time format
+!
+!  integer         :: rc
+!  type(tm_struct) :: tm
+!
+!  rc = c_strptime(trim(str)//c_null_char,trim(format)//c_null_char,tm)
+!  strptime = tm2date(tm)
+!
+!endfunction strptime
 
 
 

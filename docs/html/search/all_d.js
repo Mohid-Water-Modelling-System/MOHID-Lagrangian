@@ -39,6 +39,7 @@ var searchData=
   ['printsimdefs',['printsimdefs',['../namespacesimulation__globals__mod.html#ad331ccf019de7ed531e37c655600f90f',1,'simulation_globals_mod']]],
   ['printsimparameters',['printsimparameters',['../namespacesimulation__globals__mod.html#a97c04d0289a9f2d004a9329cb7ab16f0',1,'simulation_globals_mod']]],
   ['printsource',['printsource',['../namespacesources__mod.html#a641fe9ecc295e486a714c1aaa133d991',1,'sources_mod']]],
+  ['printtracertotals',['printtracertotals',['../structsimulation__mod_1_1simulation__class.html#a8ddba2b86c2137f5dfc7fcd301badd66',1,'simulation_mod::simulation_class::printtracertotals()'],['../namespacesimulation__mod.html#aba126a8e0575cabb3bef6ab395002b3c',1,'simulation_mod::printtracertotals()']]],
   ['property_5fname',['property_name',['../structsources__mod_1_1source__par.html#a5939a7c20bad9ac30bc9bef0427a5336',1,'sources_mod::source_par']]],
   ['property_5ftype',['property_type',['../structsources__mod_1_1source__par.html#a91107e1b59e5ca582c1afe6ff6263e29',1,'sources_mod::source_par']]],
   ['propsxmlfilename',['propsxmlfilename',['../structsimulation__globals__mod_1_1filenames__t.html#ae9790bc76014d831bfad281ab63e6f4c',1,'simulation_globals_mod::filenames_t']]],

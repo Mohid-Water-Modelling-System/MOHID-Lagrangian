@@ -1,5 +1,5 @@
 <map id="simulation_globals_mod::globals_class" name="simulation_globals_mod::globals_class">
-<area shape="rect" id="node2" href="$structsimulation__globals__mod_1_1parameters__t.html" title="{simulation_globals\l_mod::parameters_t\n|&#45; integrator\l&#45; cfl\l&#45; warmuptime\l&#45; timemax\l&#45; timeout\l|&#45; setparameter()\l&#45; check()\l&#45; print()\l}" alt="" coords="5,35,144,215"/>
+<area shape="rect" id="node2" href="$structsimulation__globals__mod_1_1parameters__t.html" title="{simulation_globals\l_mod::parameters_t\n|&#45; integrator\l&#45; cfl\l&#45; warmuptime\l&#45; timemax\l&#45; timeout\l&#45; starttime\l&#45; endtime\l|&#45; setparameter()\l&#45; check()\l&#45; print()\l}" alt="" coords="5,20,144,229"/>
 <area shape="rect" id="node3" href="$structsimulation__globals__mod_1_1simdefs__t.html" title="Simulation definitions class. " alt="" coords="169,5,298,244"/>
 <area shape="rect" id="node4" href="$structsimulation__globals__mod_1_1constants__t.html" title="Case Constants class. " alt="" coords="323,42,453,207"/>
 <area shape="rect" id="node5" href="$structsimulation__globals__mod_1_1filenames__t.html" title="File names class. " alt="" coords="477,64,608,185"/>

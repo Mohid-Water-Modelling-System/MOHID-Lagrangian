@@ -9,18 +9,31 @@ Collaboration diagram for simulation\+\_\+mod\+:\+:simulation\+\_\+class\+:\nopa
 \includegraphics[width=215pt]{structsimulation__mod_1_1simulation__class__coll__graph}
 \end{center}
 \end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure, public \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_aa66177f314198046f3e05d9a0a322a22}{initialize}} =$>$ init\+Simulation
+\item 
+procedure, public \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a47c2f9dd8a012a523ac88aa8d3c6a911}{run}}
+\item 
+procedure, public \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a6cc0559141483bce4e4f19ef730735df}{finalize}} =$>$ close\+Simulation
+\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-procedure \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a8bfe8e1f97c7cbdfc2617da0355f65a5}{initialize}} =$>$ init\+Simulation
+procedure, private \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a559d8d450db2c6b568cb6e0e4dbab350}{decompose}} =$>$ Decompose\+Domain
 \item 
-procedure \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a7699b373324ef011e2d514173681eb2a}{finalize}} =$>$ close\+Simulation
+procedure, private \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a2394700a952ccf667b61d53764c73a54}{togglesources}}
 \item 
-procedure \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a5c614118dc1ffc74245ef0c5b2cc3a1d}{decompose}} =$>$ Decompose\+Domain
+procedure, private \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a6e740eee52324299ca5f6acd98d0c657}{blocksemitt}}
 \item 
-procedure \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_afcc0d63c0a27727f834304b6a7827f3c}{distributesources}}
+procedure, private \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_aeb84b150c76e399c3dc33fbc3f7874ae}{setinitialstate}}
 \item 
-procedure \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a47d3f761f38558be6fcfe11f235c7699}{run}}
+procedure, private \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_ab22e46320d4a3dd0f2739894d1165a85}{gettracertotals}}
+\item 
+procedure, private \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a8ddba2b86c2137f5dfc7fcd301badd66}{printtracertotals}}
+\item 
+procedure, private \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_a7cabf864e327d6e35f6cb7bd85b1db6a}{settracermemory}}
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -34,60 +47,110 @@ integer \mbox{\hyperlink{structsimulation__mod_1_1simulation__class_aaa602a0922f
 \subsection{Detailed Description}
 
 
-Definition at line 33 of file simulation.\+f90.
+Definition at line 34 of file simulation.\+f90.
 
 
 
 \subsection{Member Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a5c614118dc1ffc74245ef0c5b2cc3a1d}\label{structsimulation__mod_1_1simulation__class_a5c614118dc1ffc74245ef0c5b2cc3a1d}} 
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a6e740eee52324299ca5f6acd98d0c657}\label{structsimulation__mod_1_1simulation__class_a6e740eee52324299ca5f6acd98d0c657}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!blocksemitt@{blocksemitt}}
+\index{blocksemitt@{blocksemitt}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{blocksemitt()}{blocksemitt()}}
+{\footnotesize\ttfamily procedure, private simulation\+\_\+mod\+::simulation\+\_\+class\+::blocksemitt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 43 of file simulation.\+f90.
+
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a559d8d450db2c6b568cb6e0e4dbab350}\label{structsimulation__mod_1_1simulation__class_a559d8d450db2c6b568cb6e0e4dbab350}} 
 \index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!decompose@{decompose}}
 \index{decompose@{decompose}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
 \subsubsection{\texorpdfstring{decompose()}{decompose()}}
-{\footnotesize\ttfamily procedure simulation\+\_\+mod\+::simulation\+\_\+class\+::decompose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily procedure, private simulation\+\_\+mod\+::simulation\+\_\+class\+::decompose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file simulation.\+f90.
+
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a6cc0559141483bce4e4f19ef730735df}\label{structsimulation__mod_1_1simulation__class_a6cc0559141483bce4e4f19ef730735df}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!finalize@{finalize}}
+\index{finalize@{finalize}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily procedure, public simulation\+\_\+mod\+::simulation\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 40 of file simulation.\+f90.
+
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_ab22e46320d4a3dd0f2739894d1165a85}\label{structsimulation__mod_1_1simulation__class_ab22e46320d4a3dd0f2739894d1165a85}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!gettracertotals@{gettracertotals}}
+\index{gettracertotals@{gettracertotals}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{gettracertotals()}{gettracertotals()}}
+{\footnotesize\ttfamily procedure, private simulation\+\_\+mod\+::simulation\+\_\+class\+::gettracertotals (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 45 of file simulation.\+f90.
+
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_aa66177f314198046f3e05d9a0a322a22}\label{structsimulation__mod_1_1simulation__class_aa66177f314198046f3e05d9a0a322a22}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!initialize@{initialize}}
+\index{initialize@{initialize}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure, public simulation\+\_\+mod\+::simulation\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
 Definition at line 38 of file simulation.\+f90.
 
-\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_afcc0d63c0a27727f834304b6a7827f3c}\label{structsimulation__mod_1_1simulation__class_afcc0d63c0a27727f834304b6a7827f3c}} 
-\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!distributesources@{distributesources}}
-\index{distributesources@{distributesources}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
-\subsubsection{\texorpdfstring{distributesources()}{distributesources()}}
-{\footnotesize\ttfamily procedure simulation\+\_\+mod\+::simulation\+\_\+class\+::distributesources (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a8ddba2b86c2137f5dfc7fcd301badd66}\label{structsimulation__mod_1_1simulation__class_a8ddba2b86c2137f5dfc7fcd301badd66}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!printtracertotals@{printtracertotals}}
+\index{printtracertotals@{printtracertotals}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{printtracertotals()}{printtracertotals()}}
+{\footnotesize\ttfamily procedure, private simulation\+\_\+mod\+::simulation\+\_\+class\+::printtracertotals (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 46 of file simulation.\+f90.
+
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a47c2f9dd8a012a523ac88aa8d3c6a911}\label{structsimulation__mod_1_1simulation__class_a47c2f9dd8a012a523ac88aa8d3c6a911}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!run@{run}}
+\index{run@{run}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily procedure, public simulation\+\_\+mod\+::simulation\+\_\+class\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
 Definition at line 39 of file simulation.\+f90.
 
-\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a7699b373324ef011e2d514173681eb2a}\label{structsimulation__mod_1_1simulation__class_a7699b373324ef011e2d514173681eb2a}} 
-\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!finalize@{finalize}}
-\index{finalize@{finalize}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
-\subsubsection{\texorpdfstring{finalize()}{finalize()}}
-{\footnotesize\ttfamily procedure simulation\+\_\+mod\+::simulation\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_aeb84b150c76e399c3dc33fbc3f7874ae}\label{structsimulation__mod_1_1simulation__class_aeb84b150c76e399c3dc33fbc3f7874ae}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!setinitialstate@{setinitialstate}}
+\index{setinitialstate@{setinitialstate}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{setinitialstate()}{setinitialstate()}}
+{\footnotesize\ttfamily procedure, private simulation\+\_\+mod\+::simulation\+\_\+class\+::setinitialstate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line 37 of file simulation.\+f90.
+Definition at line 44 of file simulation.\+f90.
 
-\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a8bfe8e1f97c7cbdfc2617da0355f65a5}\label{structsimulation__mod_1_1simulation__class_a8bfe8e1f97c7cbdfc2617da0355f65a5}} 
-\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!initialize@{initialize}}
-\index{initialize@{initialize}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
-\subsubsection{\texorpdfstring{initialize()}{initialize()}}
-{\footnotesize\ttfamily procedure simulation\+\_\+mod\+::simulation\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Definition at line 36 of file simulation.\+f90.
-
-\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a47d3f761f38558be6fcfe11f235c7699}\label{structsimulation__mod_1_1simulation__class_a47d3f761f38558be6fcfe11f235c7699}} 
-\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!run@{run}}
-\index{run@{run}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
-\subsubsection{\texorpdfstring{run()}{run()}}
-{\footnotesize\ttfamily procedure simulation\+\_\+mod\+::simulation\+\_\+class\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a7cabf864e327d6e35f6cb7bd85b1db6a}\label{structsimulation__mod_1_1simulation__class_a7cabf864e327d6e35f6cb7bd85b1db6a}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!settracermemory@{settracermemory}}
+\index{settracermemory@{settracermemory}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{settracermemory()}{settracermemory()}}
+{\footnotesize\ttfamily procedure, private simulation\+\_\+mod\+::simulation\+\_\+class\+::settracermemory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line 40 of file simulation.\+f90.
+Definition at line 47 of file simulation.\+f90.
+
+\mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_a2394700a952ccf667b61d53764c73a54}\label{structsimulation__mod_1_1simulation__class_a2394700a952ccf667b61d53764c73a54}} 
+\index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!togglesources@{togglesources}}
+\index{togglesources@{togglesources}!simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}}
+\subsubsection{\texorpdfstring{togglesources()}{togglesources()}}
+{\footnotesize\ttfamily procedure, private simulation\+\_\+mod\+::simulation\+\_\+class\+::togglesources (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 42 of file simulation.\+f90.
 
 
 
@@ -100,11 +163,11 @@ Definition at line 40 of file simulation.\+f90.
 
 
 
-Definition at line 34 of file simulation.\+f90.
+Definition at line 36 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-34         \textcolor{keywordtype}{integer} :: nbx, nby
+36         \textcolor{keywordtype}{integer} :: nbx, nby
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulation__mod_1_1simulation__class_aaa602a0922f7c95060226627eaf5104e}\label{structsimulation__mod_1_1simulation__class_aaa602a0922f7c95060226627eaf5104e}} 
 \index{simulation\+\_\+mod\+::simulation\+\_\+class@{simulation\+\_\+mod\+::simulation\+\_\+class}!nby@{nby}}
@@ -118,7 +181,7 @@ number of blocks in 2D
 
 
 
-Definition at line 34 of file simulation.\+f90.
+Definition at line 36 of file simulation.\+f90.
 
 
 

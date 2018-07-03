@@ -13,13 +13,13 @@ module \mbox{\hyperlink{namespaceemitter__mod}{emitter\+\_\+mod}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespaceemitter__mod_ad89dfc083eae7362441c353225a74ebc}{emitter\+\_\+mod\+::initracers}} (self, srcs)
-\begin{DoxyCompactList}\small\item\em method that calls the tracer initialization from the emmiter object \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceemitter__mod_a7c677125988390e4c57909e4ea82d902}{emitter\+\_\+mod\+::alloctracers}} (self, src)
-\begin{DoxyCompactList}\small\item\em method that allocates the tracers respective to a given source \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}{emitter\+\_\+mod\+::initializeemitter}} (self)
 \begin{DoxyCompactList}\small\item\em method that initializes an emmiter class object. Sets default values \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}{emitter\+\_\+mod\+::addsource}} (self, src)
-\begin{DoxyCompactList}\small\item\em method to compute the total emittable particles per source and allocate them \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em method to compute the total emittable particles per source and allocate that space in the Blocks Tracer array \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemitter__mod_a49b704640270da1c4fad50fcd5374376}{emitter\+\_\+mod\+::removesource}} (self, src)
+\begin{DoxyCompactList}\small\item\em method to remove from the total emittable particles count a Source \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemitter__mod_aae156a463b225044bc10f039ede5770d}{emitter\+\_\+mod\+::emitt}} (self, src)
+\begin{DoxyCompactList}\small\item\em method that emitts the Tracers, based on the Sources on this Block Emitter \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceemitter__mod_a5c219dd6692a761ad4bf968ae750fcc6}{emitter\+\_\+mod\+::setotalnp}} (src)
 \begin{DoxyCompactList}\small\item\em private routine that returns the total number of tracers an input source will potentially create \end{DoxyCompactList}\end{DoxyCompactItemize}

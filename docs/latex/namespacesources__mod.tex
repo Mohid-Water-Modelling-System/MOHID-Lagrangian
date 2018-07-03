@@ -258,7 +258,7 @@ Definition at line 272 of file sources.\+f90.
 276     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
 277 
 278     temp\_str(1)=src%par%id
-279     outext = \textcolor{stringliteral}{'-->Source '}//src%par%name//\textcolor{stringliteral}{' allocated'}//new\_line(\textcolor{stringliteral}{'a'})//&
+279     outext = \textcolor{stringliteral}{'-->Source '}//src%par%name//new\_line(\textcolor{stringliteral}{'a'})//&
 280         \textcolor{stringliteral}{'       Id = '}//temp\_str(1)//new\_line(\textcolor{stringliteral}{'a'})//&
 281         \textcolor{stringliteral}{'       Geometry type is '}//src%par%source\_geometry//new\_line(\textcolor{stringliteral}{'a'})
 282     temp\_str(1)=src%now%pos%x

@@ -13,6 +13,7 @@ var searchData=
   ['sp',['sp',['../namespacesimulation__precision__mod.html#a15b1ab993f9b11430e9d9d3dc6c77614',1,'simulation_precision_mod']]],
   ['src',['src',['../structsources__mod_1_1source__group__class.html#af970ce2c935528f707bdbf4169995d7c',1,'sources_mod::source_group_class']]],
   ['startime',['startime',['../structsources__mod_1_1source__par.html#afcde2655b2a557f3a3e2c952dc8a51b0',1,'sources_mod::source_par']]],
+  ['starttime',['starttime',['../structsimulation__globals__mod_1_1parameters__t.html#a8e3abdcb1022685a07ca65c3c6a50203',1,'simulation_globals_mod::parameters_t']]],
   ['stats',['stats',['../structsources__mod_1_1source__class.html#a2ed110f187434e6b6345f21822993517',1,'sources_mod::source_class::stats()'],['../structtracer__base__mod_1_1tracer__class.html#a688d74f9059a50eba8fdd536c2f79876',1,'tracer_base_mod::tracer_class::stats()']]],
   ['stencil',['stencil',['../structsources__mod_1_1source__class.html#a7950d4033c4b4be466479fc8a11dad1c',1,'sources_mod::source_class']]],
   ['stoptime',['stoptime',['../structsources__mod_1_1source__par.html#ac2c04f0d36ad034e160e3de15fe0c283',1,'sources_mod::source_par']]]

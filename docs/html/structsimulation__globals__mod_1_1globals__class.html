@@ -110,7 +110,7 @@ Collaboration diagram for simulation_globals_mod::globals_class:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulation__globals__mod_1_1globals__class__coll__graph.png" border="0" usemap="#simulation__globals__mod_1_1globals__class_coll__map" alt="Collaboration graph"/></div>
 <map name="simulation__globals__mod_1_1globals__class_coll__map" id="simulation__globals__mod_1_1globals__class_coll__map">
-<area shape="rect" id="node2" href="structsimulation__globals__mod_1_1parameters__t.html" title="{simulation_globals\l_mod::parameters_t\n|&#45; integrator\l&#45; cfl\l&#45; warmuptime\l&#45; timemax\l&#45; timeout\l|&#45; setparameter()\l&#45; check()\l&#45; print()\l}" alt="" coords="5,35,144,215"/>
+<area shape="rect" id="node2" href="structsimulation__globals__mod_1_1parameters__t.html" title="{simulation_globals\l_mod::parameters_t\n|&#45; integrator\l&#45; cfl\l&#45; warmuptime\l&#45; timemax\l&#45; timeout\l&#45; starttime\l&#45; endtime\l|&#45; setparameter()\l&#45; check()\l&#45; print()\l}" alt="" coords="5,20,144,229"/>
 <area shape="rect" id="node3" href="structsimulation__globals__mod_1_1simdefs__t.html" title="Simulation definitions class. " alt="" coords="169,5,298,244"/>
 <area shape="rect" id="node4" href="structsimulation__globals__mod_1_1constants__t.html" title="Case Constants class. " alt="" coords="323,42,453,207"/>
 <area shape="rect" id="node5" href="structsimulation__globals__mod_1_1filenames__t.html" title="File names class. " alt="" coords="477,64,608,185"/>
@@ -138,7 +138,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Globals class - This is a container for every global variable on the simulation. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00078">78</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00081">81</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a9438f8bdec469e7cbf9b898a398f9745"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9438f8bdec469e7cbf9b898a398f9745">&#9670;&nbsp;</a></span>initialize()</h2>
@@ -163,7 +163,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00085">85</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00088">88</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -188,8 +188,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00081">81</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordtype">type</span>(constants_t)   :: Constants</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00084">84</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">type</span>(constants_t)   :: Constants</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abb5045218897afcf2ccc51f63dc38761"></a>
@@ -212,8 +212,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00082">82</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">type</span>(filenames_t)   :: FileNames</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00085">85</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">type</span>(filenames_t)   :: FileNames</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aef60024afa0a128d0af3d8a47a732657"></a>
@@ -236,8 +236,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00079">79</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordtype">type</span>(parameters_t)  :: Parameters</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00082">82</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">type</span>(parameters_t)  :: Parameters</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aa066434c9dc6147331dce613422568ae"></a>
@@ -260,8 +260,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00080">80</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordtype">type</span>(simdefs_t)     :: SimDefs</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00083">83</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">type</span>(simdefs_t)     :: SimDefs</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ab28ea8e0cca87c11a33e4acfb3d3b293"></a>
@@ -284,8 +284,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00083">83</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">real(prec_time)</span>     :: SimTime</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00086">86</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">real(prec_time)</span>     :: SimTime</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

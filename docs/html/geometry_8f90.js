@@ -10,6 +10,7 @@ var geometry_8f90 =
     [ "box_grid", "geometry_8f90.html#ae87e4ecff2d21a839da2b82919b5fd0b", null ],
     [ "fill", "geometry_8f90.html#a095a8b47b3c23e154dcd31ab1441a065", null ],
     [ "fillsize", "geometry_8f90.html#a92602e1198d3607613ea2722fb002685", null ],
+    [ "getcenter", "geometry_8f90.html#ab591f293deeeb5426b9f14865cc2df67", null ],
     [ "inlist", "geometry_8f90.html#a22dd77024fce56da299445a697256155", null ],
     [ "line_grid", "geometry_8f90.html#abcb09c0f5274c27cb79b0dd009ed94b3", null ],
     [ "printgeometry", "geometry_8f90.html#aed4426181ca851b41717edd50268e5f3", null ],

@@ -13,10 +13,18 @@ module \mbox{\hyperlink{namespaceblocks__mod}{blocks\+\_\+mod}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+integer function \mbox{\hyperlink{namespaceblocks__mod_a7202fad0fdc07ff9111e61e3aa513af9}{blocks\+\_\+mod\+::numalloctracers}} (self)
+\begin{DoxyCompactList}\small\item\em method that returns the total allocated Tracers in the Block \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespaceblocks__mod_ad8d0816321fe15e1b1e66eacdaaa10e1}{blocks\+\_\+mod\+::numactivetracers}} (self)
+\begin{DoxyCompactList}\small\item\em method that returns the total active Tracers in the Block \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}{blocks\+\_\+mod\+::initblock}} (self, id, templatebox)
 \begin{DoxyCompactList}\small\item\em method to allocate and initialize blocks and their emitters \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_ab9e57cbf0103b632b2b2dfa4e4d4139c}{blocks\+\_\+mod\+::toogleblocksources}} (self)
+\begin{DoxyCompactList}\small\item\em Method to activate and deactivate the sources on this block, based on GlobaSim\+Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}{blocks\+\_\+mod\+::callemitter}} (self)
+\begin{DoxyCompactList}\small\item\em Method to activate and deactivate the sources on this block, based on GlobaSim\+Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a5d11f4958d950c7f436c040bc4133ea0}{blocks\+\_\+mod\+::putsource}} (self, sourcetoput)
-\begin{DoxyCompactList}\small\item\em Method to place a Source on the Block Source\+Array. Checks for space and allocates more if needed. The array gets incremented by une unit at a time. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method to place a Source on the Block Source\+Array. Checks for space and allocates more if needed. The array gets incremented by one unit at a time Allocates space in the Blocks Tracer array with a dummy Tracer. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{blocks\+\_\+mod\+::printblock}} (self)
 \begin{DoxyCompactList}\small\item\em Method to print basic info about the block. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a10f356706988c45a255922fe70851488}{blocks\+\_\+mod\+::printdetailblock}} (self)

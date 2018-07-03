@@ -4,7 +4,7 @@ var namespaces_dup =
     [ "abstract_container_array_mod", "namespaceabstract__container__array__mod.html", null ],
     [ "blocks_mod", "namespaceblocks__mod.html", null ],
     [ "boundingbox_mod", "namespaceboundingbox__mod.html", null ],
-    [ "commom_modules", "namespacecommom__modules.html", null ],
+    [ "common_modules", "namespacecommon__modules.html", null ],
     [ "container_mod", "namespacecontainer__mod.html", null ],
     [ "emitter_mod", "namespaceemitter__mod.html", null ],
     [ "geometry_mod", "namespacegeometry__mod.html", null ],

@@ -14,12 +14,19 @@ module \mbox{\hyperlink{namespaceabstract__container__array__mod}{abstract\+\_\+
 \begin{DoxyCompactItemize}
 \item 
 class($\ast$) function, pointer \mbox{\hyperlink{namespaceabstract__container__array__mod_a2b3e0aec504d76c73bf7f18158924af4}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::getvalue}} (this, index)
-\begin{DoxyCompactList}\small\item\em Method that returns returns the requested entry (pointer) \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method that returns the requested entry (pointer) \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_aae1f6309c51e282a528ce78f128443e0}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::putvalue}} (this, index, value)
 \begin{DoxyCompactList}\small\item\em Method that stores a value on the requested index. \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespaceabstract__container__array__mod_a22d71ca3f03bf0bb5d3737338e5e349a}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::getlength}} (this)
 \begin{DoxyCompactList}\small\item\em Method that returns the length of the array. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_ac2d73eb111ffde938f81e3f93b0cb3e0}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::resizearray}} (this, newsize)
+subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_adb5b2e1692fa90a0239e9a0bcdc7967d}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::resizearray}} (this, newsize, initvalue)
 \begin{DoxyCompactList}\small\item\em Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move\+\_\+alloc() \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_a6a8e7af177f333262aba941775d6c245}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::initarray}} (this, entries, tocopy)
-\begin{DoxyCompactList}\small\item\em Method that allocates the container array. Deallocates if already allocated. \end{DoxyCompactList}\end{DoxyCompactItemize}
+subroutine \mbox{\hyperlink{namespaceabstract__container__array__mod_a793ed0fff6fc6c5823f1e7f119f44959}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::initarray}} (this, entries, source, initvalue)
+\begin{DoxyCompactList}\small\item\em Method that allocates the container array. Deallocates if already allocated. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespaceabstract__container__array__mod_a6733f8c7202ec84585ac4f52b6798f02}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::getmemsize}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the memory used by the array in bytes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+logical, target \mbox{\hyperlink{namespaceabstract__container__array__mod_a536c39baa7114f8ddff2dec5a90a894e}{abstract\+\_\+container\+\_\+array\+\_\+mod\+::mc}} = .true.
+\end{DoxyCompactItemize}

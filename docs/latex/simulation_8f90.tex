@@ -17,8 +17,18 @@ subroutine \mbox{\hyperlink{namespacesimulation__mod_a73bd78c4ac76c51f1e10f5847c
 \begin{DoxyCompactList}\small\item\em Simulation run method. Runs the initialized case main time cycle. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}{simulation\+\_\+mod\+::initsimulation}} (self, casefilename, outpath)
 \begin{DoxyCompactList}\small\item\em Simulation initialization method. Effectively builds and populates the simulation objects that will be used latter on. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_a726a2e98adc73c762cafd7baa88f58fd}{simulation\+\_\+mod\+::distributesources}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation to distribute the Sources to the blocks. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a87a5141e4516b9610a6e4f0d2ff2d719}{simulation\+\_\+mod\+::togglesources}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to activate and deactivate Sources based on the GlobalSim\+Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a13aa0745f4601e3f418143dab2f18276}{simulation\+\_\+mod\+::blocksemitt}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to emitt tracers at current Sim\+Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a447c6d709de6aa360a65d39d660e627b}{simulation\+\_\+mod\+::setinitialstate}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to distribute the Sources to the Blocks, allocate the respective Tracers and redistribute if needed. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_ab40f39c4bf37da066101f93b67ad9b26}{simulation\+\_\+mod\+::gettracertotals}} (self, alloc, active)
+\begin{DoxyCompactList}\small\item\em Simulation method to count Tracer numbers. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_aba126a8e0575cabb3bef6ab395002b3c}{simulation\+\_\+mod\+::printtracertotals}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to count Tracer numbers. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a54a9a06a7259eb792b9b63d2658a4170}{simulation\+\_\+mod\+::settracermemory}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to account for Tracer memory consumption. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}{simulation\+\_\+mod\+::decomposedomain}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to do domain decomposition and define the Blocks. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}{simulation\+\_\+mod\+::closesimulation}} (self)

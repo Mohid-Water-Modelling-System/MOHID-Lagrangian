@@ -31,6 +31,8 @@ integer function \mbox{\hyperlink{namespacegeometry__mod_a92602e1198d3607613ea27
 \begin{DoxyCompactList}\small\item\em method to get the number of points that fill a given geometry \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacegeometry__mod_a095a8b47b3c23e154dcd31ab1441a065}{fill}} (self, shapetype, \mbox{\hyperlink{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685}{fillsize}}, ptlist)
 \begin{DoxyCompactList}\small\item\em method to get the list of points that fill a given geometry \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_ab591f293deeeb5426b9f14865cc2df67}{getcenter}} (self, shapetype, center)
+\begin{DoxyCompactList}\small\item\em method to get the baricenter of a given geometry \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}{printgeometry}} (self, shapetype)
 \begin{DoxyCompactList}\small\item\em method to print the details of a given geometry \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}{sphere\+\_\+np\+\_\+count}} (dp, r)
@@ -72,17 +74,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 77 of file geometry.\+f90.
+Definition at line 78 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-77     \textcolor{keywordtype}{implicit none}
-78     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(inout)} :: self
-79     \textcolor{keyword}{allocate}(self%list(4))
-80     self%list(1) =\textcolor{stringliteral}{'point'}
-81     self%list(2) =\textcolor{stringliteral}{'line'}
-82     self%list(3) =\textcolor{stringliteral}{'box'}
-83     self%list(4) =\textcolor{stringliteral}{'sphere'}
+78     \textcolor{keywordtype}{implicit none}
+79     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(inout)} :: self
+80     \textcolor{keyword}{allocate}(self%list(4))
+81     self%list(1) =\textcolor{stringliteral}{'point'}
+82     self%list(2) =\textcolor{stringliteral}{'line'}
+83     self%list(3) =\textcolor{stringliteral}{'box'}
+84     self%list(4) =\textcolor{stringliteral}{'sphere'}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}\label{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}} 
 \index{geometry\+\_\+mod@{geometry\+\_\+mod}!box\+\_\+grid@{box\+\_\+grid}}
@@ -104,28 +106,28 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 316 of file geometry.\+f90.
+Definition at line 351 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-316     \textcolor{keywordtype}{implicit none}
-317     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
-318     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: size
-319     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
-320     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
-321     \textcolor{keywordtype}{integer} :: i, j, k, p
-322     p=0
-323     \textcolor{keywordflow}{do} i=1, int(size%x/dp)+1
-324         \textcolor{keywordflow}{do} j=1, int(size%y/dp)+1
-325             \textcolor{keywordflow}{do} k=1, int(size%z/dp)+1
-326                 p=p+1
-327                 ptlist(p) = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1))
-328 \textcolor{keywordflow}{            end do}
-329 \textcolor{keywordflow}{        end do}
-330 \textcolor{keywordflow}{    end do}
-331     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the origin}
-332         ptlist(1)= 0*ex + 0*ey +0*ez
-333 \textcolor{keywordflow}{    end if}
+351     \textcolor{keywordtype}{implicit none}
+352     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+353     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: size
+354     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
+355     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
+356     \textcolor{keywordtype}{integer} :: i, j, k, p
+357     p=0
+358     \textcolor{keywordflow}{do} i=1, int(size%x/dp)+1
+359         \textcolor{keywordflow}{do} j=1, int(size%y/dp)+1
+360             \textcolor{keywordflow}{do} k=1, int(size%z/dp)+1
+361                 p=p+1
+362                 ptlist(p) = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1))
+363 \textcolor{keywordflow}{            end do}
+364 \textcolor{keywordflow}{        end do}
+365 \textcolor{keywordflow}{    end do}
+366     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the origin}
+367         ptlist(1)= 0*ex + 0*ey +0*ez
+368 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -154,34 +156,34 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 156 of file geometry.\+f90.
+Definition at line 157 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-156     \textcolor{keywordtype}{implicit none}
-157     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
-158     \textcolor{keywordtype}{class}(shape) :: shapetype
-159     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: fillsize
-160     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(fillsize)
-161     \textcolor{keywordtype}{type}(vector) :: temp
-162     \textcolor{keywordtype}{type}(string) :: outext
-163 
-164     \textcolor{keywordflow}{select type} (shapetype)
-165 \textcolor{keywordflow}{    type is} (shape)
-166 \textcolor{keywordflow}{    class is} (box)
-167         \textcolor{keyword}{call }box\_grid(globals%SimDefs%Dp, shapetype%size, fillsize, ptlist)
-168 \textcolor{keywordflow}{    class is} (point)
-169         ptlist(1)=shapetype%pt
-170 \textcolor{keywordflow}{    class is} (line)
-171         \textcolor{keyword}{call }line\_grid(globals%SimDefs%Dp, shapetype%last-shapetype%pt, fillsize, ptlist)
-172 \textcolor{keywordflow}{    class is} (sphere)
-173         \textcolor{keyword}{call }sphere\_grid(globals%SimDefs%Dp, shapetype%radius, fillsize, ptlist)
-174 \textcolor{keywordflow}{        class default}
-175         outext=\textcolor{stringliteral}{'[geometry::fill] : unexpected type for geometry object, stoping'}
-176         \textcolor{keyword}{call }log%put(outext)
-177         stop
-178 \textcolor{keywordflow}{    end select}
-179 
+157     \textcolor{keywordtype}{implicit none}
+158     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+159     \textcolor{keywordtype}{class}(shape) :: shapetype
+160     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: fillsize
+161     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(fillsize)
+162     \textcolor{keywordtype}{type}(vector) :: temp
+163     \textcolor{keywordtype}{type}(string) :: outext
+164 
+165     \textcolor{keywordflow}{select type} (shapetype)
+166 \textcolor{keywordflow}{    type is} (shape)
+167 \textcolor{keywordflow}{    class is} (box)
+168         \textcolor{keyword}{call }box\_grid(globals%SimDefs%Dp, shapetype%size, fillsize, ptlist)
+169 \textcolor{keywordflow}{    class is} (point)
+170         ptlist(1)=shapetype%pt
+171 \textcolor{keywordflow}{    class is} (line)
+172         \textcolor{keyword}{call }line\_grid(globals%SimDefs%Dp, shapetype%last-shapetype%pt, fillsize, ptlist)
+173 \textcolor{keywordflow}{    class is} (sphere)
+174         \textcolor{keyword}{call }sphere\_grid(globals%SimDefs%Dp, shapetype%radius, fillsize, ptlist)
+175 \textcolor{keywordflow}{        class default}
+176         outext=\textcolor{stringliteral}{'[geometry::fill] : unexpected type for geometry object, stoping'}
+177         \textcolor{keyword}{call }log%put(outext)
+178         stop
+179 \textcolor{keywordflow}{    end select}
+180 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -210,37 +212,37 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 118 of file geometry.\+f90.
+Definition at line 119 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-118     \textcolor{keywordtype}{implicit none}
-119     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
-120     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
-121     \textcolor{keywordtype}{real(prec)} :: dp
-122     \textcolor{keywordtype}{integer} :: fillsize
-123     \textcolor{keywordtype}{type}(vector) :: temp
-124     \textcolor{keywordtype}{type}(string) :: outext
-125 
-126     dp = globals%SimDefs%Dp
-127     \textcolor{keywordflow}{select type} (shapetype)
-128 \textcolor{keywordflow}{    type is} (shape)
-129 \textcolor{keywordflow}{    class is} (box)
-130         fillsize = max((int(shapetype%size%x/dp)+1)*(int(shapetype%size%y/dp)+1)*(int(shapetype%size%z/dp)+
+119     \textcolor{keywordtype}{implicit none}
+120     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+121     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+122     \textcolor{keywordtype}{real(prec)} :: dp
+123     \textcolor{keywordtype}{integer} :: fillsize
+124     \textcolor{keywordtype}{type}(vector) :: temp
+125     \textcolor{keywordtype}{type}(string) :: outext
+126 
+127     dp = globals%SimDefs%Dp
+128     \textcolor{keywordflow}{select type} (shapetype)
+129 \textcolor{keywordflow}{    type is} (shape)
+130 \textcolor{keywordflow}{    class is} (box)
+131         fillsize = max((int(shapetype%size%x/dp)+1)*(int(shapetype%size%y/dp)+1)*(int(shapetype%size%z/dp)+
       1),1)
-131 \textcolor{keywordflow}{    class is} (point)
-132         fillsize = 1
-133 \textcolor{keywordflow}{    class is} (line)
-134         temp = shapetype%pt-shapetype%last
-135         fillsize = max(int(temp%normL2()/dp),1)
-136 \textcolor{keywordflow}{    class is} (sphere)
-137         fillsize = sphere\_np\_count(dp, shapetype%radius)
-138 \textcolor{keywordflow}{        class default}
-139         outext=\textcolor{stringliteral}{'[geometry::np] : unexpected type for geometry object, stoping'}
-140         \textcolor{keyword}{call }log%put(outext)
-141         stop
-142 \textcolor{keywordflow}{    end select}
-143 
+132 \textcolor{keywordflow}{    class is} (point)
+133         fillsize = 1
+134 \textcolor{keywordflow}{    class is} (line)
+135         temp = shapetype%pt-shapetype%last
+136         fillsize = max(int(temp%normL2()/dp),1)
+137 \textcolor{keywordflow}{    class is} (sphere)
+138         fillsize = sphere\_np\_count(dp, shapetype%radius)
+139 \textcolor{keywordflow}{        class default}
+140         outext=\textcolor{stringliteral}{'[geometry::np] : unexpected type for geometry object, stoping'}
+141         \textcolor{keyword}{call }log%put(outext)
+142         stop
+143 \textcolor{keywordflow}{    end select}
+144 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -249,6 +251,53 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=346pt]{namespacegeometry__mod_a92602e1198d3607613ea2722fb002685_cgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_ab591f293deeeb5426b9f14865cc2df67}\label{namespacegeometry__mod_ab591f293deeeb5426b9f14865cc2df67}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!getcenter@{getcenter}}
+\index{getcenter@{getcenter}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{getcenter()}{getcenter()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::getcenter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype,  }\item[{type(vector), intent(out)}]{center }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to get the baricenter of a given geometry 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em shapetype,center} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 193 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+193     \textcolor{keywordtype}{implicit none}
+194     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+195     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+196     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: center
+197     \textcolor{keywordtype}{type}(string) :: outext
+198 
+199     \textcolor{keywordflow}{select type} (shapetype)
+200 \textcolor{keywordflow}{    type is} (shape)
+201 \textcolor{keywordflow}{    class is} (box)
+202         center = shapetype%pt + shapetype%size/2.0
+203 \textcolor{keywordflow}{    class is} (point)
+204         center = shapetype%pt
+205 \textcolor{keywordflow}{    class is} (line)
+206         center = shapetype%pt + shapetype%last/2.0
+207 \textcolor{keywordflow}{    class is} (sphere)
+208         center = shapetype%pt
+209 \textcolor{keywordflow}{        class default}
+210         outext=\textcolor{stringliteral}{'[geometry::getCenter] : unexpected type for geometry object, stoping'}
+211         \textcolor{keyword}{call }log%put(outext)
+212         stop
+213 \textcolor{keywordflow}{    end select}
+214 
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacegeometry__mod_a22dd77024fce56da299445a697256155}\label{namespacegeometry__mod_a22dd77024fce56da299445a697256155}} 
 \index{geometry\+\_\+mod@{geometry\+\_\+mod}!inlist@{inlist}}
 \index{inlist@{inlist}!geometry\+\_\+mod@{geometry\+\_\+mod}}
@@ -269,20 +318,20 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 96 of file geometry.\+f90.
+Definition at line 97 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-96     \textcolor{keywordtype}{implicit none}
-97     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
-98     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: geomname
-99     \textcolor{keywordtype}{integer} :: i
-100     tf = .false.
-101     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%list)
-102         \textcolor{keywordflow}{if} (geomname == self%list(i)) \textcolor{keywordflow}{then}
-103             tf = .true.
-104 \textcolor{keywordflow}{        endif}
-105 \textcolor{keywordflow}{    enddo}
+97     \textcolor{keywordtype}{implicit none}
+98     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+99     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: geomname
+100     \textcolor{keywordtype}{integer} :: i
+101     tf = .false.
+102     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%list)
+103         \textcolor{keywordflow}{if} (geomname == self%list(i)) \textcolor{keywordflow}{then}
+104             tf = .true.
+105 \textcolor{keywordflow}{        endif}
+106 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}\label{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}} 
 \index{geometry\+\_\+mod@{geometry\+\_\+mod}!line\+\_\+grid@{line\+\_\+grid}}
@@ -304,23 +353,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 347 of file geometry.\+f90.
+Definition at line 382 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-347     \textcolor{keywordtype}{implicit none}
-348     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
-349     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: dist
-350     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
-351     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
-352     \textcolor{keywordtype}{integer} :: i, j, k, p
-353 
-354     \textcolor{keywordflow}{do} p=1, np
-355         ptlist(p) = dp/np*(dist*(p-1))
-356 \textcolor{keywordflow}{    end do}
-357     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the origin}
-358         ptlist(1)= 0*ex + 0*ey +0*ez
-359 \textcolor{keywordflow}{    end if}
+382     \textcolor{keywordtype}{implicit none}
+383     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+384     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: dist
+385     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
+386     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
+387     \textcolor{keywordtype}{integer} :: i, j, k, p
+388 
+389     \textcolor{keywordflow}{do} p=1, np
+390         ptlist(p) = dp/np*(dist*(p-1))
+391 \textcolor{keywordflow}{    end do}
+392     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the origin}
+393         ptlist(1)= 0*ex + 0*ey +0*ez
+394 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -349,48 +398,48 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 191 of file geometry.\+f90.
+Definition at line 226 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-191     \textcolor{keywordtype}{implicit none}
-192     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
-193     \textcolor{keywordtype}{class}(shape) :: shapetype
-194     
-195     \textcolor{keywordtype}{type}(vector) :: temp(2)
-196     \textcolor{keywordtype}{type}(string) :: temp\_str(6)
-197     \textcolor{keywordtype}{type}(string) :: outext
-198 
-199     temp\_str(1) = shapetype%pt%x
-200     temp\_str(2) = shapetype%pt%y
-201     temp\_str(3) = shapetype%pt%z
-202     \textcolor{keywordflow}{select type} (shapetype)
-203 \textcolor{keywordflow}{    type is} (shape)
-204 \textcolor{keywordflow}{    class is} (box)
-205         temp\_str(4) = shapetype%size%x
-206         temp\_str(5) = shapetype%size%y
-207         temp\_str(6) = shapetype%size%z
-208         outext=\textcolor{stringliteral}{'      Box at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
-209                \textcolor{stringliteral}{'       with '}//temp\_str(4)//\textcolor{stringliteral}{' X '}//temp\_str(5)//\textcolor{stringliteral}{' X '}//temp\_str(6)      
-210 \textcolor{keywordflow}{    class is} (point)
-211         outext=\textcolor{stringliteral}{'      Point at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)
-212 \textcolor{keywordflow}{    class is} (line)
-213         temp\_str(4) = shapetype%last%x
-214         temp\_str(5) = shapetype%last%y
-215         temp\_str(6) = shapetype%last%z
-216         outext=\textcolor{stringliteral}{'      Line from '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
-217                \textcolor{stringliteral}{'       to '}//temp\_str(4)//\textcolor{stringliteral}{' X '}//temp\_str(5)//\textcolor{stringliteral}{' X '}//temp\_str(6)
-218 \textcolor{keywordflow}{    class is} (sphere)
-219         temp\_str(4) = shapetype%radius
-220         outext=\textcolor{stringliteral}{'      Sphere at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
-221                \textcolor{stringliteral}{'       with radius '}//temp\_str(4)        
-222 \textcolor{keywordflow}{        class default}
-223         outext=\textcolor{stringliteral}{'[geometry::print] : unexpected type for geometry object, stoping'}
-224         \textcolor{keyword}{call }log%put(outext)
-225         stop
-226 \textcolor{keywordflow}{    end select}
-227     \textcolor{keyword}{call }log%put(outext,.false.)
-228 
+226     \textcolor{keywordtype}{implicit none}
+227     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+228     \textcolor{keywordtype}{class}(shape) :: shapetype
+229     
+230     \textcolor{keywordtype}{type}(vector) :: temp(2)
+231     \textcolor{keywordtype}{type}(string) :: temp\_str(6)
+232     \textcolor{keywordtype}{type}(string) :: outext
+233 
+234     temp\_str(1) = shapetype%pt%x
+235     temp\_str(2) = shapetype%pt%y
+236     temp\_str(3) = shapetype%pt%z
+237     \textcolor{keywordflow}{select type} (shapetype)
+238 \textcolor{keywordflow}{    type is} (shape)
+239 \textcolor{keywordflow}{    class is} (box)
+240         temp\_str(4) = shapetype%size%x
+241         temp\_str(5) = shapetype%size%y
+242         temp\_str(6) = shapetype%size%z
+243         outext=\textcolor{stringliteral}{'      Box at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
+244                \textcolor{stringliteral}{'       with '}//temp\_str(4)//\textcolor{stringliteral}{' X '}//temp\_str(5)//\textcolor{stringliteral}{' X '}//temp\_str(6)      
+245 \textcolor{keywordflow}{    class is} (point)
+246         outext=\textcolor{stringliteral}{'      Point at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)
+247 \textcolor{keywordflow}{    class is} (line)
+248         temp\_str(4) = shapetype%last%x
+249         temp\_str(5) = shapetype%last%y
+250         temp\_str(6) = shapetype%last%z
+251         outext=\textcolor{stringliteral}{'      Line from '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
+252                \textcolor{stringliteral}{'       to '}//temp\_str(4)//\textcolor{stringliteral}{' X '}//temp\_str(5)//\textcolor{stringliteral}{' X '}//temp\_str(6)
+253 \textcolor{keywordflow}{    class is} (sphere)
+254         temp\_str(4) = shapetype%radius
+255         outext=\textcolor{stringliteral}{'      Sphere at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
+256                \textcolor{stringliteral}{'       with radius '}//temp\_str(4)        
+257 \textcolor{keywordflow}{        class default}
+258         outext=\textcolor{stringliteral}{'[geometry::print] : unexpected type for geometry object, stoping'}
+259         \textcolor{keyword}{call }log%put(outext)
+260         stop
+261 \textcolor{keywordflow}{    end select}
+262     \textcolor{keyword}{call }log%put(outext,.false.)
+263 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}\label{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}} 
 \index{geometry\+\_\+mod@{geometry\+\_\+mod}!sphere\+\_\+grid@{sphere\+\_\+grid}}
@@ -412,34 +461,34 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 278 of file geometry.\+f90.
+Definition at line 313 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-278     \textcolor{keywordtype}{implicit none}
-279     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
-280     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: r
-281     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
-282     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
-283     \textcolor{keywordtype}{integer} :: i, j, k, p, n
-284     \textcolor{keywordtype}{type}(vector) :: pts
-285     n=int(3*r/dp)
-286     p=0
-287     \textcolor{keywordflow}{do} i=1, n
-288         \textcolor{keywordflow}{do} j=1, n
-289             \textcolor{keywordflow}{do} k=1, n
-290                 pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
-291                 \textcolor{keywordflow}{if} (pts%normL2() .le. r) \textcolor{keywordflow}{then}
-292                     p=p+1
-293                     ptlist(p)=pts
-294 \textcolor{keywordflow}{                end if}
-295 \textcolor{keywordflow}{            end do}
-296 \textcolor{keywordflow}{        end do}
-297 \textcolor{keywordflow}{    end do}
-298     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the center point}
-299         ptlist(1)= 0*ex + 0*ey +0*ez
-300 \textcolor{keywordflow}{    end if}
-301 
+313     \textcolor{keywordtype}{implicit none}
+314     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+315     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: r
+316     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
+317     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
+318     \textcolor{keywordtype}{integer} :: i, j, k, p, n
+319     \textcolor{keywordtype}{type}(vector) :: pts
+320     n=int(3*r/dp)
+321     p=0
+322     \textcolor{keywordflow}{do} i=1, n
+323         \textcolor{keywordflow}{do} j=1, n
+324             \textcolor{keywordflow}{do} k=1, n
+325                 pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+326                 \textcolor{keywordflow}{if} (pts%normL2() .le. r) \textcolor{keywordflow}{then}
+327                     p=p+1
+328                     ptlist(p)=pts
+329 \textcolor{keywordflow}{                end if}
+330 \textcolor{keywordflow}{            end do}
+331 \textcolor{keywordflow}{        end do}
+332 \textcolor{keywordflow}{    end do}
+333     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the center point}
+334         ptlist(1)= 0*ex + 0*ey +0*ez
+335 \textcolor{keywordflow}{    end if}
+336 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -468,32 +517,32 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 243 of file geometry.\+f90.
+Definition at line 278 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-243     \textcolor{keywordtype}{implicit none}
-244     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
-245     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: r
-246     \textcolor{keywordtype}{integer} :: np
-247     \textcolor{keywordtype}{integer} :: i, j, k, n
-248     \textcolor{keywordtype}{type}(vector) :: pts
-249     np=0
-250     n=int(3*r/dp)
-251     \textcolor{keywordflow}{do} i=1, n
-252         \textcolor{keywordflow}{do} j=1, n
-253             \textcolor{keywordflow}{do} k=1, n
-254                 pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
-255                 \textcolor{keywordflow}{if} (pts%normL2() .le. r) \textcolor{keywordflow}{then}
-256                     np=np+1
-257 \textcolor{keywordflow}{                end if}
-258 \textcolor{keywordflow}{            end do}
-259 \textcolor{keywordflow}{        end do}
-260 \textcolor{keywordflow}{    end do}
-261     \textcolor{keywordflow}{if} (np == 0) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the center point}
-262         np=1
-263 \textcolor{keywordflow}{    end if}
-264 
+278     \textcolor{keywordtype}{implicit none}
+279     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+280     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: r
+281     \textcolor{keywordtype}{integer} :: np
+282     \textcolor{keywordtype}{integer} :: i, j, k, n
+283     \textcolor{keywordtype}{type}(vector) :: pts
+284     np=0
+285     n=int(3*r/dp)
+286     \textcolor{keywordflow}{do} i=1, n
+287         \textcolor{keywordflow}{do} j=1, n
+288             \textcolor{keywordflow}{do} k=1, n
+289                 pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+290                 \textcolor{keywordflow}{if} (pts%normL2() .le. r) \textcolor{keywordflow}{then}
+291                     np=np+1
+292 \textcolor{keywordflow}{                end if}
+293 \textcolor{keywordflow}{            end do}
+294 \textcolor{keywordflow}{        end do}
+295 \textcolor{keywordflow}{    end do}
+296     \textcolor{keywordflow}{if} (np == 0) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the center point}
+297         np=1
+298 \textcolor{keywordflow}{    end if}
+299 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -513,9 +562,9 @@ Here is the caller graph for this function\+:\nopagebreak
 
 
 
-Definition at line 61 of file geometry.\+f90.
+Definition at line 62 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-61     \textcolor{keywordtype}{type}(geometry\_class) :: Geometry
+62     \textcolor{keywordtype}{type}(geometry\_class) :: Geometry
 \end{DoxyCode}

@@ -55,7 +55,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_m_o_h_i_d_lagrangian_8f90.html",
-"structsimulation__globals__mod_1_1constants__t.html#a0ad20f9a9b8c4fd0a6813415e690353a"
+"structgeometry__mod_1_1box.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

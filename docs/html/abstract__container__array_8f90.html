@@ -97,7 +97,8 @@ $(document).ready(function(){initNavTree('abstract__container__array_8f90.html',
   <div class="summary">
 <a href="#nested-classes">Data Types</a> &#124;
 <a href="#namespaces">Modules</a> &#124;
-<a href="#func-members">Functions/Subroutines</a>  </div>
+<a href="#func-members">Functions/Subroutines</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">abstract_container_array.f90 File Reference</div>  </div>
 </div><!--header-->
@@ -119,7 +120,7 @@ Modules</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a2b3e0aec504d76c73bf7f18158924af4"><td class="memItemLeft" align="right" valign="top">class(*) function, pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a2b3e0aec504d76c73bf7f18158924af4">abstract_container_array_mod::getvalue</a> (this, index)</td></tr>
-<tr class="memdesc:a2b3e0aec504d76c73bf7f18158924af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that returns returns the requested entry (pointer)  <a href="namespaceabstract__container__array__mod.html#a2b3e0aec504d76c73bf7f18158924af4">More...</a><br /></td></tr>
+<tr class="memdesc:a2b3e0aec504d76c73bf7f18158924af4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that returns the requested entry (pointer)  <a href="namespaceabstract__container__array__mod.html#a2b3e0aec504d76c73bf7f18158924af4">More...</a><br /></td></tr>
 <tr class="separator:a2b3e0aec504d76c73bf7f18158924af4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae1f6309c51e282a528ce78f128443e0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#aae1f6309c51e282a528ce78f128443e0">abstract_container_array_mod::putvalue</a> (this, index, value)</td></tr>
 <tr class="memdesc:aae1f6309c51e282a528ce78f128443e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that stores a value on the requested index.  <a href="namespaceabstract__container__array__mod.html#aae1f6309c51e282a528ce78f128443e0">More...</a><br /></td></tr>
@@ -127,12 +128,20 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a22d71ca3f03bf0bb5d3737338e5e349a"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a22d71ca3f03bf0bb5d3737338e5e349a">abstract_container_array_mod::getlength</a> (this)</td></tr>
 <tr class="memdesc:a22d71ca3f03bf0bb5d3737338e5e349a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that returns the length of the array.  <a href="namespaceabstract__container__array__mod.html#a22d71ca3f03bf0bb5d3737338e5e349a">More...</a><br /></td></tr>
 <tr class="separator:a22d71ca3f03bf0bb5d3737338e5e349a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2d73eb111ffde938f81e3f93b0cb3e0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#ac2d73eb111ffde938f81e3f93b0cb3e0">abstract_container_array_mod::resizearray</a> (this, newsize)</td></tr>
-<tr class="memdesc:ac2d73eb111ffde938f81e3f93b0cb3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move_alloc()  <a href="namespaceabstract__container__array__mod.html#ac2d73eb111ffde938f81e3f93b0cb3e0">More...</a><br /></td></tr>
-<tr class="separator:ac2d73eb111ffde938f81e3f93b0cb3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a8e7af177f333262aba941775d6c245"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a6a8e7af177f333262aba941775d6c245">abstract_container_array_mod::initarray</a> (this, entries, tocopy)</td></tr>
-<tr class="memdesc:a6a8e7af177f333262aba941775d6c245"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that allocates the container array. Deallocates if already allocated.  <a href="namespaceabstract__container__array__mod.html#a6a8e7af177f333262aba941775d6c245">More...</a><br /></td></tr>
-<tr class="separator:a6a8e7af177f333262aba941775d6c245"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb5b2e1692fa90a0239e9a0bcdc7967d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#adb5b2e1692fa90a0239e9a0bcdc7967d">abstract_container_array_mod::resizearray</a> (this, newsize, initvalue)</td></tr>
+<tr class="memdesc:adb5b2e1692fa90a0239e9a0bcdc7967d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that grows (adds empty space) or shrinks (discards the last entries) of the array. Use sparsely as this might get expensive for large array operations. Should think of a way to use move_alloc()  <a href="namespaceabstract__container__array__mod.html#adb5b2e1692fa90a0239e9a0bcdc7967d">More...</a><br /></td></tr>
+<tr class="separator:adb5b2e1692fa90a0239e9a0bcdc7967d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a793ed0fff6fc6c5823f1e7f119f44959"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a793ed0fff6fc6c5823f1e7f119f44959">abstract_container_array_mod::initarray</a> (this, entries, source, initvalue)</td></tr>
+<tr class="memdesc:a793ed0fff6fc6c5823f1e7f119f44959"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that allocates the container array. Deallocates if already allocated.  <a href="namespaceabstract__container__array__mod.html#a793ed0fff6fc6c5823f1e7f119f44959">More...</a><br /></td></tr>
+<tr class="separator:a793ed0fff6fc6c5823f1e7f119f44959"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6733f8c7202ec84585ac4f52b6798f02"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a6733f8c7202ec84585ac4f52b6798f02">abstract_container_array_mod::getmemsize</a> (this)</td></tr>
+<tr class="memdesc:a6733f8c7202ec84585ac4f52b6798f02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that returns the memory used by the array in bytes.  <a href="namespaceabstract__container__array__mod.html#a6733f8c7202ec84585ac4f52b6798f02">More...</a><br /></td></tr>
+<tr class="separator:a6733f8c7202ec84585ac4f52b6798f02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a536c39baa7114f8ddff2dec5a90a894e"><td class="memItemLeft" align="right" valign="top">logical, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceabstract__container__array__mod.html#a536c39baa7114f8ddff2dec5a90a894e">abstract_container_array_mod::mc</a> = .true.</td></tr>
+<tr class="separator:a536c39baa7114f8ddff2dec5a90a894e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

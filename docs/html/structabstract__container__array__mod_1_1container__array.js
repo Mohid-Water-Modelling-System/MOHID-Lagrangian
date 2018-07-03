@@ -2,6 +2,7 @@ var structabstract__container__array__mod_1_1container__array =
 [
     [ "get", "structabstract__container__array__mod_1_1container__array.html#a9e7ee3cbe7bbcd28749369d010f8eb45", null ],
     [ "getlength", "structabstract__container__array__mod_1_1container__array.html#ab91570b2196a2f5aafb0aa51a114b451", null ],
+    [ "getmemsize", "structabstract__container__array__mod_1_1container__array.html#a098970225d71a3843fa74b360142457f", null ],
     [ "init", "structabstract__container__array__mod_1_1container__array.html#acae485dab14440247585b9dd68d1211e", null ],
     [ "put", "structabstract__container__array__mod_1_1container__array.html#a94dad1bae8974dd2a1dfe00059a9608c", null ],
     [ "resize", "structabstract__container__array__mod_1_1container__array.html#ac75fccc4c778eb745479dc50f46bf1fe", null ],
