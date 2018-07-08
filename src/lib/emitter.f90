@@ -76,7 +76,7 @@
     implicit none
     class(emitter_class), intent(inout) :: self
     class(source_class),intent(inout) :: src
-    call setotalnp(src) !finding the total tracers this Source will pass the emmiter
+    !call setotalnp(src) !finding the total tracers this Source will pass the emmiter
     self%emittable = self%emittable + src%stencil%total_np
     end subroutine addSource
     
@@ -102,27 +102,36 @@
     !
     !> @brief
     !> method that emitts the Tracers, based on the Sources on this Block Emitter
+    !> this method returns a resized Tracer array if needed to the corresponding
+    !> Block
     !
-    !> @param[in] self
+    !> @param[in] self, src, trc
     !---------------------------------------------------------------------------
-    subroutine emitt(self, src)
+    subroutine emitt(self, src, trcarr)
     implicit none
-    class(emitter_class), intent(inout) :: self
-    class(source_class), intent(inout) :: src
-    integer err
+    class(emitter_class), intent(inout) :: self !> the Emmiter from the Block where the Source is
+    class(source_class), intent(inout)  :: src  !>the Source that will emitt new Tracers
+    class(TracerArray), intent(inout)   :: trcarr  !>the Tracer array from the Block where the Source is
+    integer err, i
     type(string) :: outext, temp
+    integer :: allocstride = 3
+    class(*), pointer :: newtrc
 
-    if (self%emittable .le. 0) then
+    if (self%emittable <= 0) then
         !nothing to do as we have no Sources or no emittable Tracers
     else
-        
-        
-        !allocate(Tracer(self%emittable), stat=err)
-        !if(err/=0)then
-        !    outext='[Emitter::alloctracers]: Cannot allocate Tracers, stoping'
-        !    call Log%put(outext)
-        !    stop
-        !endif
+        !check if the block trc array has enough free places for this emission
+        if (src%stencil%np >= (trcarr%getLength() - trcarr%lastActive)) then
+             print*, 'Required space = ', src%stencil%np
+             print*, 'Available space = ', trcarr%getLength() - trcarr%lastActive
+            call trcarr%resize(trcarr%getLength() + allocstride*src%stencil%np, initvalue = dummyTracer) !resizing the Block Tracer array to accomodate n more emissions
+        end if
+        !there is space to emmitt the Tracers
+        do i=1, src%stencil%np
+            trcarr%lastActive = trcarr%lastActive + 1 !will need to change to paralelize
+            !newtrc = tracer(src,i) !calling the constructor for a tracer
+
+        end do
     endif
 
     !temp = size(Tracer)
@@ -166,21 +175,21 @@
     !end subroutine
     
 
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> private routine that returns the total number of tracers an input
-    !> source will potentially create
-    !
-    !> @param[in] src
-    !---------------------------------------------------------------------------
-    subroutine setotalnp(src)
-    implicit none
-    class(source_class), intent(inout) :: src
-    !> \f${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}\f$
-    src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np
-    end subroutine
+    ! !---------------------------------------------------------------------------
+    ! !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! ! Routine Author Name and Affiliation.
+    ! !
+    ! !> @brief
+    ! !> private routine that returns the total number of tracers an input
+    ! !> source will potentially create
+    ! !
+    ! !> @param[in] src
+    ! !---------------------------------------------------------------------------
+    ! subroutine setotalnp(src)
+    ! implicit none
+    ! class(source_class), intent(inout) :: src
+    ! !> \f${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}\f$
+    ! src%stencil%total_np=(src%par%stoptime-src%par%startime)*src%par%emitting_rate*src%stencil%np
+    ! end subroutine
 
   end module emitter_mod

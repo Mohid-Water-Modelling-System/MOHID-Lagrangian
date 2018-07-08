@@ -24,7 +24,7 @@
 
 MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
 =====================================================================
-2018-7-3 @16:21:14 ->Reading case definition from Template_Lagrangian_Def.xml
+2018-7-8 @21:56:19 ->Reading case definition from Template_Lagrangian_Def.xml
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000E+00
@@ -47,13 +47,14 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Blocks are sized 
         0.000000E+00 X  0.000000E+00
  -->Reading case Sources
-2018-7-3 @16:21:14 Allocated +6 Sources.
+2018-7-8 @21:56:19 Allocated +6 Sources.
  -->Source Spill_007
        Id = +18
        Geometry type is box
        Initially at coordinates
        -0.550000E+01 +0.100000E+01  0.000000E+00
-       Emitting +35 tracers at a rate of +0.100000E+00 Hz
+       Emitting +24 tracers at a rate of +0.100000E+00 Hz
+       For an estimated total of +209052 tracers
        Active from +0.150000E+02 to +0.871200E+05 seconds
  -->Source Litter_plastic
        Id = +1
@@ -61,20 +62,23 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Initially at coordinates
        +0.250000E+01 +0.550000E+01 +0.750000E+00
        Emitting +1 tracers at a rate of +0.900000E-01 Hz
+       For an estimated total of +6 tracers
        Active from +0.150000E+02 to +0.900000E+02 seconds
  -->Source Emissary_2
        Id = +2
        Geometry type is line
        Initially at coordinates
        +0.100000E+01 +0.200000E+01 +0.300000E+01
-       Emitting +42 tracers at a rate of +0.200000E+00 Hz
+       Emitting +33 tracers at a rate of +0.200000E+00 Hz
+       For an estimated total of +574992 tracers
        Active from  0.000000E+00 to +0.871200E+05 seconds
  -->Source Mistery_discharge_0
        Id = +3
        Geometry type is sphere
        Initially at coordinates
        +0.900000E+01 +0.800000E+01  0.000000E+00
-       Emitting +229 tracers at a rate of +0.500000E-02 Hz
+       Emitting +96 tracers at a rate of +0.500000E-02 Hz
+       For an estimated total of +41817 tracers
        Active from +0.112500E+01 to +0.871200E+05 seconds
  -->Source Mistery_discharge_1
        Id = +6
@@ -82,6 +86,7 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Initially at coordinates
        +0.905000E+01 +0.800000E+01  0.000000E+00
        Emitting +1 tracers at a rate of +0.500000E-01 Hz
+       For an estimated total of +4355 tracers
        Active from +0.112500E+01 to +0.871200E+05 seconds
  -->Source Mistery_discharge_2
        Id = +7
@@ -89,18 +94,589 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Initially at coordinates
        +0.902500E+01 +0.800000E+01 +0.750000E+00
        Emitting +1 tracers at a rate of +0.250000E-01 Hz
+       For an estimated total of +2177 tracers
        Active from +0.101250E+02 to +0.871200E+05 seconds
  -->Properties to link to Sources found at Material_props.xml
        Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
        Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
        Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
-2018-7-3 @16:21:14 Allocated +16 Blocks.
+2018-7-8 @21:56:19 Allocated +16 Blocks.
  -->Automatic domain decomposition sucessful. Domain is +8 X +2 Blocks
  -->Sources allocated to their current Blocks
- -->+1142980 Tracers allocated, +0 Tracers active
-2018-7-3 @16:21:15 ->Total allocated memory: +0.310900E+03 mb
-       Allocated memory for Blocks  = +0.601600E-02 mb
-       Allocated memory for Sources = +0.283200E-02 mb
-       Allocated memory for Tracers = +0.310891E+03 mb
-       Allocated memory for Consts  = +0.480000E-03 mb
-2018-7-3 @16:21:15 Simulation ended, freeing resources. See you next time
+ -->+832415 Tracers allocated, +0 Tracers active
+2018-7-8 @21:56:19 ->Total allocated memory: +0.113213E+03 mb
+       Allocated memory for Blocks  = +0.294400E-02 mb
+       Allocated memory for Sources = +0.124800E-02 mb
+       Allocated memory for Tracers = +0.113208E+03 mb
+       Allocated memory for Consts  = +0.380000E-03 mb
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832415 Tracers allocated, +0 Tracers active
+ -->+832703 Tracers allocated, +0 Tracers active
+ -->+832703 Tracers allocated, +0 Tracers active
+ -->+832703 Tracers allocated, +0 Tracers active
+ -->+832991 Tracers allocated, +0 Tracers active
+ -->+832991 Tracers allocated, +0 Tracers active
+ -->+832991 Tracers allocated, +0 Tracers active
+ -->+833279 Tracers allocated, +0 Tracers active
+ -->+833279 Tracers allocated, +0 Tracers active
+ -->+833279 Tracers allocated, +0 Tracers active
+ -->+833567 Tracers allocated, +0 Tracers active
+ -->+833567 Tracers allocated, +0 Tracers active
+ -->+833567 Tracers allocated, +0 Tracers active
+ -->+833855 Tracers allocated, +0 Tracers active
+ -->+833855 Tracers allocated, +0 Tracers active
+ -->+833855 Tracers allocated, +0 Tracers active
+ -->+834143 Tracers allocated, +0 Tracers active
+ -->+834143 Tracers allocated, +0 Tracers active
+ -->+834146 Tracers allocated, +0 Tracers active
+ -->+834434 Tracers allocated, +0 Tracers active
+ -->+834434 Tracers allocated, +0 Tracers active
+ -->+834722 Tracers allocated, +0 Tracers active
+ -->+834722 Tracers allocated, +0 Tracers active
+ -->+834722 Tracers allocated, +0 Tracers active
+ -->+835010 Tracers allocated, +0 Tracers active
+ -->+835010 Tracers allocated, +0 Tracers active
+ -->+835010 Tracers allocated, +0 Tracers active
+ -->+835298 Tracers allocated, +0 Tracers active
+ -->+835298 Tracers allocated, +0 Tracers active
+ -->+835298 Tracers allocated, +0 Tracers active
+ -->+835586 Tracers allocated, +0 Tracers active
+ -->+835586 Tracers allocated, +0 Tracers active
+ -->+835586 Tracers allocated, +0 Tracers active
+ -->+835874 Tracers allocated, +0 Tracers active
+ -->+835874 Tracers allocated, +0 Tracers active
+ -->+835874 Tracers allocated, +0 Tracers active
+ -->+836162 Tracers allocated, +0 Tracers active
+ -->+836162 Tracers allocated, +0 Tracers active
+ -->+836162 Tracers allocated, +0 Tracers active
+ -->+836450 Tracers allocated, +0 Tracers active
+ -->+836450 Tracers allocated, +0 Tracers active
+ -->+836450 Tracers allocated, +0 Tracers active
+ -->+836738 Tracers allocated, +0 Tracers active
+ -->+836738 Tracers allocated, +0 Tracers active
+ -->+836738 Tracers allocated, +0 Tracers active
+ -->+837026 Tracers allocated, +0 Tracers active
+ -->+837026 Tracers allocated, +0 Tracers active
+ -->+837026 Tracers allocated, +0 Tracers active
+ -->+837314 Tracers allocated, +0 Tracers active
+ -->+837314 Tracers allocated, +0 Tracers active
+ -->+837314 Tracers allocated, +0 Tracers active
+ -->+837602 Tracers allocated, +0 Tracers active
+ -->+837602 Tracers allocated, +0 Tracers active
+ -->+837602 Tracers allocated, +0 Tracers active
+ -->+837890 Tracers allocated, +0 Tracers active
+ -->+837890 Tracers allocated, +0 Tracers active
+ -->+837890 Tracers allocated, +0 Tracers active
+ -->+838178 Tracers allocated, +0 Tracers active
+ -->+838178 Tracers allocated, +0 Tracers active
+ -->+838178 Tracers allocated, +0 Tracers active
+ -->+838466 Tracers allocated, +0 Tracers active
+ -->+838466 Tracers allocated, +0 Tracers active
+ -->+838466 Tracers allocated, +0 Tracers active
+ -->+838754 Tracers allocated, +0 Tracers active
+ -->+838754 Tracers allocated, +0 Tracers active
+ -->+838754 Tracers allocated, +0 Tracers active
+ -->+839042 Tracers allocated, +0 Tracers active
+ -->+839042 Tracers allocated, +0 Tracers active
+ -->+839045 Tracers allocated, +0 Tracers active
+ -->+839333 Tracers allocated, +0 Tracers active
+ -->+839333 Tracers allocated, +0 Tracers active
+ -->+839621 Tracers allocated, +0 Tracers active
+ -->+839621 Tracers allocated, +0 Tracers active
+ -->+839621 Tracers allocated, +0 Tracers active
+ -->+839909 Tracers allocated, +0 Tracers active
+ -->+839909 Tracers allocated, +0 Tracers active
+ -->+839909 Tracers allocated, +0 Tracers active
+ -->+840197 Tracers allocated, +0 Tracers active

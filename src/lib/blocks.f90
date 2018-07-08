@@ -90,7 +90,7 @@
     implicit none
     class(block_class), intent(in) :: self
     integer :: numActiveTracers
-    numActiveTracers = self%Tracer%usedLength
+    numActiveTracers = self%Tracer%numActive
     end function numActiveTracers
 
     !---------------------------------------------------------------------------
@@ -118,13 +118,43 @@
     !initializing the Sources and Tracers arrays
     call self%Source%init(1)   !Starting the Sources array with one position    
     self%Source%usedLength = 0 !But there are no stored Sources
-    call self%Tracer%init(1, initvalue = dummyTracer)   !Starting the Tracers array with one position    
-    self%Tracer%usedLength = 0 !But there are no stored Tracers
+    call self%Tracer%init(1, initvalue = dummyTracer)   !Starting the Tracers array with one position
+    self%Tracer%lastActive = 0   
+    self%Tracer%numActive = 0 !But there are no stored Tracers
     !logging the ocupied space by the block
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
     
     end subroutine initBlock
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Method to place a Source on the Block SourceArray. Checks for space and 
+    !> allocates more if needed. The array gets incremented by one unit at a time
+    !> Allocates space in the Blocks Tracer array with a dummy Tracer
+    !
+    !> @param[in] self, sourcetoput
+    !---------------------------------------------------------------------------
+    subroutine putSource(self, sourcetoput)
+        implicit none
+        class(block_class), intent(inout) :: self
+        class(source_class), intent(inout) :: sourcetoput !< Source object to store
+        
+        !Check if the array is at capacity and needs to be resized
+        if (self%Source%usedLength == self%Source%getLength()) then
+            call self%Source%resize(self%Source%getLength()+1) !incrementing one entry
+        end if
+        self%Source%usedLength = self%Source%usedLength + 1
+        call self%Source%put(self%Source%usedLength, sourcetoput)
+        !adding this Source to the Block Emitter pool
+        call self%Emitter%addSource(sourcetoput)
+        !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
+        call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)
+    
+    end subroutine putSource
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -177,7 +207,7 @@
             select type(aSource)
             type is (source_class)
                 if (aSource%now%active) then
-                    call self%Emitter%emitt(aSource)
+                    call self%Emitter%emitt(aSource, self%Tracer)
                 end if
             class default
             stop '[Block::CallEmitter] Unexepected type of content, not a Source'
@@ -186,34 +216,6 @@
 
     end subroutine CallEmitter
 
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Method to place a Source on the Block SourceArray. Checks for space and 
-    !> allocates more if needed. The array gets incremented by one unit at a time
-    !> Allocates space in the Blocks Tracer array with a dummy Tracer
-    !
-    !> @param[in] self, sourcetoput
-    !---------------------------------------------------------------------------
-    subroutine putSource(self, sourcetoput)
-    implicit none
-    class(block_class), intent(inout) :: self
-    class(source_class), intent(inout) :: sourcetoput !< Source object to store
-    
-    !Check if the array is at capacity and needs to be resized
-    if (self%Source%usedLength == self%Source%getLength()) then
-        call self%Source%resize(self%Source%getLength()+1) !incrementing one entry
-    end if
-    self%Source%usedLength = self%Source%usedLength + 1
-    call self%Source%put(self%Source%usedLength, sourcetoput)
-    !adding this Source to the Block Emitter pool
-    call self%Emitter%addSource(sourcetoput)
-    !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
-    call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)
-
-    end subroutine putSource
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

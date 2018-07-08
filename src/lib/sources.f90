@@ -66,6 +66,7 @@
         type(source_stats) :: stats         !<To access statistics
     contains
     procedure :: initialize => initializeSource
+    procedure :: setotalnp
     procedure :: linkproperty
     procedure :: print => printSource
     end type
@@ -222,6 +223,7 @@
     src%stats%ns=0
     !setting stencil variables
     src%stencil%np = Geometry%fillsize(src%par%geometry)
+    call src%setotalnp()
     allocate(src%stencil%ptlist(src%stencil%np), stat=err)
     if(err/=0)then
         outext='Cannot allocate point list for Source '// src%par%name //', stoping'
@@ -238,7 +240,7 @@
     !do i=1, src%stencil%np
     !print*, src%stencil%ptlist(i)
     !end do
-    end subroutine
+    end subroutine initializeSource
 
 
     !---------------------------------------------------------------------------
@@ -257,7 +259,22 @@
     type(string), intent(in) :: pname
     src%par%property_type = ptype
     src%par%property_name = pname
-    end subroutine
+    end subroutine linkproperty
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> method that sets the total number of tracers a source will potentially create
+
+    !---------------------------------------------------------------------------
+    subroutine setotalnp(self)
+        implicit none
+        class(source_class), intent(inout) :: self
+        !> \f${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}\f$
+        self%stencil%total_np=(self%par%stoptime-self%par%startime)*self%par%emitting_rate*self%stencil%np
+    end subroutine setotalnp
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -286,7 +303,9 @@
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
     temp_str(1)=src%par%emitting_rate
     temp_str(2)=src%stencil%np
+    temp_str(3)=src%stencil%total_np
     outext = outext//'       Emitting '//temp_str(2)//' tracers at a rate of '//temp_str(1)//' Hz'//new_line('a')
+    outext = outext//'       For an estimated total of '//temp_str(3)//' tracers' //new_line('a')
     temp_str(1)=src%par%startime
     temp_str(2)=src%par%stoptime
     outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'

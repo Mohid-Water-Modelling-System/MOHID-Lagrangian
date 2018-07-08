@@ -75,9 +75,12 @@
         !Update Tracers with type-specific behavior
         !Write results if time to do so
 
+        call self%printTracerTotals()
         !update Simulation time
         Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
-        !print*, 'Global time is ', Globals%SimTime 
+        !print*, 'Global time is ', Globals%SimTime
+        !print*, 'Can we continue?'
+        !read (*,*)
     enddo
 
     end subroutine run

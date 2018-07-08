@@ -7,7 +7,7 @@
       <Rho_ref value="1100" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />
     </constantsdef>
     <simulationdefs>
-      <resolution dp="0.7" units_comment="metres (m)"/>
+      <resolution dp="0.9" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
       <pointmin x="-10.0" y="0.0" z="-500.01" />
       <pointmax x="10.0" y="10.0" z="4.0574" />
@@ -45,7 +45,7 @@
           <point x="9.0" y="8.0" z="0" />
         </sphere>
       </source>
-	  <source>
+	    <source>
         <setsource id="6" name="Mistery_discharge_1" />
         <set emitting_rate="0.05" units_comment="Hz" />
         <active start="1.125" end="end"/>
@@ -53,7 +53,7 @@
           <point x="9.05" y="8.0" z="0" />
         </sphere>
       </source>
-	  <source>
+	    <source>
         <setsource id="7" name="Mistery_discharge_2" />
         <set emitting_rate="0.025" units_comment="Hz" />
         <active start="10.125" end="end"/>
