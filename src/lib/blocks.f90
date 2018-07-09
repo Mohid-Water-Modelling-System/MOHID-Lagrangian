@@ -152,10 +152,8 @@
         !adding this Source to the Block Emitter pool
         call self%Emitter%addSource(sourcetoput)
         !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
-        print*, 'Resizing Tracer array. Current size = ', self%Tracer%getLength()
         call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)
-        print*, 'New size = ', self%Tracer%getLength()
-
+        
     end subroutine putSource
 
     !---------------------------------------------------------------------------
@@ -209,8 +207,12 @@
             select type(aSource)
             type is (source_class)
                 if (aSource%now%active) then
-                    print*, 'emitting from Block ', self%id, ' Source ', aSource%par%id
-                    call self%Emitter%emitt(aSource, self%Tracer)
+                    aSource%now%emission_stride = aSource%now%emission_stride - 1 !decreasing the stride at this dt
+                    if (aSource%now%emission_stride == 0) then !reached the bottom of the stack, time to emitt
+                        !print*, 'emitting from Block ', self%id, ' Source ', aSource%par%id
+                        call self%Emitter%emitt(aSource, self%Tracer)
+                        aSource%now%emission_stride = aSource%par%emitting_rate !reseting the stride after the Source emitts
+                    end if
                 end if
             class default
             stop '[Block::CallEmitter] Unexepected type of content, not a Source'

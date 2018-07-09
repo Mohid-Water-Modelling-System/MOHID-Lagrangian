@@ -120,12 +120,7 @@
         !nothing to do as we have no Sources or no emittable Tracers
     else
         !check if the Block Tracer Array has enough free places for this emission
-        if (src%stencil%np >= (trcarr%getLength() - trcarr%lastActive)) then
-             print*, 'Required space  = ', src%stencil%np
-             print*, 'Active tracers  = ', trcarr%lastActive
-             print*, 'Array length    = ', trcarr%getLength()
-             print*, 'Initial length  = ', src%stencil%total_np
-             print*, 'Available space = ', trcarr%getLength() - trcarr%lastActive
+        if (src%stencil%np > (trcarr%getLength() - trcarr%lastActive)) then
             call trcarr%resize(trcarr%getLength() + allocstride*src%stencil%np, initvalue = dummyTracer) !resizing the Block Tracer array to accomodate more emissions
         end if
         !there is space to emmitt the Tracers

@@ -26,7 +26,7 @@
 
     type :: source_par               !<Type - parameters of a source object
         integer :: id                       !< unique source identification (integer)
-        real(prec_time) :: emitting_rate    !< Emitting rate of the source (Hz)
+        integer :: emitting_rate    !< Emitting rate of the source (Hz)
         real(prec_time) :: startime         !< time to start emitting tracers
         real(prec_time) :: stoptime         !< time to stop emitting tracers
         type(string) :: name                !< source name
@@ -39,6 +39,7 @@
     type :: source_state             !<Type - state variables of a source object
         real(prec_time) :: age              ! time variables
         logical :: active                   !< active switch
+        integer :: emission_stride          !< Number of time steps to wait until next emission
         type(vector) :: pos                 !< Position of the source baricenter (m)
         type(vector) :: vel                 !< Velocity of the source (m s-1)
         real(prec) :: depth                 !< Depth of the source baricenter (m)
@@ -216,6 +217,7 @@
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
+    src%now%emission_stride=1 !first time-step once active the Source emitts
     src%now%pos=src%par%geometry%pt !coords of the Source (meaning depends on the geometry type!)
     !setting statistical samplers
     src%stats%particles_emitted=0
@@ -272,8 +274,8 @@
     subroutine setotalnp(self)
         implicit none
         class(source_class), intent(inout) :: self
-        !< computing the total as \f${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}\f$
-        self%stencil%total_np=(self%par%stoptime-self%par%startime)*self%par%emitting_rate*self%stencil%np
+        !< computing the total as \f${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\f$
+        self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(Globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 
     !---------------------------------------------------------------------------
@@ -304,7 +306,7 @@
     temp_str(1)=src%par%emitting_rate
     temp_str(2)=src%stencil%np
     temp_str(3)=src%stencil%total_np
-    outext = outext//'       Emitting '//temp_str(2)//' tracers at a rate of '//temp_str(1)//' Hz'//new_line('a')
+    outext = outext//'       Emitting '//temp_str(2)//' tracers at every '//temp_str(1)//' time-steps'//new_line('a')
     outext = outext//'       For an estimated total of '//temp_str(3)//' tracers' //new_line('a')
     temp_str(1)=src%par%startime
     temp_str(2)=src%par%stoptime

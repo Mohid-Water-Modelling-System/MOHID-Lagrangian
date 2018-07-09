@@ -199,8 +199,8 @@
         id=att_val%to_number(kind=1_I1P)
         att_name="name"
         call ReadXMLatt(source_node, tag, att_name, name)
-        tag="set"
-        att_name="emitting_rate"
+        tag="rate"
+        att_name="value"
         call ReadXMLatt(source_node, tag, att_name, att_val)
         emitting_rate = att_val%to_number(kind=1._R4P)
         tag="active"
