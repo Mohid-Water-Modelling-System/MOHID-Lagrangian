@@ -17,7 +17,7 @@
       <source>
         <setsource id="18" name="Spill_007" />
         <set emitting_rate="1" units_comment="Hz" />
-        <active start="0" end="end"/>
+        <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
           <point x="-9" y="1.0" z="0" />
           <size x="1" y="1" z="1" />
@@ -26,7 +26,7 @@
       <source>
         <setsource id="1" name="Litter_plastic" />
         <set emitting_rate="1" units_comment="Hz" />
-        <active start="0" end="end"/>
+        <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="-8" y="2" z="0.0" />
       </source>
     </sourcedef>

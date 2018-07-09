@@ -17,7 +17,7 @@
       <source>
         <setsource id="18" name="Spill_007" />
         <set emitting_rate="0.1" units_comment="Hz" />
-        <active start="15" end="end"/>
+        <active start="15" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
           <point x="-5.5" y="1.0" z="0" />
           <size x="0.5" y="3" z="4.5" />
@@ -26,7 +26,7 @@
       <source>
         <setsource id="1" name="Litter_plastic" />
         <set emitting_rate="0.09" units_comment="Hz" />
-        <active start="15" end="90"/>
+        <active start="15" end="90" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="2.5" y="5.5" z="0.75" />
       </source>
       <source>
@@ -40,7 +40,7 @@
       <source>
         <setsource id="3" name="Mistery_discharge_0" />
         <set emitting_rate="0.005" units_comment="Hz" />
-        <active start="1.125" end="end"/>
+        <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <sphere radius="2.65">
           <point x="9.0" y="8.0" z="0" />
         </sphere>
@@ -48,7 +48,7 @@
 	    <source>
         <setsource id="6" name="Mistery_discharge_1" />
         <set emitting_rate="0.05" units_comment="Hz" />
-        <active start="1.125" end="end"/>
+        <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <sphere radius="0.65">
           <point x="9.05" y="8.0" z="0" />
         </sphere>
@@ -56,7 +56,7 @@
 	    <source>
         <setsource id="7" name="Mistery_discharge_2" />
         <set emitting_rate="0.025" units_comment="Hz" />
-        <active start="10.125" end="end"/>
+        <active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="9.025" y="8.0" z="0.75" />
       </source>
     </sourcedef>
