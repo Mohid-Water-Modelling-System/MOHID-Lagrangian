@@ -152,8 +152,10 @@
         !adding this Source to the Block Emitter pool
         call self%Emitter%addSource(sourcetoput)
         !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
+        print*, 'Resizing Tracer array. Current size = ', self%Tracer%getLength()
         call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)
-    
+        print*, 'New size = ', self%Tracer%getLength()
+
     end subroutine putSource
 
     !---------------------------------------------------------------------------
