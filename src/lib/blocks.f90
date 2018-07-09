@@ -207,6 +207,7 @@
             select type(aSource)
             type is (source_class)
                 if (aSource%now%active) then
+                    print*, 'emitting from Block ', self%id, ' Source ', aSource%par%id
                     call self%Emitter%emitt(aSource, self%Tracer)
                 end if
             class default

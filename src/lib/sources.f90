@@ -272,7 +272,7 @@
     subroutine setotalnp(self)
         implicit none
         class(source_class), intent(inout) :: self
-        !> \f${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}\f$
+        !< computing the total as \f${NP}_{total}^{source-i}=(T_{end}^{source-i}-T_{start}^{source-i})*{Rate}^{source-i}*{NP}_{emission}^{source-i}\f$
         self%stencil%total_np=(self%par%stoptime-self%par%startime)*self%par%emitting_rate*self%stencil%np
     end subroutine setotalnp
 
