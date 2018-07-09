@@ -30,6 +30,7 @@
     private
 
     type :: emitter_class
+        integer :: id
         integer :: emitted
         integer :: emittable
     contains
@@ -55,9 +56,11 @@
     !
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine initializeEmitter(self)
+    subroutine initializeEmitter(self, id)
     implicit none
     class(emitter_class), intent(inout) :: self
+    integer, intent(in) :: id
+    self%id = id
     self%emitted = 0
     self%emittable = 0
     end subroutine initializeEmitter
@@ -112,12 +115,16 @@
     class(source_class), intent(inout)  :: src  !>the Source that will emitt new Tracers
     class(TracerArray), intent(inout)   :: trcarr  !>the Tracer array from the Block where the Source is
     integer err, i
-    type(string) :: outext, temp
+    type(string) :: outext, temp(2)
     integer :: allocstride = 3
     class(*), pointer :: newtrc
 
     if (self%emittable <= 0) then
         !nothing to do as we have no Sources or no emittable Tracers
+        temp(1) = self%id
+        temp(2) = src%par%id
+        outext='-->Source '//temp(2)//' trying to emitt Tracers from an exausted Emitter '//temp(1)
+        call Log%put(outext,.false.)
     else
         !check if the Block Tracer Array has enough free places for this emission
         if (src%stencil%np > (trcarr%getLength() - trcarr%lastActive)) then
@@ -125,6 +132,8 @@
         end if
         !there is space to emmitt the Tracers
         do i=1, src%stencil%np
+            self%emitted = self%emitted + 1 
+            self%emittable = self%emittable - 1
             trcarr%lastActive = trcarr%lastActive + 1 !will need to change to paralelize
             trcarr%numActive = trcarr%numActive + 1
             !newtrc = tracer(src,i) !calling the constructor for a tracer

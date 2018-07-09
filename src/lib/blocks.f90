@@ -114,7 +114,7 @@
     self%extents%pt = templatebox%pt
     self%extents%size = templatebox%size    
     !initializing the block emitter
-    call self%Emitter%initialize()
+    call self%Emitter%initialize(self%id)
     !initializing the Sources and Tracers arrays
     call self%Source%init(1)   !Starting the Sources array with one position    
     self%Source%usedLength = 0 !But there are no stored Sources
