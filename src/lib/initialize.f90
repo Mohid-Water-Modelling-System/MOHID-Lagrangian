@@ -53,11 +53,11 @@
     type(NodeList), pointer :: linkList
     type(Node), pointer :: linknode
     type(Node), pointer :: xmlProps                   !< .xml file handle
+    type(string) :: xmlfilename, outext
     integer :: i
-    character(80) :: sourceid_char, sourcetype_char, sourceprop_char
     type(string) :: att_name
     type(string) :: sourceid, sourcetype, sourceprop
-
+    
     linkList => getElementsByTagname(linksNode, "link")
     do i = 0, getLength(linkList) - 1
         linknode => item(linkList,i)
@@ -70,6 +70,19 @@
         !find the source and save the type and property name
         call tempSources%setProps(sourceid,sourcetype,sourceprop)
     enddo
+
+    !parse the properties file
+    xmlfilename = Globals%FileNames%propsxmlfilename
+    xmlProps => parseFile(xmlfilename%chars(), iostat=i)
+    if (i==0) then
+        outext='->Reading Source properties from '//xmlfilename
+        call Log%put(outext)
+    else
+        outext='[linkPropertySources]: no '//xmlfilename//' Properties file, stoping'
+        call Log%put(outext)
+        stop
+    endif
+
     !find and set the actual atributes of the properties
 
     end subroutine
@@ -407,7 +420,7 @@
         call Log%put(outext)
         Globals%FileNames%mainxmlfilename = xmlfilename
     else
-        outext='[initMohidLagrangian]: no '//xmlfilename//' input file, give me at least that!'
+        outext='[InitFromXml]: no '//xmlfilename//' input file, give me at least that!'
         call Log%put(outext)
         stop
     endif
