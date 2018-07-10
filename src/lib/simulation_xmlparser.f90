@@ -26,7 +26,7 @@
     private
 
     !Public access procedures
-    public :: ReadXMLatt, ReadXMLvector, GotoChildNode
+    public :: ReadXMLatt, ReadXMLvector, gotoChildNode
 
     contains
 
@@ -158,7 +158,7 @@
     !
     !> @param[in] currentNode, targetNode, targetNodeName, mandatory
     !---------------------------------------------------------------------------
-    subroutine GotoChildNode(currentNode, targetNode, targetNodeName, read_flag, mandatory)
+    subroutine gotoChildNode(currentNode, targetNode, targetNodeName, read_flag, mandatory)
     implicit none
     type(Node), intent(in), pointer :: currentNode
     type(Node), intent(out), pointer :: targetNode

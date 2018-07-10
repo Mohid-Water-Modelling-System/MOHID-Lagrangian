@@ -57,14 +57,21 @@
         type(tracer_state_class) :: now     !<To access state variables
         type(tracer_stats_class) :: stats   !<To access statistics
     contains
-    procedure :: initialize
+    !procedure :: trc
     end type
 
     !Simulation variables
     type(tracer_class) :: dummyTracer !< Just a template to allocate the generic arrays to this size
 
     !Public access vars
-    public :: tracer_class, dummyTracer 
+    public :: tracer_class, dummyTracer
+    
+    !Public access routines
+    public :: Tracer
+
+    interface Tracer !> Constructor
+        procedure constructor
+    end interface
 
     contains
 
@@ -73,36 +80,35 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Tracer initialization method
+    !> Base Tracer constructor
     !
     !> @param[in]
     !---------------------------------------------------------------------------
-    subroutine initialize(trc,id,id_source,time,pt)
+    function constructor(id,id_source,time,pt)
     implicit none
-    class(tracer_class) :: trc
+    type(tracer_class) :: constructor
     integer, intent(in) :: id
     integer, intent(in) :: id_source
     real(prec_time), intent(in) :: time
     type(vector), intent(in) :: pt
 
     ! initialize parameters
-    trc%par%id = id
-    trc%par%idsource = id_source
-    trc%par%velmax = 15.0 !(m/s, just a placeholder)
-    ! interp_method - TODO
+    constructor%par%id = id
+    constructor%par%idsource = id_source
+    constructor%par%velmax = 15.0 !(m/s, just a placeholder)
     ! initialize tracer state
-    trc%now%age=0.0
-    trc%now%active = .false.
-    trc%now%pos = pt
-    trc%now%vel = 0.0
-    trc%now%acc = 0.0
-    trc%now%depth = 0.0
+    constructor%now%age=0.0
+    constructor%now%active = .false.
+    constructor%now%pos = pt
+    constructor%now%vel = 0.0
+    constructor%now%acc = 0.0
+    constructor%now%depth = 0.0
     ! Initialize statistical accumulator variables
-    trc%stats%acc_pos = 0.0
-    trc%stats%acc_vel = 0.0
-    trc%stats%acc_depth = 0.0
-    trc%stats%ns = 0
+    constructor%stats%acc_pos = 0.0
+    constructor%stats%acc_vel = 0.0
+    constructor%stats%acc_depth = 0.0
+    constructor%stats%ns = 0
 
-    end subroutine initialize
+    end function constructor
 
   end module tracer_base_mod

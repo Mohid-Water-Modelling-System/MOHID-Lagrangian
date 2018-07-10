@@ -212,8 +212,8 @@
     src%par%name=name
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=shapetype)
-    src%par%property_type = "pure" ! pure Lagrangian trackers by default
-    src%par%property_name = "pure"
+    src%par%property_type = "base" ! pure Lagrangian trackers by default
+    src%par%property_name = "base"
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default

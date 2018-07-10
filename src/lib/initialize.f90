@@ -90,7 +90,7 @@
     type(string) :: tag, att_name
 
     tag="properties"    !the node we want
-    call gotoChildNode(case_node,props_node,tag)
+    call gotoChildNode(case_node,props_node,tag,mandatory =.false.)
     if (associated(props_node)) then
         tag="propertyfile"
         att_name="name"

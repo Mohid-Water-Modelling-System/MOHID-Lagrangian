@@ -38,7 +38,7 @@
     procedure :: addSource
     procedure :: removeSource
     procedure :: emitt
-    !procedure :: initracers
+    procedure :: tracerMaker
     !procedure :: activecheck
     end type
 
@@ -117,7 +117,7 @@
     integer err, i
     type(string) :: outext, temp(2)
     integer :: allocstride = 3
-    class(*), pointer :: newtrc
+    class(*), allocatable :: newtrc
 
     if (self%emittable <= 0) then
         !nothing to do as we have no Sources or no emittable Tracers
@@ -136,50 +136,46 @@
             self%emittable = self%emittable - 1
             trcarr%lastActive = trcarr%lastActive + 1 !will need to change to paralelize
             trcarr%numActive = trcarr%numActive + 1
-            !newtrc = tracer(src,i) !calling the constructor for a tracer
-
+            call self%tracerMaker(newtrc, src, i)
+            call trcarr%put(trcarr%lastActive, newtrc)
         end do
     endif
-
-    !temp = size(Tracer)
-    !outext='Allocated '// temp // ' Tracers.'
-    !call Log%put(outext)
-    !!receiving Sources as argument so latter we can differentiate between tracer types
 
     end subroutine
     
     
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !! Routine Author Name and Affiliation.
-    !!
-    !!> @brief
-    !!> method that calls the tracer initialization from the emmiter object
-    !!
-    !!> @param[in] self, src
-    !!---------------------------------------------------------------------------
-    !subroutine initracers(self, srcs)
-    !implicit none
-    !class(emitter_class), intent(inout) :: self
-    !class(source_class), dimension(:), intent(inout) :: srcs
-    !integer num_emiss, i, j, k, p
-    !type(string) :: outext, temp(4)
-    !integer :: sizem
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
     !
-    !p=0
-    !do i=1, size(srcs)
-    !    num_emiss = srcs(i)%stencil%total_np/size(srcs(i)%stencil%ptlist)
-    !    do j=1, num_emiss
-    !        do k=1, size(srcs(i)%stencil%ptlist)
-    !            p=p+1
-    !            call Tracer(p)%initialize(p, srcs(i)%par%id, Globals%SimTime, srcs(i)%stencil%ptlist(k))
-    !        enddo
-    !    enddo
-    !enddo
-    !sizem = sizeof(Tracer)
-    !call SimMemory%addtracer(sizem)
+    !> @brief
+    !> method that calls the corresponding Tracer constructor, depending on the
+    !> requested type from the emitting Source
     !
-    !end subroutine
+    !> @param[in] sself, trc, src, p
+    !---------------------------------------------------------------------------
+    subroutine tracerMaker(self, trc, src, p)
+    implicit none
+    class(emitter_class), intent(in) :: self
+    class(*), allocatable, intent(out) :: trc
+    class(source_class), intent(inout) :: src
+    integer, intent(in) :: p
+    type(string) :: outext, temp
+    
+    select case (src%par%property_type%chars())
+    case ('base')
+        trc = Tracer(1, src%par%id, Globals%SimTime, src%stencil%ptlist(p))
+    case ('paper')
+        trc = paperTracer(1, src%par%id, Globals%SimTime, src%stencil%ptlist(p))
+    case ('plastic')
+        trc = Tracer(1, src%par%id, Globals%SimTime, src%stencil%ptlist(p))
+        case default
+        outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%par%property_type
+        call Log%put(outext)
+        stop
+    end select
+    
+    end subroutine tracerMaker
     
 
   end module emitter_mod

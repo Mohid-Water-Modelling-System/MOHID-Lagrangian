@@ -33,13 +33,13 @@
     <initials>
       <velocity source="1" ux="15" uy="0.0" uz="-0.1"/>
     </initials>
-    <properties>
+    <!-- <properties>
       <links>
         <link source="1" type='plastic' property="bag_1" comment="" />
         <link source="18" type='paper' property="cardboard_1" comment="" />
       </links>
       <propertyfile name="Material_props.xml"/>
-    </properties>
+    </properties> -->
   </casedef>
   <execution>
     <parameters>

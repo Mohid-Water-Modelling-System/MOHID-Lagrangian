@@ -43,11 +43,18 @@
         type(paper_par_class)   :: mpar     !<To access material parameters
         type(paper_state_class) :: mnow     !<To access material state variables
     contains
-    procedure :: initialize => paper_initialize
+
     end type
 
     !Public access vars
     public :: paper_class
+
+    !Public access routines
+    public :: paperTracer
+
+    interface paperTracer !> Constructor
+        procedure constructor
+    end interface
 
     contains
 
@@ -56,36 +63,23 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Tracer initialization method
+    !> Paper Tracer constructor
     !
     !> @param[in]
     !---------------------------------------------------------------------------
-    subroutine paper_initialize(trc,id,id_source,time,pt)
-    implicit none
-    class(paper_class) :: trc
-    integer, intent(in) :: id
-    integer, intent(in) :: id_source
-    type(vector), intent(in) :: pt
-    real(prec_time), intent(in) :: time
+    function constructor(id,id_source,time,pt)
+        implicit none
+        type(paper_class) :: constructor
+        integer, intent(in) :: id
+        integer, intent(in) :: id_source
+        real(prec_time), intent(in) :: time
+        type(vector), intent(in) :: pt
 
-    ! initialize parameters
-    trc%par%id = id
-    trc%par%idsource = id_source
-    trc%par%velmax = 15.0 !(m/s, just a placeholder)
-    ! interp_method - TODO
-    ! initialize tracer state
-    trc%now%age=0.0
-    trc%now%active = .false.
-    trc%now%pos = pt
-    trc%now%vel = 0.0
-    trc%now%acc = 0.0
-    trc%now%depth = 0.0
-    ! Initialize statistical accumulator variables
-    trc%stats%acc_pos = 0.0
-    trc%stats%acc_vel = 0.0
-    trc%stats%acc_depth = 0.0
-    trc%stats%ns = 0
+        !use the base class constructor to build the base of our new derived type
+        constructor%tracer_class = Tracer(id,id_source,time,pt)
+        !now initialize the specific components of this derived type
 
-    end subroutine
+    
+        end function constructor
 
   end module tracer_paper_mod
