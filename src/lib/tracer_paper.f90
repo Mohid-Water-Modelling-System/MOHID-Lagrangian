@@ -22,6 +22,7 @@
 
     use tracer_base_mod
     use common_modules
+    use sources_mod
 
     implicit none
     private
@@ -36,7 +37,7 @@
     type :: paper_state_class             !<Type - State variables of a tracer object representing a paper material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: condition                     !< Material condition (1-0)
-        real(prec) :: concentration                !< Particle concentration
+        real(prec) :: concentration                 !< Particle concentration
     end type
 
     type, extends(tracer_class) :: paper_class    !<Type - The plastic material Lagrangian tracer class
@@ -67,18 +68,28 @@
     !
     !> @param[in]
     !---------------------------------------------------------------------------
-    function constructor(id,id_source,time,pt)
+    function constructor(id,src,time,p)
         implicit none
         type(paper_class) :: constructor
         integer, intent(in) :: id
-        integer, intent(in) :: id_source
+        class(source_class), intent(in) :: src
         real(prec_time), intent(in) :: time
-        type(vector), intent(in) :: pt
+        integer, intent(in) :: p
 
         !use the base class constructor to build the base of our new derived type
-        constructor%tracer_class = Tracer(id,id_source,time,pt)
+        constructor%tracer_class = Tracer(id,src,time,p)
         !now initialize the specific components of this derived type
-
+        constructor%mpar%density = MV
+        constructor%mpar%degradation_rate = MV
+        constructor%mpar%particulate = .false.
+        constructor%mnow%radius = MV
+        constructor%mnow%condition = MV
+        constructor%mnow%concentration = MV
+        constructor%mpar%size = constructor%mnow%radius
+        if (constructor%mpar%particulate) then
+            constructor%mpar%size =MV
+            constructor%mnow%concentration = MV
+        end if
     
         end function constructor
 

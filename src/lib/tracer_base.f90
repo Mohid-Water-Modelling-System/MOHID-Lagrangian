@@ -20,6 +20,7 @@
 
     use tracer_interp_mod
     use common_modules
+    use sources_mod
 
     implicit none
     private
@@ -84,22 +85,22 @@
     !
     !> @param[in]
     !---------------------------------------------------------------------------
-    function constructor(id,id_source,time,pt)
+    function constructor(id,src,time,p)
     implicit none
     type(tracer_class) :: constructor
     integer, intent(in) :: id
-    integer, intent(in) :: id_source
+    class(source_class), intent(in) :: src
     real(prec_time), intent(in) :: time
-    type(vector), intent(in) :: pt
+    integer, intent(in) :: p
 
     ! initialize parameters
     constructor%par%id = id
-    constructor%par%idsource = id_source
+    constructor%par%idsource = src%par%id
     constructor%par%velmax = 15.0 !(m/s, just a placeholder)
     ! initialize tracer state
     constructor%now%age=0.0
-    constructor%now%active = .false.
-    constructor%now%pos = pt
+    constructor%now%active = .true.
+    constructor%now%pos = src%stencil%ptlist(p)
     constructor%now%vel = 0.0
     constructor%now%acc = 0.0
     constructor%now%depth = 0.0

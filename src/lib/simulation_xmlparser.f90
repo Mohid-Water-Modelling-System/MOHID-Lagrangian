@@ -26,9 +26,32 @@
     private
 
     !Public access procedures
-    public :: ReadXMLatt, ReadXMLvector, gotoChildNode
+    public :: ReadXMLleaf, ReadXMLatt, ReadXMLvector, gotoChildNode
 
     contains
+
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Private attribute xml parser routine. Reads the requested attribute 
+    !> from a given leaf node
+    !
+    !> @param[in] xmlnode, att_name, att_value, read_flag, mandatory
+    !---------------------------------------------------------------------------
+    subroutine ReadXMLleaf(xmlnode, att_name, att_value, read_flag, mandatory)
+        implicit none
+        type(Node), intent(in), pointer :: xmlnode  !<Working xml node
+        type(string), intent(in) :: att_name        !<Atribute name to collect from tag
+        type(string), intent(out) :: att_value      !<Attribute value
+        logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
+        logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
+        character(80) :: att_value_chars
+        call extractDataAttribute(xmlnode, att_name%chars(), att_value_chars)
+        att_value=trim(att_value_chars)
+    end subroutine ReadXMLleaf
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -37,7 +60,7 @@
     !> @brief
     !> Private attribute xml parser routine. In the format <Tag att_name="att_value"
     !
-    !> @param[in] xmlnode, tag, vec, mandatory
+    !> @param[in] xmlnode, tag, att_name, att_value, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine ReadXMLatt(xmlnode, tag, att_name, att_value, read_flag, mandatory)
     implicit none
@@ -96,7 +119,7 @@
     !> @brief
     !> Private vector xml parser routine. Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z" />
     !
-    !> @param[in] xmlnode, tag, vec, mandatory
+    !> @param[in] xmlnode, tag, vec, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine ReadXMLvector(xmlnode, tag, vec, read_flag, mandatory)
     implicit none
@@ -156,7 +179,7 @@
     !> Private routine to retrieve a node within a node.
     !> Returns a nullifyed pointer if not found, stops if mandatory.
     !
-    !> @param[in] currentNode, targetNode, targetNodeName, mandatory
+    !> @param[in] currentNode, targetNode, targetNodeName, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine gotoChildNode(currentNode, targetNode, targetNodeName, read_flag, mandatory)
     implicit none

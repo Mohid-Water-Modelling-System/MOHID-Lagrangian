@@ -139,6 +139,7 @@
             call self%tracerMaker(newtrc, src, i)
             call trcarr%put(trcarr%lastActive, newtrc)
         end do
+        src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np
     endif
 
     end subroutine
@@ -158,17 +159,17 @@
     implicit none
     class(emitter_class), intent(in) :: self
     class(*), allocatable, intent(out) :: trc
-    class(source_class), intent(inout) :: src
+    class(source_class), intent(in) :: src
     integer, intent(in) :: p
     type(string) :: outext, temp
     
     select case (src%par%property_type%chars())
     case ('base')
-        trc = Tracer(1, src%par%id, Globals%SimTime, src%stencil%ptlist(p))
+        trc = Tracer(1, src, Globals%SimTime, p)
     case ('paper')
-        trc = paperTracer(1, src%par%id, Globals%SimTime, src%stencil%ptlist(p))
+        trc = paperTracer(1, src, Globals%SimTime, p)
     case ('plastic')
-        trc = Tracer(1, src%par%id, Globals%SimTime, src%stencil%ptlist(p))
+        trc = Tracer(1, src, Globals%SimTime, p)
         case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%par%property_type
         call Log%put(outext)

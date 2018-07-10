@@ -177,8 +177,7 @@
         outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
         call Log%put(outext,.false.)
     endif
-    end subroutine
-
+    end subroutine setProps
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

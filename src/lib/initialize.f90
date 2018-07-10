@@ -52,21 +52,25 @@
 
     type(NodeList), pointer :: linkList
     type(Node), pointer :: linknode
+    type(Node), pointer :: xmlProps                   !< .xml file handle
     integer :: i
     character(80) :: sourceid_char, sourcetype_char, sourceprop_char
+    type(string) :: att_name
     type(string) :: sourceid, sourcetype, sourceprop
 
     linkList => getElementsByTagname(linksNode, "link")
     do i = 0, getLength(linkList) - 1
         linknode => item(linkList,i)
-        call extractDataAttribute(linknode, "source", sourceid_char)
-        call extractDataAttribute(linknode, "type", sourcetype_char)
-        call extractDataAttribute(linknode, "property", sourceprop_char)
-        sourceid=trim(sourceid_char)
-        sourcetype=trim(sourcetype_char)
-        sourceprop=trim(sourceprop_char)
+        att_name="source"
+        call ReadXMLleaf(linknode,att_name,sourceid)
+        att_name="type"
+        call ReadXMLleaf(linknode,att_name,sourcetype)
+        att_name="property"
+        call ReadXMLleaf(linknode,att_name,sourceprop)
+        !find the source and save the type and property name
         call tempSources%setProps(sourceid,sourcetype,sourceprop)
     enddo
+    !find and set the actual atributes of the properties
 
     end subroutine
 
@@ -94,7 +98,7 @@
     if (associated(props_node)) then
         tag="propertyfile"
         att_name="name"
-        call readxmlatt(props_node, tag, att_name, Globals%FileNames%propsxmlfilename)  !getting the file name from that tag
+        call ReadXMLatt(props_node, tag, att_name, Globals%FileNames%propsxmlfilename)  !getting the file name from that tag
         outext='-->Properties to link to Sources found at '//Globals%FileNames%propsxmlfilename
         call Log%put(outext,.false.)
         tag="links"
@@ -356,7 +360,7 @@
     type(NodeList), pointer :: parameterList        !< Node list for parameters
     type(Node), pointer :: parmt, parameters_node
     integer :: i
-    type(string) :: parmkey, parmvalue, tag
+    type(string) :: parmkey, parmvalue, tag, att_name
     character(80) :: parmkey_char, parmvalue_char
 
     outext='-->Reading case parameters'
@@ -367,10 +371,10 @@
     parameterList => getElementsByTagname(parameters_node, "parameter")       !searching for tags with the 'parameter' name
     do i = 0, getLength(parameterList) - 1                          !extracting parameter tags one by one
         parmt => item(parameterList, i)
-        call extractDataAttribute(parmt, "key", parmkey_char)       !name of the parameter
-        call extractDataAttribute(parmt, "value", parmvalue_char)   !value of the parameter
-        parmkey=trim(parmkey_char)
-        parmvalue=trim(parmvalue_char)
+        att_name="key"
+        call ReadXMLleaf(parmt,att_name,parmkey)
+        att_name="value"
+        call ReadXMLleaf(parmt,att_name,parmvalue)
         call Globals%Parameters%setparameter(parmkey,parmvalue)
     enddo
     call Globals%Parameters%check()
