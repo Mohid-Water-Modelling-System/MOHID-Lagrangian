@@ -51,22 +51,22 @@
     type(Node), intent(in), pointer :: linksNode
 
     type(NodeList), pointer :: linkList
-    type(Node), pointer :: linknode
+    type(Node), pointer :: anode
     type(Node), pointer :: xmlProps                   !< .xml file handle
     type(string) :: xmlfilename, outext
-    integer :: i
-    type(string) :: att_name
+    integer :: i, p
+    type(string) :: att_name, att_val, tag, tags(7)
     type(string) :: sourceid, sourcetype, sourceprop
     
     linkList => getElementsByTagname(linksNode, "link")
     do i = 0, getLength(linkList) - 1
-        linknode => item(linkList,i)
+        anode => item(linkList,i)
         att_name="source"
-        call ReadXMLleaf(linknode,att_name,sourceid)
+        call ReadXMLleaf(anode,att_name,sourceid)
         att_name="type"
-        call ReadXMLleaf(linknode,att_name,sourcetype)
+        call ReadXMLleaf(anode,att_name,sourcetype)
         att_name="property"
-        call ReadXMLleaf(linknode,att_name,sourceprop)
+        call ReadXMLleaf(anode,att_name,sourceprop)
         !find the source and save the type and property name
         call tempSources%setProps(sourceid,sourcetype,sourceprop)
     enddo
@@ -82,10 +82,33 @@
         call Log%put(outext)
         stop
     endif
+    tag = "materials"
+    call gotoChildNode(xmlProps,xmlProps,tag)
 
     !find and set the actual atributes of the properties
+    att_name="value"
+    tags(1) = 'particulate'
+    tags(2) = 'density'
+    tags(3) = 'radius'
+    tags(4) = 'condition'
+    tags(5) = 'degradation_rate'
+    tags(6) = 'intitial_concentration'
+    tags(7) = 'particle_radius'
+    do i = 1, size(tempSources%src)
+        tag = tempSources%src(i)%par%property_type
+        call gotoChildNode(xmlProps,anode,tag) !finding the material type node
+        tag = tempSources%src(i)%par%property_name
+        call gotoChildNode(anode,anode,tag)     !finding the actual material node
+        do p = 1, 5
+            call readxmlatt(anode, tags(p), att_name, att_val)
+            call tempSources%src(i)%setPropertyAtributes(att_name, att_val)
+        end do
+        ! if (PARTICULATE) then
+        !     READ more stuff
+        ! end if
+    end do
 
-    end subroutine
+    end subroutine linkPropertySources
 
 
     !---------------------------------------------------------------------------

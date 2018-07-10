@@ -69,6 +69,7 @@
     procedure :: initialize => initializeSource
     procedure :: setotalnp
     procedure :: linkproperty
+    procedure :: setPropertyAtributes
     procedure :: print => printSource
     end type
 
@@ -243,6 +244,23 @@
     !end do
     end subroutine initializeSource
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> source property atribute setting proceadure - initializes Source variables
+    !
+    !> @param[in] src, pname, pvalue
+    !---------------------------------------------------------------------------
+    subroutine setPropertyAtributes(src, pname, pvalue)
+        implicit none
+        class(source_class), intent(inout) :: src
+        type(string), intent(in) :: pname
+        type(string), intent(in) :: pvalue
+        
+    end subroutine setPropertyAtributes
+
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -255,7 +273,7 @@
     !---------------------------------------------------------------------------
     subroutine linkproperty(src,ptype,pname)
     implicit none
-    class(source_class) :: src
+    class(source_class), intent(inout) :: src
     type(string), intent(in) :: ptype
     type(string), intent(in) :: pname
     src%par%property_type = ptype
