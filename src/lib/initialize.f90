@@ -101,11 +101,16 @@
         call gotoChildNode(anode,anode,tag)     !finding the actual material node
         do p = 1, 5
             call readxmlatt(anode, tags(p), att_name, att_val)
-            call tempSources%src(i)%setPropertyAtributes(att_name, att_val)
+            call tempSources%src(i)%setPropertyAtributes(tags(p), att_val)
         end do
-        ! if (PARTICULATE) then
-        !     READ more stuff
-        ! end if
+        if (tempSources%src(i)%isParticulate()) then
+            do p = 6, 7
+                call readxmlatt(anode, tags(p), att_name, att_val)
+                call tempSources%src(i)%setPropertyAtributes(tags(p), att_val)
+            end do
+        end if
+        !Run integrety check on the properties to see if Source is well defined
+        
     end do
 
     end subroutine linkPropertySources

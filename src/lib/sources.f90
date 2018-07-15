@@ -80,6 +80,7 @@
     procedure :: initialize => initializeSource
     procedure :: setotalnp
     procedure :: linkproperty
+    procedure :: isParticulate
     procedure :: setPropertyAtributes
     procedure :: print => printSource
     end type
@@ -286,23 +287,36 @@
             end if
         case ('radius')
             src%prop%radius = pvalue%to_number(kind=1._R4P)
-        case ('pt_radius')
+        case ('particle_radius')
             src%prop%pt_radius = pvalue%to_number(kind=1._R4P)
         case ('density')
             src%prop%density = pvalue%to_number(kind=1._R4P)
         case ('condition')
             src%prop%condition = pvalue%to_number(kind=1._R4P)
-        case ('degrd_rate')
+        case ('degradation_rate')
             src%prop%degrd_rate = pvalue%to_number(kind=1._R4P)
-        case ('ini_concentration')
+        case ('intitial_concentration')
             src%prop%ini_concentration = pvalue%to_number(kind=1._R4P)
         case default
-            outext='[init_sources]: unexpected type for geometry object!'
+            outext='[Sources::setPropertyAtributes]: unexpected atribute '//pname//' for property '//src%prop%property_name//', ignoring'
             call Log%put(outext)
-            stop
         end select
-        
     end subroutine setPropertyAtributes
+
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> Returns particulate status of this Source, i.e, true if the emitted 
+    !> Tracers are actually a collection of particles with an evolving 
+    !> concentration 
+    !---------------------------------------------------------------------------
+    logical function isParticulate(self)
+        class(source_class) :: self
+        isParticulate = self%prop%particulate
+    end function isParticulate
 
 
     !---------------------------------------------------------------------------
