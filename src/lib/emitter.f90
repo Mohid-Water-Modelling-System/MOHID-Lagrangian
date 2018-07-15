@@ -163,7 +163,7 @@
     integer, intent(in) :: p
     type(string) :: outext, temp
     
-    select case (src%par%property_type%chars())
+    select case (src%prop%property_type%chars())
     case ('base')
         trc = Tracer(1, src, Globals%SimTime, p)
     case ('paper')
@@ -171,7 +171,7 @@
     case ('plastic')
         trc = Tracer(1, src, Globals%SimTime, p)
         case default
-        outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%par%property_type
+        outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%property_type
         call Log%put(outext)
         stop
     end select

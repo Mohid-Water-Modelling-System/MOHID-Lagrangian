@@ -95,9 +95,9 @@
     tags(6) = 'intitial_concentration'
     tags(7) = 'particle_radius'
     do i = 1, size(tempSources%src)
-        tag = tempSources%src(i)%par%property_type
+        tag = tempSources%src(i)%prop%property_type
         call gotoChildNode(xmlProps,anode,tag) !finding the material type node
-        tag = tempSources%src(i)%par%property_name
+        tag = tempSources%src(i)%prop%property_name
         call gotoChildNode(anode,anode,tag)     !finding the actual material node
         do p = 1, 5
             call readxmlatt(anode, tags(p), att_name, att_val)

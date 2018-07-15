@@ -30,10 +30,20 @@
         real(prec_time) :: startime         !< time to start emitting tracers
         real(prec_time) :: stoptime         !< time to stop emitting tracers
         type(string) :: name                !< source name
-        type(string) :: property_type       !< source property type (plastic, paper, fish, etc)
-        type(string) :: property_name       !< source property name
         type(string) :: source_geometry     !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
+    end type
+
+    type :: source_prop               !<Type - material properties of a source object
+        type(string) :: property_type       !< source property type (plastic, paper, fish, etc)
+        type(string) :: property_name       !< source property name
+        logical :: particulate              !< true for a Source tha emitts particulate tracers (a concentration of particles)
+        real(prec) :: radius
+        real(prec) :: pt_radius
+        real(prec) :: density
+        real(prec) :: condition
+        real(prec) :: degrd_rate
+        real(prec) :: ini_concentration
     end type
 
     type :: source_state             !<Type - state variables of a source object
@@ -62,6 +72,7 @@
 
     type :: source_class           !<Type - The source class
         type(source_par)   :: par           !<To access parameters
+        type(source_prop)  :: prop          !<To access Tracer properties
         type(source_state) :: now           !<To access state variables
         type(source_stencil) :: stencil     !<To acess stencil variables
         type(source_stats) :: stats         !<To access statistics
@@ -167,7 +178,7 @@
         if (self%src(i)%par%id == srcid) then ! found the correct source to link to
             call self%src(i)%linkproperty(ptype,pname) ! calling Source method to link property
             temp = self%src(i)%par%id
-            outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%par%property_type //', with property name ' // self%src(i)%par%property_name
+            outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%prop%property_type //', with property name ' // self%src(i)%prop%property_name
             call Log%put(outext,.false.)
             notlinked = .false. ! we linked it
             exit
@@ -212,8 +223,17 @@
     src%par%name=name
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=shapetype)
-    src%par%property_type = "base" ! pure Lagrangian trackers by default
-    src%par%property_name = "base"
+    !Setting properties
+    src%prop%property_type = "base" ! pure Lagrangian trackers by default
+    src%prop%property_name = "base"
+    src%prop%particulate = .false.
+    src%prop%radius = MV
+    src%prop%pt_radius = MV
+    src%prop%density = MV
+    src%prop%condition = MV
+    src%prop%degrd_rate = MV
+    src%prop%ini_concentration = MV
+
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
@@ -258,6 +278,29 @@
         class(source_class), intent(inout) :: src
         type(string), intent(in) :: pname
         type(string), intent(in) :: pvalue
+        type(string) :: outext
+        select case (pname%chars())
+        case ('particulate')
+            if (pvalue%to_number(kind=1_I1P) == 1) then
+            src%prop%particulate = .true.
+            end if
+        case ('radius')
+            src%prop%radius = pvalue%to_number(kind=1._R4P)
+        case ('pt_radius')
+            src%prop%pt_radius = pvalue%to_number(kind=1._R4P)
+        case ('density')
+            src%prop%density = pvalue%to_number(kind=1._R4P)
+        case ('condition')
+            src%prop%condition = pvalue%to_number(kind=1._R4P)
+        case ('degrd_rate')
+            src%prop%degrd_rate = pvalue%to_number(kind=1._R4P)
+        case ('ini_concentration')
+            src%prop%ini_concentration = pvalue%to_number(kind=1._R4P)
+        case default
+            outext='[init_sources]: unexpected type for geometry object!'
+            call Log%put(outext)
+            stop
+        end select
         
     end subroutine setPropertyAtributes
 
@@ -276,8 +319,8 @@
     class(source_class), intent(inout) :: src
     type(string), intent(in) :: ptype
     type(string), intent(in) :: pname
-    src%par%property_type = ptype
-    src%par%property_name = pname
+    src%prop%property_type = ptype
+    src%prop%property_name = pname
     end subroutine linkproperty
 
     !---------------------------------------------------------------------------
