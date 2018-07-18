@@ -208,7 +208,7 @@
             type is (source_class)
                 if (aSource%now%active) then
                     aSource%now%emission_stride = aSource%now%emission_stride - 1 !decreasing the stride at this dt
-                    if (aSource%now%emission_stride == 0) then !reached the bottom of the stack, time to emitt
+                    if (aSource%now%emission_stride == 0) then !reached the bottom of the stride stack, time to emitt
                         !print*, 'emitting from Block ', self%id, ' Source ', aSource%par%id
                         call self%Emitter%emitt(aSource, self%Tracer)
                         aSource%now%emission_stride = aSource%par%emitting_rate !reseting the stride after the Source emitts

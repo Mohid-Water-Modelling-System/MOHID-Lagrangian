@@ -165,11 +165,12 @@
     
     select case (src%prop%property_type%chars())
     case ('base')
-        trc = Tracer(1, src, Globals%SimTime, p)
+        allocate(trc, source = Tracer(1, src, Globals%SimTime, p)) !Beacause ifort is not F2008 compliant. 
+        !trc = Tracer(1, src, Globals%SimTime, p) !Otherwise instinsic allocation would be enough and more readable, like this. Compiles fine is GFortran
     case ('paper')
-        trc = paperTracer(1, src, Globals%SimTime, p)
+        allocate(trc, source = paperTracer(1, src, Globals%SimTime, p))    
     case ('plastic')
-        trc = Tracer(1, src, Globals%SimTime, p)
+        allocate(trc, source = Tracer(1, src, Globals%SimTime, p))
         case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%property_type
         call Log%put(outext)

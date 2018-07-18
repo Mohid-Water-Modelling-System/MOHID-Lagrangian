@@ -96,6 +96,7 @@
     tags(7) = 'particle_radius'
     do i = 1, size(tempSources%src)
         tag = tempSources%src(i)%prop%property_type
+        if (tag .ne. 'base') then
         call gotoChildNode(xmlProps,anode,tag) !finding the material type node
         tag = tempSources%src(i)%prop%property_name
         call gotoChildNode(anode,anode,tag)     !finding the actual material node
@@ -111,6 +112,7 @@
         end if
         !Run integrety check on the properties to see if Source is well defined
         
+        end if
     end do
 
     end subroutine linkPropertySources

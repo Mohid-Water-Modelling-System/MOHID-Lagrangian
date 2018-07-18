@@ -162,7 +162,10 @@
             call this%put(i,value)
         end do
     else if (present(source)) then !using sourced allocation
-        allocate(this%contents, source=source)
+        allocate(this%contents, source=source, stat = i)
+        if (i.ne.0) then
+            stop '[AbstractContainerArray::init]: problem during sourced allocation, stoping'
+        endif
         this%length=size(source)
     endif
     end subroutine initArray
