@@ -77,11 +77,12 @@
         type(source_stencil) :: stencil     !<To acess stencil variables
         type(source_stats) :: stats         !<To access statistics
     contains
-    procedure :: initialize => initializeSource
-    procedure :: setotalnp
-    procedure :: linkproperty
+    procedure :: initialize => initializeSource    
     procedure :: isParticulate
     procedure :: setPropertyAtributes
+    procedure :: check
+    procedure, private :: setotalnp
+    procedure, private :: linkproperty
     procedure :: print => printSource
     end type
 
@@ -90,19 +91,17 @@
     contains
     procedure :: initialize => initSources
     procedure :: finalize => killSources
-    procedure :: setProps
+    procedure :: setPropertyNames
     end type
 
     !Simulation variables
-    type(source_group_class) :: tempSources
+    type(source_group_class) :: tempSources !< Temporary Source array, used exclusively for building the case from a description file
 
     !Public access vars
     public :: tempSources, source_group_class, source_class
-    !Public access procedures
 
     contains
 
-    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -151,6 +150,23 @@
     endif
     end subroutine killSources
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! Routine Author Name and Affiliation.
+    !
+    !> @brief
+    !> source property setting proceadure - initializes Source variables
+    !
+    !> @param[in] src,ptype,pname
+    !---------------------------------------------------------------------------
+    subroutine linkproperty(src,ptype,pname)
+    implicit none
+    class(source_class), intent(inout) :: src
+    type(string), intent(in) :: ptype
+    type(string), intent(in) :: pname
+    src%prop%property_type = ptype
+    src%prop%property_name = pname
+    end subroutine linkproperty
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -161,7 +177,7 @@
     !
     !> @param[in] srcid,ptype,pname
     !---------------------------------------------------------------------------
-    subroutine setProps(self,srcid_str,ptype,pname)
+    subroutine setPropertyNames(self,srcid_str,ptype,pname)
     implicit none
     class(source_group_class), intent(inout) :: self
     type(string), intent(in) :: srcid_str      !<Source id tag
@@ -190,15 +206,63 @@
         outext='      Source id = '// temp //' not listed, property '// pname //', of type ' // ptype // ' not linked, ignoring'
         call Log%put(outext,.false.)
     endif
-    end subroutine setProps
+    end subroutine setPropertyNames
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> source inititialization proceadure - initializes Source variables
+    !> source property atribute setting proceadure - initializes Source variables
     !
+    !> @param[in] src, pname, pvalue
+    !---------------------------------------------------------------------------
+    subroutine setPropertyAtributes(src, pname, pvalue)
+        implicit none
+        class(source_class), intent(inout) :: src
+        type(string), intent(in) :: pname
+        type(string), intent(in) :: pvalue
+        type(string) :: outext
+        select case (pname%chars())
+        case ('particulate')
+            if (pvalue%to_number(kind=1_I1P) == 1) then
+            src%prop%particulate = .true.
+            end if
+        case ('radius')
+            src%prop%radius = pvalue%to_number(kind=1._R4P)
+        case ('particle_radius')
+            src%prop%pt_radius = pvalue%to_number(kind=1._R4P)
+        case ('density')
+            src%prop%density = pvalue%to_number(kind=1._R4P)
+        case ('condition')
+            src%prop%condition = pvalue%to_number(kind=1._R4P)
+        case ('degradation_rate')
+            src%prop%degrd_rate = pvalue%to_number(kind=1._R4P)
+        case ('intitial_concentration')
+            src%prop%ini_concentration = pvalue%to_number(kind=1._R4P)
+        case default
+            outext='[Sources::setPropertyAtributes]: unexpected atribute '//pname//' for property '//src%prop%property_name//', ignoring'
+            call Log%put(outext)
+        end select
+    end subroutine setPropertyAtributes
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that checks for the consistency of the Source properties.
+    !---------------------------------------------------------------------------
+    subroutine check(self)
+    implicit none
+    class(source_class), intent(in) :: self
+    type(string) :: outext    
+
+    
+    end subroutine check
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> source inititialization proceadure - initializes Source variables
     !> @param[in] src, id, name, emitting_rate, source_geometry
     !---------------------------------------------------------------------------
     subroutine initializeSource(src,id,name,emitting_rate,start,finish,source_geometry,shapetype)
@@ -270,45 +334,6 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> source property atribute setting proceadure - initializes Source variables
-    !
-    !> @param[in] src, pname, pvalue
-    !---------------------------------------------------------------------------
-    subroutine setPropertyAtributes(src, pname, pvalue)
-        implicit none
-        class(source_class), intent(inout) :: src
-        type(string), intent(in) :: pname
-        type(string), intent(in) :: pvalue
-        type(string) :: outext
-        select case (pname%chars())
-        case ('particulate')
-            if (pvalue%to_number(kind=1_I1P) == 1) then
-            src%prop%particulate = .true.
-            end if
-        case ('radius')
-            src%prop%radius = pvalue%to_number(kind=1._R4P)
-        case ('particle_radius')
-            src%prop%pt_radius = pvalue%to_number(kind=1._R4P)
-        case ('density')
-            src%prop%density = pvalue%to_number(kind=1._R4P)
-        case ('condition')
-            src%prop%condition = pvalue%to_number(kind=1._R4P)
-        case ('degradation_rate')
-            src%prop%degrd_rate = pvalue%to_number(kind=1._R4P)
-        case ('intitial_concentration')
-            src%prop%ini_concentration = pvalue%to_number(kind=1._R4P)
-        case default
-            outext='[Sources::setPropertyAtributes]: unexpected atribute '//pname//' for property '//src%prop%property_name//', ignoring'
-            call Log%put(outext)
-        end select
-    end subroutine setPropertyAtributes
-
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
     !> Returns particulate status of this Source, i.e, true if the emitted 
     !> Tracers are actually a collection of particles with an evolving 
     !> concentration 
@@ -317,25 +342,6 @@
         class(source_class) :: self
         isParticulate = self%prop%particulate
     end function isParticulate
-
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> source property setting proceadure - initializes Source variables
-    !
-    !> @param[in] src,ptype,pname
-    !---------------------------------------------------------------------------
-    subroutine linkproperty(src,ptype,pname)
-    implicit none
-    class(source_class), intent(inout) :: src
-    type(string), intent(in) :: ptype
-    type(string), intent(in) :: pname
-    src%prop%property_type = ptype
-    src%prop%property_name = pname
-    end subroutine linkproperty
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

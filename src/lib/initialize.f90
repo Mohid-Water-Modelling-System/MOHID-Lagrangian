@@ -68,7 +68,7 @@
         att_name="property"
         call ReadXMLleaf(anode,att_name,sourceprop)
         !find the source and save the type and property name
-        call tempSources%setProps(sourceid,sourcetype,sourceprop)
+        call tempSources%setPropertyNames(sourceid,sourcetype,sourceprop)
     enddo
 
     !parse the properties file

@@ -78,14 +78,22 @@
         type(string) :: tempfilename        !< Generic temporary file name
     end type
 
+    type src_parm_t   !<Lists for Source parameters
+        type(string), allocatable, dimension(:) :: baselist
+        type(string), allocatable, dimension(:) :: particulatelist
+    contains
+    !procedure :: buildlists
+    end type
+
     type globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
         type(filenames_t)   :: FileNames
         real(prec_time)     :: SimTime
-      contains
-      procedure :: initialize => setdefaults
+        type(src_parm_t)    :: SrcProp
+    contains
+    procedure :: initialize => setdefaults
     end type
 
     !Simulation variables
@@ -96,48 +104,67 @@
 
     contains
 
-      !---------------------------------------------------------------------------
-      !> @author Ricardo Birjukovs Canelas - MARETEC
-      ! Routine Author Name and Affiliation.
-      !
-      !> @brief
-      !> Globals default setting routine.
-      !---------------------------------------------------------------------------
-      subroutine setdefaults(self)
-      implicit none
-      class(globals_class), intent(inout) :: self
-      integer :: sizem
-      !parameters
-      self%Parameters%Integrator = 1
-      self%Parameters%CFL = 0.5
-      self%Parameters%WarmUpTime = 0.0
-      self%Parameters%TimeOut = MV
-      self%Parameters%TimeOut = MV
-      self%Parameters%StartTime = datetime()
-      self%Parameters%EndTime = datetime()
-      !Simulation definitions
-      self%SimDefs%autoblocksize =.true.
-      self%SimDefs%blocksize = 0.0
-      self%SimDefs%numblocks = 16  !placeholder number, should be numThreads or numProcesses or computed by user dimensions
-      self%SimDefs%Dp = MV
-      self%SimDefs%dt = MV
-      self%SimDefs%Pointmin = 0.0
-      self%SimDefs%Pointmax = 0.0
-      !simulation constants
-      self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
-      self%Constants%Z0 = 0.0
-      self%Constants%Rho_ref = 1000.0
-      !filenames
-      self%FileNames%mainxmlfilename = 'not_set'
-      self%FileNames%propsxmlfilename = 'not_set'
-      self%FileNames%tempfilename = 'not_set'
-      !global time
-      self%SimTime = 0.0
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Globals default setting routine.
+    !---------------------------------------------------------------------------
+    subroutine setdefaults(self)
+    implicit none
+    class(globals_class), intent(inout) :: self
+    integer :: sizem
+    !parameters
+    self%Parameters%Integrator = 1
+    self%Parameters%CFL = 0.5
+    self%Parameters%WarmUpTime = 0.0
+    self%Parameters%TimeOut = MV
+    self%Parameters%TimeOut = MV
+    self%Parameters%StartTime = datetime()
+    self%Parameters%EndTime = datetime()
+    !Simulation definitions
+    self%SimDefs%autoblocksize =.true.
+    self%SimDefs%blocksize = 0.0
+    self%SimDefs%numblocks = 16  !placeholder number, should be numThreads or numProcesses or computed by user dimensions
+    self%SimDefs%Dp = MV
+    self%SimDefs%dt = MV
+    self%SimDefs%Pointmin = 0.0
+    self%SimDefs%Pointmax = 0.0
+    !simulation constants
+    self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
+    self%Constants%Z0 = 0.0
+    self%Constants%Rho_ref = 1000.0
+    !filenames
+    self%FileNames%mainxmlfilename = 'not_set'
+    self%FileNames%propsxmlfilename = 'not_set'
+    self%FileNames%tempfilename = 'not_set'
+    !global time
+    self%SimTime = 0.0
+    !Source parameters list
+    ! call self%SrcProp%buildlists()
 
-      sizem=sizeof(self)
-      call SimMemory%adddef(sizem)
+    sizem=sizeof(self)
+    call SimMemory%adddef(sizem)
 
-      end subroutine
+    end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to build the parameters list of the Sources
+    !---------------------------------------------------------------------------
+    !subroutine buildlists(self)
+    !implicit none
+    !type(src_parm_t), intent(inout) :: self
+    !allocate(self%baselist(5))
+    !self%baselist(1) = 'particulate'
+    !self%baselist(2) = 'density'
+    !self%baselist(3) = 'radius'
+    !self%baselist(4) = 'condition'
+    !self%baselist(5) = 'degradation_rate'
+    !allocate(self%particulatelist(2))
+    !self%particulatelist(1) = 'intitial_concentration'
+    !self%particulatelist(2) = 'particle_radius'
+    !end subroutine buildlists
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -236,7 +263,7 @@
     !Build timemax from the difference between start and end time
     simtime = self%EndTime - self%StartTime
     self%TimeMax = simtime%total_seconds()
-    end subroutine
+    end subroutine check
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -513,4 +540,4 @@
     call Log%put(outext,.false.)
     end subroutine
 
-  end module simulation_globals_mod
+    end module simulation_globals_mod

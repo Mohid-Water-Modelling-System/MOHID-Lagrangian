@@ -39,7 +39,6 @@
     procedure :: removeSource
     procedure :: emitt
     procedure :: tracerMaker
-    !procedure :: activecheck
     end type
 
     !Public access vars

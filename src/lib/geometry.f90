@@ -69,8 +69,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Public routine to allocate the possible geometry name list
     !---------------------------------------------------------------------------
@@ -86,8 +84,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Public function that returns a logical if the input geometry name is valid
     !
