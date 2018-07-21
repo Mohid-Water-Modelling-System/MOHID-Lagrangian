@@ -254,9 +254,36 @@
     subroutine check(self)
     implicit none
     class(source_class), intent(in) :: self
-    type(string) :: outext    
-
-    
+    type(string) :: outext, temp(2)
+    logical :: failed
+    failed = .false.
+    temp(1) = self%par%id  
+    if (self%prop%radius == MV) then
+        failed = .true.
+        temp(2) = 'radius'
+    elseif (self%prop%density == MV) then
+        failed = .true.
+        temp(2) = 'density'
+    elseif (self%prop%condition == MV) then
+        failed = .true.
+        temp(2) = 'condition'
+    elseif (self%prop%degrd_rate == MV) then
+        failed = .true.
+        temp(2) = 'degradation rate'
+    elseif (self%prop%particulate) then
+        if (self%prop%pt_radius == MV) then
+            failed = .true.
+            temp(2) = 'particle radius'
+        elseif (self%prop%ini_concentration == MV) then
+            failed = .true.
+            temp(2) = 'initial concentration'
+        end if
+    end if
+    if (failed) then
+    outext = 'Source'//temp(1)//' '//temp(2)//' is not set, stoping'
+        call Log%put(outext)
+        stop
+    end if
     end subroutine check
     
     !---------------------------------------------------------------------------
@@ -293,10 +320,10 @@
     src%prop%property_name = "base"
     src%prop%particulate = .false.
     src%prop%radius = MV
-    src%prop%pt_radius = MV
     src%prop%density = MV
     src%prop%condition = MV
     src%prop%degrd_rate = MV
+    src%prop%pt_radius = MV
     src%prop%ini_concentration = MV
 
     !Setting state variables

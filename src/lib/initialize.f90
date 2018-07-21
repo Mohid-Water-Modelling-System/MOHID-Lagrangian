@@ -55,7 +55,7 @@
     type(Node), pointer :: xmlProps                   !< .xml file handle
     type(string) :: xmlfilename, outext
     integer :: i, p
-    type(string) :: att_name, att_val, tag, tags(7)
+    type(string) :: att_name, att_val, tag
     type(string) :: sourceid, sourcetype, sourceprop
     
     linkList => getElementsByTagname(linksNode, "link")
@@ -87,31 +87,24 @@
 
     !find and set the actual atributes of the properties
     att_name="value"
-    tags(1) = 'particulate'
-    tags(2) = 'density'
-    tags(3) = 'radius'
-    tags(4) = 'condition'
-    tags(5) = 'degradation_rate'
-    tags(6) = 'intitial_concentration'
-    tags(7) = 'particle_radius'
     do i = 1, size(tempSources%src)
         tag = tempSources%src(i)%prop%property_type
         if (tag .ne. 'base') then
         call gotoChildNode(xmlProps,anode,tag) !finding the material type node
         tag = tempSources%src(i)%prop%property_name
         call gotoChildNode(anode,anode,tag)     !finding the actual material node
-        do p = 1, 5
-            call readxmlatt(anode, tags(p), att_name, att_val)
-            call tempSources%src(i)%setPropertyAtributes(tags(p), att_val)
+        do p = 1, size(Globals%SrcProp%baselist)
+            call readxmlatt(anode, Globals%SrcProp%baselist(p), att_name, att_val)
+            call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%baselist(p), att_val)
         end do
         if (tempSources%src(i)%isParticulate()) then
-            do p = 6, 7
-                call readxmlatt(anode, tags(p), att_name, att_val)
-                call tempSources%src(i)%setPropertyAtributes(tags(p), att_val)
+            do p = 1, size(Globals%SrcProp%particulatelist)
+                call readxmlatt(anode, Globals%SrcProp%particulatelist(p), att_name, att_val)
+                call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%particulatelist(p), att_val)
             end do
         end if
         !Run integrety check on the properties to see if Source is well defined
-        
+        call tempSources%src(i)%check()
         end if
     end do
 

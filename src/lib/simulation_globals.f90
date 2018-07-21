@@ -82,7 +82,7 @@
         type(string), allocatable, dimension(:) :: baselist
         type(string), allocatable, dimension(:) :: particulatelist
     contains
-    !procedure :: buildlists
+    procedure :: buildlists
     end type
 
     type globals_class   !<Globals class - This is a container for every global variable on the simulation
@@ -140,7 +140,7 @@
     !global time
     self%SimTime = 0.0
     !Source parameters list
-    ! call self%SrcProp%buildlists()
+    call self%SrcProp%buildlists()
 
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)
@@ -152,19 +152,19 @@
     !> @brief
     !> Method to build the parameters list of the Sources
     !---------------------------------------------------------------------------
-    !subroutine buildlists(self)
-    !implicit none
-    !type(src_parm_t), intent(inout) :: self
-    !allocate(self%baselist(5))
-    !self%baselist(1) = 'particulate'
-    !self%baselist(2) = 'density'
-    !self%baselist(3) = 'radius'
-    !self%baselist(4) = 'condition'
-    !self%baselist(5) = 'degradation_rate'
-    !allocate(self%particulatelist(2))
-    !self%particulatelist(1) = 'intitial_concentration'
-    !self%particulatelist(2) = 'particle_radius'
-    !end subroutine buildlists
+    subroutine buildlists(self)
+    implicit none
+    class(src_parm_t), intent(inout) :: self
+    allocate(self%baselist(5))
+    self%baselist(1) = 'particulate'
+    self%baselist(2) = 'density'
+    self%baselist(3) = 'radius'
+    self%baselist(4) = 'condition'
+    self%baselist(5) = 'degradation_rate'
+    allocate(self%particulatelist(2))
+    self%particulatelist(1) = 'intitial_concentration'
+    self%particulatelist(2) = 'particle_radius'
+    end subroutine buildlists
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
