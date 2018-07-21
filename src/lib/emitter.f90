@@ -66,12 +66,9 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method to compute the total emittable particles per source and allocate 
     !> that space in the Blocks Tracer array
-    !
     !> @param[in] self, src
     !---------------------------------------------------------------------------
     subroutine addSource(self, src)
@@ -83,11 +80,8 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method to remove from the total emittable particles count a Source
-    !
     !> @param[in] self, src
     !---------------------------------------------------------------------------
     subroutine removeSource(self, src)
@@ -99,13 +93,10 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method that emitts the Tracers, based on the Sources on this Block Emitter
     !> this method returns a resized Tracer array if needed to the corresponding
     !> Block
-    !
     !> @param[in] self, src, trc
     !---------------------------------------------------------------------------
     subroutine emitt(self, src, trcarr)
@@ -146,12 +137,9 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method that calls the corresponding Tracer constructor, depending on the
     !> requested type from the emitting Source
-    !
     !> @param[in] sself, trc, src, p
     !---------------------------------------------------------------------------
     subroutine tracerMaker(self, trc, src, p)
@@ -178,5 +166,4 @@
     
     end subroutine tracerMaker
     
-
   end module emitter_mod

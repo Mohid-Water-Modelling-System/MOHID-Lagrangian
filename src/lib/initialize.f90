@@ -38,12 +38,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private property xml parser routine. Reads the properties tab from the xml
-    !> file and links these to the corresponding source
-    !
+    !> file and links these to the corresponding Source
     !> @param[in] parsedxml
     !---------------------------------------------------------------------------
     subroutine linkPropertySources(linksNode)
@@ -113,12 +110,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private property xml parser routine. Reads the properties tab from the xml
     !> file and links these to the corresponding source
-    !
     !> @param[in] parsedxml
     !---------------------------------------------------------------------------
     subroutine init_properties(case_node)

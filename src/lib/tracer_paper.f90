@@ -28,13 +28,13 @@
     private
 
     type :: paper_par_class               !<Type - parameters of a Lagrangian tracer object representing a paper material
-        real(prec) :: density                       !< density of the material
         real(prec) :: degradation_rate              !< degradation rate of the material
         logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type
 
     type :: paper_state_class             !<Type - State variables of a tracer object representing a paper material
+        real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: condition                     !< Material condition (1-0)
         real(prec) :: concentration                 !< Particle concentration
@@ -79,16 +79,18 @@
         !use the base class constructor to build the base of our new derived type
         constructor%tracer_class = Tracer(id,src,time,p)
         !now initialize the specific components of this derived type
-        constructor%mpar%density = MV
-        constructor%mpar%degradation_rate = MV
-        constructor%mpar%particulate = .false.
-        constructor%mnow%radius = MV
-        constructor%mnow%condition = MV
+        !material parameters
+        constructor%mpar%degradation_rate = src%prop%degrd_rate
+        constructor%mpar%particulate = src%prop%particulate
+        constructor%mpar%size = src%prop%radius
+        !material state
+        constructor%mnow%density = src%prop%density
+        constructor%mnow%condition = src%prop%condition
+        constructor%mnow%radius = src%prop%radius
         constructor%mnow%concentration = MV
-        constructor%mpar%size = constructor%mnow%radius
         if (constructor%mpar%particulate) then
-            constructor%mpar%size =MV
-            constructor%mnow%concentration = MV
+            constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
+            constructor%mnow%concentration = src%prop%ini_concentration
         end if
     
         end function constructor
