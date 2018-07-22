@@ -25,6 +25,7 @@
     use tracers_mod
     use blocks_mod
     use about_mod
+    use simulation_vtkwritter_mod
 
     !use simulation_objects_mod
 
