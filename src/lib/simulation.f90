@@ -45,6 +45,7 @@
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
     procedure, private :: setTracerMemory
+    procedure, private :: saveStateToFile
     end type
 
     !Exposed public class
@@ -54,7 +55,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    !
     !> @brief
     !> Simulation run method. Runs the initialized case main time cycle.
     !---------------------------------------------------------------------------
@@ -69,11 +69,14 @@
         call self%ToggleSources()
         !emitt Tracers from active Sources
         call self%BlocksEmitt()
+        !Distribute Tracers by Blocks
+        !Optimize Block Tracer arrays (sort and consider building AoT)
         !load hydrodynamic fields from files
         !interpolate fields to tracer coordinates
         !Update all tracers with base behavior
         !Update Tracers with type-specific behavior
         !Write results if time to do so
+
 
         call self%printTracerTotals()
         !update Simulation time
@@ -87,12 +90,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation initialization method. Effectively builds and populates the
     !> simulation objects that will be used latter on.
-    !
     !> @param[in] casefilename, outpath
     !---------------------------------------------------------------------------
     subroutine initSimulation(self, casefilename, outpath)
@@ -143,8 +143,17 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
+    !> @brief
+    !> Simulation method to write the current state to file
+    !---------------------------------------------------------------------------
+    subroutine saveStateToFile(self)
+        implicit none
+        class(simulation_class), intent(in) :: self
+               
+    end subroutine saveStateToFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to activate and deactivate Sources based on the 
     !> Global%SimTime
@@ -160,8 +169,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation method to call the Blocks to emitt tracers at current SimTime
     !---------------------------------------------------------------------------
@@ -177,8 +184,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation method to distribute the Sources to the Blocks, allocate the 
     !> respective Tracers and redistribute if needed
@@ -229,8 +234,6 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation method to count Tracer numbers
     !---------------------------------------------------------------------------
@@ -249,8 +252,6 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation method to count Tracer numbers
     !---------------------------------------------------------------------------
@@ -268,8 +269,6 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation method to account for Tracer memory consumption
     !---------------------------------------------------------------------------
@@ -289,8 +288,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation method to do domain decomposition and define the Blocks
     !---------------------------------------------------------------------------
@@ -298,7 +295,6 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
-
     if (Globals%SimDefs%autoblocksize) then
         call allocBlocks(Globals%SimDefs%numblocks)
     else
@@ -307,14 +303,11 @@
         stop
     end if
     ! Initializing the Blocks
-    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,self%nbx,self%nby)   
-
+    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,self%nbx,self%nby)
     end subroutine DecomposeDomain
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Simulation finishing method. Closes output files and writes the final messages
     !---------------------------------------------------------------------------
