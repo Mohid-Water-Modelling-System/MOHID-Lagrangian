@@ -36,7 +36,8 @@
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
     procedure :: fillsize                   !<Gets the number of points that fill a geometry (based on GLOBALS::dp)
     procedure :: fill                       !<Gets the list of points that fill a geometry (based on GLOBALS::dp)
-    procedure :: getCenter                  !<Gets the shape baricenter
+    procedure :: getCenter                  !<Function that retuns the shape baricenter
+    procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
     procedure :: print => printGeometry     !<prints the geometry type and contents
     end type
 
