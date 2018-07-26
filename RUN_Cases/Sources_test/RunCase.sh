@@ -5,18 +5,9 @@
 name=SourcesinBlock
 dirout=${name}_out
 
-
 # "executables" are renamed and called from their directory
 tools=../../build_linux/bin
 mohidlagrangian=${tools}/MOHIDLagrangian
-
-# Library path must be indicated properly
-
-# current=$(pwd)
-# cd ${tools}
-# path_so=$(pwd)
-# cd $current
-# export LD_LIBRARY_PATH=$path_so
 
 # "dirout" is created to store results or it is cleaned if it already exists
 if [ -e $dirout ]; then
@@ -24,10 +15,13 @@ if [ -e $dirout ]; then
 fi
 mkdir $dirout
 
+cp ${name}_Def.xml $dirout 
+mv $dirout/${name}_Def.xml ${name}.xml
+
 # CODES are executed according the selected parameters of execution in this testcase
 errcode=0
 if [ $errcode -eq 0 ]; then
-  $mohidlagrangian -i ${name}_Def.xml -o $dirout
+  $mohidlagrangian -i $dirout/${name}.xml -o $dirout
   errcode=$?
 fi
 

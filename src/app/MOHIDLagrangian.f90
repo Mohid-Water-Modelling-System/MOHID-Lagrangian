@@ -57,7 +57,7 @@
     ! Completing the outpath with the separator
     outpath=outpath//'/'
 
-    !Our Lagrangian adventure starts here. Strap on.
+    !Our Lagrangian adventure starts here. Strap on. In case of emergency landing put your head between your knees.
     call Sim%initialize(casefilename,outpath)
 
     ! print*, 'Can we continue?'

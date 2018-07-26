@@ -77,6 +77,7 @@
         type(string) :: propsxmlfilename    !< Properties .xml file name
         type(string) :: tempfilename        !< Generic temporary file name
         type(string) :: outpath             !< General output directory
+        type(string) :: casename            !< Name of the running case
     end type
 
     type src_parm_t   !<Lists for Source parameters
@@ -101,7 +102,7 @@
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
-        type(filenames_t)   :: FileNames
+        type(filenames_t)   :: Names
         real(prec_time)     :: SimTime
         type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
@@ -148,14 +149,15 @@
     self%Constants%Z0 = 0.0
     self%Constants%Rho_ref = 1000.0
     !filenames
-    self%FileNames%mainxmlfilename = 'not_set'
-    self%FileNames%propsxmlfilename = 'not_set'
-    self%FileNames%tempfilename = 'not_set'
+    self%Names%mainxmlfilename = 'not_set'
+    self%Names%propsxmlfilename = 'not_set'
+    self%Names%tempfilename = 'not_set'
     if (present(outpath)) then
-        self%FileNames%outpath = outpath
+        self%Names%outpath = outpath
     else
-        self%FileNames%outpath = 'not_set'
+        self%Names%outpath = 'not_set'
     end if
+    self%Names%casename = 'not_set'
     !global time
     self%SimTime = 0.0
     !global counters

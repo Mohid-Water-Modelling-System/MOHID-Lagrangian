@@ -69,7 +69,7 @@
     enddo
 
     !parse the properties file
-    xmlfilename = Globals%FileNames%propsxmlfilename
+    xmlfilename = Globals%Names%propsxmlfilename
     xmlProps => parseFile(xmlfilename%chars(), iostat=i)
     if (i==0) then
         outext='->Reading Source properties from '//xmlfilename
@@ -128,8 +128,8 @@
     if (associated(props_node)) then
         tag="propertyfile"
         att_name="name"
-        call ReadXMLatt(props_node, tag, att_name, Globals%FileNames%propsxmlfilename)  !getting the file name from that tag
-        outext='-->Properties to link to Sources found at '//Globals%FileNames%propsxmlfilename
+        call ReadXMLatt(props_node, tag, att_name, Globals%Names%propsxmlfilename)  !getting the file name from that tag
+        outext='-->Properties to link to Sources found at '//Globals%Names%propsxmlfilename
         call Log%put(outext,.false.)
         tag="links"
         call gotoChildNode(props_node,props_node,tag) !getting the links node
@@ -432,10 +432,13 @@
     integer :: i
 
     xmldoc => parseFile(xmlfilename%chars(), iostat=i)
-    if (i==0) then
-        outext='->Reading case definition from '//xmlfilename
+    if (i==0) then        
+        Globals%Names%mainxmlfilename = xmlfilename
+        Globals%Names%casename = xmlfilename%basename(extension='.xml')
+        outext='->Case name is '//Globals%Names%casename
         call Log%put(outext)
-        Globals%FileNames%mainxmlfilename = xmlfilename
+        outext='->Reading case definition from '//Globals%Names%mainxmlfilename
+        call Log%put(outext)
     else
         outext='[InitFromXml]: no '//xmlfilename//' input file, give me at least that!'
         call Log%put(outext)
