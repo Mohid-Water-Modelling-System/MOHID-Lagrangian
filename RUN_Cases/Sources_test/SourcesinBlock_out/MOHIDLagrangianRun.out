@@ -24,7 +24,7 @@
 
 MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
 =====================================================================
-2018-7-22 @15:17:27 ->Reading case definition from SourcesinBlock_Def.xml
+2018-7-26 @14:32:50 ->Reading case definition from SourcesinBlock_Def.xml
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000E+00
@@ -47,7 +47,7 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
        Blocks are sized 
         0.000000E+00 X  0.000000E+00
  -->Reading case Sources
-2018-7-22 @15:17:27 Allocated +2 Sources.
+2018-7-26 @14:32:50 Allocated +2 Sources.
  -->Source Spill_007
        Id = +18
        Geometry type is box
@@ -67,18 +67,18 @@ MOHIDLagrangian v0.0.4 (R. Birjukovs Canelas) (29-05-2018)
  -->Properties to link to Sources found at Material_props.xml
        Source id = +1, Litter_plastic is of type plastic, with property name bag_1
        Source id = +18, Spill_007 is of type paper, with property name cardboard_1
-2018-7-22 @15:17:27 ->Reading Source properties from Material_props.xml
-2018-7-22 @15:17:27 Allocated +16 Blocks.
+2018-7-26 @14:32:50 ->Reading Source properties from Material_props.xml
+2018-7-26 @14:32:50 Allocated +16 Blocks.
  -->Automatic domain decomposition sucessful. Domain is +8 X +2 Blocks
  -->Sources allocated to their current Blocks
  -->+50 Tracers allocated, +0 Tracers active
-2018-7-22 @15:17:27 ->Total allocated memory: +0.108440E-01 mb
-       Allocated memory for Blocks  = +0.307200E-02 mb
-       Allocated memory for Sources = +0.496000E-03 mb
-       Allocated memory for Tracers = +0.680000E-02 mb
-       Allocated memory for Consts  = +0.476000E-03 mb
+2018-7-26 @14:32:50 ->Total allocated memory: +0.214440E-01 mb
+       Allocated memory for Blocks  = +0.614400E-02 mb
+       Allocated memory for Sources = +0.102400E-02 mb
+       Allocated memory for Tracers = +0.136000E-01 mb
+       Allocated memory for Consts  = +0.676000E-03 mb
  -->+50 Tracers allocated, +9 Tracers active
  -->+50 Tracers allocated, +17 Tracers active
  -->+50 Tracers allocated, +26 Tracers active
  -->+50 Tracers allocated, +34 Tracers active
-2018-7-22 @15:17:27 Simulation ended, freeing resources. See you next time
+2018-7-26 @14:32:50 Simulation ended, freeing resources. See you next time

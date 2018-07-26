@@ -76,14 +76,26 @@
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
         type(string) :: tempfilename        !< Generic temporary file name
+        type(string) :: outpath             !< General output directory
     end type
 
     type src_parm_t   !<Lists for Source parameters
-        type(string), allocatable, dimension(:) :: baselist
-        type(string), allocatable, dimension(:) :: particulatelist
+        type(string), allocatable, dimension(:) :: baselist !<Lists for base tracer parameters
+        type(string), allocatable, dimension(:) :: particulatelist  !<List for parameters of particulate type tracers
     contains
     procedure :: buildlists
     end type
+    
+    type sim_t  !<Simulation related counters and others
+        private
+        integer :: numdt        !<number of the current iteration
+        integer :: numoutfile   !number of the current output file
+    contains
+    procedure, public :: increment_numdt
+    procedure, public :: increment_numoutfile
+    procedure, public :: getnumdt
+    procedure, public :: getnumoutfile
+    end type    
 
     type globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
@@ -92,6 +104,7 @@
         type(filenames_t)   :: FileNames
         real(prec_time)     :: SimTime
         type(src_parm_t)    :: SrcProp
+        type(sim_t)         :: Sim
     contains
     procedure :: initialize => setdefaults
     end type
@@ -109,10 +122,11 @@
     !> @brief
     !> Globals default setting routine.
     !---------------------------------------------------------------------------
-    subroutine setdefaults(self)
+    subroutine setdefaults(self, outpath)
     implicit none
     class(globals_class), intent(inout) :: self
     integer :: sizem
+    type(string), optional, intent(in) :: outpath
     !parameters
     self%Parameters%Integrator = 1
     self%Parameters%CFL = 0.5
@@ -137,8 +151,16 @@
     self%FileNames%mainxmlfilename = 'not_set'
     self%FileNames%propsxmlfilename = 'not_set'
     self%FileNames%tempfilename = 'not_set'
+    if (present(outpath)) then
+        self%FileNames%outpath = outpath
+    else
+        self%FileNames%outpath = 'not_set'
+    end if
     !global time
     self%SimTime = 0.0
+    !global counters
+    self%Sim%numdt = 0
+    self%Sim%numoutfile = 0
     !Source parameters list
     call self%SrcProp%buildlists()
 
@@ -146,6 +168,50 @@
     call SimMemory%adddef(sizem)
 
     end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> incrementing time step count.
+    !---------------------------------------------------------------------------
+    subroutine increment_numdt(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    self%numdt = self%numdt + 1
+    end subroutine increment_numdt
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the number of time steps.
+    !---------------------------------------------------------------------------
+    integer function getnumdt(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    getnumdt = self%numdt
+    end function getnumdt
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> incrementing output file count.
+    !---------------------------------------------------------------------------
+    subroutine increment_numoutfile(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    self%numoutfile = self%numoutfile + 1
+    end subroutine increment_numoutfile
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the number of output files written.
+    !---------------------------------------------------------------------------
+    integer function getnumoutfile(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    getnumoutfile = self%numoutfile
+    end function getnumoutfile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

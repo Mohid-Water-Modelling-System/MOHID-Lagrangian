@@ -80,8 +80,9 @@
 
 
         call self%printTracerTotals()
-        !update Simulation time
+        !update Simulation time and counters
         Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
+        call Globals%Sim%increment_numdt()
         !print*, 'Global time is ', Globals%SimTime
         !print*, 'Can we continue?'
         !read (*,*)
@@ -113,7 +114,7 @@
     call SimMemory%initialize()
 
     !setting every global variable and input parameter to their default
-    call Globals%initialize()
+    call Globals%initialize(outpath = outpath)
     
     !initializing geometry class
     call Geometry%initialize()

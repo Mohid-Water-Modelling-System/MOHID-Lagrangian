@@ -24,6 +24,15 @@
 			<intitial_concentration value="0.05" />
 			<particle_radius value="0.005" />
 		</expanded_polysryrene_10>
+		<expanded_polysryrene_12>
+			<particulate value="true" />
+			<density value="0.24" />
+			<radius value="2.4" />
+			<condition value="0.91" />
+			<degradation_rate value="0.9" />
+			<intitial_concentration value="0.05" />
+			<particle_radius value="0.005" />
+		</expanded_polysryrene_12>
 	</plastic>
 	<paper>
 		<cardboard_1>

@@ -75,7 +75,7 @@
         outext='->Reading Source properties from '//xmlfilename
         call Log%put(outext)
     else
-        outext='[linkPropertySources]: no '//xmlfilename//' Properties file, stoping'
+        outext='[linkPropertySources]: no '//xmlfilename//' properties file, stoping'
         call Log%put(outext)
         stop
     endif

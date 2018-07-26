@@ -26,7 +26,7 @@
     
     type :: vtkwritter_class
         private
-        integer :: vtk_unit = 2
+        integer :: vtk_unit = 10
     contains
     !procedure :: initialize => initLog
     !procedure :: finalize   => closeLog
@@ -42,7 +42,22 @@
     !public :: getTimeStamp
 
     contains
-
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Public Tracer writting routine. Writes Tracer data in binary XML VTK
+    !> format using an unstructured grid. Serial writer for serial files.
+    !---------------------------------------------------------------------------
+    subroutine TracerSerialVTK(self, filename)
+    implicit none
+    class(vtkwritter_class), intent(inout) :: self
+    type(string), intent(in) :: filename
+    integer :: error
+    
+    
+    
+    end subroutine TracerSerialVTK
     
 
   end module simulation_vtkwritter_mod
