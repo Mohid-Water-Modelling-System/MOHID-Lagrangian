@@ -140,6 +140,9 @@
 
     !printing memory occupation at the time
     call SimMemory%detailedprint()
+    
+    !Writing the domain to file
+    call vtkWritter%DomainVTK(Globals%Names%casename)
 
     end subroutine initSimulation
 

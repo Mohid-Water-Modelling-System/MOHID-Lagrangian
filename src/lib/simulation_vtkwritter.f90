@@ -28,9 +28,7 @@
         private
         integer :: vtk_unit = 10
     contains
-    !procedure :: initialize => initLog
-    !procedure :: finalize   => closeLog
-    !procedure :: put        => put_inLog
+    procedure :: DomainVTK
     end type vtkwritter_class
     
     type(vtkwritter_class) :: vtkWritter
@@ -53,11 +51,42 @@
     implicit none
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename
+    
     integer :: error
+    type(vtk_file) :: vtk_file
     
+    error = vtk_file%initialize(format='binary', filename=filename%chars()//'.vtu', mesh_topology='UnstructuredGrid')
     
+    error = vtk_file%finalize()
     
     end subroutine TracerSerialVTK
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Public simulation domain writting routine. Writes binary XML VTK
+    !> format using an unstructured grid.
+    !---------------------------------------------------------------------------
+    subroutine DomainVTK(self, filename)
+    implicit none
+    class(vtkwritter_class), intent(inout) :: self
+    type(string), intent(in) :: filename
+    
+    type(vtk_file) :: vtk_file
+    type(string) :: fullfilename
+    type(string) :: outext
+    integer :: error
+    
+    fullfilename = filename%chars()//'_Domain.vtu'
+    outext = '->Writting Domain file '//fullfilename
+    call Log%put(outext)
+    fullfilename = Globals%Names%outpath//'/'//fullfilename
+    
+    error = vtk_file%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    
+    error = vtk_file%finalize()
+    
+    end subroutine DomainVTK
     
 
   end module simulation_vtkwritter_mod
