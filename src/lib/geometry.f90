@@ -86,7 +86,6 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Public function that returns a logical if the input geometry name is valid
-    !
     !> @param[in] geomname
     !---------------------------------------------------------------------------
     logical function inlist(self, geomname) result(tf)
@@ -104,11 +103,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method to get the number of points that fill a given geometry
-    !
     !> @param[in] shapetype
     !---------------------------------------------------------------------------
     function fillsize(self, shapetype)
@@ -142,11 +138,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method to get the list of points that fill a given geometry
-    !
     !> @param[in] shapetype,fillsize,ptlist
     !---------------------------------------------------------------------------
     subroutine fill(self,shapetype,fillsize,ptlist)
@@ -175,21 +168,18 @@
     end select
 
     end subroutine fill
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method to get the baricenter of a given geometry
-    !
     !> @param[in] shapetype, center
     !---------------------------------------------------------------------------
-    subroutine getCenter(self, shapetype, center)
+    function getCenter(self, shapetype) result(center)
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
-    type(vector), intent(out) :: center
+    type(vector) :: center
     type(string) :: outext
 
     select type (shapetype)
@@ -208,12 +198,57 @@
         stop
     end select
 
-    end subroutine getCenter
+    end function getCenter
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
+    !> @brief
+    !> method the points defining a given geometry
+    !> @param[in] shapetype
+    !---------------------------------------------------------------------------
+    function getPoints(self, shapetype) result(pts)
+    class(geometry_class), intent(in) :: self
+    class(shape), intent(in) :: shapetype
+    type(vector), allocatable :: pts(:)
+    type(string) :: outext
+    integer :: n
+
+    select type (shapetype)
+    type is (shape)
+    class is (box)
+        n=8
+        allocate(pts(n))
+        pts(1) = shapetype%pt
+        pts(2) = shapetype%pt + shapetype%size%y
+        pts(3) = pts(2) + shapetype%size%z
+        pts(4) = shapetype%pt + shapetype%size%z
+        pts(5) = shapetype%pt + shapetype%size%x
+        pts(6) = pts(5) + shapetype%size%y
+        pts(7) = shapetype%pt + shapetype%size
+        pts(8) = pts(5) + shapetype%size%z
+    class is (point)
+        n=1
+        allocate(pts(n))
+        pts(1) = shapetype%pt
+    class is (line)
+        n=2
+        allocate(pts(n))
+        pts(1) = shapetype%pt
+        pts(2) = shapetype%last
+    class is (sphere)
+        n=1
+        allocate(pts(n))
+        pts(1) = shapetype%pt
+        class default
+        outext='[geometry::getPoints] : unexpected type for geometry object, stoping'
+        call Log%put(outext)
+        stop
+    end select
+
+    end function getPoints
+ 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to print the details of a given geometry
     !> @param[in] shapetype
@@ -222,7 +257,7 @@
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape) :: shapetype
-    
+
     type(vector) :: temp(2)
     type(string) :: temp_str(6)
     type(string) :: outext
@@ -237,7 +272,7 @@
         temp_str(5) = shapetype%size%y
         temp_str(6) = shapetype%size%z
         outext='      Box at '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')//&
-               '       with '//temp_str(4)//' X '//temp_str(5)//' X '//temp_str(6)      
+            '       with '//temp_str(4)//' X '//temp_str(5)//' X '//temp_str(6)
     class is (point)
         outext='      Point at '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)
     class is (line)
@@ -245,11 +280,11 @@
         temp_str(5) = shapetype%last%y
         temp_str(6) = shapetype%last%z
         outext='      Line from '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')//&
-               '       to '//temp_str(4)//' X '//temp_str(5)//' X '//temp_str(6)
+            '       to '//temp_str(4)//' X '//temp_str(5)//' X '//temp_str(6)
     class is (sphere)
         temp_str(4) = shapetype%radius
         outext='      Sphere at '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')//&
-               '       with radius '//temp_str(4)        
+            '       with radius '//temp_str(4)
         class default
         outext='[geometry::print] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -262,12 +297,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> private function that returns the number of points distributed on a grid
     !> with spacing dp inside a sphere
-    !
     !> @param[in] dp, r
     !---------------------------------------------------------------------------
     function sphere_np_count(dp, r) result(np)
@@ -297,12 +329,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> private routine that returns the points distributed on a grid
     !> with spacing dp inside a sphere
-    !
     !> @param[in] dp, r, np, ptlist
     !---------------------------------------------------------------------------
     subroutine sphere_grid(dp, r, np, ptlist)
@@ -335,12 +364,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> private routine that returns the points distributed on a grid
-    !> with spacing dp inside a box
-    !
+    !> with spacing dp inside a box    
     !> @param[in] dp, size, np, ptlist
     !---------------------------------------------------------------------------
     subroutine box_grid(dp, size, np, ptlist)
@@ -366,12 +392,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> private routine that returns the points distributed on a grid
-    !> with spacing dp along a line
-    !
+    !> with spacing dp along a line    
     !> @param[in] dp, size, np, ptlist
     !---------------------------------------------------------------------------
     subroutine line_grid(dp, dist, np, ptlist)

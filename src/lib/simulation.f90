@@ -206,7 +206,8 @@
     dy = DBlock(1)%extents%size%y
     !iterate every Source to distribute
     do i=1, size(tempSources%src)
-        call Geometry%getCenter(tempSources%src(i)%par%geometry, coords)
+        coords = Geometry%getCenter(tempSources%src(i)%par%geometry)
+        !call Geometry%getCenter(tempSources%src(i)%par%geometry, coords)
         !finding the 2D coordinates of the corresponding Block
         ix = min(int((coords%x + BBox%offset%x)/dx) + 1, self%nbx)
         iy = min(int((coords%y + BBox%offset%y)/dy) + 1, self%nby)

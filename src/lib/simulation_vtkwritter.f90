@@ -77,10 +77,14 @@
     type(string) :: outext
     integer :: error
     
+    
+    
     fullfilename = filename%chars()//'_Domain.vtu'
     outext = '->Writting Domain file '//fullfilename
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
+    
+    
     
     error = vtk_file%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     

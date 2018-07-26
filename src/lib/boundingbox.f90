@@ -8,7 +8,7 @@
 ! URL           : http://www.mohid.com
 ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
 ! DATE          : March 2018
-! REVISION      : Canelas 0.2
+! REVISION      : Canelas 0.3
 !> @author
 !> Ricardo Birjukovs Canelas
 !
@@ -27,7 +27,7 @@ module boundingbox_mod
   type(vector) :: offset
   contains
     procedure :: initialize => initboundingbox
-    procedure :: print => printboundingbox
+    procedure :: print      => printboundingbox
   end type boundingbox_class
 
   type(boundingbox_class), public :: BBox
@@ -36,8 +36,6 @@ module boundingbox_mod
 
   !---------------------------------------------------------------------------
   !> @author Ricardo Birjukovs Canelas - MARETEC
-  ! Routine Author Name and Affiliation.
-  !
   !> @brief
   !> Method to initialize the simulation Bounding Box
   !---------------------------------------------------------------------------
@@ -51,8 +49,6 @@ module boundingbox_mod
 
   !---------------------------------------------------------------------------
   !> @author Ricardo Birjukovs Canelas - MARETEC
-  ! Routine Author Name and Affiliation.
-  !
   !> @brief
   !> Method to print the simulation Bounding Box
   !---------------------------------------------------------------------------
@@ -61,7 +57,6 @@ module boundingbox_mod
     class(boundingbox_class), intent(inout) :: self
     type(string) :: outext
     type(string) :: temp_str(3)
-
     outext = '-->Main bounding box is '//new_line('a')
     temp_str(1)=self%pt%x
     temp_str(2)=self%pt%y
@@ -70,11 +65,8 @@ module boundingbox_mod
     temp_str(1)=self%size%x
     temp_str(2)=self%size%y
     temp_str(3)=self%size%z
-    outext = outext//'       Size = '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)
-    
+    outext = outext//'       Size = '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)    
     call Log%put(outext,.false.)
-
   end subroutine printboundingbox
-
 
 end module boundingbox_mod
