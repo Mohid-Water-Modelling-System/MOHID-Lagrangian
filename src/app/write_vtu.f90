@@ -28,12 +28,12 @@ integer(I4P)                  :: error                                          
 logical                       :: test_passed(1)                                               !< List of passed tests.
 
 integer(I4P), parameter       :: np1 = 8_I4P                                                  !< Number of points.
-integer(I4P), parameter       :: nc1 = 1_I4P                                                  !< Number of cells.
+integer(I4P), parameter       :: nc1 = 8_I4P                                                  !< Number of cells.
 real(R4P),    dimension(1:np1) :: x1 = [0,0,0,0,1,1,1,1]  !< X coordinates of points.
 real(R4P),    dimension(1:np1) :: y1 = [0,1,1,0,0,1,1,0]  !< Y coordinates of points.
 real(R4P),    dimension(1:np1) :: z1 = [0,0,1,1,0,0,1,1]  !< Z coordinates of points.
-integer(I1P), dimension(1:nc1) :: cell_type1 = [12_I1P]      !< Cells type.
-integer(I4P), dimension(1:nc1) :: offset1 = [8_I4P]         !< Cells offset.
+integer(I1P), dimension(1:nc1) :: cell_type1 = [1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P]      !< Cells type.
+integer(I4P), dimension(1:nc1) :: offset1 =    [8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P]      !< Cells offset.
 integer(I4P), dimension(1:np1) :: connect1 = [0,1,2,3,4,5,6,7]!< Connectivity.
 
 

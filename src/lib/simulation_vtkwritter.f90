@@ -31,6 +31,7 @@
         integer :: vtk_unit = 10
     contains
     procedure :: DomainVTK
+    procedure :: TracerSerialVTK
     end type vtkwritter_class
     
     type(vtkwritter_class) :: vtkWritter
@@ -48,6 +49,7 @@
     !> @brief
     !> Public Tracer writting routine. Writes Tracer data in binary XML VTK
     !> format using an unstructured grid. Serial writer for serial files.
+    !> @parm[in] self, filename, blocks
     !---------------------------------------------------------------------------
     subroutine TracerSerialVTK(self, filename, blocks)
     implicit none
@@ -55,8 +57,11 @@
     type(string), intent(in) :: filename
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     
-    integer :: error
     type(vtk_file) :: vtk_file
+    type(string) :: fullfilename
+    type(string) :: outext
+    integer :: error
+    
     
     error = vtk_file%initialize(format='binary', filename=filename%chars()//'.vtu', mesh_topology='UnstructuredGrid')
     
