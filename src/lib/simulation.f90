@@ -142,7 +142,7 @@
     call SimMemory%detailedprint()
     
     !Writing the domain to file
-    call vtkWritter%DomainVTK(Globals%Names%casename)
+    call vtkWritter%DomainVTK(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
 
     end subroutine initSimulation
 

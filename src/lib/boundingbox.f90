@@ -31,6 +31,8 @@ module boundingbox_mod
   end type boundingbox_class
 
   type(boundingbox_class), public :: BBox
+  
+  public :: boundingbox_class
 
   contains
 

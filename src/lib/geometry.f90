@@ -38,6 +38,7 @@
     procedure :: fill                       !<Gets the list of points that fill a geometry (based on GLOBALS::dp)
     procedure :: getCenter                  !<Function that retuns the shape baricenter
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
+    procedure :: getnumPoints               !<Function that returns the number of points (vertexes) that define the geometrical shape
     procedure :: print => printGeometry     !<prints the geometry type and contents
     end type
 
@@ -213,20 +214,19 @@
     type(vector), allocatable :: pts(:)
     type(string) :: outext
     integer :: n
-
     select type (shapetype)
     type is (shape)
     class is (box)
         n=8
         allocate(pts(n))
         pts(1) = shapetype%pt
-        pts(2) = shapetype%pt + shapetype%size%y
-        pts(3) = pts(2) + shapetype%size%z
-        pts(4) = shapetype%pt + shapetype%size%z
-        pts(5) = shapetype%pt + shapetype%size%x
-        pts(6) = pts(5) + shapetype%size%y
+        pts(2) = shapetype%pt + shapetype%size%y*ey
+        pts(3) = pts(2) + shapetype%size%z*ez
+        pts(4) = shapetype%pt + shapetype%size%z*ez
+        pts(5) = shapetype%pt + shapetype%size%x*ex
+        pts(6) = pts(5) + shapetype%size%y*ey
         pts(7) = shapetype%pt + shapetype%size
-        pts(8) = pts(5) + shapetype%size%z
+        pts(8) = pts(5) + shapetype%size%z*ez
     class is (point)
         n=1
         allocate(pts(n))
@@ -245,8 +245,35 @@
         call Log%put(outext)
         stop
     end select
-
     end function getPoints
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> method the points defining a given geometry
+    !> @param[in] shapetype
+    !---------------------------------------------------------------------------
+    function getnumPoints(self, shapetype) result(n)
+    class(geometry_class), intent(in) :: self
+    class(shape), intent(in) :: shapetype
+    integer :: n
+    type(string) :: outext
+    select type (shapetype)
+    type is (shape)
+    class is (box)
+        n=8        
+    class is (point)
+        n=1        
+    class is (line)
+        n=2        
+    class is (sphere)
+        n=1
+        class default
+        outext='[geometry::getnumPoints] : unexpected type for geometry object, stoping'
+        call Log%put(outext)
+        stop
+    end select
+    end function getnumPoints
  
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

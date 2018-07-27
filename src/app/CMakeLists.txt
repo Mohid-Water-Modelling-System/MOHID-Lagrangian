@@ -5,6 +5,7 @@ message("At Application CMAKE file")
 # Adds sources to the Solution Explorer
 
 add_executable(${BIN_NAME} MOHIDLagrangian.f90)
+add_executable(VTK_tester write_vtu.f90)
 
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)
@@ -62,7 +63,16 @@ set_property(TARGET ${BIN_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 # Properties->General->Output Directory
 set_target_properties(${BIN_NAME} PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+					  
+target_link_libraries (VTK_tester  ${LIB_NAME})
+target_link_libraries (VTK_tester  ${LIBS})
+target_link_libraries (VTK_tester  ${EXTERNAL_LIBS})
 
-# Adds logic to INSTALL.vcproj to copy app.exe to destination directory
-#install (TARGETS ${BIN_NAME}
-#         RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/_install)
+# Creates a folder "executables" and adds target
+# project (app.vcproj) under it
+set_property(TARGET VTK_tester PROPERTY FOLDER "executables")
+set_property(TARGET VTK_tester PROPERTY LINKER_LANGUAGE Fortran)
+
+# Properties->General->Output Directory
+set_target_properties(VTK_tester PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
