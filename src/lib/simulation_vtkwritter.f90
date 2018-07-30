@@ -27,9 +27,9 @@
     private
     
     type :: vtkwritter_class
-        private
-        integer :: vtk_unit = 10
+        integer :: numVtkFiles
     contains
+    procedure :: initialize => initVTKwritter
     procedure :: DomainVTK
     procedure :: TracerSerialVTK
     end type vtkwritter_class
@@ -43,6 +43,17 @@
     !public :: getTimeStamp
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Initializes the a VTK writer object
+    !---------------------------------------------------------------------------
+    subroutine initVTKwritter(self)
+    implicit none
+    class(vtkwritter_class), intent(inout) :: self
+    self%numVtkFiles = 0
+    end subroutine initVTKwritter
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -66,6 +77,8 @@
     error = vtk_file%initialize(format='binary', filename=filename%chars()//'.vtu', mesh_topology='UnstructuredGrid')
     
     error = vtk_file%finalize()
+    
+    self%numVtkFiles = self%numVtkFiles + 1
     
     end subroutine TracerSerialVTK
     

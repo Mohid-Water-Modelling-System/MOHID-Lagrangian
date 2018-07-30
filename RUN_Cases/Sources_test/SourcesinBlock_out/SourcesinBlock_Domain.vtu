@@ -3,387 +3,387 @@
   <UnstructuredGrid>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.100000E+02 -0.100000E+01 -0.500010E+03-0.100000E+02 +0.100000E+02 -0.500010E+03-0.100000E+02 +0.100000E+02 +0.405740E+01-0.100000E+02 -0.100000E+01 +0.405740E+01+0.100000E+02 -0.100000E+01 -0.500010E+03+0.100000E+02 +0.100000E+02 -0.500010E+03+0.100000E+02 +0.100000E+02 +0.405740E+01+0.100000E+02 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAIMEAAIC/SAH6wwAAIMEAACBBSAH6wwAAIMEAACBBQNaBQAAAIMEAAIC/QNaBQAAAIEEAAIC/SAH6wwAAIEEAACBBSAH6wwAAIEEAACBBQNaBQAAAIEEAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.100000E+02 -0.100000E+01 -0.500010E+03-0.100000E+02 +0.450000E+01 -0.500010E+03-0.100000E+02 +0.450000E+01 +0.405740E+01-0.100000E+02 -0.100000E+01 +0.405740E+01-0.750000E+01 -0.100000E+01 -0.500010E+03-0.750000E+01 +0.450000E+01 -0.500010E+03-0.750000E+01 +0.450000E+01 +0.405740E+01-0.750000E+01 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAIMEAAIC/SAH6wwAAIMEAAJBASAH6wwAAIMEAAJBAQNaBQAAAIMEAAIC/QNaBQAAA8MAAAIC/SAH6wwAA8MAAAJBASAH6wwAA8MAAAJBAQNaBQAAA8MAAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +1         +1         +1         +1         +1         +1         +1         +1         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.100000E+02 +0.450000E+01 -0.500010E+03-0.100000E+02 +0.100000E+02 -0.500010E+03-0.100000E+02 +0.100000E+02 +0.405740E+01-0.100000E+02 +0.450000E+01 +0.405740E+01-0.750000E+01 +0.450000E+01 -0.500010E+03-0.750000E+01 +0.100000E+02 -0.500010E+03-0.750000E+01 +0.100000E+02 +0.405740E+01-0.750000E+01 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAIMEAAJBASAH6wwAAIMEAACBBSAH6wwAAIMEAACBBQNaBQAAAIMEAAJBAQNaBQAAA8MAAAJBASAH6wwAA8MAAACBBSAH6wwAA8MAAACBBQNaBQAAA8MAAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +2         +2         +2         +2         +2         +2         +2         +2         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.750000E+01 -0.100000E+01 -0.500010E+03-0.750000E+01 +0.450000E+01 -0.500010E+03-0.750000E+01 +0.450000E+01 +0.405740E+01-0.750000E+01 -0.100000E+01 +0.405740E+01-0.500000E+01 -0.100000E+01 -0.500010E+03-0.500000E+01 +0.450000E+01 -0.500010E+03-0.500000E+01 +0.450000E+01 +0.405740E+01-0.500000E+01 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAA8MAAAIC/SAH6wwAA8MAAAJBASAH6wwAA8MAAAJBAQNaBQAAA8MAAAIC/QNaBQAAAoMAAAIC/SAH6wwAAoMAAAJBASAH6wwAAoMAAAJBAQNaBQAAAoMAAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +3         +3         +3         +3         +3         +3         +3         +3         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.750000E+01 +0.450000E+01 -0.500010E+03-0.750000E+01 +0.100000E+02 -0.500010E+03-0.750000E+01 +0.100000E+02 +0.405740E+01-0.750000E+01 +0.450000E+01 +0.405740E+01-0.500000E+01 +0.450000E+01 -0.500010E+03-0.500000E+01 +0.100000E+02 -0.500010E+03-0.500000E+01 +0.100000E+02 +0.405740E+01-0.500000E+01 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAA8MAAAJBASAH6wwAA8MAAACBBSAH6wwAA8MAAACBBQNaBQAAA8MAAAJBAQNaBQAAAoMAAAJBASAH6wwAAoMAAACBBSAH6wwAAoMAAACBBQNaBQAAAoMAAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +4         +4         +4         +4         +4         +4         +4         +4         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.500000E+01 -0.100000E+01 -0.500010E+03-0.500000E+01 +0.450000E+01 -0.500010E+03-0.500000E+01 +0.450000E+01 +0.405740E+01-0.500000E+01 -0.100000E+01 +0.405740E+01-0.250000E+01 -0.100000E+01 -0.500010E+03-0.250000E+01 +0.450000E+01 -0.500010E+03-0.250000E+01 +0.450000E+01 +0.405740E+01-0.250000E+01 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAoMAAAIC/SAH6wwAAoMAAAJBASAH6wwAAoMAAAJBAQNaBQAAAoMAAAIC/QNaBQAAAIMAAAIC/SAH6wwAAIMAAAJBASAH6wwAAIMAAAJBAQNaBQAAAIMAAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +5         +5         +5         +5         +5         +5         +5         +5         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAUAAAAFAAAABQAAAAUAAAAFAAAABQAAAAUAAAAFAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.500000E+01 +0.450000E+01 -0.500010E+03-0.500000E+01 +0.100000E+02 -0.500010E+03-0.500000E+01 +0.100000E+02 +0.405740E+01-0.500000E+01 +0.450000E+01 +0.405740E+01-0.250000E+01 +0.450000E+01 -0.500010E+03-0.250000E+01 +0.100000E+02 -0.500010E+03-0.250000E+01 +0.100000E+02 +0.405740E+01-0.250000E+01 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAoMAAAJBASAH6wwAAoMAAACBBSAH6wwAAoMAAACBBQNaBQAAAoMAAAJBAQNaBQAAAIMAAAJBASAH6wwAAIMAAACBBSAH6wwAAIMAAACBBQNaBQAAAIMAAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +6         +6         +6         +6         +6         +6         +6         +6         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAYAAAAGAAAABgAAAAYAAAAGAAAABgAAAAYAAAAGAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.250000E+01 -0.100000E+01 -0.500010E+03-0.250000E+01 +0.450000E+01 -0.500010E+03-0.250000E+01 +0.450000E+01 +0.405740E+01-0.250000E+01 -0.100000E+01 +0.405740E+01 0.000000E+00 -0.100000E+01 -0.500010E+03 0.000000E+00 +0.450000E+01 -0.500010E+03 0.000000E+00 +0.450000E+01 +0.405740E+01 0.000000E+00 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAIMAAAIC/SAH6wwAAIMAAAJBASAH6wwAAIMAAAJBAQNaBQAAAIMAAAIC/QNaBQAAAAAAAAIC/SAH6wwAAAAAAAJBASAH6wwAAAAAAAJBAQNaBQAAAAAAAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +7         +7         +7         +7         +7         +7         +7         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAcAAAAHAAAABwAAAAcAAAAHAAAABwAAAAcAAAAHAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          -0.250000E+01 +0.450000E+01 -0.500010E+03-0.250000E+01 +0.100000E+02 -0.500010E+03-0.250000E+01 +0.100000E+02 +0.405740E+01-0.250000E+01 +0.450000E+01 +0.405740E+01 0.000000E+00 +0.450000E+01 -0.500010E+03 0.000000E+00 +0.100000E+02 -0.500010E+03 0.000000E+00 +0.100000E+02 +0.405740E+01 0.000000E+00 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAIMAAAJBASAH6wwAAIMAAACBBSAH6wwAAIMAAACBBQNaBQAAAIMAAAJBAQNaBQAAAAAAAAJBASAH6wwAAAAAAACBBSAH6wwAAAAAAACBBQNaBQAAAAAAAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +8         +8         +8         +8         +8         +8         +8         +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-           0.000000E+00 -0.100000E+01 -0.500010E+03 0.000000E+00 +0.450000E+01 -0.500010E+03 0.000000E+00 +0.450000E+01 +0.405740E+01 0.000000E+00 -0.100000E+01 +0.405740E+01+0.250000E+01 -0.100000E+01 -0.500010E+03+0.250000E+01 +0.450000E+01 -0.500010E+03+0.250000E+01 +0.450000E+01 +0.405740E+01+0.250000E+01 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAAAAAAIC/SAH6wwAAAAAAAJBASAH6wwAAAAAAAJBAQNaBQAAAAAAAAIC/QNaBQAAAIEAAAIC/SAH6wwAAIEAAAJBASAH6wwAAIEAAAJBAQNaBQAAAIEAAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +9         +9         +9         +9         +9         +9         +9         +9         
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAkAAAAJAAAACQAAAAkAAAAJAAAACQAAAAkAAAAJAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-           0.000000E+00 +0.450000E+01 -0.500010E+03 0.000000E+00 +0.100000E+02 -0.500010E+03 0.000000E+00 +0.100000E+02 +0.405740E+01 0.000000E+00 +0.450000E+01 +0.405740E+01+0.250000E+01 +0.450000E+01 -0.500010E+03+0.250000E+01 +0.100000E+02 -0.500010E+03+0.250000E+01 +0.100000E+02 +0.405740E+01+0.250000E+01 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAAAAAAJBASAH6wwAAAAAAACBBSAH6wwAAAAAAACBBQNaBQAAAAAAAAJBAQNaBQAAAIEAAAJBASAH6wwAAIEAAACBBSAH6wwAAIEAAACBBQNaBQAAAIEAAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +10        +10        +10        +10        +10        +10        +10        +10        
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAoAAAAKAAAACgAAAAoAAAAKAAAACgAAAAoAAAAKAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          +0.250000E+01 -0.100000E+01 -0.500010E+03+0.250000E+01 +0.450000E+01 -0.500010E+03+0.250000E+01 +0.450000E+01 +0.405740E+01+0.250000E+01 -0.100000E+01 +0.405740E+01+0.500000E+01 -0.100000E+01 -0.500010E+03+0.500000E+01 +0.450000E+01 -0.500010E+03+0.500000E+01 +0.450000E+01 +0.405740E+01+0.500000E+01 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAIEAAAIC/SAH6wwAAIEAAAJBASAH6wwAAIEAAAJBAQNaBQAAAIEAAAIC/QNaBQAAAoEAAAIC/SAH6wwAAoEAAAJBASAH6wwAAoEAAAJBAQNaBQAAAoEAAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +11        +11        +11        +11        +11        +11        +11        +11        
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAsAAAALAAAACwAAAAsAAAALAAAACwAAAAsAAAALAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          +0.250000E+01 +0.450000E+01 -0.500010E+03+0.250000E+01 +0.100000E+02 -0.500010E+03+0.250000E+01 +0.100000E+02 +0.405740E+01+0.250000E+01 +0.450000E+01 +0.405740E+01+0.500000E+01 +0.450000E+01 -0.500010E+03+0.500000E+01 +0.100000E+02 -0.500010E+03+0.500000E+01 +0.100000E+02 +0.405740E+01+0.500000E+01 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAIEAAAJBASAH6wwAAIEAAACBBSAH6wwAAIEAAACBBQNaBQAAAIEAAAJBAQNaBQAAAoEAAAJBASAH6wwAAoEAAACBBSAH6wwAAoEAAACBBQNaBQAAAoEAAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +12        +12        +12        +12        +12        +12        +12        +12        
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          +0.500000E+01 -0.100000E+01 -0.500010E+03+0.500000E+01 +0.450000E+01 -0.500010E+03+0.500000E+01 +0.450000E+01 +0.405740E+01+0.500000E+01 -0.100000E+01 +0.405740E+01+0.750000E+01 -0.100000E+01 -0.500010E+03+0.750000E+01 +0.450000E+01 -0.500010E+03+0.750000E+01 +0.450000E+01 +0.405740E+01+0.750000E+01 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAoEAAAIC/SAH6wwAAoEAAAJBASAH6wwAAoEAAAJBAQNaBQAAAoEAAAIC/QNaBQAAA8EAAAIC/SAH6wwAA8EAAAJBASAH6wwAA8EAAAJBAQNaBQAAA8EAAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +13        +13        +13        +13        +13        +13        +13        +13        
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAA0AAAANAAAADQAAAA0AAAANAAAADQAAAA0AAAANAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          +0.500000E+01 +0.450000E+01 -0.500010E+03+0.500000E+01 +0.100000E+02 -0.500010E+03+0.500000E+01 +0.100000E+02 +0.405740E+01+0.500000E+01 +0.450000E+01 +0.405740E+01+0.750000E+01 +0.450000E+01 -0.500010E+03+0.750000E+01 +0.100000E+02 -0.500010E+03+0.750000E+01 +0.100000E+02 +0.405740E+01+0.750000E+01 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAAoEAAAJBASAH6wwAAoEAAACBBSAH6wwAAoEAAACBBQNaBQAAAoEAAAJBAQNaBQAAA8EAAAJBASAH6wwAA8EAAACBBSAH6wwAA8EAAACBBQNaBQAAA8EAAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +14        +14        +14        +14        +14        +14        +14        +14        
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAA4AAAAOAAAADgAAAA4AAAAOAAAADgAAAA4AAAAOAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          +0.750000E+01 -0.100000E+01 -0.500010E+03+0.750000E+01 +0.450000E+01 -0.500010E+03+0.750000E+01 +0.450000E+01 +0.405740E+01+0.750000E+01 -0.100000E+01 +0.405740E+01+0.100000E+02 -0.100000E+01 -0.500010E+03+0.100000E+02 +0.450000E+01 -0.500010E+03+0.100000E+02 +0.450000E+01 +0.405740E+01+0.100000E+02 -0.100000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAA8EAAAIC/SAH6wwAA8EAAAJBASAH6wwAA8EAAAJBAQNaBQAAA8EAAAIC/QNaBQAAAIEEAAIC/SAH6wwAAIEEAAJBASAH6wwAAIEEAAJBAQNaBQAAAIEEAAIC/QNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +15        +15        +15        +15        +15        +15        +15        +15        
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAAA8AAAAPAAAADwAAAA8AAAAPAAAADwAAAA8AAAAPAAAA
         </DataArray>
       </PointData>
     </Piece>
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="ascii">
-          +0.750000E+01 +0.450000E+01 -0.500010E+03+0.750000E+01 +0.100000E+02 -0.500010E+03+0.750000E+01 +0.100000E+02 +0.405740E+01+0.750000E+01 +0.450000E+01 +0.405740E+01+0.100000E+02 +0.450000E+01 -0.500010E+03+0.100000E+02 +0.100000E+02 -0.500010E+03+0.100000E+02 +0.100000E+02 +0.405740E+01+0.100000E+02 +0.450000E+01 +0.405740E+01
+        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
+          YAAAAAAA8EAAAJBASAH6wwAA8EAAACBBSAH6wwAA8EAAACBBQNaBQAAA8EAAAJBAQNaBQAAAIEEAAJBASAH6wwAAIEEAACBBSAH6wwAAIEEAACBBQNaBQAAAIEEAAJBAQNaBQA==
         </DataArray>
       </Points>
       <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="ascii">
-          +0         +1         +2         +3         +4         +5         +6         +7         
+        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
+          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
         </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="ascii">
-          +8         
+        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
+          BAAAAAgAAAA=
         </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="ascii">
-          +12 
+        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
+          AQAAAAw=
         </DataArray>
       </Cells>
       <PointData>
-        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="ascii">
-          +16        +16        +16        +16        +16        +16        +16        +16        
+        <DataArray type="Int32" NumberOfComponents="1" Name="Block" format="binary">
+          IAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAA
         </DataArray>
       </PointData>
     </Piece>
