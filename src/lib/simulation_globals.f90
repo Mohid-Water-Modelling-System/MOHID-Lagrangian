@@ -136,7 +136,9 @@
     !parameters
     self%Parameters%Integrator = 1
     self%Parameters%IntegratorIndexes = [1,2,3]
-    self%Parameters%IntegratorNames = ['Verlet','Symplectic','Runge-Kuta 4']
+    self%Parameters%IntegratorNames(1) = 'Verlet'
+    self%Parameters%IntegratorNames(2) = 'Symplectic'
+    self%Parameters%IntegratorNames(3) = 'Runge-Kuta 4'
     self%Parameters%CFL = 0.5
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%TimeOut = MV
@@ -145,7 +147,9 @@
     self%Parameters%EndTime = datetime()
     self%Parameters%OutputFormat = 2
     self%Parameters%OutputFormatIndexes = [1,2]
-    self%Parameters%OutputFormatNames = ['NetCDF','VTK']
+    !self%Parameters%OutputFormatNames = ['NetCDF','VTK'] !This is not acceptable because FORTRAN
+    self%Parameters%OutputFormatNames(1) = 'NetCDF'
+    self%Parameters%OutputFormatNames(2) = 'VTK'
     !Simulation definitions
     self%SimDefs%autoblocksize =.true.
     self%SimDefs%blocksize = 0.0

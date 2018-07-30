@@ -68,15 +68,15 @@
     type(string), intent(in) :: filename
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     
-    type(vtk_file) :: vtk_file
+    type(vtk_file) :: vtkfile
     type(string) :: fullfilename
     type(string) :: outext
     integer :: error
     
     
-    error = vtk_file%initialize(format='binary', filename=filename%chars()//'.vtu', mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format='binary', filename=filename%chars()//'.vtu', mesh_topology='UnstructuredGrid')
     
-    error = vtk_file%finalize()
+    error = vtkfile%finalize()
     
     self%numVtkFiles = self%numVtkFiles + 1
     
@@ -97,7 +97,7 @@
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     integer, intent(in) :: npbbox                           !< number of points of the bbox geometry
     
-    type(vtk_file) :: vtk_file                              !< file object
+    type(vtk_file) :: vtkfile                              !< file object
     type(string) :: fullfilename
     type(string) :: outext
     integer :: error, i, b
@@ -117,7 +117,7 @@
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    error = vtk_file%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     
     !Writting bounding box geometry
     pts = Geometry%getPoints(bbox)
@@ -127,10 +127,10 @@
         zz(i) = pts(i)%z
         connect(i) = i-1
     end do    
-    error = vtk_file%xml_writer%write_piece(np=npbbox, nc=nc)
-    error = vtk_file%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
-    error = vtk_file%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
-    error = vtk_file%xml_writer%write_piece()
+    error = vtkfile%xml_writer%write_piece(np=npbbox, nc=nc)
+    error = vtkfile%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
+    error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
+    error = vtkfile%xml_writer%write_piece()
     
     !Writting block geometries
     do b=1, size(blocks)
@@ -142,17 +142,17 @@
             connect(i) = i-1
             var(i) = b
         end do    
-        error = vtk_file%xml_writer%write_piece(np=npbbox, nc=nc)
-        error = vtk_file%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
-        error = vtk_file%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
-        error = vtk_file%xml_writer%write_dataarray(location='node', action='open')
-        error = vtk_file%xml_writer%write_dataarray(data_name='Block', x=var)
-        error = vtk_file%xml_writer%write_dataarray(location='node', action='close')
-        error = vtk_file%xml_writer%write_piece()
+        error = vtkfile%xml_writer%write_piece(np=npbbox, nc=nc)
+        error = vtkfile%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
+        error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
+        error = vtkfile%xml_writer%write_dataarray(location='node', action='open')
+        error = vtkfile%xml_writer%write_dataarray(data_name='Block', x=var)
+        error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
+        error = vtkfile%xml_writer%write_piece()
     end do
         
     !Closing file
-    error = vtk_file%finalize()
+    error = vtkfile%finalize()
     
     end subroutine DomainVTK
     

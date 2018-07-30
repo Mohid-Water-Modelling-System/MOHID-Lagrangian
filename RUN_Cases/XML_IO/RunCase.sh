@@ -16,7 +16,7 @@ fi
 mkdir $dirout
 
 cp ${name}_Def.xml $dirout 
-mv $dirout/${name}_Def.xml ${name}.xml
+mv $dirout/${name}_Def.xml $dirout/${name}.xml
 
 # CODES are executed according the selected parameters of execution in this testcase
 errcode=0
