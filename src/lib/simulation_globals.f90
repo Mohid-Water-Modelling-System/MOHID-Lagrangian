@@ -33,12 +33,17 @@
 
     type parameters_t   !< Parameters class
         integer    :: Integrator = 1            !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
+        integer    :: IntegratorIndexes(3)      !< Index list for the integrator selector
+        type(string) :: IntegratorNames(3)      !< Names list for the integrator selector
         real(prec) :: CFL = 0.5                 !< Courant Friedrichs Lewy condition number
         real(prec_time) :: WarmUpTime = 0.0     !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
         real(prec_time) :: TimeMax = MV         !< Simulation duration (s)
         real(prec) :: TimeOut = MV              !< Time out data (1/Hz)
-        type(datetime) :: StartTime
-        type(datetime) :: EndTime
+        type(datetime) :: StartTime             !< Start date of the simulation
+        type(datetime) :: EndTime               !< End date of the simulation
+        integer    :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
+        integer    :: OutputFormatIndexes(2)    !< Index list for the output file format selector
+        type(string) :: OutputFormatNames(2)    !< Names list for the output file format selector
     contains
     procedure :: setparameter
     procedure :: check
@@ -130,12 +135,17 @@
     type(string), optional, intent(in) :: outpath
     !parameters
     self%Parameters%Integrator = 1
+    self%Parameters%IntegratorIndexes = [1,2,3]
+    self%Parameters%IntegratorNames = ['Verlet','Symplectic','Runge-Kuta 4']
     self%Parameters%CFL = 0.5
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%TimeOut = MV
     self%Parameters%TimeOut = MV
     self%Parameters%StartTime = datetime()
     self%Parameters%EndTime = datetime()
+    self%Parameters%OutputFormat = 2
+    self%Parameters%OutputFormatIndexes = [1,2]
+    self%Parameters%OutputFormatNames = ['NetCDF','VTK']
     !Simulation definitions
     self%SimDefs%autoblocksize =.true.
     self%SimDefs%blocksize = 0.0
@@ -236,11 +246,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> Private parameter setting method. Builds the simulation parametric space from the input case file.
-    !
+    !> Private parameter setting method. Builds the simulation parametric space from the input case file.    !
     !> @param[in] parmkey, parmvalue
     !---------------------------------------------------------------------------
     subroutine setparameter(self,parmkey,parmvalue)
@@ -294,15 +301,16 @@
         else
             stop '[Globals::setparameter] EndTime parameter not in correct format. Eg. "2009 3 1 0 0 0"'
         end if
-    endif
+    elseif(parmkey%chars()=="OutputFormat") then
+        self%OutputFormat=parmvalue%to_number(kind=1_I1P)
+        sizem=sizeof(self%OutputFormat)
+    end if
     call SimMemory%adddef(sizem)
 
     end subroutine
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Parameter checking method. Checks if mandatory parameters were set
     !---------------------------------------------------------------------------
@@ -313,21 +321,33 @@
     type(datetime) :: temp
     type(timedelta) :: simtime
 
+    if ( any(self%IntegratorIndexes == self%Integrator)) then
+    else
+        outext = '[Globals::parameters::check]: Integrator not recognized, stoping'
+        call Log%put(outext)
+        stop
+    end if
+    if ( any(self%OutputFormatIndexes == self%OutputFormat)) then
+    else
+        outext = '[Globals::parameters::check]: OutputFormat not recognized, stoping'
+        call Log%put(outext)
+        stop
+    end if        
     temp = datetime() !default initialization
     !add new parameters to this search
     if (self%TimeOut==MV) then
-        outext = 'Simulation sampling rate parameter (TimeOut) is not set, stoping'
+        outext = '[Globals::parameters::check]: sampling rate parameter (TimeOut) is not set, stoping'
         call Log%put(outext)
         stop
     elseif (self%StartTime==temp) then
-        outext = 'Simulation start time parameter (StartTime) is not set or invalid, stoping'
+        outext = '[Globals::parameters::check]: start time parameter (StartTime) is not set or invalid, stoping'
         call Log%put(outext)
         stop
     elseif (self%EndTime==temp) then
-        outext = 'Simulation end time parameter (EndTime) is not set or invalid, stoping'
+        outext = '[Globals::parameters::check]: end time parameter (EndTime) is not set or invalid, stoping'
         call Log%put(outext)
         stop
-    endif
+    end if
     !Build timemax from the difference between start and end time
     simtime = self%EndTime - self%StartTime
     self%TimeMax = simtime%total_seconds()
@@ -335,8 +355,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Parameter printing method.
     !---------------------------------------------------------------------------
@@ -346,8 +364,7 @@
     type(string) :: outext
     type(string) :: temp_str
     character(len=23) :: temp_char
-    call getintegratorname(temp_str,self%Integrator)
-    outext = '      Integrator scheme is '//temp_str//new_line('a')
+    outext = '      Integrator scheme is '//self%IntegratorNames(self%Integrator)//new_line('a')
     temp_str=self%CFL
     outext = outext//'       CFL = '//temp_str//new_line('a')
     temp_str=self%WarmUpTime
@@ -361,37 +378,15 @@
     temp_str = temp_char
     outext = outext//'       EndTime   = '//temp_str//new_line('a')
     temp_str=self%TimeMax
-    outext = outext//'       Simulation will run for '//temp_str//' s'
+    outext = outext//'       Simulation will run for '//temp_str//' s'//new_line('a')
+    outext = outext//'       Output file format is '//self%OutputFormatNames(self%OutputFormat)
     call Log%put(outext,.false.)
     end subroutine
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Routine to get integrator scheme name
-    !---------------------------------------------------------------------------
-    subroutine getintegratorname(name,code)
-    implicit none
-    type(string), intent(inout) :: name
-    integer, intent(in) :: code
-    if (code==1) then
-        name='Verlet'
-    elseif(code==2)then
-        name='Symplectic'
-    elseif(code==3)then
-        name='Runge-Kuta 4'
-    endif
-    end subroutine
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Gravity setting routine.
-    !
     !> @param[in] grav
     !---------------------------------------------------------------------------
     subroutine setgravity (self,grav)
@@ -412,11 +407,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Z0 setting routine.
-    !
     !> @param[in] read_z0
     !---------------------------------------------------------------------------
     subroutine setz0(self,read_z0)
@@ -431,11 +423,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Rho_Ref setting routine.
-    !
     !> @param[in] read_rho
     !---------------------------------------------------------------------------
     subroutine setrho(self,read_rho)
@@ -456,8 +445,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Public constants printing routine.
     !---------------------------------------------------------------------------
@@ -482,11 +469,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Dp setting routine.
-    !
     !> @param[in] read_dp
     !---------------------------------------------------------------------------
     subroutine setdp(self,read_dp)
@@ -507,11 +491,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> Dt setting routine.
-    !
+    !> Dt setting routine
     !> @param[in] read_dt
     !---------------------------------------------------------------------------
     subroutine setdt(self,read_dt)
@@ -532,11 +513,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> Bounding box setting routine.
-    !
+    !> Bounding box setting routine
     !> @param[in] point_, coords
     !---------------------------------------------------------------------------
     subroutine setboundingbox(self,point_, coords)
@@ -556,11 +534,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> blocksize box setting routine.
-    !
+    !> blocksize box setting routine
     !> @param[in] bsize
     !---------------------------------------------------------------------------
     subroutine setblocksize(self, bsize)
@@ -575,8 +550,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Public simulation definitions printing routine.
     !---------------------------------------------------------------------------
