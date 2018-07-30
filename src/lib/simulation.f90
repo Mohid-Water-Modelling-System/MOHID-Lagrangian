@@ -25,7 +25,7 @@
     use tracers_mod
     use blocks_mod
     use about_mod
-    use simulation_vtkwritter_mod
+    use simulation_output_streamer_mod
 
     !use simulation_objects_mod
 
@@ -77,7 +77,6 @@
         !Update all tracers with base behavior
         !Update Tracers with type-specific behavior
         !Write results if time to do so
-
 
         call self%printTracerTotals()
         !update Simulation time and counters
@@ -141,8 +140,11 @@
     !printing memory occupation at the time
     call SimMemory%detailedprint()
     
+    !Initializing output file streamer
+    call OutputStreamer%initialize()
+    
     !Writing the domain to file
-    call vtkWritter%DomainVTK(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
+    call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
 
     end subroutine initSimulation
 

@@ -13,10 +13,10 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines a vtk writer class for the exposable to the Simulation 
+    !> Defines a vtk writer class with an object exposable to the Output streamer
     !------------------------------------------------------------------------------
 
-    module simulation_vtkwritter_mod
+    module vtkwritter_mod
 
     use common_modules
     use vtk_fortran
@@ -47,7 +47,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Initializes the a VTK writer object
+    !> Initializes a VTK writer object
     !---------------------------------------------------------------------------
     subroutine initVTKwritter(self)
     implicit none
@@ -158,4 +158,4 @@
     
     
 
-  end module simulation_vtkwritter_mod
+  end module vtkwritter_mod

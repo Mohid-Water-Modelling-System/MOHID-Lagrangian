@@ -328,6 +328,11 @@
         stop
     end if
     if ( any(self%OutputFormatIndexes == self%OutputFormat)) then
+        if (self%OutputFormat == 1) then
+            outext = '[Globals::parameters::check]: NetCDF is not implemented yet, try something nicer like VTK, stoping'
+            call Log%put(outext)
+            stop
+        end if
     else
         outext = '[Globals::parameters::check]: OutputFormat not recognized, stoping'
         call Log%put(outext)
