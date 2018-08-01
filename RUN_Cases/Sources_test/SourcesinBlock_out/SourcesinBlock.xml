@@ -49,7 +49,7 @@
       <parameter key="StartTime" value="1984 12 10 13 05 0" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
       <parameter key="EndTime"   value="1984 12 10 13 07 0" comment="Date of final instant" units_comment="ISO format" />
       <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
-	    <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
+	  <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
     </parameters>
   </execution>
 </case>

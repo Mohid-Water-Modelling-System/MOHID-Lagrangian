@@ -4,24 +4,6 @@
     <Piece NumberOfPoints="+8" NumberOfCells="+1">
       <Points>
         <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
-          YAAAAAAAIMEAAIC/SAH6wwAAIMEAACBBSAH6wwAAIMEAACBBQNaBQAAAIMEAAIC/QNaBQAAAIEEAAIC/SAH6wwAAIEEAACBBSAH6wwAAIEEAACBBQNaBQAAAIEEAAIC/QNaBQA==
-        </DataArray>
-      </Points>
-      <Cells>
-        <DataArray type="Int32" NumberOfComponents="1" Name="connectivity" format="binary">
-          IAAAAAAAAAABAAAAAgAAAAMAAAAEAAAABQAAAAYAAAAHAAAA
-        </DataArray>
-        <DataArray type="Int32" NumberOfComponents="1" Name="offsets" format="binary">
-          BAAAAAgAAAA=
-        </DataArray>
-        <DataArray type="Int8" NumberOfComponents="1" Name="types" format="binary">
-          AQAAAAw=
-        </DataArray>
-      </Cells>
-    </Piece>
-    <Piece NumberOfPoints="+8" NumberOfCells="+1">
-      <Points>
-        <DataArray type="Float32" NumberOfComponents="3" Name="Points" format="binary">
           YAAAAAAAIMEAAIC/SAH6wwAAIMEAAJBASAH6wwAAIMEAAJBAQNaBQAAAIMEAAIC/QNaBQAAA8MAAAIC/SAH6wwAA8MAAAJBASAH6wwAA8MAAAJBAQNaBQAAA8MAAAIC/QNaBQA==
         </DataArray>
       </Points>

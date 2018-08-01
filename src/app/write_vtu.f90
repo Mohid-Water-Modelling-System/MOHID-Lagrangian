@@ -36,6 +36,21 @@ integer(I1P), dimension(1:nc1) :: cell_type1 = [1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_
 integer(I4P), dimension(1:nc1) :: offset1 =    [8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P]      !< Cells offset.
 integer(I4P), dimension(1:np1) :: connect1 = [0,1,2,3,4,5,6,7]!< Connectivity.
 
+integer(I4P), parameter       :: np2 = 27_I4P                                                  !< Number of points.
+integer(I4P), parameter       :: nc2 = 27_I4P                                                  !< Number of cells.
+real(R4P),    dimension(1:np2) :: x2 = [0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2]  !< X coordinates of points.
+real(R4P),    dimension(1:np2) :: y2 = [0,0,0,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]  !< Y coordinates of points.
+real(R4P),    dimension(1:np2) :: z2 = [0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6]  !< Z coordinates of points.
+integer(I1P), dimension(1:nc2) :: cell_type2 = [1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,&
+                                                1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,&
+                                                1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,1_I1P,&
+                                                1_I1P,1_I1P,1_I1P]      !< Cells type. All points
+integer(I4P), dimension(1:nc2) :: offset2 =    [8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,&
+                                                8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,&
+                                                8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,&
+                                                8_I4P,8_I4P,8_I4P]      !< Cells offset.
+integer(I4P), dimension(1:np2) :: connect2 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]!< Connectivity.
+
 
 
 connect = [0 ,1 ,4 ,3 ,6 ,7 ,10,9 , &
@@ -62,6 +77,10 @@ error = a_vtk_file%finalize()
 
 error = a_vtk_file%initialize(format='ascii', filename='XML_UNST-ascii_ours1.vtu', mesh_topology='UnstructuredGrid')
 call write_data1
+error = a_vtk_file%finalize()
+
+error = a_vtk_file%initialize(format='ascii', filename='XML_UNST-ascii_ours2.vtu', mesh_topology='UnstructuredGrid')
+call write_data2
 error = a_vtk_file%finalize()
 
 ! raw
@@ -95,6 +114,23 @@ contains
   error = a_vtk_file%xml_writer%write_piece()
   !---------------------------------------------------------------------------------------------------------------------------------
   endsubroutine write_data
+  
+  subroutine write_data2
+  !---------------------------------------------------------------------------------------------------------------------------------
+  !< Write data.
+  !---------------------------------------------------------------------------------------------------------------------------------
+
+  !---------------------------------------------------------------------------------------------------------------------------------
+  error = a_vtk_file%xml_writer%write_piece(np=np2, nc=nc2)
+  error = a_vtk_file%xml_writer%write_geo(np=np2, nc=nc2, x=x2, y=y2, z=z2)
+  error = a_vtk_file%xml_writer%write_connectivity(nc=nc2, connectivity=connect2, offset=offset2, cell_type=cell_type2)
+  error = a_vtk_file%xml_writer%write_dataarray(location='node', action='open')
+  error = a_vtk_file%xml_writer%write_dataarray(data_name='scalars', x=v)
+  error = a_vtk_file%xml_writer%write_dataarray(data_name='vector', x=v_x, y=v_y, z=v_z)
+  error = a_vtk_file%xml_writer%write_dataarray(location='node', action='close')
+  error = a_vtk_file%xml_writer%write_piece()
+  !---------------------------------------------------------------------------------------------------------------------------------
+  endsubroutine write_data2
   
   subroutine write_data1
   !---------------------------------------------------------------------------------------------------------------------------------

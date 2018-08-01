@@ -112,8 +112,8 @@
     cell_type = [12]
     
     !preparing file
-    fullfilename = filename%chars()//'_Domain.vtu'
-    outext = '->Writting Domain file '//fullfilename
+    fullfilename = filename%chars()//'_BoundingBox.vtu'
+    outext = '->Writting Bounding Box file '//fullfilename
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
@@ -131,6 +131,17 @@
     error = vtkfile%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
     error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
     error = vtkfile%xml_writer%write_piece()
+    
+    !Closing file
+    error = vtkfile%finalize()
+    
+    !preparing file
+    fullfilename = filename%chars()//'_Blocks.vtu'
+    outext = '->Writting Blocks file '//fullfilename
+    call Log%put(outext)
+    fullfilename = Globals%Names%outpath//'/'//fullfilename
+    
+    error = vtkfile%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     
     !Writting block geometries
     do b=1, size(blocks)
