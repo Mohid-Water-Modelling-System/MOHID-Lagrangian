@@ -56,8 +56,9 @@
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
         logical         ::  autoblocksize = .true.   !< Flag for automatic Block sizing
-        type(vector)    ::  blocksize       !< Size (width & heigth) of a Block (sub-domain)
+        type(vector)    ::  blocksize       !< Size (xyz) of a Block (sub-domain)
         integer         ::  numblocks       !< Number of blocks in the simulation
+        integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
     contains
     procedure :: setdp
     procedure :: setdt
@@ -156,6 +157,8 @@
     !Simulation definitions
     self%SimDefs%autoblocksize =.true.
     self%SimDefs%blocksize = 0.0
+    self%SimDefs%numblocksx = MV
+    self%SimDefs%numblocksy = MV
     self%SimDefs%numblocks = 16  !placeholder number, should be numThreads or numProcesses or computed by user dimensions
     self%SimDefs%Dp = MV
     self%SimDefs%dt = MV
@@ -610,11 +613,14 @@
     temp_str(3)=self%Pointmax%z
     outext = outext//'       Pointmax (BB) is '//new_line('a')//&
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
-    temp_str(1)=self%blocksize%x
-    temp_str(2)=self%blocksize%y
-    outext = outext//'       Blocks are sized '//new_line('a')//&
-        '       '//temp_str(1)//' X '//temp_str(2)
-
+    if (self%autoblocksize) then
+        outext = outext//'       Blocks are automatically sized'
+    else
+        temp_str(1)=self%blocksize%x
+        temp_str(2)=self%blocksize%y
+        outext = outext//'       Blocks are sized '//new_line('a')//&
+            '       '//temp_str(1)//' X '//temp_str(2)
+    end if
     call Log%put(outext,.false.)
     end subroutine
 

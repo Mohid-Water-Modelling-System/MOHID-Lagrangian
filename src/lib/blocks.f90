@@ -44,6 +44,7 @@
     procedure, public :: initialize => initBlock
     procedure, public :: putSource
     procedure, public :: CallEmitter
+    procedure, public :: DistributeTracers
     procedure, public :: numActiveTracers
     procedure, public :: numAllocTracers
     procedure, public :: ToogleBlockSources
@@ -57,7 +58,7 @@
     !Public access vars
     public :: DBlock, block_class
     !Public access procedures
-    public :: allocBlocks, setBlocks
+    public :: allocBlocks, setBlocks, getBlockIndex
 
     contains
     
@@ -129,20 +130,16 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Method to place a Source on the Block SourceArray. Checks for space and 
     !> allocates more if needed. The array gets incremented by one unit at a time
     !> Allocates space in the Blocks Tracer array with a dummy Tracer
-    !
     !> @param[in] self, sourcetoput
     !---------------------------------------------------------------------------
     subroutine putSource(self, sourcetoput)
         implicit none
         class(block_class), intent(inout) :: self
-        class(source_class), intent(inout) :: sourcetoput !< Source object to store
-        
+        class(source_class), intent(inout) :: sourcetoput !< Source object to store        
         !Check if the array is at capacity and needs to be resized
         if (self%Source%usedLength == self%Source%getLength()) then
             call self%Source%resize(self%Source%getLength()+1) !incrementing one entry
@@ -152,14 +149,11 @@
         !adding this Source to the Block Emitter pool
         call self%Emitter%addSource(sourcetoput)
         !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
-        call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)
-        
+        call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)        
     end subroutine putSource
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Method to activate and deactivate the sources on this block, based on 
     !> Globa%SimTime
@@ -169,11 +163,12 @@
         class(block_class), intent(inout) :: self
         integer :: i
         class(*), pointer :: aSource
+        type(string) :: outext
 
         do i=1, self%Source%usedLength 
             aSource => self%Source%get(i)
             select type(aSource)
-            type is (source_class)
+            class is (source_class)
                 if (Globals%SimTime <= aSource%par%stoptime) then !SimTime smaller than Source end time
                     if (Globals%SimTime >= aSource%par%startime) then !SimTime larger than source start time
                         aSource%now%active = .true.
@@ -181,8 +176,10 @@
                 else !SimTime larger than Source end time
                     aSource%now%active = .false.
                 end if
-            class default
-            stop '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
+                class default
+                    outext = '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
+                    call Log%put(outext)
+                    stop
             end select
         end do
 
@@ -190,8 +187,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Method to activate and deactivate the sources on this block, based on 
     !> Globa%SimTime
@@ -201,11 +196,12 @@
         class(block_class), intent(inout) :: self
         integer :: i
         class(*), pointer :: aSource
-
+        type(string) :: outext
+        
         do i=1, self%Source%usedLength
             aSource => self%Source%get(i)
             select type(aSource)
-            type is (source_class)
+            class is (source_class)
                 if (aSource%now%active) then
                     aSource%now%emission_stride = aSource%now%emission_stride - 1 !decreasing the stride at this dt
                     if (aSource%now%emission_stride == 0) then !reached the bottom of the stride stack, time to emitt
@@ -214,21 +210,71 @@
                         aSource%now%emission_stride = aSource%par%emitting_rate !reseting the stride after the Source emitts
                     end if
                 end if
-            class default
-            stop '[Block::CallEmitter] Unexepected type of content, not a Source'
+                class default
+                    outext = '[Block::CallEmitter]: Unexepected type of content, not a Source'
+                    call Log%put(outext)
+                    stop
             end select
         end do
-
     end subroutine CallEmitter
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to distribute the Tracers to their correct Blocks
+    !---------------------------------------------------------------------------
+    subroutine DistributeTracers(self)
+        implicit none
+        class(block_class), intent(inout) :: self        
+        integer :: i, ix, iy, blk
+        class(*), pointer :: aTracer
+        type(string) :: outext
+        
+        do i=1, self%Tracer%lastActive
+            aTracer => self%Tracer%get(i)
+            select type(aTracer)                
+            class is (tracer_class)
+                if (aTracer%now%active) then
+                    blk = getBlockIndex(aTracer%now%pos)
+                    print*, aTracer%now%pos
+                    print*, blk, self%id
+                end if
+                class default
+                    outext = '[Block::DistributeTracers]: Unexepected type of content, not a Tracer'
+                    call Log%put(outext)
+                    stop 
+            end select
+        end do
+    end subroutine DistributeTracers
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the index of the Block for a given set of coordinates.
+    !> @param[in] pt
+    !---------------------------------------------------------------------------
+    integer function getBlockIndex(pt)
+    implicit none
+    type(vector), intent(in) :: pt
+    integer :: ix, iy, temp
+    type(string) :: outext
+    ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
+    iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
+    temp = 2*ix + iy -2    
+    if (temp > Globals%SimDefs%numblocks) then
+        outext='[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'
+        call Log%put(outext)
+        stop
+    end if
+    getBlockIndex = temp
+    end function getBlockIndex
 
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Method to print basic info about the block
-    !
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine printBlock(self)
@@ -314,6 +360,7 @@
         outext='-->Automatic domain decomposition sucessful. Domain is '//temp(1)// ' X ' //temp(2)//' Blocks'
         call Log%put(outext,.false.)
     end if
+    Globals%SimDefs%blocksize = DBlock(1)%extents%size
     !do i=1, size(DBlock)
     !    call DBlock(i)%print()
     !enddo

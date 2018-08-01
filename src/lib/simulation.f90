@@ -33,8 +33,8 @@
     private
 
     type :: simulation_class   !< Parameters class
-        private
-        integer :: nbx, nby               !< number of blocks in 2D
+        !private
+        !integer :: nbx, nby               !< number of blocks in 2D
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -42,6 +42,7 @@
     procedure, private :: decompose  => DecomposeDomain
     procedure, private :: ToggleSources
     procedure, private :: BlocksEmitt
+    procedure, private :: BlocksDistribute
     procedure, private :: setInitialState
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
@@ -70,7 +71,8 @@
         call self%ToggleSources()
         !emitt Tracers from active Sources
         call self%BlocksEmitt()
-        !Distribute Tracers by Blocks
+        !Distribute Tracers and Sources by Blocks
+        call self%BlocksDistribute()
         !Optimize Block Tracer arrays (sort and consider building AoT)
         !load hydrodynamic fields from files
         !interpolate fields to tracer coordinates
@@ -108,16 +110,12 @@
     call Log%initialize(outpath)
     !Print licences and build info
     call PrintLicPreamble
-
     !initializing memory log
     call SimMemory%initialize()
-
     !setting every global variable and input parameter to their default
-    call Globals%initialize(outpath = outpath)
-    
+    call Globals%initialize(outpath = outpath)    
     !initializing geometry class
     call Geometry%initialize()
-
     !Check if case file has .xml extension
     if (casefilename%extension() == '.xml') then
         ! Initialization routines to build the simulation from the input case file
@@ -128,21 +126,16 @@
         stop
     endif
     !Case was read and now we can build/initialize our simulation objects that are case-dependent
-
     !initilize simulation bounding box
     call BBox%initialize()
     !decomposing the domain and initializing the Simulation Blocks
     call self%decompose()
-
     !Distributing Sources and trigerring Tracer allocation and distribution
     call self%setInitialState()
-
     !printing memory occupation at the time
-    call SimMemory%detailedprint()
-    
+    call SimMemory%detailedprint()    
     !Initializing output file streamer
-    call OutputStreamer%initialize()
-    
+    call OutputStreamer%initialize()    
     !Writing the domain to file
     call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
 
@@ -187,6 +180,22 @@
             call DBlock(i)%CallEmitter()
         enddo        
     end subroutine BlocksEmitt
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to call the Blocks to distribute Tracers at 
+    !> current SimTime
+    !---------------------------------------------------------------------------
+    subroutine BlocksDistribute(self)
+        implicit none
+        class(simulation_class), intent(in) :: self        
+        integer :: i
+        do i=1, size(DBlock)
+            call DBlock(i)%DistributeTracers()
+        enddo
+        !need to distribute Sources also! TODO
+    end subroutine BlocksDistribute
 
 
     !---------------------------------------------------------------------------
@@ -199,44 +208,20 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, temp(2)
-    integer :: i, ix, iy, blk
+    integer :: i, ix, iy, blk, blk2
     real(prec) :: dx, dy
     type(vector) :: coords
     
-    !this is easy because all the blocks are the same
-    dx = DBlock(1)%extents%size%x
-    dy = DBlock(1)%extents%size%y
     !iterate every Source to distribute
     do i=1, size(tempSources%src)
-        coords = Geometry%getCenter(tempSources%src(i)%par%geometry)
-        !call Geometry%getCenter(tempSources%src(i)%par%geometry, coords)
-        !finding the 2D coordinates of the corresponding Block
-        ix = min(int((coords%x + BBox%offset%x)/dx) + 1, self%nbx)
-        iy = min(int((coords%y + BBox%offset%y)/dy) + 1, self%nby)
-        !print*, 'Source pt position'
-        !print*, tempSources%src(i)%now%pos
-        !print*, 'Source center position'
-        !print*, coords
-        !print*, 'Source grid position'
-        !print*, ix, iy
-        !Converting to the 1D index - Notice how the blocks were built in [Blocks::setBlocks]
-        blk = 2*ix + iy -2
-        !print*, blk
-        if (blk > size(DBlock)) then
-            outext='[DistributeSources]: problem in getting correct Block index, stoping'
-            call Log%put(outext)
-            stop
-        end if
+        blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))        
         call DBlock(blk)%putSource(tempSources%src(i))
-    end do
-    
+    end do    
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     outext='-->Sources allocated to their current Blocks'
-    call Log%put(outext,.false.)
-    
+    call Log%put(outext,.false.)    
     call self%printTracerTotals()
-    call self%setTracerMemory()
-    
+    call self%setTracerMemory()    
     end subroutine setInitialState
     
     
@@ -311,7 +296,7 @@
         stop
     end if
     ! Initializing the Blocks
-    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,self%nbx,self%nby)
+    call setBlocks(Globals%SimDefs%autoblocksize,Globals%SimDefs%numblocks,Globals%SimDefs%numblocksx,Globals%SimDefs%numblocksy)
     end subroutine DecomposeDomain
 
     !---------------------------------------------------------------------------
