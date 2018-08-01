@@ -124,8 +124,9 @@
         do i=1, src%stencil%np
             self%emitted = self%emitted + 1 
             self%emittable = self%emittable - 1
-            trcarr%lastActive = trcarr%lastActive + 1 !will need to change to paralelize
+            trcarr%lastActive = trcarr%lastActive + 1
             trcarr%numActive = trcarr%numActive + 1
+            !The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
             call self%tracerMaker(newtrc, src, i)
             call trcarr%put(trcarr%lastActive, newtrc)
         end do
@@ -150,14 +151,15 @@
     integer, intent(in) :: p
     type(string) :: outext, temp
     
+    !Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id
     select case (src%prop%property_type%chars())
     case ('base')
-        allocate(trc, source = Tracer(1, src, Globals%SimTime, p)) !Beacause ifort is not F2008 compliant. 
-        !trc = Tracer(1, src, Globals%SimTime, p) !Otherwise instinsic allocation would be enough and more readable, like this. Compiles fine is GFortran
+        allocate(trc, source = Tracer(Globals%Sim%getnumTracer(), src, Globals%SimTime, p)) !Beacause ifort is not F2008 compliant. 
+        !trc = Tracer(1, src, Globals%SimTime, p) !Otherwise instinsic allocation would be enough and more readable, like this. Compiles fine in GFortran
     case ('paper')
-        allocate(trc, source = paperTracer(1, src, Globals%SimTime, p))    
+        allocate(trc, source = paperTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime, p))    
     case ('plastic')
-        allocate(trc, source = Tracer(1, src, Globals%SimTime, p))
+        allocate(trc, source = Tracer(Globals%Sim%getnumTracer(), src, Globals%SimTime, p))
         case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%property_type
         call Log%put(outext)

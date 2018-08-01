@@ -95,12 +95,15 @@
     type sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
-        integer :: numoutfile   !number of the current output file
+        integer :: numoutfile   !<number of the current output file
+        integer :: numTracer    !<Global Tracer number holder. Incremented at tracer construction or first activation time
     contains
     procedure, public :: increment_numdt
     procedure, public :: increment_numoutfile
     procedure, public :: getnumdt
     procedure, public :: getnumoutfile
+    procedure, private :: increment_numTracer
+    procedure, public :: getnumTracer
     end type    
 
     type globals_class   !<Globals class - This is a container for every global variable on the simulation
@@ -177,6 +180,7 @@
     !global counters
     self%Sim%numdt = 0
     self%Sim%numoutfile = 0
+    self%Sim%numTracer = 0
     !Source parameters list
     call self%SrcProp%buildlists()
 
@@ -184,6 +188,30 @@
     call SimMemory%adddef(sizem)
 
     end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Increments Tracer count. This routine MUST be ATOMIC.
+    !---------------------------------------------------------------------------
+    subroutine increment_numTracer(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    !ATOMIC pragma here please
+    self%numTracer = self%numTracer + 1
+    end subroutine increment_numTracer
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a new ID for a Tracer.
+    !---------------------------------------------------------------------------
+    integer function getnumTracer(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    call self%increment_numTracer()
+    getnumTracer = self%numTracer
+    end function getnumTracer
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
