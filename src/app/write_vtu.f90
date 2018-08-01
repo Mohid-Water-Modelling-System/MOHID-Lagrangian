@@ -51,6 +51,24 @@ integer(I4P), dimension(1:nc2) :: offset2 =    [8_I4P,8_I4P,8_I4P,8_I4P,8_I4P,8_
                                                 8_I4P,8_I4P,8_I4P]      !< Cells offset.
 integer(I4P), dimension(1:np2) :: connect2 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]!< Connectivity.
 
+integer(I4P), parameter       :: np3 = 27_I4P                                                  !< Number of points.
+integer(I4P), parameter       :: nc3 = 1_I4P                                                  !< Number of cells.
+real(R4P),    dimension(1:np3) :: x3 = [0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2]  !< X coordinates of points.
+real(R4P),    dimension(1:np3) :: y3 = [0,0,0,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]  !< Y coordinates of points.
+real(R4P),    dimension(1:np3) :: z3 = [0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6]  !< Z coordinates of points.
+integer(I1P), dimension(1:nc3) :: cell_type3 = [2_I1P]      !< Cells type. poly-vertex
+integer(I4P), dimension(1:nc3) :: offset3 =    [8_I4P]      !< Cells offset.
+integer(I4P), dimension(1:np3) :: connect3 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]!< Connectivity.
+
+integer(I4P), parameter       :: np4 = 27_I4P                                                  !< Number of points.
+integer(I4P), parameter       :: nc4 = 0_I4P                                                  !< Number of cells.
+real(R4P),    dimension(1:np4) :: x4 = [0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0,1,2]  !< X coordinates of points.
+real(R4P),    dimension(1:np4) :: y4 = [0,0,0,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]  !< Y coordinates of points.
+real(R4P),    dimension(1:np4) :: z4 = [0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6]  !< Z coordinates of points.
+integer(I1P), dimension(1:nc4) :: cell_type4       !< Cells type. poly-vertex
+integer(I4P), dimension(1:nc4) :: offset4       !< Cells offset.
+integer(I4P), dimension(1:np4) :: connect4 !< Connectivity.
+
 
 
 connect = [0 ,1 ,4 ,3 ,6 ,7 ,10,9 , &
@@ -81,6 +99,14 @@ error = a_vtk_file%finalize()
 
 error = a_vtk_file%initialize(format='ascii', filename='XML_UNST-ascii_ours2.vtu', mesh_topology='UnstructuredGrid')
 call write_data2
+error = a_vtk_file%finalize()
+
+error = a_vtk_file%initialize(format='ascii', filename='XML_UNST-ascii_ours3.vtu', mesh_topology='UnstructuredGrid')
+call write_data3
+error = a_vtk_file%finalize()
+
+error = a_vtk_file%initialize(format='ascii', filename='XML_UNST-ascii_ours4.vtu', mesh_topology='UnstructuredGrid')
+call write_data4
 error = a_vtk_file%finalize()
 
 ! raw
@@ -131,6 +157,40 @@ contains
   error = a_vtk_file%xml_writer%write_piece()
   !---------------------------------------------------------------------------------------------------------------------------------
   endsubroutine write_data2
+  
+  subroutine write_data3
+  !---------------------------------------------------------------------------------------------------------------------------------
+  !< Write data.
+  !---------------------------------------------------------------------------------------------------------------------------------
+
+  !---------------------------------------------------------------------------------------------------------------------------------
+  error = a_vtk_file%xml_writer%write_piece(np=np3, nc=nc3)
+  error = a_vtk_file%xml_writer%write_geo(np=np3, nc=nc3, x=x3, y=y3, z=z3)
+  error = a_vtk_file%xml_writer%write_connectivity(nc=nc3, connectivity=connect3, offset=offset3, cell_type=cell_type3)
+  error = a_vtk_file%xml_writer%write_dataarray(location='node', action='open')
+  error = a_vtk_file%xml_writer%write_dataarray(data_name='scalars', x=v)
+  error = a_vtk_file%xml_writer%write_dataarray(data_name='vector', x=v_x, y=v_y, z=v_z)
+  error = a_vtk_file%xml_writer%write_dataarray(location='node', action='close')
+  error = a_vtk_file%xml_writer%write_piece()
+  !---------------------------------------------------------------------------------------------------------------------------------
+  endsubroutine write_data3
+  
+  subroutine write_data4
+  !---------------------------------------------------------------------------------------------------------------------------------
+  !< Write data.
+  !---------------------------------------------------------------------------------------------------------------------------------
+
+  !---------------------------------------------------------------------------------------------------------------------------------
+  error = a_vtk_file%xml_writer%write_piece(np=np4, nc=nc4)
+  error = a_vtk_file%xml_writer%write_geo(np=np4, nc=nc4, x=x4, y=y4, z=z4)
+  error = a_vtk_file%xml_writer%write_connectivity(nc=nc4, connectivity=connect4, offset=offset4, cell_type=cell_type4)
+  error = a_vtk_file%xml_writer%write_dataarray(location='node', action='open')
+  error = a_vtk_file%xml_writer%write_dataarray(data_name='scalars', x=v)
+  error = a_vtk_file%xml_writer%write_dataarray(data_name='vector', x=v_x, y=v_y, z=v_z)
+  error = a_vtk_file%xml_writer%write_dataarray(location='node', action='close')
+  error = a_vtk_file%xml_writer%write_piece()
+  !---------------------------------------------------------------------------------------------------------------------------------
+  endsubroutine write_data4
   
   subroutine write_data1
   !---------------------------------------------------------------------------------------------------------------------------------
