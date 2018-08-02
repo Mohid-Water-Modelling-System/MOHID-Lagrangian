@@ -48,6 +48,7 @@
     procedure, public :: numActiveTracers
     procedure, public :: numAllocTracers
     procedure, public :: ToogleBlockSources
+    procedure, private :: removeTracer
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
     end type block_class
@@ -237,8 +238,8 @@
                 if (aTracer%now%active) then
                     blk = getBlockIndex(aTracer%now%pos)
                     if (blk /= self%id) then !tracer is on a different block than the current one
-                        print*, aTracer%now%pos
-                        print*, blk, self%id
+                        !call putTracerInStack(blk,aTracer)
+                        call self%removeTracer(i)
                     end if
                 end if
                 class default
@@ -249,6 +250,22 @@
         end do
     end subroutine DistributeTracers
     
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to distribute the Tracers to their correct Blocks
+    !---------------------------------------------------------------------------
+    subroutine removeTracer(self,trc)
+        implicit none
+        class(block_class), intent(inout) :: self        
+        integer :: trc
+        type(string) :: outext
+        call self%Tracer%put(trc,dummyTracer)
+        self%Tracer%numActive = self%Tracer%numActive - 1
+        if (trc == self%Tracer%lastActive) then
+            self%Tracer%lastActive = self%Tracer%lastActive - 1
+        end if
+    end subroutine removeTracer
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
