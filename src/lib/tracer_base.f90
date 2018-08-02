@@ -100,7 +100,7 @@
     ! initialize tracer state
     constructor%now%age=0.0
     constructor%now%active = .true.
-    constructor%now%pos = src%stencil%ptlist(p)
+    constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
     constructor%now%vel = 0.0
     constructor%now%acc = 0.0
     constructor%now%depth = 0.0

@@ -33,7 +33,6 @@
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: WriteDomain
-    !procedure :: TracerSerialVTK
     end type output_streamer_class
     
     type(output_streamer_class) :: OutputStreamer

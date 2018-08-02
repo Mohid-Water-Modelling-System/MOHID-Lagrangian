@@ -340,7 +340,7 @@
     call src%setotalnp()
     allocate(src%stencil%ptlist(src%stencil%np), stat=err)
     if(err/=0)then
-        outext='Cannot allocate point list for Source '// src%par%name //', stoping'
+        outext='[Sources::initialize]:Cannot allocate point list for Source '// src%par%name //', stoping'
         call Log%put(outext)
         stop
     endif

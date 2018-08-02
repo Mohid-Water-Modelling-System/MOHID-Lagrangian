@@ -236,8 +236,10 @@
             class is (tracer_class)
                 if (aTracer%now%active) then
                     blk = getBlockIndex(aTracer%now%pos)
-                    print*, aTracer%now%pos
-                    print*, blk, self%id
+                    if (blk /= self%id) then !tracer is on a different block than the current one
+                        print*, aTracer%now%pos
+                        print*, blk, self%id
+                    end if
                 end if
                 class default
                     outext = '[Block::DistributeTracers]: Unexepected type of content, not a Tracer'

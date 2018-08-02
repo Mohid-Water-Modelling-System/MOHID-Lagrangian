@@ -158,7 +158,7 @@
     class is (box)
         call box_grid(Globals%SimDefs%Dp, shapetype%size, fillsize, ptlist)
     class is (point)
-        ptlist(1)=shapetype%pt
+        ptlist(1)=0
     class is (line)
         call line_grid(Globals%SimDefs%Dp, shapetype%last-shapetype%pt, fillsize, ptlist)
     class is (sphere)
@@ -205,7 +205,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> method the points defining a given geometry
+    !> method that returns the points defining a given geometry
     !> @param[in] shapetype
     !---------------------------------------------------------------------------
     function getPoints(self, shapetype) result(pts)
