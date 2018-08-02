@@ -126,7 +126,7 @@
             self%emittable = self%emittable - 1
             trcarr%lastActive = trcarr%lastActive + 1
             trcarr%numActive = trcarr%numActive + 1
-            !The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
+            !PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
             call self%tracerMaker(newtrc, src, i)
             call trcarr%put(trcarr%lastActive, newtrc)
         end do
@@ -151,7 +151,7 @@
     integer, intent(in) :: p
     type(string) :: outext, temp
     
-    !Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id
+    !PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id
     select case (src%prop%property_type%chars())
     case ('base')
         allocate(trc, source = Tracer(Globals%Sim%getnumTracer(), src, Globals%SimTime, p)) !Beacause ifort is not F2008 compliant. 
