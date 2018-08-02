@@ -39,6 +39,7 @@
         type(SourceArray) :: Source     !< List of Sources currently on this block
         type(TracerArray) :: Tracer     !< List of Tracers currently on this block
         type(emitter_class) :: Emitter  !< Block Emitter
+        real(prec) :: resize_factor = 1.10 !< factor to resize the Tracer array once needed
     contains
     private
     procedure, public :: initialize => initBlock
@@ -238,7 +239,8 @@
                 if (aTracer%now%active) then
                     blk = getBlockIndex(aTracer%now%pos)
                     if (blk /= self%id) then !tracer is on a different block than the current one
-                        !call putTracerInStack(blk,aTracer)
+                        !PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution
+                        call sendTracer(blk,aTracer)
                         call self%removeTracer(i)
                     end if
                 end if
@@ -249,17 +251,38 @@
             end select
         end do
     end subroutine DistributeTracers
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to send a Tracer from the current Block to another Block
+    !---------------------------------------------------------------------------
+    subroutine sendTracer(blk,trc)
+        implicit none
+        integer, intent(in) :: blk
+        class(*), intent(in) :: trc
+        integer :: idx
+        type(string) :: outext
+        !PARALLEL this is a CRITICAL section, need to ensure correct tracer 
+        !index attribution at the new block
+        if (DBlock(blk)%Tracer%numActive == DBlock(blk)%Tracer%getLength()) then
+            call DBlock(blk)%Tracer%resize(max(int(DBlock(blk)%Tracer%getLength()*DBlock(blk)%resize_factor),10))
+        end if
+        idx = DBlock(blk)%Tracer%lastActive + 1
+        call DBlock(blk)%Tracer%put(idx,trc)
+        DBlock(blk)%Tracer%lastActive = idx
+        DBlock(blk)%Tracer%numActive = DBlock(blk)%Tracer%numActive + 1
+    end subroutine sendTracer
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to distribute the Tracers to their correct Blocks
+    !> Method to remove a Tracer from the Block
     !---------------------------------------------------------------------------
     subroutine removeTracer(self,trc)
         implicit none
         class(block_class), intent(inout) :: self        
         integer :: trc
-        type(string) :: outext
         call self%Tracer%put(trc,dummyTracer)
         self%Tracer%numActive = self%Tracer%numActive - 1
         if (trc == self%Tracer%lastActive) then
