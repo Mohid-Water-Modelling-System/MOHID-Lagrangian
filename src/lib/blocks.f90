@@ -251,28 +251,6 @@
             end select
         end do
     end subroutine DistributeTracers
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method to send a Tracer from the current Block to another Block
-    !---------------------------------------------------------------------------
-    subroutine sendTracer(blk,trc)
-        implicit none
-        integer, intent(in) :: blk
-        class(*), intent(in) :: trc
-        integer :: idx
-        type(string) :: outext
-        !PARALLEL this is a CRITICAL section, need to ensure correct tracer 
-        !index attribution at the new block
-        if (DBlock(blk)%Tracer%numActive == DBlock(blk)%Tracer%getLength()) then
-            call DBlock(blk)%Tracer%resize(max(int(DBlock(blk)%Tracer%getLength()*DBlock(blk)%resize_factor),10))
-        end if
-        idx = DBlock(blk)%Tracer%lastActive + 1
-        call DBlock(blk)%Tracer%put(idx,trc)
-        DBlock(blk)%Tracer%lastActive = idx
-        DBlock(blk)%Tracer%numActive = DBlock(blk)%Tracer%numActive + 1
-    end subroutine sendTracer
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -289,6 +267,28 @@
             self%Tracer%lastActive = self%Tracer%lastActive - 1
         end if
     end subroutine removeTracer
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to send a Tracer from the current Block to another Block
+    !---------------------------------------------------------------------------
+    subroutine sendTracer(blk,trc)
+        implicit none
+        integer, intent(in) :: blk
+        class(*), intent(in) :: trc
+        integer :: idx
+        type(string) :: outext
+        !PARALLEL this is a CRITICAL section, need to ensure correct tracer 
+        !index attribution at the new block
+        if (DBlock(blk)%Tracer%lastActive == DBlock(blk)%Tracer%getLength()) then !OPTIMIZATION - this could be numActive if the array was sorted and optimized - TODO
+            call DBlock(blk)%Tracer%resize(max(int(DBlock(blk)%Tracer%getLength()*DBlock(blk)%resize_factor),10))
+        end if
+        idx = DBlock(blk)%Tracer%lastActive + 1
+        call DBlock(blk)%Tracer%put(idx,trc)
+        DBlock(blk)%Tracer%lastActive = idx
+        DBlock(blk)%Tracer%numActive = DBlock(blk)%Tracer%numActive + 1
+    end subroutine sendTracer
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

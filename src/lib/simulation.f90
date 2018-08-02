@@ -73,10 +73,12 @@
         call self%BlocksEmitt()
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
-        !Optimize Block Tracer arrays (sort and consider building AoT)
+        !Optimize Block Tracer arrays (sort,resize)
+        !Build AoT
         !load hydrodynamic fields from files
         !interpolate fields to tracer coordinates
-        !Update all tracers with base behavior
+        !Update all tracers with base behavior (AoT)
+        !AoT to Tracers
         !Update Tracers with type-specific behavior
         !Write results if time to do so
 
