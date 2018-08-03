@@ -39,7 +39,7 @@
         type(SourceArray) :: Source     !< List of Sources currently on this block
         type(TracerArray) :: Tracer     !< List of Tracers currently on this block
         type(emitter_class) :: Emitter  !< Block Emitter
-        real(prec) :: resize_factor = 1.10 !< factor to resize the Tracer array once needed
+        real(prec) :: resize_factor = 1.20 !< factor to resize the Tracer array once needed
     contains
     private
     procedure, public :: initialize => initBlock
@@ -49,6 +49,7 @@
     procedure, public :: numActiveTracers
     procedure, public :: numAllocTracers
     procedure, public :: ToogleBlockSources
+    procedure, public :: ConsolidateArrays
     procedure, private :: removeTracer
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
@@ -66,12 +67,8 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method that returns the total allocated Tracers in the Block
-    !
-    !> @param[in] self
     !---------------------------------------------------------------------------
     function numAllocTracers(self)
     implicit none
@@ -82,12 +79,8 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method that returns the total active Tracers in the Block
-    !
-    !> @param[in] self
     !---------------------------------------------------------------------------
     function numActiveTracers(self)
     implicit none
@@ -98,11 +91,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method to allocate and initialize blocks and their emitters
-    !
     !> @param[in] self, templatebox
     !---------------------------------------------------------------------------
     subroutine initBlock(self, id, templatebox)
@@ -191,7 +181,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to activate and deactivate the sources on this block, based on 
-    !> Globa%SimTime
+    !> Global%SimTime
     !---------------------------------------------------------------------------
     subroutine CallEmitter(self)
         implicit none
@@ -271,6 +261,40 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method to optimize the Tracer array from the Block - checks for memory 
+    !> use, sorts by active, ...
+    !---------------------------------------------------------------------------
+    subroutine ConsolidateArrays(self)
+        implicit none
+        class(block_class), intent(inout) :: self        
+        integer :: i
+        class(*), pointer :: aTracer, bTracer
+        type(string) :: outext
+        !sorts the array by active tracers
+        do i=1, self%Tracer%lastActive
+            aTracer => self%Tracer%get(i)
+            select type(aTracer)                
+            class is (tracer_class)
+            if (.not.aTracer%now%active) then
+                !bring the last active tracer to this position
+                call self%Tracer%put(i,self%Tracer%get(self%Tracer%lastActive))
+                call self%removeTracer(self%Tracer%lastActive)
+            end if
+            class default
+            outext = '[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'
+            call Log%put(outext)
+            stop 
+            end select
+        end do
+        !resizes the array if it is too big
+        if (1.0*self%Tracer%getLength()/self%Tracer%lastActive .gt. self%resize_factor) then
+            print*, 'array is too big, could be trimmed a bit...'
+        end if
+    end subroutine ConsolidateArrays
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Method to send a Tracer from the current Block to another Block
     !---------------------------------------------------------------------------
     subroutine sendTracer(blk,trc)
@@ -334,11 +358,8 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Method to print detailed info about the block
-    !
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine printdetailBlock(self)
@@ -359,11 +380,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> routine to set the simulation blocks extents and call the block initializer
-    !
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine setBlocks(auto, nblk, nxi, nyi)
@@ -412,11 +430,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> routine to allocate the simulation blocks
-    !
     !> @param[in] nblk
     !---------------------------------------------------------------------------
     subroutine allocBlocks(nblk)

@@ -43,6 +43,7 @@
     procedure, private :: ToggleSources
     procedure, private :: BlocksEmitt
     procedure, private :: BlocksDistribute
+    procedure, private :: BlocksConsolidateArrays
     procedure, private :: setInitialState
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
@@ -74,8 +75,9 @@
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
         !Optimize Block Tracer arrays (sort,resize)
+        call self%BlocksConsolidateArrays()
         !Build AoT
-        !load hydrodynamic fields from files
+        !load hydrodynamic fields from files (curents, wind, waves, ...)
         !interpolate fields to tracer coordinates
         !Update all tracers with base behavior (AoT)
         !AoT to Tracers
@@ -198,6 +200,21 @@
         enddo
         !need to distribute Sources also! TODO
     end subroutine BlocksDistribute
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to call the Blocks to consolidate the Tracer array at 
+    !> current SimTime
+    !---------------------------------------------------------------------------
+    subroutine BlocksConsolidateArrays(self)
+        implicit none
+        class(simulation_class), intent(in) :: self        
+        integer :: i
+        do i=1, size(DBlock)
+            call DBlock(i)%ConsolidateArrays()
+        enddo
+    end subroutine BlocksConsolidateArrays
 
 
     !---------------------------------------------------------------------------
