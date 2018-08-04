@@ -245,14 +245,22 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to remove a Tracer from the Block
+    !> Method to remove a Tracer from the Block. Optionally doesn't decrease the
+    !> active count from the Block
+    !> param[in] trc,fromCopy
     !---------------------------------------------------------------------------
-    subroutine removeTracer(self,trc)
+    subroutine removeTracer(self,trc,fromCopy)
         implicit none
         class(block_class), intent(inout) :: self        
-        integer :: trc
+        integer, intent(in) :: trc
+        logical, optional, intent(in) :: fromCopy
         call self%Tracer%put(trc,dummyTracer)
         self%Tracer%numActive = self%Tracer%numActive - 1
+        if (present(fromCopy)) then
+            if (fromCopy) then
+                self%Tracer%numActive = self%Tracer%numActive + 1
+            end if
+        end if
         if (trc == self%Tracer%lastActive) then
             self%Tracer%lastActive = self%Tracer%lastActive - 1
         end if
@@ -278,7 +286,7 @@
             if (.not.aTracer%now%active) then
                 !bring the last active tracer to this position
                 call self%Tracer%put(i,self%Tracer%get(self%Tracer%lastActive))
-                call self%removeTracer(self%Tracer%lastActive)
+                call self%removeTracer(self%Tracer%lastActive,.true.)
             end if
             class default
             outext = '[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'
@@ -286,10 +294,11 @@
             stop 
             end select
         end do
-        !resizes the array if it is too big
-        if (1.0*self%Tracer%getLength()/self%Tracer%lastActive .gt. self%resize_factor) then
-            print*, 'array is too big, could be trimmed a bit...'
-        end if
+        !resizes the array if it is too big - this needs more thinking. probably need to 
+        !know the trend of the numActive on this block to do this correctly - TODO
+        !if (1.0*self%Tracer%getLength()/self%Tracer%lastActive .gt. self%resize_factor) then
+        !    print*, 'array is too big, could be trimmed a bit...'
+        !end if
     end subroutine ConsolidateArrays
 
     !---------------------------------------------------------------------------
