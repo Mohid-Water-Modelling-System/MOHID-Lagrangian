@@ -14,7 +14,8 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module with the simulation xml parsing related definitions and routines.
+    !> Module with the simulation xml parsing class and methods, Encapsulates the
+    !> FOX_dom library.
     !------------------------------------------------------------------------------
 
     module simulation_xmlparser_mod
@@ -25,45 +26,51 @@
     implicit none
     private
 
+    type :: xmlparser_class  !< The .xml parser class
+    contains
+    procedure :: getLeafAttribute
+    procedure :: getNodeAttribute
+    procedure :: getNodeVector
+    procedure :: gotoNode
+    end type xmlparser_class
+
+    type(xmlparser_class) :: XMLReader
+
+    !Public access vars
+    public :: XMLReader
+
     !Public access procedures
-    public :: ReadXMLleaf, ReadXMLatt, ReadXMLvector, gotoChildNode
 
     contains
 
-
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> Private attribute xml parser routine. Reads the requested attribute 
-    !> from a given leaf node
-    !
+    !> Method that parses an xml attribute. Reads the requested attribute
+    !> from a given leaf node,
     !> @param[in] xmlnode, att_name, att_value, read_flag, mandatory
     !---------------------------------------------------------------------------
-    subroutine ReadXMLleaf(xmlnode, att_name, att_value, read_flag, mandatory)
-        implicit none
-        type(Node), intent(in), pointer :: xmlnode  !<Working xml node
-        type(string), intent(in) :: att_name        !<Atribute name to collect from tag
-        type(string), intent(out) :: att_value      !<Attribute value
-        logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
-        logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
-        character(80) :: att_value_chars
-        call extractDataAttribute(xmlnode, att_name%chars(), att_value_chars)
-        att_value=trim(att_value_chars)
-    end subroutine ReadXMLleaf
+    subroutine getLeafAttribute(self, xmlnode, att_name, att_value)
+    implicit none
+    class(xmlparser_class), intent(in) :: self
+    type(Node), intent(in), pointer :: xmlnode  !<Working xml node
+    type(string), intent(in) :: att_name        !<Atribute name to collect from tag
+    type(string), intent(out) :: att_value      !<Attribute value
+    character(80) :: att_value_chars
+    call extractDataAttribute(xmlnode, att_name%chars(), att_value_chars)
+    att_value=trim(att_value_chars)
+    end subroutine getLeafAttribute
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> Private attribute xml parser routine. In the format <Tag att_name="att_value"
-    !
+    !> Method that parses an attribute from an xml node. In the format
+    !> <Tag att_name="att_value"/>
     !> @param[in] xmlnode, tag, att_name, att_value, read_flag, mandatory
     !---------------------------------------------------------------------------
-    subroutine ReadXMLatt(xmlnode, tag, att_name, att_value, read_flag, mandatory)
+    subroutine getNodeAttribute(self, xmlnode, tag, att_name, att_value, read_flag, mandatory)
     implicit none
+    class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
@@ -94,14 +101,14 @@
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
-          read_flag =.true.
+            read_flag =.true.
         endif
     else
         if(present(mandatory)) then
             if(mandatory.eqv..false.) then
-              if (present(read_flag)) then
-                read_flag =.false.
-              endif
+                if (present(read_flag)) then
+                    read_flag =.false.
+                endif
             endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
@@ -109,20 +116,18 @@
             stop
         endif
     endif
-
-    end subroutine
-
-    !---------------------------------------------------------------------------
+    end subroutine getNodeAttribute
+    
+     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> Private vector xml parser routine. Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z" />
-    !
+    !> Method to parse xyz vectors in xml files.
+    !> Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z"/>
     !> @param[in] xmlnode, tag, vec, read_flag, mandatory
     !---------------------------------------------------------------------------
-    subroutine ReadXMLvector(xmlnode, tag, vec, read_flag, mandatory)
+    subroutine getNodeVector(self, xmlnode, tag, vec, read_flag, mandatory)
     implicit none
+    class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
     type(vector), intent(out) :: vec            !<Vector to fill with read contents
@@ -153,14 +158,14 @@
         call extractDataAttribute(nodedetail, "y", vec%y)
         call extractDataAttribute(nodedetail, "z", vec%z)
         if (present(read_flag)) then
-          read_flag =.true.
+            read_flag =.true.
         endif
     else
         if(present(mandatory)) then
             if(mandatory.eqv..false.) then
-              if (present(read_flag)) then
-                read_flag =.false.
-              endif
+                if (present(read_flag)) then
+                    read_flag =.false.
+                endif
             endif
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
@@ -168,21 +173,18 @@
             stop
         endif
     endif
-    end subroutine
-
-
+    end subroutine getNodeVector
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
-    !> Private routine to retrieve a node within a node.
+    !> Method that retrieves a node from within a node.
     !> Returns a nullifyed pointer if not found, stops if mandatory.
-    !
     !> @param[in] currentNode, targetNode, targetNodeName, read_flag, mandatory
     !---------------------------------------------------------------------------
-    subroutine gotoChildNode(currentNode, targetNode, targetNodeName, read_flag, mandatory)
+    subroutine gotoNode(self, currentNode, targetNode, targetNodeName, read_flag, mandatory)
     implicit none
+    class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: currentNode
     type(Node), intent(out), pointer :: targetNode
     type(string), intent(in) :: targetNodeName
@@ -202,7 +204,7 @@
         if (nodename == targetNodeName) then !found our target node
             target_node_exists = .true.
             if (present(read_flag)) then
-              read_flag =.true.
+                read_flag =.true.
             endif
             exit
         endif
@@ -210,24 +212,23 @@
     if (target_node_exists .eqv. .false.) then
         nullify(targetNode)
         if(present(mandatory)) then
-          if (mandatory.eqv..false.) then
-            outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
-            call Log%put(outext)
-            if (present(read_flag)) then
-              read_flag =.false.
+            if (mandatory.eqv..false.) then
+                outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
+                call Log%put(outext)
+                if (present(read_flag)) then
+                    read_flag =.false.
+                endif
+            else
+                outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
+                call Log%put(outext)
+                stop
             endif
-          else
+        else
             outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
             call Log%put(outext)
             stop
-          endif
-        else
-          outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
-          call Log%put(outext)
-          stop
         endif
     endif
+    end subroutine gotoNode
 
-    end subroutine
-
-  end module simulation_xmlparser_mod
+    end module simulation_xmlparser_mod

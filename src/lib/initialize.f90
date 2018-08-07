@@ -59,11 +59,11 @@
     do i = 0, getLength(linkList) - 1
         anode => item(linkList,i)
         att_name="source"
-        call ReadXMLleaf(anode,att_name,sourceid)
+        call XMLReader%getLeafAttribute(anode,att_name,sourceid)
         att_name="type"
-        call ReadXMLleaf(anode,att_name,sourcetype)
+        call XMLReader%getLeafAttribute(anode,att_name,sourcetype)
         att_name="property"
-        call ReadXMLleaf(anode,att_name,sourceprop)
+        call XMLReader%getLeafAttribute(anode,att_name,sourceprop)
         !find the source and save the type and property name
         call tempSources%setPropertyNames(sourceid,sourcetype,sourceprop)
     enddo
@@ -80,23 +80,23 @@
         stop
     endif
     tag = "materials"
-    call gotoChildNode(xmlProps,xmlProps,tag)
+    call XMLReader%gotoNode(xmlProps,xmlProps,tag)
 
     !find and set the actual atributes of the properties
     att_name="value"
     do i = 1, size(tempSources%src)
         tag = tempSources%src(i)%prop%property_type
         if (tag .ne. 'base') then
-        call gotoChildNode(xmlProps,anode,tag) !finding the material type node
+        call XMLReader%gotoNode(xmlProps,anode,tag) !finding the material type node
         tag = tempSources%src(i)%prop%property_name
-        call gotoChildNode(anode,anode,tag)     !finding the actual material node
+        call XMLReader%gotoNode(anode,anode,tag)     !finding the actual material node
         do p = 1, size(Globals%SrcProp%baselist)
-            call readxmlatt(anode, Globals%SrcProp%baselist(p), att_name, att_val)
+            call XMLReader%getNodeAttribute(anode, Globals%SrcProp%baselist(p), att_name, att_val)            
             call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%baselist(p), att_val)
         end do
         if (tempSources%src(i)%isParticulate()) then
             do p = 1, size(Globals%SrcProp%particulatelist)
-                call readxmlatt(anode, Globals%SrcProp%particulatelist(p), att_name, att_val)
+                call XMLReader%getNodeAttribute(anode, Globals%SrcProp%particulatelist(p), att_name, att_val)
                 call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%particulatelist(p), att_val)
             end do
         end if
@@ -124,31 +124,28 @@
     type(string) :: tag, att_name
 
     tag="properties"    !the node we want
-    call gotoChildNode(case_node,props_node,tag,mandatory =.false.)
+    call XMLReader%gotoNode(case_node,props_node,tag,mandatory =.false.)
     if (associated(props_node)) then
         tag="propertyfile"
         att_name="name"
-        call ReadXMLatt(props_node, tag, att_name, Globals%Names%propsxmlfilename)  !getting the file name from that tag
+        call XMLReader%getNodeAttribute(props_node, tag, att_name, Globals%Names%propsxmlfilename) !getting the file name from that tag
         outext='-->Properties to link to Sources found at '//Globals%Names%propsxmlfilename
         call Log%put(outext,.false.)
         tag="links"
-        call gotoChildNode(props_node,props_node,tag) !getting the links node
+        call XMLReader%gotoNode(props_node,props_node,tag) !getting the links node
         call linkPropertySources(props_node)          !calling the property linker
     else
         outext='-->No properties to link to Sources, assuming pure Lagrangian tracers'
         call Log%put(outext,.false.)
     endif
 
-    end subroutine
+    end subroutine init_properties
 
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of the node
-    !
     !> @param[in] source, source_detail, source_shape
     !---------------------------------------------------------------------------
     subroutine read_xml_geometry(source,source_detail,source_shape)
@@ -164,20 +161,20 @@
         !nothing to do
     class is (box)
         tag='point'
-        call readxmlvector(source_detail,tag,source_shape%pt)
+        call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)       
         tag='size'
-        call readxmlvector(source_detail,tag,source_shape%size)
+        call XMLReader%getNodeVector(source_detail,tag,source_shape%size)
     class is (point)
         tag='point'
-        call readxmlvector(source,tag,source_shape%pt)
+        call XMLReader%getNodeVector(source,tag,source_shape%pt)
     class is (line)
         tag='pointa'
-        call readxmlvector(source_detail,tag,source_shape%pt)
+        call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
         tag='pointb'
-        call readxmlvector(source_detail,tag,source_shape%last)
+        call XMLReader%getNodeVector(source_detail,tag,source_shape%last)
     class is (sphere)
         tag='point'
-        call readxmlvector(source_detail,tag,source_shape%pt)
+        call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
         call extractDataAttribute(source_detail, "radius", source_shape%radius)
         class default
         outext='[read_xml_geometry]: unexpected type for geometry object!'
@@ -185,16 +182,12 @@
         stop
     end select
 
-    end subroutine
-
+    end subroutine read_xml_geometry
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private source definitions parser routine. Builds the tracer sources from the input xml case file.
-    !
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_sources(case_node)
@@ -219,7 +212,7 @@
     call Log%put(outext,.false.)
 
     tag="sourcedef"    !the node we want
-    call gotoChildNode(case_node,sourcedef,tag)
+    call XMLReader%gotoNode(case_node,sourcedef,tag)
     sourceList => getElementsByTagname(sourcedef, "source")
 
     !allocating the temporary source objects
@@ -229,24 +222,24 @@
         source_node => item(sourceList,j)
         tag="setsource"
         att_name="id"
-        call ReadXMLatt(source_node, tag, att_name, att_val)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val)
         id=att_val%to_number(kind=1_I1P)
         att_name="name"
-        call ReadXMLatt(source_node, tag, att_name, name)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, name)
         tag="rate"
         att_name="value"
-        call ReadXMLatt(source_node, tag, att_name, att_val)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val)
         emitting_rate = att_val%to_number(kind=1._R4P)
         tag="active"
         att_name="start"
-        call ReadXMLatt(source_node, tag, att_name, att_val,readflag,.false.)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             start = att_val%to_number(kind=1._R4P)
         else
             start = 0.0
         endif
         att_name="end"
-        call ReadXMLatt(source_node, tag, att_name, att_val,readflag,.false.)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
         if (readflag.and.att_val%is_number()) then
             finish = att_val%to_number(kind=1._R4P)
         else
@@ -282,15 +275,12 @@
         deallocate(source_shape)
     enddo
 
-    end subroutine
+    end subroutine init_sources
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private simulation definitions parser routine. Builds the simulation geometric space from the input xml case file.
-    !
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_simdefs(case_node)
@@ -308,31 +298,28 @@
     call Log%put(outext,.false.)
 
     tag="simulationdefs"    !the node we want
-    call gotoChildNode(case_node,simdefs_node,tag)
+    call XMLReader%gotoNode(case_node,simdefs_node,tag)
     tag="resolution"
     att_name="dp"
-    call readxmlatt(simdefs_node, tag, att_name, att_val)
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
     call Globals%SimDefs%setdp(att_val)
     tag="timestep"
     att_name="dt"
-    call readxmlatt(simdefs_node, tag, att_name, att_val)
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
     call Globals%SimDefs%setdt(att_val)
     pts=(/ 'pointmin', 'pointmax'/) !strings to search for
     do i=1, size(pts)
-        call readxmlvector(simdefs_node, pts(i), coords)
+        call XMLReader%getNodeVector(simdefs_node, pts(i), coords)
         call Globals%SimDefs%setboundingbox(pts(i), coords)
     enddo
     call Globals%SimDefs%print()
 
-    end subroutine
+    end subroutine init_simdefs
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private case constant parser routine. Builds the simulation parametric space from the input xml case file.
-    !
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_caseconstants(case_node)
@@ -349,37 +336,34 @@
     call Log%put(outext,.false.)
 
     tag="constantsdef"    !the node we want
-    call gotoChildNode(case_node,constants_node,tag,readflag,.false.)
+    call XMLReader%gotoNode(case_node,constants_node,tag,readflag,.false.)
     if (readflag) then !if the node exists, since his one is not mandatory
       tag="Gravity"
-      call readxmlvector(constants_node,tag,coords,readflag,.false.)
+      call XMLReader%getNodeVector(constants_node,tag,coords,readflag,.false.)
       if (readflag) then
         call Globals%Constants%setgravity(coords)
       endif
       tag="Z0"
       att_name="value"
-      call readxmlatt(constants_node, tag, att_name, att_val,readflag,.false.)
+      call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
       if (readflag) then
         call Globals%Constants%setz0(att_val)
       endif
       tag="Rho_ref"
       att_name="value"
-      call readxmlatt(constants_node, tag, att_name, att_val,readflag,.false.)
+      call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
       if (readflag) then
         call Globals%Constants%setrho(att_val)
       endif
     endif
     call Globals%Constants%print()
 
-    end subroutine
+    end subroutine init_caseconstants
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private parameter parser routine. Builds the simulation parametric space from the input xml case file.
-    !
     !> @param[in] execution_node
     !---------------------------------------------------------------------------
     subroutine init_parameters(execution_node)
@@ -397,29 +381,25 @@
     call Log%put(outext,.false.)
 
     tag="parameters"    !the node we want
-    call gotoChildNode(execution_node,parameters_node,tag)
+    call XMLReader%gotoNode(execution_node,parameters_node,tag)
     parameterList => getElementsByTagname(parameters_node, "parameter")       !searching for tags with the 'parameter' name
     do i = 0, getLength(parameterList) - 1                          !extracting parameter tags one by one
         parmt => item(parameterList, i)
         att_name="key"
-        call ReadXMLleaf(parmt,att_name,parmkey)
+        call XMLReader%getLeafAttribute(parmt,att_name,parmkey)
         att_name="value"
-        call ReadXMLleaf(parmt,att_name,parmvalue)
+        call XMLReader%getLeafAttribute(parmt,att_name,parmvalue)
         call Globals%Parameters%setparameter(parmkey,parmvalue)
     enddo
     call Globals%Parameters%check()
     call Globals%Parameters%print()
 
-    end subroutine
-
+    end subroutine init_parameters
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Public xml parser routine. Builds the simulation space from the input xml case file.
-    !
     !> @param[in] xmlfilename
     !---------------------------------------------------------------------------
     subroutine InitFromXml(xmlfilename)
@@ -446,13 +426,13 @@
     endif
 
     tag="case"          !base document node
-    call gotoChildNode(xmldoc,execution_node,tag)
+    call XMLReader%gotoNode(xmldoc,execution_node,tag)
     tag="execution"     !finding execution node
-    call gotoChildNode(execution_node,execution_node,tag)
+    call XMLReader%gotoNode(execution_node,execution_node,tag)
     tag="case"          !base document node
-    call gotoChildNode(xmldoc,case_node,tag)
+    call XMLReader%gotoNode(xmldoc,case_node,tag)
     tag="casedef"     !finding execution node
-    call gotoChildNode(case_node,case_node,tag)
+    call XMLReader%gotoNode(case_node,case_node,tag)
 
     ! building the simulation basic structures according to the case definition file
     ! every other structure in the simulation is built from these, i.e., not defined by the user directly
