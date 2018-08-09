@@ -72,7 +72,8 @@
     if (index .le. this%getLength()) then
         getValue => this%contents(index)%getContent()
     else
-        stop '[getValue]: index out of bounds'
+        print*, '[getValue]: index out of bounds'
+        stop 
     endif
     end function getValue
 
@@ -89,7 +90,8 @@
     if (index .le. this%getLength()) then
         call this%contents(index)%storeContent(value)
     else
-        stop '[putValue]: index out of bounds'
+        print*, '[putValue]: index out of bounds'
+        stop
     endif
     end subroutine putValue
 
