@@ -39,9 +39,6 @@
     !Public access vars
     public :: vtkWritter
 
-    !Public access procedures
-    !public :: getTimeStamp
-
     contains
     
     !---------------------------------------------------------------------------
