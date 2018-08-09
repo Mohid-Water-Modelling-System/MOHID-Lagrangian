@@ -83,7 +83,7 @@
     implicit none
     class(tracer_class), intent(inout) :: self
     type(string) :: outext, t(6)
-    if (self%now%active == .false.) then
+    if (self%now%active .eqv. .false.) then
         outext = '-->Tracer is inactive'
         call Log%put(outext,.false.)
     else

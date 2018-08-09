@@ -286,10 +286,9 @@
         aTracer => self%Tracer%get(i)
         select type(aTracer)
         class is (tracer_class)
-            if (aTracer%now%active == .false.) then
+            if (aTracer%now%active .eqv. .false.) then
                 !bring the last active tracer to this position
                 bTracer => self%Tracer%get(self%Tracer%lastActive)
-                
                 call self%Tracer%put(i,bTracer)                
                 call self%removeTracer(self%Tracer%lastActive,.true.)                
             end if
