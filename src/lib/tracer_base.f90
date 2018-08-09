@@ -18,7 +18,6 @@
 
     module tracer_base_mod
 
-    use tracer_interp_mod
     use common_modules
     use sources_mod
 
