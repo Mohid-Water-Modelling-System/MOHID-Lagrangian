@@ -33,8 +33,7 @@
     private
 
     type :: simulation_class   !< Parameters class
-        !private
-        !integer :: nbx, nby               !< number of blocks in 2D
+        
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -45,6 +44,7 @@
     procedure, private :: BlocksDistribute
     procedure, private :: BlocksConsolidateArrays
     procedure, private :: BlocksTracersToAoT
+    procedure, private :: BlocksCleanAoT
     procedure, private :: setInitialState
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
@@ -85,7 +85,9 @@
         !AoT to Tracers
         !Update Tracers with type-specific behavior
         !Write results if time to do so
-
+        
+        !Clean AoT
+        call self%BlocksCleanAoT()
         call self%printTracerTotals()
         !update Simulation time and counters
         Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
@@ -232,6 +234,21 @@
             call DBlock(i)%TracersToAoT()
         enddo
     end subroutine BlocksTracersToAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to call the Blocks to build their Array of 
+    !> Tracers (AoT) from the Tracer array at current SimTime
+    !---------------------------------------------------------------------------
+    subroutine BlocksCleanAoT(self)
+        implicit none
+        class(simulation_class), intent(in) :: self        
+        integer :: i
+        do i=1, size(DBlock)
+            call DBlock(i)%CleanAoT()
+        enddo
+    end subroutine BlocksCleanAoT
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

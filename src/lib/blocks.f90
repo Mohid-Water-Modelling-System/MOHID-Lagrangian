@@ -53,6 +53,7 @@
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
     procedure, public :: TracersToAoT
+    procedure, public :: CleanAoT
     procedure, private :: removeTracer
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
@@ -308,8 +309,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to optimize the Tracer array from the Block - checks for memory
-    !> use, sorts by active, ...
+    !> Method to build the AoT object at this timestep for code efficiency
     !---------------------------------------------------------------------------
     subroutine TracersToAoT(self)
     implicit none
@@ -319,8 +319,18 @@
         print*, 'From Block ', self%id
         call self%AoT%print()
     end if
-    call self%AoT%Clean()
     end subroutine TracersToAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to clean out the AoT object
+    !---------------------------------------------------------------------------
+    subroutine CleanAoT(self)
+    implicit none
+    class(block_class), intent(inout) :: self    
+    call self%AoT%Clean()
+    end subroutine CleanAoT
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
