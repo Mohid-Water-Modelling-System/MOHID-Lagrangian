@@ -103,7 +103,7 @@
     implicit none
     class(emitter_class), intent(inout) :: self !> the Emmiter from the Block where the Source is
     class(source_class), intent(inout)  :: src  !>the Source that will emitt new Tracers
-    class(TracerArray), intent(inout)   :: trcarr  !>the Tracer array from the Block where the Source is
+    class(tracerarray_class), intent(inout)   :: trcarr  !>the Tracer array from the Block where the Source is
     integer err, i
     type(string) :: outext, temp(2)
     integer :: allocstride = 3
