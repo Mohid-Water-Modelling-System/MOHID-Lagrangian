@@ -75,9 +75,13 @@
         class(source_class), intent(in) :: src
         real(prec_time), intent(in) :: time
         integer, intent(in) :: p
+        class(*), allocatable :: base_trc
 
         !use the base class constructor to build the base of our new derived type
         constructor%tracer_class = Tracer(id,src,time,p)
+        !VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor... 
+        constructor%par%id = id !forcing
+        constructor%par%idsource = src%par%id !forcing 
         !now initialize the specific components of this derived type
         !material parameters
         constructor%mpar%degradation_rate = src%prop%degrd_rate

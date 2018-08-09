@@ -25,20 +25,18 @@
     private
 
     type tracer_par_class               !<Type - parameters of a pure Lagrangian tracer object
-        integer :: id                       !< unique tracer identification
-        integer :: idsource                 !< Source to which the tracer belongs
-        real(prec) :: velmax                !< Maximum velocity of tracer to track (m/s)
-        logical    :: noise                 !  Add noise to location
-        type(string) :: interp_method       !< interpolation method this tracer calls
+        integer :: id = MV                       !< unique tracer identification
+        integer :: idsource = MV                 !< Source to which the tracer belongs
+        real(prec) :: velmax = MV                !< Maximum velocity of tracer to track (m/s)
     end type
 
     type tracer_state_class             !<Type - state variables of a pure Lagrangian tracer object
-        real(prec_time) :: age              ! time variables
-        logical :: active                   !< active switch
+        real(prec_time) :: age = MV              ! time variables
+        logical :: active = .false.                   !< active switch
         type(vector) :: pos                 !< Position of the tracer (m)
         type(vector) :: vel                 !< Velocity of the tracer (m s-1)
         type(vector) :: acc                 !< Acceleration of the tracer (m s-2)
-        real(prec) :: depth                 !< Depth of the tracer (m)
+        real(prec) :: depth = MV                 !< Depth of the tracer (m)
         !real(prec) :: T                     !< Temperature of the tracer (Celcius)
     end type
 
@@ -47,9 +45,9 @@
         ! Avegarge variable is computed by Accumulated_var / ns
         type(vector) :: acc_pos             !< Accumulated position of the tracer (m)
         type(vector) :: acc_vel             !< Accumulated velocity of the tracer (m s-1)
-        real(prec_wrt) :: acc_depth         !< Accumulated depth of the tracer (m)
+        real(prec_wrt) :: acc_depth = MV         !< Accumulated depth of the tracer (m)
         !real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
-        integer :: ns                       !< Number of sampling steps
+        integer :: ns = MV                       !< Number of sampling steps
     end type
 
     type tracer_class                   !<Type - The pure Lagrangian tracer class
@@ -57,7 +55,7 @@
         type(tracer_state_class) :: now     !<To access state variables
         type(tracer_stats_class) :: stats   !<To access statistics
     contains
-    !procedure :: trc
+    procedure :: print => printTracer    
     end type
 
     !Simulation variables
@@ -74,14 +72,34 @@
     end interface
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to print basic info about the Tracer
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine printTracer(self)
+    implicit none
+    class(tracer_class), intent(inout) :: self
+    type(string) :: outext, t(6)
+    if (self%now%active == .false.) then
+        outext = '-->Tracer is inactive'
+        call Log%put(outext,.false.)
+    else
+        t(1) = self%par%id
+        t(2) = self%now%pos%x
+        t(3) = self%now%pos%y
+        t(4) = self%now%pos%z
+        outext = 'Tracer['//t(1)//']::xyz('//t(2)//','//t(3)//','//t(4)//')'
+        call Log%put(outext,.false.)
+    end if
+    end subroutine printTracer
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Base Tracer constructor
-    !
     !> @param[in]
     !---------------------------------------------------------------------------
     function constructor(id,src,time,p)
