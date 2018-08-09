@@ -28,20 +28,58 @@
 
     type :: xmlparser_class  !< The .xml parser class
     contains
+    procedure :: getFile
+    procedure :: closeFile
     procedure :: getLeafAttribute
     procedure :: getNodeAttribute
     procedure :: getNodeVector
     procedure :: gotoNode
     end type xmlparser_class
 
+    !the object tho expose to the rest of the code
     type(xmlparser_class) :: XMLReader
 
     !Public access vars
     public :: XMLReader
 
-    !Public access procedures
-
     contains
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that parses an xml file and returns a pointer to the master node.
+    !> @param[in] xmldoc, filename
+    !---------------------------------------------------------------------------
+    subroutine getFile(self, xmldoc, xmlfilename)
+    implicit none
+    class(xmlparser_class), intent(in) :: self
+    type(Node), intent(out), pointer :: xmldoc   !< Node that conatins the parsed file
+    type(string), intent(in) :: xmlfilename      !< File name
+    integer :: err
+    type(string) :: outext
+    xmldoc => parseFile(xmlfilename%chars(), iostat=err) !using FOX function
+    if (err==0) then
+        outext='->Reading .xml file '//xmlfilename
+        call Log%put(outext)
+    else
+        outext='[XMLReader::getFile]: no '//xmlfilename//' file, or file is invalid. Stoping'
+        call Log%put(outext)
+        stop
+    endif
+    end subroutine getFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that closes a parsed xml file or node.
+    !> @param[in] xmldoc
+    !---------------------------------------------------------------------------
+    subroutine closeFile(self, xmldoc)
+    implicit none
+    class(xmlparser_class), intent(in) :: self
+    type(Node), intent(out), pointer :: xmldoc   !< Node that conatins the parsed file
+    call destroy(xmldoc) !using FOX function
+    end subroutine closeFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -57,7 +95,7 @@
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
     type(string), intent(out) :: att_value      !<Attribute value
     character(80) :: att_value_chars
-    call extractDataAttribute(xmlnode, att_name%chars(), att_value_chars)
+    call extractDataAttribute(xmlnode, att_name%chars(), att_value_chars) !using FOX function
     att_value=trim(att_value_chars)
     end subroutine getLeafAttribute
 
@@ -86,19 +124,19 @@
     integer :: i
 
     validtag = .false.
-    nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info)
+    nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info) !using FOX function
     do i=0, getLength(nodeChildren)-1
-        nodedetail => item(nodeChildren,i) !grabing a node
-        nodename = getLocalName(nodedetail)  !finding its name
+        nodedetail => item(nodeChildren,i) !grabing a node !using FOX function
+        nodename = getLocalName(nodedetail)  !finding its name !using FOX function
         if (nodename == tag) then
             validtag=.true.
             exit
         endif
     enddo
     if (validtag) then
-        target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
-        nodedetail => item(target_node_list, 0)
-        call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars)
+        target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name !using FOX function
+        nodedetail => item(target_node_list, 0) !using FOX function
+        call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars) !using FOX function
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
             read_flag =.true.
@@ -117,8 +155,8 @@
         endif
     endif
     end subroutine getNodeAttribute
-    
-     !---------------------------------------------------------------------------
+
+    !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to parse xyz vectors in xml files.
@@ -142,19 +180,19 @@
 
     vec%x=MV !marking the array as not read
     validtag = .false.
-    nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info)
+    nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info) !using FOX function
     do i=0, getLength(nodeChildren)-1
-        nodedetail => item(nodeChildren,i) !grabing a node
-        nodename = getLocalName(nodedetail)  !finding its name
+        nodedetail => item(nodeChildren,i) !grabing a node !using FOX function
+        nodename = getLocalName(nodedetail)  !finding its name !using FOX function
         if (nodename == tag) then
             validtag =.true.
             exit
         endif
     enddo
     if (validtag) then
-        target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name
-        nodedetail => item(target_node_list, 0)
-        call extractDataAttribute(nodedetail, "x", vec%x)
+        target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name !using FOX function
+        nodedetail => item(target_node_list, 0) !using FOX function
+        call extractDataAttribute(nodedetail, "x", vec%x) !using FOX function
         call extractDataAttribute(nodedetail, "y", vec%y)
         call extractDataAttribute(nodedetail, "z", vec%z)
         if (present(read_flag)) then
@@ -174,7 +212,7 @@
         endif
     endif
     end subroutine getNodeVector
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -197,10 +235,10 @@
     logical :: target_node_exists
 
     target_node_exists = .false.
-    target_node_list => getChildNodes(currentNode)
+    target_node_list => getChildNodes(currentNode) !using FOX function
     do i=0, getLength(target_node_list)-1
-        targetNode => item(target_node_list,i) !grabing a node
-        nodename = getLocalName(targetNode)  !finding its name
+        targetNode => item(target_node_list,i) !grabing a node !using FOX function
+        nodename = getLocalName(targetNode)  !finding its name !using FOX function
         if (nodename == targetNodeName) then !found our target node
             target_node_exists = .true.
             if (present(read_flag)) then

@@ -70,15 +70,9 @@
 
     !parse the properties file
     xmlfilename = Globals%Names%propsxmlfilename
-    xmlProps => parseFile(xmlfilename%chars(), iostat=i)
-    if (i==0) then
-        outext='->Reading Source properties from '//xmlfilename
-        call Log%put(outext)
-    else
-        outext='[linkPropertySources]: no '//xmlfilename//' properties file, stoping'
-        call Log%put(outext)
-        stop
-    endif
+    call XMLReader%getFile(xmlProps,xmlfilename)
+    
+    !Go to the materials node
     tag = "materials"
     call XMLReader%gotoNode(xmlProps,xmlProps,tag)
 
@@ -104,6 +98,10 @@
         call tempSources%src(i)%check()
         end if
     end do
+    outext='-->Sources properties are set'
+    call Log%put(outext,.false.)
+    
+    call XMLReader%closeFile(xmlProps)
 
     end subroutine linkPropertySources
 
@@ -409,21 +407,12 @@
     type(Node), pointer :: xmldoc                   !< .xml file handle
     type(Node), pointer :: case_node
     type(Node), pointer :: execution_node
-    integer :: i
-
-    xmldoc => parseFile(xmlfilename%chars(), iostat=i)
-    if (i==0) then        
-        Globals%Names%mainxmlfilename = xmlfilename
-        Globals%Names%casename = xmlfilename%basename(extension='.xml')
-        outext='->Case name is '//Globals%Names%casename
-        call Log%put(outext)
-        outext='->Reading case definition from '//Globals%Names%mainxmlfilename
-        call Log%put(outext)
-    else
-        outext='[InitFromXml]: no '//xmlfilename//' input file, give me at least that!'
-        call Log%put(outext)
-        stop
-    endif
+    
+    call XMLReader%getFile(xmldoc,xmlfilename)
+    Globals%Names%mainxmlfilename = xmlfilename
+    Globals%Names%casename = xmlfilename%basename(extension='.xml')
+    outext='->Case name is '//Globals%Names%casename
+    call Log%put(outext)
 
     tag="case"          !base document node
     call XMLReader%gotoNode(xmldoc,execution_node,tag)
@@ -442,7 +431,7 @@
     call init_sources(case_node)
     call init_properties(case_node)
 
-    call destroy(xmldoc)
+    call XMLReader%closeFile(xmldoc)
 
     end subroutine InitFromXml
 
