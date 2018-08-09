@@ -72,7 +72,6 @@
     trc%par%id = id
     trc%par%idsource = id_source
     trc%par%velmax = 15.0 !(m/s, just a placeholder)
-    ! interp_method - TODO
     ! initialize tracer state
     trc%now%age=0.0
     trc%now%active = .false.
