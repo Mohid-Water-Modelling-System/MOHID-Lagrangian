@@ -20,19 +20,48 @@
     use abstract_container_array_mod
     use tracers_mod
 
-    private
-    public :: TracerArray
-
-    type, extends(container_array) :: TracerArray
-        integer :: numActive  !> number of active Tracers in the array
-        integer :: lastActive !> position of the last active Tracer on the array
+    type, extends(container_array) :: tracerarray_class
+        integer :: numActive = 0  !> number of active Tracers in the array
+        integer :: lastActive = 0 !> position of the last active Tracer on the array
     contains
     procedure :: printArray => print_TracerArray
     procedure :: printElement => print_TracerArray_Element
-    end type TracerArray
+    procedure :: findLastActive
+    end type tracerarray_class
+
+    private
+    public :: tracerarray_class
 
     contains
-    
+
+    !---------------------------------------------------------------------------
+    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that traverses the array from the end, finding the last 
+    !> active Tracer. Returns its index.
+    !---------------------------------------------------------------------------
+    integer function findLastActive(this)
+    class(tracerarray_class), intent(in) :: this
+    class(*), pointer :: curr
+    integer :: i
+    i=this%getLength()
+    do while (i>=0)
+        curr => this%get(i)
+        select type(curr)
+        class is (tracer_class)
+            if (curr%now%active) then
+                findLastActive = i
+                i = 0
+            end if
+            class default
+            print*, '[tracerarray_class::findLastActive]: unexepected type of content not a Tracer'
+            stop
+        end select
+        i = i-1
+    end do   
+    end function findLastActive
+
+
     !---------------------------------------------------------------------------
     !> @Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -40,20 +69,16 @@
     !> @param[in] this
     !---------------------------------------------------------------------------
     subroutine print_TracerArray(this)
-    class(TracerArray), intent(in) :: this
+    class(tracerarray_class), intent(in) :: this
     class(*), pointer :: curr
     integer :: i
     do i=1, this%lastActive
         curr => this%get(i)
         select type(curr)
-        type is (tracer_class)
-            !call curr%print()
-        class is (paper_class)
-            !call curr%print()
-        class is (plastic_class)
-            !call curr%print()
+        class is (tracer_class)
+            call curr%print()
             class default
-            stop '[print_TracerArray]: unexepected type of content: not a shape or derived type'
+            stop '[print_TracerArray]: unexepected type of content not a Tracer'
         end select
     end do
     end subroutine print_TracerArray
@@ -65,20 +90,16 @@
     !> @param[in] this, index
     !---------------------------------------------------------------------------
     subroutine print_TracerArray_Element(this,index)
-    class(TracerArray), intent(in) :: this
+    class(tracerarray_class), intent(in) :: this
     integer, intent(in) :: index
     class(*), pointer :: curr
     if (index .le. this%lastActive) then
         curr => this%get(index)
         select type(curr)
-        type is (tracer_class)
-            !call curr%print()
-        class is (paper_class)
-            !call curr%print()
-        class is (plastic_class)
-            !call curr%print()
+        class is (tracer_class)
+            call curr%print()
             class default
-            stop '[print_TracerArray_Element]: unexepected type of content, not a shape or derived type'
+            stop '[print_TracerArray_Element]: unexepected type of content not a Tracer'
         end select
     else
         stop '[print_TracerArray_Element]: index out of bounds'

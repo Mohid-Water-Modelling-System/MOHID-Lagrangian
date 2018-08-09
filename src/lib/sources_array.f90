@@ -20,20 +20,20 @@
     use abstract_container_array_mod
     use sources_mod
 
-    private
-    public :: SourceArray
-
-    type, extends(container_array) :: SourceArray
-        integer :: usedLength
+    type, extends(container_array) :: sourcearray_class
+        integer :: usedLength = 0
     contains
     procedure :: printArray => print_SourceArray
     procedure :: printElement => print_SourceArray_Element
-    end type SourceArray
+    end type sourcearray_class
+    
+    private
+    public :: sourcearray_class
 
     contains
 
     subroutine print_SourceArray(this)
-    class(SourceArray), intent(in) :: this
+    class(sourcearray_class), intent(in) :: this
     class(*), pointer :: curr
     integer :: i
     do i=1, this%usedLength
@@ -48,7 +48,7 @@
     end subroutine print_SourceArray
 
     subroutine print_SourceArray_Element(this,index)
-    class(SourceArray), intent(in) :: this
+    class(sourcearray_class), intent(in) :: this
     integer, intent(in) :: index
     class(*), pointer :: curr
     if (index .le. this%usedLength) then
