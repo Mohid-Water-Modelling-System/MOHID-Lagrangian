@@ -85,6 +85,7 @@
         !AoT to Tracers
         !Update Tracers with type-specific behavior
         !Write results if time to do so
+        call OutputStreamer%WriteStepSerial(Globals%Names%casename, DBlock)
         
         !Clean AoT
         call self%BlocksCleanAoT()

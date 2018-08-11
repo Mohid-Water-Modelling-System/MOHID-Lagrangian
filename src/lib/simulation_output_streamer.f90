@@ -33,6 +33,7 @@
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: WriteDomain
+    procedure :: WriteStepSerial
     end type output_streamer_class
     
     type(output_streamer_class) :: OutputStreamer
@@ -54,6 +55,25 @@
     class(output_streamer_class), intent(inout) :: self
     self%OutputFormat = Globals%Parameters%OutputFormat
     end subroutine initOutputStreamer
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Streamer method to call a simulation step writer. Writes binary XML VTK
+    !> format using an unstructured grid.
+    !> @parm[in] self, filename, blocks
+    !---------------------------------------------------------------------------
+    subroutine WriteStepSerial(self, filename, blocks)
+    implicit none
+    class(output_streamer_class), intent(inout) :: self
+    type(string), intent(in) :: filename                    !< name of the case to add
+    class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
+        
+    if (self%OutputFormat == 2) then !VTK file selected
+        call vtkWritter%TracerSerial(filename, blocks)
+    end if
+        
+    end subroutine WriteStepSerial
           
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -71,7 +91,7 @@
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     
     if (self%OutputFormat == 2) then !VTK file selected
-        call vtkWritter%DomainVTK(filename, bbox, npbbox, blocks)
+        call vtkWritter%Domain(filename, bbox, npbbox, blocks)
     end if
     
     end subroutine WriteDomain   

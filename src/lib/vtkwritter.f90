@@ -30,8 +30,8 @@
         integer :: numVtkFiles
     contains
     procedure :: initialize => initVTKwritter
-    procedure :: DomainVTK
-    procedure :: TracerSerialVTK
+    procedure :: Domain
+    procedure :: TracerSerial
     end type vtkwritter_class
     
     type(vtkwritter_class) :: vtkWritter
@@ -59,7 +59,7 @@
     !> format using an unstructured grid. Serial writer for serial files.
     !> @parm[in] self, filename, blocks
     !---------------------------------------------------------------------------
-    subroutine TracerSerialVTK(self, filename, blocks)
+    subroutine TracerSerial(self, filename, blocks)
     implicit none
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename
@@ -68,16 +68,41 @@
     type(vtk_file) :: vtkfile
     type(string) :: fullfilename
     type(string) :: outext
-    integer :: error
+    integer :: error, i
+    integer :: np
+    integer, parameter :: nc = 0           !< Number of cells
+    integer(I1P), dimension(1:nc) :: cell_type  !< Cells type
+    integer(I4P), dimension(1:nc) :: offset     !< Cells offset
+    integer(I4P), dimension(:), allocatable :: connect    !< Connectivity
+
+    fullfilename = filename%chars()//'.vtu'
+    outext = '->Writting output file '//fullfilename
+    call Log%put(outext)
+    fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    
-    error = vtkfile%initialize(format='binary', filename=filename%chars()//'.vtu', mesh_topology='UnstructuredGrid')
-    
+    error = vtkfile%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    !Write the data of each block
+    do i = 1, size(blocks)
+        if (blocks(i)%Tracer%numActive > 0) then
+            np = blocks(i)%Tracer%numActive
+            allocate(connect(np))
+            error = vtkfile%xml_writer%write_piece(np=np, nc=nc)
+            error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=blocks(i)%AoT%x, y=blocks(i)%AoT%y, z=blocks(i)%AoT%z)
+            error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
+            error = vtkfile%xml_writer%write_dataarray(location='node', action='open')
+            error = vtkfile%xml_writer%write_dataarray(data_name='id', x=blocks(i)%AoT%id)
+            error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=blocks(i)%AoT%u, y=blocks(i)%AoT%v, z=blocks(i)%AoT%w)
+            error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
+            error = vtkfile%xml_writer%write_piece()
+            deallocate(connect)
+        end if
+    end do
+
     error = vtkfile%finalize()
     
     self%numVtkFiles = self%numVtkFiles + 1
     
-    end subroutine TracerSerialVTK
+    end subroutine TracerSerial
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -86,7 +111,7 @@
     !> format using an unstructured grid.
     !> @parm[in] self, filename, bbox, npbbox, blocks
     !---------------------------------------------------------------------------
-    subroutine DomainVTK(self, filename, bbox, npbbox, blocks)
+    subroutine Domain(self, filename, bbox, npbbox, blocks)
     implicit none
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename                    !< name of the case to add
@@ -162,7 +187,7 @@
     !Closing file
     error = vtkfile%finalize()
     
-    end subroutine DomainVTK
+    end subroutine Domain
     
     
 
