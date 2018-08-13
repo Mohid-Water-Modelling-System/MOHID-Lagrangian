@@ -24,8 +24,8 @@
 
 MOHIDLagrangian v0.0.6 (R. Birjukovs Canelas) (30-07-2018)
 =====================================================================
-2018-8-13 @12:48:30 ->Reading .xml file Template_Lagrangian_out/Template_Lagrangian.xml
-2018-8-13 @12:48:30 ->Case name is Template_Lagrangian
+2018-8-13 @14:8:46 ->Reading .xml file Template_Lagrangian_out/Template_Lagrangian.xml
+2018-8-13 @14:8:46 ->Case name is Template_Lagrangian
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000E+00
@@ -48,7 +48,7 @@ MOHIDLagrangian v0.0.6 (R. Birjukovs Canelas) (30-07-2018)
        +0.100000E+02 +0.100000E+02 +0.405740E+01
        Blocks are automatically sized
  -->Reading case Sources
-2018-8-13 @12:48:30 Allocated +6 Sources.
+2018-8-13 @14:8:46 Allocated +6 Sources.
  -->Source Spill_007
        Id = +18
        Geometry type is box
@@ -101,182 +101,1529 @@ MOHIDLagrangian v0.0.6 (R. Birjukovs Canelas) (30-07-2018)
        Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
        Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
        Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
-2018-8-13 @12:48:30 ->Reading .xml file Material_props.xml
+2018-8-13 @14:8:46 ->Reading .xml file Material_props.xml
  -->Sources properties are set
-2018-8-13 @12:48:30 Allocated +16 Blocks.
+2018-8-13 @14:8:46 Allocated +16 Blocks.
  -->Automatic domain decomposition sucessful. Domain is +8 X +2 Blocks
  -->Sources allocated to their current Blocks
  -->+205315 Tracers allocated, +0 Tracers active
-2018-8-13 @12:48:30 ->Total allocated memory: +0.451887E+02 mb
+2018-8-13 @14:8:46 ->Total allocated memory: +0.451887E+02 mb
        Allocated memory for Blocks  = +0.153600E-01 mb
        Allocated memory for Sources = +0.307200E-02 mb
        Allocated memory for Tracers = +0.451693E+02 mb
        Allocated memory for Consts  = +0.100800E-02 mb
-2018-8-13 @12:48:30 ->Writting Bounding Box file Template_Lagrangian_BoundingBox.vtu
-2018-8-13 @12:48:30 ->Writting Blocks file Template_Lagrangian_Blocks.vtu
- -------------------------------------------------------
-2018-8-13 @12:48:30 ->Simulation staring
- -------------------------------------------------------
-2018-8-13 @12:48:30 ->Writting output file Template_Lagrangian_00000.vtu
+2018-8-13 @14:8:46 ->Writting Bounding Box file Template_Lagrangian_BoundingBox.vtu
+2018-8-13 @14:8:46 ->Writting Blocks file Template_Lagrangian_Blocks.vtu
+ -----------------------------------------------------
+2018-8-13 @14:8:47 ->Simulation staring
+ -----------------------------------------------------
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00000.vtu
  -->+205333 Tracers allocated, +21 Tracers active
-2018-8-13 @12:48:30 ->Writting output file Template_Lagrangian_00001.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00001.vtu
  -->+205333 Tracers allocated, +147 Tracers active
-2018-8-13 @12:48:31 ->Writting output file Template_Lagrangian_00002.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00002.vtu
  -->+205337 Tracers allocated, +197 Tracers active
  -->Source +1 trying to emitt Tracers from an exausted Emitter +12
-2018-8-13 @12:48:31 ->Writting output file Template_Lagrangian_00003.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00003.vtu
  -->+205337 Tracers allocated, +225 Tracers active
-2018-8-13 @12:48:31 ->Writting output file Template_Lagrangian_00004.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00004.vtu
  -->+205351 Tracers allocated, +370 Tracers active
-2018-8-13 @12:48:32 ->Writting output file Template_Lagrangian_00005.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00005.vtu
  -->+205351 Tracers allocated, +398 Tracers active
-2018-8-13 @12:48:32 ->Writting output file Template_Lagrangian_00006.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00006.vtu
  -->+205366 Tracers allocated, +448 Tracers active
-2018-8-13 @12:48:33 ->Writting output file Template_Lagrangian_00007.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00007.vtu
  -->+205366 Tracers allocated, +572 Tracers active
-2018-8-13 @12:48:33 ->Writting output file Template_Lagrangian_00008.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00008.vtu
  -->+205376 Tracers allocated, +621 Tracers active
-2018-8-13 @12:48:34 ->Writting output file Template_Lagrangian_00009.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00009.vtu
  -->+205376 Tracers allocated, +649 Tracers active
-2018-8-13 @12:48:35 ->Writting output file Template_Lagrangian_00010.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00010.vtu
  -->+205388 Tracers allocated, +794 Tracers active
-2018-8-13 @12:48:36 ->Writting output file Template_Lagrangian_00011.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00011.vtu
  -->+205388 Tracers allocated, +823 Tracers active
-2018-8-13 @12:48:36 ->Writting output file Template_Lagrangian_00012.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00012.vtu
  -->+205402 Tracers allocated, +872 Tracers active
-2018-8-13 @12:48:37 ->Writting output file Template_Lagrangian_00013.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00013.vtu
  -->+205402 Tracers allocated, +996 Tracers active
-2018-8-13 @12:48:38 ->Writting output file Template_Lagrangian_00014.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00014.vtu
  -->+205419 Tracers allocated, +1045 Tracers active
-2018-8-13 @12:48:39 ->Writting output file Template_Lagrangian_00015.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00015.vtu
  -->+205419 Tracers allocated, +1073 Tracers active
-2018-8-13 @12:48:41 ->Writting output file Template_Lagrangian_00016.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00016.vtu
  -->+205439 Tracers allocated, +1219 Tracers active
-2018-8-13 @12:48:41 ->Writting output file Template_Lagrangian_00017.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00017.vtu
  -->+205439 Tracers allocated, +1247 Tracers active
-2018-8-13 @12:48:42 ->Writting output file Template_Lagrangian_00018.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00018.vtu
  -->+205439 Tracers allocated, +1296 Tracers active
-2018-8-13 @12:48:44 ->Writting output file Template_Lagrangian_00019.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00019.vtu
  -->+205439 Tracers allocated, +1420 Tracers active
-2018-8-13 @12:48:45 ->Writting output file Template_Lagrangian_00020.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00020.vtu
  -->+205463 Tracers allocated, +1469 Tracers active
-2018-8-13 @12:48:46 ->Writting output file Template_Lagrangian_00021.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00021.vtu
  -->+205463 Tracers allocated, +1498 Tracers active
-2018-8-13 @12:48:48 ->Writting output file Template_Lagrangian_00022.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00022.vtu
  -->+205463 Tracers allocated, +1643 Tracers active
-2018-8-13 @12:48:49 ->Writting output file Template_Lagrangian_00023.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00023.vtu
  -->+205463 Tracers allocated, +1671 Tracers active
-2018-8-13 @12:48:50 ->Writting output file Template_Lagrangian_00024.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00024.vtu
  -->+205492 Tracers allocated, +1720 Tracers active
-2018-8-13 @12:48:52 ->Writting output file Template_Lagrangian_00025.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00025.vtu
  -->+205492 Tracers allocated, +1844 Tracers active
-2018-8-13 @12:48:54 ->Writting output file Template_Lagrangian_00026.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00026.vtu
  -->+205492 Tracers allocated, +1894 Tracers active
-2018-8-13 @12:48:55 ->Writting output file Template_Lagrangian_00027.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00027.vtu
  -->+205492 Tracers allocated, +1922 Tracers active
-2018-8-13 @12:48:57 ->Writting output file Template_Lagrangian_00028.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00028.vtu
  -->+205506 Tracers allocated, +2067 Tracers active
-2018-8-13 @12:48:58 ->Writting output file Template_Lagrangian_00029.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00029.vtu
  -->+205506 Tracers allocated, +2095 Tracers active
-2018-8-13 @12:49:0 ->Writting output file Template_Lagrangian_00030.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00030.vtu
  -->+205527 Tracers allocated, +2144 Tracers active
-2018-8-13 @12:49:2 ->Writting output file Template_Lagrangian_00031.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00031.vtu
  -->+205527 Tracers allocated, +2269 Tracers active
-2018-8-13 @12:49:4 ->Writting output file Template_Lagrangian_00032.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00032.vtu
  -->+205527 Tracers allocated, +2318 Tracers active
-2018-8-13 @12:49:5 ->Writting output file Template_Lagrangian_00033.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00033.vtu
  -->+205527 Tracers allocated, +2346 Tracers active
-2018-8-13 @12:49:8 ->Writting output file Template_Lagrangian_00034.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00034.vtu
  -->+205544 Tracers allocated, +2491 Tracers active
-2018-8-13 @12:49:10 ->Writting output file Template_Lagrangian_00035.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00035.vtu
  -->+205544 Tracers allocated, +2519 Tracers active
-2018-8-13 @12:49:11 ->Writting output file Template_Lagrangian_00036.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00036.vtu
  -->+205569 Tracers allocated, +2569 Tracers active
-2018-8-13 @12:49:14 ->Writting output file Template_Lagrangian_00037.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00037.vtu
  -->+205569 Tracers allocated, +2693 Tracers active
-2018-8-13 @12:49:16 ->Writting output file Template_Lagrangian_00038.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00038.vtu
  -->+205569 Tracers allocated, +2742 Tracers active
-2018-8-13 @12:49:18 ->Writting output file Template_Lagrangian_00039.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00039.vtu
  -->+205569 Tracers allocated, +2770 Tracers active
-2018-8-13 @12:49:20 ->Writting output file Template_Lagrangian_00040.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00040.vtu
  -->+205569 Tracers allocated, +2915 Tracers active
-2018-8-13 @12:49:22 ->Writting output file Template_Lagrangian_00041.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00041.vtu
  -->+205569 Tracers allocated, +2944 Tracers active
-2018-8-13 @12:49:24 ->Writting output file Template_Lagrangian_00042.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00042.vtu
  -->+205620 Tracers allocated, +2993 Tracers active
-2018-8-13 @12:49:27 ->Writting output file Template_Lagrangian_00043.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00043.vtu
  -->+205620 Tracers allocated, +3117 Tracers active
-2018-8-13 @12:49:29 ->Writting output file Template_Lagrangian_00044.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00044.vtu
  -->+205620 Tracers allocated, +3166 Tracers active
-2018-8-13 @12:49:31 ->Writting output file Template_Lagrangian_00045.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00045.vtu
  -->+205620 Tracers allocated, +3194 Tracers active
-2018-8-13 @12:49:34 ->Writting output file Template_Lagrangian_00046.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00046.vtu
  -->+205620 Tracers allocated, +3340 Tracers active
-2018-8-13 @12:49:37 ->Writting output file Template_Lagrangian_00047.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00047.vtu
  -->+205620 Tracers allocated, +3368 Tracers active
-2018-8-13 @12:49:39 ->Writting output file Template_Lagrangian_00048.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00048.vtu
  -->+205620 Tracers allocated, +3417 Tracers active
-2018-8-13 @12:49:42 ->Writting output file Template_Lagrangian_00049.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00049.vtu
  -->+205620 Tracers allocated, +3541 Tracers active
-2018-8-13 @12:49:44 ->Writting output file Template_Lagrangian_00050.vtu
+2018-8-13 @14:8:47 ->Writting output file Template_Lagrangian_00050.vtu
  -->+205681 Tracers allocated, +3590 Tracers active
-2018-8-13 @12:49:47 ->Writting output file Template_Lagrangian_00051.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00051.vtu
  -->+205681 Tracers allocated, +3619 Tracers active
-2018-8-13 @12:49:50 ->Writting output file Template_Lagrangian_00052.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00052.vtu
  -->+205681 Tracers allocated, +3764 Tracers active
-2018-8-13 @12:49:52 ->Writting output file Template_Lagrangian_00053.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00053.vtu
  -->+205681 Tracers allocated, +3792 Tracers active
-2018-8-13 @12:49:55 ->Writting output file Template_Lagrangian_00054.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00054.vtu
  -->+205681 Tracers allocated, +3841 Tracers active
-2018-8-13 @12:49:58 ->Writting output file Template_Lagrangian_00055.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00055.vtu
  -->+205681 Tracers allocated, +3965 Tracers active
-2018-8-13 @12:50:1 ->Writting output file Template_Lagrangian_00056.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00056.vtu
  -->+205681 Tracers allocated, +4015 Tracers active
-2018-8-13 @12:50:4 ->Writting output file Template_Lagrangian_00057.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00057.vtu
  -->+205681 Tracers allocated, +4043 Tracers active
-2018-8-13 @12:50:7 ->Writting output file Template_Lagrangian_00058.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00058.vtu
  -->+205681 Tracers allocated, +4188 Tracers active
-2018-8-13 @12:50:10 ->Writting output file Template_Lagrangian_00059.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00059.vtu
  -->+205681 Tracers allocated, +4216 Tracers active
-2018-8-13 @12:50:13 ->Writting output file Template_Lagrangian_00060.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00060.vtu
  -->+205711 Tracers allocated, +4265 Tracers active
-2018-8-13 @12:50:16 ->Writting output file Template_Lagrangian_00061.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00061.vtu
  -->+205711 Tracers allocated, +4390 Tracers active
-2018-8-13 @12:50:19 ->Writting output file Template_Lagrangian_00062.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00062.vtu
  -->+205754 Tracers allocated, +4439 Tracers active
-2018-8-13 @12:50:22 ->Writting output file Template_Lagrangian_00063.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00063.vtu
  -->+205754 Tracers allocated, +4467 Tracers active
-2018-8-13 @12:50:26 ->Writting output file Template_Lagrangian_00064.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00064.vtu
  -->+205754 Tracers allocated, +4612 Tracers active
-2018-8-13 @12:50:29 ->Writting output file Template_Lagrangian_00065.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00065.vtu
  -->+205754 Tracers allocated, +4640 Tracers active
-2018-8-13 @12:50:32 ->Writting output file Template_Lagrangian_00066.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00066.vtu
  -->+205754 Tracers allocated, +4690 Tracers active
-2018-8-13 @12:50:36 ->Writting output file Template_Lagrangian_00067.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00067.vtu
  -->+205754 Tracers allocated, +4814 Tracers active
-2018-8-13 @12:50:39 ->Writting output file Template_Lagrangian_00068.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00068.vtu
  -->+205754 Tracers allocated, +4863 Tracers active
-2018-8-13 @12:50:43 ->Writting output file Template_Lagrangian_00069.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00069.vtu
  -->+205754 Tracers allocated, +4891 Tracers active
-2018-8-13 @12:50:47 ->Writting output file Template_Lagrangian_00070.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00070.vtu
  -->+205754 Tracers allocated, +5036 Tracers active
-2018-8-13 @12:50:50 ->Writting output file Template_Lagrangian_00071.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00071.vtu
  -->+205754 Tracers allocated, +5065 Tracers active
-2018-8-13 @12:50:53 ->Writting output file Template_Lagrangian_00072.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00072.vtu
  -->+205790 Tracers allocated, +5114 Tracers active
-2018-8-13 @12:50:57 ->Writting output file Template_Lagrangian_00073.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00073.vtu
  -->+205790 Tracers allocated, +5238 Tracers active
-2018-8-13 @12:51:1 ->Writting output file Template_Lagrangian_00074.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00074.vtu
  -->+205842 Tracers allocated, +5287 Tracers active
-2018-8-13 @12:51:4 ->Writting output file Template_Lagrangian_00075.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00075.vtu
  -->+205842 Tracers allocated, +5315 Tracers active
-2018-8-13 @12:51:9 ->Writting output file Template_Lagrangian_00076.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00076.vtu
  -->+205842 Tracers allocated, +5461 Tracers active
-2018-8-13 @12:51:12 ->Writting output file Template_Lagrangian_00077.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00077.vtu
  -->+205842 Tracers allocated, +5489 Tracers active
-2018-8-13 @12:51:16 ->Writting output file Template_Lagrangian_00078.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00078.vtu
  -->+205842 Tracers allocated, +5538 Tracers active
-2018-8-13 @12:51:20 ->Writting output file Template_Lagrangian_00079.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00079.vtu
  -->+205842 Tracers allocated, +5662 Tracers active
-2018-8-13 @12:51:24 ->Writting output file Template_Lagrangian_00080.vtu
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00080.vtu
  -->+205842 Tracers allocated, +5711 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00081.vtu
+ -->+205842 Tracers allocated, +5740 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00082.vtu
+ -->+205842 Tracers allocated, +5885 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00083.vtu
+ -->+205842 Tracers allocated, +5913 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00084.vtu
+ -->+205842 Tracers allocated, +5962 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00085.vtu
+ -->+205842 Tracers allocated, +6086 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00086.vtu
+ -->+205885 Tracers allocated, +6136 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00087.vtu
+ -->+205885 Tracers allocated, +6164 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00088.vtu
+ -->+205947 Tracers allocated, +6309 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00089.vtu
+ -->+205947 Tracers allocated, +6337 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00090.vtu
+ -->+205947 Tracers allocated, +6386 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00091.vtu
+ -->+205947 Tracers allocated, +6511 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00092.vtu
+ -->+205947 Tracers allocated, +6560 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00093.vtu
+ -->+205947 Tracers allocated, +6588 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00094.vtu
+ -->+205947 Tracers allocated, +6733 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00095.vtu
+ -->+205947 Tracers allocated, +6761 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00096.vtu
+ -->+205947 Tracers allocated, +6811 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00097.vtu
+ -->+205947 Tracers allocated, +6935 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00098.vtu
+ -->+205947 Tracers allocated, +6984 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00099.vtu
+ -->+205947 Tracers allocated, +7012 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00100.vtu
+ -->+205947 Tracers allocated, +7157 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00101.vtu
+ -->+205947 Tracers allocated, +7186 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00102.vtu
+ -->+205947 Tracers allocated, +7235 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00103.vtu
+ -->+205947 Tracers allocated, +7359 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00104.vtu
+ -->+205999 Tracers allocated, +7408 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00105.vtu
+ -->+205999 Tracers allocated, +7436 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00106.vtu
+ -->+206073 Tracers allocated, +7582 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00107.vtu
+ -->+206073 Tracers allocated, +7610 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00108.vtu
+ -->+206073 Tracers allocated, +7659 Tracers active
+2018-8-13 @14:8:48 ->Writting output file Template_Lagrangian_00109.vtu
+ -->+206073 Tracers allocated, +7783 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00110.vtu
+ -->+206073 Tracers allocated, +7832 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00111.vtu
+ -->+206073 Tracers allocated, +7861 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00112.vtu
+ -->+206073 Tracers allocated, +8006 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00113.vtu
+ -->+206073 Tracers allocated, +8034 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00114.vtu
+ -->+206073 Tracers allocated, +8083 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00115.vtu
+ -->+206073 Tracers allocated, +8207 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00116.vtu
+ -->+206073 Tracers allocated, +8257 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00117.vtu
+ -->+206073 Tracers allocated, +8285 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00118.vtu
+ -->+206073 Tracers allocated, +8430 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00119.vtu
+ -->+206073 Tracers allocated, +8458 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00120.vtu
+ -->+206073 Tracers allocated, +8507 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00121.vtu
+ -->+206073 Tracers allocated, +8632 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00122.vtu
+ -->+206073 Tracers allocated, +8681 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00123.vtu
+ -->+206073 Tracers allocated, +8709 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00124.vtu
+ -->+206135 Tracers allocated, +8854 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00125.vtu
+ -->+206135 Tracers allocated, +8882 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00126.vtu
+ -->+206135 Tracers allocated, +8932 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00127.vtu
+ -->+206135 Tracers allocated, +9056 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00128.vtu
+ -->+206224 Tracers allocated, +9105 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00129.vtu
+ -->+206224 Tracers allocated, +9133 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00130.vtu
+ -->+206224 Tracers allocated, +9278 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00131.vtu
+ -->+206224 Tracers allocated, +9307 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00132.vtu
+ -->+206224 Tracers allocated, +9356 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00133.vtu
+ -->+206224 Tracers allocated, +9480 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00134.vtu
+ -->+206224 Tracers allocated, +9529 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00135.vtu
+ -->+206224 Tracers allocated, +9557 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00136.vtu
+ -->+206224 Tracers allocated, +9703 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00137.vtu
+ -->+206224 Tracers allocated, +9731 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00138.vtu
+ -->+206224 Tracers allocated, +9780 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00139.vtu
+ -->+206224 Tracers allocated, +9904 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00140.vtu
+ -->+206224 Tracers allocated, +9953 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00141.vtu
+ -->+206224 Tracers allocated, +9982 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00142.vtu
+ -->+206224 Tracers allocated, +10127 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00143.vtu
+ -->+206224 Tracers allocated, +10155 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00144.vtu
+ -->+206224 Tracers allocated, +10204 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00145.vtu
+ -->+206224 Tracers allocated, +10328 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00146.vtu
+ -->+206224 Tracers allocated, +10378 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00147.vtu
+ -->+206224 Tracers allocated, +10406 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00148.vtu
+ -->+206298 Tracers allocated, +10551 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00149.vtu
+ -->+206298 Tracers allocated, +10579 Tracers active
+2018-8-13 @14:8:49 ->Writting output file Template_Lagrangian_00150.vtu
+ -->+206298 Tracers allocated, +10628 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00151.vtu
+ -->+206298 Tracers allocated, +10753 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00152.vtu
+ -->+206405 Tracers allocated, +10802 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00153.vtu
+ -->+206405 Tracers allocated, +10830 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00154.vtu
+ -->+206405 Tracers allocated, +10975 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00155.vtu
+ -->+206405 Tracers allocated, +11003 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00156.vtu
+ -->+206405 Tracers allocated, +11053 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00157.vtu
+ -->+206405 Tracers allocated, +11177 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00158.vtu
+ -->+206405 Tracers allocated, +11226 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00159.vtu
+ -->+206405 Tracers allocated, +11254 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00160.vtu
+ -->+206405 Tracers allocated, +11399 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00161.vtu
+ -->+206405 Tracers allocated, +11428 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00162.vtu
+ -->+206405 Tracers allocated, +11477 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00163.vtu
+ -->+206405 Tracers allocated, +11601 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00164.vtu
+ -->+206405 Tracers allocated, +11650 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00165.vtu
+ -->+206405 Tracers allocated, +11678 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00166.vtu
+ -->+206405 Tracers allocated, +11824 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00167.vtu
+ -->+206405 Tracers allocated, +11852 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00168.vtu
+ -->+206405 Tracers allocated, +11901 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00169.vtu
+ -->+206405 Tracers allocated, +12025 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00170.vtu
+ -->+206405 Tracers allocated, +12074 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00171.vtu
+ -->+206405 Tracers allocated, +12103 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00172.vtu
+ -->+206405 Tracers allocated, +12248 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00173.vtu
+ -->+206405 Tracers allocated, +12276 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00174.vtu
+ -->+206405 Tracers allocated, +12325 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00175.vtu
+ -->+206405 Tracers allocated, +12449 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00176.vtu
+ -->+206405 Tracers allocated, +12499 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00177.vtu
+ -->+206405 Tracers allocated, +12527 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00178.vtu
+ -->+206494 Tracers allocated, +12672 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00179.vtu
+ -->+206494 Tracers allocated, +12700 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00180.vtu
+ -->+206494 Tracers allocated, +12749 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00181.vtu
+ -->+206494 Tracers allocated, +12874 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00182.vtu
+ -->+206494 Tracers allocated, +12923 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00183.vtu
+ -->+206494 Tracers allocated, +12951 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00184.vtu
+ -->+206622 Tracers allocated, +13096 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00185.vtu
+ -->+206622 Tracers allocated, +13124 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00186.vtu
+ -->+206622 Tracers allocated, +13174 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00187.vtu
+ -->+206622 Tracers allocated, +13298 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00188.vtu
+ -->+206622 Tracers allocated, +13347 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00189.vtu
+ -->+206622 Tracers allocated, +13375 Tracers active
+2018-8-13 @14:8:50 ->Writting output file Template_Lagrangian_00190.vtu
+ -->+206622 Tracers allocated, +13520 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00191.vtu
+ -->+206622 Tracers allocated, +13549 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00192.vtu
+ -->+206622 Tracers allocated, +13598 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00193.vtu
+ -->+206622 Tracers allocated, +13722 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00194.vtu
+ -->+206622 Tracers allocated, +13771 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00195.vtu
+ -->+206622 Tracers allocated, +13799 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00196.vtu
+ -->+206622 Tracers allocated, +13945 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00197.vtu
+ -->+206622 Tracers allocated, +13973 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00198.vtu
+ -->+206622 Tracers allocated, +14022 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00199.vtu
+ -->+206622 Tracers allocated, +14146 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00200.vtu
+ -->+206622 Tracers allocated, +14195 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00201.vtu
+ -->+206622 Tracers allocated, +14224 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00202.vtu
+ -->+206622 Tracers allocated, +14369 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00203.vtu
+ -->+206622 Tracers allocated, +14397 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00204.vtu
+ -->+206622 Tracers allocated, +14446 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00205.vtu
+ -->+206622 Tracers allocated, +14570 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00206.vtu
+ -->+206622 Tracers allocated, +14620 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00207.vtu
+ -->+206622 Tracers allocated, +14648 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00208.vtu
+ -->+206622 Tracers allocated, +14793 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00209.vtu
+ -->+206622 Tracers allocated, +14821 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00210.vtu
+ -->+206622 Tracers allocated, +14870 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00211.vtu
+ -->+206622 Tracers allocated, +14995 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00212.vtu
+ -->+206622 Tracers allocated, +15044 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00213.vtu
+ -->+206622 Tracers allocated, +15072 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00214.vtu
+ -->+206729 Tracers allocated, +15217 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00215.vtu
+ -->+206729 Tracers allocated, +15245 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00216.vtu
+ -->+206729 Tracers allocated, +15295 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00217.vtu
+ -->+206729 Tracers allocated, +15419 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00218.vtu
+ -->+206729 Tracers allocated, +15468 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00219.vtu
+ -->+206729 Tracers allocated, +15496 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00220.vtu
+ -->+206883 Tracers allocated, +15641 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00221.vtu
+ -->+206883 Tracers allocated, +15670 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00222.vtu
+ -->+206883 Tracers allocated, +15719 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00223.vtu
+ -->+206883 Tracers allocated, +15843 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00224.vtu
+ -->+206883 Tracers allocated, +15892 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00225.vtu
+ -->+206883 Tracers allocated, +15920 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00226.vtu
+ -->+206883 Tracers allocated, +16066 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00227.vtu
+ -->+206883 Tracers allocated, +16094 Tracers active
+2018-8-13 @14:8:51 ->Writting output file Template_Lagrangian_00228.vtu
+ -->+206883 Tracers allocated, +16143 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00229.vtu
+ -->+206883 Tracers allocated, +16267 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00230.vtu
+ -->+206883 Tracers allocated, +16316 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00231.vtu
+ -->+206883 Tracers allocated, +16345 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00232.vtu
+ -->+206883 Tracers allocated, +16490 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00233.vtu
+ -->+206883 Tracers allocated, +16518 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00234.vtu
+ -->+206883 Tracers allocated, +16567 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00235.vtu
+ -->+206883 Tracers allocated, +16691 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00236.vtu
+ -->+206883 Tracers allocated, +16741 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00237.vtu
+ -->+206883 Tracers allocated, +16769 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00238.vtu
+ -->+206883 Tracers allocated, +16914 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00239.vtu
+ -->+206883 Tracers allocated, +16942 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00240.vtu
+ -->+206883 Tracers allocated, +16991 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00241.vtu
+ -->+206883 Tracers allocated, +17116 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00242.vtu
+ -->+206883 Tracers allocated, +17165 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00243.vtu
+ -->+206883 Tracers allocated, +17193 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00244.vtu
+ -->+206883 Tracers allocated, +17338 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00245.vtu
+ -->+206883 Tracers allocated, +17366 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00246.vtu
+ -->+206883 Tracers allocated, +17416 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00247.vtu
+ -->+206883 Tracers allocated, +17540 Tracers active
+2018-8-13 @14:8:52 ->Writting output file Template_Lagrangian_00248.vtu
+ -->+206883 Tracers allocated, +17589 Tracers active
+2018-8-13 @14:8:53 ->Writting output file Template_Lagrangian_00249.vtu
+ -->+206883 Tracers allocated, +17617 Tracers active
+2018-8-13 @14:8:53 ->Writting output file Template_Lagrangian_00250.vtu
+ -->+206883 Tracers allocated, +17762 Tracers active
+2018-8-13 @14:8:53 ->Writting output file Template_Lagrangian_00251.vtu
+ -->+206883 Tracers allocated, +17791 Tracers active
+2018-8-13 @14:8:53 ->Writting output file Template_Lagrangian_00252.vtu
+ -->+206883 Tracers allocated, +17840 Tracers active
+2018-8-13 @14:8:54 ->Writting output file Template_Lagrangian_00253.vtu
+ -->+206883 Tracers allocated, +17964 Tracers active
+2018-8-13 @14:8:54 ->Writting output file Template_Lagrangian_00254.vtu
+ -->+206883 Tracers allocated, +18013 Tracers active
+2018-8-13 @14:8:54 ->Writting output file Template_Lagrangian_00255.vtu
+ -->+206883 Tracers allocated, +18041 Tracers active
+2018-8-13 @14:8:54 ->Writting output file Template_Lagrangian_00256.vtu
+ -->+207011 Tracers allocated, +18187 Tracers active
+2018-8-13 @14:8:54 ->Writting output file Template_Lagrangian_00257.vtu
+ -->+207011 Tracers allocated, +18215 Tracers active
+2018-8-13 @14:8:54 ->Writting output file Template_Lagrangian_00258.vtu
+ -->+207011 Tracers allocated, +18264 Tracers active
+2018-8-13 @14:8:54 ->Writting output file Template_Lagrangian_00259.vtu
+ -->+207011 Tracers allocated, +18388 Tracers active
+2018-8-13 @14:8:55 ->Writting output file Template_Lagrangian_00260.vtu
+ -->+207011 Tracers allocated, +18437 Tracers active
+2018-8-13 @14:8:56 ->Writting output file Template_Lagrangian_00261.vtu
+ -->+207011 Tracers allocated, +18466 Tracers active
+2018-8-13 @14:8:57 ->Writting output file Template_Lagrangian_00262.vtu
+ -->+207011 Tracers allocated, +18611 Tracers active
+2018-8-13 @14:8:57 ->Writting output file Template_Lagrangian_00263.vtu
+ -->+207011 Tracers allocated, +18639 Tracers active
+2018-8-13 @14:8:57 ->Writting output file Template_Lagrangian_00264.vtu
+ -->+207196 Tracers allocated, +18688 Tracers active
+2018-8-13 @14:8:57 ->Writting output file Template_Lagrangian_00265.vtu
+ -->+207196 Tracers allocated, +18812 Tracers active
+2018-8-13 @14:8:57 ->Writting output file Template_Lagrangian_00266.vtu
+ -->+207196 Tracers allocated, +18862 Tracers active
+2018-8-13 @14:8:58 ->Writting output file Template_Lagrangian_00267.vtu
+ -->+207196 Tracers allocated, +18890 Tracers active
+2018-8-13 @14:8:58 ->Writting output file Template_Lagrangian_00268.vtu
+ -->+207196 Tracers allocated, +19035 Tracers active
+2018-8-13 @14:8:58 ->Writting output file Template_Lagrangian_00269.vtu
+ -->+207196 Tracers allocated, +19063 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00270.vtu
+ -->+207196 Tracers allocated, +19112 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00271.vtu
+ -->+207196 Tracers allocated, +19237 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00272.vtu
+ -->+207196 Tracers allocated, +19286 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00273.vtu
+ -->+207196 Tracers allocated, +19314 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00274.vtu
+ -->+207196 Tracers allocated, +19459 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00275.vtu
+ -->+207196 Tracers allocated, +19487 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00276.vtu
+ -->+207196 Tracers allocated, +19537 Tracers active
+2018-8-13 @14:8:59 ->Writting output file Template_Lagrangian_00277.vtu
+ -->+207196 Tracers allocated, +19661 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00278.vtu
+ -->+207196 Tracers allocated, +19710 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00279.vtu
+ -->+207196 Tracers allocated, +19738 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00280.vtu
+ -->+207196 Tracers allocated, +19883 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00281.vtu
+ -->+207196 Tracers allocated, +19912 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00282.vtu
+ -->+207196 Tracers allocated, +19961 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00283.vtu
+ -->+207196 Tracers allocated, +20085 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00284.vtu
+ -->+207196 Tracers allocated, +20134 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00285.vtu
+ -->+207196 Tracers allocated, +20162 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00286.vtu
+ -->+207196 Tracers allocated, +20308 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00287.vtu
+ -->+207196 Tracers allocated, +20336 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00288.vtu
+ -->+207196 Tracers allocated, +20385 Tracers active
+2018-8-13 @14:9:0 ->Writting output file Template_Lagrangian_00289.vtu
+ -->+207196 Tracers allocated, +20509 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00290.vtu
+ -->+207196 Tracers allocated, +20558 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00291.vtu
+ -->+207196 Tracers allocated, +20587 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00292.vtu
+ -->+207196 Tracers allocated, +20732 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00293.vtu
+ -->+207196 Tracers allocated, +20760 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00294.vtu
+ -->+207196 Tracers allocated, +20809 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00295.vtu
+ -->+207196 Tracers allocated, +20933 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00296.vtu
+ -->+207196 Tracers allocated, +20983 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00297.vtu
+ -->+207196 Tracers allocated, +21011 Tracers active
+2018-8-13 @14:9:1 ->Writting output file Template_Lagrangian_00298.vtu
+ -->+207196 Tracers allocated, +21156 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00299.vtu
+ -->+207196 Tracers allocated, +21184 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00300.vtu
+ -->+207196 Tracers allocated, +21233 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00301.vtu
+ -->+207196 Tracers allocated, +21358 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00302.vtu
+ -->+207196 Tracers allocated, +21407 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00303.vtu
+ -->+207196 Tracers allocated, +21435 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00304.vtu
+ -->+207196 Tracers allocated, +21580 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00305.vtu
+ -->+207196 Tracers allocated, +21608 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00306.vtu
+ -->+207196 Tracers allocated, +21658 Tracers active
+2018-8-13 @14:9:2 ->Writting output file Template_Lagrangian_00307.vtu
+ -->+207196 Tracers allocated, +21782 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00308.vtu
+ -->+207350 Tracers allocated, +21831 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00309.vtu
+ -->+207350 Tracers allocated, +21859 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00310.vtu
+ -->+207350 Tracers allocated, +22004 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00311.vtu
+ -->+207350 Tracers allocated, +22033 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00312.vtu
+ -->+207350 Tracers allocated, +22082 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00313.vtu
+ -->+207350 Tracers allocated, +22206 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00314.vtu
+ -->+207350 Tracers allocated, +22255 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00315.vtu
+ -->+207350 Tracers allocated, +22283 Tracers active
+2018-8-13 @14:9:3 ->Writting output file Template_Lagrangian_00316.vtu
+ -->+207572 Tracers allocated, +22429 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00317.vtu
+ -->+207572 Tracers allocated, +22457 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00318.vtu
+ -->+207572 Tracers allocated, +22506 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00319.vtu
+ -->+207572 Tracers allocated, +22630 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00320.vtu
+ -->+207572 Tracers allocated, +22679 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00321.vtu
+ -->+207572 Tracers allocated, +22708 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00322.vtu
+ -->+207572 Tracers allocated, +22853 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00323.vtu
+ -->+207572 Tracers allocated, +22881 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00324.vtu
+ -->+207572 Tracers allocated, +22930 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00325.vtu
+ -->+207572 Tracers allocated, +23054 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00326.vtu
+ -->+207572 Tracers allocated, +23104 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00327.vtu
+ -->+207572 Tracers allocated, +23132 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00328.vtu
+ -->+207572 Tracers allocated, +23277 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00329.vtu
+ -->+207572 Tracers allocated, +23305 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00330.vtu
+ -->+207572 Tracers allocated, +23354 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00331.vtu
+ -->+207572 Tracers allocated, +23479 Tracers active
+2018-8-13 @14:9:4 ->Writting output file Template_Lagrangian_00332.vtu
+ -->+207572 Tracers allocated, +23528 Tracers active
+2018-8-13 @14:9:5 ->Writting output file Template_Lagrangian_00333.vtu
+ -->+207572 Tracers allocated, +23556 Tracers active
+2018-8-13 @14:9:5 ->Writting output file Template_Lagrangian_00334.vtu
+ -->+207572 Tracers allocated, +23701 Tracers active
+2018-8-13 @14:9:5 ->Writting output file Template_Lagrangian_00335.vtu
+ -->+207572 Tracers allocated, +23729 Tracers active
+2018-8-13 @14:9:5 ->Writting output file Template_Lagrangian_00336.vtu
+ -->+207572 Tracers allocated, +23779 Tracers active
+2018-8-13 @14:9:5 ->Writting output file Template_Lagrangian_00337.vtu
+ -->+207572 Tracers allocated, +23903 Tracers active
+2018-8-13 @14:9:5 ->Writting output file Template_Lagrangian_00338.vtu
+ -->+207572 Tracers allocated, +23952 Tracers active
+2018-8-13 @14:9:5 ->Writting output file Template_Lagrangian_00339.vtu
+ -->+207572 Tracers allocated, +23980 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00340.vtu
+ -->+207572 Tracers allocated, +24125 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00341.vtu
+ -->+207572 Tracers allocated, +24154 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00342.vtu
+ -->+207572 Tracers allocated, +24203 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00343.vtu
+ -->+207572 Tracers allocated, +24327 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00344.vtu
+ -->+207572 Tracers allocated, +24376 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00345.vtu
+ -->+207572 Tracers allocated, +24404 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00346.vtu
+ -->+207572 Tracers allocated, +24550 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00347.vtu
+ -->+207572 Tracers allocated, +24578 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00348.vtu
+ -->+207572 Tracers allocated, +24627 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00349.vtu
+ -->+207572 Tracers allocated, +24751 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00350.vtu
+ -->+207572 Tracers allocated, +24800 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00351.vtu
+ -->+207572 Tracers allocated, +24829 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00352.vtu
+ -->+207572 Tracers allocated, +24974 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00353.vtu
+ -->+207572 Tracers allocated, +25002 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00354.vtu
+ -->+207572 Tracers allocated, +25051 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00355.vtu
+ -->+207572 Tracers allocated, +25175 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00356.vtu
+ -->+207572 Tracers allocated, +25225 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00357.vtu
+ -->+207572 Tracers allocated, +25253 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00358.vtu
+ -->+207572 Tracers allocated, +25398 Tracers active
+2018-8-13 @14:9:6 ->Writting output file Template_Lagrangian_00359.vtu
+ -->+207572 Tracers allocated, +25426 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00360.vtu
+ -->+207572 Tracers allocated, +25475 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00361.vtu
+ -->+207572 Tracers allocated, +25600 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00362.vtu
+ -->+207572 Tracers allocated, +25649 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00363.vtu
+ -->+207572 Tracers allocated, +25677 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00364.vtu
+ -->+207572 Tracers allocated, +25822 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00365.vtu
+ -->+207572 Tracers allocated, +25850 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00366.vtu
+ -->+207572 Tracers allocated, +25900 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00367.vtu
+ -->+207572 Tracers allocated, +26024 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00368.vtu
+ -->+207572 Tracers allocated, +26073 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00369.vtu
+ -->+207572 Tracers allocated, +26101 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00370.vtu
+ -->+207757 Tracers allocated, +26246 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00371.vtu
+ -->+207757 Tracers allocated, +26275 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00372.vtu
+ -->+207757 Tracers allocated, +26324 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00373.vtu
+ -->+207757 Tracers allocated, +26448 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00374.vtu
+ -->+207757 Tracers allocated, +26497 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00375.vtu
+ -->+207757 Tracers allocated, +26525 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00376.vtu
+ -->+207757 Tracers allocated, +26671 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00377.vtu
+ -->+207757 Tracers allocated, +26699 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00378.vtu
+ -->+207757 Tracers allocated, +26748 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00379.vtu
+ -->+207757 Tracers allocated, +26872 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00380.vtu
+ -->+208023 Tracers allocated, +26921 Tracers active
+2018-8-13 @14:9:7 ->Writting output file Template_Lagrangian_00381.vtu
+ -->+208023 Tracers allocated, +26950 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00382.vtu
+ -->+208023 Tracers allocated, +27095 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00383.vtu
+ -->+208023 Tracers allocated, +27123 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00384.vtu
+ -->+208023 Tracers allocated, +27172 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00385.vtu
+ -->+208023 Tracers allocated, +27296 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00386.vtu
+ -->+208023 Tracers allocated, +27346 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00387.vtu
+ -->+208023 Tracers allocated, +27374 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00388.vtu
+ -->+208023 Tracers allocated, +27519 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00389.vtu
+ -->+208023 Tracers allocated, +27547 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00390.vtu
+ -->+208023 Tracers allocated, +27596 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00391.vtu
+ -->+208023 Tracers allocated, +27721 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00392.vtu
+ -->+208023 Tracers allocated, +27770 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00393.vtu
+ -->+208023 Tracers allocated, +27798 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00394.vtu
+ -->+208023 Tracers allocated, +27943 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00395.vtu
+ -->+208023 Tracers allocated, +27971 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00396.vtu
+ -->+208023 Tracers allocated, +28021 Tracers active
+2018-8-13 @14:9:8 ->Writting output file Template_Lagrangian_00397.vtu
+ -->+208023 Tracers allocated, +28145 Tracers active
+2018-8-13 @14:9:9 ->Writting output file Template_Lagrangian_00398.vtu
+ -->+208023 Tracers allocated, +28194 Tracers active
+2018-8-13 @14:9:9 ->Writting output file Template_Lagrangian_00399.vtu
+ -->+208023 Tracers allocated, +28222 Tracers active
+2018-8-13 @14:9:9 ->Writting output file Template_Lagrangian_00400.vtu
+ -->+208023 Tracers allocated, +28367 Tracers active
+2018-8-13 @14:9:9 ->Writting output file Template_Lagrangian_00401.vtu
+ -->+208023 Tracers allocated, +28396 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00402.vtu
+ -->+208023 Tracers allocated, +28445 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00403.vtu
+ -->+208023 Tracers allocated, +28569 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00404.vtu
+ -->+208023 Tracers allocated, +28618 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00405.vtu
+ -->+208023 Tracers allocated, +28646 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00406.vtu
+ -->+208023 Tracers allocated, +28792 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00407.vtu
+ -->+208023 Tracers allocated, +28820 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00408.vtu
+ -->+208023 Tracers allocated, +28869 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00409.vtu
+ -->+208023 Tracers allocated, +28993 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00410.vtu
+ -->+208023 Tracers allocated, +29042 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00411.vtu
+ -->+208023 Tracers allocated, +29071 Tracers active
+2018-8-13 @14:9:10 ->Writting output file Template_Lagrangian_00412.vtu
+ -->+208023 Tracers allocated, +29216 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00413.vtu
+ -->+208023 Tracers allocated, +29244 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00414.vtu
+ -->+208023 Tracers allocated, +29293 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00415.vtu
+ -->+208023 Tracers allocated, +29417 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00416.vtu
+ -->+208023 Tracers allocated, +29467 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00417.vtu
+ -->+208023 Tracers allocated, +29495 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00418.vtu
+ -->+208023 Tracers allocated, +29640 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00419.vtu
+ -->+208023 Tracers allocated, +29668 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00420.vtu
+ -->+208023 Tracers allocated, +29717 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00421.vtu
+ -->+208023 Tracers allocated, +29842 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00422.vtu
+ -->+208023 Tracers allocated, +29891 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00423.vtu
+ -->+208023 Tracers allocated, +29919 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00424.vtu
+ -->+208023 Tracers allocated, +30064 Tracers active
+2018-8-13 @14:9:11 ->Writting output file Template_Lagrangian_00425.vtu
+ -->+208023 Tracers allocated, +30092 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00426.vtu
+ -->+208023 Tracers allocated, +30142 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00427.vtu
+ -->+208023 Tracers allocated, +30266 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00428.vtu
+ -->+208023 Tracers allocated, +30315 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00429.vtu
+ -->+208023 Tracers allocated, +30343 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00430.vtu
+ -->+208023 Tracers allocated, +30488 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00431.vtu
+ -->+208023 Tracers allocated, +30517 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00432.vtu
+ -->+208023 Tracers allocated, +30566 Tracers active
+2018-8-13 @14:9:12 ->Writting output file Template_Lagrangian_00433.vtu
+ -->+208023 Tracers allocated, +30690 Tracers active
+2018-8-13 @14:9:13 ->Writting output file Template_Lagrangian_00434.vtu
+ -->+208023 Tracers allocated, +30739 Tracers active
+2018-8-13 @14:9:13 ->Writting output file Template_Lagrangian_00435.vtu
+ -->+208023 Tracers allocated, +30767 Tracers active
+2018-8-13 @14:9:13 ->Writting output file Template_Lagrangian_00436.vtu
+ -->+208023 Tracers allocated, +30913 Tracers active
+2018-8-13 @14:9:13 ->Writting output file Template_Lagrangian_00437.vtu
+ -->+208023 Tracers allocated, +30941 Tracers active
+2018-8-13 @14:9:13 ->Writting output file Template_Lagrangian_00438.vtu
+ -->+208023 Tracers allocated, +30990 Tracers active
+2018-8-13 @14:9:13 ->Writting output file Template_Lagrangian_00439.vtu
+ -->+208023 Tracers allocated, +31114 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00440.vtu
+ -->+208023 Tracers allocated, +31163 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00441.vtu
+ -->+208023 Tracers allocated, +31192 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00442.vtu
+ -->+208023 Tracers allocated, +31337 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00443.vtu
+ -->+208023 Tracers allocated, +31365 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00444.vtu
+ -->+208245 Tracers allocated, +31414 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00445.vtu
+ -->+208245 Tracers allocated, +31538 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00446.vtu
+ -->+208245 Tracers allocated, +31588 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00447.vtu
+ -->+208245 Tracers allocated, +31616 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00448.vtu
+ -->+208245 Tracers allocated, +31761 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00449.vtu
+ -->+208245 Tracers allocated, +31789 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00450.vtu
+ -->+208245 Tracers allocated, +31838 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00451.vtu
+ -->+208245 Tracers allocated, +31963 Tracers active
+2018-8-13 @14:9:14 ->Writting output file Template_Lagrangian_00452.vtu
+ -->+208245 Tracers allocated, +32012 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00453.vtu
+ -->+208245 Tracers allocated, +32040 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00454.vtu
+ -->+208245 Tracers allocated, +32185 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00455.vtu
+ -->+208245 Tracers allocated, +32213 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00456.vtu
+ -->+208564 Tracers allocated, +32263 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00457.vtu
+ -->+208564 Tracers allocated, +32387 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00458.vtu
+ -->+208564 Tracers allocated, +32436 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00459.vtu
+ -->+208564 Tracers allocated, +32464 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00460.vtu
+ -->+208564 Tracers allocated, +32609 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00461.vtu
+ -->+208564 Tracers allocated, +32638 Tracers active
+2018-8-13 @14:9:15 ->Writting output file Template_Lagrangian_00462.vtu
+ -->+208564 Tracers allocated, +32687 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00463.vtu
+ -->+208564 Tracers allocated, +32811 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00464.vtu
+ -->+208564 Tracers allocated, +32860 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00465.vtu
+ -->+208564 Tracers allocated, +32888 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00466.vtu
+ -->+208564 Tracers allocated, +33034 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00467.vtu
+ -->+208564 Tracers allocated, +33062 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00468.vtu
+ -->+208564 Tracers allocated, +33111 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00469.vtu
+ -->+208564 Tracers allocated, +33235 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00470.vtu
+ -->+208564 Tracers allocated, +33284 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00471.vtu
+ -->+208564 Tracers allocated, +33313 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00472.vtu
+ -->+208564 Tracers allocated, +33458 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00473.vtu
+ -->+208564 Tracers allocated, +33486 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00474.vtu
+ -->+208564 Tracers allocated, +33535 Tracers active
+2018-8-13 @14:9:16 ->Writting output file Template_Lagrangian_00475.vtu
+ -->+208564 Tracers allocated, +33659 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00476.vtu
+ -->+208564 Tracers allocated, +33709 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00477.vtu
+ -->+208564 Tracers allocated, +33737 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00478.vtu
+ -->+208564 Tracers allocated, +33882 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00479.vtu
+ -->+208564 Tracers allocated, +33910 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00480.vtu
+ -->+208564 Tracers allocated, +33959 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00481.vtu
+ -->+208564 Tracers allocated, +34084 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00482.vtu
+ -->+208564 Tracers allocated, +34133 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00483.vtu
+ -->+208564 Tracers allocated, +34161 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00484.vtu
+ -->+208564 Tracers allocated, +34306 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00485.vtu
+ -->+208564 Tracers allocated, +34334 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00486.vtu
+ -->+208564 Tracers allocated, +34384 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00487.vtu
+ -->+208564 Tracers allocated, +34508 Tracers active
+2018-8-13 @14:9:17 ->Writting output file Template_Lagrangian_00488.vtu
+ -->+208564 Tracers allocated, +34557 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00489.vtu
+ -->+208564 Tracers allocated, +34585 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00490.vtu
+ -->+208564 Tracers allocated, +34730 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00491.vtu
+ -->+208564 Tracers allocated, +34759 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00492.vtu
+ -->+208564 Tracers allocated, +34808 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00493.vtu
+ -->+208564 Tracers allocated, +34932 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00494.vtu
+ -->+208564 Tracers allocated, +34981 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00495.vtu
+ -->+208564 Tracers allocated, +35009 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00496.vtu
+ -->+208564 Tracers allocated, +35155 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00497.vtu
+ -->+208564 Tracers allocated, +35183 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00498.vtu
+ -->+208564 Tracers allocated, +35232 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00499.vtu
+ -->+208564 Tracers allocated, +35356 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00500.vtu
+ -->+208564 Tracers allocated, +35405 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00501.vtu
+ -->+208564 Tracers allocated, +35434 Tracers active
+2018-8-13 @14:9:18 ->Writting output file Template_Lagrangian_00502.vtu
+ -->+208564 Tracers allocated, +35579 Tracers active
+2018-8-13 @14:9:19 ->Writting output file Template_Lagrangian_00503.vtu
+ -->+208564 Tracers allocated, +35607 Tracers active
+2018-8-13 @14:9:19 ->Writting output file Template_Lagrangian_00504.vtu
+ -->+208564 Tracers allocated, +35656 Tracers active
+2018-8-13 @14:9:19 ->Writting output file Template_Lagrangian_00505.vtu
+ -->+208564 Tracers allocated, +35780 Tracers active
+2018-8-13 @14:9:19 ->Writting output file Template_Lagrangian_00506.vtu
+ -->+208564 Tracers allocated, +35830 Tracers active
+2018-8-13 @14:9:19 ->Writting output file Template_Lagrangian_00507.vtu
+ -->+208564 Tracers allocated, +35858 Tracers active
+2018-8-13 @14:9:19 ->Writting output file Template_Lagrangian_00508.vtu
+ -->+208564 Tracers allocated, +36003 Tracers active
+2018-8-13 @14:9:20 ->Writting output file Template_Lagrangian_00509.vtu
+ -->+208564 Tracers allocated, +36031 Tracers active
+2018-8-13 @14:9:20 ->Writting output file Template_Lagrangian_00510.vtu
+ -->+208564 Tracers allocated, +36080 Tracers active
+2018-8-13 @14:9:20 ->Writting output file Template_Lagrangian_00511.vtu
+ -->+208564 Tracers allocated, +36205 Tracers active
+2018-8-13 @14:9:20 ->Writting output file Template_Lagrangian_00512.vtu
+ -->+208564 Tracers allocated, +36254 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00513.vtu
+ -->+208564 Tracers allocated, +36282 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00514.vtu
+ -->+208564 Tracers allocated, +36427 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00515.vtu
+ -->+208564 Tracers allocated, +36455 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00516.vtu
+ -->+208564 Tracers allocated, +36505 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00517.vtu
+ -->+208564 Tracers allocated, +36629 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00518.vtu
+ -->+208564 Tracers allocated, +36678 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00519.vtu
+ -->+208564 Tracers allocated, +36706 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00520.vtu
+ -->+208564 Tracers allocated, +36851 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00521.vtu
+ -->+208564 Tracers allocated, +36880 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00522.vtu
+ -->+208564 Tracers allocated, +36929 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00523.vtu
+ -->+208564 Tracers allocated, +37053 Tracers active
+2018-8-13 @14:9:21 ->Writting output file Template_Lagrangian_00524.vtu
+ -->+208564 Tracers allocated, +37102 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00525.vtu
+ -->+208564 Tracers allocated, +37130 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00526.vtu
+ -->+208564 Tracers allocated, +37276 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00527.vtu
+ -->+208564 Tracers allocated, +37304 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00528.vtu
+ -->+208564 Tracers allocated, +37353 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00529.vtu
+ -->+208564 Tracers allocated, +37477 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00530.vtu
+ -->+208564 Tracers allocated, +37526 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00531.vtu
+ -->+208564 Tracers allocated, +37555 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00532.vtu
+ -->+208830 Tracers allocated, +37700 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00533.vtu
+ -->+208830 Tracers allocated, +37728 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00534.vtu
+ -->+208830 Tracers allocated, +37777 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00535.vtu
+ -->+208830 Tracers allocated, +37901 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00536.vtu
+ -->+208830 Tracers allocated, +37951 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00537.vtu
+ -->+208830 Tracers allocated, +37979 Tracers active
+2018-8-13 @14:9:22 ->Writting output file Template_Lagrangian_00538.vtu
+ -->+208830 Tracers allocated, +38124 Tracers active
+2018-8-13 @14:9:23 ->Writting output file Template_Lagrangian_00539.vtu
+ -->+208830 Tracers allocated, +38152 Tracers active
+2018-8-13 @14:9:23 ->Writting output file Template_Lagrangian_00540.vtu
+ -->+208830 Tracers allocated, +38201 Tracers active
+2018-8-13 @14:9:23 ->Writting output file Template_Lagrangian_00541.vtu
+ -->+208830 Tracers allocated, +38326 Tracers active
+2018-8-13 @14:9:23 ->Writting output file Template_Lagrangian_00542.vtu
+ -->+208830 Tracers allocated, +38375 Tracers active
+2018-8-13 @14:9:23 ->Writting output file Template_Lagrangian_00543.vtu
+ -->+208830 Tracers allocated, +38403 Tracers active
+2018-8-13 @14:9:23 ->Writting output file Template_Lagrangian_00544.vtu
+ -->+208830 Tracers allocated, +38548 Tracers active
+2018-8-13 @14:9:23 ->Writting output file Template_Lagrangian_00545.vtu
+ -->+208830 Tracers allocated, +38576 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00546.vtu
+ -->+208830 Tracers allocated, +38626 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00547.vtu
+ -->+208830 Tracers allocated, +38750 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00548.vtu
+ -->+209213 Tracers allocated, +38799 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00549.vtu
+ -->+209213 Tracers allocated, +38827 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00550.vtu
+ -->+209213 Tracers allocated, +38972 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00551.vtu
+ -->+209213 Tracers allocated, +39001 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00552.vtu
+ -->+209213 Tracers allocated, +39050 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00553.vtu
+ -->+209213 Tracers allocated, +39174 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00554.vtu
+ -->+209213 Tracers allocated, +39223 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00555.vtu
+ -->+209213 Tracers allocated, +39251 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00556.vtu
+ -->+209213 Tracers allocated, +39397 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00557.vtu
+ -->+209213 Tracers allocated, +39425 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00558.vtu
+ -->+209213 Tracers allocated, +39474 Tracers active
+2018-8-13 @14:9:24 ->Writting output file Template_Lagrangian_00559.vtu
+ -->+209213 Tracers allocated, +39598 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00560.vtu
+ -->+209213 Tracers allocated, +39647 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00561.vtu
+ -->+209213 Tracers allocated, +39676 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00562.vtu
+ -->+209213 Tracers allocated, +39821 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00563.vtu
+ -->+209213 Tracers allocated, +39849 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00564.vtu
+ -->+209213 Tracers allocated, +39898 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00565.vtu
+ -->+209213 Tracers allocated, +40022 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00566.vtu
+ -->+209213 Tracers allocated, +40072 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00567.vtu
+ -->+209213 Tracers allocated, +40100 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00568.vtu
+ -->+209213 Tracers allocated, +40245 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00569.vtu
+ -->+209213 Tracers allocated, +40273 Tracers active
+2018-8-13 @14:9:25 ->Writting output file Template_Lagrangian_00570.vtu
+ -->+209213 Tracers allocated, +40322 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00571.vtu
+ -->+209213 Tracers allocated, +40447 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00572.vtu
+ -->+209213 Tracers allocated, +40496 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00573.vtu
+ -->+209213 Tracers allocated, +40524 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00574.vtu
+ -->+209213 Tracers allocated, +40669 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00575.vtu
+ -->+209213 Tracers allocated, +40697 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00576.vtu
+ -->+209213 Tracers allocated, +40747 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00577.vtu
+ -->+209213 Tracers allocated, +40871 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00578.vtu
+ -->+209213 Tracers allocated, +40920 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00579.vtu
+ -->+209213 Tracers allocated, +40948 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00580.vtu
+ -->+209213 Tracers allocated, +41093 Tracers active
+2018-8-13 @14:9:26 ->Writting output file Template_Lagrangian_00581.vtu
+ -->+209213 Tracers allocated, +41122 Tracers active
+2018-8-13 @14:9:27 ->Writting output file Template_Lagrangian_00582.vtu
+ -->+209213 Tracers allocated, +41171 Tracers active
+2018-8-13 @14:9:27 ->Writting output file Template_Lagrangian_00583.vtu
+ -->+209213 Tracers allocated, +41295 Tracers active
+2018-8-13 @14:9:27 ->Writting output file Template_Lagrangian_00584.vtu
+ -->+209213 Tracers allocated, +41344 Tracers active
+2018-8-13 @14:9:27 ->Writting output file Template_Lagrangian_00585.vtu
+ -->+209213 Tracers allocated, +41372 Tracers active
+2018-8-13 @14:9:27 ->Writting output file Template_Lagrangian_00586.vtu
+ -->+209213 Tracers allocated, +41518 Tracers active
+2018-8-13 @14:9:27 ->Writting output file Template_Lagrangian_00587.vtu
+ -->+209213 Tracers allocated, +41546 Tracers active
+2018-8-13 @14:9:27 ->Writting output file Template_Lagrangian_00588.vtu
+ -->+209213 Tracers allocated, +41595 Tracers active
+2018-8-13 @14:9:28 ->Writting output file Template_Lagrangian_00589.vtu
+ -->+209213 Tracers allocated, +41719 Tracers active
+2018-8-13 @14:9:28 ->Writting output file Template_Lagrangian_00590.vtu
+ -->+209213 Tracers allocated, +41768 Tracers active
+2018-8-13 @14:9:28 ->Writting output file Template_Lagrangian_00591.vtu
+ -->+209213 Tracers allocated, +41797 Tracers active
+2018-8-13 @14:9:28 ->Writting output file Template_Lagrangian_00592.vtu
+ -->+209213 Tracers allocated, +41942 Tracers active
+2018-8-13 @14:9:28 ->Writting output file Template_Lagrangian_00593.vtu
+ -->+209213 Tracers allocated, +41970 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00594.vtu
+ -->+209213 Tracers allocated, +42019 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00595.vtu
+ -->+209213 Tracers allocated, +42143 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00596.vtu
+ -->+209213 Tracers allocated, +42193 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00597.vtu
+ -->+209213 Tracers allocated, +42221 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00598.vtu
+ -->+209213 Tracers allocated, +42366 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00599.vtu
+ -->+209213 Tracers allocated, +42394 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00600.vtu
+ -->+209213 Tracers allocated, +42443 Tracers active
+2018-8-13 @14:9:29 ->Writting output file Template_Lagrangian_00601.vtu
+ -->+209213 Tracers allocated, +42568 Tracers active
+2018-8-13 @14:9:30 ->Writting output file Template_Lagrangian_00602.vtu
+ -->+209213 Tracers allocated, +42617 Tracers active
+2018-8-13 @14:9:30 ->Writting output file Template_Lagrangian_00603.vtu
+ -->+209213 Tracers allocated, +42645 Tracers active
+2018-8-13 @14:9:30 ->Writting output file Template_Lagrangian_00604.vtu
+ -->+209213 Tracers allocated, +42790 Tracers active
+2018-8-13 @14:9:30 ->Writting output file Template_Lagrangian_00605.vtu
+ -->+209213 Tracers allocated, +42818 Tracers active
+2018-8-13 @14:9:30 ->Writting output file Template_Lagrangian_00606.vtu
+ -->+209213 Tracers allocated, +42868 Tracers active
+2018-8-13 @14:9:30 ->Writting output file Template_Lagrangian_00607.vtu
+ -->+209213 Tracers allocated, +42992 Tracers active
+2018-8-13 @14:9:30 ->Writting output file Template_Lagrangian_00608.vtu
+ -->+209213 Tracers allocated, +43041 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00609.vtu
+ -->+209213 Tracers allocated, +43069 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00610.vtu
+ -->+209213 Tracers allocated, +43214 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00611.vtu
+ -->+209213 Tracers allocated, +43243 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00612.vtu
+ -->+209213 Tracers allocated, +43292 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00613.vtu
+ -->+209213 Tracers allocated, +43416 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00614.vtu
+ -->+209213 Tracers allocated, +43465 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00615.vtu
+ -->+209213 Tracers allocated, +43493 Tracers active
+2018-8-13 @14:9:31 ->Writting output file Template_Lagrangian_00616.vtu
+ -->+209213 Tracers allocated, +43639 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00617.vtu
+ -->+209213 Tracers allocated, +43667 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00618.vtu
+ -->+209213 Tracers allocated, +43716 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00619.vtu
+ -->+209213 Tracers allocated, +43840 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00620.vtu
+ -->+209213 Tracers allocated, +43889 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00621.vtu
+ -->+209213 Tracers allocated, +43918 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00622.vtu
+ -->+209213 Tracers allocated, +44063 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00623.vtu
+ -->+209213 Tracers allocated, +44091 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00624.vtu
+ -->+209213 Tracers allocated, +44140 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00625.vtu
+ -->+209213 Tracers allocated, +44264 Tracers active
+2018-8-13 @14:9:32 ->Writting output file Template_Lagrangian_00626.vtu
+ -->+209213 Tracers allocated, +44314 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00627.vtu
+ -->+209213 Tracers allocated, +44342 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00628.vtu
+ -->+209213 Tracers allocated, +44487 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00629.vtu
+ -->+209213 Tracers allocated, +44515 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00630.vtu
+ -->+209213 Tracers allocated, +44564 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00631.vtu
+ -->+209213 Tracers allocated, +44689 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00632.vtu
+ -->+209213 Tracers allocated, +44738 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00633.vtu
+ -->+209213 Tracers allocated, +44766 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00634.vtu
+ -->+209213 Tracers allocated, +44911 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00635.vtu
+ -->+209213 Tracers allocated, +44939 Tracers active
+2018-8-13 @14:9:33 ->Writting output file Template_Lagrangian_00636.vtu
+ -->+209213 Tracers allocated, +44989 Tracers active
+2018-8-13 @14:9:34 ->Writting output file Template_Lagrangian_00637.vtu
+ -->+209213 Tracers allocated, +45113 Tracers active
+2018-8-13 @14:9:34 ->Writting output file Template_Lagrangian_00638.vtu
+ -->+209532 Tracers allocated, +45162 Tracers active
+2018-8-13 @14:9:34 ->Writting output file Template_Lagrangian_00639.vtu
+ -->+209532 Tracers allocated, +45190 Tracers active
+2018-8-13 @14:9:34 ->Writting output file Template_Lagrangian_00640.vtu
+ -->+209532 Tracers allocated, +45335 Tracers active
+2018-8-13 @14:9:34 ->Writting output file Template_Lagrangian_00641.vtu
+ -->+209532 Tracers allocated, +45364 Tracers active
+2018-8-13 @14:9:34 ->Writting output file Template_Lagrangian_00642.vtu
+ -->+209532 Tracers allocated, +45413 Tracers active
+2018-8-13 @14:9:35 ->Writting output file Template_Lagrangian_00643.vtu
+ -->+209532 Tracers allocated, +45537 Tracers active
+2018-8-13 @14:9:35 ->Writting output file Template_Lagrangian_00644.vtu
+ -->+209532 Tracers allocated, +45586 Tracers active
+2018-8-13 @14:9:35 ->Writting output file Template_Lagrangian_00645.vtu
+ -->+209532 Tracers allocated, +45614 Tracers active
+2018-8-13 @14:9:35 ->Writting output file Template_Lagrangian_00646.vtu
+ -->+209532 Tracers allocated, +45760 Tracers active
+2018-8-13 @14:9:35 ->Writting output file Template_Lagrangian_00647.vtu
+ -->+209532 Tracers allocated, +45788 Tracers active
+2018-8-13 @14:9:35 ->Writting output file Template_Lagrangian_00648.vtu
+ -->+209532 Tracers allocated, +45837 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00649.vtu
+ -->+209532 Tracers allocated, +45961 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00650.vtu
+ -->+209532 Tracers allocated, +46010 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00651.vtu
+ -->+209532 Tracers allocated, +46039 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00652.vtu
+ -->+209532 Tracers allocated, +46184 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00653.vtu
+ -->+209532 Tracers allocated, +46212 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00654.vtu
+ -->+209532 Tracers allocated, +46261 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00655.vtu
+ -->+209532 Tracers allocated, +46385 Tracers active
+2018-8-13 @14:9:36 ->Writting output file Template_Lagrangian_00656.vtu
+ -->+209992 Tracers allocated, +46435 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00657.vtu
+ -->+209992 Tracers allocated, +46463 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00658.vtu
+ -->+209992 Tracers allocated, +46608 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00659.vtu
+ -->+209992 Tracers allocated, +46636 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00660.vtu
+ -->+209992 Tracers allocated, +46685 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00661.vtu
+ -->+209992 Tracers allocated, +46810 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00662.vtu
+ -->+209992 Tracers allocated, +46859 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00663.vtu
+ -->+209992 Tracers allocated, +46887 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00664.vtu
+ -->+209992 Tracers allocated, +47032 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00665.vtu
+ -->+209992 Tracers allocated, +47060 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00666.vtu
+ -->+209992 Tracers allocated, +47110 Tracers active
+2018-8-13 @14:9:37 ->Writting output file Template_Lagrangian_00667.vtu
+ -->+209992 Tracers allocated, +47234 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00668.vtu
+ -->+209992 Tracers allocated, +47283 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00669.vtu
+ -->+209992 Tracers allocated, +47311 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00670.vtu
+ -->+209992 Tracers allocated, +47456 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00671.vtu
+ -->+209992 Tracers allocated, +47485 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00672.vtu
+ -->+209992 Tracers allocated, +47534 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00673.vtu
+ -->+209992 Tracers allocated, +47658 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00674.vtu
+ -->+209992 Tracers allocated, +47707 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00675.vtu
+ -->+209992 Tracers allocated, +47735 Tracers active
+2018-8-13 @14:9:38 ->Writting output file Template_Lagrangian_00676.vtu
+ -->+209992 Tracers allocated, +47881 Tracers active
+2018-8-13 @14:9:39 ->Writting output file Template_Lagrangian_00677.vtu
+ -->+209992 Tracers allocated, +47909 Tracers active
+2018-8-13 @14:9:39 ->Writting output file Template_Lagrangian_00678.vtu
+ -->+209992 Tracers allocated, +47958 Tracers active
+2018-8-13 @14:9:39 ->Writting output file Template_Lagrangian_00679.vtu
+ -->+209992 Tracers allocated, +48082 Tracers active
+2018-8-13 @14:9:39 ->Writting output file Template_Lagrangian_00680.vtu
+ -->+209992 Tracers allocated, +48131 Tracers active
+2018-8-13 @14:9:39 ->Writting output file Template_Lagrangian_00681.vtu
+ -->+209992 Tracers allocated, +48160 Tracers active
+2018-8-13 @14:9:39 ->Writting output file Template_Lagrangian_00682.vtu
+ -->+209992 Tracers allocated, +48305 Tracers active
+2018-8-13 @14:9:39 ->Writting output file Template_Lagrangian_00683.vtu
+ -->+209992 Tracers allocated, +48333 Tracers active
+2018-8-13 @14:9:40 ->Writting output file Template_Lagrangian_00684.vtu
+ -->+209992 Tracers allocated, +48382 Tracers active
+2018-8-13 @14:9:40 ->Writting output file Template_Lagrangian_00685.vtu
+ -->+209992 Tracers allocated, +48506 Tracers active
+2018-8-13 @14:9:40 ->Writting output file Template_Lagrangian_00686.vtu
+ -->+209992 Tracers allocated, +48556 Tracers active
+2018-8-13 @14:9:40 ->Writting output file Template_Lagrangian_00687.vtu
+ -->+209992 Tracers allocated, +48584 Tracers active
+2018-8-13 @14:9:40 ->Writting output file Template_Lagrangian_00688.vtu
+ -->+209992 Tracers allocated, +48729 Tracers active
+2018-8-13 @14:9:40 ->Writting output file Template_Lagrangian_00689.vtu
+ -->+209992 Tracers allocated, +48757 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00690.vtu
+ -->+209992 Tracers allocated, +48806 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00691.vtu
+ -->+209992 Tracers allocated, +48931 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00692.vtu
+ -->+209992 Tracers allocated, +48980 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00693.vtu
+ -->+209992 Tracers allocated, +49008 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00694.vtu
+ -->+209992 Tracers allocated, +49153 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00695.vtu
+ -->+209992 Tracers allocated, +49181 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00696.vtu
+ -->+209992 Tracers allocated, +49231 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00697.vtu
+ -->+209992 Tracers allocated, +49355 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00698.vtu
+ -->+209992 Tracers allocated, +49404 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00699.vtu
+ -->+209992 Tracers allocated, +49432 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00700.vtu
+ -->+209992 Tracers allocated, +49577 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00701.vtu
+ -->+209992 Tracers allocated, +49606 Tracers active
+2018-8-13 @14:9:41 ->Writting output file Template_Lagrangian_00702.vtu
+ -->+209992 Tracers allocated, +49655 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00703.vtu
+ -->+209992 Tracers allocated, +49779 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00704.vtu
+ -->+209992 Tracers allocated, +49828 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00705.vtu
+ -->+209992 Tracers allocated, +49856 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00706.vtu
+ -->+209992 Tracers allocated, +50002 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00707.vtu
+ -->+209992 Tracers allocated, +50030 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00708.vtu
+ -->+209992 Tracers allocated, +50079 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00709.vtu
+ -->+209992 Tracers allocated, +50203 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00710.vtu
+ -->+209992 Tracers allocated, +50252 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00711.vtu
+ -->+209992 Tracers allocated, +50281 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00712.vtu
+ -->+209992 Tracers allocated, +50426 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00713.vtu
+ -->+209992 Tracers allocated, +50454 Tracers active
+2018-8-13 @14:9:42 ->Writting output file Template_Lagrangian_00714.vtu
+ -->+209992 Tracers allocated, +50503 Tracers active
+2018-8-13 @14:9:43 ->Writting output file Template_Lagrangian_00715.vtu
+ -->+209992 Tracers allocated, +50627 Tracers active
+2018-8-13 @14:9:43 ->Writting output file Template_Lagrangian_00716.vtu
+ -->+209992 Tracers allocated, +50677 Tracers active
+2018-8-13 @14:9:43 ->Writting output file Template_Lagrangian_00717.vtu
+ -->+209992 Tracers allocated, +50705 Tracers active
+2018-8-13 @14:9:43 ->Writting output file Template_Lagrangian_00718.vtu
+ -->+209992 Tracers allocated, +50850 Tracers active
+2018-8-13 @14:9:43 ->Writting output file Template_Lagrangian_00719.vtu
+ -->+209992 Tracers allocated, +50878 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00720.vtu
+ -->+209992 Tracers allocated, +50927 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00721.vtu
+ -->+209992 Tracers allocated, +51052 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00722.vtu
+ -->+209992 Tracers allocated, +51101 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00723.vtu
+ -->+209992 Tracers allocated, +51129 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00724.vtu
+ -->+209992 Tracers allocated, +51274 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00725.vtu
+ -->+209992 Tracers allocated, +51302 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00726.vtu
+ -->+209992 Tracers allocated, +51352 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00727.vtu
+ -->+209992 Tracers allocated, +51476 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00728.vtu
+ -->+209992 Tracers allocated, +51525 Tracers active
+2018-8-13 @14:9:44 ->Writting output file Template_Lagrangian_00729.vtu
+ -->+209992 Tracers allocated, +51553 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00730.vtu
+ -->+209992 Tracers allocated, +51698 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00731.vtu
+ -->+209992 Tracers allocated, +51727 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00732.vtu
+ -->+209992 Tracers allocated, +51776 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00733.vtu
+ -->+209992 Tracers allocated, +51900 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00734.vtu
+ -->+209992 Tracers allocated, +51949 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00735.vtu
+ -->+209992 Tracers allocated, +51977 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00736.vtu
+ -->+209992 Tracers allocated, +52123 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00737.vtu
+ -->+209992 Tracers allocated, +52151 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00738.vtu
+ -->+209992 Tracers allocated, +52200 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00739.vtu
+ -->+209992 Tracers allocated, +52324 Tracers active
+2018-8-13 @14:9:45 ->Writting output file Template_Lagrangian_00740.vtu
+ -->+209992 Tracers allocated, +52373 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00741.vtu
+ -->+209992 Tracers allocated, +52402 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00742.vtu
+ -->+209992 Tracers allocated, +52547 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00743.vtu
+ -->+209992 Tracers allocated, +52575 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00744.vtu
+ -->+209992 Tracers allocated, +52624 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00745.vtu
+ -->+209992 Tracers allocated, +52748 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00746.vtu
+ -->+209992 Tracers allocated, +52798 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00747.vtu
+ -->+209992 Tracers allocated, +52826 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00748.vtu
+ -->+209992 Tracers allocated, +52971 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00749.vtu
+ -->+209992 Tracers allocated, +52999 Tracers active
+2018-8-13 @14:9:46 ->Writting output file Template_Lagrangian_00750.vtu
+ -->+209992 Tracers allocated, +53048 Tracers active
+2018-8-13 @14:9:47 ->Writting output file Template_Lagrangian_00751.vtu
+ -->+209992 Tracers allocated, +53173 Tracers active
+2018-8-13 @14:9:47 ->Writting output file Template_Lagrangian_00752.vtu
+ -->+209992 Tracers allocated, +53222 Tracers active
+2018-8-13 @14:9:47 ->Writting output file Template_Lagrangian_00753.vtu
+ -->+209992 Tracers allocated, +53250 Tracers active
+2018-8-13 @14:9:47 ->Writting output file Template_Lagrangian_00754.vtu

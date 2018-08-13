@@ -83,7 +83,9 @@
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
         !Optimize Block Tracer arrays (sort,resize)
-        call self%BlocksConsolidateArrays()
+        !if (mod(Globals%Sim%getnumdt()+1, 10) == 0) then
+        !    call self%BlocksConsolidateArrays()
+        !end if
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)

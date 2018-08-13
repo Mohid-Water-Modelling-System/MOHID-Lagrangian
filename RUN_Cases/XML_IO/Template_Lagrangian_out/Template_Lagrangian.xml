@@ -49,7 +49,7 @@
         <setsource id="6" name="Mistery_discharge_1" />
         <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-        <sphere radius="0.95">
+        <sphere radius="0.95" units_comment="metres (m)">
           <point x="9.05" y="2.0" z="0" units_comment="(º,º,m)"/>
         </sphere>
       </source>
@@ -61,7 +61,7 @@
       </source>
     </sourcedef>
     <initials>
-      <velocity source="1" ux="15" uy="0.0" uz="-0.1"/>
+      <velocity source="1" ux="15" uy="0.0" uz="-0.1" units_comment="m/s"/>
     </initials>
     <properties>
       <links>
