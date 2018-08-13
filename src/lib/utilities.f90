@@ -35,6 +35,40 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Public function that returns a vector in meters given an array in 
+    !> geographical coordinates (lon, lat, z) and a lattitude
+    !> @param[in] geovec, lat
+    !---------------------------------------------------------------------------
+    function geo2m(geovec, lat) result(res)
+    type(vector) :: res
+    type(vector), intent(in) :: geovec
+    real(prec), intent(in) :: lat
+    integer :: R = 6378137 !earth radius in meters
+    res = geovec
+    res%x = res%x*R*cos(3.1415926*lat/180.0)
+    res%y = res%y*R
+    end function geo2m
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Public function that returns a vector in geographical coordinates 
+    !> (lon, lat, z) given an array in meters and a lattitude
+    !> @param[in] mvec, lat
+    !---------------------------------------------------------------------------
+    function m2geo(mvec, lat) result(res)
+    type(vector) :: res
+    type(vector), intent(in) :: mvec
+    real(prec), intent(in) :: lat
+    integer :: R = 6378137 !earth radius in meters
+    res = mvec
+    res%x = res%x/(R*cos(3.1415926*lat/180.0))
+    res%y = res%y/R
+    end function m2geo
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Public function that returns a zero paded string from an integer number 
     !> and a format descriptor
     !> @param[in] fmt, i
@@ -47,8 +81,6 @@
     write(tmp, fmt) i
     res = trim(tmp)
     end function
-    
-    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

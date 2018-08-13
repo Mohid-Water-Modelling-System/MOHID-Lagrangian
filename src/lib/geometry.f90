@@ -183,7 +183,6 @@
     class(shape), intent(in) :: shapetype
     type(vector) :: center
     type(string) :: outext
-
     select type (shapetype)
     type is (shape)
     class is (box)
@@ -199,7 +198,6 @@
         call Log%put(outext)
         stop
     end select
-
     end function getCenter
 
     !---------------------------------------------------------------------------

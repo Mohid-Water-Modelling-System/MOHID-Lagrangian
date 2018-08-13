@@ -325,7 +325,6 @@
     src%prop%degrd_rate = MV
     src%prop%pt_radius = MV
     src%prop%ini_concentration = MV
-
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
