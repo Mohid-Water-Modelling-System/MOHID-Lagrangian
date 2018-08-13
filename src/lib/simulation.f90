@@ -65,8 +65,15 @@
     subroutine run(self)
     implicit none
     class(simulation_class), intent(inout) :: self
-    type(string) :: temp
-
+    type(string) :: temp, outext
+    
+    outext = '-----------------------------------------------------'
+    call Log%put(outext,.false.)
+    outext = '->Simulation staring'
+    call Log%put(outext)
+    outext = '-----------------------------------------------------'
+    call Log%put(outext,.false.)
+    
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
         !activate suitable Sources

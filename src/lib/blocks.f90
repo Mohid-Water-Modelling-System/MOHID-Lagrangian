@@ -314,10 +314,10 @@
     implicit none
     class(block_class), intent(inout) :: self
     self%AoT = MakeAoT(self%Tracer)
-    if (self%Tracer%numActive > 0) then
-        print*, 'From Block ', self%id
-        call self%AoT%print()
-    end if
+    !if (self%Tracer%numActive > 0) then
+    !    print*, 'From Block ', self%id
+    !    call self%AoT%print()
+    !end if
     end subroutine TracersToAoT
     
     !---------------------------------------------------------------------------

@@ -9,8 +9,8 @@
     <simulationdefs>
       <resolution dp="1.0" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
-      <pointmin x="-10.0" y="-1.0" z="-500.01" />
-      <pointmax x="10.0" y="10.0" z="4.0574" />
+      <pointmin x="-10.0" y="-1.0" z="-500.01" units_comment="(º,º,m)"/>
+      <pointmax x="10.0" y="10.0" z="4.0574" units_comment="(º,º,m)"/>
       <block_size value="auto" />
     </simulationdefs>
     <sourcedef>
@@ -19,19 +19,19 @@
         <rate value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
-          <point x="-9" y="1.0" z="0" />
-          <size x="5" y="1" z="1" />
+          <point x="-9" y="1.0" z="0" units_comment="(º,º,m)"/>
+          <size x="5" y="1" z="1" units_comment="metres (m)"/>
         </box>
       </source>
       <source>
         <setsource id="1" name="Litter_plastic" />
         <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-        <point x="2.5" y="2" z="0.0" />
+        <point x="2.5" y="2" z="0.0" units_comment="(º,º,m)"/>
       </source>
     </sourcedef>
     <initials>
-      <velocity source="1" ux="15" uy="0.0" uz="-0.1"/>
+      <velocity source="1" ux="15" uy="0.0" uz="-0.1" units_comment="m/s"/>
     </initials>
     <properties>
       <links>

@@ -9,7 +9,7 @@
     <simulationdefs>
       <resolution dp="1.0" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
-      <pointmin x="-10.0" y="-1.0" z="-500.01" />
+      <pointmin x="-10.0" y="-1.0" z="-500.01" units_comment="(º,º,m)"/>
       <pointmax x="10.0" y="10.0" z="4.0574" />
       <block_size value="auto" />
     </simulationdefs>
