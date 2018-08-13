@@ -65,7 +65,7 @@
     subroutine run(self)
     implicit none
     class(simulation_class), intent(inout) :: self
-    type(string) :: outext
+    type(string) :: temp
 
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
@@ -84,12 +84,16 @@
         !Update all tracers with base behavior (AoT)
         !AoT to Tracers
         !Update Tracers with type-specific behavior
-        !Write results if time to do so
-        call OutputStreamer%WriteStepSerial(Globals%Names%casename, DBlock)
+        
+        !Write results if time to do so        
+        temp = Globals%Names%casename//'_'//int2str('(i5.5)',Globals%Sim%getnumoutfile())
+        call OutputStreamer%WriteStepSerial(temp, DBlock)
+        call Globals%Sim%increment_numoutfile()
+        !Print some stats from the time step
+        call self%printTracerTotals()
         
         !Clean AoT
         call self%BlocksCleanAoT()
-        call self%printTracerTotals()
         !update Simulation time and counters
         Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
         call Globals%Sim%increment_numdt()

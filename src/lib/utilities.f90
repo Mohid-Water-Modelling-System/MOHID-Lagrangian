@@ -28,17 +28,32 @@
     private
 
     !public routines
-    public :: get_closest_twopow
+    public :: get_closest_twopow, int2str
     
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Public function that returns a zero paded string from an integer number 
+    !> and a format descriptor
+    !> @param[in] fmt, i
+    !---------------------------------------------------------------------------
+    function int2str(fmt, i) result(res)
+    character(:), allocatable :: res
+    character(len=6), intent(in) :: fmt ! format descriptor
+    integer, intent(in) :: i
+    character(range(i)+2) :: tmp    
+    write(tmp, fmt) i
+    res = trim(tmp)
+    end function
+    
+    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Public function that returns the closest power of 2 or a given real number
-    !
     !> @param[in] num
     !---------------------------------------------------------------------------
     function get_closest_twopow(num) result(twopow)
@@ -46,8 +61,7 @@
     real(prec), intent(in) :: num
     real(prec) :: twopow
     integer :: i
-    real(prec) :: dist1, dist2
-    
+    real(prec) :: dist1, dist2    
     do i=-4, 10
         twopow = 2.0**i
         if (num < twopow) then
@@ -59,8 +73,7 @@
             endif
             exit
         endif
-    enddo
-   
+    enddo   
     end function get_closest_twopow
 
     end module utilities_mod

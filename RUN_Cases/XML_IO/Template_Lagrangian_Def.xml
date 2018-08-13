@@ -33,8 +33,8 @@
         <setsource id="2" name="Emissary_2" />
         <rate value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <line>
-          <pointa x="1" y="2" z="3" />
-          <pointb x="9" y="8" z="31" />
+          <pointa x="1" y="2" z="-10" />
+          <pointb x="9" y="8" z="7" />
         </line>
       </source>
       <source>
@@ -49,15 +49,15 @@
         <setsource id="6" name="Mistery_discharge_1" />
         <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-        <sphere radius="0.65">
-          <point x="9.05" y="8.0" z="0" />
+        <sphere radius="0.95">
+          <point x="9.05" y="2.0" z="0" />
         </sphere>
       </source>
 	    <source>
         <setsource id="7" name="Mistery_discharge_2" />
         <rate value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-        <point x="9.025" y="8.0" z="0.75" />
+        <point x="9.025" y="5.0" z="0.75" />
       </source>
     </sourcedef>
     <initials>
