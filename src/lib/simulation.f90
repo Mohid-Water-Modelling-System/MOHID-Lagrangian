@@ -67,11 +67,11 @@
     class(simulation_class), intent(inout) :: self
     type(string) :: temp, outext
     
-    outext = '-----------------------------------------------------'
+    outext = '====================================================================='
     call Log%put(outext,.false.)
     outext = '->Simulation staring'
     call Log%put(outext)
-    outext = '-----------------------------------------------------'
+    outext = '====================================================================='
     call Log%put(outext,.false.)
     
     !main time cycle

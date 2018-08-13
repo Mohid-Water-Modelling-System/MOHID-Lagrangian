@@ -24,6 +24,7 @@
     use simulation_precision_mod
     use simulation_logger_mod
     use simulation_globals_mod
+    use utilities_mod
 
     implicit none
     private
@@ -115,7 +116,7 @@
     class(shape), intent(in) :: shapetype
     real(prec) :: dp
     integer :: fillsize
-    type(vector) :: temp
+    type(vector) :: temp, temp2
     type(string) :: outext
 
     dp = Globals%SimDefs%Dp
@@ -126,7 +127,8 @@
     class is (point)
         fillsize = 1
     class is (line)
-        temp = shapetype%pt-shapetype%last
+        !temp = shapetype%pt - shapetype%last
+        temp = geo2m(shapetype%pt,shapetype%pt%y) - geo2m(shapetype%last,shapetype%pt%y)
         fillsize = max(int(temp%normL2()/dp),1)
     class is (sphere)
         fillsize = sphere_np_count(dp, shapetype%radius)

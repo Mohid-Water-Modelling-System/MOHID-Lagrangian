@@ -117,6 +117,10 @@
     ! initialize tracer state
     constructor%now%age=0.0
     constructor%now%active = .true.
+    !print*, 'Source at'
+    !print*, src%now%pos
+    !print*, 'New tracer at'
+    !print*, src%stencil%ptlist(p) + src%now%pos
     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
     constructor%now%vel = 0.0
     constructor%now%acc = 0.0

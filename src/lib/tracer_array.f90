@@ -19,6 +19,7 @@
 
     use abstract_container_array_mod
     use tracers_mod
+    use common_modules
 
     type, extends(container_array) :: tracerarray_class
         integer :: numActive = 0  !> number of active Tracers in the array
@@ -41,11 +42,13 @@
     !> active Tracer. Returns its index.
     !---------------------------------------------------------------------------
     integer function findLastActive(this)
+    implicit none
     class(tracerarray_class), intent(in) :: this
     class(*), pointer :: curr
     integer :: i
+    type(string) :: outext
     i=this%getLength()
-    do while (i>=0)
+    do while (i>0)
         curr => this%get(i)
         select type(curr)
         class is (tracer_class)
@@ -54,7 +57,8 @@
                 i = 0
             end if
             class default
-            print*, '[tracerarray_class::findLastActive]: unexepected type of content not a Tracer'
+            outext = '[tracerarray_class::findLastActive]: unexepected type of content not a Tracer'
+            call Log%put(outext)
             stop
         end select
         i = i-1
@@ -69,6 +73,7 @@
     !> @param[in] this
     !---------------------------------------------------------------------------
     subroutine print_TracerArray(this)
+    implicit none
     class(tracerarray_class), intent(in) :: this
     class(*), pointer :: curr
     integer :: i
@@ -90,6 +95,7 @@
     !> @param[in] this, index
     !---------------------------------------------------------------------------
     subroutine print_TracerArray_Element(this,index)
+    implicit none
     class(tracerarray_class), intent(in) :: this
     integer, intent(in) :: index
     class(*), pointer :: curr

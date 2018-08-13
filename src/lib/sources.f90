@@ -67,7 +67,7 @@
     type :: source_stencil         !<Type - holder for the tracer creation stencil of the source
         integer :: np                       !< Number of tracers by emission
         integer :: total_np                 !< Total number of tracers that this source will generate
-        type(vector), allocatable, dimension(:) :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission
+        type(vector), allocatable, dimension(:) :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission.
     end type
 
     type :: source_class           !<Type - The source class
@@ -344,6 +344,9 @@
         stop
     endif
     call Geometry%fill(src%par%geometry, src%stencil%np, src%stencil%ptlist)
+    do i=1, size(src%stencil%ptlist)
+        src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%now%pos%y)
+    end do
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)

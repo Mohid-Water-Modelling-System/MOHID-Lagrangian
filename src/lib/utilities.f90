@@ -28,7 +28,7 @@
     private
 
     !public routines
-    public :: get_closest_twopow, int2str
+    public :: get_closest_twopow, int2str, geo2m, m2geo
     
     contains
     
@@ -39,13 +39,15 @@
     !> geographical coordinates (lon, lat, z) and a lattitude
     !> @param[in] geovec, lat
     !---------------------------------------------------------------------------
-    function geo2m(geovec, lat) result(res)
-    type(vector) :: res
+    type(vector) function geo2m(geovec, lat) result(res)
     type(vector), intent(in) :: geovec
     real(prec), intent(in) :: lat
-    integer :: R = 6378137 !earth radius in meters
+    integer :: R
+    real(prec) :: pi
+    R = 6378137 !earth radius in meters
+    pi = 3.1415926
     res = geovec
-    res%x = res%x*R*cos(3.1415926*lat/180.0)
+    res%x = res%x*R*cos(pi*lat/180.0)
     res%y = res%y*R
     end function geo2m
     
@@ -56,13 +58,15 @@
     !> (lon, lat, z) given an array in meters and a lattitude
     !> @param[in] mvec, lat
     !---------------------------------------------------------------------------
-    function m2geo(mvec, lat) result(res)
-    type(vector) :: res
+    type(vector) function m2geo(mvec, lat) result(res)
     type(vector), intent(in) :: mvec
     real(prec), intent(in) :: lat
-    integer :: R = 6378137 !earth radius in meters
+    integer :: R
+    real(prec) :: pi
+    R = 6378137 !earth radius in meters
+    pi = 3.1415926
     res = mvec
-    res%x = res%x/(R*cos(3.1415926*lat/180.0))
+    res%x = res%x/(R*cos(pi*lat/180.0))
     res%y = res%y/R
     end function m2geo
     
