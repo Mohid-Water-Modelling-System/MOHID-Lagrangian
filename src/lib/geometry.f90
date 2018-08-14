@@ -127,8 +127,7 @@
     class is (point)
         fillsize = 1
     class is (line)
-        !temp = shapetype%pt - shapetype%last
-        temp = geo2m(shapetype%pt,shapetype%pt%y) - geo2m(shapetype%last,shapetype%pt%y)
+        temp = shapetype%pt - shapetype%last
         fillsize = max(int(temp%normL2()/dp),1)
     class is (sphere)
         fillsize = sphere_np_count(dp, shapetype%radius)

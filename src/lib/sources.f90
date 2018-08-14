@@ -344,9 +344,6 @@
         stop
     endif
     call Geometry%fill(src%par%geometry, src%stencil%np, src%stencil%ptlist)
-    do i=1, size(src%stencil%ptlist)
-        src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%now%pos%y)
-    end do
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
