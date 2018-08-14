@@ -77,7 +77,7 @@
         type(source_stencil) :: stencil     !<To acess stencil variables
         type(source_stats) :: stats         !<To access statistics
     contains
-    procedure :: initialize => initializeSource    
+    procedure :: initialize => initializeSource
     procedure :: isParticulate
     procedure :: setPropertyAtributes
     procedure :: check
@@ -128,8 +128,8 @@
         call Log%put(outext)
     endif
     end subroutine initSources
-    
-    
+
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -142,11 +142,11 @@
     class(source_group_class), intent(inout) :: self
     integer err
     type(string) :: outext
-    if (ALLOCATED(self%src)) deallocate(self%src, stat=err)    
+    if (allocated(self%src)) deallocate(self%src, stat=err)
     if(err/=0)then
         outext='[killSources]: Cannot deallocate Sources, stoping'
         call Log%put(outext)
-        stop    
+        stop
     endif
     end subroutine killSources
 
@@ -207,7 +207,7 @@
         call Log%put(outext,.false.)
     endif
     end subroutine setPropertyNames
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     ! Routine Author Name and Affiliation.
@@ -218,34 +218,34 @@
     !> @param[in] src, pname, pvalue
     !---------------------------------------------------------------------------
     subroutine setPropertyAtributes(src, pname, pvalue)
-        implicit none
-        class(source_class), intent(inout) :: src
-        type(string), intent(in) :: pname
-        type(string), intent(in) :: pvalue
-        type(string) :: outext
-        select case (pname%chars())
-        case ('particulate')
-            if (pvalue%to_number(kind=1_I1P) == 1) then
+    implicit none
+    class(source_class), intent(inout) :: src
+    type(string), intent(in) :: pname
+    type(string), intent(in) :: pvalue
+    type(string) :: outext
+    select case (pname%chars())
+    case ('particulate')
+        if (pvalue%to_number(kind=1_I1P) == 1) then
             src%prop%particulate = .true.
-            end if
-        case ('radius')
-            src%prop%radius = pvalue%to_number(kind=1._R4P)
-        case ('particle_radius')
-            src%prop%pt_radius = pvalue%to_number(kind=1._R4P)
-        case ('density')
-            src%prop%density = pvalue%to_number(kind=1._R4P)
-        case ('condition')
-            src%prop%condition = pvalue%to_number(kind=1._R4P)
-        case ('degradation_rate')
-            src%prop%degrd_rate = pvalue%to_number(kind=1._R4P)
-        case ('intitial_concentration')
-            src%prop%ini_concentration = pvalue%to_number(kind=1._R4P)
+        end if
+    case ('radius')
+        src%prop%radius = pvalue%to_number(kind=1._R4P)
+    case ('particle_radius')
+        src%prop%pt_radius = pvalue%to_number(kind=1._R4P)
+    case ('density')
+        src%prop%density = pvalue%to_number(kind=1._R4P)
+    case ('condition')
+        src%prop%condition = pvalue%to_number(kind=1._R4P)
+    case ('degradation_rate')
+        src%prop%degrd_rate = pvalue%to_number(kind=1._R4P)
+    case ('intitial_concentration')
+        src%prop%ini_concentration = pvalue%to_number(kind=1._R4P)
         case default
-            outext='[Sources::setPropertyAtributes]: unexpected atribute '//pname//' for property '//src%prop%property_name//', ignoring'
-            call Log%put(outext)
-        end select
+        outext='[Sources::setPropertyAtributes]: unexpected atribute '//pname//' for property '//src%prop%property_name//', ignoring'
+        call Log%put(outext)
+    end select
     end subroutine setPropertyAtributes
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -257,7 +257,7 @@
     type(string) :: outext, temp(2)
     logical :: failed
     failed = .false.
-    temp(1) = self%par%id  
+    temp(1) = self%par%id
     if (self%prop%radius == MV) then
         failed = .true.
         temp(2) = 'radius'
@@ -280,12 +280,12 @@
         end if
     end if
     if (failed) then
-    outext = 'Source'//temp(1)//' '//temp(2)//' is not set, stoping'
+        outext = 'Source'//temp(1)//' '//temp(2)//' is not set, stoping'
         call Log%put(outext)
         stop
     end if
     end subroutine check
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -360,13 +360,13 @@
     ! Routine Author Name and Affiliation.
     !
     !> @brief
-    !> Returns particulate status of this Source, i.e, true if the emitted 
-    !> Tracers are actually a collection of particles with an evolving 
-    !> concentration 
+    !> Returns particulate status of this Source, i.e, true if the emitted
+    !> Tracers are actually a collection of particles with an evolving
+    !> concentration
     !---------------------------------------------------------------------------
     logical function isParticulate(self)
-        class(source_class) :: self
-        isParticulate = self%prop%particulate
+    class(source_class) :: self
+    isParticulate = self%prop%particulate
     end function isParticulate
 
     !---------------------------------------------------------------------------
@@ -378,10 +378,10 @@
 
     !---------------------------------------------------------------------------
     subroutine setotalnp(self)
-        implicit none
-        class(source_class), intent(inout) :: self
-        !< computing the total as \f${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\f$
-        self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(Globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)
+    implicit none
+    class(source_class), intent(inout) :: self
+    !< computing the total as \f${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\f$
+    self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(Globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 
     !---------------------------------------------------------------------------

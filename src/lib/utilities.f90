@@ -28,9 +28,47 @@
     private
 
     !public routines
-    public :: get_closest_twopow, int2str
+    public :: get_closest_twopow, int2str, geo2m, m2geo
     
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Public function that returns a vector in meters given an array in 
+    !> geographical coordinates (lon, lat, z) and a lattitude
+    !> @param[in] geovec, lat
+    !---------------------------------------------------------------------------
+    type(vector) function geo2m(geovec, lat) result(res)
+    type(vector), intent(in) :: geovec
+    real(prec), intent(in) :: lat
+    integer :: R
+    real(prec) :: pi
+    R = 6378137 !earth radius in meters
+    pi = 3.1415926
+    res = geovec
+    res%x = res%x*R*cos(pi*lat/180.0)
+    res%y = res%y*R
+    end function geo2m
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Public function that returns a vector in geographical coordinates 
+    !> (lon, lat, z) given an array in meters and a lattitude
+    !> @param[in] mvec, lat
+    !---------------------------------------------------------------------------
+    type(vector) function m2geo(mvec, lat) result(res)
+    type(vector), intent(in) :: mvec
+    real(prec), intent(in) :: lat
+    integer :: R
+    real(prec) :: pi
+    R = 6378137 !earth radius in meters
+    pi = 3.1415926
+    res = mvec
+    res%x = res%x/(R*cos(pi*lat/180.0))
+    res%y = res%y/R
+    end function m2geo
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
