@@ -86,31 +86,18 @@
         if (blocks(i)%Tracer%numActive > 0) then
             np = blocks(i)%Tracer%numActive
             allocate(connect(np))
-            print*, 'allocation done', np, ' tracers'
             error = vtkfile%xml_writer%write_piece(np=np, nc=nc)
-            print*, 'piece started'
             error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=blocks(i)%AoT%x, y=blocks(i)%AoT%y, z=blocks(i)%AoT%z)
-            print*, 'geo written'
             error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
-            print*, 'connectivity written'
             error = vtkfile%xml_writer%write_dataarray(location='node', action='open')
-            print*, 'node opened'
             error = vtkfile%xml_writer%write_dataarray(data_name='id', x=blocks(i)%AoT%id)
-            print*, 'id written'
             error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=blocks(i)%AoT%u, y=blocks(i)%AoT%v, z=blocks(i)%AoT%w)
-            print*, 'velocity written'
             error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
-            print*, 'node closed'
             error = vtkfile%xml_writer%write_piece()
-            print*, 'pliece closed'
             deallocate(connect)
-            print*, 'deallocated'
         end if
     end do
-
-    error = vtkfile%finalize()
-    print*, 'file written'
-    
+    error = vtkfile%finalize()    
     self%numVtkFiles = self%numVtkFiles + 1
     
     end subroutine TracerSerial
