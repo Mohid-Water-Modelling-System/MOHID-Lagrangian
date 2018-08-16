@@ -330,6 +330,7 @@
         stop
     endif
     call Geometry%fill(src%par%geometry, Globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
+    
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)

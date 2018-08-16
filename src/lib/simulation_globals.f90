@@ -51,7 +51,7 @@
     end type
 
     type simdefs_t  !< Simulation definitions class
-        real(prec)      ::  Dp = MV         !< Initial particle spacing at source generation
+        type(vector)    ::  Dp              !< Initial particle spacing at emission
         real(prec_time) ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
@@ -519,8 +519,10 @@
     type(string), intent(in) :: read_dp
     type(string) :: outext
     integer :: sizem
-    self%Dp=read_dp%to_number(kind=1._R4P)
-    if (self%Dp.le.0.0) then
+    real(prec) :: dp
+    dp = read_dp%to_number(kind=1._R4P)
+    self%Dp=dp*ex + dp*ey + dp*ez
+    if (dp.le.0.0) then
         outext='Dp must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -599,7 +601,7 @@
     type(string) :: outext
     type(string) :: temp_str(3)
 
-    temp_str(1)=self%Dp
+    temp_str(1)=self%Dp%z
     outext = '      Initial resolution is '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%dt
     outext = '      Timestep is '//temp_str(1)//' s'//new_line('a')

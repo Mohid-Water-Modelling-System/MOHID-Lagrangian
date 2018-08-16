@@ -4,11 +4,11 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : source
+    ! MODULE        : geometry
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : March 2018
-    ! REVISION      : Canelas 0.1
+    ! REVISION      : Canelas 0.2
     !> @author
     !> Ricardo Birjukovs Canelas
     !
@@ -114,28 +114,27 @@
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
-    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: dp
     integer :: fillsize
     type(vector) :: temp
     type(string) :: outext
-
     select type (shapetype)
     type is (shape)
     class is (box)
-        fillsize = max((int(shapetype%size%x/dp)+1)*(int(shapetype%size%y/dp)+1)*(int(shapetype%size%z/dp)+1),1)
+        fillsize = max((int(shapetype%size%x/dp%x)+1)*(int(shapetype%size%y/dp%y)+1)*(int(shapetype%size%z/dp%z)+1),1)
     class is (point)
         fillsize = 1
     class is (line)
         temp = shapetype%pt - shapetype%last
-        fillsize = max(int(temp%normL2()/dp),1)
+        !This needs to be re-designed
+        !fillsize = max(int(temp%normL2()/dp),1)
     class is (sphere)
-        fillsize = sphere_np_count(dp, shapetype%radius)
+        fillsize = sphere_np_count(dp%z, shapetype%radius)
         class default
         outext='[geometry::np] : unexpected type for geometry object, stoping'
         call Log%put(outext)
         stop
     end select
-
     end function fillsize
 
     !---------------------------------------------------------------------------
@@ -148,12 +147,11 @@
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape) :: shapetype
-    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: dp
     integer, intent(in) :: fillsize
     type(vector), intent(out) :: ptlist(fillsize)
     type(vector) :: temp
     type(string) :: outext
-
     select type (shapetype)
     type is (shape)
     class is (box)
@@ -161,7 +159,7 @@
     class is (point)
         ptlist(1)=0
     class is (line)
-        call line_grid(dp, shapetype%last-shapetype%pt, fillsize, ptlist)
+        !call line_grid(dp, shapetype%last-shapetype%pt, fillsize, ptlist)
     class is (sphere)
         call sphere_grid(dp, shapetype%radius, fillsize, ptlist)
         class default
@@ -169,7 +167,6 @@
         call Log%put(outext)
         stop
     end select
-
     end subroutine fill
 
     !---------------------------------------------------------------------------
@@ -260,11 +257,11 @@
     select type (shapetype)
     type is (shape)
     class is (box)
-        n=8        
+        n=8
     class is (point)
-        n=1        
+        n=1
     class is (line)
-        n=2        
+        n=2
     class is (sphere)
         n=1
         class default
@@ -351,7 +348,6 @@
     if (np == 0) then !Just the center point
         np=1
     end if
-
     end function
 
     !---------------------------------------------------------------------------
@@ -398,17 +394,17 @@
     !---------------------------------------------------------------------------
     subroutine box_grid(dp, size, np, ptlist)
     implicit none
-    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: dp
     type(vector), intent(in) :: size
     integer, intent(in)::  np
     type(vector), intent(out) :: ptlist(np)
     integer :: i, j, k, p
     p=0
-    do i=1, int(size%x/dp)+1
-        do j=1, int(size%y/dp)+1
-            do k=1, int(size%z/dp)+1
+    do i=1, int(size%x/dp%x)+1
+        do j=1, int(size%y/dp%y)+1
+            do k=1, int(size%z/dp%z)+1
                 p=p+1
-                ptlist(p) = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1))
+                ptlist(p) = dp%x*ex*(i-1) + dp%y*ey*(j-1) + dp%z*ez*(k-1)
             end do
         end do
     end do
