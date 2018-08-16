@@ -104,11 +104,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> source allocation routine - allocates sources objects
-    !
     !> @param[in] nsources
     !---------------------------------------------------------------------------
     subroutine initSources(self,nsources)
@@ -132,8 +129,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> source group destructor - deallocates sources objects
     !---------------------------------------------------------------------------
@@ -152,11 +147,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> source property setting proceadure - initializes Source variables
-    !
     !> @param[in] src,ptype,pname
     !---------------------------------------------------------------------------
     subroutine linkproperty(src,ptype,pname)
@@ -170,11 +162,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> source property setting routine, calls source by id to set its properties
-    !
     !> @param[in] srcid,ptype,pname
     !---------------------------------------------------------------------------
     subroutine setPropertyNames(self,srcid_str,ptype,pname)
@@ -210,11 +199,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> source property atribute setting proceadure - initializes Source variables
-    !
     !> @param[in] src, pname, pvalue
     !---------------------------------------------------------------------------
     subroutine setPropertyAtributes(src, pname, pvalue)
@@ -357,8 +343,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Returns particulate status of this Source, i.e, true if the emitted
     !> Tracers are actually a collection of particles with an evolving
@@ -371,11 +355,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method that sets the total number of tracers a source will potentially create
-
     !---------------------------------------------------------------------------
     subroutine setotalnp(self)
     implicit none
@@ -386,11 +367,8 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> source print routine - prints a source info on console/log
-    !
     !> @param[in] src
     !---------------------------------------------------------------------------
     subroutine printSource(src)
