@@ -110,16 +110,15 @@
     !> method to get the number of points that fill a given geometry
     !> @param[in] shapetype
     !---------------------------------------------------------------------------
-    function fillsize(self, shapetype)
+    function fillsize(self, shapetype, dp)
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
-    real(prec) :: dp
+    real(prec), intent(in) :: dp
     integer :: fillsize
-    type(vector) :: temp, temp2
+    type(vector) :: temp
     type(string) :: outext
 
-    dp = Globals%SimDefs%Dp
     select type (shapetype)
     type is (shape)
     class is (box)
@@ -143,12 +142,13 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to get the list of points that fill a given geometry
-    !> @param[in] shapetype,fillsize,ptlist
+    !> @param[in] shapetype, dp, fillsize, ptlist
     !---------------------------------------------------------------------------
-    subroutine fill(self,shapetype,fillsize,ptlist)
+    subroutine fill(self, shapetype, dp, fillsize, ptlist)
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape) :: shapetype
+    real(prec), intent(in) :: dp
     integer, intent(in) :: fillsize
     type(vector), intent(out) :: ptlist(fillsize)
     type(vector) :: temp
@@ -157,13 +157,13 @@
     select type (shapetype)
     type is (shape)
     class is (box)
-        call box_grid(Globals%SimDefs%Dp, shapetype%size, fillsize, ptlist)
+        call box_grid(dp, shapetype%size, fillsize, ptlist)
     class is (point)
         ptlist(1)=0
     class is (line)
-        call line_grid(Globals%SimDefs%Dp, shapetype%last-shapetype%pt, fillsize, ptlist)
+        call line_grid(dp, shapetype%last-shapetype%pt, fillsize, ptlist)
     class is (sphere)
-        call sphere_grid(Globals%SimDefs%Dp, shapetype%radius, fillsize, ptlist)
+        call sphere_grid(dp, shapetype%radius, fillsize, ptlist)
         class default
         outext='[geometry::fill] : unexpected type for geometry object, stoping'
         call Log%put(outext)

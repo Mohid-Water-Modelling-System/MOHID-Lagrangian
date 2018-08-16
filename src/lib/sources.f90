@@ -321,7 +321,7 @@
     src%stats%acc_T=0.0
     src%stats%ns=0
     !setting stencil variables
-    src%stencil%np = Geometry%fillsize(src%par%geometry)
+    src%stencil%np = Geometry%fillsize(src%par%geometry, Globals%SimDefs%Dp)
     call src%setotalnp()
     allocate(src%stencil%ptlist(src%stencil%np), stat=err)
     if(err/=0)then
@@ -329,7 +329,7 @@
         call Log%put(outext)
         stop
     endif
-    call Geometry%fill(src%par%geometry, src%stencil%np, src%stencil%ptlist)
+    call Geometry%fill(src%par%geometry, Globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
