@@ -1,5 +1,8 @@
 build_linux/
 build_win/
 
+.DS_Store
+**/.DS_Store
+
 *_out/
 
