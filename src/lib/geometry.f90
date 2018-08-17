@@ -18,8 +18,7 @@
 
     module geometry_mod
 
-    use vecfor_r4p !Should include a preprocessor switch
-    !use vecfor
+    use vecfor_r4p
     use stringifor
     use simulation_precision_mod
     use simulation_logger_mod
@@ -55,11 +54,11 @@
     end type
 
     type, extends(shape) :: sphere  !<Type - sphere class
-        real(prec) :: radius            !< Sphere radius
+        real(prec) :: radius            !< Sphere radius (m)
     end type
 
     type, extends(shape) :: box     !<Type - point class
-        type(vector) :: size            !< Box size
+        type(vector) :: size            !< Box size (m)
     end type
 
     type(geometry_class) :: Geometry
@@ -114,24 +113,24 @@
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
-    type(vector), intent(in) :: dp
+    real(prec), intent(in) :: dp
     integer :: fillsize
     type(vector) :: temp
     type(string) :: outext
     select type (shapetype)
     type is (shape)
     class is (box)
-        fillsize = max((int(shapetype%size%x/dp%x)+1)*(int(shapetype%size%y/dp%y)+1)*(int(shapetype%size%z/dp%z)+1),1)
+        fillsize = max((int(shapetype%size%x/dp)+1)*(int(shapetype%size%y/dp)+1)*(int(shapetype%size%z/dp)+1),1)
     class is (point)
         fillsize = 1
     class is (line)
         temp = shapetype%pt - shapetype%last
-        !This needs to be re-designed
-        !fillsize = max(int(temp%normL2()/dp),1)
+        temp = geo2m(temp, shapetype%pt%y)
+        fillsize = max(int(temp%normL2()/dp),1)
     class is (sphere)
-        fillsize = sphere_np_count(dp%z, shapetype%radius)
+        fillsize = sphere_np_count(dp, shapetype%radius)
         class default
-        outext='[geometry::np] : unexpected type for geometry object, stoping'
+        outext='[geometry::fillsize] : unexpected type for geometry object, stoping'
         call Log%put(outext)
         stop
     end select
@@ -147,7 +146,7 @@
     implicit none
     class(geometry_class), intent(in) :: self
     class(shape) :: shapetype
-    type(vector), intent(in) :: dp
+    real(prec), intent(in) :: dp
     integer, intent(in) :: fillsize
     type(vector), intent(out) :: ptlist(fillsize)
     type(vector) :: temp
@@ -159,7 +158,7 @@
     class is (point)
         ptlist(1)=0
     class is (line)
-        !call line_grid(dp, shapetype%last-shapetype%pt, fillsize, ptlist)
+        call line_grid(dp, geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillsize, ptlist)
     class is (sphere)
         call sphere_grid(dp, shapetype%radius, fillsize, ptlist)
         class default
@@ -168,7 +167,7 @@
         stop
     end select
     end subroutine fill
-
+     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -184,7 +183,7 @@
     select type (shapetype)
     type is (shape)
     class is (box)
-        center = shapetype%pt + shapetype%size/2.0
+        center = shapetype%pt + m2geo(shapetype%size, shapetype%pt%y)/2.0
     class is (point)
         center = shapetype%pt
     class is (line)
@@ -210,19 +209,22 @@
     type(vector), allocatable :: pts(:)
     type(string) :: outext
     integer :: n
+    type(vector) :: temp
     select type (shapetype)
     type is (shape)
     class is (box)
         n=8
         allocate(pts(n))
+        temp = shapetype%size
+        !temp = m2geo(shapetype%size, shapetype%pt%y)
         pts(1) = shapetype%pt
-        pts(2) = shapetype%pt + shapetype%size%y*ey
-        pts(3) = pts(2) + shapetype%size%z*ez
-        pts(4) = shapetype%pt + shapetype%size%z*ez
-        pts(5) = shapetype%pt + shapetype%size%x*ex
-        pts(6) = pts(5) + shapetype%size%y*ey
-        pts(7) = shapetype%pt + shapetype%size
-        pts(8) = pts(5) + shapetype%size%z*ez
+        pts(2) = shapetype%pt + temp%y*ey
+        pts(3) = pts(2) + temp%z*ez
+        pts(4) = shapetype%pt + temp%z*ez
+        pts(5) = shapetype%pt + temp%x*ex
+        pts(6) = pts(5) + temp%y*ey
+        pts(7) = shapetype%pt + temp
+        pts(8) = pts(5) + temp%z*ez
     class is (point)
         n=1
         allocate(pts(n))
@@ -318,7 +320,6 @@
 
     end subroutine printGeometry
 
-
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -384,7 +385,6 @@
 
     end subroutine
 
-
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -394,17 +394,17 @@
     !---------------------------------------------------------------------------
     subroutine box_grid(dp, size, np, ptlist)
     implicit none
-    type(vector), intent(in) :: dp
+    real(prec), intent(in) :: dp
     type(vector), intent(in) :: size
     integer, intent(in)::  np
     type(vector), intent(out) :: ptlist(np)
     integer :: i, j, k, p
     p=0
-    do i=1, int(size%x/dp%x)+1
-        do j=1, int(size%y/dp%y)+1
-            do k=1, int(size%z/dp%z)+1
+    do i=1, int(size%x/dp)+1
+        do j=1, int(size%y/dp)+1
+            do k=1, int(size%z/dp)+1
                 p=p+1
-                ptlist(p) = dp%x*ex*(i-1) + dp%y*ey*(j-1) + dp%z*ez*(k-1)
+                ptlist(p) = dp*(ex*(i-1) + ey*(j-1) + ez*(k-1))
             end do
         end do
     end do
