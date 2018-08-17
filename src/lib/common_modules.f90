@@ -19,8 +19,7 @@
 module common_modules
 
     use penf
-    use vecfor_R4P !Should include a preprocessor switch
-    !use vecfor
+    use vecfor_r4p
     use stringifor
     use datetime_module
 

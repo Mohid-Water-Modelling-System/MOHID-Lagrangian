@@ -27,21 +27,21 @@ module simulation_precision_mod
     public :: ERR_DIST, ERR_IND
     public :: CHAR_LEN
 
-    integer,  parameter :: sp  = kind(1._R4P)   !< Simple precision definition switch
-    integer,  parameter :: dp  = kind(1._R8P)   !< Double precision definition switch
+    integer,  parameter :: sps  = kind(1._R4P)   !< Simple precision definition switch
+    integer,  parameter :: dps  = kind(1._R8P)   !< Double precision definition switch
 
     ! Precision used throughout is define here. Change at will.
-    integer,  parameter :: prec      = sp
-    integer,  parameter :: prec_time = sp
-    integer,  parameter :: prec_wrt  = sp
+    integer,  parameter :: prec      = sps
+    integer,  parameter :: prec_time = sps
+    integer,  parameter :: prec_wrt  = sps
 
     ! Missing value aliases
-    real(prec), parameter :: MISSING_VALUE_DEFAULT = -9999.0_dp
+    real(prec), parameter :: MISSING_VALUE_DEFAULT = -9999.0_dps
     real(prec), parameter :: MV     = MISSING_VALUE_DEFAULT
     real(prec), parameter :: MV_INT = int(MISSING_VALUE_DEFAULT)
 
     ! Error values
-    real(prec), parameter :: ERR_DIST = 1E8_dp
+    real(prec), parameter :: ERR_DIST = 1E8_dps
     integer,  parameter   :: ERR_IND  = -1
     
     ! char handling

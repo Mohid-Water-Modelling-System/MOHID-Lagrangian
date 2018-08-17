@@ -224,7 +224,6 @@
     integer :: i, ix, iy, blk
     class(*), pointer :: aTracer
     type(string) :: outext
-
     do i=1, self%Tracer%lastActive
         aTracer => self%Tracer%get(i)
         select type(aTracer)
@@ -414,7 +413,6 @@
     call Log%put(outext,.false.)
     call self%Source%printArray()
     end subroutine printdetailBlock
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
