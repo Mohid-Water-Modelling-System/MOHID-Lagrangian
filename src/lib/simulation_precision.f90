@@ -31,7 +31,7 @@ module simulation_precision_mod
     integer,  parameter :: dps  = kind(1._R8P)   !< Double precision definition switch
 
     ! Precision used throughout is define here. Change at will.
-    integer,  parameter :: prec      = sps
+    integer,  parameter :: prec      = dps
     integer,  parameter :: prec_time = sps
     integer,  parameter :: prec_wrt  = sps
 

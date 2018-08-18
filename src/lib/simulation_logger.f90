@@ -20,7 +20,7 @@
 
     use penf
     !use vecfor_r4p
-    use vecfor_r4p
+    use vecfor
     use stringifor
 
     implicit none
