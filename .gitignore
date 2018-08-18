@@ -1,6 +1,9 @@
 build_linux/
 build_win/
 
+.DS_Store
+**/.DS_Store
+
 *_out/
 
 RUN_Cases/Sources_test/SourcesinBlock_out/MOHIDLagrangianRun.out
