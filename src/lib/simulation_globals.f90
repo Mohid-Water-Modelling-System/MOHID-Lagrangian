@@ -19,8 +19,7 @@
     module simulation_globals_mod
 
     use penf
-    use vecfor_r4p !Should include a preprocessor switch
-    !use vecfor
+    use vecfor_r4p
     use stringifor
     use datetime_module
 
@@ -51,7 +50,7 @@
     end type
 
     type simdefs_t  !< Simulation definitions class
-        real(prec)      ::  Dp = MV         !< Initial particle spacing at source generation
+        real(prec)      ::  Dp              !< Initial particle spacing at emission
         real(prec_time) ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box

@@ -19,8 +19,8 @@
     module simulation_logger_mod
 
     use penf
-    use vecfor_r4p !Should include a preprocessor switch
-    !use vecfor
+    !use vecfor_r4p
+    use vecfor_r4p
     use stringifor
 
     implicit none

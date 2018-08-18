@@ -49,7 +49,6 @@
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
     procedure, private :: setTracerMemory
-    procedure, private :: saveStateToFile
     end type
 
     !Exposed public class
@@ -162,17 +161,6 @@
     call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
 
     end subroutine initSimulation
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Simulation method to write the current state to file
-    !---------------------------------------------------------------------------
-    subroutine saveStateToFile(self)
-        implicit none
-        class(simulation_class), intent(in) :: self
-               
-    end subroutine saveStateToFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -290,7 +278,6 @@
     call self%setTracerMemory()    
     end subroutine setInitialState
     
-    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -343,7 +330,6 @@
     enddo  
     call SimMemory%addtracer(sizem)
     end subroutine setTracerMemory
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
