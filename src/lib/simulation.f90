@@ -82,24 +82,20 @@
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
         !Optimize Block Tracer arrays (sort,resize)
-        !if (mod(Globals%Sim%getnumdt()+1, 10) == 0) then
-        !    call self%BlocksConsolidateArrays()
-        !end if
+        !call self%BlocksConsolidateArrays()
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         !interpolate fields to tracer coordinates
         !Update all tracers with base behavior (AoT)
         !AoT to Tracers
-        !Update Tracers with type-specific behavior
-        
+        !Update Tracers with type-specific behavior        
         !Write results if time to do so        
         temp = Globals%Names%casename//'_'//int2str('(i5.5)',Globals%Sim%getnumoutfile())
         call OutputStreamer%WriteStepSerial(temp, DBlock)
         call Globals%Sim%increment_numoutfile()
         !Print some stats from the time step
-        call self%printTracerTotals()
-        
+        call self%printTracerTotals()        
         !Clean AoT
         call self%BlocksCleanAoT()
         !update Simulation time and counters
