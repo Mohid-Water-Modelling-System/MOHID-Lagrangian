@@ -19,7 +19,8 @@
     module simulation_globals_mod
 
     use penf
-    use vecfor_r4p
+    use vecfor_r8p
+    !use vecfor_r4p
     use stringifor
     use datetime_module
 

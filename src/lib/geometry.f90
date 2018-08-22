@@ -18,7 +18,8 @@
 
     module geometry_mod
 
-    use vecfor_r4p
+    use vecfor_r8p
+    !use vecfor_r4p
     use stringifor
     use simulation_precision_mod
     use simulation_logger_mod
