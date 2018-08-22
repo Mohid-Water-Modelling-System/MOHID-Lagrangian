@@ -7,7 +7,7 @@
       <Rho_ref value="1100" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />
     </constantsdef>
     <simulationdefs>
-      <resolution dp="0.9" units_comment="metres (m)"/>
+      <resolution dp="1.5" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
       <pointmin x="-10.0" y="0.0" z="-500.01" units_comment="(deg,deg,m)"/>
       <pointmax x="10.0" y="10.0" z="4.0574" units_comment="(deg,deg,m)"/>
@@ -34,7 +34,7 @@
         <rate value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <line>
           <pointa x="1" y="2" z="-10" units_comment="(deg,deg,m)"/>
-          <pointb x="1.03" y="2.00001" z="7" units_comment="(deg,deg,m)"/>
+          <pointb x="1.001" y="2.00001" z="7" units_comment="(deg,deg,m)"/>
         </line>
       </source>
       <source>

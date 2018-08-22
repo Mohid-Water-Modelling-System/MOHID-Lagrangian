@@ -19,8 +19,8 @@
 module common_modules
 
     use penf
+    use vecfor_r8p
     !use vecfor_r4p
-    use vecfor
     use stringifor
     use datetime_module
 
