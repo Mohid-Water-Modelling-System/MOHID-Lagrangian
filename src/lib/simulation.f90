@@ -80,7 +80,7 @@
         call self%BlocksEmitt()
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
-        !Optimize Block Tracer arrays (sort,resize)
+        !Optimize Block Tracer lists
         call self%BlocksConsolidateArrays()
         !Build AoT
         call self%BlocksTracersToAoT()
@@ -88,7 +88,7 @@
         !interpolate fields to tracer coordinates
         !Update all tracers with base behavior (AoT)
         !AoT to Tracers
-        !Update Tracers with type-specific behavior        
+        !Update Tracers with type-specific behavior
         !Write results if time to do so
         call OutputStreamer%WriteStepSerial(DBlock)
         !Print some stats from the time step
