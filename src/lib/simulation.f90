@@ -17,23 +17,22 @@
     !------------------------------------------------------------------------------
     module simulation_mod
 
-    use common_modules
+    use about_mod
     use initialize_mod
     use boundingbox_mod
+    use blocks_mod
     use emitter_mod
     use sources_mod
     use tracers_mod
-    use blocks_mod
-    use about_mod
     use simulation_output_streamer_mod
-
+    use common_modules
+    
     !use simulation_objects_mod
 
     implicit none
     private
 
-    type :: simulation_class   !< Parameters class
-        
+    type :: simulation_class   !< Parameters class        
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -259,16 +258,21 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
-    integer :: i, blk    
+    integer :: i, blk, ntrc
     !iterate every Source to distribute
+    ntrc = 0
     do i=1, size(tempSources%src)
         blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))        
         call DBlock(blk)%putSource(tempSources%src(i))
-    end do    
+        ntrc = ntrc + tempSources%src(i)%stencil%total_np
+    end do
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     outext='-->Sources allocated to their current Blocks'
     call Log%put(outext,.false.)
-    call self%setTracerMemory()    
+    outext = ntrc
+    outext='-->'//outext//' Tracers on the emission stack'
+    call Log%put(outext,.false.)
+    call self%setTracerMemory(ntrc)
     end subroutine setInitialState
     
     !---------------------------------------------------------------------------
@@ -295,7 +299,6 @@
     subroutine printTracerTotals(self)
     implicit none
     class(simulation_class), intent(in) :: self
-    integer :: alloc, active
     type(string) :: outext, temp
     temp = self%getTracerTotals()   
     outext='-->'//temp //' Tracers allocated'
@@ -307,10 +310,10 @@
     !> @brief
     !> Simulation method to account for Tracer memory consumption
     !---------------------------------------------------------------------------
-    subroutine setTracerMemory(self)
+    subroutine setTracerMemory(self, ntrc)
     implicit none
     class(simulation_class), intent(in) :: self
-    integer :: alloc, active
+    integer, optional, intent(in) :: ntrc
     integer :: sizem, i
     sizem = 0
     do i=1, size(DBlock)
@@ -318,6 +321,10 @@
         sizem = sizem + sizeof(dummyTracer)*DBlock(i)%LTracer%getSize() !this accounts for the contents
     enddo  
     call SimMemory%setracer(sizem)
+    if(present(ntrc)) then
+        call SimMemory%setNtrc(ntrc)
+        call SimMemory%setsizeTrc(sizeof(dummyTracer))
+    end if
     end subroutine setTracerMemory
 
     !---------------------------------------------------------------------------

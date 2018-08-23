@@ -24,8 +24,8 @@
 
 MOHIDLagrangian v0.0.7 (R. Birjukovs Canelas) (13-08-2018)
 =====================================================================
-2018-8-23 @16:27:24 ->Reading .xml file Template_Lagrangian_out/Template_Lagrangian.xml
-2018-8-23 @16:27:24 ->Case name is Template_Lagrangian
+2018-8-23 @17:17:11 ->Reading .xml file Template_Lagrangian_out/Template_Lagrangian.xml
+2018-8-23 @17:17:11 ->Case name is Template_Lagrangian
  -->Reading case parameters
        Integrator scheme is Runge-Kuta 4
        CFL = +0.800000011920929E+000
@@ -48,7 +48,7 @@ MOHIDLagrangian v0.0.7 (R. Birjukovs Canelas) (13-08-2018)
        +0.100000000000000E+002 +0.100000000000000E+002 +0.405740000000000E+001
        Blocks are automatically sized
  -->Reading case Sources
-2018-8-23 @16:27:24 Allocated +6 Sources.
+2018-8-23 @17:17:11 Allocated +6 Sources.
  -->Source Spill_007
        Id = +18
        Geometry type is box
@@ -101,47 +101,49 @@ MOHIDLagrangian v0.0.7 (R. Birjukovs Canelas) (13-08-2018)
        Source id = +3, Mistery_discharge_0 is of type plastic, with property name bag_1
        Source id = +2, Emissary_2 is of type paper, with property name cardboard_1
        Source id = +10 not listed, property expanded_polysryrene_10, of type plastic not linked, ignoring
-2018-8-23 @16:27:24 ->Reading .xml file Material_props.xml
+2018-8-23 @17:17:11 ->Reading .xml file Material_props.xml
  -->Sources properties are set
-2018-8-23 @16:27:24 Allocated +16 Blocks.
+2018-8-23 @17:17:11 Allocated +16 Blocks.
  -->Automatic domain decomposition sucessful. Domain is +8 X +2 Blocks
  -->Sources allocated to their current Blocks
-2018-8-23 @16:27:24 ->Total allocated memory: +0.337360017001629E-001 mb
-       Allocated memory for Blocks  = +0.229119993746281E-001 mb
+ -->+6230138 Tracers on the emission stack
+2018-8-23 @17:17:11 ->Total allocated memory: +0.336080007255077E-001 mb
+       Allocated memory for Blocks  = +0.227840002626181E-001 mb
        Allocated memory for Sources = +0.340800010599196E-002 mb
        Allocated memory for Tracers = +0.627199979498982E-002 mb
        Allocated memory for Consts  = +0.114399997983128E-002 mb
-2018-8-23 @16:27:24 ->Writting Bounding Box file Template_Lagrangian_BoundingBox.vtu
-2018-8-23 @16:27:24 ->Writting Blocks file Template_Lagrangian_Blocks.vtu
+       Expected memory requirements exceed +0.224284968566895E+004 mb
+2018-8-23 @17:17:11 ->Writting Bounding Box file Template_Lagrangian_BoundingBox.vtu
+2018-8-23 @17:17:11 ->Writting Blocks file Template_Lagrangian_Blocks.vtu
  =====================================================================
-2018-8-23 @16:27:24 ->Simulation staring
+2018-8-23 @17:17:11 ->Simulation staring
  =====================================================================
-2018-8-23 @16:27:24 ->Writting output file Template_Lagrangian_00000.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00000.vtu
  -->+4249 Tracers allocated
-2018-8-23 @16:27:24 ->Writting output file Template_Lagrangian_00001.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00001.vtu
  -->+4287 Tracers allocated
-2018-8-23 @16:27:24 ->Writting output file Template_Lagrangian_00002.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00002.vtu
  -->+8550 Tracers allocated
-2018-8-23 @16:27:24 ->Writting output file Template_Lagrangian_00003.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00003.vtu
  -->+8564 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00004.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00004.vtu
  -->+12849 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00005.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00005.vtu
  -->+12862 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00006.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00006.vtu
  -->+17125 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00007.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00007.vtu
  -->+17161 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00008.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00008.vtu
  -->+21423 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00009.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00009.vtu
  -->+21436 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00010.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00010.vtu
  -->+25721 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00011.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00011.vtu
  -->+25735 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00012.vtu
+2018-8-23 @17:17:11 ->Writting output file Template_Lagrangian_00012.vtu
  -->+29997 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00013.vtu
+2018-8-23 @17:17:12 ->Writting output file Template_Lagrangian_00013.vtu
  -->+30033 Tracers allocated
-2018-8-23 @16:27:25 ->Writting output file Template_Lagrangian_00014.vtu
+2018-8-23 @17:17:12 ->Writting output file Template_Lagrangian_00014.vtu

@@ -29,9 +29,9 @@
     implicit none
     private
 
-    type :: emitter_class
-        integer :: emitted
-        integer :: emittable
+    type :: emitter_class       !< Emitter class
+        integer :: emitted      !< number of Tracers this Emitter has created
+        integer :: emittable    !< number of Tracers this Emitter should create throughout the simulation
     contains
     procedure :: initialize => initializeEmitter
     procedure :: addSource
@@ -99,7 +99,6 @@
     class(*), allocatable :: newtrc
     do i=1, src%stencil%np
         self%emitted = self%emitted + 1
-        self%emittable = self%emittable - 1
         !PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
         call self%tracerMaker(newtrc, src, i)
         call trclist%add(newtrc)

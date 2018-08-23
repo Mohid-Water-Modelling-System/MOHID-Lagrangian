@@ -36,12 +36,11 @@
 
     type block_class
         integer :: id
-        type(box) :: extents            !< shape::box that defines the extents of this block
+        type(box) :: extents                  !< shape::box that defines the extents of this block
         type(sourceList_class) :: LSource     !< List of Sources currently on this block
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
-        type(aot_class) :: AoT
-        type(emitter_class) :: Emitter  !< Block Emitter
-        real(prec) :: resize_factor = 1.20 !< factor to resize the Tracer array once needed
+        type(aot_class) :: AoT                !< Block Array of Tracers for actual numerical work
+        type(emitter_class) :: Emitter        !< Block Emitter
     contains
     private
     procedure, public :: initialize => initBlock
