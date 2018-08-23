@@ -24,8 +24,6 @@
     use common_modules
     use simulation_globals_mod
     use boundingbox_mod
-    use tracer_array_mod
-    use sources_array_mod
     use tracer_list_mod
     use sources_list_mod
     use sources_mod
@@ -39,8 +37,6 @@
     type block_class
         integer :: id
         type(box) :: extents            !< shape::box that defines the extents of this block
-        !type(sourcearray_class) :: Source     !< array of Sources currently on this block
-        !type(tracerarray_class) :: Tracer     !< array of Tracers currently on this block
         type(sourceList_class) :: LSource     !< List of Sources currently on this block
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
         type(aot_class) :: AoT
@@ -52,13 +48,11 @@
     procedure, public :: putSource
     procedure, public :: CallEmitter
     procedure, public :: DistributeTracers
-    !procedure, public :: numActiveTracers
     procedure, public :: numAllocTracers
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
     procedure, public :: TracersToAoT
     procedure, public :: CleanAoT
-    !procedure, private :: removeTracer
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
     end type block_class
@@ -85,22 +79,10 @@
     numAllocTracers = self%LTracer%getSize()
     end function numAllocTracers
 
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> method that returns the total active Tracers in the Block
-    !!---------------------------------------------------------------------------
-    !function numActiveTracers(self)
-    !implicit none
-    !class(block_class), intent(in) :: self
-    !integer :: numActiveTracers
-    !numActiveTracers = self%Tracer%numActive
-    !end function numActiveTracers
-
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> method to allocate and initialize blocks and their emitters
+    !> method to allocate and initialize Blocks and their Emitters
     !> @param[in] self, templatebox
     !---------------------------------------------------------------------------
     subroutine initBlock(self, id, templatebox)
@@ -114,14 +96,7 @@
     self%extents%pt = templatebox%pt
     self%extents%size = templatebox%size
     !initializing the block emitter
-    call self%Emitter%initialize()
-    !initializing the Sources and Tracers arrays
-    !call self%Source%init(1)   !Starting the Sources array with one position
-    !self%Source%usedLength = 0 !But there are no stored Sources
-    !call self%Tracer%init(1, initvalue = dummyTracer)   !Starting the Tracers array with one position
-    !self%Tracer%lastActive = 0
-    !self%Tracer%numActive = 0 !But there are no stored Tracers
-    !logging the ocupied space by the block
+    call self%Emitter%initialize()   
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
     end subroutine initBlock
@@ -129,33 +104,17 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to place a Source on the Block sourcearray_class object.
-    !> Checks for space and allocates more if needed.
-    !> The array gets incremented by one unit at a time
-    !> Allocates space in the Blocks Tracer array with a dummy Tracer
+    !> Method to place a Source on the Block sourceList_class object. Adds the 
+    !> Source info to the Block Emitter
     !> @param[in] self, sourcetoput
     !---------------------------------------------------------------------------
-    subroutine putSource(self, sourcetoput)
+    subroutine putSource(self, sourcetoadd)
     implicit none
     class(block_class), intent(inout) :: self
-    class(source_class), intent(inout) :: sourcetoput !< Source object to store
-    
-    call self%LSource%add(sourcetoput)
-    !print*, 'Block ', self%id, 'has ', self%LSource%getSize(), ' Sources'
-    !call self%LSource%print()
-    
-    !Check if the array is at capacity and needs to be resized
-    !if (self%Source%usedLength == self%Source%getLength()) then
-    !    call self%Source%resize(self%Source%getLength()+1) !incrementing one entry
-    !end if
-    !self%Source%usedLength = self%Source%usedLength + 1
-    !call self%Source%put(self%Source%usedLength, sourcetoput)
-    
+    class(source_class), intent(inout) :: sourcetoadd !< Source object to store    
+    call self%LSource%add(sourcetoadd)    
     !adding this Source to the Block Emitter pool
-    call self%Emitter%addSource(sourcetoput)
-    
-    !Resizing the Tracer array for the maximum possible emmited Tracers by the Sources in this Block (+1)
-    !call self%Tracer%resize(self%Tracer%getLength() + sourcetoput%stencil%total_np, initvalue = dummyTracer)
+    call self%Emitter%addSource(sourcetoadd)
     end subroutine putSource
 
     !---------------------------------------------------------------------------
@@ -171,16 +130,16 @@
     class(*), pointer :: aSource
     type(string) :: outext
 
-    call self%LSource%reset()               ! reset list iterator
-    do while(self%LSource%moreValues())     ! loop while there are values
-        aSource => self%LSource%currentValue() ! get current value
+    call self%LSource%reset()                   ! reset list iterator
+    do while(self%LSource%moreValues())         ! loop while there are values
+        aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
-            if (Globals%SimTime <= aSource%par%stoptime) then !SimTime smaller than Source end time
-                if (Globals%SimTime >= aSource%par%startime) then !SimTime larger than source start time
+            if (Globals%SimTime <= aSource%par%stoptime) then       !SimTime smaller than Source end time
+                if (Globals%SimTime >= aSource%par%startime) then   !SimTime larger than source start time
                     aSource%now%active = .true.
                 end if
-            else !SimTime larger than Source end time
+            else            !SimTime larger than Source end time
                 aSource%now%active = .false.
             end if
             class default
@@ -190,33 +149,14 @@
         end select
         call self%LSource%next()            ! increment the list iterator
     end do
-    call self%LSource%reset()               ! reset list iterator    
-        
-    !do i=1, self%Source%usedLength
-    !    aSource => self%Source%get(i)
-    !    select type(aSource)
-    !    class is (source_class)
-    !        if (Globals%SimTime <= aSource%par%stoptime) then !SimTime smaller than Source end time
-    !            if (Globals%SimTime >= aSource%par%startime) then !SimTime larger than source start time
-    !                aSource%now%active = .true.
-    !            end if
-    !        else !SimTime larger than Source end time
-    !            aSource%now%active = .false.
-    !        end if
-    !        class default
-    !        outext = '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
-    !        call Log%put(outext)
-    !        stop
-    !    end select
-    !end do
+    call self%LSource%reset()               ! reset list iterator
 
     end subroutine ToogleBlockSources
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to activate and deactivate the sources on this block, based on
-    !> Global%SimTime
+    !> Method to emitt Tracers from currently active Sources on the Block
     !---------------------------------------------------------------------------
     subroutine CallEmitter(self)
     implicit none
@@ -225,17 +165,16 @@
     class(*), pointer :: aSource
     type(string) :: outext
     
-    call self%LSource%reset()               ! reset list iterator
-    do while(self%LSource%moreValues())     ! loop while there are values
-        aSource => self%LSource%currentValue() ! get current value
+    call self%LSource%reset()                   ! reset list iterator
+    do while(self%LSource%moreValues())         ! loop while there are values
+        aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
             if (aSource%now%active) then
-                aSource%now%emission_stride = aSource%now%emission_stride - 1 !decreasing the stride at this dt
-                if (aSource%now%emission_stride == 0) then !reached the bottom of the stride stack, time to emitt
-                    !print*, 'emitting from Block ', self%id, ' Source ', aSource%par%id
+                aSource%now%emission_stride = aSource%now%emission_stride - 1   !decreasing the stride at this dt
+                if (aSource%now%emission_stride == 0) then                      !reached the bottom of the stride stack, time to emitt
                     call self%Emitter%emitt(aSource, self%LTracer)
-                    aSource%now%emission_stride = aSource%par%emitting_rate !reseting the stride after the Source emitts
+                    aSource%now%emission_stride = aSource%par%emitting_rate     !reseting the stride after the Source emitts
                 end if
             end if
             class default
@@ -246,25 +185,6 @@
         call self%LSource%next()            ! increment the list iterator
     end do
     call self%LSource%reset()               ! reset list iterator
-
-    !do i=1, self%Source%usedLength
-    !    aSource => self%Source%get(i)
-    !    select type(aSource)
-    !    class is (source_class)
-    !        if (aSource%now%active) then
-    !            aSource%now%emission_stride = aSource%now%emission_stride - 1 !decreasing the stride at this dt
-    !            if (aSource%now%emission_stride == 0) then !reached the bottom of the stride stack, time to emitt
-    !                !print*, 'emitting from Block ', self%id, ' Source ', aSource%par%id
-    !                call self%Emitter%emitt(aSource, self%Tracer)
-    !                aSource%now%emission_stride = aSource%par%emitting_rate !reseting the stride after the Source emitts
-    !            end if
-    !        end if
-    !        class default
-    !        outext = '[Block::CallEmitter]: Unexepected type of content, not a Source'
-    !        call Log%put(outext)
-    !        stop
-    !    end select
-    !end do
     
     end subroutine CallEmitter
 
@@ -281,18 +201,18 @@
     type(string) :: outext
     logical :: notremoved
     
-    call self%LTracer%reset()               ! reset list iterator
-    do while(self%LTracer%moreValues())     ! loop while there are values
+    call self%LTracer%reset()                   ! reset list iterator
+    do while(self%LTracer%moreValues())         ! loop while there are values
         notremoved = .true.
-        aTracer => self%LTracer%currentValue() ! get current value
+        aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
             if (aTracer%now%active) then
                 blk = getBlockIndex(aTracer%now%pos)
-                if (blk /= self%id) then !tracer is on a different block than the current one
+                if (blk /= self%id) then        !tracer is on a different block than the current one
                     !PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution
                     call sendTracer(blk,aTracer)
-                    call self%LTracer%removeCurrent() !this advances the iterator to the next position
+                    call self%LTracer%removeCurrent() !this also advances the iterator to the next position
                     notremoved = .false.
                 end if
             end if
@@ -301,73 +221,29 @@
             call Log%put(outext)
             stop
         end select
-        if (notremoved) call self%LTracer%next()            ! increment the list iterator
+        if (notremoved) call self%LTracer%next()    ! increment the list iterator
     end do
-    call self%LTracer%reset()               ! reset list iterator
-    
-    !do i=1, self%Tracer%lastActive
-    !    aTracer => self%Tracer%get(i)
-    !    select type(aTracer)
-    !    class is (tracer_class)
-    !        if (aTracer%now%active) then
-    !            blk = getBlockIndex(aTracer%now%pos)
-    !            if (blk /= self%id) then !tracer is on a different block than the current one
-    !                !PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution
-    !                call sendTracer(blk,aTracer)
-    !                call self%removeTracer(i)
-    !            end if
-    !        end if
-    !        class default
-    !        outext = '[Block::DistributeTracers]: Unexepected type of content, not a Tracer'
-    !        call Log%put(outext)
-    !        stop
-    !    end select
-    !end do
+    call self%LTracer%reset()                   ! reset list iterator
     
     end subroutine DistributeTracers
-
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> Method to remove a Tracer from the Block. Optionally doesn't decrease the
-    !!> active count from the Block
-    !!> param[in] trc,fromCopy
-    !!---------------------------------------------------------------------------
-    !subroutine removeTracer(self,trc,fromCopy)
-    !implicit none
-    !class(block_class), intent(inout) :: self
-    !integer, intent(in) :: trc
-    !logical, optional, intent(in) :: fromCopy
-    !call self%Tracer%put(trc,dummyTracer)
-    !self%Tracer%numActive = self%Tracer%numActive - 1
-    !if (present(fromCopy)) then
-    !    if (fromCopy) then
-    !        self%Tracer%numActive = self%Tracer%numActive + 1
-    !    end if
-    !end if
-    !if (trc == self%Tracer%lastActive) then
-    !    self%Tracer%lastActive = self%Tracer%findLastActive()
-    !end if
-    !end subroutine removeTracer
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to optimize the Tracer array from the Block - checks for memory
-    !> use, sorts by active, ...
+    !> Method to clean the Tracer list from inactive Tracers. TODO test 
+    !> further optimization
     !---------------------------------------------------------------------------
     subroutine ConsolidateArrays(self)
     implicit none
     class(block_class), intent(inout) :: self
-    !integer :: i
-    class(*), pointer :: aTracer!, bTracer
+    class(*), pointer :: aTracer
     type(string) :: outext
     logical :: notremoved
     
-    call self%LTracer%reset()               ! reset list iterator
-    do while(self%LTracer%moreValues())     ! loop while there are values
+    call self%LTracer%reset()                   ! reset list iterator
+    do while(self%LTracer%moreValues())         ! loop while there are values
         notremoved = .true.
-        aTracer => self%LTracer%currentValue() ! get current value
+        aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
             if (aTracer%now%active.eqv. .false.) then
@@ -379,39 +255,21 @@
             call Log%put(outext)
             stop
         end select
-        if (notremoved) call self%LTracer%next()            ! increment the list iterator
+        if (notremoved) call self%LTracer%next()    ! increment the list iterator
     end do
-    call self%LTracer%reset()               ! reset list iterator
+    call self%LTracer%reset()                       ! reset list iterator
     
-    !!sorts the array by active tracers    
-    !do i=1, self%Tracer%lastActive
-    !    aTracer => self%Tracer%get(i)
-    !    select type(aTracer)
-    !    class is (tracer_class)
-    !        if (aTracer%now%active .eqv. .false.) then
-    !            !bring the last active tracer to this position
-    !            bTracer => self%Tracer%get(self%Tracer%lastActive)
-    !            call self%Tracer%put(i,bTracer)                
-    !            call self%removeTracer(self%Tracer%lastActive,.true.)                
-    !        end if
-    !        class default
-    !        outext = '[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'
-    !        call Log%put(outext)
-    !        stop
-    !    end select
-    !end do    
     end subroutine ConsolidateArrays
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to build the AoT object at this timestep for code efficiency
+    !> Method to build the AoT object at this timestep for actual numerical work
     !---------------------------------------------------------------------------
     subroutine TracersToAoT(self)
     implicit none
     class(block_class), intent(inout) :: self
-    self%AoT = MakeAoT(self%LTracer)
-    !self%AoT = MakeAoT(self%Tracer)
+    self%AoT = AoT(self%LTracer)
     !if (self%LTracer%getSize() > 0) then
     !    print*, 'From Block ', self%id
     !    call self%AoT%print()
@@ -438,26 +296,15 @@
     implicit none
     integer, intent(in) :: blk
     class(*), intent(in) :: trc
-    !integer :: idx
-    !type(string) :: outext
-    
     !PARALLEL this is a CRITICAL section, need to ensure correct tracer
     !index attribution at the new block
     call DBlock(blk)%LTracer%add(trc)
-    
-    !if (DBlock(blk)%Tracer%lastActive == DBlock(blk)%Tracer%getLength()) then !OPTIMIZATION - this could be numActive if the array was sorted and optimized - TODO
-    !    call DBlock(blk)%Tracer%resize(max(int(DBlock(blk)%Tracer%getLength()*DBlock(blk)%resize_factor),10))
-    !end if
-    !idx = DBlock(blk)%Tracer%lastActive + 1
-    !call DBlock(blk)%Tracer%put(idx,trc)
-    !DBlock(blk)%Tracer%lastActive = idx
-    !DBlock(blk)%Tracer%numActive = DBlock(blk)%Tracer%numActive + 1
     end subroutine sendTracer
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns the index of the Block for a given set of coordinates.
+    !> Returns the index of a Block for a given set of coordinates.
     !> @param[in] pt
     !---------------------------------------------------------------------------
     integer function getBlockIndex(pt)

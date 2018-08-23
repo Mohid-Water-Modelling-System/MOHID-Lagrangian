@@ -40,31 +40,28 @@
     procedure :: print => print_AoT
     end type aot_class
 
-    interface MakeAoT !> Constructor
+    interface AoT !> Constructor
         procedure constructor
     end interface
 
-    public :: aot_class, MakeAoT
+    public :: aot_class, AoT
     
     contains
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Constructor for AoT object with data from a tracerarray_class object
-    !> @parm[in] trcarray
+    !> Constructor for AoT object with data from a tracerList_class object
+    !> @parm[in] trclist
     !---------------------------------------------------------------------------
-    !function constructor(trcarray)
     function constructor(trclist)
     implicit none
     type(aot_class) :: constructor
-    !class(tracerarray_class), intent(in) :: trcarray
     class(tracerList_class), intent(in) :: trclist
     integer :: nt, i
     class(*), pointer :: aTracer
     type(string) :: outext
     !allocating the necessary space
-    !nt = trcarray%numActive
     nt = trclist%getSize()
     allocate(constructor%id(nt))
     !allocate(constructor%index(nt))
@@ -100,27 +97,6 @@
     end do
     call trclist%reset()               ! reset list iterator
     
-    !do i=1, trcarray%lastActive
-    !    aTracer => trcarray%get(i)
-    !    select type(aTracer)
-    !    class is (tracer_class)
-    !        if (aTracer%now%active) then
-    !            constructor%id(nt) = aTracer%par%id
-    !            constructor%index(nt) = i
-    !            constructor%x(nt) = aTracer%now%pos%x
-    !            constructor%y(nt) = aTracer%now%pos%y
-    !            constructor%z(nt) = aTracer%now%pos%z
-    !            constructor%u(nt) = aTracer%now%vel%x
-    !            constructor%v(nt) = aTracer%now%vel%y
-    !            constructor%w(nt) = aTracer%now%vel%z
-    !            nt= nt + 1
-    !        end if
-    !        class default
-    !        outext = '[AoT::Constructor]: Unexepected type of content, not a Tracer'
-    !        call Log%put(outext)
-    !        stop
-    !    end select
-    !end do
     end function constructor
     
      !---------------------------------------------------------------------------

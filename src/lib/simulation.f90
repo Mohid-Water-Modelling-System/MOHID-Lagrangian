@@ -349,11 +349,9 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
-
     outext='Simulation ended, freeing resources. See you next time'
     call Log%put(outext)
     call Log%finalize()
-
     end subroutine closeSimulation
 
 
