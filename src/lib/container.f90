@@ -43,6 +43,7 @@
     contains
     procedure :: getContent     !< returns stored content (pointer)
     procedure :: storeContent   !< stores the provided values (sourced allocation)
+    procedure :: deleteContent  !< deletes the content of the container
     procedure :: printContainer !< prints container contents (only primitive types implemented)
     end type container
 
@@ -63,6 +64,16 @@
     class(*), pointer :: getContent
     getContent => this%value
     end function getContent
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that deletes the value in the container 
+    !---------------------------------------------------------------------------
+    subroutine deleteContent(this)
+    class(container), intent(inout) :: this    
+    deallocate(this%value)
+    end subroutine deleteContent
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

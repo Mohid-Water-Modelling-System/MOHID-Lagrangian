@@ -25,7 +25,7 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module that defines an unlimited polymorphic container class and related
+    !> Module that defines an unlimited polymorphic container array class and related
     !> methods. A container is a fundamental entity allowing to build data
     !> structures such as lists and arrays.
     !> This is an abstract type, so a derived type must be defined for any
@@ -72,8 +72,7 @@
     if (index .le. this%getLength()) then
         getValue => this%contents(index)%getContent()
     else
-        print*, '[getValue]: index out of bounds'
-        stop 
+        stop '[getValue]: index out of bounds'
     endif
     end function getValue
 
@@ -90,8 +89,7 @@
     if (index .le. this%getLength()) then
         call this%contents(index)%storeContent(value)
     else
-        print*, '[putValue]: index out of bounds'
-        stop
+        stop '[putValue]: index out of bounds'
     endif
     end subroutine putValue
 
@@ -164,24 +162,22 @@
             call this%put(i,value)
         end do
     else if (present(source)) then !using sourced allocation
-        allocate(this%contents, source=source, stat = i)
-        if (i.ne.0) then
-            stop '[AbstractContainerArray::init]: problem during sourced allocation, stoping'
-        endif
+        allocate(this%contents, source=source)
         this%length=size(source)
     endif
     end subroutine initArray
     
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method that returns the memory used by the array in bytes
-    !> @param[in] this
-    !---------------------------------------------------------------------------
-    function getMemSize(this)
-    class(container_array), intent(in) :: this
-    integer :: getMemSize
-    getMemSize = sizeof(this%contents)
-    end function getMemSize
+     !---------------------------------------------------------------------------
+     !> @author Ricardo Birjukovs Canelas - MARETEC
+     !> @brief
+     !> Method that returns the memory used by the array in bytes
+     !> @param[in] this
+     !---------------------------------------------------------------------------
+     function getMemSize(this)
+     class(container_array), intent(in) :: this
+     integer :: getMemSize
+     !getMemSize = sizeof(this%contents)
+     getMemSize = storage_size(this%contents)
+     end function getMemSize
 
     end module abstract_container_array_mod
