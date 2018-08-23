@@ -24,13 +24,14 @@
     use sources_mod
     use tracers_mod
     use tracer_array_mod
-    use sources_array_mod    
+    use sources_array_mod
+    use tracer_list_mod
+    use sources_list_mod
 
     implicit none
     private
 
     type :: emitter_class
-        integer :: id
         integer :: emitted
         integer :: emittable
     contains
@@ -48,18 +49,12 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> method that initializes an emmiter class object. Sets default values
-    !
-    !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine initializeEmitter(self, id)
+    subroutine initializeEmitter(self)
     implicit none
     class(emitter_class), intent(inout) :: self
-    integer, intent(in) :: id
-    self%id = id
     self%emitted = 0
     self%emittable = 0
     end subroutine initializeEmitter
@@ -99,39 +94,49 @@
     !> Block
     !> @param[in] self, src, trc
     !---------------------------------------------------------------------------
-    subroutine emitt(self, src, trcarr)
+    !subroutine emitt(self, src, trcarr)
+    subroutine emitt(self, src, trclist)
     implicit none
     class(emitter_class), intent(inout) :: self !> the Emmiter from the Block where the Source is
     class(source_class), intent(inout)  :: src  !>the Source that will emitt new Tracers
-    class(tracerarray_class), intent(inout)   :: trcarr  !>the Tracer array from the Block where the Source is
-    integer err, i
-    type(string) :: outext, temp(2)
-    integer :: allocstride = 3
+    !class(tracerarray_class), intent(inout)   :: trcarr  !>the Tracer array from the Block where the Source is
+    class(tracerList_class), intent(inout)   :: trclist  !>the Tracer list from the Block where the Source is
+    integer i
+    !type(string) :: outext, temp(2)
+    !integer :: allocstride = 3
     class(*), allocatable :: newtrc
-
-    if (self%emittable <= 0) then
-        !nothing to do as we have no Sources or no emittable Tracers
-        temp(1) = self%id
-        temp(2) = src%par%id
-        outext='-->Source '//temp(2)//' trying to emitt Tracers from an exausted Emitter '//temp(1)
-        call Log%put(outext,.false.)
-    else
-        !check if the Block Tracer Array has enough free places for this emission
-        if (src%stencil%np > (trcarr%getLength() - trcarr%lastActive)) then
-            call trcarr%resize(trcarr%getLength() + allocstride*src%stencil%np, initvalue = dummyTracer) !resizing the Block Tracer array to accomodate more emissions
-        end if
-        !there is space to emmitt the Tracers
+    
         do i=1, src%stencil%np
             self%emitted = self%emitted + 1 
             self%emittable = self%emittable - 1
-            trcarr%lastActive = trcarr%lastActive + 1
-            trcarr%numActive = trcarr%numActive + 1
             !PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
             call self%tracerMaker(newtrc, src, i)
-            call trcarr%put(trcarr%lastActive, newtrc)
-        end do
+            call trclist%add(newtrc)
+        end do        
         src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np
-    endif
+
+    !if (self%emittable <= 0) then
+    !    !nothing to do as we have no Sources or no emittable Tracers
+    !    temp(2) = src%par%id
+    !    outext='-->Source '//temp(2)//' trying to emitt Tracers from an exausted Emitter'
+    !    call Log%put(outext,.false.)
+    !else
+    !    !check if the Block Tracer Array has enough free places for this emission
+    !    if (src%stencil%np > (trcarr%getLength() - trcarr%lastActive)) then
+    !        call trcarr%resize(trcarr%getLength() + allocstride*src%stencil%np, initvalue = dummyTracer) !resizing the Block Tracer array to accomodate more emissions
+    !    end if
+    !    !there is space to emmitt the Tracers
+    !    do i=1, src%stencil%np
+    !        self%emitted = self%emitted + 1 
+    !        self%emittable = self%emittable - 1
+    !        trcarr%lastActive = trcarr%lastActive + 1
+    !        trcarr%numActive = trcarr%numActive + 1
+    !        !PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
+    !        call self%tracerMaker(newtrc, src, i)
+    !        call trcarr%put(trcarr%lastActive, newtrc)
+    !    end do        
+    !    src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np
+    !endif
 
     end subroutine
     

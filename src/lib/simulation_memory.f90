@@ -34,8 +34,7 @@
     procedure :: initialize => initializeMemory
     procedure :: addblock
     procedure :: addsource
-    procedure :: addtracer
-    procedure :: removetracer
+    procedure :: setracer
     procedure :: adddef
     procedure :: getotal
     procedure :: print => printmemory
@@ -52,8 +51,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private memory logger initialization method.
     !---------------------------------------------------------------------------
@@ -68,8 +65,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private method to retreive the total size of the allocated memory.
     !---------------------------------------------------------------------------
@@ -82,8 +77,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private method to add the size of a Block to the memory log.
     !---------------------------------------------------------------------------
@@ -96,8 +89,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private method to add the size of a Source to the memory log.
     !---------------------------------------------------------------------------
@@ -110,36 +101,19 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private method to add the size of a Tracer to the memory log.
     !---------------------------------------------------------------------------
-    subroutine addtracer(self,size)
+    subroutine setracer(self,size)
     implicit none
     class(memory_t), intent(inout) :: self
     integer, intent(in) :: size
-    self%size_of_tracers = self%size_of_tracers + size
-    end subroutine
+    self%size_of_tracers = size
+    end subroutine setracer
+
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
-    !> @brief
-    !> Private method to remove the size of a Tracer from the memory log.
-    !---------------------------------------------------------------------------
-    subroutine removetracer(self,size)
-    implicit none
-    class(memory_t), intent(inout) :: self
-    integer, intent(in) :: size
-    self%size_of_tracers = self%size_of_tracers - size
-    end subroutine
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private method to add the size of a definition to the memory log.
     !---------------------------------------------------------------------------
@@ -152,8 +126,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Method to print the total allocated memory.
     !---------------------------------------------------------------------------
@@ -172,8 +144,6 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Private method to print the allocated memory.
     !---------------------------------------------------------------------------
