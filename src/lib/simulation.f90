@@ -63,7 +63,7 @@
     subroutine run(self)
     implicit none
     class(simulation_class), intent(inout) :: self
-    type(string) :: temp, outext
+    type(string) :: outext
     
     outext = '====================================================================='
     call Log%put(outext,.false.)
@@ -89,10 +89,8 @@
         !Update all tracers with base behavior (AoT)
         !AoT to Tracers
         !Update Tracers with type-specific behavior        
-        !Write results if time to do so        
-        temp = Globals%Names%casename//'_'//int2str('(i5.5)',Globals%Sim%getnumoutfile())
-        call OutputStreamer%WriteStepSerial(temp, DBlock)
-        call Globals%Sim%increment_numoutfile()
+        !Write results if time to do so
+        call OutputStreamer%WriteStepSerial(DBlock)
         !Print some stats from the time step
         call self%printTracerTotals()
         !Clean AoT
@@ -100,7 +98,7 @@
         !update Simulation time and counters
         Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
         call Globals%Sim%increment_numdt()
-        print*, 'Global time is ', Globals%SimTime
+        !print*, 'Global time is ', Globals%SimTime
         !print*, 'Can we continue?'
         !read (*,*)
     enddo

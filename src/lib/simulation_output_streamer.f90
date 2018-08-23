@@ -63,16 +63,20 @@
     !> format using an unstructured grid.
     !> @parm[in] self, filename, blocks
     !---------------------------------------------------------------------------
-    subroutine WriteStepSerial(self, filename, blocks)
+    subroutine WriteStepSerial(self, blocks)
     implicit none
-    class(output_streamer_class), intent(inout) :: self
-    type(string), intent(in) :: filename                    !< name of the case to add
+    class(output_streamer_class), intent(inout) :: self   
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
-        
+    type(string) :: filename                                !< name of the case to add
+    
+    filename = Globals%Names%casename//'_'//int2str('(i5.5)',Globals%Sim%getnumoutfile())
+    
     if (self%OutputFormat == 2) then !VTK file selected
         call vtkWritter%TracerSerial(filename, blocks)
     end if
-        
+    
+    call Globals%Sim%increment_numoutfile()
+    
     end subroutine WriteStepSerial
           
     !---------------------------------------------------------------------------
