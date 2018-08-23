@@ -22,7 +22,7 @@
     module AoT_mod
 
     use tracers_mod
-    use tracer_array_mod
+    !use tracer_array_mod
     use tracer_list_mod
     use common_modules
 

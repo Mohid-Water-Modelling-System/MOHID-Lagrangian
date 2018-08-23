@@ -100,7 +100,7 @@
     subroutine setsizeTrc(self,sizeTrc)
     implicit none
     class(memory_t), intent(inout) :: self
-    integer, intent(in) :: sizeTrc
+    integer*8, intent(in) :: sizeTrc
     self%sizeTrc = sizeTrc
     end subroutine setsizeTrc
 
