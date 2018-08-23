@@ -83,8 +83,8 @@
     error = vtkfile%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     !Write the data of each block
     do i = 1, size(blocks)
-        if (blocks(i)%Tracer%numActive > 0) then
-            np = blocks(i)%Tracer%numActive
+        if (blocks(i)%LTracer%getSize() > 0) then
+            np = blocks(i)%LTracer%getSize()
             allocate(connect(np))
             error = vtkfile%xml_writer%write_piece(np=np, nc=nc)
             error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=blocks(i)%AoT%x, y=blocks(i)%AoT%y, z=blocks(i)%AoT%z)

@@ -17,23 +17,22 @@
     !------------------------------------------------------------------------------
     module simulation_mod
 
-    use common_modules
+    use about_mod
     use initialize_mod
     use boundingbox_mod
+    use blocks_mod
     use emitter_mod
     use sources_mod
     use tracers_mod
-    use blocks_mod
-    use about_mod
     use simulation_output_streamer_mod
-
+    use common_modules
+    
     !use simulation_objects_mod
 
     implicit none
     private
 
-    type :: simulation_class   !< Parameters class
-        
+    type :: simulation_class   !< Parameters class        
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -82,7 +81,7 @@
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
         !Optimize Block Tracer arrays (sort,resize)
-        !call self%BlocksConsolidateArrays()
+        call self%BlocksConsolidateArrays()
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
@@ -95,16 +94,18 @@
         call OutputStreamer%WriteStepSerial(temp, DBlock)
         call Globals%Sim%increment_numoutfile()
         !Print some stats from the time step
-        call self%printTracerTotals()        
+        call self%printTracerTotals()
         !Clean AoT
         call self%BlocksCleanAoT()
         !update Simulation time and counters
         Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
         call Globals%Sim%increment_numdt()
-        !print*, 'Global time is ', Globals%SimTime
+        print*, 'Global time is ', Globals%SimTime
         !print*, 'Can we continue?'
         !read (*,*)
     enddo
+    call self%setTracerMemory()
+    call SimMemory%detailedprint()
 
     end subroutine run
 
@@ -121,7 +122,6 @@
     type(string), intent(in) :: casefilename         !< case file name
     type(string), intent(in) :: outpath              !< Output path
     type(string) :: outext
-    type(vector) :: tempvec
 
     ! Initialize logger
     call Log%initialize(outpath)
@@ -147,7 +147,7 @@
     call BBox%initialize()
     !decomposing the domain and initializing the Simulation Blocks
     call self%decompose()
-    !Distributing Sources and trigerring Tracer allocation and distribution
+    !Distributing Sources
     call self%setInitialState()
     !printing memory occupation at the time
     call SimMemory%detailedprint()    
@@ -257,21 +257,22 @@
     subroutine setInitialState(self)
     implicit none
     class(simulation_class), intent(inout) :: self
-    type(string) :: outext, temp(2)
-    integer :: i, ix, iy, blk, blk2
-    real(prec) :: dx, dy
-    type(vector) :: coords
-    
+    type(string) :: outext
+    integer :: i, blk, ntrc
     !iterate every Source to distribute
+    ntrc = 0
     do i=1, size(tempSources%src)
         blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))        
         call DBlock(blk)%putSource(tempSources%src(i))
-    end do    
+        ntrc = ntrc + tempSources%src(i)%stencil%total_np
+    end do
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     outext='-->Sources allocated to their current Blocks'
-    call Log%put(outext,.false.)    
-    call self%printTracerTotals()
-    call self%setTracerMemory()    
+    call Log%put(outext,.false.)
+    outext = ntrc
+    outext='-->'//outext//' Tracers on the emission stack'
+    call Log%put(outext,.false.)
+    call self%setTracerMemory(ntrc)
     end subroutine setInitialState
     
     !---------------------------------------------------------------------------
@@ -279,18 +280,16 @@
     !> @brief
     !> Simulation method to count Tracer numbers
     !---------------------------------------------------------------------------
-    subroutine getTracerTotals(self, alloc, active)
+    integer function getTracerTotals(self)
     implicit none
-    class(simulation_class), intent(in) :: self
-    integer, intent(out) :: alloc, active
-    integer :: i
-    alloc = 0
-    active = 0
+    class(simulation_class), intent(in) :: self    
+    integer :: i, total
+    total = 0
     do i=1, size(DBlock)
-        alloc = alloc + DBlock(i)%numAllocTracers()
-        active = active + DBlock(i)%numActiveTracers()
-    enddo        
-    end subroutine getTracerTotals
+        total = total + DBlock(i)%numAllocTracers()
+    enddo
+    getTracerTotals = total
+    end function getTracerTotals
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -300,13 +299,10 @@
     subroutine printTracerTotals(self)
     implicit none
     class(simulation_class), intent(in) :: self
-    integer :: alloc, active
-    type(string) :: outext, temp(2)
-    call self%getTracerTotals(alloc, active)
-    temp(1) = alloc
-    temp(2) = active
-    outext='-->'//temp(1) //' Tracers allocated, '//temp(2) //' Tracers active'    
-    call Log%put(outext,.false.)    
+    type(string) :: outext, temp
+    temp = self%getTracerTotals()   
+    outext='-->'//temp //' Tracers allocated'
+    call Log%put(outext,.false.)
     end subroutine printTracerTotals
     
     !---------------------------------------------------------------------------
@@ -314,17 +310,21 @@
     !> @brief
     !> Simulation method to account for Tracer memory consumption
     !---------------------------------------------------------------------------
-    subroutine setTracerMemory(self)
+    subroutine setTracerMemory(self, ntrc)
     implicit none
     class(simulation_class), intent(in) :: self
-    integer :: alloc, active
+    integer, optional, intent(in) :: ntrc
     integer :: sizem, i
     sizem = 0
     do i=1, size(DBlock)
-        sizem = sizem + DBlock(i)%Tracer%getMemSize() !this accounts for the array structure
-        sizem = sizem + sizeof(dummyTracer)*DBlock(i)%Tracer%getLength() !this accounts for the contents
+        sizem = sizem + sizeof(DBlock(i)%LTracer) !this accounts for the array structure
+        sizem = sizem + sizeof(dummyTracer)*DBlock(i)%LTracer%getSize() !this accounts for the contents
     enddo  
-    call SimMemory%addtracer(sizem)
+    call SimMemory%setracer(sizem)
+    if(present(ntrc)) then
+        call SimMemory%setNtrc(ntrc)
+        call SimMemory%setsizeTrc(sizeof(dummyTracer))
+    end if
     end subroutine setTracerMemory
 
     !---------------------------------------------------------------------------
@@ -356,11 +356,9 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
-
     outext='Simulation ended, freeing resources. See you next time'
     call Log%put(outext)
     call Log%finalize()
-
     end subroutine closeSimulation
 
 

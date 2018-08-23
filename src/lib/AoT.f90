@@ -23,13 +23,15 @@
 
     use tracers_mod
     use tracer_array_mod
+    use tracer_list_mod
     use common_modules
 
     implicit none
     private
 
     type :: aot_class !< Arrays of Tracers class
-        integer, allocatable, dimension(:) :: id, index !< Id and TracerArray index of the Tracer
+        integer, allocatable, dimension(:) :: id        !< Id of the Tracer
+        integer, allocatable, dimension(:) :: index     !< index of the Tracer
         real(prec), allocatable, dimension(:) :: x,y,z  !< coordinates of the Tracer
         real(prec), allocatable, dimension(:) :: u,v,w  !< velocities of the Tracer
     contains
@@ -38,31 +40,31 @@
     procedure :: print => print_AoT
     end type aot_class
 
-    interface MakeAoT !> Constructor
+    interface AoT !> Constructor
         procedure constructor
     end interface
 
-    public :: aot_class, MakeAoT
+    public :: aot_class, AoT
     
     contains
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Constructor for AoT object with data from a tracerarray_class object
-    !> @parm[in] trcarray
+    !> Constructor for AoT object with data from a tracerList_class object
+    !> @parm[in] trclist
     !---------------------------------------------------------------------------
-    function constructor(trcarray)
+    function constructor(trclist)
     implicit none
     type(aot_class) :: constructor
-    class(tracerarray_class), intent(in) :: trcarray
+    class(tracerList_class), intent(in) :: trclist
     integer :: nt, i
     class(*), pointer :: aTracer
     type(string) :: outext
     !allocating the necessary space
-    nt = trcarray%numActive
+    nt = trclist%getSize()
     allocate(constructor%id(nt))
-    allocate(constructor%index(nt))
+    !allocate(constructor%index(nt))
     allocate(constructor%x(nt))
     allocate(constructor%y(nt))
     allocate(constructor%z(nt))
@@ -70,13 +72,14 @@
     allocate(constructor%v(nt))
     allocate(constructor%w(nt))
     nt=1
-    do i=1, trcarray%lastActive
-        aTracer => trcarray%get(i)
+    call trclist%reset()               ! reset list iterator
+    do while(trclist%moreValues())     ! loop while there are values
+        aTracer => trclist%currentValue() ! get current value
         select type(aTracer)
         class is (tracer_class)
             if (aTracer%now%active) then
                 constructor%id(nt) = aTracer%par%id
-                constructor%index(nt) = i
+                !constructor%index(nt) = i
                 constructor%x(nt) = aTracer%now%pos%x
                 constructor%y(nt) = aTracer%now%pos%y
                 constructor%z(nt) = aTracer%now%pos%z
@@ -90,7 +93,10 @@
             call Log%put(outext)
             stop
         end select
+        call trclist%next()            ! increment the list iterator
     end do
+    call trclist%reset()               ! reset list iterator
+    
     end function constructor
     
      !---------------------------------------------------------------------------
@@ -102,7 +108,7 @@
     implicit none
     class(aot_class), intent(inout) :: self
     deallocate(self%id)
-    deallocate(self%index)
+    !deallocate(self%index)
     deallocate(self%x)
     deallocate(self%y)
     deallocate(self%z)
