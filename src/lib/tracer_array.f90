@@ -20,6 +20,9 @@
     use abstract_container_array_mod
     use tracers_mod
     use common_modules
+    
+    implicit none
+    private
 
     type, extends(container_array) :: tracerarray_class
         integer :: numActive = 0  !> number of active Tracers in the array
@@ -30,7 +33,6 @@
     procedure :: findLastActive
     end type tracerarray_class
 
-    private
     public :: tracerarray_class
 
     contains

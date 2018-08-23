@@ -26,6 +26,8 @@
     use boundingbox_mod
     use tracer_array_mod
     use sources_array_mod
+    use tracer_list_mod
+    use sources_list_mod
     use sources_mod
     use tracers_mod
     use emitter_mod
@@ -37,8 +39,10 @@
     type block_class
         integer :: id
         type(box) :: extents            !< shape::box that defines the extents of this block
-        type(sourcearray_class) :: Source     !< List of Sources currently on this block
-        type(tracerarray_class) :: Tracer     !< List of Tracers currently on this block
+        type(sourcearray_class) :: Source     !< array of Sources currently on this block
+        type(tracerarray_class) :: Tracer     !< array of Tracers currently on this block
+        type(sourceList_class) :: LSource     !< List of Sources currently on this block
+        type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
         type(aot_class) :: AoT
         type(emitter_class) :: Emitter  !< Block Emitter
         real(prec) :: resize_factor = 1.20 !< factor to resize the Tracer array once needed
