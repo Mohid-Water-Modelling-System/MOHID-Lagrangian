@@ -28,15 +28,15 @@
     implicit none
     private
     
-    type :: trc_ptr_class
-        class(tracer_class), pointer :: ptr
+    type :: trc_ptr_class                   !< tracer pointer class, because foooooortraaaaaaan
+        class(tracer_class), pointer :: ptr !< the actual pointer
     end type trc_ptr_class
 
-    type :: aot_class !< Arrays of Tracers class
-        integer, allocatable, dimension(:) :: id            !< Id of the Tracer
-        class(trc_ptr_class), allocatable, dimension(:) :: trc !< pointer to the Tracer
-        real(prec), allocatable, dimension(:) :: x,y,z      !< coordinates of the Tracer
-        real(prec), allocatable, dimension(:) :: u,v,w      !< velocities of the Tracer
+    type :: aot_class                                           !< Arrays of Tracers class
+        integer, allocatable, dimension(:) :: id                !< Id of the Tracer
+        class(trc_ptr_class), allocatable, dimension(:) :: trc  !< pointer to the Tracer
+        real(prec), allocatable, dimension(:) :: x,y,z          !< coordinates of the Tracer
+        real(prec), allocatable, dimension(:) :: u,v,w          !< velocities of the Tracer
     contains
     !sort
     procedure :: Clean
