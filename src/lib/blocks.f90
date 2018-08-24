@@ -82,7 +82,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to allocate and initialize Blocks and their Emitters
-    !> @param[in] self, templatebox
+    !> @param[in] self, id, templatebox
     !---------------------------------------------------------------------------
     subroutine initBlock(self, id, templatebox)
     implicit none
@@ -105,7 +105,7 @@
     !> @brief
     !> Method to place a Source on the Block sourceList_class object. Adds the 
     !> Source info to the Block Emitter
-    !> @param[in] self, sourcetoput
+    !> @param[in] self, sourcetoadd
     !---------------------------------------------------------------------------
     subroutine putSource(self, sourcetoadd)
     implicit none
@@ -366,7 +366,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> routine to set the simulation blocks extents and call the block initializer
-    !> @param[in] self
+    !> @param[in] auto, nblk, nxi, nyi
     !---------------------------------------------------------------------------
     subroutine setBlocks(auto, nblk, nxi, nyi)
     implicit none

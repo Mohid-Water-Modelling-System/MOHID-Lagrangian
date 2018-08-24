@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHIDLagrangian: sources_mod Module Reference</title>
+<title>MOHID Lagrangian: sources_mod Module Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -34,10 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="ML_logo.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">MOHIDLagrangian
-   &#160;<span id="projectnumber">0.01</span>
+   <div id="projectname">MOHID Lagrangian
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -276,7 +276,7 @@ Variables</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">src,id,name,emitting_rate,source_geometry</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">src,id,name,emitting_rate,start,finish,source_geometry,shapetype</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -323,7 +323,7 @@ Variables</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">nsources</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,nsources</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -624,7 +624,7 @@ Variables</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">srcid,ptype,pname</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,srcid_str,ptype,pname</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">srcid_str</td><td>Source id tag</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">ptype</td><td>Property type to set</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">pname</td><td>Property name to set </td></tr>

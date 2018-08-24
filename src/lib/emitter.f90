@@ -88,7 +88,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method that emitts the Tracers, based on the Sources on this Block Emitter
-    !> @param[in] self, src, trc
+    !> @param[in] self, src, trclist
     !---------------------------------------------------------------------------
     subroutine emitt(self, src, trclist)
     implicit none
@@ -111,7 +111,7 @@
     !> @brief
     !> method that calls the corresponding Tracer constructor, depending on the
     !> requested type from the emitting Source
-    !> @param[in] sself, trc, src, p
+    !> @param[in] self, trc, src, p
     !---------------------------------------------------------------------------
     subroutine tracerMaker(self, trc, src, p)
     implicit none

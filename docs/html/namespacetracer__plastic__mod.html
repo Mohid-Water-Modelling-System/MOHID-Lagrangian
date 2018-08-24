@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHIDLagrangian: tracer_plastic_mod Module Reference</title>
+<title>MOHID Lagrangian: tracer_plastic_mod Module Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -34,10 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="ML_logo.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">MOHIDLagrangian
-   &#160;<span id="projectnumber">0.01</span>
+   <div id="projectname">MOHID Lagrangian
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -179,16 +179,16 @@ Functions/Subroutines</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Tracer initialization method. </p>
-<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC</dd></dl>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">trc,id,id_source,time,pt</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="tracer__plastic_8f90_source.html#l00064">64</a> of file <a class="el" href="tracer__plastic_8f90_source.html">tracer_plastic.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">class</span>(plastic_class) :: trc</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: id</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: id_source</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">type</span>(vector), <span class="keywordtype">intent(in)</span> :: pt</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">real(prec_time)</span>, <span class="keywordtype">intent(in)</span> :: time</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">! initialize parameters</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    trc%par%id = id</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    trc%par%idsource = id_source</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    trc%par%velmax = 15.0 <span class="comment">!(m/s, just a placeholder)</span></div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">! initialize tracer state</span></div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    trc%now%age=0.0</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    trc%now%active = .false.</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    trc%now%pos = pt</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    trc%now%vel = 0.0</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    trc%now%acc = 0.0</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    trc%now%depth = 0.0</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">! Initialize statistical accumulator variables</span></div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    trc%stats%acc_pos = 0.0</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    trc%stats%acc_vel = 0.0</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    trc%stats%acc_depth = 0.0</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    trc%stats%ns = 0</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__plastic_8f90_source.html#l00061">61</a> of file <a class="el" href="tracer__plastic_8f90_source.html">tracer_plastic.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">class</span>(plastic_class) :: trc</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: id</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: id_source</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">type</span>(vector), <span class="keywordtype">intent(in)</span> :: pt</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">real(prec_time)</span>, <span class="keywordtype">intent(in)</span> :: time</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">! initialize parameters</span></div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    trc%par%id = id</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    trc%par%idsource = id_source</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    trc%par%velmax = 15.0 <span class="comment">!(m/s, just a placeholder)</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">! initialize tracer state</span></div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    trc%now%age=0.0</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    trc%now%active = .false.</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    trc%now%pos = pt</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    trc%now%vel = 0.0</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    trc%now%acc = 0.0</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    trc%now%depth = 0.0</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="comment">! Initialize statistical accumulator variables</span></div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    trc%stats%acc_pos = 0.0</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    trc%stats%acc_vel = 0.0</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    trc%stats%acc_depth = 0.0</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    trc%stats%ns = 0</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHIDLagrangian: simulation_output_streamer_mod Module Reference</title>
+<title>MOHID Lagrangian: simulation_output_streamer_mod Module Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -34,10 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="ML_logo.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">MOHIDLagrangian
-   &#160;<span id="projectnumber">0.01</span>
+   <div id="projectname">MOHID Lagrangian
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -117,10 +117,10 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memdesc:a82c657d25adca9e0353ec9f87a4dd0c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the Output writer object.  <a href="#a82c657d25adca9e0353ec9f87a4dd0c9">More...</a><br /></td></tr>
 <tr class="separator:a82c657d25adca9e0353ec9f87a4dd0c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a290f3ef9ac868e173eab1ab9fd54b8"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__output__streamer__mod.html#a4a290f3ef9ac868e173eab1ab9fd54b8">writestepserial</a> (self, blocks)</td></tr>
-<tr class="memdesc:a4a290f3ef9ac868e173eab1ab9fd54b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streamer method to call a simulation step writer. Writes binary XML VTK format using an unstructured grid. [in] self, filename, blocks.  <a href="#a4a290f3ef9ac868e173eab1ab9fd54b8">More...</a><br /></td></tr>
+<tr class="memdesc:a4a290f3ef9ac868e173eab1ab9fd54b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Streamer method to call a simulation step writer. Writes binary XML VTK format using an unstructured grid.  <a href="#a4a290f3ef9ac868e173eab1ab9fd54b8">More...</a><br /></td></tr>
 <tr class="separator:a4a290f3ef9ac868e173eab1ab9fd54b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1df8126a96e9b81ddf62841587728663"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__output__streamer__mod.html#a1df8126a96e9b81ddf62841587728663">writedomain</a> (self, filename, bbox, npbbox, blocks)</td></tr>
-<tr class="memdesc:a1df8126a96e9b81ddf62841587728663"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public simulation domain writting routine. Writes binary XML VTK format using an unstructured grid. [in] self, filename, bbox, npbbox, blocks.  <a href="#a1df8126a96e9b81ddf62841587728663">More...</a><br /></td></tr>
+<tr class="memdesc:a1df8126a96e9b81ddf62841587728663"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public simulation domain writting routine. Writes binary XML VTK format using an unstructured grid.  <a href="#a1df8126a96e9b81ddf62841587728663">More...</a><br /></td></tr>
 <tr class="separator:a1df8126a96e9b81ddf62841587728663"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -215,10 +215,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Public simulation domain writting routine. Writes binary XML VTK format using an unstructured grid. [in] self, filename, bbox, npbbox, blocks. </p>
-<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC</dd></dl>
+<p>Public simulation domain writting routine. Writes binary XML VTK format using an unstructured grid. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,filename,bbox,npbbox,blocks</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">filename</td><td>name of the case to add</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">bbox</td><td>Case bounding box</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">npbbox</td><td>number of points of the bbox geometry</td></tr>
@@ -265,10 +266,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Streamer method to call a simulation step writer. Writes binary XML VTK format using an unstructured grid. [in] self, filename, blocks. </p>
-<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC</dd></dl>
+<p>Streamer method to call a simulation step writer. Writes binary XML VTK format using an unstructured grid. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,blocks</td><td></td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">blocks</td><td>Case Blocks </td></tr>
   </table>
   </dd>

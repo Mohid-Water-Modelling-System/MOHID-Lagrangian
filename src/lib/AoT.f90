@@ -121,7 +121,7 @@
     end subroutine Clean
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that prints all the elements of the array
     !---------------------------------------------------------------------------

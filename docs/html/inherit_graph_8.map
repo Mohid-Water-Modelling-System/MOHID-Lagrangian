@@ -1,3 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structsimulation__globals__mod_1_1constants__t.html" title="Case Constants class. " alt="" coords="5,5,136,47"/>
+<area shape="rect" id="node1" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="5,89,156,115"/>
+<area shape="rect" id="node2" href="$structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="213,13,350,39"/>
+<area shape="rect" id="node4" href="$structgeometry__mod_1_1line.html" title="Type &#45; line class. " alt="" coords="213,63,349,90"/>
+<area shape="rect" id="node5" href="$structgeometry__mod_1_1point.html" title="Type &#45; point class. " alt="" coords="209,114,353,141"/>
+<area shape="rect" id="node6" href="$structgeometry__mod_1_1sphere.html" title="Type &#45; sphere class. " alt="" coords="204,165,359,191"/>
+<area shape="rect" id="node3" href="$structboundingbox__mod_1_1boundingbox__class.html" title="boundingbox_mod::boundingbox\l_class" alt="" coords="407,5,615,47"/>
 </map>

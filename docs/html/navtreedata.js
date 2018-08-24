@@ -23,7 +23,7 @@ for the JavaScript code in this file
 */
 var NAVTREE =
 [
-  [ "MOHIDLagrangian", "index.html", [
+  [ "MOHID Lagrangian", "index.html", [
     [ "MOHIDLagrangian - Heavy development phase - Work in progress!", "index.html", null ],
     [ "Modules", "namespaces.html", [
       [ "Modules List", "namespaces.html", "namespaces_dup" ],
@@ -57,7 +57,7 @@ var NAVTREEINDEX =
 [
 "_ao_t_8f90.html",
 "simulation__memory_8f90.html#acf04d6b930ed3ffbc0950afd86033c51",
-"structsimulation__output__streamer__mod_1_1output__streamer__class.html#a374b9843dccfbc1c9395946fa36e17a9"
+"structsimulation__mod_1_1simulation__class.html#aeb84b150c76e399c3dc33fbc3f7874ae"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

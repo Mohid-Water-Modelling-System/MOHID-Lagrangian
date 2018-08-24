@@ -103,7 +103,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that parses an attribute from an xml node. In the format
-    !> <Tag att_name="att_value"/>
+    !> '<Tag att_name="att_value"/>'
     !> @param[in] xmlnode, tag, att_name, att_value, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine getNodeAttribute(self, xmlnode, tag, att_name, att_value, read_flag, mandatory)
@@ -160,7 +160,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to parse xyz vectors in xml files.
-    !> Vector must be in format <Tag x="vec%x" y="vec%y" z="vec%z"/>
+    !> Vector must be in format '<Tag x="vec%x" y="vec%y" z="vec%z"/>'
     !> @param[in] xmlnode, tag, vec, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine getNodeVector(self, xmlnode, tag, vec, read_flag, mandatory)

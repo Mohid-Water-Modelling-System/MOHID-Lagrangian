@@ -61,7 +61,7 @@
     !> @brief
     !> Streamer method to call a simulation step writer. Writes binary XML VTK
     !> format using an unstructured grid.
-    !> @parm[in] self, filename, blocks
+    !> @param[in] self, blocks
     !---------------------------------------------------------------------------
     subroutine WriteStepSerial(self, blocks)
     implicit none
@@ -84,7 +84,7 @@
     !> @brief
     !> Public simulation domain writting routine. Writes binary XML VTK
     !> format using an unstructured grid.
-    !> @parm[in] self, filename, bbox, npbbox, blocks
+    !> @param[in] self, filename, bbox, npbbox, blocks
     !---------------------------------------------------------------------------
     subroutine WriteDomain(self, filename, bbox, npbbox, blocks)
     implicit none

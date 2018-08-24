@@ -31,7 +31,7 @@
 
     !Update with any new additions as they are added
     type :: geometry_class
-        type(string), allocatable, dimension(:) :: list !< String list (array) with the name of possible geometry types.
+        type(string), allocatable, dimension(:) :: list !< String list with the name of possible geometry types.
     contains
     procedure :: initialize => allocatelist !<Builds the geometry list, possible geometry types (new types must be manually added)
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
@@ -89,7 +89,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Public function that returns a logical if the input geometry name is valid
-    !> @param[in] geomname
+    !> @param[in] self, geomname
     !---------------------------------------------------------------------------
     logical function inlist(self, geomname) result(tf)
     implicit none
@@ -108,7 +108,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to get the number of points that fill a given geometry
-    !> @param[in] shapetype
+    !> @param[in] self, shapetype, dp
     !---------------------------------------------------------------------------
     function fillsize(self, shapetype, dp)
     implicit none
@@ -141,7 +141,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to get the list of points that fill a given geometry
-    !> @param[in] shapetype, dp, fillsize, ptlist
+    !> @param[in] self, shapetype, dp, fillsize, ptlist
     !---------------------------------------------------------------------------
     subroutine fill(self, shapetype, dp, fillsize, ptlist)
     implicit none
@@ -173,7 +173,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to get the baricenter of a given geometry
-    !> @param[in] shapetype, center
+    !> @param[in] self, shapetype, center
     !---------------------------------------------------------------------------
     function getCenter(self, shapetype) result(center)
     implicit none
@@ -202,7 +202,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method that returns the points defining a given geometry
-    !> @param[in] shapetype
+    !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
     function getPoints(self, shapetype) result(pts)
     class(geometry_class), intent(in) :: self
@@ -250,7 +250,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method the points defining a given geometry
-    !> @param[in] shapetype
+    !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
     function getnumPoints(self, shapetype) result(n)
     class(geometry_class), intent(in) :: self
@@ -278,7 +278,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to print the details of a given geometry
-    !> @param[in] shapetype
+    !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
     subroutine printGeometry(self, shapetype)
     implicit none

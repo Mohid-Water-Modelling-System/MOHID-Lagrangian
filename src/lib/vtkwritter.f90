@@ -57,7 +57,7 @@
     !> @brief
     !> Public Tracer writting routine. Writes Tracer data in binary XML VTK
     !> format using an unstructured grid. Serial writer for serial files.
-    !> @parm[in] self, filename, blocks
+    !> @param[in] self, filename, blocks
     !---------------------------------------------------------------------------
     subroutine TracerSerial(self, filename, blocks)
     implicit none
@@ -107,7 +107,7 @@
     !> @brief
     !> Public simulation domain writting routine. Writes binary XML VTK
     !> format using an unstructured grid.
-    !> @parm[in] self, filename, bbox, npbbox, blocks
+    !> @param[in] self, filename, bbox, npbbox, blocks
     !---------------------------------------------------------------------------
     subroutine Domain(self, filename, bbox, npbbox, blocks)
     implicit none
@@ -187,6 +187,4 @@
     
     end subroutine Domain
     
-    
-
   end module vtkwritter_mod

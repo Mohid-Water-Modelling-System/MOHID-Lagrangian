@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHIDLagrangian: sources_list_mod Module Reference</title>
+<title>MOHID Lagrangian: sources_list_mod Module Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -34,10 +34,10 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="ML_logo.png"/></td>
+  <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">MOHIDLagrangian
-   &#160;<span id="projectnumber">0.01</span>
+   <div id="projectname">MOHID Lagrangian
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -113,10 +113,10 @@ Data Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ac9ab885c3cc6a38c8b12b694e40a11e1"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__list__mod.html#ac9ab885c3cc6a38c8b12b694e40a11e1">print_sourcelist</a> (this)</td></tr>
-<tr class="memdesc:ac9ab885c3cc6a38c8b12b694e40a11e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#ac9ab885c3cc6a38c8b12b694e40a11e1">More...</a><br /></td></tr>
+<tr class="memdesc:ac9ab885c3cc6a38c8b12b694e40a11e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that prints all the links of the list.  <a href="#ac9ab885c3cc6a38c8b12b694e40a11e1">More...</a><br /></td></tr>
 <tr class="separator:ac9ab885c3cc6a38c8b12b694e40a11e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad2008cc97f57cd85297d3f3d81fac39"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__list__mod.html#aad2008cc97f57cd85297d3f3d81fac39">print_sourcelistcurrent</a> (this)</td></tr>
-<tr class="memdesc:aad2008cc97f57cd85297d3f3d81fac39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Birjukovs Canelas - MARETEC  <a href="#aad2008cc97f57cd85297d3f3d81fac39">More...</a><br /></td></tr>
+<tr class="memdesc:aad2008cc97f57cd85297d3f3d81fac39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that prints the current link of the list.  <a href="#aad2008cc97f57cd85297d3f3d81fac39">More...</a><br /></td></tr>
 <tr class="separator:aad2008cc97f57cd85297d3f3d81fac39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -147,8 +147,8 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Method that prints all the links of the list </p>
+<p>Method that prints all the links of the list. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="sources__list_8f90_source.html#l00047">47</a> of file <a class="el" href="sources__list_8f90_source.html">sources_list.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">class</span>(sourceList_class), <span class="keywordtype">intent(in)</span> :: this</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">class</span>(*), <span class="keywordtype">pointer</span> :: curr</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">call </span>this%reset()               <span class="comment">! reset list iterator</span></div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">do</span> <span class="keywordflow">while</span>(this%moreValues())     <span class="comment">! loop while there are values to print</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keyword">call </span>this%printCurrent()</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">call </span>this%next()            <span class="comment">! increment the list iterator</span></div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">call </span>this%reset()               <span class="comment">! reset list iterator</span></div></div><!-- fragment -->
@@ -178,8 +178,8 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Birjukovs Canelas - MARETEC </p>
-<p>Method that prints the current link of the list </p>
+<p>Method that prints the current link of the list. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="sources__list_8f90_source.html#l00063">63</a> of file <a class="el" href="sources__list_8f90_source.html">sources_list.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">class</span>(sourceList_class), <span class="keywordtype">intent(in)</span> :: this</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">class</span>(*), <span class="keywordtype">pointer</span> :: curr</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">type</span>(string) :: outext</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    curr =&gt; this%currentValue() <span class="comment">! get current value</span></div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">select type</span>(curr)</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordflow">    class is</span> (source_class)</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keyword">call </span>curr%print()</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordflow">        class default</span></div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        outext = <span class="stringliteral">&#39;[sourceList_class::print] Unexepected type of content, not a Source&#39;</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        stop</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordflow">    end select</span></div></div><!-- fragment -->

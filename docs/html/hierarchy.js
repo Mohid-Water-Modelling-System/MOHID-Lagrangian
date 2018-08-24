@@ -52,6 +52,7 @@ var hierarchy =
     [ "tracer_base_mod::tracer_par_class", "structtracer__base__mod_1_1tracer__par__class.html", null ],
     [ "tracer_base_mod::tracer_state_class", "structtracer__base__mod_1_1tracer__state__class.html", null ],
     [ "tracer_base_mod::tracer_stats_class", "structtracer__base__mod_1_1tracer__stats__class.html", null ],
+    [ "aot_mod::trc_ptr_class", "structaot__mod_1_1trc__ptr__class.html", null ],
     [ "vtkwritter_mod::vtkwritter_class", "structvtkwritter__mod_1_1vtkwritter__class.html", null ],
     [ "simulation_xmlparser_mod::xmlparser_class", "structsimulation__xmlparser__mod_1_1xmlparser__class.html", null ]
 ];

@@ -61,12 +61,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Paper Tracer constructor
-    !
-    !> @param[in]
+    !> @param[in] id,src,time,p
     !---------------------------------------------------------------------------
     function constructor(id,src,time,p)
         implicit none

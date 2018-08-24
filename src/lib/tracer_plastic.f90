@@ -53,12 +53,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Tracer initialization method
-    !
-    !> @param[in]
+    !> @param[in] trc,id,id_source,time,pt
     !---------------------------------------------------------------------------
     subroutine plastic_initialize(trc,id,id_source,time,pt)
     implicit none

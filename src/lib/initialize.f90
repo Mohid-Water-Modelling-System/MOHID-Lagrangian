@@ -41,7 +41,7 @@
     !> @brief
     !> Private property xml parser routine. Reads the properties tab from the xml
     !> file and links these to the corresponding Source
-    !> @param[in] parsedxml
+    !> @param[in] linksNode
     !---------------------------------------------------------------------------
     subroutine linkPropertySources(linksNode)
     implicit none
@@ -111,7 +111,7 @@
     !> @brief
     !> Private property xml parser routine. Reads the properties tab from the xml
     !> file and links these to the corresponding source
-    !> @param[in] parsedxml
+    !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_properties(case_node)
     implicit none

@@ -58,7 +58,7 @@
     contains
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns a pointer to the values stored in the container in
     !> this link
@@ -70,7 +70,7 @@
     end function getValue
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns a pointer to the next link in a list
     !---------------------------------------------------------------------------
@@ -81,7 +81,7 @@
     end function nextLink
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns a pointer to the previous link in a list
     !---------------------------------------------------------------------------
@@ -92,7 +92,7 @@
     end function previousLink
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to set the next link in a list.
     !---------------------------------------------------------------------------
@@ -103,7 +103,7 @@
     end subroutine setNextLink
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to set the previous link in a list.
     !---------------------------------------------------------------------------
@@ -114,7 +114,7 @@
     end subroutine setPreviousLink
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to remove a link in a list.
     !---------------------------------------------------------------------------
@@ -124,7 +124,7 @@
     end subroutine removeLink
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Link constructor, can be used with the 'link' name since it was defined 
     !> as such in an interface declaration

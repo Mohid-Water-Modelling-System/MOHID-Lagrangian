@@ -66,7 +66,7 @@
     contains
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that stores a value on a new link
     !> @param[this, value, key]
@@ -96,7 +96,7 @@
     end subroutine addValue
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that removes a link from the list
     !---------------------------------------------------------------------------    
@@ -126,7 +126,7 @@
     end subroutine removeCurrent
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that removes the nth link from a list
     !---------------------------------------------------------------------------    
@@ -152,7 +152,7 @@
     end subroutine remove
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the first link of the list
     !---------------------------------------------------------------------------
@@ -163,7 +163,7 @@
     end function getFirst
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the last link of the list
     !---------------------------------------------------------------------------
@@ -174,7 +174,7 @@
     end function getLast
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the size (number of links) of a list
     !---------------------------------------------------------------------------
@@ -184,7 +184,7 @@
     end function getSize
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the value of the nth link of a list
     !---------------------------------------------------------------------------
@@ -215,7 +215,7 @@
     end function getValue
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the value of the current link
     !---------------------------------------------------------------------------
@@ -226,7 +226,7 @@
     end function CurrentValue
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the next link in the list
     !---------------------------------------------------------------------------
@@ -236,7 +236,7 @@
     end subroutine next
     
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the previous link in the list
     !---------------------------------------------------------------------------
@@ -246,7 +246,7 @@
     end subroutine previous
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns a logical with signaling if the current link is ok
     !---------------------------------------------------------------------------
@@ -256,7 +256,7 @@
     end function moreValues
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that resets the list iterator
     !---------------------------------------------------------------------------

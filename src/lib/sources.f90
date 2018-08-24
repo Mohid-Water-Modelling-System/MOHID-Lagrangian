@@ -24,26 +24,26 @@
     implicit none
     private
 
-    type :: source_par               !<Type - parameters of a source object
-        integer :: id                       !< unique source identification (integer)
-        integer :: emitting_rate    !< Emitting rate of the source (Hz)
-        real(prec_time) :: startime         !< time to start emitting tracers
-        real(prec_time) :: stoptime         !< time to stop emitting tracers
-        type(string) :: name                !< source name
-        type(string) :: source_geometry     !< Source type : 'point', 'line', 'sphere', 'box'
+    type :: source_par                          !<Type - parameters of a source object
+        integer :: id                           !< unique source identification (integer)
+        integer :: emitting_rate                !< Emitting rate of the source (Hz)
+        real(prec_time) :: startime             !< time to start emitting tracers
+        real(prec_time) :: stoptime             !< time to stop emitting tracers
+        type(string) :: name                    !< source name
+        type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
     end type
 
-    type :: source_prop               !<Type - material properties of a source object
-        type(string) :: property_type       !< source property type (plastic, paper, fish, etc)
-        type(string) :: property_name       !< source property name
-        logical :: particulate              !< true for a Source tha emitts particulate tracers (a concentration of particles)
-        real(prec) :: radius
-        real(prec) :: pt_radius
-        real(prec) :: density
-        real(prec) :: condition
-        real(prec) :: degrd_rate
-        real(prec) :: ini_concentration
+    type :: source_prop                         !<Type - material properties of a source object
+        type(string) :: property_type           !< source property type (plastic, paper, fish, etc)
+        type(string) :: property_name           !< source property name
+        logical :: particulate                  !< true for a Source that emitts particulate tracers (a concentration of particles)
+        real(prec) :: radius                    !< radius of the emitted Tracers (size of the particle if not particulate, volume of the Tracer if particulate)
+        real(prec) :: pt_radius                 !< radius of the emitted particles (Tracers if not particulate)
+        real(prec) :: density                   !< density of the Tracers
+        real(prec) :: condition                 !< condition of the Tracers
+        real(prec) :: degrd_rate                !< degradation rate of the Tracers
+        real(prec) :: ini_concentration         !< initial concentration of particles if particulate
     end type
 
     type :: source_state             !<Type - state variables of a source object
@@ -106,7 +106,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source allocation routine - allocates sources objects
-    !> @param[in] nsources
+    !> @param[in] self,nsources
     !---------------------------------------------------------------------------
     subroutine initSources(self,nsources)
     implicit none
@@ -164,7 +164,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source property setting routine, calls source by id to set its properties
-    !> @param[in] srcid,ptype,pname
+    !> @param[in] self,srcid_str,ptype,pname
     !---------------------------------------------------------------------------
     subroutine setPropertyNames(self,srcid_str,ptype,pname)
     implicit none
@@ -276,7 +276,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source inititialization proceadure - initializes Source variables
-    !> @param[in] src, id, name, emitting_rate, source_geometry
+    !> @param[in] src,id,name,emitting_rate,start,finish,source_geometry,shapetype
     !---------------------------------------------------------------------------
     subroutine initializeSource(src,id,name,emitting_rate,start,finish,source_geometry,shapetype)
     implicit none

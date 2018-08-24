@@ -39,7 +39,7 @@
     contains
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that prints all the links of the list
     !---------------------------------------------------------------------------
@@ -55,7 +55,7 @@
     end subroutine print_sourceList
 
     !---------------------------------------------------------------------------
-    !> @Ricardo Birjukovs Canelas - MARETEC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that prints the current link of the list
     !---------------------------------------------------------------------------

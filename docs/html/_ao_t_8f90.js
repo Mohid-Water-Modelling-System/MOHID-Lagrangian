@@ -1,5 +1,6 @@
 var _ao_t_8f90 =
 [
+    [ "trc_ptr_class", "structaot__mod_1_1trc__ptr__class.html", "structaot__mod_1_1trc__ptr__class" ],
     [ "aot_class", "structaot__mod_1_1aot__class.html", "structaot__mod_1_1aot__class" ],
     [ "aot", "interfaceaot__mod_1_1aot.html", null ],
     [ "clean", "_ao_t_8f90.html#a054fca942c27758a0ad6afaa68a3a08e", null ],
