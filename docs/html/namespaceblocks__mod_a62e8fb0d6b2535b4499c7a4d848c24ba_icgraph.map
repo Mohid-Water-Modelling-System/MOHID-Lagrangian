@@ -1,0 +1,4 @@
+<map id="blocks_mod::getblockindex" name="blocks_mod::getblockindex">
+<area shape="rect" id="node2" href="$namespaceblocks__mod.html#aa178415bcc40cf169744d356e1a09c6b" title="Method to distribute the Tracers to their correct Blocks. " alt="" coords="236,5,429,32"/>
+<area shape="rect" id="node3" href="$namespacesimulation__mod.html#a447c6d709de6aa360a65d39d660e627b" title="Simulation method to distribute the Sources to the Blocks, allocate the respective Tracers and redist..." alt="" coords="233,56,432,83"/>
+</map>

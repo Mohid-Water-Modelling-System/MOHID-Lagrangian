@@ -109,6 +109,8 @@ $(document).ready(function(){initNavTree('structsimulation__globals__mod_1_1simd
 Collaboration diagram for simulation_globals_mod::simdefs_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulation__globals__mod_1_1simdefs__t__coll__graph.png" border="0" usemap="#simulation__globals__mod_1_1simdefs__t_coll__map" alt="Collaboration graph"/></div>
+<map name="simulation__globals__mod_1_1simdefs__t_coll__map" id="simulation__globals__mod_1_1simdefs__t_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -126,8 +128,8 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:af730c363daf57cdb66206b7cc7e3d8ff"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1simdefs__t.html#af730c363daf57cdb66206b7cc7e3d8ff">dp</a> = MV</td></tr>
-<tr class="memdesc:af730c363daf57cdb66206b7cc7e3d8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial particle spacing at source generation.  <a href="#af730c363daf57cdb66206b7cc7e3d8ff">More...</a><br /></td></tr>
+<tr class="memitem:af730c363daf57cdb66206b7cc7e3d8ff"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1simdefs__t.html#af730c363daf57cdb66206b7cc7e3d8ff">dp</a></td></tr>
+<tr class="memdesc:af730c363daf57cdb66206b7cc7e3d8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial particle spacing at emission.  <a href="#af730c363daf57cdb66206b7cc7e3d8ff">More...</a><br /></td></tr>
 <tr class="separator:af730c363daf57cdb66206b7cc7e3d8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc8df5cd09283215deb732d97b44f1dc"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1simdefs__t.html#acc8df5cd09283215deb732d97b44f1dc">dt</a> = MV</td></tr>
 <tr class="memdesc:acc8df5cd09283215deb732d97b44f1dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestep for fixed step integrators (s)  <a href="#acc8df5cd09283215deb732d97b44f1dc">More...</a><br /></td></tr>
@@ -142,16 +144,21 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a3ff72d630a17daa1ca1494e67bc6d087"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag for automatic Block sizing.  <a href="#a3ff72d630a17daa1ca1494e67bc6d087">More...</a><br /></td></tr>
 <tr class="separator:a3ff72d630a17daa1ca1494e67bc6d087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ed40e8b9c4062d6e461b6187c3115b1"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1simdefs__t.html#a7ed40e8b9c4062d6e461b6187c3115b1">blocksize</a></td></tr>
-<tr class="memdesc:a7ed40e8b9c4062d6e461b6187c3115b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size (width &amp; heigth) of a Block (sub-domain)  <a href="#a7ed40e8b9c4062d6e461b6187c3115b1">More...</a><br /></td></tr>
+<tr class="memdesc:a7ed40e8b9c4062d6e461b6187c3115b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size (xyz) of a Block (sub-domain)  <a href="#a7ed40e8b9c4062d6e461b6187c3115b1">More...</a><br /></td></tr>
 <tr class="separator:a7ed40e8b9c4062d6e461b6187c3115b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b7497df8a36fe045f2096963db3bdde"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1simdefs__t.html#a6b7497df8a36fe045f2096963db3bdde">numblocks</a></td></tr>
 <tr class="memdesc:a6b7497df8a36fe045f2096963db3bdde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of blocks in the simulation.  <a href="#a6b7497df8a36fe045f2096963db3bdde">More...</a><br /></td></tr>
 <tr class="separator:a6b7497df8a36fe045f2096963db3bdde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebf8c5891821bfe845922fdcead042d6"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1simdefs__t.html#aebf8c5891821bfe845922fdcead042d6">numblocksx</a></td></tr>
+<tr class="separator:aebf8c5891821bfe845922fdcead042d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46d35c673edb6e991a57ff9ed925e1bf"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1simdefs__t.html#a46d35c673edb6e991a57ff9ed925e1bf">numblocksy</a></td></tr>
+<tr class="memdesc:a46d35c673edb6e991a57ff9ed925e1bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of blocks along x and y.  <a href="#a46d35c673edb6e991a57ff9ed925e1bf">More...</a><br /></td></tr>
+<tr class="separator:a46d35c673edb6e991a57ff9ed925e1bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Simulation definitions class. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00048">48</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a135110b50bcbd621d80df8f7b31fa60e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a135110b50bcbd621d80df8f7b31fa60e">&#9670;&nbsp;</a></span>print()</h2>
@@ -176,7 +183,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00061">61</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00067">67</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -203,7 +210,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00060">60</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00066">66</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -230,7 +237,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00059">59</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00065">65</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -257,7 +264,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00057">57</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00063">63</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -284,7 +291,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00064">64</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -311,8 +318,8 @@ Private Attributes</h2></td></tr>
 
 <p>Flag for automatic Block sizing. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">logical</span>         ::  autoblocksize = .true.   </div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">logical</span>         ::  autoblocksize = .true.   </div></div><!-- fragment -->
 </div>
 </div>
 <a id="a7ed40e8b9c4062d6e461b6187c3115b1"></a>
@@ -335,10 +342,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Size (width &amp; heigth) of a Block (sub-domain) </p>
+<p>Size (xyz) of a Block (sub-domain) </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00054">54</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">type</span>(vector)    ::  blocksize</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00059">59</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">type</span>(vector)    ::  blocksize</div></div><!-- fragment -->
 </div>
 </div>
 <a id="af730c363daf57cdb66206b7cc7e3d8ff"></a>
@@ -351,7 +358,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec) simulation_globals_mod::simdefs_t::dp = MV</td>
+          <td class="memname">real(prec) simulation_globals_mod::simdefs_t::dp</td>
         </tr>
       </table>
   </td>
@@ -361,10 +368,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Initial particle spacing at source generation. </p>
+<p>Initial particle spacing at emission. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00049">49</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">real(prec)</span>      ::  Dp = mv         </div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00054">54</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">real(prec)</span>      ::  Dp</div></div><!-- fragment -->
 </div>
 </div>
 <a id="acc8df5cd09283215deb732d97b44f1dc"></a>
@@ -389,8 +396,8 @@ Private Attributes</h2></td></tr>
 
 <p>Timestep for fixed step integrators (s) </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00050">50</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">real(prec_time)</span> ::  dt = mv         </div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00055">55</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">real(prec_time)</span> ::  dt = mv         </div></div><!-- fragment -->
 </div>
 </div>
 <a id="a6b7497df8a36fe045f2096963db3bdde"></a>
@@ -415,8 +422,58 @@ Private Attributes</h2></td></tr>
 
 <p>Number of blocks in the simulation. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00055">55</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">integer</span>         ::  numblocks</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00060">60</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">integer</span>         ::  numblocks</div></div><!-- fragment -->
+</div>
+</div>
+<a id="aebf8c5891821bfe845922fdcead042d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebf8c5891821bfe845922fdcead042d6">&#9670;&nbsp;</a></span>numblocksx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulation_globals_mod::simdefs_t::numblocksx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00061">61</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">integer</span>         ::  numblocksx, numblocksy</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a46d35c673edb6e991a57ff9ed925e1bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46d35c673edb6e991a57ff9ed925e1bf">&#9670;&nbsp;</a></span>numblocksy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulation_globals_mod::simdefs_t::numblocksy</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Number of blocks along x and y. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00061">61</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+
 </div>
 </div>
 <a id="a0437ce61f2882028c5e3ca0212aeaf24"></a>
@@ -441,8 +498,8 @@ Private Attributes</h2></td></tr>
 
 <p>Point that defines the upper corner of the simulation bounding box. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00052">52</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">type</span>(vector)    ::  Pointmax</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00057">57</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">type</span>(vector)    ::  Pointmax</div></div><!-- fragment -->
 </div>
 </div>
 <a id="af3a5fb325c955840515f199c8be30aa7"></a>
@@ -467,8 +524,8 @@ Private Attributes</h2></td></tr>
 
 <p>Point that defines the lowest corner of the simulation bounding box. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00051">51</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">type</span>(vector)    ::  Pointmin</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00056">56</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">type</span>(vector)    ::  Pointmin</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

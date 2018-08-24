@@ -108,6 +108,8 @@ $(document).ready(function(){initNavTree('structsimulation__globals__mod_1_1file
 Collaboration diagram for simulation_globals_mod::filenames_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulation__globals__mod_1_1filenames__t__coll__graph.png" border="0" usemap="#simulation__globals__mod_1_1filenames__t_coll__map" alt="Collaboration graph"/></div>
+<map name="simulation__globals__mod_1_1filenames__t_coll__map" id="simulation__globals__mod_1_1filenames__t_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -121,12 +123,44 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a207bede622cac14f7baef87cf0c000b7"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1filenames__t.html#a207bede622cac14f7baef87cf0c000b7">tempfilename</a></td></tr>
 <tr class="memdesc:a207bede622cac14f7baef87cf0c000b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic temporary file name.  <a href="#a207bede622cac14f7baef87cf0c000b7">More...</a><br /></td></tr>
 <tr class="separator:a207bede622cac14f7baef87cf0c000b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d5cd63adaafefa1f4f39adda35f350e"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1filenames__t.html#a1d5cd63adaafefa1f4f39adda35f350e">outpath</a></td></tr>
+<tr class="memdesc:a1d5cd63adaafefa1f4f39adda35f350e"><td class="mdescLeft">&#160;</td><td class="mdescRight">General output directory.  <a href="#a1d5cd63adaafefa1f4f39adda35f350e">More...</a><br /></td></tr>
+<tr class="separator:a1d5cd63adaafefa1f4f39adda35f350e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4bb5a76bfc56f9c78edd9c205f79385"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1filenames__t.html#ab4bb5a76bfc56f9c78edd9c205f79385">casename</a></td></tr>
+<tr class="memdesc:ab4bb5a76bfc56f9c78edd9c205f79385"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the running case.  <a href="#ab4bb5a76bfc56f9c78edd9c205f79385">More...</a><br /></td></tr>
+<tr class="separator:ab4bb5a76bfc56f9c78edd9c205f79385"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File names class. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00075">75</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00081">81</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab4bb5a76bfc56f9c78edd9c205f79385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4bb5a76bfc56f9c78edd9c205f79385">&#9670;&nbsp;</a></span>casename</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(string) simulation_globals_mod::filenames_t::casename</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Name of the running case. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00086">86</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">type</span>(string) :: casename</div></div><!-- fragment -->
+</div>
+</div>
 <a id="af3e0ecdd0ab881ea2c2dd0a430d99d93"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af3e0ecdd0ab881ea2c2dd0a430d99d93">&#9670;&nbsp;</a></span>mainxmlfilename</h2>
 
@@ -149,8 +183,34 @@ Private Attributes</h2></td></tr>
 
 <p>Input .xml file name. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00076">76</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">type</span>(string) :: mainxmlfilename</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00082">82</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">type</span>(string) :: mainxmlfilename</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a1d5cd63adaafefa1f4f39adda35f350e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d5cd63adaafefa1f4f39adda35f350e">&#9670;&nbsp;</a></span>outpath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(string) simulation_globals_mod::filenames_t::outpath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>General output directory. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00085">85</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">type</span>(string) :: outpath</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ae9790bc76014d831bfad281ab63e6f4c"></a>
@@ -175,8 +235,8 @@ Private Attributes</h2></td></tr>
 
 <p>Properties .xml file name. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00077">77</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordtype">type</span>(string) :: propsxmlfilename</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00083">83</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">type</span>(string) :: propsxmlfilename</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a207bede622cac14f7baef87cf0c000b7"></a>
@@ -201,8 +261,8 @@ Private Attributes</h2></td></tr>
 
 <p>Generic temporary file name. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00078">78</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordtype">type</span>(string) :: tempfilename</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00084">84</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">type</span>(string) :: tempfilename</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

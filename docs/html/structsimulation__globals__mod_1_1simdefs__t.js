@@ -10,6 +10,8 @@ var structsimulation__globals__mod_1_1simdefs__t =
     [ "dp", "structsimulation__globals__mod_1_1simdefs__t.html#af730c363daf57cdb66206b7cc7e3d8ff", null ],
     [ "dt", "structsimulation__globals__mod_1_1simdefs__t.html#acc8df5cd09283215deb732d97b44f1dc", null ],
     [ "numblocks", "structsimulation__globals__mod_1_1simdefs__t.html#a6b7497df8a36fe045f2096963db3bdde", null ],
+    [ "numblocksx", "structsimulation__globals__mod_1_1simdefs__t.html#aebf8c5891821bfe845922fdcead042d6", null ],
+    [ "numblocksy", "structsimulation__globals__mod_1_1simdefs__t.html#a46d35c673edb6e991a57ff9ed925e1bf", null ],
     [ "pointmax", "structsimulation__globals__mod_1_1simdefs__t.html#a0437ce61f2882028c5e3ca0212aeaf24", null ],
     [ "pointmin", "structsimulation__globals__mod_1_1simdefs__t.html#af3a5fb325c955840515f199c8be30aa7", null ]
 ];

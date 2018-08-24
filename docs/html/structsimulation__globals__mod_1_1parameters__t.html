@@ -106,6 +106,8 @@ $(document).ready(function(){initNavTree('structsimulation__globals__mod_1_1para
 Collaboration diagram for simulation_globals_mod::parameters_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulation__globals__mod_1_1parameters__t__coll__graph.png" border="0" usemap="#simulation__globals__mod_1_1parameters__t_coll__map" alt="Collaboration graph"/></div>
+<map name="simulation__globals__mod_1_1parameters__t_coll__map" id="simulation__globals__mod_1_1parameters__t_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -122,6 +124,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a4e57d5a1897acaf67eb14e39e3e0cf21"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a4e57d5a1897acaf67eb14e39e3e0cf21">integrator</a> = 1</td></tr>
 <tr class="memdesc:a4e57d5a1897acaf67eb14e39e3e0cf21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)  <a href="#a4e57d5a1897acaf67eb14e39e3e0cf21">More...</a><br /></td></tr>
 <tr class="separator:a4e57d5a1897acaf67eb14e39e3e0cf21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a939ab06e51a63cb7d521b5476e51b816"><td class="memItemLeft" align="right" valign="top">integer, dimension(3)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a939ab06e51a63cb7d521b5476e51b816">integratorindexes</a></td></tr>
+<tr class="memdesc:a939ab06e51a63cb7d521b5476e51b816"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index list for the integrator selector.  <a href="#a939ab06e51a63cb7d521b5476e51b816">More...</a><br /></td></tr>
+<tr class="separator:a939ab06e51a63cb7d521b5476e51b816"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3115dcd5d6ea05501730adc71bc26b57"><td class="memItemLeft" align="right" valign="top">type(string), dimension(3)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a3115dcd5d6ea05501730adc71bc26b57">integratornames</a></td></tr>
+<tr class="memdesc:a3115dcd5d6ea05501730adc71bc26b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Names list for the integrator selector.  <a href="#a3115dcd5d6ea05501730adc71bc26b57">More...</a><br /></td></tr>
+<tr class="separator:a3115dcd5d6ea05501730adc71bc26b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63d8108183b786ec9acf16af2164bda1"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a63d8108183b786ec9acf16af2164bda1">cfl</a> = 0.5</td></tr>
 <tr class="memdesc:a63d8108183b786ec9acf16af2164bda1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Courant Friedrichs Lewy condition number.  <a href="#a63d8108183b786ec9acf16af2164bda1">More...</a><br /></td></tr>
 <tr class="separator:a63d8108183b786ec9acf16af2164bda1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,9 +143,20 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:af4190961e6191cf07a9b04b0b864ec95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time out data (1/Hz)  <a href="#af4190961e6191cf07a9b04b0b864ec95">More...</a><br /></td></tr>
 <tr class="separator:af4190961e6191cf07a9b04b0b864ec95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e3abdcb1022685a07ca65c3c6a50203"><td class="memItemLeft" align="right" valign="top">type(datetime)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a8e3abdcb1022685a07ca65c3c6a50203">starttime</a></td></tr>
+<tr class="memdesc:a8e3abdcb1022685a07ca65c3c6a50203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start date of the simulation.  <a href="#a8e3abdcb1022685a07ca65c3c6a50203">More...</a><br /></td></tr>
 <tr class="separator:a8e3abdcb1022685a07ca65c3c6a50203"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79f52ac6e24e87eba3c809d97d647aaf"><td class="memItemLeft" align="right" valign="top">type(datetime)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a79f52ac6e24e87eba3c809d97d647aaf">endtime</a></td></tr>
+<tr class="memdesc:a79f52ac6e24e87eba3c809d97d647aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">End date of the simulation.  <a href="#a79f52ac6e24e87eba3c809d97d647aaf">More...</a><br /></td></tr>
 <tr class="separator:a79f52ac6e24e87eba3c809d97d647aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a273c18519d8ed85697a0143f2bf26289"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a273c18519d8ed85697a0143f2bf26289">outputformat</a> = 2</td></tr>
+<tr class="memdesc:a273c18519d8ed85697a0143f2bf26289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format of the output files (default=2) NetCDF=1, VTK=2.  <a href="#a273c18519d8ed85697a0143f2bf26289">More...</a><br /></td></tr>
+<tr class="separator:a273c18519d8ed85697a0143f2bf26289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a654359ea7dff5a8a0d57276f44e589b1"><td class="memItemLeft" align="right" valign="top">integer, dimension(2)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a654359ea7dff5a8a0d57276f44e589b1">outputformatindexes</a></td></tr>
+<tr class="memdesc:a654359ea7dff5a8a0d57276f44e589b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index list for the output file format selector.  <a href="#a654359ea7dff5a8a0d57276f44e589b1">More...</a><br /></td></tr>
+<tr class="separator:a654359ea7dff5a8a0d57276f44e589b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bffd480a278698179e8581a1fdf3c08"><td class="memItemLeft" align="right" valign="top">type(string), dimension(2)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__globals__mod_1_1parameters__t.html#a8bffd480a278698179e8581a1fdf3c08">outputformatnames</a></td></tr>
+<tr class="memdesc:a8bffd480a278698179e8581a1fdf3c08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Names list for the output file format selector.  <a href="#a8bffd480a278698179e8581a1fdf3c08">More...</a><br /></td></tr>
+<tr class="separator:a8bffd480a278698179e8581a1fdf3c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -166,7 +185,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00044">44</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00049">49</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -193,7 +212,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00045">45</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00050">50</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -220,7 +239,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00043">43</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00048">48</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
 
 </div>
 </div>
@@ -247,8 +266,8 @@ Private Attributes</h2></td></tr>
 
 <p>Courant Friedrichs Lewy condition number. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00036">36</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">real(prec)</span> :: CFL = 0.5</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00038">38</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">real(prec)</span> :: CFL = 0.5</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a79f52ac6e24e87eba3c809d97d647aaf"></a>
@@ -271,8 +290,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00041">41</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">type</span>(datetime) :: EndTime</div></div><!-- fragment -->
+<p>End date of the simulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00043">43</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">type</span>(datetime) :: EndTime</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a4e57d5a1897acaf67eb14e39e3e0cf21"></a>
@@ -301,6 +322,136 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">integer</span>    :: Integrator = 1</div></div><!-- fragment -->
 </div>
 </div>
+<a id="a939ab06e51a63cb7d521b5476e51b816"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a939ab06e51a63cb7d521b5476e51b816">&#9670;&nbsp;</a></span>integratorindexes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, dimension(3) simulation_globals_mod::parameters_t::integratorindexes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Index list for the integrator selector. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00036">36</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">integer</span>    :: IntegratorIndexes(3)</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a3115dcd5d6ea05501730adc71bc26b57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3115dcd5d6ea05501730adc71bc26b57">&#9670;&nbsp;</a></span>integratornames</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(string), dimension(3) simulation_globals_mod::parameters_t::integratornames</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Names list for the integrator selector. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00037">37</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">type</span>(string) :: IntegratorNames(3)</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a273c18519d8ed85697a0143f2bf26289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a273c18519d8ed85697a0143f2bf26289">&#9670;&nbsp;</a></span>outputformat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulation_globals_mod::parameters_t::outputformat = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Format of the output files (default=2) NetCDF=1, VTK=2. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00044">44</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">integer</span>    :: OutputFormat = 2</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a654359ea7dff5a8a0d57276f44e589b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a654359ea7dff5a8a0d57276f44e589b1">&#9670;&nbsp;</a></span>outputformatindexes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, dimension(2) simulation_globals_mod::parameters_t::outputformatindexes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Index list for the output file format selector. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00045">45</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">integer</span>    :: OutputFormatIndexes(2)</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a8bffd480a278698179e8581a1fdf3c08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bffd480a278698179e8581a1fdf3c08">&#9670;&nbsp;</a></span>outputformatnames</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(string), dimension(2) simulation_globals_mod::parameters_t::outputformatnames</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Names list for the output file format selector. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00046">46</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">type</span>(string) :: OutputFormatNames(2)</div></div><!-- fragment -->
+</div>
+</div>
 <a id="a8e3abdcb1022685a07ca65c3c6a50203"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e3abdcb1022685a07ca65c3c6a50203">&#9670;&nbsp;</a></span>starttime</h2>
 
@@ -321,8 +472,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00040">40</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">type</span>(datetime) :: StartTime</div></div><!-- fragment -->
+<p>Start date of the simulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00042">42</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">type</span>(datetime) :: StartTime</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ad56e8a5217faee90d48d0811a36cce32"></a>
@@ -347,8 +500,8 @@ Private Attributes</h2></td></tr>
 
 <p>Simulation duration (s) </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00038">38</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">real(prec_time)</span> :: TimeMax = mv         </div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00040">40</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">real(prec_time)</span> :: TimeMax = mv         </div></div><!-- fragment -->
 </div>
 </div>
 <a id="af4190961e6191cf07a9b04b0b864ec95"></a>
@@ -373,8 +526,8 @@ Private Attributes</h2></td></tr>
 
 <p>Time out data (1/Hz) </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00039">39</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">real(prec)</span> :: TimeOut = mv              </div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00041">41</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">real(prec)</span> :: TimeOut = mv              </div></div><!-- fragment -->
 </div>
 </div>
 <a id="aff3f4d5714c5a91daaad20aacf63f0a5"></a>
@@ -399,8 +552,8 @@ Private Attributes</h2></td></tr>
 
 <p>Time to freeze the tracers at simulation start (warmup) (s) (default=0.0) </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00037">37</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">real(prec_time)</span> :: WarmUpTime = 0.0</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation__globals_8f90_source.html#l00039">39</a> of file <a class="el" href="simulation__globals_8f90_source.html">simulation_globals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">real(prec_time)</span> :: WarmUpTime = 0.0</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

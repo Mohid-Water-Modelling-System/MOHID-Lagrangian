@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$structtracer__base__mod_1_1tracer__class.html" title="Type &#45; The pure Lagrangian tracer class. " alt="" coords="192,255,355,347"/>
 <area shape="rect" id="node3" href="$structtracer__base__mod_1_1tracer__state__class.html" title="Type &#45; state variables of a pure Lagrangian tracer object. " alt="" coords="5,5,168,171"/>
 <area shape="rect" id="node4" href="$structtracer__base__mod_1_1tracer__stats__class.html" title="Type &#45; statistical variables of a pure Lagrangian tracer object. " alt="" coords="192,20,355,156"/>
-<area shape="rect" id="node5" href="$structtracer__base__mod_1_1tracer__par__class.html" title="{tracer_base_mod::tracer\l_par_class\n|&#45; id\l&#45; idsource\l&#45; velmax\l&#45; noise\l&#45; interp_method\l|}" alt="" coords="379,13,541,163"/>
+<area shape="rect" id="node5" href="$structtracer__base__mod_1_1tracer__par__class.html" title="{tracer_base_mod::tracer\l_par_class\n|&#45; id\l&#45; idsource\l&#45; velmax\l|}" alt="" coords="379,27,541,149"/>
 <area shape="rect" id="node6" href="$structtracer__plastic__mod_1_1plastic__par__class.html" title="{tracer_plastic_mod\l::plastic_par_class\n|&#45; density\l&#45; degradation_rate\l&#45; particulate\l&#45; size\l|}" alt="" coords="379,233,511,369"/>
 <area shape="rect" id="node7" href="$structtracer__plastic__mod_1_1plastic__state__class.html" title="Type &#45; State variables of a tracer object representing a plastic material. " alt="" coords="535,241,678,362"/>
 </map>

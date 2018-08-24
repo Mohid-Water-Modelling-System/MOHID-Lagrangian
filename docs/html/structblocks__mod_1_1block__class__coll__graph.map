@@ -1,8 +1,7 @@
 <map id="blocks_mod::block_class" name="blocks_mod::block_class">
-<area shape="rect" id="node2" href="$structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="12,271,149,349"/>
-<area shape="rect" id="node3" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="5,57,156,134"/>
-<area shape="rect" id="node4" href="$structsources__array__mod_1_1sourcearray.html" title="{sources_array_mod::\lsourcearray\n|&#45; usedlength\l|&#45; printarray()\l&#45; printelement()\l}" alt="" coords="174,257,318,363"/>
-<area shape="rect" id="node5" href="$structabstract__container__array__mod_1_1container__array.html" title="{abstract_container\l_array_mod::container_array\n|&#45; contents\l&#45; length\l|&#45; resize()\l&#45; init()\l&#45; get()\l&#45; put()\l&#45; getlength()\l&#45; getmemsize()\l}" alt="" coords="230,5,417,185"/>
-<area shape="rect" id="node7" href="$structtracer__array__mod_1_1tracerarray.html" title="{tracer_array_mod::tracerarray\n|&#45; usedlength\l|&#45; printarray()\l&#45; printelement()\l}" alt="" coords="343,264,536,356"/>
-<area shape="rect" id="node6" href="$structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l}" alt="" coords="560,235,703,385"/>
+<area shape="rect" id="node2" href="$structtracer__list__mod_1_1tracerlist__class.html" title="{tracer_list_mod::tracerlist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="5,161,175,268"/>
+<area shape="rect" id="node6" href="$structsources__list__mod_1_1sourcelist__class.html" title="{sources_list_mod::sourcelist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="199,161,387,268"/>
+<area shape="rect" id="node4" href="$structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="411,176,548,253"/>
+<area shape="rect" id="node5" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="404,5,555,83"/>
+<area shape="rect" id="node7" href="$structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l&#45; tracermaker()\l}" alt="" coords="572,132,715,297"/>
 </map>

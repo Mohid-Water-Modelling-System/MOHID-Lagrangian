@@ -107,12 +107,11 @@ Collaboration diagram for blocks_mod::block_class:</div>
 <div class="dyncontent">
 <div class="center"><img src="structblocks__mod_1_1block__class__coll__graph.png" border="0" usemap="#blocks__mod_1_1block__class_coll__map" alt="Collaboration graph"/></div>
 <map name="blocks__mod_1_1block__class_coll__map" id="blocks__mod_1_1block__class_coll__map">
-<area shape="rect" id="node2" href="structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="12,271,149,349"/>
-<area shape="rect" id="node3" href="structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="5,57,156,134"/>
-<area shape="rect" id="node4" href="structsources__array__mod_1_1sourcearray.html" title="{sources_array_mod::\lsourcearray\n|&#45; usedlength\l|&#45; printarray()\l&#45; printelement()\l}" alt="" coords="174,257,318,363"/>
-<area shape="rect" id="node5" href="structabstract__container__array__mod_1_1container__array.html" title="{abstract_container\l_array_mod::container_array\n|&#45; contents\l&#45; length\l|&#45; resize()\l&#45; init()\l&#45; get()\l&#45; put()\l&#45; getlength()\l&#45; getmemsize()\l}" alt="" coords="230,5,417,185"/>
-<area shape="rect" id="node7" href="structtracer__array__mod_1_1tracerarray.html" title="{tracer_array_mod::tracerarray\n|&#45; usedlength\l|&#45; printarray()\l&#45; printelement()\l}" alt="" coords="343,264,536,356"/>
-<area shape="rect" id="node6" href="structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l}" alt="" coords="560,235,703,385"/>
+<area shape="rect" id="node2" href="structtracer__list__mod_1_1tracerlist__class.html" title="{tracer_list_mod::tracerlist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="5,161,175,268"/>
+<area shape="rect" id="node6" href="structsources__list__mod_1_1sourcelist__class.html" title="{sources_list_mod::sourcelist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="199,161,387,268"/>
+<area shape="rect" id="node4" href="structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="411,176,548,253"/>
+<area shape="rect" id="node5" href="structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="404,5,555,83"/>
+<area shape="rect" id="node7" href="structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l&#45; tracermaker()\l}" alt="" coords="572,132,715,297"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -124,12 +123,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac79980e841902691a06212dce50f6331"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1d0f1aca1323fad86177deb0b818a51"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#ad1d0f1aca1323fad86177deb0b818a51">callemitter</a></td></tr>
 <tr class="separator:ad1d0f1aca1323fad86177deb0b818a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e9993302da517acd9420dea33de6b43"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a6e9993302da517acd9420dea33de6b43">numactivetracers</a></td></tr>
-<tr class="separator:a6e9993302da517acd9420dea33de6b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00f8c114e84499356db3f8b633a6b3a3"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a00f8c114e84499356db3f8b633a6b3a3">distributetracers</a></td></tr>
+<tr class="separator:a00f8c114e84499356db3f8b633a6b3a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a3f2eb6823a683a6aaa2159b50ee990"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a7a3f2eb6823a683a6aaa2159b50ee990">numalloctracers</a></td></tr>
 <tr class="separator:a7a3f2eb6823a683a6aaa2159b50ee990"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73bd9f99f97d7fd882a3ade1103d27ae"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a73bd9f99f97d7fd882a3ade1103d27ae">toogleblocksources</a></td></tr>
 <tr class="separator:a73bd9f99f97d7fd882a3ade1103d27ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68f5bb0cb32b5b51cffd66d472cc45f0"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a68f5bb0cb32b5b51cffd66d472cc45f0">consolidatearrays</a></td></tr>
+<tr class="separator:a68f5bb0cb32b5b51cffd66d472cc45f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3521ef8424f47673a2acd15b5bd0545"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#ad3521ef8424f47673a2acd15b5bd0545">tracerstoaot</a></td></tr>
+<tr class="separator:ad3521ef8424f47673a2acd15b5bd0545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab58da434b2813d158b3f688d3c60d02c"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#ab58da434b2813d158b3f688d3c60d02c">cleanaot</a></td></tr>
+<tr class="separator:ab58da434b2813d158b3f688d3c60d02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43b4c133934eaadb55d30cf834d1e28c"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a43b4c133934eaadb55d30cf834d1e28c">print</a> =&gt; printBlock</td></tr>
 <tr class="separator:a43b4c133934eaadb55d30cf834d1e28c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a937d8dca8393460bc718dafa8a5c03ac"><td class="memItemLeft" align="right" valign="top">procedure, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a937d8dca8393460bc718dafa8a5c03ac">detailedprint</a> =&gt; printdetailBlock</td></tr>
@@ -142,19 +147,22 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aff3b0cb7d8248f8a87691a028de916d3"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structgeometry__mod_1_1box.html">box</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#aff3b0cb7d8248f8a87691a028de916d3">extents</a></td></tr>
 <tr class="memdesc:aff3b0cb7d8248f8a87691a028de916d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">shape::box that defines the extents of this block  <a href="#aff3b0cb7d8248f8a87691a028de916d3">More...</a><br /></td></tr>
 <tr class="separator:aff3b0cb7d8248f8a87691a028de916d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a398a25c84b76ebe336c1384552bda602"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structsources__array__mod_1_1sourcearray.html">sourcearray</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a398a25c84b76ebe336c1384552bda602">source</a></td></tr>
-<tr class="memdesc:a398a25c84b76ebe336c1384552bda602"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of Sources currently on this block.  <a href="#a398a25c84b76ebe336c1384552bda602">More...</a><br /></td></tr>
-<tr class="separator:a398a25c84b76ebe336c1384552bda602"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1deffab20b882618041f0dcc0e58c22"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structtracer__array__mod_1_1tracerarray.html">tracerarray</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#ac1deffab20b882618041f0dcc0e58c22">tracer</a></td></tr>
-<tr class="memdesc:ac1deffab20b882618041f0dcc0e58c22"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of Tracers currently on this block.  <a href="#ac1deffab20b882618041f0dcc0e58c22">More...</a><br /></td></tr>
-<tr class="separator:ac1deffab20b882618041f0dcc0e58c22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f4d63afb2696e2728f20a99e26a4b18"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structsources__list__mod_1_1sourcelist__class.html">sourcelist_class</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a2f4d63afb2696e2728f20a99e26a4b18">lsource</a></td></tr>
+<tr class="memdesc:a2f4d63afb2696e2728f20a99e26a4b18"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of Sources currently on this block.  <a href="#a2f4d63afb2696e2728f20a99e26a4b18">More...</a><br /></td></tr>
+<tr class="separator:a2f4d63afb2696e2728f20a99e26a4b18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4e2108886a09ba919d01474503f6165"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structtracer__list__mod_1_1tracerlist__class.html">tracerlist_class</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#ab4e2108886a09ba919d01474503f6165">ltracer</a></td></tr>
+<tr class="memdesc:ab4e2108886a09ba919d01474503f6165"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of Tracers currently on this block.  <a href="#ab4e2108886a09ba919d01474503f6165">More...</a><br /></td></tr>
+<tr class="separator:ab4e2108886a09ba919d01474503f6165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53f912fe57eb5e386ca62b1dbd087417"><td class="memItemLeft" align="right" valign="top">type(aot_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a53f912fe57eb5e386ca62b1dbd087417">aot</a></td></tr>
+<tr class="memdesc:a53f912fe57eb5e386ca62b1dbd087417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block Array of Tracers for actual numerical work.  <a href="#a53f912fe57eb5e386ca62b1dbd087417">More...</a><br /></td></tr>
+<tr class="separator:a53f912fe57eb5e386ca62b1dbd087417"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55e85183ba871abcaba1c00d5393611f"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structemitter__mod_1_1emitter__class.html">emitter_class</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a55e85183ba871abcaba1c00d5393611f">emitter</a></td></tr>
 <tr class="memdesc:a55e85183ba871abcaba1c00d5393611f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block Emitter.  <a href="#a55e85183ba871abcaba1c00d5393611f">More...</a><br /></td></tr>
 <tr class="separator:a55e85183ba871abcaba1c00d5393611f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00036">36</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00037">37</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ad1d0f1aca1323fad86177deb0b818a51"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad1d0f1aca1323fad86177deb0b818a51">&#9670;&nbsp;</a></span>callemitter()</h2>
@@ -171,7 +179,45 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00046">46</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00048">48</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+
+</div>
+</div>
+<a id="ab58da434b2813d158b3f688d3c60d02c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab58da434b2813d158b3f688d3c60d02c">&#9670;&nbsp;</a></span>cleanaot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public blocks_mod::block_class::cleanaot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00054">54</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+
+</div>
+</div>
+<a id="a68f5bb0cb32b5b51cffd66d472cc45f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68f5bb0cb32b5b51cffd66d472cc45f0">&#9670;&nbsp;</a></span>consolidatearrays()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public blocks_mod::block_class::consolidatearrays </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00052">52</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -190,7 +236,26 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00051">51</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00056">56</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+
+</div>
+</div>
+<a id="a00f8c114e84499356db3f8b633a6b3a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00f8c114e84499356db3f8b633a6b3a3">&#9670;&nbsp;</a></span>distributetracers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public blocks_mod::block_class::distributetracers </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00049">49</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -209,26 +274,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00044">44</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-
-</div>
-</div>
-<a id="a6e9993302da517acd9420dea33de6b43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e9993302da517acd9420dea33de6b43">&#9670;&nbsp;</a></span>numactivetracers()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">procedure, public blocks_mod::block_class::numactivetracers </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00047">47</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00046">46</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -247,7 +293,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00048">48</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00050">50</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -266,7 +312,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00050">50</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00055">55</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -285,7 +331,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00045">45</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00047">47</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -304,11 +350,56 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00049">49</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00051">51</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+
+</div>
+</div>
+<a id="ad3521ef8424f47673a2acd15b5bd0545"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3521ef8424f47673a2acd15b5bd0545">&#9670;&nbsp;</a></span>tracerstoaot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, public blocks_mod::block_class::tracerstoaot </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00053">53</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a53f912fe57eb5e386ca62b1dbd087417"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53f912fe57eb5e386ca62b1dbd087417">&#9670;&nbsp;</a></span>aot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(aot_class) blocks_mod::block_class::aot</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Block Array of Tracers for actual numerical work. </p>
+
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00042">42</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">type</span>(aot_class) :: AoT</div></div><!-- fragment -->
+</div>
+</div>
 <a id="a55e85183ba871abcaba1c00d5393611f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a55e85183ba871abcaba1c00d5393611f">&#9670;&nbsp;</a></span>emitter</h2>
 
@@ -331,8 +422,8 @@ Private Attributes</h2></td></tr>
 
 <p>Block Emitter. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00041">41</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">type</span>(emitter_class) :: Emitter</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00043">43</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">type</span>(emitter_class) :: Emitter</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aff3b0cb7d8248f8a87691a028de916d3"></a>
@@ -357,8 +448,8 @@ Private Attributes</h2></td></tr>
 
 <p>shape::box that defines the extents of this block </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00038">38</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">type</span>(box) :: extents</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00039">39</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">type</span>(box) :: extents</div></div><!-- fragment -->
 </div>
 </div>
 <a id="addd1a493d56aa1ffd1bc27c56b682065"></a>
@@ -381,12 +472,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00037">37</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">integer</span> :: id</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00038">38</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">integer</span> :: id</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a398a25c84b76ebe336c1384552bda602"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a398a25c84b76ebe336c1384552bda602">&#9670;&nbsp;</a></span>source</h2>
+<a id="a2f4d63afb2696e2728f20a99e26a4b18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f4d63afb2696e2728f20a99e26a4b18">&#9670;&nbsp;</a></span>lsource</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -395,7 +486,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">type(<a class="el" href="structsources__array__mod_1_1sourcearray.html">sourcearray</a>) blocks_mod::block_class::source</td>
+          <td class="memname">type(<a class="el" href="structsources__list__mod_1_1sourcelist__class.html">sourcelist_class</a>) blocks_mod::block_class::lsource</td>
         </tr>
       </table>
   </td>
@@ -407,12 +498,12 @@ Private Attributes</h2></td></tr>
 
 <p>List of Sources currently on this block. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00039">39</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">type</span>(SourceArray) :: Source</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00040">40</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">type</span>(sourceList_class) :: LSource</div></div><!-- fragment -->
 </div>
 </div>
-<a id="ac1deffab20b882618041f0dcc0e58c22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1deffab20b882618041f0dcc0e58c22">&#9670;&nbsp;</a></span>tracer</h2>
+<a id="ab4e2108886a09ba919d01474503f6165"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4e2108886a09ba919d01474503f6165">&#9670;&nbsp;</a></span>ltracer</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -421,7 +512,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">type(<a class="el" href="structtracer__array__mod_1_1tracerarray.html">tracerarray</a>) blocks_mod::block_class::tracer</td>
+          <td class="memname">type(<a class="el" href="structtracer__list__mod_1_1tracerlist__class.html">tracerlist_class</a>) blocks_mod::block_class::ltracer</td>
         </tr>
       </table>
   </td>
@@ -433,8 +524,8 @@ Private Attributes</h2></td></tr>
 
 <p>List of Tracers currently on this block. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00040">40</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">type</span>(TracerArray) :: Tracer</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00041">41</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">type</span>(tracerList_class) :: LTracer</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

@@ -95,8 +95,10 @@ $(document).ready(function(){initNavTree('simulation__xmlparser_8f90.html','');}
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Types</a> &#124;
 <a href="#namespaces">Modules</a> &#124;
-<a href="#func-members">Functions/Subroutines</a>  </div>
+<a href="#func-members">Functions/Subroutines</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">simulation_xmlparser.f90 File Reference</div>  </div>
 </div><!--header-->
@@ -104,23 +106,42 @@ $(document).ready(function(){initNavTree('simulation__xmlparser_8f90.html','');}
 
 <p><a href="simulation__xmlparser_8f90_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Types</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__xmlparser__mod_1_1xmlparser__class.html">simulation_xmlparser_mod::xmlparser_class</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Modules</h2></td></tr>
 <tr class="memitem:namespacesimulation__xmlparser__mod"><td class="memItemLeft" align="right" valign="top">module &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html">simulation_xmlparser_mod</a></td></tr>
-<tr class="memdesc:namespacesimulation__xmlparser__mod"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module with the simulation xml parsing related definitions and routines. <br /></td></tr>
+<tr class="memdesc:namespacesimulation__xmlparser__mod"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module with the simulation xml parsing class and methods, Encapsulates the FOX_dom library. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:ab062c8e064b043446d4f6ac695b306ab"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#ab062c8e064b043446d4f6ac695b306ab">simulation_xmlparser_mod::readxmlatt</a> (xmlnode, tag, att_name, att_value, read_flag, mandatory)</td></tr>
-<tr class="memdesc:ab062c8e064b043446d4f6ac695b306ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Private attribute xml parser routine. In the format &lt;Tag att_name="att_value".  <a href="namespacesimulation__xmlparser__mod.html#ab062c8e064b043446d4f6ac695b306ab">More...</a><br /></td></tr>
-<tr class="separator:ab062c8e064b043446d4f6ac695b306ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48bcd153bef2149410d66842b564728d"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#a48bcd153bef2149410d66842b564728d">simulation_xmlparser_mod::readxmlvector</a> (xmlnode, tag, vec, read_flag, mandatory)</td></tr>
-<tr class="memdesc:a48bcd153bef2149410d66842b564728d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Private vector xml parser routine. Vector must be in format &lt;Tag x="vec%x" y="vec%y" z="vec%z"&gt;  <a href="namespacesimulation__xmlparser__mod.html#a48bcd153bef2149410d66842b564728d">More...</a><br /></td></tr>
-<tr class="separator:a48bcd153bef2149410d66842b564728d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3167fcb99b40cdc25d2ba18418bd8b9f"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#a3167fcb99b40cdc25d2ba18418bd8b9f">simulation_xmlparser_mod::gotochildnode</a> (currentNode, targetNode, targetNodeName, read_flag, mandatory)</td></tr>
-<tr class="memdesc:a3167fcb99b40cdc25d2ba18418bd8b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found, stops if mandatory.  <a href="namespacesimulation__xmlparser__mod.html#a3167fcb99b40cdc25d2ba18418bd8b9f">More...</a><br /></td></tr>
-<tr class="separator:a3167fcb99b40cdc25d2ba18418bd8b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaabbb304cde12650a67503f88b6213be"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#aaabbb304cde12650a67503f88b6213be">simulation_xmlparser_mod::getfile</a> (self, xmldoc, xmlfilename)</td></tr>
+<tr class="memdesc:aaabbb304cde12650a67503f88b6213be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses an xml file and returns a pointer to the master node.  <a href="namespacesimulation__xmlparser__mod.html#aaabbb304cde12650a67503f88b6213be">More...</a><br /></td></tr>
+<tr class="separator:aaabbb304cde12650a67503f88b6213be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad078d1fa16b0745fb6996c322b9a8ea6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#ad078d1fa16b0745fb6996c322b9a8ea6">simulation_xmlparser_mod::closefile</a> (self, xmldoc)</td></tr>
+<tr class="memdesc:ad078d1fa16b0745fb6996c322b9a8ea6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that closes a parsed xml file or node.  <a href="namespacesimulation__xmlparser__mod.html#ad078d1fa16b0745fb6996c322b9a8ea6">More...</a><br /></td></tr>
+<tr class="separator:ad078d1fa16b0745fb6996c322b9a8ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9916d8f9ad17acb3ab33eabaa31c557"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#ad9916d8f9ad17acb3ab33eabaa31c557">simulation_xmlparser_mod::getleafattribute</a> (self, xmlnode, att_name, att_value)</td></tr>
+<tr class="memdesc:ad9916d8f9ad17acb3ab33eabaa31c557"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses an xml attribute. Reads the requested attribute from a given leaf node,.  <a href="namespacesimulation__xmlparser__mod.html#ad9916d8f9ad17acb3ab33eabaa31c557">More...</a><br /></td></tr>
+<tr class="separator:ad9916d8f9ad17acb3ab33eabaa31c557"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca2073b2a117e4e315e1c15e0aff4ec3"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#aca2073b2a117e4e315e1c15e0aff4ec3">simulation_xmlparser_mod::getnodeattribute</a> (self, xmlnode, tag, att_name, att_value, read_flag, mandatory)</td></tr>
+<tr class="memdesc:aca2073b2a117e4e315e1c15e0aff4ec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses an attribute from an xml node. In the format &lt;Tag att_name="att_value"&gt;  <a href="namespacesimulation__xmlparser__mod.html#aca2073b2a117e4e315e1c15e0aff4ec3">More...</a><br /></td></tr>
+<tr class="separator:aca2073b2a117e4e315e1c15e0aff4ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad18e8cfc0c6852ced699d945b93ca752"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#ad18e8cfc0c6852ced699d945b93ca752">simulation_xmlparser_mod::getnodevector</a> (self, xmlnode, tag, vec, read_flag, mandatory)</td></tr>
+<tr class="memdesc:ad18e8cfc0c6852ced699d945b93ca752"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to parse xyz vectors in xml files. Vector must be in format &lt;Tag x="vec%x" y="vec%y" z="vec%z"&gt;  <a href="namespacesimulation__xmlparser__mod.html#ad18e8cfc0c6852ced699d945b93ca752">More...</a><br /></td></tr>
+<tr class="separator:ad18e8cfc0c6852ced699d945b93ca752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61c66886d5ec95a566fe9548287aa418"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#a61c66886d5ec95a566fe9548287aa418">simulation_xmlparser_mod::gotonode</a> (self, currentNode, targetNode, targetNodeName, read_flag, mandatory)</td></tr>
+<tr class="memdesc:a61c66886d5ec95a566fe9548287aa418"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that retrieves a node from within a node. Returns a nullifyed pointer if not found, stops if mandatory.  <a href="namespacesimulation__xmlparser__mod.html#a61c66886d5ec95a566fe9548287aa418">More...</a><br /></td></tr>
+<tr class="separator:a61c66886d5ec95a566fe9548287aa418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a459f000486ba5cc1dec9c1f8acf2844e"><td class="memItemLeft" align="right" valign="top">type(xmlparser_class), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__xmlparser__mod.html#a459f000486ba5cc1dec9c1f8acf2844e">simulation_xmlparser_mod::xmlreader</a></td></tr>
+<tr class="separator:a459f000486ba5cc1dec9c1f8acf2844e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

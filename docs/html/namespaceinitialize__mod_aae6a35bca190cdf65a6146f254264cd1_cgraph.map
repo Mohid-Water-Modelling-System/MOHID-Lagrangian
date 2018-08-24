@@ -1,6 +1,3 @@
 <map id="initialize_mod::init_sources" name="initialize_mod::init_sources">
-<area shape="rect" id="node2" href="$namespacesimulation__xmlparser__mod.html#a3167fcb99b40cdc25d2ba18418bd8b9f" title="Private routine to retrieve a node within a node. Returns a nullifyed pointer if not found..." alt="" coords="180,5,325,47"/>
-<area shape="rect" id="node3" href="$namespacesimulation__xmlparser__mod.html#ab062c8e064b043446d4f6ac695b306ab" title="Private attribute xml parser routine. In the format &lt;Tag att_name=&quot;att_value&quot;. " alt="" coords="180,71,325,112"/>
-<area shape="rect" id="node4" href="$namespaceinitialize__mod.html#aebe8236f74bc6665b16463683c478602" title="Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of ..." alt="" coords="185,136,320,177"/>
-<area shape="rect" id="node5" href="$namespacesimulation__xmlparser__mod.html#a48bcd153bef2149410d66842b564728d" title="Private vector xml parser routine. Vector must be in format &lt;Tag x=&quot;vec%x&quot; y=&quot;vec%y&quot; z=&quot;vec%z&quot;&gt; ..." alt="" coords="373,136,519,177"/>
+<area shape="rect" id="node2" href="$namespaceinitialize__mod.html#aebe8236f74bc6665b16463683c478602" title="Private geometry xml parser routine. Reads a geometry from the xml depending on the geometry type of ..." alt="" coords="180,5,315,47"/>
 </map>

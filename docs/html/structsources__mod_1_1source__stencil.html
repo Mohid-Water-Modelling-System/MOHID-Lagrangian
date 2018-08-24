@@ -119,13 +119,13 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:ad7373d51bdf50a4595b6c0fa69f7f915"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total number of tracers that this source will generate.  <a href="#ad7373d51bdf50a4595b6c0fa69f7f915">More...</a><br /></td></tr>
 <tr class="separator:ad7373d51bdf50a4595b6c0fa69f7f915"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a154e50e2872650da574d0a1148e3065a"><td class="memItemLeft" align="right" valign="top">type(vector), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__stencil.html#a154e50e2872650da574d0a1148e3065a">ptlist</a></td></tr>
-<tr class="memdesc:a154e50e2872650da574d0a1148e3065a"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of points (coordinates), relative to the source geometry point, to be generated at every emission  <a href="#a154e50e2872650da574d0a1148e3065a">More...</a><br /></td></tr>
+<tr class="memdesc:a154e50e2872650da574d0a1148e3065a"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of points (coordinates), relative to the source geometry point, to be generated at every emission.  <a href="#a154e50e2872650da574d0a1148e3065a">More...</a><br /></td></tr>
 <tr class="separator:a154e50e2872650da574d0a1148e3065a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Type - holder for the tracer creation stencil of the source. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00056">56</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00067">67</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a11ed46a8e923b5902cc02420d88158c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11ed46a8e923b5902cc02420d88158c5">&#9670;&nbsp;</a></span>np</h2>
@@ -149,8 +149,8 @@ Private Attributes</h2></td></tr>
 
 <p>Number of tracers by emission. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00057">57</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">integer</span> :: np</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00068">68</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">integer</span> :: np</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a154e50e2872650da574d0a1148e3065a"></a>
@@ -173,10 +173,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>list of points (coordinates), relative to the source geometry point, to be generated at every emission </p>
+<p>list of points (coordinates), relative to the source geometry point, to be generated at every emission. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00059">59</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">type</span>(vector), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: ptlist</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00070">70</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">type</span>(vector), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: ptlist</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ad7373d51bdf50a4595b6c0fa69f7f915"></a>
@@ -201,8 +201,8 @@ Private Attributes</h2></td></tr>
 
 <p>Total number of tracers that this source will generate. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00058">58</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">integer</span> :: total_np</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00069">69</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">integer</span> :: total_np</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

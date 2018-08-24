@@ -118,17 +118,17 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:adab48ad9efa9431a5101e6f22c6b16d1"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base__mod_1_1tracer__stats__class.html#adab48ad9efa9431a5101e6f22c6b16d1">acc_vel</a></td></tr>
 <tr class="memdesc:adab48ad9efa9431a5101e6f22c6b16d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accumulated velocity of the tracer (m s-1)  <a href="#adab48ad9efa9431a5101e6f22c6b16d1">More...</a><br /></td></tr>
 <tr class="separator:adab48ad9efa9431a5101e6f22c6b16d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace9d4e6796a669eba7001671ab0b38b8"><td class="memItemLeft" align="right" valign="top">real(prec_wrt)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base__mod_1_1tracer__stats__class.html#ace9d4e6796a669eba7001671ab0b38b8">acc_depth</a></td></tr>
+<tr class="memitem:ace9d4e6796a669eba7001671ab0b38b8"><td class="memItemLeft" align="right" valign="top">real(prec_wrt)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base__mod_1_1tracer__stats__class.html#ace9d4e6796a669eba7001671ab0b38b8">acc_depth</a> = MV</td></tr>
 <tr class="memdesc:ace9d4e6796a669eba7001671ab0b38b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accumulated depth of the tracer (m)  <a href="#ace9d4e6796a669eba7001671ab0b38b8">More...</a><br /></td></tr>
 <tr class="separator:ace9d4e6796a669eba7001671ab0b38b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e01cdc2592ecf31711151cf54e3b4d5"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base__mod_1_1tracer__stats__class.html#a5e01cdc2592ecf31711151cf54e3b4d5">ns</a></td></tr>
+<tr class="memitem:a5e01cdc2592ecf31711151cf54e3b4d5"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__base__mod_1_1tracer__stats__class.html#a5e01cdc2592ecf31711151cf54e3b4d5">ns</a> = MV</td></tr>
 <tr class="memdesc:a5e01cdc2592ecf31711151cf54e3b4d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of sampling steps.  <a href="#a5e01cdc2592ecf31711151cf54e3b4d5">More...</a><br /></td></tr>
 <tr class="separator:a5e01cdc2592ecf31711151cf54e3b4d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Type - statistical variables of a pure Lagrangian tracer object. </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00045">45</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00043">43</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ace9d4e6796a669eba7001671ab0b38b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace9d4e6796a669eba7001671ab0b38b8">&#9670;&nbsp;</a></span>acc_depth</h2>
@@ -140,7 +140,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec_wrt) tracer_base_mod::tracer_stats_class::acc_depth</td>
+          <td class="memname">real(prec_wrt) tracer_base_mod::tracer_stats_class::acc_depth = MV</td>
         </tr>
       </table>
   </td>
@@ -152,8 +152,8 @@ Private Attributes</h2></td></tr>
 
 <p>Accumulated depth of the tracer (m) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00050">50</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">real(prec_wrt)</span> :: acc_depth</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00048">48</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">real(prec_wrt)</span> :: acc_depth = mv         </div></div><!-- fragment -->
 </div>
 </div>
 <a id="aa60964087b2515e7ae6824f38470594e"></a>
@@ -178,8 +178,8 @@ Private Attributes</h2></td></tr>
 
 <p>Accumulated position of the tracer (m) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00048">48</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">type</span>(vector) :: acc_pos</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00046">46</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">type</span>(vector) :: acc_pos</div></div><!-- fragment -->
 </div>
 </div>
 <a id="adab48ad9efa9431a5101e6f22c6b16d1"></a>
@@ -204,8 +204,8 @@ Private Attributes</h2></td></tr>
 
 <p>Accumulated velocity of the tracer (m s-1) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00049">49</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">type</span>(vector) :: acc_vel</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00047">47</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">type</span>(vector) :: acc_vel</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a5e01cdc2592ecf31711151cf54e3b4d5"></a>
@@ -218,7 +218,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">integer tracer_base_mod::tracer_stats_class::ns</td>
+          <td class="memname">integer tracer_base_mod::tracer_stats_class::ns = MV</td>
         </tr>
       </table>
   </td>
@@ -230,8 +230,8 @@ Private Attributes</h2></td></tr>
 
 <p>Number of sampling steps. </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00052">52</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">integer</span> :: ns</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__base_8f90_source.html#l00050">50</a> of file <a class="el" href="tracer__base_8f90_source.html">tracer_base.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">integer</span> :: ns = mv                       </div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

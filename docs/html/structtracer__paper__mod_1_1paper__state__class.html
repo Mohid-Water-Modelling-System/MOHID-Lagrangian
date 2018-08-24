@@ -108,10 +108,15 @@ $(document).ready(function(){initNavTree('structtracer__paper__mod_1_1paper__sta
 Collaboration diagram for tracer_paper_mod::paper_state_class:</div>
 <div class="dyncontent">
 <div class="center"><img src="structtracer__paper__mod_1_1paper__state__class__coll__graph.png" border="0" usemap="#tracer__paper__mod_1_1paper__state__class_coll__map" alt="Collaboration graph"/></div>
+<map name="tracer__paper__mod_1_1paper__state__class_coll__map" id="tracer__paper__mod_1_1paper__state__class_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:a52ea928258826e92f35119aa62021cbe"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__paper__mod_1_1paper__state__class.html#a52ea928258826e92f35119aa62021cbe">density</a></td></tr>
+<tr class="memdesc:a52ea928258826e92f35119aa62021cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">density of the material  <a href="#a52ea928258826e92f35119aa62021cbe">More...</a><br /></td></tr>
+<tr class="separator:a52ea928258826e92f35119aa62021cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac70463dad7537b4e18c6719e975a2a80"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracer__paper__mod_1_1paper__state__class.html#ac70463dad7537b4e18c6719e975a2a80">radius</a></td></tr>
 <tr class="memdesc:ac70463dad7537b4e18c6719e975a2a80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracer radius (m)  <a href="#ac70463dad7537b4e18c6719e975a2a80">More...</a><br /></td></tr>
 <tr class="separator:ac70463dad7537b4e18c6719e975a2a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,8 +154,8 @@ Private Attributes</h2></td></tr>
 
 <p>Particle concentration. </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__paper_8f90_source.html#l00039">39</a> of file <a class="el" href="tracer__paper_8f90_source.html">tracer_paper.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">real(prec)</span> :: concentration</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__paper_8f90_source.html#l00040">40</a> of file <a class="el" href="tracer__paper_8f90_source.html">tracer_paper.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">real(prec)</span> :: concentration</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ad0c61709a67ed482b8f8dadb071c78a4"></a>
@@ -175,8 +180,34 @@ Private Attributes</h2></td></tr>
 
 <p>Material condition (1-0) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__paper_8f90_source.html#l00038">38</a> of file <a class="el" href="tracer__paper_8f90_source.html">tracer_paper.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">real(prec)</span> :: condition</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__paper_8f90_source.html#l00039">39</a> of file <a class="el" href="tracer__paper_8f90_source.html">tracer_paper.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">real(prec)</span> :: condition</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a52ea928258826e92f35119aa62021cbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52ea928258826e92f35119aa62021cbe">&#9670;&nbsp;</a></span>density</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) tracer_paper_mod::paper_state_class::density</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>density of the material </p>
+
+<p class="definition">Definition at line <a class="el" href="tracer__paper_8f90_source.html#l00037">37</a> of file <a class="el" href="tracer__paper_8f90_source.html">tracer_paper.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">real(prec)</span> :: density</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ac70463dad7537b4e18c6719e975a2a80"></a>
@@ -201,8 +232,8 @@ Private Attributes</h2></td></tr>
 
 <p>Tracer radius (m) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer__paper_8f90_source.html#l00037">37</a> of file <a class="el" href="tracer__paper_8f90_source.html">tracer_paper.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">real(prec)</span> :: radius</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer__paper_8f90_source.html#l00038">38</a> of file <a class="el" href="tracer__paper_8f90_source.html">tracer_paper.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">real(prec)</span> :: radius</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

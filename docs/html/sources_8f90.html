@@ -110,6 +110,9 @@ $(document).ready(function(){initNavTree('sources_8f90.html','');});
 Data Types</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html">sources_mod::source_par</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__prop.html">sources_mod::source_prop</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - material properties of a source object.  <a href="structsources__mod_1_1source__prop.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__state.html">sources_mod::source_state</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - state variables of a source object.  <a href="structsources__mod_1_1source__state.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,15 +142,27 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:aee745aa084adcfa41ecfc3469b90aa8e"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#aee745aa084adcfa41ecfc3469b90aa8e">sources_mod::killsources</a> (self)</td></tr>
 <tr class="memdesc:aee745aa084adcfa41ecfc3469b90aa8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">source group destructor - deallocates sources objects  <a href="namespacesources__mod.html#aee745aa084adcfa41ecfc3469b90aa8e">More...</a><br /></td></tr>
 <tr class="separator:aee745aa084adcfa41ecfc3469b90aa8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa02996b7219ce9c9d26439e8d2d0a468"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#aa02996b7219ce9c9d26439e8d2d0a468">sources_mod::setprops</a> (self, srcid_str, ptype, pname)</td></tr>
-<tr class="memdesc:aa02996b7219ce9c9d26439e8d2d0a468"><td class="mdescLeft">&#160;</td><td class="mdescRight">source property setting routine, calls source by id to set its properties  <a href="namespacesources__mod.html#aa02996b7219ce9c9d26439e8d2d0a468">More...</a><br /></td></tr>
-<tr class="separator:aa02996b7219ce9c9d26439e8d2d0a468"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dcf7a3e3ccf75e01853df166231d484"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a6dcf7a3e3ccf75e01853df166231d484">sources_mod::initializesource</a> (src, id, name, emitting_rate, start, finish, source_geometry, shapetype)</td></tr>
-<tr class="memdesc:a6dcf7a3e3ccf75e01853df166231d484"><td class="mdescLeft">&#160;</td><td class="mdescRight">source inititialization proceadure - initializes Source variables  <a href="namespacesources__mod.html#a6dcf7a3e3ccf75e01853df166231d484">More...</a><br /></td></tr>
-<tr class="separator:a6dcf7a3e3ccf75e01853df166231d484"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a683ca7e4aca7a0050aad9f506569fca9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a683ca7e4aca7a0050aad9f506569fca9">sources_mod::linkproperty</a> (src, ptype, pname)</td></tr>
 <tr class="memdesc:a683ca7e4aca7a0050aad9f506569fca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">source property setting proceadure - initializes Source variables  <a href="namespacesources__mod.html#a683ca7e4aca7a0050aad9f506569fca9">More...</a><br /></td></tr>
 <tr class="separator:a683ca7e4aca7a0050aad9f506569fca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa76f16f8ee96bc86b553aa54d420321c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#aa76f16f8ee96bc86b553aa54d420321c">sources_mod::setpropertynames</a> (self, srcid_str, ptype, pname)</td></tr>
+<tr class="memdesc:aa76f16f8ee96bc86b553aa54d420321c"><td class="mdescLeft">&#160;</td><td class="mdescRight">source property setting routine, calls source by id to set its properties  <a href="namespacesources__mod.html#aa76f16f8ee96bc86b553aa54d420321c">More...</a><br /></td></tr>
+<tr class="separator:aa76f16f8ee96bc86b553aa54d420321c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbb4557b46c533439fe258cecf31a76c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#abbb4557b46c533439fe258cecf31a76c">sources_mod::setpropertyatributes</a> (src, pname, pvalue)</td></tr>
+<tr class="memdesc:abbb4557b46c533439fe258cecf31a76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">source property atribute setting proceadure - initializes Source variables  <a href="namespacesources__mod.html#abbb4557b46c533439fe258cecf31a76c">More...</a><br /></td></tr>
+<tr class="separator:abbb4557b46c533439fe258cecf31a76c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fcfcb690cd1b9375915b01f7ddbe801"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a6fcfcb690cd1b9375915b01f7ddbe801">sources_mod::check</a> (self)</td></tr>
+<tr class="memdesc:a6fcfcb690cd1b9375915b01f7ddbe801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that checks for the consistency of the Source properties.  <a href="namespacesources__mod.html#a6fcfcb690cd1b9375915b01f7ddbe801">More...</a><br /></td></tr>
+<tr class="separator:a6fcfcb690cd1b9375915b01f7ddbe801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dcf7a3e3ccf75e01853df166231d484"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a6dcf7a3e3ccf75e01853df166231d484">sources_mod::initializesource</a> (src, id, name, emitting_rate, start, finish, source_geometry, shapetype)</td></tr>
+<tr class="memdesc:a6dcf7a3e3ccf75e01853df166231d484"><td class="mdescLeft">&#160;</td><td class="mdescRight">source inititialization proceadure - initializes Source variables  <a href="namespacesources__mod.html#a6dcf7a3e3ccf75e01853df166231d484">More...</a><br /></td></tr>
+<tr class="separator:a6dcf7a3e3ccf75e01853df166231d484"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4e4f33da78d030e1b56a48789da6a05"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#ac4e4f33da78d030e1b56a48789da6a05">sources_mod::isparticulate</a> (self)</td></tr>
+<tr class="memdesc:ac4e4f33da78d030e1b56a48789da6a05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns particulate status of this Source, i.e, true if the emitted Tracers are actually a collection of particles with an evolving concentration.  <a href="namespacesources__mod.html#ac4e4f33da78d030e1b56a48789da6a05">More...</a><br /></td></tr>
+<tr class="separator:ac4e4f33da78d030e1b56a48789da6a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a62c41b71d2d6ad85def74087542ef5"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a9a62c41b71d2d6ad85def74087542ef5">sources_mod::setotalnp</a> (self)</td></tr>
+<tr class="memdesc:a9a62c41b71d2d6ad85def74087542ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that sets the total number of tracers a source will potentially create  <a href="namespacesources__mod.html#a9a62c41b71d2d6ad85def74087542ef5">More...</a><br /></td></tr>
+<tr class="separator:a9a62c41b71d2d6ad85def74087542ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a641fe9ecc295e486a714c1aaa133d991"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a641fe9ecc295e486a714c1aaa133d991">sources_mod::printsource</a> (src)</td></tr>
 <tr class="memdesc:a641fe9ecc295e486a714c1aaa133d991"><td class="mdescLeft">&#160;</td><td class="mdescRight">source print routine - prints a source info on console/log  <a href="namespacesources__mod.html#a641fe9ecc295e486a714c1aaa133d991">More...</a><br /></td></tr>
 <tr class="separator:a641fe9ecc295e486a714c1aaa133d991"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,6 +170,7 @@ Functions/Subroutines</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:ab04ea8c02cdf83a1a356c8710ae811d5"><td class="memItemLeft" align="right" valign="top">type(source_group_class), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#ab04ea8c02cdf83a1a356c8710ae811d5">sources_mod::tempsources</a></td></tr>
+<tr class="memdesc:ab04ea8c02cdf83a1a356c8710ae811d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temporary Source array, used exclusively for building the case from a description file.  <a href="namespacesources__mod.html#ab04ea8c02cdf83a1a356c8710ae811d5">More...</a><br /></td></tr>
 <tr class="separator:ab04ea8c02cdf83a1a356c8710ae811d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

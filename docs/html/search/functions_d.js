@@ -1,11 +1,10 @@
 var searchData=
 [
   ['read_5fxml_5fgeometry',['read_xml_geometry',['../namespaceinitialize__mod.html#aebe8236f74bc6665b16463683c478602',1,'initialize_mod']]],
-  ['readxmlatt',['readxmlatt',['../namespacesimulation__xmlparser__mod.html#ab062c8e064b043446d4f6ac695b306ab',1,'simulation_xmlparser_mod']]],
-  ['readxmlvector',['readxmlvector',['../namespacesimulation__xmlparser__mod.html#a48bcd153bef2149410d66842b564728d',1,'simulation_xmlparser_mod']]],
+  ['remove',['remove',['../structabstract__linkedlist__mod_1_1linkedlist.html#a8d5f5b478ec685dfdc93cb491d2d30f9',1,'abstract_linkedlist_mod::linkedlist::remove()'],['../namespaceabstract__linkedlist__mod.html#a9f4028744d1ca6536e28c76d2795ace3',1,'abstract_linkedlist_mod::remove()']]],
+  ['removecurrent',['removecurrent',['../structabstract__linkedlist__mod_1_1linkedlist.html#a7bca8c31961be692d5c377c309d6cbd2',1,'abstract_linkedlist_mod::linkedlist::removecurrent()'],['../namespaceabstract__linkedlist__mod.html#ae725ed63dd3b08d29e1c4ff824e05589',1,'abstract_linkedlist_mod::removecurrent()']]],
+  ['removelink',['removelink',['../structlink__mod_1_1link.html#a35f43f3c1263afcc71cb129e1b0a5c52',1,'link_mod::link::removelink()'],['../namespacelink__mod.html#ae2d89f23eb8cf4b8065b8a39e9902a22',1,'link_mod::removelink()']]],
   ['removesource',['removesource',['../structemitter__mod_1_1emitter__class.html#a277317a5cca4d7679d0e77edd350ef79',1,'emitter_mod::emitter_class::removesource()'],['../namespaceemitter__mod.html#a49b704640270da1c4fad50fcd5374376',1,'emitter_mod::removesource()']]],
-  ['removetracer',['removetracer',['../structsimulation__memory__mod_1_1memory__t.html#a687722de4a78f78599f83afc689b7f8a',1,'simulation_memory_mod::memory_t::removetracer()'],['../namespacesimulation__memory__mod.html#a5f95539e9740401e7046b79c40ad2ecd',1,'simulation_memory_mod::removetracer()']]],
-  ['resize',['resize',['../structabstract__container__array__mod_1_1container__array.html#ac75fccc4c778eb745479dc50f46bf1fe',1,'abstract_container_array_mod::container_array']]],
-  ['resizearray',['resizearray',['../namespaceabstract__container__array__mod.html#adb5b2e1692fa90a0239e9a0bcdc7967d',1,'abstract_container_array_mod']]],
+  ['reset',['reset',['../structabstract__linkedlist__mod_1_1linkedlist.html#a3eb28d7a77ee8613ed566ec0148a1bd3',1,'abstract_linkedlist_mod::linkedlist::reset()'],['../namespaceabstract__linkedlist__mod.html#a46ff8b8a3ab81610eb47d72d742778c3',1,'abstract_linkedlist_mod::reset()']]],
   ['run',['run',['../structsimulation__mod_1_1simulation__class.html#a47c2f9dd8a012a523ac88aa8d3c6a911',1,'simulation_mod::simulation_class::run()'],['../namespacesimulation__mod.html#a73bd78c4ac76c51f1e10f5847c25c4df',1,'simulation_mod::run()']]]
 ];
