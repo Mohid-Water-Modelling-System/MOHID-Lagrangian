@@ -43,7 +43,7 @@ CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 //Flags used by the linker during Release with Debug Info builds.
 CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
-CMAKE_Fortran_FLAGS:STRING='-r8 -fpp -W1 -heap-arrays    '
+CMAKE_Fortran_FLAGS:STRING=' -fpp -heap-arrays -nostandard-realloc-lhs    '
 
 CMAKE_Fortran_FLAGS_DEBUG:STRING='-O0 -traceback -g -debug all -check all -ftrapuv -warn nointerfaces  '
 
