@@ -22,18 +22,21 @@
     module AoT_mod
 
     use tracers_mod
-    !use tracer_array_mod
     use tracer_list_mod
     use common_modules
 
     implicit none
     private
+    
+    type :: trc_ptr_class
+        class(tracer_class), pointer :: ptr
+    end type trc_ptr_class
 
     type :: aot_class !< Arrays of Tracers class
-        integer, allocatable, dimension(:) :: id        !< Id of the Tracer
-        integer, allocatable, dimension(:) :: index     !< index of the Tracer
-        real(prec), allocatable, dimension(:) :: x,y,z  !< coordinates of the Tracer
-        real(prec), allocatable, dimension(:) :: u,v,w  !< velocities of the Tracer
+        integer, allocatable, dimension(:) :: id            !< Id of the Tracer
+        class(trc_ptr_class), allocatable, dimension(:) :: trc !< pointer to the Tracer
+        real(prec), allocatable, dimension(:) :: x,y,z      !< coordinates of the Tracer
+        real(prec), allocatable, dimension(:) :: u,v,w      !< velocities of the Tracer
     contains
     !sort
     procedure :: Clean
@@ -64,7 +67,7 @@
     !allocating the necessary space
     nt = trclist%getSize()
     allocate(constructor%id(nt))
-    !allocate(constructor%index(nt))
+    allocate(constructor%trc(nt))
     allocate(constructor%x(nt))
     allocate(constructor%y(nt))
     allocate(constructor%z(nt))
@@ -79,7 +82,7 @@
         class is (tracer_class)
             if (aTracer%now%active) then
                 constructor%id(nt) = aTracer%par%id
-                !constructor%index(nt) = i
+                constructor%trc(nt)%ptr => atracer
                 constructor%x(nt) = aTracer%now%pos%x
                 constructor%y(nt) = aTracer%now%pos%y
                 constructor%z(nt) = aTracer%now%pos%z
@@ -107,14 +110,14 @@
     subroutine Clean(self)
     implicit none
     class(aot_class), intent(inout) :: self
-    deallocate(self%id)
-    !deallocate(self%index)
-    deallocate(self%x)
-    deallocate(self%y)
-    deallocate(self%z)
-    deallocate(self%u)
-    deallocate(self%v)
-    deallocate(self%w)
+    if (allocated(self%id)) deallocate(self%id)
+    if (allocated(self%trc)) deallocate(self%trc)
+    if (allocated(self%x)) deallocate(self%x)
+    if (allocated(self%y)) deallocate(self%y)
+    if (allocated(self%z)) deallocate(self%z)
+    if (allocated(self%u)) deallocate(self%u)
+    if (allocated(self%v)) deallocate(self%v)
+    if (allocated(self%w)) deallocate(self%w)
     end subroutine Clean
 
     !---------------------------------------------------------------------------
