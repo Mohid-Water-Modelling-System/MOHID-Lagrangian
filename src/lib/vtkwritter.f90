@@ -80,7 +80,7 @@
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    error = vtkfile%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format='ascii', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     !Write the data of each block
     do i = 1, size(blocks)
         if (blocks(i)%LTracer%getSize() > 0) then
@@ -137,7 +137,7 @@
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    error = vtkfile%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format='ascii', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     
     !Writting bounding box geometry
     pts = Geometry%getPoints(bbox)
@@ -161,7 +161,7 @@
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    error = vtkfile%initialize(format='binary', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format='ascii', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     
     !Writting block geometries
     do b=1, size(blocks)
