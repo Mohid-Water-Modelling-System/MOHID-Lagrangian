@@ -13,7 +13,10 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines a vtk writer class with an object exposable to the Output streamer
+    !> Defines a vtk writer class with an object exposable to the Output streamer.
+    !> Writes files in .xml vtk, both in serial and parallel model. Uses an
+    !> unstructured mesh format specifier to store any type of data, both meshes and
+    !> Tracers. Supports scalar and vectorial data.
     !------------------------------------------------------------------------------
 
     module vtkwritter_mod
@@ -26,9 +29,9 @@
     implicit none
     private
     
-    type :: vtkwritter_class
-        integer :: numVtkFiles
-        type(string) :: formatType
+    type :: vtkwritter_class    !< VTK writter class
+        integer :: numVtkFiles      !< number of vtk files written
+        type(string) :: formatType  !< format of the data to write on the VTK xml file - ascii, raw, binary
     contains
     procedure :: initialize => initVTKwritter
     procedure :: Domain
@@ -51,7 +54,7 @@
     implicit none
     class(vtkwritter_class), intent(inout) :: self
     self%numVtkFiles = 0
-    self%formatType = 'binary'
+    self%formatType = 'raw'
     end subroutine initVTKwritter
     
     !---------------------------------------------------------------------------
@@ -82,7 +85,7 @@
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    error = vtkfile%initialize(format='raw', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     !Write the data of each block
     do i = 1, size(blocks)
         if (blocks(i)%LTracer%getSize() > 0) then
@@ -99,7 +102,7 @@
             deallocate(connect)
         end if
     end do
-    error = vtkfile%finalize()    
+    error = vtkfile%finalize()
     self%numVtkFiles = self%numVtkFiles + 1
     
     end subroutine TracerSerial
@@ -139,7 +142,7 @@
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    error = vtkfile%initialize(format='raw', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     
     !Writting bounding box geometry
     pts = Geometry%getPoints(bbox)
@@ -163,7 +166,7 @@
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
     
-    error = vtkfile%initialize(format='raw', filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
+    error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     
     !Writting block geometries
     do b=1, size(blocks)

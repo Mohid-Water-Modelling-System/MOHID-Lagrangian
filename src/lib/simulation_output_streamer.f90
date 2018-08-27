@@ -54,6 +54,9 @@
     implicit none
     class(output_streamer_class), intent(inout) :: self
     self%OutputFormat = Globals%Parameters%OutputFormat
+    if (self%OutputFormat == 2) then !VTK file selected
+        call vtkWritter%initialize()
+    end if
     end subroutine initOutputStreamer
 
     !---------------------------------------------------------------------------
