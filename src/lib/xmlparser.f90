@@ -18,7 +18,7 @@
     !> FOX_dom library.
     !------------------------------------------------------------------------------
 
-    module simulation_xmlparser_mod
+    module xmlparser_mod
 
     use FoX_dom
     use common_modules
@@ -269,4 +269,4 @@
     endif
     end subroutine gotoNode
 
-    end module simulation_xmlparser_mod
+    end module xmlparser_mod

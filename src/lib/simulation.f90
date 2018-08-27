@@ -13,12 +13,14 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module to hold the simulation class and its methods
+    !> Module to hold the simulation class and its methods. This is the only
+    !> class that is exposed to an external program, as it encapsulates every other
+    !> class and method.
     !------------------------------------------------------------------------------
     module simulation_mod
 
-    use about_mod
-    use initialize_mod
+    use simulation_about_mod
+    use simulation_initialize_mod
     use boundingbox_mod
     use blocks_mod
     use emitter_mod
@@ -26,8 +28,6 @@
     use tracers_mod
     use simulation_output_streamer_mod
     use common_modules
-    
-    !use simulation_objects_mod
 
     implicit none
     private

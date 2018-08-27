@@ -16,7 +16,7 @@
     !> Module to print version, licence, preambles.
     !------------------------------------------------------------------------------
 
-    module about_mod
+    module simulation_about_mod
 
     use common_modules
 
@@ -81,4 +81,4 @@
 
     end subroutine
 
-    end module about_mod
+    end module simulation_about_mod
