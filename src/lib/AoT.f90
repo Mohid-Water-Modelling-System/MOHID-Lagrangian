@@ -161,7 +161,7 @@
     !---------------------------------------------------------------------------
     subroutine print_AoT(self)
     class(aot_class), intent(in) :: self
-    type(string) :: outext, t(7)
+    type(string) :: outext, t(4)
     integer :: i
     do i=1, size(self%id)
         t(1) = self%id(i)
