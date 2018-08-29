@@ -27,7 +27,7 @@
 
     implicit none
     private
-    
+
     type :: trc_ptr_class                   !< tracer pointer class, because foooooortraaaaaaan
         class(tracer_class), pointer :: ptr !< the actual pointer
     end type trc_ptr_class
@@ -40,15 +40,16 @@
     contains
     !sort
     procedure :: Clean
+    procedure :: toTracers
     procedure :: print => print_AoT
     end type aot_class
 
     interface AoT !> Constructor
-        procedure constructor
+    procedure constructor
     end interface
 
     public :: aot_class, AoT
-    
+
     contains
 
     !---------------------------------------------------------------------------
@@ -99,10 +100,10 @@
         call trclist%next()            ! increment the list iterator
     end do
     call trclist%reset()               ! reset list iterator
-    
+
     end function constructor
-    
-     !---------------------------------------------------------------------------
+
+    !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Destructor for AoT object, deallocates all contents
@@ -111,6 +112,7 @@
     implicit none
     class(aot_class), intent(inout) :: self
     if (allocated(self%id)) deallocate(self%id)
+    !if (associated(self%trc%ptr)) nullify(self%trc%ptr) !need make sure there are no memory leaks
     if (allocated(self%trc)) deallocate(self%trc)
     if (allocated(self%x)) deallocate(self%x)
     if (allocated(self%y)) deallocate(self%y)
@@ -119,6 +121,38 @@
     if (allocated(self%v)) deallocate(self%v)
     if (allocated(self%w)) deallocate(self%w)
     end subroutine Clean
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Sends the data on the AoT to the Tracer objects. Less type guard checks 
+    !> because they were already made in the constructor of the AoT
+    !---------------------------------------------------------------------------
+    subroutine toTracers(self)
+    implicit none
+    class(aot_class), intent(in) :: self
+    integer :: i
+    class(tracer_class), pointer :: aTracer
+    type(string) :: outext
+    if (allocated(self%id)) then
+        do i=1, size(self%id)
+            if (associated(self%trc(i)%ptr)) then
+                aTracer => self%trc(i)%ptr
+                aTracer%now%pos%x = self%x(i)
+                aTracer%now%pos%y = self%y(i)
+                aTracer%now%pos%z = self%z(i)
+                aTracer%now%vel%x = self%u(i)
+                aTracer%now%vel%y = self%v(i)
+                aTracer%now%vel%z = self%w(i)
+            else
+                outext = '[AoT::AoTtoTracers]: pointer to Tracer no associated, stoping'
+                call Log%put(outext)
+                stop
+            end if
+        end do
+    end if    
+    end subroutine toTracers
+    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

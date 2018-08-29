@@ -43,6 +43,7 @@
     procedure, private :: BlocksDistribute
     procedure, private :: BlocksConsolidateArrays
     procedure, private :: BlocksTracersToAoT
+    procedure, private :: BlocksAoTtoTracers
     procedure, private :: BlocksCleanAoT
     procedure, private :: setInitialState
     procedure, private :: getTracerTotals
@@ -88,6 +89,7 @@
         !interpolate fields to tracer coordinates
         !Update all tracers with base behavior (AoT)
         !AoT to Tracers
+        call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
         !Write results if time to do so
         call OutputStreamer%WriteStepSerial(DBlock)
@@ -220,7 +222,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to build their Array of 
-    !> Tracers (AoT) from the Tracer array at current SimTime
+    !> Tracers (AoT) from the Tracer list at current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksTracersToAoT(self)
         implicit none
@@ -234,8 +236,23 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to build their Array of 
-    !> Tracers (AoT) from the Tracer array at current SimTime
+    !> Simulation method to call the Blocks to print their Array of 
+    !> Tracers (AoT) back to the Tracer objects on the list at current SimTime
+    !---------------------------------------------------------------------------
+    subroutine BlocksAoTtoTracers(self)
+        implicit none
+        class(simulation_class), intent(in) :: self        
+        integer :: i
+        do i=1, size(DBlock)
+            call DBlock(i)%AoTtoTracers()
+        enddo
+    end subroutine BlocksAoTtoTracers
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to call the Blocks to clean their Array of 
+    !> Tracers (AoT) at current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksCleanAoT(self)
         implicit none

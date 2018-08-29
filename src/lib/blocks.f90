@@ -51,6 +51,7 @@
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
     procedure, public :: TracersToAoT
+    procedure, public :: AoTtoTracers
     procedure, public :: CleanAoT
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
@@ -274,6 +275,17 @@
     !    call self%AoT%print()
     !end if
     end subroutine TracersToAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to write the data in the AoT back to the Tracer objects in the list
+    !---------------------------------------------------------------------------
+    subroutine AoTtoTracers(self)
+    implicit none
+    class(block_class), intent(inout) :: self
+    call self%AoT%toTracers()
+    end subroutine AoTtoTracers
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
