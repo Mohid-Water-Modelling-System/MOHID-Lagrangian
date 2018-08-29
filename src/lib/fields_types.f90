@@ -107,7 +107,8 @@
         type(vectorial4d_field_class), allocatable, dimension(:) :: vectorial4d !< 4D vectorial fields
     contains
     procedure :: initS1D
-    
+    procedure :: initS2D
+    generic   :: initialize => initS1D, initS2D
     end type generic_field_class
 
     !Public access vars
@@ -120,7 +121,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that initializes a scalar 1D field
+    !> Method that allocates and initializes a scalar 1D field in a generic field
     !> @parm[in] self, name, units, dim, field
     !---------------------------------------------------------------------------
     subroutine initS1D(self, name, units, dim, field)
@@ -131,8 +132,25 @@
     integer, intent(in) :: dim
     integer :: i = 1
     allocate(self%scalar1d(i))
-    call self%scalar1d%initialize(name, units, dim, field)
+    call self%scalar1d(1)%initialize(name, units, dim, field)
     end subroutine initS1D
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that allocates and initializes a scalar 1D field in a generic field
+    !> @parm[in] self, name, units, dim, field
+    !---------------------------------------------------------------------------
+    subroutine initS2D(self, name, units, dim, field)
+        class(generic_field_class), intent(inout) :: self
+        real(prec), intent(in), dimension(:,:) :: field
+        type(string), intent(in) :: name
+        type(string), intent(in) :: units
+        integer, intent(in) :: dim
+        integer :: i = 1
+        allocate(self%scalar2d(i))
+        call self%scalar2d(1)%initialize(name, units, dim, field)
+        end subroutine initS2D
     
     
     !---------------------------------------------------------------------------
