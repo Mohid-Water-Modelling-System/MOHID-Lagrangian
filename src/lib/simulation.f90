@@ -26,6 +26,7 @@
     use emitter_mod
     use sources_mod
     use tracers_mod
+    use background_mod
     use simulation_output_streamer_mod
     use common_modules
 

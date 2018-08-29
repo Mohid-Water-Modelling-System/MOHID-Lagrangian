@@ -100,7 +100,6 @@
         call trclist%next()            ! increment the list iterator
     end do
     call trclist%reset()               ! reset list iterator
-
     end function constructor
 
     !---------------------------------------------------------------------------

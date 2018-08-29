@@ -13,34 +13,160 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> 
+    !>
     !------------------------------------------------------------------------------
 
-module background_mod
-    
+    module background_mod
+
     use common_modules
+    use abstract_LinkedList_mod
     use field_types_mod
-    
+
     implicit none
     private
-            
-    type :: background_class      !< a background solution class
-    integer :: id
-    type(box) :: extents                  !< shape::box that defines the extents of this background solution
-    type(scalar2d_field_class), allocatable, dimension(:) :: scalar2d
-    type(scalar3d_field_class), allocatable, dimension(:) :: scalar3d
-    type(scalar4d_field_class), allocatable, dimension(:) :: scalar4d
-    type(vectorial2d_field_class), allocatable, dimension(:) :: vectorial2d
-    type(vectorial3d_field_class), allocatable, dimension(:) :: vectorial3d
-    type(vectorial4d_field_class), allocatable, dimension(:) :: vectorial4d
+
+    type, extends(linkedlist) :: fieldsList_class !< List of fields class
     contains
+    procedure :: print => print_fieldList
+    procedure :: printCurrent => print_fieldListCurrent
+    end type fieldsList_class
+
+    type :: background_class        !< a background solution class
+        integer :: id = 0                                                       !< ID of the Background
+        type(string) :: name                                                    !< Name of the Background
+        type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
+        type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,depth for example)
+        type(fieldsList_class) :: fields
+    contains
+    procedure, private :: setDims
+    procedure, private :: setExtents
+    procedure, private :: setID
+    procedure :: print => printBackground
     end type background_class
 
-    
+    interface Background !> Constructor
+    procedure constructor
+    end interface
+
     !Public access vars
-    public :: background_class
+    public :: background_class, Background
 
     contains
-    
-    
-end module background_mod
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Constructor for Background object
+    !> @parm[in] id, name, extents, dims
+    !---------------------------------------------------------------------------
+    function constructor(id, name, extents, dims)
+    implicit none
+    type(background_class) :: constructor
+    integer, intent(in) :: id
+    type(string), intent(in) :: name
+    type(box), intent(in) :: extents
+    type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    call constructor%setID(id, name)
+    call constructor%setExtents(extents)
+    call constructor%setDims(dims)
+    end function constructor
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that allocates and sets the dimensions of the Background object
+    !> @parm[in] self, dims
+    !---------------------------------------------------------------------------
+    subroutine setDims(self, dims)
+    class(background_class), intent(inout) :: self
+    type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    allocate(self%dim, source = dims)
+    end subroutine setDims
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that sets the extents (bounding box) of the Background object
+    !> @parm[in] self, bbox
+    !---------------------------------------------------------------------------
+    subroutine setExtents(self, bbox)
+    class(background_class), intent(inout) :: self
+    type(box), intent(in) :: bbox
+    self%extents = bbox
+    end subroutine setExtents
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that sets the ID and name of the Background object
+    !> @parm[in] self, id, name
+    !---------------------------------------------------------------------------
+    subroutine setID(self, id, name)
+    class(background_class), intent(inout) :: self
+    integer, intent(in) :: id
+    type(string), intent(in) :: name
+    self%id = id
+    self%name = name
+    end subroutine setID
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints the Background object
+    !---------------------------------------------------------------------------
+    subroutine printBackground(self)
+    class(background_class), intent(inout) :: self
+    type(string) :: outext, t
+    integer :: i
+    t = self%id
+    outext = 'Background['//t//', '//self%name//'] is a'
+    call Log%put(outext)
+    call Geometry%print(self%extents)
+    outext = 'The dimensions fields are:'
+    call Log%put(outext)
+    do i=1, size(self%dim)
+        call self%dim(i)%print()
+    end do
+    outext = 'The data fields are:'
+    call Log%put(outext)
+    call self%fields%print()
+    end subroutine printBackground
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints all the links of the list
+    !---------------------------------------------------------------------------
+    subroutine print_fieldList(this)
+    class(fieldsList_class), intent(in) :: this
+    class(*), pointer :: curr
+    call this%reset()               ! reset list iterator
+    do while(this%moreValues())     ! loop while there are values to print
+        call this%printCurrent()
+        call this%next()            ! increment the list iterator
+    end do
+    call this%reset()               ! reset list iterator
+    end subroutine print_fieldList
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints the current link of the list
+    !---------------------------------------------------------------------------
+    subroutine print_fieldListCurrent(this)
+    class(fieldsList_class), intent(in) :: this
+    class(*), pointer :: curr
+    type(string) :: outext
+    curr => this%currentValue() ! get current value
+    select type(curr)
+    class is (field_class)
+        call curr%print()
+        class default
+        outext = '[fieldsList_class::print] Unexepected type of content, not a Field'
+        call Log%put(outext)
+        stop
+    end select
+    end subroutine print_fieldListCurrent
+
+
+    end module background_mod
