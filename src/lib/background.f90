@@ -13,7 +13,10 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !>
+    !> Defines a background class that describes a solution from which to 
+    !> interpolate. A background object contains an arbitrary number of scalar or 
+    !> vectorial fields, in 2, 3 or 4D, indexed to labeled 1D fields of dimensions.
+    !> The fields are stored in a linked list, enabling trivial iteration. 
     !------------------------------------------------------------------------------
 
     module background_mod
@@ -38,6 +41,7 @@
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,depth for example)
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
     contains
+    procedure :: test
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
@@ -132,6 +136,51 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> A class 'unit' test for the background_class
+    !---------------------------------------------------------------------------
+    subroutine test(self)
+        class(background_class), intent(inout) :: self
+        type(background_class) :: background1
+        type(generic_field_class) :: gfield1, gfield2, gfield3
+        real(prec), allocatable, dimension(:) :: field1
+        real(prec), allocatable, dimension(:,:) :: field2
+        type(vector), allocatable, dimension(:,:,:) :: field3
+        type(string) :: name1, name2, name3, bname
+        type(string) :: units1, units2, units3
+        type(box) :: backgroundbbox
+        type(scalar1d_field_class), allocatable, dimension(:) :: backgroundims
+        !generating fields
+        allocate(field1(50))
+        allocate(field2(20,60))
+        allocate(field3(2,3,4))
+        name1 = 'testfield1d'
+        name2 = 'testfield2d'
+        name3 = 'testfield3d'
+        units1 = 'm/s'
+        units2 = 'km'
+        units3 = 'ms-1'
+        call gfield1%initialize(name1, units1, field1)
+        call gfield2%initialize(name2, units2, field2)
+        call gfield3%initialize(name3, units3, field3)
+        !assembling our Background
+        bname = 'TestBackground'
+        name1 = 'lon'
+        name2 = 'lat'
+        backgroundbbox%pt = 1*ex + 2*ey + 3*ez
+        backgroundbbox%size = 4*ex + 5*ey + 6*ez
+        allocate(backgroundims(2))
+        call backgroundims(1)%initialize(name1,units2,1, field1)
+        call backgroundims(2)%initialize(name2,units2,1, field1)
+        background1 = Background(5, bname, backgroundbbox, backgroundims)
+        call background1%add(gfield1)
+        call background1%add(gfield2)
+        call background1%add(gfield3)
+        call background1%print()
+    end subroutine test
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Method that prints the Background object
     !---------------------------------------------------------------------------
     subroutine printBackground(self)
@@ -143,12 +192,12 @@
     call Log%put(outext)
     call Geometry%print(self%extents)
     outext = 'The dimensions fields are:'
-    call Log%put(outext)
+    call Log%put(outext,.false.)
     do i=1, size(self%dim)
         call self%dim(i)%print()
     end do
     outext = 'The data fields are:'
-    call Log%put(outext)
+    call Log%put(outext,.false.)
     call self%fields%print()
     end subroutine printBackground
 
