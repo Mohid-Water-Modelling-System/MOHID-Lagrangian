@@ -41,6 +41,7 @@
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
+    procedure :: add => addField
     procedure :: print => printBackground
     end type background_class
 
@@ -52,6 +53,25 @@
     public :: background_class, Background
 
     contains
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that adds a field to the Background object's field list
+    !> @parm[in] self, gfield
+    !---------------------------------------------------------------------------
+    subroutine addField(self, gfield)
+    implicit none
+    class(background_class), intent(inout) :: self
+    type(generic_field_class), intent(in) :: gfield
+    if (allocated(gfield%scalar1d)) call self%fields%add(gfield%scalar1d(1))
+    if (allocated(gfield%scalar2d)) call self%fields%add(gfield%scalar2d(1))
+    if (allocated(gfield%scalar3d)) call self%fields%add(gfield%scalar3d(1))
+    if (allocated(gfield%scalar4d)) call self%fields%add(gfield%scalar4d(1))
+    if (allocated(gfield%vectorial2d)) call self%fields%add(gfield%vectorial2d(1))
+    if (allocated(gfield%vectorial3d)) call self%fields%add(gfield%vectorial3d(1))
+    if (allocated(gfield%vectorial4d)) call self%fields%add(gfield%vectorial4d(1))
+    end subroutine addField 
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

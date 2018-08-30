@@ -30,8 +30,6 @@
     use simulation_output_streamer_mod
     use common_modules
 
-    use field_types_mod
-
     implicit none
     private
 
@@ -125,7 +123,6 @@
     type(string), intent(in) :: casefilename         !< case file name
     type(string), intent(in) :: outpath              !< Output path
     type(string) :: outext
-    type(generic_field_class) :: testField
 
     ! Initialize logger
     call Log%initialize(outpath)
@@ -159,8 +156,6 @@
     call OutputStreamer%initialize()    
     !Writing the domain to file
     call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
-
-    call testField%test()
 
     end subroutine initSimulation
 

@@ -142,7 +142,7 @@
     dim1 = 1
     dim2 = 2
     call gfield1%initialize(name1, units1, dim1, field1)
-    call gfield1%initialize(name2, units2, dim2, field2)
+    call gfield2%initialize(name2, units2, dim2, field2)
     call gfield1%print()
     call gfield2%print()
     end subroutine test
@@ -159,9 +159,12 @@
     type(string), intent(in) :: name
     type(string), intent(in) :: units
     integer, intent(in) :: dim
-    integer :: i = 1
-    allocate(self%scalar1d(i))
-    call self%scalar1d(1)%initialize(name, units, dim, field)
+    if (allocated(self%scalar1d)) then
+        stop '[generic_field_class::initialize]: scalar 1D field already allocated'
+    else
+        allocate(self%scalar1d(1))
+        call self%scalar1d(1)%initialize(name, units, dim, field)
+    end if
     end subroutine initS1D
 
     !---------------------------------------------------------------------------
@@ -176,11 +179,13 @@
         type(string), intent(in) :: name
         type(string), intent(in) :: units
         integer, intent(in) :: dim
-        integer :: i = 1
-        allocate(self%scalar2d(i))
-        call self%scalar2d(1)%initialize(name, units, dim, field)
+        if (allocated(self%scalar2d)) then
+            stop '[generic_field_class::initialize]: scalar 2D field already allocated'
+        else
+            allocate(self%scalar2d(1))
+            call self%scalar2d(1)%initialize(name, units, dim, field)
+        end if
         end subroutine initS2D
-    
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
