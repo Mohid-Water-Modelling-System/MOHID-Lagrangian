@@ -60,13 +60,13 @@
     type, extends(scalar_field_class) :: scalar3d_field_class      !< a 3D scalar field class
         real(prec), allocatable, dimension(:,:,:) :: field !< the data on the scalar data field
     contains
-    !procedure :: initialize => initScalarField
+    procedure :: initialize => initScalar3dField
     end type scalar3d_field_class
 
     type, extends(scalar_field_class) :: scalar4d_field_class      !< a 4D scalar field class
         real(prec), allocatable, dimension(:,:,:,:) :: field !< the data on the scalar data field
     contains
-    !procedure :: initialize => initScalarField
+    procedure :: initialize => initScalar4dField
     end type scalar4d_field_class
 
     !Vectorial fields
@@ -97,19 +97,18 @@
     !procedure :: initialize => initScalarField
     end type vectorial4d_field_class
     
-    type, extends(field_class) :: generic_field_class
-        type(scalar1d_field_class), allocatable, dimension(:) :: scalar1d
-        type(scalar2d_field_class), allocatable, dimension(:) :: scalar2d       !< 2D scalar fields
-        type(scalar3d_field_class), allocatable, dimension(:) :: scalar3d       !< 3D scalar fields
-        type(scalar4d_field_class), allocatable, dimension(:) :: scalar4d       !< 4D scalar fields
-        type(vectorial2d_field_class), allocatable, dimension(:) :: vectorial2d !< 2D vectorial fields
-        type(vectorial3d_field_class), allocatable, dimension(:) :: vectorial3d !< 3D vectorial fields
-        type(vectorial4d_field_class), allocatable, dimension(:) :: vectorial4d !< 4D vectorial fields
+    type, extends(field_class) :: generic_field_class !< generic field class. This works as a wrapper for a generic initialization routine.
+        type(scalar1d_field_class) :: scalar1d       !< 1D scalar field
+        type(scalar2d_field_class) :: scalar2d       !< 2D scalar field
+        type(scalar3d_field_class) :: scalar3d       !< 3D scalar field
+        type(scalar4d_field_class) :: scalar4d       !< 4D scalar field
+        type(vectorial2d_field_class) :: vectorial2d !< 2D vectorial field
+        type(vectorial3d_field_class) :: vectorial3d !< 3D vectorial field
+        type(vectorial4d_field_class) :: vectorial4d !< 4D vectorial field
     contains
     procedure :: test
-    procedure :: initS1D
-    procedure :: initS2D
-    generic   :: initialize => initS1D, initS2D
+    procedure :: initS1D, initS2D, initS3D, initS4D
+    generic   :: initialize => initS1D, initS2D, initS3D, initS4D
     procedure :: print => printGenericField
     end type generic_field_class
 
@@ -119,33 +118,6 @@
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
 
     contains
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> A class 'unit' test for the generic_field_class
-    !---------------------------------------------------------------------------
-    subroutine test(self)
-    class(generic_field_class), intent(inout) :: self
-    type(generic_field_class) :: gfield1, gfield2
-    real(prec), allocatable, dimension(:) :: field1
-    real(prec), allocatable, dimension(:,:) :: field2
-    type(string) :: name1, name2
-    type(string) :: units1, units2
-    integer :: dim1, dim2
-    allocate(field1(50))
-    allocate(field2(20,60))
-    name1 = 'testfield1d'
-    name2 = 'testfield2d'
-    units1 = 'm/s'
-    units2 = 'km'
-    dim1 = 1
-    dim2 = 2
-    call gfield1%initialize(name1, units1, dim1, field1)
-    call gfield2%initialize(name2, units2, dim2, field2)
-    call gfield1%print()
-    call gfield2%print()
-    end subroutine test
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -159,18 +131,17 @@
     type(string), intent(in) :: name
     type(string), intent(in) :: units
     integer, intent(in) :: dim
-    if (allocated(self%scalar1d)) then
+    if (allocated(self%scalar1d%field)) then
         stop '[generic_field_class::initialize]: scalar 1D field already allocated'
     else
-        allocate(self%scalar1d(1))
-        call self%scalar1d(1)%initialize(name, units, dim, field)
+        call self%scalar1d%initialize(name, units, dim, field)
     end if
     end subroutine initS1D
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that allocates and initializes a scalar 1D field in a generic field
+    !> Method that allocates and initializes a scalar 2D field in a generic field
     !> @parm[in] self, name, units, dim, field
     !---------------------------------------------------------------------------
     subroutine initS2D(self, name, units, dim, field)
@@ -179,13 +150,50 @@
         type(string), intent(in) :: name
         type(string), intent(in) :: units
         integer, intent(in) :: dim
-        if (allocated(self%scalar2d)) then
+        if (allocated(self%scalar2d%field)) then
             stop '[generic_field_class::initialize]: scalar 2D field already allocated'
         else
-            allocate(self%scalar2d(1))
-            call self%scalar2d(1)%initialize(name, units, dim, field)
+            call self%scalar2d%initialize(name, units, dim, field)
         end if
         end subroutine initS2D
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that allocates and initializes a scalar 3D field in a generic field
+    !> @parm[in] self, name, units, dim, field
+    !---------------------------------------------------------------------------
+        subroutine initS3D(self, name, units, dim, field)
+            class(generic_field_class), intent(inout) :: self
+            real(prec), intent(in), dimension(:,:,:) :: field
+            type(string), intent(in) :: name
+            type(string), intent(in) :: units
+            integer, intent(in) :: dim
+            if (allocated(self%scalar3d%field)) then
+                stop '[generic_field_class::initialize]: scalar 3D field already allocated'
+            else
+                call self%scalar3d%initialize(name, units, dim, field)
+            end if
+            end subroutine initS3D
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that allocates and initializes a scalar 4D field in a generic field
+    !> @parm[in] self, name, units, dim, field
+    !---------------------------------------------------------------------------
+            subroutine initS4D(self, name, units, dim, field)
+                class(generic_field_class), intent(inout) :: self
+                real(prec), intent(in), dimension(:,:,:,:) :: field
+                type(string), intent(in) :: name
+                type(string), intent(in) :: units
+                integer, intent(in) :: dim
+                if (allocated(self%scalar4d%field)) then
+                    stop '[generic_field_class::initialize]: scalar 4D field already allocated'
+                else
+                    call self%scalar4d%initialize(name, units, dim, field)
+                end if
+                end subroutine initS4D
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -218,8 +226,39 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar2dField
-    
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that initializes a scalar 3D field
+    !> @parm[in] self, name, units, dim, field
+    !---------------------------------------------------------------------------
+    subroutine initScalar3dField(self, name, units, dim, field)
+        class(scalar3d_field_class), intent(inout) :: self
+        real(prec), intent(in), dimension(:,:,:) :: field
+        type(string), intent(in) :: name
+        type(string), intent(in) :: units
+        integer, intent(in) :: dim
+        call self%setFieldMetadata(name, units, dim)
+        allocate(self%field, source = field)
+        end subroutine initScalar3dField
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that initializes a scalar 4D field
+    !> @parm[in] self, name, units, dim, field
+    !---------------------------------------------------------------------------
+    subroutine initScalar4dField(self, name, units, dim, field)
+        class(scalar4d_field_class), intent(inout) :: self
+        real(prec), intent(in), dimension(:,:,:,:) :: field
+        type(string), intent(in) :: name
+        type(string), intent(in) :: units
+        integer, intent(in) :: dim
+        call self%setFieldMetadata(name, units, dim)
+        allocate(self%field, source = field)
+        end subroutine initScalar4dField
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -243,15 +282,42 @@
     !---------------------------------------------------------------------------
     subroutine printGenericField(self)
     class(generic_field_class), intent(in) :: self
-    if (allocated(self%scalar1d)) call self%scalar1d(1)%print()
-    if (allocated(self%scalar2d)) call self%scalar2d(1)%print()
-    if (allocated(self%scalar3d)) call self%scalar3d(1)%print()
-    if (allocated(self%scalar4d)) call self%scalar4d(1)%print()
-    if (allocated(self%vectorial2d)) call self%vectorial2d(1)%print()
-    if (allocated(self%vectorial3d)) call self%vectorial3d(1)%print()
-    if (allocated(self%vectorial4d)) call self%vectorial4d(1)%print()
+    if (allocated(self%scalar1d%field)) call self%scalar1d%print()
+    if (allocated(self%scalar2d%field)) call self%scalar2d%print()
+    if (allocated(self%scalar3d%field)) call self%scalar3d%print()
+    if (allocated(self%scalar4d%field)) call self%scalar4d%print()
+    if (allocated(self%vectorial2d%field)) call self%vectorial2d%print()
+    if (allocated(self%vectorial3d%field)) call self%vectorial3d%print()
+    if (allocated(self%vectorial4d%field)) call self%vectorial4d%print()
     end subroutine printGenericField
     
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> A class 'unit' test for the generic_field_class
+    !---------------------------------------------------------------------------
+    subroutine test(self)
+        class(generic_field_class), intent(inout) :: self
+        type(generic_field_class) :: gfield1, gfield2
+        real(prec), allocatable, dimension(:) :: field1
+        real(prec), allocatable, dimension(:,:) :: field2
+        type(string) :: name1, name2
+        type(string) :: units1, units2
+        integer :: dim1, dim2
+        allocate(field1(50))
+        allocate(field2(20,60))
+        name1 = 'testfield1d'
+        name2 = 'testfield2d'
+        units1 = 'm/s'
+        units2 = 'km'
+        dim1 = 1
+        dim2 = 2
+        call gfield1%initialize(name1, units1, dim1, field1)
+        call gfield2%initialize(name2, units2, dim2, field2)
+        call gfield1%print()
+        call gfield2%print()
+        end subroutine test
+        
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

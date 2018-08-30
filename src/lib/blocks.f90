@@ -30,6 +30,7 @@
     use tracers_mod
     use emitter_mod
     use AoT_mod
+    use background_mod
 
     implicit none
     private
@@ -38,9 +39,10 @@
         integer :: id
         type(box) :: extents                  !< shape::box that defines the extents of this block
         type(sourceList_class) :: LSource     !< List of Sources currently on this block
+        type(emitter_class)    :: Emitter     !< Block Emitter
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
-        type(aot_class) :: AoT                !< Block Array of Tracers for actual numerical work
-        type(emitter_class) :: Emitter        !< Block Emitter
+        type(aot_class)        :: AoT         !< Block Array of Tracers for actual numerical work        
+        type(background_class), allocatable, dimension(:) :: Background !< Solution Backgrounds for the Block
     contains
     private
     procedure, public :: initialize => initBlock

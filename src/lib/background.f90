@@ -36,7 +36,7 @@
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,depth for example)
-        type(fieldsList_class) :: fields
+        type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
     contains
     procedure, private :: setDims
     procedure, private :: setExtents
@@ -64,14 +64,14 @@
     implicit none
     class(background_class), intent(inout) :: self
     type(generic_field_class), intent(in) :: gfield
-    if (allocated(gfield%scalar1d)) call self%fields%add(gfield%scalar1d(1))
-    if (allocated(gfield%scalar2d)) call self%fields%add(gfield%scalar2d(1))
-    if (allocated(gfield%scalar3d)) call self%fields%add(gfield%scalar3d(1))
-    if (allocated(gfield%scalar4d)) call self%fields%add(gfield%scalar4d(1))
-    if (allocated(gfield%vectorial2d)) call self%fields%add(gfield%vectorial2d(1))
-    if (allocated(gfield%vectorial3d)) call self%fields%add(gfield%vectorial3d(1))
-    if (allocated(gfield%vectorial4d)) call self%fields%add(gfield%vectorial4d(1))
-    end subroutine addField 
+    if (allocated(gfield%scalar1d%field)) call self%fields%add(gfield%scalar1d)
+    if (allocated(gfield%scalar2d%field)) call self%fields%add(gfield%scalar2d)
+    if (allocated(gfield%scalar3d%field)) call self%fields%add(gfield%scalar3d)
+    if (allocated(gfield%scalar4d%field)) call self%fields%add(gfield%scalar4d)
+    if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)
+    if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)
+    if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)
+    end subroutine addField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
