@@ -106,9 +106,11 @@
         type(vectorial3d_field_class), allocatable, dimension(:) :: vectorial3d !< 3D vectorial fields
         type(vectorial4d_field_class), allocatable, dimension(:) :: vectorial4d !< 4D vectorial fields
     contains
+    procedure :: test
     procedure :: initS1D
     procedure :: initS2D
     generic   :: initialize => initS1D, initS2D
+    procedure :: print => printGenericField
     end type generic_field_class
 
     !Public access vars
@@ -117,6 +119,33 @@
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
 
     contains
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> A class 'unit' test for the generic_field_class
+    !---------------------------------------------------------------------------
+    subroutine test(self)
+    class(generic_field_class), intent(inout) :: self
+    type(generic_field_class) :: gfield1, gfield2
+    real(prec), allocatable, dimension(:) :: field1
+    real(prec), allocatable, dimension(:,:) :: field2
+    type(string) :: name1, name2
+    type(string) :: units1, units2
+    integer :: dim1, dim2
+    allocate(field1(50))
+    allocate(field2(20,60))
+    name1 = 'testfield1d'
+    name2 = 'testfield2d'
+    units1 = 'm/s'
+    units2 = 'km'
+    dim1 = 1
+    dim2 = 2
+    call gfield1%initialize(name1, units1, dim1, field1)
+    call gfield1%initialize(name2, units2, dim2, field2)
+    call gfield1%print()
+    call gfield2%print()
+    end subroutine test
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -201,6 +230,22 @@
     self%units = units
     self%dim = dim    
     end subroutine setFieldMetadata
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints the generic field information
+    !---------------------------------------------------------------------------
+    subroutine printGenericField(self)
+    class(generic_field_class), intent(in) :: self
+    if (allocated(self%scalar1d)) call self%scalar1d(1)%print()
+    if (allocated(self%scalar2d)) call self%scalar2d(1)%print()
+    if (allocated(self%scalar3d)) call self%scalar3d(1)%print()
+    if (allocated(self%scalar4d)) call self%scalar4d(1)%print()
+    if (allocated(self%vectorial2d)) call self%vectorial2d(1)%print()
+    if (allocated(self%vectorial3d)) call self%vectorial3d(1)%print()
+    if (allocated(self%vectorial4d)) call self%vectorial4d(1)%print()
+    end subroutine printGenericField
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
