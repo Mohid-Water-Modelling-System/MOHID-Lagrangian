@@ -126,6 +126,7 @@
     type(string), intent(in) :: outpath              !< Output path
     type(string) :: outext
     type(generic_field_class) :: testField
+    type(background_class) :: testBackground
 
     ! Initialize logger
     call Log%initialize(outpath)
@@ -161,6 +162,7 @@
     call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
 
     call testField%test()
+    call testBackground%test()
 
     end subroutine initSimulation
 
