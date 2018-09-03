@@ -1,0 +1,31 @@
+\hypertarget{link_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/link.f90 File Reference}
+\label{link_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/link.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/link.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+interface \mbox{\hyperlink{structlink__mod_1_1link}{link\+\_\+mod\+::link}}
+\item 
+interface \mbox{\hyperlink{structlink__mod_1_1link}{link\+\_\+mod\+::link}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacelink__mod}{link\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines a link based on an unlimited polymorphic container class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+class($\ast$) function, pointer \mbox{\hyperlink{namespacelink__mod_aa2c8d19ee91797e19464fc7589cc2c39}{link\+\_\+mod\+::getvalue}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a pointer to the values stored in the container in this link. \end{DoxyCompactList}\item 
+class(link) function, pointer \mbox{\hyperlink{namespacelink__mod_a2d776121ed0138aba8b3d166938c964f}{link\+\_\+mod\+::nextlink}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a pointer to the next link in a list. \end{DoxyCompactList}\item 
+class(link) function, pointer \mbox{\hyperlink{namespacelink__mod_a2d23022ef22049f8340099b6960d8d5d}{link\+\_\+mod\+::previouslink}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a pointer to the previous link in a list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacelink__mod_a0dd2fe581e8d566faf03fc7ebd2f8524}{link\+\_\+mod\+::setnextlink}} (this, next)
+\begin{DoxyCompactList}\small\item\em Method to set the next link in a list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacelink__mod_ad0d413cb7907fdcf6561639cdd03481a}{link\+\_\+mod\+::setpreviouslink}} (this, prev)
+\begin{DoxyCompactList}\small\item\em Method to set the previous link in a list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacelink__mod_ae2d89f23eb8cf4b8065b8a39e9902a22}{link\+\_\+mod\+::removelink}} (this)
+\begin{DoxyCompactList}\small\item\em Method to remove a link in a list. \end{DoxyCompactList}\item 
+class(link) function, pointer \mbox{\hyperlink{namespacelink__mod_ac5b4f1702d8edb10a4559f6f371dc797}{link\+\_\+mod\+::constructor}} (to\+\_\+store, prev, next, key)
+\begin{DoxyCompactList}\small\item\em Link constructor, can be used with the \textquotesingle{}link\textquotesingle{} name since it was defined as such in an interface declaration. \end{DoxyCompactList}\end{DoxyCompactItemize}

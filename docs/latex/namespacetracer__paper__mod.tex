@@ -1,0 +1,96 @@
+\hypertarget{namespacetracer__paper__mod}{}\section{tracer\+\_\+paper\+\_\+mod Module Reference}
+\label{namespacetracer__paper__mod}\index{tracer\+\_\+paper\+\_\+mod@{tracer\+\_\+paper\+\_\+mod}}
+
+
+Module that defines a Lagrangian tracer class for paper modelling and related methods. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it\textquotesingle{}s data and methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structtracer__paper__mod_1_1paper__class}{paper\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ The plastic material Lagrangian tracer class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structtracer__paper__mod_1_1paper__par__class}{paper\+\_\+par\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structtracer__paper__mod_1_1paper__state__class}{paper\+\_\+state\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ State variables of a tracer object representing a paper material. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interfacetracer__paper__mod_1_1papertracer}{papertracer}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structtracer__paper__mod_1_1paper__class}{paper\+\_\+class}}) function \mbox{\hyperlink{namespacetracer__paper__mod_ab53f84300a313c395a5c3535f17022bb}{constructor}} (id, src, time, p)
+\begin{DoxyCompactList}\small\item\em Paper Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a Lagrangian tracer class for paper modelling and related methods. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it\textquotesingle{}s data and methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacetracer__paper__mod_ab53f84300a313c395a5c3535f17022bb}\label{namespacetracer__paper__mod_ab53f84300a313c395a5c3535f17022bb}} 
+\index{tracer\+\_\+paper\+\_\+mod@{tracer\+\_\+paper\+\_\+mod}!constructor@{constructor}}
+\index{constructor@{constructor}!tracer\+\_\+paper\+\_\+mod@{tracer\+\_\+paper\+\_\+mod}}
+\subsubsection{\texorpdfstring{constructor()}{constructor()}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracer__paper__mod_1_1paper__class}{paper\+\_\+class}}) function tracer\+\_\+paper\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{id,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{integer, intent(in)}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Paper Tracer constructor. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em id,src,time,p} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 69 of file tracer\+\_\+paper.\+f90.
+
+
+\begin{DoxyCode}
+69         \textcolor{keywordtype}{implicit none}
+70         \textcolor{keywordtype}{type}(paper\_class) :: constructor
+71         \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+72         \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+73         \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+74         \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+75         \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable} :: base\_trc
+76 
+77         \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
+78         constructor%tracer\_class = tracer(id,src,time,p)
+79         \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor... }
+80         constructor%par%id = id \textcolor{comment}{!forcing}
+81         constructor%par%idsource = src%par%id \textcolor{comment}{!forcing }
+82         \textcolor{comment}{!now initialize the specific components of this derived type}
+83         \textcolor{comment}{!material parameters}
+84         constructor%mpar%degradation\_rate = src%prop%degrd\_rate
+85         constructor%mpar%particulate = src%prop%particulate
+86         constructor%mpar%size = src%prop%radius
+87         \textcolor{comment}{!material state}
+88         constructor%mnow%density = src%prop%density
+89         constructor%mnow%condition = src%prop%condition
+90         constructor%mnow%radius = src%prop%radius
+91         constructor%mnow%concentration = mv
+92         \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
+93             constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not
+       tracer size}
+94             constructor%mnow%concentration = src%prop%ini\_concentration
+95 \textcolor{keywordflow}{        end if}
+96     
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacetracer__paper__mod_ab53f84300a313c395a5c3535f17022bb_cgraph}
+\end{center}
+\end{figure}

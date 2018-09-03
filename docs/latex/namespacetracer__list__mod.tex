@@ -1,0 +1,90 @@
+\hypertarget{namespacetracer__list__mod}{}\section{tracer\+\_\+list\+\_\+mod Module Reference}
+\label{namespacetracer__list__mod}\index{tracer\+\_\+list\+\_\+mod@{tracer\+\_\+list\+\_\+mod}}
+
+
+Module to hold the tracer linked list class and its methods. This class defines a double linked list to store any variable type, but with specific methods with type guards for Tracer objects. The class allows for insertion, deletion and iteration of the desired contents.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structtracer__list__mod_1_1tracerlist__class}{tracerlist\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacetracer__list__mod_a53919fa88a10347294eb6f2fccf072c7}{print\+\_\+tracerlist}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints all the links of the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacetracer__list__mod_a8c123eab5e919438e71cfc0b3847d384}{print\+\_\+tracerlistcurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints the current link of the list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to hold the tracer linked list class and its methods. This class defines a double linked list to store any variable type, but with specific methods with type guards for Tracer objects. The class allows for insertion, deletion and iteration of the desired contents. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacetracer__list__mod_a53919fa88a10347294eb6f2fccf072c7}\label{namespacetracer__list__mod_a53919fa88a10347294eb6f2fccf072c7}} 
+\index{tracer\+\_\+list\+\_\+mod@{tracer\+\_\+list\+\_\+mod}!print\+\_\+tracerlist@{print\+\_\+tracerlist}}
+\index{print\+\_\+tracerlist@{print\+\_\+tracerlist}!tracer\+\_\+list\+\_\+mod@{tracer\+\_\+list\+\_\+mod}}
+\subsubsection{\texorpdfstring{print\+\_\+tracerlist()}{print\_tracerlist()}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+list\+\_\+mod\+::print\+\_\+tracerlist (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__list__mod_1_1tracerlist__class}{tracerlist\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints all the links of the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 47 of file tracer\+\_\+list.\+f90.
+
+
+\begin{DoxyCode}
+47     \textcolor{keywordtype}{class}(tracerList\_class), \textcolor{keywordtype}{intent(in)} :: this
+48     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+49     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+50     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
+51         \textcolor{keyword}{call }this%printCurrent()
+52         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
+53 \textcolor{keywordflow}{    end do}
+54     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetracer__list__mod_a8c123eab5e919438e71cfc0b3847d384}\label{namespacetracer__list__mod_a8c123eab5e919438e71cfc0b3847d384}} 
+\index{tracer\+\_\+list\+\_\+mod@{tracer\+\_\+list\+\_\+mod}!print\+\_\+tracerlistcurrent@{print\+\_\+tracerlistcurrent}}
+\index{print\+\_\+tracerlistcurrent@{print\+\_\+tracerlistcurrent}!tracer\+\_\+list\+\_\+mod@{tracer\+\_\+list\+\_\+mod}}
+\subsubsection{\texorpdfstring{print\+\_\+tracerlistcurrent()}{print\_tracerlistcurrent()}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+list\+\_\+mod\+::print\+\_\+tracerlistcurrent (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__list__mod_1_1tracerlist__class}{tracerlist\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints the current link of the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 63 of file tracer\+\_\+list.\+f90.
+
+
+\begin{DoxyCode}
+63     \textcolor{keywordtype}{class}(tracerList\_class), \textcolor{keywordtype}{intent(in)} :: this
+64     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+65     \textcolor{keywordtype}{type}(string) :: outext
+66     curr => this%currentValue() \textcolor{comment}{! get current value}
+67     \textcolor{keywordflow}{select type}(curr)
+68 \textcolor{keywordflow}{    class is} (tracer\_class)
+69         \textcolor{keyword}{call }curr%print()
+70 \textcolor{keywordflow}{        class default}
+71         outext = \textcolor{stringliteral}{'[tracerList\_class::print] Unexepected type of content, not a Tracer'}
+72         \textcolor{keyword}{call }log%put(outext)
+73         stop
+74 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}

@@ -1,0 +1,222 @@
+\hypertarget{namespacelink__mod}{}\section{link\+\_\+mod Module Reference}
+\label{namespacelink__mod}\index{link\+\_\+mod@{link\+\_\+mod}}
+
+
+Module that defines a link based on an unlimited polymorphic container class.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+interface \mbox{\hyperlink{structlink__mod_1_1link}{link}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+class($\ast$) function, pointer \mbox{\hyperlink{namespacelink__mod_aa2c8d19ee91797e19464fc7589cc2c39}{getvalue}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a pointer to the values stored in the container in this link. \end{DoxyCompactList}\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer \mbox{\hyperlink{namespacelink__mod_a2d776121ed0138aba8b3d166938c964f}{nextlink}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a pointer to the next link in a list. \end{DoxyCompactList}\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer \mbox{\hyperlink{namespacelink__mod_a2d23022ef22049f8340099b6960d8d5d}{previouslink}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a pointer to the previous link in a list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacelink__mod_a0dd2fe581e8d566faf03fc7ebd2f8524}{setnextlink}} (this, next)
+\begin{DoxyCompactList}\small\item\em Method to set the next link in a list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacelink__mod_ad0d413cb7907fdcf6561639cdd03481a}{setpreviouslink}} (this, prev)
+\begin{DoxyCompactList}\small\item\em Method to set the previous link in a list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacelink__mod_ae2d89f23eb8cf4b8065b8a39e9902a22}{removelink}} (this)
+\begin{DoxyCompactList}\small\item\em Method to remove a link in a list. \end{DoxyCompactList}\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer \mbox{\hyperlink{namespacelink__mod_ac5b4f1702d8edb10a4559f6f371dc797}{constructor}} (to\+\_\+store, prev, next, key)
+\begin{DoxyCompactList}\small\item\em Link constructor, can be used with the \textquotesingle{}link\textquotesingle{} name since it was defined as such in an interface declaration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a link based on an unlimited polymorphic container class. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacelink__mod_ac5b4f1702d8edb10a4559f6f371dc797}\label{namespacelink__mod_ac5b4f1702d8edb10a4559f6f371dc797}} 
+\index{link\+\_\+mod@{link\+\_\+mod}!constructor@{constructor}}
+\index{constructor@{constructor}!link\+\_\+mod@{link\+\_\+mod}}
+\subsubsection{\texorpdfstring{constructor()}{constructor()}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer link\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{class($\ast$), intent(in)}]{to\+\_\+store,  }\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), intent(in), pointer}]{prev,  }\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), intent(in), pointer}]{next,  }\item[{integer, intent(in), optional}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Link constructor, can be used with the \textquotesingle{}link\textquotesingle{} name since it was defined as such in an interface declaration. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{[}to\+\_\+store,prev,next\mbox{]}} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 134 of file link.\+f90.
+
+
+\begin{DoxyCode}
+134     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: constructor
+135     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: to\_store
+136     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: prev
+137     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: next
+138     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: key
+139     \textcolor{keyword}{allocate}(constructor)
+140     \textcolor{keyword}{call }constructor%setPreviousLink(prev)
+141     \textcolor{keyword}{call }constructor%setNextLink(next)
+142     \textcolor{keyword}{call }constructor%storeContent(to\_store)
+143     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(key)) \textcolor{keywordflow}{then}
+144         constructor%key = key
+145 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacelink__mod_ac5b4f1702d8edb10a4559f6f371dc797_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacelink__mod_aa2c8d19ee91797e19464fc7589cc2c39}\label{namespacelink__mod_aa2c8d19ee91797e19464fc7589cc2c39}} 
+\index{link\+\_\+mod@{link\+\_\+mod}!getvalue@{getvalue}}
+\index{getvalue@{getvalue}!link\+\_\+mod@{link\+\_\+mod}}
+\subsubsection{\texorpdfstring{getvalue()}{getvalue()}}
+{\footnotesize\ttfamily class($\ast$) function, pointer link\+\_\+mod\+::getvalue (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns a pointer to the values stored in the container in this link. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 67 of file link.\+f90.
+
+
+\begin{DoxyCode}
+67     \textcolor{keywordtype}{class}(link) :: this
+68     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: getValue
+69     getvalue => this%getContent()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacelink__mod_a2d776121ed0138aba8b3d166938c964f}\label{namespacelink__mod_a2d776121ed0138aba8b3d166938c964f}} 
+\index{link\+\_\+mod@{link\+\_\+mod}!nextlink@{nextlink}}
+\index{nextlink@{nextlink}!link\+\_\+mod@{link\+\_\+mod}}
+\subsubsection{\texorpdfstring{nextlink()}{nextlink()}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer link\+\_\+mod\+::nextlink (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns a pointer to the next link in a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 78 of file link.\+f90.
+
+
+\begin{DoxyCode}
+78     \textcolor{keywordtype}{class}(link) :: this
+79     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: nextLink
+80     nextlink => this%next
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacelink__mod_a2d23022ef22049f8340099b6960d8d5d}\label{namespacelink__mod_a2d23022ef22049f8340099b6960d8d5d}} 
+\index{link\+\_\+mod@{link\+\_\+mod}!previouslink@{previouslink}}
+\index{previouslink@{previouslink}!link\+\_\+mod@{link\+\_\+mod}}
+\subsubsection{\texorpdfstring{previouslink()}{previouslink()}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer link\+\_\+mod\+::previouslink (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns a pointer to the previous link in a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 89 of file link.\+f90.
+
+
+\begin{DoxyCode}
+89     \textcolor{keywordtype}{class}(link) :: this
+90     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: previousLink
+91     previouslink => this%previous
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacelink__mod_ae2d89f23eb8cf4b8065b8a39e9902a22}\label{namespacelink__mod_ae2d89f23eb8cf4b8065b8a39e9902a22}} 
+\index{link\+\_\+mod@{link\+\_\+mod}!removelink@{removelink}}
+\index{removelink@{removelink}!link\+\_\+mod@{link\+\_\+mod}}
+\subsubsection{\texorpdfstring{removelink()}{removelink()}}
+{\footnotesize\ttfamily subroutine link\+\_\+mod\+::removelink (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), intent(inout)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to remove a link in a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 122 of file link.\+f90.
+
+
+\begin{DoxyCode}
+122     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{intent(inout)} :: this
+123     \textcolor{keyword}{call }this%deleteContent()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacelink__mod_a0dd2fe581e8d566faf03fc7ebd2f8524}\label{namespacelink__mod_a0dd2fe581e8d566faf03fc7ebd2f8524}} 
+\index{link\+\_\+mod@{link\+\_\+mod}!setnextlink@{setnextlink}}
+\index{setnextlink@{setnextlink}!link\+\_\+mod@{link\+\_\+mod}}
+\subsubsection{\texorpdfstring{setnextlink()}{setnextlink()}}
+{\footnotesize\ttfamily subroutine link\+\_\+mod\+::setnextlink (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}})}]{this,  }\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer}]{next }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to set the next link in a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 100 of file link.\+f90.
+
+
+\begin{DoxyCode}
+100     \textcolor{keywordtype}{class}(link) :: this
+101     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: next
+102     this%next => next
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacelink__mod_ad0d413cb7907fdcf6561639cdd03481a}\label{namespacelink__mod_ad0d413cb7907fdcf6561639cdd03481a}} 
+\index{link\+\_\+mod@{link\+\_\+mod}!setpreviouslink@{setpreviouslink}}
+\index{setpreviouslink@{setpreviouslink}!link\+\_\+mod@{link\+\_\+mod}}
+\subsubsection{\texorpdfstring{setpreviouslink()}{setpreviouslink()}}
+{\footnotesize\ttfamily subroutine link\+\_\+mod\+::setpreviouslink (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}})}]{this,  }\item[{class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer}]{prev }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to set the previous link in a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 111 of file link.\+f90.
+
+
+\begin{DoxyCode}
+111     \textcolor{keywordtype}{class}(link) :: this
+112     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: prev
+113     this%previous => prev
+\end{DoxyCode}

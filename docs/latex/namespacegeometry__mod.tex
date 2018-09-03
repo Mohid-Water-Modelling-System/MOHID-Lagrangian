@@ -1,0 +1,694 @@
+\hypertarget{namespacegeometry__mod}{}\section{geometry\+\_\+mod Module Reference}
+\label{namespacegeometry__mod}\index{geometry\+\_\+mod@{geometry\+\_\+mod}}
+
+
+Module that defines geometry classes and related methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1box}{box}}
+\begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1line}{line}}
+\begin{DoxyCompactList}\small\item\em Type -\/ line class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1point}{point}}
+\begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}
+\begin{DoxyCompactList}\small\item\em Type -\/ extendable shape class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1sphere}{sphere}}
+\begin{DoxyCompactList}\small\item\em Type -\/ sphere class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}{allocatelist}} (self)
+\begin{DoxyCompactList}\small\item\em Public routine to allocate the possible geometry name list. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacegeometry__mod_a22dd77024fce56da299445a697256155}{inlist}} (self, geomname)
+\begin{DoxyCompactList}\small\item\em Public function that returns a logical if the input geometry name is valid. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacegeometry__mod_ad790edd694561b33dad20cfa3a14e8f2}{fillsize}} (self, shapetype, dp)
+\begin{DoxyCompactList}\small\item\em method to get the number of points that fill a given geometry \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_a1d97564e04562532b5389bfb91aa676b}{fill}} (self, shapetype, dp, \mbox{\hyperlink{namespacegeometry__mod_ad790edd694561b33dad20cfa3a14e8f2}{fillsize}}, ptlist)
+\begin{DoxyCompactList}\small\item\em method to get the list of points that fill a given geometry \end{DoxyCompactList}\item 
+type(vector) function \mbox{\hyperlink{namespacegeometry__mod_a4a38edbff02aa0ff5f16a16c39bf778e}{getcenter}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method to get the baricenter of a given geometry \end{DoxyCompactList}\item 
+type(vector) function, dimension(\+:), allocatable \mbox{\hyperlink{namespacegeometry__mod_a0b1a3c5aa414292ace34d59487082e3a}{getpoints}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method that returns the points defining a given geometry \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacegeometry__mod_a524c5d28a80fb6729b102126485605ce}{getnumpoints}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method the points defining a given geometry \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}{printgeometry}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method to print the details of a given geometry \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}{sphere\+\_\+np\+\_\+count}} (dp, r)
+\begin{DoxyCompactList}\small\item\em private function that returns the number of points distributed on a grid with spacing dp inside a sphere \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}{sphere\+\_\+grid}} (dp, r, np, ptlist)
+\begin{DoxyCompactList}\small\item\em private routine that returns the points distributed on a grid with spacing dp inside a sphere \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}{box\+\_\+grid}} (dp, size, np, ptlist)
+\begin{DoxyCompactList}\small\item\em private routine that returns the points distributed on a grid with spacing dp inside a box ~\newline
+ \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}{line\+\_\+grid}} (dp, dist, np, ptlist)
+\begin{DoxyCompactList}\small\item\em private routine that returns the points distributed on a grid with spacing dp along a line ~\newline
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), public \mbox{\hyperlink{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}{geometry}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines geometry classes and related methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}\label{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!allocatelist@{allocatelist}}
+\index{allocatelist@{allocatelist}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{allocatelist()}{allocatelist()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::allocatelist (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Public routine to allocate the possible geometry name list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 79 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+79     \textcolor{keywordtype}{implicit none}
+80     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(inout)} :: self
+81     \textcolor{keyword}{allocate}(self%list(4))
+82     self%list(1) =\textcolor{stringliteral}{'point'}
+83     self%list(2) =\textcolor{stringliteral}{'line'}
+84     self%list(3) =\textcolor{stringliteral}{'box'}
+85     self%list(4) =\textcolor{stringliteral}{'sphere'}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}\label{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!box\+\_\+grid@{box\+\_\+grid}}
+\index{box\+\_\+grid@{box\+\_\+grid}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{box\+\_\+grid()}{box\_grid()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::box\+\_\+grid (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{type(vector), intent(in)}]{size,  }\item[{integer, intent(in)}]{np,  }\item[{type(vector), dimension(np), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+private routine that returns the points distributed on a grid with spacing dp inside a box ~\newline
+ 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,size,np,ptlist} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 397 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+397     \textcolor{keywordtype}{implicit none}
+398     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+399     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: size
+400     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
+401     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
+402     \textcolor{keywordtype}{integer} :: i, j, k, p
+403     p=0
+404     \textcolor{keywordflow}{do} i=1, int(size%x/dp)+1
+405         \textcolor{keywordflow}{do} j=1, int(size%y/dp)+1
+406             \textcolor{keywordflow}{do} k=1, int(size%z/dp)+1
+407                 p=p+1
+408                 ptlist(p) = dp*(ex*(i-1) + ey*(j-1) + ez*(k-1))
+409 \textcolor{keywordflow}{            end do}
+410 \textcolor{keywordflow}{        end do}
+411 \textcolor{keywordflow}{    end do}
+412     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the origin}
+413         ptlist(1)= 0*ex + 0*ey +0*ez
+414 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=336pt]{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a1d97564e04562532b5389bfb91aa676b}\label{namespacegeometry__mod_a1d97564e04562532b5389bfb91aa676b}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!fill@{fill}}
+\index{fill@{fill}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{fill()}{fill()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::fill (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}})}]{shapetype,  }\item[{real(prec), intent(in)}]{dp,  }\item[{integer, intent(in)}]{fillsize,  }\item[{type(vector), dimension(\mbox{\hyperlink{namespacegeometry__mod_ad790edd694561b33dad20cfa3a14e8f2}{fillsize}}), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to get the list of points that fill a given geometry 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,shapetype,dp,fillsize,ptlist} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 147 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+147     \textcolor{keywordtype}{implicit none}
+148     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+149     \textcolor{keywordtype}{class}(shape) :: shapetype
+150     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+151     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: fillsize
+152     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(fillsize)
+153     \textcolor{keywordtype}{type}(vector) :: temp
+154     \textcolor{keywordtype}{type}(string) :: outext
+155     \textcolor{keywordflow}{select type} (shapetype)
+156 \textcolor{keywordflow}{    type is} (shape)
+157 \textcolor{keywordflow}{    class is} (box)
+158         \textcolor{keyword}{call }box\_grid(dp, shapetype%size, fillsize, ptlist)
+159 \textcolor{keywordflow}{    class is} (point)
+160         ptlist(1)=0
+161 \textcolor{keywordflow}{    class is} (line)
+162         \textcolor{keyword}{call }line\_grid(dp, geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillsize, ptlist)
+163 \textcolor{keywordflow}{    class is} (sphere)
+164         \textcolor{keyword}{call }sphere\_grid(dp, shapetype%radius, fillsize, ptlist)
+165 \textcolor{keywordflow}{        class default}
+166         outext=\textcolor{stringliteral}{'[geometry::fill] : unexpected type for geometry object, stoping'}
+167         \textcolor{keyword}{call }log%put(outext)
+168         stop
+169 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{namespacegeometry__mod_a1d97564e04562532b5389bfb91aa676b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_ad790edd694561b33dad20cfa3a14e8f2}\label{namespacegeometry__mod_ad790edd694561b33dad20cfa3a14e8f2}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!fillsize@{fillsize}}
+\index{fillsize@{fillsize}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{fillsize()}{fillsize()}}
+{\footnotesize\ttfamily integer function geometry\+\_\+mod\+::fillsize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype,  }\item[{real(prec), intent(in)}]{dp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to get the number of points that fill a given geometry 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,shapetype,dp} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 114 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+114     \textcolor{keywordtype}{implicit none}
+115     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+116     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+117     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+118     \textcolor{keywordtype}{integer} :: fillsize
+119     \textcolor{keywordtype}{type}(vector) :: temp
+120     \textcolor{keywordtype}{type}(string) :: outext
+121     \textcolor{keywordflow}{select type} (shapetype)
+122 \textcolor{keywordflow}{    type is} (shape)
+123 \textcolor{keywordflow}{    class is} (box)
+124         fillsize = max((int(shapetype%size%x/dp)+1)*(int(shapetype%size%y/dp)+1)*(int(shapetype%size%z/dp)+
+      1),1)
+125 \textcolor{keywordflow}{    class is} (point)
+126         fillsize = 1
+127 \textcolor{keywordflow}{    class is} (line)
+128         temp = shapetype%pt - shapetype%last
+129         temp = geo2m(temp, shapetype%pt%y)
+130         fillsize = max(int(temp%normL2()/dp),1)
+131 \textcolor{keywordflow}{    class is} (sphere)
+132         fillsize = sphere\_np\_count(dp, shapetype%radius)
+133 \textcolor{keywordflow}{        class default}
+134         outext=\textcolor{stringliteral}{'[geometry::fillsize] : unexpected type for geometry object, stoping'}
+135         \textcolor{keyword}{call }log%put(outext)
+136         stop
+137 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{namespacegeometry__mod_ad790edd694561b33dad20cfa3a14e8f2_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a4a38edbff02aa0ff5f16a16c39bf778e}\label{namespacegeometry__mod_a4a38edbff02aa0ff5f16a16c39bf778e}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!getcenter@{getcenter}}
+\index{getcenter@{getcenter}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{getcenter()}{getcenter()}}
+{\footnotesize\ttfamily type(vector) function geometry\+\_\+mod\+::getcenter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to get the baricenter of a given geometry 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,shapetype} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 179 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+179     \textcolor{keywordtype}{implicit none}
+180     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+181     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+182     \textcolor{keywordtype}{type}(vector) :: center
+183     \textcolor{keywordtype}{type}(string) :: outext
+184     \textcolor{keywordflow}{select type} (shapetype)
+185 \textcolor{keywordflow}{    type is} (shape)
+186 \textcolor{keywordflow}{    class is} (box)
+187         center = shapetype%pt + m2geo(shapetype%size, shapetype%pt%y)/2.0
+188 \textcolor{keywordflow}{    class is} (point)
+189         center = shapetype%pt
+190 \textcolor{keywordflow}{    class is} (line)
+191         center = shapetype%pt + shapetype%last/2.0
+192 \textcolor{keywordflow}{    class is} (sphere)
+193         center = shapetype%pt
+194 \textcolor{keywordflow}{        class default}
+195         outext=\textcolor{stringliteral}{'[geometry::getCenter] : unexpected type for geometry object, stoping'}
+196         \textcolor{keyword}{call }log%put(outext)
+197         stop
+198 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacegeometry__mod_a4a38edbff02aa0ff5f16a16c39bf778e_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a524c5d28a80fb6729b102126485605ce}\label{namespacegeometry__mod_a524c5d28a80fb6729b102126485605ce}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!getnumpoints@{getnumpoints}}
+\index{getnumpoints@{getnumpoints}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnumpoints()}{getnumpoints()}}
+{\footnotesize\ttfamily integer function geometry\+\_\+mod\+::getnumpoints (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method the points defining a given geometry 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,shapetype} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 256 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+256     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+257     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+258     \textcolor{keywordtype}{integer} :: n
+259     \textcolor{keywordtype}{type}(string) :: outext
+260     \textcolor{keywordflow}{select type} (shapetype)
+261 \textcolor{keywordflow}{    type is} (shape)
+262 \textcolor{keywordflow}{    class is} (box)
+263         n=8
+264 \textcolor{keywordflow}{    class is} (point)
+265         n=1
+266 \textcolor{keywordflow}{    class is} (line)
+267         n=2
+268 \textcolor{keywordflow}{    class is} (sphere)
+269         n=1
+270 \textcolor{keywordflow}{        class default}
+271         outext=\textcolor{stringliteral}{'[geometry::getnumPoints] : unexpected type for geometry object, stoping'}
+272         \textcolor{keyword}{call }log%put(outext)
+273         stop
+274 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacegeometry__mod_a0b1a3c5aa414292ace34d59487082e3a}\label{namespacegeometry__mod_a0b1a3c5aa414292ace34d59487082e3a}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!getpoints@{getpoints}}
+\index{getpoints@{getpoints}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{getpoints()}{getpoints()}}
+{\footnotesize\ttfamily type(vector) function, dimension(\+:), allocatable geometry\+\_\+mod\+::getpoints (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method that returns the points defining a given geometry 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,shapetype} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 208 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+208     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+209     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+210     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable} :: pts(:)
+211     \textcolor{keywordtype}{type}(string) :: outext
+212     \textcolor{keywordtype}{integer} :: n
+213     \textcolor{keywordtype}{type}(vector) :: temp
+214     \textcolor{keywordflow}{select type} (shapetype)
+215 \textcolor{keywordflow}{    type is} (shape)
+216 \textcolor{keywordflow}{    class is} (box)
+217         n=8
+218         \textcolor{keyword}{allocate}(pts(n))
+219         temp = shapetype%size
+220         \textcolor{comment}{!temp = m2geo(shapetype%size, shapetype%pt%y)}
+221         pts(1) = shapetype%pt
+222         pts(2) = shapetype%pt + temp%y*ey
+223         pts(3) = pts(2) + temp%z*ez
+224         pts(4) = shapetype%pt + temp%z*ez
+225         pts(5) = shapetype%pt + temp%x*ex
+226         pts(6) = pts(5) + temp%y*ey
+227         pts(7) = shapetype%pt + temp
+228         pts(8) = pts(5) + temp%z*ez
+229 \textcolor{keywordflow}{    class is} (point)
+230         n=1
+231         \textcolor{keyword}{allocate}(pts(n))
+232         pts(1) = shapetype%pt
+233 \textcolor{keywordflow}{    class is} (line)
+234         n=2
+235         \textcolor{keyword}{allocate}(pts(n))
+236         pts(1) = shapetype%pt
+237         pts(2) = shapetype%last
+238 \textcolor{keywordflow}{    class is} (sphere)
+239         n=1
+240         \textcolor{keyword}{allocate}(pts(n))
+241         pts(1) = shapetype%pt
+242 \textcolor{keywordflow}{        class default}
+243         outext=\textcolor{stringliteral}{'[geometry::getPoints] : unexpected type for geometry object, stoping'}
+244         \textcolor{keyword}{call }log%put(outext)
+245         stop
+246 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacegeometry__mod_a22dd77024fce56da299445a697256155}\label{namespacegeometry__mod_a22dd77024fce56da299445a697256155}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!inlist@{inlist}}
+\index{inlist@{inlist}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{inlist()}{inlist()}}
+{\footnotesize\ttfamily logical function geometry\+\_\+mod\+::inlist (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), intent(in)}]{geomname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Public function that returns a logical if the input geometry name is valid. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,geomname} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 95 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+95     \textcolor{keywordtype}{implicit none}
+96     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+97     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: geomname
+98     \textcolor{keywordtype}{integer} :: i
+99     tf = .false.
+100     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%list)
+101         \textcolor{keywordflow}{if} (geomname == self%list(i)) \textcolor{keywordflow}{then}
+102             tf = .true.
+103 \textcolor{keywordflow}{        endif}
+104 \textcolor{keywordflow}{    enddo}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}\label{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!line\+\_\+grid@{line\+\_\+grid}}
+\index{line\+\_\+grid@{line\+\_\+grid}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{line\+\_\+grid()}{line\_grid()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::line\+\_\+grid (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{type(vector), intent(in)}]{dist,  }\item[{integer, intent(in)}]{np,  }\item[{type(vector), dimension(np), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+private routine that returns the points distributed on a grid with spacing dp along a line ~\newline
+ 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,dist,np,ptlist} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 425 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+425     \textcolor{keywordtype}{implicit none}
+426     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+427     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: dist
+428     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
+429     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
+430     \textcolor{keywordtype}{integer} :: i, j, k, p
+431 
+432     \textcolor{keywordflow}{do} p=1, np
+433         ptlist(p) = dp/np*(dist*(p-1))
+434 \textcolor{keywordflow}{    end do}
+435     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the origin}
+436         ptlist(1)= 0*ex + 0*ey +0*ez
+437 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=335pt]{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}\label{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!printgeometry@{printgeometry}}
+\index{printgeometry@{printgeometry}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{printgeometry()}{printgeometry()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::printgeometry (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), intent(in)}]{self,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}})}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to print the details of a given geometry 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,shapetype} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 284 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+284     \textcolor{keywordtype}{implicit none}
+285     \textcolor{keywordtype}{class}(geometry\_class), \textcolor{keywordtype}{intent(in)} :: self
+286     \textcolor{keywordtype}{class}(shape) :: shapetype
+287 
+288     \textcolor{keywordtype}{type}(vector) :: temp(2)
+289     \textcolor{keywordtype}{type}(string) :: temp\_str(6)
+290     \textcolor{keywordtype}{type}(string) :: outext
+291 
+292     temp\_str(1) = shapetype%pt%x
+293     temp\_str(2) = shapetype%pt%y
+294     temp\_str(3) = shapetype%pt%z
+295     \textcolor{keywordflow}{select type} (shapetype)
+296 \textcolor{keywordflow}{    type is} (shape)
+297 \textcolor{keywordflow}{    class is} (box)
+298         temp\_str(4) = shapetype%size%x
+299         temp\_str(5) = shapetype%size%y
+300         temp\_str(6) = shapetype%size%z
+301         outext=\textcolor{stringliteral}{'      Box at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
+302             \textcolor{stringliteral}{'       with '}//temp\_str(4)//\textcolor{stringliteral}{' X '}//temp\_str(5)//\textcolor{stringliteral}{' X '}//temp\_str(6)
+303 \textcolor{keywordflow}{    class is} (point)
+304         outext=\textcolor{stringliteral}{'      Point at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)
+305 \textcolor{keywordflow}{    class is} (line)
+306         temp\_str(4) = shapetype%last%x
+307         temp\_str(5) = shapetype%last%y
+308         temp\_str(6) = shapetype%last%z
+309         outext=\textcolor{stringliteral}{'      Line from '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
+310             \textcolor{stringliteral}{'       to '}//temp\_str(4)//\textcolor{stringliteral}{' X '}//temp\_str(5)//\textcolor{stringliteral}{' X '}//temp\_str(6)
+311 \textcolor{keywordflow}{    class is} (sphere)
+312         temp\_str(4) = shapetype%radius
+313         outext=\textcolor{stringliteral}{'      Sphere at '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})//&
+314             \textcolor{stringliteral}{'       with radius '}//temp\_str(4)
+315 \textcolor{keywordflow}{        class default}
+316         outext=\textcolor{stringliteral}{'[geometry::print] : unexpected type for geometry object, stoping'}
+317         \textcolor{keyword}{call }log%put(outext)
+318         stop
+319 \textcolor{keywordflow}{    end select}
+320     \textcolor{keyword}{call }log%put(outext,.false.)
+321 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}\label{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!sphere\+\_\+grid@{sphere\+\_\+grid}}
+\index{sphere\+\_\+grid@{sphere\+\_\+grid}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{sphere\+\_\+grid()}{sphere\_grid()}}
+{\footnotesize\ttfamily subroutine geometry\+\_\+mod\+::sphere\+\_\+grid (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{real(prec), intent(in)}]{r,  }\item[{integer, intent(in)}]{np,  }\item[{type(vector), dimension(np), intent(out)}]{ptlist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+private routine that returns the points distributed on a grid with spacing dp inside a sphere 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,r,np,ptlist} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 363 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+363     \textcolor{keywordtype}{implicit none}
+364     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+365     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: r
+366     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}::  np
+367     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: ptlist(np)
+368     \textcolor{keywordtype}{integer} :: i, j, k, p, n
+369     \textcolor{keywordtype}{type}(vector) :: pts
+370     n=int(3*r/dp)
+371     p=0
+372     \textcolor{keywordflow}{do} i=1, n
+373         \textcolor{keywordflow}{do} j=1, n
+374             \textcolor{keywordflow}{do} k=1, n
+375                 pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+376                 \textcolor{keywordflow}{if} (pts%normL2() .le. r) \textcolor{keywordflow}{then}
+377                     p=p+1
+378                     ptlist(p)=pts
+379 \textcolor{keywordflow}{                end if}
+380 \textcolor{keywordflow}{            end do}
+381 \textcolor{keywordflow}{        end do}
+382 \textcolor{keywordflow}{    end do}
+383     \textcolor{keywordflow}{if} (np == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the center point}
+384         ptlist(1)= 0*ex + 0*ey +0*ez
+385 \textcolor{keywordflow}{    end if}
+386 
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}\label{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!sphere\+\_\+np\+\_\+count@{sphere\+\_\+np\+\_\+count}}
+\index{sphere\+\_\+np\+\_\+count@{sphere\+\_\+np\+\_\+count}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{sphere\+\_\+np\+\_\+count()}{sphere\_np\_count()}}
+{\footnotesize\ttfamily integer function geometry\+\_\+mod\+::sphere\+\_\+np\+\_\+count (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{dp,  }\item[{real(prec), intent(in)}]{r }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+private function that returns the number of points distributed on a grid with spacing dp inside a sphere 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em dp,r} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 332 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+332     \textcolor{keywordtype}{implicit none}
+333     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dp
+334     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: r
+335     \textcolor{keywordtype}{integer} :: np
+336     \textcolor{keywordtype}{integer} :: i, j, k, n
+337     \textcolor{keywordtype}{type}(vector) :: pts
+338     np=0
+339     n=int(3*r/dp)
+340     \textcolor{keywordflow}{do} i=1, n
+341         \textcolor{keywordflow}{do} j=1, n
+342             \textcolor{keywordflow}{do} k=1, n
+343                 pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+344                 \textcolor{keywordflow}{if} (pts%normL2() .le. r) \textcolor{keywordflow}{then}
+345                     np=np+1
+346 \textcolor{keywordflow}{                end if}
+347 \textcolor{keywordflow}{            end do}
+348 \textcolor{keywordflow}{        end do}
+349 \textcolor{keywordflow}{    end do}
+350     \textcolor{keywordflow}{if} (np == 0) \textcolor{keywordflow}{then} \textcolor{comment}{!Just the center point}
+351         np=1
+352 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=346pt]{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}\label{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}} 
+\index{geometry\+\_\+mod@{geometry\+\_\+mod}!geometry@{geometry}}
+\index{geometry@{geometry}!geometry\+\_\+mod@{geometry\+\_\+mod}}
+\subsubsection{\texorpdfstring{geometry}{geometry}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+class}}), public geometry\+\_\+mod\+::geometry}
+
+
+
+Definition at line 65 of file geometry.\+f90.
+
+
+\begin{DoxyCode}
+65     \textcolor{keywordtype}{type}(geometry\_class) :: Geometry
+\end{DoxyCode}

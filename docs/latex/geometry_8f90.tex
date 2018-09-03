@@ -1,0 +1,56 @@
+\hypertarget{geometry_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/geometry.f90 File Reference}
+\label{geometry_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/geometry.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/geometry.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1geometry__class}{geometry\+\_\+mod\+::geometry\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1shape}{geometry\+\_\+mod\+::shape}}
+\begin{DoxyCompactList}\small\item\em Type -\/ extendable shape class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1point}{geometry\+\_\+mod\+::point}}
+\begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1line}{geometry\+\_\+mod\+::line}}
+\begin{DoxyCompactList}\small\item\em Type -\/ line class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1sphere}{geometry\+\_\+mod\+::sphere}}
+\begin{DoxyCompactList}\small\item\em Type -\/ sphere class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structgeometry__mod_1_1box}{geometry\+\_\+mod\+::box}}
+\begin{DoxyCompactList}\small\item\em Type -\/ point class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacegeometry__mod}{geometry\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines geometry classes and related methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_a1b6f259b0b6be71e02ffae7670f7d8ba}{geometry\+\_\+mod\+::allocatelist}} (self)
+\begin{DoxyCompactList}\small\item\em Public routine to allocate the possible geometry name list. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacegeometry__mod_a22dd77024fce56da299445a697256155}{geometry\+\_\+mod\+::inlist}} (self, geomname)
+\begin{DoxyCompactList}\small\item\em Public function that returns a logical if the input geometry name is valid. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacegeometry__mod_ad790edd694561b33dad20cfa3a14e8f2}{geometry\+\_\+mod\+::fillsize}} (self, shapetype, dp)
+\begin{DoxyCompactList}\small\item\em method to get the number of points that fill a given geometry \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_a1d97564e04562532b5389bfb91aa676b}{geometry\+\_\+mod\+::fill}} (self, shapetype, dp, fillsize, ptlist)
+\begin{DoxyCompactList}\small\item\em method to get the list of points that fill a given geometry \end{DoxyCompactList}\item 
+type(vector) function \mbox{\hyperlink{namespacegeometry__mod_a4a38edbff02aa0ff5f16a16c39bf778e}{geometry\+\_\+mod\+::getcenter}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method to get the baricenter of a given geometry \end{DoxyCompactList}\item 
+type(vector) function, dimension(\+:), allocatable \mbox{\hyperlink{namespacegeometry__mod_a0b1a3c5aa414292ace34d59487082e3a}{geometry\+\_\+mod\+::getpoints}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method that returns the points defining a given geometry \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacegeometry__mod_a524c5d28a80fb6729b102126485605ce}{geometry\+\_\+mod\+::getnumpoints}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method the points defining a given geometry \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_aed4426181ca851b41717edd50268e5f3}{geometry\+\_\+mod\+::printgeometry}} (self, shapetype)
+\begin{DoxyCompactList}\small\item\em method to print the details of a given geometry \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacegeometry__mod_a05de7940b4e7df5a2b31f3d0414e3743}{geometry\+\_\+mod\+::sphere\+\_\+np\+\_\+count}} (dp, r)
+\begin{DoxyCompactList}\small\item\em private function that returns the number of points distributed on a grid with spacing dp inside a sphere \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_a6c03a4ea3de6763940396dbeb3908ebc}{geometry\+\_\+mod\+::sphere\+\_\+grid}} (dp, r, np, ptlist)
+\begin{DoxyCompactList}\small\item\em private routine that returns the points distributed on a grid with spacing dp inside a sphere \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_ae87e4ecff2d21a839da2b82919b5fd0b}{geometry\+\_\+mod\+::box\+\_\+grid}} (dp, size, np, ptlist)
+\begin{DoxyCompactList}\small\item\em private routine that returns the points distributed on a grid with spacing dp inside a box ~\newline
+ \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacegeometry__mod_abcb09c0f5274c27cb79b0dd009ed94b3}{geometry\+\_\+mod\+::line\+\_\+grid}} (dp, dist, np, ptlist)
+\begin{DoxyCompactList}\small\item\em private routine that returns the points distributed on a grid with spacing dp along a line ~\newline
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(geometry\+\_\+class), public \mbox{\hyperlink{namespacegeometry__mod_ad2ad4f7e1138beaad5f37d5c15b7b457}{geometry\+\_\+mod\+::geometry}}
+\end{DoxyCompactItemize}

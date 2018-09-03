@@ -1,0 +1,206 @@
+\hypertarget{namespaceemitter__mod}{}\section{emitter\+\_\+mod Module Reference}
+\label{namespaceemitter__mod}\index{emitter\+\_\+mod@{emitter\+\_\+mod}}
+
+
+Module that defines an emitter class and related methods. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}{initializeemitter}} (self)
+\begin{DoxyCompactList}\small\item\em method that initializes an emmiter class object. Sets default values \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}{addsource}} (self, src)
+\begin{DoxyCompactList}\small\item\em method to compute the total emittable particles per source and allocate that space in the Blocks Tracer array \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemitter__mod_a49b704640270da1c4fad50fcd5374376}{removesource}} (self, src)
+\begin{DoxyCompactList}\small\item\em method to remove from the total emittable particles count a Source \end{DoxyCompactList}\item 
+subroutine class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout) \mbox{\hyperlink{namespaceemitter__mod_ae620ebb6a0515272d2f3aa12a88e983a}{emitt}} (self, src, trclist)
+\begin{DoxyCompactList}\small\item\em method that emitts the Tracers, based on the Sources on this Block Emitter \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemitter__mod_aee7b24637d2249727bccab333e062516}{tracermaker}} (self, trc, src, p)
+\begin{DoxyCompactList}\small\item\em method that calls the corresponding Tracer constructor, depending on the requested type from the emitting Source \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines an emitter class and related methods. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}\label{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!addsource@{addsource}}
+\index{addsource@{addsource}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{addsource()}{addsource()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::addsource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to compute the total emittable particles per source and allocate that space in the Blocks Tracer array 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,src} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 68 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+68     \textcolor{keywordtype}{implicit none}
+69     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+70     \textcolor{keywordtype}{class}(source\_class),\textcolor{keywordtype}{intent(in)} :: src
+71     self%emittable = self%emittable + src%stencil%total\_np
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceemitter__mod_ae620ebb6a0515272d2f3aa12a88e983a}\label{namespaceemitter__mod_ae620ebb6a0515272d2f3aa12a88e983a}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!emitt@{emitt}}
+\index{emitt@{emitt}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{emitt()}{emitt()}}
+{\footnotesize\ttfamily subroutine class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout) emitter\+\_\+mod\+::emitt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{src,  }\item[{class(\mbox{\hyperlink{structtracer__list__mod_1_1tracerlist__class}{tracerlist\+\_\+class}}), intent(inout)}]{trclist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method that emitts the Tracers, based on the Sources on this Block Emitter 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,src,trclist} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 94 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+94     \textcolor{keywordtype}{implicit none}
+95     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+96     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)}  :: src
+97     \textcolor{keywordtype}{class}(tracerList\_class), \textcolor{keywordtype}{intent(inout)}   :: trclist
+98     \textcolor{keywordtype}{integer} i
+99     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable} :: newtrc
+100     \textcolor{keywordflow}{do} i=1, src%stencil%np
+101         self%emitted = self%emitted + 1
+102         \textcolor{comment}{!PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial
+       Tracer Id}
+103         \textcolor{keyword}{call }self%tracerMaker(newtrc, src, i)
+104         \textcolor{keyword}{call }trclist%add(newtrc)
+105 \textcolor{keywordflow}{    end do}
+106     src%stats%particles\_emitted = src%stats%particles\_emitted + src%stencil%np
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}\label{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!initializeemitter@{initializeemitter}}
+\index{initializeemitter@{initializeemitter}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{initializeemitter()}{initializeemitter()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::initializeemitter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method that initializes an emmiter class object. Sets default values 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 54 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+54     \textcolor{keywordtype}{implicit none}
+55     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+56     self%emitted = 0
+57     self%emittable = 0
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceemitter__mod_a49b704640270da1c4fad50fcd5374376}\label{namespaceemitter__mod_a49b704640270da1c4fad50fcd5374376}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!removesource@{removesource}}
+\index{removesource@{removesource}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{removesource()}{removesource()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::removesource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to remove from the total emittable particles count a Source 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,src} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 81 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+81     \textcolor{keywordtype}{implicit none}
+82     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+83     \textcolor{keywordtype}{class}(source\_class),\textcolor{keywordtype}{intent(in)} :: src
+84     self%emittable = self%emittable - src%stencil%total\_np
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceemitter__mod_aee7b24637d2249727bccab333e062516}\label{namespaceemitter__mod_aee7b24637d2249727bccab333e062516}} 
+\index{emitter\+\_\+mod@{emitter\+\_\+mod}!tracermaker@{tracermaker}}
+\index{tracermaker@{tracermaker}!emitter\+\_\+mod@{emitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{tracermaker()}{tracermaker()}}
+{\footnotesize\ttfamily subroutine emitter\+\_\+mod\+::tracermaker (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}), intent(in)}]{self,  }\item[{class($\ast$), intent(out), allocatable}]{trc,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src,  }\item[{integer, intent(in)}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method that calls the corresponding Tracer constructor, depending on the requested type from the emitting Source 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,trc,src,p} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 117 of file emitter.\+f90.
+
+
+\begin{DoxyCode}
+117     \textcolor{keywordtype}{implicit none}
+118     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(in)} :: self
+119     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{intent(out)} :: trc
+120     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+121     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+122     \textcolor{keywordtype}{type}(string) :: outext, temp
+123 
+124     \textcolor{comment}{!PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id}
+125     \textcolor{keywordflow}{select case} (src%prop%property\_type%chars())
+126     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'base'})
+127         \textcolor{keyword}{allocate}(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime, p)) \textcolor{comment}{!Beacause ifort
+       is not F2008 compliant.}
+128         \textcolor{comment}{!trc = Tracer(1, src, Globals%SimTime, p) !Otherwise instinsic allocation would be enough and more
+       readable, like this. Compiles fine in GFortran}
+129     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'paper'})
+130         \textcolor{keyword}{allocate}(trc, source = papertracer(globals%Sim%getnumTracer(), src, globals%SimTime, p))
+131     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'plastic'})
+132         \textcolor{keyword}{allocate}(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime, p))
+133 \textcolor{keywordflow}{        case default}
+134         outext=\textcolor{stringliteral}{'[Emitter::tracerMaker]: unexpected type for Tracer object: '}//src%prop%property\_type
+135         \textcolor{keyword}{call }log%put(outext)
+136         stop
+137 \textcolor{keywordflow}{    end select}
+138 
+\end{DoxyCode}

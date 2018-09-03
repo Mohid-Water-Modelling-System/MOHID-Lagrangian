@@ -1,0 +1,764 @@
+\hypertarget{namespacefield__types__mod}{}\section{field\+\_\+types\+\_\+mod Module Reference}
+\label{namespacefield__types__mod}\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+
+
+Defines classes for \textquotesingle{}fields\textquotesingle{}\+: 1, 2, 3 and 4D labeled data. Valid for both scalar and vectorial (real) data. Defines a generic wrapper for these classes, that abstracts the user from having to choose their data dimensionality or type to create a field.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1field__class}{field\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em generic field class. This works as a wrapper for a generic initialization routine. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1scalar1d__field__class}{scalar1d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 1D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1scalar2d__field__class}{scalar2d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 2D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1scalar3d__field__class}{scalar3d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 3D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1scalar4d__field__class}{scalar4d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 4D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1scalar__field__class}{scalar\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1vectorial2d__field__class}{vectorial2d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 2D vectorial field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1vectorial3d__field__class}{vectorial3d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 3D vectorial field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1vectorial4d__field__class}{vectorial4d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 4D vectorial field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfield__types__mod_1_1vectorial__field__class}{vectorial\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a vectorial field class \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_ae4985a4f37aad76b5bd9d4fdbdec8ff3}{inits1d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 1D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a55a57c6fa8c785a5f529ca577a677845}{inits2d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 2D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_ac3c3c9514102272c69299be06deabbcd}{inits3d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 3D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a0499b29bbd4e4628fe73678cf554d918}{inits4d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 4D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a26cb1df2a85bf21d45693942957c9dae}{initv2d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a vectorial 2D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_ae163912444021fda00f4d821d4c85721}{initv3d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a vectorial 3D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a6a387f83b9c3e63a795e3bccfff5573b}{initv4d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a vectorial 4D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a40667ebd7c9f62482c267e794a14eff4}{initscalar1dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 1D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_af0bade94ad526899be6a55a81a407231}{initscalar2dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 2D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_af27a754aea73132de47e0a1b7168ca2e}{initscalar3dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 3D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a52e2310f95a85bf65d4a85427814a5ad}{initscalar4dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 4D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a31c78f82114b5bf8014f7aac09030c32}{initvectorial2dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a vectorial 2D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a712c0d9941013a8f8c28e684a7c7f4c7}{initvectorial3dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a vectorial 3D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_ada2cd66d3baca6f614b2dfb477fc9b3b}{initvectorial4dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a vectorial 4D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_af6090a0e4ff4834c37af5f33d35fa03d}{setfieldmetadata}} (self, name, units, dim)
+\begin{DoxyCompactList}\small\item\em Method that initializes a base field object by filling metadata. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_a9b7f13b8dea24ec75f1a017a943a3fb5}{printgenericfield}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the generic field information. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_ad1448b34724138b4adf0d0abda0bb012}{test}} (self)
+\begin{DoxyCompactList}\small\item\em A class \textquotesingle{}unit\textquotesingle{} test for the \mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefield__types__mod_aaf5716bf674e6caa4d8a9f3a14a5b393}{printfield}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the field information. \end{DoxyCompactList}\item 
+type(string) function \mbox{\hyperlink{namespacefield__types__mod_aef22f053fd727cf82be4386d65b47031}{getfieldtype}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the field type (scalar or vectorial), in a string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines classes for \textquotesingle{}fields\textquotesingle{}\+: 1, 2, 3 and 4D labeled data. Valid for both scalar and vectorial (real) data. Defines a generic wrapper for these classes, that abstracts the user from having to choose their data dimensionality or type to create a field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacefield__types__mod_aef22f053fd727cf82be4386d65b47031}\label{namespacefield__types__mod_aef22f053fd727cf82be4386d65b47031}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!getfieldtype@{getfieldtype}}
+\index{getfieldtype@{getfieldtype}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{getfieldtype()}{getfieldtype()}}
+{\footnotesize\ttfamily type(string) function field\+\_\+types\+\_\+mod\+::getfieldtype (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1field__class}{field\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the field type (scalar or vectorial), in a string. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 448 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+448     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+449     \textcolor{keywordtype}{type}(string) :: getFieldType
+450     \textcolor{keywordtype}{type}(string) :: outext
+451     \textcolor{keywordflow}{select type}(self)
+452 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
+453         getfieldtype = \textcolor{stringliteral}{'Scalar'}
+454 \textcolor{keywordflow}{    class is} (vectorial\_field\_class)
+455         getfieldtype = \textcolor{stringliteral}{'Vectorial'}
+456 \textcolor{keywordflow}{        class default}
+457         outext = \textcolor{stringliteral}{'[field\_class::getFieldType]: Unexepected type of content, not a scalar or vectorial
+       Field'}
+458         \textcolor{keyword}{call }log%put(outext)
+459         stop
+460 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_ae4985a4f37aad76b5bd9d4fdbdec8ff3}\label{namespacefield__types__mod_ae4985a4f37aad76b5bd9d4fdbdec8ff3}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!inits1d@{inits1d}}
+\index{inits1d@{inits1d}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{inits1d()}{inits1d()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::inits1d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{real(prec), dimension(\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that allocates and initializes a scalar 1D field in a generic field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 134 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+134     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+135     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:)} :: field
+136     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+137     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+138     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keywordflow}{then}
+139         stop \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 1D field already allocated'}
+140     \textcolor{keywordflow}{else}
+141         \textcolor{keyword}{call }self%scalar1d%initialize(name, units, 1, field)
+142 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacefield__types__mod_ae4985a4f37aad76b5bd9d4fdbdec8ff3_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacefield__types__mod_a55a57c6fa8c785a5f529ca577a677845}\label{namespacefield__types__mod_a55a57c6fa8c785a5f529ca577a677845}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!inits2d@{inits2d}}
+\index{inits2d@{inits2d}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{inits2d()}{inits2d()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::inits2d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{real(prec), dimension(\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that allocates and initializes a scalar 2D field in a generic field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 152 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+152     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+153     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+154     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+155     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+156     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keywordflow}{then}
+157         stop \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 2D field already allocated'}
+158     \textcolor{keywordflow}{else}
+159         \textcolor{keyword}{call }self%scalar2d%initialize(name, units, 2, field)
+160 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacefield__types__mod_a55a57c6fa8c785a5f529ca577a677845_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacefield__types__mod_ac3c3c9514102272c69299be06deabbcd}\label{namespacefield__types__mod_ac3c3c9514102272c69299be06deabbcd}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!inits3d@{inits3d}}
+\index{inits3d@{inits3d}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{inits3d()}{inits3d()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::inits3d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{real(prec), dimension(\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that allocates and initializes a scalar 3D field in a generic field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 170 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+170     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+171     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+172     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+173     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+174     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keywordflow}{then}
+175         stop \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 3D field already allocated'}
+176     \textcolor{keywordflow}{else}
+177         \textcolor{keyword}{call }self%scalar3d%initialize(name, units, 3, field)
+178 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacefield__types__mod_ac3c3c9514102272c69299be06deabbcd_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacefield__types__mod_a0499b29bbd4e4628fe73678cf554d918}\label{namespacefield__types__mod_a0499b29bbd4e4628fe73678cf554d918}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!inits4d@{inits4d}}
+\index{inits4d@{inits4d}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{inits4d()}{inits4d()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::inits4d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{real(prec), dimension(\+:,\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that allocates and initializes a scalar 4D field in a generic field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 188 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+188     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+189     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+190     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+191     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+192     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keywordflow}{then}
+193         stop \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 4D field already allocated'}
+194     \textcolor{keywordflow}{else}
+195         \textcolor{keyword}{call }self%scalar4d%initialize(name, units, 4, field)
+196 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacefield__types__mod_a0499b29bbd4e4628fe73678cf554d918_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacefield__types__mod_a40667ebd7c9f62482c267e794a14eff4}\label{namespacefield__types__mod_a40667ebd7c9f62482c267e794a14eff4}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initscalar1dfield@{initscalar1dfield}}
+\index{initscalar1dfield@{initscalar1dfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initscalar1dfield()}{initscalar1dfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initscalar1dfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1scalar1d__field__class}{scalar1d\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim,  }\item[{real(prec), dimension(\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a scalar 1D field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 260 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+260     \textcolor{keywordtype}{class}(scalar1d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+261     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:)} :: field
+262     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+263     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+264     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+265     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+266     \textcolor{keyword}{allocate}(self%field, source = field)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_af0bade94ad526899be6a55a81a407231}\label{namespacefield__types__mod_af0bade94ad526899be6a55a81a407231}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initscalar2dfield@{initscalar2dfield}}
+\index{initscalar2dfield@{initscalar2dfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initscalar2dfield()}{initscalar2dfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initscalar2dfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1scalar2d__field__class}{scalar2d\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim,  }\item[{real(prec), dimension(\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a scalar 2D field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 276 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+276     \textcolor{keywordtype}{class}(scalar2d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+277     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+278     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+279     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+280     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+281     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+282     \textcolor{keyword}{allocate}(self%field, source = field)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_af27a754aea73132de47e0a1b7168ca2e}\label{namespacefield__types__mod_af27a754aea73132de47e0a1b7168ca2e}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initscalar3dfield@{initscalar3dfield}}
+\index{initscalar3dfield@{initscalar3dfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initscalar3dfield()}{initscalar3dfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initscalar3dfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1scalar3d__field__class}{scalar3d\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim,  }\item[{real(prec), dimension(\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a scalar 3D field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 292 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+292     \textcolor{keywordtype}{class}(scalar3d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+293     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+294     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+295     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+296     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+297     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+298     \textcolor{keyword}{allocate}(self%field, source = field)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_a52e2310f95a85bf65d4a85427814a5ad}\label{namespacefield__types__mod_a52e2310f95a85bf65d4a85427814a5ad}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initscalar4dfield@{initscalar4dfield}}
+\index{initscalar4dfield@{initscalar4dfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initscalar4dfield()}{initscalar4dfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initscalar4dfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1scalar4d__field__class}{scalar4d\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim,  }\item[{real(prec), dimension(\+:,\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a scalar 4D field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 308 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+308     \textcolor{keywordtype}{class}(scalar4d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+309     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+310     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+311     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+312     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+313     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+314     \textcolor{keyword}{allocate}(self%field, source = field)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_a26cb1df2a85bf21d45693942957c9dae}\label{namespacefield__types__mod_a26cb1df2a85bf21d45693942957c9dae}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initv2d@{initv2d}}
+\index{initv2d@{initv2d}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initv2d()}{initv2d()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initv2d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{type(vector), dimension(\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that allocates and initializes a vectorial 2D field in a generic field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 206 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+206     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+207     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+208     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+209     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+210     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keywordflow}{then}
+211         stop \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 2D field already allocated'}
+212     \textcolor{keywordflow}{else}
+213         \textcolor{keyword}{call }self%vectorial2d%initialize(name, units, 2, field)
+214 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacefield__types__mod_a26cb1df2a85bf21d45693942957c9dae_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacefield__types__mod_ae163912444021fda00f4d821d4c85721}\label{namespacefield__types__mod_ae163912444021fda00f4d821d4c85721}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initv3d@{initv3d}}
+\index{initv3d@{initv3d}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initv3d()}{initv3d()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initv3d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{type(vector), dimension(\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that allocates and initializes a vectorial 3D field in a generic field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 224 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+224     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+225     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+226     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+227     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+228     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keywordflow}{then}
+229         stop \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 3D field already allocated'}
+230     \textcolor{keywordflow}{else}
+231         \textcolor{keyword}{call }self%vectorial3d%initialize(name, units, 3, field)
+232 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacefield__types__mod_ae163912444021fda00f4d821d4c85721_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacefield__types__mod_a6a387f83b9c3e63a795e3bccfff5573b}\label{namespacefield__types__mod_a6a387f83b9c3e63a795e3bccfff5573b}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initv4d@{initv4d}}
+\index{initv4d@{initv4d}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initv4d()}{initv4d()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initv4d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{type(vector), dimension(\+:,\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that allocates and initializes a vectorial 4D field in a generic field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 242 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+242     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+243     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+244     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+245     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+246     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keywordflow}{then}
+247         stop \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 4D field already allocated'}
+248     \textcolor{keywordflow}{else}
+249         \textcolor{keyword}{call }self%vectorial4d%initialize(name, units, 4, field)
+250 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacefield__types__mod_a6a387f83b9c3e63a795e3bccfff5573b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacefield__types__mod_a31c78f82114b5bf8014f7aac09030c32}\label{namespacefield__types__mod_a31c78f82114b5bf8014f7aac09030c32}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initvectorial2dfield@{initvectorial2dfield}}
+\index{initvectorial2dfield@{initvectorial2dfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initvectorial2dfield()}{initvectorial2dfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initvectorial2dfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1vectorial2d__field__class}{vectorial2d\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim,  }\item[{type(vector), dimension(\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a vectorial 2D field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 324 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+324     \textcolor{keywordtype}{class}(vectorial2d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+325     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+326     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+327     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+328     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+329     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+330     \textcolor{keyword}{allocate}(self%field, source = field)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_a712c0d9941013a8f8c28e684a7c7f4c7}\label{namespacefield__types__mod_a712c0d9941013a8f8c28e684a7c7f4c7}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initvectorial3dfield@{initvectorial3dfield}}
+\index{initvectorial3dfield@{initvectorial3dfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initvectorial3dfield()}{initvectorial3dfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initvectorial3dfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1vectorial3d__field__class}{vectorial3d\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim,  }\item[{type(vector), dimension(\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a vectorial 3D field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 340 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+340     \textcolor{keywordtype}{class}(vectorial3d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+341     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+342     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+343     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+344     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+345     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+346     \textcolor{keyword}{allocate}(self%field, source = field)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_ada2cd66d3baca6f614b2dfb477fc9b3b}\label{namespacefield__types__mod_ada2cd66d3baca6f614b2dfb477fc9b3b}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!initvectorial4dfield@{initvectorial4dfield}}
+\index{initvectorial4dfield@{initvectorial4dfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{initvectorial4dfield()}{initvectorial4dfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::initvectorial4dfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1vectorial4d__field__class}{vectorial4d\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim,  }\item[{type(vector), dimension(\+:,\+:,\+:,\+:), intent(in)}]{field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a vectorial 4D field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim,field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 356 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+356     \textcolor{keywordtype}{class}(vectorial4d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+357     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+358     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+359     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+360     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+361     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+362     \textcolor{keyword}{allocate}(self%field, source = field)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_aaf5716bf674e6caa4d8a9f3a14a5b393}\label{namespacefield__types__mod_aaf5716bf674e6caa4d8a9f3a14a5b393}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!printfield@{printfield}}
+\index{printfield@{printfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{printfield()}{printfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::printfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1field__class}{field\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints the field information. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 434 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+434     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+435     \textcolor{keywordtype}{type}(string) :: outext, t(2)
+436     t(1) = self%dim
+437     t(2) = self%getFieldType()
+438     outext = t(2)//\textcolor{stringliteral}{' field['}//self%name//\textcolor{stringliteral}{'] has dimensionality '}//t(1)//\textcolor{stringliteral}{' and is in '}//self%units
+439     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_a9b7f13b8dea24ec75f1a017a943a3fb5}\label{namespacefield__types__mod_a9b7f13b8dea24ec75f1a017a943a3fb5}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!printgenericfield@{printgenericfield}}
+\index{printgenericfield@{printgenericfield}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{printgenericfield()}{printgenericfield()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::printgenericfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints the generic field information. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 388 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+388     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: self
+389     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keyword}{call }self%scalar1d%print()
+390     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keyword}{call }self%scalar2d%print()
+391     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keyword}{call }self%scalar3d%print()
+392     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keyword}{call }self%scalar4d%print()
+393     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keyword}{call }self%vectorial2d%print()
+394     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keyword}{call }self%vectorial3d%print()
+395     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keyword}{call }self%vectorial4d%print()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_af6090a0e4ff4834c37af5f33d35fa03d}\label{namespacefield__types__mod_af6090a0e4ff4834c37af5f33d35fa03d}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!setfieldmetadata@{setfieldmetadata}}
+\index{setfieldmetadata@{setfieldmetadata}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{setfieldmetadata()}{setfieldmetadata()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::setfieldmetadata (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1field__class}{field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{name,  }\item[{type(string), intent(in)}]{units,  }\item[{integer, intent(in)}]{dim }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a base field object by filling metadata. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,name,units,dim} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 373 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+373     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+374     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+375     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+376     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+377     self%name = name
+378     self%units = units
+379     self%dim = dim
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacefield__types__mod_ad1448b34724138b4adf0d0abda0bb012}\label{namespacefield__types__mod_ad1448b34724138b4adf0d0abda0bb012}} 
+\index{field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}!test@{test}}
+\index{test@{test}!field\+\_\+types\+\_\+mod@{field\+\_\+types\+\_\+mod}}
+\subsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily subroutine field\+\_\+types\+\_\+mod\+::test (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+A class \textquotesingle{}unit\textquotesingle{} test for the \mbox{\hyperlink{structfield__types__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 404 of file fields\+\_\+types.\+f90.
+
+
+\begin{DoxyCode}
+404     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+405     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2, gfield3
+406     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field1
+407     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: field2
+408     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: field3
+409     \textcolor{keywordtype}{type}(string) :: name1, name2, name3
+410     \textcolor{keywordtype}{type}(string) :: units1, units2, units3
+411     \textcolor{keyword}{allocate}(field1(50))
+412     \textcolor{keyword}{allocate}(field2(20,60))
+413     \textcolor{keyword}{allocate}(field3(2,3,4))
+414     name1 = \textcolor{stringliteral}{'testfield1d'}
+415     name2 = \textcolor{stringliteral}{'testfield2d'}
+416     name3 = \textcolor{stringliteral}{'testfield3d'}
+417     units1 = \textcolor{stringliteral}{'m/s'}
+418     units2 = \textcolor{stringliteral}{'km'}
+419     units3 = \textcolor{stringliteral}{'ms-1'}
+420     \textcolor{keyword}{call }gfield1%initialize(name1, units1, field1)
+421     \textcolor{keyword}{call }gfield2%initialize(name2, units2, field2)
+422     \textcolor{keyword}{call }gfield3%initialize(name3, units3, field3)
+423     \textcolor{keyword}{call }gfield1%print()
+424     \textcolor{keyword}{call }gfield2%print()
+425     \textcolor{keyword}{call }gfield3%print()
+\end{DoxyCode}

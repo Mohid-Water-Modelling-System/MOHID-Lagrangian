@@ -1,0 +1,419 @@
+\hypertarget{namespacexmlparser__mod}{}\section{xmlparser\+\_\+mod Module Reference}
+\label{namespacexmlparser__mod}\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+
+
+Module with the simulation xml parsing class and methods, Encapsulates the F\+O\+X\+\_\+dom library.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_aa1f6c9620a625b407c80c9053492a21c}{getfile}} (self, xmldoc, xmlfilename)
+\begin{DoxyCompactList}\small\item\em Method that parses an xml file and returns a pointer to the master node. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_a9eed98475e0d55a3c7b2eeb88925a48c}{closefile}} (self, xmldoc)
+\begin{DoxyCompactList}\small\item\em Method that closes a parsed xml file or node. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_a3e977c7792b08b009a09cc1f7fb4f80a}{getleafattribute}} (self, xmlnode, att\+\_\+name, att\+\_\+value)
+\begin{DoxyCompactList}\small\item\em Method that parses an xml attribute. Reads the requested attribute from a given leaf node,. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_ade14a3d90326f84cfa52844aa4a16b75}{getnodeattribute}} (self, xmlnode, tag, att\+\_\+name, att\+\_\+value, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Method that parses an attribute from an xml node. In the format \textquotesingle{}$<$\+Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{}$>$\textquotesingle{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_a0c2ac0513cee4e660e07cb083a790a53}{getnodevector}} (self, xmlnode, tag, vec, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Method to parse xyz vectors in xml files. Vector must be in format \textquotesingle{}$<$\+Tag x=\char`\"{}vec\%x\char`\"{} y=\char`\"{}vec\%y\char`\"{} z=\char`\"{}vec\%z\char`\"{}$>$\textquotesingle{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_acd860c3d06a25fc422edbcc3d356d976}{gotonode}} (self, current\+Node, target\+Node, target\+Node\+Name, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Method that retrieves a node from within a node. Returns a nullifyed pointer if not found, stops if mandatory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), public \mbox{\hyperlink{namespacexmlparser__mod_a482bd93d0a4ba8c9c2000713a4b14799}{xmlreader}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module with the simulation xml parsing class and methods, Encapsulates the F\+O\+X\+\_\+dom library. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacexmlparser__mod_a9eed98475e0d55a3c7b2eeb88925a48c}\label{namespacexmlparser__mod_a9eed98475e0d55a3c7b2eeb88925a48c}} 
+\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!closefile@{closefile}}
+\index{closefile@{closefile}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{closefile()}{closefile()}}
+{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::closefile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(out), pointer}]{xmldoc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that closes a parsed xml file or node. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,xmldoc} & \\
+\hline
+\mbox{\tt out}  & {\em xmldoc} & Node that conatins the parsed file \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 78 of file xmlparser.\+f90.
+
+
+\begin{DoxyCode}
+78     \textcolor{keywordtype}{implicit none}
+79     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+80     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: xmldoc
+81     \textcolor{keyword}{call }destroy(xmldoc) \textcolor{comment}{!using FOX function}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacexmlparser__mod_aa1f6c9620a625b407c80c9053492a21c}\label{namespacexmlparser__mod_aa1f6c9620a625b407c80c9053492a21c}} 
+\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getfile@{getfile}}
+\index{getfile@{getfile}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getfile()}{getfile()}}
+{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::getfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(out), pointer}]{xmldoc,  }\item[{type(string), intent(in)}]{xmlfilename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that parses an xml file and returns a pointer to the master node. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,xmldoc,xmlfilename} & \\
+\hline
+\mbox{\tt out}  & {\em xmldoc} & Node that conatins the parsed file\\
+\hline
+\mbox{\tt in}  & {\em xmlfilename} & File name \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 54 of file xmlparser.\+f90.
+
+
+\begin{DoxyCode}
+54     \textcolor{keywordtype}{implicit none}
+55     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+56     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: xmldoc
+57     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: xmlfilename
+58     \textcolor{keywordtype}{integer} :: err
+59     \textcolor{keywordtype}{type}(string) :: outext
+60     xmldoc => parsefile(xmlfilename%chars(), iostat=err) \textcolor{comment}{!using FOX function}
+61     \textcolor{keywordflow}{if} (err==0) \textcolor{keywordflow}{then}
+62         outext=\textcolor{stringliteral}{'->Reading .xml file '}//xmlfilename
+63         \textcolor{keyword}{call }log%put(outext)
+64     \textcolor{keywordflow}{else}
+65         outext=\textcolor{stringliteral}{'[XMLReader::getFile]: no '}//xmlfilename//\textcolor{stringliteral}{' file, or file is invalid. Stoping'}
+66         \textcolor{keyword}{call }log%put(outext)
+67         stop
+68 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacexmlparser__mod_a3e977c7792b08b009a09cc1f7fb4f80a}\label{namespacexmlparser__mod_a3e977c7792b08b009a09cc1f7fb4f80a}} 
+\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getleafattribute@{getleafattribute}}
+\index{getleafattribute@{getleafattribute}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getleafattribute()}{getleafattribute()}}
+{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::getleafattribute (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(in), pointer}]{xmlnode,  }\item[{type(string), intent(in)}]{att\+\_\+name,  }\item[{type(string), intent(out)}]{att\+\_\+value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that parses an xml attribute. Reads the requested attribute from a given leaf node,. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,xmlnode,att\+\_\+name,att\+\_\+value} & \\
+\hline
+\mbox{\tt in}  & {\em xmlnode} & Working xml node\\
+\hline
+\mbox{\tt in}  & {\em att\+\_\+name} & Atribute name to collect from tag\\
+\hline
+\mbox{\tt out}  & {\em att\+\_\+value} & Attribute value \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 92 of file xmlparser.\+f90.
+
+
+\begin{DoxyCode}
+92     \textcolor{keywordtype}{implicit none}
+93     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+94     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
+95     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: att\_name
+96     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: att\_value
+97     \textcolor{keywordtype}{character(80)} :: att\_value\_chars
+98     \textcolor{keyword}{call }extractdataattribute(xmlnode, att\_name%chars(), att\_value\_chars) \textcolor{comment}{!using FOX function}
+99     att\_value=trim(att\_value\_chars)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacexmlparser__mod_ade14a3d90326f84cfa52844aa4a16b75}\label{namespacexmlparser__mod_ade14a3d90326f84cfa52844aa4a16b75}} 
+\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getnodeattribute@{getnodeattribute}}
+\index{getnodeattribute@{getnodeattribute}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnodeattribute()}{getnodeattribute()}}
+{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::getnodeattribute (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(in), pointer}]{xmlnode,  }\item[{type(string), intent(in)}]{tag,  }\item[{type(string), intent(in)}]{att\+\_\+name,  }\item[{type(string), intent(out)}]{att\+\_\+value,  }\item[{logical, intent(out), optional}]{read\+\_\+flag,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that parses an attribute from an xml node. In the format \textquotesingle{}$<$\+Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{}$>$\textquotesingle{}. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,xmlnode,tag,att\+\_\+name,att\+\_\+value,read\+\_\+flag,mandatory} & \\
+\hline
+\mbox{\tt in}  & {\em xmlnode} & Working xml node\\
+\hline
+\mbox{\tt in}  & {\em tag} & Tag to search in xml node\\
+\hline
+\mbox{\tt in}  & {\em att\+\_\+name} & Atribute name to collect from tag\\
+\hline
+\mbox{\tt out}  & {\em att\+\_\+value} & Attribute value\\
+\hline
+\mbox{\tt out}  & {\em read\+\_\+flag} & Optional flag to capture read/non-\/read status\\
+\hline
+\mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 110 of file xmlparser.\+f90.
+
+
+\begin{DoxyCode}
+110     \textcolor{keywordtype}{implicit none}
+111     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+112     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
+113     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
+114     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: att\_name
+115     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: att\_value
+116     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
+117     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
+118 
+119     \textcolor{keywordtype}{type}(string) :: outext, nodename
+120     \textcolor{keywordtype}{character(80)} :: att\_value\_chars
+121     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list, nodeChildren
+122     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: nodedetail
+123     \textcolor{keywordtype}{logical} :: validtag
+124     \textcolor{keywordtype}{integer} :: i
+125 
+126     validtag = .false.
+127     nodechildren => getchildnodes(xmlnode) \textcolor{comment}{!getting all of the nodes bellow the main source node (all of
+       it's private info) !using FOX function}
+128     \textcolor{keywordflow}{do} i=0, getlength(nodechildren)-1
+129         nodedetail => item(nodechildren,i) \textcolor{comment}{!grabing a node !using FOX function}
+130         nodename = getlocalname(nodedetail)  \textcolor{comment}{!finding its name !using FOX function}
+131         \textcolor{keywordflow}{if} (nodename == tag) \textcolor{keywordflow}{then}
+132             validtag=.true.
+133             \textcolor{keywordflow}{exit}
+134 \textcolor{keywordflow}{        endif}
+135 \textcolor{keywordflow}{    enddo}
+136     \textcolor{keywordflow}{if} (validtag) \textcolor{keywordflow}{then}
+137         target\_node\_list => getelementsbytagname(xmlnode, tag%chars())   \textcolor{comment}{!searching for tags with the given
+       name !using FOX function}
+138         nodedetail => item(target\_node\_list, 0) \textcolor{comment}{!using FOX function}
+139         \textcolor{keyword}{call }extractdataattribute(nodedetail, att\_name%chars(), att\_value\_chars) \textcolor{comment}{!using FOX function}
+140         att\_value=trim(att\_value\_chars)
+141         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+142             read\_flag =.true.
+143 \textcolor{keywordflow}{        endif}
+144     \textcolor{keywordflow}{else}
+145         \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+146             \textcolor{keywordflow}{if}(mandatory.eqv..false.) \textcolor{keywordflow}{then}
+147                 \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+148                     read\_flag =.false.
+149 \textcolor{keywordflow}{                endif}
+150 \textcolor{keywordflow}{            endif}
+151         \textcolor{keywordflow}{else}
+152             outext=\textcolor{stringliteral}{'Could not find any "'}//tag//\textcolor{stringliteral}{'" tag for xml node "'}//getnodename(xmlnode)//\textcolor{stringliteral}{'", stoping'}
+153             \textcolor{keyword}{call }log%put(outext)
+154             stop
+155 \textcolor{keywordflow}{        endif}
+156 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacexmlparser__mod_a0c2ac0513cee4e660e07cb083a790a53}\label{namespacexmlparser__mod_a0c2ac0513cee4e660e07cb083a790a53}} 
+\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getnodevector@{getnodevector}}
+\index{getnodevector@{getnodevector}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnodevector()}{getnodevector()}}
+{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::getnodevector (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(in), pointer}]{xmlnode,  }\item[{type(string), intent(in)}]{tag,  }\item[{type(vector), intent(out)}]{vec,  }\item[{logical, intent(out), optional}]{read\+\_\+flag,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to parse xyz vectors in xml files. Vector must be in format \textquotesingle{}$<$\+Tag x=\char`\"{}vec\%x\char`\"{} y=\char`\"{}vec\%y\char`\"{} z=\char`\"{}vec\%z\char`\"{}$>$\textquotesingle{}. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,xmlnode,tag,vec,read\+\_\+flag,mandatory} & \\
+\hline
+\mbox{\tt in}  & {\em xmlnode} & Working xml node\\
+\hline
+\mbox{\tt in}  & {\em tag} & Tag to search in xml node\\
+\hline
+\mbox{\tt out}  & {\em vec} & Vector to fill with read contents\\
+\hline
+\mbox{\tt out}  & {\em read\+\_\+flag} & Optional flag to capture read/non-\/read status\\
+\hline
+\mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 167 of file xmlparser.\+f90.
+
+
+\begin{DoxyCode}
+167     \textcolor{keywordtype}{implicit none}
+168     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+169     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
+170     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
+171     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: vec
+172     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
+173     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
+174 
+175     \textcolor{keywordtype}{type}(string) :: outext, nodename
+176     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list, nodeChildren
+177     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: nodedetail
+178     \textcolor{keywordtype}{logical} :: validtag
+179     \textcolor{keywordtype}{integer} :: i
+180 
+181     vec%x=mv \textcolor{comment}{!marking the array as not read}
+182     validtag = .false.
+183     nodechildren => getchildnodes(xmlnode) \textcolor{comment}{!getting all of the nodes bellow the main source node (all of
+       it's private info) !using FOX function}
+184     \textcolor{keywordflow}{do} i=0, getlength(nodechildren)-1
+185         nodedetail => item(nodechildren,i) \textcolor{comment}{!grabing a node !using FOX function}
+186         nodename = getlocalname(nodedetail)  \textcolor{comment}{!finding its name !using FOX function}
+187         \textcolor{keywordflow}{if} (nodename == tag) \textcolor{keywordflow}{then}
+188             validtag =.true.
+189             \textcolor{keywordflow}{exit}
+190 \textcolor{keywordflow}{        endif}
+191 \textcolor{keywordflow}{    enddo}
+192     \textcolor{keywordflow}{if} (validtag) \textcolor{keywordflow}{then}
+193         target\_node\_list => getelementsbytagname(xmlnode, tag%chars())   \textcolor{comment}{!searching for tags with the given
+       name !using FOX function}
+194         nodedetail => item(target\_node\_list, 0) \textcolor{comment}{!using FOX function}
+195         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"x"}, vec%x) \textcolor{comment}{!using FOX function}
+196         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"y"}, vec%y)
+197         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"z"}, vec%z)
+198         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+199             read\_flag =.true.
+200 \textcolor{keywordflow}{        endif}
+201     \textcolor{keywordflow}{else}
+202         \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+203             \textcolor{keywordflow}{if}(mandatory.eqv..false.) \textcolor{keywordflow}{then}
+204                 \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+205                     read\_flag =.false.
+206 \textcolor{keywordflow}{                endif}
+207 \textcolor{keywordflow}{            endif}
+208         \textcolor{keywordflow}{else}
+209             outext=\textcolor{stringliteral}{'Could not find any "'}//tag//\textcolor{stringliteral}{'" tag for xml node "'}//getnodename(xmlnode)//\textcolor{stringliteral}{'", stoping'}
+210             \textcolor{keyword}{call }log%put(outext)
+211             stop
+212 \textcolor{keywordflow}{        endif}
+213 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacexmlparser__mod_acd860c3d06a25fc422edbcc3d356d976}\label{namespacexmlparser__mod_acd860c3d06a25fc422edbcc3d356d976}} 
+\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!gotonode@{gotonode}}
+\index{gotonode@{gotonode}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{gotonode()}{gotonode()}}
+{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::gotonode (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(in), pointer}]{current\+Node,  }\item[{type(node), intent(out), pointer}]{target\+Node,  }\item[{type(string), intent(in)}]{target\+Node\+Name,  }\item[{logical, intent(out), optional}]{read\+\_\+flag,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that retrieves a node from within a node. Returns a nullifyed pointer if not found, stops if mandatory. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,current\+Node,target\+Node,target\+Node\+Name,read\+\_\+flag,mandatory} & \\
+\hline
+\mbox{\tt out}  & {\em read\+\_\+flag} & Optional flag to capture read/non-\/read status\\
+\hline
+\mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 224 of file xmlparser.\+f90.
+
+
+\begin{DoxyCode}
+224     \textcolor{keywordtype}{implicit none}
+225     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+226     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: currentNode
+227     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: targetNode
+228     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: targetNodeName
+229     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
+230     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
+231 
+232     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list
+233     \textcolor{keywordtype}{type}(string) :: outext, nodename
+234     \textcolor{keywordtype}{integer} :: i
+235     \textcolor{keywordtype}{logical} :: target\_node\_exists
+236 
+237     target\_node\_exists = .false.
+238     target\_node\_list => getchildnodes(currentnode) \textcolor{comment}{!using FOX function}
+239     \textcolor{keywordflow}{do} i=0, getlength(target\_node\_list)-1
+240         targetnode => item(target\_node\_list,i) \textcolor{comment}{!grabing a node !using FOX function}
+241         nodename = getlocalname(targetnode)  \textcolor{comment}{!finding its name !using FOX function}
+242         \textcolor{keywordflow}{if} (nodename == targetnodename) \textcolor{keywordflow}{then} \textcolor{comment}{!found our target node}
+243             target\_node\_exists = .true.
+244             \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+245                 read\_flag =.true.
+246 \textcolor{keywordflow}{            endif}
+247             \textcolor{keywordflow}{exit}
+248 \textcolor{keywordflow}{        endif}
+249 \textcolor{keywordflow}{    enddo}
+250     \textcolor{keywordflow}{if} (target\_node\_exists .eqv. .false.) \textcolor{keywordflow}{then}
+251         \textcolor{keyword}{nullify}(targetnode)
+252         \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+253             \textcolor{keywordflow}{if} (mandatory.eqv..false.) \textcolor{keywordflow}{then}
+254                 outext=\textcolor{stringliteral}{'Could not find any node called "'}//targetnodename//\textcolor{stringliteral}{'" in the xml file, ignoring'}
+255                 \textcolor{keyword}{call }log%put(outext)
+256                 \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+257                     read\_flag =.false.
+258 \textcolor{keywordflow}{                endif}
+259             \textcolor{keywordflow}{else}
+260                 outext=\textcolor{stringliteral}{'Could not find any node called "'}//targetnodename//\textcolor{stringliteral}{'" in the xml file, stoping'}
+261                 \textcolor{keyword}{call }log%put(outext)
+262                 stop
+263 \textcolor{keywordflow}{            endif}
+264         \textcolor{keywordflow}{else}
+265             outext=\textcolor{stringliteral}{'Could not find any node called "'}//targetnodename//\textcolor{stringliteral}{'" in the xml file, stoping'}
+266             \textcolor{keyword}{call }log%put(outext)
+267             stop
+268 \textcolor{keywordflow}{        endif}
+269 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacexmlparser__mod_a482bd93d0a4ba8c9c2000713a4b14799}\label{namespacexmlparser__mod_a482bd93d0a4ba8c9c2000713a4b14799}} 
+\index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!xmlreader@{xmlreader}}
+\index{xmlreader@{xmlreader}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{xmlreader}{xmlreader}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), public xmlparser\+\_\+mod\+::xmlreader}
+
+
+
+Definition at line 40 of file xmlparser.\+f90.
+
+
+\begin{DoxyCode}
+40     \textcolor{keywordtype}{type}(xmlparser\_class) :: XMLReader
+\end{DoxyCode}

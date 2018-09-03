@@ -1,0 +1,32 @@
+\hypertarget{xmlparser_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/xmlparser.f90 File Reference}
+\label{xmlparser_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/xmlparser.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/xmlparser.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+mod\+::xmlparser\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacexmlparser__mod}{xmlparser\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module with the simulation xml parsing class and methods, Encapsulates the F\+O\+X\+\_\+dom library. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_aa1f6c9620a625b407c80c9053492a21c}{xmlparser\+\_\+mod\+::getfile}} (self, xmldoc, xmlfilename)
+\begin{DoxyCompactList}\small\item\em Method that parses an xml file and returns a pointer to the master node. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_a9eed98475e0d55a3c7b2eeb88925a48c}{xmlparser\+\_\+mod\+::closefile}} (self, xmldoc)
+\begin{DoxyCompactList}\small\item\em Method that closes a parsed xml file or node. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_a3e977c7792b08b009a09cc1f7fb4f80a}{xmlparser\+\_\+mod\+::getleafattribute}} (self, xmlnode, att\+\_\+name, att\+\_\+value)
+\begin{DoxyCompactList}\small\item\em Method that parses an xml attribute. Reads the requested attribute from a given leaf node,. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_ade14a3d90326f84cfa52844aa4a16b75}{xmlparser\+\_\+mod\+::getnodeattribute}} (self, xmlnode, tag, att\+\_\+name, att\+\_\+value, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Method that parses an attribute from an xml node. In the format \textquotesingle{}$<$\+Tag att\+\_\+name=\char`\"{}att\+\_\+value\char`\"{}$>$\textquotesingle{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_a0c2ac0513cee4e660e07cb083a790a53}{xmlparser\+\_\+mod\+::getnodevector}} (self, xmlnode, tag, vec, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Method to parse xyz vectors in xml files. Vector must be in format \textquotesingle{}$<$\+Tag x=\char`\"{}vec\%x\char`\"{} y=\char`\"{}vec\%y\char`\"{} z=\char`\"{}vec\%z\char`\"{}$>$\textquotesingle{}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_acd860c3d06a25fc422edbcc3d356d976}{xmlparser\+\_\+mod\+::gotonode}} (self, current\+Node, target\+Node, target\+Node\+Name, read\+\_\+flag, mandatory)
+\begin{DoxyCompactList}\small\item\em Method that retrieves a node from within a node. Returns a nullifyed pointer if not found, stops if mandatory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(xmlparser\+\_\+class), public \mbox{\hyperlink{namespacexmlparser__mod_a482bd93d0a4ba8c9c2000713a4b14799}{xmlparser\+\_\+mod\+::xmlreader}}
+\end{DoxyCompactItemize}

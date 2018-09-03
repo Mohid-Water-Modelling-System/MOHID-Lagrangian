@@ -1,0 +1,164 @@
+\hypertarget{namespacetracer__base__mod}{}\section{tracer\+\_\+base\+\_\+mod Module Reference}
+\label{namespacetracer__base__mod}\index{tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}}
+
+
+Module that defines a pure Lagrangian tracer class and related methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+interface \mbox{\hyperlink{interfacetracer__base__mod_1_1tracer}{tracer}}
+\item 
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ The pure Lagrangian tracer class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__par__class}{tracer\+\_\+par\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__state__class}{tracer\+\_\+state\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ state variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structtracer__base__mod_1_1tracer__stats__class}{tracer\+\_\+stats\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacetracer__base__mod_a947559c248d9ddb1337721b71448167b}{printtracer}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print basic info about the Tracer. \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}) function \mbox{\hyperlink{namespacetracer__base__mod_ab1e40296d34ae434e792768d1b77859f}{constructor}} (id, src, time, p)
+\begin{DoxyCompactList}\small\item\em Base Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}), public \mbox{\hyperlink{namespacetracer__base__mod_a6e04d44b4ef46cf27fb0e38290a98c14}{dummytracer}}
+\begin{DoxyCompactList}\small\item\em Just a template to allocate the generic arrays to this size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a pure Lagrangian tracer class and related methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacetracer__base__mod_ab1e40296d34ae434e792768d1b77859f}\label{namespacetracer__base__mod_ab1e40296d34ae434e792768d1b77859f}} 
+\index{tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}!constructor@{constructor}}
+\index{constructor@{constructor}!tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}}
+\subsubsection{\texorpdfstring{constructor()}{constructor()}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}) function tracer\+\_\+base\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{id,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{integer, intent(in)}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Base Tracer constructor. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em id,src,time,p} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 106 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+106     \textcolor{keywordtype}{implicit none}
+107     \textcolor{keywordtype}{type}(tracer\_class) :: constructor
+108     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+109     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+110     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+111     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+112 
+113     \textcolor{comment}{! initialize parameters}
+114     constructor%par%id = id
+115     constructor%par%idsource = src%par%id
+116     constructor%par%velmax = 15.0 \textcolor{comment}{!(m/s, just a placeholder)}
+117     \textcolor{comment}{! initialize tracer state}
+118     constructor%now%age=0.0
+119     constructor%now%active = .true.
+120     \textcolor{comment}{!print*, 'Source at'}
+121     \textcolor{comment}{!print*, src%now%pos}
+122     \textcolor{comment}{!print*, 'New tracer at'}
+123     \textcolor{comment}{!print*, src%stencil%ptlist(p) + src%now%pos}
+124     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
+125     constructor%now%vel = 0.0
+126     constructor%now%acc = 0.0
+127     constructor%now%depth = 0.0
+128     \textcolor{comment}{! Initialize statistical accumulator variables}
+129     constructor%stats%acc\_pos = 0.0
+130     constructor%stats%acc\_vel = 0.0
+131     constructor%stats%acc\_depth = 0.0
+132     constructor%stats%ns = 0
+133 
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacetracer__base__mod_ab1e40296d34ae434e792768d1b77859f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacetracer__base__mod_a947559c248d9ddb1337721b71448167b}\label{namespacetracer__base__mod_a947559c248d9ddb1337721b71448167b}} 
+\index{tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}!printtracer@{printtracer}}
+\index{printtracer@{printtracer}!tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}}
+\subsubsection{\texorpdfstring{printtracer()}{printtracer()}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+base\+\_\+mod\+::printtracer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print basic info about the Tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 83 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+83     \textcolor{keywordtype}{implicit none}
+84     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+85     \textcolor{keywordtype}{type}(string) :: outext, t(6)
+86     \textcolor{keywordflow}{if} (self%now%active .eqv. .false.) \textcolor{keywordflow}{then}
+87         outext = \textcolor{stringliteral}{'-->Tracer is inactive'}
+88         \textcolor{keyword}{call }log%put(outext,.false.)
+89     \textcolor{keywordflow}{else}
+90         t(1) = self%par%id
+91         t(2) = self%now%pos%x
+92         t(3) = self%now%pos%y
+93         t(4) = self%now%pos%z
+94         outext = \textcolor{stringliteral}{'Tracer['}//t(1)//\textcolor{stringliteral}{']::xyz('}//t(2)//\textcolor{stringliteral}{','}//t(3)//\textcolor{stringliteral}{','}//t(4)//\textcolor{stringliteral}{')'}
+95         \textcolor{keyword}{call }log%put(outext,.false.)
+96 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetracer__base__mod_a6e04d44b4ef46cf27fb0e38290a98c14}\label{namespacetracer__base__mod_a6e04d44b4ef46cf27fb0e38290a98c14}} 
+\index{tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}!dummytracer@{dummytracer}}
+\index{dummytracer@{dummytracer}!tracer\+\_\+base\+\_\+mod@{tracer\+\_\+base\+\_\+mod}}
+\subsubsection{\texorpdfstring{dummytracer}{dummytracer}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracer__base__mod_1_1tracer__class}{tracer\+\_\+class}}), public tracer\+\_\+base\+\_\+mod\+::dummytracer}
+
+
+
+Just a template to allocate the generic arrays to this size. 
+
+
+
+Definition at line 62 of file tracer\+\_\+base.\+f90.
+
+
+\begin{DoxyCode}
+62     \textcolor{keywordtype}{type}(tracer\_class) :: dummyTracer
+\end{DoxyCode}

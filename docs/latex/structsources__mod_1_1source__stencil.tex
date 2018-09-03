@@ -1,0 +1,95 @@
+\hypertarget{structsources__mod_1_1source__stencil}{}\section{sources\+\_\+mod\+:\+:source\+\_\+stencil Type Reference}
+\label{structsources__mod_1_1source__stencil}\index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}}
+
+
+Type -\/ holder for the tracer creation stencil of the source.  
+
+
+
+
+Collaboration diagram for sources\+\_\+mod\+:\+:source\+\_\+stencil\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{structsources__mod_1_1source__stencil__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{structsources__mod_1_1source__stencil_a11ed46a8e923b5902cc02420d88158c5}{np}}
+\begin{DoxyCompactList}\small\item\em Number of tracers by emission. \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsources__mod_1_1source__stencil_ad7373d51bdf50a4595b6c0fa69f7f915}{total\+\_\+np}}
+\begin{DoxyCompactList}\small\item\em Total number of tracers that this source will generate. \end{DoxyCompactList}\item 
+type(vector), dimension(\+:), allocatable \mbox{\hyperlink{structsources__mod_1_1source__stencil_a154e50e2872650da574d0a1148e3065a}{ptlist}}
+\begin{DoxyCompactList}\small\item\em list of points (coordinates), relative to the source geometry point, to be generated at every emission. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Type -\/ holder for the tracer creation stencil of the source. 
+
+Definition at line 67 of file sources.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsources__mod_1_1source__stencil_a11ed46a8e923b5902cc02420d88158c5}\label{structsources__mod_1_1source__stencil_a11ed46a8e923b5902cc02420d88158c5}} 
+\index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}!np@{np}}
+\index{np@{np}!sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}}
+\subsubsection{\texorpdfstring{np}{np}}
+{\footnotesize\ttfamily integer sources\+\_\+mod\+::source\+\_\+stencil\+::np\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Number of tracers by emission. 
+
+
+
+Definition at line 68 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+68         \textcolor{keywordtype}{integer} :: np
+\end{DoxyCode}
+\mbox{\Hypertarget{structsources__mod_1_1source__stencil_a154e50e2872650da574d0a1148e3065a}\label{structsources__mod_1_1source__stencil_a154e50e2872650da574d0a1148e3065a}} 
+\index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}!ptlist@{ptlist}}
+\index{ptlist@{ptlist}!sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}}
+\subsubsection{\texorpdfstring{ptlist}{ptlist}}
+{\footnotesize\ttfamily type(vector), dimension(\+:), allocatable sources\+\_\+mod\+::source\+\_\+stencil\+::ptlist\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+list of points (coordinates), relative to the source geometry point, to be generated at every emission. 
+
+
+
+Definition at line 70 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+70         \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: ptlist
+\end{DoxyCode}
+\mbox{\Hypertarget{structsources__mod_1_1source__stencil_ad7373d51bdf50a4595b6c0fa69f7f915}\label{structsources__mod_1_1source__stencil_ad7373d51bdf50a4595b6c0fa69f7f915}} 
+\index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}!total\+\_\+np@{total\+\_\+np}}
+\index{total\+\_\+np@{total\+\_\+np}!sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}}
+\subsubsection{\texorpdfstring{total\+\_\+np}{total\_np}}
+{\footnotesize\ttfamily integer sources\+\_\+mod\+::source\+\_\+stencil\+::total\+\_\+np\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Total number of tracers that this source will generate. 
+
+
+
+Definition at line 69 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+69         \textcolor{keywordtype}{integer} :: total\_np
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{sources_8f90}{sources.\+f90}}\end{DoxyCompactItemize}

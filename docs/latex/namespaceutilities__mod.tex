@@ -1,0 +1,186 @@
+\hypertarget{namespaceutilities__mod}{}\section{utilities\+\_\+mod Module Reference}
+\label{namespaceutilities__mod}\index{utilities\+\_\+mod@{utilities\+\_\+mod}}
+
+
+Module that provides useful back-\/end routines.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+type(vector) function, public \mbox{\hyperlink{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b}{geo2m}} (geovec, lat)
+\begin{DoxyCompactList}\small\item\em Public function that returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
+type(vector) function, public \mbox{\hyperlink{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9}{m2geo}} (mvec, lat)
+\begin{DoxyCompactList}\small\item\em Public function that returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
+character(\+:) function, allocatable, public \mbox{\hyperlink{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}{int2str}} (fmt, i)
+\begin{DoxyCompactList}\small\item\em Public function that returns a zero paded string from an integer number and a format descriptor. \end{DoxyCompactList}\item 
+real(prec) function, public \mbox{\hyperlink{namespaceutilities__mod_a683f93677348e11d331c1c37c66caf7a}{get\+\_\+closest\+\_\+twopow}} (num)
+\begin{DoxyCompactList}\small\item\em Public function that returns the closest power of 2 or a given real number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that provides useful back-\/end routines. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b}\label{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!geo2m@{geo2m}}
+\index{geo2m@{geo2m}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{geo2m()}{geo2m()}}
+{\footnotesize\ttfamily type(vector) function, public utilities\+\_\+mod\+::geo2m (\begin{DoxyParamCaption}\item[{type(vector), intent(in)}]{geovec,  }\item[{real(prec), intent(in)}]{lat }\end{DoxyParamCaption})}
+
+
+
+Public function that returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em geovec,lat} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 43 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+43     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: geovec
+44     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: lat
+45     \textcolor{keywordtype}{integer} :: R
+46     \textcolor{keywordtype}{real(prec)} :: pi
+47     r = 6378137 \textcolor{comment}{!earth radius in meters}
+48     pi = 3.1415926
+49     res = geovec
+50     res%x = res%x*r*cos(pi*lat/180.0)
+51     res%y = res%y*r
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=337pt]{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceutilities__mod_a683f93677348e11d331c1c37c66caf7a}\label{namespaceutilities__mod_a683f93677348e11d331c1c37c66caf7a}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!get\+\_\+closest\+\_\+twopow@{get\+\_\+closest\+\_\+twopow}}
+\index{get\+\_\+closest\+\_\+twopow@{get\+\_\+closest\+\_\+twopow}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{get\+\_\+closest\+\_\+twopow()}{get\_closest\_twopow()}}
+{\footnotesize\ttfamily real(prec) function, public utilities\+\_\+mod\+::get\+\_\+closest\+\_\+twopow (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{num }\end{DoxyParamCaption})}
+
+
+
+Public function that returns the closest power of 2 or a given real number. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em num} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 96 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+96     \textcolor{keywordtype}{implicit none}
+97     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: num
+98     \textcolor{keywordtype}{real(prec)} :: twopow
+99     \textcolor{keywordtype}{integer} :: i
+100     \textcolor{keywordtype}{real(prec)} :: dist1, dist2    
+101     \textcolor{keywordflow}{do} i=-4, 10
+102         twopow = 2.0**i
+103         \textcolor{keywordflow}{if} (num < twopow) \textcolor{keywordflow}{then}
+104             dist1 = sqrt(twopow-num)
+105             dist2 = sqrt(num-2.0**(i-1))
+106             \textcolor{keywordflow}{if} (dist2 < dist1) \textcolor{keywordflow}{then}
+107                 twopow = 2.0**(i-1)
+108                 \textcolor{keywordflow}{exit}
+109 \textcolor{keywordflow}{            endif}
+110             \textcolor{keywordflow}{exit}
+111 \textcolor{keywordflow}{        endif}
+112 \textcolor{keywordflow}{    enddo}   
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}\label{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!int2str@{int2str}}
+\index{int2str@{int2str}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{int2str()}{int2str()}}
+{\footnotesize\ttfamily character(\+:) function, allocatable, public utilities\+\_\+mod\+::int2str (\begin{DoxyParamCaption}\item[{character(len=6), intent(in)}]{fmt,  }\item[{integer, intent(in)}]{i }\end{DoxyParamCaption})}
+
+
+
+Public function that returns a zero paded string from an integer number and a format descriptor. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em fmt,i} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 81 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+81     \textcolor{keywordtype}{character(:)}, \textcolor{keywordtype}{allocatable} :: res
+82     \textcolor{keywordtype}{character(len=6)}, \textcolor{keywordtype}{intent(in)} :: fmt \textcolor{comment}{! format descriptor}
+83     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: i
+84     \textcolor{keywordtype}{character(range(i)+2)} :: tmp    
+85     \textcolor{keyword}{write}(tmp, fmt) i
+86     res = trim(tmp)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9}\label{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!m2geo@{m2geo}}
+\index{m2geo@{m2geo}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{m2geo()}{m2geo()}}
+{\footnotesize\ttfamily type(vector) function, public utilities\+\_\+mod\+::m2geo (\begin{DoxyParamCaption}\item[{type(vector), intent(in)}]{mvec,  }\item[{real(prec), intent(in)}]{lat }\end{DoxyParamCaption})}
+
+
+
+Public function that returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em mvec,lat} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+62     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: mvec
+63     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: lat
+64     \textcolor{keywordtype}{integer} :: R
+65     \textcolor{keywordtype}{real(prec)} :: pi
+66     r = 6378137 \textcolor{comment}{!earth radius in meters}
+67     pi = 3.1415926
+68     res = mvec
+69     res%x = res%x/(r*cos(pi*lat/180.0))
+70     res%y = res%y/r
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9_icgraph}
+\end{center}
+\end{figure}

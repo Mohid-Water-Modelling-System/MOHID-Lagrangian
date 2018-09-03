@@ -1,0 +1,52 @@
+\hypertarget{sources_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.f90 File Reference}
+\label{sources_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsources__mod_1_1source__par}{sources\+\_\+mod\+::source\+\_\+par}}
+\item 
+type \mbox{\hyperlink{structsources__mod_1_1source__prop}{sources\+\_\+mod\+::source\+\_\+prop}}
+\begin{DoxyCompactList}\small\item\em Type -\/ material properties of a source object. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsources__mod_1_1source__state}{sources\+\_\+mod\+::source\+\_\+state}}
+\begin{DoxyCompactList}\small\item\em Type -\/ state variables of a source object. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsources__mod_1_1source__stats}{sources\+\_\+mod\+::source\+\_\+stats}}
+\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a source object. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsources__mod_1_1source__stencil}{sources\+\_\+mod\+::source\+\_\+stencil}}
+\begin{DoxyCompactList}\small\item\em Type -\/ holder for the tracer creation stencil of the source. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsources__mod_1_1source__class}{sources\+\_\+mod\+::source\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ The source class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsources__mod_1_1source__group__class}{sources\+\_\+mod\+::source\+\_\+group\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesources__mod}{sources\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines a source class and related methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}{sources\+\_\+mod\+::initsources}} (self, nsources)
+\begin{DoxyCompactList}\small\item\em source allocation routine -\/ allocates sources objects \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_aee745aa084adcfa41ecfc3469b90aa8e}{sources\+\_\+mod\+::killsources}} (self)
+\begin{DoxyCompactList}\small\item\em source group destructor -\/ deallocates sources objects \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}{sources\+\_\+mod\+::linkproperty}} (src, ptype, pname)
+\begin{DoxyCompactList}\small\item\em source property setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_aa76f16f8ee96bc86b553aa54d420321c}{sources\+\_\+mod\+::setpropertynames}} (self, srcid\+\_\+str, ptype, pname)
+\begin{DoxyCompactList}\small\item\em source property setting routine, calls source by id to set its properties \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_abbb4557b46c533439fe258cecf31a76c}{sources\+\_\+mod\+::setpropertyatributes}} (src, pname, pvalue)
+\begin{DoxyCompactList}\small\item\em source property atribute setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a6fcfcb690cd1b9375915b01f7ddbe801}{sources\+\_\+mod\+::check}} (self)
+\begin{DoxyCompactList}\small\item\em Method that checks for the consistency of the Source properties. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}{sources\+\_\+mod\+::initializesource}} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, shapetype)
+\begin{DoxyCompactList}\small\item\em source inititialization proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacesources__mod_ac4e4f33da78d030e1b56a48789da6a05}{sources\+\_\+mod\+::isparticulate}} (self)
+\begin{DoxyCompactList}\small\item\em Returns particulate status of this Source, i.\+e, true if the emitted Tracers are actually a collection of particles with an evolving concentration. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a9a62c41b71d2d6ad85def74087542ef5}{sources\+\_\+mod\+::setotalnp}} (self)
+\begin{DoxyCompactList}\small\item\em method that sets the total number of tracers a source will potentially create \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}{sources\+\_\+mod\+::printsource}} (src)
+\begin{DoxyCompactList}\small\item\em source print routine -\/ prints a source info on console/log \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(source\+\_\+group\+\_\+class), public \mbox{\hyperlink{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}{sources\+\_\+mod\+::tempsources}}
+\begin{DoxyCompactList}\small\item\em Temporary Source array, used exclusively for building the case from a description file. \end{DoxyCompactList}\end{DoxyCompactItemize}

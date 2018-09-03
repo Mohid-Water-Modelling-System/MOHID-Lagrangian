@@ -1,0 +1,316 @@
+\hypertarget{structblocks__mod_1_1block__class}{}\section{blocks\+\_\+mod\+:\+:block\+\_\+class Type Reference}
+\label{structblocks__mod_1_1block__class}\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+
+
+Collaboration diagram for blocks\+\_\+mod\+:\+:block\+\_\+class\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structblocks__mod_1_1block__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_ad671745ca5dc3227ddb0ed1d9ff45268}{initialize}} =$>$ init\+Block
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_ac79980e841902691a06212dce50f6331}{putsource}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_ad1d0f1aca1323fad86177deb0b818a51}{callemitter}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_a00f8c114e84499356db3f8b633a6b3a3}{distributetracers}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_a7a3f2eb6823a683a6aaa2159b50ee990}{numalloctracers}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_a73bd9f99f97d7fd882a3ade1103d27ae}{toogleblocksources}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_a68f5bb0cb32b5b51cffd66d472cc45f0}{consolidatearrays}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_ad3521ef8424f47673a2acd15b5bd0545}{tracerstoaot}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_af7ee4536d72f1a114d9289c9e484f703}{aottotracers}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_ab58da434b2813d158b3f688d3c60d02c}{cleanaot}}
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_a43b4c133934eaadb55d30cf834d1e28c}{print}} =$>$ print\+Block
+\item 
+procedure, public \mbox{\hyperlink{structblocks__mod_1_1block__class_a937d8dca8393460bc718dafa8a5c03ac}{detailedprint}} =$>$ printdetail\+Block
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{structblocks__mod_1_1block__class_addd1a493d56aa1ffd1bc27c56b682065}{id}}
+\item 
+type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}) \mbox{\hyperlink{structblocks__mod_1_1block__class_aff3b0cb7d8248f8a87691a028de916d3}{extents}}
+\begin{DoxyCompactList}\small\item\em shape\+::box that defines the extents of this block \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structsources__list__mod_1_1sourcelist__class}{sourcelist\+\_\+class}}) \mbox{\hyperlink{structblocks__mod_1_1block__class_a2f4d63afb2696e2728f20a99e26a4b18}{lsource}}
+\begin{DoxyCompactList}\small\item\em List of Sources currently on this block. \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}) \mbox{\hyperlink{structblocks__mod_1_1block__class_a55e85183ba871abcaba1c00d5393611f}{emitter}}
+\begin{DoxyCompactList}\small\item\em Block Emitter. \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structtracer__list__mod_1_1tracerlist__class}{tracerlist\+\_\+class}}) \mbox{\hyperlink{structblocks__mod_1_1block__class_ab4e2108886a09ba919d01474503f6165}{ltracer}}
+\begin{DoxyCompactList}\small\item\em List of Tracers currently on this block. \end{DoxyCompactList}\item 
+type(aot\+\_\+class) \mbox{\hyperlink{structblocks__mod_1_1block__class_a53f912fe57eb5e386ca62b1dbd087417}{aot}}
+\begin{DoxyCompactList}\small\item\em Block Array of Tracers for actual numerical work. \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), allocatable \mbox{\hyperlink{structblocks__mod_1_1block__class_a774c07bf82d1392236abc81c285ea943}{background}}
+\begin{DoxyCompactList}\small\item\em Solution Backgrounds for the Block. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 38 of file blocks.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_af7ee4536d72f1a114d9289c9e484f703}\label{structblocks__mod_1_1block__class_af7ee4536d72f1a114d9289c9e484f703}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!aottotracers@{aottotracers}}
+\index{aottotracers@{aottotracers}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{aottotracers()}{aottotracers()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::aottotracers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 56 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_ad1d0f1aca1323fad86177deb0b818a51}\label{structblocks__mod_1_1block__class_ad1d0f1aca1323fad86177deb0b818a51}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!callemitter@{callemitter}}
+\index{callemitter@{callemitter}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{callemitter()}{callemitter()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::callemitter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 50 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_ab58da434b2813d158b3f688d3c60d02c}\label{structblocks__mod_1_1block__class_ab58da434b2813d158b3f688d3c60d02c}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!cleanaot@{cleanaot}}
+\index{cleanaot@{cleanaot}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{cleanaot()}{cleanaot()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::cleanaot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 57 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a68f5bb0cb32b5b51cffd66d472cc45f0}\label{structblocks__mod_1_1block__class_a68f5bb0cb32b5b51cffd66d472cc45f0}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!consolidatearrays@{consolidatearrays}}
+\index{consolidatearrays@{consolidatearrays}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{consolidatearrays()}{consolidatearrays()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::consolidatearrays (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 54 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a937d8dca8393460bc718dafa8a5c03ac}\label{structblocks__mod_1_1block__class_a937d8dca8393460bc718dafa8a5c03ac}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!detailedprint@{detailedprint}}
+\index{detailedprint@{detailedprint}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{detailedprint()}{detailedprint()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::detailedprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 59 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a00f8c114e84499356db3f8b633a6b3a3}\label{structblocks__mod_1_1block__class_a00f8c114e84499356db3f8b633a6b3a3}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!distributetracers@{distributetracers}}
+\index{distributetracers@{distributetracers}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{distributetracers()}{distributetracers()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::distributetracers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 51 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_ad671745ca5dc3227ddb0ed1d9ff45268}\label{structblocks__mod_1_1block__class_ad671745ca5dc3227ddb0ed1d9ff45268}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!initialize@{initialize}}
+\index{initialize@{initialize}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 48 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a7a3f2eb6823a683a6aaa2159b50ee990}\label{structblocks__mod_1_1block__class_a7a3f2eb6823a683a6aaa2159b50ee990}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!numalloctracers@{numalloctracers}}
+\index{numalloctracers@{numalloctracers}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{numalloctracers()}{numalloctracers()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::numalloctracers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 52 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a43b4c133934eaadb55d30cf834d1e28c}\label{structblocks__mod_1_1block__class_a43b4c133934eaadb55d30cf834d1e28c}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!print@{print}}
+\index{print@{print}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 58 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_ac79980e841902691a06212dce50f6331}\label{structblocks__mod_1_1block__class_ac79980e841902691a06212dce50f6331}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!putsource@{putsource}}
+\index{putsource@{putsource}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{putsource()}{putsource()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::putsource (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 49 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a73bd9f99f97d7fd882a3ade1103d27ae}\label{structblocks__mod_1_1block__class_a73bd9f99f97d7fd882a3ade1103d27ae}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!toogleblocksources@{toogleblocksources}}
+\index{toogleblocksources@{toogleblocksources}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{toogleblocksources()}{toogleblocksources()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::toogleblocksources (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 53 of file blocks.\+f90.
+
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_ad3521ef8424f47673a2acd15b5bd0545}\label{structblocks__mod_1_1block__class_ad3521ef8424f47673a2acd15b5bd0545}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!tracerstoaot@{tracerstoaot}}
+\index{tracerstoaot@{tracerstoaot}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{tracerstoaot()}{tracerstoaot()}}
+{\footnotesize\ttfamily procedure, public blocks\+\_\+mod\+::block\+\_\+class\+::tracerstoaot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 55 of file blocks.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a53f912fe57eb5e386ca62b1dbd087417}\label{structblocks__mod_1_1block__class_a53f912fe57eb5e386ca62b1dbd087417}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!aot@{aot}}
+\index{aot@{aot}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{aot}{aot}}
+{\footnotesize\ttfamily type(aot\+\_\+class) blocks\+\_\+mod\+::block\+\_\+class\+::aot\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Block Array of Tracers for actual numerical work. 
+
+
+
+Definition at line 44 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+44         \textcolor{keywordtype}{type}(aot\_class)        :: AoT
+\end{DoxyCode}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a774c07bf82d1392236abc81c285ea943}\label{structblocks__mod_1_1block__class_a774c07bf82d1392236abc81c285ea943}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!background@{background}}
+\index{background@{background}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{background}{background}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), allocatable blocks\+\_\+mod\+::block\+\_\+class\+::background\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Solution Backgrounds for the Block. 
+
+
+
+Definition at line 45 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+45         \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: Background
+\end{DoxyCode}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a55e85183ba871abcaba1c00d5393611f}\label{structblocks__mod_1_1block__class_a55e85183ba871abcaba1c00d5393611f}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!emitter@{emitter}}
+\index{emitter@{emitter}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{emitter}{emitter}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structemitter__mod_1_1emitter__class}{emitter\+\_\+class}}) blocks\+\_\+mod\+::block\+\_\+class\+::emitter\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Block Emitter. 
+
+
+
+Definition at line 42 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+42         \textcolor{keywordtype}{type}(emitter\_class)    :: Emitter
+\end{DoxyCode}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_aff3b0cb7d8248f8a87691a028de916d3}\label{structblocks__mod_1_1block__class_aff3b0cb7d8248f8a87691a028de916d3}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!extents@{extents}}
+\index{extents@{extents}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{extents}{extents}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}) blocks\+\_\+mod\+::block\+\_\+class\+::extents\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+shape\+::box that defines the extents of this block 
+
+
+
+Definition at line 40 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+40         \textcolor{keywordtype}{type}(box) :: extents
+\end{DoxyCode}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_addd1a493d56aa1ffd1bc27c56b682065}\label{structblocks__mod_1_1block__class_addd1a493d56aa1ffd1bc27c56b682065}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!id@{id}}
+\index{id@{id}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily integer blocks\+\_\+mod\+::block\+\_\+class\+::id\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+39         \textcolor{keywordtype}{integer} :: id
+\end{DoxyCode}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_a2f4d63afb2696e2728f20a99e26a4b18}\label{structblocks__mod_1_1block__class_a2f4d63afb2696e2728f20a99e26a4b18}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!lsource@{lsource}}
+\index{lsource@{lsource}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{lsource}{lsource}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsources__list__mod_1_1sourcelist__class}{sourcelist\+\_\+class}}) blocks\+\_\+mod\+::block\+\_\+class\+::lsource\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+List of Sources currently on this block. 
+
+
+
+Definition at line 41 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+41         \textcolor{keywordtype}{type}(sourceList\_class) :: LSource
+\end{DoxyCode}
+\mbox{\Hypertarget{structblocks__mod_1_1block__class_ab4e2108886a09ba919d01474503f6165}\label{structblocks__mod_1_1block__class_ab4e2108886a09ba919d01474503f6165}} 
+\index{blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}!ltracer@{ltracer}}
+\index{ltracer@{ltracer}!blocks\+\_\+mod\+::block\+\_\+class@{blocks\+\_\+mod\+::block\+\_\+class}}
+\subsubsection{\texorpdfstring{ltracer}{ltracer}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracer__list__mod_1_1tracerlist__class}{tracerlist\+\_\+class}}) blocks\+\_\+mod\+::block\+\_\+class\+::ltracer\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+List of Tracers currently on this block. 
+
+
+
+Definition at line 43 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+43         \textcolor{keywordtype}{type}(tracerList\_class) :: LTracer
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{blocks_8f90}{blocks.\+f90}}\end{DoxyCompactItemize}

@@ -1,0 +1,27 @@
+\hypertarget{_ao_t_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\+AoT.f90 File Reference}
+\label{_ao_t_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\+Ao\+T.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\+Ao\+T.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structaot__mod_1_1trc__ptr__class}{aot\+\_\+mod\+::trc\+\_\+ptr\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structaot__mod_1_1aot__class}{aot\+\_\+mod\+::aot\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Arrays of Tracers class. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interfaceaot__mod_1_1aot}{aot\+\_\+mod\+::aot}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespaceaot__mod}{aot\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module to hold the Arrays of Tracers class and its methods. This class defines a collection of id, xyz, uvw, .. arrays that allow for easy and efficient manipulation of the Tracer objects. These must be exported into the objects from this class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+type(aot\+\_\+class) function \mbox{\hyperlink{namespaceaot__mod_a74ce07a020a7470208360766cfdb12df}{aot\+\_\+mod\+::constructor}} (trclist)
+\begin{DoxyCompactList}\small\item\em Constructor for AoT object with data from a tracer\+List\+\_\+class object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceaot__mod_a054fca942c27758a0ad6afaa68a3a08e}{aot\+\_\+mod\+::clean}} (self)
+\begin{DoxyCompactList}\small\item\em Destructor for AoT object, deallocates all contents. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceaot__mod_a73ecd8babd54975720741493be733c48}{aot\+\_\+mod\+::totracers}} (self)
+\begin{DoxyCompactList}\small\item\em Sends the data on the AoT to the Tracer objects. Less type guard checks because they were already made in the constructor of the AoT. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceaot__mod_aa6ef0ed7c67e66bf04e7aa0070bbde7f}{aot\+\_\+mod\+::print\+\_\+aot}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints all the elements of the array. \end{DoxyCompactList}\end{DoxyCompactItemize}

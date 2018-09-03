@@ -1,0 +1,26 @@
+\hypertarget{simulation__output__streamer_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+output\+\_\+streamer.f90 File Reference}
+\label{simulation__output__streamer_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+output\+\_\+streamer.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+output\+\_\+streamer.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulation__output__streamer__mod_1_1output__streamer__class}{simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesimulation__output__streamer__mod}{simulation\+\_\+output\+\_\+streamer\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Defines a output file writer class with an object exposable to the Simulation This class is in charge of selectig the correct writter for the selected output file format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a82c657d25adca9e0353ec9f87a4dd0c9}{simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::initoutputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Initializes the Output writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a4a290f3ef9ac868e173eab1ab9fd54b8}{simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::writestepserial}} (self, blocks)
+\begin{DoxyCompactList}\small\item\em Streamer method to call a simulation step writer. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a1df8126a96e9b81ddf62841587728663}{simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::writedomain}} (self, filename, bbox, npbbox, blocks)
+\begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(output\+\_\+streamer\+\_\+class), public \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a6b95972f6387d7ce3231af3d25fedac5}{simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::outputstreamer}}
+\end{DoxyCompactItemize}

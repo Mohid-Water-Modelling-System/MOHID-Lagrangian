@@ -1,0 +1,724 @@
+\hypertarget{namespaceblocks__mod}{}\section{blocks\+\_\+mod Module Reference}
+\label{namespaceblocks__mod}\index{blocks\+\_\+mod@{blocks\+\_\+mod}}
+
+
+Module that defines a block class and related methods. A block is a fundamental type of the model. It contains a sub-\/domain of the simulation bounding box, holding all entities inside that sub-\/domain. It maps to a domain decomposition parallelization strategy, if needed.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+integer function \mbox{\hyperlink{namespaceblocks__mod_a7202fad0fdc07ff9111e61e3aa513af9}{numalloctracers}} (self)
+\begin{DoxyCompactList}\small\item\em method that returns the total allocated Tracers in the Block \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}{initblock}} (self, id, templatebox)
+\begin{DoxyCompactList}\small\item\em method to allocate and initialize Blocks and their Emitters \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}{putsource}} (self, sourcetoadd)
+\begin{DoxyCompactList}\small\item\em Method to place a Source on the Block source\+List\+\_\+class object. Adds the Source info to the Block Emitter. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_ab9e57cbf0103b632b2b2dfa4e4d4139c}{toogleblocksources}} (self)
+\begin{DoxyCompactList}\small\item\em Method to activate and deactivate the sources on this block, based on GlobaSim\+Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}{callemitter}} (self)
+\begin{DoxyCompactList}\small\item\em Method to emitt Tracers from currently active Sources on the Block. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b}{distributetracers}} (self)
+\begin{DoxyCompactList}\small\item\em Method to distribute the Tracers to their correct Blocks. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}{consolidatearrays}} (self)
+\begin{DoxyCompactList}\small\item\em Method to clean the Tracer list from inactive Tracers. T\+O\+DO test further optimization. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}{tracerstoaot}} (self)
+\begin{DoxyCompactList}\small\item\em Method to build the AoT object at this timestep for actual numerical work. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a27c7e788c5f3979bfe9d43aad138286a}{aottotracers}} (self)
+\begin{DoxyCompactList}\small\item\em Method to write the data in the AoT back to the Tracer objects in the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}{cleanaot}} (self)
+\begin{DoxyCompactList}\small\item\em Method to clean out the AoT object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}{sendtracer}} (blk, trc)
+\begin{DoxyCompactList}\small\item\em Method to send a Tracer from the current Block to another Block. \end{DoxyCompactList}\item 
+integer function, public \mbox{\hyperlink{namespaceblocks__mod_a62e8fb0d6b2535b4499c7a4d848c24ba}{getblockindex}} (pt)
+\begin{DoxyCompactList}\small\item\em Returns the index of a Block for a given set of coordinates. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{printblock}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print basic info about the block. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a10f356706988c45a255922fe70851488}{printdetailblock}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print detailed info about the block. \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696}{setblocks}} (auto, nblk, nxi, nyi)
+\begin{DoxyCompactList}\small\item\em routine to set the simulation blocks extents and call the block initializer \end{DoxyCompactList}\item 
+subroutine, public \mbox{\hyperlink{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}{allocblocks}} (nblk)
+\begin{DoxyCompactList}\small\item\em routine to allocate the simulation blocks \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), allocatable, public \mbox{\hyperlink{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}{dblock}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a block class and related methods. A block is a fundamental type of the model. It contains a sub-\/domain of the simulation bounding box, holding all entities inside that sub-\/domain. It maps to a domain decomposition parallelization strategy, if needed. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}\label{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!allocblocks@{allocblocks}}
+\index{allocblocks@{allocblocks}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{allocblocks()}{allocblocks()}}
+{\footnotesize\ttfamily subroutine, public blocks\+\_\+mod\+::allocblocks (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{nblk }\end{DoxyParamCaption})}
+
+
+
+routine to allocate the simulation blocks 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em nblk} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 436 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+436     \textcolor{keywordtype}{implicit none}
+437     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+438     \textcolor{keywordtype}{type}(string) :: outext, temp
+439     \textcolor{keywordtype}{integer} err
+440     \textcolor{keyword}{allocate}(dblock(nblk), stat=err)
+441     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+442         outext=\textcolor{stringliteral}{'[allocBlobks]: Cannot allocate Blocks, stoping'}
+443         \textcolor{keyword}{call }log%put(outext)
+444         stop
+445     \textcolor{keywordflow}{else}
+446         temp = nblk
+447         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Blocks.'}
+448         \textcolor{keyword}{call }log%put(outext)
+449 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceblocks__mod_a639beb0fee2290d46353f4b4702d6711_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceblocks__mod_a27c7e788c5f3979bfe9d43aad138286a}\label{namespaceblocks__mod_a27c7e788c5f3979bfe9d43aad138286a}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!aottotracers@{aottotracers}}
+\index{aottotracers@{aottotracers}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{aottotracers()}{aottotracers()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::aottotracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to write the data in the AoT back to the Tracer objects in the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 287 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+287     \textcolor{keywordtype}{implicit none}
+288     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+289     \textcolor{keyword}{call }self%AoT%toTracers()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}\label{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!callemitter@{callemitter}}
+\index{callemitter@{callemitter}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{callemitter()}{callemitter()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::callemitter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to emitt Tracers from currently active Sources on the Block. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 164 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+164     \textcolor{keywordtype}{implicit none}
+165     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+166     \textcolor{keywordtype}{integer} :: i
+167     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aSource
+168     \textcolor{keywordtype}{type}(string) :: outext
+169     
+170     \textcolor{keyword}{call }self%LSource%reset()                   \textcolor{comment}{! reset list iterator}
+171     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LSource%moreValues())         \textcolor{comment}{! loop while there are values}
+172         asource => self%LSource%currentValue()  \textcolor{comment}{! get current value}
+173         \textcolor{keywordflow}{select type}(asource)
+174 \textcolor{keywordflow}{        class is} (source\_class)
+175             \textcolor{keywordflow}{if} (asource%now%active) \textcolor{keywordflow}{then}
+176                 asource%now%emission\_stride = asource%now%emission\_stride - 1   \textcolor{comment}{!decreasing the stride at
+       this dt}
+177                 \textcolor{keywordflow}{if} (asource%now%emission\_stride == 0) \textcolor{keywordflow}{then}                      \textcolor{comment}{!reached the bottom of the
+       stride stack, time to emitt}
+178                     \textcolor{keyword}{call }self%Emitter%emitt(asource, self%LTracer)
+179                     asource%now%emission\_stride = asource%par%emitting\_rate     \textcolor{comment}{!reseting the stride after
+       the Source emitts}
+180 \textcolor{keywordflow}{                end if}
+181 \textcolor{keywordflow}{            end if}
+182 \textcolor{keywordflow}{            class default}
+183             outext = \textcolor{stringliteral}{'[Block::CallEmitter] Unexepected type of content, not a Source'}
+184             \textcolor{keyword}{call }log%put(outext)
+185             stop
+186 \textcolor{keywordflow}{        end select}
+187         \textcolor{keyword}{call }self%LSource%next()            \textcolor{comment}{! increment the list iterator}
+188 \textcolor{keywordflow}{    end do}
+189     \textcolor{keyword}{call }self%LSource%reset()               \textcolor{comment}{! reset list iterator}
+190     
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}\label{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!cleanaot@{cleanaot}}
+\index{cleanaot@{cleanaot}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{cleanaot()}{cleanaot()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::cleanaot (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to clean out the AoT object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 298 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+298     \textcolor{keywordtype}{implicit none}
+299     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self    
+300     \textcolor{keyword}{call }self%AoT%Clean()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}\label{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!consolidatearrays@{consolidatearrays}}
+\index{consolidatearrays@{consolidatearrays}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{consolidatearrays()}{consolidatearrays()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::consolidatearrays (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to clean the Tracer list from inactive Tracers. T\+O\+DO test further optimization. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 239 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+239     \textcolor{keywordtype}{implicit none}
+240     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+241     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aTracer
+242     \textcolor{keywordtype}{type}(string) :: outext
+243     \textcolor{keywordtype}{logical} :: notremoved
+244     
+245     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
+246     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LTracer%moreValues())         \textcolor{comment}{! loop while there are values}
+247         notremoved = .true.
+248         atracer => self%LTracer%currentValue()  \textcolor{comment}{! get current value}
+249         \textcolor{keywordflow}{select type}(atracer)
+250 \textcolor{keywordflow}{        class is} (tracer\_class)
+251             \textcolor{keywordflow}{if} (atracer%now%active.eqv. .false.) \textcolor{keywordflow}{then}
+252                 \textcolor{keyword}{call }self%LTracer%removeCurrent() \textcolor{comment}{!this advances the iterator to the next position}
+253                 notremoved = .false.                
+254 \textcolor{keywordflow}{            end if}
+255 \textcolor{keywordflow}{            class default}
+256             outext = \textcolor{stringliteral}{'[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'}
+257             \textcolor{keyword}{call }log%put(outext)
+258             stop
+259 \textcolor{keywordflow}{        end select}
+260         \textcolor{keywordflow}{if} (notremoved) \textcolor{keyword}{call }self%LTracer%next()    \textcolor{comment}{! increment the list iterator}
+261 \textcolor{keywordflow}{    end do}
+262     \textcolor{keyword}{call }self%LTracer%reset()                       \textcolor{comment}{! reset list iterator}
+263     
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b}\label{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!distributetracers@{distributetracers}}
+\index{distributetracers@{distributetracers}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{distributetracers()}{distributetracers()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::distributetracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to distribute the Tracers to their correct Blocks. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 199 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+199     \textcolor{keywordtype}{implicit none}
+200     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+201     \textcolor{keywordtype}{integer} :: i, blk
+202     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aTracer
+203     \textcolor{keywordtype}{type}(string) :: outext
+204     \textcolor{keywordtype}{logical} :: notremoved
+205     
+206     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
+207     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LTracer%moreValues())         \textcolor{comment}{! loop while there are values}
+208         notremoved = .true.
+209         atracer => self%LTracer%currentValue()  \textcolor{comment}{! get current value}
+210         \textcolor{keywordflow}{select type}(atracer)
+211 \textcolor{keywordflow}{        class is} (tracer\_class)
+212             \textcolor{keywordflow}{if} (atracer%now%active) \textcolor{keywordflow}{then}
+213                 blk = getblockindex(atracer%now%pos)
+214                 \textcolor{keywordflow}{if} (blk /= self%id) \textcolor{keywordflow}{then}        \textcolor{comment}{!tracer is on a different block than the current one}
+215                     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution}
+216                     \textcolor{keyword}{call }sendtracer(blk,atracer)
+217                     \textcolor{keyword}{call }self%LTracer%removeCurrent() \textcolor{comment}{!this also advances the iterator to the next position}
+218                     notremoved = .false.
+219 \textcolor{keywordflow}{                end if}
+220 \textcolor{keywordflow}{            end if}
+221 \textcolor{keywordflow}{            class default}
+222             outext = \textcolor{stringliteral}{'[Block::DistributeTracers]: Unexepected type of content, not a Tracer'}
+223             \textcolor{keyword}{call }log%put(outext)
+224             stop
+225 \textcolor{keywordflow}{        end select}
+226         \textcolor{keywordflow}{if} (notremoved) \textcolor{keyword}{call }self%LTracer%next()    \textcolor{comment}{! increment the list iterator}
+227 \textcolor{keywordflow}{    end do}
+228     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
+229     
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceblocks__mod_a62e8fb0d6b2535b4499c7a4d848c24ba}\label{namespaceblocks__mod_a62e8fb0d6b2535b4499c7a4d848c24ba}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!getblockindex@{getblockindex}}
+\index{getblockindex@{getblockindex}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{getblockindex()}{getblockindex()}}
+{\footnotesize\ttfamily integer function, public blocks\+\_\+mod\+::getblockindex (\begin{DoxyParamCaption}\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})}
+
+
+
+Returns the index of a Block for a given set of coordinates. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em pt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 324 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+324     \textcolor{keywordtype}{implicit none}
+325     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
+326     \textcolor{keywordtype}{integer} :: ix, iy, temp
+327     \textcolor{keywordtype}{type}(string) :: outext
+328     ix = min(int((pt%x + bbox%offset%x)/globals%SimDefs%blocksize%x) + 1, globals%SimDefs%numblocksx)
+329     iy = min(int((pt%y + bbox%offset%y)/globals%SimDefs%blocksize%y) + 1, globals%SimDefs%numblocksy)
+330     temp = 2*ix + iy -2
+331     \textcolor{keywordflow}{if} (temp > globals%SimDefs%numblocks) \textcolor{keywordflow}{then}
+332         outext=\textcolor{stringliteral}{'[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'}
+333         \textcolor{keyword}{call }log%put(outext)
+334         stop
+335 \textcolor{keywordflow}{    end if}
+336     getblockindex = temp
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceblocks__mod_a62e8fb0d6b2535b4499c7a4d848c24ba_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}\label{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff39}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!initblock@{initblock}}
+\index{initblock@{initblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{initblock()}{initblock()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::initblock (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{id,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{templatebox }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to allocate and initialize Blocks and their Emitters 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,id,templatebox} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 91 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+91     \textcolor{keywordtype}{implicit none}
+92     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+93     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+94     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: templatebox
+95     \textcolor{keywordtype}{integer} :: sizem
+96     self%id = id
+97     \textcolor{comment}{!setting the block sub-domain}
+98     self%extents%pt = templatebox%pt
+99     self%extents%size = templatebox%size
+100     \textcolor{comment}{!initializing the block emitter}
+101     \textcolor{keyword}{call }self%Emitter%initialize()   
+102     sizem = sizeof(self)
+103     \textcolor{keyword}{call }simmemory%addblock(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a7202fad0fdc07ff9111e61e3aa513af9}\label{namespaceblocks__mod_a7202fad0fdc07ff9111e61e3aa513af9}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!numalloctracers@{numalloctracers}}
+\index{numalloctracers@{numalloctracers}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{numalloctracers()}{numalloctracers()}}
+{\footnotesize\ttfamily integer function blocks\+\_\+mod\+::numalloctracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method that returns the total allocated Tracers in the Block 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 78 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+78     \textcolor{keywordtype}{implicit none}
+79     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(in)} :: self
+80     \textcolor{keywordtype}{integer} :: numAllocTracers
+81     numalloctracers = self%LTracer%getSize()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}\label{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!printblock@{printblock}}
+\index{printblock@{printblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{printblock()}{printblock()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::printblock (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print basic info about the block. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 346 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+346     \textcolor{keywordtype}{implicit none}
+347     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+348     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+349     temp\_str = self%id
+350     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+351     \textcolor{keyword}{call }log%put(outext,.false.)
+352     \textcolor{keyword}{call }geometry%print(self%extents)
+353     temp\_str = self%LSource%getSize()
+354     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+355     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a10f356706988c45a255922fe70851488}\label{namespaceblocks__mod_a10f356706988c45a255922fe70851488}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!printdetailblock@{printdetailblock}}
+\index{printdetailblock@{printdetailblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{printdetailblock()}{printdetailblock()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::printdetailblock (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print detailed info about the block. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 365 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+365     \textcolor{keywordtype}{implicit none}
+366     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+367     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+368     \textcolor{keywordtype}{integer} :: i
+369     temp\_str = self%id
+370     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+371     \textcolor{keyword}{call }log%put(outext,.false.)
+372     \textcolor{keyword}{call }geometry%print(self%extents)
+373     temp\_str = self%LSource%getSize()
+374     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+375     \textcolor{keyword}{call }log%put(outext,.false.)
+376     \textcolor{keyword}{call }self%LSource%print()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}\label{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!putsource@{putsource}}
+\index{putsource@{putsource}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{putsource()}{putsource()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::putsource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{sourcetoadd }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to place a Source on the Block source\+List\+\_\+class object. Adds the Source info to the Block Emitter. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sourcetoadd} & \\
+\hline
+\mbox{\tt in,out}  & {\em sourcetoadd} & Source object to store \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 114 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+114     \textcolor{keywordtype}{implicit none}
+115     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+116     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: sourcetoadd
+117     \textcolor{keyword}{call }self%LSource%add(sourcetoadd)    
+118     \textcolor{comment}{!adding this Source to the Block Emitter pool}
+119     \textcolor{keyword}{call }self%Emitter%addSource(sourcetoadd)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}\label{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!sendtracer@{sendtracer}}
+\index{sendtracer@{sendtracer}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{sendtracer()}{sendtracer()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::sendtracer (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{blk,  }\item[{class($\ast$), intent(in)}]{trc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to send a Tracer from the current Block to another Block. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 309 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+309     \textcolor{keywordtype}{implicit none}
+310     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: blk
+311     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: trc
+312     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer}
+313     \textcolor{comment}{!index attribution at the new block}
+314     \textcolor{keyword}{call }dblock(blk)%LTracer%add(trc)
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696}\label{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!setblocks@{setblocks}}
+\index{setblocks@{setblocks}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{setblocks()}{setblocks()}}
+{\footnotesize\ttfamily subroutine, public blocks\+\_\+mod\+::setblocks (\begin{DoxyParamCaption}\item[{logical, intent(in)}]{auto,  }\item[{integer, intent(in)}]{nblk,  }\item[{integer, intent(out)}]{nxi,  }\item[{integer, intent(out)}]{nyi }\end{DoxyParamCaption})}
+
+
+
+routine to set the simulation blocks extents and call the block initializer 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em auto,nblk,nxi,nyi} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 386 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+386     \textcolor{keywordtype}{implicit none}
+387     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} ::  auto
+388     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+389     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(out)} :: nxi, nyi
+390     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
+391     \textcolor{keywordtype}{integer} :: i, j, b
+392     \textcolor{keywordtype}{real(prec)} :: ar
+393     \textcolor{keywordtype}{type}(box) :: tempbox
+394 
+395     \textcolor{keywordflow}{if} (auto) \textcolor{keywordflow}{then}
+396         ar = bbox%size%x/bbox%size%y
+397         ar = get\_closest\_twopow(ar) \textcolor{comment}{!aspect ratio of our bounding box}
+398         nyi = sqrt(nblk/ar)
+399         \textcolor{keywordflow}{if} (nyi == 0) \textcolor{keywordflow}{then}
+400             temp(1) = ar
+401             outext=\textcolor{stringliteral}{'[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '}//temp(1)//\textcolor{stringliteral}{'.
+       Stoping'}
+402             \textcolor{keyword}{call }log%put(outext)
+403             stop
+404 \textcolor{keywordflow}{        endif}
+405         nxi = (nblk/nyi)
+406 
+407         b=1
+408         \textcolor{keywordflow}{do} i=1, nxi
+409             \textcolor{keywordflow}{do} j=1, nyi
+410                 tempbox%pt = bbox%pt + bbox%size%x*(i-1)/nxi*ex + bbox%size%y*(j-1)/nyi*ey - bbox%pt%z*ez
+411                 tempbox%size = bbox%size%x/nxi*ex + bbox%size%y/nyi*ey
+412                 \textcolor{keyword}{call }dblock(b)%initialize(b, tempbox)
+413                 b=b+1
+414 \textcolor{keywordflow}{            end do}
+415 \textcolor{keywordflow}{        end do}
+416         temp(1) = nxi
+417         temp(2) = nyi
+418         outext=\textcolor{stringliteral}{'-->Automatic domain decomposition sucessful. Domain is '}//temp(1)// \textcolor{stringliteral}{' X '} //temp(2)//\textcolor{stringliteral}{'
+       Blocks'}
+419         \textcolor{keyword}{call }log%put(outext,.false.)
+420 \textcolor{keywordflow}{    end if}
+421     globals%SimDefs%blocksize = dblock(1)%extents%size
+422     \textcolor{comment}{!do i=1, size(DBlock)}
+423     \textcolor{comment}{!    call DBlock(i)%print()}
+424     \textcolor{comment}{!enddo}
+425 
+426     \textcolor{keywordflow}{return}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespaceblocks__mod_a8f5a5d9e6cfd16cfd1b179092a204696_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceblocks__mod_ab9e57cbf0103b632b2b2dfa4e4d4139c}\label{namespaceblocks__mod_ab9e57cbf0103b632b2b2dfa4e4d4139c}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!toogleblocksources@{toogleblocksources}}
+\index{toogleblocksources@{toogleblocksources}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{toogleblocksources()}{toogleblocksources()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::toogleblocksources (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to activate and deactivate the sources on this block, based on GlobaSim\+Time. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 129 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+129     \textcolor{keywordtype}{implicit none}
+130     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+131     \textcolor{keywordtype}{integer} :: i
+132     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aSource
+133     \textcolor{keywordtype}{type}(string) :: outext
+134 
+135     \textcolor{keyword}{call }self%LSource%reset()                   \textcolor{comment}{! reset list iterator}
+136     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LSource%moreValues())         \textcolor{comment}{! loop while there are values}
+137         asource => self%LSource%currentValue()  \textcolor{comment}{! get current value}
+138         \textcolor{keywordflow}{select type}(asource)
+139 \textcolor{keywordflow}{        class is} (source\_class)
+140             \textcolor{keywordflow}{if} (globals%SimTime <= asource%par%stoptime) \textcolor{keywordflow}{then}       \textcolor{comment}{!SimTime smaller than Source end time}
+141                 \textcolor{keywordflow}{if} (globals%SimTime >= asource%par%startime) \textcolor{keywordflow}{then}   \textcolor{comment}{!SimTime larger than source start time}
+142                     asource%now%active = .true.
+143 \textcolor{keywordflow}{                end if}
+144             \textcolor{keywordflow}{else}            \textcolor{comment}{!SimTime larger than Source end time}
+145                 asource%now%active = .false.
+146 \textcolor{keywordflow}{            end if}
+147 \textcolor{keywordflow}{            class default}
+148             outext = \textcolor{stringliteral}{'[Block::ToogleBlockSources] Unexepected type of content, not a Source'}
+149             \textcolor{keyword}{call }log%put(outext)
+150             stop
+151 \textcolor{keywordflow}{        end select}
+152         \textcolor{keyword}{call }self%LSource%next()            \textcolor{comment}{! increment the list iterator}
+153 \textcolor{keywordflow}{    end do}
+154     \textcolor{keyword}{call }self%LSource%reset()               \textcolor{comment}{! reset list iterator}
+155 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}\label{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!tracerstoaot@{tracerstoaot}}
+\index{tracerstoaot@{tracerstoaot}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{tracerstoaot()}{tracerstoaot()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::tracerstoaot (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to build the AoT object at this timestep for actual numerical work. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 272 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+272     \textcolor{keywordtype}{implicit none}
+273     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+274     self%AoT = aot(self%LTracer)
+275     \textcolor{comment}{!if (self%LTracer%getSize() > 0) then}
+276     \textcolor{comment}{!    print*, 'From Block ', self%id}
+277     \textcolor{comment}{!    call self%AoT%print()}
+278     \textcolor{comment}{!end if}
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}\label{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!dblock@{dblock}}
+\index{dblock@{dblock}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{dblock}{dblock}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), allocatable, public blocks\+\_\+mod\+::dblock}
+
+
+
+Definition at line 63 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+63     \textcolor{keywordtype}{type}(block\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: DBlock
+\end{DoxyCode}

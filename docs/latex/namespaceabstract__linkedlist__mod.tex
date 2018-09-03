@@ -1,0 +1,406 @@
+\hypertarget{namespaceabstract__linkedlist__mod}{}\section{abstract\+\_\+linkedlist\+\_\+mod Module Reference}
+\label{namespaceabstract__linkedlist__mod}\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+
+
+Module that defines an unlimited polymorphic container list class and related methods. A container is a fundamental entity allowing to build data structures such as lists and arrays. This is an abstract type, so a derived type must be defined for any specific contents that may be required. Those derived types should provide type-\/specific methods that require type-\/guards, such as printing.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a1075e2f234dacc9daf8407e14fac0929}{addvalue}} (this, value, key)
+\begin{DoxyCompactList}\small\item\em Method that stores a value on a new link. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ae725ed63dd3b08d29e1c4ff824e05589}{removecurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method that removes a link from the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}{remove}} (this, n)
+\begin{DoxyCompactList}\small\item\em Method that removes the nth link from a list. \end{DoxyCompactList}\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ad7b7ffee891627ae2b0548001650f72b}{getfirst}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the first link of the list. \end{DoxyCompactList}\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a7c0a2e5b554e8859fc9b4d8fb52b124f}{getlast}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the last link of the list. \end{DoxyCompactList}\item 
+pure integer function \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ab4e548906863da517d7fedb02931b79f}{getsize}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the size (number of links) of a list. \end{DoxyCompactList}\item 
+class($\ast$) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a3c3ad627fd9f87da9831c53802975104}{getvalue}} (this, n)
+\begin{DoxyCompactList}\small\item\em Method that returns the value of the nth link of a list. \end{DoxyCompactList}\item 
+class($\ast$) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a87a81a4be29c8d4e8d2fb0d02247033b}{currentvalue}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the value of the current link. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a576f148096561712d6ddd8c848bc7c4b}{next}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the next link in the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a0b36d862899c5a40cb98bef4ffd5e2f4}{previous}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the previous link in the list. \end{DoxyCompactList}\item 
+pure logical function \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a91ec7f6e570a87769ebb3d11b33f577e}{morevalues}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a logical with signaling if the current link is ok. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a46ff8b8a3ab81610eb47d72d742778c3}{reset}} (this)
+\begin{DoxyCompactList}\small\item\em Method that resets the list iterator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines an unlimited polymorphic container list class and related methods. A container is a fundamental entity allowing to build data structures such as lists and arrays. This is an abstract type, so a derived type must be defined for any specific contents that may be required. Those derived types should provide type-\/specific methods that require type-\/guards, such as printing. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a1075e2f234dacc9daf8407e14fac0929}\label{namespaceabstract__linkedlist__mod_a1075e2f234dacc9daf8407e14fac0929}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!addvalue@{addvalue}}
+\index{addvalue@{addvalue}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{addvalue()}{addvalue()}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+linkedlist\+\_\+mod\+::addvalue (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}})}]{this,  }\item[{class($\ast$), intent(in)}]{value,  }\item[{integer, intent(in), optional}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that stores a value on a new link. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{[}this,value,key\mbox{]}} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 75 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+75     \textcolor{keywordtype}{class}(linkedlist) :: this
+76     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: value
+77     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: key
+78     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: newLink
+79     \textcolor{keywordflow}{if} (.not. \textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
+80         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(key)) \textcolor{keywordflow}{then}
+81             this%firstLink => link(\textcolor{keywordtype}{value}, this%firstLink, this%firstLink, key)
+82         \textcolor{keywordflow}{else}
+83             this%firstLink => link(\textcolor{keywordtype}{value}, this%firstLink, this%firstLink)
+84 \textcolor{keywordflow}{        end if}
+85         this%lastLink => this%firstLink
+86     \textcolor{keywordflow}{else}
+87         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(key)) \textcolor{keywordflow}{then}
+88             newlink => link(\textcolor{keywordtype}{value}, this%lastLink, this%lastLink%nextLink(), key)
+89         \textcolor{keywordflow}{else}
+90             newlink => link(\textcolor{keywordtype}{value}, this%lastLink, this%lastLink%nextLink())
+91 \textcolor{keywordflow}{        end if}
+92         \textcolor{keyword}{call }this%lastLink%setNextLink(newlink)
+93         this%lastLink => newlink
+94 \textcolor{keywordflow}{    end if}
+95     this%numLinks = this%numLinks + 1
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{namespaceabstract__linkedlist__mod_a1075e2f234dacc9daf8407e14fac0929_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a87a81a4be29c8d4e8d2fb0d02247033b}\label{namespaceabstract__linkedlist__mod_a87a81a4be29c8d4e8d2fb0d02247033b}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!currentvalue@{currentvalue}}
+\index{currentvalue@{currentvalue}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{currentvalue()}{currentvalue()}}
+{\footnotesize\ttfamily class($\ast$) function, pointer abstract\+\_\+linkedlist\+\_\+mod\+::currentvalue (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the value of the current link. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 223 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+223     \textcolor{keywordtype}{class}(linkedlist) :: this
+224     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: currentValue
+225     currentvalue => this%currLink%get()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_ad7b7ffee891627ae2b0548001650f72b}\label{namespaceabstract__linkedlist__mod_ad7b7ffee891627ae2b0548001650f72b}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getfirst@{getfirst}}
+\index{getfirst@{getfirst}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{getfirst()}{getfirst()}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer abstract\+\_\+linkedlist\+\_\+mod\+::getfirst (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the first link of the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 160 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+160     \textcolor{keywordtype}{class}(linkedlist) :: this
+161     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: firstlink
+162     firstlink => this%firstLink
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a7c0a2e5b554e8859fc9b4d8fb52b124f}\label{namespaceabstract__linkedlist__mod_a7c0a2e5b554e8859fc9b4d8fb52b124f}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getlast@{getlast}}
+\index{getlast@{getlast}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{getlast()}{getlast()}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer abstract\+\_\+linkedlist\+\_\+mod\+::getlast (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the last link of the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 171 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+171     \textcolor{keywordtype}{class}(linkedlist) :: this
+172     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: lastLink
+173     lastlink => this%lastLink
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_ab4e548906863da517d7fedb02931b79f}\label{namespaceabstract__linkedlist__mod_ab4e548906863da517d7fedb02931b79f}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getsize@{getsize}}
+\index{getsize@{getsize}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{getsize()}{getsize()}}
+{\footnotesize\ttfamily pure integer function abstract\+\_\+linkedlist\+\_\+mod\+::getsize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the size (number of links) of a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 182 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+182     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
+183     getsize = this%numLinks
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a3c3ad627fd9f87da9831c53802975104}\label{namespaceabstract__linkedlist__mod_a3c3ad627fd9f87da9831c53802975104}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getvalue@{getvalue}}
+\index{getvalue@{getvalue}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{getvalue()}{getvalue()}}
+{\footnotesize\ttfamily class($\ast$) function, pointer abstract\+\_\+linkedlist\+\_\+mod\+::getvalue (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}}), intent(in)}]{this,  }\item[{integer, intent(in)}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the value of the nth link of a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 192 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+192     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
+193     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n
+194     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: res
+195     \textcolor{keywordtype}{integer} :: i
+196     \textcolor{keywordtype}{type}(link),\textcolor{keywordtype}{pointer} :: alink
+197     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
+198         \textcolor{keywordflow}{if} (this%numLinks>=n) \textcolor{keywordflow}{then}
+199             \textcolor{keyword}{call }this%reset()
+200             \textcolor{keywordflow}{do} i=1, n-1    \textcolor{comment}{!iterating trough the list until the desired position            }
+201                 \textcolor{keyword}{call }this%next()
+202 \textcolor{keywordflow}{            end do}
+203             \textcolor{keywordflow}{if} (this%moreValues()) \textcolor{keywordflow}{then}
+204             res => this%currLink%get()
+205             \textcolor{keywordflow}{else}
+206                 stop \textcolor{stringliteral}{'[LinkedList::getValue]: link non-existant, something went wrong!'}
+207 \textcolor{keywordflow}{            end if}
+208             \textcolor{keyword}{call }this%reset()
+209         \textcolor{keywordflow}{else}
+210             stop \textcolor{stringliteral}{'[LinkedList::getValue]: index out of bounds'}
+211 \textcolor{keywordflow}{        end if}
+212     \textcolor{keywordflow}{else}
+213         stop \textcolor{stringliteral}{'[LinkedList::getValue]: list is empty'}
+214 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a91ec7f6e570a87769ebb3d11b33f577e}\label{namespaceabstract__linkedlist__mod_a91ec7f6e570a87769ebb3d11b33f577e}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!morevalues@{morevalues}}
+\index{morevalues@{morevalues}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{morevalues()}{morevalues()}}
+{\footnotesize\ttfamily pure logical function abstract\+\_\+linkedlist\+\_\+mod\+::morevalues (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns a logical with signaling if the current link is ok. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 254 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+254     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
+255     morevalues = \textcolor{keyword}{associated}(this%currLink)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a576f148096561712d6ddd8c848bc7c4b}\label{namespaceabstract__linkedlist__mod_a576f148096561712d6ddd8c848bc7c4b}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!next@{next}}
+\index{next@{next}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+linkedlist\+\_\+mod\+::next (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the next link in the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 234 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+234     \textcolor{keywordtype}{class}(linkedlist) :: this
+235     this%currLink => this%currLink%nextLink()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a0b36d862899c5a40cb98bef4ffd5e2f4}\label{namespaceabstract__linkedlist__mod_a0b36d862899c5a40cb98bef4ffd5e2f4}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!previous@{previous}}
+\index{previous@{previous}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{previous()}{previous()}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+linkedlist\+\_\+mod\+::previous (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the previous link in the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 244 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+244     \textcolor{keywordtype}{class}(linkedlist) :: this
+245     this%currLink => this%currLink%previousLink()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}\label{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!remove@{remove}}
+\index{remove@{remove}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+linkedlist\+\_\+mod\+::remove (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that removes the nth link from a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 134 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+134     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(inout)} :: this
+135     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n
+136     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: previouslink
+137     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: nextlink
+138     \textcolor{keywordtype}{integer} :: i
+139     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
+140         \textcolor{keywordflow}{if} (this%numLinks>=n) \textcolor{keywordflow}{then}
+141             \textcolor{keyword}{call }this%reset()
+142             \textcolor{keywordflow}{do} i=1, n-1    \textcolor{comment}{!iterating trough the list until the desired position}
+143                 \textcolor{keyword}{call }this%next()
+144 \textcolor{keywordflow}{            end do}
+145             \textcolor{keywordflow}{if} (this%moreValues()) \textcolor{keywordflow}{then}
+146                 \textcolor{keyword}{call }this%removeCurrent()
+147 \textcolor{keywordflow}{            end if}
+148         \textcolor{keywordflow}{else}
+149             stop \textcolor{stringliteral}{'[LinkedList::remove]: index out of bounds'}
+150 \textcolor{keywordflow}{        end if}
+151 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_ae725ed63dd3b08d29e1c4ff824e05589}\label{namespaceabstract__linkedlist__mod_ae725ed63dd3b08d29e1c4ff824e05589}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!removecurrent@{removecurrent}}
+\index{removecurrent@{removecurrent}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{removecurrent()}{removecurrent()}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+linkedlist\+\_\+mod\+::removecurrent (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}}), intent(inout)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that removes a link from the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 104 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+104     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(inout)} :: this    
+105     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: previouslink
+106     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: nextlink 
+107     
+108     previouslink => this%currLink%previousLink()
+109     nextlink => this%currLink%nextLink()
+110     
+111     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%currLink,this%firstLink)) \textcolor{keywordflow}{then} \textcolor{comment}{!This is the first link}
+112         this%firstLink => nextlink
+113 \textcolor{keywordflow}{    end if}
+114     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(previouslink)) \textcolor{keywordflow}{then}
+115         \textcolor{keyword}{call }previouslink%setNextLink(nextlink)
+116 \textcolor{keywordflow}{    end if}
+117     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(nextlink)) \textcolor{keywordflow}{then}
+118         \textcolor{keyword}{call }nextlink%setPreviousLink(previouslink)
+119 \textcolor{keywordflow}{    end if}
+120     
+121     \textcolor{keyword}{call }this%currLink%removeLink()
+122     \textcolor{keyword}{deallocate}(this%currLink)    
+123     this%currLink => nextlink
+124     this%numLinks = this%numLinks - 1
+125     
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a46ff8b8a3ab81610eb47d72d742778c3}\label{namespaceabstract__linkedlist__mod_a46ff8b8a3ab81610eb47d72d742778c3}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!reset@{reset}}
+\index{reset@{reset}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+linkedlist\+\_\+mod\+::reset (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}})}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that resets the list iterator. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 264 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+264     \textcolor{keywordtype}{class}(linkedlist) :: this
+265     this%currLink => this%firstLink
+\end{DoxyCode}

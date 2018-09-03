@@ -1,0 +1,81 @@
+\hypertarget{namespacetracer__plastic__mod}{}\section{tracer\+\_\+plastic\+\_\+mod Module Reference}
+\label{namespacetracer__plastic__mod}\index{tracer\+\_\+plastic\+\_\+mod@{tracer\+\_\+plastic\+\_\+mod}}
+
+
+Module that defines a Lagrangian tracer class for plastic modelling and related methods. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it\textquotesingle{}s data and methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__class}{plastic\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ The plastic material Lagrangian tracer class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__par__class}{plastic\+\_\+par\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__state__class}{plastic\+\_\+state\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Type -\/ State variables of a tracer object representing a plastic material. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacetracer__plastic__mod_a42882cd86cfe30f341d8150582a664a9}{plastic\+\_\+initialize}} (trc, id, id\+\_\+source, time, pt)
+\begin{DoxyCompactList}\small\item\em Tracer initialization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a Lagrangian tracer class for plastic modelling and related methods. The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all of it\textquotesingle{}s data and methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacetracer__plastic__mod_a42882cd86cfe30f341d8150582a664a9}\label{namespacetracer__plastic__mod_a42882cd86cfe30f341d8150582a664a9}} 
+\index{tracer\+\_\+plastic\+\_\+mod@{tracer\+\_\+plastic\+\_\+mod}!plastic\+\_\+initialize@{plastic\+\_\+initialize}}
+\index{plastic\+\_\+initialize@{plastic\+\_\+initialize}!tracer\+\_\+plastic\+\_\+mod@{tracer\+\_\+plastic\+\_\+mod}}
+\subsubsection{\texorpdfstring{plastic\+\_\+initialize()}{plastic\_initialize()}}
+{\footnotesize\ttfamily subroutine tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__class}{plastic\+\_\+class}})}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{integer, intent(in)}]{id\+\_\+source,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Tracer initialization method. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em trc,id,id\+\_\+source,time,pt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 61 of file tracer\+\_\+plastic.\+f90.
+
+
+\begin{DoxyCode}
+61     \textcolor{keywordtype}{implicit none}
+62     \textcolor{keywordtype}{class}(plastic\_class) :: trc
+63     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+64     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id\_source
+65     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
+66     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+67 
+68     \textcolor{comment}{! initialize parameters}
+69     trc%par%id = id
+70     trc%par%idsource = id\_source
+71     trc%par%velmax = 15.0 \textcolor{comment}{!(m/s, just a placeholder)}
+72     \textcolor{comment}{! initialize tracer state}
+73     trc%now%age=0.0
+74     trc%now%active = .false.
+75     trc%now%pos = pt
+76     trc%now%vel = 0.0
+77     trc%now%acc = 0.0
+78     trc%now%depth = 0.0
+79     \textcolor{comment}{! Initialize statistical accumulator variables}
+80     trc%stats%acc\_pos = 0.0
+81     trc%stats%acc\_vel = 0.0
+82     trc%stats%acc\_depth = 0.0
+83     trc%stats%ns = 0
+84 
+\end{DoxyCode}

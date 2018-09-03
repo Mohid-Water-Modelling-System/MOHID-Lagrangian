@@ -1,0 +1,32 @@
+\hypertarget{simulation__precision_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+precision.f90 File Reference}
+\label{simulation__precision_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+precision.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/simulation\+\_\+precision.\+f90}}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesimulation__precision__mod}{simulation\+\_\+precision\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module to control the precision of the variables trough the project. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+integer, parameter \mbox{\hyperlink{namespacesimulation__precision__mod_aa9eb32e6c7ef6d6f0b9c7df435105e88}{simulation\+\_\+precision\+\_\+mod\+::sps}} = kind(1.\+\_\+\+R4P)
+\begin{DoxyCompactList}\small\item\em Simple precision definition switch. \end{DoxyCompactList}\item 
+integer, parameter \mbox{\hyperlink{namespacesimulation__precision__mod_afa656a8f79bdee9d705fb5988ae40123}{simulation\+\_\+precision\+\_\+mod\+::dps}} = kind(1.\+\_\+\+R8P)
+\begin{DoxyCompactList}\small\item\em Double precision definition switch. \end{DoxyCompactList}\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_aaff1ddf996761a1e11e787d63e1612f6}{simulation\+\_\+precision\+\_\+mod\+::prec}} = dps
+\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a3833ad1bc52c3738ac861591b7492737}{simulation\+\_\+precision\+\_\+mod\+::prec\+\_\+time}} = sps
+\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_ad515822198607dfee68a6ed8b246c7da}{simulation\+\_\+precision\+\_\+mod\+::prec\+\_\+wrt}} = sps
+\item 
+real(prec), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a1fb0f91226452bb43d4c61cae32a9a6d}{simulation\+\_\+precision\+\_\+mod\+::missing\+\_\+value\+\_\+default}} = -\/9999.\+0\+\_\+dps
+\item 
+real(prec), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a39845d8a0d331a7b9225feb5fe19ba3b}{simulation\+\_\+precision\+\_\+mod\+::mv}} = M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT
+\item 
+real(prec), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_abcad51274c804cb573d8f5720c5dfa05}{simulation\+\_\+precision\+\_\+mod\+::mv\+\_\+int}} = int(M\+I\+S\+S\+I\+N\+G\+\_\+\+V\+A\+L\+U\+E\+\_\+\+D\+E\+F\+A\+U\+LT)
+\item 
+real(prec), parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_ae3222dd2d51f6b7221be1ca1c70e3e6c}{simulation\+\_\+precision\+\_\+mod\+::err\+\_\+dist}} = 1\+E8\+\_\+dps
+\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a82a4b689dc26018c961193b991c489d4}{simulation\+\_\+precision\+\_\+mod\+::err\+\_\+ind}} = -\/1
+\item 
+integer, parameter, public \mbox{\hyperlink{namespacesimulation__precision__mod_a8a3305091ff953708508525398aa7129}{simulation\+\_\+precision\+\_\+mod\+::char\+\_\+len}} = 99
+\end{DoxyCompactItemize}

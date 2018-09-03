@@ -1,0 +1,37 @@
+\hypertarget{background_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/background.f90 File Reference}
+\label{background_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/background.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/background.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structbackground__mod_1_1fieldslist__class}{background\+\_\+mod\+::fieldslist\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+mod\+::background\+\_\+class}}
+\item 
+interface \mbox{\hyperlink{interfacebackground__mod_1_1background}{background\+\_\+mod\+::background}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacebackground__mod}{background\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Defines a background class that describes a solution from which to interpolate. A background object contains an arbitrary number of scalar or vectorial fields, in 2, 3 or 4D, indexed to labeled 1D fields of dimensions. The fields are stored in a linked list, enabling trivial iteration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_aa6ddc308698724f00ce1177ded5afc4c}{background\+\_\+mod\+::addfield}} (self, gfield)
+\begin{DoxyCompactList}\small\item\em Method that adds a field to the Background object\textquotesingle{}s field list. \end{DoxyCompactList}\item 
+type(background\+\_\+class) function \mbox{\hyperlink{namespacebackground__mod_ad0096fb6a5a11854fd70a7ce58dc3000}{background\+\_\+mod\+::constructor}} (id, name, extents, dims)
+\begin{DoxyCompactList}\small\item\em Constructor for Background object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a06d96d4627391d74feb105a842a87dc0}{background\+\_\+mod\+::setdims}} (self, dims)
+\begin{DoxyCompactList}\small\item\em Method that allocates and sets the dimensions of the Background object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_ae8871564866fdd657a25f6a5a2256c33}{background\+\_\+mod\+::setextents}} (self, bbox)
+\begin{DoxyCompactList}\small\item\em Method that sets the extents (bounding box) of the Background object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a4feaccf688558d8590ece4f09c65c977}{background\+\_\+mod\+::setid}} (self, id, name)
+\begin{DoxyCompactList}\small\item\em Method that sets the ID and name of the Background object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a3cee95b9b5d3aae83df33334981f2b27}{background\+\_\+mod\+::test}} (self)
+\begin{DoxyCompactList}\small\item\em A class \textquotesingle{}unit\textquotesingle{} test for the \mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a8a8f225cffcddb742f22a402155b703f}{background\+\_\+mod\+::printbackground}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the Background object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_acdcc52b4fb298bc145a121f9e8a4b929}{background\+\_\+mod\+::print\+\_\+fieldlist}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints all the links of the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a2bd18f3830c0667741efd086d36753db}{background\+\_\+mod\+::print\+\_\+fieldlistcurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints the current link of the list. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,0 +1,344 @@
+\hypertarget{structabstract__linkedlist__mod_1_1linkedlist}{}\section{abstract\+\_\+linkedlist\+\_\+mod\+:\+:linkedlist Type Reference}
+\label{structabstract__linkedlist__mod_1_1linkedlist}\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+
+
+Collaboration diagram for abstract\+\_\+linkedlist\+\_\+mod\+:\+:linkedlist\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=175pt]{structabstract__linkedlist__mod_1_1linkedlist__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a4b70f9966ccea6a96228341fb0e0eaf5}{addvalue}}
+\begin{DoxyCompactList}\small\item\em stores a value on the list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a5c7d60d9f9213b87eed9ce5350a72460}{getvalue}}
+\begin{DoxyCompactList}\small\item\em get nth value in list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a7bca8c31961be692d5c377c309d6cbd2}{removecurrent}}
+\begin{DoxyCompactList}\small\item\em Method that removes the current link from a list. \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a8d5f5b478ec685dfdc93cb491d2d30f9}{remove}}
+\begin{DoxyCompactList}\small\item\em Method that removes the nth link from a list. \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_ae96f8c00f41925064249e443ce31f44a}{getfirst}}
+\begin{DoxyCompactList}\small\item\em returns the fist link of the list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a17366518d094a62e8e68fa4c5681810c}{getlast}}
+\begin{DoxyCompactList}\small\item\em returns the last link of the list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a18806ecb0fb5dea1e754de35d3700ab7}{getsize}}
+\begin{DoxyCompactList}\small\item\em returns the size of the list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a3eb28d7a77ee8613ed566ec0148a1bd3}{reset}}
+\begin{DoxyCompactList}\small\item\em reset list iterator \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_ae301aa96709e62ff823e9fd7c52ff517}{next}}
+\begin{DoxyCompactList}\small\item\em iterate to next value in list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a655ba9438cdca6f2a52fd317e474fd70}{previous}}
+\begin{DoxyCompactList}\small\item\em iterate to previous value in list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a01dda56c3e79f6e9f5b12df9a9ec192b}{currentvalue}}
+\begin{DoxyCompactList}\small\item\em get current value in list \end{DoxyCompactList}\item 
+procedure, non\+\_\+overridable \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_adac9f898125d07bacdee51f7beed0ec1}{morevalues}}
+\begin{DoxyCompactList}\small\item\em more values to iterate? \end{DoxyCompactList}\item 
+generic \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a4962955d0f6e8fc46cccaa41e5f32b67}{add}} =$>$ add\+Value
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a1db1fbb6e3acfb39a2cab68396f31867}{firstlink}} =$>$ null()
+\begin{DoxyCompactList}\small\item\em First link in List. \end{DoxyCompactList}\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_af9747ed213a31f13aef74f95f014a503}{lastlink}} =$>$ null()
+\begin{DoxyCompactList}\small\item\em Last link in List. \end{DoxyCompactList}\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a5039a762fe6e50feda0265f14386c478}{currlink}} =$>$ null()
+\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_aa01c4be95b38ef7dd93c4cc550108f1d}{list}}
+\item 
+class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a96f2e50678291a2552e6c2cc54bc288d}{iterator}}
+\item 
+integer \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist_a943157fc98cf02c94ed8fb50379a5e62}{numlinks}} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 44 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a4962955d0f6e8fc46cccaa41e5f32b67}\label{structabstract__linkedlist__mod_1_1linkedlist_a4962955d0f6e8fc46cccaa41e5f32b67}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!add@{add}}
+\index{add@{add}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily generic abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::add (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 63 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=318pt]{structabstract__linkedlist__mod_1_1linkedlist_a4962955d0f6e8fc46cccaa41e5f32b67_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a4b70f9966ccea6a96228341fb0e0eaf5}\label{structabstract__linkedlist__mod_1_1linkedlist_a4b70f9966ccea6a96228341fb0e0eaf5}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!addvalue@{addvalue}}
+\index{addvalue@{addvalue}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{addvalue()}{addvalue()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::addvalue (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+stores a value on the list 
+
+
+
+Definition at line 51 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a01dda56c3e79f6e9f5b12df9a9ec192b}\label{structabstract__linkedlist__mod_1_1linkedlist_a01dda56c3e79f6e9f5b12df9a9ec192b}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!currentvalue@{currentvalue}}
+\index{currentvalue@{currentvalue}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{currentvalue()}{currentvalue()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::currentvalue (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+get current value in list 
+
+
+
+Definition at line 61 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_ae96f8c00f41925064249e443ce31f44a}\label{structabstract__linkedlist__mod_1_1linkedlist_ae96f8c00f41925064249e443ce31f44a}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!getfirst@{getfirst}}
+\index{getfirst@{getfirst}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{getfirst()}{getfirst()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::getfirst (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the fist link of the list 
+
+
+
+Definition at line 55 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a17366518d094a62e8e68fa4c5681810c}\label{structabstract__linkedlist__mod_1_1linkedlist_a17366518d094a62e8e68fa4c5681810c}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!getlast@{getlast}}
+\index{getlast@{getlast}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{getlast()}{getlast()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::getlast (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the last link of the list 
+
+
+
+Definition at line 56 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a18806ecb0fb5dea1e754de35d3700ab7}\label{structabstract__linkedlist__mod_1_1linkedlist_a18806ecb0fb5dea1e754de35d3700ab7}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!getsize@{getsize}}
+\index{getsize@{getsize}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{getsize()}{getsize()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::getsize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the size of the list 
+
+
+
+Definition at line 57 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a5c7d60d9f9213b87eed9ce5350a72460}\label{structabstract__linkedlist__mod_1_1linkedlist_a5c7d60d9f9213b87eed9ce5350a72460}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!getvalue@{getvalue}}
+\index{getvalue@{getvalue}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{getvalue()}{getvalue()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::getvalue (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+get nth value in list 
+
+
+
+Definition at line 52 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_adac9f898125d07bacdee51f7beed0ec1}\label{structabstract__linkedlist__mod_1_1linkedlist_adac9f898125d07bacdee51f7beed0ec1}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!morevalues@{morevalues}}
+\index{morevalues@{morevalues}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{morevalues()}{morevalues()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::morevalues (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+more values to iterate? 
+
+
+
+Definition at line 62 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_ae301aa96709e62ff823e9fd7c52ff517}\label{structabstract__linkedlist__mod_1_1linkedlist_ae301aa96709e62ff823e9fd7c52ff517}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!next@{next}}
+\index{next@{next}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+iterate to next value in list 
+
+
+
+Definition at line 59 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a655ba9438cdca6f2a52fd317e474fd70}\label{structabstract__linkedlist__mod_1_1linkedlist_a655ba9438cdca6f2a52fd317e474fd70}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!previous@{previous}}
+\index{previous@{previous}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{previous()}{previous()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::previous (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+iterate to previous value in list 
+
+
+
+Definition at line 60 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a8d5f5b478ec685dfdc93cb491d2d30f9}\label{structabstract__linkedlist__mod_1_1linkedlist_a8d5f5b478ec685dfdc93cb491d2d30f9}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!remove@{remove}}
+\index{remove@{remove}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that removes the nth link from a list. 
+
+
+
+Definition at line 54 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a7bca8c31961be692d5c377c309d6cbd2}\label{structabstract__linkedlist__mod_1_1linkedlist_a7bca8c31961be692d5c377c309d6cbd2}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!removecurrent@{removecurrent}}
+\index{removecurrent@{removecurrent}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{removecurrent()}{removecurrent()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::removecurrent (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that removes the current link from a list. 
+
+
+
+Definition at line 53 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a3eb28d7a77ee8613ed566ec0148a1bd3}\label{structabstract__linkedlist__mod_1_1linkedlist_a3eb28d7a77ee8613ed566ec0148a1bd3}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!reset@{reset}}
+\index{reset@{reset}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily procedure, non\+\_\+overridable abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+reset list iterator 
+
+
+
+Definition at line 58 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a5039a762fe6e50feda0265f14386c478}\label{structabstract__linkedlist__mod_1_1linkedlist_a5039a762fe6e50feda0265f14386c478}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!currlink@{currlink}}
+\index{currlink@{currlink}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{currlink}{currlink}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::currlink =$>$ null()\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 48 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+48         \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: currLink => null()
+\end{DoxyCode}
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a1db1fbb6e3acfb39a2cab68396f31867}\label{structabstract__linkedlist__mod_1_1linkedlist_a1db1fbb6e3acfb39a2cab68396f31867}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!firstlink@{firstlink}}
+\index{firstlink@{firstlink}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{firstlink}{firstlink}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::firstlink =$>$ null()\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+First link in List. 
+
+
+
+Definition at line 46 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+46         \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: firstLink => null()   
+\end{DoxyCode}
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a96f2e50678291a2552e6c2cc54bc288d}\label{structabstract__linkedlist__mod_1_1linkedlist_a96f2e50678291a2552e6c2cc54bc288d}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!iterator@{iterator}}
+\index{iterator@{iterator}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{iterator}{iterator}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::iterator\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 48 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_af9747ed213a31f13aef74f95f014a503}\label{structabstract__linkedlist__mod_1_1linkedlist_af9747ed213a31f13aef74f95f014a503}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!lastlink@{lastlink}}
+\index{lastlink@{lastlink}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{lastlink}{lastlink}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::lastlink =$>$ null()\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Last link in List. 
+
+
+
+Definition at line 47 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+47         \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: lastLink => null()    
+\end{DoxyCode}
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_aa01c4be95b38ef7dd93c4cc550108f1d}\label{structabstract__linkedlist__mod_1_1linkedlist_aa01c4be95b38ef7dd93c4cc550108f1d}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!list@{list}}
+\index{list@{list}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{list}{list}}
+{\footnotesize\ttfamily class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}), pointer abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::list\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 48 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+\mbox{\Hypertarget{structabstract__linkedlist__mod_1_1linkedlist_a943157fc98cf02c94ed8fb50379a5e62}\label{structabstract__linkedlist__mod_1_1linkedlist_a943157fc98cf02c94ed8fb50379a5e62}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}!numlinks@{numlinks}}
+\index{numlinks@{numlinks}!abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist@{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\subsubsection{\texorpdfstring{numlinks}{numlinks}}
+{\footnotesize\ttfamily integer abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist\+::numlinks = 0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 49 of file abstract\+\_\+\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+49         \textcolor{keywordtype}{integer} :: numLinks = 0
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{abstract___linked_list_8f90}{abstract\+\_\+\+Linked\+List.\+f90}}\end{DoxyCompactItemize}

@@ -1,0 +1,234 @@
+\hypertarget{write__vtu_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/app/write\+\_\+vtu.f90 File Reference}
+\label{write__vtu_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/app/write\+\_\+vtu.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/app/write\+\_\+vtu.\+f90}}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+program \mbox{\hyperlink{write__vtu_8f90_a8bbc7ab4725ee50b236ba1ffab6f3b88}{write\+\_\+vtu}}
+\item 
+subroutine \mbox{\hyperlink{write__vtu_8f90_ad3d26430620662abc6caea56402b8c72}{write\+\_\+data}}
+\item 
+subroutine \mbox{\hyperlink{write__vtu_8f90_ad806107886f0521aac56740b4a2aaf62}{write\+\_\+data2}}
+\item 
+subroutine \mbox{\hyperlink{write__vtu_8f90_ab859d2be74950aa978bc251eddf0b307}{write\+\_\+data3}}
+\item 
+subroutine \mbox{\hyperlink{write__vtu_8f90_a2a0b4e97269ec439c6dd440509f9742c}{write\+\_\+data4}}
+\item 
+subroutine \mbox{\hyperlink{write__vtu_8f90_ae39ce165900c97fc318d09bf9670ac92}{write\+\_\+data1}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{write__vtu_8f90_ad3d26430620662abc6caea56402b8c72}\label{write__vtu_8f90_ad3d26430620662abc6caea56402b8c72}} 
+\index{write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}!write\+\_\+data@{write\+\_\+data}}
+\index{write\+\_\+data@{write\+\_\+data}!write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}}
+\subsubsection{\texorpdfstring{write\+\_\+data()}{write\_data()}}
+{\footnotesize\ttfamily subroutine write\+\_\+vtu\+::write\+\_\+data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 128 of file write\+\_\+vtu.\+f90.
+
+
+\begin{DoxyCode}
+128   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+129   
+130   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+131 
+132   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+133   error = a\_vtk\_file%xml\_writer%write\_piece(np=np, nc=nc)
+134   error = a\_vtk\_file%xml\_writer%write\_geo(np=np, nc=nc, x=x, y=y, z=z)
+135   error = a\_vtk\_file%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, cell\_type=
+      cell\_type)
+136   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
+137   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'scalars'}, x=v)
+138   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'vector'}, x=v\_x, y=v\_y, z=v\_z)
+139   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
+140   error = a\_vtk\_file%xml\_writer%write\_piece()
+141   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=231pt]{write__vtu_8f90_ad3d26430620662abc6caea56402b8c72_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{write__vtu_8f90_ae39ce165900c97fc318d09bf9670ac92}\label{write__vtu_8f90_ae39ce165900c97fc318d09bf9670ac92}} 
+\index{write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}!write\+\_\+data1@{write\+\_\+data1}}
+\index{write\+\_\+data1@{write\+\_\+data1}!write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}}
+\subsubsection{\texorpdfstring{write\+\_\+data1()}{write\_data1()}}
+{\footnotesize\ttfamily subroutine write\+\_\+vtu\+::write\+\_\+data1 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 196 of file write\+\_\+vtu.\+f90.
+
+
+\begin{DoxyCode}
+196   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+197   
+198   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+199 
+200   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+201   error = a\_vtk\_file%xml\_writer%write\_piece(np=np1, nc=nc1)
+202   error = a\_vtk\_file%xml\_writer%write\_geo(np=np1, nc=nc1, x=x1, y=y1, z=z1)
+203   error = a\_vtk\_file%xml\_writer%write\_connectivity(nc=nc1, connectivity=connect1, offset=offset1, cell\_type
+      =cell\_type1)
+204   error = a\_vtk\_file%xml\_writer%write\_piece()
+205   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{write__vtu_8f90_ae39ce165900c97fc318d09bf9670ac92_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{write__vtu_8f90_ad806107886f0521aac56740b4a2aaf62}\label{write__vtu_8f90_ad806107886f0521aac56740b4a2aaf62}} 
+\index{write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}!write\+\_\+data2@{write\+\_\+data2}}
+\index{write\+\_\+data2@{write\+\_\+data2}!write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}}
+\subsubsection{\texorpdfstring{write\+\_\+data2()}{write\_data2()}}
+{\footnotesize\ttfamily subroutine write\+\_\+vtu\+::write\+\_\+data2 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 145 of file write\+\_\+vtu.\+f90.
+
+
+\begin{DoxyCode}
+145   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+146   
+147   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+148 
+149   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+150   error = a\_vtk\_file%xml\_writer%write\_piece(np=np2, nc=nc2)
+151   error = a\_vtk\_file%xml\_writer%write\_geo(np=np2, nc=nc2, x=x2, y=y2, z=z2)
+152   error = a\_vtk\_file%xml\_writer%write\_connectivity(nc=nc2, connectivity=connect2, offset=offset2, cell\_type
+      =cell\_type2)
+153   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
+154   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'scalars'}, x=v)
+155   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'vector'}, x=v\_x, y=v\_y, z=v\_z)
+156   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
+157   error = a\_vtk\_file%xml\_writer%write\_piece()
+158   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{write__vtu_8f90_ad806107886f0521aac56740b4a2aaf62_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{write__vtu_8f90_ab859d2be74950aa978bc251eddf0b307}\label{write__vtu_8f90_ab859d2be74950aa978bc251eddf0b307}} 
+\index{write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}!write\+\_\+data3@{write\+\_\+data3}}
+\index{write\+\_\+data3@{write\+\_\+data3}!write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}}
+\subsubsection{\texorpdfstring{write\+\_\+data3()}{write\_data3()}}
+{\footnotesize\ttfamily subroutine write\+\_\+vtu\+::write\+\_\+data3 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 162 of file write\+\_\+vtu.\+f90.
+
+
+\begin{DoxyCode}
+162   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+163   
+164   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+165 
+166   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+167   error = a\_vtk\_file%xml\_writer%write\_piece(np=np3, nc=nc3)
+168   error = a\_vtk\_file%xml\_writer%write\_geo(np=np3, nc=nc3, x=x3, y=y3, z=z3)
+169   error = a\_vtk\_file%xml\_writer%write\_connectivity(nc=nc3, connectivity=connect3, offset=offset3, cell\_type
+      =cell\_type3)
+170   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
+171   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'scalars'}, x=v)
+172   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'vector'}, x=v\_x, y=v\_y, z=v\_z)
+173   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
+174   error = a\_vtk\_file%xml\_writer%write\_piece()
+175   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{write__vtu_8f90_ab859d2be74950aa978bc251eddf0b307_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{write__vtu_8f90_a2a0b4e97269ec439c6dd440509f9742c}\label{write__vtu_8f90_a2a0b4e97269ec439c6dd440509f9742c}} 
+\index{write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}!write\+\_\+data4@{write\+\_\+data4}}
+\index{write\+\_\+data4@{write\+\_\+data4}!write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}}
+\subsubsection{\texorpdfstring{write\+\_\+data4()}{write\_data4()}}
+{\footnotesize\ttfamily subroutine write\+\_\+vtu\+::write\+\_\+data4 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 179 of file write\+\_\+vtu.\+f90.
+
+
+\begin{DoxyCode}
+179   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+180   
+181   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+182 
+183   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+184   error = a\_vtk\_file%xml\_writer%write\_piece(np=np4, nc=nc4)
+185   error = a\_vtk\_file%xml\_writer%write\_geo(np=np4, nc=nc4, x=x4, y=y4, z=z4)
+186   error = a\_vtk\_file%xml\_writer%write\_connectivity(nc=nc4, connectivity=connect4, offset=offset4, cell\_type
+      =cell\_type4)
+187   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
+188   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'scalars'}, x=v)
+189   error = a\_vtk\_file%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'vector'}, x=v\_x, y=v\_y, z=v\_z)
+190   error = a\_vtk\_file%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
+191   error = a\_vtk\_file%xml\_writer%write\_piece()
+192   \textcolor{comment}{
+      !---------------------------------------------------------------------------------------------------------------------------------}
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{write__vtu_8f90_a2a0b4e97269ec439c6dd440509f9742c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{write__vtu_8f90_a8bbc7ab4725ee50b236ba1ffab6f3b88}\label{write__vtu_8f90_a8bbc7ab4725ee50b236ba1ffab6f3b88}} 
+\index{write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}!write\+\_\+vtu@{write\+\_\+vtu}}
+\index{write\+\_\+vtu@{write\+\_\+vtu}!write\+\_\+vtu.\+f90@{write\+\_\+vtu.\+f90}}
+\subsubsection{\texorpdfstring{write\+\_\+vtu()}{write\_vtu()}}
+{\footnotesize\ttfamily program write\+\_\+vtu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 2 of file write\+\_\+vtu.\+f90.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{write__vtu_8f90_a8bbc7ab4725ee50b236ba1ffab6f3b88_cgraph}
+\end{center}
+\end{figure}

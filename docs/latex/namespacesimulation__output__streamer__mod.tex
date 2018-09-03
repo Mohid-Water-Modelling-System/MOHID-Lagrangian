@@ -1,0 +1,164 @@
+\hypertarget{namespacesimulation__output__streamer__mod}{}\section{simulation\+\_\+output\+\_\+streamer\+\_\+mod Module Reference}
+\label{namespacesimulation__output__streamer__mod}\index{simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}}
+
+
+Defines a output file writer class with an object exposable to the Simulation This class is in charge of selectig the correct writter for the selected output file format.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulation__output__streamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a82c657d25adca9e0353ec9f87a4dd0c9}{initoutputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Initializes the Output writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a4a290f3ef9ac868e173eab1ab9fd54b8}{writestepserial}} (self, blocks)
+\begin{DoxyCompactList}\small\item\em Streamer method to call a simulation step writer. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a1df8126a96e9b81ddf62841587728663}{writedomain}} (self, filename, bbox, npbbox, blocks)
+\begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structsimulation__output__streamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), public \mbox{\hyperlink{namespacesimulation__output__streamer__mod_a6b95972f6387d7ce3231af3d25fedac5}{outputstreamer}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines a output file writer class with an object exposable to the Simulation This class is in charge of selectig the correct writter for the selected output file format. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulation__output__streamer__mod_a82c657d25adca9e0353ec9f87a4dd0c9}\label{namespacesimulation__output__streamer__mod_a82c657d25adca9e0353ec9f87a4dd0c9}} 
+\index{simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}!initoutputstreamer@{initoutputstreamer}}
+\index{initoutputstreamer@{initoutputstreamer}!simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{initoutputstreamer()}{initoutputstreamer()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::initoutputstreamer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__output__streamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes the Output writer object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 54 of file simulation\+\_\+output\+\_\+streamer.\+f90.
+
+
+\begin{DoxyCode}
+54     \textcolor{keywordtype}{implicit none}
+55     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+56     self%OutputFormat = globals%Parameters%OutputFormat
+57     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+58         \textcolor{keyword}{call }vtkwritter%initialize()
+59 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulation__output__streamer__mod_a1df8126a96e9b81ddf62841587728663}\label{namespacesimulation__output__streamer__mod_a1df8126a96e9b81ddf62841587728663}} 
+\index{simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}!writedomain@{writedomain}}
+\index{writedomain@{writedomain}!simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{writedomain()}{writedomain()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::writedomain (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__output__streamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename,  }\item[{class(\mbox{\hyperlink{structboundingbox__mod_1_1boundingbox__class}{boundingbox\+\_\+class}}), intent(in)}]{bbox,  }\item[{integer, intent(in)}]{npbbox,  }\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(in)}]{blocks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,filename,bbox,npbbox,blocks} & \\
+\hline
+\mbox{\tt in}  & {\em filename} & name of the case to add\\
+\hline
+\mbox{\tt in}  & {\em bbox} & Case bounding box\\
+\hline
+\mbox{\tt in}  & {\em npbbox} & number of points of the bbox geometry\\
+\hline
+\mbox{\tt in}  & {\em blocks} & Case Blocks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 93 of file simulation\+\_\+output\+\_\+streamer.\+f90.
+
+
+\begin{DoxyCode}
+93     \textcolor{keywordtype}{implicit none}
+94     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+95     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+96     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
+97     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
+98     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+99     
+100     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+101         \textcolor{keyword}{call }vtkwritter%Domain(filename, bbox, npbbox, blocks)
+102 \textcolor{keywordflow}{    end if}
+103     
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulation__output__streamer__mod_a4a290f3ef9ac868e173eab1ab9fd54b8}\label{namespacesimulation__output__streamer__mod_a4a290f3ef9ac868e173eab1ab9fd54b8}} 
+\index{simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}!writestepserial@{writestepserial}}
+\index{writestepserial@{writestepserial}!simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{writestepserial()}{writestepserial()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::writestepserial (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__output__streamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(in)}]{blocks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Streamer method to call a simulation step writer. Writes binary X\+ML V\+TK format using an unstructured grid. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,blocks} & \\
+\hline
+\mbox{\tt in}  & {\em blocks} & Case Blocks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 70 of file simulation\+\_\+output\+\_\+streamer.\+f90.
+
+
+\begin{DoxyCode}
+70     \textcolor{keywordtype}{implicit none}
+71     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self   
+72     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+73     \textcolor{keywordtype}{type}(string) :: filename
+74     
+75     filename = globals%Names%casename//\textcolor{stringliteral}{'\_'}//int2str(\textcolor{stringliteral}{'(i5.5)'},globals%Sim%getnumoutfile())
+76     
+77     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+78         \textcolor{keyword}{call }vtkwritter%TracerSerial(filename, blocks)
+79 \textcolor{keywordflow}{    end if}
+80     
+81     \textcolor{keyword}{call }globals%Sim%increment\_numoutfile()
+82     
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulation__output__streamer__mod_a6b95972f6387d7ce3231af3d25fedac5}\label{namespacesimulation__output__streamer__mod_a6b95972f6387d7ce3231af3d25fedac5}} 
+\index{simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}!outputstreamer@{outputstreamer}}
+\index{outputstreamer@{outputstreamer}!simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{outputstreamer}{outputstreamer}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulation__output__streamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), public simulation\+\_\+output\+\_\+streamer\+\_\+mod\+::outputstreamer}
+
+
+
+Definition at line 39 of file simulation\+\_\+output\+\_\+streamer.\+f90.
+
+
+\begin{DoxyCode}
+39     \textcolor{keywordtype}{type}(output\_streamer\_class) :: OutputStreamer
+\end{DoxyCode}

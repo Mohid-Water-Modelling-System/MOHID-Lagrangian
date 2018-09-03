@@ -1,0 +1,273 @@
+\hypertarget{structsimulation__globals__mod_1_1simdefs__t}{}\section{simulation\+\_\+globals\+\_\+mod\+:\+:simdefs\+\_\+t Type Reference}
+\label{structsimulation__globals__mod_1_1simdefs__t}\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+
+
+Simulation definitions class.  
+
+
+
+
+Collaboration diagram for simulation\+\_\+globals\+\_\+mod\+:\+:simdefs\+\_\+t\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=177pt]{structsimulation__globals__mod_1_1simdefs__t__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_afca736d60d830235b7f84139eb5a1c0e}{setdp}}
+\item 
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a80238515dc8566871b44ec89ee9fe1e7}{setdt}}
+\item 
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a1f16ff24bfef17406b0d0ffe1d5bcce8}{setboundingbox}}
+\item 
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_ae55e67ff6ecd7045526f099a4bb77fac}{setblocksize}}
+\item 
+procedure \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a135110b50bcbd621d80df8f7b31fa60e}{print}} =$>$ \mbox{\hyperlink{namespacesimulation__globals__mod_ad331ccf019de7ed531e37c655600f90f}{printsimdefs}}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+real(prec) \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_af730c363daf57cdb66206b7cc7e3d8ff}{dp}}
+\begin{DoxyCompactList}\small\item\em Initial particle spacing at emission. \end{DoxyCompactList}\item 
+real(prec\+\_\+time) \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_acc8df5cd09283215deb732d97b44f1dc}{dt}} = MV
+\begin{DoxyCompactList}\small\item\em Timestep for fixed step integrators (s) \end{DoxyCompactList}\item 
+type(vector) \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_af3a5fb325c955840515f199c8be30aa7}{pointmin}}
+\begin{DoxyCompactList}\small\item\em Point that defines the lowest corner of the simulation bounding box. \end{DoxyCompactList}\item 
+type(vector) \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a0437ce61f2882028c5e3ca0212aeaf24}{pointmax}}
+\begin{DoxyCompactList}\small\item\em Point that defines the upper corner of the simulation bounding box. \end{DoxyCompactList}\item 
+logical \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a3ff72d630a17daa1ca1494e67bc6d087}{autoblocksize}} = .true.
+\begin{DoxyCompactList}\small\item\em Flag for automatic Block sizing. \end{DoxyCompactList}\item 
+type(vector) \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a7ed40e8b9c4062d6e461b6187c3115b1}{blocksize}}
+\begin{DoxyCompactList}\small\item\em Size (xyz) of a Block (sub-\/domain) \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a6b7497df8a36fe045f2096963db3bdde}{numblocks}}
+\begin{DoxyCompactList}\small\item\em Number of blocks in the simulation. \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_aebf8c5891821bfe845922fdcead042d6}{numblocksx}}
+\item 
+integer \mbox{\hyperlink{structsimulation__globals__mod_1_1simdefs__t_a46d35c673edb6e991a57ff9ed925e1bf}{numblocksy}}
+\begin{DoxyCompactList}\small\item\em Number of blocks along x and y. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Simulation definitions class. 
+
+Definition at line 53 of file simulation\+\_\+globals.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a135110b50bcbd621d80df8f7b31fa60e}\label{structsimulation__globals__mod_1_1simdefs__t_a135110b50bcbd621d80df8f7b31fa60e}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!print@{print}}
+\index{print@{print}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 67 of file simulation\+\_\+globals.\+f90.
+
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_ae55e67ff6ecd7045526f099a4bb77fac}\label{structsimulation__globals__mod_1_1simdefs__t_ae55e67ff6ecd7045526f099a4bb77fac}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!setblocksize@{setblocksize}}
+\index{setblocksize@{setblocksize}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{setblocksize()}{setblocksize()}}
+{\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::setblocksize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 66 of file simulation\+\_\+globals.\+f90.
+
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a1f16ff24bfef17406b0d0ffe1d5bcce8}\label{structsimulation__globals__mod_1_1simdefs__t_a1f16ff24bfef17406b0d0ffe1d5bcce8}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!setboundingbox@{setboundingbox}}
+\index{setboundingbox@{setboundingbox}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{setboundingbox()}{setboundingbox()}}
+{\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::setboundingbox (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 65 of file simulation\+\_\+globals.\+f90.
+
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_afca736d60d830235b7f84139eb5a1c0e}\label{structsimulation__globals__mod_1_1simdefs__t_afca736d60d830235b7f84139eb5a1c0e}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!setdp@{setdp}}
+\index{setdp@{setdp}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{setdp()}{setdp()}}
+{\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::setdp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 63 of file simulation\+\_\+globals.\+f90.
+
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a80238515dc8566871b44ec89ee9fe1e7}\label{structsimulation__globals__mod_1_1simdefs__t_a80238515dc8566871b44ec89ee9fe1e7}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!setdt@{setdt}}
+\index{setdt@{setdt}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{setdt()}{setdt()}}
+{\footnotesize\ttfamily procedure simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::setdt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 64 of file simulation\+\_\+globals.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a3ff72d630a17daa1ca1494e67bc6d087}\label{structsimulation__globals__mod_1_1simdefs__t_a3ff72d630a17daa1ca1494e67bc6d087}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!autoblocksize@{autoblocksize}}
+\index{autoblocksize@{autoblocksize}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{autoblocksize}{autoblocksize}}
+{\footnotesize\ttfamily logical simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::autoblocksize = .true.\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Flag for automatic Block sizing. 
+
+
+
+Definition at line 58 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+58         \textcolor{keywordtype}{logical}         ::  autoblocksize = .true.   
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a7ed40e8b9c4062d6e461b6187c3115b1}\label{structsimulation__globals__mod_1_1simdefs__t_a7ed40e8b9c4062d6e461b6187c3115b1}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!blocksize@{blocksize}}
+\index{blocksize@{blocksize}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{blocksize}{blocksize}}
+{\footnotesize\ttfamily type(vector) simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::blocksize\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Size (xyz) of a Block (sub-\/domain) 
+
+
+
+Definition at line 59 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+59         \textcolor{keywordtype}{type}(vector)    ::  blocksize
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_af730c363daf57cdb66206b7cc7e3d8ff}\label{structsimulation__globals__mod_1_1simdefs__t_af730c363daf57cdb66206b7cc7e3d8ff}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!dp@{dp}}
+\index{dp@{dp}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{dp}{dp}}
+{\footnotesize\ttfamily real(prec) simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::dp\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initial particle spacing at emission. 
+
+
+
+Definition at line 54 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+54         \textcolor{keywordtype}{real(prec)}      ::  Dp
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_acc8df5cd09283215deb732d97b44f1dc}\label{structsimulation__globals__mod_1_1simdefs__t_acc8df5cd09283215deb732d97b44f1dc}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!dt@{dt}}
+\index{dt@{dt}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{dt}{dt}}
+{\footnotesize\ttfamily real(prec\+\_\+time) simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::dt = MV\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Timestep for fixed step integrators (s) 
+
+
+
+Definition at line 55 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+55         \textcolor{keywordtype}{real(prec\_time)} ::  dt = mv         
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a6b7497df8a36fe045f2096963db3bdde}\label{structsimulation__globals__mod_1_1simdefs__t_a6b7497df8a36fe045f2096963db3bdde}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!numblocks@{numblocks}}
+\index{numblocks@{numblocks}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{numblocks}{numblocks}}
+{\footnotesize\ttfamily integer simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::numblocks\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Number of blocks in the simulation. 
+
+
+
+Definition at line 60 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+60         \textcolor{keywordtype}{integer}         ::  numblocks
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_aebf8c5891821bfe845922fdcead042d6}\label{structsimulation__globals__mod_1_1simdefs__t_aebf8c5891821bfe845922fdcead042d6}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!numblocksx@{numblocksx}}
+\index{numblocksx@{numblocksx}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{numblocksx}{numblocksx}}
+{\footnotesize\ttfamily integer simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::numblocksx\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 61 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+61         \textcolor{keywordtype}{integer}         ::  numblocksx, numblocksy
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a46d35c673edb6e991a57ff9ed925e1bf}\label{structsimulation__globals__mod_1_1simdefs__t_a46d35c673edb6e991a57ff9ed925e1bf}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!numblocksy@{numblocksy}}
+\index{numblocksy@{numblocksy}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{numblocksy}{numblocksy}}
+{\footnotesize\ttfamily integer simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::numblocksy\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Number of blocks along x and y. 
+
+
+
+Definition at line 61 of file simulation\+\_\+globals.\+f90.
+
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_a0437ce61f2882028c5e3ca0212aeaf24}\label{structsimulation__globals__mod_1_1simdefs__t_a0437ce61f2882028c5e3ca0212aeaf24}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!pointmax@{pointmax}}
+\index{pointmax@{pointmax}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{pointmax}{pointmax}}
+{\footnotesize\ttfamily type(vector) simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::pointmax\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Point that defines the upper corner of the simulation bounding box. 
+
+
+
+Definition at line 57 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+57         \textcolor{keywordtype}{type}(vector)    ::  Pointmax
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulation__globals__mod_1_1simdefs__t_af3a5fb325c955840515f199c8be30aa7}\label{structsimulation__globals__mod_1_1simdefs__t_af3a5fb325c955840515f199c8be30aa7}} 
+\index{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}!pointmin@{pointmin}}
+\index{pointmin@{pointmin}!simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t@{simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t}}
+\subsubsection{\texorpdfstring{pointmin}{pointmin}}
+{\footnotesize\ttfamily type(vector) simulation\+\_\+globals\+\_\+mod\+::simdefs\+\_\+t\+::pointmin\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Point that defines the lowest corner of the simulation bounding box. 
+
+
+
+Definition at line 56 of file simulation\+\_\+globals.\+f90.
+
+
+\begin{DoxyCode}
+56         \textcolor{keywordtype}{type}(vector)    ::  Pointmin
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{simulation__globals_8f90}{simulation\+\_\+globals.\+f90}}\end{DoxyCompactItemize}
