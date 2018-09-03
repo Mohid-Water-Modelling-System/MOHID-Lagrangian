@@ -189,7 +189,7 @@
     integer :: i
     t = self%id
     outext = 'Background['//t//', '//self%name//'] is a'
-    call Log%put(outext)
+    call Log%put(outext,.false.)
     call Geometry%print(self%extents)
     outext = 'The dimensions fields are:'
     call Log%put(outext,.false.)
