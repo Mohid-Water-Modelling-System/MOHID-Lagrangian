@@ -2,6 +2,7 @@ var blocks_8f90 =
 [
     [ "block_class", "structblocks__mod_1_1block__class.html", "structblocks__mod_1_1block__class" ],
     [ "allocblocks", "blocks_8f90.html#a639beb0fee2290d46353f4b4702d6711", null ],
+    [ "aottotracers", "blocks_8f90.html#a27c7e788c5f3979bfe9d43aad138286a", null ],
     [ "callemitter", "blocks_8f90.html#a2c3cf5113e1422d812c2c869afde2729", null ],
     [ "cleanaot", "blocks_8f90.html#a6cc313e046daa2720cbca810d083faa0", null ],
     [ "consolidatearrays", "blocks_8f90.html#a25ff530b5125e4cee5b1f474b2491883", null ],

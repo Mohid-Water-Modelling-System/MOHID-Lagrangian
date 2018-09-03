@@ -8,5 +8,5 @@ var searchData=
   ['endtime',['endtime',['../structsimulation__globals__mod_1_1parameters__t.html#a79f52ac6e24e87eba3c809d97d647aaf',1,'simulation_globals_mod::parameters_t']]],
   ['err_5fdist',['err_dist',['../namespacesimulation__precision__mod.html#ae3222dd2d51f6b7221be1ca1c70e3e6c',1,'simulation_precision_mod']]],
   ['err_5find',['err_ind',['../namespacesimulation__precision__mod.html#a82a4b689dc26018c961193b991c489d4',1,'simulation_precision_mod']]],
-  ['extents',['extents',['../structblocks__mod_1_1block__class.html#aff3b0cb7d8248f8a87691a028de916d3',1,'blocks_mod::block_class']]]
+  ['extents',['extents',['../structbackground__mod_1_1background__class.html#acaaef54168dbee2731a99d0852844844',1,'background_mod::background_class::extents()'],['../structblocks__mod_1_1block__class.html#aff3b0cb7d8248f8a87691a028de916d3',1,'blocks_mod::block_class::extents()']]]
 ];

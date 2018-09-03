@@ -8,6 +8,6 @@ var searchData=
   ['active',['active',['../structsources__mod_1_1source__state.html#ab31d51c870b76a1e4ca9b03f5847a7c2',1,'sources_mod::source_state::active()'],['../structtracer__base__mod_1_1tracer__state__class.html#ab32056ce018eb780a7af79f1598db58d',1,'tracer_base_mod::tracer_state_class::active()']]],
   ['age',['age',['../structsources__mod_1_1source__state.html#a4ec18178b2bfbf4769892f26d62aa6f7',1,'sources_mod::source_state::age()'],['../structtracer__base__mod_1_1tracer__state__class.html#a626e0afcfae26bbab40a6ed5e4e6d67b',1,'tracer_base_mod::tracer_state_class::age()']]],
   ['aot',['aot',['../structblocks__mod_1_1block__class.html#a53f912fe57eb5e386ca62b1dbd087417',1,'blocks_mod::block_class']]],
-  ['author',['author',['../namespaceabout__mod.html#a7c3a72ae7ba5fc7d8a4bf133605f58c3',1,'about_mod']]],
+  ['author',['author',['../namespacesimulation__about__mod.html#a49c4e8683dee7c3a2cd52658879c6e38',1,'simulation_about_mod']]],
   ['autoblocksize',['autoblocksize',['../structsimulation__globals__mod_1_1simdefs__t.html#a3ff72d630a17daa1ca1494e67bc6d087',1,'simulation_globals_mod::simdefs_t']]]
 ];

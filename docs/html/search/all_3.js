@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['date',['date',['../namespaceabout__mod.html#aaac12f65380fb0f10916b3744d9e5a0b',1,'about_mod']]],
+  ['date',['date',['../namespacesimulation__about__mod.html#ad2ae0e434e2c6b0221094f181a538dc6',1,'simulation_about_mod']]],
   ['dblock',['dblock',['../namespaceblocks__mod.html#ac8ad6e3cf7a812f95dadb592336aca50',1,'blocks_mod']]],
   ['decompose',['decompose',['../structsimulation__mod_1_1simulation__class.html#a559d8d450db2c6b568cb6e0e4dbab350',1,'simulation_mod::simulation_class']]],
   ['decomposedomain',['decomposedomain',['../namespacesimulation__mod.html#a2b8198a9fb3f7671c6b45192a0b9740c',1,'simulation_mod']]],
@@ -10,6 +10,7 @@ var searchData=
   ['density',['density',['../structsources__mod_1_1source__prop.html#ac569c18f02e33c5ca95f423bcb9fb30e',1,'sources_mod::source_prop::density()'],['../structtracer__paper__mod_1_1paper__state__class.html#a52ea928258826e92f35119aa62021cbe',1,'tracer_paper_mod::paper_state_class::density()'],['../structtracer__plastic__mod_1_1plastic__par__class.html#af2f2bccb38cd0cd010f86091e36e8f3d',1,'tracer_plastic_mod::plastic_par_class::density()']]],
   ['depth',['depth',['../structsources__mod_1_1source__state.html#a4dbafcfac12c749efd402a71e01a25cd',1,'sources_mod::source_state::depth()'],['../structtracer__base__mod_1_1tracer__state__class.html#a4ccd21ef0bc2b596686276d2a44f2ee0',1,'tracer_base_mod::tracer_state_class::depth()']]],
   ['detailedprint',['detailedprint',['../structblocks__mod_1_1block__class.html#a937d8dca8393460bc718dafa8a5c03ac',1,'blocks_mod::block_class::detailedprint()'],['../structsimulation__memory__mod_1_1memory__t.html#ac6105b92726abbb5ff671509c7eeea57',1,'simulation_memory_mod::memory_t::detailedprint()']]],
+  ['dim',['dim',['../structbackground__mod_1_1background__class.html#a086f319ce4f039190699578d69927013',1,'background_mod::background_class::dim()'],['../structfield__types__mod_1_1field__class.html#adc3749ef53ca179d5d48e253d4d06710',1,'field_types_mod::field_class::dim()']]],
   ['distributetracers',['distributetracers',['../structblocks__mod_1_1block__class.html#a00f8c114e84499356db3f8b633a6b3a3',1,'blocks_mod::block_class::distributetracers()'],['../namespaceblocks__mod.html#aa178415bcc40cf169744d356e1a09c6b',1,'blocks_mod::distributetracers()']]],
   ['domain',['domain',['../structvtkwritter__mod_1_1vtkwritter__class.html#a7abd7831d763c178e15bd8b6fb7e358e',1,'vtkwritter_mod::vtkwritter_class::domain()'],['../namespacevtkwritter__mod.html#a9f44d9fd1c5da759c4f2d721d12a8181',1,'vtkwritter_mod::domain()']]],
   ['dp',['dp',['../structsimulation__globals__mod_1_1simdefs__t.html#af730c363daf57cdb66206b7cc7e3d8ff',1,'simulation_globals_mod::simdefs_t']]],

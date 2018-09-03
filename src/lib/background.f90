@@ -13,10 +13,10 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines a background class that describes a solution from which to 
-    !> interpolate. A background object contains an arbitrary number of scalar or 
+    !> Defines a background class that describes a solution from which to
+    !> interpolate. A background object contains an arbitrary number of scalar or
     !> vectorial fields, in 2, 3 or 4D, indexed to labeled 1D fields of dimensions.
-    !> The fields are stored in a linked list, enabling trivial iteration. 
+    !> The fields are stored in a linked list, enabling trivial iteration.
     !------------------------------------------------------------------------------
 
     module background_mod
@@ -49,7 +49,7 @@
     procedure :: print => printBackground
     end type background_class
 
-    interface Background !> Constructor
+    interface Background !< Constructor
     procedure constructor
     end interface
 
@@ -62,7 +62,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that adds a field to the Background object's field list
-    !> @parm[in] self, gfield
+    !> @param[in] self, gfield
     !---------------------------------------------------------------------------
     subroutine addField(self, gfield)
     implicit none
@@ -81,7 +81,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Constructor for Background object
-    !> @parm[in] id, name, extents, dims
+    !> @param[in] id, name, extents, dims
     !---------------------------------------------------------------------------
     function constructor(id, name, extents, dims)
     implicit none
@@ -99,7 +99,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that allocates and sets the dimensions of the Background object
-    !> @parm[in] self, dims
+    !> @param[in] self, dims
     !---------------------------------------------------------------------------
     subroutine setDims(self, dims)
     class(background_class), intent(inout) :: self
@@ -111,7 +111,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that sets the extents (bounding box) of the Background object
-    !> @parm[in] self, bbox
+    !> @param[in] self, bbox
     !---------------------------------------------------------------------------
     subroutine setExtents(self, bbox)
     class(background_class), intent(inout) :: self
@@ -123,7 +123,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that sets the ID and name of the Background object
-    !> @parm[in] self, id, name
+    !> @param[in] self, id, name
     !---------------------------------------------------------------------------
     subroutine setID(self, id, name)
     class(background_class), intent(inout) :: self
@@ -139,43 +139,43 @@
     !> A class 'unit' test for the background_class
     !---------------------------------------------------------------------------
     subroutine test(self)
-        class(background_class), intent(inout) :: self
-        type(background_class) :: background1
-        type(generic_field_class) :: gfield1, gfield2, gfield3
-        real(prec), allocatable, dimension(:) :: field1
-        real(prec), allocatable, dimension(:,:) :: field2
-        type(vector), allocatable, dimension(:,:,:) :: field3
-        type(string) :: name1, name2, name3, bname
-        type(string) :: units1, units2, units3
-        type(box) :: backgroundbbox
-        type(scalar1d_field_class), allocatable, dimension(:) :: backgroundims
-        !generating fields
-        allocate(field1(50))
-        allocate(field2(20,60))
-        allocate(field3(2,3,4))
-        name1 = 'testfield1d'
-        name2 = 'testfield2d'
-        name3 = 'testfield3d'
-        units1 = 'm/s'
-        units2 = 'km'
-        units3 = 'ms-1'
-        call gfield1%initialize(name1, units1, field1)
-        call gfield2%initialize(name2, units2, field2)
-        call gfield3%initialize(name3, units3, field3)
-        !assembling our Background
-        bname = 'TestBackground'
-        name1 = 'lon'
-        name2 = 'lat'
-        backgroundbbox%pt = 1*ex + 2*ey + 3*ez
-        backgroundbbox%size = 4*ex + 5*ey + 6*ez
-        allocate(backgroundims(2))
-        call backgroundims(1)%initialize(name1,units2,1, field1)
-        call backgroundims(2)%initialize(name2,units2,1, field1)
-        background1 = Background(5, bname, backgroundbbox, backgroundims)
-        call background1%add(gfield1)
-        call background1%add(gfield2)
-        call background1%add(gfield3)
-        call background1%print()
+    class(background_class), intent(inout) :: self
+    type(background_class) :: background1
+    type(generic_field_class) :: gfield1, gfield2, gfield3
+    real(prec), allocatable, dimension(:) :: field1
+    real(prec), allocatable, dimension(:,:) :: field2
+    type(vector), allocatable, dimension(:,:,:) :: field3
+    type(string) :: name1, name2, name3, bname
+    type(string) :: units1, units2, units3
+    type(box) :: backgroundbbox
+    type(scalar1d_field_class), allocatable, dimension(:) :: backgroundims
+    !generating fields
+    allocate(field1(50))
+    allocate(field2(20,60))
+    allocate(field3(2,3,4))
+    name1 = 'testfield1d'
+    name2 = 'testfield2d'
+    name3 = 'testfield3d'
+    units1 = 'm/s'
+    units2 = 'km'
+    units3 = 'ms-1'
+    call gfield1%initialize(name1, units1, field1)
+    call gfield2%initialize(name2, units2, field2)
+    call gfield3%initialize(name3, units3, field3)
+    !assembling our Background
+    bname = 'TestBackground'
+    name1 = 'lon'
+    name2 = 'lat'
+    backgroundbbox%pt = 1*ex + 2*ey + 3*ez
+    backgroundbbox%size = 4*ex + 5*ey + 6*ez
+    allocate(backgroundims(2))
+    call backgroundims(1)%initialize(name1,units2,1, field1)
+    call backgroundims(2)%initialize(name2,units2,1, field1)
+    background1 = Background(5, bname, backgroundbbox, backgroundims)
+    call background1%add(gfield1)
+    call background1%add(gfield2)
+    call background1%add(gfield3)
+    call background1%print()
     end subroutine test
 
     !---------------------------------------------------------------------------

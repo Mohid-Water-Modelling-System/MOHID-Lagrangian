@@ -2,6 +2,7 @@ var structaot__mod_1_1aot__class =
 [
     [ "clean", "structaot__mod_1_1aot__class.html#aab1eb00e5cd2868ff08fcd5bb1529688", null ],
     [ "print", "structaot__mod_1_1aot__class.html#a92925f914d4cc5f252e4ca638e104628", null ],
+    [ "totracers", "structaot__mod_1_1aot__class.html#a834962484645337446945ae834ea5293", null ],
     [ "id", "structaot__mod_1_1aot__class.html#ad4bc41c8c0f5dc4ade794eae2d2d5cd5", null ],
     [ "trc", "structaot__mod_1_1aot__class.html#a9f05f9f23b3850d0e79a62d139a633c2", null ],
     [ "u", "structaot__mod_1_1aot__class.html#a3aab3baa9fb76719b7d2179d0be7879c", null ],

@@ -1,7 +1,12 @@
 <map id="blocks_mod::block_class" name="blocks_mod::block_class">
-<area shape="rect" id="node2" href="$structtracer__list__mod_1_1tracerlist__class.html" title="{tracer_list_mod::tracerlist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="5,161,175,268"/>
-<area shape="rect" id="node6" href="$structsources__list__mod_1_1sourcelist__class.html" title="{sources_list_mod::sourcelist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="199,161,387,268"/>
-<area shape="rect" id="node4" href="$structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="411,176,548,253"/>
-<area shape="rect" id="node5" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="404,5,555,83"/>
-<area shape="rect" id="node7" href="$structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l&#45; tracermaker()\l}" alt="" coords="572,132,715,297"/>
+<area shape="rect" id="node2" href="$structbackground__mod_1_1background__class.html" title="{background_mod::background\l_class\n|&#45; id\l&#45; name\l|&#45; test()\l&#45; setdims()\l&#45; setextents()\l&#45; setid()\l&#45; add()\l&#45; print()\l}" alt="" coords="184,608,380,788"/>
+<area shape="rect" id="node3" href="$structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="12,361,149,439"/>
+<area shape="rect" id="node4" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="5,213,156,290"/>
+<area shape="rect" id="node5" href="$structfield__types__mod_1_1scalar1d__field__class.html" title="a 1D scalar field class " alt="" coords="174,354,347,446"/>
+<area shape="rect" id="node6" href="$structfield__types__mod_1_1scalar__field__class.html" title="a scalar field class " alt="" coords="181,205,340,297"/>
+<area shape="rect" id="node7" href="$structfield__types__mod_1_1field__class.html" title="{field_types_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l}" alt="" coords="187,5,334,156"/>
+<area shape="rect" id="node8" href="$structbackground__mod_1_1fieldslist__class.html" title="{background_mod::fieldslist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="371,347,547,453"/>
+<area shape="rect" id="node10" href="$structtracer__list__mod_1_1tracerlist__class.html" title="{tracer_list_mod::tracerlist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="367,477,536,584"/>
+<area shape="rect" id="node11" href="$structsources__list__mod_1_1sourcelist__class.html" title="{sources_list_mod::sourcelist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="543,477,731,584"/>
+<area shape="rect" id="node12" href="$structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l&#45; tracermaker()\l}" alt="" coords="620,615,763,781"/>
 </map>
