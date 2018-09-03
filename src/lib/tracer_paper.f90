@@ -53,7 +53,7 @@
     !Public access routines
     public :: paperTracer
 
-    interface paperTracer !> Constructor
+    interface paperTracer !< Constructor
         procedure constructor
     end interface
 

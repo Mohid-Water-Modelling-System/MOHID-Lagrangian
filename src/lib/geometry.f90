@@ -173,7 +173,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to get the baricenter of a given geometry
-    !> @param[in] self, shapetype, center
+    !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
     function getCenter(self, shapetype) result(center)
     implicit none
@@ -419,7 +419,7 @@
     !> @brief
     !> private routine that returns the points distributed on a grid
     !> with spacing dp along a line    
-    !> @param[in] dp, size, np, ptlist
+    !> @param[in] dp, dist, np, ptlist
     !---------------------------------------------------------------------------
     subroutine line_grid(dp, dist, np, ptlist)
     implicit none

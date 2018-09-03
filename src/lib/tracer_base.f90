@@ -67,7 +67,7 @@
     !Public access routines
     public :: Tracer
 
-    interface Tracer !> Constructor
+    interface Tracer !< Constructor
         procedure constructor
     end interface
 

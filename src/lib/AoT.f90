@@ -44,7 +44,7 @@
     procedure :: print => print_AoT
     end type aot_class
 
-    interface AoT !> Constructor
+    interface AoT !< Constructor
     procedure constructor
     end interface
 
@@ -56,7 +56,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Constructor for AoT object with data from a tracerList_class object
-    !> @parm[in] trclist
+    !> @param[in] trclist
     !---------------------------------------------------------------------------
     function constructor(trclist)
     implicit none

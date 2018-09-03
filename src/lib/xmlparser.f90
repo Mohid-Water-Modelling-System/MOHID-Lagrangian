@@ -48,7 +48,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that parses an xml file and returns a pointer to the master node.
-    !> @param[in] xmldoc, filename
+    !> @param[in] self, xmldoc, xmlfilename
     !---------------------------------------------------------------------------
     subroutine getFile(self, xmldoc, xmlfilename)
     implicit none
@@ -72,7 +72,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that closes a parsed xml file or node.
-    !> @param[in] xmldoc
+    !> @param[in] self, xmldoc
     !---------------------------------------------------------------------------
     subroutine closeFile(self, xmldoc)
     implicit none
@@ -86,7 +86,7 @@
     !> @brief
     !> Method that parses an xml attribute. Reads the requested attribute
     !> from a given leaf node,
-    !> @param[in] xmlnode, att_name, att_value, read_flag, mandatory
+    !> @param[in] self, xmlnode, att_name, att_value
     !---------------------------------------------------------------------------
     subroutine getLeafAttribute(self, xmlnode, att_name, att_value)
     implicit none
@@ -104,7 +104,7 @@
     !> @brief
     !> Method that parses an attribute from an xml node. In the format
     !> '<Tag att_name="att_value"/>'
-    !> @param[in] xmlnode, tag, att_name, att_value, read_flag, mandatory
+    !> @param[in] self, xmlnode, tag, att_name, att_value, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine getNodeAttribute(self, xmlnode, tag, att_name, att_value, read_flag, mandatory)
     implicit none
@@ -161,7 +161,7 @@
     !> @brief
     !> Method to parse xyz vectors in xml files.
     !> Vector must be in format '<Tag x="vec%x" y="vec%y" z="vec%z"/>'
-    !> @param[in] xmlnode, tag, vec, read_flag, mandatory
+    !> @param[in] self, xmlnode, tag, vec, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine getNodeVector(self, xmlnode, tag, vec, read_flag, mandatory)
     implicit none
@@ -218,7 +218,7 @@
     !> @brief
     !> Method that retrieves a node from within a node.
     !> Returns a nullifyed pointer if not found, stops if mandatory.
-    !> @param[in] currentNode, targetNode, targetNodeName, read_flag, mandatory
+    !> @param[in] self, currentNode, targetNode, targetNodeName, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine gotoNode(self, currentNode, targetNode, targetNodeName, read_flag, mandatory)
     implicit none

@@ -117,7 +117,7 @@
     !> @brief
     !> Simulation initialization method. Effectively builds and populates the
     !> simulation objects that will be used latter on.
-    !> @param[in] casefilename, outpath
+    !> @param[in] self, casefilename, outpath
     !---------------------------------------------------------------------------
     subroutine initSimulation(self, casefilename, outpath)
     implicit none

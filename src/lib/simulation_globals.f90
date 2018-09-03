@@ -131,6 +131,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Globals default setting routine.
+    !> @param[in] self, outpath
     !---------------------------------------------------------------------------
     subroutine setdefaults(self, outpath)
     implicit none
@@ -283,7 +284,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Private parameter setting method. Builds the simulation parametric space from the input case file.    !
-    !> @param[in] parmkey, parmvalue
+    !> @param[in] self, parmkey, parmvalue
     !---------------------------------------------------------------------------
     subroutine setparameter(self,parmkey,parmvalue)
     implicit none
@@ -427,7 +428,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Gravity setting routine.
-    !> @param[in] grav
+    !> @param[in] self, grav
     !---------------------------------------------------------------------------
     subroutine setgravity (self,grav)
     implicit none
@@ -449,7 +450,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Z0 setting routine.
-    !> @param[in] read_z0
+    !> @param[in] self, read_z0
     !---------------------------------------------------------------------------
     subroutine setz0(self,read_z0)
     implicit none
@@ -465,7 +466,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Rho_Ref setting routine.
-    !> @param[in] read_rho
+    !> @param[in] self, read_rho
     !---------------------------------------------------------------------------
     subroutine setrho(self,read_rho)
     implicit none
@@ -511,7 +512,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Dp setting routine.
-    !> @param[in] read_dp
+    !> @param[in] self, read_dp
     !---------------------------------------------------------------------------
     subroutine setdp(self,read_dp)
     implicit none
@@ -533,7 +534,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Dt setting routine
-    !> @param[in] read_dt
+    !> @param[in] self, read_dt
     !---------------------------------------------------------------------------
     subroutine setdt(self,read_dt)
     implicit none
@@ -555,7 +556,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Bounding box setting routine
-    !> @param[in] point_, coords
+    !> @param[in] self, point_, coords
     !---------------------------------------------------------------------------
     subroutine setboundingbox(self,point_, coords)
     implicit none
@@ -576,7 +577,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> blocksize box setting routine
-    !> @param[in] bsize
+    !> @param[in] self, bsize
     !---------------------------------------------------------------------------
     subroutine setblocksize(self, bsize)
     implicit none

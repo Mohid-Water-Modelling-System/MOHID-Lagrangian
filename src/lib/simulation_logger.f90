@@ -47,12 +47,9 @@
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Log file initizalization routine.
-    !
-    !> @param[in] outpath
+    !> @param[in] self,outpath
     !---------------------------------------------------------------------------
     subroutine initLog(self,outpath)
     implicit none
@@ -68,8 +65,6 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Log file closure routine.
     !---------------------------------------------------------------------------
@@ -81,12 +76,9 @@
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Log serialization routine
-    !
-    !> @param[in] tologstr,timeoption
+    !> @param[in] self,tologstr,timeoption
     !---------------------------------------------------------------------------
     subroutine put_inLog(self,tologstr,timeoption)
     implicit none
@@ -109,11 +101,8 @@
         
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
-    ! Routine Author Name and Affiliation.
-    !
     !> @brief
     !> Public timestamp builder
-    !
     !> @param[in] timestamp
     !---------------------------------------------------------------------------
     subroutine getTimeStamp(timestamp)
