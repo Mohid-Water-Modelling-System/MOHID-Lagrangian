@@ -30,7 +30,9 @@
     use tracers_mod
     use emitter_mod
     use AoT_mod
+    use integrator_mod
     use background_mod
+    
 
     implicit none
     private
@@ -42,6 +44,7 @@
         type(emitter_class)    :: Emitter     !< Block Emitter
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
         type(aot_class)        :: AoT         !< Block Array of Tracers for actual numerical work        
+        type(integrator_class) :: Integrator  !< Block Integrator
         type(background_class), allocatable, dimension(:) :: Background !< Solution Backgrounds for the Block
     contains
     private
@@ -92,13 +95,16 @@
     class(block_class), intent(inout) :: self
     integer, intent(in) :: id
     type(box), intent(in) :: templatebox
-    integer :: sizem
+    integer :: sizem, i
     self%id = id
     !setting the block sub-domain
     self%extents%pt = templatebox%pt
     self%extents%size = templatebox%size
     !initializing the block emitter
-    call self%Emitter%initialize()   
+    call self%Emitter%initialize()
+    !initializing the block integrator
+    i = Globals%Parameters%Integrator
+    call self%Integrator%initialize(i, Globals%Parameters%IntegratorNames(i))
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
     end subroutine initBlock
