@@ -89,8 +89,8 @@
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
-        !interpolate fields to tracer coordinates
-        !Update all tracers with base behavior (AoT)
+        !Update all tracers with base behavior (AoT) - Integration step
+            !interpolate fields to tracer coordinates
         !AoT to Tracers
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
