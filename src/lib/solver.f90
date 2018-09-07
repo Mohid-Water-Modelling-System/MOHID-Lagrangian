@@ -48,16 +48,16 @@
     !> @brief
     !> Method that integrates the Tracer state array in one time-step, according to 
     !> the selected integration algorithm
-    !> @param[in] self, aot, data, dt)
+    !> @param[in] self, aot, bdata, dt
     !---------------------------------------------------------------------------
-    subroutine runStep(self, aot, data, time, dt)
+    subroutine runStep(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
-    type(background_class), dimension(:), intent(in) :: data
+    type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
-    if (self%solverType == 2) call self%runStepSymplectic(aot, data, time, dt)
-    if (self%solverType == 1) call self%runStepVerlet(aot, data, time, dt)
-    if (self%solverType == 3) call self%runStepRK4(aot, data, time, dt)
+    if (self%solverType == 2) call self%runStepSymplectic(aot, bdata, time, dt)
+    if (self%solverType == 1) call self%runStepVerlet(aot, bdata, time, dt)
+    if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
     end subroutine runStep
 
     !---------------------------------------------------------------------------
@@ -66,12 +66,12 @@
     !> Method that integrates the Tracer state array in one time-step, using a
     !> Symplectic integration algorithm. This is a predictor-corrector type
     !> explicit scheme with excelent conservation properties and average cost
-    !> @param[in] self, aot, data, dt)
+    !> @param[in] self, aot, bdata, dt
     !---------------------------------------------------------------------------
-    subroutine runStepSymplectic(self, aot, data, time, dt)
+    subroutine runStepSymplectic(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
-    type(background_class), dimension(:), intent(in) :: data
+    type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
         
     end subroutine runStepSymplectic
@@ -84,12 +84,12 @@
     !> explicit scheme with low computational cost, mostly for quick tests and 
     !> debug. Implements 
     !> \f$ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}\f$
-    !> @param[in] self, aot, data, dt)
+    !> @param[in] self, aot, bdata, dt
     !---------------------------------------------------------------------------
-    subroutine runStepVerlet(self, aot, data, time, dt)
+    subroutine runStepVerlet(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
-    type(background_class), dimension(:), intent(in) :: data
+    type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
            
     end subroutine runStepVerlet
@@ -100,12 +100,12 @@
     !> Method that integrates the Tracer state array in one time-step, using a
     !> Runge-Kuta 4th order integration algorithm. This is an explicit scheme 
     !> with medium to high computational cost
-    !> @param[in] self, aot, data, dt)
+    !> @param[in] self, aot, bdata, dt
     !---------------------------------------------------------------------------
-    subroutine runStepRK4(self, aot, data, time, dt)
+    subroutine runStepRK4(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
-    type(background_class), dimension(:), intent(in) :: data
+    type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
                 
     end subroutine runStepRK4
