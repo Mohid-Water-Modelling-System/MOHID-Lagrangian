@@ -27,7 +27,7 @@
 
     type :: integrator_class        !< Integrator class
         integer :: integratorType = 1   !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
-        type(string) :: name        !< Name of the Integrator algorithm
+        type(string) :: name            !< Name of the Integrator algorithm
     contains
     procedure :: initialize => initIntegrator
     procedure :: runStep
@@ -49,14 +49,14 @@
     !> the selected integration algorithm
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
-    subroutine runStep(self, aot, data, dt)
+    subroutine runStep(self, aot, data, time, dt)
     class(integrator_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
-    integer, intent(in) :: dt
-    if (self%integratorType == 2) call self%runStepSymplectic(aot, data, dt)
-    if (self%integratorType == 1) call self%runStepVerlet(aot, data, dt)
-    if (self%integratorType == 3) call self%runStepRK4(aot, data, dt)
+    real(prec), intent(in) :: time, dt
+    if (self%integratorType == 2) call self%runStepSymplectic(aot, data, time, dt)
+    if (self%integratorType == 1) call self%runStepVerlet(aot, data, time, dt)
+    if (self%integratorType == 3) call self%runStepRK4(aot, data, time, dt)
     end subroutine runStep
 
     !---------------------------------------------------------------------------
@@ -67,11 +67,11 @@
     !> explicit scheme with excelent conservation properties and average cost
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
-    subroutine runStepSymplectic(self, aot, data, dt)
+    subroutine runStepSymplectic(self, aot, data, time, dt)
     class(integrator_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
-    integer, intent(in) :: dt
+    real(prec), intent(in) :: time, dt
         
     end subroutine runStepSymplectic
 
@@ -82,14 +82,15 @@
     !> Verlet integration algorithm. This is a one-shot type
     !> explicit scheme with low computational cost, mostly for quick tests and 
     !> debug
+    !> {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
-    subroutine runStepVerlet(self, aot, data, dt)
+    subroutine runStepVerlet(self, aot, data, time, dt)
     class(integrator_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
-    integer, intent(in) :: dt
-            
+    real(prec), intent(in) :: time, dt
+           
     end subroutine runStepVerlet
 
     !---------------------------------------------------------------------------
@@ -100,11 +101,11 @@
     !> with medium to high computational cost
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
-    subroutine runStepRK4(self, aot, data, dt)
+    subroutine runStepRK4(self, aot, data, time, dt)
     class(integrator_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
-    integer, intent(in) :: dt
+    real(prec), intent(in) :: time, dt
                 
     end subroutine runStepRK4
 
