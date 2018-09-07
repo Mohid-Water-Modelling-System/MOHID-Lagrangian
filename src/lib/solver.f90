@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : integrator
+    ! MODULE        : solver
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : September 2018
@@ -13,10 +13,11 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines an integrator class
+    !> Defines an Solver class. This class invokes the different available integration 
+    !> algorithms as methods, and these invoke the necessary interpolation objects.
     !------------------------------------------------------------------------------
 
-    module integrator_mod
+    module solver_mod
 
     use common_modules
     use AoT_mod
@@ -25,20 +26,20 @@
     implicit none
     private
 
-    type :: integrator_class        !< Integrator class
-        integer :: integratorType = 1   !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
-        type(string) :: name            !< Name of the Integrator algorithm
+    type :: solver_class        !< Solver class
+        integer :: solverType = 1   !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
+        type(string) :: name        !< Name of the Integrator algorithm
     contains
-    procedure :: initialize => initIntegrator
+    procedure :: initialize => initSolver
     procedure :: runStep
     procedure, private :: runStepSymplectic
     procedure, private :: runStepVerlet
     procedure, private :: runStepRK4
-    procedure :: print => printIntegrator
-    end type integrator_class
+    procedure :: print => printSolver
+    end type solver_class
     
     !Public access vars
-    public :: integrator_class
+    public :: solver_class
 
     contains
 
@@ -50,13 +51,13 @@
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
     subroutine runStep(self, aot, data, time, dt)
-    class(integrator_class), intent(inout) :: self
+    class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
     real(prec), intent(in) :: time, dt
-    if (self%integratorType == 2) call self%runStepSymplectic(aot, data, time, dt)
-    if (self%integratorType == 1) call self%runStepVerlet(aot, data, time, dt)
-    if (self%integratorType == 3) call self%runStepRK4(aot, data, time, dt)
+    if (self%solverType == 2) call self%runStepSymplectic(aot, data, time, dt)
+    if (self%solverType == 1) call self%runStepVerlet(aot, data, time, dt)
+    if (self%solverType == 3) call self%runStepRK4(aot, data, time, dt)
     end subroutine runStep
 
     !---------------------------------------------------------------------------
@@ -68,7 +69,7 @@
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
     subroutine runStepSymplectic(self, aot, data, time, dt)
-    class(integrator_class), intent(inout) :: self
+    class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
     real(prec), intent(in) :: time, dt
@@ -86,7 +87,7 @@
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
     subroutine runStepVerlet(self, aot, data, time, dt)
-    class(integrator_class), intent(inout) :: self
+    class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
     real(prec), intent(in) :: time, dt
@@ -102,7 +103,7 @@
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
     subroutine runStepRK4(self, aot, data, time, dt)
-    class(integrator_class), intent(inout) :: self
+    class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: data
     real(prec), intent(in) :: time, dt
@@ -112,28 +113,28 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Initializer method for the Integrator class. Sets the type of integrator
-    !> and name of the algorithm this Integrator will call
+    !> Initializer method for the Solver class. Sets the type of integrator
+    !> and name of the algorithm this Solver will call
     !> @param[in] self, flag, name
     !---------------------------------------------------------------------------
-    subroutine initIntegrator(self, flag, name)
-    class(integrator_class), intent(inout) :: self
+    subroutine initSolver(self, flag, name)
+    class(solver_class), intent(inout) :: self
     integer, intent(in) :: flag
     type(string), intent(in) :: name
-    self%integratorType = flag
+    self%solverType = flag
     self%name = name
-    end subroutine initIntegrator
+    end subroutine initSolver
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that prints the Integrator information
+    !> Method that prints the Solver information
     !---------------------------------------------------------------------------
-    subroutine printIntegrator(self)
-    class(integrator_class), intent(inout) :: self
+    subroutine printSolver(self)
+    class(solver_class), intent(inout) :: self
     type(string) :: outext, t
-    outext = 'Integrator algorithm is '//self%name
+    outext = 'Solver algorithm is '//self%name
     call Log%put(outext,.false.)
-    end subroutine printIntegrator
+    end subroutine printSolver
 
-    end module integrator_mod
+    end module solver_mod
