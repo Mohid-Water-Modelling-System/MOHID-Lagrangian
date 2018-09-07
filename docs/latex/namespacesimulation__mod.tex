@@ -270,8 +270,7 @@ Definition at line 359 of file simulation.\+f90.
 370     \textcolor{keyword}{call }setblocks(globals%SimDefs%autoblocksize,globals%SimDefs%numblocks,globals%SimDefs%numblocksx,
       globals%SimDefs%numblocksy)
 \end{DoxyCode}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -379,8 +378,7 @@ Definition at line 123 of file simulation.\+f90.
 165     \textcolor{comment}{!call testBackground%test()}
 166 
 \end{DoxyCode}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -456,8 +454,8 @@ Definition at line 68 of file simulation.\+f90.
 89         \textcolor{comment}{!Build AoT}
 90         \textcolor{keyword}{call }self%BlocksTracersToAoT()
 91         \textcolor{comment}{!load hydrodynamic fields from files (curents, wind, waves, ...)}
-92         \textcolor{comment}{!interpolate fields to tracer coordinates}
-93         \textcolor{comment}{!Update all tracers with base behavior (AoT)}
+92         \textcolor{comment}{!Update all tracers with base behavior (AoT) - Integration step}
+93             \textcolor{comment}{!interpolate fields to tracer coordinates}
 94         \textcolor{comment}{!AoT to Tracers}
 95         \textcolor{keyword}{call }self%BlocksAoTtoTracers()
 96         \textcolor{comment}{!Update Tracers with type-specific behavior}
@@ -516,8 +514,7 @@ Definition at line 281 of file simulation.\+f90.
 297     \textcolor{keyword}{call }log%put(outext,.false.)
 298     \textcolor{keyword}{call }self%setTracerMemory(ntrc)
 \end{DoxyCode}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

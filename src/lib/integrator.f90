@@ -81,8 +81,8 @@
     !> Method that integrates the Tracer state array in one time-step, using a
     !> Verlet integration algorithm. This is a one-shot type
     !> explicit scheme with low computational cost, mostly for quick tests and 
-    !> debug
-    !> {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}
+    !> debug. Implements 
+    !> \f$ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}\f$
     !> @param[in] self, aot, data, dt)
     !---------------------------------------------------------------------------
     subroutine runStepVerlet(self, aot, data, time, dt)

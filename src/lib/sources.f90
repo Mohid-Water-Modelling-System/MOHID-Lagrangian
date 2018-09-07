@@ -361,11 +361,11 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method that sets the total number of tracers a source will potentially create
+    !> \f${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\f$
     !---------------------------------------------------------------------------
     subroutine setotalnp(self)
     implicit none
     class(source_class), intent(inout) :: self
-    !< computing the total as \f${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\f$
     self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(Globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 

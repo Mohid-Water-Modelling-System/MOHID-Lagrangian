@@ -155,7 +155,7 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memdesc:ac4e4f33da78d030e1b56a48789da6a05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns particulate status of this Source, i.e, true if the emitted Tracers are actually a collection of particles with an evolving concentration.  <a href="#ac4e4f33da78d030e1b56a48789da6a05">More...</a><br /></td></tr>
 <tr class="separator:ac4e4f33da78d030e1b56a48789da6a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a62c41b71d2d6ad85def74087542ef5"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a9a62c41b71d2d6ad85def74087542ef5">setotalnp</a> (self)</td></tr>
-<tr class="memdesc:a9a62c41b71d2d6ad85def74087542ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that sets the total number of tracers a source will potentially create  <a href="#a9a62c41b71d2d6ad85def74087542ef5">More...</a><br /></td></tr>
+<tr class="memdesc:a9a62c41b71d2d6ad85def74087542ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that sets the total number of tracers a source will potentially create \({NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\)  <a href="#a9a62c41b71d2d6ad85def74087542ef5">More...</a><br /></td></tr>
 <tr class="separator:a9a62c41b71d2d6ad85def74087542ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a641fe9ecc295e486a714c1aaa133d991"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a641fe9ecc295e486a714c1aaa133d991">printsource</a> (src)</td></tr>
 <tr class="memdesc:a641fe9ecc295e486a714c1aaa133d991"><td class="mdescLeft">&#160;</td><td class="mdescRight">source print routine - prints a source info on console/log  <a href="#a641fe9ecc295e486a714c1aaa133d991">More...</a><br /></td></tr>
@@ -508,17 +508,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>method that sets the total number of tracers a source will potentially create </p>
-<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">self</td><td>computing the total as \({NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\) </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>method that sets the total number of tracers a source will potentially create \({NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})\) </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00366">366</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordtype">class</span>(source_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    </div><div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00367">367</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordtype">class</span>(source_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abbb4557b46c533439fe258cecf31a76c"></a>

@@ -115,8 +115,9 @@ Collaboration diagram for blocks_mod::block_class:</div>
 <area shape="rect" id="node7" href="structfield__types__mod_1_1field__class.html" title="{field_types_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l}" alt="" coords="187,5,334,156"/>
 <area shape="rect" id="node8" href="structbackground__mod_1_1fieldslist__class.html" title="{background_mod::fieldslist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="371,347,547,453"/>
 <area shape="rect" id="node10" href="structtracer__list__mod_1_1tracerlist__class.html" title="{tracer_list_mod::tracerlist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="367,477,536,584"/>
-<area shape="rect" id="node11" href="structsources__list__mod_1_1sourcelist__class.html" title="{sources_list_mod::sourcelist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="543,477,731,584"/>
-<area shape="rect" id="node12" href="structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l&#45; tracermaker()\l}" alt="" coords="620,615,763,781"/>
+<area shape="rect" id="node12" href="structsources__list__mod_1_1sourcelist__class.html" title="{sources_list_mod::sourcelist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="543,477,731,584"/>
+<area shape="rect" id="node11" href="structintegrator__mod_1_1integrator__class.html" title="{integrator_mod::integrator\l_class\n|&#45; integratortype\l&#45; name\l|&#45; initialize()\l&#45; runstep()\l&#45; runstepsymplectic()\l&#45; runstepverlet()\l&#45; runsteprk4()\l&#45; print()\l}" alt="" coords="619,608,790,788"/>
+<area shape="rect" id="node13" href="structemitter__mod_1_1emitter__class.html" title="{emitter_mod::emitter\l_class\n|&#45; emitted\l&#45; emittable\l|&#45; initialize()\l&#45; addsource()\l&#45; removesource()\l&#45; emitt()\l&#45; tracermaker()\l}" alt="" coords="815,615,957,781"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -166,13 +167,16 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a53f912fe57eb5e386ca62b1dbd087417"><td class="memItemLeft" align="right" valign="top">type(aot_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a53f912fe57eb5e386ca62b1dbd087417">aot</a></td></tr>
 <tr class="memdesc:a53f912fe57eb5e386ca62b1dbd087417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block Array of Tracers for actual numerical work.  <a href="#a53f912fe57eb5e386ca62b1dbd087417">More...</a><br /></td></tr>
 <tr class="separator:a53f912fe57eb5e386ca62b1dbd087417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae98f0c5caf5f37db1c7f5bb8aace1c26"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structintegrator__mod_1_1integrator__class.html">integrator_class</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#ae98f0c5caf5f37db1c7f5bb8aace1c26">integrator</a></td></tr>
+<tr class="memdesc:ae98f0c5caf5f37db1c7f5bb8aace1c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block Integrator.  <a href="#ae98f0c5caf5f37db1c7f5bb8aace1c26">More...</a><br /></td></tr>
+<tr class="separator:ae98f0c5caf5f37db1c7f5bb8aace1c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a774c07bf82d1392236abc81c285ea943"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structbackground__mod_1_1background__class.html">background_class</a>), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structblocks__mod_1_1block__class.html#a774c07bf82d1392236abc81c285ea943">background</a></td></tr>
 <tr class="memdesc:a774c07bf82d1392236abc81c285ea943"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solution Backgrounds for the Block.  <a href="#a774c07bf82d1392236abc81c285ea943">More...</a><br /></td></tr>
 <tr class="separator:a774c07bf82d1392236abc81c285ea943"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00038">38</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00040">40</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="af7ee4536d72f1a114d9289c9e484f703"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7ee4536d72f1a114d9289c9e484f703">&#9670;&nbsp;</a></span>aottotracers()</h2>
@@ -189,7 +193,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00056">56</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00059">59</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -208,7 +212,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00050">50</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00053">53</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -227,7 +231,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00057">57</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00060">60</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -246,7 +250,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00054">54</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00057">57</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -265,7 +269,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00059">59</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00062">62</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -284,7 +288,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00051">51</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00054">54</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -303,7 +307,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00048">48</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00051">51</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -322,7 +326,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00052">52</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00055">55</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -341,7 +345,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00058">58</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00061">61</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -360,7 +364,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00049">49</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00052">52</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -379,7 +383,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00053">53</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00056">56</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -398,7 +402,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00055">55</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00058">58</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
 
 </div>
 </div>
@@ -425,8 +429,8 @@ Private Attributes</h2></td></tr>
 
 <p>Block Array of Tracers for actual numerical work. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00044">44</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">type</span>(aot_class)        :: AoT</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00046">46</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">type</span>(aot_class)        :: AoT</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a774c07bf82d1392236abc81c285ea943"></a>
@@ -451,8 +455,8 @@ Private Attributes</h2></td></tr>
 
 <p>Solution Backgrounds for the Block. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00045">45</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">type</span>(background_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: Background</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00048">48</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">type</span>(background_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: Background</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a55e85183ba871abcaba1c00d5393611f"></a>
@@ -477,8 +481,8 @@ Private Attributes</h2></td></tr>
 
 <p>Block Emitter. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00042">42</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">type</span>(emitter_class)    :: Emitter</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00044">44</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">type</span>(emitter_class)    :: Emitter</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aff3b0cb7d8248f8a87691a028de916d3"></a>
@@ -503,8 +507,8 @@ Private Attributes</h2></td></tr>
 
 <p>shape::box that defines the extents of this block </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00040">40</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordtype">type</span>(box) :: extents</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00042">42</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">type</span>(box) :: extents</div></div><!-- fragment -->
 </div>
 </div>
 <a id="addd1a493d56aa1ffd1bc27c56b682065"></a>
@@ -527,8 +531,34 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00039">39</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">integer</span> :: id</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00041">41</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">integer</span> :: id</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ae98f0c5caf5f37db1c7f5bb8aace1c26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae98f0c5caf5f37db1c7f5bb8aace1c26">&#9670;&nbsp;</a></span>integrator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(<a class="el" href="structintegrator__mod_1_1integrator__class.html">integrator_class</a>) blocks_mod::block_class::integrator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Block Integrator. </p>
+
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00047">47</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">type</span>(integrator_class) :: Integrator</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a2f4d63afb2696e2728f20a99e26a4b18"></a>
@@ -553,8 +583,8 @@ Private Attributes</h2></td></tr>
 
 <p>List of Sources currently on this block. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00041">41</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">type</span>(sourceList_class) :: LSource</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00043">43</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">type</span>(sourceList_class) :: LSource</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ab4e2108886a09ba919d01474503f6165"></a>
@@ -579,8 +609,8 @@ Private Attributes</h2></td></tr>
 
 <p>List of Tracers currently on this block. </p>
 
-<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00043">43</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">type</span>(tracerList_class) :: LTracer</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="blocks_8f90_source.html#l00045">45</a> of file <a class="el" href="blocks_8f90_source.html">blocks.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">type</span>(tracerList_class) :: LTracer</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

@@ -27,6 +27,7 @@ var hierarchy =
     [ "simulation_globals_mod::filenames_t", "structsimulation__globals__mod_1_1filenames__t.html", null ],
     [ "geometry_mod::geometry_class", "structgeometry__mod_1_1geometry__class.html", null ],
     [ "simulation_globals_mod::globals_class", "structsimulation__globals__mod_1_1globals__class.html", null ],
+    [ "integrator_mod::integrator_class", "structintegrator__mod_1_1integrator__class.html", null ],
     [ "linkedlist", null, [
       [ "background_mod::fieldslist_class", "structbackground__mod_1_1fieldslist__class.html", null ],
       [ "sources_list_mod::sourcelist_class", "structsources__list__mod_1_1sourcelist__class.html", null ],

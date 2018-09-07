@@ -9,6 +9,7 @@ var annotated_dup =
     [ "emitter_mod", "namespaceemitter__mod.html", "namespaceemitter__mod" ],
     [ "field_types_mod", "namespacefield__types__mod.html", "namespacefield__types__mod" ],
     [ "geometry_mod", "namespacegeometry__mod.html", "namespacegeometry__mod" ],
+    [ "integrator_mod", "namespaceintegrator__mod.html", "namespaceintegrator__mod" ],
     [ "link_mod", "namespacelink__mod.html", "namespacelink__mod" ],
     [ "simulation_globals_mod", "namespacesimulation__globals__mod.html", "namespacesimulation__globals__mod" ],
     [ "simulation_logger_mod", "namespacesimulation__logger__mod.html", "namespacesimulation__logger__mod" ],

@@ -17,6 +17,7 @@ var structblocks__mod_1_1block__class =
     [ "emitter", "structblocks__mod_1_1block__class.html#a55e85183ba871abcaba1c00d5393611f", null ],
     [ "extents", "structblocks__mod_1_1block__class.html#aff3b0cb7d8248f8a87691a028de916d3", null ],
     [ "id", "structblocks__mod_1_1block__class.html#addd1a493d56aa1ffd1bc27c56b682065", null ],
+    [ "integrator", "structblocks__mod_1_1block__class.html#ae98f0c5caf5f37db1c7f5bb8aace1c26", null ],
     [ "lsource", "structblocks__mod_1_1block__class.html#a2f4d63afb2696e2728f20a99e26a4b18", null ],
     [ "ltracer", "structblocks__mod_1_1block__class.html#ab4e2108886a09ba919d01474503f6165", null ]
 ];

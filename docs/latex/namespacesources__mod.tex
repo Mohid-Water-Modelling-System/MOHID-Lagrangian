@@ -42,7 +42,7 @@ subroutine \mbox{\hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d
 logical function \mbox{\hyperlink{namespacesources__mod_ac4e4f33da78d030e1b56a48789da6a05}{isparticulate}} (self)
 \begin{DoxyCompactList}\small\item\em Returns particulate status of this Source, i.\+e, true if the emitted Tracers are actually a collection of particles with an evolving concentration. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesources__mod_a9a62c41b71d2d6ad85def74087542ef5}{setotalnp}} (self)
-\begin{DoxyCompactList}\small\item\em method that sets the total number of tracers a source will potentially create \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em method that sets the total number of tracers a source will potentially create ${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})$ \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}{printsource}} (src)
 \begin{DoxyCompactList}\small\item\em source print routine -\/ prints a source info on console/log \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
@@ -385,25 +385,19 @@ Definition at line 379 of file sources.\+f90.
 
 
 
-method that sets the total number of tracers a source will potentially create 
+method that sets the total number of tracers a source will potentially create ${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})$ 
 
 \begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in,out}  & {\em self} & computing the total as ${NP}_{total}^{source-i}=int((T_{end}^{source-i}-T_{start}^{source-i})/(Dt/{Rate}^{source-i})*{NP}_{emission}^{source-i})$ \\
-\hline
-\end{DoxyParams}
 
-
-Definition at line 366 of file sources.\+f90.
+Definition at line 367 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-366     \textcolor{keywordtype}{implicit none}
-367     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: self
-368     
+367     \textcolor{keywordtype}{implicit none}
+368     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: self
 369     self%stencil%total\_np=int((self%par%stoptime-self%par%startime)/(globals%SimDefs%dt)/self%par
       %emitting\_rate*self%stencil%np)
 \end{DoxyCode}

@@ -10,6 +10,7 @@ var namespaces_dup =
     [ "emitter_mod", "namespaceemitter__mod.html", null ],
     [ "field_types_mod", "namespacefield__types__mod.html", null ],
     [ "geometry_mod", "namespacegeometry__mod.html", null ],
+    [ "integrator_mod", "namespaceintegrator__mod.html", null ],
     [ "link_mod", "namespacelink__mod.html", null ],
     [ "simulation_about_mod", "namespacesimulation__about__mod.html", null ],
     [ "simulation_globals_mod", "namespacesimulation__globals__mod.html", null ],

@@ -81,27 +81,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 436 of file blocks.\+f90.
+Definition at line 442 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-436     \textcolor{keywordtype}{implicit none}
-437     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
-438     \textcolor{keywordtype}{type}(string) :: outext, temp
-439     \textcolor{keywordtype}{integer} err
-440     \textcolor{keyword}{allocate}(dblock(nblk), stat=err)
-441     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
-442         outext=\textcolor{stringliteral}{'[allocBlobks]: Cannot allocate Blocks, stoping'}
-443         \textcolor{keyword}{call }log%put(outext)
-444         stop
-445     \textcolor{keywordflow}{else}
-446         temp = nblk
-447         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Blocks.'}
-448         \textcolor{keyword}{call }log%put(outext)
-449 \textcolor{keywordflow}{    endif}
+442     \textcolor{keywordtype}{implicit none}
+443     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+444     \textcolor{keywordtype}{type}(string) :: outext, temp
+445     \textcolor{keywordtype}{integer} err
+446     \textcolor{keyword}{allocate}(dblock(nblk), stat=err)
+447     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+448         outext=\textcolor{stringliteral}{'[allocBlobks]: Cannot allocate Blocks, stoping'}
+449         \textcolor{keyword}{call }log%put(outext)
+450         stop
+451     \textcolor{keywordflow}{else}
+452         temp = nblk
+453         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Blocks.'}
+454         \textcolor{keyword}{call }log%put(outext)
+455 \textcolor{keywordflow}{    endif}
 \end{DoxyCode}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -123,13 +122,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 287 of file blocks.\+f90.
+Definition at line 293 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-287     \textcolor{keywordtype}{implicit none}
-288     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-289     \textcolor{keyword}{call }self%AoT%toTracers()
+293     \textcolor{keywordtype}{implicit none}
+294     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+295     \textcolor{keyword}{call }self%AoT%toTracers()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}\label{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!callemitter@{callemitter}}
@@ -146,40 +145,40 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 164 of file blocks.\+f90.
+Definition at line 170 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-164     \textcolor{keywordtype}{implicit none}
-165     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-166     \textcolor{keywordtype}{integer} :: i
-167     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aSource
-168     \textcolor{keywordtype}{type}(string) :: outext
-169     
-170     \textcolor{keyword}{call }self%LSource%reset()                   \textcolor{comment}{! reset list iterator}
-171     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LSource%moreValues())         \textcolor{comment}{! loop while there are values}
-172         asource => self%LSource%currentValue()  \textcolor{comment}{! get current value}
-173         \textcolor{keywordflow}{select type}(asource)
-174 \textcolor{keywordflow}{        class is} (source\_class)
-175             \textcolor{keywordflow}{if} (asource%now%active) \textcolor{keywordflow}{then}
-176                 asource%now%emission\_stride = asource%now%emission\_stride - 1   \textcolor{comment}{!decreasing the stride at
+170     \textcolor{keywordtype}{implicit none}
+171     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+172     \textcolor{keywordtype}{integer} :: i
+173     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aSource
+174     \textcolor{keywordtype}{type}(string) :: outext
+175     
+176     \textcolor{keyword}{call }self%LSource%reset()                   \textcolor{comment}{! reset list iterator}
+177     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LSource%moreValues())         \textcolor{comment}{! loop while there are values}
+178         asource => self%LSource%currentValue()  \textcolor{comment}{! get current value}
+179         \textcolor{keywordflow}{select type}(asource)
+180 \textcolor{keywordflow}{        class is} (source\_class)
+181             \textcolor{keywordflow}{if} (asource%now%active) \textcolor{keywordflow}{then}
+182                 asource%now%emission\_stride = asource%now%emission\_stride - 1   \textcolor{comment}{!decreasing the stride at
        this dt}
-177                 \textcolor{keywordflow}{if} (asource%now%emission\_stride == 0) \textcolor{keywordflow}{then}                      \textcolor{comment}{!reached the bottom of the
+183                 \textcolor{keywordflow}{if} (asource%now%emission\_stride == 0) \textcolor{keywordflow}{then}                      \textcolor{comment}{!reached the bottom of the
        stride stack, time to emitt}
-178                     \textcolor{keyword}{call }self%Emitter%emitt(asource, self%LTracer)
-179                     asource%now%emission\_stride = asource%par%emitting\_rate     \textcolor{comment}{!reseting the stride after
+184                     \textcolor{keyword}{call }self%Emitter%emitt(asource, self%LTracer)
+185                     asource%now%emission\_stride = asource%par%emitting\_rate     \textcolor{comment}{!reseting the stride after
        the Source emitts}
-180 \textcolor{keywordflow}{                end if}
-181 \textcolor{keywordflow}{            end if}
-182 \textcolor{keywordflow}{            class default}
-183             outext = \textcolor{stringliteral}{'[Block::CallEmitter] Unexepected type of content, not a Source'}
-184             \textcolor{keyword}{call }log%put(outext)
-185             stop
-186 \textcolor{keywordflow}{        end select}
-187         \textcolor{keyword}{call }self%LSource%next()            \textcolor{comment}{! increment the list iterator}
-188 \textcolor{keywordflow}{    end do}
-189     \textcolor{keyword}{call }self%LSource%reset()               \textcolor{comment}{! reset list iterator}
-190     
+186 \textcolor{keywordflow}{                end if}
+187 \textcolor{keywordflow}{            end if}
+188 \textcolor{keywordflow}{            class default}
+189             outext = \textcolor{stringliteral}{'[Block::CallEmitter] Unexepected type of content, not a Source'}
+190             \textcolor{keyword}{call }log%put(outext)
+191             stop
+192 \textcolor{keywordflow}{        end select}
+193         \textcolor{keyword}{call }self%LSource%next()            \textcolor{comment}{! increment the list iterator}
+194 \textcolor{keywordflow}{    end do}
+195     \textcolor{keyword}{call }self%LSource%reset()               \textcolor{comment}{! reset list iterator}
+196     
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}\label{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!cleanaot@{cleanaot}}
@@ -196,13 +195,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 298 of file blocks.\+f90.
+Definition at line 304 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-298     \textcolor{keywordtype}{implicit none}
-299     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self    
-300     \textcolor{keyword}{call }self%AoT%Clean()
+304     \textcolor{keywordtype}{implicit none}
+305     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self    
+306     \textcolor{keyword}{call }self%AoT%Clean()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}\label{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!consolidatearrays@{consolidatearrays}}
@@ -219,35 +218,35 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 239 of file blocks.\+f90.
+Definition at line 245 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-239     \textcolor{keywordtype}{implicit none}
-240     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-241     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aTracer
-242     \textcolor{keywordtype}{type}(string) :: outext
-243     \textcolor{keywordtype}{logical} :: notremoved
-244     
-245     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
-246     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LTracer%moreValues())         \textcolor{comment}{! loop while there are values}
-247         notremoved = .true.
-248         atracer => self%LTracer%currentValue()  \textcolor{comment}{! get current value}
-249         \textcolor{keywordflow}{select type}(atracer)
-250 \textcolor{keywordflow}{        class is} (tracer\_class)
-251             \textcolor{keywordflow}{if} (atracer%now%active.eqv. .false.) \textcolor{keywordflow}{then}
-252                 \textcolor{keyword}{call }self%LTracer%removeCurrent() \textcolor{comment}{!this advances the iterator to the next position}
-253                 notremoved = .false.                
-254 \textcolor{keywordflow}{            end if}
-255 \textcolor{keywordflow}{            class default}
-256             outext = \textcolor{stringliteral}{'[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'}
-257             \textcolor{keyword}{call }log%put(outext)
-258             stop
-259 \textcolor{keywordflow}{        end select}
-260         \textcolor{keywordflow}{if} (notremoved) \textcolor{keyword}{call }self%LTracer%next()    \textcolor{comment}{! increment the list iterator}
-261 \textcolor{keywordflow}{    end do}
-262     \textcolor{keyword}{call }self%LTracer%reset()                       \textcolor{comment}{! reset list iterator}
-263     
+245     \textcolor{keywordtype}{implicit none}
+246     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+247     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aTracer
+248     \textcolor{keywordtype}{type}(string) :: outext
+249     \textcolor{keywordtype}{logical} :: notremoved
+250     
+251     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
+252     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LTracer%moreValues())         \textcolor{comment}{! loop while there are values}
+253         notremoved = .true.
+254         atracer => self%LTracer%currentValue()  \textcolor{comment}{! get current value}
+255         \textcolor{keywordflow}{select type}(atracer)
+256 \textcolor{keywordflow}{        class is} (tracer\_class)
+257             \textcolor{keywordflow}{if} (atracer%now%active.eqv. .false.) \textcolor{keywordflow}{then}
+258                 \textcolor{keyword}{call }self%LTracer%removeCurrent() \textcolor{comment}{!this advances the iterator to the next position}
+259                 notremoved = .false.                
+260 \textcolor{keywordflow}{            end if}
+261 \textcolor{keywordflow}{            class default}
+262             outext = \textcolor{stringliteral}{'[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'}
+263             \textcolor{keyword}{call }log%put(outext)
+264             stop
+265 \textcolor{keywordflow}{        end select}
+266         \textcolor{keywordflow}{if} (notremoved) \textcolor{keyword}{call }self%LTracer%next()    \textcolor{comment}{! increment the list iterator}
+267 \textcolor{keywordflow}{    end do}
+268     \textcolor{keyword}{call }self%LTracer%reset()                       \textcolor{comment}{! reset list iterator}
+269     
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b}\label{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!distributetracers@{distributetracers}}
@@ -264,44 +263,43 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 199 of file blocks.\+f90.
+Definition at line 205 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-199     \textcolor{keywordtype}{implicit none}
-200     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-201     \textcolor{keywordtype}{integer} :: i, blk
-202     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aTracer
-203     \textcolor{keywordtype}{type}(string) :: outext
-204     \textcolor{keywordtype}{logical} :: notremoved
-205     
-206     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
-207     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LTracer%moreValues())         \textcolor{comment}{! loop while there are values}
-208         notremoved = .true.
-209         atracer => self%LTracer%currentValue()  \textcolor{comment}{! get current value}
-210         \textcolor{keywordflow}{select type}(atracer)
-211 \textcolor{keywordflow}{        class is} (tracer\_class)
-212             \textcolor{keywordflow}{if} (atracer%now%active) \textcolor{keywordflow}{then}
-213                 blk = getblockindex(atracer%now%pos)
-214                 \textcolor{keywordflow}{if} (blk /= self%id) \textcolor{keywordflow}{then}        \textcolor{comment}{!tracer is on a different block than the current one}
-215                     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution}
-216                     \textcolor{keyword}{call }sendtracer(blk,atracer)
-217                     \textcolor{keyword}{call }self%LTracer%removeCurrent() \textcolor{comment}{!this also advances the iterator to the next position}
-218                     notremoved = .false.
-219 \textcolor{keywordflow}{                end if}
-220 \textcolor{keywordflow}{            end if}
-221 \textcolor{keywordflow}{            class default}
-222             outext = \textcolor{stringliteral}{'[Block::DistributeTracers]: Unexepected type of content, not a Tracer'}
-223             \textcolor{keyword}{call }log%put(outext)
-224             stop
-225 \textcolor{keywordflow}{        end select}
-226         \textcolor{keywordflow}{if} (notremoved) \textcolor{keyword}{call }self%LTracer%next()    \textcolor{comment}{! increment the list iterator}
-227 \textcolor{keywordflow}{    end do}
-228     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
-229     
+205     \textcolor{keywordtype}{implicit none}
+206     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+207     \textcolor{keywordtype}{integer} :: i, blk
+208     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aTracer
+209     \textcolor{keywordtype}{type}(string) :: outext
+210     \textcolor{keywordtype}{logical} :: notremoved
+211     
+212     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
+213     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LTracer%moreValues())         \textcolor{comment}{! loop while there are values}
+214         notremoved = .true.
+215         atracer => self%LTracer%currentValue()  \textcolor{comment}{! get current value}
+216         \textcolor{keywordflow}{select type}(atracer)
+217 \textcolor{keywordflow}{        class is} (tracer\_class)
+218             \textcolor{keywordflow}{if} (atracer%now%active) \textcolor{keywordflow}{then}
+219                 blk = getblockindex(atracer%now%pos)
+220                 \textcolor{keywordflow}{if} (blk /= self%id) \textcolor{keywordflow}{then}        \textcolor{comment}{!tracer is on a different block than the current one}
+221                     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution}
+222                     \textcolor{keyword}{call }sendtracer(blk,atracer)
+223                     \textcolor{keyword}{call }self%LTracer%removeCurrent() \textcolor{comment}{!this also advances the iterator to the next position}
+224                     notremoved = .false.
+225 \textcolor{keywordflow}{                end if}
+226 \textcolor{keywordflow}{            end if}
+227 \textcolor{keywordflow}{            class default}
+228             outext = \textcolor{stringliteral}{'[Block::DistributeTracers]: Unexepected type of content, not a Tracer'}
+229             \textcolor{keyword}{call }log%put(outext)
+230             stop
+231 \textcolor{keywordflow}{        end select}
+232         \textcolor{keywordflow}{if} (notremoved) \textcolor{keyword}{call }self%LTracer%next()    \textcolor{comment}{! increment the list iterator}
+233 \textcolor{keywordflow}{    end do}
+234     \textcolor{keyword}{call }self%LTracer%reset()                   \textcolor{comment}{! reset list iterator}
+235     
 \end{DoxyCode}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -328,26 +326,25 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 324 of file blocks.\+f90.
+Definition at line 330 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-324     \textcolor{keywordtype}{implicit none}
-325     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
-326     \textcolor{keywordtype}{integer} :: ix, iy, temp
-327     \textcolor{keywordtype}{type}(string) :: outext
-328     ix = min(int((pt%x + bbox%offset%x)/globals%SimDefs%blocksize%x) + 1, globals%SimDefs%numblocksx)
-329     iy = min(int((pt%y + bbox%offset%y)/globals%SimDefs%blocksize%y) + 1, globals%SimDefs%numblocksy)
-330     temp = 2*ix + iy -2
-331     \textcolor{keywordflow}{if} (temp > globals%SimDefs%numblocks) \textcolor{keywordflow}{then}
-332         outext=\textcolor{stringliteral}{'[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'}
-333         \textcolor{keyword}{call }log%put(outext)
-334         stop
-335 \textcolor{keywordflow}{    end if}
-336     getblockindex = temp
+330     \textcolor{keywordtype}{implicit none}
+331     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
+332     \textcolor{keywordtype}{integer} :: ix, iy, temp
+333     \textcolor{keywordtype}{type}(string) :: outext
+334     ix = min(int((pt%x + bbox%offset%x)/globals%SimDefs%blocksize%x) + 1, globals%SimDefs%numblocksx)
+335     iy = min(int((pt%y + bbox%offset%y)/globals%SimDefs%blocksize%y) + 1, globals%SimDefs%numblocksy)
+336     temp = 2*ix + iy -2
+337     \textcolor{keywordflow}{if} (temp > globals%SimDefs%numblocks) \textcolor{keywordflow}{then}
+338         outext=\textcolor{stringliteral}{'[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'}
+339         \textcolor{keyword}{call }log%put(outext)
+340         stop
+341 \textcolor{keywordflow}{    end if}
+342     getblockindex = temp
 \end{DoxyCode}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -374,23 +371,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 91 of file blocks.\+f90.
+Definition at line 94 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-91     \textcolor{keywordtype}{implicit none}
-92     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-93     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-94     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: templatebox
-95     \textcolor{keywordtype}{integer} :: sizem
-96     self%id = id
-97     \textcolor{comment}{!setting the block sub-domain}
-98     self%extents%pt = templatebox%pt
-99     self%extents%size = templatebox%size
-100     \textcolor{comment}{!initializing the block emitter}
-101     \textcolor{keyword}{call }self%Emitter%initialize()   
-102     sizem = sizeof(self)
-103     \textcolor{keyword}{call }simmemory%addblock(sizem)
+94     \textcolor{keywordtype}{implicit none}
+95     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+96     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+97     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: templatebox
+98     \textcolor{keywordtype}{integer} :: sizem, i
+99     self%id = id
+100     \textcolor{comment}{!setting the block sub-domain}
+101     self%extents%pt = templatebox%pt
+102     self%extents%size = templatebox%size
+103     \textcolor{comment}{!initializing the block emitter}
+104     \textcolor{keyword}{call }self%Emitter%initialize()
+105     \textcolor{comment}{!initializing the block integrator}
+106     i = globals%Parameters%Integrator
+107     \textcolor{keyword}{call }self%Integrator%initialize(i, globals%Parameters%IntegratorNames(i))
+108     sizem = sizeof(self)
+109     \textcolor{keyword}{call }simmemory%addblock(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a7202fad0fdc07ff9111e61e3aa513af9}\label{namespaceblocks__mod_a7202fad0fdc07ff9111e61e3aa513af9}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!numalloctracers@{numalloctracers}}
@@ -407,14 +407,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 78 of file blocks.\+f90.
+Definition at line 81 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-78     \textcolor{keywordtype}{implicit none}
-79     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(in)} :: self
-80     \textcolor{keywordtype}{integer} :: numAllocTracers
-81     numalloctracers = self%LTracer%getSize()
+81     \textcolor{keywordtype}{implicit none}
+82     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(in)} :: self
+83     \textcolor{keywordtype}{integer} :: numAllocTracers
+84     numalloctracers = self%LTracer%getSize()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}\label{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!printblock@{printblock}}
@@ -436,20 +436,20 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 346 of file blocks.\+f90.
+Definition at line 352 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-346     \textcolor{keywordtype}{implicit none}
-347     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-348     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
-349     temp\_str = self%id
-350     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
-351     \textcolor{keyword}{call }log%put(outext,.false.)
-352     \textcolor{keyword}{call }geometry%print(self%extents)
-353     temp\_str = self%LSource%getSize()
-354     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
-355     \textcolor{keyword}{call }log%put(outext,.false.)
+352     \textcolor{keywordtype}{implicit none}
+353     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+354     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+355     temp\_str = self%id
+356     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+357     \textcolor{keyword}{call }log%put(outext,.false.)
+358     \textcolor{keyword}{call }geometry%print(self%extents)
+359     temp\_str = self%LSource%getSize()
+360     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+361     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a10f356706988c45a255922fe70851488}\label{namespaceblocks__mod_a10f356706988c45a255922fe70851488}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!printdetailblock@{printdetailblock}}
@@ -471,22 +471,22 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 365 of file blocks.\+f90.
+Definition at line 371 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-365     \textcolor{keywordtype}{implicit none}
-366     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-367     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
-368     \textcolor{keywordtype}{integer} :: i
-369     temp\_str = self%id
-370     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
-371     \textcolor{keyword}{call }log%put(outext,.false.)
-372     \textcolor{keyword}{call }geometry%print(self%extents)
-373     temp\_str = self%LSource%getSize()
-374     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
-375     \textcolor{keyword}{call }log%put(outext,.false.)
-376     \textcolor{keyword}{call }self%LSource%print()
+371     \textcolor{keywordtype}{implicit none}
+372     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+373     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+374     \textcolor{keywordtype}{integer} :: i
+375     temp\_str = self%id
+376     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+377     \textcolor{keyword}{call }log%put(outext,.false.)
+378     \textcolor{keyword}{call }geometry%print(self%extents)
+379     temp\_str = self%LSource%getSize()
+380     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+381     \textcolor{keyword}{call }log%put(outext,.false.)
+382     \textcolor{keyword}{call }self%LSource%print()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}\label{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!putsource@{putsource}}
@@ -510,16 +510,16 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 114 of file blocks.\+f90.
+Definition at line 120 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-114     \textcolor{keywordtype}{implicit none}
-115     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-116     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: sourcetoadd
-117     \textcolor{keyword}{call }self%LSource%add(sourcetoadd)    
-118     \textcolor{comment}{!adding this Source to the Block Emitter pool}
-119     \textcolor{keyword}{call }self%Emitter%addSource(sourcetoadd)
+120     \textcolor{keywordtype}{implicit none}
+121     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+122     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: sourcetoadd
+123     \textcolor{keyword}{call }self%LSource%add(sourcetoadd)    
+124     \textcolor{comment}{!adding this Source to the Block Emitter pool}
+125     \textcolor{keyword}{call }self%Emitter%addSource(sourcetoadd)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}\label{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!sendtracer@{sendtracer}}
@@ -536,19 +536,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 309 of file blocks.\+f90.
+Definition at line 315 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-309     \textcolor{keywordtype}{implicit none}
-310     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: blk
-311     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: trc
-312     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer}
-313     \textcolor{comment}{!index attribution at the new block}
-314     \textcolor{keyword}{call }dblock(blk)%LTracer%add(trc)
+315     \textcolor{keywordtype}{implicit none}
+316     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: blk
+317     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: trc
+318     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer}
+319     \textcolor{comment}{!index attribution at the new block}
+320     \textcolor{keyword}{call }dblock(blk)%LTracer%add(trc)
 \end{DoxyCode}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -575,56 +574,55 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 386 of file blocks.\+f90.
+Definition at line 392 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-386     \textcolor{keywordtype}{implicit none}
-387     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} ::  auto
-388     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
-389     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(out)} :: nxi, nyi
-390     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
-391     \textcolor{keywordtype}{integer} :: i, j, b
-392     \textcolor{keywordtype}{real(prec)} :: ar
-393     \textcolor{keywordtype}{type}(box) :: tempbox
-394 
-395     \textcolor{keywordflow}{if} (auto) \textcolor{keywordflow}{then}
-396         ar = bbox%size%x/bbox%size%y
-397         ar = get\_closest\_twopow(ar) \textcolor{comment}{!aspect ratio of our bounding box}
-398         nyi = sqrt(nblk/ar)
-399         \textcolor{keywordflow}{if} (nyi == 0) \textcolor{keywordflow}{then}
-400             temp(1) = ar
-401             outext=\textcolor{stringliteral}{'[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '}//temp(1)//\textcolor{stringliteral}{'.
+392     \textcolor{keywordtype}{implicit none}
+393     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} ::  auto
+394     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+395     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(out)} :: nxi, nyi
+396     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
+397     \textcolor{keywordtype}{integer} :: i, j, b
+398     \textcolor{keywordtype}{real(prec)} :: ar
+399     \textcolor{keywordtype}{type}(box) :: tempbox
+400 
+401     \textcolor{keywordflow}{if} (auto) \textcolor{keywordflow}{then}
+402         ar = bbox%size%x/bbox%size%y
+403         ar = get\_closest\_twopow(ar) \textcolor{comment}{!aspect ratio of our bounding box}
+404         nyi = sqrt(nblk/ar)
+405         \textcolor{keywordflow}{if} (nyi == 0) \textcolor{keywordflow}{then}
+406             temp(1) = ar
+407             outext=\textcolor{stringliteral}{'[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '}//temp(1)//\textcolor{stringliteral}{'.
        Stoping'}
-402             \textcolor{keyword}{call }log%put(outext)
-403             stop
-404 \textcolor{keywordflow}{        endif}
-405         nxi = (nblk/nyi)
-406 
-407         b=1
-408         \textcolor{keywordflow}{do} i=1, nxi
-409             \textcolor{keywordflow}{do} j=1, nyi
-410                 tempbox%pt = bbox%pt + bbox%size%x*(i-1)/nxi*ex + bbox%size%y*(j-1)/nyi*ey - bbox%pt%z*ez
-411                 tempbox%size = bbox%size%x/nxi*ex + bbox%size%y/nyi*ey
-412                 \textcolor{keyword}{call }dblock(b)%initialize(b, tempbox)
-413                 b=b+1
-414 \textcolor{keywordflow}{            end do}
-415 \textcolor{keywordflow}{        end do}
-416         temp(1) = nxi
-417         temp(2) = nyi
-418         outext=\textcolor{stringliteral}{'-->Automatic domain decomposition sucessful. Domain is '}//temp(1)// \textcolor{stringliteral}{' X '} //temp(2)//\textcolor{stringliteral}{'
+408             \textcolor{keyword}{call }log%put(outext)
+409             stop
+410 \textcolor{keywordflow}{        endif}
+411         nxi = (nblk/nyi)
+412 
+413         b=1
+414         \textcolor{keywordflow}{do} i=1, nxi
+415             \textcolor{keywordflow}{do} j=1, nyi
+416                 tempbox%pt = bbox%pt + bbox%size%x*(i-1)/nxi*ex + bbox%size%y*(j-1)/nyi*ey - bbox%pt%z*ez
+417                 tempbox%size = bbox%size%x/nxi*ex + bbox%size%y/nyi*ey
+418                 \textcolor{keyword}{call }dblock(b)%initialize(b, tempbox)
+419                 b=b+1
+420 \textcolor{keywordflow}{            end do}
+421 \textcolor{keywordflow}{        end do}
+422         temp(1) = nxi
+423         temp(2) = nyi
+424         outext=\textcolor{stringliteral}{'-->Automatic domain decomposition sucessful. Domain is '}//temp(1)// \textcolor{stringliteral}{' X '} //temp(2)//\textcolor{stringliteral}{'
        Blocks'}
-419         \textcolor{keyword}{call }log%put(outext,.false.)
-420 \textcolor{keywordflow}{    end if}
-421     globals%SimDefs%blocksize = dblock(1)%extents%size
-422     \textcolor{comment}{!do i=1, size(DBlock)}
-423     \textcolor{comment}{!    call DBlock(i)%print()}
-424     \textcolor{comment}{!enddo}
-425 
-426     \textcolor{keywordflow}{return}
+425         \textcolor{keyword}{call }log%put(outext,.false.)
+426 \textcolor{keywordflow}{    end if}
+427     globals%SimDefs%blocksize = dblock(1)%extents%size
+428     \textcolor{comment}{!do i=1, size(DBlock)}
+429     \textcolor{comment}{!    call DBlock(i)%print()}
+430     \textcolor{comment}{!enddo}
+431 
+432     \textcolor{keywordflow}{return}
 \end{DoxyCode}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -646,37 +644,37 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 129 of file blocks.\+f90.
+Definition at line 135 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-129     \textcolor{keywordtype}{implicit none}
-130     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-131     \textcolor{keywordtype}{integer} :: i
-132     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aSource
-133     \textcolor{keywordtype}{type}(string) :: outext
-134 
-135     \textcolor{keyword}{call }self%LSource%reset()                   \textcolor{comment}{! reset list iterator}
-136     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LSource%moreValues())         \textcolor{comment}{! loop while there are values}
-137         asource => self%LSource%currentValue()  \textcolor{comment}{! get current value}
-138         \textcolor{keywordflow}{select type}(asource)
-139 \textcolor{keywordflow}{        class is} (source\_class)
-140             \textcolor{keywordflow}{if} (globals%SimTime <= asource%par%stoptime) \textcolor{keywordflow}{then}       \textcolor{comment}{!SimTime smaller than Source end time}
-141                 \textcolor{keywordflow}{if} (globals%SimTime >= asource%par%startime) \textcolor{keywordflow}{then}   \textcolor{comment}{!SimTime larger than source start time}
-142                     asource%now%active = .true.
-143 \textcolor{keywordflow}{                end if}
-144             \textcolor{keywordflow}{else}            \textcolor{comment}{!SimTime larger than Source end time}
-145                 asource%now%active = .false.
-146 \textcolor{keywordflow}{            end if}
-147 \textcolor{keywordflow}{            class default}
-148             outext = \textcolor{stringliteral}{'[Block::ToogleBlockSources] Unexepected type of content, not a Source'}
-149             \textcolor{keyword}{call }log%put(outext)
-150             stop
-151 \textcolor{keywordflow}{        end select}
-152         \textcolor{keyword}{call }self%LSource%next()            \textcolor{comment}{! increment the list iterator}
-153 \textcolor{keywordflow}{    end do}
-154     \textcolor{keyword}{call }self%LSource%reset()               \textcolor{comment}{! reset list iterator}
-155 
+135     \textcolor{keywordtype}{implicit none}
+136     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+137     \textcolor{keywordtype}{integer} :: i
+138     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aSource
+139     \textcolor{keywordtype}{type}(string) :: outext
+140 
+141     \textcolor{keyword}{call }self%LSource%reset()                   \textcolor{comment}{! reset list iterator}
+142     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%LSource%moreValues())         \textcolor{comment}{! loop while there are values}
+143         asource => self%LSource%currentValue()  \textcolor{comment}{! get current value}
+144         \textcolor{keywordflow}{select type}(asource)
+145 \textcolor{keywordflow}{        class is} (source\_class)
+146             \textcolor{keywordflow}{if} (globals%SimTime <= asource%par%stoptime) \textcolor{keywordflow}{then}       \textcolor{comment}{!SimTime smaller than Source end time}
+147                 \textcolor{keywordflow}{if} (globals%SimTime >= asource%par%startime) \textcolor{keywordflow}{then}   \textcolor{comment}{!SimTime larger than source start time}
+148                     asource%now%active = .true.
+149 \textcolor{keywordflow}{                end if}
+150             \textcolor{keywordflow}{else}            \textcolor{comment}{!SimTime larger than Source end time}
+151                 asource%now%active = .false.
+152 \textcolor{keywordflow}{            end if}
+153 \textcolor{keywordflow}{            class default}
+154             outext = \textcolor{stringliteral}{'[Block::ToogleBlockSources] Unexepected type of content, not a Source'}
+155             \textcolor{keyword}{call }log%put(outext)
+156             stop
+157 \textcolor{keywordflow}{        end select}
+158         \textcolor{keyword}{call }self%LSource%next()            \textcolor{comment}{! increment the list iterator}
+159 \textcolor{keywordflow}{    end do}
+160     \textcolor{keyword}{call }self%LSource%reset()               \textcolor{comment}{! reset list iterator}
+161 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}\label{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!tracerstoaot@{tracerstoaot}}
@@ -693,17 +691,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 272 of file blocks.\+f90.
+Definition at line 278 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-272     \textcolor{keywordtype}{implicit none}
-273     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-274     self%AoT = aot(self%LTracer)
-275     \textcolor{comment}{!if (self%LTracer%getSize() > 0) then}
-276     \textcolor{comment}{!    print*, 'From Block ', self%id}
-277     \textcolor{comment}{!    call self%AoT%print()}
-278     \textcolor{comment}{!end if}
+278     \textcolor{keywordtype}{implicit none}
+279     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+280     self%AoT = aot(self%LTracer)
+281     \textcolor{comment}{!if (self%LTracer%getSize() > 0) then}
+282     \textcolor{comment}{!    print*, 'From Block ', self%id}
+283     \textcolor{comment}{!    call self%AoT%print()}
+284     \textcolor{comment}{!end if}
 \end{DoxyCode}
 
 
@@ -716,9 +714,9 @@ Definition at line 272 of file blocks.\+f90.
 
 
 
-Definition at line 63 of file blocks.\+f90.
+Definition at line 66 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-63     \textcolor{keywordtype}{type}(block\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: DBlock
+66     \textcolor{keywordtype}{type}(block\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: DBlock
 \end{DoxyCode}
