@@ -22,6 +22,7 @@
     use common_modules
     use AoT_mod
     use background_mod
+    use interpolator_mod
 
     implicit none
     private
@@ -29,6 +30,7 @@
     type :: solver_class        !< Solver class
         integer :: solverType = 1   !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
         type(string) :: name        !< Name of the Integrator algorithm
+        type(interpolator_class) :: Interpolator !< The interpolator object for this Solver
     contains
     procedure :: initialize => initSolver
     procedure :: runStep
