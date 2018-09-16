@@ -98,8 +98,7 @@
     integer :: sizem, i
     self%id = id
     !setting the block sub-domain
-    self%extents%pt = templatebox%pt
-    self%extents%size = templatebox%size
+    self%extents = templatebox
     !initializing the block emitter
     call self%Emitter%initialize()
     !initializing the block solver
