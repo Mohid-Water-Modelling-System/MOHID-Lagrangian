@@ -51,8 +51,8 @@ message(STATUS "Targeting " ${LIBS})
 message(STATUS "Targeting external libraries " ${EXTERNAL_LIBS})
 
 target_link_libraries (${BIN_NAME}  ${LIB_NAME})
-target_link_libraries (${BIN_NAME}  ${LIBS})
-target_link_libraries (${BIN_NAME}  ${EXTERNAL_LIBS})
+target_link_libraries (${BIN_NAME}  -Wl,--start-group ${LIBS} -Wl,--end-group)
+target_link_libraries (${BIN_NAME}  -Wl,--start-group ${EXTERNAL_LIBS} -Wl,--end-group)
 
 # Creates a folder "executables" and adds target
 # project (app.vcproj) under it
