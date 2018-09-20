@@ -1,0 +1,1 @@
+/usr/local/bin/gfortran     CMakeFiles/dom_example_3.dir/dom_example_3.f90.o  -o ../bin/dom_example_3 ../lib/libFoX_dom.a ../lib/libFoX_wxml.a ../lib/libFoX_sax.a ../lib/libFoX_common.a ../lib/libFoX_utils.a ../lib/libFoX_fsys.a 

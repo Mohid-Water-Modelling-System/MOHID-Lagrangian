@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libFoX_wkml.a  CMakeFiles/FoX_wkml.dir/FoX_wkml.f90.o CMakeFiles/FoX_wkml.dir/m_wkml_lowlevel.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_color.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_styling.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_features.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_coverage.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_core.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_contours.F90.o CMakeFiles/FoX_wkml.dir/m_contours.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_color_def.F90.o CMakeFiles/FoX_wkml.dir/m_wkml_chart.F90.o
+/usr/bin/ranlib ../lib/libFoX_wkml.a

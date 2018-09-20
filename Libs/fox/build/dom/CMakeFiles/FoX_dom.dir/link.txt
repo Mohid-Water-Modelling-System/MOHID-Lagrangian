@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libFoX_dom.a  CMakeFiles/FoX_dom.dir/FoX_dom.f90.o CMakeFiles/FoX_dom.dir/m_dom_error.f90.o CMakeFiles/FoX_dom.dir/m_dom_parse.f90.o CMakeFiles/FoX_dom.dir/m_dom_utils.f90.o CMakeFiles/FoX_dom.dir/m_dom_dom.F90.o CMakeFiles/FoX_dom.dir/m_dom_extras.F90.o
+/usr/bin/ranlib ../lib/libFoX_dom.a

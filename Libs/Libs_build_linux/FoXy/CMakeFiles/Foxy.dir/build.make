@@ -60,41 +60,41 @@ include FoXy/CMakeFiles/Foxy.dir/flags.make
 FoXy/CMakeFiles/Foxy.dir/foxy.f90.o: FoXy/CMakeFiles/Foxy.dir/flags.make
 FoXy/CMakeFiles/Foxy.dir/foxy.f90.o: ../FoXy/foxy.f90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object FoXy/CMakeFiles/Foxy.dir/foxy.f90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy.f90 -o CMakeFiles/Foxy.dir/foxy.f90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy.f90 -o CMakeFiles/Foxy.dir/foxy.f90.o
 
 FoXy/CMakeFiles/Foxy.dir/foxy.f90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/Foxy.dir/foxy.f90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy.f90 > CMakeFiles/Foxy.dir/foxy.f90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy.f90 > CMakeFiles/Foxy.dir/foxy.f90.i
 
 FoXy/CMakeFiles/Foxy.dir/foxy.f90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/Foxy.dir/foxy.f90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy.f90 -o CMakeFiles/Foxy.dir/foxy.f90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy.f90 -o CMakeFiles/Foxy.dir/foxy.f90.s
 
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_file.f90.o: FoXy/CMakeFiles/Foxy.dir/flags.make
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_file.f90.o: ../FoXy/foxy_xml_file.f90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building Fortran object FoXy/CMakeFiles/Foxy.dir/foxy_xml_file.f90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_file.f90 -o CMakeFiles/Foxy.dir/foxy_xml_file.f90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_file.f90 -o CMakeFiles/Foxy.dir/foxy_xml_file.f90.o
 
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_file.f90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/Foxy.dir/foxy_xml_file.f90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_file.f90 > CMakeFiles/Foxy.dir/foxy_xml_file.f90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_file.f90 > CMakeFiles/Foxy.dir/foxy_xml_file.f90.i
 
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_file.f90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/Foxy.dir/foxy_xml_file.f90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_file.f90 -o CMakeFiles/Foxy.dir/foxy_xml_file.f90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_file.f90 -o CMakeFiles/Foxy.dir/foxy_xml_file.f90.s
 
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_tag.f90.o: FoXy/CMakeFiles/Foxy.dir/flags.make
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_tag.f90.o: ../FoXy/foxy_xml_tag.f90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building Fortran object FoXy/CMakeFiles/Foxy.dir/foxy_xml_tag.f90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_tag.f90 -o CMakeFiles/Foxy.dir/foxy_xml_tag.f90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_tag.f90 -o CMakeFiles/Foxy.dir/foxy_xml_tag.f90.o
 
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_tag.f90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/Foxy.dir/foxy_xml_tag.f90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_tag.f90 > CMakeFiles/Foxy.dir/foxy_xml_tag.f90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_tag.f90 > CMakeFiles/Foxy.dir/foxy_xml_tag.f90.i
 
 FoXy/CMakeFiles/Foxy.dir/foxy_xml_tag.f90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/Foxy.dir/foxy_xml_tag.f90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_tag.f90 -o CMakeFiles/Foxy.dir/foxy_xml_tag.f90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FoXy && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FoXy/foxy_xml_tag.f90 -o CMakeFiles/Foxy.dir/foxy_xml_tag.f90.s
 
 # Object files for target Foxy
 Foxy_OBJECTS = \

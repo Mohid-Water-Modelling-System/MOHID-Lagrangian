@@ -18,9 +18,6 @@
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VTKFortran/CMakeFiles/rebuild_cache.dir
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VTKFortran/CMakeFiles/edit_cache.dir
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VTKFortran/CMakeFiles/VTKFortran.dir
-/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CLA/CMakeFiles/rebuild_cache.dir
-/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CLA/CMakeFiles/edit_cache.dir
-/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CLA/CMakeFiles/CLA.dir
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE/CMakeFiles/rebuild_cache.dir
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE/CMakeFiles/edit_cache.dir
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE/CMakeFiles/FACE.dir

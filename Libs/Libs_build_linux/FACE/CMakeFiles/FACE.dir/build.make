@@ -60,15 +60,15 @@ include FACE/CMakeFiles/FACE.dir/flags.make
 FACE/CMakeFiles/FACE.dir/face.F90.o: FACE/CMakeFiles/FACE.dir/flags.make
 FACE/CMakeFiles/FACE.dir/face.F90.o: ../FACE/face.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object FACE/CMakeFiles/FACE.dir/face.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FACE/face.F90 -o CMakeFiles/FACE.dir/face.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FACE/face.F90 -o CMakeFiles/FACE.dir/face.F90.o
 
 FACE/CMakeFiles/FACE.dir/face.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/FACE.dir/face.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FACE/face.F90 > CMakeFiles/FACE.dir/face.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FACE/face.F90 > CMakeFiles/FACE.dir/face.F90.i
 
 FACE/CMakeFiles/FACE.dir/face.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/FACE.dir/face.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FACE/face.F90 -o CMakeFiles/FACE.dir/face.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/FACE/face.F90 -o CMakeFiles/FACE.dir/face.F90.s
 
 # Object files for target FACE
 FACE_OBJECTS = \

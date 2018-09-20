@@ -60,28 +60,28 @@ include StringiFor/CMakeFiles/StringiFor.dir/flags.make
 StringiFor/CMakeFiles/StringiFor.dir/stringifor.F90.o: StringiFor/CMakeFiles/StringiFor.dir/flags.make
 StringiFor/CMakeFiles/StringiFor.dir/stringifor.F90.o: ../StringiFor/stringifor.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object StringiFor/CMakeFiles/StringiFor.dir/stringifor.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor.F90 -o CMakeFiles/StringiFor.dir/stringifor.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor.F90 -o CMakeFiles/StringiFor.dir/stringifor.F90.o
 
 StringiFor/CMakeFiles/StringiFor.dir/stringifor.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/StringiFor.dir/stringifor.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor.F90 > CMakeFiles/StringiFor.dir/stringifor.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor.F90 > CMakeFiles/StringiFor.dir/stringifor.F90.i
 
 StringiFor/CMakeFiles/StringiFor.dir/stringifor.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/StringiFor.dir/stringifor.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor.F90 -o CMakeFiles/StringiFor.dir/stringifor.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor.F90 -o CMakeFiles/StringiFor.dir/stringifor.F90.s
 
 StringiFor/CMakeFiles/StringiFor.dir/stringifor_string_t.F90.o: StringiFor/CMakeFiles/StringiFor.dir/flags.make
 StringiFor/CMakeFiles/StringiFor.dir/stringifor_string_t.F90.o: ../StringiFor/stringifor_string_t.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building Fortran object StringiFor/CMakeFiles/StringiFor.dir/stringifor_string_t.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor_string_t.F90 -o CMakeFiles/StringiFor.dir/stringifor_string_t.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor_string_t.F90 -o CMakeFiles/StringiFor.dir/stringifor_string_t.F90.o
 
 StringiFor/CMakeFiles/StringiFor.dir/stringifor_string_t.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/StringiFor.dir/stringifor_string_t.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor_string_t.F90 > CMakeFiles/StringiFor.dir/stringifor_string_t.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor_string_t.F90 > CMakeFiles/StringiFor.dir/stringifor_string_t.F90.i
 
 StringiFor/CMakeFiles/StringiFor.dir/stringifor_string_t.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/StringiFor.dir/stringifor_string_t.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor_string_t.F90 -o CMakeFiles/StringiFor.dir/stringifor_string_t.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/StringiFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/StringiFor/stringifor_string_t.F90 -o CMakeFiles/StringiFor.dir/stringifor_string_t.F90.s
 
 # Object files for target StringiFor
 StringiFor_OBJECTS = \
