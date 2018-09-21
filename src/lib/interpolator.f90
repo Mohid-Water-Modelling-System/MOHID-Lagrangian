@@ -21,6 +21,7 @@
     use common_modules
     use AoT_mod
     use background_mod
+    use field_types_mod
 
     implicit none
     private
@@ -32,6 +33,7 @@
     procedure :: run
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
+    procedure :: interp4D
     end type interpolator_class
 
     !Public access vars
@@ -52,14 +54,35 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(:,:), intent(inout) :: var_dt
     real(prec) :: newtime
+    class(*), pointer :: aField
+    integer :: i = 1
+    type(string) :: outext
 
-    newtime = time + dt    
-    !unpac the AoT to particle components
-    !unpac each field from the background
+    newtime = time + dt
     !Check field extents and what particles will be interpolated 
     !interpolate each field to the correspoing slice in var_dt
-    
-    !if (self%interpolatorType == 1) call self%interp4D(...)
+    call bdata%fields%reset()                   ! reset list iterator
+    do while(bdata%fields%moreValues())         ! loop while there are values
+        aField => bdata%fields%currentValue()   ! get current value
+        select type(aField)
+        class is(scalar4d_field_class)          !4D interpolation is possible
+            if (self%interpolatorType == 1) then !linear interpolation in space and time
+                call self%interp4D(aot%x, aot%y, aot%z, newtime, aField%field, var_dt(:,i), size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+            end if !add more interpolation types here
+        class is(scalar3d_field_class)          !3D interpolation is possible
+            if (self%interpolatorType == 1) then !linear interpolation in space and time
+                !call self%interp3D(...)
+            end if !add more interpolation types here
+        !add more field types here
+            class default
+            outext = '[Interpolator::Run] Unexepected type of field, not correct or supported at the time'
+            call Log%put(outext)
+            stop
+        end select
+        call bdata%fields%next()                ! increment the list iterator
+        i = i+1 !to select the correct slice of var_dt for the corresponding field
+    end do
+    call bdata%fields%reset()                   ! reset list iterator
                
     end subroutine run
     
