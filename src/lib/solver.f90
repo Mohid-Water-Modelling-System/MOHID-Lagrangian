@@ -103,7 +103,12 @@
         allocate(var_dt(np,nf))
         call self%Interpolator%run(aot, bdata(bkg), time, dt, var_dt)
         !put the interpolated vars from var_dt back into the AoT
-    end do    
+    end do 
+
+    !now that we interpolated the variables, we need to know what to do with them. 
+    !need to find a way to save velocity to velocity and temperature to temperature.
+    !list with vars to interpolate from input xml, and config xml with standard
+    !netcdf name overrides is needed for specific institution files?
            
     end subroutine runStepVerlet
 
