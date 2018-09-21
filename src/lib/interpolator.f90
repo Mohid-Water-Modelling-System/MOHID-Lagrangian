@@ -29,6 +29,7 @@
         integer :: interpolatorType = 1     !< Interpolation Algorithm
         type(string) :: name                !< Name of the Interpolation algorithm
     contains
+    procedure :: run
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
     end type interpolator_class
@@ -37,6 +38,30 @@
     public :: interpolator_class
 
     contains
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that runs the chosen interpolator method on the given data.
+    !> @param[in] self, aot, bdata, time, dt, var_dt
+    !---------------------------------------------------------------------------
+    subroutine run(self, aot, bdata, time, dt, var_dt)
+    class(interpolator_class), intent(inout) :: self
+    type(aot_class), intent(in) :: aot
+    type(background_class), intent(in) :: bdata
+    real(prec), intent(in) :: time, dt
+    real(prec), dimension(:,:), intent(inout) :: var_dt
+    real(prec) :: newtime
+
+    newtime = time + dt    
+    !unpac the AoT to particle components
+    !unpac each field from the background
+    !Check field extents and what particles will be interpolated 
+    !interpolate each field to the correspoing slice in var_dt
+    
+    !if (self%interpolatorType == 1) call self%interp4D(...)
+               
+    end subroutine run
     
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -46,26 +71,22 @@
     !> neighbors. Consider the 4D domain between the 16 neighbors. The hypercube is
     !> divided into 16 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
-    !> of the whole hypercube. Explanation adapted from:
-    !>
-    !> @param[in] x,y,z  1-d. Array of particles, contains the component positions.
-    !> @param[in] t      Time
-    !> @param[in] f_in   Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
-    !> @param[in] n_e    Number of particles
-    !> @param[out] f_out  Field evaluated at x,y,z,t
+    !> of the whole hypercube.
+    !> @param[in] x,y,z, t, field, n_e, f_out  
     !---------------------------------------------------------------------------
-    subroutine interp4D(self, x, y, z, t, f_in, f_out, n_fv, n_cv, n_pv, n_tv, n_e)
-    class(interpolator_class), intent(in) :: self
-    integer, intent(in) :: n_fv, n_cv, n_pv, n_tv, n_e
-    real, dimension(n_e),intent(in):: x, y, z
-    real, intent(in) :: t
-    real, dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: f_in
-    real, dimension(n_e), intent(out) :: f_out
+    subroutine interp4D(self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e)
+    class(interpolator_class), intent(in) :: self  
+    real, dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions
+    real, intent(in) :: t                                           !< time to interpolate to
+    real, dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
+    real, dimension(n_e), intent(out) :: f_out                      !< Field evaluated at x,y,z,t
+    integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                   !< field dimensions
+    integer, intent(in) :: n_e                                      !< Number of particles to interpolate to    
     integer, dimension(n_e) :: x0, y0, z0, x1, y1, z1
-    integer :: t0, t1
-    real, dimension(n_e) :: xd, yd, zd, c000, c100, c010, c110, c001, c101, c011, c111, c00, c10, c01, c11, c0, c1
+    real, dimension(n_e) :: xd, yd, zd, c000, c100, c010, c110, c001
+    real, dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
     real :: td
-    integer :: i, j, k, l    
+    integer :: i, j, k, l, t0, t1
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the partcle is
     x0 = floor(x)
@@ -91,15 +112,15 @@
     
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     forall(i=1:n_e)
-        c000(i) = f_in(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + f_in(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
-        c100(i) = f_in(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + f_in(x1(i),y1(i),z0(i),t0)*xd(i)
-        c010(i) = f_in(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + f_in(x1(i),y0(i),z1(i),t0)*xd(i)
-        c110(i) = f_in(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + f_in(x1(i),y1(i),z1(i),t0)*xd(i)
+        c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
+        c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
+        c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
+        c110(i) = field(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t0)*xd(i)
 
-        c001(i) = f_in(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + f_in(x1(i),y0(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
-        c101(i) = f_in(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + f_in(x1(i),y1(i),z0(i),t1)*xd(i)
-        c011(i) = f_in(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + f_in(x1(i),y0(i),z1(i),t1)*xd(i)
-        c111(i) = f_in(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + f_in(x1(i),y1(i),z1(i),t1)*xd(i)
+        c001(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
+        c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
+        c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
+        c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
     end forall
 
     ! Interpolation on the second dimension and collapse it to a two dimension problem

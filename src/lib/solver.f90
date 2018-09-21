@@ -93,6 +93,17 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
+    integer :: np, nf, bkg
+    real(prec), dimension(:,:), allocatable :: var_dt
+
+    ! interpolate each background 
+    do bkg = 1, size(bdata)
+        np = size(aot%id)
+        nf = bdata(bkg)%fields%getSize()
+        allocate(var_dt(np,nf))
+        call self%Interpolator%run(aot, bdata(bkg), time, dt, var_dt)
+        !put the interpolated vars from var_dt back into the AoT
+    end do    
            
     end subroutine runStepVerlet
 
