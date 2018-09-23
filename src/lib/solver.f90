@@ -139,8 +139,11 @@
     class(solver_class), intent(inout) :: self
     integer, intent(in) :: flag
     type(string), intent(in) :: name
+    type(string) :: interpName
     self%solverType = flag
     self%name = name
+    interpName = 'linear'
+    call self%Interpolator%initialize(1,interpName)
     end subroutine initSolver
 
     !---------------------------------------------------------------------------

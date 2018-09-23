@@ -27,7 +27,7 @@
     private
 
     type :: interpolator_class        !< Interpolator class
-        integer :: interpolatorType = 1     !< Interpolation Algorithm
+        integer :: interpType = 1     !< Interpolation Algorithm 1: linear
         type(string) :: name                !< Name of the Interpolation algorithm
     contains
     procedure :: run
@@ -66,11 +66,11 @@
         aField => bdata%fields%currentValue()   ! get current value
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
-            if (self%interpolatorType == 1) then !linear interpolation in space and time
+            if (self%interpType == 1) then !linear interpolation in space and time
                 call self%interp4D(aot%x, aot%y, aot%z, newtime, aField%field, var_dt(:,i), size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
-            if (self%interpolatorType == 1) then !linear interpolation in space and time
+            if (self%interpType == 1) then !linear interpolation in space and time
                 !call self%interp3D(...)
             end if !add more interpolation types here
         !add more field types here
@@ -173,7 +173,7 @@
     class(interpolator_class), intent(inout) :: self
     integer, intent(in) :: flag
     type(string), intent(in) :: name
-    self%interpolatorType = flag
+    self%interpType = flag
     self%name = name
     end subroutine initInterpolator
 
