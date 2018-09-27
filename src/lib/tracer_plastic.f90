@@ -22,18 +22,19 @@
 
     use tracer_base_mod
     use common_modules
+    use sources_mod
 
     implicit none
     private
 
     type :: plastic_par_class               !<Type - parameters of a Lagrangian tracer object representing a plastic material
-        real(prec) :: density                       !< density of the material
         real(prec) :: degradation_rate              !< degradation rate of the material
         logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type plastic_par_class
 
     type :: plastic_state_class             !<Type - State variables of a tracer object representing a plastic material
+        real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: condition                     !< Material condition (1-0)
         real(prec) :: concentration                 !< Particle concentration
@@ -43,45 +44,55 @@
         type(plastic_par_class)   :: mpar     !<To access material parameters
         type(plastic_state_class) :: mnow     !<To access material state variables
     contains
-    procedure :: initialize => plastic_initialize
     end type plastic_class
 
     !Public access vars
     public :: plastic_class
+
+    !Public access routines
+    public :: plasticTracer
+
+    interface plasticTracer !< Constructor
+    procedure constructor
+    end interface
 
     contains
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Tracer initialization method
-    !> @param[in] trc,id,id_source,time,pt
+    !> Plastic Tracer constructor
+    !> @param[in] id,src,time,p
     !---------------------------------------------------------------------------
-    subroutine plastic_initialize(trc,id,id_source,time,pt)
+    function constructor(id,src,time,p)
     implicit none
-    class(plastic_class) :: trc
+    type(plastic_class) :: constructor
     integer, intent(in) :: id
-    integer, intent(in) :: id_source
-    type(vector), intent(in) :: pt
+    class(source_class), intent(in) :: src
     real(prec_time), intent(in) :: time
+    integer, intent(in) :: p
+    class(*), allocatable :: base_trc
 
-    ! initialize parameters
-    trc%par%id = id
-    trc%par%idsource = id_source
-    trc%par%velmax = 15.0 !(m/s, just a placeholder)
-    ! initialize tracer state
-    trc%now%age=0.0
-    trc%now%active = .false.
-    trc%now%pos = pt
-    trc%now%vel = 0.0
-    trc%now%acc = 0.0
-    trc%now%depth = 0.0
-    ! Initialize statistical accumulator variables
-    trc%stats%acc_pos = 0.0
-    trc%stats%acc_vel = 0.0
-    trc%stats%acc_depth = 0.0
-    trc%stats%ns = 0
+    !use the base class constructor to build the base of our new derived type
+    constructor%tracer_class = Tracer(id,src,time,p)
+    !VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...
+    constructor%par%id = id !forcing
+    constructor%par%idsource = src%par%id !forcing
+    !now initialize the specific components of this derived type
+    !material parameters
+    constructor%mpar%degradation_rate = src%prop%degrd_rate
+    constructor%mpar%particulate = src%prop%particulate
+    constructor%mpar%size = src%prop%radius
+    !material state
+    constructor%mnow%density = src%prop%density
+    constructor%mnow%condition = src%prop%condition
+    constructor%mnow%radius = src%prop%radius
+    constructor%mnow%concentration = MV
+    if (constructor%mpar%particulate) then
+        constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
+        constructor%mnow%concentration = src%prop%ini_concentration
+    end if
 
-    end subroutine
+    end function constructor
 
     end module tracer_plastic_mod
