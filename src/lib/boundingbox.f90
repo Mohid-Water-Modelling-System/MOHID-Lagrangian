@@ -1,61 +1,61 @@
-!------------------------------------------------------------------------------
-!        IST/MARETEC, Water Modelling Group, Mohid modelling system
-!------------------------------------------------------------------------------
-!
-! TITLE         : Mohid Model
-! PROJECT       : Mohid Lagrangian Tracer
-! MODULE        : boundingbox_mod
-! URL           : http://www.mohid.com
-! AFFILIATION   : IST/MARETEC, Marine Modelling Group
-! DATE          : March 2018
-! REVISION      : Canelas 0.3
-!> @author
-!> Ricardo Birjukovs Canelas
-!
-! DESCRIPTION:
-!> Module that defines a simulation Bounding Box.
-!------------------------------------------------------------------------------
+    !------------------------------------------------------------------------------
+    !        IST/MARETEC, Water Modelling Group, Mohid modelling system
+    !------------------------------------------------------------------------------
+    !
+    ! TITLE         : Mohid Model
+    ! PROJECT       : Mohid Lagrangian Tracer
+    ! MODULE        : boundingbox_mod
+    ! URL           : http://www.mohid.com
+    ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
+    ! DATE          : March 2018
+    ! REVISION      : Canelas 0.3
+    !> @author
+    !> Ricardo Birjukovs Canelas
+    !
+    ! DESCRIPTION:
+    !> Module that defines a simulation Bounding Box.
+    !------------------------------------------------------------------------------
 
-module boundingbox_mod
+    module boundingbox_mod
 
-  use common_modules
+    use common_modules
 
-  implicit none
-  private
+    implicit none
+    private
 
-  type, extends(box) :: boundingbox_class
-  type(vector) :: offset
-  contains
+    type, extends(box) :: boundingbox_class
+        type(vector) :: offset
+    contains
     procedure :: initialize => initboundingbox
     procedure :: print      => printboundingbox
-  end type boundingbox_class
+    end type boundingbox_class
 
-  type(boundingbox_class), public :: BBox
-  
-  public :: boundingbox_class
+    type(boundingbox_class), public :: BBox
 
-  contains
+    public :: boundingbox_class
 
-  !---------------------------------------------------------------------------
-  !> @author Ricardo Birjukovs Canelas - MARETEC
-  !> @brief
-  !> Method to initialize the simulation Bounding Box
-  !---------------------------------------------------------------------------
-  subroutine initboundingbox(self)
+    contains
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to initialize the simulation Bounding Box
+    !---------------------------------------------------------------------------
+    subroutine initboundingbox(self)
     implicit none
     class(boundingbox_class), intent(inout) :: self
     self%pt = Globals%SimDefs%Pointmin
     !self%size = geo2m(Globals%SimDefs%Pointmax - Globals%SimDefs%Pointmin, Globals%SimDefs%Pointmin%y)
     self%size = Globals%SimDefs%Pointmax - Globals%SimDefs%Pointmin
     self%offset = -self%pt !distance to the origin - local reference
-  end subroutine initboundingbox
+    end subroutine initboundingbox
 
-  !---------------------------------------------------------------------------
-  !> @author Ricardo Birjukovs Canelas - MARETEC
-  !> @brief
-  !> Method to print the simulation Bounding Box
-  !---------------------------------------------------------------------------
-  subroutine printboundingbox(self)
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to print the simulation Bounding Box
+    !---------------------------------------------------------------------------
+    subroutine printboundingbox(self)
     implicit none
     class(boundingbox_class), intent(inout) :: self
     type(string) :: outext
@@ -68,8 +68,8 @@ module boundingbox_mod
     temp_str(1)=self%size%x
     temp_str(2)=self%size%y
     temp_str(3)=self%size%z
-    outext = outext//'       Size = '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)    
+    outext = outext//'       Size = '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)
     call Log%put(outext,.false.)
-  end subroutine printboundingbox
+    end subroutine printboundingbox
 
-end module boundingbox_mod
+    end module boundingbox_mod

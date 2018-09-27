@@ -98,7 +98,7 @@
     contains
     procedure :: initialize => initVectorial4dField
     end type vectorial4d_field_class
-    
+
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     type, extends(field_class) :: generic_field_class !< generic field class. This works as a wrapper for a generic initialization routine.

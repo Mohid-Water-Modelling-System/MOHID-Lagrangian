@@ -32,7 +32,7 @@
         type(string) :: name                    !< source name
         type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
-    end type
+    end type source_par
 
     type :: source_prop                         !<Type - material properties of a source object
         type(string) :: property_type           !< source property type (plastic, paper, fish, etc)
@@ -44,7 +44,7 @@
         real(prec) :: condition                 !< condition of the Tracers
         real(prec) :: degrd_rate                !< degradation rate of the Tracers
         real(prec) :: ini_concentration         !< initial concentration of particles if particulate
-    end type
+    end type source_prop
 
     type :: source_state             !<Type - state variables of a source object
         real(prec_time) :: age              ! time variables
@@ -54,7 +54,7 @@
         type(vector) :: vel                 !< Velocity of the source (m s-1)
         real(prec) :: depth                 !< Depth of the source baricenter (m)
         real(prec) :: T                     !< Temperature of the source (Celcius)
-    end type
+    end type source_state
 
     type :: source_stats             !<Type - statistical variables of a source object
         ! All stats variables at writing precision (prec_wrt)
@@ -62,13 +62,13 @@
         integer :: particles_emitted        !< Number of emitted particles by this source
         real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
         integer :: ns                       !< Number of sampling steps
-    end type
+    end type source_stats
 
     type :: source_stencil         !<Type - holder for the tracer creation stencil of the source
         integer :: np                       !< Number of tracers by emission
         integer :: total_np                 !< Total number of tracers that this source will generate
         type(vector), allocatable, dimension(:) :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission.
-    end type
+    end type source_stencil
 
     type :: source_class           !<Type - The source class
         type(source_par)   :: par           !<To access parameters
@@ -84,7 +84,7 @@
     procedure, private :: setotalnp
     procedure, private :: linkproperty
     procedure :: print => printSource
-    end type
+    end type source_class
 
     type :: source_group_class
         type(source_class), allocatable, dimension(:) :: src
@@ -92,7 +92,7 @@
     procedure :: initialize => initSources
     procedure :: finalize => killSources
     procedure :: setPropertyNames
-    end type
+    end type source_group_class
 
     !Simulation variables
     type(source_group_class) :: tempSources !< Temporary Source array, used exclusively for building the case from a description file
@@ -331,9 +331,9 @@
     endif
     call Geometry%fill(src%par%geometry, Globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
     do i=1, src%stencil%np
-            src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
+        src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
     end do
-    
+
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)

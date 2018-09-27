@@ -38,7 +38,7 @@
     procedure :: removeSource
     procedure :: emitt
     procedure :: tracerMaker
-    end type
+    end type emitter_class
 
     !Public access vars
     public :: emitter_class
@@ -137,6 +137,6 @@
     end select
 
     end subroutine tracerMaker
-    
+
 
     end module emitter_mod

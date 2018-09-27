@@ -41,7 +41,7 @@
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
     procedure :: getnumPoints               !<Function that returns the number of points (vertexes) that define the geometrical shape
     procedure :: print => printGeometry     !<prints the geometry type and contents
-    end type
+    end type geometry_class
 
     type :: shape                      !<Type - extendable shape class
         type(vector) :: pt              !< Coordinates of a point
@@ -168,7 +168,7 @@
         stop
     end select
     end subroutine fill
-     
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -245,7 +245,7 @@
         stop
     end select
     end function getPoints
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -273,7 +273,7 @@
         stop
     end select
     end function getnumPoints
- 
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -390,7 +390,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> private routine that returns the points distributed on a grid
-    !> with spacing dp inside a box    
+    !> with spacing dp inside a box
     !> @param[in] dp, size, np, ptlist
     !---------------------------------------------------------------------------
     subroutine box_grid(dp, size, np, ptlist)
@@ -418,7 +418,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> private routine that returns the points distributed on a grid
-    !> with spacing dp along a line    
+    !> with spacing dp along a line
     !> @param[in] dp, dist, np, ptlist
     !---------------------------------------------------------------------------
     subroutine line_grid(dp, dist, np, ptlist)

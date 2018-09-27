@@ -31,7 +31,7 @@
     implicit none
     private
 
-    type parameters_t   !< Parameters class
+    type :: parameters_t   !< Parameters class
         integer    :: Integrator = 1            !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
         integer    :: IntegratorIndexes(3)      !< Index list for the integrator selector
         type(string) :: IntegratorNames(3)      !< Names list for the integrator selector
@@ -48,9 +48,9 @@
     procedure :: setparameter
     procedure :: check
     procedure :: print => printsimparameters
-    end type
+    end type parameters_t
 
-    type simdefs_t  !< Simulation definitions class
+    type :: simdefs_t  !< Simulation definitions class
         real(prec)      ::  Dp              !< Initial particle spacing at emission
         real(prec_time) ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
@@ -65,9 +65,9 @@
     procedure :: setboundingbox
     procedure :: setblocksize
     procedure :: print => printsimdefs
-    end type
+    end type simdefs_t
 
-    type constants_t    !< Case Constants class
+    type :: constants_t    !< Case Constants class
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
         real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
@@ -76,15 +76,15 @@
     procedure :: setz0
     procedure :: setrho
     procedure :: print => printconstants
-    end type
+    end type constants_t
 
-    type filenames_t    !<File names class
+    type :: filenames_t    !<File names class
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
         type(string) :: tempfilename        !< Generic temporary file name
         type(string) :: outpath             !< General output directory
         type(string) :: casename            !< Name of the running case
-    end type
+    end type filenames_t
 
     type src_parm_t   !<Lists for Source parameters
         type(string), allocatable, dimension(:) :: baselist !<Lists for base tracer parameters
@@ -92,8 +92,8 @@
     contains
     procedure :: buildlists
     end type
-    
-    type sim_t  !<Simulation related counters and others
+
+    type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
         integer :: numoutfile   !<number of the current output file
@@ -105,9 +105,9 @@
     procedure, public :: getnumoutfile
     procedure, private :: increment_numTracer
     procedure, public :: getnumTracer
-    end type    
+    end type sim_t
 
-    type globals_class   !<Globals class - This is a container for every global variable on the simulation
+    type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
@@ -117,7 +117,7 @@
         type(sim_t)         :: Sim
     contains
     procedure :: initialize => setdefaults
-    end type
+    end type globals_class
 
     !Simulation variables
     type(globals_class) :: Globals
@@ -192,7 +192,7 @@
     call SimMemory%adddef(sizem)
 
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -204,7 +204,7 @@
     !ATOMIC pragma here please
     self%numTracer = self%numTracer + 1
     end subroutine increment_numTracer
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -216,7 +216,7 @@
     call self%increment_numTracer()
     getnumTracer = self%numTracer
     end function getnumTracer
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -227,7 +227,7 @@
     class(sim_t), intent(inout) :: self
     self%numdt = self%numdt + 1
     end subroutine increment_numdt
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -238,7 +238,7 @@
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -249,7 +249,7 @@
     class(sim_t), intent(inout) :: self
     self%numoutfile = self%numoutfile + 1
     end subroutine increment_numoutfile
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -373,7 +373,7 @@
         outext = '[Globals::parameters::check]: OutputFormat not recognized, stoping'
         call Log%put(outext)
         stop
-    end if        
+    end if
     temp = datetime() !default initialization
     !add new parameters to this search
     if (self%TimeOut==MV) then

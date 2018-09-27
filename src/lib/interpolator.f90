@@ -59,7 +59,7 @@
     type(string) :: outext
 
     newtime = time + dt
-    !Check field extents and what particles will be interpolated 
+    !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
     call bdata%fields%reset()                   ! reset list iterator
     do while(bdata%fields%moreValues())         ! loop while there are values
@@ -73,7 +73,7 @@
             if (self%interpType == 1) then !linear interpolation in space and time
                 !call self%interp3D(...)
             end if !add more interpolation types here
-        !add more field types here
+            !add more field types here
             class default
             outext = '[Interpolator::Run] Unexepected type of field, not correct or supported at the time'
             call Log%put(outext)
@@ -83,9 +83,9 @@
         i = i+1 !to select the correct slice of var_dt for the corresponding field
     end do
     call bdata%fields%reset()                   ! reset list iterator
-               
+
     end subroutine run
-    
+
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
@@ -95,20 +95,20 @@
     !> divided into 16 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] x,y,z, t, field, n_e, f_out  
+    !> @param[in] x,y,z, t, field, n_e, f_out
     !---------------------------------------------------------------------------
     subroutine interp4D(self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e)
-    class(interpolator_class), intent(in) :: self  
-    real, dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions
-    real, intent(in) :: t                                           !< time to interpolate to
-    real, dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
-    real, dimension(n_e), intent(out) :: f_out                      !< Field evaluated at x,y,z,t
+    class(interpolator_class), intent(in) :: self
+    real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions
+    real(prec), intent(in) :: t                                           !< time to interpolate to
+    real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
+    real(prec), dimension(n_e), intent(out) :: f_out                      !< Field evaluated at x,y,z,t
     integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                   !< field dimensions
-    integer, intent(in) :: n_e                                      !< Number of particles to interpolate to    
+    integer, intent(in) :: n_e                                      !< Number of particles to interpolate to
     integer, dimension(n_e) :: x0, y0, z0, x1, y1, z1
-    real, dimension(n_e) :: xd, yd, zd, c000, c100, c010, c110, c001
-    real, dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
-    real :: td
+    real(prec), dimension(n_e) :: xd, yd, zd, c000, c100, c010, c110, c001
+    real(prec), dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
+    real(prec) :: td
     integer :: i, j, k, l, t0, t1
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the partcle is
@@ -126,13 +126,13 @@
     yd = (y-y0)/(y1-y0)
     zd = (z-z0)/(z1-z0)
     td = (t-t0)/(t1-t0)
-    
+
     ! In case that particle is on a point box, we set it to 0 to avoid inf errors
     where (x1 == x0) xd = 0.
     where (y1 == y0) yd = 0.
     where (z1 == z0) zd = 0.
     if (t1 == t0)    td = 0.
-    
+
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     forall(i=1:n_e)
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0

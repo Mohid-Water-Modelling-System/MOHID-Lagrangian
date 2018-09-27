@@ -29,13 +29,13 @@
 
     !public routines
     public :: get_closest_twopow, int2str, geo2m, m2geo
-    
+
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Public function that returns a vector in meters given an array in 
+    !> Public function that returns a vector in meters given an array in
     !> geographical coordinates (lon, lat, z) and a lattitude
     !> @param[in] geovec, lat
     !---------------------------------------------------------------------------
@@ -50,11 +50,11 @@
     res%x = res%x*R*cos(pi*lat/180.0)
     res%y = res%y*R
     end function geo2m
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Public function that returns a vector in geographical coordinates 
+    !> Public function that returns a vector in geographical coordinates
     !> (lon, lat, z) given an array in meters and a lattitude
     !> @param[in] mvec, lat
     !---------------------------------------------------------------------------
@@ -69,11 +69,11 @@
     res%x = res%x/(R*cos(pi*lat/180.0))
     res%y = res%y/R
     end function m2geo
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Public function that returns a zero paded string from an integer number 
+    !> Public function that returns a zero paded string from an integer number
     !> and a format descriptor
     !> @param[in] fmt, i
     !---------------------------------------------------------------------------
@@ -81,7 +81,7 @@
     character(:), allocatable :: res
     character(len=6), intent(in) :: fmt ! format descriptor
     integer, intent(in) :: i
-    character(range(i)+2) :: tmp    
+    character(range(i)+2) :: tmp
     write(tmp, fmt) i
     res = trim(tmp)
     end function
@@ -97,7 +97,7 @@
     real(prec), intent(in) :: num
     real(prec) :: twopow
     integer :: i
-    real(prec) :: dist1, dist2    
+    real(prec) :: dist1, dist2
     do i=-4, 10
         twopow = 2.0**i
         if (num < twopow) then
@@ -109,7 +109,7 @@
             endif
             exit
         endif
-    enddo   
+    enddo
     end function get_closest_twopow
 
     end module utilities_mod

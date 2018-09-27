@@ -13,7 +13,7 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines an Solver class. This class invokes the different available integration 
+    !> Defines an Solver class. This class invokes the different available integration
     !> algorithms as methods, and these invoke the necessary interpolation objects.
     !------------------------------------------------------------------------------
 
@@ -39,7 +39,7 @@
     procedure, private :: runStepRK4
     procedure :: print => printSolver
     end type solver_class
-    
+
     !Public access vars
     public :: solver_class
 
@@ -48,7 +48,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that integrates the Tracer state array in one time-step, according to 
+    !> Method that integrates the Tracer state array in one time-step, according to
     !> the selected integration algorithm
     !> @param[in] self, aot, bdata, dt
     !---------------------------------------------------------------------------
@@ -75,7 +75,7 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
-        
+
     end subroutine runStepSymplectic
 
     !---------------------------------------------------------------------------
@@ -83,8 +83,8 @@
     !> @brief
     !> Method that integrates the Tracer state array in one time-step, using a
     !> Verlet integration algorithm. This is a one-shot type
-    !> explicit scheme with low computational cost, mostly for quick tests and 
-    !> debug. Implements 
+    !> explicit scheme with low computational cost, mostly for quick tests and
+    !> debug. Implements
     !> \f$ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}\f$
     !> @param[in] self, aot, bdata, dt
     !---------------------------------------------------------------------------
@@ -96,27 +96,27 @@
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
 
-    ! interpolate each background 
+    ! interpolate each background
     do bkg = 1, size(bdata)
         np = size(aot%id)
         nf = bdata(bkg)%fields%getSize()
         allocate(var_dt(np,nf))
         call self%Interpolator%run(aot, bdata(bkg), time, dt, var_dt)
         !put the interpolated vars from var_dt back into the AoT
-    end do 
+    end do
 
-    !now that we interpolated the variables, we need to know what to do with them. 
+    !now that we interpolated the variables, we need to know what to do with them.
     !need to find a way to save velocity to velocity and temperature to temperature.
     !list with vars to interpolate from input xml, and config xml with standard
     !netcdf name overrides is needed for specific institution files?
-           
+
     end subroutine runStepVerlet
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that integrates the Tracer state array in one time-step, using a
-    !> Runge-Kuta 4th order integration algorithm. This is an explicit scheme 
+    !> Runge-Kuta 4th order integration algorithm. This is an explicit scheme
     !> with medium to high computational cost
     !> @param[in] self, aot, bdata, dt
     !---------------------------------------------------------------------------
@@ -125,7 +125,7 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
-                
+
     end subroutine runStepRK4
 
     !---------------------------------------------------------------------------

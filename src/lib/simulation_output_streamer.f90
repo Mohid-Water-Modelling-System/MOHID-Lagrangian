@@ -14,7 +14,7 @@
     !
     ! DESCRIPTION:
     !> Defines a output file writer class with an object exposable to the Simulation
-    !> This class is in charge of selectig the correct writter for the selected output 
+    !> This class is in charge of selectig the correct writter for the selected output
     !> file format.
     !------------------------------------------------------------------------------
 
@@ -27,7 +27,7 @@
 
     implicit none
     private
-    
+
     type :: output_streamer_class
         integer :: OutputFormat = -1
     contains
@@ -35,7 +35,7 @@
     procedure :: WriteDomain
     procedure :: WriteStepSerial
     end type output_streamer_class
-    
+
     type(output_streamer_class) :: OutputStreamer
 
     !Public access vars
@@ -44,7 +44,7 @@
     !Public access procedures
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -68,20 +68,20 @@
     !---------------------------------------------------------------------------
     subroutine WriteStepSerial(self, blocks)
     implicit none
-    class(output_streamer_class), intent(inout) :: self   
+    class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     type(string) :: filename                                !< name of the case to add
-    
+
     filename = Globals%Names%casename//'_'//int2str('(i5.5)',Globals%Sim%getnumoutfile())
-    
+
     if (self%OutputFormat == 2) then !VTK file selected
         call vtkWritter%TracerSerial(filename, blocks)
     end if
-    
+
     call Globals%Sim%increment_numoutfile()
-    
+
     end subroutine WriteStepSerial
-          
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -96,11 +96,11 @@
     class(boundingbox_class), intent(in) :: bbox            !< Case bounding box
     integer, intent(in) :: npbbox                           !< number of points of the bbox geometry
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
-    
+
     if (self%OutputFormat == 2) then !VTK file selected
         call vtkWritter%Domain(filename, bbox, npbbox, blocks)
     end if
-    
-    end subroutine WriteDomain   
 
-  end module simulation_output_streamer_mod
+    end subroutine WriteDomain
+
+    end module simulation_output_streamer_mod

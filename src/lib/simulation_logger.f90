@@ -25,7 +25,7 @@
 
     implicit none
     private
-    
+
     type :: logger_class
         private
         integer :: log_unit = -1
@@ -34,13 +34,13 @@
     procedure :: finalize   => closeLog
     procedure :: put        => put_inLog
     end type logger_class
-    
+
     type(logger_class) :: Log
 
     !Public access vars
     public :: Log
 
-     !Public access procedures
+    !Public access procedures
     public :: getTimeStamp
 
     contains
@@ -56,13 +56,13 @@
     class(logger_class), intent(inout) :: self
     type(string), intent(in) :: outpath !< output path were to point the logger
     type(string) :: logfile
-    
+
     logfile = outpath//'MOHIDLagrangianRun.out'
     self%log_unit = 0
     open (unit=self%log_unit,file=logfile%chars(),action="write",status="replace")
-    
+
     end subroutine initLog
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -70,10 +70,10 @@
     !---------------------------------------------------------------------------
     subroutine closeLog(self)
     implicit none
-    class(logger_class), intent(inout) :: self            
-    close(self%log_unit)       
+    class(logger_class), intent(inout) :: self
+    close(self%log_unit)
     end subroutine closeLog
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -86,19 +86,19 @@
     type(string), intent(inout) :: tologstr
     logical, intent(in), optional :: timeoption
     type(string) :: timestamp
-    
+
     call getTimeStamp(timestamp)
     if (present(timeoption)) then
-      if (.not.timeoption) then
-        timestamp=''
-      endif
+        if (.not.timeoption) then
+            timestamp=''
+        endif
     endif
     tologstr=timestamp//' '//tologstr
     write(self%log_unit,"(A)") tologstr%chars()
     print'(A)', tologstr%chars()
-    
+
     end subroutine put_inLog
-        
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -118,4 +118,4 @@
     timestamp=trim(adjustl(temp(1)))//'-'//trim(adjustl(temp(2)))//'-'//trim(adjustl(temp(3)))//' @'//trim(adjustl(temp(5)))//':'//trim(adjustl(temp(6)))//':'//trim(adjustl(temp(7)))
     end subroutine getTimeStamp
 
-  end module simulation_logger_mod
+    end module simulation_logger_mod

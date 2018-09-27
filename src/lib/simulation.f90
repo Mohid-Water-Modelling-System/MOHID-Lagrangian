@@ -35,7 +35,7 @@
     implicit none
     private
 
-    type :: simulation_class   !< Parameters class        
+    type :: simulation_class   !< Parameters class
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -52,7 +52,7 @@
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
     procedure, private :: setTracerMemory
-    end type
+    end type simulation_class
 
     !Exposed public class
     public :: simulation_class
@@ -68,14 +68,14 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
-    
+
     outext = '====================================================================='
     call Log%put(outext,.false.)
     outext = '->Simulation staring'
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)
-    
+
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
         !activate suitable Sources
@@ -90,7 +90,7 @@
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         !Update all tracers with base behavior (AoT) - Integration step
-            !interpolate fields to tracer coordinates
+        !interpolate fields to tracer coordinates
         !AoT to Tracers
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
@@ -135,7 +135,7 @@
     !initializing memory log
     call SimMemory%initialize()
     !setting every global variable and input parameter to their default
-    call Globals%initialize(outpath = outpath)    
+    call Globals%initialize(outpath = outpath)
     !initializing geometry class
     call Geometry%initialize()
     !Check if case file has .xml extension
@@ -155,9 +155,9 @@
     !Distributing Sources
     call self%setInitialState()
     !printing memory occupation at the time
-    call SimMemory%detailedprint()    
+    call SimMemory%detailedprint()
     !Initializing output file streamer
-    call OutputStreamer%initialize()    
+    call OutputStreamer%initialize()
     !Writing the domain to file
     call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
 
@@ -169,16 +169,16 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to activate and deactivate Sources based on the 
+    !> Simulation method to activate and deactivate Sources based on the
     !> Global%SimTime
     !---------------------------------------------------------------------------
     subroutine ToggleSources(self)
-        implicit none
-        class(simulation_class), intent(in) :: self
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%ToogleBlockSources()
-        enddo        
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%ToogleBlockSources()
+    enddo
     end subroutine ToggleSources
 
     !---------------------------------------------------------------------------
@@ -187,94 +187,94 @@
     !> Simulation method to call the Blocks to emitt tracers at current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksEmitt(self)
-        implicit none
-        class(simulation_class), intent(in) :: self
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%CallEmitter()
-        enddo        
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%CallEmitter()
+    enddo
     end subroutine BlocksEmitt
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to distribute Tracers at 
+    !> Simulation method to call the Blocks to distribute Tracers at
     !> current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksDistribute(self)
-        implicit none
-        class(simulation_class), intent(in) :: self        
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%DistributeTracers()
-        enddo
-        !need to distribute Sources also! TODO
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%DistributeTracers()
+    enddo
+    !need to distribute Sources also! TODO
     end subroutine BlocksDistribute
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to consolidate the Tracer array at 
+    !> Simulation method to call the Blocks to consolidate the Tracer array at
     !> current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksConsolidateArrays(self)
-        implicit none
-        class(simulation_class), intent(in) :: self        
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%ConsolidateArrays()
-        enddo
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%ConsolidateArrays()
+    enddo
     end subroutine BlocksConsolidateArrays
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to build their Array of 
+    !> Simulation method to call the Blocks to build their Array of
     !> Tracers (AoT) from the Tracer list at current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksTracersToAoT(self)
-        implicit none
-        class(simulation_class), intent(in) :: self        
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%TracersToAoT()
-        enddo
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%TracersToAoT()
+    enddo
     end subroutine BlocksTracersToAoT
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to print their Array of 
+    !> Simulation method to call the Blocks to print their Array of
     !> Tracers (AoT) back to the Tracer objects on the list at current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksAoTtoTracers(self)
-        implicit none
-        class(simulation_class), intent(in) :: self        
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%AoTtoTracers()
-        enddo
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%AoTtoTracers()
+    enddo
     end subroutine BlocksAoTtoTracers
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to clean their Array of 
+    !> Simulation method to call the Blocks to clean their Array of
     !> Tracers (AoT) at current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksCleanAoT(self)
-        implicit none
-        class(simulation_class), intent(in) :: self        
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%CleanAoT()
-        enddo
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%CleanAoT()
+    enddo
     end subroutine BlocksCleanAoT
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to distribute the Sources to the Blocks, allocate the 
+    !> Simulation method to distribute the Sources to the Blocks, allocate the
     !> respective Tracers and redistribute if needed
     !---------------------------------------------------------------------------
     subroutine setInitialState(self)
@@ -285,7 +285,7 @@
     !iterate every Source to distribute
     ntrc = 0
     do i=1, size(tempSources%src)
-        blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))        
+        blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))
         call DBlock(blk)%putSource(tempSources%src(i))
         ntrc = ntrc + tempSources%src(i)%stencil%total_np
     end do
@@ -297,7 +297,7 @@
     call Log%put(outext,.false.)
     call self%setTracerMemory(ntrc)
     end subroutine setInitialState
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -305,7 +305,7 @@
     !---------------------------------------------------------------------------
     integer function getTracerTotals(self)
     implicit none
-    class(simulation_class), intent(in) :: self    
+    class(simulation_class), intent(in) :: self
     integer :: i, total
     total = 0
     do i=1, size(DBlock)
@@ -313,7 +313,7 @@
     enddo
     getTracerTotals = total
     end function getTracerTotals
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -323,11 +323,11 @@
     implicit none
     class(simulation_class), intent(in) :: self
     type(string) :: outext, temp
-    temp = self%getTracerTotals()   
+    temp = self%getTracerTotals()
     outext='-->'//temp //' Tracers allocated'
     call Log%put(outext,.false.)
     end subroutine printTracerTotals
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -342,7 +342,7 @@
     do i=1, size(DBlock)
         sizem = sizem + sizeof(DBlock(i)%LTracer) !this accounts for the array structure
         sizem = sizem + sizeof(dummyTracer)*DBlock(i)%LTracer%getSize() !this accounts for the contents
-    enddo  
+    enddo
     call SimMemory%setracer(sizem)
     if(present(ntrc)) then
         call SimMemory%setNtrc(ntrc)

@@ -54,7 +54,7 @@
     integer :: i, p
     type(string) :: att_name, att_val, tag
     type(string) :: sourceid, sourcetype, sourceprop
-    
+
     linkList => getElementsByTagname(linksNode, "link")
     do i = 0, getLength(linkList) - 1
         anode => item(linkList,i)
@@ -71,7 +71,7 @@
     !parse the properties file
     xmlfilename = Globals%Names%propsxmlfilename
     call XMLReader%getFile(xmlProps,xmlfilename)
-    
+
     !Go to the materials node
     tag = "materials"
     call XMLReader%gotoNode(xmlProps,xmlProps,tag)
@@ -81,26 +81,26 @@
     do i = 1, size(tempSources%src)
         tag = tempSources%src(i)%prop%property_type
         if (tag .ne. 'base') then
-        call XMLReader%gotoNode(xmlProps,anode,tag) !finding the material type node
-        tag = tempSources%src(i)%prop%property_name
-        call XMLReader%gotoNode(anode,anode,tag)     !finding the actual material node
-        do p = 1, size(Globals%SrcProp%baselist)
-            call XMLReader%getNodeAttribute(anode, Globals%SrcProp%baselist(p), att_name, att_val)            
-            call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%baselist(p), att_val)
-        end do
-        if (tempSources%src(i)%isParticulate()) then
-            do p = 1, size(Globals%SrcProp%particulatelist)
-                call XMLReader%getNodeAttribute(anode, Globals%SrcProp%particulatelist(p), att_name, att_val)
-                call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%particulatelist(p), att_val)
+            call XMLReader%gotoNode(xmlProps,anode,tag) !finding the material type node
+            tag = tempSources%src(i)%prop%property_name
+            call XMLReader%gotoNode(anode,anode,tag)     !finding the actual material node
+            do p = 1, size(Globals%SrcProp%baselist)
+                call XMLReader%getNodeAttribute(anode, Globals%SrcProp%baselist(p), att_name, att_val)
+                call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%baselist(p), att_val)
             end do
-        end if
-        !Run integrety check on the properties to see if Source is well defined
-        call tempSources%src(i)%check()
+            if (tempSources%src(i)%isParticulate()) then
+                do p = 1, size(Globals%SrcProp%particulatelist)
+                    call XMLReader%getNodeAttribute(anode, Globals%SrcProp%particulatelist(p), att_name, att_val)
+                    call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%particulatelist(p), att_val)
+                end do
+            end if
+            !Run integrety check on the properties to see if Source is well defined
+            call tempSources%src(i)%check()
         end if
     end do
     outext='-->Sources properties are set'
     call Log%put(outext,.false.)
-    
+
     call XMLReader%closeFile(xmlProps)
 
     end subroutine linkPropertySources
@@ -159,7 +159,7 @@
         !nothing to do
     class is (box)
         tag='point'
-        call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)       
+        call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
         tag='size'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%size)
     class is (point)
@@ -267,7 +267,7 @@
                 exit
             endif
         enddo
-        !initializing Source j       
+        !initializing Source j
         call tempSources%src(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
 
         deallocate(source_shape)
@@ -336,23 +336,23 @@
     tag="constantsdef"    !the node we want
     call XMLReader%gotoNode(case_node,constants_node,tag,readflag,.false.)
     if (readflag) then !if the node exists, since his one is not mandatory
-      tag="Gravity"
-      call XMLReader%getNodeVector(constants_node,tag,coords,readflag,.false.)
-      if (readflag) then
-        call Globals%Constants%setgravity(coords)
-      endif
-      tag="Z0"
-      att_name="value"
-      call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
-      if (readflag) then
-        call Globals%Constants%setz0(att_val)
-      endif
-      tag="Rho_ref"
-      att_name="value"
-      call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
-      if (readflag) then
-        call Globals%Constants%setrho(att_val)
-      endif
+        tag="Gravity"
+        call XMLReader%getNodeVector(constants_node,tag,coords,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setgravity(coords)
+        endif
+        tag="Z0"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setz0(att_val)
+        endif
+        tag="Rho_ref"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setrho(att_val)
+        endif
     endif
     call Globals%Constants%print()
 
@@ -407,7 +407,7 @@
     type(Node), pointer :: xmldoc                   !< .xml file handle
     type(Node), pointer :: case_node
     type(Node), pointer :: execution_node
-    
+
     call XMLReader%getFile(xmldoc,xmlfilename)
     Globals%Names%mainxmlfilename = xmlfilename
     Globals%Names%casename = xmlfilename%basename(extension='.xml')
@@ -435,4 +435,4 @@
 
     end subroutine InitFromXml
 
-  end module simulation_initialize_mod
+    end module simulation_initialize_mod

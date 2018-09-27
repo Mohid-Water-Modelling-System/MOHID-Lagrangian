@@ -37,7 +37,7 @@
     implicit none
     private
 
-    type block_class
+    type :: block_class
         integer :: id
         type(box) :: extents                  !< shape::box that defines the extents of this block
         type(sourceList_class) :: LSource     !< List of Sources currently on this block
