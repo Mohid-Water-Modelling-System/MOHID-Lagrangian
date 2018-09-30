@@ -71,7 +71,7 @@
 
     outext = '====================================================================='
     call Log%put(outext,.false.)
-    outext = '->Simulation staring'
+    outext = '->Simulation starting'
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)

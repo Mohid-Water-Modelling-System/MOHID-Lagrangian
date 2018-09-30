@@ -52,12 +52,12 @@
     procedure, public :: putSource
     procedure, public :: CallEmitter
     procedure, public :: DistributeTracers
-    procedure, public :: numAllocTracers
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
     procedure, public :: TracersToAoT
     procedure, public :: AoTtoTracers
     procedure, public :: CleanAoT
+    procedure, public :: numAllocTracers
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
     end type block_class
