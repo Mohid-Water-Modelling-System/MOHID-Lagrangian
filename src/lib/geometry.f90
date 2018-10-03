@@ -126,7 +126,7 @@
         fillsize = 1
     class is (line)
         temp = shapetype%pt - shapetype%last
-        temp = geo2m(temp, shapetype%pt%y)
+        temp = Utils%geo2m(temp, shapetype%pt%y)
         fillsize = max(int(temp%normL2()/dp),1)
     class is (sphere)
         fillsize = sphere_np_count(dp, shapetype%radius)
@@ -159,7 +159,7 @@
     class is (point)
         ptlist(1)=0
     class is (line)
-        call line_grid(dp, geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillsize, ptlist)
+        call line_grid(dp, Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillsize, ptlist)
     class is (sphere)
         call sphere_grid(dp, shapetype%radius, fillsize, ptlist)
         class default
@@ -184,7 +184,7 @@
     select type (shapetype)
     type is (shape)
     class is (box)
-        center = shapetype%pt + m2geo(shapetype%size, shapetype%pt%y)/2.0
+        center = shapetype%pt + Utils%m2geo(shapetype%size, shapetype%pt%y)/2.0
     class is (point)
         center = shapetype%pt
     class is (line)
@@ -217,7 +217,6 @@
         n=8
         allocate(pts(n))
         temp = shapetype%size
-        !temp = m2geo(shapetype%size, shapetype%pt%y)
         pts(1) = shapetype%pt
         pts(2) = shapetype%pt + temp%y*ey
         pts(3) = pts(2) + temp%z*ez

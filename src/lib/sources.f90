@@ -331,7 +331,7 @@
     endif
     call Geometry%fill(src%par%geometry, Globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
     do i=1, src%stencil%np
-        src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
+        src%stencil%ptlist(i) = Utils%m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
     end do
 
 

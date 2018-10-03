@@ -412,7 +412,7 @@
 
     if (auto) then
         ar = BBox%size%x/BBox%size%y
-        ar = get_closest_twopow(ar) !aspect ratio of our bounding box
+        ar = Utils%get_closest_twopow(ar) !aspect ratio of our bounding box
         nyi = sqrt(nblk/ar)
         if (nyi == 0) then
             temp(1) = ar

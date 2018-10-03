@@ -45,7 +45,6 @@
     implicit none
     class(boundingbox_class), intent(inout) :: self
     self%pt = Globals%SimDefs%Pointmin
-    !self%size = geo2m(Globals%SimDefs%Pointmax - Globals%SimDefs%Pointmin, Globals%SimDefs%Pointmin%y)
     self%size = Globals%SimDefs%Pointmax - Globals%SimDefs%Pointmin
     self%offset = -self%pt !distance to the origin - local reference
     end subroutine initboundingbox

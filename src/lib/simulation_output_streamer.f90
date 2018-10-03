@@ -72,7 +72,7 @@
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     type(string) :: filename                                !< name of the case to add
 
-    filename = Globals%Names%casename//'_'//int2str('(i5.5)',Globals%Sim%getnumoutfile())
+    filename = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
 
     if (self%OutputFormat == 2) then !VTK file selected
         call vtkWritter%TracerSerial(filename, blocks)
