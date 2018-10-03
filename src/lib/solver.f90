@@ -113,12 +113,12 @@
         aot%v = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         aot%w = var_dt(:,nf)
+        !update positions
+        aot%x = aot%x + aot%u*dt
+        aot%y = aot%y + aot%v*dt
+        aot%z = aot%z + aot%w*dt
+        !update other vars...
     end do
-
-    !now that we interpolated the variables, we need to know what to do with them.
-    !need to find a way to save velocity to velocity and temperature to temperature.
-    !list with vars to interpolate from input xml, and config xml with standard
-    !netcdf name overrides is needed for specific institution files?
 
     end subroutine runStepVerlet
 
