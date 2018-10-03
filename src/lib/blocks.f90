@@ -55,6 +55,7 @@
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
     procedure, public :: TracersToAoT
+    procedure, public :: RunSolver
     procedure, public :: AoTtoTracers
     procedure, public :: CleanAoT
     procedure, public :: numAllocTracers
@@ -282,6 +283,18 @@
     !    call self%AoT%print()
     !end if
     end subroutine TracersToAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to run the solver on the data on this Block for the current 
+    !> timestep. Time for some actual numerical work!
+    !---------------------------------------------------------------------------
+    subroutine RunSolver(self)
+    implicit none
+    class(block_class), intent(inout) :: self
+    call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
+    end subroutine RunSolver
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
