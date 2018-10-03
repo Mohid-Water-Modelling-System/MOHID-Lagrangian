@@ -47,18 +47,17 @@
     !> Method that runs the chosen interpolator method on the given data.
     !> @param[in] self, aot, bdata, time, dt, var_dt
     !---------------------------------------------------------------------------
-    subroutine run(self, aot, bdata, time, dt, var_dt)
+    subroutine run(self, aot, bdata, time, var_dt)
     class(interpolator_class), intent(inout) :: self
     type(aot_class), intent(in) :: aot
     type(background_class), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec_time), intent(in) :: time
     real(prec), dimension(:,:), intent(inout) :: var_dt
-    real(prec) :: newtime
+    real(prec_time) :: newtime
     class(*), pointer :: aField
     integer :: i = 1
     type(string) :: outext
 
-    newtime = time + dt
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
     call bdata%fields%reset()                   ! reset list iterator
@@ -67,7 +66,7 @@
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
-                call self%interp4D(aot%x, aot%y, aot%z, newtime, aField%field, var_dt(:,i), size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+                call self%interp4D(aot%x, aot%y, aot%z, time, aField%field, var_dt(:,i), size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
@@ -100,7 +99,7 @@
     subroutine interp4D(self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions
-    real(prec), intent(in) :: t                                           !< time to interpolate to
+    real(prec_time), intent(in) :: t                                           !< time to interpolate to
     real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
     real(prec), dimension(n_e), intent(out) :: f_out                      !< Field evaluated at x,y,z,t
     integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                   !< field dimensions

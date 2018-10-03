@@ -56,7 +56,7 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec_time), intent(in) :: time, dt
     if (self%solverType == 2) call self%runStepSymplectic(aot, bdata, time, dt)
     if (self%solverType == 1) call self%runStepVerlet(aot, bdata, time, dt)
     if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
@@ -74,7 +74,7 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec_time), intent(in) :: time, dt
 
     end subroutine runStepSymplectic
 
@@ -92,7 +92,7 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec_time), intent(in) :: time, dt
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
 
@@ -101,7 +101,7 @@
         np = size(aot%id)
         nf = bdata(bkg)%fields%getSize()
         allocate(var_dt(np,nf))
-        call self%Interpolator%run(aot, bdata(bkg), time, dt, var_dt)
+        call self%Interpolator%run(aot, bdata(bkg), time, var_dt)
         !put the interpolated vars from var_dt back into the AoT
     end do
 
@@ -124,7 +124,7 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec_time), intent(in) :: time, dt
 
     end subroutine runStepRK4
 
