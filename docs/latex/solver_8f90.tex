@@ -1,0 +1,27 @@
+\hypertarget{solver_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/solver.f90 File Reference}
+\label{solver_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/solver.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/solver.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+mod\+::solver\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesolver__mod}{solver\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary interpolation objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_ab87d71c6c8aa1709901ec14f9bf12505}{solver\+\_\+mod\+::runstep}} (self, aot, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, according to the selected integration algorithm. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_a91ddfd70d0f6d65b00fe6b08f4113cd6}{solver\+\_\+mod\+::runstepsymplectic}} (self, aot, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Symplectic integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_acf893016edd8e0eb4bc77666aed1096f}{solver\+\_\+mod\+::runstepverlet}} (self, aot, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Verlet integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}$. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_ae59da54f053ae369d76f130b3790f3b7}{solver\+\_\+mod\+::runsteprk4}} (self, aot, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_a326292ff19880a914317109520b200b2}{solver\+\_\+mod\+::initsolver}} (self, flag, name)
+\begin{DoxyCompactList}\small\item\em Initializer method for the Solver class. Sets the type of integrator and name of the algorithm this Solver will call. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}{solver\+\_\+mod\+::printsolver}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the Solver information. \end{DoxyCompactList}\end{DoxyCompactItemize}

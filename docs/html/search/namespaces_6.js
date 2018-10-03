@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['integrator_5fmod',['integrator_mod',['../namespaceintegrator__mod.html',1,'']]]
+  ['interpolator_5fmod',['interpolator_mod',['../namespaceinterpolator__mod.html',1,'']]]
 ];

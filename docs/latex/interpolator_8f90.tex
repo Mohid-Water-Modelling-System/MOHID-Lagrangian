@@ -1,0 +1,23 @@
+\hypertarget{interpolator_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/interpolator.f90 File Reference}
+\label{interpolator_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/interpolator.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/interpolator.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+mod\+::interpolator\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespaceinterpolator__mod}{interpolator\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Defines an Interpolator class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_ab4d61e34f8feebf8c75e988a6c7cac85}{interpolator\+\_\+mod\+::run}} (self, aot, bdata, time, var\+\_\+dt)
+\begin{DoxyCompactList}\small\item\em Method that runs the chosen interpolator method on the given data. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_a1bf15b6fa6e4fd0bb4a8e544994c487d}{interpolator\+\_\+mod\+::interp4d}} (self, x, y, z, t, field, f\+\_\+out, n\+\_\+fv, n\+\_\+cv, n\+\_\+pv, n\+\_\+tv, n\+\_\+e)
+\begin{DoxyCompactList}\small\item\em method to interpolate a particle position in a given data box based on array coordinates. 4d interpolation is a weighted average of 16 neighbors. Consider the 4D domain between the 16 neighbors. The hypercube is divided into 16 sub-\/hypercubes by the point in question. The weight of each neighbor is given by the volume of the opposite sub-\/hypercube, as a fraction of the whole hypercube. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_adcaf3bba800f19991ed4f33c968184e9}{interpolator\+\_\+mod\+::initinterpolator}} (self, flag, name)
+\begin{DoxyCompactList}\small\item\em Initializer method for the Interpolator class. Sets the type of interpolator and name of the algorithm this Interpolator will call. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_a9b149bc8a3da5d1864b8c049f8b00697}{interpolator\+\_\+mod\+::printinterpolator}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the Interpolator information. \end{DoxyCompactList}\end{DoxyCompactItemize}

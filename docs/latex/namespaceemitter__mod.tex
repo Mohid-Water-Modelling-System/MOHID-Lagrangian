@@ -190,13 +190,13 @@ Definition at line 117 of file emitter.\+f90.
 125     \textcolor{keywordflow}{select case} (src%prop%property\_type%chars())
 126     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'base'})
 127         \textcolor{keyword}{allocate}(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime, p)) \textcolor{comment}{!Beacause ifort
-       is not F2008 compliant.}
+       2017 is not F2008 compliant...}
 128         \textcolor{comment}{!trc = Tracer(1, src, Globals%SimTime, p) !Otherwise instinsic allocation would be enough and more
        readable, like this. Compiles fine in GFortran}
 129     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'paper'})
 130         \textcolor{keyword}{allocate}(trc, source = papertracer(globals%Sim%getnumTracer(), src, globals%SimTime, p))
 131     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'plastic'})
-132         \textcolor{keyword}{allocate}(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime, p))
+132         \textcolor{keyword}{allocate}(trc, source = plastictracer(globals%Sim%getnumTracer(), src, globals%SimTime, p))
 133 \textcolor{keywordflow}{        case default}
 134         outext=\textcolor{stringliteral}{'[Emitter::tracerMaker]: unexpected type for Tracer object: '}//src%prop%property\_type
 135         \textcolor{keyword}{call }log%put(outext)

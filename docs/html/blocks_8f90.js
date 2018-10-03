@@ -13,6 +13,7 @@ var blocks_8f90 =
     [ "printblock", "blocks_8f90.html#a6eab8b323cb15dcecb5c6b0c31b4e246", null ],
     [ "printdetailblock", "blocks_8f90.html#a10f356706988c45a255922fe70851488", null ],
     [ "putsource", "blocks_8f90.html#ae3bd1bfeee831f4b41932839495bb108", null ],
+    [ "runsolver", "blocks_8f90.html#a3245bdadbec6bb123c517921d1503b48", null ],
     [ "sendtracer", "blocks_8f90.html#a5a9992de40470e417ec8e40e688f6a0e", null ],
     [ "setblocks", "blocks_8f90.html#a8f5a5d9e6cfd16cfd1b179092a204696", null ],
     [ "toogleblocksources", "blocks_8f90.html#ab9e57cbf0103b632b2b2dfa4e4d4139c", null ],

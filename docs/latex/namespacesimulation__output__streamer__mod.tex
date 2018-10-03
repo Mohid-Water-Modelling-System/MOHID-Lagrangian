@@ -99,11 +99,11 @@ Definition at line 93 of file simulation\+\_\+output\+\_\+streamer.\+f90.
 96     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
 97     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
 98     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
-99     
+99 
 100     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
 101         \textcolor{keyword}{call }vtkwritter%Domain(filename, bbox, npbbox, blocks)
 102 \textcolor{keywordflow}{    end if}
-103     
+103 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__output__streamer__mod_a4a290f3ef9ac868e173eab1ab9fd54b8}\label{namespacesimulation__output__streamer__mod_a4a290f3ef9ac868e173eab1ab9fd54b8}} 
 \index{simulation\+\_\+output\+\_\+streamer\+\_\+mod@{simulation\+\_\+output\+\_\+streamer\+\_\+mod}!writestepserial@{writestepserial}}
@@ -132,18 +132,18 @@ Definition at line 70 of file simulation\+\_\+output\+\_\+streamer.\+f90.
 
 \begin{DoxyCode}
 70     \textcolor{keywordtype}{implicit none}
-71     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self   
+71     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
 72     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
 73     \textcolor{keywordtype}{type}(string) :: filename
-74     
+74 
 75     filename = globals%Names%casename//\textcolor{stringliteral}{'\_'}//int2str(\textcolor{stringliteral}{'(i5.5)'},globals%Sim%getnumoutfile())
-76     
+76 
 77     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
 78         \textcolor{keyword}{call }vtkwritter%TracerSerial(filename, blocks)
 79 \textcolor{keywordflow}{    end if}
-80     
+80 
 81     \textcolor{keyword}{call }globals%Sim%increment\_numoutfile()
-82     
+82 
 \end{DoxyCode}
 
 

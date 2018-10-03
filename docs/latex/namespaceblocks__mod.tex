@@ -29,6 +29,8 @@ subroutine \mbox{\hyperlink{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b24918
 \begin{DoxyCompactList}\small\item\em Method to clean the Tracer list from inactive Tracers. T\+O\+DO test further optimization. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}{tracerstoaot}} (self)
 \begin{DoxyCompactList}\small\item\em Method to build the AoT object at this timestep for actual numerical work. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a3245bdadbec6bb123c517921d1503b48}{runsolver}} (self)
+\begin{DoxyCompactList}\small\item\em Method to run the solver on the data on this Block for the current timestep. Time for some actual numerical work! \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a27c7e788c5f3979bfe9d43aad138286a}{aottotracers}} (self)
 \begin{DoxyCompactList}\small\item\em Method to write the data in the AoT back to the Tracer objects in the list. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}{cleanaot}} (self)
@@ -81,24 +83,24 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 442 of file blocks.\+f90.
+Definition at line 454 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-442     \textcolor{keywordtype}{implicit none}
-443     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
-444     \textcolor{keywordtype}{type}(string) :: outext, temp
-445     \textcolor{keywordtype}{integer} err
-446     \textcolor{keyword}{allocate}(dblock(nblk), stat=err)
-447     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
-448         outext=\textcolor{stringliteral}{'[allocBlobks]: Cannot allocate Blocks, stoping'}
-449         \textcolor{keyword}{call }log%put(outext)
-450         stop
-451     \textcolor{keywordflow}{else}
-452         temp = nblk
-453         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Blocks.'}
-454         \textcolor{keyword}{call }log%put(outext)
-455 \textcolor{keywordflow}{    endif}
+454     \textcolor{keywordtype}{implicit none}
+455     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+456     \textcolor{keywordtype}{type}(string) :: outext, temp
+457     \textcolor{keywordtype}{integer} err
+458     \textcolor{keyword}{allocate}(dblock(nblk), stat=err)
+459     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+460         outext=\textcolor{stringliteral}{'[allocBlobks]: Cannot allocate Blocks, stoping'}
+461         \textcolor{keyword}{call }log%put(outext)
+462         stop
+463     \textcolor{keywordflow}{else}
+464         temp = nblk
+465         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Blocks.'}
+466         \textcolor{keyword}{call }log%put(outext)
+467 \textcolor{keywordflow}{    endif}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -122,13 +124,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 293 of file blocks.\+f90.
+Definition at line 305 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-293     \textcolor{keywordtype}{implicit none}
-294     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-295     \textcolor{keyword}{call }self%AoT%toTracers()
+305     \textcolor{keywordtype}{implicit none}
+306     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+307     \textcolor{keyword}{call }self%AoT%toTracers()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}\label{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!callemitter@{callemitter}}
@@ -195,13 +197,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 304 of file blocks.\+f90.
+Definition at line 316 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-304     \textcolor{keywordtype}{implicit none}
-305     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self    
-306     \textcolor{keyword}{call }self%AoT%Clean()
+316     \textcolor{keywordtype}{implicit none}
+317     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self    
+318     \textcolor{keyword}{call }self%AoT%Clean()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}\label{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!consolidatearrays@{consolidatearrays}}
@@ -326,23 +328,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 330 of file blocks.\+f90.
+Definition at line 342 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-330     \textcolor{keywordtype}{implicit none}
-331     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
-332     \textcolor{keywordtype}{integer} :: ix, iy, temp
-333     \textcolor{keywordtype}{type}(string) :: outext
-334     ix = min(int((pt%x + bbox%offset%x)/globals%SimDefs%blocksize%x) + 1, globals%SimDefs%numblocksx)
-335     iy = min(int((pt%y + bbox%offset%y)/globals%SimDefs%blocksize%y) + 1, globals%SimDefs%numblocksy)
-336     temp = 2*ix + iy -2
-337     \textcolor{keywordflow}{if} (temp > globals%SimDefs%numblocks) \textcolor{keywordflow}{then}
-338         outext=\textcolor{stringliteral}{'[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'}
-339         \textcolor{keyword}{call }log%put(outext)
-340         stop
-341 \textcolor{keywordflow}{    end if}
-342     getblockindex = temp
+342     \textcolor{keywordtype}{implicit none}
+343     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
+344     \textcolor{keywordtype}{integer} :: ix, iy, temp
+345     \textcolor{keywordtype}{type}(string) :: outext
+346     ix = min(int((pt%x + bbox%offset%x)/globals%SimDefs%blocksize%x) + 1, globals%SimDefs%numblocksx)
+347     iy = min(int((pt%y + bbox%offset%y)/globals%SimDefs%blocksize%y) + 1, globals%SimDefs%numblocksy)
+348     temp = 2*ix + iy -2
+349     \textcolor{keywordflow}{if} (temp > globals%SimDefs%numblocks) \textcolor{keywordflow}{then}
+350         outext=\textcolor{stringliteral}{'[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'}
+351         \textcolor{keyword}{call }log%put(outext)
+352         stop
+353 \textcolor{keywordflow}{    end if}
+354     getblockindex = temp
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -371,24 +373,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 94 of file blocks.\+f90.
+Definition at line 95 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-94     \textcolor{keywordtype}{implicit none}
-95     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-96     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-97     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: templatebox
-98     \textcolor{keywordtype}{integer} :: sizem, i
-99     self%id = id
-100     \textcolor{comment}{!setting the block sub-domain}
-101     self%extents%pt = templatebox%pt
-102     self%extents%size = templatebox%size
+95     \textcolor{keywordtype}{implicit none}
+96     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+97     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+98     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: templatebox
+99     \textcolor{keywordtype}{integer} :: sizem, i
+100     self%id = id
+101     \textcolor{comment}{!setting the block sub-domain}
+102     self%extents = templatebox
 103     \textcolor{comment}{!initializing the block emitter}
 104     \textcolor{keyword}{call }self%Emitter%initialize()
-105     \textcolor{comment}{!initializing the block integrator}
+105     \textcolor{comment}{!initializing the block solver}
 106     i = globals%Parameters%Integrator
-107     \textcolor{keyword}{call }self%Integrator%initialize(i, globals%Parameters%IntegratorNames(i))
+107     \textcolor{keyword}{call }self%Solver%initialize(i, globals%Parameters%IntegratorNames(i))
 108     sizem = sizeof(self)
 109     \textcolor{keyword}{call }simmemory%addblock(sizem)
 \end{DoxyCode}
@@ -407,14 +408,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 81 of file blocks.\+f90.
+Definition at line 82 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-81     \textcolor{keywordtype}{implicit none}
-82     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(in)} :: self
-83     \textcolor{keywordtype}{integer} :: numAllocTracers
-84     numalloctracers = self%LTracer%getSize()
+82     \textcolor{keywordtype}{implicit none}
+83     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(in)} :: self
+84     \textcolor{keywordtype}{integer} :: numAllocTracers
+85     numalloctracers = self%LTracer%getSize()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}\label{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!printblock@{printblock}}
@@ -436,20 +437,20 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 352 of file blocks.\+f90.
+Definition at line 364 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-352     \textcolor{keywordtype}{implicit none}
-353     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-354     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
-355     temp\_str = self%id
-356     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
-357     \textcolor{keyword}{call }log%put(outext,.false.)
-358     \textcolor{keyword}{call }geometry%print(self%extents)
-359     temp\_str = self%LSource%getSize()
-360     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
-361     \textcolor{keyword}{call }log%put(outext,.false.)
+364     \textcolor{keywordtype}{implicit none}
+365     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+366     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+367     temp\_str = self%id
+368     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+369     \textcolor{keyword}{call }log%put(outext,.false.)
+370     \textcolor{keyword}{call }geometry%print(self%extents)
+371     temp\_str = self%LSource%getSize()
+372     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+373     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a10f356706988c45a255922fe70851488}\label{namespaceblocks__mod_a10f356706988c45a255922fe70851488}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!printdetailblock@{printdetailblock}}
@@ -471,22 +472,22 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 371 of file blocks.\+f90.
+Definition at line 383 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-371     \textcolor{keywordtype}{implicit none}
-372     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
-373     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
-374     \textcolor{keywordtype}{integer} :: i
-375     temp\_str = self%id
-376     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
-377     \textcolor{keyword}{call }log%put(outext,.false.)
-378     \textcolor{keyword}{call }geometry%print(self%extents)
-379     temp\_str = self%LSource%getSize()
-380     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
-381     \textcolor{keyword}{call }log%put(outext,.false.)
-382     \textcolor{keyword}{call }self%LSource%print()
+383     \textcolor{keywordtype}{implicit none}
+384     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+385     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+386     \textcolor{keywordtype}{integer} :: i
+387     temp\_str = self%id
+388     outext=\textcolor{stringliteral}{'-->Block '}//temp\_str//\textcolor{stringliteral}{' is a'}
+389     \textcolor{keyword}{call }log%put(outext,.false.)
+390     \textcolor{keyword}{call }geometry%print(self%extents)
+391     temp\_str = self%LSource%getSize()
+392     outext=\textcolor{stringliteral}{'      and has '}//temp\_str//\textcolor{stringliteral}{' Sources'}
+393     \textcolor{keyword}{call }log%put(outext,.false.)
+394     \textcolor{keyword}{call }self%LSource%print()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}\label{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!putsource@{putsource}}
@@ -521,6 +522,29 @@ Definition at line 120 of file blocks.\+f90.
 124     \textcolor{comment}{!adding this Source to the Block Emitter pool}
 125     \textcolor{keyword}{call }self%Emitter%addSource(sourcetoadd)
 \end{DoxyCode}
+\mbox{\Hypertarget{namespaceblocks__mod_a3245bdadbec6bb123c517921d1503b48}\label{namespaceblocks__mod_a3245bdadbec6bb123c517921d1503b48}} 
+\index{blocks\+\_\+mod@{blocks\+\_\+mod}!runsolver@{runsolver}}
+\index{runsolver@{runsolver}!blocks\+\_\+mod@{blocks\+\_\+mod}}
+\subsubsection{\texorpdfstring{runsolver()}{runsolver()}}
+{\footnotesize\ttfamily subroutine blocks\+\_\+mod\+::runsolver (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to run the solver on the data on this Block for the current timestep. Time for some actual numerical work! 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 294 of file blocks.\+f90.
+
+
+\begin{DoxyCode}
+294     \textcolor{keywordtype}{implicit none}
+295     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{intent(inout)} :: self
+296     \textcolor{keyword}{call }self%Solver%runStep(self%AoT, self%Background, globals%SimTime, globals%SimDefs%dt)
+\end{DoxyCode}
 \mbox{\Hypertarget{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}\label{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}} 
 \index{blocks\+\_\+mod@{blocks\+\_\+mod}!sendtracer@{sendtracer}}
 \index{sendtracer@{sendtracer}!blocks\+\_\+mod@{blocks\+\_\+mod}}
@@ -536,18 +560,19 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 315 of file blocks.\+f90.
+Definition at line 327 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-315     \textcolor{keywordtype}{implicit none}
-316     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: blk
-317     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: trc
-318     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer}
-319     \textcolor{comment}{!index attribution at the new block}
-320     \textcolor{keyword}{call }dblock(blk)%LTracer%add(trc)
+327     \textcolor{keywordtype}{implicit none}
+328     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: blk
+329     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: trc
+330     \textcolor{comment}{!PARALLEL this is a CRITICAL section, need to ensure correct tracer}
+331     \textcolor{comment}{!index attribution at the new block}
+332     \textcolor{keyword}{call }dblock(blk)%LTracer%add(trc)
 \end{DoxyCode}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -574,55 +599,56 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 392 of file blocks.\+f90.
+Definition at line 404 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-392     \textcolor{keywordtype}{implicit none}
-393     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} ::  auto
-394     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
-395     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(out)} :: nxi, nyi
-396     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
-397     \textcolor{keywordtype}{integer} :: i, j, b
-398     \textcolor{keywordtype}{real(prec)} :: ar
-399     \textcolor{keywordtype}{type}(box) :: tempbox
-400 
-401     \textcolor{keywordflow}{if} (auto) \textcolor{keywordflow}{then}
-402         ar = bbox%size%x/bbox%size%y
-403         ar = get\_closest\_twopow(ar) \textcolor{comment}{!aspect ratio of our bounding box}
-404         nyi = sqrt(nblk/ar)
-405         \textcolor{keywordflow}{if} (nyi == 0) \textcolor{keywordflow}{then}
-406             temp(1) = ar
-407             outext=\textcolor{stringliteral}{'[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '}//temp(1)//\textcolor{stringliteral}{'.
-       Stoping'}
-408             \textcolor{keyword}{call }log%put(outext)
-409             stop
-410 \textcolor{keywordflow}{        endif}
-411         nxi = (nblk/nyi)
+404     \textcolor{keywordtype}{implicit none}
+405     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} ::  auto
+406     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} ::  nblk
+407     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(out)} :: nxi, nyi
+408     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
+409     \textcolor{keywordtype}{integer} :: i, j, b
+410     \textcolor{keywordtype}{real(prec)} :: ar
+411     \textcolor{keywordtype}{type}(box) :: tempbox
 412 
-413         b=1
-414         \textcolor{keywordflow}{do} i=1, nxi
-415             \textcolor{keywordflow}{do} j=1, nyi
-416                 tempbox%pt = bbox%pt + bbox%size%x*(i-1)/nxi*ex + bbox%size%y*(j-1)/nyi*ey - bbox%pt%z*ez
-417                 tempbox%size = bbox%size%x/nxi*ex + bbox%size%y/nyi*ey
-418                 \textcolor{keyword}{call }dblock(b)%initialize(b, tempbox)
-419                 b=b+1
-420 \textcolor{keywordflow}{            end do}
-421 \textcolor{keywordflow}{        end do}
-422         temp(1) = nxi
-423         temp(2) = nyi
-424         outext=\textcolor{stringliteral}{'-->Automatic domain decomposition sucessful. Domain is '}//temp(1)// \textcolor{stringliteral}{' X '} //temp(2)//\textcolor{stringliteral}{'
+413     \textcolor{keywordflow}{if} (auto) \textcolor{keywordflow}{then}
+414         ar = bbox%size%x/bbox%size%y
+415         ar = get\_closest\_twopow(ar) \textcolor{comment}{!aspect ratio of our bounding box}
+416         nyi = sqrt(nblk/ar)
+417         \textcolor{keywordflow}{if} (nyi == 0) \textcolor{keywordflow}{then}
+418             temp(1) = ar
+419             outext=\textcolor{stringliteral}{'[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '}//temp(1)//\textcolor{stringliteral}{'.
+       Stoping'}
+420             \textcolor{keyword}{call }log%put(outext)
+421             stop
+422 \textcolor{keywordflow}{        endif}
+423         nxi = (nblk/nyi)
+424 
+425         b=1
+426         \textcolor{keywordflow}{do} i=1, nxi
+427             \textcolor{keywordflow}{do} j=1, nyi
+428                 tempbox%pt = bbox%pt + bbox%size%x*(i-1)/nxi*ex + bbox%size%y*(j-1)/nyi*ey - bbox%pt%z*ez
+429                 tempbox%size = bbox%size%x/nxi*ex + bbox%size%y/nyi*ey
+430                 \textcolor{keyword}{call }dblock(b)%initialize(b, tempbox)
+431                 b=b+1
+432 \textcolor{keywordflow}{            end do}
+433 \textcolor{keywordflow}{        end do}
+434         temp(1) = nxi
+435         temp(2) = nyi
+436         outext=\textcolor{stringliteral}{'-->Automatic domain decomposition sucessful. Domain is '}//temp(1)// \textcolor{stringliteral}{' X '} //temp(2)//\textcolor{stringliteral}{'
        Blocks'}
-425         \textcolor{keyword}{call }log%put(outext,.false.)
-426 \textcolor{keywordflow}{    end if}
-427     globals%SimDefs%blocksize = dblock(1)%extents%size
-428     \textcolor{comment}{!do i=1, size(DBlock)}
-429     \textcolor{comment}{!    call DBlock(i)%print()}
-430     \textcolor{comment}{!enddo}
-431 
-432     \textcolor{keywordflow}{return}
+437         \textcolor{keyword}{call }log%put(outext,.false.)
+438 \textcolor{keywordflow}{    end if}
+439     globals%SimDefs%blocksize = dblock(1)%extents%size
+440     \textcolor{comment}{!do i=1, size(DBlock)}
+441     \textcolor{comment}{!    call DBlock(i)%print()}
+442     \textcolor{comment}{!enddo}
+443 
+444     \textcolor{keywordflow}{return}
 \end{DoxyCode}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -714,9 +740,9 @@ Definition at line 278 of file blocks.\+f90.
 
 
 
-Definition at line 66 of file blocks.\+f90.
+Definition at line 67 of file blocks.\+f90.
 
 
 \begin{DoxyCode}
-66     \textcolor{keywordtype}{type}(block\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: DBlock
+67     \textcolor{keywordtype}{type}(block\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: DBlock
 \end{DoxyCode}

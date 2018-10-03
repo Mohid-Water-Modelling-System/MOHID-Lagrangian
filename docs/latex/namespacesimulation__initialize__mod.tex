@@ -55,7 +55,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 324 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 324 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -74,23 +74,23 @@ Definition at line 324 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
 336     tag=\textcolor{stringliteral}{"constantsdef"}    \textcolor{comment}{!the node we want}
 337     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,constants\_node,tag,readflag,.false.)
 338     \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then} \textcolor{comment}{!if the node exists, since his one is not mandatory}
-339       tag=\textcolor{stringliteral}{"Gravity"}
-340       \textcolor{keyword}{call }xmlreader%getNodeVector(constants\_node,tag,coords,readflag,.false.)
-341       \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-342         \textcolor{keyword}{call }globals%Constants%setgravity(coords)
-343 \textcolor{keywordflow}{      endif}
-344       tag=\textcolor{stringliteral}{"Z0"}
-345       att\_name=\textcolor{stringliteral}{"value"}
-346       \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
-347       \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-348         \textcolor{keyword}{call }globals%Constants%setz0(att\_val)
-349 \textcolor{keywordflow}{      endif}
-350       tag=\textcolor{stringliteral}{"Rho\_ref"}
-351       att\_name=\textcolor{stringliteral}{"value"}
-352       \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
-353       \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-354         \textcolor{keyword}{call }globals%Constants%setrho(att\_val)
-355 \textcolor{keywordflow}{      endif}
+339         tag=\textcolor{stringliteral}{"Gravity"}
+340         \textcolor{keyword}{call }xmlreader%getNodeVector(constants\_node,tag,coords,readflag,.false.)
+341         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+342             \textcolor{keyword}{call }globals%Constants%setgravity(coords)
+343 \textcolor{keywordflow}{        endif}
+344         tag=\textcolor{stringliteral}{"Z0"}
+345         att\_name=\textcolor{stringliteral}{"value"}
+346         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+347         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+348             \textcolor{keyword}{call }globals%Constants%setz0(att\_val)
+349 \textcolor{keywordflow}{        endif}
+350         tag=\textcolor{stringliteral}{"Rho\_ref"}
+351         att\_name=\textcolor{stringliteral}{"value"}
+352         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+353         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+354             \textcolor{keyword}{call }globals%Constants%setrho(att\_val)
+355 \textcolor{keywordflow}{        endif}
 356 \textcolor{keywordflow}{    endif}
 357     \textcolor{keyword}{call }globals%Constants%print()
 358 
@@ -122,7 +122,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 368 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 368 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -182,7 +182,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 117 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 117 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -245,7 +245,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 285 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 285 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -307,7 +307,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 192 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 192 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -390,7 +390,7 @@ Definition at line 192 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
 267                 \textcolor{keywordflow}{exit}
 268 \textcolor{keywordflow}{            endif}
 269 \textcolor{keywordflow}{        enddo}
-270         \textcolor{comment}{!initializing Source j       }
+270         \textcolor{comment}{!initializing Source j}
 271         \textcolor{keyword}{call }tempsources%src(j+1)%initialize(id,name,emitting\_rate,start,finish,source\_geometry,
       source\_shape)
 272 
@@ -434,7 +434,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 404 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 404 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -444,7 +444,7 @@ Definition at line 404 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
 407     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmldoc
 408     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: case\_node
 409     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: execution\_node
-410     
+410 
 411     \textcolor{keyword}{call }xmlreader%getFile(xmldoc,xmlfilename)
 412     globals%Names%mainxmlfilename = xmlfilename
 413     globals%Names%casename = xmlfilename%basename(extension=\textcolor{stringliteral}{'.xml'})
@@ -505,7 +505,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 47 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 47 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -519,7 +519,7 @@ Definition at line 47 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
 54     \textcolor{keywordtype}{integer} :: i, p
 55     \textcolor{keywordtype}{type}(string) :: att\_name, att\_val, tag
 56     \textcolor{keywordtype}{type}(string) :: sourceid, sourcetype, sourceprop
-57     
+57 
 58     linklist => getelementsbytagname(linksnode, \textcolor{stringliteral}{"link"})
 59     \textcolor{keywordflow}{do} i = 0, getlength(linklist) - 1
 60         anode => item(linklist,i)
@@ -536,7 +536,7 @@ Definition at line 47 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
 71     \textcolor{comment}{!parse the properties file}
 72     xmlfilename = globals%Names%propsxmlfilename
 73     \textcolor{keyword}{call }xmlreader%getFile(xmlprops,xmlfilename)
-74     
+74 
 75     \textcolor{comment}{!Go to the materials node}
 76     tag = \textcolor{stringliteral}{"materials"}
 77     \textcolor{keyword}{call }xmlreader%gotoNode(xmlprops,xmlprops,tag)
@@ -546,28 +546,28 @@ Definition at line 47 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
 81     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(tempsources%src)
 82         tag = tempsources%src(i)%prop%property\_type
 83         \textcolor{keywordflow}{if} (tag .ne. \textcolor{stringliteral}{'base'}) \textcolor{keywordflow}{then}
-84         \textcolor{keyword}{call }xmlreader%gotoNode(xmlprops,anode,tag) \textcolor{comment}{!finding the material type node}
-85         tag = tempsources%src(i)%prop%property\_name
-86         \textcolor{keyword}{call }xmlreader%gotoNode(anode,anode,tag)     \textcolor{comment}{!finding the actual material node}
-87         \textcolor{keywordflow}{do} p = 1, \textcolor{keyword}{size}(globals%SrcProp%baselist)
-88             \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, globals%SrcProp%baselist(p), att\_name, att\_val)         
-         
-89             \textcolor{keyword}{call }tempsources%src(i)%setPropertyAtributes(globals%SrcProp%baselist(p), att\_val)
-90 \textcolor{keywordflow}{        end do}
-91         \textcolor{keywordflow}{if} (tempsources%src(i)%isParticulate()) \textcolor{keywordflow}{then}
-92             \textcolor{keywordflow}{do} p = 1, \textcolor{keyword}{size}(globals%SrcProp%particulatelist)
-93                 \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, globals%SrcProp%particulatelist(p), att\_name, 
+84             \textcolor{keyword}{call }xmlreader%gotoNode(xmlprops,anode,tag) \textcolor{comment}{!finding the material type node}
+85             tag = tempsources%src(i)%prop%property\_name
+86             \textcolor{keyword}{call }xmlreader%gotoNode(anode,anode,tag)     \textcolor{comment}{!finding the actual material node}
+87             \textcolor{keywordflow}{do} p = 1, \textcolor{keyword}{size}(globals%SrcProp%baselist)
+88                 \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, globals%SrcProp%baselist(p), att\_name, att\_val)
+89                 \textcolor{keyword}{call }tempsources%src(i)%setPropertyAtributes(globals%SrcProp%baselist(p), att\_val)
+90 \textcolor{keywordflow}{            end do}
+91             \textcolor{keywordflow}{if} (tempsources%src(i)%isParticulate()) \textcolor{keywordflow}{then}
+92                 \textcolor{keywordflow}{do} p = 1, \textcolor{keyword}{size}(globals%SrcProp%particulatelist)
+93                     \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, globals%SrcProp%particulatelist(p), att\_name, 
       att\_val)
-94                 \textcolor{keyword}{call }tempsources%src(i)%setPropertyAtributes(globals%SrcProp%particulatelist(p), att\_val)
-95 \textcolor{keywordflow}{            end do}
-96 \textcolor{keywordflow}{        end if}
-97         \textcolor{comment}{!Run integrety check on the properties to see if Source is well defined}
-98         \textcolor{keyword}{call }tempsources%src(i)%check()
+94                     \textcolor{keyword}{call }tempsources%src(i)%setPropertyAtributes(globals%SrcProp%particulatelist(p), 
+      att\_val)
+95 \textcolor{keywordflow}{                end do}
+96 \textcolor{keywordflow}{            end if}
+97             \textcolor{comment}{!Run integrety check on the properties to see if Source is well defined}
+98             \textcolor{keyword}{call }tempsources%src(i)%check()
 99 \textcolor{keywordflow}{        end if}
 100 \textcolor{keywordflow}{    end do}
 101     outext=\textcolor{stringliteral}{'-->Sources properties are set'}
 102     \textcolor{keyword}{call }log%put(outext,.false.)
-103     
+103 
 104     \textcolor{keyword}{call }xmlreader%closeFile(xmlprops)
 105 
 \end{DoxyCode}
@@ -604,7 +604,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 150 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
+Definition at line 150 of file simulation\+\_\+initialize.\+f90.
 
 
 \begin{DoxyCode}
@@ -620,7 +620,7 @@ Definition at line 150 of file simulation\+\_\+initialize\+\_\+mod.\+f90.
 159         \textcolor{comment}{!nothing to do}
 160 \textcolor{keywordflow}{    class is} (box)
 161         tag=\textcolor{stringliteral}{'point'}
-162         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)       
+162         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)
 163         tag=\textcolor{stringliteral}{'size'}
 164         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%size)
 165 \textcolor{keywordflow}{    class is} (point)

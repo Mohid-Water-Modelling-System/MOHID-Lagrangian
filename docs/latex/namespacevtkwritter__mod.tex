@@ -73,7 +73,7 @@ Definition at line 118 of file vtkwritter.\+f90.
 121     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
 122     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
 123     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
-124     
+124 
 125     \textcolor{keywordtype}{type}(vtk\_file) :: vtkfile
 126     \textcolor{keywordtype}{type}(string) :: fullfilename
 127     \textcolor{keywordtype}{type}(string) :: outext
@@ -84,19 +84,19 @@ Definition at line 118 of file vtkwritter.\+f90.
 132     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(1:npbbox)} :: connect, var
 133     \textcolor{keywordtype}{integer(I4P)}, \textcolor{keywordtype}{dimension(1:nc)} :: offset
 134     \textcolor{keywordtype}{integer(I1P)}, \textcolor{keywordtype}{dimension(1:nc)} :: cell\_type
-135     
+135 
 136     offset = [8]
 137     cell\_type = [12]
-138     
+138 
 139     \textcolor{comment}{!preparing file}
 140     fullfilename = filename%chars()//\textcolor{stringliteral}{'\_BoundingBox.vtu'}
 141     outext = \textcolor{stringliteral}{'->Writting Bounding Box file '}//fullfilename
 142     \textcolor{keyword}{call }log%put(outext)
 143     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
-144     
+144 
 145     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
       =\textcolor{stringliteral}{'UnstructuredGrid'})
-146     
+146 
 147     \textcolor{comment}{!Writting bounding box geometry}
 148     pts = geometry%getPoints(bbox)
 149     \textcolor{keywordflow}{do} i=1, npbbox
@@ -104,25 +104,25 @@ Definition at line 118 of file vtkwritter.\+f90.
 151         yy(i) = pts(i)%y
 152         zz(i) = pts(i)%z
 153         connect(i) = i-1
-154 \textcolor{keywordflow}{    end do}    
+154 \textcolor{keywordflow}{    end do}
 155     error = vtkfile%xml\_writer%write\_piece(np=npbbox, nc=nc)
 156     error = vtkfile%xml\_writer%write\_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
 157     error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, cell\_type=
       cell\_type)
 158     error = vtkfile%xml\_writer%write\_piece()
-159     
+159 
 160     \textcolor{comment}{!Closing file}
 161     error = vtkfile%finalize()
-162     
+162 
 163     \textcolor{comment}{!preparing file}
 164     fullfilename = filename%chars()//\textcolor{stringliteral}{'\_Blocks.vtu'}
 165     outext = \textcolor{stringliteral}{'->Writting Blocks file '}//fullfilename
 166     \textcolor{keyword}{call }log%put(outext)
 167     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
-168     
+168 
 169     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
       =\textcolor{stringliteral}{'UnstructuredGrid'})
-170     
+170 
 171     \textcolor{comment}{!Writting block geometries}
 172     \textcolor{keywordflow}{do} b=1, \textcolor{keyword}{size}(blocks)
 173         pts = geometry%getPoints(blocks(b)%extents)
@@ -132,7 +132,7 @@ Definition at line 118 of file vtkwritter.\+f90.
 177             \textcolor{comment}{!zz(i) = pts(i)%z}
 178             connect(i) = i-1
 179             var(i) = b
-180 \textcolor{keywordflow}{        end do}    
+180 \textcolor{keywordflow}{        end do}
 181         error = vtkfile%xml\_writer%write\_piece(np=npbbox, nc=nc)
 182         error = vtkfile%xml\_writer%write\_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
 183         error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, cell\_type
@@ -142,10 +142,10 @@ Definition at line 118 of file vtkwritter.\+f90.
 186         error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
 187         error = vtkfile%xml\_writer%write\_piece()
 188 \textcolor{keywordflow}{    end do}
-189         
+189 
 190     \textcolor{comment}{!Closing file}
 191     error = vtkfile%finalize()
-192     
+192 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacevtkwritter__mod_abd35d591c8e15730a277b2d26deb83e8}\label{namespacevtkwritter__mod_abd35d591c8e15730a277b2d26deb83e8}} 
 \index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!initvtkwritter@{initvtkwritter}}
@@ -201,7 +201,7 @@ Definition at line 68 of file vtkwritter.\+f90.
 69     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
 70     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
 71     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
-72     
+72 
 73     \textcolor{keywordtype}{type}(vtk\_file) :: vtkfile
 74     \textcolor{keywordtype}{type}(string) :: fullfilename
 75     \textcolor{keywordtype}{type}(string) :: outext
@@ -216,7 +216,7 @@ Definition at line 68 of file vtkwritter.\+f90.
 84     outext = \textcolor{stringliteral}{'->Writting output file '}//fullfilename
 85     \textcolor{keyword}{call }log%put(outext)
 86     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
-87     
+87 
 88     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
       =\textcolor{stringliteral}{'UnstructuredGrid'})
 89     \textcolor{comment}{!Write the data of each block}
@@ -240,7 +240,7 @@ Definition at line 68 of file vtkwritter.\+f90.
 104 \textcolor{keywordflow}{    end do}
 105     error = vtkfile%finalize()
 106     self%numVtkFiles = self%numVtkFiles + 1
-107     
+107 
 \end{DoxyCode}
 
 

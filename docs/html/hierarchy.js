@@ -27,7 +27,7 @@ var hierarchy =
     [ "simulation_globals_mod::filenames_t", "structsimulation__globals__mod_1_1filenames__t.html", null ],
     [ "geometry_mod::geometry_class", "structgeometry__mod_1_1geometry__class.html", null ],
     [ "simulation_globals_mod::globals_class", "structsimulation__globals__mod_1_1globals__class.html", null ],
-    [ "integrator_mod::integrator_class", "structintegrator__mod_1_1integrator__class.html", null ],
+    [ "interpolator_mod::interpolator_class", "structinterpolator__mod_1_1interpolator__class.html", null ],
     [ "linkedlist", null, [
       [ "background_mod::fieldslist_class", "structbackground__mod_1_1fieldslist__class.html", null ],
       [ "sources_list_mod::sourcelist_class", "structsources__list__mod_1_1sourcelist__class.html", null ],
@@ -43,6 +43,7 @@ var hierarchy =
     [ "simulation_globals_mod::parameters_t", "structsimulation__globals__mod_1_1parameters__t.html", null ],
     [ "tracer_plastic_mod::plastic_par_class", "structtracer__plastic__mod_1_1plastic__par__class.html", null ],
     [ "tracer_plastic_mod::plastic_state_class", "structtracer__plastic__mod_1_1plastic__state__class.html", null ],
+    [ "tracer_plastic_mod::plastictracer", "interfacetracer__plastic__mod_1_1plastictracer.html", null ],
     [ "geometry_mod::shape", "structgeometry__mod_1_1shape.html", [
       [ "geometry_mod::box", "structgeometry__mod_1_1box.html", [
         [ "boundingbox_mod::boundingbox_class", "structboundingbox__mod_1_1boundingbox__class.html", null ]
@@ -54,6 +55,7 @@ var hierarchy =
     [ "simulation_globals_mod::sim_t", "structsimulation__globals__mod_1_1sim__t.html", null ],
     [ "simulation_globals_mod::simdefs_t", "structsimulation__globals__mod_1_1simdefs__t.html", null ],
     [ "simulation_mod::simulation_class", "structsimulation__mod_1_1simulation__class.html", null ],
+    [ "solver_mod::solver_class", "structsolver__mod_1_1solver__class.html", null ],
     [ "sources_mod::source_class", "structsources__mod_1_1source__class.html", null ],
     [ "sources_mod::source_group_class", "structsources__mod_1_1source__group__class.html", null ],
     [ "sources_mod::source_par", "structsources__mod_1_1source__par.html", null ],

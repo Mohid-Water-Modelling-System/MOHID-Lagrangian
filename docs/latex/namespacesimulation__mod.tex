@@ -73,12 +73,12 @@ Definition at line 251 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-251         \textcolor{keywordtype}{implicit none}
-252         \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self        
-253         \textcolor{keywordtype}{integer} :: i
-254         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-255             \textcolor{keyword}{call }dblock(i)%AoTtoTracers()
-256 \textcolor{keywordflow}{        enddo}
+251     \textcolor{keywordtype}{implicit none}
+252     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+253     \textcolor{keywordtype}{integer} :: i
+254     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+255         \textcolor{keyword}{call }dblock(i)%AoTtoTracers()
+256 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a9c7e093e5cf65d3414f9a8cf8beab611}\label{namespacesimulation__mod_a9c7e093e5cf65d3414f9a8cf8beab611}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blockscleanaot@{blockscleanaot}}
@@ -99,12 +99,12 @@ Definition at line 266 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-266         \textcolor{keywordtype}{implicit none}
-267         \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self        
-268         \textcolor{keywordtype}{integer} :: i
-269         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-270             \textcolor{keyword}{call }dblock(i)%CleanAoT()
-271 \textcolor{keywordflow}{        enddo}
+266     \textcolor{keywordtype}{implicit none}
+267     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+268     \textcolor{keywordtype}{integer} :: i
+269     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+270         \textcolor{keyword}{call }dblock(i)%CleanAoT()
+271 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_ac838d4afe33303dc49a5790ca957baa1}\label{namespacesimulation__mod_ac838d4afe33303dc49a5790ca957baa1}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksconsolidatearrays@{blocksconsolidatearrays}}
@@ -125,12 +125,12 @@ Definition at line 221 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-221         \textcolor{keywordtype}{implicit none}
-222         \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self        
-223         \textcolor{keywordtype}{integer} :: i
-224         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-225             \textcolor{keyword}{call }dblock(i)%ConsolidateArrays()
-226 \textcolor{keywordflow}{        enddo}
+221     \textcolor{keywordtype}{implicit none}
+222     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+223     \textcolor{keywordtype}{integer} :: i
+224     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+225         \textcolor{keyword}{call }dblock(i)%ConsolidateArrays()
+226 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a058892630af07fc0fe8a4bffec531c6a}\label{namespacesimulation__mod_a058892630af07fc0fe8a4bffec531c6a}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksdistribute@{blocksdistribute}}
@@ -151,13 +151,13 @@ Definition at line 205 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-205         \textcolor{keywordtype}{implicit none}
-206         \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self        
-207         \textcolor{keywordtype}{integer} :: i
-208         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-209             \textcolor{keyword}{call }dblock(i)%DistributeTracers()
-210 \textcolor{keywordflow}{        enddo}
-211         \textcolor{comment}{!need to distribute Sources also! TODO}
+205     \textcolor{keywordtype}{implicit none}
+206     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+207     \textcolor{keywordtype}{integer} :: i
+208     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+209         \textcolor{keyword}{call }dblock(i)%DistributeTracers()
+210 \textcolor{keywordflow}{    enddo}
+211     \textcolor{comment}{!need to distribute Sources also! TODO}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a13aa0745f4601e3f418143dab2f18276}\label{namespacesimulation__mod_a13aa0745f4601e3f418143dab2f18276}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksemitt@{blocksemitt}}
@@ -178,12 +178,12 @@ Definition at line 190 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-190         \textcolor{keywordtype}{implicit none}
-191         \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
-192         \textcolor{keywordtype}{integer} :: i
-193         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-194             \textcolor{keyword}{call }dblock(i)%CallEmitter()
-195 \textcolor{keywordflow}{        enddo}        
+190     \textcolor{keywordtype}{implicit none}
+191     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+192     \textcolor{keywordtype}{integer} :: i
+193     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+194         \textcolor{keyword}{call }dblock(i)%CallEmitter()
+195 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a624d5b402a8d359219839841862ab307}\label{namespacesimulation__mod_a624d5b402a8d359219839841862ab307}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blockstracerstoaot@{blockstracerstoaot}}
@@ -204,12 +204,12 @@ Definition at line 236 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-236         \textcolor{keywordtype}{implicit none}
-237         \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self        
-238         \textcolor{keywordtype}{integer} :: i
-239         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-240             \textcolor{keyword}{call }dblock(i)%TracersToAoT()
-241 \textcolor{keywordflow}{        enddo}
+236     \textcolor{keywordtype}{implicit none}
+237     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+238     \textcolor{keywordtype}{integer} :: i
+239     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+240         \textcolor{keyword}{call }dblock(i)%TracersToAoT()
+241 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}\label{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!closesimulation@{closesimulation}}
@@ -297,7 +297,7 @@ Definition at line 307 of file simulation.\+f90.
 
 \begin{DoxyCode}
 307     \textcolor{keywordtype}{implicit none}
-308     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self    
+308     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
 309     \textcolor{keywordtype}{integer} :: i, total
 310     total = 0
 311     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
@@ -348,7 +348,7 @@ Definition at line 123 of file simulation.\+f90.
 135     \textcolor{comment}{!initializing memory log}
 136     \textcolor{keyword}{call }simmemory%initialize()
 137     \textcolor{comment}{!setting every global variable and input parameter to their default}
-138     \textcolor{keyword}{call }globals%initialize(outpath = outpath)    
+138     \textcolor{keyword}{call }globals%initialize(outpath = outpath)
 139     \textcolor{comment}{!initializing geometry class}
 140     \textcolor{keyword}{call }geometry%initialize()
 141     \textcolor{comment}{!Check if case file has .xml extension}
@@ -368,9 +368,9 @@ Definition at line 123 of file simulation.\+f90.
 155     \textcolor{comment}{!Distributing Sources}
 156     \textcolor{keyword}{call }self%setInitialState()
 157     \textcolor{comment}{!printing memory occupation at the time}
-158     \textcolor{keyword}{call }simmemory%detailedprint()    
+158     \textcolor{keyword}{call }simmemory%detailedprint()
 159     \textcolor{comment}{!Initializing output file streamer}
-160     \textcolor{keyword}{call }outputstreamer%initialize()    
+160     \textcolor{keyword}{call }outputstreamer%initialize()
 161     \textcolor{comment}{!Writing the domain to file}
 162     \textcolor{keyword}{call }outputstreamer%WriteDomain(globals%Names%casename, bbox, geometry%getnumPoints(bbox), dblock)
 163 
@@ -407,7 +407,7 @@ Definition at line 323 of file simulation.\+f90.
 323     \textcolor{keywordtype}{implicit none}
 324     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
 325     \textcolor{keywordtype}{type}(string) :: outext, temp
-326     temp = self%getTracerTotals()   
+326     temp = self%getTracerTotals()
 327     outext=\textcolor{stringliteral}{'-->'}//temp //\textcolor{stringliteral}{' Tracers allocated'}
 328     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
@@ -433,14 +433,14 @@ Definition at line 68 of file simulation.\+f90.
 68     \textcolor{keywordtype}{implicit none}
 69     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
 70     \textcolor{keywordtype}{type}(string) :: outext
-71     
+71 
 72     outext = \textcolor{stringliteral}{'====================================================================='}
 73     \textcolor{keyword}{call }log%put(outext,.false.)
-74     outext = \textcolor{stringliteral}{'->Simulation staring'}
+74     outext = \textcolor{stringliteral}{'->Simulation starting'}
 75     \textcolor{keyword}{call }log%put(outext)
 76     outext = \textcolor{stringliteral}{'====================================================================='}
 77     \textcolor{keyword}{call }log%put(outext,.false.)
-78     
+78 
 79     \textcolor{comment}{!main time cycle}
 80     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while} (globals%SimTime .lt. globals%Parameters%TimeMax)
 81         \textcolor{comment}{!activate suitable Sources}
@@ -455,7 +455,7 @@ Definition at line 68 of file simulation.\+f90.
 90         \textcolor{keyword}{call }self%BlocksTracersToAoT()
 91         \textcolor{comment}{!load hydrodynamic fields from files (curents, wind, waves, ...)}
 92         \textcolor{comment}{!Update all tracers with base behavior (AoT) - Integration step}
-93             \textcolor{comment}{!interpolate fields to tracer coordinates}
+93         \textcolor{comment}{!interpolate fields to tracer coordinates}
 94         \textcolor{comment}{!AoT to Tracers}
 95         \textcolor{keyword}{call }self%BlocksAoTtoTracers()
 96         \textcolor{comment}{!Update Tracers with type-specific behavior}
@@ -502,7 +502,7 @@ Definition at line 281 of file simulation.\+f90.
 285     \textcolor{comment}{!iterate every Source to distribute}
 286     ntrc = 0
 287     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(tempsources%src)
-288         blk = getblockindex(geometry%getCenter(tempsources%src(i)%par%geometry))        
+288         blk = getblockindex(geometry%getCenter(tempsources%src(i)%par%geometry))
 289         \textcolor{keyword}{call }dblock(blk)%putSource(tempsources%src(i))
 290         ntrc = ntrc + tempsources%src(i)%stencil%total\_np
 291 \textcolor{keywordflow}{    end do}
@@ -548,7 +548,7 @@ Definition at line 337 of file simulation.\+f90.
 342     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
 343         sizem = sizem + sizeof(dblock(i)%LTracer) \textcolor{comment}{!this accounts for the array structure}
 344         sizem = sizem + sizeof(dummytracer)*dblock(i)%LTracer%getSize() \textcolor{comment}{!this accounts for the contents}
-345 \textcolor{keywordflow}{    enddo}  
+345 \textcolor{keywordflow}{    enddo}
 346     \textcolor{keyword}{call }simmemory%setracer(sizem)
 347     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(ntrc)) \textcolor{keywordflow}{then}
 348         \textcolor{keyword}{call }simmemory%setNtrc(ntrc)
@@ -574,10 +574,10 @@ Definition at line 176 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-176         \textcolor{keywordtype}{implicit none}
-177         \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
-178         \textcolor{keywordtype}{integer} :: i
-179         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-180             \textcolor{keyword}{call }dblock(i)%ToogleBlockSources()
-181 \textcolor{keywordflow}{        enddo}        
+176     \textcolor{keywordtype}{implicit none}
+177     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+178     \textcolor{keywordtype}{integer} :: i
+179     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
+180         \textcolor{keyword}{call }dblock(i)%ToogleBlockSources()
+181 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}

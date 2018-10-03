@@ -189,9 +189,9 @@ Definition at line 282 of file sources.\+f90.
 331 \textcolor{keywordflow}{    endif}
 332     \textcolor{keyword}{call }geometry%fill(src%par%geometry, globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
 333     \textcolor{keywordflow}{do} i=1, src%stencil%np
-334             src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
+334         src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
 335 \textcolor{keywordflow}{    end do}
-336     
+336 
 337 
 338     sizem = sizeof(src)
 339     \textcolor{keyword}{call }simmemory%addsource(sizem)

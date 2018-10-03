@@ -96,7 +96,7 @@ Definition at line 96 of file utilities.\+f90.
 97     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: num
 98     \textcolor{keywordtype}{real(prec)} :: twopow
 99     \textcolor{keywordtype}{integer} :: i
-100     \textcolor{keywordtype}{real(prec)} :: dist1, dist2    
+100     \textcolor{keywordtype}{real(prec)} :: dist1, dist2
 101     \textcolor{keywordflow}{do} i=-4, 10
 102         twopow = 2.0**i
 103         \textcolor{keywordflow}{if} (num < twopow) \textcolor{keywordflow}{then}
@@ -108,7 +108,7 @@ Definition at line 96 of file utilities.\+f90.
 109 \textcolor{keywordflow}{            endif}
 110             \textcolor{keywordflow}{exit}
 111 \textcolor{keywordflow}{        endif}
-112 \textcolor{keywordflow}{    enddo}   
+112 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}\label{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}} 
 \index{utilities\+\_\+mod@{utilities\+\_\+mod}!int2str@{int2str}}
@@ -137,7 +137,7 @@ Definition at line 81 of file utilities.\+f90.
 81     \textcolor{keywordtype}{character(:)}, \textcolor{keywordtype}{allocatable} :: res
 82     \textcolor{keywordtype}{character(len=6)}, \textcolor{keywordtype}{intent(in)} :: fmt \textcolor{comment}{! format descriptor}
 83     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: i
-84     \textcolor{keywordtype}{character(range(i)+2)} :: tmp    
+84     \textcolor{keywordtype}{character(range(i)+2)} :: tmp
 85     \textcolor{keyword}{write}(tmp, fmt) i
 86     res = trim(tmp)
 \end{DoxyCode}

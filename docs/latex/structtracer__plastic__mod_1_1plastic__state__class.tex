@@ -7,7 +7,8 @@ Type -\/ State variables of a tracer object representing a plastic material.
 
 
 
-Collaboration diagram for tracer\+\_\+plastic\+\_\+mod\+:\+:plastic\+\_\+state\+\_\+class\+:\nopagebreak
+Collaboration diagram for tracer\+\_\+plastic\+\_\+mod\+:\+:plastic\+\_\+state\+\_\+class\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -17,6 +18,8 @@ Collaboration diagram for tracer\+\_\+plastic\+\_\+mod\+:\+:plastic\+\_\+state\+
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
+real(prec) \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__state__class_a3a8175a6595dfe7d585284fe060b9735}{density}}
+\begin{DoxyCompactList}\small\item\em density of the material \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__state__class_a597b5dbe3ba58a0d58d7897fbadaea34}{radius}}
 \begin{DoxyCompactList}\small\item\em Tracer radius (m) \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__state__class_afd1aa02ed79b13a44724f5bd550debb7}{condition}}
@@ -45,11 +48,11 @@ Particle concentration.
 
 
 
-Definition at line 39 of file tracer\+\_\+plastic.\+f90.
+Definition at line 40 of file tracer\+\_\+plastic.\+f90.
 
 
 \begin{DoxyCode}
-39         \textcolor{keywordtype}{real(prec)} :: concentration
+40         \textcolor{keywordtype}{real(prec)} :: concentration
 \end{DoxyCode}
 \mbox{\Hypertarget{structtracer__plastic__mod_1_1plastic__state__class_afd1aa02ed79b13a44724f5bd550debb7}\label{structtracer__plastic__mod_1_1plastic__state__class_afd1aa02ed79b13a44724f5bd550debb7}} 
 \index{tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}!condition@{condition}}
@@ -63,11 +66,29 @@ Material condition (1-\/0)
 
 
 
-Definition at line 38 of file tracer\+\_\+plastic.\+f90.
+Definition at line 39 of file tracer\+\_\+plastic.\+f90.
 
 
 \begin{DoxyCode}
-38         \textcolor{keywordtype}{real(prec)} :: condition
+39         \textcolor{keywordtype}{real(prec)} :: condition
+\end{DoxyCode}
+\mbox{\Hypertarget{structtracer__plastic__mod_1_1plastic__state__class_a3a8175a6595dfe7d585284fe060b9735}\label{structtracer__plastic__mod_1_1plastic__state__class_a3a8175a6595dfe7d585284fe060b9735}} 
+\index{tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}!density@{density}}
+\index{density@{density}!tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}}
+\subsubsection{\texorpdfstring{density}{density}}
+{\footnotesize\ttfamily real(prec) tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class\+::density\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+density of the material 
+
+
+
+Definition at line 37 of file tracer\+\_\+plastic.\+f90.
+
+
+\begin{DoxyCode}
+37         \textcolor{keywordtype}{real(prec)} :: density
 \end{DoxyCode}
 \mbox{\Hypertarget{structtracer__plastic__mod_1_1plastic__state__class_a597b5dbe3ba58a0d58d7897fbadaea34}\label{structtracer__plastic__mod_1_1plastic__state__class_a597b5dbe3ba58a0d58d7897fbadaea34}} 
 \index{tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}!radius@{radius}}
@@ -81,11 +102,11 @@ Tracer radius (m)
 
 
 
-Definition at line 37 of file tracer\+\_\+plastic.\+f90.
+Definition at line 38 of file tracer\+\_\+plastic.\+f90.
 
 
 \begin{DoxyCode}
-37         \textcolor{keywordtype}{real(prec)} :: radius
+38         \textcolor{keywordtype}{real(prec)} :: radius
 \end{DoxyCode}
 
 

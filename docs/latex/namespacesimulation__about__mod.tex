@@ -52,47 +52,49 @@ Definition at line 44 of file simulation\+\_\+about.\+f90.
 44     \textcolor{keywordtype}{implicit none}
 45     \textcolor{keywordtype}{type}(string) :: outext
 46 
-47     version  =\textcolor{stringliteral}{"v0.2"}
+47     version  =\textcolor{stringliteral}{"v0.3"}
 48     author   =\textcolor{stringliteral}{"R. Birjukovs Canelas"}
-49     date     =\textcolor{stringliteral}{"24-08-2018"}
+49     date     =\textcolor{stringliteral}{"20-09-2018"}
 50 
 51     outext = \textcolor{stringliteral}{' \_\_  \_\_  \_\_\_  \_   \_ \_\_\_ \_\_\_\_  \_                                      \_              '}//
       new\_line(\textcolor{stringliteral}{'a'})//&
-52              \textcolor{stringliteral}{' |  \(\backslash\)/  |/ \_ \(\backslash\)| | | |\_ \_|  \_ \(\backslash\)| |    \_\_ \_  \_\_ \_ \_ \_\_ \_\_ \_ \_ \_\_   \_\_ \_(\_) \_\_ \_ \_ \_\_  '}//
-      new\_line(\textcolor{stringliteral}{'a'})//&
-53              \textcolor{stringliteral}{' | |\(\backslash\)/| | | | | |\_| || || | | | |   / \_` |/ \_` | \_\_/  \_` |  \_ \(\backslash\) / \_` | |/ \_` |  \_ \(\backslash\) '}//
-      new\_line(\textcolor{stringliteral}{'a'})//&
-54              \textcolor{stringliteral}{' | |  | | |\_| |  \_  || || |\_| | |\_\_| (\_| | (\_| | | | (\_| | | | | (\_| | | (\_| | | | |'}//
-      new\_line(\textcolor{stringliteral}{'a'})//&
-55              \textcolor{stringliteral}{' |\_|  |\_|\(\backslash\)\_\_\_/|\_| |\_|\_\_\_|\_\_\_\_/|\_\_\_\_\_\(\backslash\)\_\_,\_|\(\backslash\)\_\_, |\_|  \(\backslash\)\_\_,\_|\_| |\_|\(\backslash\)\_\_, |\_|\(\backslash\)\_\_,\_|\_| |\_|'}//
-      new\_line(\textcolor{stringliteral}{'a'})//&
-56              \textcolor{stringliteral}{'                                          |\_\_\_/                 |\_\_\_/               '}//
-      new\_line(\textcolor{stringliteral}{'a'})//&
+52         \textcolor{stringliteral}{' |  \(\backslash\)/  |/ \_ \(\backslash\)| | | |\_ \_|  \_ \(\backslash\)| |    \_\_ \_  \_\_ \_ \_ \_\_ \_\_ \_ \_ \_\_   \_\_ \_(\_) \_\_ \_ \_ \_\_  '}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+53         \textcolor{stringliteral}{' | |\(\backslash\)/| | | | | |\_| || || | | | |   / \_` |/ \_` | \_\_/  \_` |  \_ \(\backslash\) / \_` | |/ \_` |  \_ \(\backslash\) '}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+54         \textcolor{stringliteral}{' | |  | | |\_| |  \_  || || |\_| | |\_\_| (\_| | (\_| | | | (\_| | | | | (\_| | | (\_| | | | |'}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+55         \textcolor{stringliteral}{' |\_|  |\_|\(\backslash\)\_\_\_/|\_| |\_|\_\_\_|\_\_\_\_/|\_\_\_\_\_\(\backslash\)\_\_,\_|\(\backslash\)\_\_, |\_|  \(\backslash\)\_\_,\_|\_| |\_|\(\backslash\)\_\_, |\_|\(\backslash\)\_\_,\_|\_| |\_|'}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+56         \textcolor{stringliteral}{'                                          |\_\_\_/                 |\_\_\_/               '}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
 57 
 58         \textcolor{stringliteral}{'  <MOHIDLagrangian> Copyright (C) 2018 by'}//new\_line(\textcolor{stringliteral}{'a'})//&
-59         \textcolor{stringliteral}{'  R. Birjukovs Canelas, R. Neves, F. Campuzano, H. de Pablo Lenonardo'}//new\_line(\textcolor{stringliteral}{'a'})//&
-60         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
-61         \textcolor{stringliteral}{'  MARETEC - Research Centre for Marine, Environment and Technology'}//new\_line(\textcolor{stringliteral}{'a'})//&
-62         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
-63         \textcolor{stringliteral}{'  MOHIDLagrangian is free software: you can redistribute it and/or'}//new\_line(\textcolor{stringliteral}{'a'})//&
-64         \textcolor{stringliteral}{'  modify it under the terms of the GNU General Public License as'}//new\_line(\textcolor{stringliteral}{'a'})//&
-65         \textcolor{stringliteral}{'  published by the Free Software Foundation, either version 3 of'}//new\_line(\textcolor{stringliteral}{'a'})//&
-66         \textcolor{stringliteral}{'  the License, or (at your option) any later version.'}//new\_line(\textcolor{stringliteral}{'a'})//&
-67         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
-68         \textcolor{stringliteral}{'  MOHIDLagrangian is distributed WITHOUT ANY WARRANTY; without even'}//new\_line(\textcolor{stringliteral}{'a'})//&
-69         \textcolor{stringliteral}{'  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR'}//new\_line(\textcolor{stringliteral}{'a'})//&
-70         \textcolor{stringliteral}{'  PURPOSE. See the GNU General Public License for more details.'}//new\_line(\textcolor{stringliteral}{'a'})//&
-71         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
-72         \textcolor{stringliteral}{'  You should have received a copy of the GNU General Public License,'}//new\_line(\textcolor{stringliteral}{'a'})//&
-73         \textcolor{stringliteral}{'  along with MOHIDLagrangian. If not, see <http://www.gnu.org/licenses/>.,'}//new\_line(\textcolor{stringliteral}{'a'})//&
-74         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
-75         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
-76         \textcolor{stringliteral}{'MOHIDLagrangian '}//version//\textcolor{stringliteral}{' ('}//author//\textcolor{stringliteral}{') ('}//date//\textcolor{stringliteral}{')'}//new\_line(\textcolor{stringliteral}{'a'})//&
-77         \textcolor{stringliteral}{'====================================================================='}
-78 
-79     \textcolor{comment}{!call Log%put(outext,.false.)}
-80     \textcolor{keyword}{call }log%put(outext,.false.)
-81 
+59         \textcolor{stringliteral}{'  R. Birjukovs Canelas'}//new\_line(\textcolor{stringliteral}{'a'})//&
+60         \textcolor{stringliteral}{'  MARETEC - Research Centre for Marine, Environment and Technology'}//new\_line(\textcolor{stringliteral}{'a'})//&
+61         \textcolor{stringliteral}{'  University of Lisbon - IST'}//new\_line(\textcolor{stringliteral}{'a'})//&
+62         \textcolor{stringliteral}{'  A. Daniel Garaboa'}//new\_line(\textcolor{stringliteral}{'a'})//&
+63         \textcolor{stringliteral}{'  Non-Linear Physics Group - University of Santiago de Compostela, Spain'}//new\_line(\textcolor{stringliteral}{'a'})//&
+64         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+65         \textcolor{stringliteral}{'  MOHID Lagrangian is free software: you can redistribute it and/or'}//new\_line(\textcolor{stringliteral}{'a'})//&
+66         \textcolor{stringliteral}{'  modify it under the terms of the GNU General Public License as'}//new\_line(\textcolor{stringliteral}{'a'})//&
+67         \textcolor{stringliteral}{'  published by the Free Software Foundation, either version 3 of'}//new\_line(\textcolor{stringliteral}{'a'})//&
+68         \textcolor{stringliteral}{'  the License, or (at your option) any later version.'}//new\_line(\textcolor{stringliteral}{'a'})//&
+69         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+70         \textcolor{stringliteral}{'  MOHID Lagrangian is distributed WITHOUT ANY WARRANTY; without even'}//new\_line(\textcolor{stringliteral}{'a'})//&
+71         \textcolor{stringliteral}{'  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR'}//new\_line(\textcolor{stringliteral}{'a'})//&
+72         \textcolor{stringliteral}{'  PURPOSE. See the GNU General Public License for more details.'}//new\_line(\textcolor{stringliteral}{'a'})//&
+73         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+74         \textcolor{stringliteral}{'  You should have received a copy of the GNU General Public License,'}//new\_line(\textcolor{stringliteral}{'a'})//&
+75         \textcolor{stringliteral}{'  along with MOHID Lagrangian. If not, see <http://www.gnu.org/licenses/>.,'}//new\_line(\textcolor{stringliteral}{'a'})//&
+76         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+77         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+78         \textcolor{stringliteral}{'MOHID Lagrangian '}//version//\textcolor{stringliteral}{' ('}//author//\textcolor{stringliteral}{') ('}//date//\textcolor{stringliteral}{')'}//new\_line(\textcolor{stringliteral}{'a'})//&
+79         \textcolor{stringliteral}{'====================================================================='}
+80 
+81     \textcolor{comment}{!call Log%put(outext,.false.)}
+82     \textcolor{keyword}{call }log%put(outext,.false.)
+83 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]

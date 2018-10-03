@@ -9,6 +9,7 @@ var searchData=
   ['sim_5ft',['sim_t',['../structsimulation__globals__mod_1_1sim__t.html',1,'simulation_globals_mod']]],
   ['simdefs_5ft',['simdefs_t',['../structsimulation__globals__mod_1_1simdefs__t.html',1,'simulation_globals_mod']]],
   ['simulation_5fclass',['simulation_class',['../structsimulation__mod_1_1simulation__class.html',1,'simulation_mod']]],
+  ['solver_5fclass',['solver_class',['../structsolver__mod_1_1solver__class.html',1,'solver_mod']]],
   ['source_5fclass',['source_class',['../structsources__mod_1_1source__class.html',1,'sources_mod']]],
   ['source_5fgroup_5fclass',['source_group_class',['../structsources__mod_1_1source__group__class.html',1,'sources_mod']]],
   ['source_5fpar',['source_par',['../structsources__mod_1_1source__par.html',1,'sources_mod']]],

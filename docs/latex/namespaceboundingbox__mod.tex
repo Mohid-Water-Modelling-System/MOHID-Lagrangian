@@ -90,7 +90,7 @@ Definition at line 59 of file boundingbox.\+f90.
 68     temp\_str(1)=self%size%x
 69     temp\_str(2)=self%size%y
 70     temp\_str(3)=self%size%z
-71     outext = outext//\textcolor{stringliteral}{'       Size = '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)    
+71     outext = outext//\textcolor{stringliteral}{'       Size = '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)
 72     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 
@@ -108,5 +108,5 @@ Definition at line 33 of file boundingbox.\+f90.
 
 
 \begin{DoxyCode}
-33   \textcolor{keywordtype}{type}(boundingbox\_class), \textcolor{keywordtype}{public} :: BBox
+33     \textcolor{keywordtype}{type}(boundingbox\_class), \textcolor{keywordtype}{public} :: BBox
 \end{DoxyCode}
