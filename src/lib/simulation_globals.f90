@@ -106,6 +106,17 @@
     procedure, private :: increment_numTracer
     procedure, public :: getnumTracer
     end type sim_t
+    
+    type :: var_names_t
+        type(string) :: u
+        type(string) :: v
+        type(string) :: w
+        type(string) :: temp
+        type(string) :: sal
+        type(string) :: density
+    contains
+    procedure, private :: buildvars
+    end type var_names_t
 
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
@@ -115,6 +126,7 @@
         real(prec_time)     :: SimTime
         type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
+        type(var_names_t)   :: Var
     contains
     procedure :: initialize => setdefaults
     end type globals_class
@@ -187,12 +199,31 @@
     self%Sim%numTracer = 0
     !Source parameters list
     call self%SrcProp%buildlists()
+    !Variable names
+    call self%Var%buildvars()
 
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)
 
     end subroutine
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Increments Tracer count. This routine MUST be ATOMIC.
+    !---------------------------------------------------------------------------
+    subroutine buildvars(self)
+    implicit none
+    class(var_names_t), intent(inout) :: self
+    self%u       = 'vel_x'
+    self%v       = 'vel_y'
+    self%w       = 'vel_z'
+    self%temp    = 'temp'
+    self%sal     = 'sal'
+    self%density = 'density'
+    end subroutine buildvars
+    
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
