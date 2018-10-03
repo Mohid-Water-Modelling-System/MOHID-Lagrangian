@@ -50,7 +50,7 @@
     !> @brief
     !> Method that integrates the Tracer state array in one time-step, according to
     !> the selected integration algorithm
-    !> @param[in] self, aot, bdata, dt
+    !> @param[in] self, aot, bdata, time, dt
     !---------------------------------------------------------------------------
     subroutine runStep(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
@@ -68,7 +68,7 @@
     !> Method that integrates the Tracer state array in one time-step, using a
     !> Symplectic integration algorithm. This is a predictor-corrector type
     !> explicit scheme with excelent conservation properties and average cost
-    !> @param[in] self, aot, bdata, dt
+    !> @param[in] self, aot, bdata, time, dt
     !---------------------------------------------------------------------------
     subroutine runStepSymplectic(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
@@ -82,11 +82,12 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that integrates the Tracer state array in one time-step, using a
-    !> Verlet integration algorithm. This is a one-shot type
+    !> Velocity Verlet integration algorithm. This is a one-shot type
     !> explicit scheme with low computational cost, mostly for quick tests and
     !> debug. Implements
-    !> \f$ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}\f$
-    !> @param[in] self, aot, bdata, dt
+    !> \f$ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}\f$
+    !> \f$ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t\f$
+    !> @param[in] self, aot, bdata, time, dt
     !---------------------------------------------------------------------------
     subroutine runStepVerlet(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
@@ -118,7 +119,7 @@
     !> Method that integrates the Tracer state array in one time-step, using a
     !> Runge-Kuta 4th order integration algorithm. This is an explicit scheme
     !> with medium to high computational cost
-    !> @param[in] self, aot, bdata, dt
+    !> @param[in] self, aot, bdata, time, dt
     !---------------------------------------------------------------------------
     subroutine runStepRK4(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self

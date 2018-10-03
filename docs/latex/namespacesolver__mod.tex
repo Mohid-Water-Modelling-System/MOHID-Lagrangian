@@ -18,7 +18,7 @@ subroutine \mbox{\hyperlink{namespacesolver__mod_ab87d71c6c8aa1709901ec14f9bf125
 subroutine \mbox{\hyperlink{namespacesolver__mod_a91ddfd70d0f6d65b00fe6b08f4113cd6}{runstepsymplectic}} (self, aot, bdata, time, dt)
 \begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Symplectic integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_acf893016edd8e0eb4bc77666aed1096f}{runstepverlet}} (self, aot, bdata, time, dt)
-\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Verlet integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}$. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Velocity Verlet integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_ae59da54f053ae369d76f130b3790f3b7}{runsteprk4}} (self, aot, bdata, time, dt)
 \begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a326292ff19880a914317109520b200b2}{initsolver}} (self, flag, name)
@@ -56,18 +56,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 139 of file solver.\+f90.
+Definition at line 140 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-139     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-140     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
-141     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-142     \textcolor{keywordtype}{type}(string) :: interpName
-143     self%solverType = flag
-144     self%name = name
-145     interpname = \textcolor{stringliteral}{'linear'}
-146     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
+140     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+141     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
+142     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+143     \textcolor{keywordtype}{type}(string) :: interpName
+144     self%solverType = flag
+145     self%name = name
+146     interpname = \textcolor{stringliteral}{'linear'}
+147     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}\label{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!printsolver@{printsolver}}
@@ -84,14 +84,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 155 of file solver.\+f90.
+Definition at line 156 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-155     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-156     \textcolor{keywordtype}{type}(string) :: outext, t
-157     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
-158     \textcolor{keyword}{call }log%put(outext,.false.)
+156     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+157     \textcolor{keywordtype}{type}(string) :: outext, t
+158     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
+159     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_ab87d71c6c8aa1709901ec14f9bf12505}\label{namespacesolver__mod_ab87d71c6c8aa1709901ec14f9bf12505}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!runstep@{runstep}}
@@ -108,7 +108,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,dt} & \\
+\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
 \hline
 \end{DoxyParams}
 
@@ -140,20 +140,20 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,dt} & \\
+\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 124 of file solver.\+f90.
+Definition at line 125 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-124     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-125     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
-126     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-127     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-128 
+125     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+126     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
+127     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+128     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+129 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a91ddfd70d0f6d65b00fe6b08f4113cd6}\label{namespacesolver__mod_a91ddfd70d0f6d65b00fe6b08f4113cd6}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!runstepsymplectic@{runstepsymplectic}}
@@ -170,7 +170,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,dt} & \\
+\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
 \hline
 \end{DoxyParams}
 
@@ -193,41 +193,41 @@ Definition at line 74 of file solver.\+f90.
 
 
 
-Method that integrates the Tracer state array in one time-\/step, using a Verlet integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{1}={\vec {x}}_{0}+{\vec {v}}_{0}\Delta t+{\frac {1}{2}}{\vec {A}}({\vec {x}}_{0})\Delta t^{2}$. 
+Method that integrates the Tracer state array in one time-\/step, using a Velocity Verlet integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,dt} & \\
+\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 92 of file solver.\+f90.
+Definition at line 93 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-92     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-93     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
-94     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-95     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-96     \textcolor{keywordtype}{integer} :: np, nf, bkg
-97     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
-98 
-99     \textcolor{comment}{! interpolate each background}
-100     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
-101         np = \textcolor{keyword}{size}(aot%id)
-102         nf = bdata(bkg)%fields%getSize()
-103         \textcolor{keyword}{allocate}(var\_dt(np,nf))
-104         \textcolor{keyword}{call }self%Interpolator%run(aot, bdata(bkg), time, var\_dt)
-105         \textcolor{comment}{!put the interpolated vars from var\_dt back into the AoT}
-106 \textcolor{keywordflow}{    end do}
-107 
-108     \textcolor{comment}{!now that we interpolated the variables, we need to know what to do with them.}
-109     \textcolor{comment}{!need to find a way to save velocity to velocity and temperature to temperature.}
-110     \textcolor{comment}{!list with vars to interpolate from input xml, and config xml with standard}
-111     \textcolor{comment}{!netcdf name overrides is needed for specific institution files?}
-112 
+93     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+94     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
+95     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+96     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+97     \textcolor{keywordtype}{integer} :: np, nf, bkg
+98     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+99 
+100     \textcolor{comment}{! interpolate each background}
+101     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+102         np = \textcolor{keyword}{size}(aot%id)
+103         nf = bdata(bkg)%fields%getSize()
+104         \textcolor{keyword}{allocate}(var\_dt(np,nf))
+105         \textcolor{keyword}{call }self%Interpolator%run(aot, bdata(bkg), time, var\_dt)
+106         \textcolor{comment}{!put the interpolated vars from var\_dt back into the AoT}
+107 \textcolor{keywordflow}{    end do}
+108 
+109     \textcolor{comment}{!now that we interpolated the variables, we need to know what to do with them.}
+110     \textcolor{comment}{!need to find a way to save velocity to velocity and temperature to temperature.}
+111     \textcolor{comment}{!list with vars to interpolate from input xml, and config xml with standard}
+112     \textcolor{comment}{!netcdf name overrides is needed for specific institution files?}
+113 
 \end{DoxyCode}

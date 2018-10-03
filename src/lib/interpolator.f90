@@ -94,7 +94,7 @@
     !> divided into 16 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] x,y,z, t, field, n_e, f_out
+    !> @param[in] self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
     subroutine interp4D(self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
