@@ -96,14 +96,23 @@
     real(prec_time), intent(in) :: time, dt
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
 
     ! interpolate each background
     do bkg = 1, size(bdata)
-        np = size(aot%id)
-        nf = bdata(bkg)%fields%getSize()
+        np = size(aot%id) !number of particles
+        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
         allocate(var_dt(np,nf))
-        call self%Interpolator%run(aot, bdata(bkg), time, var_dt)
-        !put the interpolated vars from var_dt back into the AoT
+        allocate(var_name(nf))
+        !run the interpolator
+        call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
+        !update velocities
+        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        aot%u = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        aot%v = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+        aot%w = var_dt(:,nf)
     end do
 
     !now that we interpolated the variables, we need to know what to do with them.

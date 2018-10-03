@@ -45,14 +45,15 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that runs the chosen interpolator method on the given data.
-    !> @param[in] self, aot, bdata, time, dt, var_dt
+    !> @param[in] self, aot, bdata, time, dt, var_dt, var_name
     !---------------------------------------------------------------------------
-    subroutine run(self, aot, bdata, time, var_dt)
-    class(interpolator_class), intent(inout) :: self
+    subroutine run(self, aot, bdata, time, var_dt, var_name)
+    class(interpolator_class), intent(in) :: self
     type(aot_class), intent(in) :: aot
     type(background_class), intent(in) :: bdata
     real(prec_time), intent(in) :: time
-    real(prec), dimension(:,:), intent(inout) :: var_dt
+    real(prec), dimension(:,:), intent(out) :: var_dt
+    type(string), dimension(:), intent(out) :: var_name
     real(prec_time) :: newtime
     class(*), pointer :: aField
     integer :: i = 1
@@ -66,6 +67,7 @@
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
+                var_name(i) = aField%name
                 call self%interp4D(aot%x, aot%y, aot%z, time, aField%field, var_dt(:,i), size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
