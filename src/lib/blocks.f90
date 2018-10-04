@@ -293,7 +293,11 @@
     subroutine RunSolver(self)
     implicit none
     class(block_class), intent(inout) :: self
-    call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
+    if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
+        if (allocated(self%Background)) then    !There are Backgrounds in this Block        
+            call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
+        end if
+    end if
     end subroutine RunSolver
     
     !---------------------------------------------------------------------------
