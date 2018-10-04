@@ -119,6 +119,43 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec_time), intent(in) :: time, dt
+
+    ! interpolate each background
+    do bkg = 1, size(bdata)
+        np = size(aot%id) !number of particles     
+        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+        allocate(var_dt(np,nf))
+        allocate(var_name(nf))
+        !Predictor step
+        !run the interpolator
+        call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
+        !update velocities for the predictor step
+        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        aot%u = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        aot%v = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+        aot%w = var_dt(:,nf)
+        !update positions for the predictor step
+        aot%x = aot%x + aot%u*dt*0.5
+        aot%y = aot%y + aot%v*dt*0.5
+        aot%z = aot%z + aot%w*dt*0.5
+        !Corrector step
+        !run the interpolator
+        call self%Interpolator%run(aot, bdata(bkg), time+0.5*dt, var_dt, var_name)
+        !update velocities for the corrector step
+        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        aot%u = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        aot%v = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+        aot%w = var_dt(:,nf)
+        !update positions for the corrector step
+        aot%x = aot%x + aot%u*dt*0.5
+        aot%y = aot%y + aot%v*dt*0.5
+        aot%z = aot%z + aot%w*dt*0.5
+        !update other vars...
+    end do
     
     end subroutine runStepMSEuler
 
