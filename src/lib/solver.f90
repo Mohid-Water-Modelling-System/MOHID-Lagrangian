@@ -57,8 +57,8 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec_time), intent(in) :: time, dt
-    if (self%solverType == 2) call self%runStepSymplectic(aot, bdata, time, dt)
     if (self%solverType == 1) call self%runStepVerlet(aot, bdata, time, dt)
+    if (self%solverType == 2) call self%runStepSymplectic(aot, bdata, time, dt)
     if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
     end subroutine runStep
 

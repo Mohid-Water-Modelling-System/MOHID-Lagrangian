@@ -46,6 +46,7 @@
     procedure, private :: BlocksDistribute
     procedure, private :: BlocksConsolidateArrays
     procedure, private :: BlocksTracersToAoT
+    procedure, private :: BlocksRunSolver
     procedure, private :: BlocksAoTtoTracers
     procedure, private :: BlocksCleanAoT
     procedure, private :: setInitialState
@@ -240,6 +241,21 @@
         call DBlock(i)%TracersToAoT()
     enddo
     end subroutine BlocksTracersToAoT
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to call the Blocks to run the Solver at 
+    !> current SimTime
+    !---------------------------------------------------------------------------
+    subroutine BlocksRunSolver(self)
+        implicit none
+        class(simulation_class), intent(in) :: self
+        integer :: i
+        do i=1, size(DBlock)
+            call DBlock(i)%RunSolver()
+        enddo
+    end subroutine BlocksRunSolver
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
