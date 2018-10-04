@@ -28,14 +28,14 @@
     private
 
     type :: solver_class        !< Solver class
-        integer :: solverType = 1   !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
+        integer :: solverType = 1   !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
         type(string) :: name        !< Name of the Integrator algorithm
         type(interpolator_class) :: Interpolator !< The interpolator object for this Solver
     contains
     procedure :: initialize => initSolver
     procedure :: runStep
-    procedure, private :: runStepSymplectic
-    procedure, private :: runStepVerlet
+    procedure, private :: runStepMSEuler
+    procedure, private :: runStepEuler
     procedure, private :: runStepRK4
     procedure :: print => printSolver
     end type solver_class
@@ -57,39 +57,23 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec_time), intent(in) :: time, dt
-    if (self%solverType == 1) call self%runStepVerlet(aot, bdata, time, dt)
-    if (self%solverType == 2) call self%runStepSymplectic(aot, bdata, time, dt)
+    if (self%solverType == 1) call self%runStepEuler(aot, bdata, time, dt)
+    if (self%solverType == 2) call self%runStepMSEuler(aot, bdata, time, dt)
     if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
     end subroutine runStep
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that integrates the Tracer state array in one time-step, using a
-    !> Symplectic integration algorithm. This is a predictor-corrector type
-    !> explicit scheme with excelent conservation properties and average cost
-    !> @param[in] self, aot, bdata, time, dt
-    !---------------------------------------------------------------------------
-    subroutine runStepSymplectic(self, aot, bdata, time, dt)
-    class(solver_class), intent(inout) :: self
-    type(aot_class), intent(inout) :: aot
-    type(background_class), dimension(:), intent(in) :: bdata
-    real(prec_time), intent(in) :: time, dt
-
-    end subroutine runStepSymplectic
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method that integrates the Tracer state array in one time-step, using a
-    !> Velocity Verlet integration algorithm. This is a one-shot type
+    !> Velocity Euler integration algorithm. This is a one-shot type
     !> explicit scheme with low computational cost, mostly for quick tests and
     !> debug. Implements
     !> \f$ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}\f$
     !> \f$ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t\f$
     !> @param[in] self, aot, bdata, time, dt
     !---------------------------------------------------------------------------
-    subroutine runStepVerlet(self, aot, bdata, time, dt)
+    subroutine runStepEuler(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
@@ -97,10 +81,10 @@
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-
+    
     ! interpolate each background
     do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles
+        np = size(aot%id) !number of particles     
         nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
@@ -120,7 +104,23 @@
         !update other vars...
     end do
 
-    end subroutine runStepVerlet
+    end subroutine runStepEuler
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that integrates the Tracer state array in one time-step, using a
+    !> Multi-Step Euler integration algorithm. This is a predictor-corrector type
+    !> explicit scheme with excelent conservation properties and average cost
+    !> @param[in] self, aot, bdata, time, dt
+    !---------------------------------------------------------------------------
+    subroutine runStepMSEuler(self, aot, bdata, time, dt)
+    class(solver_class), intent(inout) :: self
+    type(aot_class), intent(inout) :: aot
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec_time), intent(in) :: time, dt
+    
+    end subroutine runStepMSEuler
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

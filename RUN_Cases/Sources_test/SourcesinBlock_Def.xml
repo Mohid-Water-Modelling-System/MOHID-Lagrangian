@@ -43,7 +43,7 @@
   </casedef>
   <execution>
     <parameters>
-      <parameter key="Integrator" value="2" comment="Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)" />
+      <parameter key="Integrator" value="2" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />
       <parameter key="CFL" value="0.8" comment="Courant–Friedrichs–Lewy condition number (default=0.5)" />
       <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />
       <parameter key="StartTime" value="1984 12 10 13 05 0" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />

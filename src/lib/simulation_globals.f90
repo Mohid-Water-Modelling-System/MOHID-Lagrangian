@@ -32,7 +32,7 @@
     private
 
     type :: parameters_t   !< Parameters class
-        integer    :: Integrator = 1            !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
+        integer    :: Integrator = 1            !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
         integer    :: IntegratorIndexes(3)      !< Index list for the integrator selector
         type(string) :: IntegratorNames(3)      !< Names list for the integrator selector
         real(prec) :: CFL = 0.5                 !< Courant Friedrichs Lewy condition number
@@ -153,8 +153,8 @@
     !parameters
     self%Parameters%Integrator = 1
     self%Parameters%IntegratorIndexes = [1,2,3]
-    self%Parameters%IntegratorNames(1) = 'Verlet'
-    self%Parameters%IntegratorNames(2) = 'Symplectic'
+    self%Parameters%IntegratorNames(1) = 'Euler'
+    self%Parameters%IntegratorNames(2) = 'Multi-Step Euler'
     self%Parameters%IntegratorNames(3) = 'Runge-Kuta 4'
     self%Parameters%CFL = 0.5
     self%Parameters%WarmUpTime = 0.0
