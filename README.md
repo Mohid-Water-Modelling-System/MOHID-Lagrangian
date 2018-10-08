@@ -1,6 +1,8 @@
+## MOHIDLagrangian - Heavy development phase - Work in progress!
+
 [![Build Status](https://travis-ci.org/RBCanelas/MOHID-Lagrangian.svg?branch=master)](https://travis-ci.org/RBCanelas/MOHID-Lagrangian)
 
-## MOHIDLagrangian - Heavy development phase - Work in progress!
+[![License](https://img.shields.io/badge/license-GNU%20GeneraL%20Public%20License%20v3,%20GPLv3-blue.svg)]()
 
 Check out our [code documentation page](https://rbcanelas.github.io/MOHID-Lagrangian/)!
 
