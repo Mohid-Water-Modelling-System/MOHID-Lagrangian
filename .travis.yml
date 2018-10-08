@@ -7,6 +7,7 @@ addons:
       - gfortran-7
 before_script:
   - cmake --version
+  - sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
   - export FC=/usr/bin/gfortran-7
   - FC --version
   - cd Libs  
