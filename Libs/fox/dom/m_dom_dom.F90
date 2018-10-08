@@ -479,6 +479,18 @@ module m_dom_dom
 
 contains
 
+pure function getTextContent_len(arg, p) result(n)
+    type(Node), intent(in) :: arg
+    logical, intent(in) :: p
+    integer :: n
+
+    if (p) then
+      n = arg%textContentLength
+    else
+      n = 0
+    endif
+  end function getTextContent_len
+
 
   subroutine resetParameter(domConfig, name)
     type(DOMConfiguration), pointer :: domConfig
@@ -4052,18 +4064,6 @@ endif
       enddo
     endif
   end subroutine updateTextContentLength
-
-  pure function getTextContent_len(arg, p) result(n)
-    type(Node), intent(in) :: arg
-    logical, intent(in) :: p
-    integer :: n
-
-    if (p) then
-      n = arg%textContentLength
-    else
-      n = 0
-    endif
-  end function getTextContent_len
 
   function getTextContent(arg, ex)result(c) 
     type(DOMException), intent(out), optional :: ex
