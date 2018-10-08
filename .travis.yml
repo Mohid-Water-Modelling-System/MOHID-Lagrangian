@@ -8,7 +8,8 @@ addons:
 before_script:
   - cd Libs
   - export FC=gfortran-7
-  - FC -version
+  - cmake --version
+  - FC --version
   - ./MakeLibraries.sh
   - cd ..
   - ./MakeMOHIDLagrangian.sh
