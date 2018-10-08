@@ -7,7 +7,8 @@ addons:
       - gfortran-7
 before_script:
   - cd Libs
-  - FC=gfortran-7
+  - export FC=gfortran-7
+  - FC -version
   - ./MakeLibraries.sh
   - cd ..
   - ./MakeMOHIDLagrangian.sh
