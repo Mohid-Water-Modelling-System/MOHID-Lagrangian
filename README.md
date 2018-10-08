@@ -1,3 +1,5 @@
+https://travis-ci.org/RBCanelas/MOHID-Lagrangian.svg?branch=master
+
 ## MOHIDLagrangian - Heavy development phase - Work in progress!
 
 Check out our [code documentation page](https://rbcanelas.github.io/MOHID-Lagrangian/)!
