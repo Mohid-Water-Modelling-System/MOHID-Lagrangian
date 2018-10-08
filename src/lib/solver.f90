@@ -119,6 +119,10 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec_time), intent(in) :: time, dt
+    real(prec_time) :: mstime
+    integer :: np, nf, bkg
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
 
     ! interpolate each background
     do bkg = 1, size(bdata)
@@ -142,7 +146,8 @@
         aot%z = aot%z + aot%w*dt*0.5
         !Corrector step
         !run the interpolator
-        call self%Interpolator%run(aot, bdata(bkg), time+0.5*dt, var_dt, var_name)
+        mstime = time+0.5*dt
+        call self%Interpolator%run(aot, bdata(bkg), mstime, var_dt, var_name)
         !update velocities for the corrector step
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         aot%u = var_dt(:,nf)
