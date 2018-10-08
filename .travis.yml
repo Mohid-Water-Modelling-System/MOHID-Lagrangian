@@ -6,11 +6,10 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - cmake --version
-  - sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
+  #- cmake --version
+  #- sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
   - export FC=gfortran
-  #- FC --version
-  - cd Libs  
-  - ./MakeLibraries.sh
-  - cd ..
+  #- cd Libs  
+  #- ./MakeLibraries.sh
+  #- cd ..
   - ./MakeMOHIDLagrangian.sh
