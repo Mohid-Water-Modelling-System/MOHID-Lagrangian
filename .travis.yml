@@ -6,10 +6,10 @@ addons:
     packages:
       - gfortran-7
 before_script:
-  - cd Libs
-  - export FC=gfortran-7
   - cmake --version
+  - export FC=gfortran-7  
   - FC --version
+  - cd Libs  
   - ./MakeLibraries.sh
   - cd ..
   - ./MakeMOHIDLagrangian.sh
