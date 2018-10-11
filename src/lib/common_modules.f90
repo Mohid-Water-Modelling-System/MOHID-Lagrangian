@@ -23,10 +23,13 @@ module common_modules
     !use vecfor_r4p
     use stringifor
     use datetime_module
+    
+    use omp_lib
 
     use geometry_mod
     use simulation_precision_mod
     use simulation_logger_mod
+    use simulation_timer_mod
     use simulation_memory_mod
     use simulation_globals_mod
     use utilities_mod

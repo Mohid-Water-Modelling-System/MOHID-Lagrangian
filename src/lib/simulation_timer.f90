@@ -1,19 +1,3 @@
-    !MARETEC - Research Centre for Marine, Environment and Technology
-    !Copyright (C) 2018  Ricardo Birjukovs Canelas
-    !
-    !This program is free software: you can redistribute it and/or modify
-    !it under the terms of the GNU General Public License as published by
-    !the Free Software Foundation, either version 3 of the License, or
-    !(at your option) any later version.
-    !
-    !This program is distributed in the hope that it will be useful,
-    !but WITHOUT ANY WARRANTY; without even the implied warranty of
-    !MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    !GNU General Public License for more details.
-    !
-    !You should have received a copy of the GNU General Public License
-    !along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    
     !------------------------------------------------------------------------------
     !        IST/MARETEC, Water Modelling Group, Mohid modelling system
     !------------------------------------------------------------------------------
@@ -29,22 +13,24 @@
     !> wall time. API supports accumulation, several start-stop cycles and printing.
     !------------------------------------------------------------------------------
 
-    module timer_mod
+    module simulation_timer_mod
 
+    use simulation_precision_mod
+    use simulation_logger_mod    
     use omp_lib
-    use ISO_FORTRAN_ENV
-
+    
     implicit none
     private
+    
     !Public access vars
     public :: timer_class
 
     type timer_class
         private !full information hidding - contents are only accessible through the methods
-        real(REAL64) :: elapsed = 0.0   !< full elapsed time of all cycles
-        real(REAL64) :: last = 0.0      !< elapsed time of the last cycle
-        real(REAL64) :: start           !< time of the tic at the current cycle
-        real(REAL64) :: stop            !< time of the tac at the current cycle
+        real(prec_time) :: elapsed = 0.0   !< full elapsed time of all cycles
+        real(prec_time) :: last = 0.0      !< elapsed time of the last cycle
+        real(prec_time) :: start           !< time of the tic at the current cycle
+        real(prec_time) :: stop            !< time of the tac at the current cycle
     contains
     procedure :: initialize => initTimer
     procedure :: getElapsed             !< returns the elasped time on this timer
@@ -81,7 +67,7 @@
     !> @brief
     !> Method that returns the total elapsed time on this timer
     !---------------------------------------------------------------------------
-    real(REAL64) function getElapsed(this)
+    real(prec_time) function getElapsed(this)
     class(timer_class), intent(in) :: this    
     getElapsed = this%elapsed
     end function getElapsed
@@ -143,4 +129,4 @@
     print*, "[timer_class::printCurrent]: current elapsed time is ", omp_get_wtime() - this%start
     end subroutine printCurrent
 
-    end module timer_mod
+    end module simulation_timer_mod
