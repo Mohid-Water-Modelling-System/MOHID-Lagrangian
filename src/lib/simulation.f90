@@ -30,12 +30,12 @@
     use simulation_output_streamer_mod
     use common_modules
 
-    use field_types_mod
-
     implicit none
     private
 
     type :: simulation_class   !< Parameters class
+        type(timer_class) :: timerInit
+        type(timer_class) :: timerRun
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -68,7 +68,7 @@
     subroutine run(self)
     implicit none
     class(simulation_class), intent(inout) :: self
-    type(string) :: outext
+    type(string) :: outext, aux
 
     outext = '====================================================================='
     call Log%put(outext,.false.)
@@ -76,6 +76,10 @@
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)
+
+    aux = 'Simulation::run'
+    call self%timerRun%initialize(aux)
+    call self%timerRun%Tic()
 
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
@@ -111,6 +115,9 @@
     call self%setTracerMemory()
     call SimMemory%detailedprint()
 
+    call self%timerRun%Toc()
+    call self%timerRun%print()
+
     end subroutine run
 
     !---------------------------------------------------------------------------
@@ -125,9 +132,13 @@
     class(simulation_class), intent(inout) :: self
     type(string), intent(in) :: casefilename         !< case file name
     type(string), intent(in) :: outpath              !< Output path
-    type(string) :: outext
+    type(string) :: outext, aux
     !type(generic_field_class) :: testField
     !type(background_class) :: testBackground
+    
+    aux = 'Simulation::initialization'
+    call self%timerInit%initialize(aux)
+    call self%timerInit%Tic()
 
     ! Initialize logger
     call Log%initialize(outpath)
@@ -161,6 +172,9 @@
     call OutputStreamer%initialize()
     !Writing the domain to file
     call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
+    
+    call self%timerInit%Toc()
+    call self%timerInit%print()
 
     !call testField%test()
     !call testBackground%test()
@@ -245,16 +259,16 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to run the Solver at 
+    !> Simulation method to call the Blocks to run the Solver at
     !> current SimTime
     !---------------------------------------------------------------------------
     subroutine BlocksRunSolver(self)
-        implicit none
-        class(simulation_class), intent(in) :: self
-        integer :: i
-        do i=1, size(DBlock)
-            call DBlock(i)%RunSolver()
-        enddo
+    implicit none
+    class(simulation_class), intent(in) :: self
+    integer :: i
+    do i=1, size(DBlock)
+        call DBlock(i)%RunSolver()
+    enddo
     end subroutine BlocksRunSolver
 
     !---------------------------------------------------------------------------
