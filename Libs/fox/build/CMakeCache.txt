@@ -53,11 +53,11 @@ CMAKE_Fortran_COMPILER:FILEPATH=/usr/local/bin/gfortran
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_Fortran_COMPILER_AR:FILEPATH=CMAKE_Fortran_COMPILER_AR-NOTFOUND
+CMAKE_Fortran_COMPILER_AR:FILEPATH=/usr/local/bin/gcc-ar-8
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_Fortran_COMPILER_RANLIB:FILEPATH=CMAKE_Fortran_COMPILER_RANLIB-NOTFOUND
+CMAKE_Fortran_COMPILER_RANLIB:FILEPATH=/usr/local/bin/gcc-ranlib-8
 
 //Flags used by the Fortran compiler during all build types.
 CMAKE_Fortran_FLAGS:STRING=
