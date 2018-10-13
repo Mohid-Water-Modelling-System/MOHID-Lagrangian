@@ -35,7 +35,8 @@
 
     type :: simulation_class   !< Parameters class
         type(timer_class) :: timerInit
-        type(timer_class) :: timerRun
+        type(timer_class) :: timerTotalRun
+        type(timer_class) :: timerOutput
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -77,12 +78,9 @@
     outext = '====================================================================='
     call Log%put(outext,.false.)
 
-    aux = 'Simulation::run'
-    call self%timerRun%initialize(aux)
-    call self%timerRun%Tic()
-
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
+        call self%timerTotalRun%Tic()
         !activate suitable Sources
         call self%ToggleSources()
         !emitt Tracers from active Sources
@@ -100,7 +98,9 @@
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
         !Write results if time to do so
+        call self%timerOutput%Tic()
         call OutputStreamer%WriteStepSerial(DBlock)
+        call self%timerOutput%Toc()
         !Print some stats from the time step
         call self%printTracerTotals()
         !Clean AoT
@@ -111,12 +111,13 @@
         !print*, 'Global time is ', Globals%SimTime
         !print*, 'Can we continue?'
         !read (*,*)
+        call self%timerTotalRun%Toc()
     enddo
     call self%setTracerMemory()
     call SimMemory%detailedprint()
 
-    call self%timerRun%Toc()
-    call self%timerRun%print()
+    call self%timerTotalRun%print()
+    call self%timerOutput%print()
 
     end subroutine run
 
@@ -139,6 +140,12 @@
     aux = 'Simulation::initialization'
     call self%timerInit%initialize(aux)
     call self%timerInit%Tic()
+
+    aux = 'Simulation::Run'
+    call self%timerTotalRun%initialize(aux)
+
+    aux = 'Simulation::Output'
+    call self%timerOutput%initialize(aux)
 
     ! Initialize logger
     call Log%initialize(outpath)
