@@ -199,9 +199,13 @@
     implicit none
     class(simulation_class), intent(in) :: self
     integer :: i
+    !$OMP PARALLEL PRIVATE(i)
+    !$OMP DO
     do i=1, size(DBlock)
         call DBlock(i)%ToogleBlockSources()
-    enddo
+    end do
+    !$OMP END DO
+    !$OMP END PARALLEL
     end subroutine ToggleSources
 
     !---------------------------------------------------------------------------
@@ -244,9 +248,13 @@
     implicit none
     class(simulation_class), intent(in) :: self
     integer :: i
+    !$OMP PARALLEL PRIVATE(i)
+    !$OMP DO
     do i=1, size(DBlock)
         call DBlock(i)%ConsolidateArrays()
     enddo
+    !$OMP END DO
+    !$OMP END PARALLEL
     end subroutine BlocksConsolidateArrays
 
     !---------------------------------------------------------------------------
@@ -259,9 +267,13 @@
     implicit none
     class(simulation_class), intent(in) :: self
     integer :: i
+    !$OMP PARALLEL PRIVATE(i)
+    !$OMP DO
     do i=1, size(DBlock)
         call DBlock(i)%TracersToAoT()
     enddo
+    !$OMP END DO
+    !$OMP END PARALLEL
     end subroutine BlocksTracersToAoT
 
     !---------------------------------------------------------------------------
@@ -274,9 +286,13 @@
     implicit none
     class(simulation_class), intent(in) :: self
     integer :: i
+    !$OMP PARALLEL PRIVATE(i)
+    !$OMP DO
     do i=1, size(DBlock)
         call DBlock(i)%RunSolver()
     enddo
+    !$OMP END DO
+    !$OMP END PARALLEL
     end subroutine BlocksRunSolver
 
     !---------------------------------------------------------------------------
@@ -289,9 +305,13 @@
     implicit none
     class(simulation_class), intent(in) :: self
     integer :: i
+    !$OMP PARALLEL PRIVATE(i)
+    !$OMP DO
     do i=1, size(DBlock)
         call DBlock(i)%AoTtoTracers()
     enddo
+    !$OMP END DO
+    !$OMP END PARALLEL
     end subroutine BlocksAoTtoTracers
 
     !---------------------------------------------------------------------------
