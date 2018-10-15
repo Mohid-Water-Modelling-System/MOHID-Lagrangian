@@ -34,9 +34,9 @@
     private
 
     type :: simulation_class   !< Parameters class
-        type(timer_class) :: timerInit
-        type(timer_class) :: timerTotalRun
-        type(timer_class) :: timerOutput
+        type(timer_class) :: timerInit          !< timer for the initialization routines
+        type(timer_class) :: timerTotalRun      !< timer for the total wall time spent on the simulation
+        type(timer_class) :: timerOutput        !< timer for the output writting routines
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run

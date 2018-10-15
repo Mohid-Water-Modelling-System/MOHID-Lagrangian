@@ -32,18 +32,17 @@
     private
 
     type :: parameters_t   !< Parameters class
-        integer    :: Integrator = 1            !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
-        integer    :: IntegratorIndexes(3)      !< Index list for the integrator selector
-        type(string) :: IntegratorNames(3)      !< Names list for the integrator selector
-        real(prec) :: CFL = 0.5                 !< Courant Friedrichs Lewy condition number
-        real(prec_time) :: WarmUpTime = 0.0     !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
-        real(prec_time) :: TimeMax = MV         !< Simulation duration (s)
-        real(prec) :: TimeOut = MV              !< Time out data (1/Hz)
-        type(datetime) :: StartTime             !< Start date of the simulation
-        type(datetime) :: EndTime               !< End date of the simulation
-        integer    :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
-        integer    :: OutputFormatIndexes(2)    !< Index list for the output file format selector
-        type(string) :: OutputFormatNames(2)    !< Names list for the output file format selector
+        integer         :: Integrator = 1            !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
+        integer         :: IntegratorIndexes(3)      !< Index list for the integrator selector
+        type(string)    :: IntegratorNames(3)        !< Names list for the integrator selector
+        real(prec_time) :: WarmUpTime = 0.0          !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
+        real(prec_time) :: TimeMax = MV              !< Simulation duration (s)
+        real(prec)      :: TimeOut = MV              !< Time out data (1/Hz)
+        type(datetime)  :: StartTime                 !< Start date of the simulation
+        type(datetime)  :: EndTime                   !< End date of the simulation
+        integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
+        integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
+        type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
     contains
     procedure :: setparameter
     procedure :: check
@@ -156,7 +155,6 @@
     self%Parameters%IntegratorNames(1) = 'Euler'
     self%Parameters%IntegratorNames(2) = 'Multi-Step Euler'
     self%Parameters%IntegratorNames(3) = 'Runge-Kuta 4'
-    self%Parameters%CFL = 0.5
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%TimeOut = MV
     self%Parameters%TimeOut = MV
@@ -329,9 +327,6 @@
     if (parmkey%chars()=="Integrator") then
         self%Integrator=parmvalue%to_number(kind=1_I1P)
         sizem=sizeof(self%Integrator)
-    elseif(parmkey%chars()=="CFL") then
-        self%CFL=parmvalue%to_number(kind=1._R4P)
-        sizem=sizeof(self%CFL)
     elseif(parmkey%chars()=="WarmUpTime") then
         self%WarmUpTime=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%WarmUpTime)
@@ -437,8 +432,6 @@
     type(string) :: temp_str
     character(len=23) :: temp_char
     outext = '      Integrator scheme is '//self%IntegratorNames(self%Integrator)//new_line('a')
-    temp_str=self%CFL
-    outext = outext//'       CFL = '//temp_str//new_line('a')
     temp_str=self%WarmUpTime
     outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeOut
