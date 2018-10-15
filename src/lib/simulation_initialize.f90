@@ -373,7 +373,6 @@
     type(Node), pointer :: parmt, parameters_node
     integer :: i
     type(string) :: parmkey, parmvalue, tag, att_name
-    character(80) :: parmkey_char, parmvalue_char
 
     outext='-->Reading case parameters'
     call Log%put(outext,.false.)
