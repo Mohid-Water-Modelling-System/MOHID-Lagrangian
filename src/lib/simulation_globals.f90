@@ -25,6 +25,7 @@
     use datetime_module
 
     use simulation_precision_mod
+    use simulation_parallel_omp_mod
     use simulation_logger_mod
     use simulation_memory_mod
 
@@ -35,6 +36,7 @@
         integer         :: Integrator = 1            !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
         integer         :: IntegratorIndexes(3)      !< Index list for the integrator selector
         type(string)    :: IntegratorNames(3)        !< Names list for the integrator selector
+        integer         :: numOPMthreads             !< number of openMP threads to be used
         real(prec_time) :: WarmUpTime = 0.0          !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
         real(prec_time) :: TimeMax = MV              !< Simulation duration (s)
         real(prec)      :: TimeOut = MV              !< Time out data (1/Hz)
@@ -155,6 +157,7 @@
     self%Parameters%IntegratorNames(1) = 'Euler'
     self%Parameters%IntegratorNames(2) = 'Multi-Step Euler'
     self%Parameters%IntegratorNames(3) = 'Runge-Kuta 4'
+    self%Parameters%numOPMthreads = OMPManager%getThreads()
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%TimeOut = MV
     self%Parameters%TimeOut = MV
@@ -208,7 +211,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Increments Tracer count. This routine MUST be ATOMIC.
+    !> Builds variable list names.
     !---------------------------------------------------------------------------
     subroutine buildvars(self)
     implicit none
@@ -327,6 +330,12 @@
     if (parmkey%chars()=="Integrator") then
         self%Integrator=parmvalue%to_number(kind=1_I1P)
         sizem=sizeof(self%Integrator)
+    elseif(parmkey%chars()=="Threads") then
+        if (parmvalue /= 'auto') then
+            self%numOPMthreads=parmvalue%to_number(kind=1._R4P)
+            call OMPManager%setThreads(self%numOPMthreads)
+        end if
+        sizem=sizeof(self%WarmUpTime)
     elseif(parmkey%chars()=="WarmUpTime") then
         self%WarmUpTime=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%WarmUpTime)
@@ -432,6 +441,9 @@
     type(string) :: temp_str
     character(len=23) :: temp_char
     outext = '      Integrator scheme is '//self%IntegratorNames(self%Integrator)//new_line('a')
+    temp_str=self%numOPMthreads
+    temp_str=OMPManager%getThreads()
+    outext = outext//'       OMP threads = '//temp_str//new_line('a')
     temp_str=self%WarmUpTime
     outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeOut

@@ -143,7 +143,6 @@
 
     aux = 'Simulation::Run'
     call self%timerTotalRun%initialize(aux)
-
     aux = 'Simulation::Output'
     call self%timerOutput%initialize(aux)
 
@@ -151,6 +150,8 @@
     call Log%initialize(outpath)
     !Print licences and build info
     call PrintLicPreamble
+    !initialize parallel services manager
+    call OMPManager%initialize()
     !initializing memory log
     call SimMemory%initialize()
     !setting every global variable and input parameter to their default

@@ -32,6 +32,7 @@ module common_modules
     use simulation_timer_mod
     use simulation_memory_mod
     use simulation_globals_mod
+    use simulation_parallel_omp_mod
     use utilities_mod
 
 end module common_modules
