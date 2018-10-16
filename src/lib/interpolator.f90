@@ -33,7 +33,7 @@
     procedure :: run
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
-    procedure :: interp4D
+    procedure, private :: interp4D
     end type interpolator_class
 
     !Public access vars
