@@ -1,6 +1,6 @@
 <map id="geometry_mod::fill" name="geometry_mod::fill">
-<area shape="rect" id="node2" href="$namespacegeometry__mod.html#ae87e4ecff2d21a839da2b82919b5fd0b" title="private routine that returns the points distributed on a grid with spacing dp inside a box &#160;&#160;..." alt="" coords="190,5,355,32"/>
-<area shape="rect" id="node3" href="$namespacegeometry__mod.html#abcb09c0f5274c27cb79b0dd009ed94b3" title="private routine that returns the points distributed on a grid with spacing dp along a line &#160;&#160;..." alt="" coords="191,56,355,83"/>
+<area shape="rect" id="node2" href="$namespacegeometry__mod.html#ae87e4ecff2d21a839da2b82919b5fd0b" title="private routine that returns the points distributed on a grid with spacing dp inside a box ..." alt="" coords="190,5,355,32"/>
+<area shape="rect" id="node3" href="$namespacegeometry__mod.html#abcb09c0f5274c27cb79b0dd009ed94b3" title="private routine that returns the points distributed on a grid with spacing dp along a line ..." alt="" coords="191,56,355,83"/>
 <area shape="rect" id="node4" href="$namespaceutilities__mod.html#a415de70150d626b1e8c6e0c8c0e09e8b" title="Public function that returns a vector in meters given an array in geographical coordinates (lon..." alt="" coords="201,107,344,133"/>
 <area shape="rect" id="node5" href="$namespacegeometry__mod.html#a6c03a4ea3de6763940396dbeb3908ebc" title="private routine that returns the points distributed on a grid with spacing dp inside a sphere ..." alt="" coords="181,157,364,184"/>
 </map>

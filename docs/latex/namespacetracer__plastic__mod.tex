@@ -13,12 +13,14 @@ type \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__class}{plastic\+\_\
 type \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__par__class}{plastic\+\_\+par\+\_\+class}}
 \item 
 type \mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__state__class}{plastic\+\_\+state\+\_\+class}}
-\begin{DoxyCompactList}\small\item\em Type -\/ State variables of a tracer object representing a plastic material. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Type -\/ State variables of a tracer object representing a plastic material. \end{DoxyCompactList}\item 
+interface \mbox{\hyperlink{interfacetracer__plastic__mod_1_1plastictracer}{plastictracer}}
+\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespacetracer__plastic__mod_a42882cd86cfe30f341d8150582a664a9}{plastic\+\_\+initialize}} (trc, id, id\+\_\+source, time, pt)
-\begin{DoxyCompactList}\small\item\em Tracer initialization method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+type(\mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__class}{plastic\+\_\+class}}) function \mbox{\hyperlink{namespacetracer__plastic__mod_a04049a86055ae0f3f4e26ae51761a5a2}{constructor}} (id, src, time, p)
+\begin{DoxyCompactList}\small\item\em Plastic Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -30,52 +32,64 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespacetracer__plastic__mod_a42882cd86cfe30f341d8150582a664a9}\label{namespacetracer__plastic__mod_a42882cd86cfe30f341d8150582a664a9}} 
-\index{tracer\+\_\+plastic\+\_\+mod@{tracer\+\_\+plastic\+\_\+mod}!plastic\+\_\+initialize@{plastic\+\_\+initialize}}
-\index{plastic\+\_\+initialize@{plastic\+\_\+initialize}!tracer\+\_\+plastic\+\_\+mod@{tracer\+\_\+plastic\+\_\+mod}}
-\subsubsection{\texorpdfstring{plastic\+\_\+initialize()}{plastic\_initialize()}}
-{\footnotesize\ttfamily subroutine tracer\+\_\+plastic\+\_\+mod\+::plastic\+\_\+initialize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__class}{plastic\+\_\+class}})}]{trc,  }\item[{integer, intent(in)}]{id,  }\item[{integer, intent(in)}]{id\+\_\+source,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{type(vector), intent(in)}]{pt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{namespacetracer__plastic__mod_a04049a86055ae0f3f4e26ae51761a5a2}\label{namespacetracer__plastic__mod_a04049a86055ae0f3f4e26ae51761a5a2}} 
+\index{tracer\+\_\+plastic\+\_\+mod@{tracer\+\_\+plastic\+\_\+mod}!constructor@{constructor}}
+\index{constructor@{constructor}!tracer\+\_\+plastic\+\_\+mod@{tracer\+\_\+plastic\+\_\+mod}}
+\subsubsection{\texorpdfstring{constructor()}{constructor()}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracer__plastic__mod_1_1plastic__class}{plastic\+\_\+class}}) function tracer\+\_\+plastic\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{id,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{integer, intent(in)}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Tracer initialization method. 
+Plastic Tracer constructor. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em trc,id,id\+\_\+source,time,pt} & \\
+\mbox{\tt in}  & {\em id,src,time,p} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 61 of file tracer\+\_\+plastic.\+f90.
+Definition at line 68 of file tracer\+\_\+plastic.\+f90.
 
 
 \begin{DoxyCode}
-61     \textcolor{keywordtype}{implicit none}
-62     \textcolor{keywordtype}{class}(plastic\_class) :: trc
-63     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-64     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id\_source
-65     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
-66     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
-67 
-68     \textcolor{comment}{! initialize parameters}
-69     trc%par%id = id
-70     trc%par%idsource = id\_source
-71     trc%par%velmax = 15.0 \textcolor{comment}{!(m/s, just a placeholder)}
-72     \textcolor{comment}{! initialize tracer state}
-73     trc%now%age=0.0
-74     trc%now%active = .false.
-75     trc%now%pos = pt
-76     trc%now%vel = 0.0
-77     trc%now%acc = 0.0
-78     trc%now%depth = 0.0
-79     \textcolor{comment}{! Initialize statistical accumulator variables}
-80     trc%stats%acc\_pos = 0.0
-81     trc%stats%acc\_vel = 0.0
-82     trc%stats%acc\_depth = 0.0
-83     trc%stats%ns = 0
-84 
+68     \textcolor{keywordtype}{implicit none}
+69     \textcolor{keywordtype}{type}(plastic\_class) :: constructor
+70     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+71     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+72     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+73     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+74     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable} :: base\_trc
+75 
+76     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
+77     constructor%tracer\_class = tracer(id,src,time,p)
+78     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
+79     constructor%par%id = id \textcolor{comment}{!forcing}
+80     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
+81     \textcolor{comment}{!now initialize the specific components of this derived type}
+82     \textcolor{comment}{!material parameters}
+83     constructor%mpar%degradation\_rate = src%prop%degrd\_rate
+84     constructor%mpar%particulate = src%prop%particulate
+85     constructor%mpar%size = src%prop%radius
+86     \textcolor{comment}{!material state}
+87     constructor%mnow%density = src%prop%density
+88     constructor%mnow%condition = src%prop%condition
+89     constructor%mnow%radius = src%prop%radius
+90     constructor%mnow%concentration = mv
+91     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
+92         constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not tracer
+       size}
+93         constructor%mnow%concentration = src%prop%ini\_concentration
+94 \textcolor{keywordflow}{    end if}
+95 
 \end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacetracer__plastic__mod_a04049a86055ae0f3f4e26ae51761a5a2_cgraph}
+\end{center}
+\end{figure}

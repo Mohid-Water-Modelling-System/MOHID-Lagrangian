@@ -60,54 +60,54 @@ include VecFor/CMakeFiles/VecFor.dir/flags.make
 VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o: VecFor/CMakeFiles/VecFor.dir/flags.make
 VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o: ../VecFor/vecfor.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object VecFor/CMakeFiles/VecFor.dir/vecfor.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor.F90 -o CMakeFiles/VecFor.dir/vecfor.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor.F90 -o CMakeFiles/VecFor.dir/vecfor.F90.o
 
 VecFor/CMakeFiles/VecFor.dir/vecfor.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/VecFor.dir/vecfor.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor.F90 > CMakeFiles/VecFor.dir/vecfor.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor.F90 > CMakeFiles/VecFor.dir/vecfor.F90.i
 
 VecFor/CMakeFiles/VecFor.dir/vecfor.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/VecFor.dir/vecfor.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor.F90 -o CMakeFiles/VecFor.dir/vecfor.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor.F90 -o CMakeFiles/VecFor.dir/vecfor.F90.s
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o: VecFor/CMakeFiles/VecFor.dir/flags.make
 VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o: ../VecFor/vecfor_R16P.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building Fortran object VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R16P.F90 -o CMakeFiles/VecFor.dir/vecfor_R16P.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R16P.F90 -o CMakeFiles/VecFor.dir/vecfor_R16P.F90.o
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/VecFor.dir/vecfor_R16P.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R16P.F90 > CMakeFiles/VecFor.dir/vecfor_R16P.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R16P.F90 > CMakeFiles/VecFor.dir/vecfor_R16P.F90.i
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R16P.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/VecFor.dir/vecfor_R16P.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R16P.F90 -o CMakeFiles/VecFor.dir/vecfor_R16P.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R16P.F90 -o CMakeFiles/VecFor.dir/vecfor_R16P.F90.s
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o: VecFor/CMakeFiles/VecFor.dir/flags.make
 VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o: ../VecFor/vecfor_R4P.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building Fortran object VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R4P.F90 -o CMakeFiles/VecFor.dir/vecfor_R4P.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R4P.F90 -o CMakeFiles/VecFor.dir/vecfor_R4P.F90.o
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/VecFor.dir/vecfor_R4P.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R4P.F90 > CMakeFiles/VecFor.dir/vecfor_R4P.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R4P.F90 > CMakeFiles/VecFor.dir/vecfor_R4P.F90.i
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R4P.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/VecFor.dir/vecfor_R4P.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R4P.F90 -o CMakeFiles/VecFor.dir/vecfor_R4P.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R4P.F90 -o CMakeFiles/VecFor.dir/vecfor_R4P.F90.s
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o: VecFor/CMakeFiles/VecFor.dir/flags.make
 VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o: ../VecFor/vecfor_R8P.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building Fortran object VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R8P.F90 -o CMakeFiles/VecFor.dir/vecfor_R8P.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R8P.F90 -o CMakeFiles/VecFor.dir/vecfor_R8P.F90.o
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/VecFor.dir/vecfor_R8P.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R8P.F90 > CMakeFiles/VecFor.dir/vecfor_R8P.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R8P.F90 > CMakeFiles/VecFor.dir/vecfor_R8P.F90.i
 
 VecFor/CMakeFiles/VecFor.dir/vecfor_R8P.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/VecFor.dir/vecfor_R8P.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R8P.F90 -o CMakeFiles/VecFor.dir/vecfor_R8P.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/VecFor && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/VecFor/vecfor_R8P.F90 -o CMakeFiles/VecFor.dir/vecfor_R8P.F90.s
 
 # Object files for target VecFor
 VecFor_OBJECTS = \

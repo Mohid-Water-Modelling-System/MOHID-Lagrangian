@@ -1,22 +1,22 @@
-!------------------------------------------------------------------------------
-!        IST/MARETEC, Water Modelling Group, Mohid modelling system
-!------------------------------------------------------------------------------
-!
-! TITLE         : Mohid Model
-! PROJECT       : Mohid Lagrangian Tracer
-! MODULE        : simulation_precision
-! URL           : http://www.mohid.com
-! AFFILIATION   : IST/MARETEC, Marine Modelling Group
-! DATE          : Feb 2018
-! REVISION      : Canelas 0.1
-!> @author
-!> Ricardo Birjukovs Canelas
-!
-! DESCRIPTION:
-!> Module to control the precision of the variables trough the project.
-!------------------------------------------------------------------------------
+    !------------------------------------------------------------------------------
+    !        IST/MARETEC, Water Modelling Group, Mohid modelling system
+    !------------------------------------------------------------------------------
+    !
+    ! TITLE         : Mohid Model
+    ! PROJECT       : Mohid Lagrangian Tracer
+    ! MODULE        : simulation_precision
+    ! URL           : http://www.mohid.com
+    ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
+    ! DATE          : Feb 2018
+    ! REVISION      : Canelas 0.1
+    !> @author
+    !> Ricardo Birjukovs Canelas
+    !
+    ! DESCRIPTION:
+    !> Module to control the precision of the variables trough the project.
+    !------------------------------------------------------------------------------
 
-module simulation_precision_mod
+    module simulation_precision_mod
 
     use penf
 
@@ -43,8 +43,8 @@ module simulation_precision_mod
     ! Error values
     real(prec), parameter :: ERR_DIST = 1E8_dps
     integer,  parameter   :: ERR_IND  = -1
-    
+
     ! char handling
     integer, parameter :: CHAR_LEN = 99
 
-end module simulation_precision_mod
+    end module simulation_precision_mod

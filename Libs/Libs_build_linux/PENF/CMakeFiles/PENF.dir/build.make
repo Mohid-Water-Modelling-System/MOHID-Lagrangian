@@ -60,54 +60,54 @@ include PENF/CMakeFiles/PENF.dir/flags.make
 PENF/CMakeFiles/PENF.dir/penf.F90.o: PENF/CMakeFiles/PENF.dir/flags.make
 PENF/CMakeFiles/PENF.dir/penf.F90.o: ../PENF/penf.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object PENF/CMakeFiles/PENF.dir/penf.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf.F90 -o CMakeFiles/PENF.dir/penf.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf.F90 -o CMakeFiles/PENF.dir/penf.F90.o
 
 PENF/CMakeFiles/PENF.dir/penf.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/PENF.dir/penf.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf.F90 > CMakeFiles/PENF.dir/penf.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf.F90 > CMakeFiles/PENF.dir/penf.F90.i
 
 PENF/CMakeFiles/PENF.dir/penf.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/PENF.dir/penf.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf.F90 -o CMakeFiles/PENF.dir/penf.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf.F90 -o CMakeFiles/PENF.dir/penf.F90.s
 
 PENF/CMakeFiles/PENF.dir/penf_b_size.F90.o: PENF/CMakeFiles/PENF.dir/flags.make
 PENF/CMakeFiles/PENF.dir/penf_b_size.F90.o: ../PENF/penf_b_size.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building Fortran object PENF/CMakeFiles/PENF.dir/penf_b_size.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_b_size.F90 -o CMakeFiles/PENF.dir/penf_b_size.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_b_size.F90 -o CMakeFiles/PENF.dir/penf_b_size.F90.o
 
 PENF/CMakeFiles/PENF.dir/penf_b_size.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/PENF.dir/penf_b_size.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_b_size.F90 > CMakeFiles/PENF.dir/penf_b_size.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_b_size.F90 > CMakeFiles/PENF.dir/penf_b_size.F90.i
 
 PENF/CMakeFiles/PENF.dir/penf_b_size.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/PENF.dir/penf_b_size.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_b_size.F90 -o CMakeFiles/PENF.dir/penf_b_size.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_b_size.F90 -o CMakeFiles/PENF.dir/penf_b_size.F90.s
 
 PENF/CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.o: PENF/CMakeFiles/PENF.dir/flags.make
 PENF/CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.o: ../PENF/penf_global_parameters_variables.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building Fortran object PENF/CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_global_parameters_variables.F90 -o CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_global_parameters_variables.F90 -o CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.o
 
 PENF/CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_global_parameters_variables.F90 > CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_global_parameters_variables.F90 > CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.i
 
 PENF/CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_global_parameters_variables.F90 -o CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_global_parameters_variables.F90 -o CMakeFiles/PENF.dir/penf_global_parameters_variables.F90.s
 
 PENF/CMakeFiles/PENF.dir/penf_stringify.F90.o: PENF/CMakeFiles/PENF.dir/flags.make
 PENF/CMakeFiles/PENF.dir/penf_stringify.F90.o: ../PENF/penf_stringify.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building Fortran object PENF/CMakeFiles/PENF.dir/penf_stringify.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_stringify.F90 -o CMakeFiles/PENF.dir/penf_stringify.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_stringify.F90 -o CMakeFiles/PENF.dir/penf_stringify.F90.o
 
 PENF/CMakeFiles/PENF.dir/penf_stringify.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/PENF.dir/penf_stringify.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_stringify.F90 > CMakeFiles/PENF.dir/penf_stringify.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_stringify.F90 > CMakeFiles/PENF.dir/penf_stringify.F90.i
 
 PENF/CMakeFiles/PENF.dir/penf_stringify.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/PENF.dir/penf_stringify.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_stringify.F90 -o CMakeFiles/PENF.dir/penf_stringify.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/PENF && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/PENF/penf_stringify.F90 -o CMakeFiles/PENF.dir/penf_stringify.F90.s
 
 # Object files for target PENF
 PENF_OBJECTS = \

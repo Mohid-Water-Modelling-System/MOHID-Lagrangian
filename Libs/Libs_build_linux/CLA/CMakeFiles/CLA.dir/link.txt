@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libCLA.a  CMakeFiles/CLA.dir/cla.f90.o CMakeFiles/CLA.dir/kinds.f90.o
-/usr/bin/ranlib ../lib/libCLA.a

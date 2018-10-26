@@ -60,28 +60,28 @@ include BeFoR64/CMakeFiles/BeFoR64.dir/flags.make
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64.F90.o: BeFoR64/CMakeFiles/BeFoR64.dir/flags.make
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64.F90.o: ../BeFoR64/befor64.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building Fortran object BeFoR64/CMakeFiles/BeFoR64.dir/befor64.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64.F90 -o CMakeFiles/BeFoR64.dir/befor64.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64.F90 -o CMakeFiles/BeFoR64.dir/befor64.F90.o
 
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/BeFoR64.dir/befor64.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64.F90 > CMakeFiles/BeFoR64.dir/befor64.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64.F90 > CMakeFiles/BeFoR64.dir/befor64.F90.i
 
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/BeFoR64.dir/befor64.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64.F90 -o CMakeFiles/BeFoR64.dir/befor64.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64.F90 -o CMakeFiles/BeFoR64.dir/befor64.F90.s
 
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.o: BeFoR64/CMakeFiles/BeFoR64.dir/flags.make
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.o: ../BeFoR64/befor64_pack_data_m.F90
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building Fortran object BeFoR64/CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.o"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64_pack_data_m.F90 -o CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.o
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64_pack_data_m.F90 -o CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.o
 
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing Fortran source to CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.i"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64_pack_data_m.F90 > CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.i
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -E /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64_pack_data_m.F90 > CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.i
 
 BeFoR64/CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling Fortran source to assembly CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.s"
-	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /Users/rbc-laptop/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64_pack_data_m.F90 -o CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.s
+	cd /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/BeFoR64 && /usr/local/bin/gfortran $(Fortran_DEFINES) $(Fortran_INCLUDES) $(Fortran_FLAGS) -S /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64/befor64_pack_data_m.F90 -o CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.s
 
 # Object files for target BeFoR64
 BeFoR64_OBJECTS = \

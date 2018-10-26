@@ -6,5 +6,7 @@ var searchData=
   ['integrator',['integrator',['../structsimulation__globals__mod_1_1parameters__t.html#a4e57d5a1897acaf67eb14e39e3e0cf21',1,'simulation_globals_mod::parameters_t']]],
   ['integratorindexes',['integratorindexes',['../structsimulation__globals__mod_1_1parameters__t.html#a939ab06e51a63cb7d521b5476e51b816',1,'simulation_globals_mod::parameters_t']]],
   ['integratornames',['integratornames',['../structsimulation__globals__mod_1_1parameters__t.html#a3115dcd5d6ea05501730adc71bc26b57',1,'simulation_globals_mod::parameters_t']]],
+  ['interpolator',['interpolator',['../structsolver__mod_1_1solver__class.html#af973ac0cafba3b94744399ae41a984ee',1,'solver_mod::solver_class']]],
+  ['interptype',['interptype',['../structinterpolator__mod_1_1interpolator__class.html#afdfac8b305fd660e113fcc4b2145a8da',1,'interpolator_mod::interpolator_class']]],
   ['iterator',['iterator',['../structabstract__linkedlist__mod_1_1linkedlist.html#a96f2e50678291a2552e6c2cc54bc288d',1,'abstract_linkedlist_mod::linkedlist']]]
 ];

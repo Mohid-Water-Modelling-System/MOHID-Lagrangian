@@ -1,0 +1,249 @@
+\hypertarget{namespaceinterpolator__mod}{}\section{interpolator\+\_\+mod Module Reference}
+\label{namespaceinterpolator__mod}\index{interpolator\+\_\+mod@{interpolator\+\_\+mod}}
+
+
+Defines an Interpolator class.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_ab4d61e34f8feebf8c75e988a6c7cac85}{run}} (self, aot, bdata, time, var\+\_\+dt)
+\begin{DoxyCompactList}\small\item\em Method that runs the chosen interpolator method on the given data. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_a1bf15b6fa6e4fd0bb4a8e544994c487d}{interp4d}} (self, x, y, z, t, field, f\+\_\+out, n\+\_\+fv, n\+\_\+cv, n\+\_\+pv, n\+\_\+tv, n\+\_\+e)
+\begin{DoxyCompactList}\small\item\em method to interpolate a particle position in a given data box based on array coordinates. 4d interpolation is a weighted average of 16 neighbors. Consider the 4D domain between the 16 neighbors. The hypercube is divided into 16 sub-\/hypercubes by the point in question. The weight of each neighbor is given by the volume of the opposite sub-\/hypercube, as a fraction of the whole hypercube. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_adcaf3bba800f19991ed4f33c968184e9}{initinterpolator}} (self, flag, name)
+\begin{DoxyCompactList}\small\item\em Initializer method for the Interpolator class. Sets the type of interpolator and name of the algorithm this Interpolator will call. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_a9b149bc8a3da5d1864b8c049f8b00697}{printinterpolator}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the Interpolator information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines an Interpolator class. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespaceinterpolator__mod_adcaf3bba800f19991ed4f33c968184e9}\label{namespaceinterpolator__mod_adcaf3bba800f19991ed4f33c968184e9}} 
+\index{interpolator\+\_\+mod@{interpolator\+\_\+mod}!initinterpolator@{initinterpolator}}
+\index{initinterpolator@{initinterpolator}!interpolator\+\_\+mod@{interpolator\+\_\+mod}}
+\subsubsection{\texorpdfstring{initinterpolator()}{initinterpolator()}}
+{\footnotesize\ttfamily subroutine interpolator\+\_\+mod\+::initinterpolator (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{flag,  }\item[{type(string), intent(in)}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializer method for the Interpolator class. Sets the type of interpolator and name of the algorithm this Interpolator will call. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,flag,name} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 172 of file interpolator.\+f90.
+
+
+\begin{DoxyCode}
+172     \textcolor{keywordtype}{class}(interpolator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+173     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
+174     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+175     self%interpType = flag
+176     self%name = name
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceinterpolator__mod_a1bf15b6fa6e4fd0bb4a8e544994c487d}\label{namespaceinterpolator__mod_a1bf15b6fa6e4fd0bb4a8e544994c487d}} 
+\index{interpolator\+\_\+mod@{interpolator\+\_\+mod}!interp4d@{interp4d}}
+\index{interp4d@{interp4d}!interpolator\+\_\+mod@{interpolator\+\_\+mod}}
+\subsubsection{\texorpdfstring{interp4d()}{interp4d()}}
+{\footnotesize\ttfamily subroutine interpolator\+\_\+mod\+::interp4d (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+class}}), intent(in)}]{self,  }\item[{real(prec), dimension(n\+\_\+e), intent(in)}]{x,  }\item[{real(prec), dimension(n\+\_\+e), intent(in)}]{y,  }\item[{real(prec), dimension(n\+\_\+e), intent(in)}]{z,  }\item[{real(prec\+\_\+time), intent(in)}]{t,  }\item[{real(prec), dimension(n\+\_\+fv, n\+\_\+cv, n\+\_\+pv, n\+\_\+tv), intent(in)}]{field,  }\item[{real(prec), dimension(n\+\_\+e), intent(out)}]{f\+\_\+out,  }\item[{integer, intent(in)}]{n\+\_\+fv,  }\item[{integer, intent(in)}]{n\+\_\+cv,  }\item[{integer, intent(in)}]{n\+\_\+pv,  }\item[{integer, intent(in)}]{n\+\_\+tv,  }\item[{integer, intent(in)}]{n\+\_\+e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+method to interpolate a particle position in a given data box based on array coordinates. 4d interpolation is a weighted average of 16 neighbors. Consider the 4D domain between the 16 neighbors. The hypercube is divided into 16 sub-\/hypercubes by the point in question. The weight of each neighbor is given by the volume of the opposite sub-\/hypercube, as a fraction of the whole hypercube. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa Paz -\/ U\+SC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,x,y,z,t,field,f\+\_\+out,n\+\_\+fv,n\+\_\+cv,n\+\_\+pv,n\+\_\+tv,n\+\_\+e} & \\
+\hline
+\mbox{\tt in}  & {\em z} & 1-\/d. Array of particle component positions\\
+\hline
+\mbox{\tt in}  & {\em t} & time to interpolate to\\
+\hline
+\mbox{\tt in}  & {\em field} & Field data with dimensions \mbox{[}n\+\_\+fv,n\+\_\+cv,n\+\_\+pv,n\+\_\+tv\mbox{]}\\
+\hline
+\mbox{\tt out}  & {\em f\+\_\+out} & Field evaluated at x,y,z,t\\
+\hline
+\mbox{\tt in}  & {\em n\+\_\+tv} & field dimensions\\
+\hline
+\mbox{\tt in}  & {\em n\+\_\+e} & Number of particles to interpolate to \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 100 of file interpolator.\+f90.
+
+
+\begin{DoxyCode}
+100     \textcolor{keywordtype}{class}(interpolator\_class), \textcolor{keywordtype}{intent(in)} :: self
+101     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(n\_e)},\textcolor{keywordtype}{intent(in)}:: x, y, z
+102     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: t
+103     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(n\_fv, n\_cv, n\_pv, n\_tv)}, \textcolor{keywordtype}{intent(in)} :: field
+104     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(n\_e)}, \textcolor{keywordtype}{intent(out)} :: f\_out
+105     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n\_fv, n\_cv, n\_pv, n\_tv
+106     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n\_e
+107     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(n\_e)} :: x0, y0, z0, x1, y1, z1
+108     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(n\_e)} :: xd, yd, zd, c000, c100, c010, c110, c001
+109     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(n\_e)} :: c101, c011, c111, c00, c10, c01, c11, c0, c1
+110     \textcolor{keywordtype}{real(prec)} :: td
+111     \textcolor{keywordtype}{integer} :: i, j, k, l, t0, t1
+112 
+113     \textcolor{comment}{! From x,y,z,t in array coordinates, find the the box inside the field where the partcle is}
+114     x0 = floor(x)
+115     y0 = floor(y)
+116     z0 = floor(z)
+117     t0 = floor(t)
+118     x1 = ceiling(x)
+119     y1 = ceiling(y)
+120     z1 = ceiling(z)
+121     t1 = ceiling(t)
+122 
+123     \textcolor{comment}{! Compute the "normalized coordinates" of the particle inside the data field box}
+124     xd = (x-x0)/(x1-x0)
+125     yd = (y-y0)/(y1-y0)
+126     zd = (z-z0)/(z1-z0)
+127     td = (t-t0)/(t1-t0)
+128 
+129     \textcolor{comment}{! In case that particle is on a point box, we set it to 0 to avoid inf errors}
+130     \textcolor{keywordflow}{where} (x1 == x0) xd = 0.
+131     \textcolor{keywordflow}{where} (y1 == y0) yd = 0.
+132     \textcolor{keywordflow}{where} (z1 == z0) zd = 0.
+133     \textcolor{keywordflow}{if} (t1 == t0)    td = 0.
+134 
+135     \textcolor{comment}{! Interpolation on the first dimension and collapse it to a three dimension problem}
+136     \textcolor{keywordflow}{forall}(i=1:n\_e)
+137         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) \textcolor{comment}{!y0x0z0t0! 
+       y0x1z0t0}
+138         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
+139         c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
+140         c110(i) = field(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t0)*xd(i)
+141 
+142         c001(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i) \textcolor{comment}{!y0x0z0t0! 
+       y0x1z0t0}
+143         c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
+144         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
+145         c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
+146 \textcolor{keywordflow}{    end forall}
+147 
+148     \textcolor{comment}{! Interpolation on the second dimension and collapse it to a two dimension problem}
+149     c00 = c000*(1.-yd)+c100*yd
+150     c10 = c010*(1.-yd)+c110*yd
+151     c01 = c001*(1.-yd)+c101*yd
+152     c11 = c011*(1.-yd)+c111*yd
+153 
+154     \textcolor{comment}{! Interpolation on the third dimension and collapse it to a one dimension problem}
+155     c0 = c00*(1.-zd)+c10*zd
+156     c1 = c01*(1.-zd)+c11*zd
+157 
+158     \textcolor{comment}{! Interpolation on the time dimension and get the final result.}
+159     f\_out = c0*(1.-td)+c1*td
+160 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceinterpolator__mod_a9b149bc8a3da5d1864b8c049f8b00697}\label{namespaceinterpolator__mod_a9b149bc8a3da5d1864b8c049f8b00697}} 
+\index{interpolator\+\_\+mod@{interpolator\+\_\+mod}!printinterpolator@{printinterpolator}}
+\index{printinterpolator@{printinterpolator}!interpolator\+\_\+mod@{interpolator\+\_\+mod}}
+\subsubsection{\texorpdfstring{printinterpolator()}{printinterpolator()}}
+{\footnotesize\ttfamily subroutine interpolator\+\_\+mod\+::printinterpolator (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints the Interpolator information. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 185 of file interpolator.\+f90.
+
+
+\begin{DoxyCode}
+185     \textcolor{keywordtype}{class}(interpolator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+186     \textcolor{keywordtype}{type}(string) :: outext, t
+187     outext = \textcolor{stringliteral}{'Interpolation algorithm is '}//self%name
+188     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceinterpolator__mod_ab4d61e34f8feebf8c75e988a6c7cac85}\label{namespaceinterpolator__mod_ab4d61e34f8feebf8c75e988a6c7cac85}} 
+\index{interpolator\+\_\+mod@{interpolator\+\_\+mod}!run@{run}}
+\index{run@{run}!interpolator\+\_\+mod@{interpolator\+\_\+mod}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily subroutine interpolator\+\_\+mod\+::run (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(in)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(in)}]{bdata,  }\item[{real(prec\+\_\+time), intent(in)}]{time,  }\item[{real(prec), dimension(\+:,\+:), intent(inout)}]{var\+\_\+dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that runs the chosen interpolator method on the given data. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,aot,bdata,time,dt,var\+\_\+dt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 51 of file interpolator.\+f90.
+
+
+\begin{DoxyCode}
+51     \textcolor{keywordtype}{class}(interpolator\_class), \textcolor{keywordtype}{intent(inout)} :: self
+52     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(in)} :: aot
+53     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(in)} :: bdata
+54     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+55     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{intent(inout)} :: var\_dt
+56     \textcolor{keywordtype}{real(prec\_time)} :: newtime
+57     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField
+58     \textcolor{keywordtype}{integer} :: i = 1
+59     \textcolor{keywordtype}{type}(string) :: outext
+60 
+61     \textcolor{comment}{!Check field extents and what particles will be interpolated}
+62     \textcolor{comment}{!interpolate each field to the correspoing slice in var\_dt}
+63     \textcolor{keyword}{call }bdata%fields%reset()                   \textcolor{comment}{! reset list iterator}
+64     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(bdata%fields%moreValues())         \textcolor{comment}{! loop while there are values}
+65         afield => bdata%fields%currentValue()   \textcolor{comment}{! get current value}
+66         \textcolor{keywordflow}{select type}(afield)
+67 \textcolor{keywordflow}{        class is}(scalar4d\_field\_class)          \textcolor{comment}{!4D interpolation is possible}
+68             \textcolor{keywordflow}{if} (self%interpType == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!linear interpolation in space and time}
+69                 \textcolor{keyword}{call }self%interp4D(aot%x, aot%y, aot%z, time, afield%field, var\_dt(:,i), \textcolor{keyword}{size}(afield%field,
+      1), \textcolor{keyword}{size}(afield%field,2), \textcolor{keyword}{size}(afield%field,3), \textcolor{keyword}{size}(afield%field,4), \textcolor{keyword}{size}(aot%x))
+70 \textcolor{keywordflow}{            end if} \textcolor{comment}{!add more interpolation types here}
+71 \textcolor{keywordflow}{        class is}(scalar3d\_field\_class)          \textcolor{comment}{!3D interpolation is possible}
+72             \textcolor{keywordflow}{if} (self%interpType == 1) \textcolor{keywordflow}{then} \textcolor{comment}{!linear interpolation in space and time}
+73                 \textcolor{comment}{!call self%interp3D(...)}
+74 \textcolor{keywordflow}{            end if} \textcolor{comment}{!add more interpolation types here}
+75             \textcolor{comment}{!add more field types here}
+76 \textcolor{keywordflow}{            class default}
+77             outext = \textcolor{stringliteral}{'[Interpolator::Run] Unexepected type of field, not correct or supported at the time'}
+78             \textcolor{keyword}{call }log%put(outext)
+79             stop
+80 \textcolor{keywordflow}{        end select}
+81         \textcolor{keyword}{call }bdata%fields%next()                \textcolor{comment}{! increment the list iterator}
+82         i = i+1 \textcolor{comment}{!to select the correct slice of var\_dt for the corresponding field}
+83 \textcolor{keywordflow}{    end do}
+84     \textcolor{keyword}{call }bdata%fields%reset()                   \textcolor{comment}{! reset list iterator}
+85 
+\end{DoxyCode}

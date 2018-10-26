@@ -1,0 +1,147 @@
+\hypertarget{structintegrator__mod_1_1integrator__class}{}\section{integrator\+\_\+mod\+:\+:integrator\+\_\+class Type Reference}
+\label{structintegrator__mod_1_1integrator__class}\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+
+
+Collaboration diagram for integrator\+\_\+mod\+:\+:integrator\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{structintegrator__mod_1_1integrator__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_a1becdc8a710c8f765e967600f51b5401}{initialize}} =$>$ init\+Integrator
+\item 
+procedure \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_a5d9a1fd29f148e93626f4025bb67a89c}{runstep}}
+\item 
+procedure, private \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_a47a8eecf5333b28f07de1d9899b8aadf}{runstepsymplectic}}
+\item 
+procedure, private \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_ab67d78bd1f6db450d70c777170a00393}{runstepverlet}}
+\item 
+procedure, private \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_a891645da685e5e7233eb5af39d8337d6}{runsteprk4}}
+\item 
+procedure \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_a273b234287305719bf5ba82305b0b5d8}{print}} =$>$ print\+Integrator
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_a806db7072f1822bd3b10b3f8ae83c33a}{integratortype}} = 1
+\begin{DoxyCompactList}\small\item\em Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) \end{DoxyCompactList}\item 
+type(string) \mbox{\hyperlink{structintegrator__mod_1_1integrator__class_a5f8a28319eb6f1558ee1d320cdf90cf6}{name}}
+\begin{DoxyCompactList}\small\item\em Name of the Integrator algorithm. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 28 of file integrator.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_a1becdc8a710c8f765e967600f51b5401}\label{structintegrator__mod_1_1integrator__class_a1becdc8a710c8f765e967600f51b5401}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!initialize@{initialize}}
+\index{initialize@{initialize}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure integrator\+\_\+mod\+::integrator\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 32 of file integrator.\+f90.
+
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_a273b234287305719bf5ba82305b0b5d8}\label{structintegrator__mod_1_1integrator__class_a273b234287305719bf5ba82305b0b5d8}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!print@{print}}
+\index{print@{print}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure integrator\+\_\+mod\+::integrator\+\_\+class\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file integrator.\+f90.
+
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_a5d9a1fd29f148e93626f4025bb67a89c}\label{structintegrator__mod_1_1integrator__class_a5d9a1fd29f148e93626f4025bb67a89c}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!runstep@{runstep}}
+\index{runstep@{runstep}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{runstep()}{runstep()}}
+{\footnotesize\ttfamily procedure integrator\+\_\+mod\+::integrator\+\_\+class\+::runstep (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 33 of file integrator.\+f90.
+
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_a891645da685e5e7233eb5af39d8337d6}\label{structintegrator__mod_1_1integrator__class_a891645da685e5e7233eb5af39d8337d6}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!runsteprk4@{runsteprk4}}
+\index{runsteprk4@{runsteprk4}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{runsteprk4()}{runsteprk4()}}
+{\footnotesize\ttfamily procedure, private integrator\+\_\+mod\+::integrator\+\_\+class\+::runsteprk4 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 36 of file integrator.\+f90.
+
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_a47a8eecf5333b28f07de1d9899b8aadf}\label{structintegrator__mod_1_1integrator__class_a47a8eecf5333b28f07de1d9899b8aadf}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!runstepsymplectic@{runstepsymplectic}}
+\index{runstepsymplectic@{runstepsymplectic}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{runstepsymplectic()}{runstepsymplectic()}}
+{\footnotesize\ttfamily procedure, private integrator\+\_\+mod\+::integrator\+\_\+class\+::runstepsymplectic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 34 of file integrator.\+f90.
+
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_ab67d78bd1f6db450d70c777170a00393}\label{structintegrator__mod_1_1integrator__class_ab67d78bd1f6db450d70c777170a00393}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!runstepverlet@{runstepverlet}}
+\index{runstepverlet@{runstepverlet}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{runstepverlet()}{runstepverlet()}}
+{\footnotesize\ttfamily procedure, private integrator\+\_\+mod\+::integrator\+\_\+class\+::runstepverlet (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 35 of file integrator.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_a806db7072f1822bd3b10b3f8ae83c33a}\label{structintegrator__mod_1_1integrator__class_a806db7072f1822bd3b10b3f8ae83c33a}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!integratortype@{integratortype}}
+\index{integratortype@{integratortype}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{integratortype}{integratortype}}
+{\footnotesize\ttfamily integer integrator\+\_\+mod\+::integrator\+\_\+class\+::integratortype = 1\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) 
+
+
+
+Definition at line 29 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+29         \textcolor{keywordtype}{integer} :: integratorType = 1
+\end{DoxyCode}
+\mbox{\Hypertarget{structintegrator__mod_1_1integrator__class_a5f8a28319eb6f1558ee1d320cdf90cf6}\label{structintegrator__mod_1_1integrator__class_a5f8a28319eb6f1558ee1d320cdf90cf6}} 
+\index{integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}!name@{name}}
+\index{name@{name}!integrator\+\_\+mod\+::integrator\+\_\+class@{integrator\+\_\+mod\+::integrator\+\_\+class}}
+\subsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily type(string) integrator\+\_\+mod\+::integrator\+\_\+class\+::name\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Name of the Integrator algorithm. 
+
+
+
+Definition at line 30 of file integrator.\+f90.
+
+
+\begin{DoxyCode}
+30         \textcolor{keywordtype}{type}(string) :: name
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{integrator_8f90}{integrator.\+f90}}\end{DoxyCompactItemize}

@@ -10,6 +10,7 @@ var structblocks__mod_1_1block__class =
     [ "numalloctracers", "structblocks__mod_1_1block__class.html#a7a3f2eb6823a683a6aaa2159b50ee990", null ],
     [ "print", "structblocks__mod_1_1block__class.html#a43b4c133934eaadb55d30cf834d1e28c", null ],
     [ "putsource", "structblocks__mod_1_1block__class.html#ac79980e841902691a06212dce50f6331", null ],
+    [ "runsolver", "structblocks__mod_1_1block__class.html#abe738c65f3fecf013c3884275a3fe7e4", null ],
     [ "toogleblocksources", "structblocks__mod_1_1block__class.html#a73bd9f99f97d7fd882a3ade1103d27ae", null ],
     [ "tracerstoaot", "structblocks__mod_1_1block__class.html#ad3521ef8424f47673a2acd15b5bd0545", null ],
     [ "aot", "structblocks__mod_1_1block__class.html#a53f912fe57eb5e386ca62b1dbd087417", null ],
@@ -18,5 +19,6 @@ var structblocks__mod_1_1block__class =
     [ "extents", "structblocks__mod_1_1block__class.html#aff3b0cb7d8248f8a87691a028de916d3", null ],
     [ "id", "structblocks__mod_1_1block__class.html#addd1a493d56aa1ffd1bc27c56b682065", null ],
     [ "lsource", "structblocks__mod_1_1block__class.html#a2f4d63afb2696e2728f20a99e26a4b18", null ],
-    [ "ltracer", "structblocks__mod_1_1block__class.html#ab4e2108886a09ba919d01474503f6165", null ]
+    [ "ltracer", "structblocks__mod_1_1block__class.html#ab4e2108886a09ba919d01474503f6165", null ],
+    [ "solver", "structblocks__mod_1_1block__class.html#a081258113128b3bcdefdbeac4bc5d039", null ]
 ];

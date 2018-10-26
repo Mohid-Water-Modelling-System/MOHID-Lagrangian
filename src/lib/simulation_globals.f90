@@ -25,32 +25,33 @@
     use datetime_module
 
     use simulation_precision_mod
+    use simulation_parallel_omp_mod
     use simulation_logger_mod
     use simulation_memory_mod
 
     implicit none
     private
 
-    type parameters_t   !< Parameters class
-        integer    :: Integrator = 1            !< Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)
-        integer    :: IntegratorIndexes(3)      !< Index list for the integrator selector
-        type(string) :: IntegratorNames(3)      !< Names list for the integrator selector
-        real(prec) :: CFL = 0.5                 !< Courant Friedrichs Lewy condition number
-        real(prec_time) :: WarmUpTime = 0.0     !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
-        real(prec_time) :: TimeMax = MV         !< Simulation duration (s)
-        real(prec) :: TimeOut = MV              !< Time out data (1/Hz)
-        type(datetime) :: StartTime             !< Start date of the simulation
-        type(datetime) :: EndTime               !< End date of the simulation
-        integer    :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
-        integer    :: OutputFormatIndexes(2)    !< Index list for the output file format selector
-        type(string) :: OutputFormatNames(2)    !< Names list for the output file format selector
+    type :: parameters_t   !< Parameters class
+        integer         :: Integrator = 1            !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
+        integer         :: IntegratorIndexes(3)      !< Index list for the integrator selector
+        type(string)    :: IntegratorNames(3)        !< Names list for the integrator selector
+        integer         :: numOPMthreads             !< number of openMP threads to be used
+        real(prec_time) :: WarmUpTime = 0.0          !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
+        real(prec_time) :: TimeMax = MV              !< Simulation duration (s)
+        real(prec)      :: TimeOut = MV              !< Time out data (1/Hz)
+        type(datetime)  :: StartTime                 !< Start date of the simulation
+        type(datetime)  :: EndTime                   !< End date of the simulation
+        integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
+        integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
+        type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
     contains
     procedure :: setparameter
     procedure :: check
     procedure :: print => printsimparameters
-    end type
+    end type parameters_t
 
-    type simdefs_t  !< Simulation definitions class
+    type :: simdefs_t  !< Simulation definitions class
         real(prec)      ::  Dp              !< Initial particle spacing at emission
         real(prec_time) ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
@@ -65,9 +66,9 @@
     procedure :: setboundingbox
     procedure :: setblocksize
     procedure :: print => printsimdefs
-    end type
+    end type simdefs_t
 
-    type constants_t    !< Case Constants class
+    type :: constants_t    !< Case Constants class
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
         real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
@@ -76,15 +77,15 @@
     procedure :: setz0
     procedure :: setrho
     procedure :: print => printconstants
-    end type
+    end type constants_t
 
-    type filenames_t    !<File names class
+    type :: filenames_t    !<File names class
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
         type(string) :: tempfilename        !< Generic temporary file name
         type(string) :: outpath             !< General output directory
         type(string) :: casename            !< Name of the running case
-    end type
+    end type filenames_t
 
     type src_parm_t   !<Lists for Source parameters
         type(string), allocatable, dimension(:) :: baselist !<Lists for base tracer parameters
@@ -92,8 +93,8 @@
     contains
     procedure :: buildlists
     end type
-    
-    type sim_t  !<Simulation related counters and others
+
+    type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
         integer :: numoutfile   !<number of the current output file
@@ -105,9 +106,20 @@
     procedure, public :: getnumoutfile
     procedure, private :: increment_numTracer
     procedure, public :: getnumTracer
-    end type    
+    end type sim_t
+    
+    type :: var_names_t
+        type(string) :: u
+        type(string) :: v
+        type(string) :: w
+        type(string) :: temp
+        type(string) :: sal
+        type(string) :: density
+    contains
+    procedure, private :: buildvars
+    end type var_names_t
 
-    type globals_class   !<Globals class - This is a container for every global variable on the simulation
+    type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
@@ -115,9 +127,10 @@
         real(prec_time)     :: SimTime
         type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
+        type(var_names_t)   :: Var
     contains
     procedure :: initialize => setdefaults
-    end type
+    end type globals_class
 
     !Simulation variables
     type(globals_class) :: Globals
@@ -141,10 +154,10 @@
     !parameters
     self%Parameters%Integrator = 1
     self%Parameters%IntegratorIndexes = [1,2,3]
-    self%Parameters%IntegratorNames(1) = 'Verlet'
-    self%Parameters%IntegratorNames(2) = 'Symplectic'
+    self%Parameters%IntegratorNames(1) = 'Euler'
+    self%Parameters%IntegratorNames(2) = 'Multi-Step Euler'
     self%Parameters%IntegratorNames(3) = 'Runge-Kuta 4'
-    self%Parameters%CFL = 0.5
+    self%Parameters%numOPMthreads = OMPManager%getThreads()
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%TimeOut = MV
     self%Parameters%TimeOut = MV
@@ -187,11 +200,30 @@
     self%Sim%numTracer = 0
     !Source parameters list
     call self%SrcProp%buildlists()
+    !Variable names
+    call self%Var%buildvars()
 
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)
 
     end subroutine
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Builds variable list names.
+    !---------------------------------------------------------------------------
+    subroutine buildvars(self)
+    implicit none
+    class(var_names_t), intent(inout) :: self
+    self%u       = 'vel_x'
+    self%v       = 'vel_y'
+    self%w       = 'vel_z'
+    self%temp    = 'temp'
+    self%sal     = 'sal'
+    self%density = 'density'
+    end subroutine buildvars
+    
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -204,7 +236,7 @@
     !ATOMIC pragma here please
     self%numTracer = self%numTracer + 1
     end subroutine increment_numTracer
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -216,7 +248,7 @@
     call self%increment_numTracer()
     getnumTracer = self%numTracer
     end function getnumTracer
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -227,7 +259,7 @@
     class(sim_t), intent(inout) :: self
     self%numdt = self%numdt + 1
     end subroutine increment_numdt
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -238,7 +270,7 @@
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -249,7 +281,7 @@
     class(sim_t), intent(inout) :: self
     self%numoutfile = self%numoutfile + 1
     end subroutine increment_numoutfile
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -298,9 +330,12 @@
     if (parmkey%chars()=="Integrator") then
         self%Integrator=parmvalue%to_number(kind=1_I1P)
         sizem=sizeof(self%Integrator)
-    elseif(parmkey%chars()=="CFL") then
-        self%CFL=parmvalue%to_number(kind=1._R4P)
-        sizem=sizeof(self%CFL)
+    elseif(parmkey%chars()=="Threads") then
+        if (parmvalue /= 'auto') then
+            self%numOPMthreads=parmvalue%to_number(kind=1._R4P)
+            call OMPManager%setThreads(self%numOPMthreads)
+        end if
+        sizem=sizeof(self%WarmUpTime)
     elseif(parmkey%chars()=="WarmUpTime") then
         self%WarmUpTime=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%WarmUpTime)
@@ -373,7 +408,7 @@
         outext = '[Globals::parameters::check]: OutputFormat not recognized, stoping'
         call Log%put(outext)
         stop
-    end if        
+    end if
     temp = datetime() !default initialization
     !add new parameters to this search
     if (self%TimeOut==MV) then
@@ -406,8 +441,9 @@
     type(string) :: temp_str
     character(len=23) :: temp_char
     outext = '      Integrator scheme is '//self%IntegratorNames(self%Integrator)//new_line('a')
-    temp_str=self%CFL
-    outext = outext//'       CFL = '//temp_str//new_line('a')
+    temp_str=self%numOPMthreads
+    temp_str=OMPManager%getThreads()
+    outext = outext//'       OMP threads = '//temp_str//new_line('a')
     temp_str=self%WarmUpTime
     outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeOut

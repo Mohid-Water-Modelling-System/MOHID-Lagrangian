@@ -30,18 +30,21 @@
     use tracers_mod
     use emitter_mod
     use AoT_mod
+    use solver_mod
     use background_mod
+    
 
     implicit none
     private
 
-    type block_class
+    type :: block_class
         integer :: id
         type(box) :: extents                  !< shape::box that defines the extents of this block
         type(sourceList_class) :: LSource     !< List of Sources currently on this block
         type(emitter_class)    :: Emitter     !< Block Emitter
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
         type(aot_class)        :: AoT         !< Block Array of Tracers for actual numerical work        
+        type(solver_class)     :: Solver      !< Block Solver
         type(background_class), allocatable, dimension(:) :: Background !< Solution Backgrounds for the Block
     contains
     private
@@ -49,12 +52,13 @@
     procedure, public :: putSource
     procedure, public :: CallEmitter
     procedure, public :: DistributeTracers
-    procedure, public :: numAllocTracers
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
     procedure, public :: TracersToAoT
+    procedure, public :: RunSolver
     procedure, public :: AoTtoTracers
     procedure, public :: CleanAoT
+    procedure, public :: numAllocTracers
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
     end type block_class
@@ -92,13 +96,15 @@
     class(block_class), intent(inout) :: self
     integer, intent(in) :: id
     type(box), intent(in) :: templatebox
-    integer :: sizem
+    integer :: sizem, i
     self%id = id
     !setting the block sub-domain
-    self%extents%pt = templatebox%pt
-    self%extents%size = templatebox%size
+    self%extents = templatebox
     !initializing the block emitter
-    call self%Emitter%initialize()   
+    call self%Emitter%initialize()
+    !initializing the block solver
+    i = Globals%Parameters%Integrator
+    call self%Solver%initialize(i, Globals%Parameters%IntegratorNames(i))
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
     end subroutine initBlock
@@ -281,6 +287,22 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method to run the solver on the data on this Block for the current 
+    !> timestep. Time for some actual numerical work!
+    !---------------------------------------------------------------------------
+    subroutine RunSolver(self)
+    implicit none
+    class(block_class), intent(inout) :: self
+    if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
+        if (allocated(self%Background)) then    !There are Backgrounds in this Block        
+            call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
+        end if
+    end if
+    end subroutine RunSolver
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Method to write the data in the AoT back to the Tracer objects in the list
     !---------------------------------------------------------------------------
     subroutine AoTtoTracers(self)
@@ -394,7 +416,7 @@
 
     if (auto) then
         ar = BBox%size%x/BBox%size%y
-        ar = get_closest_twopow(ar) !aspect ratio of our bounding box
+        ar = Utils%get_closest_twopow(ar) !aspect ratio of our bounding box
         nyi = sqrt(nblk/ar)
         if (nyi == 0) then
             temp(1) = ar

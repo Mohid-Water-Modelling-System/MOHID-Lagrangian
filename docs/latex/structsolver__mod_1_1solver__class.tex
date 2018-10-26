@@ -1,0 +1,167 @@
+\hypertarget{structsolver__mod_1_1solver__class}{}\section{solver\+\_\+mod\+:\+:solver\+\_\+class Type Reference}
+\label{structsolver__mod_1_1solver__class}\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+
+
+Collaboration diagram for solver\+\_\+mod\+:\+:solver\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{structsolver__mod_1_1solver__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structsolver__mod_1_1solver__class_a9ac72acd3e4fbb8881c7eaabe9e3d585}{initialize}} =$>$ init\+Solver
+\item 
+procedure \mbox{\hyperlink{structsolver__mod_1_1solver__class_a54ee0f169b626d3fb484d79cce91c3be}{runstep}}
+\item 
+procedure, private \mbox{\hyperlink{structsolver__mod_1_1solver__class_a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6}{runstepsymplectic}}
+\item 
+procedure, private \mbox{\hyperlink{structsolver__mod_1_1solver__class_a0e32c00f2a75c3701f66f83d4682bc6f}{runstepverlet}}
+\item 
+procedure, private \mbox{\hyperlink{structsolver__mod_1_1solver__class_a58c86ed273b0b9141e74cc55b59377a3}{runsteprk4}}
+\item 
+procedure \mbox{\hyperlink{structsolver__mod_1_1solver__class_ac61135f89371079744ac9b5fd8da8a41}{print}} =$>$ print\+Solver
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{structsolver__mod_1_1solver__class_a6bd9eec5b3a11d34981b191b54944ac4}{solvertype}} = 1
+\begin{DoxyCompactList}\small\item\em Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) \end{DoxyCompactList}\item 
+type(string) \mbox{\hyperlink{structsolver__mod_1_1solver__class_a0a2677f8e0403b82095b826378f9439d}{name}}
+\begin{DoxyCompactList}\small\item\em Name of the Integrator algorithm. \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+class}}) \mbox{\hyperlink{structsolver__mod_1_1solver__class_af973ac0cafba3b94744399ae41a984ee}{interpolator}}
+\begin{DoxyCompactList}\small\item\em The interpolator object for this Solver. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 30 of file solver.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_a9ac72acd3e4fbb8881c7eaabe9e3d585}\label{structsolver__mod_1_1solver__class_a9ac72acd3e4fbb8881c7eaabe9e3d585}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!initialize@{initialize}}
+\index{initialize@{initialize}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure solver\+\_\+mod\+::solver\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 35 of file solver.\+f90.
+
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_ac61135f89371079744ac9b5fd8da8a41}\label{structsolver__mod_1_1solver__class_ac61135f89371079744ac9b5fd8da8a41}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!print@{print}}
+\index{print@{print}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure solver\+\_\+mod\+::solver\+\_\+class\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 40 of file solver.\+f90.
+
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_a54ee0f169b626d3fb484d79cce91c3be}\label{structsolver__mod_1_1solver__class_a54ee0f169b626d3fb484d79cce91c3be}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!runstep@{runstep}}
+\index{runstep@{runstep}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{runstep()}{runstep()}}
+{\footnotesize\ttfamily procedure solver\+\_\+mod\+::solver\+\_\+class\+::runstep (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 36 of file solver.\+f90.
+
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_a58c86ed273b0b9141e74cc55b59377a3}\label{structsolver__mod_1_1solver__class_a58c86ed273b0b9141e74cc55b59377a3}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!runsteprk4@{runsteprk4}}
+\index{runsteprk4@{runsteprk4}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{runsteprk4()}{runsteprk4()}}
+{\footnotesize\ttfamily procedure, private solver\+\_\+mod\+::solver\+\_\+class\+::runsteprk4 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file solver.\+f90.
+
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6}\label{structsolver__mod_1_1solver__class_a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!runstepsymplectic@{runstepsymplectic}}
+\index{runstepsymplectic@{runstepsymplectic}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{runstepsymplectic()}{runstepsymplectic()}}
+{\footnotesize\ttfamily procedure, private solver\+\_\+mod\+::solver\+\_\+class\+::runstepsymplectic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file solver.\+f90.
+
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_a0e32c00f2a75c3701f66f83d4682bc6f}\label{structsolver__mod_1_1solver__class_a0e32c00f2a75c3701f66f83d4682bc6f}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!runstepverlet@{runstepverlet}}
+\index{runstepverlet@{runstepverlet}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{runstepverlet()}{runstepverlet()}}
+{\footnotesize\ttfamily procedure, private solver\+\_\+mod\+::solver\+\_\+class\+::runstepverlet (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 38 of file solver.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_af973ac0cafba3b94744399ae41a984ee}\label{structsolver__mod_1_1solver__class_af973ac0cafba3b94744399ae41a984ee}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!interpolator@{interpolator}}
+\index{interpolator@{interpolator}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{interpolator}{interpolator}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolator\+\_\+class}}) solver\+\_\+mod\+::solver\+\_\+class\+::interpolator\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The interpolator object for this Solver. 
+
+
+
+Definition at line 33 of file solver.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{type}(interpolator\_class) :: Interpolator
+\end{DoxyCode}
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_a0a2677f8e0403b82095b826378f9439d}\label{structsolver__mod_1_1solver__class_a0a2677f8e0403b82095b826378f9439d}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!name@{name}}
+\index{name@{name}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily type(string) solver\+\_\+mod\+::solver\+\_\+class\+::name\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Name of the Integrator algorithm. 
+
+
+
+Definition at line 32 of file solver.\+f90.
+
+
+\begin{DoxyCode}
+32         \textcolor{keywordtype}{type}(string) :: name
+\end{DoxyCode}
+\mbox{\Hypertarget{structsolver__mod_1_1solver__class_a6bd9eec5b3a11d34981b191b54944ac4}\label{structsolver__mod_1_1solver__class_a6bd9eec5b3a11d34981b191b54944ac4}} 
+\index{solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}!solvertype@{solvertype}}
+\index{solvertype@{solvertype}!solver\+\_\+mod\+::solver\+\_\+class@{solver\+\_\+mod\+::solver\+\_\+class}}
+\subsubsection{\texorpdfstring{solvertype}{solvertype}}
+{\footnotesize\ttfamily integer solver\+\_\+mod\+::solver\+\_\+class\+::solvertype = 1\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Integration Algorithm 1\+:Verlet, 2\+:Symplectic, 3\+:R\+K4 (default=1) 
+
+
+
+Definition at line 31 of file solver.\+f90.
+
+
+\begin{DoxyCode}
+31         \textcolor{keywordtype}{integer} :: solverType = 1
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{solver_8f90}{solver.\+f90}}\end{DoxyCompactItemize}

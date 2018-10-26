@@ -25,7 +25,7 @@
     implicit none
     private
 
-    type memory_t       !< Case memory occupation logger
+    type :: memory_t       !< Case memory occupation logger
         private
         integer :: size_of_sources   !< Size of the sources in memory (bytes)
         integer :: size_of_tracers   !< Size of the tracers in memory (bytes)
@@ -44,7 +44,7 @@
     procedure :: setsizeTrc
     procedure :: print => printmemory
     procedure :: detailedprint => printmemorydetailed
-    end type
+    end type memory_t
 
     !Simulation variables
     type(memory_t) :: SimMemory
@@ -79,7 +79,7 @@
     integer, intent(out) :: size
     size = self%size_of_sources + self%size_of_tracers + self%size_of_defs + self%size_of_blocks
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -91,7 +91,7 @@
     integer, intent(in) :: ntrc
     self%ntrc = ntrc
     end subroutine setNtrc
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -168,7 +168,7 @@
     sizemb = size*1E-6
     temp= sizemb
     outext='->Total allocated memory: '//temp//' mb'
-    call Log%put(outext)    
+    call Log%put(outext)
     end subroutine
 
     !---------------------------------------------------------------------------
@@ -204,4 +204,4 @@
     call Log%put(outext)
     end subroutine
 
-  end module simulation_memory_mod
+    end module simulation_memory_mod

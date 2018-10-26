@@ -1,0 +1,14 @@
+# The fortran modules provided by this target.
+provides
+ fox_wcml
+ m_wcml_coma
+ m_wcml_core
+ m_wcml_geometry
+ m_wcml_inputdec
+ m_wcml_lattice
+ m_wcml_lists
+ m_wcml_metadata
+ m_wcml_molecule
+ m_wcml_parameter
+ m_wcml_property
+ m_wcml_stml

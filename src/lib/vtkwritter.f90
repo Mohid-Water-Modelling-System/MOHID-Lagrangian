@@ -28,7 +28,7 @@
 
     implicit none
     private
-    
+
     type :: vtkwritter_class    !< VTK writter class
         integer :: numVtkFiles      !< number of vtk files written
         type(string) :: formatType  !< format of the data to write on the VTK xml file - ascii, raw, binary
@@ -37,14 +37,14 @@
     procedure :: Domain
     procedure :: TracerSerial
     end type vtkwritter_class
-    
+
     type(vtkwritter_class) :: vtkWritter
 
     !Public access vars
     public :: vtkWritter
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -56,7 +56,7 @@
     self%numVtkFiles = 0
     self%formatType = 'raw'
     end subroutine initVTKwritter
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -69,7 +69,7 @@
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
-    
+
     type(vtk_file) :: vtkfile
     type(string) :: fullfilename
     type(string) :: outext
@@ -84,7 +84,7 @@
     outext = '->Writting output file '//fullfilename
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
-    
+
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     !Write the data of each block
     do i = 1, size(blocks)
@@ -104,9 +104,9 @@
     end do
     error = vtkfile%finalize()
     self%numVtkFiles = self%numVtkFiles + 1
-    
+
     end subroutine TracerSerial
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -121,7 +121,7 @@
     class(boundingbox_class), intent(in) :: bbox            !< Case bounding box
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     integer, intent(in) :: npbbox                           !< number of points of the bbox geometry
-    
+
     type(vtk_file) :: vtkfile                              !< file object
     type(string) :: fullfilename
     type(string) :: outext
@@ -132,18 +132,18 @@
     integer, dimension(1:npbbox) :: connect, var            !< Connectivity array and a simple pointwise variable
     integer(I4P), dimension(1:nc) :: offset
     integer(I1P), dimension(1:nc) :: cell_type              !< VTK cell type. 1 for point and 12 for hexahedron
-    
+
     offset = [8]
     cell_type = [12]
-    
+
     !preparing file
     fullfilename = filename%chars()//'_BoundingBox.vtu'
     outext = '->Writting Bounding Box file '//fullfilename
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
-    
+
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
-    
+
     !Writting bounding box geometry
     pts = Geometry%getPoints(bbox)
     do i=1, npbbox
@@ -151,23 +151,23 @@
         yy(i) = pts(i)%y
         zz(i) = pts(i)%z
         connect(i) = i-1
-    end do    
+    end do
     error = vtkfile%xml_writer%write_piece(np=npbbox, nc=nc)
     error = vtkfile%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
     error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
     error = vtkfile%xml_writer%write_piece()
-    
+
     !Closing file
     error = vtkfile%finalize()
-    
+
     !preparing file
     fullfilename = filename%chars()//'_Blocks.vtu'
     outext = '->Writting Blocks file '//fullfilename
     call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//fullfilename
-    
+
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
-    
+
     !Writting block geometries
     do b=1, size(blocks)
         pts = Geometry%getPoints(blocks(b)%extents)
@@ -177,7 +177,7 @@
             !zz(i) = pts(i)%z
             connect(i) = i-1
             var(i) = b
-        end do    
+        end do
         error = vtkfile%xml_writer%write_piece(np=npbbox, nc=nc)
         error = vtkfile%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
         error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
@@ -186,10 +186,10 @@
         error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
         error = vtkfile%xml_writer%write_piece()
     end do
-        
+
     !Closing file
     error = vtkfile%finalize()
-    
+
     end subroutine Domain
-    
-  end module vtkwritter_mod
+
+    end module vtkwritter_mod

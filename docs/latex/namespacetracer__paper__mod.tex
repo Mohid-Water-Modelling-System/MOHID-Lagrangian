@@ -52,42 +52,41 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 69 of file tracer\+\_\+paper.\+f90.
+Definition at line 68 of file tracer\+\_\+paper.\+f90.
 
 
 \begin{DoxyCode}
-69         \textcolor{keywordtype}{implicit none}
-70         \textcolor{keywordtype}{type}(paper\_class) :: constructor
-71         \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-72         \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
-73         \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
-74         \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
-75         \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable} :: base\_trc
-76 
-77         \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
-78         constructor%tracer\_class = tracer(id,src,time,p)
-79         \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor... }
-80         constructor%par%id = id \textcolor{comment}{!forcing}
-81         constructor%par%idsource = src%par%id \textcolor{comment}{!forcing }
-82         \textcolor{comment}{!now initialize the specific components of this derived type}
-83         \textcolor{comment}{!material parameters}
-84         constructor%mpar%degradation\_rate = src%prop%degrd\_rate
-85         constructor%mpar%particulate = src%prop%particulate
-86         constructor%mpar%size = src%prop%radius
-87         \textcolor{comment}{!material state}
-88         constructor%mnow%density = src%prop%density
-89         constructor%mnow%condition = src%prop%condition
-90         constructor%mnow%radius = src%prop%radius
-91         constructor%mnow%concentration = mv
-92         \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
-93             constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not
-       tracer size}
-94             constructor%mnow%concentration = src%prop%ini\_concentration
-95 \textcolor{keywordflow}{        end if}
-96     
+68     \textcolor{keywordtype}{implicit none}
+69     \textcolor{keywordtype}{type}(paper\_class) :: constructor
+70     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+71     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+72     \textcolor{keywordtype}{real(prec\_time)}, \textcolor{keywordtype}{intent(in)} :: time
+73     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+74     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable} :: base\_trc
+75 
+76     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
+77     constructor%tracer\_class = tracer(id,src,time,p)
+78     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
+79     constructor%par%id = id \textcolor{comment}{!forcing}
+80     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
+81     \textcolor{comment}{!now initialize the specific components of this derived type}
+82     \textcolor{comment}{!material parameters}
+83     constructor%mpar%degradation\_rate = src%prop%degrd\_rate
+84     constructor%mpar%particulate = src%prop%particulate
+85     constructor%mpar%size = src%prop%radius
+86     \textcolor{comment}{!material state}
+87     constructor%mnow%density = src%prop%density
+88     constructor%mnow%condition = src%prop%condition
+89     constructor%mnow%radius = src%prop%radius
+90     constructor%mnow%concentration = mv
+91     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
+92         constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not tracer
+       size}
+93         constructor%mnow%concentration = src%prop%ini\_concentration
+94 \textcolor{keywordflow}{    end if}
+95 
 \end{DoxyCode}
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

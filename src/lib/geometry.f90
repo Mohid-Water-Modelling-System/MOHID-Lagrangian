@@ -41,7 +41,7 @@
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
     procedure :: getnumPoints               !<Function that returns the number of points (vertexes) that define the geometrical shape
     procedure :: print => printGeometry     !<prints the geometry type and contents
-    end type
+    end type geometry_class
 
     type :: shape                      !<Type - extendable shape class
         type(vector) :: pt              !< Coordinates of a point
@@ -126,7 +126,7 @@
         fillsize = 1
     class is (line)
         temp = shapetype%pt - shapetype%last
-        temp = geo2m(temp, shapetype%pt%y)
+        temp = Utils%geo2m(temp, shapetype%pt%y)
         fillsize = max(int(temp%normL2()/dp),1)
     class is (sphere)
         fillsize = sphere_np_count(dp, shapetype%radius)
@@ -159,7 +159,7 @@
     class is (point)
         ptlist(1)=0
     class is (line)
-        call line_grid(dp, geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillsize, ptlist)
+        call line_grid(dp, Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillsize, ptlist)
     class is (sphere)
         call sphere_grid(dp, shapetype%radius, fillsize, ptlist)
         class default
@@ -168,7 +168,7 @@
         stop
     end select
     end subroutine fill
-     
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -184,7 +184,7 @@
     select type (shapetype)
     type is (shape)
     class is (box)
-        center = shapetype%pt + m2geo(shapetype%size, shapetype%pt%y)/2.0
+        center = shapetype%pt + Utils%m2geo(shapetype%size, shapetype%pt%y)/2.0
     class is (point)
         center = shapetype%pt
     class is (line)
@@ -217,7 +217,6 @@
         n=8
         allocate(pts(n))
         temp = shapetype%size
-        !temp = m2geo(shapetype%size, shapetype%pt%y)
         pts(1) = shapetype%pt
         pts(2) = shapetype%pt + temp%y*ey
         pts(3) = pts(2) + temp%z*ez
@@ -245,7 +244,7 @@
         stop
     end select
     end function getPoints
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -273,7 +272,7 @@
         stop
     end select
     end function getnumPoints
- 
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -390,7 +389,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> private routine that returns the points distributed on a grid
-    !> with spacing dp inside a box    
+    !> with spacing dp inside a box
     !> @param[in] dp, size, np, ptlist
     !---------------------------------------------------------------------------
     subroutine box_grid(dp, size, np, ptlist)
@@ -418,7 +417,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> private routine that returns the points distributed on a grid
-    !> with spacing dp along a line    
+    !> with spacing dp along a line
     !> @param[in] dp, dist, np, ptlist
     !---------------------------------------------------------------------------
     subroutine line_grid(dp, dist, np, ptlist)
