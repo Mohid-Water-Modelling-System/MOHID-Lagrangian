@@ -31,11 +31,8 @@
 
     type :: emitter_class       !< Emitter class
         integer :: emitted      !< number of Tracers this Emitter has created
-        integer :: emittable    !< number of Tracers this Emitter should create throughout the simulation
     contains
     procedure :: initialize => initializeEmitter
-    procedure :: addSource
-    procedure :: removeSource
     procedure :: emitt
     procedure :: tracerMaker
     end type emitter_class
@@ -54,35 +51,7 @@
     implicit none
     class(emitter_class), intent(inout) :: self
     self%emitted = 0
-    self%emittable = 0
     end subroutine initializeEmitter
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> method to compute the total emittable particles per source and allocate
-    !> that space in the Blocks Tracer array
-    !> @param[in] self, src
-    !---------------------------------------------------------------------------
-    subroutine addSource(self, src)
-    implicit none
-    class(emitter_class), intent(inout) :: self
-    class(source_class),intent(in) :: src
-    self%emittable = self%emittable + src%stencil%total_np
-    end subroutine addSource
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> method to remove from the total emittable particles count a Source
-    !> @param[in] self, src
-    !---------------------------------------------------------------------------
-    subroutine removeSource(self, src)
-    implicit none
-    class(emitter_class), intent(inout) :: self
-    class(source_class),intent(in) :: src
-    self%emittable = self%emittable - src%stencil%total_np
-    end subroutine removeSource
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

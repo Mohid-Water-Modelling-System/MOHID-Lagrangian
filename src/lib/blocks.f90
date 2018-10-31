@@ -120,9 +120,7 @@
     implicit none
     class(block_class), intent(inout) :: self
     class(source_class), intent(inout) :: sourcetoadd !< Source object to store    
-    call self%LSource%add(sourcetoadd)    
-    !adding this Source to the Block Emitter pool
-    call self%Emitter%addSource(sourcetoadd)
+    call self%LSource%add(sourcetoadd)
     end subroutine putSource
 
     !---------------------------------------------------------------------------
