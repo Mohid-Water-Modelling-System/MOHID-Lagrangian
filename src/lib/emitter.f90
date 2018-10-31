@@ -57,18 +57,17 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> method that emitts the Tracers, based on the Sources on this Block Emitter
+    !> method that emitts the Tracers, based on the Sources on the list of the
+    !> Emitter's Block
     !> @param[in] self, srclist, trclist
     !---------------------------------------------------------------------------
     subroutine emitt(self, srclist, trclist)
     implicit none
     class(emitter_class), intent(inout) :: self          !> the Emmiter from the Block where the Source is
     class(sourceList_class), intent(inout)  :: srclist   !>the Source that will emitt new Tracers
-    class(tracerList_class), intent(inout)   :: trclist  !>the Tracer list from the Block where the Source is
-    integer i
-    type(string) :: outext
-    class(*), allocatable :: newtrc
+    class(tracerList_class), intent(inout)  :: trclist   !>the Tracer list from the Block where the Source is
     class(*), pointer :: aSource
+    type(string) :: outext
 
     call srclist%reset()                   ! reset list iterator
     do while(srclist%moreValues())         ! loop while there are values
@@ -96,7 +95,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> method that emitts the Tracers, based on the Sources on this Block Emitter
+    !> method that emitts the Tracers, given a particular Source
     !> @param[in] self, src, trclist
     !---------------------------------------------------------------------------
     subroutine emitt_src(self, src, trclist)
