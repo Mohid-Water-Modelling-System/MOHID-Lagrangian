@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG   -Wl,--allow-multiple-definition -rdynamic CMakeFiles/minigzip64.dir/test/minigzip.o  -o ../szip-2.1.1/bin/minigzip64 -Wl,-rpath,/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/szip-2.1.1/bin ../szip-2.1.1/bin/libz.so.1.2.11 

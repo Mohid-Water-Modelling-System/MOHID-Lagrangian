@@ -1,0 +1,117 @@
+Performing C SOURCE FILE Test CC_HAS_SHORTEN_64_32 failed with the following output:
+Change Dir: /home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4e599/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4e599.dir/build.make CMakeFiles/cmTC_4e599.dir/build
+make[1]: Entering directory '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4e599.dir/src.c.o
+/usr/bin/cc   -DCC_HAS_SHORTEN_64_32 -fPIE   -Wshorten-64-to-32 -o CMakeFiles/cmTC_4e599.dir/src.c.o   -c /home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp/src.c
+cc: error: unrecognized command line option '-Wshorten-64-to-32'
+CMakeFiles/cmTC_4e599.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_4e599.dir/src.c.o' failed
+make[1]: *** [CMakeFiles/cmTC_4e599.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_4e599/fast' failed
+make: *** [cmTC_4e599/fast] Error 2
+
+Source file was:
+int main(void) { return 0; }
+Determining if the function H5Pget_fapl_mpiposix exists in the hdf5 failed with the following output:
+Change Dir: /home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_bd6b7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bd6b7.dir/build.make CMakeFiles/cmTC_bd6b7.dir/build
+make[1]: se entra en el directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bd6b7.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=H5Pget_fapl_mpiposix -fPIE   -o CMakeFiles/cmTC_bd6b7.dir/CheckFunctionExists.c.o   -c /home/daniel/Descargas/cmake-3.12.2/Modules/CheckFunctionExists.c
+Linking C executable cmTC_bd6b7
+/home/daniel/Descargas/cmake-3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bd6b7.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=H5Pget_fapl_mpiposix    CMakeFiles/cmTC_bd6b7.dir/CheckFunctionExists.c.o  -o cmTC_bd6b7 -lhdf5 
+/usr/bin/ld: no se puede encontrar -lhdf5
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_bd6b7.dir/build.make:86: fallo en las instrucciones para el objetivo 'cmTC_bd6b7'
+make[1]: *** [cmTC_bd6b7] Error 1
+make[1]: se sale del directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Makefile:121: fallo en las instrucciones para el objetivo 'cmTC_bd6b7/fast'
+make: *** [cmTC_bd6b7/fast] Error 2
+
+
+Determining if the function H5Pget_fapl_mpio exists in the hdf5 failed with the following output:
+Change Dir: /home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_65382/fast"
+/usr/bin/make -f CMakeFiles/cmTC_65382.dir/build.make CMakeFiles/cmTC_65382.dir/build
+make[1]: se entra en el directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_65382.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=H5Pget_fapl_mpio -fPIE   -o CMakeFiles/cmTC_65382.dir/CheckFunctionExists.c.o   -c /home/daniel/Descargas/cmake-3.12.2/Modules/CheckFunctionExists.c
+Linking C executable cmTC_65382
+/home/daniel/Descargas/cmake-3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_65382.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=H5Pget_fapl_mpio    CMakeFiles/cmTC_65382.dir/CheckFunctionExists.c.o  -o cmTC_65382 -lhdf5 
+/usr/bin/ld: no se puede encontrar -lhdf5
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_65382.dir/build.make:86: fallo en las instrucciones para el objetivo 'cmTC_65382'
+make[1]: *** [cmTC_65382] Error 1
+make[1]: se sale del directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Makefile:121: fallo en las instrucciones para el objetivo 'cmTC_65382/fast'
+make: *** [cmTC_65382/fast] Error 2
+
+
+Determining if the function H5Pset_all_coll_metadata_ops exists in the hdf5 failed with the following output:
+Change Dir: /home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7b299/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7b299.dir/build.make CMakeFiles/cmTC_7b299.dir/build
+make[1]: se entra en el directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7b299.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=H5Pset_all_coll_metadata_ops -fPIE   -o CMakeFiles/cmTC_7b299.dir/CheckFunctionExists.c.o   -c /home/daniel/Descargas/cmake-3.12.2/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7b299
+/home/daniel/Descargas/cmake-3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7b299.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=H5Pset_all_coll_metadata_ops    CMakeFiles/cmTC_7b299.dir/CheckFunctionExists.c.o  -o cmTC_7b299 -lhdf5 
+/usr/bin/ld: no se puede encontrar -lhdf5
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_7b299.dir/build.make:86: fallo en las instrucciones para el objetivo 'cmTC_7b299'
+make[1]: *** [cmTC_7b299] Error 1
+make[1]: se sale del directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Makefile:121: fallo en las instrucciones para el objetivo 'cmTC_7b299/fast'
+make: *** [cmTC_7b299/fast] Error 2
+
+
+Determining if the function H5Z_SZIP exists in the hdf5 failed with the following output:
+Change Dir: /home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_69ca4/fast"
+/usr/bin/make -f CMakeFiles/cmTC_69ca4.dir/build.make CMakeFiles/cmTC_69ca4.dir/build
+make[1]: se entra en el directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_69ca4.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=H5Z_SZIP -fPIE   -o CMakeFiles/cmTC_69ca4.dir/CheckFunctionExists.c.o   -c /home/daniel/Descargas/cmake-3.12.2/Modules/CheckFunctionExists.c
+Linking C executable cmTC_69ca4
+/home/daniel/Descargas/cmake-3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_69ca4.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=H5Z_SZIP    CMakeFiles/cmTC_69ca4.dir/CheckFunctionExists.c.o  -o cmTC_69ca4 -lhdf5 
+/usr/bin/ld: no se puede encontrar -lhdf5
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_69ca4.dir/build.make:86: fallo en las instrucciones para el objetivo 'cmTC_69ca4'
+make[1]: *** [cmTC_69ca4] Error 1
+make[1]: se sale del directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Makefile:121: fallo en las instrucciones para el objetivo 'cmTC_69ca4/fast'
+make: *** [cmTC_69ca4/fast] Error 2
+
+
+Determining if the function H5Pset_libver_bounds exists in the hdf5 failed with the following output:
+Change Dir: /home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8847f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8847f.dir/build.make CMakeFiles/cmTC_8847f.dir/build
+make[1]: se entra en el directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8847f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=H5Pset_libver_bounds -fPIE   -o CMakeFiles/cmTC_8847f.dir/CheckFunctionExists.c.o   -c /home/daniel/Descargas/cmake-3.12.2/Modules/CheckFunctionExists.c
+Linking C executable cmTC_8847f
+/home/daniel/Descargas/cmake-3.12.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8847f.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=H5Pset_libver_bounds    CMakeFiles/cmTC_8847f.dir/CheckFunctionExists.c.o  -o cmTC_8847f -lhdf5 
+/usr/bin/ld: no se puede encontrar -lhdf5
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_8847f.dir/build.make:86: fallo en las instrucciones para el objetivo 'cmTC_8847f'
+make[1]: *** [cmTC_8847f] Error 1
+make[1]: se sale del directorio '/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/netcdf-c-4.6.1/CMakeFiles/CMakeTmp'
+Makefile:121: fallo en las instrucciones para el objetivo 'cmTC_8847f/fast'
+make: *** [cmTC_8847f/fast] Error 2
+
+
