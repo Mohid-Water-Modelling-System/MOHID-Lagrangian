@@ -49,7 +49,7 @@
     type :: source_state             !<Type - state variables of a source object
         real(prec_time) :: age              ! time variables
         logical :: active                   !< active switch
-        integer :: emission_stride          !< Number of time steps to wait until next emission
+        real(prec) :: emission_stack        !< number of emissions on the stack for the current time step
         type(vector) :: pos                 !< Position of the source baricenter (m)
         type(vector) :: vel                 !< Velocity of the source (m s-1)
         real(prec) :: depth                 !< Depth of the source baricenter (m)
@@ -266,7 +266,7 @@
         end if
     end if
     if (failed) then
-        outext = 'Source'//temp(1)//' '//temp(2)//' is not set, stoping'
+        outext = 'Property '//temp(2)//' from Source id = '//temp(1)//' is not set, stoping'
         call Log%put(outext)
         stop
     end if
@@ -288,7 +288,6 @@
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: shapetype
-
     integer :: sizem, i
     type(string) :: outext
     integer :: err
@@ -314,7 +313,7 @@
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
-    src%now%emission_stride=1 !first time-step once active the Source emitts
+    src%now%emission_stack = 1
     src%now%pos=src%par%geometry%pt !coords of the Source (meaning depends on the geometry type!)
     !setting statistical samplers
     src%stats%particles_emitted=0
@@ -334,15 +333,10 @@
         src%stencil%ptlist(i) = Utils%m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
     end do
 
-
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
     call src%print()
 
-    !DBG
-    !do i=1, src%stencil%np
-    !print*, src%stencil%ptlist(i)
-    !end do
     end subroutine initializeSource
 
     !---------------------------------------------------------------------------
@@ -378,10 +372,8 @@
     subroutine printSource(src)
     implicit none
     class(source_class) :: src
-
     type(string) :: outext
     type(string) :: temp_str(3)
-
     temp_str(1)=src%par%id
     outext = '-->Source '//src%par%name//new_line('a')//&
         '       Id = '//temp_str(1)//new_line('a')//&
@@ -399,9 +391,7 @@
     temp_str(1)=src%par%startime
     temp_str(2)=src%par%stoptime
     outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'
-
     call Log%put(outext,.false.)
-
     end subroutine printSource
 
     end module sources_mod

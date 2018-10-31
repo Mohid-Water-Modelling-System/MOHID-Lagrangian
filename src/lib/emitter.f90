@@ -68,17 +68,23 @@
     class(tracerList_class), intent(inout)  :: trclist   !>the Tracer list from the Block where the Source is
     class(*), pointer :: aSource
     type(string) :: outext
+    integer :: i
+    logical :: reset_stack
 
+    reset_stack = .false.
     call srclist%reset()                   ! reset list iterator
     do while(srclist%moreValues())         ! loop while there are values
         aSource => srclist%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
             if (aSource%now%active) then
-                aSource%now%emission_stride = aSource%now%emission_stride - 1   !decreasing the stride at this dt
-                if (aSource%now%emission_stride == 0) then                      !reached the bottom of the stride stack, time to emitt                    
+                aSource%now%emission_stack = aSource%now%emission_stack + 1.0/aSource%par%emitting_rate  !adding to the emission stack               
+                do i=1, floor(aSource%now%emission_stack)
                     call self%emitt_src(aSource, trclist)
-                    aSource%now%emission_stride = aSource%par%emitting_rate     !reseting the stride after the Source emitts
+                    reset_stack = .true.                    
+                end do 
+                if (reset_stack) then
+                    aSource%now%emission_stack = 0 !reseting for the next time step              
                 end if
             end if
             class default
