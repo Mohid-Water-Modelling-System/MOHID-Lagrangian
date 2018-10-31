@@ -167,31 +167,7 @@
     subroutine CallEmitter(self)
     implicit none
     class(block_class), intent(inout) :: self
-    integer :: i
-    class(*), pointer :: aSource
-    type(string) :: outext
-    
-    call self%LSource%reset()                   ! reset list iterator
-    do while(self%LSource%moreValues())         ! loop while there are values
-        aSource => self%LSource%currentValue()  ! get current value
-        select type(aSource)
-        class is (source_class)
-            if (aSource%now%active) then
-                aSource%now%emission_stride = aSource%now%emission_stride - 1   !decreasing the stride at this dt
-                if (aSource%now%emission_stride == 0) then                      !reached the bottom of the stride stack, time to emitt
-                    call self%Emitter%emitt(aSource, self%LTracer)
-                    aSource%now%emission_stride = aSource%par%emitting_rate     !reseting the stride after the Source emitts
-                end if
-            end if
-            class default
-            outext = '[Block::CallEmitter] Unexepected type of content, not a Source'
-            call Log%put(outext)
-            stop
-        end select
-        call self%LSource%next()            ! increment the list iterator
-    end do
-    call self%LSource%reset()               ! reset list iterator
-    
+    call self%Emitter%emitt(self%LSource, self%LTracer)    
     end subroutine CallEmitter
 
     !---------------------------------------------------------------------------

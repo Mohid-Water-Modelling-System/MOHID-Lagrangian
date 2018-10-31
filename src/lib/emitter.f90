@@ -34,6 +34,7 @@
     contains
     procedure :: initialize => initializeEmitter
     procedure :: emitt
+    procedure :: emitt_src
     procedure :: tracerMaker
     end type emitter_class
 
@@ -57,9 +58,48 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method that emitts the Tracers, based on the Sources on this Block Emitter
+    !> @param[in] self, srclist, trclist
+    !---------------------------------------------------------------------------
+    subroutine emitt(self, srclist, trclist)
+    implicit none
+    class(emitter_class), intent(inout) :: self          !> the Emmiter from the Block where the Source is
+    class(sourceList_class), intent(inout)  :: srclist   !>the Source that will emitt new Tracers
+    class(tracerList_class), intent(inout)   :: trclist  !>the Tracer list from the Block where the Source is
+    integer i
+    type(string) :: outext
+    class(*), allocatable :: newtrc
+    class(*), pointer :: aSource
+
+    call srclist%reset()                   ! reset list iterator
+    do while(srclist%moreValues())         ! loop while there are values
+        aSource => srclist%currentValue()  ! get current value
+        select type(aSource)
+        class is (source_class)
+            if (aSource%now%active) then
+                aSource%now%emission_stride = aSource%now%emission_stride - 1   !decreasing the stride at this dt
+                if (aSource%now%emission_stride == 0) then                      !reached the bottom of the stride stack, time to emitt                    
+                    call self%emitt_src(aSource, trclist)
+                    aSource%now%emission_stride = aSource%par%emitting_rate     !reseting the stride after the Source emitts
+                end if
+            end if
+            class default
+            outext = '[Emitter] Unexepected type of content, not a Source'
+            call Log%put(outext)
+            stop
+        end select
+        call srclist%next()            ! increment the list iterator
+    end do
+    call srclist%reset()               ! reset list iterator
+
+    end subroutine emitt
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> method that emitts the Tracers, based on the Sources on this Block Emitter
     !> @param[in] self, src, trclist
     !---------------------------------------------------------------------------
-    subroutine emitt(self, src, trclist)
+    subroutine emitt_src(self, src, trclist)
     implicit none
     class(emitter_class), intent(inout) :: self !> the Emmiter from the Block where the Source is
     class(source_class), intent(inout)  :: src  !>the Source that will emitt new Tracers
@@ -73,7 +113,7 @@
         call trclist%add(newtrc)
     end do
     src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np
-    end subroutine emitt
+    end subroutine emitt_src
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
