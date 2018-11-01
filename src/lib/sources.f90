@@ -20,6 +20,7 @@
 
     use common_modules
     use simulation_globals_mod
+    use csv_module
 
     implicit none
     private
@@ -29,6 +30,7 @@
         real(prec) :: emitting_rate             !< Emitting rate of the Source (Hz)
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
         type(string) :: rate_file               !< File name of the emission rate data (csv)
+        real(prec), dimension(:,:), allocatable :: rate_file_data   !< Time and emission rate read from the rate_file of the Source
         real(prec_time) :: startime             !< time to start emitting tracers
         real(prec_time) :: stoptime             !< time to stop emitting tracers
         type(string) :: name                    !< source name
@@ -82,6 +84,7 @@
     procedure :: isParticulate
     procedure :: setPropertyAtributes
     procedure :: check
+    procedure :: setVariableRate
     procedure, private :: setotalnp
     procedure, private :: linkproperty
     procedure :: print => printSource
@@ -126,7 +129,6 @@
         call Log%put(outext)
     endif
     end subroutine initSources
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -173,12 +175,10 @@
     type(string), intent(in) :: srcid_str      !<Source id tag
     type(string), intent(in) :: ptype          !<Property type to set
     type(string), intent(in) :: pname          !<Property name to set
-
     integer :: srcid
     type(string) :: outext, temp
     integer :: i
     logical :: notlinked
-
     srcid = srcid_str%to_number(kind=1_I1P)
     notlinked = .true.  !assuming not linked
     do i=1, size(self%src)
@@ -239,7 +239,6 @@
     !> Method that checks for the consistency of the Source properties.
     !---------------------------------------------------------------------------
     subroutine check(self)
-    implicit none
     class(source_class), intent(in) :: self
     type(string) :: outext, temp(2)
     logical :: failed
@@ -276,11 +275,55 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method that reads a csv file with variable emission rate data, allocates 
+    !> the space, and stores the data in the Source.
+    !> @param[in] self, filename
+    !---------------------------------------------------------------------------
+    subroutine setVariableRate(self, filename)
+    class(source_class), intent(inout) :: self
+    type(string), intent(in) :: filename
+    type(csv_file) :: rateFile
+    character(len=30), dimension(:), allocatable :: header
+    real(prec), dimension(:), allocatable :: time, rate
+    logical :: status
+    type(string) :: outext
+
+    call rateFile%read(filename%chars(),header_row=1,status_ok=status)
+    if (status .eqv. .false.) then
+        outext = '[Sources::setVariableRate]: Cannot open variable emission rate file from Source '// self%par%name //', supposedly at '// filename //', stoping'
+        call Log%put(outext)
+        stop
+    end if
+    ! get the header
+    call rateFile%get_header(header,status)
+    ! get some data
+    call rateFile%get(1,time,status)
+    call rateFile%get(2,rate,status)
+    if (status .eqv. .false.) then
+        outext = '[Sources::setVariableRate]: Cannot get data for Source '// self%par%name //' from variable emission rate file '// filename //', stoping'
+        call Log%put(outext)
+        stop
+    end if
+    ! destroy the file
+    call rateFile%destroy()
+
+    !allocating and storing the data in the Source
+    allocate(self%par%rate_file_data(2,size(time)))
+    self%par%rate_file_data(1,:) = time
+    self%par%rate_file_data(2,:) = rate
+
+    !print*, self%par%rate_file_data(1,:)
+    !print*, self%par%rate_file_data(2,:)
+
+    end subroutine setVariableRate
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src,id,name,emitting_rate,start,finish,source_geometry,shapetype
     !---------------------------------------------------------------------------
     subroutine initializeSource(src,id,name,emitting_rate,emitting_fixed_rate,rate_file,start,finish,source_geometry,shapetype)
-    implicit none
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
@@ -300,6 +343,7 @@
     src%par%emitting_rate=emitting_rate
     src%par%emitting_fixed_rate = emitting_fixed_rate
     src%par%rate_file = rate_file
+    if (emitting_fixed_rate .eqv. .false.) call src%setVariableRate(src%par%rate_file)
     src%par%startime=start
     src%par%stoptime=finish
     src%par%name=name
