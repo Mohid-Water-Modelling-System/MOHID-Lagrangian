@@ -78,7 +78,7 @@
         select type(aSource)
         class is (source_class)
             if (aSource%now%active) then
-                aSource%now%emission_stack = aSource%now%emission_stack + 1.0/aSource%par%emitting_rate  !adding to the emission stack               
+                aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack               
                 do i=1, floor(aSource%now%emission_stack)
                     call self%emitt_src(aSource, trclist)
                     reset_stack = .true.                    
@@ -112,11 +112,11 @@
     integer i
     class(*), allocatable :: newtrc
     do i=1, src%stencil%np
-        self%emitted = self%emitted + 1
         !PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
         call self%tracerMaker(newtrc, src, i)
         call trclist%add(newtrc)
     end do
+    self%emitted = self%emitted + src%stencil%np
     src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np
     end subroutine emitt_src
 

@@ -15,7 +15,7 @@
     <sourcedef>
       <source>
         <setsource id="18" name="Spill_007" />
-        <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="15" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
           <point x="-5.5" y="1.0" z="0" units_comment="(deg,deg,m)"/>
@@ -24,13 +24,13 @@
       </source>
       <source>
         <setsource id="1" name="Litter_plastic" />
-        <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate value="0.0333" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="15" end="90" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="2.5" y="5.5" z="0.75" units_comment="(deg,deg,m)"/>
       </source>
       <source>
         <setsource id="2" name="Emissary_2" />
-        <rate value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_file name="discharge_2.csv" comment="name of csv file with discharge information (time and rate columns)" />
         <line>
           <pointa x="1" y="2" z="-10" units_comment="(deg,deg,m)"/>
           <pointb x="1.001" y="2.00001" z="7" units_comment="(deg,deg,m)"/>
@@ -38,7 +38,7 @@
       </source>
       <source>
         <setsource id="3" name="Mistery_discharge_0" />
-        <rate value="3" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="3" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <sphere radius="2.65" units_comment="metres (m)">
           <point x="9.0" y="8.0" z="0" units_comment="(deg,deg,m)"/>
@@ -46,7 +46,7 @@
       </source>
 	    <source>
         <setsource id="6" name="Mistery_discharge_1" />
-        <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <sphere radius="0.95" units_comment="metres (m)">
           <point x="9.05" y="2.0" z="0" units_comment="(deg,deg,m)"/>
@@ -54,7 +54,7 @@
       </source>
 	    <source>
         <setsource id="7" name="Mistery_discharge_2" />
-        <rate value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="9.025" y="5.0" z="0.75" units_comment="(deg,deg,m)"/>
       </source>
@@ -68,7 +68,7 @@
         <link source="2" type='paper' property="cardboard_1" comment="" />
         <link source="10" type='plastic' property="expanded_polysryrene_10" comment="" />
       </links>
-      <propertyfile name="Material_props.xml"/>
+      <propertyfile name="data/Material_props.xml"/>
     </properties>
   </casedef>
   <execution>

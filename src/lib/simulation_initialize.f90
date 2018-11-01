@@ -202,10 +202,12 @@
     logical :: readflag
     !source vars
     integer :: id
-    type(string) :: name, source_geometry, tag, att_name, att_val
+    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
     real(prec) :: emitting_rate, start, finish
+    logical :: emitting_fixed
     class(shape), allocatable :: source_shape
 
+    readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
 
@@ -224,10 +226,28 @@
         id=att_val%to_number(kind=1_I1P)
         att_name="name"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, name)
+        !reading emission rate, need to check for options
+        tag="rate_dt"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            emitting_rate = 1.0/(att_val%to_number(kind=1._R4P)*Globals%SimDefs%dt)
+            emitting_fixed = .true.
+        end if
         tag="rate"
         att_name="value"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val)
-        emitting_rate = att_val%to_number(kind=1._R4P)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            emitting_rate = att_val%to_number(kind=1._R4P)
+            emitting_fixed = .true.
+        end if
+        tag="rate_file"
+        att_name="name"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            rate_file = att_val
+            emitting_fixed = .false.
+        end if
         tag="active"
         att_name="start"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
@@ -268,7 +288,7 @@
             endif
         enddo
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
+        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape)
 
         deallocate(source_shape)
     enddo

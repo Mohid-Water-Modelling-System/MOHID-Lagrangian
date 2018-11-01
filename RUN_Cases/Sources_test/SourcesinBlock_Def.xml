@@ -15,7 +15,7 @@
     <sourcedef>
       <source>
         <setsource id="18" name="Spill_007" />
-        <rate value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
           <point x="-9" y="1.0" z="-200" units_comment="(deg,deg,m)"/>
@@ -24,7 +24,7 @@
       </source>
       <source>
         <setsource id="1" name="Litter_plastic" />
-        <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate value="0.1" comment="Emission rate (Hz)" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="2.5" y="2" z="0.0" units_comment="(deg,deg,m)"/>
       </source>

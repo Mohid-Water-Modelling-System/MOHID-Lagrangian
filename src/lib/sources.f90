@@ -26,7 +26,9 @@
 
     type :: source_par                          !<Type - parameters of a source object
         integer :: id                           !< unique source identification (integer)
-        integer :: emitting_rate                !< Emitting rate of the source (Hz)
+        real(prec) :: emitting_rate             !< Emitting rate of the Source (Hz)
+        logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
+        type(string) :: rate_file               !< File name of the emission rate data (csv)
         real(prec_time) :: startime             !< time to start emitting tracers
         real(prec_time) :: stoptime             !< time to stop emitting tracers
         type(string) :: name                    !< source name
@@ -60,7 +62,6 @@
         ! All stats variables at writing precision (prec_wrt)
         ! Avegarge variable is computed by Accumulated_var / ns
         integer :: particles_emitted        !< Number of emitted particles by this source
-        real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
         integer :: ns                       !< Number of sampling steps
     end type source_stats
 
@@ -278,12 +279,14 @@
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src,id,name,emitting_rate,start,finish,source_geometry,shapetype
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src,id,name,emitting_rate,start,finish,source_geometry,shapetype)
+    subroutine initializeSource(src,id,name,emitting_rate,emitting_fixed_rate,rate_file,start,finish,source_geometry,shapetype)
     implicit none
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
     real(prec), intent(in) :: emitting_rate
+    logical, intent(in) :: emitting_fixed_rate
+    type(string), intent(in) :: rate_file
     real(prec), intent(in) :: start
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
@@ -295,6 +298,8 @@
     !Setting parameters
     src%par%id=id
     src%par%emitting_rate=emitting_rate
+    src%par%emitting_fixed_rate = emitting_fixed_rate
+    src%par%rate_file = rate_file
     src%par%startime=start
     src%par%stoptime=finish
     src%par%name=name
@@ -317,7 +322,6 @@
     src%now%pos=src%par%geometry%pt !coords of the Source (meaning depends on the geometry type!)
     !setting statistical samplers
     src%stats%particles_emitted=0
-    src%stats%acc_T=0.0
     src%stats%ns=0
     !setting stencil variables
     src%stencil%np = Geometry%fillsize(src%par%geometry, Globals%SimDefs%Dp)
@@ -360,7 +364,7 @@
     subroutine setotalnp(self)
     implicit none
     class(source_class), intent(inout) :: self
-    self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(Globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)
+    self%stencil%total_np=int((self%par%stoptime-self%par%startime)*self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 
     !---------------------------------------------------------------------------
@@ -383,11 +387,13 @@
     temp_str(3)=src%now%pos%z
     outext = outext//'       Initially at coordinates'//new_line('a')//&
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
-    temp_str(1)=src%par%emitting_rate
-    temp_str(2)=src%stencil%np
-    temp_str(3)=src%stencil%total_np
-    outext = outext//'       Emitting '//temp_str(2)//' tracers at every '//temp_str(1)//' time-steps'//new_line('a')
-    outext = outext//'       For an estimated total of '//temp_str(3)//' tracers' //new_line('a')
+    temp_str(1)=src%stencil%np
+    if (src%par%emitting_fixed_rate) then
+        temp_str(2)=src%par%emitting_rate        
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at '//temp_str(2)//' Hz'//new_line('a')
+    else
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at a rate defined in '//src%par%rate_file//new_line('a')
+    end if
     temp_str(1)=src%par%startime
     temp_str(2)=src%par%stoptime
     outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'
