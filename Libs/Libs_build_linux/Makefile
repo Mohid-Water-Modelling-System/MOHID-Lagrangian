@@ -227,6 +227,19 @@ datetime/fast:
 	$(MAKE) -f datetime-fortran/CMakeFiles/datetime.dir/build.make datetime-fortran/CMakeFiles/datetime.dir/build
 .PHONY : datetime/fast
 
+#=============================================================================
+# Target rules for targets named fortran-csv-module
+
+# Build rule for target.
+fortran-csv-module: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fortran-csv-module
+.PHONY : fortran-csv-module
+
+# fast build rule for target.
+fortran-csv-module/fast:
+	$(MAKE) -f fortran-csv-module/CMakeFiles/fortran-csv-module.dir/build.make fortran-csv-module/CMakeFiles/fortran-csv-module.dir/build
+.PHONY : fortran-csv-module/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -244,6 +257,7 @@ help:
 	@echo "... FACE"
 	@echo "... FLAP"
 	@echo "... datetime"
+	@echo "... fortran-csv-module"
 .PHONY : help
 
 

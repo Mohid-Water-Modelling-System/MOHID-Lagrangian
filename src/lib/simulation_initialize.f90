@@ -196,21 +196,19 @@
     type(Node), pointer :: source_detail
     integer :: i, j
     logical :: readflag
-    !source vars
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
     real(prec) :: emitting_rate, start, finish
     logical :: emitting_fixed
     class(shape), allocatable :: source_shape
 
+    rate_file = 'not_set'
     readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
-
     tag="sourcedef"    !the node we want
     call XMLReader%gotoNode(case_node,sourcedef,tag)
     sourceList => getElementsByTagname(sourcedef, "source")
-
     !allocating the temporary source objects
     call tempSources%initialize(getLength(sourceList))
 
@@ -251,14 +249,14 @@
             start = att_val%to_number(kind=1._R4P)
         else
             start = 0.0
-        endif
+        end if
         att_name="end"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
         if (readflag.and.att_val%is_number()) then
             finish = att_val%to_number(kind=1._R4P)
         else
             finish = Globals%Parameters%TimeMax
-        endif
+        end if
         !now we need to find out the geometry of the source and read accordingly
         sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
         do i=0, getLength(sourceChildren)-1
@@ -269,7 +267,7 @@
                 call read_xml_geometry(source_node,source_detail,source_shape)
                 exit
             end if
-        enddo
+        end do
         !initializing Source j
         call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape)
 

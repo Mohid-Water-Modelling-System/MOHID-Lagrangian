@@ -43,6 +43,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FACE/cmake_install.cmake")
   include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/FLAP/cmake_install.cmake")
   include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/datetime-fortran/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_linux/fortran-csv-module/cmake_install.cmake")
 
 endif()
 

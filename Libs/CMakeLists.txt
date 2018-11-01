@@ -23,6 +23,7 @@ SET(VTKFortran_PATH ${CMAKE_SOURCE_DIR}/VTKFortran)
 SET(FACE_PATH ${CMAKE_SOURCE_DIR}/FACE)
 SET(FLAP_PATH ${CMAKE_SOURCE_DIR}/FLAP)
 SET(datetime_PATH ${CMAKE_SOURCE_DIR}/datetime-fortran)
+SET(csv_PATH ${CMAKE_SOURCE_DIR}/fortran-csv-module)
 
 #################################################################
 # BUILD PATHS
@@ -121,6 +122,7 @@ ADD_SUBDIRECTORY(${VTKFortran_PATH})
 ADD_SUBDIRECTORY(${FACE_PATH})
 ADD_SUBDIRECTORY(${FLAP_PATH})
 ADD_SUBDIRECTORY(${datetime_PATH})
+ADD_SUBDIRECTORY(${csv_PATH})
 
 
 #add_dependencies(${VECFOR_PATH} ${PENF_PATH}) on every subdirectory cmakelists
