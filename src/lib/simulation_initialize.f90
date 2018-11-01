@@ -153,10 +153,8 @@
     class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
     type(string) :: outext
     type(string) :: tag
-
     select type (source_shape)
     type is (shape)
-        !nothing to do
     class is (box)
         tag='point'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
@@ -179,7 +177,6 @@
         call Log%put(outext)
         stop
     end select
-
     end subroutine read_xml_geometry
 
     !---------------------------------------------------------------------------
@@ -191,7 +188,6 @@
     subroutine init_sources(case_node)
     implicit none
     type(Node), intent(in), pointer :: case_node
-
     type(string) :: outext
     type(NodeList), pointer :: sourceList           !< Node list for sources
     type(NodeList), pointer :: sourceChildren       !< Node list for source node children nodes
@@ -269,23 +265,10 @@
             source_detail => item(sourceChildren,i) !grabing a node
             source_geometry = getLocalName(source_detail)  !finding its name
             if (Geometry%inlist(source_geometry)) then  !if the node is a valid geometry name
-                select case (source_geometry%chars())
-                case ('point')
-                    allocate(point::source_shape)
-                case ('sphere')
-                    allocate(sphere::source_shape)
-                case ('box')
-                    allocate(box::source_shape)
-                case ('line')
-                    allocate(line::source_shape)
-                    case default
-                    outext='[init_sources]: unexpected type for geometry object!'
-                    call Log%put(outext)
-                    stop
-                end select
+                call Geometry%allocateShape(source_geometry,source_shape)                
                 call read_xml_geometry(source_node,source_detail,source_shape)
                 exit
-            endif
+            end if
         enddo
         !initializing Source j
         call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape)
