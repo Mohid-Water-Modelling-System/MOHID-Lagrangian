@@ -41,8 +41,6 @@
     !Public access vars
     public :: OutputStreamer
 
-    !Public access procedures
-
     contains
 
     !---------------------------------------------------------------------------
@@ -51,7 +49,6 @@
     !> Initializes the Output writer object
     !---------------------------------------------------------------------------
     subroutine initOutputStreamer(self)
-    implicit none
     class(output_streamer_class), intent(inout) :: self
     self%OutputFormat = Globals%Parameters%OutputFormat
     if (self%OutputFormat == 2) then !VTK file selected
@@ -67,7 +64,6 @@
     !> @param[in] self, blocks
     !---------------------------------------------------------------------------
     subroutine WriteStepSerial(self, blocks)
-    implicit none
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     type(string) :: filename                                !< name of the case to add
@@ -90,7 +86,6 @@
     !> @param[in] self, filename, bbox, npbbox, blocks
     !---------------------------------------------------------------------------
     subroutine WriteDomain(self, filename, bbox, npbbox, blocks)
-    implicit none
     class(output_streamer_class), intent(inout) :: self
     type(string), intent(in) :: filename                    !< name of the case to add
     class(boundingbox_class), intent(in) :: bbox            !< Case bounding box
