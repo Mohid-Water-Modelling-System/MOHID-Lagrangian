@@ -7,7 +7,7 @@
       <Rho_ref value="1100" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />
     </constantsdef>
     <simulationdefs>
-      <resolution dp="1.5" units_comment="metres (m)"/>
+      <resolution dp="1.0" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
       <pointmin x="-10.0" y="0.0" z="-500.01" units_comment="(deg,deg,m)"/>
       <pointmax x="10.0" y="10.0" z="4.0574" units_comment="(deg,deg,m)"/>
@@ -77,7 +77,7 @@
       <parameter key="Threads" value="auto" comment="Computation threads for shared memory computation (default=auto)" />
       <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />
       <parameter key="StartTime" value="1984 12 10 13 05 0" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
-      <parameter key="EndTime"   value="1984 12 10 13 12 10" comment="Date of final instant" units_comment="ISO format" />
+      <parameter key="EndTime"   value="1984 12 10 14 32 10" comment="Date of final instant" units_comment="ISO format" />
       <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
 	    <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
     </parameters>

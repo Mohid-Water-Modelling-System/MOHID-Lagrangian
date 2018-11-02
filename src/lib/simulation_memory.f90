@@ -184,6 +184,7 @@
     type(string) :: outext,temp(6)
     call self%getotal(size)
     sizemb = size*1E-6
+    temp(6) = 2.25*sizemb
     temp(1)= sizemb
     sizemb = self%size_of_sources*1E-6
     temp(2)= sizemb
@@ -193,8 +194,7 @@
     temp(4)= sizemb
     sizemb = self%size_of_blocks*1E-6
     temp(5)= sizemb
-    sizemb = self%ntrc*self%sizeTrc*1E-6
-    temp(6) = 2.25*sizemb
+    sizemb = self%ntrc*self%sizeTrc*1E-6    
     outext='->Total allocated memory: '//temp(1)//' mb'//new_line('a')//&
         '       Allocated memory for Blocks  = '//temp(5)//' mb'//new_line('a')//&
         '       Allocated memory for Sources = '//temp(2)//' mb'//new_line('a')//&
