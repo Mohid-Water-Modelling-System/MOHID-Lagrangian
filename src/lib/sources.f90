@@ -21,6 +21,7 @@
     use common_modules
     use simulation_globals_mod
     use csv_module
+    use csvparser_mod
 
     implicit none
     private
@@ -291,24 +292,10 @@
     logical :: status
     type(string) :: outext
 
-    call rateFile%read(filename%chars(),header_row=1,status_ok=status)
-    if (status .eqv. .false.) then
-        outext = '[Sources::setVariableRate]: Cannot open variable emission rate file from Source '// self%par%name //', supposedly at '// filename //', stoping'
-        call Log%put(outext)
-        stop
-    end if
-    ! get the header
-    call rateFile%get_header(header,status)
-    ! get some data
-    call rateFile%get(1,time,status)
-    call rateFile%get(2,rate,status)
-    if (status .eqv. .false.) then
-        outext = '[Sources::setVariableRate]: Cannot get data for Source '// self%par%name //' from variable emission rate file '// filename //', stoping'
-        call Log%put(outext)
-        stop
-    end if
-    ! destroy the file
-    call rateFile%destroy()
+    call CSVReader%getFile(rateFile, filename, 1)
+    call CSVReader%getColumn(rateFile, filename, 1, time)
+    call CSVReader%getColumn(rateFile, filename, 2, rate)
+    call CSVReader%closeFile(rateFile)
     !interpolating the csv data to a regular dt spaced array and storing the data in the Source
     allocate(stime(int(min(Globals%Parameters%TimeMax,maxval(time))/Globals%SimDefs%dt)+1))
     allocate(srate(size(stime)))
