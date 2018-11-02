@@ -15,6 +15,7 @@ To build the files you must follow these procedure:
 		-face
 		-flap
 		-datetime
+		-fortran-csv-module
 	-now go to the Libs/fox/ directory
 	-create a build folder and point cmake at it, using Libs/fox/ as the source
 	-open the build folder, open the project and compile it
