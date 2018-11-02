@@ -78,6 +78,7 @@
         select type(aSource)
         class is (source_class)
             if (aSource%now%active) then
+                if (aSource%par%emitting_fixed_rate .eqv. .false.) call aSource%getVariableRate(Globals%Sim%getnumdt()+1)
                 aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack               
                 do i=1, floor(aSource%now%emission_stack)
                     call self%emitt_src(aSource, trclist)

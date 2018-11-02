@@ -30,7 +30,7 @@
         real(prec) :: emitting_rate             !< Emitting rate of the Source (Hz)
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
         type(string) :: rate_file               !< File name of the emission rate data (csv)
-        real(prec), dimension(:,:), allocatable :: rate_file_data   !< Time and emission rate read from the rate_file of the Source
+        real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
         real(prec_time) :: startime             !< time to start emitting tracers
         real(prec_time) :: stoptime             !< time to stop emitting tracers
         type(string) :: name                    !< source name
@@ -84,7 +84,8 @@
     procedure :: isParticulate
     procedure :: setPropertyAtributes
     procedure :: check
-    procedure :: setVariableRate
+    procedure, private :: setVariableRate
+    procedure :: getVariableRate
     procedure, private :: setotalnp
     procedure, private :: linkproperty
     procedure :: print => printSource
@@ -284,7 +285,9 @@
     type(string), intent(in) :: filename
     type(csv_file) :: rateFile
     character(len=30), dimension(:), allocatable :: header
-    real(prec), dimension(:), allocatable :: time, rate
+    real(prec), dimension(:), allocatable :: time, rate, stime, srate
+    integer :: i, index
+    real(prec) :: weight
     logical :: status
     type(string) :: outext
 
@@ -306,16 +309,40 @@
     end if
     ! destroy the file
     call rateFile%destroy()
-
-    !allocating and storing the data in the Source
-    allocate(self%par%rate_file_data(2,size(time)))
-    self%par%rate_file_data(1,:) = time
-    self%par%rate_file_data(2,:) = rate
-
-    !print*, self%par%rate_file_data(1,:)
-    !print*, self%par%rate_file_data(2,:)
-
+    !interpolating the csv data to a regular dt spaced array and storing the data in the Source
+    allocate(stime(int(min(Globals%Parameters%TimeMax,maxval(time))/Globals%SimDefs%dt)+1))
+    allocate(srate(size(stime)))
+    do i=1, size(stime)
+        stime(i)=Globals%SimDefs%dt*(i-1)
+    end do
+    do i=1, size(stime)
+        if (stime(i)<time(1)) then 
+            srate(i) = 0.0
+        else
+            do index=1, size(time)-1
+                if (stime(i)>=time(index)) then
+                    weight = (stime(i)-time(index))/(time(index+1)-time(index));
+                    srate(i) = (1.0-weight)*rate(index) + weight*rate(index+1);
+                end if
+            end do
+        end if
+    end do
+    allocate(self%par%variable_rate(size(srate)), source=srate)
     end subroutine setVariableRate
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that sets the rate for the current time step, in case of a variable 
+    !> rate.
+    !> @param[in] self, time
+    !---------------------------------------------------------------------------
+    subroutine getVariableRate(self, index)
+    class(source_class), intent(inout) :: self        
+    integer :: index
+    type(string) :: outext
+    self%par%emitting_rate = self%par%variable_rate(min(index,size(self%par%variable_rate)))
+    end subroutine getVariableRate
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -340,13 +367,16 @@
 
     !Setting parameters
     src%par%id=id
+    src%par%name=name
     src%par%emitting_rate=emitting_rate
     src%par%emitting_fixed_rate = emitting_fixed_rate
     src%par%rate_file = rate_file
-    if (emitting_fixed_rate .eqv. .false.) call src%setVariableRate(src%par%rate_file)
+    if (emitting_fixed_rate .eqv. .false.) then
+        call src%setVariableRate(src%par%rate_file)
+        call src%getVariableRate(Globals%Sim%getnumdt()+1)
+    end if
     src%par%startime=start
     src%par%stoptime=finish
-    src%par%name=name
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=shapetype)
     !Setting properties
