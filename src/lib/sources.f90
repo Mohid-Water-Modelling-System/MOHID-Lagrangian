@@ -373,7 +373,7 @@
     src%par%rate_file = rate_file
     if (emitting_fixed_rate .eqv. .false.) then
         call src%setVariableRate(src%par%rate_file)
-        call src%getVariableRate(Globals%Sim%getnumdt()+1)
+        call src%getVariableRate(Globals%Sim%getnumdt())
     end if
     src%par%startime=start
     src%par%stoptime=finish

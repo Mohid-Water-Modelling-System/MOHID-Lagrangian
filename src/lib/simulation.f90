@@ -80,6 +80,7 @@
 
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
+        call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
         call self%ToggleSources()
@@ -107,7 +108,6 @@
         call self%BlocksCleanAoT()
         !update Simulation time and counters
         Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
-        call Globals%Sim%increment_numdt()
         !print*, 'Global time is ', Globals%SimTime
         !print*, 'Can we continue?'
         !read (*,*)
