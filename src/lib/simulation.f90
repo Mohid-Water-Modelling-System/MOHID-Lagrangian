@@ -396,6 +396,7 @@
     class(simulation_class), intent(in) :: self
     integer, optional, intent(in) :: ntrc
     integer :: sizem, i
+    type(tracer_class) :: dummyTracer
     sizem = 0
     do i=1, size(DBlock)
         sizem = sizem + sizeof(DBlock(i)%LTracer) !this accounts for the array structure
