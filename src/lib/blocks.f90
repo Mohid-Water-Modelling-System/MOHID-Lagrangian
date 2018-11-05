@@ -32,7 +32,7 @@
     use AoT_mod
     use solver_mod
     use background_mod
-    
+
 
     implicit none
     private
@@ -43,7 +43,7 @@
         type(sourceList_class) :: LSource     !< List of Sources currently on this block
         type(emitter_class)    :: Emitter     !< Block Emitter
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
-        type(aot_class)        :: AoT         !< Block Array of Tracers for actual numerical work        
+        type(aot_class)        :: AoT         !< Block Array of Tracers for actual numerical work
         type(solver_class)     :: Solver      !< Block Solver
         type(background_class), allocatable, dimension(:) :: Background !< Solution Backgrounds for the Block
     contains
@@ -112,14 +112,14 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to place a Source on the Block sourceList_class object. Adds the 
+    !> Method to place a Source on the Block sourceList_class object. Adds the
     !> Source info to the Block Emitter
     !> @param[in] self, sourcetoadd
     !---------------------------------------------------------------------------
     subroutine putSource(self, sourcetoadd)
     implicit none
     class(block_class), intent(inout) :: self
-    class(source_class), intent(inout) :: sourcetoadd !< Source object to store    
+    class(source_class), intent(inout) :: sourcetoadd !< Source object to store
     call self%LSource%add(sourcetoadd)
     end subroutine putSource
 
@@ -167,7 +167,7 @@
     subroutine CallEmitter(self)
     implicit none
     class(block_class), intent(inout) :: self
-    call self%Emitter%emitt(self%LSource, self%LTracer)    
+    call self%Emitter%emitt(self%LSource, self%LTracer)
     end subroutine CallEmitter
 
     !---------------------------------------------------------------------------
@@ -182,7 +182,7 @@
     class(*), pointer :: aTracer
     type(string) :: outext
     logical :: notremoved
-    
+
     call self%LTracer%reset()                   ! reset list iterator
     do while(self%LTracer%moreValues())         ! loop while there are values
         notremoved = .true.
@@ -206,13 +206,13 @@
         if (notremoved) call self%LTracer%next()    ! increment the list iterator
     end do
     call self%LTracer%reset()                   ! reset list iterator
-    
+
     end subroutine DistributeTracers
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to clean the Tracer list from inactive Tracers. TODO test 
+    !> Method to clean the Tracer list from inactive Tracers. TODO test
     !> further optimization
     !---------------------------------------------------------------------------
     subroutine ConsolidateArrays(self)
@@ -221,7 +221,7 @@
     class(*), pointer :: aTracer
     type(string) :: outext
     logical :: notremoved
-    
+
     call self%LTracer%reset()                   ! reset list iterator
     do while(self%LTracer%moreValues())         ! loop while there are values
         notremoved = .true.
@@ -230,7 +230,7 @@
         class is (tracer_class)
             if (aTracer%now%active.eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
-                notremoved = .false.                
+                notremoved = .false.
             end if
             class default
             outext = '[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'
@@ -240,7 +240,7 @@
         if (notremoved) call self%LTracer%next()    ! increment the list iterator
     end do
     call self%LTracer%reset()                       ! reset list iterator
-    
+
     end subroutine ConsolidateArrays
 
     !---------------------------------------------------------------------------
@@ -257,23 +257,23 @@
     !    call self%AoT%print()
     !end if
     end subroutine TracersToAoT
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to run the solver on the data on this Block for the current 
+    !> Method to run the solver on the data on this Block for the current
     !> timestep. Time for some actual numerical work!
     !---------------------------------------------------------------------------
     subroutine RunSolver(self)
     implicit none
     class(block_class), intent(inout) :: self
     if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
-        if (allocated(self%Background)) then    !There are Backgrounds in this Block        
+        if (allocated(self%Background)) then    !There are Backgrounds in this Block
             call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
         end if
     end if
     end subroutine RunSolver
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -284,7 +284,7 @@
     class(block_class), intent(inout) :: self
     call self%AoT%toTracers()
     end subroutine AoTtoTracers
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -292,7 +292,7 @@
     !---------------------------------------------------------------------------
     subroutine CleanAoT(self)
     implicit none
-    class(block_class), intent(inout) :: self    
+    class(block_class), intent(inout) :: self
     call self%AoT%Clean()
     end subroutine CleanAoT
 
