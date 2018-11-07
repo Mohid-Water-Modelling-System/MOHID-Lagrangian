@@ -491,6 +491,23 @@ pure function getTextContent_len(arg, p) result(n)
     endif
   end function getTextContent_len
 
+  pure function getNodeValue_len(np, p) result(n)
+    type(Node), intent(in) :: np
+    logical, intent(in) :: p
+    integer :: n
+
+    n = 0 
+    if (.not.p) return
+
+    select case(np%nodeType)
+    case (ATTRIBUTE_NODE)
+      n = getTextContent_len(np, .true.)
+    case (CDATA_SECTION_NODE, COMMENT_NODE, PROCESSING_INSTRUCTION_NODE, TEXT_NODE)
+      n = size(np%nodeValue)
+    end select
+
+  end function getNodeValue_len
+
 
   subroutine resetParameter(domConfig, name)
     type(DOMConfiguration), pointer :: domConfig
@@ -1007,24 +1024,6 @@ endif
     c = str_vs(np%nodeName)
 
   end function getnodeName
-
-
-  pure function getNodeValue_len(np, p) result(n)
-    type(Node), intent(in) :: np
-    logical, intent(in) :: p
-    integer :: n
-
-    n = 0 
-    if (.not.p) return
-
-    select case(np%nodeType)
-    case (ATTRIBUTE_NODE)
-      n = getTextContent_len(np, .true.)
-    case (CDATA_SECTION_NODE, COMMENT_NODE, PROCESSING_INSTRUCTION_NODE, TEXT_NODE)
-      n = size(np%nodeValue)
-    end select
-
-  end function getNodeValue_len
 
   function getNodeValue(np, ex)result(c) 
     type(DOMException), intent(out), optional :: ex
