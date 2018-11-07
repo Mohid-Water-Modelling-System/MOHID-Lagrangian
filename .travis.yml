@@ -5,6 +5,7 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - gfortran-7
+      - netcdf
 before_script:
   #- cmake --version
   - sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
