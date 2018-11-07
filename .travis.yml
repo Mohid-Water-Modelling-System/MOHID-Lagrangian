@@ -8,7 +8,7 @@ addons:
 before_install:
     - sudo apt-get install libnetcdf-dev -y
 before_script:
-  - sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
+  - sudo ln -fs /usr/bin/gfortran-8 /usr/bin/gfortran && gfortran --version
   - export FC=gfortran
   - cd Libs  
   - ./MakeLibraries.sh
