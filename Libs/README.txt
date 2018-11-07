@@ -1,5 +1,7 @@
 To build the files you must follow these procedure:
 
+Before anything, and because the cmake chain in hdf5 and netcdf-c is broken beyond salvation, you need to install netCDF4 in your system. In unix you just install it from a repo (apt-get install netcdf or yum install netcdf, or whatever you use), in windows you need to download an installer and make sure everythings gets properly put on your PATH.
+
 - Linux -> you are in luck. Just run ./MakeLibraries.sh in this folder and everything should go smooth. 
 
 - Windows -> Not so lucky. Automated building in windows is tricky, so we need to go by parts
@@ -20,4 +22,7 @@ To build the files you must follow these procedure:
 	-create a build folder and point cmake at it, using Libs/fox/ as the source
 	-open the build folder, open the project and compile it
 	-copy the outputs in the directories modules/ and lib/ to the same folders in Libs/Libs_build_win
+	-Go to the Libs/netcdf-fortran directory
+	-create a build folder and point cmake at it, using Libs/netcdf-fortran/ as the source
+	-open the build folder, open the project and compile it
 
