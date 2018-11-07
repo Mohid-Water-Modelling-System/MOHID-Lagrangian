@@ -5,9 +5,9 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - gfortran-7
+before_install:
+    - sudo apt-get install libnetcdf-dev -y
 before_script:
-  #- cmake --version
-  - sudo apt-get install netCDF4
   - sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
   - export FC=gfortran
   - cd Libs  
