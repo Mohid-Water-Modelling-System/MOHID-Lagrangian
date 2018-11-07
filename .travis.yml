@@ -7,7 +7,7 @@ addons:
       - gfortran-7
 before_script:
   #- cmake --version
-  - sudo apt-get install netcdf
+  - sudo apt-get install libnetcdf
   - sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
   - export FC=gfortran
   - cd Libs  
