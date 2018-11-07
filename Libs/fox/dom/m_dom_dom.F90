@@ -750,11 +750,11 @@ endif
 
     select case(np%nodeType)
     case (ELEMENT_NODE, ATTRIBUTE_NODE, XPATH_NAMESPACE_NODE)
-      call destroyElementOrAttribute(np,ex)
+      call destroyElementOrAttribute(np, ex)
     case (DOCUMENT_TYPE_NODE)
-      call destroyDocumentType(np,ex)
+      call destroyDocumentType(np, ex)
     case (ENTITY_NODE, NOTATION_NODE)
-      call destroyEntityOrNotation(np,ex)
+      call destroyEntityOrNotation(np, ex)
     case (DOCUMENT_NODE)
       call destroyDocument(np,ex)
     end select
@@ -955,6 +955,18 @@ endif
 
   end subroutine destroyNodeContents
 
+
+  pure function getTextContent_len(arg, p) result(n)
+    type(Node), intent(in) :: arg
+    logical, intent(in) :: p
+    integer :: n
+
+    if (p) then
+      n = arg%textContentLength
+    else
+      n = 0
+    endif
+  end function getTextContent_len
 
 
 
@@ -4053,18 +4065,6 @@ endif
     endif
   end subroutine updateTextContentLength
 
-  pure function getTextContent_len(arg, p) result(n)
-    type(Node), intent(in) :: arg
-    logical, intent(in) :: p
-    integer :: n
-
-    if (p) then
-      n = arg%textContentLength
-    else
-      n = 0
-    endif
-  end function getTextContent_len
-
   function getTextContent(arg, ex)result(c) 
     type(DOMException), intent(out), optional :: ex
     type(Node), pointer :: arg
@@ -5847,7 +5847,6 @@ endif
 
 ! Switch off all GC - since this is GC!
     call setGCstate(arg, .false., ex)
-
     if (arg%nodeType/=DOCUMENT_NODE) then
       if (getFoX_checks().or.FoX_INVALID_NODE<200) then
   call throw_exception(FoX_INVALID_NODE, "destroyDocument", ex)
@@ -9718,7 +9717,8 @@ endif
       endif
     endif
 
-! FIXME what if namespace is undeclared? Throw an error *only* if FoX_errors is on, otherwise its taken care of by namespace fixup on serialization
+! FIXME what if namespace is undeclared? Throw an error *only* if FoX_errors is
+! on, otherwise its taken care of by namespace fixup on serialization
 
     quickFix = getGCstate(getOwnerDocument(arg)) &
       .and. arg%inDocument

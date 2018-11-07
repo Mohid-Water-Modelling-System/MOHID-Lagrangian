@@ -1,85 +1,85 @@
 Determining if the include file malloc.h exists failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_cf431/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_cf431.dir/build.make CMakeFiles/cmTC_cf431.dir/build
-Building C object CMakeFiles/cmTC_cf431.dir/CheckIncludeFile.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_cf431.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command:"/usr/bin/make" "cmTC_f68df/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f68df.dir/build.make CMakeFiles/cmTC_f68df.dir/build
+Building C object CMakeFiles/cmTC_f68df.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_f68df.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'malloc.h' file not found
 #include <malloc.h>
          ^~~~~~~~~~
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_cf431.dir/CheckIncludeFile.c.o] Error 1
-make: *** [cmTC_cf431/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_f68df.dir/CheckIncludeFile.c.o] Error 1
+make: *** [cmTC_f68df/fast] Error 2
 
 
 Determining if the include file sys/ndir.h exists failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_fb1d5/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_fb1d5.dir/build.make CMakeFiles/cmTC_fb1d5.dir/build
-Building C object CMakeFiles/cmTC_fb1d5.dir/CheckIncludeFile.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_fb1d5.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command:"/usr/bin/make" "cmTC_db909/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_db909.dir/build.make CMakeFiles/cmTC_db909.dir/build
+Building C object CMakeFiles/cmTC_db909.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_db909.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'sys/ndir.h' file not found
 #include <sys/ndir.h>
          ^~~~~~~~~~~~
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_fb1d5.dir/CheckIncludeFile.c.o] Error 1
-make: *** [cmTC_fb1d5/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_db909.dir/CheckIncludeFile.c.o] Error 1
+make: *** [cmTC_db909/fast] Error 2
 
 
 Determining if the include file pstdint.h exists failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_48061/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_48061.dir/build.make CMakeFiles/cmTC_48061.dir/build
-Building C object CMakeFiles/cmTC_48061.dir/CheckIncludeFile.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_48061.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command:"/usr/bin/make" "cmTC_2da91/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_2da91.dir/build.make CMakeFiles/cmTC_2da91.dir/build
+Building C object CMakeFiles/cmTC_2da91.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_2da91.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'pstdint.h' file not found
 #include <pstdint.h>
          ^~~~~~~~~~~
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_48061.dir/CheckIncludeFile.c.o] Error 1
-make: *** [cmTC_48061/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_2da91.dir/CheckIncludeFile.c.o] Error 1
+make: *** [cmTC_2da91/fast] Error 2
 
 
 Determining if the include file endian.h exists failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_e8f3e/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e8f3e.dir/build.make CMakeFiles/cmTC_e8f3e.dir/build
-Building C object CMakeFiles/cmTC_e8f3e.dir/CheckIncludeFile.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_e8f3e.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command:"/usr/bin/make" "cmTC_0a749/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0a749.dir/build.make CMakeFiles/cmTC_0a749.dir/build
+Building C object CMakeFiles/cmTC_0a749.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_0a749.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'endian.h' file not found
 #include <endian.h>
          ^~~~~~~~~~
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_e8f3e.dir/CheckIncludeFile.c.o] Error 1
-make: *** [cmTC_e8f3e/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_0a749.dir/CheckIncludeFile.c.o] Error 1
+make: *** [cmTC_0a749/fast] Error 2
 
 
 Determining if the include file BaseTsd.h exists failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0a882/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0a882.dir/build.make CMakeFiles/cmTC_0a882.dir/build
-Building C object CMakeFiles/cmTC_0a882.dir/CheckIncludeFile.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_0a882.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command:"/usr/bin/make" "cmTC_646f5/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_646f5.dir/build.make CMakeFiles/cmTC_646f5.dir/build
+Building C object CMakeFiles/cmTC_646f5.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_646f5.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'BaseTsd.h' file not found
 #include <BaseTsd.h>
          ^~~~~~~~~~~
 1 error generated.
-make[1]: *** [CMakeFiles/cmTC_0a882.dir/CheckIncludeFile.c.o] Error 1
-make: *** [cmTC_0a882/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_646f5.dir/CheckIncludeFile.c.o] Error 1
+make: *** [cmTC_646f5/fast] Error 2
 
 
 Determining size of off64_t failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_1be9d/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_1be9d.dir/build.make CMakeFiles/cmTC_1be9d.dir/build
-Building C object CMakeFiles/cmTC_1be9d.dir/SIZEOF_OFF64_T.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_1be9d.dir/SIZEOF_OFF64_T.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_OFF64_T.c
+Run Build Command:"/usr/bin/make" "cmTC_b09aa/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b09aa.dir/build.make CMakeFiles/cmTC_b09aa.dir/build
+Building C object CMakeFiles/cmTC_b09aa.dir/SIZEOF_OFF64_T.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_b09aa.dir/SIZEOF_OFF64_T.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_OFF64_T.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_OFF64_T.c:25:12: error: use of undeclared identifier 'off64_t'
   ('0' + ((SIZE / 10000)%10)),
            ^
@@ -111,8 +111,8 @@ Building C object CMakeFiles/cmTC_1be9d.dir/SIZEOF_OFF64_T.c.o
 #define SIZE (sizeof(off64_t))
                      ^
 5 errors generated.
-make[1]: *** [CMakeFiles/cmTC_1be9d.dir/SIZEOF_OFF64_T.c.o] Error 1
-make: *** [cmTC_1be9d/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_b09aa.dir/SIZEOF_OFF64_T.c.o] Error 1
+make: *** [cmTC_b09aa/fast] Error 2
 
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_OFF64_T.c:
 #include <sys/types.h>
@@ -166,10 +166,10 @@ int main(int argc, char *argv[])
 Determining size of __int64 failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_a7a2a/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a7a2a.dir/build.make CMakeFiles/cmTC_a7a2a.dir/build
-Building C object CMakeFiles/cmTC_a7a2a.dir/SIZEOF___INT_64.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_a7a2a.dir/SIZEOF___INT_64.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF___INT_64.c
+Run Build Command:"/usr/bin/make" "cmTC_2c79d/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_2c79d.dir/build.make CMakeFiles/cmTC_2c79d.dir/build
+Building C object CMakeFiles/cmTC_2c79d.dir/SIZEOF___INT_64.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_2c79d.dir/SIZEOF___INT_64.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF___INT_64.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF___INT_64.c:25:12: error: use of undeclared identifier '__int64'
   ('0' + ((SIZE / 10000)%10)),
            ^
@@ -201,8 +201,8 @@ Building C object CMakeFiles/cmTC_a7a2a.dir/SIZEOF___INT_64.c.o
 #define SIZE (sizeof(__int64))
                      ^
 5 errors generated.
-make[1]: *** [CMakeFiles/cmTC_a7a2a.dir/SIZEOF___INT_64.c.o] Error 1
-make: *** [cmTC_a7a2a/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_2c79d.dir/SIZEOF___INT_64.c.o] Error 1
+make: *** [cmTC_2c79d/fast] Error 2
 
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF___INT_64.c:
 #include <sys/types.h>
@@ -256,10 +256,10 @@ int main(int argc, char *argv[])
 Determining size of uchar failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_97433/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_97433.dir/build.make CMakeFiles/cmTC_97433.dir/build
-Building C object CMakeFiles/cmTC_97433.dir/SIZEOF_UCHAR.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_97433.dir/SIZEOF_UCHAR.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_UCHAR.c
+Run Build Command:"/usr/bin/make" "cmTC_120db/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_120db.dir/build.make CMakeFiles/cmTC_120db.dir/build
+Building C object CMakeFiles/cmTC_120db.dir/SIZEOF_UCHAR.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_120db.dir/SIZEOF_UCHAR.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_UCHAR.c
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_UCHAR.c:25:12: error: use of undeclared identifier 'uchar'
   ('0' + ((SIZE / 10000)%10)),
            ^
@@ -291,8 +291,8 @@ Building C object CMakeFiles/cmTC_97433.dir/SIZEOF_UCHAR.c.o
 #define SIZE (sizeof(uchar))
                      ^
 5 errors generated.
-make[1]: *** [CMakeFiles/cmTC_97433.dir/SIZEOF_UCHAR.c.o] Error 1
-make: *** [cmTC_97433/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_120db.dir/SIZEOF_UCHAR.c.o] Error 1
+make: *** [cmTC_120db/fast] Error 2
 
 /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_UCHAR.c:
 #include <sys/types.h>
@@ -346,10 +346,10 @@ int main(int argc, char *argv[])
 Determining if the function alloca exists failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_30e24/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_30e24.dir/build.make CMakeFiles/cmTC_30e24.dir/build
-Building C object CMakeFiles/cmTC_30e24.dir/CheckFunctionExists.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=alloca   -o CMakeFiles/cmTC_30e24.dir/CheckFunctionExists.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c
+Run Build Command:"/usr/bin/make" "cmTC_deb2a/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_deb2a.dir/build.make CMakeFiles/cmTC_deb2a.dir/build
+Building C object CMakeFiles/cmTC_deb2a.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=alloca   -o CMakeFiles/cmTC_deb2a.dir/CheckFunctionExists.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c
 /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c:7:3: warning: incompatible redeclaration of library function 'alloca' [-Wincompatible-library-redeclaration]
   CHECK_FUNCTION_EXISTS(void);
   ^
@@ -361,34 +361,34 @@ Building C object CMakeFiles/cmTC_30e24.dir/CheckFunctionExists.c.o
 #define CHECK_FUNCTION_EXISTS alloca
                               ^
 1 warning generated.
-Linking C executable cmTC_30e24
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30e24.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=alloca -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_30e24.dir/CheckFunctionExists.c.o  -o cmTC_30e24 
+Linking C executable cmTC_deb2a
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_deb2a.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=alloca -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_deb2a.dir/CheckFunctionExists.c.o  -o cmTC_deb2a 
 Undefined symbols for architecture x86_64:
   "_alloca", referenced from:
       _main in CheckFunctionExists.c.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
-make[1]: *** [cmTC_30e24] Error 1
-make: *** [cmTC_30e24/fast] Error 2
+make[1]: *** [cmTC_deb2a] Error 1
+make: *** [cmTC_deb2a/fast] Error 2
 
 
 Determining if the function nc_set_log_level exists in the /usr/local/lib/libnetcdf.dylib failed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_a50ef/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a50ef.dir/build.make CMakeFiles/cmTC_a50ef.dir/build
-Building C object CMakeFiles/cmTC_a50ef.dir/CheckFunctionExists.c.o
-/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nc_set_log_level   -o CMakeFiles/cmTC_a50ef.dir/CheckFunctionExists.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c
-Linking C executable cmTC_a50ef
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a50ef.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nc_set_log_level -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a50ef.dir/CheckFunctionExists.c.o  -o cmTC_a50ef /usr/local/lib/libnetcdf.dylib 
+Run Build Command:"/usr/bin/make" "cmTC_0e216/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0e216.dir/build.make CMakeFiles/cmTC_0e216.dir/build
+Building C object CMakeFiles/cmTC_0e216.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nc_set_log_level   -o CMakeFiles/cmTC_0e216.dir/CheckFunctionExists.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c
+Linking C executable cmTC_0e216
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0e216.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nc_set_log_level -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_0e216.dir/CheckFunctionExists.c.o  -o cmTC_0e216 /usr/local/lib/libnetcdf.dylib 
 Undefined symbols for architecture x86_64:
   "_nc_set_log_level", referenced from:
       _main in CheckFunctionExists.c.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
-make[1]: *** [cmTC_a50ef] Error 1
-make: *** [cmTC_a50ef/fast] Error 2
+make[1]: *** [cmTC_0e216] Error 1
+make: *** [cmTC_0e216/fast] Error 2
 
 
