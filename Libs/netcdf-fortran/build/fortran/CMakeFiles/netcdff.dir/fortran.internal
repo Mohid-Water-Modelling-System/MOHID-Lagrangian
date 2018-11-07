@@ -1,0 +1,13 @@
+# The fortran modules provided by this target.
+provides
+ netcdf
+ netcdf4_f03
+ netcdf4_nc_interfaces
+ netcdf4_nf_interfaces
+ netcdf_f03
+ netcdf_fortv2_c_interfaces
+ netcdf_nc_data
+ netcdf_nc_interfaces
+ netcdf_nf_data
+ netcdf_nf_interfaces
+ typesizes

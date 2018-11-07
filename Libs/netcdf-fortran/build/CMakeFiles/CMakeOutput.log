@@ -1,0 +1,873 @@
+The system is: Darwin - 17.7.0 - x86_64
+Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" succeeded.
+Compiler: /usr/local/bin/gfortran 
+Build flags: 
+Id flags: -v 
+
+The output was:
+0
+Driving: /usr/local/bin/gfortran -v CMakeFortranCompilerId.F -mmacosx-version-min=10.13.0 -asm_macosx_version_min=10.13 -l gfortran -shared-libgcc
+Using built-in specs.
+COLLECT_GCC=/usr/local/bin/gfortran
+COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper
+Target: x86_64-apple-darwin17.7.0
+Configured with: ../configure --build=x86_64-apple-darwin17.7.0 --prefix=/usr/local/Cellar/gcc/8.2.0 --libdir=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8 --enable-languages=c,c++,objc,obj-c++,fortran --program-suffix=-8 --with-gmp=/usr/local/opt/gmp --with-mpfr=/usr/local/opt/mpfr --with-mpc=/usr/local/opt/libmpc --with-isl=/usr/local/opt/isl --with-system-zlib --enable-checking=release --with-pkgversion='Homebrew GCC 8.2.0' --with-bugurl=https://github.com/Homebrew/homebrew-core/issues --disable-nls
+Thread model: posix
+gcc version 8.2.0 (Homebrew GCC 8.2.0) 
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.0' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2'
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccOdI4Mt.f90 -quiet -v -D__DYNAMIC__ CMakeFortranCompilerId.F -fPIC -quiet -dumpbase CMakeFortranCompilerId.F -mmacosx-version-min=10.13.0 -mtune=core2 -auxbase CMakeFortranCompilerId -version -fintrinsic-modules-path /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/finclude -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccOTYszC.s
+GNU Fortran (Homebrew GCC 8.2.0) version 8.2.0 (x86_64-apple-darwin17.7.0)
+	compiled by GNU C version 8.2.0, GMP version 6.1.2, MPFR version 4.0.1, MPC version 1.1.0, isl version isl-0.20-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../x86_64-apple-darwin17.7.0/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/finclude
+ /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include
+ /usr/local/include
+ /usr/local/Cellar/gcc/8.2.0/include
+ /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include-fixed
+ /usr/include
+End of search list.
+GNU Fortran2008 (Homebrew GCC 8.2.0) version 8.2.0 (x86_64-apple-darwin17.7.0)
+	compiled by GNU C version 8.2.0, GMP version 6.1.2, MPFR version 4.0.1, MPC version 1.1.0, isl version isl-0.20-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.0'  '-shared-libgcc' '-mtune=core2'
+ as -arch x86_64 -v -force_cpusubtype_ALL -mmacosx-version-min=10.13 -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqiysnE.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccOTYszC.s
+Apple LLVM version 10.0.0 (clang-1000.10.44.2)
+Target: x86_64-apple-darwin17.7.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1as -triple x86_64-apple-macosx10.13.0 -filetype obj -main-file-name ccOTYszC.s -target-cpu penryn -fdebug-compilation-dir /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/3.11.0-rc2/CompilerIdFortran -dwarf-debug-producer Apple LLVM version 10.0.0 (clang-1000.10.44.2) -dwarf-version=4 -mrelocation-model pic -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqiysnE.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccOTYszC.s
+Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec
+rename spec lib to liborig
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.0'  '-shared-libgcc' '-mtune=core2'
+COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/
+LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.13.0'  '-shared-libgcc' '-mtune=core2'
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqiysnE.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+collect2 version 8.2.0
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.13.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqiysnE.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+@(#)PROGRAM:ld  PROJECT:ld64-409.12
+BUILD 02:04:28 Aug 14 2018
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+ /usr/bin/nm -n /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqiysnE.o
+
+
+Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "a.out"
+
+The Fortran compiler identification is GNU, found in "/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/3.11.0-rc2/CompilerIdFortran/a.out"
+
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Library/Developer/CommandLineTools/usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is AppleClang, found in "/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/3.11.0-rc2/CompilerIdC/a.out"
+
+Determining if the Fortran compiler works passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_eea82/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_eea82.dir/build.make CMakeFiles/cmTC_eea82.dir/build
+Building Fortran object CMakeFiles/cmTC_eea82.dir/testFortranCompiler.f.o
+/usr/local/bin/gfortran    -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_eea82.dir/testFortranCompiler.f.o
+Linking Fortran executable cmTC_eea82
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eea82.dir/link.txt --verbose=1
+/usr/local/bin/gfortran      CMakeFiles/cmTC_eea82.dir/testFortranCompiler.f.o  -o cmTC_eea82 
+
+
+Detecting Fortran compiler ABI info compiled with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b8183/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b8183.dir/build.make CMakeFiles/cmTC_b8183.dir/build
+Building Fortran object CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o
+/usr/local/bin/gfortran    -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o
+Linking Fortran executable cmTC_b8183
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b8183.dir/link.txt --verbose=1
+/usr/local/bin/gfortran   -v -Wl,-v   CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o  -o cmTC_b8183 
+Driving: /usr/local/bin/gfortran -v -Wl,-v CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o -o cmTC_b8183 -mmacosx-version-min=10.13.0 -asm_macosx_version_min=10.13 -l gfortran -shared-libgcc
+Using built-in specs.
+COLLECT_GCC=/usr/local/bin/gfortran
+COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper
+Target: x86_64-apple-darwin17.7.0
+Configured with: ../configure --build=x86_64-apple-darwin17.7.0 --prefix=/usr/local/Cellar/gcc/8.2.0 --libdir=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8 --enable-languages=c,c++,objc,obj-c++,fortran --program-suffix=-8 --with-gmp=/usr/local/opt/gmp --with-mpfr=/usr/local/opt/mpfr --with-mpc=/usr/local/opt/libmpc --with-isl=/usr/local/opt/isl --with-system-zlib --enable-checking=release --with-pkgversion='Homebrew GCC 8.2.0' --with-bugurl=https://github.com/Homebrew/homebrew-core/issues --disable-nls
+Thread model: posix
+gcc version 8.2.0 (Homebrew GCC 8.2.0) 
+Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec
+rename spec lib to liborig
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b8183' '-mmacosx-version-min=10.13.0' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2'
+COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/
+LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b8183' '-mmacosx-version-min=10.13.0' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2'
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.0 -weak_reference_mismatches non-weak -o cmTC_b8183 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+collect2 version 8.2.0
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.13.0 -weak_reference_mismatches non-weak -o cmTC_b8183 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+@(#)PROGRAM:ld  PROJECT:ld64-409.12
+BUILD 02:04:28 Aug 14 2018
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+@(#)PROGRAM:ld  PROJECT:ld64-409.12
+BUILD 02:04:28 Aug 14 2018
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+ /usr/bin/nm -n CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o
+
+
+Parsed Fortran implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_b8183/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b8183.dir/build.make CMakeFiles/cmTC_b8183.dir/build]
+  ignore line: [Building Fortran object CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [/usr/local/bin/gfortran    -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [Linking Fortran executable cmTC_b8183]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b8183.dir/link.txt --verbose=1]
+  ignore line: [/usr/local/bin/gfortran   -v -Wl,-v   CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o  -o cmTC_b8183 ]
+  ignore line: [Driving: /usr/local/bin/gfortran -v -Wl,-v CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o -o cmTC_b8183 -mmacosx-version-min=10.13.0 -asm_macosx_version_min=10.13 -l gfortran -shared-libgcc]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/local/bin/gfortran]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper]
+  ignore line: [Target: x86_64-apple-darwin17.7.0]
+  ignore line: [Configured with: ../configure --build=x86_64-apple-darwin17.7.0 --prefix=/usr/local/Cellar/gcc/8.2.0 --libdir=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8 --enable-languages=c,c++,objc,obj-c++,fortran --program-suffix=-8 --with-gmp=/usr/local/opt/gmp --with-mpfr=/usr/local/opt/mpfr --with-mpc=/usr/local/opt/libmpc --with-isl=/usr/local/opt/isl --with-system-zlib --enable-checking=release --with-pkgversion='Homebrew GCC 8.2.0' --with-bugurl=https://github.com/Homebrew/homebrew-core/issues --disable-nls]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.2.0 (Homebrew GCC 8.2.0) ]
+  ignore line: [Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec]
+  ignore line: [rename spec lib to liborig]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b8183' '-mmacosx-version-min=10.13.0' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2']
+  ignore line: [COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/]
+  ignore line: [LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b8183' '-mmacosx-version-min=10.13.0' '-asm_macosx_version_min=10.13' '-shared-libgcc' '-mtune=core2']
+  link line: [ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.13.0 -weak_reference_mismatches non-weak -o cmTC_b8183 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v]
+    arg [/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2] ==> ignore
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.13.0] ==> ignore
+    arg [-weak_reference_mismatches] ==> ignore
+    arg [non-weak] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_b8183] ==> ignore
+    arg [-L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0] ==> dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0]
+    arg [-L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..] ==> dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..]
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_b8183.dir/CMakeFortranCompilerABI.F.o] ==> ignore
+    arg [-lgfortran] ==> lib [gfortran]
+    arg [-no_compact_unwind] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [-lgcc_ext.10.5] ==> lib [gcc_ext.10.5]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lquadmath] ==> lib [quadmath]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_ext.10.5] ==> lib [gcc_ext.10.5]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lSystem] ==> lib [System]
+    arg [-v] ==> ignore
+  Library search paths: [;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [System]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
+  implicit libs: [gfortran;gcc_ext.10.5;gcc;quadmath;m;gcc_ext.10.5;gcc]
+  implicit dirs: [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8;/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
+
+
+Determining if the Fortran compiler supports Fortran 90 passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b4eda/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b4eda.dir/build.make CMakeFiles/cmTC_b4eda.dir/build
+Building Fortran object CMakeFiles/cmTC_b4eda.dir/testFortranCompilerF90.f90.o
+/usr/local/bin/gfortran    -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_b4eda.dir/testFortranCompilerF90.f90.o
+Linking Fortran executable cmTC_b4eda
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b4eda.dir/link.txt --verbose=1
+/usr/local/bin/gfortran      CMakeFiles/cmTC_b4eda.dir/testFortranCompilerF90.f90.o  -o cmTC_b4eda 
+
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_84ac9/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_84ac9.dir/build.make CMakeFiles/cmTC_84ac9.dir/build
+Building C object CMakeFiles/cmTC_84ac9.dir/testCCompiler.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_84ac9.dir/testCCompiler.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_84ac9
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_84ac9.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_84ac9.dir/testCCompiler.c.o  -o cmTC_84ac9 
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ee196/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ee196.dir/build.make CMakeFiles/cmTC_ee196.dir/build
+Building C object CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_ee196
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee196.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o  -o cmTC_ee196 
+Apple LLVM version 10.0.0 (clang-1000.10.44.2)
+Target: x86_64-apple-darwin17.7.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.13.0 -o cmTC_ee196 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a
+@(#)PROGRAM:ld  PROJECT:ld64-409.12
+BUILD 02:04:28 Aug 14 2018
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_ee196/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ee196.dir/build.make CMakeFiles/cmTC_ee196.dir/build]
+  ignore line: [Building C object CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc    -o CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_ee196]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee196.dir/link.txt --verbose=1]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o  -o cmTC_ee196 ]
+  ignore line: [Apple LLVM version 10.0.0 (clang-1000.10.44.2)]
+  ignore line: [Target: x86_64-apple-darwin17.7.0]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
+  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.13.0 -o cmTC_ee196 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
+    arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
+    arg [-demangle] ==> ignore
+    arg [-lto_library] ==> ignore, skip following value
+    arg [/Library/Developer/CommandLineTools/usr/lib/libLTO.dylib] ==> skip value of -lto_library
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.13.0] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_ee196] ==> ignore
+    arg [-search_paths_first] ==> ignore
+    arg [-headerpad_max_install_names] ==> ignore
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_ee196.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
+  Library search paths: [;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/lib/darwin/libclang_rt.osx.a]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
+  implicit libs: []
+  implicit dirs: [/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7a06a/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_7a06a.dir/build.make CMakeFiles/cmTC_7a06a.dir/build
+Building C object CMakeFiles/cmTC_7a06a.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_7a06a.dir/feature_tests.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_7a06a
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7a06a.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_7a06a.dir/feature_tests.c.o  -o cmTC_7a06a 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_93e68/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_93e68.dir/build.make CMakeFiles/cmTC_93e68.dir/build
+Building C object CMakeFiles/cmTC_93e68.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_93e68.dir/feature_tests.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_93e68
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93e68.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_93e68.dir/feature_tests.c.o  -o cmTC_93e68 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8c4f9/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_8c4f9.dir/build.make CMakeFiles/cmTC_8c4f9.dir/build
+Building C object CMakeFiles/cmTC_8c4f9.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_8c4f9.dir/feature_tests.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_8c4f9
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8c4f9.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_8c4f9.dir/feature_tests.c.o  -o cmTC_8c4f9 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the include file alloca.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4cdc8/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_4cdc8.dir/build.make CMakeFiles/cmTC_4cdc8.dir/build
+Building C object CMakeFiles/cmTC_4cdc8.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_4cdc8.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_4cdc8
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4cdc8.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_4cdc8.dir/CheckIncludeFile.c.o  -o cmTC_4cdc8 
+
+
+Determining if the include file ctype.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_baef3/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_baef3.dir/build.make CMakeFiles/cmTC_baef3.dir/build
+Building C object CMakeFiles/cmTC_baef3.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_baef3.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_baef3
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_baef3.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_baef3.dir/CheckIncludeFile.c.o  -o cmTC_baef3 
+
+
+Determining if the include file dirent.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d5d55/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d5d55.dir/build.make CMakeFiles/cmTC_d5d55.dir/build
+Building C object CMakeFiles/cmTC_d5d55.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_d5d55.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_d5d55
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d5d55.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d5d55.dir/CheckIncludeFile.c.o  -o cmTC_d5d55 
+
+
+Determining if the include file dlfcn.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ff4de/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ff4de.dir/build.make CMakeFiles/cmTC_ff4de.dir/build
+Building C object CMakeFiles/cmTC_ff4de.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_ff4de.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_ff4de
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ff4de.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ff4de.dir/CheckIncludeFile.c.o  -o cmTC_ff4de 
+
+
+Determining if the include file errno.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_4eaed/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_4eaed.dir/build.make CMakeFiles/cmTC_4eaed.dir/build
+Building C object CMakeFiles/cmTC_4eaed.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_4eaed.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_4eaed
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4eaed.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_4eaed.dir/CheckIncludeFile.c.o  -o cmTC_4eaed 
+
+
+Determining if the include file fcntl.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f5f47/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f5f47.dir/build.make CMakeFiles/cmTC_f5f47.dir/build
+Building C object CMakeFiles/cmTC_f5f47.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_f5f47.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_f5f47
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f5f47.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f5f47.dir/CheckIncludeFile.c.o  -o cmTC_f5f47 
+
+
+Determining if the include file getopt.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_77f02/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_77f02.dir/build.make CMakeFiles/cmTC_77f02.dir/build
+Building C object CMakeFiles/cmTC_77f02.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_77f02.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_77f02
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_77f02.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_77f02.dir/CheckIncludeFile.c.o  -o cmTC_77f02 
+
+
+Determining if the include file stdbool.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_18b84/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_18b84.dir/build.make CMakeFiles/cmTC_18b84.dir/build
+Building C object CMakeFiles/cmTC_18b84.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_18b84.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_18b84
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_18b84.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_18b84.dir/CheckIncludeFile.c.o  -o cmTC_18b84 
+
+
+Determining if the include file locale.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e0c7f/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e0c7f.dir/build.make CMakeFiles/cmTC_e0c7f.dir/build
+Building C object CMakeFiles/cmTC_e0c7f.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_e0c7f.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_e0c7f
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e0c7f.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e0c7f.dir/CheckIncludeFile.c.o  -o cmTC_e0c7f 
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_27fc4/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_27fc4.dir/build.make CMakeFiles/cmTC_27fc4.dir/build
+Building C object CMakeFiles/cmTC_27fc4.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_27fc4.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_27fc4
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_27fc4.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_27fc4.dir/CheckIncludeFile.c.o  -o cmTC_27fc4 
+
+
+Determining if the include file stdio.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f6505/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f6505.dir/build.make CMakeFiles/cmTC_f6505.dir/build
+Building C object CMakeFiles/cmTC_f6505.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_f6505.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_f6505
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f6505.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f6505.dir/CheckIncludeFile.c.o  -o cmTC_f6505 
+
+
+Determining if the include file stdlib.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b4f02/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b4f02.dir/build.make CMakeFiles/cmTC_b4f02.dir/build
+Building C object CMakeFiles/cmTC_b4f02.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_b4f02.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_b4f02
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b4f02.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_b4f02.dir/CheckIncludeFile.c.o  -o cmTC_b4f02 
+
+
+Determining if the include file stdarg.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1d751/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_1d751.dir/build.make CMakeFiles/cmTC_1d751.dir/build
+Building C object CMakeFiles/cmTC_1d751.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_1d751.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_1d751
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1d751.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_1d751.dir/CheckIncludeFile.c.o  -o cmTC_1d751 
+
+
+Determining if the include file strings.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_30956/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_30956.dir/build.make CMakeFiles/cmTC_30956.dir/build
+Building C object CMakeFiles/cmTC_30956.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_30956.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_30956
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30956.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_30956.dir/CheckIncludeFile.c.o  -o cmTC_30956 
+
+
+Determining if the include file signal.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2fe20/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_2fe20.dir/build.make CMakeFiles/cmTC_2fe20.dir/build
+Building C object CMakeFiles/cmTC_2fe20.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_2fe20.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_2fe20
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2fe20.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_2fe20.dir/CheckIncludeFile.c.o  -o cmTC_2fe20 
+
+
+Determining if the include file sys/dir.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a8280/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a8280.dir/build.make CMakeFiles/cmTC_a8280.dir/build
+Building C object CMakeFiles/cmTC_a8280.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_a8280.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_a8280
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a8280.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a8280.dir/CheckIncludeFile.c.o  -o cmTC_a8280 
+
+
+Determining if the include file sys/param.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_94e8c/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_94e8c.dir/build.make CMakeFiles/cmTC_94e8c.dir/build
+Building C object CMakeFiles/cmTC_94e8c.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_94e8c.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_94e8c
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_94e8c.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_94e8c.dir/CheckIncludeFile.c.o  -o cmTC_94e8c 
+
+
+Determining if the include file sys/stat.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0b76e/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0b76e.dir/build.make CMakeFiles/cmTC_0b76e.dir/build
+Building C object CMakeFiles/cmTC_0b76e.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_0b76e.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_0b76e
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0b76e.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_0b76e.dir/CheckIncludeFile.c.o  -o cmTC_0b76e 
+
+
+Determining if the include file sys/time.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_07793/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_07793.dir/build.make CMakeFiles/cmTC_07793.dir/build
+Building C object CMakeFiles/cmTC_07793.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_07793.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_07793
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_07793.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_07793.dir/CheckIncludeFile.c.o  -o cmTC_07793 
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_34dc2/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_34dc2.dir/build.make CMakeFiles/cmTC_34dc2.dir/build
+Building C object CMakeFiles/cmTC_34dc2.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_34dc2.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_34dc2
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_34dc2.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_34dc2.dir/CheckIncludeFile.c.o  -o cmTC_34dc2 
+
+
+Determining if the include file sys/wait.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_54670/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_54670.dir/build.make CMakeFiles/cmTC_54670.dir/build
+Building C object CMakeFiles/cmTC_54670.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_54670.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_54670
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_54670.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_54670.dir/CheckIncludeFile.c.o  -o cmTC_54670 
+
+
+Determining if the include file sys/resource.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_68f1f/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_68f1f.dir/build.make CMakeFiles/cmTC_68f1f.dir/build
+Building C object CMakeFiles/cmTC_68f1f.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_68f1f.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_68f1f
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_68f1f.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_68f1f.dir/CheckIncludeFile.c.o  -o cmTC_68f1f 
+
+
+Determining if the include file inttypes.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a4a9c/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a4a9c.dir/build.make CMakeFiles/cmTC_a4a9c.dir/build
+Building C object CMakeFiles/cmTC_a4a9c.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_a4a9c.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_a4a9c
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a4a9c.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a4a9c.dir/CheckIncludeFile.c.o  -o cmTC_a4a9c 
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5ed37/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_5ed37.dir/build.make CMakeFiles/cmTC_5ed37.dir/build
+Building C object CMakeFiles/cmTC_5ed37.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_5ed37.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_5ed37
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5ed37.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5ed37.dir/CheckIncludeFile.c.o  -o cmTC_5ed37 
+
+
+Determining if the include file memory.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1f14e/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_1f14e.dir/build.make CMakeFiles/cmTC_1f14e.dir/build
+Building C object CMakeFiles/cmTC_1f14e.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_1f14e.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_1f14e
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1f14e.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_1f14e.dir/CheckIncludeFile.c.o  -o cmTC_1f14e 
+
+
+Determining if the include file netcdf.h exists passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_84de9/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_84de9.dir/build.make CMakeFiles/cmTC_84de9.dir/build
+Building C object CMakeFiles/cmTC_84de9.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_84de9.dir/CheckIncludeFile.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_84de9
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_84de9.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_84de9.dir/CheckIncludeFile.c.o  -o cmTC_84de9 
+
+
+Determining size of void* passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f0d72/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f0d72.dir/build.make CMakeFiles/cmTC_f0d72.dir/build
+Building C object CMakeFiles/cmTC_f0d72.dir/SIZEOF_VOIDSTAR.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_f0d72.dir/SIZEOF_VOIDSTAR.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_VOIDSTAR.c
+Linking C executable cmTC_f0d72
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f0d72.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f0d72.dir/SIZEOF_VOIDSTAR.c.o  -o cmTC_f0d72 
+
+
+Determining size of char passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7f204/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_7f204.dir/build.make CMakeFiles/cmTC_7f204.dir/build
+Building C object CMakeFiles/cmTC_7f204.dir/SIZEOF_CHAR.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_7f204.dir/SIZEOF_CHAR.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_CHAR.c
+Linking C executable cmTC_7f204
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7f204.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_7f204.dir/SIZEOF_CHAR.c.o  -o cmTC_7f204 
+
+
+Determining size of double passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_01121/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_01121.dir/build.make CMakeFiles/cmTC_01121.dir/build
+Building C object CMakeFiles/cmTC_01121.dir/SIZEOF_DOUBLE.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_01121.dir/SIZEOF_DOUBLE.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_DOUBLE.c
+Linking C executable cmTC_01121
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_01121.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_01121.dir/SIZEOF_DOUBLE.c.o  -o cmTC_01121 
+
+
+Determining size of float passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f144f/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f144f.dir/build.make CMakeFiles/cmTC_f144f.dir/build
+Building C object CMakeFiles/cmTC_f144f.dir/SIZEOF_FLOAT.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_f144f.dir/SIZEOF_FLOAT.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_FLOAT.c
+Linking C executable cmTC_f144f
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f144f.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f144f.dir/SIZEOF_FLOAT.c.o  -o cmTC_f144f 
+
+
+Determining size of int passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_eaed7/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_eaed7.dir/build.make CMakeFiles/cmTC_eaed7.dir/build
+Building C object CMakeFiles/cmTC_eaed7.dir/SIZEOF_INT.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_eaed7.dir/SIZEOF_INT.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_INT.c
+Linking C executable cmTC_eaed7
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eaed7.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_eaed7.dir/SIZEOF_INT.c.o  -o cmTC_eaed7 
+
+
+Determining size of long passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5612f/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_5612f.dir/build.make CMakeFiles/cmTC_5612f.dir/build
+Building C object CMakeFiles/cmTC_5612f.dir/SIZEOF_LONG.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_5612f.dir/SIZEOF_LONG.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_LONG.c
+Linking C executable cmTC_5612f
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5612f.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5612f.dir/SIZEOF_LONG.c.o  -o cmTC_5612f 
+
+
+Determining size of long long passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a28b1/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a28b1.dir/build.make CMakeFiles/cmTC_a28b1.dir/build
+Building C object CMakeFiles/cmTC_a28b1.dir/SIZEOF_LONG_LONG.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_a28b1.dir/SIZEOF_LONG_LONG.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_LONG_LONG.c
+Linking C executable cmTC_a28b1
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a28b1.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a28b1.dir/SIZEOF_LONG_LONG.c.o  -o cmTC_a28b1 
+
+
+Determining size of off_t passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5eb07/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_5eb07.dir/build.make CMakeFiles/cmTC_5eb07.dir/build
+Building C object CMakeFiles/cmTC_5eb07.dir/SIZEOF_OFF_T.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_5eb07.dir/SIZEOF_OFF_T.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_OFF_T.c
+Linking C executable cmTC_5eb07
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5eb07.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5eb07.dir/SIZEOF_OFF_T.c.o  -o cmTC_5eb07 
+
+
+Determining size of short passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_83a70/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_83a70.dir/build.make CMakeFiles/cmTC_83a70.dir/build
+Building C object CMakeFiles/cmTC_83a70.dir/SIZEOF_SHORT.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_83a70.dir/SIZEOF_SHORT.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_SHORT.c
+Linking C executable cmTC_83a70
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_83a70.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_83a70.dir/SIZEOF_SHORT.c.o  -o cmTC_83a70 
+
+
+Determining size of size_t passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6b098/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_6b098.dir/build.make CMakeFiles/cmTC_6b098.dir/build
+Building C object CMakeFiles/cmTC_6b098.dir/SIZEOF_SIZE_T.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_6b098.dir/SIZEOF_SIZE_T.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_SIZE_T.c
+Linking C executable cmTC_6b098
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6b098.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_6b098.dir/SIZEOF_SIZE_T.c.o  -o cmTC_6b098 
+
+
+Determining size of ssize_t passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_06c4b/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_06c4b.dir/build.make CMakeFiles/cmTC_06c4b.dir/build
+Building C object CMakeFiles/cmTC_06c4b.dir/SIZEOF_SSIZE_T.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_06c4b.dir/SIZEOF_SSIZE_T.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_SSIZE_T.c
+Linking C executable cmTC_06c4b
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_06c4b.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_06c4b.dir/SIZEOF_SSIZE_T.c.o  -o cmTC_06c4b 
+
+
+Determining size of int64_t passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_08d90/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_08d90.dir/build.make CMakeFiles/cmTC_08d90.dir/build
+Building C object CMakeFiles/cmTC_08d90.dir/SIZEOF_INT64_T.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_08d90.dir/SIZEOF_INT64_T.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_INT64_T.c
+Linking C executable cmTC_08d90
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_08d90.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_08d90.dir/SIZEOF_INT64_T.c.o  -o cmTC_08d90 
+
+
+Determining size of uint64_t passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_42740/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_42740.dir/build.make CMakeFiles/cmTC_42740.dir/build
+Building C object CMakeFiles/cmTC_42740.dir/SIZEOF_UINT64_T.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2    -o CMakeFiles/cmTC_42740.dir/SIZEOF_UINT64_T.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_UINT64_T.c
+Linking C executable cmTC_42740
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_42740.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_42740.dir/SIZEOF_UINT64_T.c.o  -o cmTC_42740 
+
+
+Determining if the function nc_def_opaque exists in the /usr/local/lib/libnetcdf.dylib passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_04a48/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_04a48.dir/build.make CMakeFiles/cmTC_04a48.dir/build
+Building C object CMakeFiles/cmTC_04a48.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nc_def_opaque   -o CMakeFiles/cmTC_04a48.dir/CheckFunctionExists.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c
+Linking C executable cmTC_04a48
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_04a48.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nc_def_opaque -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_04a48.dir/CheckFunctionExists.c.o  -o cmTC_04a48 /usr/local/lib/libnetcdf.dylib 
+
+
+Determining if the function nccreate exists in the /usr/local/lib/libnetcdf.dylib passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e302a/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e302a.dir/build.make CMakeFiles/cmTC_e302a.dir/build
+Building C object CMakeFiles/cmTC_e302a.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nccreate   -o CMakeFiles/cmTC_e302a.dir/CheckFunctionExists.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e302a
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e302a.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=nccreate -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e302a.dir/CheckFunctionExists.c.o  -o cmTC_e302a /usr/local/lib/libnetcdf.dylib 
+
+
+Determining if the function oc_open exists in the /usr/local/lib/libnetcdf.dylib passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c209b/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_c209b.dir/build.make CMakeFiles/cmTC_c209b.dir/build
+Building C object CMakeFiles/cmTC_c209b.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=oc_open   -o CMakeFiles/cmTC_c209b.dir/CheckFunctionExists.c.o   -c /Applications/CMake.app/Contents/share/cmake-3.11/Modules/CheckFunctionExists.c
+Linking C executable cmTC_c209b
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c209b.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -DCHECK_FUNCTION_EXISTS=oc_open -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_c209b.dir/CheckFunctionExists.c.o  -o cmTC_c209b /usr/local/lib/libnetcdf.dylib 
+
+
+Determining size of signed char passed with the following output:
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_a6ff3/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a6ff3.dir/build.make CMakeFiles/cmTC_a6ff3.dir/build
+Building C object CMakeFiles/cmTC_a6ff3.dir/SIZEOF_SIGNED_CHAR.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -fmacro-backtrace-limit=0    -o CMakeFiles/cmTC_a6ff3.dir/SIZEOF_SIGNED_CHAR.c.o   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Libs/netcdf-fortran/build/CMakeFiles/CheckTypeSize/SIZEOF_SIGNED_CHAR.c
+Linking C executable cmTC_a6ff3
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a6ff3.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc  -g -Wall -Wno-unused-variable -Wno-unused-parameter -O2 -fmacro-backtrace-limit=0  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a6ff3.dir/SIZEOF_SIGNED_CHAR.c.o  -o cmTC_a6ff3 
+
+
