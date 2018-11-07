@@ -281,7 +281,7 @@ P4COMMAND:FILEPATH=P4COMMAND-NOTFOUND
 SCPCOMMAND:FILEPATH=/usr/bin/scp
 
 //Name of the computer/site where compile is being run
-SITE:STRING=Ricardos-MBP.lan
+SITE:STRING=Ricardos-MacBook-Pro.local
 
 //Path to the SLURM sbatch executable
 SLURM_SBATCH_COMMAND:FILEPATH=SLURM_SBATCH_COMMAND-NOTFOUND
