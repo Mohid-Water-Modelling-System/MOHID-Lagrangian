@@ -4,7 +4,7 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - gfortran-7
+      - gfortran-8
 before_install:
     - sudo apt-get install libnetcdf-dev -y
 before_script:
