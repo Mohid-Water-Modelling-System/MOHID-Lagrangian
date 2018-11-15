@@ -5,7 +5,7 @@ Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/I
 Microsoft Visual Studio 2015 Version 14.0.25420.1.
 Copyright (C) Microsoft Corp. All rights reserved.
 
-The license for Visual Studio expires in 46 days.
+The license for Visual Studio expires in 33 days.
 
 Package 'IFLangServicePackage' failed to load.
 
