@@ -2,8 +2,11 @@
 cls
 
 set build_dir_global=Libs_build_win
+
+set LOCAL_NCF4=C:/Program Files/netCDF 4.6.1
 set dir_netcdff=netcdf-fortran
 set build_dir_netcdff=build_win
+
 set dir_fox=fox
 set build_dir_fox=build_win
 
@@ -31,7 +34,7 @@ if exist %build_dir_netcdff% del /Q %build_dir_netcdff%\*.*
 if not exist %build_dir_netcdff% mkdir %build_dir_netcdff%
 cd %build_dir_netcdff%
 rem run cmake for NetCDF Fortran
-cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -DBUILD_DAP:BOOL="1" -DENABLE_NETCDF4:BOOL="1" -DBUILD_PARALLEL:BOOL="1" -DUSE_NETCDF4:BOOL="1" -DBUILD_SHARED_LIBS="OFF" -DBUILD_TESTING:BOOL="0" -DBUILD_EXAMPLES:BOOL="0" -DENABLE_TESTS:BOOL="0" -DNETCDF_C_LIBRARY="C:/Program Files/netCDF 4.6.1/lib/netcdf.lib" -DNETCDF_INCLUDE_DIR="C:/Program Files/netCDF 4.6.1/include" -DNETCDF_C_INCLUDE_DIR="C:/Program Files/netCDF 4.6.1/include"
+cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -DBUILD_DAP:BOOL="1" -DENABLE_NETCDF4:BOOL="1" -DBUILD_PARALLEL:BOOL="1" -DUSE_NETCDF4:BOOL="1" -DBUILD_SHARED_LIBS="OFF" -DBUILD_TESTING:BOOL="1" -DBUILD_EXAMPLES:BOOL="1" -DENABLE_TESTS:BOOL="1" -DCMAKE_PREFIX_PATH:FILEPATH="%LOCAL_NCF4%" 
 cd ..
 cd ..
 

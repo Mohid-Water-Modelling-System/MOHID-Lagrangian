@@ -5,6 +5,7 @@ message("At Application CMAKE file")
 # Adds sources to the Solution Explorer
 
 add_executable(${BIN_NAME} MOHIDLagrangian.f90)
+add_executable(nc_reader read_nc.f90)
 
 if (CMAKE_HOST_WIN32)
     set(WINDOWS 1)
@@ -52,22 +53,34 @@ message(STATUS "Targeting " ${LIBS})
 message(STATUS "Targeting external libraries " ${EXTERNAL_LIBS})
 
 target_link_libraries (${BIN_NAME}  ${LIB_NAME})
+target_link_libraries (nc_reader  ${LIB_NAME})
 if(WINDOWS)
   target_link_libraries (${BIN_NAME} ${LIBS})
   target_link_libraries (${BIN_NAME} ${EXTERNAL_LIBS})
+  target_link_libraries (nc_reader ${LIBS})
+  target_link_libraries (nc_reader ${EXTERNAL_LIBS})
 elseif(OSX)
   target_link_libraries (${BIN_NAME} ${LIBS})
   target_link_libraries (${BIN_NAME} ${EXTERNAL_LIBS})
+  target_link_libraries (nc_reader ${LIBS})
+  target_link_libraries (nc_reader ${EXTERNAL_LIBS})
 elseif(LINUX)
   target_link_libraries (${BIN_NAME}  -Wl,--start-group ${LIBS} -Wl,--end-group)
   target_link_libraries (${BIN_NAME}  -Wl,--start-group ${EXTERNAL_LIBS} -Wl,--end-group)
+  target_link_libraries (nc_reader -Wl,--start-group ${LIBS} -Wl,--end-group)
+  target_link_libraries (nc_reader -Wl,--start-group ${EXTERNAL_LIBS} -Wl,--end-group)
 endif()
 
 # Creates a folder "executables" and adds target
 # project (app.vcproj) under it
 set_property(TARGET ${BIN_NAME} PROPERTY FOLDER "executables")
 set_property(TARGET ${BIN_NAME} PROPERTY LINKER_LANGUAGE Fortran)
+set_property(TARGET nc_reader PROPERTY FOLDER "executables")
+set_property(TARGET nc_reader PROPERTY LINKER_LANGUAGE Fortran)
 
 # Properties->General->Output Directory
 set_target_properties(${BIN_NAME} PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+					  
+set_target_properties(nc_reader PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
