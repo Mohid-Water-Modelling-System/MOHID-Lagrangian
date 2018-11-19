@@ -28,6 +28,8 @@ if(WINDOWS)
 elseif(LINUX)
   set(EXTERNAL_LIBS_MODULES ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux/modules)
   set(EXTERNAL_LIBS_LIB ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux/lib)
+  #add netcdf lib directory
+  
 endif()
 
 include_directories (${EXTERNAL_LIBS_MODULES})
@@ -38,6 +40,14 @@ message(STATUS "Added External Library .lib path " ${EXTERNAL_LIBS_LIB})
 
 # Properties->Linker->Input->Additional Dependencies
 
+IF(NOT NETCDF_C_LIBRARY)
+  FIND_LIBRARY(NETCDF_C_LIBRARY NAMES netcdf)
+  IF(NOT NETCDF_C_LIBRARY)
+    MESSAGE(FATAL_ERROR "libnetcdf not found.")
+  ENDIF()
+ENDIF()
+MESSAGE(STATUS "Found netcdf library: ${NETCDF_C_LIBRARY}")
+
 if(WINDOWS)
   file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib")
   file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/*.lib")
@@ -46,6 +56,8 @@ elseif(LINUX)
   file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.a")
   file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/*.a")
   file(GLOB EXTERNAL_LIBS "${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux/lib/*.a")
+  #add netcdf libs
+  
 endif()
 
 message(STATUS "Targeting library " ${LIB_NAME})
@@ -64,11 +76,15 @@ elseif(OSX)
   target_link_libraries (${BIN_NAME} ${EXTERNAL_LIBS})
   target_link_libraries (nc_reader ${LIBS})
   target_link_libraries (nc_reader ${EXTERNAL_LIBS})
+  
+  
 elseif(LINUX)
   target_link_libraries (${BIN_NAME}  -Wl,--start-group ${LIBS} -Wl,--end-group)
   target_link_libraries (${BIN_NAME}  -Wl,--start-group ${EXTERNAL_LIBS} -Wl,--end-group)
   target_link_libraries (nc_reader -Wl,--start-group ${LIBS} -Wl,--end-group)
   target_link_libraries (nc_reader -Wl,--start-group ${EXTERNAL_LIBS} -Wl,--end-group)
+  
+  
 endif()
 
 # Creates a folder "executables" and adds target
