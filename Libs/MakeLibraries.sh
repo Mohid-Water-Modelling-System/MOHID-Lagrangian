@@ -19,7 +19,7 @@ cd $dirout
 diroutpwd=$PWD
 echo ------------------------------------
 echo Running cmake for nice and small libraries
-cmake -Wno-dev ..
+cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release
 echo Running make for nice and small libraries
 make
 
@@ -34,7 +34,7 @@ mkdir $diroutfox
 cd $diroutfox
 echo ------------------------------------
 echo Running cmake for fox library
-cmake -Wno-dev ..
+cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release
 echo Running make for fox library
 make
 
@@ -48,7 +48,7 @@ mkdir $diroutnetcdff
 cd $diroutnetcdff
 echo ------------------------------------
 echo Running cmake for netCDF-Fortran library, hope you installed netCDF in your system
-cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -DENABLE_TESTS=OFF
+cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
 echo Running make for netCDF-Fortran library
 make
 

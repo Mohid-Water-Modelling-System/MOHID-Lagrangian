@@ -1,7 +1,4 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-# Maps to Visual Studio solution file (Tutorial.sln)
-# The solution will have all targets (exe, lib, dll)
-# as Visual Studio projects (.vcproj)
 
 project(MOHIDLagrangian Fortran) 
 enable_language(Fortran)
@@ -18,7 +15,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 SET(BIN_NAME MOHIDLagrangian)
 SET(LIB_NAME MOHIDLagrangianLib)
-SET(C_LIB_NAME C_Libs)
 
 message("Project name " ${BIN_NAME})
 message("Library name " ${LIB_NAME})
@@ -39,18 +35,6 @@ message(STATUS "Executable output path " ${EXECUTABLE_OUTPUT_PATH})
 message(STATUS "Library output path " ${LIBRARY_OUTPUT_PATH})
 message(STATUS "Modules output path " ${CMAKE_Fortran_MODULE_DIRECTORY})
 
-#################################################################
-# CONFIGURATION TYPES & BUILD MODE & BUILD_TESTS
-#################################################################
-
-SET(CMAKE_CONFIGURATION_TYPES RELEASE)
-IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE RELEASE CACHE STRING
-      "Choose the type of build, options are: NONE RELEASE"
-      FORCE)
-
-  SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS NONE RELEASE)
-ENDIF(NOT CMAKE_BUILD_TYPE)
 
 #################################################################
 # FFLAGS depend on the compiler and the build type
