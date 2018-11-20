@@ -150,7 +150,6 @@ f2c_maps(int ncid, int varid, const NF_INTEGER* fmaps, ptrdiff_t* cmaps)
     return f2c_strides(ncid, varid, fmaps, cmaps);
 }
 
-#if 0
 #ifdef USE_NETCDF4
 /* These appear to only be defined in netcdf-4*/
 
@@ -275,4 +274,3 @@ nc_inq_compound_field_f(int ncid, nc_type xtype, int fieldid, char *name,
 }
 
 #endif /*USE_NETCDF4*/
-#endif

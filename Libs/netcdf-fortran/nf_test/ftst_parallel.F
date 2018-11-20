@@ -10,50 +10,7 @@
       implicit none
       include 'netcdf.inc'
       include 'mpif.h'
-
-      integer mode_flag ! file create mode
-      integer p, my_rank, ierr
-
-      call MPI_Init(ierr)
-      call MPI_Comm_rank(MPI_COMM_WORLD, my_rank, ierr)
-      call MPI_Comm_size(MPI_COMM_WORLD, p, ierr)
-
-      if (my_rank .eq. 0) then
-         print *, ' '
-         print *, '*** Testing netCDF-4 parallel I/O from Fortran 77.'
-      endif
-
-!     There must be 4 procs for this test.
-      if (p .ne. 4) then
-         print *, 'This test program must be run on 4 processors.'
-         stop 2
-      endif
-
-#ifdef NF_HAS_PNETCDF
-      mode_flag = IOR(nf_clobber, nf_mpiio)
-      call parallel_io(mode_flag)
-#endif
-
-#ifdef NF_HAS_PARALLEL4
-      mode_flag = IOR(nf_netcdf4, nf_classic_model)
-      mode_flag = IOR(mode_flag, nf_clobber)
-      mode_flag = IOR(mode_flag, nf_mpiio)
-      call parallel_io(mode_flag)
-#endif
-
-      call MPI_Finalize(ierr)
-
-      if (my_rank .eq. 0) print *,'*** SUCCESS!'
-
-      end program ftst_parallel
-
-      subroutine parallel_io(mode_flag)
-      implicit none
-      include 'netcdf.inc'
-      include 'mpif.h'
-
-      integer mode_flag ! file create mode
-
+      
       character*(*) FILE_NAME
       parameter (FILE_NAME = 'ftst_parallel.nc')
 
@@ -67,11 +24,25 @@
       integer ncid, varid, dimids(MAX_DIMS)
       integer x_dimid, y_dimid
       integer data_out(NY / 2, NX / 2), data_in(NY / 2, NX / 2)
+      integer mode_flag
       integer x, y, retval
-      integer my_rank, ierr
+      integer p, my_rank, ierr
       integer start(MAX_DIMS), count(MAX_DIMS)
 
+      call MPI_Init(ierr)
       call MPI_Comm_rank(MPI_COMM_WORLD, my_rank, ierr)
+      call MPI_Comm_size(MPI_COMM_WORLD, p, ierr)
+
+      if (my_rank .eq. 0) then
+         print *, ' '
+         print *, '*** Testing netCDF-4 parallel I/O from Fortran 77.'
+      endif
+
+!     There must be 4 procs for this test.
+      if (p .ne. 4) then
+         print *, 'This test program must be run on 4 processors.'
+         stop 2 
+      endif
 
 !     Create some pretend data.
       do x = 1, NX / 2
@@ -80,8 +51,10 @@
          end do
       end do
 
-!     Create the netCDF file.
-      retval = nf_create_par(FILE_NAME, mode_flag, MPI_COMM_WORLD,
+!     Create the netCDF file. 
+      mode_flag = IOR(nf_netcdf4, nf_classic_model) 
+      mode_flag = IOR(mode_flag, nf_mpiio) 
+      retval = nf_create_par(FILE_NAME, mode_flag, MPI_COMM_WORLD, 
      $     MPI_INFO_NULL, ncid)
       if (retval .ne. nf_noerr) stop 3
 
@@ -93,7 +66,7 @@
       dimids(1) = y_dimid
       dimids(2) = x_dimid
 
-!     Define the variable.
+!     Define the variable. 
       retval = nf_def_var(ncid, "data", NF_INT, MAX_DIMS, dimids, varid)
       if (retval .ne. nf_noerr) stop 6
 
@@ -123,15 +96,15 @@
       retval = nf_put_vara_int(ncid, varid, start, count, data_out)
       if (retval .ne. nf_noerr) stop 8
 
-!     Close the file.
+!     Close the file. 
       retval = nf_close(ncid)
       if (retval .ne. nf_noerr) stop 9
 
 !     Reopen the file.
-      retval = nf_open_par(FILE_NAME, nf_nowrite,
+      retval = nf_open_par(FILE_NAME, nf_nowrite, 
      $     MPI_COMM_WORLD, MPI_INFO_NULL, ncid)
       if (retval .ne. nf_einval) stop 7
-      retval = nf_open_par(FILE_NAME, IOR(nf_nowrite, nf_mpiio),
+      retval = nf_open_par(FILE_NAME, IOR(nf_nowrite, nf_mpiio), 
      $     MPI_COMM_WORLD, MPI_INFO_NULL, ncid)
       if (retval .ne. nf_noerr) stop 10
 
@@ -141,7 +114,7 @@
 !     function once in my testing.
       retval = nf_var_par_access(ncid, varid, nf_collective)
       if (retval .ne. nf_noerr) stop 11
-
+      
 !     Read this processor's data.
       retval = nf_get_vara_int(ncid, varid, start, count, data_in)
       if (retval .ne. nf_noerr) stop 12
@@ -153,8 +126,13 @@
          end do
       end do
 
-!     Close the file.
+!     Close the file. 
       retval = nf_close(ncid)
       if (retval .ne. nf_noerr) stop 14
 
-      end subroutine parallel_io
+      call MPI_Finalize(ierr)
+
+      if (my_rank .eq. 0) print *,'*** SUCCESS!'
+
+      end program ftst_parallel
+

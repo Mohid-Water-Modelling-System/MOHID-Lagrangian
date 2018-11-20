@@ -70,5 +70,6 @@ C
         character*(*)   msg
         integer         err
 
+        nfails = nfails + 1
         call errorc(msg, nf_strerror(err))
         end

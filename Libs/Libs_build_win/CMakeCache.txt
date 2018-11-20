@@ -14,8 +14,8 @@
 # EXTERNAL cache entries
 ########################
 
-//No help, variable specified on the command line.
-CMAKE_BUILD_TYPE:UNINITIALIZED=RELEASE
+//Choose the type of build, options are: NONE DEBUG RELEASE
+CMAKE_BUILD_TYPE:STRING=RELEASE
 
 //Semicolon separated list of supported configuration types, only
 // supports Debug, Release, MinSizeRel, and RelWithDebInfo, anything
@@ -52,11 +52,8 @@ CMAKE_Fortran_FLAGS_RELWITHDEBINFO:STRING=/O2 /debug:full /DNDEBUG
 //Libraries linked by default with all Fortran applications.
 CMAKE_Fortran_STANDARD_LIBRARIES:STRING=user32.lib
 
-//No help, variable specified on the command line.
-CMAKE_GENERATOR_PLATFORM:UNINITIALIZED=x64
-
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/LIBS
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files/LIBS
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=CMAKE_LINKER-NOTFOUND
@@ -166,6 +163,8 @@ LIBS_SOURCE_DIR:STATIC=C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/
 # INTERNAL cache entries
 ########################
 
+//STRINGS property for variable: CMAKE_BUILD_TYPE
+CMAKE_BUILD_TYPE-STRINGS:INTERNAL=NONE;DEBUG;RELEASE
 //This is the directory where this CMakeCache.txt was created
 CMAKE_CACHEFILE_DIR:INTERNAL=c:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win
 //Major version of cmake used to create the current loaded cache
@@ -207,9 +206,11 @@ CMAKE_Fortran_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_Fortran_STANDARD_LIBRARIES
 CMAKE_Fortran_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //Name of generator.
-CMAKE_GENERATOR:INTERNAL=Visual Studio 14 2015
+CMAKE_GENERATOR:INTERNAL=Visual Studio 14 2015 Win64
 //Generator instance identifier.
 CMAKE_GENERATOR_INSTANCE:INTERNAL=
+//Name of generator platform.
+CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this

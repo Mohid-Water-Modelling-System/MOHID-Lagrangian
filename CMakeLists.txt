@@ -88,9 +88,9 @@ ELSE ()
   set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -g")
 ENDIF ()
 
-message (STATUS "CMAKE_Fortran_COMPILER full path: " ${CMAKE_Fortran_COMPILER})
-message (STATUS "CMAKE_Fortran_FLAGS: " ${CMAKE_Fortran_FLAGS})
-message (STATUS "CMAKE_Fortran_FLAGS_RELEASE: " ${CMAKE_Fortran_FLAGS_RELEASE})
+message (STATUS "Fortran compiler full path: " ${CMAKE_Fortran_COMPILER})
+message (STATUS "Fortran compiler flags: " ${CMAKE_Fortran_FLAGS})
+message (STATUS "Fortran extra flags: " ${CMAKE_Fortran_FLAGS_RELEASE})
 
 #################################################################
 # ADD SOURCE SUBDIRS

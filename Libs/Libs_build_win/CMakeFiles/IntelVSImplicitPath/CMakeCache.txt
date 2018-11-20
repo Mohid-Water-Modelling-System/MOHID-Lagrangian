@@ -53,7 +53,7 @@ CMAKE_Fortran_FLAGS_RELWITHDEBINFO:STRING=/O2 /debug:full /DNDEBUG
 CMAKE_Fortran_STANDARD_LIBRARIES:STRING=user32.lib
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/IntelFortranImplicit
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files/IntelFortranImplicit
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -196,11 +196,11 @@ CMAKE_Fortran_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_Fortran_STANDARD_LIBRARIES
 CMAKE_Fortran_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //Name of generator.
-CMAKE_GENERATOR:INTERNAL=Visual Studio 14 2015
+CMAKE_GENERATOR:INTERNAL=Visual Studio 14 2015 Win64
 //Generator instance identifier.
 CMAKE_GENERATOR_INSTANCE:INTERNAL=
 //Name of generator platform.
-CMAKE_GENERATOR_PLATFORM:INTERNAL=x64
+CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this

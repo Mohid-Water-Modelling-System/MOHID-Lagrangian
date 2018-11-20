@@ -909,10 +909,8 @@
 
         integer ncid            !/* netCDF id */
         integer err             !/* netCDF status */
-        integer cmode
 
-        cmode = IOR(NF_CLOBBER, FILE_CMODE)
-        err = nf_create(filename, cmode, ncid)
+        err = nf_create(filename, NF_CLOBBER, ncid)
         if (err .ne. 0) then
             call errore('nf_create: ', err)
         end if
