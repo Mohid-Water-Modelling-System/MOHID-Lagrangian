@@ -24,7 +24,7 @@ echo Running make for nice and small libraries
 make
 
 # building complex libs
-cd ../../fox
+cd ../fox
 diroutfox=build_linux
 # "diroutfox" is created to store results or it is cleaned if it already exists
 if [ -e $diroutfox ]; then
@@ -38,7 +38,7 @@ cmake -Wno-dev ..
 echo Running make for fox library
 make
 
-cd ../netcdf-fortran
+cd ../../netcdf-fortran
 diroutnetcdff=build_linux
 # "diroutnetcdff" is created to store results or it is cleaned if it already exists
 if [ -e $diroutnetcdff ]; then
@@ -51,6 +51,9 @@ echo Running cmake for netCDF-Fortran library, hope you installed netCDF in your
 cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -DENABLE_TESTS=OFF
 echo Running make for netCDF-Fortran library
 make
+
+cd ..
+cd ..
 
 echo ------------------------------------
 echo All done, have a nice day
