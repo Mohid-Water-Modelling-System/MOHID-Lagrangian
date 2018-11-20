@@ -16,6 +16,21 @@ elseif(CMAKE_HOST_UNIX)
     set(LINUX 1)
 endif()
 
+IF(NOT NETCDF_C_LIBRARY)
+  FIND_LIBRARY(NETCDF_C_LIBRARY NAMES netcdf NETCDF)
+  IF(NOT NETCDF_C_LIBRARY)
+    MESSAGE(FATAL_ERROR "libnetcdf not found.")
+  ENDIF()
+ENDIF()
+MESSAGE(STATUS "Found netcdf library: ${NETCDF_C_LIBRARY}")
+IF(NOT NETCDF_INCLUDE_DIR)
+  FIND_PATH(NETCDF_INCLUDE_DIR NAMES netcdf.h)
+  IF(NOT NETCDF_INCLUDE_DIR)
+    MESSAGE(FATAL_ERROR "netcdf.h not found.")
+  ENDIF()
+ENDIF()
+MESSAGE(STATUS "Found netcdf.h in ${NETCDF_INCLUDE_DIR}")
+
 # Properties->Fortran->General->Additional Include Directories
 #include_directories (${LIB_PATH})
 include_directories (${LIBRARY_OUTPUT_PATH})
@@ -28,25 +43,16 @@ if(WINDOWS)
 elseif(LINUX)
   set(EXTERNAL_LIBS_MODULES ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux/modules)
   set(EXTERNAL_LIBS_LIB ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux/lib)
-  #add netcdf lib directory
-  
 endif()
 
 include_directories (${EXTERNAL_LIBS_MODULES})
 include_directories (${EXTERNAL_LIBS_LIB})
+include_directories (${NETCDF_INCLUDE_DIR})
 
 message(STATUS "Added External Library module path " ${EXTERNAL_LIBS_MODULES})
 message(STATUS "Added External Library .lib path " ${EXTERNAL_LIBS_LIB})
 
 # Properties->Linker->Input->Additional Dependencies
-
-IF(NOT NETCDF_C_LIBRARY)
-  FIND_LIBRARY(NETCDF_C_LIBRARY NAMES netcdf)
-  IF(NOT NETCDF_C_LIBRARY)
-    MESSAGE(FATAL_ERROR "libnetcdf not found.")
-  ENDIF()
-ENDIF()
-MESSAGE(STATUS "Found netcdf library: ${NETCDF_C_LIBRARY}")
 
 if(WINDOWS)
   file(GLOB LIBS "${LIBRARY_OUTPUT_PATH}/RELEASE/*.lib")
@@ -66,6 +72,7 @@ message(STATUS "Targeting external libraries " ${EXTERNAL_LIBS})
 
 target_link_libraries (${BIN_NAME}  ${LIB_NAME})
 target_link_libraries (nc_reader  ${LIB_NAME})
+target_link_libraries (nc_reader  ${NETCDF_C_LIBRARY})
 if(WINDOWS)
   target_link_libraries (${BIN_NAME} ${LIBS})
   target_link_libraries (${BIN_NAME} ${EXTERNAL_LIBS})
