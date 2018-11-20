@@ -48,8 +48,6 @@ include_directories(${FOX_LIBS_MODULES_PATH})
 include_directories(${FOX_LIBS_LIB_PATH})
 
 message(STATUS "Added simple Libraries path " ${SIMPLE_LIBS_PATH})
-#message(STATUS "Added SIMPLE Library module path " ${SIMPLE_LIBS_MODULES_PATH})
-#message(STATUS "Added SIMPLE Library compile path " ${SIMPLE_LIBS_LIB_PATH})
 message(STATUS "Added FoX Library path " ${FOX_LIBS_PATH})
 
 # Also adds sources to the Solution Explorer

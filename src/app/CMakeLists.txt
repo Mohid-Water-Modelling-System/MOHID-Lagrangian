@@ -57,10 +57,7 @@ include_directories(${FOX_LIBS_LIB_PATH})
 #include_directories (${NETCDF_INCLUDE_DIR})
 
 message(STATUS "Added simple Libraries path " ${SIMPLE_LIBS_PATH})
-#message(STATUS "Added SIMPLE Library module path " ${SIMPLE_LIBS_MODULES})
-#message(STATUS "Added SIMPLE Library .lib path " ${SIMPLE_LIBS_LIB})
 message(STATUS "Added FoX Library path " ${FOX_LIBS_PATH})
-#message(STATUS "Added NetCDF Library path " ${NETCDF_INCLUDE_DIR})
 
 # Properties->Linker->Input->Additional Dependencies
 if(WINDOWS)
@@ -72,7 +69,8 @@ elseif(LINUX)
 endif()
 
 message(STATUS "Targeting library " ${LIB_NAME})
-#message(STATUS "Targeting SIMPLE libraries " ${SIMPLE_LIBS})
+#message(STATUS "Targeting simple libraries " ${SIMPLE_LIBS})
+#message(STATUS "Targeting FoX library " ${FOX_LIBS})
 
 target_link_libraries (${BIN_NAME}  ${LIB_NAME})
 #target_link_libraries (nc_reader  ${LIB_NAME})
