@@ -26,7 +26,7 @@
         <setsource id="1" name="Litter_plastic" />
         <rate value="0.1" comment="Emission rate (Hz)" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-        <point x="2.5" y="2" z="0.0" units_comment="(deg,deg,m)"/>
+        <point x="2" y="2" z="0.0" units_comment="(deg,deg,m)"/>
       </source>
     </sourcedef>
     <initials>
@@ -46,7 +46,7 @@
 	  <parameter key="Threads" value="1" comment="Computation threads for shared memory computation (default=auto)" />
       <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />
       <parameter key="StartTime" value="1984 12 10 13 05 0" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
-      <parameter key="EndTime"   value="1984 12 10 13 10 0" comment="Date of final instant" units_comment="ISO format" />
+      <parameter key="EndTime"   value="1984 12 10 14 10 0" comment="Date of final instant" units_comment="ISO format" />
       <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
 	  <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
     </parameters>
