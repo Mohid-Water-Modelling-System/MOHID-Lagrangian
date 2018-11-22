@@ -97,7 +97,7 @@
     !aot%y = aot%y + aot%v*dt
     !aot%z = aot%z + aot%w*dt
 
-     interpolate each background
+    !interpolate each background
     do bkg = 1, size(bdata)
         np = size(aot%id) !number of particles
         nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
