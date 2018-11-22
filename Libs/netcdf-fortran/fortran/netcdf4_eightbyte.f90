@@ -20,8 +20,7 @@ function nf90_put_var_1D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_put_var_1D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_1D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_put_var_1D_EightByteInt = &
@@ -72,8 +71,7 @@ function nf90_put_var_2D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_put_var_2D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_2D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_put_var_2D_EightByteInt = &
@@ -126,8 +124,7 @@ function nf90_put_var_3D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_put_var_3D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_3D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_put_var_3D_EightByteInt = &
@@ -179,8 +176,7 @@ function nf90_put_var_4D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_put_var_4D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_4D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_put_var_4D_EightByteInt = &
@@ -232,8 +228,7 @@ function nf90_put_var_5D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_put_var_5D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_5D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_put_var_5D_EightByteInt = &
@@ -285,8 +280,7 @@ function nf90_put_var_6D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_put_var_6D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_6D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_put_var_6D_EightByteInt = &
@@ -338,8 +332,7 @@ function nf90_put_var_7D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_put_var_7D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_7D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_put_var_7D_EightByteInt = &
@@ -393,8 +386,7 @@ function nf90_get_var_1D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_get_var_1D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_1D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_get_var_1D_EightByteInt = &
@@ -450,8 +442,7 @@ function nf90_get_var_2D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_get_var_2D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_2D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_get_var_2D_EightByteInt = &
@@ -507,8 +498,7 @@ function nf90_get_var_3D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_get_var_3D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_3D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_get_var_3D_EightByteInt = &
@@ -564,8 +554,7 @@ function nf90_get_var_4D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_get_var_4D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_4D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_get_var_4D_EightByteInt = &
@@ -621,8 +610,7 @@ function nf90_get_var_5D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_get_var_5D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_5D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_get_var_5D_EightByteInt = &
@@ -678,8 +666,7 @@ function nf90_get_var_6D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_get_var_6D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_6D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_get_var_6D_EightByteInt = &
@@ -735,8 +722,7 @@ function nf90_get_var_7D_EightByteInt(ncid, varid, values, start, count, stride,
   if(present(stride)) localStride(:size(stride)) = stride(:)
   nf90_get_var_7D_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_7D_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         if(present(map))  then
            localMap   (:size(map))    = map(:)
            nf90_get_var_7D_EightByteInt = &
@@ -783,8 +769,7 @@ function nf90_put_var_EightByteInt(ncid, varid, values, start)
 
   nf90_put_var_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_put_var_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         nf90_put_var_EightByteInt = nf_put_var1_int64(ncid, varid, localIndex, values)
      else
         nf90_put_var_EightByteInt = nf_put_var1_int(ncid, varid, localIndex, int(values))
@@ -810,8 +795,7 @@ function nf90_get_var_EightByteInt(ncid, varid, values, start)
 
   nf90_get_var_EightByteInt = nf_inq_format(ncid, format_num)
   if (nf90_get_var_EightByteInt .eq. nf90_noerr) then
-     if (format_num .eq. nf90_format_netcdf4 .OR. &
-         format_num .eq. nf90_format_cdf5) then
+     if (format_num .eq. nf90_format_netcdf4) then
         nf90_get_var_EightByteInt = nf_get_var1_int64(ncid, varid, localIndex, defaultInteger8)
         values = defaultInteger8
      else

@@ -1,0 +1,36 @@
+Error Information
+AppInsightsEvent Name = vs/core/packageloadfailure
+          Description = LegacySitePackage failed for package [IFLangServicePackage]
+     TelemetrySession = '6e101140-21fb-435f-853f-827a5b3f6bf0' Started = False OptIn=True IsInitialized = False Cloned = False
+             UTC time = 2018-11-19T16:41:44
+Telemetry Session Shared Properties:
+   VS.Core.SkuName = VS Enterprise
+   VS.Core.BranchName = D14REL
+   VS.Core.User.IsOptedIn = True
+Telemetry event 'vs/core/packageloadfailure' properties:
+   [VS.Core.PackageLoadFailure.Description] = 'Object reference not set to an instance of an object.'
+   [DataModel.Fault.IsSampled] = 'True'
+   [DataModel.Type] = 'Fault'
+   [DataModel.Fault.Description] = 'LegacySitePackage failed for package [IFLangServicePackage]'
+   [VS.Core.PackageLoadFailure.HRESULT] = '0x80004003'
+   [DataModel.Fault.BucketParam1] = 'devenv.exe'
+   [DataModel.Fault.BucketParam2] = '14.0.25420.1'
+   [DataModel.Fault.BucketParam3] = ''
+   [DataModel.Fault.BucketParam4] = 'vs/core/packageloadfailure'
+   [DataModel.Fault.BucketParam5] = '[IFLangServicePackage]'
+   [DataModel.Fault.BucketParam6] = ''
+   [DataModel.Fault.BucketParam7] = ''
+   [DataModel.Fault.BucketParam8] = 'CVsPackageMgr::CVsPackageInfo::LogHr'
+   [DataModel.Fault.BucketParam9] = '0'
+   [DataModel.Fault.BucketParam10] = 'None'
+
+   CallStack Hash:a7f3cafa
+
+   LegacySitePackage failed for package [IFLangServicePackage]
+
+   Source: 'IFLangService' Description: Object reference not set to an instance of an object.
+   System.NullReferenceException: Object reference not set to an instance of an object.
+      at Intel.Fortran.IFLangService.IFLangServicePackage.Initialize()
+      at Microsoft.VisualStudio.Shell.Package.Microsoft.VisualStudio.Shell.Interop.IVsPackage.SetSite(IServiceProvider sp)
+
+   Added File C:\Users\RBC_workhorse\AppData\Roaming\Microsoft\VisualStudio\14.0\ActivityLog.xml

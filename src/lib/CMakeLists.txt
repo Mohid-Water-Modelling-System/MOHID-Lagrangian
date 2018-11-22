@@ -11,7 +11,7 @@ SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
 FILE(GLOB_RECURSE C_LIB_SRC *.C *.cpp *.h)
 SET(C_LIB_SRC ${C_LIB_SRC} PARENT_SCOPE)
 
-message(STATUS "Library source files " ${LIB_SRC})
+#message(STATUS "Library source files are " ${LIB_SRC})
 
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
@@ -28,25 +28,30 @@ endif()
 
 # Properties->C/C++->General->Additional Include Directories
 if(WINDOWS)
-  set(EXTERNAL_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_win)
-  set(EXTERNAL_LIBS_MODULES_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_win/modules)
-  set(EXTERNAL_LIBS_LIB_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_win/lib)
+  set(SIMPLE_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_win)  
+  set(FOX_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/fox/build_win)  
 elseif(LINUX)
-  set(EXTERNAL_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux)
-  set(EXTERNAL_LIBS_MODULES_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux/modules)
-  set(EXTERNAL_LIBS_LIB_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux/lib)
+  set(SIMPLE_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/Libs_build_linux)
+  set(FOX_LIBS_PATH ${PROJECT_SOURCE_DIR}/Libs/fox/build_linux)  
 endif()
-include_directories (.)
-include_directories(${EXTERNAL_LIBS_PATH})
-include_directories(${EXTERNAL_LIBS_MODULES_PATH})
-include_directories(${EXTERNAL_LIBS_LIB_PATH})
+set(SIMPLE_LIBS_MODULES_PATH ${SIMPLE_LIBS_PATH}/modules)
+set(SIMPLE_LIBS_LIB_PATH ${SIMPLE_LIBS_PATH}/lib)
+set(FOX_LIBS_MODULES_PATH ${FOX_LIBS_PATH}/modules)
+set(FOX_LIBS_LIB_PATH ${FOX_LIBS_PATH}/lib)
 
-message(STATUS "Added External Library path " ${EXTERNAL_LIBS_PATH})
-message(STATUS "Added External Library module path " ${EXTERNAL_LIBS_MODULES_PATH})
-message(STATUS "Added External Library compile path " ${EXTERNAL_LIBS_LIB_PATH})
+include_directories(.)
+include_directories(${SIMPLE_LIBS_PATH})
+include_directories(${SIMPLE_LIBS_MODULES_PATH})
+include_directories(${SIMPLE_LIBS_LIB_PATH})
+include_directories(${FOX_LIBS_PATH})
+include_directories(${FOX_LIBS_MODULES_PATH})
+include_directories(${FOX_LIBS_LIB_PATH})
+
+message(STATUS "Added simple Libraries path " ${SIMPLE_LIBS_PATH})
+message(STATUS "Added FoX Library path " ${FOX_LIBS_PATH})
 
 # Also adds sources to the Solution Explorer
-ADD_LIBRARY(${LIB_NAME} ${LIB_SRC})
+add_library(${LIB_NAME} ${LIB_SRC})
 
 # Creates folder "libraries" and adds target project (MOHIDLagrangianLib.vcproj)
 set_property(TARGET ${LIB_NAME} PROPERTY FOLDER "libraries")

@@ -16,9 +16,9 @@ set(PACKAGE "${NC4F_CTEST_PROJECT_NAME}" CACHE STRING "")
 
 #Project Version
 SET(NC4F_VERSION_MAJOR 4)
-SET(NC4F_VERSION_MINOR 5)
-SET(NC4F_VERSION_PATCH 0)
-SET(NC4F_VERSION_NOTE "-development")
+SET(NC4F_VERSION_MINOR 4)
+SET(NC4F_VERSION_PATCH 4)
+SET(NC4F_VERSION_NOTE "")
 SET(NC4F_VERSION ${NC4F_VERSION_MAJOR}.${NC4F_VERSION_MINOR}.${NC4F_VERSION_PATCH}${NC4F_VERSION_NOTE})
 SET(VERSION ${NC4F_VERSION})
 SET(NC4F_LIB_VERSION 6.1.1)
@@ -75,6 +75,7 @@ ENDIF()
 FIND_PACKAGE(Doxygen)
 FIND_PROGRAM(NC_DOT NAMES dot)
 
+
 # For CMAKE_INSTALL_LIBDIR
 INCLUDE(GNUInstallDirs)
 
@@ -83,14 +84,14 @@ IF(MSVC)
 ENDIF()
 
 # auto-configure style checks, other CMake modules.
-INCLUDE (CheckLibraryExists)
-INCLUDE (CheckIncludeFile)
-INCLUDE (CheckTypeSize)
-INCLUDE (CheckFunctionExists)
-INCLUDE (CheckCXXSourceCompiles)
-INCLUDE (TestBigEndian)
-INCLUDE (CheckSymbolExists)
-INCLUDE (GetPrerequisites)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckLibraryExists.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckIncludeFile.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckTypeSize.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckCXXSourceCompiles.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckSymbolExists.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/GetPrerequisites.cmake)
 FIND_PACKAGE(PkgConfig QUIET)
 
 # Enable 'dist and distcheck'.
@@ -242,6 +243,17 @@ MACRO(add_bin_env_test prefix F)
   ENDIF()
 ENDMACRO()
 
+# Build a binary used by a script, but don't make a test out of it.
+MACRO(build_bin_test F)
+  ADD_EXECUTABLE(${F} ${F}.c)
+  TARGET_LINK_LIBRARIES(${F} netcdff)
+  IF(MSVC)
+    SET_TARGET_PROPERTIES(${F}
+      PROPERTIES LINK_FLAGS_DEBUG " /NODEFAULTLIB:MSVCRT"
+      )
+  ENDIF()
+ENDMACRO()
+
 # Binary tests which are used by a script looking for a specific name.
 MACRO(add_bin_test_no_prefix F)
   build_bin_test(${F})
@@ -283,12 +295,11 @@ MACRO(print_conf_summary)
   MESSAGE(STATUS "\tBuilding netCDF-4:\t\t" ${ENABLE_NETCDF4})
   MESSAGE(STATUS "\tBuilding DAP Support:\t\t" ${ENABLE_DAP})
   MESSAGE(STATUS "\tLogging Support:\t\t" ${STATUS_LOGGING})
-  MESSAGE(STATUS "\tEnabling CDF5:\t\t\t" ${ENABLE_CDF5})
-  MESSAGE(STATUS "\tRelaxed check NC_EINVALCOORDS:\t" ${NF_RELAX_COORD_BOUND})
-  MESSAGE(STATUS "\tBuilding Parallel IO:\t\t" ${BUILD_PARALLEL})
-  MESSAGE(STATUS "\tUsing NetCDF4 Parallel IO:\t" ${NF_HAS_PARALLEL4})
-  MESSAGE(STATUS "\tUsing PnetCDF Parallel IO:\t" ${NF_HAS_PNETCDF})
-  MESSAGE(STATUS "\tTesting Parallel IO:\t\t" ${TEST_PARALLEL})
+  IF(STATUS_PNETCDF)
+    MESSAGE(STATUS "\tUsing pnetcdf:\t\t\t" ${STATUS_PNETCDF})
+  ENDIF(STATUS_PNETCDF)
+
+  MESSAGE(STATUS "\tUsing Parallel IO:\t\t" ${STATUS_PARALLEL})
 
   IF(CMAKE_PREFIX_PATH)
     MESSAGE(STATUS "\tCMake Prefix Path:\t\t" "${CMAKE_PREFIX_PATH}")
@@ -387,167 +398,84 @@ ENDMACRO()
 OPTION(LARGE_FILE_TESTS "Run large file tests, which are slow and take lots of disk." OFF)
 OPTION(BUILD_BENCHMARKS "Run F90 I/O Benchmarks" OFF)
 OPTION(TEST_WITH_VALGRIND "Run extra tests with valgrind" OFF)
-OPTION(ENABLE_PARALLEL_TESTS "Run parallel I/O tests for F90 and F77" OFF)
-
-SET(TEST_PARALLEL OFF)
-IF(ENABLE_PARALLEL_TESTS)
-  SET(TEST_PARALLEL ON)
+OPTION(TEST_PARALLEL "Run parallel I/O tests for F90 and F77" OFF)
+IF(TEST_PARALLEL)
+  SET(STATUS_PARALLEL ON)
 ENDIF()
 
 ###
-# Seek out netcdf library file and include path.
+# Seek out dependent libraries.
 ###
 
-IF(NOT NETCDF_C_LIBRARY)
-  FIND_LIBRARY(NETCDF_C_LIBRARY NAMES netcdf)
-  IF(NOT NETCDF_C_LIBRARY)
-    MESSAGE(FATAL_ERROR "libnetcdf not found.")
-  ENDIF()
-ENDIF()
-MESSAGE(STATUS "Found netcdf library: ${NETCDF_C_LIBRARY}")
-
-IF(NOT NETCDF_INCLUDE_DIR)
-  FIND_PATH(NETCDF_INCLUDE_DIR NAMES netcdf.h)
-  IF(NOT NETCDF_INCLUDE_DIR)
-    MESSAGE(FATAL_ERROR "netcdf.h not found.")
-  ENDIF()
-ENDIF()
-MESSAGE(STATUS "Found netcdf.h in ${NETCDF_INCLUDE_DIR}")
-INCLUDE_DIRECTORIES(SYSTEM ${NETCDF_INCLUDE_DIR})
-
-###
-# End 'Seek out netcdf library file and include path.'
-###
-
-###
-# Check for various header files
-###
-CHECK_INCLUDE_FILE("alloca.h"  HAVE_ALLOCA_H)
-CHECK_INCLUDE_FILE("malloc.h"    HAVE_MALLOC_H)
-CHECK_INCLUDE_FILE("ctype.h"   HAVE_CTYPE_H)
-CHECK_INCLUDE_FILE("dirent.h"  HAVE_DIRENT_H)
-CHECK_INCLUDE_FILE("dlfcn.h"   HAVE_DLFCN_H)
-CHECK_INCLUDE_FILE("errno.h"   HAVE_ERRNO_H)
-CHECK_INCLUDE_FILE("fcntl.h"   HAVE_FCNTL_H)
-CHECK_INCLUDE_FILE("getopt.h"  HAVE_GETOPT_H)
-CHECK_INCLUDE_FILE("stdbool.h"   HAVE_STDBOOL_H)
-CHECK_INCLUDE_FILE("locale.h"  HAVE_LOCALE_H)
-CHECK_INCLUDE_FILE("stdint.h"  HAVE_STDINT_H)
-CHECK_INCLUDE_FILE("stdio.h"   HAVE_STDIO_H)
-CHECK_INCLUDE_FILE("stdlib.h"  HAVE_STDLIB_H)
-CHECK_INCLUDE_FILE("stdarg.h"    HAVE_STDARG_H)
-CHECK_INCLUDE_FILE("strings.h"   HAVE_STRINGS_H)
-CHECK_INCLUDE_FILE("signal.h"    HAVE_SIGNAL_H)
-CHECK_INCLUDE_FILE("sys/dir.h"   HAVE_SYS_DIR_H)
-CHECK_INCLUDE_FILE("sys/ndir.h"  HAVE_SYS_NDIR_H)
-CHECK_INCLUDE_FILE("sys/param.h" HAVE_SYS_PARAM_H)
-CHECK_INCLUDE_FILE("sys/stat.h"  HAVE_SYS_STAT_H)
-CHECK_INCLUDE_FILE("sys/time.h"  HAVE_SYS_TIME_H)
-CHECK_INCLUDE_FILE("sys/types.h" HAVE_SYS_TYPES_H)
-CHECK_INCLUDE_FILE("sys/wait.h"  HAVE_SYS_WAIT_H)
-CHECK_INCLUDE_FILE("sys/resource.h" HAVE_SYS_RESOURCE_H)
-CHECK_INCLUDE_FILE("fcntl.h"  HAVE_FCNTL_H)
-CHECK_INCLUDE_FILE("inttypes.h"  HAVE_INTTYPES_H)
-CHECK_INCLUDE_FILE("pstdint.h"  HAVE_PSTDINT_H)
-CHECK_INCLUDE_FILE("endian.h" HAVE_ENDIAN_H)
-CHECK_INCLUDE_FILE("BaseTsd.h"  HAVE_BASETSD_H)
-CHECK_INCLUDE_FILE("stddef.h"   HAVE_STDDEF_H)
-CHECK_INCLUDE_FILE("memory.h" HAVE_MEMORY_H)
-CHECK_INCLUDE_FILE("netcdf.h" HAVE_NETCDF_H)
-
-
-###
-# End Check for various system header files.
-###
-
-###
-# Type checks
-###
-CHECK_TYPE_SIZE("void*"     SIZEOF_VOIDSTAR)
-CHECK_TYPE_SIZE("char"      SIZEOF_CHAR)
-CHECK_TYPE_SIZE("double"    SIZEOF_DOUBLE)
-CHECK_TYPE_SIZE("float"     SIZEOF_FLOAT)
-CHECK_TYPE_SIZE("int"       SIZEOF_INT)
-CHECK_TYPE_SIZE("long"      SIZEOF_LONG)
-CHECK_TYPE_SIZE("long long" SIZEOF_LONG_LONG)
-CHECK_TYPE_SIZE("off_t"     SIZEOF_OFF_T)
-CHECK_TYPE_SIZE("off64_t"   SIZEOF_OFF64_T)
-CHECK_TYPE_SIZE("short"     SIZEOF_SHORT)
-CHECK_TYPE_SIZE("size_t"    SIZEOF_SIZE_T)
-CHECK_TYPE_SIZE("ssize_t"   SIZEOF_SSIZE_T)
-# __int64 is used on Windows for large file support.
-CHECK_TYPE_SIZE("__int64"   SIZEOF___INT_64)
-CHECK_TYPE_SIZE("uchar"     SIZEOF_UCHAR)
-CHECK_TYPE_SIZE("int64_t"   SIZEOF_INT64_T)
-CHECK_TYPE_SIZE("uint64_t"  SIZEOF_UINT64_T)
-
-# On windows systems, we redefine off_t as __int64
-# to enable LFS. This is true on 32 and 64 bit system.s
-# We must redefine SIZEOF_OFF_T to match.
-IF(MSVC AND SIZEOF___INT_64)
-  SET(SIZEOF_OFF_T  ${SIZEOF___INT_64})
-ENDIF()
-
-IF(SIZEOF_SSIZE_T)
-  SET(HAVE_SSIZE_T 1)
+IF(NOT netCDF_LIBRARIES AND NOT netCDF_INCLUDE_DIR)
+  FIND_PACKAGE(netCDF QUIET)
 ELSE()
-  CHECK_TYPE_SIZE("SSIZE_T" SIZEOF_SSIZE_T)
-  IF(SIZEOF_SSIZE_T)
-    SET(HAVE_SSIZE_T 1)
+  SET(netCDF_FOUND TRUE)
+ENDIF()
+
+IF (netCDF_FOUND)
+  INCLUDE_DIRECTORIES(SYSTEM ${netCDF_INCLUDE_DIR})
+  SET(NETCDF_C_LIBRARY ${netCDF_LIBRARIES})
+  SET(NETCDF_C_INCLUDE_DIR ${netCDF_INCLUDE_DIR})
+ELSE()
+  # netCDF not properly packaged. Try to find it manually.
+  FIND_LIBRARY(NETCDF_C_LIBRARY NAMES netcdf libnetcdf)
+  IF(NOT NETCDF_C_LIBRARY)
+    MESSAGE(FATAL_ERROR "libnetcdf not found. Please reinstall and try again.")
+  ELSE()
+    MESSAGE(STATUS "Found netcdf: ${NETCDF_C_LIBRARY}")
+    FIND_PATH(NC_H_INCLUDE_DIR "netcdf.h")
+    IF(NOT NC_H_INCLUDE_DIR)
+      MESSAGE(FATAL_ERROR "Directory containing netcdf.h cannot be found. Please reinstall and try again.")
+    ELSE()
+      INCLUDE_DIRECTORIES(SYSTEM ${NC_H_INCLUDE_DIR})
+    ENDIF()
   ENDIF()
 ENDIF()
 
+###
+# End 'seek out dependent libraries'
+###
 
-###
-# End type checks
-###
+
 
 ###
 # TODO: Replace these with automatically-determined
 # checks, like in configure.ac.
 ###
 
-CHECK_FUNCTION_EXISTS(alloca HAVE_ALLOCA)
-
 CHECK_LIBRARY_EXISTS(${NETCDF_C_LIBRARY} nc_def_opaque "" USE_NETCDF4)
 CHECK_LIBRARY_EXISTS(${NETCDF_C_LIBRARY} nccreate "" USE_NETCDF_V2)
 CHECK_LIBRARY_EXISTS(${NETCDF_C_LIBRARY} nc_set_log_level "" USE_LOGGING)
 CHECK_LIBRARY_EXISTS(${NETCDF_C_LIBRARY} oc_open "" BUILD_DAP)
-
-IF(USE_NETCDF4)
-  SET(NC_BUILD_V4 TRUE)
-  SET(HAVE_NC_DEF_OPAQUE TRUE)
-ENDIF(USE_NETCDF4)
-
-IF(USE_NETCDF_V2)
-  SET(HAVE_NCCREATE TRUE)
-ENDIF(USE_NETCDF_V2)
-
-SET(STATUS_LOGGING OFF)
-IF(USE_LOGGING)
-  SET(HAVE_NC_SET_LOG_LEVEL TRUE)
-  SET(STATUS_LOGGING ON)
-ENDIF(USE_LOGGING)
-
-SET(ENABLE_DAP OFF)
-IF(BUILD_DAP)
-  SET(HAVE_OC_OPEN TRUE)
-  SET(ENABLE_DAP ON)
-ENDIF(BUILD_DAP)
+CHECK_LIBRARY_EXISTS(${NETCDF_C_LIBRARY} nc_use_parallel_enabled "" BUILD_PARALLEL)
 
 ##
 # Set some status messages for the summary.
 ##
 
+SET(STATUS_LOGGING OFF)
+IF(USE_LOGGING)
+  SET(STATUS_LOGGING ON)
+ENDIF()
+
+SET(STATUS_PARALLEL OFF)
+IF(BUILD_PARALLEL)
+  SET(STATUS_PARALLEL ON)
+ENDIF()
+
+IF(BUILD_DAP)
+  SET(ENABLE_DAP ON)
+ENDIF()
 
 ##
 # End status messages/variables.
 ##
 
-SET(ENABLE_NETCDF4 OFF)
 IF(USE_NETCDF4)
   SET(ENABLE_NETCDF4 ON)
   ADD_DEFINITIONS(-DUSE_NETCDF4)
+  SET(ENABLE_NETCDF_4 ON CACHE BOOL "")
   SET(ENABLE_NETCDF4 ON CACHE BOOL "")
 ENDIF()
 
@@ -559,53 +487,12 @@ IF (UNIX AND ${CMAKE_SIZEOF_VOID_P} MATCHES "8")
   endif ()
 ENDIF()
 
-# Determine C library setting for NC_RELAX_COORD_BOUND
-try_compile(NF_RELAX_COORD_BOUND ${CMAKE_CURRENT_BINARY_DIR}
-  "${CMAKE_CURRENT_SOURCE_DIR}/CMakeExtras/check_relax_coord_bound.c"
-  CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${NETCDF_INCLUDE_DIR}"
-  )
-
-# Determine C library setting for NC_HAS_CDF5
-try_compile(ENABLE_CDF5 ${CMAKE_CURRENT_BINARY_DIR}
-  "${CMAKE_CURRENT_SOURCE_DIR}/CMakeExtras/check_cdf5.c"
-  CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${NETCDF_INCLUDE_DIR}"
-  )
-
-# Determine C library setting for NC_HAS_PNETCDF
-try_compile(NF_HAS_PNETCDF ${CMAKE_CURRENT_BINARY_DIR}
-  "${CMAKE_CURRENT_SOURCE_DIR}/CMakeExtras/check_pnetcdf.c"
-  CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${NETCDF_INCLUDE_DIR}"
-  )
-
-# Determine C library setting for NC_HAS_PARALLEL4
-try_compile(NF_HAS_PARALLEL4 ${CMAKE_CURRENT_BINARY_DIR}
-  "${CMAKE_CURRENT_SOURCE_DIR}/CMakeExtras/check_parallel4.c"
-  CMAKE_FLAGS "-DINCLUDE_DIRECTORIES=${NETCDF_INCLUDE_DIR}"
-  )
-
-IF(NF_HAS_PARALLEL4)
-  ADD_DEFINITIONS(-DNF_HAS_PARALLEL4)
-ENDIF()
-IF(NF_HAS_PNETCDF)
-  ADD_DEFINITIONS(-DNF_HAS_PNETCDF)
-ENDIF()
-
-IF(NF_HAS_PNETCDF OR NF_HAS_PARALLEL4)
-  SET(BUILD_PARALLEL ON)
-  SET(HAVE_NC_USE_PARALLEL_ENABLED TRUE)
-ELSE(NF_HAS_PNETCDF OR NF_HAS_PARALLEL4)
-  SET(BUILD_PARALLEL OFF)
-  SET(HAVE_NC_USE_PARALLEL_ENABLED FALSE)
-  SET(TEST_PARALLEL OFF)
-ENDIF(NF_HAS_PNETCDF OR NF_HAS_PARALLEL4)
-
 # Determine C/Fortran pointer compatibility.
 try_compile(COMPILE_SUCCESS ${CMAKE_CURRENT_BINARY_DIR}
   "${CMAKE_CURRENT_SOURCE_DIR}/CMakeExtras/test_c_ptrdiff_t.f90"
   )
 IF (COMPILE_SUCCESS)
   ADD_DEFINITIONS(-DHAVE_TS29113_SUPPORT)
-  SET(HAVE_TS29113_SUPPORT TRUE)
 ELSE ()
   # If the compile fails, PTRDIFF_T is not defined.
   # Get sizeof of ptrdiff_t.
@@ -633,9 +520,9 @@ endif()
 IF(USE_NETCDF_V2)
   SET(BUILD_V2 ON CACHE BOOL "")
 ENDIF()
-
+# Turn this on by default when it's working
 OPTION(ENABLE_FORTRAN_TYPE_CHECKS
-  "Determine Fortran types corresponding to netCDF types" ON)
+  "Determine Fortran types corresponding to netCDF types" OFF)
 
 # Toggle whether or not to run tests.
 OPTION(ENABLE_TESTS "Enable netcdf-fortran tests." ON)
@@ -648,9 +535,8 @@ SET(BUILD_F03 "OFF")
 IF(ENABLE_FORTRAN_TYPE_CHECKS)
   # Do tests to determine which Fortran types correspond to NCBYTE, NCSHORT, ...
   # The configure file got these by testing an F77 program, invoking
-  # UD_FORTRAN_TYPES defined in acinclude.m4.
-
-  INCLUDE(CMakeExtras/MatchNetCDFFortranTypes.cmake)
+  # UD_FORTRAN_TYPES defined in acinclude.m4.  TODO: check the types
+  # from the test program instead of assuming these defaults.
 ELSE()
   # Set Fortran types to default.
   SET(NCBYTE_T "byte")
@@ -720,8 +606,7 @@ ENDIF()
 ###
 
 # Set CDash-related options.
-#SET(NC4F_CTEST_DROP_SITE "my.cdash.org" CACHE STRING "Dashboard location for CTest-based testing purposes.")
-SET(NC4F_CTEST_DROP_SITE "cdash.unidata.ucar.edu" CACHE STRING "Dashboard location for CTest-based testing purposes.")
+SET(NC4F_CTEST_DROP_SITE "my.cdash.org" CACHE STRING "Dashboard location for CTest-based testing purposes.")
 SET(NC4F_CTEST_DROP_LOC_PREFIX "" CACHE STRING "Prefix for Dashboard location on remote server when using CTest-based testing.")
 
 # Generate CTestConfig file from template.
@@ -740,8 +625,8 @@ IF(NC_EXTRA_DEPS)
   FOREACH(_DEP ${DEPS_LIST})
     STRING(REGEX REPLACE "^-l" "" _LIB ${_DEP})
     FIND_LIBRARY("${_LIB}_DEP" NAMES "${_LIB}" "lib${_LIB}")
-    # MESSAGE(${${_LIB}_DEP})
-    IF(${_LIB}_DEP STREQUAL "")
+    MESSAGE(${${_LIB}_DEP})
+    IF(NOT "${_LIB}_DEP")
       MESSAGE(FATAL_ERROR "Error finding ${_LIB}.")
     ELSE()
       MESSAGE(STATUS "Found ${_LIB}: ${${_LIB}_DEP}")
@@ -754,11 +639,6 @@ ENDIF()
 ###
 # End user-specified dependent libraries.
 ###
-
-###
-# Option to enable examples.
-###
-OPTION(BUILD_EXAMPLES "Enable compilation of examples." ON)
 
 # Determine whether or not to generate documentation.
 OPTION(ENABLE_DOXYGEN "Enable generation of doxygen-based documentation." OFF)
@@ -821,8 +701,6 @@ IF(ENABLE_TESTS)
 ENDIF()
 
 # Build the Fortran examples
-IF(BUILD_EXAMPLES)
-  ADD_SUBDIRECTORY(examples)
-ENDIF(BUILD_EXAMPLES)
+ADD_SUBDIRECTORY(examples)
 ADD_SUBDIRECTORY(docs)
 print_conf_summary()

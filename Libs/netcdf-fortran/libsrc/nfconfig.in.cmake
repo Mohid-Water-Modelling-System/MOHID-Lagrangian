@@ -2,10 +2,6 @@
     $Id: nfconfig.in,v 1.11 1997/12/03 17:41:42 steve Exp $ 
 #endif
 
-#cmakedefine NF_RELAX_COORD_BOUND 1
-#cmakedefine NF_HAS_PARALLEL4 1
-#cmakedefine NF_HAS_PNETCDF 1
-#cmakedefine ENABLE_CDF5 1
 
 #ifndef UD_NETCDF_CPP_INC
 #define UD_NETCDF_CPP_INC

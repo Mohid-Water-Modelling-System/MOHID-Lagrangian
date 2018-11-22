@@ -6,18 +6,6 @@ Release Notes {#nf_release_notes}
 This file contains a high-level description of this package's evolution.
 Entries are in reverse chronological order (most recent first).
 
-## 4.4.5 - TBD
-
-### Requirements
-
-* netCDF-C: 4.7.0
-
-### Changes
-
-* Added an option in cmake builds, `BUILD_EXAMPLES`, `TRUE` by default. When disabled, the examples will not be built.  See [#93](https://github.com/Unidata/netcdf-fortran/issues/92) for more information.
-* Misc. Bugfixes to bring netCDF-Fortran in line with the features in netCDF-C.
-* Updated CMakeLists.txt to check for C types that match Fortran ones. See [GitHub #67](https://github.com/Unidata/netcdf-fortran/pull/67) for more information.
-
 ## 4.4.4 Released May 13, 2016
 
 * Corrected an issue where cmake-based builds specifying `USE_LOGGING` were not seeing expected behavior.  The issue was reported, and subsequently fixed, by Neil Carlson at Los Alamos Nat'l Laboratory. See [Github Pull Request #44](https://github.com/Unidata/netcdf-fortran/pull/44) for more information.

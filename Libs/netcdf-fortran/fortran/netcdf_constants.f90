@@ -46,9 +46,7 @@
     nf90_noclobber = 4,         &
     nf90_fill      = 0,         &
     nf90_nofill    = 256,       &
-    nf90_64bit_offset = 512,              &
-    nf90_64bit_data   = 32,               &
-    nf90_cdf5         = nf90_64bit_data,  &
+    nf90_64bit_offset    = 512, &
     nf90_lock      = 1024,      &
     nf90_share     = 2048,      & 
     nf90_diskless  = 8,         &
@@ -181,9 +179,6 @@ integer, parameter, public :: &
   integer, parameter, public :: &
     nf90_format_classic = 1,    &
     nf90_format_64bit = 2,      &
-    nf90_format_64bit_offset = nf90_format_64bit, &
-    nf90_format_64bit_data = 5,                   &
-    nf90_format_cdf5 = nf90_format_64bit_data,    &
     nf90_format_netcdf4 = 3,    &
     nf90_format_netcdf4_classic = 4
 

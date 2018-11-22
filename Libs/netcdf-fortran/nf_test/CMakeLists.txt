@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-SET(CMAKE_VERBOSE_MAKEFILE OFF)
+SET(CMAKE_VERBOSE_MAKEFILE ON)
 SET(CMAKE_BUILD_TYPE "RelWithDebInfo")
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -114,10 +114,10 @@ if (USE_NETCDF4)
     SET(check_PROGRAMS ${check_PROGRAMS} f90tst_parallel f90tst_parallel2 f90tst_parallel3
       f90tst_nc4_par)
 
-    build_bin_test(f90tst_parallel ".F90")
-    build_bin_test(f90tst_parallel2 ".F90")
-    build_bin_test(f90tst_parallel3 ".F90")
-    build_bin_test(f90tst_nc4_par ".F90")
+    build_bin_test(f90tst_parallel ".f90")
+    build_bin_test(f90tst_parallel2 ".f90")
+    build_bin_test(f90tst_parallel3 ".f90")
+    build_bin_test(f90tst_nc4_par ".f90")
 
     #SET(f90tst_parallel_fill_SOURCES f90tst_parallel_fill.f90)
 
@@ -162,18 +162,10 @@ ENDIF()
 execute_process(COMMAND cp ${CMAKE_CURRENT_SOURCE_DIR}/ref_fills.nc
   ${CMAKE_CURRENT_BINARY_DIR}/fills.nc)
 
-INCLUDE_DIRECTORIES(BEFORE
-  ${CMAKE_CURRENT_BINARY_DIR}
-  ${CMAKE_BINARY_DIR}/fortran
-  ${CMAKE_BINARY_DIR}/libsrc
-  ${CMAKE_SOURCE_DIR}
-  ${CMAKE_SOURCE_DIR}/fortran
-  ${CMAKE_SOURCE_DIR}/libsrc)
-
-INCLUDE_DIRECTORIES(
-  ${CMAKE_CPP_FLAGS}
-  ${NETCDF_C_INCLUDE_DIR})
-
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/fortran ${CMAKE_SOURCE_DIR}/libsrc
+  ${CMAKE_SOURCE_DIR} ${CMAKE_CPP_FLAGS}
+  ${NETCDF_C_INCLUDE_DIR} ${NC4F_BINARY_DIR}/fortran
+  ${NC4F_BINARY_DIR}/libsrc)
 LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/fortran ${CMAKE_SOURCE_DIR}/libsrc
   ${NC4F_BINARY_DIR}/fortran)
 
