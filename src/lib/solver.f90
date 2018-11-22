@@ -95,7 +95,7 @@
     !!update positions
     !aot%x = aot%x + aot%u*dt
     !aot%y = aot%y + aot%v*dt
-    !aot%z = aot%z + aot%w*dt
+    !!aot%z = aot%z + aot%w*dt
 
     !interpolate each background
     do bkg = 1, size(bdata)

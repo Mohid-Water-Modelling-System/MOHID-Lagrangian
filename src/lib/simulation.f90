@@ -77,7 +77,7 @@
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)
-
+        
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
         call Globals%Sim%increment_numdt()
@@ -107,8 +107,8 @@
         call self%printTracerTotals()
         !Clean AoT
         call self%BlocksCleanAoT()
-        !update Simulation time and counters
-        Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
+        !update Simulation time
+        if (Globals%Sim%getnumdt() /= 1 ) Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
         !print*, 'Global time is ', Globals%SimTime
         !print*, 'Can we continue?'
         !read (*,*)

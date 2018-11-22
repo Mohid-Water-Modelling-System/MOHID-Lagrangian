@@ -269,6 +269,7 @@
     class(block_class), intent(inout) :: self
     if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
         if (allocated(self%Background)) then    !There are Backgrounds in this Block
+            print*, 'calling the solver for ', size(self%AoT%id), ' tracers'
             call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
         end if
     end if

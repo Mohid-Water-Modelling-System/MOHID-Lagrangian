@@ -143,7 +143,7 @@
                 aTracer%now%vel%y = self%v(i)
                 aTracer%now%vel%z = self%w(i)
             else
-                outext = '[AoT::AoTtoTracers]: pointer to Tracer no associated, stoping'
+                outext = '[AoT::AoTtoTracers]: pointer to Tracer not associated, stoping'
                 call Log%put(outext)
                 stop
             end if
