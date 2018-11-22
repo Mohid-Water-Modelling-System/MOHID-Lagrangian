@@ -95,7 +95,7 @@
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         
         !Update all tracers with base behavior (AoT) - Integration step
-        call self%BlocksRunSolver()
+        if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
