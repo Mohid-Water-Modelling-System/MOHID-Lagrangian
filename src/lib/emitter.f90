@@ -31,12 +31,10 @@
 
     type :: emitter_class       !< Emitter class
         integer :: emitted      !< number of Tracers this Emitter has created
-        integer :: emittable    !< number of Tracers this Emitter should create throughout the simulation
     contains
     procedure :: initialize => initializeEmitter
-    procedure :: addSource
-    procedure :: removeSource
     procedure :: emitt
+    procedure :: emitt_src
     procedure :: tracerMaker
     end type emitter_class
 
@@ -54,43 +52,60 @@
     implicit none
     class(emitter_class), intent(inout) :: self
     self%emitted = 0
-    self%emittable = 0
     end subroutine initializeEmitter
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> method to compute the total emittable particles per source and allocate
-    !> that space in the Blocks Tracer array
-    !> @param[in] self, src
+    !> method that emitts the Tracers, based on the Sources on the list of the
+    !> Emitter's Block
+    !> @param[in] self, srclist, trclist
     !---------------------------------------------------------------------------
-    subroutine addSource(self, src)
+    subroutine emitt(self, srclist, trclist)
     implicit none
-    class(emitter_class), intent(inout) :: self
-    class(source_class),intent(in) :: src
-    self%emittable = self%emittable + src%stencil%total_np
-    end subroutine addSource
+    class(emitter_class), intent(inout) :: self          !> the Emmiter from the Block where the Source is
+    class(sourceList_class), intent(inout)  :: srclist   !>the Source that will emitt new Tracers
+    class(tracerList_class), intent(inout)  :: trclist   !>the Tracer list from the Block where the Source is
+    class(*), pointer :: aSource
+    type(string) :: outext
+    integer :: i
+    logical :: reset_stack
+
+    reset_stack = .false.
+    call srclist%reset()                   ! reset list iterator
+    do while(srclist%moreValues())         ! loop while there are values
+        aSource => srclist%currentValue()  ! get current value
+        select type(aSource)
+        class is (source_class)
+            if (aSource%now%active) then
+                if (aSource%par%emitting_fixed_rate .eqv. .false.) call aSource%getVariableRate(Globals%Sim%getnumdt())
+                aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack               
+                do i=1, floor(aSource%now%emission_stack)
+                    call self%emitt_src(aSource, trclist)
+                    reset_stack = .true.                    
+                end do 
+                if (reset_stack) then
+                    aSource%now%emission_stack = 0 !reseting for the next time step              
+                end if
+            end if
+            class default
+            outext = '[Emitter] Unexepected type of content, not a Source'
+            call Log%put(outext)
+            stop
+        end select
+        call srclist%next()            ! increment the list iterator
+    end do
+    call srclist%reset()               ! reset list iterator
+
+    end subroutine emitt
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> method to remove from the total emittable particles count a Source
-    !> @param[in] self, src
-    !---------------------------------------------------------------------------
-    subroutine removeSource(self, src)
-    implicit none
-    class(emitter_class), intent(inout) :: self
-    class(source_class),intent(in) :: src
-    self%emittable = self%emittable - src%stencil%total_np
-    end subroutine removeSource
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> method that emitts the Tracers, based on the Sources on this Block Emitter
+    !> method that emitts the Tracers, given a particular Source
     !> @param[in] self, src, trclist
     !---------------------------------------------------------------------------
-    subroutine emitt(self, src, trclist)
+    subroutine emitt_src(self, src, trclist)
     implicit none
     class(emitter_class), intent(inout) :: self !> the Emmiter from the Block where the Source is
     class(source_class), intent(inout)  :: src  !>the Source that will emitt new Tracers
@@ -98,13 +113,13 @@
     integer i
     class(*), allocatable :: newtrc
     do i=1, src%stencil%np
-        self%emitted = self%emitted + 1
         !PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id
         call self%tracerMaker(newtrc, src, i)
         call trclist%add(newtrc)
     end do
+    self%emitted = self%emitted + src%stencil%np
     src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np
-    end subroutine emitt
+    end subroutine emitt_src
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

@@ -7,8 +7,10 @@ Id flags:
 The output was:
 0
 
-Microsoft Visual Studio 2015 Version 14.0.24720.0.
+Microsoft Visual Studio 2015 Version 14.0.25420.1.
 Copyright (C) Microsoft Corp. All rights reserved.
+
+The license for Visual Studio expires in 28 days.
 
 Package 'IFLangServicePackage' failed to load.
 
@@ -18,12 +20,12 @@ Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
 1>------ Build started: Project: CompilerIdFortran, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 17.0.6.270 [Intel(R) 64]...
+1>Compiling with Intel(R) Visual Fortran Compiler 18.0.5.274 [Intel(R) 64]...
 1>CMakeFortranCompilerId.F
-1>Intel(R) Visual Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 17.0.6.270 Build 20171215
+1>Intel(R) Visual Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 18.0.5.274 Build 20180823
 1>Copyright (C) 1985-2018 Intel Corporation.  All rights reserved.
 1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.00.23506.0
+1>Microsoft (R) Incremental Linker Version 14.00.24215.1
 1>Copyright (C) Microsoft Corporation.  All rights reserved.
 1>/OUT:.\CompilerIdFortran.exe
 1>/INCREMENTAL:NO
@@ -31,15 +33,15 @@ Package 'IFLangServicePackage' failed to load.
 1>/MANIFESTFILE:Debug\CompilerIdFortran.exe.intermediate.manifest
 1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
 1>/DEBUG
-1>/PDB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\3.10.2\CompilerIdFortran\CompilerIdFortran.pdb
+1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\3.12.3\CompilerIdFortran\CompilerIdFortran.pdb
 1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\3.10.2\CompilerIdFortran\CompilerIdFortran.lib
+1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\3.12.3\CompilerIdFortran\CompilerIdFortran.lib
 1>Debug\CMakeFortranCompilerId.obj
 1>Embedding manifest...
 1>Performing Post-Build Event...
-1>CMAKE_Fortran_COMPILER=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2017\windows\bin\intel64\ifort.exe
+1>CMAKE_Fortran_COMPILER=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\bin\intel64\ifort.exe
 1>
-1>Build log written to  "file://C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\3.10.2\CompilerIdFortran\Debug\BuildLog.htm"
+1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\3.12.3\CompilerIdFortran\Debug\BuildLog.htm"
 1>CompilerIdFortran - 0 error(s), 0 warning(s)
 ========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 
@@ -52,151 +54,157 @@ Compilation of the Fortran compiler identification source "CMakeFortranCompilerI
 
 Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.vfproj"
 
-The Fortran compiler identification is Intel, found in "C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/3.10.2/CompilerIdFortran/CompilerIdFortran.exe"
+The Fortran compiler identification is Intel, found in "C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/3.12.3/CompilerIdFortran/CompilerIdFortran.exe"
 
 Determining if the Fortran compiler works passed with the following output:
-Change Dir: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/CMakeTmp
+Change Dir: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_83cc5"
+Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_ebb9f"
 
-Microsoft Visual Studio 2015 Version 14.0.24720.0.
+Microsoft Visual Studio 2015 Version 14.0.25420.1.
 Copyright (C) Microsoft Corp. All rights reserved.
 
-Package 'IFLangServicePackage' failed to load.
+The license for Visual Studio expires in 28 days.
 
 Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
-1>------ Build started: Project: cmTC_83cc5, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 17.0.6.270 [Intel(R) 64]...
+
+Package 'IFLangServicePackage' failed to load.
+1>------ Build started: Project: cmTC_ebb9f, Configuration: Debug x64 ------
+1>Compiling with Intel(R) Visual Fortran Compiler 18.0.5.274 [Intel(R) 64]...
 1>testFortranCompiler.f
 1>Compiling manifest to resources...
-1>Microsoft (R) Windows (R) Resource Compiler Version 6.3.9600.17336
+1>Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
 1>Copyright (C) Microsoft Corporation.  All rights reserved.
 1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.00.23506.0
+1>Microsoft (R) Incremental Linker Version 14.00.24215.1
 1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>/OUT:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_83cc5.exe
+1>/OUT:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_ebb9f.exe
 1>/VERSION:0.0
 1>/MANIFEST
-1>/MANIFESTFILE:cmTC_83cc5.dir\Debug\cmTC_83cc5.exe.intermediate.manifest
+1>/MANIFESTFILE:cmTC_ebb9f.dir\Debug\cmTC_ebb9f.exe.intermediate.manifest
 1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
 1>/DEBUG
-1>/PDB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug/cmTC_83cc5.pdb
+1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug/cmTC_ebb9f.pdb
 1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_83cc5.lib
+1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_ebb9f.lib
 1>user32.lib
 1>/machine:x64
 1>/debug
 1>/INCREMENTAL
-1>cmTC_83cc5.dir\Debug\testFortranCompiler.obj
-1>cmTC_83cc5.dir\Debug\cmTC_83cc5.exe.embed.manifest.res
+1>cmTC_ebb9f.dir\Debug\testFortranCompiler.obj
+1>cmTC_ebb9f.dir\Debug\cmTC_ebb9f.exe.embed.manifest.res
 1>Embedding manifest...
-1>Microsoft (R) Manifest Tool version 6.3.9600.17336
-1>Copyright (c) Microsoft Corporation 2012.
+1>Microsoft (R) Manifest Tool
+1>Copyright (c) Microsoft Corporation.
 1>All rights reserved.
 1>
-1>Build log written to  "file://C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\cmTC_83cc5.dir\Debug\BuildLog.htm"
-1>cmTC_83cc5 - 0 error(s), 0 warning(s)
+1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\cmTC_ebb9f.dir\Debug\BuildLog.htm"
+1>cmTC_ebb9f - 0 error(s), 0 warning(s)
 ========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 
 
 Detecting Fortran compiler ABI info compiled with the following output:
-Change Dir: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/CMakeTmp
+Change Dir: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_a2258"
+Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_3d422"
 
-Microsoft Visual Studio 2015 Version 14.0.24720.0.
+Microsoft Visual Studio 2015 Version 14.0.25420.1.
 Copyright (C) Microsoft Corp. All rights reserved.
 
-Package 'IFLangServicePackage' failed to load.
+The license for Visual Studio expires in 28 days.
 
 Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
-1>------ Build started: Project: cmTC_a2258, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 17.0.6.270 [Intel(R) 64]...
+
+Package 'IFLangServicePackage' failed to load.
+1>------ Build started: Project: cmTC_3d422, Configuration: Debug x64 ------
+1>Compiling with Intel(R) Visual Fortran Compiler 18.0.5.274 [Intel(R) 64]...
 1>CMakeFortranCompilerABI.F
 1>Compiling manifest to resources...
-1>Microsoft (R) Windows (R) Resource Compiler Version 6.3.9600.17336
+1>Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
 1>Copyright (C) Microsoft Corporation.  All rights reserved.
 1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.00.23506.0
+1>Microsoft (R) Incremental Linker Version 14.00.24215.1
 1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>/OUT:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_a2258.exe
+1>/OUT:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_3d422.exe
 1>/VERSION:0.0
 1>/MANIFEST
-1>/MANIFESTFILE:cmTC_a2258.dir\Debug\cmTC_a2258.exe.intermediate.manifest
+1>/MANIFESTFILE:cmTC_3d422.dir\Debug\cmTC_3d422.exe.intermediate.manifest
 1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
 1>/DEBUG
-1>/PDB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug/cmTC_a2258.pdb
+1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug/cmTC_3d422.pdb
 1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_a2258.lib
+1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_3d422.lib
 1>/machine:x64
 1>/debug
 1>/INCREMENTAL
-1>cmTC_a2258.dir\Debug\CMakeFortranCompilerABI.obj
-1>cmTC_a2258.dir\Debug\cmTC_a2258.exe.embed.manifest.res
+1>cmTC_3d422.dir\Debug\CMakeFortranCompilerABI.obj
+1>cmTC_3d422.dir\Debug\cmTC_3d422.exe.embed.manifest.res
 1>Embedding manifest...
-1>Microsoft (R) Manifest Tool version 6.3.9600.17336
-1>Copyright (c) Microsoft Corporation 2012.
+1>Microsoft (R) Manifest Tool
+1>Copyright (c) Microsoft Corporation.
 1>All rights reserved.
 1>
-1>Build log written to  "file://C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\cmTC_a2258.dir\Debug\BuildLog.htm"
-1>cmTC_a2258 - 0 error(s), 0 warning(s)
+1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\cmTC_3d422.dir\Debug\BuildLog.htm"
+1>cmTC_3d422 - 0 error(s), 0 warning(s)
 ========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 
 
 Determining if the Fortran compiler supports Fortran 90 passed with the following output:
-Change Dir: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/CMakeTmp
+Change Dir: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_3e1a7"
+Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_97144"
 
-Microsoft Visual Studio 2015 Version 14.0.24720.0.
+Microsoft Visual Studio 2015 Version 14.0.25420.1.
 Copyright (C) Microsoft Corp. All rights reserved.
 
-Package 'IFLangServicePackage' failed to load.
+The license for Visual Studio expires in 28 days.
 
 Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
-1>------ Build started: Project: cmTC_3e1a7, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 17.0.6.270 [Intel(R) 64]...
+
+Package 'IFLangServicePackage' failed to load.
+1>------ Build started: Project: cmTC_97144, Configuration: Debug x64 ------
+1>Compiling with Intel(R) Visual Fortran Compiler 18.0.5.274 [Intel(R) 64]...
 1>testFortranCompilerF90.f90
 1>Compiling manifest to resources...
-1>Microsoft (R) Windows (R) Resource Compiler Version 6.3.9600.17336
+1>Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
 1>Copyright (C) Microsoft Corporation.  All rights reserved.
 1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.00.23506.0
+1>Microsoft (R) Incremental Linker Version 14.00.24215.1
 1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>/OUT:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_3e1a7.exe
+1>/OUT:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_97144.exe
 1>/VERSION:0.0
 1>/MANIFEST
-1>/MANIFESTFILE:cmTC_3e1a7.dir\Debug\cmTC_3e1a7.exe.intermediate.manifest
+1>/MANIFESTFILE:cmTC_97144.dir\Debug\cmTC_97144.exe.intermediate.manifest
 1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
 1>/DEBUG
-1>/PDB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug/cmTC_3e1a7.pdb
+1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug/cmTC_97144.pdb
 1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_3e1a7.lib
+1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\Debug\cmTC_97144.lib
 1>user32.lib
 1>/machine:x64
 1>/debug
 1>/INCREMENTAL
-1>cmTC_3e1a7.dir\Debug\testFortranCompilerF90.obj
-1>cmTC_3e1a7.dir\Debug\cmTC_3e1a7.exe.embed.manifest.res
+1>cmTC_97144.dir\Debug\testFortranCompilerF90.obj
+1>cmTC_97144.dir\Debug\cmTC_97144.exe.embed.manifest.res
 1>Embedding manifest...
-1>Microsoft (R) Manifest Tool version 6.3.9600.17336
-1>Copyright (c) Microsoft Corporation 2012.
+1>Microsoft (R) Manifest Tool
+1>Copyright (c) Microsoft Corporation.
 1>All rights reserved.
 1>
-1>Build log written to  "file://C:\Users\administrator\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\cmTC_3e1a7.dir\Debug\BuildLog.htm"
-1>cmTC_3e1a7 - 0 error(s), 0 warning(s)
+1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\CMakeTmp\cmTC_97144.dir\Debug\BuildLog.htm"
+1>cmTC_97144 - 0 error(s), 0 warning(s)
 ========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
 
 

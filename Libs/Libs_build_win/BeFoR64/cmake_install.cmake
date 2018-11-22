@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64
+# Install script for directory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/BeFoR64
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

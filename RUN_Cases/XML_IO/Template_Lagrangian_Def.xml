@@ -7,7 +7,7 @@
       <Rho_ref value="1100" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />
     </constantsdef>
     <simulationdefs>
-      <resolution dp="1.5" units_comment="metres (m)"/>
+      <resolution dp="1.0" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
       <pointmin x="-10.0" y="0.0" z="-500.01" units_comment="(deg,deg,m)"/>
       <pointmax x="10.0" y="10.0" z="4.0574" units_comment="(deg,deg,m)"/>
@@ -15,7 +15,7 @@
     <sourcedef>
       <source>
         <setsource id="18" name="Spill_007" />
-        <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="15" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
           <point x="-5.5" y="1.0" z="0" units_comment="(deg,deg,m)"/>
@@ -24,13 +24,13 @@
       </source>
       <source>
         <setsource id="1" name="Litter_plastic" />
-        <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate value="0.0333" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="15" end="90" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="2.5" y="5.5" z="0.75" units_comment="(deg,deg,m)"/>
       </source>
       <source>
         <setsource id="2" name="Emissary_2" />
-        <rate value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_file name="data/discharge_2.csv" comment="name of csv file with discharge information (time and rate columns)" />
         <line>
           <pointa x="1" y="2" z="-10" units_comment="(deg,deg,m)"/>
           <pointb x="1.001" y="2.00001" z="7" units_comment="(deg,deg,m)"/>
@@ -38,7 +38,7 @@
       </source>
       <source>
         <setsource id="3" name="Mistery_discharge_0" />
-        <rate value="3" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="3" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <sphere radius="2.65" units_comment="metres (m)">
           <point x="9.0" y="8.0" z="0" units_comment="(deg,deg,m)"/>
@@ -46,7 +46,7 @@
       </source>
 	    <source>
         <setsource id="6" name="Mistery_discharge_1" />
-        <rate value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <sphere radius="0.95" units_comment="metres (m)">
           <point x="9.05" y="2.0" z="0" units_comment="(deg,deg,m)"/>
@@ -54,7 +54,7 @@
       </source>
 	    <source>
         <setsource id="7" name="Mistery_discharge_2" />
-        <rate value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="9.025" y="5.0" z="0.75" units_comment="(deg,deg,m)"/>
       </source>
@@ -68,7 +68,7 @@
         <link source="2" type='paper' property="cardboard_1" comment="" />
         <link source="10" type='plastic' property="expanded_polysryrene_10" comment="" />
       </links>
-      <propertyfile name="Material_props.xml"/>
+      <propertyfile name="data/Material_props.xml"/>
     </properties>
   </casedef>
   <execution>
@@ -77,9 +77,9 @@
       <parameter key="Threads" value="auto" comment="Computation threads for shared memory computation (default=auto)" />
       <parameter key="WarmUpTime" value="0.1" comment="Time to freeze the tracers at simulation start (warmup) (default=0.0)" units_comment="seconds" />
       <parameter key="StartTime" value="1984 12 10 13 05 0" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
-      <parameter key="EndTime"   value="1984 12 10 13 50 0" comment="Date of final instant" units_comment="ISO format" />
+      <parameter key="EndTime"   value="1984 12 10 14 32 10" comment="Date of final instant" units_comment="ISO format" />
       <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
-	    <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
+	  <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
     </parameters>
   </execution>
 </case>

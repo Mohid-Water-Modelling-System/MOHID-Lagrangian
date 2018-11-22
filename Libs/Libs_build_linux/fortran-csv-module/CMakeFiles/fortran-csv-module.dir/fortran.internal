@@ -1,0 +1,6 @@
+# The fortran modules provided by this target.
+provides
+ csv_kinds
+ csv_module
+ csv_parameters
+ csv_utilities

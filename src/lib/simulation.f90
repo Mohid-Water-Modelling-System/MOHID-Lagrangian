@@ -77,9 +77,10 @@
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)
-
+        
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
+        call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
         call self%ToggleSources()
@@ -92,8 +93,9 @@
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
+        
         !Update all tracers with base behavior (AoT) - Integration step
-        call self%BlocksRunSolver()
+        if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
@@ -105,9 +107,8 @@
         call self%printTracerTotals()
         !Clean AoT
         call self%BlocksCleanAoT()
-        !update Simulation time and counters
-        Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
-        call Globals%Sim%increment_numdt()
+        !update Simulation time
+        if (Globals%Sim%getnumdt() /= 1 ) Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
         !print*, 'Global time is ', Globals%SimTime
         !print*, 'Can we continue?'
         !read (*,*)
@@ -396,6 +397,7 @@
     class(simulation_class), intent(in) :: self
     integer, optional, intent(in) :: ntrc
     integer :: sizem, i
+    type(tracer_class) :: dummyTracer
     sizem = 0
     do i=1, size(DBlock)
         sizem = sizem + sizeof(DBlock(i)%LTracer) !this accounts for the array structure

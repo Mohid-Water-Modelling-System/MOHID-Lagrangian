@@ -1,1 +1,0 @@
-/usr/local/bin/gfortran   -g CMakeFiles/abort_bare.dir/abort_bare.f90.o  -o abort_bare 

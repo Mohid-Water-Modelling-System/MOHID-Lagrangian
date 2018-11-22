@@ -35,6 +35,7 @@
     contains
     procedure :: initialize => allocatelist !<Builds the geometry list, possible geometry types (new types must be manually added)
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
+    procedure :: allocateShape              !< Returns allocated Shape with a specific shape given a name
     procedure :: fillsize                   !<Gets the number of points that fill a geometry (based on GLOBALS::dp)
     procedure :: fill                       !<Gets the list of points that fill a geometry (based on GLOBALS::dp)
     procedure :: getCenter                  !<Function that retuns the shape baricenter
@@ -69,6 +70,32 @@
 
     contains
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns allocated Shape with a specific shape given a name
+    !> @param[in] self, name, shape_obj
+    !---------------------------------------------------------------------------
+    subroutine allocateShape(self, name, shape_obj)
+    class(geometry_class), intent(in) :: self
+    type(string), intent(in) :: name
+    class(shape), allocatable, intent(inout) :: shape_obj
+    type(string) :: outext
+    select case (name%chars())
+    case ('point')
+        allocate(point::shape_obj)
+    case ('sphere')
+        allocate(sphere::shape_obj)
+    case ('box')
+        allocate(box::shape_obj)
+    case ('line')
+        allocate(line::shape_obj)
+    case default
+        outext='[Geometry::allocateShape]: unexpected type for geometry object "'//name//'", stoping'
+        call Log%put(outext)
+        stop
+    end select
+    end subroutine allocateShape
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -83,7 +110,7 @@
     self%list(2) ='line'
     self%list(3) ='box'
     self%list(4) ='sphere'
-    end subroutine
+    end subroutine allocatelist
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

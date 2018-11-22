@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/FACE
+# Install script for directory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/FACE
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

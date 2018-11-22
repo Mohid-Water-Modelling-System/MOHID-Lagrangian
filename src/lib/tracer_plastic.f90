@@ -62,19 +62,17 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Plastic Tracer constructor
-    !> @param[in] id,src,time,p
+    !> @param[in] id, src, time, p
     !---------------------------------------------------------------------------
-    function constructor(id,src,time,p)
-    implicit none
+    function constructor(id, src, time, p)
     type(plastic_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
     real(prec_time), intent(in) :: time
     integer, intent(in) :: p
-    class(*), allocatable :: base_trc
 
     !use the base class constructor to build the base of our new derived type
-    constructor%tracer_class = Tracer(id,src,time,p)
+    constructor%tracer_class = Tracer(id, src, time, p)
     !VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...
     constructor%par%id = id !forcing
     constructor%par%idsource = src%par%id !forcing

@@ -20,13 +20,18 @@
 
     use common_modules
     use simulation_globals_mod
+    use csv_module
+    use csvparser_mod
 
     implicit none
     private
 
     type :: source_par                          !<Type - parameters of a source object
         integer :: id                           !< unique source identification (integer)
-        integer :: emitting_rate                !< Emitting rate of the source (Hz)
+        real(prec) :: emitting_rate             !< Emitting rate of the Source (Hz)
+        logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
+        type(string) :: rate_file               !< File name of the emission rate data (csv)
+        real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
         real(prec_time) :: startime             !< time to start emitting tracers
         real(prec_time) :: stoptime             !< time to stop emitting tracers
         type(string) :: name                    !< source name
@@ -49,7 +54,7 @@
     type :: source_state             !<Type - state variables of a source object
         real(prec_time) :: age              ! time variables
         logical :: active                   !< active switch
-        integer :: emission_stride          !< Number of time steps to wait until next emission
+        real(prec) :: emission_stack        !< number of emissions on the stack for the current time step
         type(vector) :: pos                 !< Position of the source baricenter (m)
         type(vector) :: vel                 !< Velocity of the source (m s-1)
         real(prec) :: depth                 !< Depth of the source baricenter (m)
@@ -60,7 +65,6 @@
         ! All stats variables at writing precision (prec_wrt)
         ! Avegarge variable is computed by Accumulated_var / ns
         integer :: particles_emitted        !< Number of emitted particles by this source
-        real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
         integer :: ns                       !< Number of sampling steps
     end type source_stats
 
@@ -81,6 +85,8 @@
     procedure :: isParticulate
     procedure :: setPropertyAtributes
     procedure :: check
+    procedure, private :: setVariableRate
+    procedure :: getVariableRate
     procedure, private :: setotalnp
     procedure, private :: linkproperty
     procedure :: print => printSource
@@ -125,7 +131,6 @@
         call Log%put(outext)
     endif
     end subroutine initSources
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -172,12 +177,10 @@
     type(string), intent(in) :: srcid_str      !<Source id tag
     type(string), intent(in) :: ptype          !<Property type to set
     type(string), intent(in) :: pname          !<Property name to set
-
     integer :: srcid
     type(string) :: outext, temp
     integer :: i
     logical :: notlinked
-
     srcid = srcid_str%to_number(kind=1_I1P)
     notlinked = .true.  !assuming not linked
     do i=1, size(self%src)
@@ -238,7 +241,6 @@
     !> Method that checks for the consistency of the Source properties.
     !---------------------------------------------------------------------------
     subroutine check(self)
-    implicit none
     class(source_class), intent(in) :: self
     type(string) :: outext, temp(2)
     logical :: failed
@@ -266,7 +268,7 @@
         end if
     end if
     if (failed) then
-        outext = 'Source'//temp(1)//' '//temp(2)//' is not set, stoping'
+        outext = 'Property '//temp(2)//' from Source id = '//temp(1)//' is not set, stoping'
         call Log%put(outext)
         stop
     end if
@@ -275,30 +277,93 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method that reads a csv file with variable emission rate data, allocates 
+    !> the space, and stores the data in the Source.
+    !> @param[in] self, filename
+    !---------------------------------------------------------------------------
+    subroutine setVariableRate(self, filename)
+    class(source_class), intent(inout) :: self
+    type(string), intent(in) :: filename
+    type(csv_file) :: rateFile
+    character(len=30), dimension(:), allocatable :: header
+    real(prec), dimension(:), allocatable :: time, rate, stime, srate
+    integer :: i, index
+    real(prec) :: weight
+    logical :: status
+    type(string) :: outext
+
+    call CSVReader%getFile(rateFile, filename, 1)
+    call CSVReader%getColumn(rateFile, filename, 1, time)
+    call CSVReader%getColumn(rateFile, filename, 2, rate)
+    call CSVReader%closeFile(rateFile)
+    !interpolating the csv data to a regular dt spaced array and storing the data in the Source
+    allocate(stime(int(min(Globals%Parameters%TimeMax,maxval(time))/Globals%SimDefs%dt)+1))
+    allocate(srate(size(stime)))
+    do i=1, size(stime)
+        stime(i)=Globals%SimDefs%dt*(i-1)
+    end do
+    do i=1, size(stime)
+        if (stime(i)<time(1)) then 
+            srate(i) = 0.0
+        else
+            do index=1, size(time)-1
+                if (stime(i)>=time(index)) then
+                    weight = (stime(i)-time(index))/(time(index+1)-time(index));
+                    srate(i) = (1.0-weight)*rate(index) + weight*rate(index+1);
+                end if
+            end do
+        end if
+    end do
+    allocate(self%par%variable_rate(size(srate)), source=srate)
+    end subroutine setVariableRate
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that sets the rate for the current time step, in case of a variable 
+    !> rate.
+    !> @param[in] self, time
+    !---------------------------------------------------------------------------
+    subroutine getVariableRate(self, index)
+    class(source_class), intent(inout) :: self        
+    integer :: index
+    type(string) :: outext
+    self%par%emitting_rate = self%par%variable_rate(min(index,size(self%par%variable_rate)))
+    end subroutine getVariableRate
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src,id,name,emitting_rate,start,finish,source_geometry,shapetype
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src,id,name,emitting_rate,start,finish,source_geometry,shapetype)
-    implicit none
+    subroutine initializeSource(src,id,name,emitting_rate,emitting_fixed_rate,rate_file,start,finish,source_geometry,shapetype)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
     real(prec), intent(in) :: emitting_rate
+    logical, intent(in) :: emitting_fixed_rate
+    type(string), intent(in) :: rate_file
     real(prec), intent(in) :: start
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: shapetype
-
     integer :: sizem, i
     type(string) :: outext
     integer :: err
 
     !Setting parameters
     src%par%id=id
+    src%par%name=name
     src%par%emitting_rate=emitting_rate
+    src%par%emitting_fixed_rate = emitting_fixed_rate
+    src%par%rate_file = rate_file
+    if (emitting_fixed_rate .eqv. .false.) then
+        call src%setVariableRate(src%par%rate_file)
+        call src%getVariableRate(Globals%Sim%getnumdt())
+    end if
     src%par%startime=start
     src%par%stoptime=finish
-    src%par%name=name
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=shapetype)
     !Setting properties
@@ -314,11 +379,10 @@
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
-    src%now%emission_stride=1 !first time-step once active the Source emitts
+    src%now%emission_stack = 1
     src%now%pos=src%par%geometry%pt !coords of the Source (meaning depends on the geometry type!)
     !setting statistical samplers
     src%stats%particles_emitted=0
-    src%stats%acc_T=0.0
     src%stats%ns=0
     !setting stencil variables
     src%stencil%np = Geometry%fillsize(src%par%geometry, Globals%SimDefs%Dp)
@@ -334,15 +398,10 @@
         src%stencil%ptlist(i) = Utils%m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
     end do
 
-
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
     call src%print()
 
-    !DBG
-    !do i=1, src%stencil%np
-    !print*, src%stencil%ptlist(i)
-    !end do
     end subroutine initializeSource
 
     !---------------------------------------------------------------------------
@@ -366,7 +425,7 @@
     subroutine setotalnp(self)
     implicit none
     class(source_class), intent(inout) :: self
-    self%stencil%total_np=int((self%par%stoptime-self%par%startime)/(Globals%SimDefs%dt)/self%par%emitting_rate*self%stencil%np)
+    self%stencil%total_np=int((self%par%stoptime-self%par%startime)*self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 
     !---------------------------------------------------------------------------
@@ -378,10 +437,8 @@
     subroutine printSource(src)
     implicit none
     class(source_class) :: src
-
     type(string) :: outext
     type(string) :: temp_str(3)
-
     temp_str(1)=src%par%id
     outext = '-->Source '//src%par%name//new_line('a')//&
         '       Id = '//temp_str(1)//new_line('a')//&
@@ -391,17 +448,17 @@
     temp_str(3)=src%now%pos%z
     outext = outext//'       Initially at coordinates'//new_line('a')//&
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
-    temp_str(1)=src%par%emitting_rate
-    temp_str(2)=src%stencil%np
-    temp_str(3)=src%stencil%total_np
-    outext = outext//'       Emitting '//temp_str(2)//' tracers at every '//temp_str(1)//' time-steps'//new_line('a')
-    outext = outext//'       For an estimated total of '//temp_str(3)//' tracers' //new_line('a')
+    temp_str(1)=src%stencil%np
+    if (src%par%emitting_fixed_rate) then
+        temp_str(2)=src%par%emitting_rate        
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at '//temp_str(2)//' Hz'//new_line('a')
+    else
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at a rate defined in '//src%par%rate_file//new_line('a')
+    end if
     temp_str(1)=src%par%startime
     temp_str(2)=src%par%stoptime
     outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'
-
     call Log%put(outext,.false.)
-
     end subroutine printSource
 
     end module sources_mod

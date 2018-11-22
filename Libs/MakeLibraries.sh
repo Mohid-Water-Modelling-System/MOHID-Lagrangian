@@ -11,29 +11,49 @@ if [ -e $dirout ]; then
 fi
 mkdir $dirout
 
+echo ------------------------------------
 echo Build directory is $dirout
 
 # building initial libs
 cd $dirout
 diroutpwd=$PWD
+echo ------------------------------------
 echo Running cmake for nice and small libraries
-cmake -Wno-dev ..
+cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release
 echo Running make for nice and small libraries
 make
 
 # building complex libs
 cd ../fox
-diroutfox=build
+diroutfox=build_linux
 # "diroutfox" is created to store results or it is cleaned if it already exists
 if [ -e $diroutfox ]; then
   rm -f -r $diroutfox
 fi
 mkdir $diroutfox
 cd $diroutfox
+echo ------------------------------------
 echo Running cmake for fox library
-cmake -Wno-dev ..
+cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release
 echo Running make for fox library
 make
-echo coppying files from built fox library to $dirout
-cp -R modules/. ${diroutpwd}/modules/
-cp -R lib/. ${diroutpwd}/lib/
+
+cd ../../netcdf-fortran
+diroutnetcdff=build_linux
+# "diroutnetcdff" is created to store results or it is cleaned if it already exists
+if [ -e $diroutnetcdff ]; then
+  rm -f -r $diroutnetcdff
+fi
+mkdir $diroutnetcdff
+cd $diroutnetcdff
+echo ------------------------------------
+echo Running cmake for netCDF-Fortran library, hope you installed netCDF in your system
+cmake -Wno-dev .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
+echo Running make for netCDF-Fortran library
+make
+
+cd ..
+cd ..
+
+echo ------------------------------------
+echo All done, have a nice day

@@ -5,7 +5,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : simulation_xmlparser
+    ! MODULE        : xmlparser
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : April 2018
@@ -14,7 +14,7 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module with the simulation xml parsing class and methods, Encapsulates the
+    !> Module with xml parsing class and methods, encapsulates the
     !> FOX_dom library.
     !------------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@
     procedure :: gotoNode
     end type xmlparser_class
 
-    !the object tho expose to the rest of the code
+    !Simulation variables
     type(xmlparser_class) :: XMLReader
 
     !Public access vars
@@ -47,13 +47,12 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that parses an xml file and returns a pointer to the master node.
+    !> Method that parses a xml file and returns a pointer to the master node.
     !> @param[in] self, xmldoc, xmlfilename
     !---------------------------------------------------------------------------
     subroutine getFile(self, xmldoc, xmlfilename)
-    implicit none
     class(xmlparser_class), intent(in) :: self
-    type(Node), intent(out), pointer :: xmldoc   !< Node that conatins the parsed file
+    type(Node), intent(out), pointer :: xmldoc   !< Node that contains the parsed file
     type(string), intent(in) :: xmlfilename      !< File name
     integer :: err
     type(string) :: outext
@@ -75,7 +74,6 @@
     !> @param[in] self, xmldoc
     !---------------------------------------------------------------------------
     subroutine closeFile(self, xmldoc)
-    implicit none
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(out), pointer :: xmldoc   !< Node that conatins the parsed file
     call destroy(xmldoc) !using FOX function
@@ -89,7 +87,6 @@
     !> @param[in] self, xmlnode, att_name, att_value
     !---------------------------------------------------------------------------
     subroutine getLeafAttribute(self, xmlnode, att_name, att_value)
-    implicit none
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
@@ -107,7 +104,6 @@
     !> @param[in] self, xmlnode, tag, att_name, att_value, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine getNodeAttribute(self, xmlnode, tag, att_name, att_value, read_flag, mandatory)
-    implicit none
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
@@ -164,7 +160,6 @@
     !> @param[in] self, xmlnode, tag, vec, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine getNodeVector(self, xmlnode, tag, vec, read_flag, mandatory)
-    implicit none
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
@@ -221,7 +216,6 @@
     !> @param[in] self, currentNode, targetNode, targetNodeName, read_flag, mandatory
     !---------------------------------------------------------------------------
     subroutine gotoNode(self, currentNode, targetNode, targetNodeName, read_flag, mandatory)
-    implicit none
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: currentNode
     type(Node), intent(out), pointer :: targetNode

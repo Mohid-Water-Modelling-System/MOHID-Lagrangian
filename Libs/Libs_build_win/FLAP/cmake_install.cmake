@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/Libs/FLAP
+# Install script for directory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/FLAP
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

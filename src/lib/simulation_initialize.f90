@@ -153,10 +153,8 @@
     class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
     type(string) :: outext
     type(string) :: tag
-
     select type (source_shape)
     type is (shape)
-        !nothing to do
     class is (box)
         tag='point'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
@@ -179,7 +177,6 @@
         call Log%put(outext)
         stop
     end select
-
     end subroutine read_xml_geometry
 
     !---------------------------------------------------------------------------
@@ -191,7 +188,6 @@
     subroutine init_sources(case_node)
     implicit none
     type(Node), intent(in), pointer :: case_node
-
     type(string) :: outext
     type(NodeList), pointer :: sourceList           !< Node list for sources
     type(NodeList), pointer :: sourceChildren       !< Node list for source node children nodes
@@ -200,19 +196,19 @@
     type(Node), pointer :: source_detail
     integer :: i, j
     logical :: readflag
-    !source vars
     integer :: id
-    type(string) :: name, source_geometry, tag, att_name, att_val
+    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
     real(prec) :: emitting_rate, start, finish
+    logical :: emitting_fixed
     class(shape), allocatable :: source_shape
 
+    rate_file = 'not_set'
+    readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
-
     tag="sourcedef"    !the node we want
     call XMLReader%gotoNode(case_node,sourcedef,tag)
     sourceList => getElementsByTagname(sourcedef, "source")
-
     !allocating the temporary source objects
     call tempSources%initialize(getLength(sourceList))
 
@@ -224,10 +220,28 @@
         id=att_val%to_number(kind=1_I1P)
         att_name="name"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, name)
+        !reading emission rate, need to check for options
+        tag="rate_dt"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            emitting_rate = 1.0/(att_val%to_number(kind=1._R4P)*Globals%SimDefs%dt)
+            emitting_fixed = .true.
+        end if
         tag="rate"
         att_name="value"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val)
-        emitting_rate = att_val%to_number(kind=1._R4P)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            emitting_rate = att_val%to_number(kind=1._R4P)
+            emitting_fixed = .true.
+        end if
+        tag="rate_file"
+        att_name="name"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            rate_file = att_val
+            emitting_fixed = .false.
+        end if
         tag="active"
         att_name="start"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
@@ -235,40 +249,27 @@
             start = att_val%to_number(kind=1._R4P)
         else
             start = 0.0
-        endif
+        end if
         att_name="end"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
         if (readflag.and.att_val%is_number()) then
             finish = att_val%to_number(kind=1._R4P)
         else
             finish = Globals%Parameters%TimeMax
-        endif
+        end if
         !now we need to find out the geometry of the source and read accordingly
         sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
         do i=0, getLength(sourceChildren)-1
             source_detail => item(sourceChildren,i) !grabing a node
             source_geometry = getLocalName(source_detail)  !finding its name
             if (Geometry%inlist(source_geometry)) then  !if the node is a valid geometry name
-                select case (source_geometry%chars())
-                case ('point')
-                    allocate(point::source_shape)
-                case ('sphere')
-                    allocate(sphere::source_shape)
-                case ('box')
-                    allocate(box::source_shape)
-                case ('line')
-                    allocate(line::source_shape)
-                    case default
-                    outext='[init_sources]: unexpected type for geometry object!'
-                    call Log%put(outext)
-                    stop
-                end select
+                call Geometry%allocateShape(source_geometry,source_shape)                
                 call read_xml_geometry(source_node,source_detail,source_shape)
                 exit
-            endif
-        enddo
+            end if
+        end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id,name,emitting_rate,start,finish,source_geometry,source_shape)
+        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape)
 
         deallocate(source_shape)
     enddo

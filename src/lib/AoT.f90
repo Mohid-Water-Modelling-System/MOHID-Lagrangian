@@ -38,7 +38,6 @@
         real(prec), allocatable, dimension(:) :: x,y,z          !< coordinates of the Tracer
         real(prec), allocatable, dimension(:) :: u,v,w          !< velocities of the Tracer
     contains
-    !sort
     procedure :: Clean
     procedure :: toTracers
     procedure :: print => print_AoT
@@ -120,11 +119,11 @@
     if (allocated(self%v)) deallocate(self%v)
     if (allocated(self%w)) deallocate(self%w)
     end subroutine Clean
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Sends the data on the AoT to the Tracer objects. Less type guard checks 
+    !> Sends the data on the AoT to the Tracer objects. Less type guard checks
     !> because they were already made in the constructor of the AoT
     !---------------------------------------------------------------------------
     subroutine toTracers(self)
@@ -144,14 +143,14 @@
                 aTracer%now%vel%y = self%v(i)
                 aTracer%now%vel%z = self%w(i)
             else
-                outext = '[AoT::AoTtoTracers]: pointer to Tracer no associated, stoping'
+                outext = '[AoT::AoTtoTracers]: pointer to Tracer not associated, stoping'
                 call Log%put(outext)
                 stop
             end if
         end do
-    end if    
+    end if
     end subroutine toTracers
-    
+
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

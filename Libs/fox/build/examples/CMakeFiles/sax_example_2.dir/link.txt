@@ -1,1 +1,0 @@
-/usr/local/bin/gfortran     CMakeFiles/sax_example_2.dir/sax_example_2.f90.o  -o ../bin/sax_example_2 ../lib/libFoX_sax.a ../lib/libFoX_common.a ../lib/libFoX_utils.a ../lib/libFoX_fsys.a 

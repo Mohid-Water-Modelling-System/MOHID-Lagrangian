@@ -51,7 +51,6 @@
     !> Initializes a VTK writer object
     !---------------------------------------------------------------------------
     subroutine initVTKwritter(self)
-    implicit none
     class(vtkwritter_class), intent(inout) :: self
     self%numVtkFiles = 0
     self%formatType = 'raw'
@@ -65,7 +64,6 @@
     !> @param[in] self, filename, blocks
     !---------------------------------------------------------------------------
     subroutine TracerSerial(self, filename, blocks)
-    implicit none
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
@@ -115,7 +113,6 @@
     !> @param[in] self, filename, bbox, npbbox, blocks
     !---------------------------------------------------------------------------
     subroutine Domain(self, filename, bbox, npbbox, blocks)
-    implicit none
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename                    !< name of the case to add
     class(boundingbox_class), intent(in) :: bbox            !< Case bounding box

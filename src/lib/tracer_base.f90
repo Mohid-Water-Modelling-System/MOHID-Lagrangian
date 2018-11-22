@@ -31,38 +31,31 @@
     end type tracer_par_class
 
     type :: tracer_state_class             !<Type - state variables of a pure Lagrangian tracer object
-        real(prec_time) :: age = MV              ! time variables
-        logical :: active = .false.                   !< active switch
-        type(vector) :: pos                 !< Position of the tracer (m)
-        type(vector) :: vel                 !< Velocity of the tracer (m s-1)
-        type(vector) :: acc                 !< Acceleration of the tracer (m s-2)
-        real(prec) :: depth = MV                 !< Depth of the tracer (m)
-        !real(prec) :: T                     !< Temperature of the tracer (Celcius)
+        real(prec_time) :: age = MV             ! time variables
+        logical :: active = .false.             !< active switch
+        type(vector) :: pos                     !< Position of the tracer (m)
+        type(vector) :: vel                     !< Velocity of the tracer (m s-1)
+        type(vector) :: acc                     !< Acceleration of the tracer (m s-2)
+        real(prec) :: depth = MV                !< Depth of the tracer (m)
     end type tracer_state_class
 
     type :: tracer_stats_class             !<Type - statistical variables of a pure Lagrangian tracer object
-        ! All stats variables at writing precision (prec_wrt)
-        ! Avegarge variable is computed by Accumulated_var / ns
-        type(vector) :: acc_pos             !< Accumulated position of the tracer (m)
-        type(vector) :: acc_vel             !< Accumulated velocity of the tracer (m s-1)
-        real(prec_wrt) :: acc_depth = MV         !< Accumulated depth of the tracer (m)
-        !real(prec_wrt) :: acc_T             !< Accumulated temperature of the tracer (Celcius)
-        integer :: ns = MV                       !< Number of sampling steps
+        type(vector) :: acc_pos                 !< Accumulated position of the tracer (m)
+        type(vector) :: acc_vel                 !< Accumulated velocity of the tracer (m s-1)
+        real(prec_wrt) :: acc_depth = MV        !< Accumulated depth of the tracer (m)
+        integer :: ns = MV                      !< Number of sampling steps
     end type tracer_stats_class
 
     type :: tracer_class                   !<Type - The pure Lagrangian tracer class
-        type(tracer_par_class)   :: par     !<To access parameters
-        type(tracer_state_class) :: now     !<To access state variables
-        type(tracer_stats_class) :: stats   !<To access statistics
+        type(tracer_par_class)   :: par         !<To access parameters
+        type(tracer_state_class) :: now         !<To access state variables
+        type(tracer_stats_class) :: stats       !<To access statistics
     contains
     procedure :: print => printTracer
     end type tracer_class
-
-    !Simulation variables
-    type(tracer_class) :: dummyTracer !< Just a template to allocate the generic arrays to this size
-
+        
     !Public access vars
-    public :: tracer_class, dummyTracer
+    public :: tracer_class
 
     !Public access routines
     public :: Tracer
@@ -100,9 +93,9 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Base Tracer constructor
-    !> @param[in] id,src,time,p
+    !> @param[in] id, src, time, p
     !---------------------------------------------------------------------------
-    function constructor(id,src,time,p)
+    function constructor(id, src, time, p)
     implicit none
     type(tracer_class) :: constructor
     integer, intent(in) :: id

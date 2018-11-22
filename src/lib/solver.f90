@@ -61,7 +61,7 @@
     if (self%solverType == 2) call self%runStepMSEuler(aot, bdata, time, dt)
     if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
     end subroutine runStep
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -81,10 +81,28 @@
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-    
-    ! interpolate each background
+    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v 
+
+    print*, 'got here!'
+    np = size(aot%id) !number of particles
+    allocate(rand_vel_u(np))
+    allocate(rand_vel_v(np))
+    call random_number(rand_vel_u)
+    call random_number(rand_vel_v)
+    rand_vel_u = 0.001*(2*rand_vel_u - 1)
+    rand_vel_v = 0.001*(2*rand_vel_v - 1)
+    aot%u = rand_vel_u
+    aot%v = rand_vel_v
+    !aot%w = rand_vel
+    !print*, aot%u
+    !update positions
+    aot%x = aot%x + aot%u*dt
+    aot%y = aot%y + aot%v*dt
+    !!aot%z = aot%z + aot%w*dt
+
+    !interpolate each background
     do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles     
+        np = size(aot%id) !number of particles
         nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
@@ -97,6 +115,7 @@
         aot%v = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         aot%w = var_dt(:,nf)
+    
         !update positions
         aot%x = aot%x + aot%u*dt
         aot%y = aot%y + aot%v*dt
@@ -126,7 +145,7 @@
 
     ! interpolate each background
     do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles     
+        np = size(aot%id) !number of particles
         nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
@@ -161,7 +180,7 @@
         aot%z = aot%z + aot%w*dt*0.5
         !update other vars...
     end do
-    
+
     end subroutine runStepMSEuler
 
     !---------------------------------------------------------------------------

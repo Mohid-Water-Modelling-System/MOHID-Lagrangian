@@ -49,6 +49,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "../VTKFortran/CMakeLists.txt"
   "../VecFor/CMakeLists.txt"
   "../datetime-fortran/CMakeLists.txt"
+  "../fortran-csv-module/CMakeLists.txt"
   )
 
 # The corresponding makefile is:
@@ -72,6 +73,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "FACE/CMakeFiles/CMakeDirectoryInformation.cmake"
   "FLAP/CMakeFiles/CMakeDirectoryInformation.cmake"
   "datetime-fortran/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "fortran-csv-module/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -85,4 +87,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "FACE/CMakeFiles/FACE.dir/DependInfo.cmake"
   "FLAP/CMakeFiles/FLAP.dir/DependInfo.cmake"
   "datetime-fortran/CMakeFiles/datetime.dir/DependInfo.cmake"
+  "fortran-csv-module/CMakeFiles/fortran-csv-module.dir/DependInfo.cmake"
   )
