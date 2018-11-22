@@ -13,7 +13,9 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> 
+    !> Defines an inpup file reader class with an object exposable to the Simulation
+    !> This class is in charge of selectig the correct reader for the selected input
+    !> file format.
     !------------------------------------------------------------------------------
 
     module simulation_input_streamer_mod
@@ -26,9 +28,8 @@
     type :: input_streamer_class
         integer :: InputFormat = -1
     contains
-    procedure :: initialize => initOutputStreamer
-    procedure :: WriteDomain
-    procedure :: WriteStepSerial
+    procedure :: initialize => initInputStreamer
+    
     end type input_streamer_class
 
     type(input_streamer_class) :: InputStreamer
@@ -41,36 +42,17 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Initializes the Output writer object
+    !> Initializes the Input writer object
     !---------------------------------------------------------------------------
-    subroutine initOutputStreamer(self)
+    subroutine initInputStreamer(self)
     class(output_streamer_class), intent(inout) :: self
+    self%InputFormat = Globals%Parameters%InputFormat
+    if (self%InputFormat == 1) then
+        !initialize netcdf reader class
     
+    end if    
+    end subroutine initInputStreamer
+
     
-    end subroutine initOutputStreamer
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Streamer method to call a simulation step writer. Writes binary XML VTK
-    !> format using an unstructured grid.
-    !> @param[in] self, blocks
-    !---------------------------------------------------------------------------
-    subroutine WriteStepSerial(self)
-    class(output_streamer_class), intent(inout) :: self
-
-    end subroutine WriteStepSerial
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Public simulation domain writting routine. Writes binary XML VTK
-    !> format using an unstructured grid.
-    !> @param[in] self, filename, bbox, npbbox, blocks
-    !---------------------------------------------------------------------------
-    subroutine WriteDomain(self)
-    class(output_streamer_class), intent(inout) :: self
-
-    end subroutine WriteDomain
 
     end module simulation_input_streamer_mod
