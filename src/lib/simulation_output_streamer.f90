@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : simulation_vtkwritter
+    ! MODULE        : simulation_output_streamer
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : July 2018

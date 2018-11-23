@@ -43,6 +43,7 @@
         type(datetime)  :: StartTime                 !< Start date of the simulation
         type(datetime)  :: EndTime                   !< End date of the simulation
         integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
+        integer         :: InputFormat = 1           !< Format of the Input files (default=1) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
     contains

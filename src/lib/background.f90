@@ -145,32 +145,43 @@
     real(prec), allocatable, dimension(:) :: field1
     real(prec), allocatable, dimension(:,:) :: field2
     type(vector), allocatable, dimension(:,:,:) :: field3
+    real(prec), allocatable, dimension(:,:,:) :: any_field_3d
     type(string) :: name1, name2, name3, bname
     type(string) :: units1, units2, units3
     type(box) :: backgroundbbox
     type(scalar1d_field_class), allocatable, dimension(:) :: backgroundims
     !generating fields
+    !inquire nc dimensions
+    !allocate approptiate real matrix (1d, 2d, 3d ..)
     allocate(field1(50))
     allocate(field2(20,60))
     allocate(field3(2,3,4))
+    !inquire nc field name and units
     name1 = 'testfield1d'
     name2 = 'testfield2d'
     name3 = 'testfield3d'
     units1 = 'm/s'
     units2 = 'km'
     units3 = 'ms-1'
+    !nc_get_var - stores data in allocated matrix
+    !put data in generic field
     call gfield1%initialize(name1, units1, field1)
     call gfield2%initialize(name2, units2, field2)
     call gfield3%initialize(name3, units3, field3)
     !assembling our Background
+    !nc inquire dimensions names
     bname = 'TestBackground'
     name1 = 'lon'
     name2 = 'lat'
+    !make background bounding box (this should come from the block + a margin)
     backgroundbbox%pt = 1*ex + 2*ey + 3*ez
     backgroundbbox%size = 4*ex + 5*ey + 6*ez
+    !allocate space for the dimensions vectors of the background
     allocate(backgroundims(2))
+    !inquire dimensions units, and data
     call backgroundims(1)%initialize(name1,units2,1, field1)
     call backgroundims(2)%initialize(name2,units2,1, field1)
+    !construct background
     background1 = Background(5, bname, backgroundbbox, backgroundims)
     call background1%add(gfield1)
     call background1%add(gfield2)
