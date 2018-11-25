@@ -62,5 +62,5 @@ set(CMAKE_Fortran_SYSROOT_FLAG "-isysroot")
 set(CMAKE_Fortran_OSX_DEPLOYMENT_TARGET_FLAG "-mmacosx-version-min=")
 
 set(CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES "gfortran;gcc_ext.10.5;gcc;quadmath;m;gcc_ext.10.5;gcc")
-set(CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES "/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8;/usr/lib;/usr/local/lib")
-set(CMAKE_Fortran_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "/Library/Frameworks;/System/Library/Frameworks")
+set(CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES "/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib")
+set(CMAKE_Fortran_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks")
