@@ -45,7 +45,7 @@
     !> Initializes the Input writer object
     !---------------------------------------------------------------------------
     subroutine initInputStreamer(self)
-    class(output_streamer_class), intent(inout) :: self
+    class(input_streamer_class), intent(inout) :: self
     self%InputFormat = Globals%Parameters%InputFormat
     if (self%InputFormat == 1) then
         !initialize netcdf reader class
