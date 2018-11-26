@@ -112,6 +112,8 @@
 
     allocate(self%Background(1))
     call TestMaker%initialize(1, self%extents, self%Background(1))
+    call self%print()
+    call self%Background(1)%print()
 
     end subroutine initBlock
 
@@ -413,8 +415,8 @@
         b=1
         do i=1, nxi
             do j=1, nyi
-                tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey - BBox%pt%z*ez
-                tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey
+                tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey
+                tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey + BBox%size%z*ez
                 call DBlock(b)%initialize(b, tempbox)
                 b=b+1
             end do
