@@ -13,7 +13,7 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines an inpup file reader class with an object exposable to the Simulation
+    !> Defines an input file reader class with an object exposable to the Simulation
     !> This class is in charge of selectig the correct reader for the selected input
     !> file format.
     !------------------------------------------------------------------------------
