@@ -104,7 +104,7 @@
     do bkg = 1, size(bdata)
         np = size(aot%id) !number of particles
         nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        print*, 'np=', np, 'nf=', nf, 'nbkg=', size(bdata)
+        !print*, 'np=', np, 'nf=', nf, 'nbkg=', size(bdata)
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
         !run the interpolator
@@ -117,8 +117,8 @@
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         aot%w = var_dt(:,nf)        
         !update positions
-        aot%x = aot%x + aot%u*dt
-        aot%y = aot%y + aot%v*dt
+        aot%x = aot%x + Utils%m2geo(aot%u*dt, aot%y, .false.)
+        aot%y = aot%y + Utils%m2geo(aot%v*dt, aot%y, .true.)
         aot%z = aot%z + aot%w*dt
         !update other vars...
     end do
@@ -160,8 +160,8 @@
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         aot%w = var_dt(:,nf)
         !update positions for the predictor step
-        aot%x = aot%x + aot%u*dt*0.5
-        aot%y = aot%y + aot%v*dt*0.5
+        aot%x = aot%x + Utils%m2geo(aot%u*dt, aot%y, .false.)*0.5
+        aot%y = aot%y + Utils%m2geo(aot%v*dt, aot%y, .true.)*0.5
         aot%z = aot%z + aot%w*dt*0.5
         !Corrector step
         !run the interpolator
@@ -175,8 +175,8 @@
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         aot%w = var_dt(:,nf)
         !update positions for the corrector step
-        aot%x = aot%x + aot%u*dt*0.5
-        aot%y = aot%y + aot%v*dt*0.5
+        aot%x = aot%x + Utils%m2geo(aot%u*dt, aot%y, .false.)*0.5
+        aot%y = aot%y + Utils%m2geo(aot%v*dt, aot%y, .true.)*0.5
         aot%z = aot%z + aot%w*dt*0.5
         !update other vars...
     end do
