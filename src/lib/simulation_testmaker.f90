@@ -81,7 +81,7 @@
     real(prec) :: pi = 4*atan(1.0)
     real(prec) :: sst
     
-    allocate(sx(res), sy(res), sz(res))
+    allocate(sx(res), sy(res), sz(res), t(res))
     allocate(vx(res,res,res,res))
     allocate(vy(res,res,res,res))
     allocate(vz(res,res,res,res))
@@ -96,7 +96,7 @@
     do m=1, res
         do i=1, res
             do j=i, res
-                sst = 1-2*m*10e-6
+                sst = 1-2*t(m)*10e-6
                 vx(i,j,1,m) = cos(sx(i))*sin(sy(j))*sst
                 vy(i,j,1,m) = -sin(sx(i))*cos(sy(j))*sst
                 vz(i,j,1,m) = 0.0
