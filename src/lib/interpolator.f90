@@ -61,14 +61,21 @@
 
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
+    print*, 'interpolating from bkg ', bdata%name%chars()
     call bdata%fields%reset()                   ! reset list iterator
+    print*, '   bkg field iterator reset'
     do while(bdata%fields%moreValues())         ! loop while there are values
         aField => bdata%fields%currentValue()   ! get current value
-        select type(aField)
+        print*, '   checking field type'
+        select type(aField)        
         class is(scalar4d_field_class)          !4D interpolation is possible
+            print*, '   field type is 4D'
             if (self%interpType == 1) then !linear interpolation in space and time
+                print*, '   linear interpolant selected for field ', aField%name%chars()
                 var_name(i) = aField%name
+                print*, '   interpolating 4D field ', aField%name%chars()
                 call self%interp4D(aot%x, aot%y, aot%z, time, aField%field, var_dt(:,i), size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+                print*, '   ... done'
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
