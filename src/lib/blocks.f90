@@ -305,7 +305,9 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to send a Tracer from the current Block to another Block
+    !> Method to send a Tracer from the current Block to another Block. Checks
+    !> if Block index exists, if not, Tracer is not added to any Block Tracer 
+    !> list
     !---------------------------------------------------------------------------
     subroutine sendTracer(blk,trc)
     implicit none
@@ -313,7 +315,9 @@
     class(*), intent(in) :: trc
     !PARALLEL this is a CRITICAL section, need to ensure correct tracer
     !index attribution at the new block
-    call DBlock(blk)%LTracer%add(trc)
+    if (blk <= size(DBlock)) then
+        if (blk > 0) call DBlock(blk)%LTracer%add(trc)
+    end if
     end subroutine sendTracer
 
     !---------------------------------------------------------------------------
