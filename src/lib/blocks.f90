@@ -33,6 +33,8 @@
     use solver_mod
     use background_mod
 
+    use simulation_testmaker_mod
+
 
     implicit none
     private
@@ -107,6 +109,10 @@
     call self%Solver%initialize(i, Globals%Parameters%IntegratorNames(i))
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
+
+    allocate(self%Background(1))
+    call TestMaker%initialize(1, self%extents, self%Background(1))
+
     end subroutine initBlock
 
     !---------------------------------------------------------------------------
@@ -268,9 +274,9 @@
     implicit none
     class(block_class), intent(inout) :: self
     if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
-        !if (allocated(self%Background)) then    !There are Backgrounds in this Block
+        if (allocated(self%Background)) then    !There are Backgrounds in this Block
             call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
-        !end if
+        end if
     end if
     end subroutine RunSolver
 
