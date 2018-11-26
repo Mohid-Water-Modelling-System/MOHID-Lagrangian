@@ -56,26 +56,28 @@
     type(string), dimension(:), intent(out) :: var_name
     real(prec_time) :: newtime
     class(*), pointer :: aField
-    integer :: i = 1
+    integer :: i
     type(string) :: outext
 
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
-    print*, 'interpolating from bkg ', bdata%name%chars()
+    i = 1
+    !print*, 'interpolating from bkg ', bdata%name%chars()
+    !print*, 'interpolating from ', size(var_name), ' fields'
     call bdata%fields%reset()                   ! reset list iterator
-    print*, '   bkg field iterator reset'
+    !print*, '   bkg field iterator reset'
     do while(bdata%fields%moreValues())         ! loop while there are values
         aField => bdata%fields%currentValue()   ! get current value
-        print*, '   checking field type'
+        !print*, '   checking field type'
         select type(aField)        
         class is(scalar4d_field_class)          !4D interpolation is possible
-            print*, '   field type is 4D'
+            !print*, '   field type is 4D'
             if (self%interpType == 1) then !linear interpolation in space and time
-                print*, '   linear interpolant selected for field ', aField%name%chars()
+                !print*, '   linear interpolant selected for field ', aField%name%chars()
                 var_name(i) = aField%name
-                print*, '   interpolating 4D field ', aField%name%chars()
-                call self%interp4D(aot%x, aot%y, aot%z, time, aField%field, var_dt(:,i), size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
-                print*, '   ... done'
+                !print*, '   interpolating 4D field ', aField%name%chars()
+                var_dt(:,i) = self%interp4D(aot%x, aot%y, aot%z, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+                !print*, '   ... done'
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
@@ -105,21 +107,21 @@
     !> of the whole hypercube.
     !> @param[in] self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
-    subroutine interp4D(self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e)
+    function interp4D(self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
-    real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions
-    real(prec_time), intent(in) :: t                                           !< time to interpolate to
+    real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions in array coordinates
+    real(prec_time), intent(in) :: t                                      !< time to interpolate to in array coordinates
     real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
-    real(prec), dimension(n_e), intent(out) :: f_out                      !< Field evaluated at x,y,z,t
-    integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                   !< field dimensions
-    integer, intent(in) :: n_e                                      !< Number of particles to interpolate to
+    integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                         !< field dimensions
+    integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
     integer, dimension(n_e) :: x0, y0, z0, x1, y1, z1
     real(prec), dimension(n_e) :: xd, yd, zd, c000, c100, c010, c110, c001
     real(prec), dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
     real(prec) :: td
     integer :: i, j, k, l, t0, t1
+    real(prec), dimension(n_e) :: interp4D                      !< Field evaluated at x,y,z,t
 
-    ! From x,y,z,t in array coordinates, find the the box inside the field where the partcle is
+    ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     x0 = floor(x)
     y0 = floor(y)
     z0 = floor(z)
@@ -140,7 +142,8 @@
     where (y1 == y0) yd = 0.
     where (z1 == z0) zd = 0.
     if (t1 == t0)    td = 0.
-
+    
+    !print*, '       Interpolation on the first dimension'
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     forall(i=1:n_e)
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
@@ -153,21 +156,46 @@
         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
         c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
     end forall
-
+    
+    !print*, '       Interpolation on the second dimension'
     ! Interpolation on the second dimension and collapse it to a two dimension problem
     c00 = c000*(1.-yd)+c100*yd
     c10 = c010*(1.-yd)+c110*yd
     c01 = c001*(1.-yd)+c101*yd
     c11 = c011*(1.-yd)+c111*yd
 
+    !print*, '       Interpolation on the third dimension'
     ! Interpolation on the third dimension and collapse it to a one dimension problem
     c0 = c00*(1.-zd)+c10*zd
     c1 = c01*(1.-zd)+c11*zd
 
+    !print*, '       Interpolation on the time dimension'
     ! Interpolation on the time dimension and get the final result.
-    f_out = c0*(1.-td)+c1*td
+    interp4D = c0*(1.-td)+c1*td
 
-    end subroutine interp4D
+    end function interp4D
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the array coordinates of a set of points, given a coordinate 
+    !> array. Works only for regularly spaced data.
+    !> @param[in] self, xdata, bdata, dim
+    !---------------------------------------------------------------------------
+    function getArrayCoordRegular(self, xdata, bdata, dim)
+    class(interpolator_class), intent(in) :: self
+    real(prec), dimension(:),intent(in):: xdata !< Tracer coordinate component
+    type(background_class), intent(in) :: bdata !< Background to use
+    integer, intent(in) :: dim                  !< corresponding background dimension
+    real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
+    integer :: res
+    
+    res = size(bdata%dim(dim)%field)
+    getArrayCoordRegular = xdata
+    
+
+    end function getArrayCoordRegular
 
 
     !---------------------------------------------------------------------------
