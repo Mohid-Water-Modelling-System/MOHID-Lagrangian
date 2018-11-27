@@ -31,6 +31,7 @@
         type(string) :: name                !< Name of the Interpolation algorithm
     contains
     procedure :: run
+    procedure :: getArrayCoordRegular
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
     procedure, private :: interp4D
@@ -59,6 +60,8 @@
     integer :: i
     type(string) :: outext
 
+    real(prec), dimension(size(aot%x)) :: xx, yy, zz
+
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
     i = 1
@@ -75,8 +78,12 @@
             if (self%interpType == 1) then !linear interpolation in space and time
                 !print*, '   linear interpolant selected for field ', aField%name%chars()
                 var_name(i) = aField%name
+                xx = self%getArrayCoordRegular(aot%x, bdata, 1)
+                yy = self%getArrayCoordRegular(aot%y, bdata, 2)
+                zz = self%getArrayCoordRegular(aot%z, bdata, 3)
                 !print*, '   interpolating 4D field ', aField%name%chars()
-                var_dt(:,i) = self%interp4D(aot%x, aot%y, aot%z, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+                !var_dt(:,i) = self%interp4D(aot%x, aot%y, aot%z, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+                var_dt(:,i) = self%interp4D(xx, yy, zz, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
                 !print*, '   ... done'
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
@@ -189,11 +196,20 @@
     type(background_class), intent(in) :: bdata !< Background to use
     integer, intent(in) :: dim                  !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
-    integer :: res
+    real(prec) :: res
+    real(prec) :: minBound, maxBound
     
     res = size(bdata%dim(dim)%field)
-    getArrayCoordRegular = xdata
-    
+    !print*, 'res =', res
+    minBound = bdata%dim(dim)%getFieldMinBound()
+    !print*, 'minBound =', minBound
+    maxBound = bdata%dim(dim)%getFieldMaxBound()
+    !print*, 'maxBound =', maxBound/res
+    res = abs(maxBound - minBound)
+    !print*, 'res =', res
+    getArrayCoordRegular = (xdata - minBound)/res
+    !print*, 'array =', xdata
+    !print*, 'axed array =', getArrayCoordRegular
 
     end function getArrayCoordRegular
 
