@@ -13,7 +13,7 @@
       <pointmax x="10.0" y="10.0" z="4.0574" units_comment="(deg,deg,m)"/>
     </simulationdefs>
     <sourcedef>
-      <source>
+      <!-- <source>
         <setsource id="18" name="Spill_007" />
         <rate_dt value="2" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
@@ -21,10 +21,10 @@
           <point x="-9" y="1.0" z="-200" units_comment="(deg,deg,m)"/>
           <size x="500" y="200" z="100" units_comment="metres (m)"/>
         </box>
-      </source>
+      </source> -->
       <source>
         <setsource id="1" name="Litter_plastic" />
-        <rate value="0.1" comment="Emission rate (Hz)" />
+        <rate value="0.01" comment="Emission rate (Hz)" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="2" y="2" z="-50.0" units_comment="(deg,deg,m)"/>
       </source>
