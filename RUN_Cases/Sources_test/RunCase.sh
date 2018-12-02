@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# "name" and "dirout" are named according to the testcase
+clear
 
+# "name" and "dirout" are named according to the testcase
 name=SourcesinBlock
 dirout=${name}_out
 
