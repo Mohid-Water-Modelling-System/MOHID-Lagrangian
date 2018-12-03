@@ -108,7 +108,7 @@
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
         !run the interpolator
-        call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
+        call self%Interpolator%run(aot, bdata(bkg), time/dt+1, var_dt, var_name)
         !update velocities
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         aot%u = var_dt(:,nf)
@@ -117,9 +117,9 @@
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         aot%w = var_dt(:,nf)        
         !update positions
-        aot%x = aot%x + Utils%m2geo(aot%u*dt, aot%y, .false.)
-        aot%y = aot%y + Utils%m2geo(aot%v*dt, aot%y, .true.)
-        aot%z = aot%z + aot%w*dt
+        !aot%x = aot%x + Utils%m2geo(aot%u*dt, aot%y, .false.)
+        !aot%y = aot%y + Utils%m2geo(aot%v*dt, aot%y, .true.)
+        !aot%z = aot%z + aot%w*dt
         !update other vars...
     end do
 

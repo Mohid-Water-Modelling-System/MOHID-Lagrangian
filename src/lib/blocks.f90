@@ -111,7 +111,7 @@
     call SimMemory%addblock(sizem)
 
     allocate(self%Background(1))
-    call TestMaker%initialize(1, self%extents, self%Background(1))
+    call TestMaker%initialize(2, self%extents, self%Background(1))
     call self%print()
     call self%Background(1)%print()
 
@@ -290,6 +290,7 @@
     subroutine AoTtoTracers(self)
     implicit none
     class(block_class), intent(inout) :: self
+    call self%AoT%detailedprint()
     call self%AoT%toTracers()
     end subroutine AoTtoTracers
 

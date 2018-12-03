@@ -34,6 +34,7 @@
     procedure :: getArrayCoordRegular
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
+    procedure :: test4D
     procedure, private :: interp4D
     end type interpolator_class
 
@@ -85,6 +86,10 @@
                 !var_dt(:,i) = self%interp4D(aot%x, aot%y, aot%z, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
                 var_dt(:,i) = self%interp4D(xx, yy, zz, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
                 !print*, '   ... done'
+                !print*, aField%name%chars()
+                !call aField%print()
+                !print*, var_dt(:,i)
+                !print*, aField%field
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
@@ -128,6 +133,14 @@
     integer :: i, j, k, l, t0, t1
     real(prec), dimension(n_e) :: interp4D                      !< Field evaluated at x,y,z,t
 
+    ! print*, 'Field dimensions =', n_fv, n_cv, n_pv, n_tv
+    do i=1, n_e
+        print*, 'Point array Coor =', x(i), y(i), z(i), t
+    end do
+    ! print*, 'Field Max =', maxval(field)
+    ! print*, 'Field Min =', minval(field)
+    ! print*, 'Field first val =', field(1,1,1,1)
+
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     x0 = floor(x)
     y0 = floor(y)
@@ -149,8 +162,13 @@
     where (y1 == y0) yd = 0.
     where (z1 == z0) zd = 0.
     if (t1 == t0)    td = 0.
+
+    ! print*, 'normalized coords'
+    ! print*, 'xd = ', xd
+    ! print*, 'yd = ', yd
+    ! print*, 'zd = ', zd
+    ! print*, 'td = ', td
     
-    !print*, '       Interpolation on the first dimension'
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     forall(i=1:n_e)
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
@@ -163,20 +181,20 @@
         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
         c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
     end forall
+    !print*, x1, y0, z0, t0
+    !print*, 'c000', field(x1(1),y0(1),z0(1),t0)
+    !print*, 'c100', c100
     
-    !print*, '       Interpolation on the second dimension'
     ! Interpolation on the second dimension and collapse it to a two dimension problem
     c00 = c000*(1.-yd)+c100*yd
     c10 = c010*(1.-yd)+c110*yd
     c01 = c001*(1.-yd)+c101*yd
     c11 = c011*(1.-yd)+c111*yd
 
-    !print*, '       Interpolation on the third dimension'
     ! Interpolation on the third dimension and collapse it to a one dimension problem
     c0 = c00*(1.-zd)+c10*zd
     c1 = c01*(1.-zd)+c11*zd
 
-    !print*, '       Interpolation on the time dimension'
     ! Interpolation on the time dimension and get the final result.
     interp4D = c0*(1.-td)+c1*td
 
@@ -207,12 +225,11 @@
     !print*, 'maxBound =', maxBound/res
     res = abs(maxBound - minBound)
     !print*, 'res =', res
-    getArrayCoordRegular = (xdata - minBound)/res
+    getArrayCoordRegular = (xdata - minBound)/res + 1
     !print*, 'array =', xdata
     !print*, 'axed array =', getArrayCoordRegular
 
     end function getArrayCoordRegular
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -228,6 +245,40 @@
     self%interpType = flag
     self%name = name
     end subroutine initInterpolator
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Test for interp 4D
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine test4D(self)
+    class(interpolator_class), intent(inout) :: self
+    real(prec), dimension(:,:,:,:), allocatable :: field
+    real(prec), dimension(:), allocatable :: xx, yy, zz 
+    real(prec_time) :: time
+    integer :: npts, fieldDims
+    real(prec) :: fieldVal
+    fieldDims = 10
+    fieldVal = 1.9
+    allocate(field(fieldDims,fieldDims,fieldDims,fieldDims))
+    field = fieldVal
+    npts = 1 
+    allocate(xx(npts), yy(npts), zz(npts))
+    xx = 13.45
+    yy = xx
+    zz = xx
+    time = 1
+    print*, 'testing 4D interpolation, expected result is ', fieldVal
+    xx = self%interp4D(xx, yy, zz, time, field, fieldDims, fieldDims, fieldDims, fieldDims, npts)
+    print*, 'result = ', xx
+    if (xx(1) == fieldVal) then 
+        print*, 'Test: SUCCESS'
+    else
+        print*, 'Test: FAILED'
+    end if
+    read(*,*)
+    end subroutine test4D
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
