@@ -100,13 +100,13 @@
     class(utils_class), intent(in) :: self
     type(vector), intent(in) :: mvec    
     real(prec), intent(in) :: lat
-    integer :: R
+    real(prec) :: R
     real(prec) :: pi = 4*atan(1.0)
-    R = 6378137 !earth radius in meters
+    R = 6378137.0 !earth radius in meters
     !pi = 3.1415926
     res = mvec
-    res%x = res%x/(R*cos(pi*lat/180.0))
     res%y = res%y/R
+    res%x = res%x/(R*cos(pi*res%y/180.0))
     end function m2geo_vec
     
     !---------------------------------------------------------------------------
@@ -122,9 +122,9 @@
     real(prec), dimension(:), intent(in) :: lat
     logical, intent(in) :: component
     real(prec), dimension(size(mvec)) :: m2geo_comp
-    integer :: R
+    real(prec) :: R
     real(prec) :: pi = 4*atan(1.0)
-    R = 6378137 !earth radius in meters
+    R = 6378137.0 !earth radius in meters
     m2geo_comp = mvec
     if (component) then
         m2geo_comp = m2geo_comp/R
