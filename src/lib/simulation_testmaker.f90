@@ -52,7 +52,7 @@
     type(background_class), intent(inout) :: testbackground
     integer :: resolution
     type(string) :: outext
-    resolution = 10
+    resolution = 20
     self%TestCode = testcode
     if (self%TestCode == 1) then
         !make Taylor-Green vortices test

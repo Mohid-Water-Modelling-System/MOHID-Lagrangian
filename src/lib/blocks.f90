@@ -111,9 +111,9 @@
     call SimMemory%addblock(sizem)
 
     allocate(self%Background(1))
-    call TestMaker%initialize(2, self%extents, self%Background(1))
-    call self%print()
-    call self%Background(1)%print()
+    call TestMaker%initialize(1, self%extents, self%Background(1))
+    !call self%print()
+    !call self%Background(1)%print()
 
     end subroutine initBlock
 
@@ -197,6 +197,7 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
+        aTracer%now%active = TrcInBox(aTracer%now%pos, BBox)
             if (aTracer%now%active) then
                 blk = getBlockIndex(aTracer%now%pos)
                 if (blk /= self%id) then        !tracer is on a different block than the current one
@@ -236,7 +237,7 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
-            if (aTracer%now%active.eqv. .false.) then
+            if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
                 notremoved = .false.
             end if
@@ -290,7 +291,7 @@
     subroutine AoTtoTracers(self)
     implicit none
     class(block_class), intent(inout) :: self
-    call self%AoT%detailedprint()
+    !call self%AoT%detailedprint()
     call self%AoT%toTracers()
     end subroutine AoTtoTracers
 
@@ -332,18 +333,37 @@
     integer function getBlockIndex(pt)
     implicit none
     type(vector), intent(in) :: pt
-    integer :: ix, iy, temp
-    type(string) :: outext
+    integer :: ix, iy
     ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
     iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
-    temp = 2*ix + iy -2
-    if (temp > Globals%SimDefs%numblocks) then
-        outext='[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'
-        call Log%put(outext)
-        stop
-    end if
-    getBlockIndex = temp
+    getBlockIndex = 2*ix + iy -2
     end function getBlockIndex
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns true if the point is inside the requested box.
+    !> @param[in] pt, testbox
+    !---------------------------------------------------------------------------
+    logical function TrcInBox(trc, testbox)
+    implicit none
+    type(vector), intent(in) :: trc
+    type(boundingbox_class), intent(inout) :: testbox
+    TrcInBox = .false.
+    if (trc%x >= testbox%pt%x) then
+        if (trc%x <= testbox%pt%x + testbox%size%x) then
+            if (trc%y >= testbox%pt%y) then
+                if (trc%y <= testbox%pt%y + testbox%size%y) then
+                    if (trc%z >= testbox%pt%z) then
+                        if (trc%z <= testbox%pt%z + testbox%size%z) then
+                            TrcInBox = .true.
+                        end if
+                    end if
+                end if
+            end if
+        end if
+    end if
+    end function TrcInBox
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
