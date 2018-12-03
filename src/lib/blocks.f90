@@ -197,7 +197,6 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
-        aTracer%now%active = TrcInBox(aTracer%now%pos, BBox)
             if (aTracer%now%active) then
                 blk = getBlockIndex(aTracer%now%pos)
                 if (blk /= self%id) then        !tracer is on a different block than the current one
@@ -237,6 +236,7 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
+            aTracer%now%active = TrcInBox(aTracer%now%pos, BBox)
             if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
                 notremoved = .false.
