@@ -41,6 +41,7 @@
     procedure :: Clean
     procedure :: toTracers
     procedure :: print => print_AoT
+    procedure :: detailedprint => Deeprint_AoT
     end type aot_class
 
     interface AoT !< Constructor
@@ -171,5 +172,28 @@
     end do
     end subroutine print_AoT
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints all the elements of the array
+    !---------------------------------------------------------------------------
+    subroutine Deeprint_AoT(self)
+        class(aot_class), intent(in) :: self
+        type(string) :: outext, t(7)
+        integer :: i
+        do i=1, size(self%id)
+            t(1) = self%id(i)
+            t(2) = self%x(i)
+            t(3) = self%y(i)
+            t(4) = self%z(i)
+            t(5) = self%u(i)
+            t(6) = self%v(i)
+            t(7) = self%w(i)
+            outext = 'Tracer['//t(1)//']::xyz('//t(2)//','//t(3)//','//t(4)//')'
+            call Log%put(outext,.false.)
+            outext = 'Tracer['//t(1)//']::uvw('//t(5)//','//t(6)//','//t(7)//')'
+            call Log%put(outext,.false.)
+        end do
+        end subroutine Deeprint_AoT
 
     end module AoT_mod
