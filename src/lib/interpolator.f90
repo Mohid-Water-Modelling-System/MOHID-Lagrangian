@@ -32,6 +32,7 @@
     contains
     procedure :: run
     procedure :: getArrayCoordRegular
+    procedure :: getArrayTime
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
     procedure :: test4D
@@ -62,6 +63,7 @@
     type(string) :: outext
 
     real(prec), dimension(size(aot%x)) :: xx, yy, zz
+    real(prec_time) :: tt
 
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
@@ -82,9 +84,11 @@
                 xx = self%getArrayCoordRegular(aot%x, bdata, 1)
                 yy = self%getArrayCoordRegular(aot%y, bdata, 2)
                 zz = self%getArrayCoordRegular(aot%z, bdata, 3)
+                tt = self%getArrayTime(time, bdata)
+                !print*, 'time = ', time, 'tt = ', tt
                 !print*, '   interpolating 4D field ', aField%name%chars()
                 !var_dt(:,i) = self%interp4D(aot%x, aot%y, aot%z, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
-                var_dt(:,i) = self%interp4D(xx, yy, zz, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+                var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
                 !print*, '   ... done'
                 !print*, aField%name%chars()
                 !call aField%print()
@@ -132,11 +136,11 @@
     real(prec) :: td
     integer :: i, j, k, l, t0, t1
     real(prec), dimension(n_e) :: interp4D                      !< Field evaluated at x,y,z,t
-
+    
     ! print*, 'Field dimensions =', n_fv, n_cv, n_pv, n_tv
-    do i=1, n_e
-        print*, 'Point array Coor =', x(i), y(i), z(i), t
-    end do
+    ! do i=1, n_e
+    !     print*, 'Point array Coor =', x(i), y(i), z(i), t
+    ! end do
     ! print*, 'Field Max =', maxval(field)
     ! print*, 'Field Min =', minval(field)
     ! print*, 'Field first val =', field(1,1,1,1)
@@ -200,7 +204,6 @@
 
     end function interp4D
     
-    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -210,7 +213,7 @@
     !---------------------------------------------------------------------------
     function getArrayCoordRegular(self, xdata, bdata, dim)
     class(interpolator_class), intent(in) :: self
-    real(prec), dimension(:),intent(in):: xdata !< Tracer coordinate component
+    real(prec), dimension(:), intent(in):: xdata !< Tracer coordinate component
     type(background_class), intent(in) :: bdata !< Background to use
     integer, intent(in) :: dim                  !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
@@ -230,6 +233,29 @@
     !print*, 'axed array =', getArrayCoordRegular
 
     end function getArrayCoordRegular
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the array coordinates of the time. 
+    !> Works only for regularly spaced data.
+    !> @param[in] self, xdata, bdata
+    !---------------------------------------------------------------------------
+    function getArrayTime(self, xdata, bdata)
+    class(interpolator_class), intent(in) :: self
+    real(prec_time), intent(in):: xdata !< Tracer coordinate component
+    type(background_class), intent(in) :: bdata !< Background to use
+    integer :: dim                  !< corresponding background dimension
+    real(prec_time) :: getArrayTime  !< coordinates in array index
+    real(prec) :: res
+    real(prec) :: minBound, maxBound
+    dim = 4
+    res = size(bdata%dim(dim)%field)-1
+    minBound = bdata%dim(dim)%getFieldMinBound()
+    maxBound = bdata%dim(dim)%getFieldMaxBound()
+    res = abs(maxBound - minBound)/res
+    getArrayTime = (xdata - minBound)/res+1
+    end function getArrayTime
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
