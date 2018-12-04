@@ -48,7 +48,7 @@
         class(link), pointer :: currLink => null()    !> list iterator
         integer :: numLinks = 0
     contains
-    procedure, non_overridable :: addValue    !< stores a value on the list
+    procedure :: add => addValue    !< stores a value on the list
     procedure, non_overridable :: getValue    !< get nth value in list
     procedure, non_overridable :: removeCurrent !< Method that removes the current link from a list
     procedure, non_overridable :: remove      !< Method that removes the nth link from a list
@@ -60,7 +60,6 @@
     procedure, non_overridable :: previous    !< iterate to previous value in list
     procedure, non_overridable :: currentValue!< get current value in list
     procedure, non_overridable :: moreValues  !< more values to iterate?
-    generic :: add => addValue
     end type linkedlist
 
     contains
