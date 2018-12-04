@@ -61,7 +61,7 @@
         call self%makeTaylorGreen(resolution, testbox, testbackground)
     else if (self%TestCode == 2) then
         !make constant velocity test
-        outext = 'Creating contant velocity fields, stand by...'
+        outext = 'Creating constant velocity fields, stand by...'
         call Log%put(outext)
         call self%makeConstantVel(resolution, testbox, testbackground)
     end if    
