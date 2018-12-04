@@ -83,29 +83,38 @@
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
+        print*, 'Toggling Sources'
         call self%ToggleSources()
         !emitt Tracers from active Sources
+        print*, 'Emitting Tracers'
         call self%BlocksEmitt()
         !Distribute Tracers and Sources by Blocks
+        print*, 'Distributing Tracers'
         call self%BlocksDistribute()
         !Optimize Block Tracer lists
+        print*, 'Consolidating Tracer lists'
         call self%BlocksConsolidateArrays()
         !Build AoT
+        print*, 'Building AoT'
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         
         !Update all tracers with base behavior (AoT) - Integration step
+        print*, 'Running solver'
         if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
+        print*, 'AoT to Tracers'
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
         !Write results if time to do so
         call self%timerOutput%Tic()
+        print*, 'Writting output'
         call OutputStreamer%WriteStepSerial(DBlock)
         call self%timerOutput%Toc()
         !Print some stats from the time step
         call self%printTracerTotals()
         !Clean AoT
+        print*, 'Cleaning AoT'
         call self%BlocksCleanAoT()
         !update Simulation time
         if (Globals%Sim%getnumdt() /= 1 ) Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
