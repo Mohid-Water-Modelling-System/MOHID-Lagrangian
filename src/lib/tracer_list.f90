@@ -29,7 +29,11 @@
     private
 
     type, extends(linkedlist) :: tracerList_class !< List of Tracers class
+        ! integer, private :: numActive = 0
     contains
+    ! procedure :: getNumActive
+    ! procedure :: lowerNumActive
+    ! procedure :: addTrc
     procedure :: print => print_tracerList
     procedure :: printCurrent => print_tracerListCurrent
     end type tracerList_class
@@ -37,6 +41,38 @@
     public :: tracerList_class
 
     contains
+
+    ! !---------------------------------------------------------------------------
+    ! !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! !> @brief
+    ! !> Method that returns the number of active Tracers on this list
+    ! !---------------------------------------------------------------------------
+    ! integer function getNumActive(this)
+    ! class(tracerList_class), intent(in) :: this
+    ! getNumActive = this%numActive
+    ! end function getNumActive
+
+    ! !---------------------------------------------------------------------------
+    ! !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! !> @brief
+    ! !> Method to increment the number of active Tracers on this list
+    ! !---------------------------------------------------------------------------
+    ! subroutine lowerNumActive(this)
+    ! class(tracerList_class), intent(inout) :: this
+    ! this%numActive = this%numActive - 1
+    ! end subroutine lowerNumActive
+    
+    ! !---------------------------------------------------------------------------
+    ! !> @author Ricardo Birjukovs Canelas - MARETEC
+    ! !> @brief
+    ! !> Method that adds a tracer to the list
+    ! !---------------------------------------------------------------------------
+    ! subroutine addTrc(this, value)
+    ! class(tracerList_class), intent(inout) :: this
+    ! class(*), intent(in) :: value
+    ! this%numActive = this%numActive + 1
+    ! call this%add(value)
+    ! end subroutine addTrc
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -46,6 +82,10 @@
     subroutine print_tracerList(this)
     class(tracerList_class), intent(in) :: this
     class(*), pointer :: curr
+    type(string) :: outext
+    outext = this%getSize()
+    outext = 'Tracer list has '// outext// ' Tracers'
+    call Log%put(outext)
     call this%reset()               ! reset list iterator
     do while(this%moreValues())     ! loop while there are values to print
         call this%printCurrent()
@@ -67,7 +107,7 @@
     select type(curr)
     class is (tracer_class)
         call curr%print()
-        class default
+    class default
         outext = '[tracerList_class::print] Unexepected type of content, not a Tracer'
         call Log%put(outext)
         stop

@@ -111,7 +111,7 @@
     call SimMemory%addblock(sizem)
 
     allocate(self%Background(1))
-    call TestMaker%initialize(1, self%extents, self%Background(1))
+    call TestMaker%initialize(2, self%extents, self%Background(1))
     !call self%print()
     !call self%Background(1)%print()
 
@@ -201,8 +201,10 @@
                 blk = getBlockIndex(aTracer%now%pos)
                 if (blk /= self%id) then        !tracer is on a different block than the current one
                     !PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution
+                    print*, 'Trc ', aTracer%par%id, 'changing block from ', self%id, 'to ', blk
                     call sendTracer(blk,aTracer)
                     call self%LTracer%removeCurrent() !this also advances the iterator to the next position
+                    !call self%LTracer%lowerNumActive()
                     notremoved = .false.
                 end if
             end if
@@ -220,8 +222,8 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to clean the Tracer list from inactive Tracers. TODO test
-    !> further optimization
+    !> Method to clean the Tracer list from inactive Tracers. This includes
+    !> tracers that escaped from the Simulation Bounding Box
     !---------------------------------------------------------------------------
     subroutine ConsolidateArrays(self)
     implicit none
@@ -236,9 +238,11 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
-            aTracer%now%active = TrcInBox(aTracer%now%pos, BBox)
+            if (aTracer%now%active) aTracer%now%active = TrcInBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
+            if (aTracer%par%id == MV) print*, 'found a problem '
             if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
+                !call self%LTracer%lowerNumActive()
                 notremoved = .false.
             end if
             class default
@@ -260,11 +264,13 @@
     subroutine TracersToAoT(self)
     implicit none
     class(block_class), intent(inout) :: self
+    print*, '----printing List'
+    call self%LTracer%print()
     self%AoT = AoT(self%LTracer)
-    !if (self%LTracer%getSize() > 0) then
-    !    print*, 'From Block ', self%id
-    !    call self%AoT%print()
-    !end if
+    if (self%LTracer%getSize() > 0) then
+        print*, 'From Block ', self%id
+        call self%AoT%print()
+    end if
     end subroutine TracersToAoT
 
     !---------------------------------------------------------------------------
@@ -291,7 +297,7 @@
     subroutine AoTtoTracers(self)
     implicit none
     class(block_class), intent(inout) :: self
-    !call self%AoT%detailedprint()
+    !call self%AoT%print()
     call self%AoT%toTracers()
     end subroutine AoTtoTracers
 
@@ -316,12 +322,20 @@
     subroutine sendTracer(blk,trc)
     implicit none
     integer, intent(in) :: blk
-    class(*), intent(in) :: trc
+    class(tracer_class), intent(inout) :: trc
     !PARALLEL this is a CRITICAL section, need to ensure correct tracer
     !index attribution at the new block
-    if (blk <= size(DBlock)) then
-        if (blk > 0) call DBlock(blk)%LTracer%add(trc)
-    end if
+    print*, 'trc to send'
+    call trc%print()
+    print*, 'block list to add to'
+    call DBlock(blk)%LTracer%print()
+    call DBlock(blk)%LTracer%add(trc)
+    ! if (blk <= size(DBlock)) then
+    !     if (blk > 0) call DBlock(blk)%LTracer%add(trc)
+    ! end if
+    print*, 'block list to added to'
+    call DBlock(blk)%LTracer%print()
+
     end subroutine sendTracer
 
     !---------------------------------------------------------------------------

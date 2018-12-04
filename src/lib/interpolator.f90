@@ -229,8 +229,9 @@
     res = abs(maxBound - minBound)
     !print*, 'res =', res
     getArrayCoordRegular = (xdata - minBound)/res + 1
-    !print*, 'array =', xdata
-    !print*, 'axed array =', getArrayCoordRegular
+    ! where (getArrayCoordRegular == MV) getArrayCoordRegular = 1
+    ! print*, 'array =', xdata
+    ! print*, 'axed array =', getArrayCoordRegular
 
     end function getArrayCoordRegular
 
