@@ -106,20 +106,28 @@
     
     previouslink => this%currLink%previousLink()
     nextlink => this%currLink%nextLink()
-    
     if (associated(this%currLink,this%firstLink)) then !This is the first link
-        this%firstLink => nextlink
-    end if
-    if (associated(previouslink)) then
+        call this%currLink%removeLink()
+        deallocate(this%currLink)    
+        if (associated(nextlink)) then
+            this%firstLink => nextlink
+            this%currLink  => nextlink
+        end if
+    else if (associated(this%currLink,this%lastLink)) then !This is the last link
+        call this%currLink%removeLink()
+        deallocate(this%currLink)
+        if (associated(previouslink)) then
+            call previouslink%setNextLink(null())
+            this%lastLink => previouslink
+            this%currLink  => previouslink
+        end if
+    else !middle link
         call previouslink%setNextLink(nextlink)
-    end if
-    if (associated(nextlink)) then
         call nextlink%setPreviousLink(previouslink)
+        call this%currLink%removeLink()
+        deallocate(this%currLink)    
+        this%currLink => nextlink
     end if
-    
-    call this%currLink%removeLink()
-    deallocate(this%currLink)    
-    this%currLink => nextlink
     this%numLinks = this%numLinks - 1
     
     end subroutine removeCurrent
