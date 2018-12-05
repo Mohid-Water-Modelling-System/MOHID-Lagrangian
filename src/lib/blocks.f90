@@ -111,7 +111,7 @@
     call SimMemory%addblock(sizem)
 
     allocate(self%Background(1))
-    call TestMaker%initialize(2, self%extents, self%Background(1))
+    call TestMaker%initialize(1, self%extents, self%Background(1))
     !call self%print()
     !call self%Background(1)%print()
 
@@ -201,7 +201,7 @@
                 blk = getBlockIndex(aTracer%now%pos)
                 if (blk /= self%id) then        !tracer is on a different block than the current one
                     !PARALLEL this is a CRITICAL section, need to ensure correct tracer index attribution
-                    print*, 'Trc ', aTracer%par%id, 'changing block from ', self%id, 'to ', blk
+                    !print*, 'Trc ', aTracer%par%id, 'changing block from ', self%id, 'to ', blk
                     call sendTracer(blk,aTracer)
                     call self%LTracer%removeCurrent() !this also advances the iterator to the next position
                     !call self%LTracer%lowerNumActive()
@@ -232,6 +232,8 @@
     type(string) :: outext
     logical :: notremoved
 
+    !print*, 'Block ', self%id, ' has ', self%LTracer%getSize(), ' tracers'
+
     call self%LTracer%reset()                   ! reset list iterator
     do while(self%LTracer%moreValues())         ! loop while there are values
         notremoved = .true.
@@ -239,7 +241,6 @@
         select type(aTracer)
         class is (tracer_class)
             if (aTracer%now%active) aTracer%now%active = TrcInBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
-            if (aTracer%par%id == MV) print*, 'found a problem '
             if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
                 !call self%LTracer%lowerNumActive()
@@ -264,13 +265,13 @@
     subroutine TracersToAoT(self)
     implicit none
     class(block_class), intent(inout) :: self
-    print*, '----printing List'
-    call self%LTracer%print()
+    !print*, '----printing List'
+    !call self%LTracer%print()
     self%AoT = AoT(self%LTracer)
-    if (self%LTracer%getSize() > 0) then
-        print*, 'From Block ', self%id
-        call self%AoT%print()
-    end if
+    !if (self%LTracer%getSize() > 0) then
+    !    print*, 'From Block ', self%id
+    !    call self%AoT%print()
+    !end if
     end subroutine TracersToAoT
 
     !---------------------------------------------------------------------------
@@ -325,16 +326,16 @@
     class(tracer_class), intent(inout) :: trc
     !PARALLEL this is a CRITICAL section, need to ensure correct tracer
     !index attribution at the new block
-    print*, 'trc to send'
-    call trc%print()
-    print*, 'block list to add to'
-    call DBlock(blk)%LTracer%print()
+    !print*, 'trc to send'
+    !call trc%print()
+    !print*, 'block list to add to'
+    !call DBlock(blk)%LTracer%print()
     call DBlock(blk)%LTracer%add(trc)
     ! if (blk <= size(DBlock)) then
     !     if (blk > 0) call DBlock(blk)%LTracer%add(trc)
     ! end if
-    print*, 'block list to added to'
-    call DBlock(blk)%LTracer%print()
+    !print*, 'block list to added to'
+    !call DBlock(blk)%LTracer%print()
 
     end subroutine sendTracer
 
