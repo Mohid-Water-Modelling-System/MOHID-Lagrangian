@@ -177,7 +177,7 @@
         t = sz
         !create the velocity fields in time and space
         vx = 1.0
-        vy = -2.0
+        vy = 2.0
         vz = 0.0
         !put the data on generic fields
         units = 'm/s'
