@@ -68,32 +68,18 @@
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
     i = 1
-    !print*, 'interpolating from bkg ', bdata%name%chars()
-    !print*, 'interpolating from ', size(var_name), ' fields'
     call bdata%fields%reset()                   ! reset list iterator
-    !print*, '   bkg field iterator reset'
     do while(bdata%fields%moreValues())         ! loop while there are values
         aField => bdata%fields%currentValue()   ! get current value
-        !print*, '   checking field type'
         select type(aField)        
         class is(scalar4d_field_class)          !4D interpolation is possible
-            !print*, '   field type is 4D'
             if (self%interpType == 1) then !linear interpolation in space and time
-                !print*, '   linear interpolant selected for field ', aField%name%chars()
                 var_name(i) = aField%name
                 xx = self%getArrayCoordRegular(aot%x, bdata, 1)
                 yy = self%getArrayCoordRegular(aot%y, bdata, 2)
                 zz = self%getArrayCoordRegular(aot%z, bdata, 3)
                 tt = self%getArrayTime(time, bdata)
-                !print*, 'time = ', time, 'tt = ', tt
-                !print*, '   interpolating 4D field ', aField%name%chars()
-                !var_dt(:,i) = self%interp4D(aot%x, aot%y, aot%z, time, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
                 var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
-                !print*, '   ... done'
-                !print*, aField%name%chars()
-                !call aField%print()
-                !print*, var_dt(:,i)
-                !print*, aField%field
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
@@ -137,14 +123,6 @@
     integer :: i, j, k, l, t0, t1
     real(prec), dimension(n_e) :: interp4D                      !< Field evaluated at x,y,z,t
     
-    ! print*, 'Field dimensions =', n_fv, n_cv, n_pv, n_tv
-    ! do i=1, n_e
-    !     print*, 'Point array Coor =', x(i), y(i), z(i), t
-    ! end do
-    ! print*, 'Field Max =', maxval(field)
-    ! print*, 'Field Min =', minval(field)
-    ! print*, 'Field first val =', field(1,1,1,1)
-
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     x0 = floor(x)
     y0 = floor(y)
@@ -166,12 +144,6 @@
     where (y1 == y0) yd = 0.
     where (z1 == z0) zd = 0.
     if (t1 == t0)    td = 0.
-
-    ! print*, 'normalized coords'
-    ! print*, 'xd = ', xd
-    ! print*, 'yd = ', yd
-    ! print*, 'zd = ', zd
-    ! print*, 'td = ', td
     
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     forall(i=1:n_e)
@@ -185,9 +157,6 @@
         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
         c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
     end forall
-    !print*, x1, y0, z0, t0
-    !print*, 'c000', field(x1(1),y0(1),z0(1),t0)
-    !print*, 'c100', c100
     
     ! Interpolation on the second dimension and collapse it to a two dimension problem
     c00 = c000*(1.-yd)+c100*yd
@@ -220,18 +189,19 @@
     real(prec) :: res
     real(prec) :: minBound, maxBound
     
+    !call bdata%dim(dim)%print()
     res = size(bdata%dim(dim)%field)
     !print*, 'res =', res
     minBound = bdata%dim(dim)%getFieldMinBound()
     !print*, 'minBound =', minBound
     maxBound = bdata%dim(dim)%getFieldMaxBound()
-    !print*, 'maxBound =', maxBound/res
-    res = abs(maxBound - minBound)
+    !print*, 'maxBound =', maxBound
+    res = abs(maxBound - minBound)/(res-1)
     !print*, 'res =', res
     getArrayCoordRegular = (xdata - minBound)/res + 1
-    ! where (getArrayCoordRegular == MV) getArrayCoordRegular = 1
-    ! print*, 'array =', xdata
-    ! print*, 'axed array =', getArrayCoordRegular
+    !print*, 'array =', xdata
+    !print*, 'axed array =', getArrayCoordRegular
+    !read(*,*)
 
     end function getArrayCoordRegular
 
