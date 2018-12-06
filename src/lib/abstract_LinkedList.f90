@@ -129,6 +129,11 @@
         this%currLink => nextlink
     end if
     this%numLinks = this%numLinks - 1
+    if (this%numLinks == 0) then
+        this%firstLink => null()
+        this%lastLink => null()
+        this%currLink => null()
+    end if
     
     end subroutine removeCurrent
     
