@@ -67,9 +67,6 @@
     type(string) :: outext
     !allocating the necessary space
     nt = trclist%getSize()
-    !nt = trclist%getNumActive()
-    !print*, 'active tracers ', nt
-    !print*, 'list size ', trclist%getSize()
     allocate(constructor%id(nt))
     constructor%id = MV
     allocate(constructor%trc(nt))
