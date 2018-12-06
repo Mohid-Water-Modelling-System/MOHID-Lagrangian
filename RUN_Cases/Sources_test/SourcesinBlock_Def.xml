@@ -7,7 +7,7 @@
       <Rho_ref value="1100" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />
     </constantsdef>
     <simulationdefs>
-      <resolution dp="50" units_comment="metres (m)"/>
+      <resolution dp="250" units_comment="metres (m)"/>
       <timestep dt="30.0" units_comment="seconds (s)"/>
       <pointmin x="1.0" y="1.0" z="-500.01" units_comment="(deg,deg,m)"/>
       <pointmax x="1.005" y="1.005" z="4.0574" units_comment="(deg,deg,m)"/>
@@ -18,8 +18,8 @@
         <rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
-          <point x="1.0004" y="1.0004" z="-200" units_comment="(deg,deg,m)"/>
-          <size x="10000" y="10000" z="10" units_comment="metres (m)"/>
+          <point x="1.000" y="1.000" z="-500" units_comment="(deg,deg,m)"/>
+          <size x="50000" y="50000" z="500" units_comment="metres (m)"/>
         </box>
       </source>
       <!-- <source>
@@ -30,10 +30,10 @@
       </source> -->
       <!-- <source>
         <setsource id="2" name="Emissary_2" />
-        <rate_dt value="20" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="2000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <line>
-          <pointa x="1.00011" y="1.00011" z="-50" units_comment="(deg,deg,m)"/>
-          <pointb x="1.00042" y="1.0013" z="-50" units_comment="(deg,deg,m)"/>
+          <pointa x="1.000" y="1.0003" z="-50" units_comment="(deg,deg,m)"/>
+          <pointb x="1.002" y="1.0003" z="-50" units_comment="(deg,deg,m)"/>
         </line>
       </source> -->
     </sourcedef>
