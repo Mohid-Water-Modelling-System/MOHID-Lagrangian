@@ -15,11 +15,11 @@
     <sourcedef>
       <source>
         <setsource id="18" name="Spill_007" />
-        <rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
-          <point x="1.000" y="1.000" z="-500" units_comment="(deg,deg,m)"/>
-          <size x="50000" y="50000" z="500" units_comment="metres (m)"/>
+          <point x="1.000" y="1.000" z="-250" units_comment="(deg,deg,m)"/>
+          <size x="50000" y="50000" z="50" units_comment="metres (m)"/>
         </box>
       </source>
       <!-- <source>
