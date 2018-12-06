@@ -82,7 +82,7 @@
     type(string) :: name, units
     real(prec), allocatable, dimension(:) :: sx, sy, sz, t
     real(prec), allocatable, dimension(:,:,:,:) :: vx, vy, vz
-    integer :: i, j, k, m
+    integer :: i, j, m
     real(prec) :: pi = 4*atan(1.0)
     real(prec) :: sst
     
@@ -100,19 +100,14 @@
     !create the velocity fields in time and space
     do m=1, res
         do i=1, res
-            do j=i, res
-                sst = 1-2*t(m)*10e-6
-                vx(i,j,1,m) = cos(sx(i))*sin(sy(j))*sst
-                vy(i,j,1,m) = -sin(sx(i))*cos(sy(j))*sst
-                vz(i,j,1,m) = 0.0
+            do j=1, res
+                sst = 1.0 - m/res
+                vx(i,j,:,m) = cos(sx(i))*sin(sy(j))*sst
+                vy(i,j,:,m) = -sin(sx(i))*cos(sy(j))*sst
             end do
         end do
-        do k=2, res
-            vx(:,:,k,m) = vx(:,:,1,m)
-            vy(:,:,k,m) = vy(:,:,1,m)
-            vz(:,:,k,m) = vz(:,:,1,m)
-        end do
-    end do
+    end do    
+    vz = 0.0
     !put the data on generic fields
     units = 'm/s'
     call gfield1%initialize(Globals%Var%u, units, vx)
