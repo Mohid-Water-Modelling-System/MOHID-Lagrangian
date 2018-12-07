@@ -31,7 +31,8 @@
     contains
     procedure :: find_str
     procedure :: geo2m
-    procedure :: m2geo
+    procedure :: m2geo_vec, m2geo_comp
+    generic   :: m2geo => m2geo_vec, m2geo_comp
     procedure :: int2str
     procedure :: get_closest_twopow
     end type utils_class
@@ -80,9 +81,9 @@
     type(vector), intent(in) :: geovec
     real(prec), intent(in) :: lat
     integer :: R
-    real(prec) :: pi
+    real(prec) :: pi = 4*atan(1.0)
     R = 6378137 !earth radius in meters
-    pi = 3.1415926
+    !pi = 3.1415926
     res = geovec
     res%x = res%x*R*cos(pi*lat/180.0)
     res%y = res%y*R
@@ -95,18 +96,42 @@
     !> (lon, lat, z) given an array in meters and a lattitude
     !> @param[in] self, mvec, lat
     !---------------------------------------------------------------------------
-    type(vector) function m2geo(self, mvec, lat) result(res)
+    type(vector) function m2geo_vec(self, mvec, lat) result(res)
     class(utils_class), intent(in) :: self
     type(vector), intent(in) :: mvec    
     real(prec), intent(in) :: lat
-    integer :: R
-    real(prec) :: pi
-    R = 6378137 !earth radius in meters
-    pi = 3.1415926
+    real(prec) :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378137.0 !earth radius in meters
+    !pi = 3.1415926
     res = mvec
-    res%x = res%x/(R*cos(pi*lat/180.0))
     res%y = res%y/R
-    end function m2geo
+    res%x = res%x/(R*cos(pi*res%y/180.0))
+    end function m2geo_vec
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in geographical coordinates
+    !> (lon, lat, z) given an array in meters and a lattitude
+    !> @param[in] self, mvec, lat
+    !---------------------------------------------------------------------------
+    function m2geo_comp(self, mvec, lat, component)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: mvec    
+    real(prec), dimension(:), intent(in) :: lat
+    logical, intent(in) :: component
+    real(prec), dimension(size(mvec)) :: m2geo_comp
+    real(prec) :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378137.0 !earth radius in meters
+    m2geo_comp = mvec
+    if (component) then
+        m2geo_comp = m2geo_comp/R
+    else
+        m2geo_comp = m2geo_comp/(R*cos(pi*lat/180.0))
+    end if
+    end function m2geo_comp
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

@@ -33,6 +33,8 @@
     use solver_mod
     use background_mod
 
+    use simulation_testmaker_mod
+
 
     implicit none
     private
@@ -107,6 +109,11 @@
     call self%Solver%initialize(i, Globals%Parameters%IntegratorNames(i))
     sizem = sizeof(self)
     call SimMemory%addblock(sizem)
+
+    !Tests
+    allocate(self%Background(1))
+    call TestMaker%initialize(1, self%extents, self%Background(1))
+
     end subroutine initBlock
 
     !---------------------------------------------------------------------------
@@ -212,8 +219,8 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to clean the Tracer list from inactive Tracers. TODO test
-    !> further optimization
+    !> Method to clean the Tracer list from inactive Tracers. This includes
+    !> tracers that escaped from the Simulation Bounding Box
     !---------------------------------------------------------------------------
     subroutine ConsolidateArrays(self)
     implicit none
@@ -228,7 +235,8 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
-            if (aTracer%now%active.eqv. .false.) then
+            if (aTracer%now%active) aTracer%now%active = TrcInBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
+            if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
                 notremoved = .false.
             end if
@@ -250,12 +258,8 @@
     !---------------------------------------------------------------------------
     subroutine TracersToAoT(self)
     implicit none
-    class(block_class), intent(inout) :: self
+    class(block_class), intent(inout) :: self    
     self%AoT = AoT(self%LTracer)
-    !if (self%LTracer%getSize() > 0) then
-    !    print*, 'From Block ', self%id
-    !    call self%AoT%print()
-    !end if
     end subroutine TracersToAoT
 
     !---------------------------------------------------------------------------
@@ -268,9 +272,10 @@
     implicit none
     class(block_class), intent(inout) :: self
     if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
-        !if (allocated(self%Background)) then    !There are Backgrounds in this Block
+        if (allocated(self%Background)) then    !There are Backgrounds in this Block
+            !print*, 'From Block ', self%id
             call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
-        !end if
+        end if
     end if
     end subroutine RunSolver
 
@@ -299,12 +304,14 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to send a Tracer from the current Block to another Block
+    !> Method to send a Tracer from the current Block to another Block. Checks
+    !> if Block index exists, if not, Tracer is not added to any Block Tracer 
+    !> list
     !---------------------------------------------------------------------------
     subroutine sendTracer(blk,trc)
     implicit none
     integer, intent(in) :: blk
-    class(*), intent(in) :: trc
+    class(tracer_class), intent(inout) :: trc
     !PARALLEL this is a CRITICAL section, need to ensure correct tracer
     !index attribution at the new block
     call DBlock(blk)%LTracer%add(trc)
@@ -319,18 +326,37 @@
     integer function getBlockIndex(pt)
     implicit none
     type(vector), intent(in) :: pt
-    integer :: ix, iy, temp
-    type(string) :: outext
+    integer :: ix, iy
     ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
     iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
-    temp = 2*ix + iy -2
-    if (temp > Globals%SimDefs%numblocks) then
-        outext='[Blocks::getBlockIndex]: problem in getting correct Block index, stoping'
-        call Log%put(outext)
-        stop
-    end if
-    getBlockIndex = temp
+    getBlockIndex = Globals%SimDefs%numblocksy*(ix-1) + iy
     end function getBlockIndex
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns true if the point is inside the requested box.
+    !> @param[in] pt, testbox
+    !---------------------------------------------------------------------------
+    logical function TrcInBox(trc, testbox)
+    implicit none
+    type(vector), intent(in) :: trc
+    type(boundingbox_class), intent(inout) :: testbox
+    TrcInBox = .false.
+    if (trc%x >= testbox%pt%x) then
+        if (trc%x <= testbox%pt%x + testbox%size%x) then
+            if (trc%y >= testbox%pt%y) then
+                if (trc%y <= testbox%pt%y + testbox%size%y) then
+                    if (trc%z >= testbox%pt%z) then
+                        if (trc%z <= testbox%pt%z + testbox%size%z) then
+                            TrcInBox = .true.
+                        end if
+                    end if
+                end if
+            end if
+        end if
+    end if
+    end function TrcInBox
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -403,8 +429,8 @@
         b=1
         do i=1, nxi
             do j=1, nyi
-                tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey - BBox%pt%z*ez
-                tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey
+                tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey
+                tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey + BBox%size%z*ez
                 call DBlock(b)%initialize(b, tempbox)
                 b=b+1
             end do

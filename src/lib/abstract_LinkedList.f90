@@ -48,7 +48,7 @@
         class(link), pointer :: currLink => null()    !> list iterator
         integer :: numLinks = 0
     contains
-    procedure, non_overridable :: addValue    !< stores a value on the list
+    procedure :: add => addValue    !< stores a value on the list
     procedure, non_overridable :: getValue    !< get nth value in list
     procedure, non_overridable :: removeCurrent !< Method that removes the current link from a list
     procedure, non_overridable :: remove      !< Method that removes the nth link from a list
@@ -60,7 +60,6 @@
     procedure, non_overridable :: previous    !< iterate to previous value in list
     procedure, non_overridable :: currentValue!< get current value in list
     procedure, non_overridable :: moreValues  !< more values to iterate?
-    generic :: add => addValue
     end type linkedlist
 
     contains
@@ -107,21 +106,34 @@
     
     previouslink => this%currLink%previousLink()
     nextlink => this%currLink%nextLink()
-    
     if (associated(this%currLink,this%firstLink)) then !This is the first link
-        this%firstLink => nextlink
-    end if
-    if (associated(previouslink)) then
+        call this%currLink%removeLink()
+        deallocate(this%currLink)    
+        if (associated(nextlink)) then
+            this%firstLink => nextlink
+            this%currLink  => nextlink
+        end if
+    else if (associated(this%currLink,this%lastLink)) then !This is the last link
+        call this%currLink%removeLink()
+        deallocate(this%currLink)
+        if (associated(previouslink)) then
+            call previouslink%setNextLink(null())
+            this%lastLink => previouslink
+            this%currLink  => previouslink
+        end if
+    else !middle link
         call previouslink%setNextLink(nextlink)
-    end if
-    if (associated(nextlink)) then
         call nextlink%setPreviousLink(previouslink)
+        call this%currLink%removeLink()
+        deallocate(this%currLink)    
+        this%currLink => nextlink
     end if
-    
-    call this%currLink%removeLink()
-    deallocate(this%currLink)    
-    this%currLink => nextlink
     this%numLinks = this%numLinks - 1
+    if (this%numLinks == 0) then
+        this%firstLink => null()
+        this%lastLink => null()
+        this%currLink => null()
+    end if
     
     end subroutine removeCurrent
     

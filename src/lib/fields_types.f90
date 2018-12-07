@@ -36,6 +36,8 @@
     procedure :: setFieldMetadata
     procedure :: print => printField    !< Method that prints the field information
     procedure :: getFieldType           !< Method that returns the field type (scalar or vectorial), in a string
+    procedure :: getFieldMinBound
+    procedure :: getFieldMaxBound
     end type field_class
 
     !scalar fields
@@ -432,10 +434,12 @@
     !---------------------------------------------------------------------------
     subroutine printField(self)
     class(field_class), intent(in) :: self
-    type(string) :: outext, t(2)
+    type(string) :: outext, t(4)
     t(1) = self%dim
     t(2) = self%getFieldType()
-    outext = t(2)//' field['//self%name//'] has dimensionality '//t(1)//' and is in '//self%units
+    t(3) = self%getFieldMinBound()
+    t(4) = self%getFieldMaxBound()
+    outext = t(2)//' field['//self%name//'] has dimensionality '//t(1)//' and is in '//self%units//' - ['//t(3)//';'//t(4)//']'
     call Log%put(outext,.false.)
     end subroutine printField
 
@@ -459,6 +463,60 @@
         stop
     end select
     end function getFieldType
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the field's maximum value (scalar)
+    !---------------------------------------------------------------------------
+    real function getFieldMaxBound(self)
+    class(field_class), intent(in) :: self
+    type(string) :: outext
+    select type(self)
+    class is (scalar_field_class)
+        class is (scalar1d_field_class)
+            getFieldMaxBound = maxval(self%field)
+        class is (scalar2d_field_class)
+            getFieldMaxBound = maxval(self%field)
+        class is (scalar3d_field_class)
+            getFieldMaxBound = maxval(self%field)
+        class is (scalar4d_field_class)
+            getFieldMaxBound = maxval(self%field)
+    class is (vectorial_field_class)
+        getFieldMaxBound = MV
+        class default
+        outext = '[field_class::getFieldMaxBound]: Unexepected type of content, not a scalar or vectorial Field'
+        call Log%put(outext)
+        stop
+    end select
+    end function getFieldMaxBound
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the field's minimum value (scalar)
+    !---------------------------------------------------------------------------
+    real function getFieldMinBound(self)
+    class(field_class), intent(in) :: self
+    type(string) :: outext
+    select type(self)
+    class is (scalar_field_class)
+        class is (scalar1d_field_class)
+            getFieldMinBound = minval(self%field)
+        class is (scalar2d_field_class)
+            getFieldMinBound = minval(self%field)
+        class is (scalar3d_field_class)
+            getFieldMinBound = minval(self%field)
+        class is (scalar4d_field_class)
+            getFieldMinBound = minval(self%field)
+    class is (vectorial_field_class)
+        getFieldMinBound = MV
+        class default
+        outext = '[field_class::getFieldMinBound]: Unexepected type of content, not a scalar or vectorial Field'
+        call Log%put(outext)
+        stop
+    end select
+    end function getFieldMinBound
 
 
     end module field_types_mod

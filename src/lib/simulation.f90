@@ -70,6 +70,7 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, aux
+    logical :: dbg = .false.
 
     outext = '====================================================================='
     call Log%put(outext,.false.)
@@ -83,29 +84,38 @@
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
+        if (dbg) print*, 'Toggling Sources'
         call self%ToggleSources()
         !emitt Tracers from active Sources
+        if (dbg) print*, 'Emitting Tracers'
         call self%BlocksEmitt()
         !Distribute Tracers and Sources by Blocks
+        if (dbg) print*, 'Distributing Tracers'
         call self%BlocksDistribute()
         !Optimize Block Tracer lists
+        if (dbg) print*, 'Consolidating Tracer lists'
         call self%BlocksConsolidateArrays()
         !Build AoT
+        if (dbg) print*, 'Building AoT'
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         
         !Update all tracers with base behavior (AoT) - Integration step
+        if (dbg) print*, 'Running solver'
         if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
+        if (dbg) print*, 'AoT to Tracers'
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
         !Write results if time to do so
         call self%timerOutput%Tic()
+        if (dbg) print*, 'Writting output'
         call OutputStreamer%WriteStepSerial(DBlock)
         call self%timerOutput%Toc()
         !Print some stats from the time step
         call self%printTracerTotals()
         !Clean AoT
+        if (dbg) print*, 'Cleaning AoT'
         call self%BlocksCleanAoT()
         !update Simulation time
         if (Globals%Sim%getnumdt() /= 1 ) Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt

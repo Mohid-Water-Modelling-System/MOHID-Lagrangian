@@ -41,6 +41,7 @@
     procedure :: Clean
     procedure :: toTracers
     procedure :: print => print_AoT
+    procedure :: detailedprint => Deeprint_AoT
     end type aot_class
 
     interface AoT !< Constructor
@@ -67,6 +68,7 @@
     !allocating the necessary space
     nt = trclist%getSize()
     allocate(constructor%id(nt))
+    constructor%id = MV
     allocate(constructor%trc(nt))
     allocate(constructor%x(nt))
     allocate(constructor%y(nt))
@@ -134,18 +136,21 @@
     type(string) :: outext
     if (allocated(self%id)) then
         do i=1, size(self%id)
-            if (associated(self%trc(i)%ptr)) then
-                aTracer => self%trc(i)%ptr
-                aTracer%now%pos%x = self%x(i)
-                aTracer%now%pos%y = self%y(i)
-                aTracer%now%pos%z = self%z(i)
-                aTracer%now%vel%x = self%u(i)
-                aTracer%now%vel%y = self%v(i)
-                aTracer%now%vel%z = self%w(i)
-            else
-                outext = '[AoT::AoTtoTracers]: pointer to Tracer not associated, stoping'
-                call Log%put(outext)
-                stop
+            if (self%id(i) /= MV) then
+                if (associated(self%trc(i)%ptr)) then
+                    aTracer => self%trc(i)%ptr
+                    aTracer%now%pos%x = self%x(i)
+                    aTracer%now%pos%y = self%y(i)
+                    aTracer%now%pos%z = self%z(i)
+                    aTracer%now%vel%x = self%u(i)
+                    aTracer%now%vel%y = self%v(i)
+                    aTracer%now%vel%z = self%w(i)
+                else
+                    outext = self%id(i)
+                    outext = '[AoT::AoTtoTracers]: pointer to Tracer['// outext //'] not associated, stoping'
+                    call Log%put(outext)
+                    stop
+                end if
             end if
         end do
     end if
@@ -161,15 +166,48 @@
     class(aot_class), intent(in) :: self
     type(string) :: outext, t(4)
     integer :: i
-    do i=1, size(self%id)
-        t(1) = self%id(i)
-        t(2) = self%x(i)
-        t(3) = self%y(i)
-        t(4) = self%z(i)
-        outext = 'Tracer['//t(1)//']::xyz('//t(2)//','//t(3)//','//t(4)//')'
+    if (allocated(self%id)) then
+        do i=1, size(self%id)
+            t(1) = self%id(i)
+            t(2) = self%x(i)
+            t(3) = self%y(i)
+            t(4) = self%z(i)
+            outext = 'Tracer['//t(1)//']::xyz('//t(2)//','//t(3)//','//t(4)//')'
+            call Log%put(outext,.false.)
+        end do
+    else
+        outext = 'AoT is empty'
         call Log%put(outext,.false.)
-    end do
+    end if
     end subroutine print_AoT
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints all the elements of the array
+    !---------------------------------------------------------------------------
+    subroutine Deeprint_AoT(self)
+    class(aot_class), intent(in) :: self
+    type(string) :: outext, t(7)
+    integer :: i
+    if (allocated(self%id)) then
+        do i=1, size(self%id)
+            t(1) = self%id(i)
+            t(2) = self%x(i)
+            t(3) = self%y(i)
+            t(4) = self%z(i)
+            t(5) = self%u(i)
+            t(6) = self%v(i)
+            t(7) = self%w(i)
+            outext = 'Tracer['//t(1)//']::xyz('//t(2)//','//t(3)//','//t(4)//')'
+            call Log%put(outext,.false.)
+            outext = 'Tracer['//t(1)//']::uvw('//t(5)//','//t(6)//','//t(7)//')'
+            call Log%put(outext,.false.)
+        end do
+    else
+        outext = 'AoT is empty'
+        call Log%put(outext,.false.)
+    end if
+    end subroutine Deeprint_AoT
 
     end module AoT_mod

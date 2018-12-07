@@ -13,7 +13,7 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines an inpup file reader class with an object exposable to the Simulation
+    !> Defines an input file reader class with an object exposable to the Simulation
     !> This class is in charge of selectig the correct reader for the selected input
     !> file format.
     !------------------------------------------------------------------------------
@@ -45,7 +45,7 @@
     !> Initializes the Input writer object
     !---------------------------------------------------------------------------
     subroutine initInputStreamer(self)
-    class(output_streamer_class), intent(inout) :: self
+    class(input_streamer_class), intent(inout) :: self
     self%InputFormat = Globals%Parameters%InputFormat
     if (self%InputFormat == 1) then
         !initialize netcdf reader class

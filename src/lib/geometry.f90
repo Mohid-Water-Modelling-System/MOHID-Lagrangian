@@ -215,7 +215,7 @@
     class is (point)
         center = shapetype%pt
     class is (line)
-        center = shapetype%pt + shapetype%last/2.0
+        center = shapetype%pt + (shapetype%last-shapetype%pt)/2.0
     class is (sphere)
         center = shapetype%pt
         class default
@@ -456,7 +456,7 @@
     integer :: i, j, k, p
 
     do p=1, np
-        ptlist(p) = dp/np*(dist*(p-1))
+        ptlist(p) = dist*(p-1)/np
     end do
     if (np == 1) then !Just the origin
         ptlist(1)= 0*ex + 0*ey +0*ez
