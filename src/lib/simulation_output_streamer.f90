@@ -30,12 +30,14 @@
 
     type :: output_streamer_class
         real(prec) :: OutputFrequency = MV
+        real(prec_time) :: LastWriteTime = MV
         integer :: OutputFormat = -1
         type(vtkwritter_class) :: vtkWritter
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: WriteDomain
     procedure :: WriteStepSerial
+    procedure, private :: CheckWriteTime
     end type output_streamer_class
 
     type(output_streamer_class) :: OutputStreamer
@@ -54,6 +56,7 @@
     class(output_streamer_class), intent(inout) :: self
     self%OutputFormat = Globals%Parameters%OutputFormat
     self%OutputFrequency = Globals%Parameters%TimeOut
+    self%LastWriteTime = Globals%SimTime
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
     end if
@@ -70,14 +73,14 @@
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     type(string) :: filename                                !< name of the case to add
-
-
-    filename = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
-    if (self%OutputFormat == 2) then !VTK file selected
-        call self%vtkWritter%TracerSerial(filename, blocks)
+    if (self%CheckWriteTime()) then
+        filename = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
+        if (self%OutputFormat == 2) then !VTK file selected
+            call self%vtkWritter%TracerSerial(filename, blocks)
+        end if
+        call Globals%Sim%increment_numoutfile()
+        self%LastWriteTime = Globals%SimTime
     end if
-    call Globals%Sim%increment_numoutfile()
-
     end subroutine WriteStepSerial
 
     !---------------------------------------------------------------------------
@@ -93,11 +96,23 @@
     class(boundingbox_class), intent(in) :: bbox            !< Case bounding box
     integer, intent(in) :: npbbox                           !< number of points of the bbox geometry
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
-
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%Domain(filename, bbox, npbbox, blocks)
     end if
-
     end subroutine WriteDomain
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Streamer method to check if this timestep is appropriate to write an 
+    !> output file
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    logical function CheckWriteTime(self)
+    class(output_streamer_class), intent(inout) :: self
+    CheckWriteTime = .false.
+    if ((Globals%SimTime - self%LastWriteTime) >= 1.0/self%OutputFrequency) CheckWriteTime = .true.
+    if (Globals%SimTime == 0.0) CheckWriteTime = .true.
+    end function CheckWriteTime
 
     end module simulation_output_streamer_mod
