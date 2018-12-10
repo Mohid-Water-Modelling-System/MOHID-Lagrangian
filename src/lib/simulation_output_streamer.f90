@@ -29,7 +29,9 @@
     private
 
     type :: output_streamer_class
+        real(prec) :: OutputFrequency = MV
         integer :: OutputFormat = -1
+        type(vtkwritter_class) :: vtkWritter
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: WriteDomain
@@ -51,8 +53,9 @@
     subroutine initOutputStreamer(self)
     class(output_streamer_class), intent(inout) :: self
     self%OutputFormat = Globals%Parameters%OutputFormat
+    self%OutputFrequency = Globals%Parameters%TimeOut
     if (self%OutputFormat == 2) then !VTK file selected
-        call vtkWritter%initialize()
+        call self%vtkWritter%initialize()
     end if
     end subroutine initOutputStreamer
 
@@ -68,12 +71,11 @@
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     type(string) :: filename                                !< name of the case to add
 
+
     filename = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
-
     if (self%OutputFormat == 2) then !VTK file selected
-        call vtkWritter%TracerSerial(filename, blocks)
+        call self%vtkWritter%TracerSerial(filename, blocks)
     end if
-
     call Globals%Sim%increment_numoutfile()
 
     end subroutine WriteStepSerial
@@ -93,7 +95,7 @@
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
 
     if (self%OutputFormat == 2) then !VTK file selected
-        call vtkWritter%Domain(filename, bbox, npbbox, blocks)
+        call self%vtkWritter%Domain(filename, bbox, npbbox, blocks)
     end if
 
     end subroutine WriteDomain
