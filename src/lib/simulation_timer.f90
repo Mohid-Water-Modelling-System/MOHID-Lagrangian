@@ -30,10 +30,10 @@
         private !full information hidding - contents are only accessible through the methods
         logical :: initialized = .false.
         type(string) :: name               !< name of the timer
-        real(prec_time) :: elapsed = 0.0   !< full elapsed time of all cycles
-        real(prec_time) :: last = 0.0      !< elapsed time of the last cycle
-        real(prec_time) :: start           !< time of the tic at the current cycle
-        real(prec_time) :: stop            !< time of the tac at the current cycle
+        real(prec) :: elapsed = 0.0   !< full elapsed time of all cycles
+        real(prec) :: last = 0.0      !< elapsed time of the last cycle
+        real(prec) :: start           !< time of the tic at the current cycle
+        real(prec) :: stop            !< time of the tac at the current cycle
     contains
     procedure :: initialize => initTimer
     procedure :: getElapsed             !< returns the elasped time on this timer
@@ -74,7 +74,7 @@
     !> @brief
     !> Method that returns the total elapsed time on this timer
     !---------------------------------------------------------------------------
-    real(prec_time) function getElapsed(this)
+    real(prec) function getElapsed(this)
     class(timer_class), intent(in) :: this
     getElapsed = this%elapsed
     end function getElapsed

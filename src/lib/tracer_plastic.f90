@@ -68,7 +68,7 @@
     type(plastic_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
-    real(prec_time), intent(in) :: time
+    real(prec), intent(in) :: time
     integer, intent(in) :: p
 
     !use the base class constructor to build the base of our new derived type

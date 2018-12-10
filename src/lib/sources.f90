@@ -32,8 +32,8 @@
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
         type(string) :: rate_file               !< File name of the emission rate data (csv)
         real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
-        real(prec_time) :: startime             !< time to start emitting tracers
-        real(prec_time) :: stoptime             !< time to stop emitting tracers
+        real(prec) :: startime             !< time to start emitting tracers
+        real(prec) :: stoptime             !< time to stop emitting tracers
         type(string) :: name                    !< source name
         type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
@@ -52,7 +52,7 @@
     end type source_prop
 
     type :: source_state             !<Type - state variables of a source object
-        real(prec_time) :: age              ! time variables
+        real(prec) :: age              ! time variables
         logical :: active                   !< active switch
         real(prec) :: emission_stack        !< number of emissions on the stack for the current time step
         type(vector) :: pos                 !< Position of the source baricenter (m)

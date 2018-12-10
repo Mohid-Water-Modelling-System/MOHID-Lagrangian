@@ -54,16 +54,16 @@
     class(interpolator_class), intent(in) :: self
     type(aot_class), intent(in) :: aot
     type(background_class), intent(in) :: bdata
-    real(prec_time), intent(in) :: time
+    real(prec), intent(in) :: time
     real(prec), dimension(:,:), intent(out) :: var_dt
     type(string), dimension(:), intent(out) :: var_name
-    real(prec_time) :: newtime
+    real(prec) :: newtime
     class(*), pointer :: aField
     integer :: i
     type(string) :: outext
 
     real(prec), dimension(size(aot%x)) :: xx, yy, zz
-    real(prec_time) :: tt
+    real(prec) :: tt
 
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
@@ -112,7 +112,7 @@
     function interp4D(self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions in array coordinates
-    real(prec_time), intent(in) :: t                                      !< time to interpolate to in array coordinates
+    real(prec), intent(in) :: t                                      !< time to interpolate to in array coordinates
     real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
     integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                         !< field dimensions
     integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
@@ -214,10 +214,10 @@
     !---------------------------------------------------------------------------
     function getArrayTime(self, xdata, bdata)
     class(interpolator_class), intent(in) :: self
-    real(prec_time), intent(in):: xdata !< Tracer coordinate component
+    real(prec), intent(in):: xdata !< Tracer coordinate component
     type(background_class), intent(in) :: bdata !< Background to use
     integer :: dim                  !< corresponding background dimension
-    real(prec_time) :: getArrayTime  !< coordinates in array index
+    real(prec) :: getArrayTime  !< coordinates in array index
     real(prec) :: res
     real(prec) :: minBound, maxBound
     dim = 4
@@ -253,7 +253,7 @@
     class(interpolator_class), intent(inout) :: self
     real(prec), dimension(:,:,:,:), allocatable :: field
     real(prec), dimension(:), allocatable :: xx, yy, zz 
-    real(prec_time) :: time
+    real(prec) :: time
     integer :: npts, fieldDims
     real(prec) :: fieldVal
     fieldDims = 10

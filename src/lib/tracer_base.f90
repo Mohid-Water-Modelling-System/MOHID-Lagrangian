@@ -31,7 +31,7 @@
     end type tracer_par_class
 
     type :: tracer_state_class             !<Type - state variables of a pure Lagrangian tracer object
-        real(prec_time) :: age = MV             ! time variables
+        real(prec) :: age = MV             ! time variables
         logical :: active = .false.             !< active switch
         type(vector) :: pos                     !< Position of the tracer (m)
         type(vector) :: vel                     !< Velocity of the tracer (m s-1)
@@ -100,7 +100,7 @@
     type(tracer_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
-    real(prec_time), intent(in) :: time
+    real(prec), intent(in) :: time
     integer, intent(in) :: p
 
     ! initialize parameters

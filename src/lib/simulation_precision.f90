@@ -22,7 +22,7 @@
 
     implicit none
     private
-    public :: prec, prec_time, prec_wrt
+    public :: prec, prec_wrt
     public :: MISSING_VALUE_DEFAULT, MV, MV_INT
     public :: ERR_DIST, ERR_IND
     public :: CHAR_LEN
@@ -32,7 +32,6 @@
 
     ! Precision used throughout is define here. Change at will.
     integer,  parameter :: prec      = dps
-    integer,  parameter :: prec_time = sps
     integer,  parameter :: prec_wrt  = sps
 
     ! Missing value aliases

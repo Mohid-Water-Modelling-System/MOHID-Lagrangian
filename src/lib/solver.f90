@@ -56,7 +56,7 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec_time), intent(in) :: time, dt
+    real(prec), intent(in) :: time, dt
     if (self%solverType == 1) call self%runStepEuler(aot, bdata, time, dt)
     if (self%solverType == 2) call self%runStepMSEuler(aot, bdata, time, dt)
     if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
@@ -77,7 +77,7 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec_time), intent(in) :: time, dt
+    real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -135,8 +135,8 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec_time), intent(in) :: time, dt
-    real(prec_time) :: mstime
+    real(prec), intent(in) :: time, dt
+    real(prec) :: mstime
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -193,7 +193,7 @@
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec_time), intent(in) :: time, dt
+    real(prec), intent(in) :: time, dt
 
     end subroutine runStepRK4
 

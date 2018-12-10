@@ -30,7 +30,7 @@
 
     type :: output_streamer_class
         real(prec) :: OutputFrequency = MV
-        real(prec_time) :: LastWriteTime = MV
+        real(prec) :: LastWriteTime = MV
         integer :: OutputFormat = -1
         type(vtkwritter_class) :: vtkWritter
     contains
