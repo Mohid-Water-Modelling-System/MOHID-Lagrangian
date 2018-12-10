@@ -29,9 +29,9 @@
     private
 
     type :: output_streamer_class       !< Output Streamer class
-        real(prec) :: OutputFrequency = MV  !< Output frequency to write simulation outputs
-        real(prec) :: LastWriteTime = MV    !< Time stamp of the last output write
-        integer :: OutputFormat = -1        !< Switch for output format
+        real(prec) :: OutputFrequency = MV      !< Output frequency to write simulation outputs
+        real(prec) :: LastWriteTime = MV        !< Time stamp of the last output write
+        integer :: OutputFormat = -1            !< Switch for output format
         type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
     contains
     procedure :: initialize => initOutputStreamer

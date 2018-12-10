@@ -38,8 +38,6 @@
     procedure :: TracerSerial
     end type vtkwritter_class
 
-    !type(vtkwritter_class) :: vtkWritter
-
     !Public access vars
     public :: vtkwritter_class
 
