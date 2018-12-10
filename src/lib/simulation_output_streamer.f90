@@ -28,11 +28,11 @@
     implicit none
     private
 
-    type :: output_streamer_class
-        real(prec) :: OutputFrequency = MV
-        real(prec) :: LastWriteTime = MV
-        integer :: OutputFormat = -1
-        type(vtkwritter_class) :: vtkWritter
+    type :: output_streamer_class       !< Output Streamer class
+        real(prec) :: OutputFrequency = MV  !< Output frequency to write simulation outputs
+        real(prec) :: LastWriteTime = MV    !< Time stamp of the last output write
+        integer :: OutputFormat = -1        !< Switch for output format
+        type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: WriteDomain
@@ -46,21 +46,6 @@
     public :: OutputStreamer
 
     contains
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Initializes the Output writer object
-    !---------------------------------------------------------------------------
-    subroutine initOutputStreamer(self)
-    class(output_streamer_class), intent(inout) :: self
-    self%OutputFormat = Globals%Parameters%OutputFormat
-    self%OutputFrequency = Globals%Parameters%TimeOut
-    self%LastWriteTime = Globals%SimTime
-    if (self%OutputFormat == 2) then !VTK file selected
-        call self%vtkWritter%initialize()
-    end if
-    end subroutine initOutputStreamer
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -114,5 +99,20 @@
     if ((Globals%SimTime - self%LastWriteTime) >= 1.0/self%OutputFrequency) CheckWriteTime = .true.
     if (Globals%SimTime == 0.0) CheckWriteTime = .true.
     end function CheckWriteTime
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Initializes the Output writer object
+    !---------------------------------------------------------------------------
+    subroutine initOutputStreamer(self)
+    class(output_streamer_class), intent(inout) :: self
+    self%OutputFormat = Globals%Parameters%OutputFormat
+    self%OutputFrequency = Globals%Parameters%TimeOut
+    self%LastWriteTime = Globals%SimTime
+    if (self%OutputFormat == 2) then !VTK file selected
+        call self%vtkWritter%initialize()
+    end if
+    end subroutine initOutputStreamer
 
     end module simulation_output_streamer_mod
