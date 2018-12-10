@@ -37,8 +37,8 @@
         integer         :: IntegratorIndexes(3)      !< Index list for the integrator selector
         type(string)    :: IntegratorNames(3)        !< Names list for the integrator selector
         integer         :: numOPMthreads             !< number of openMP threads to be used
-        real(prec) :: WarmUpTime = 0.0          !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
-        real(prec) :: TimeMax = MV              !< Simulation duration (s)
+        real(prec)      :: WarmUpTime = 0.0          !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
+        real(prec)      :: TimeMax = MV              !< Simulation duration (s)
         real(prec)      :: TimeOut = MV              !< Time out data (1/Hz)
         type(datetime)  :: StartTime                 !< Start date of the simulation
         type(datetime)  :: EndTime                   !< End date of the simulation
@@ -54,7 +54,7 @@
 
     type :: simdefs_t  !< Simulation definitions class
         real(prec)      ::  Dp              !< Initial particle spacing at emission
-        real(prec) ::  dt = MV         !< Timestep for fixed step integrators (s)
+        real(prec)      ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
         logical         ::  autoblocksize = .true.   !< Flag for automatic Block sizing
@@ -129,7 +129,7 @@
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
-        real(prec)     :: SimTime
+        real(prec)          :: SimTime
         type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
         type(var_names_t)   :: Var
