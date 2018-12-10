@@ -335,9 +335,13 @@
     implicit none
     class(simulation_class), intent(in) :: self
     integer :: i
+    !$OMP PARALLEL PRIVATE(i)
+    !$OMP DO
     do i=1, size(DBlock)
         call DBlock(i)%CleanAoT()
     enddo
+    !$OMP END DO
+    !$OMP END PARALLEL
     end subroutine BlocksCleanAoT
 
     !---------------------------------------------------------------------------
