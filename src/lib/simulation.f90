@@ -34,9 +34,15 @@
     private
 
     type :: simulation_class   !< Parameters class
+        !Timers
         type(timer_class) :: timerInit          !< timer for the initialization routines
         type(timer_class) :: timerTotalRun      !< timer for the total wall time spent on the simulation
         type(timer_class) :: timerOutput        !< timer for the output writting routines
+        type(timer_class) :: timerPrep          !< timer for the toggling, emission and consolidation phase of every time-step        
+        type(timer_class) :: timerAoTOps        !< timer for the AoT operations (encoding and decoding)
+        type(timer_class) :: timerSolver        !< timer for the solver runs
+        !Output objects
+        type(output_streamer_class) :: OutputStreamer
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -50,6 +56,7 @@
     procedure, private :: BlocksRunSolver
     procedure, private :: BlocksAoTtoTracers
     procedure, private :: BlocksCleanAoT
+    procedure, private :: OutputStepData
     procedure, private :: setInitialState
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
@@ -70,7 +77,6 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, aux
-    logical :: dbg = .false.
 
     outext = '====================================================================='
     call Log%put(outext,.false.)
@@ -84,38 +90,28 @@
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
-        if (dbg) print*, 'Toggling Sources'
         call self%ToggleSources()
         !emitt Tracers from active Sources
-        if (dbg) print*, 'Emitting Tracers'
         call self%BlocksEmitt()
         !Distribute Tracers and Sources by Blocks
-        if (dbg) print*, 'Distributing Tracers'
         call self%BlocksDistribute()
         !Optimize Block Tracer lists
-        if (dbg) print*, 'Consolidating Tracer lists'
-        call self%BlocksConsolidateArrays()
+        call self%BlocksConsolidateArrays()        
         !Build AoT
-        if (dbg) print*, 'Building AoT'
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         
         !Update all tracers with base behavior (AoT) - Integration step
-        if (dbg) print*, 'Running solver'
         if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
-        if (dbg) print*, 'AoT to Tracers'
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
+        
         !Write results if time to do so
-        call self%timerOutput%Tic()
-        if (dbg) print*, 'Writting output'
-        call OutputStreamer%WriteStepSerial(DBlock)
-        call self%timerOutput%Toc()
+        call self%OutputStepData()
         !Print some stats from the time step
         call self%printTracerTotals()
         !Clean AoT
-        if (dbg) print*, 'Cleaning AoT'
         call self%BlocksCleanAoT()
         !update Simulation time
         if (Globals%Sim%getnumdt() /= 1 ) Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
@@ -128,6 +124,9 @@
     call SimMemory%detailedprint()
 
     call self%timerTotalRun%print()
+    call self%timerPrep%print()
+    call self%timerAoTOps%print()
+    call self%timerSolver%print()
     call self%timerOutput%print()
 
     end subroutine run
@@ -145,17 +144,21 @@
     type(string), intent(in) :: casefilename         !< case file name
     type(string), intent(in) :: outpath              !< Output path
     type(string) :: outext, aux
-    !type(generic_field_class) :: testField
-    !type(background_class) :: testBackground
     
     aux = 'Simulation::initialization'
     call self%timerInit%initialize(aux)
     call self%timerInit%Tic()
 
-    aux = 'Simulation::Run'
+    aux = 'Simulation::Total'
     call self%timerTotalRun%initialize(aux)
     aux = 'Simulation::Output'
-    call self%timerOutput%initialize(aux)
+    call self%timerOutput%initialize(aux)    
+    aux = 'Simulation::Preparation'
+    call self%timerPrep%initialize(aux)
+    aux = 'Simulation::AoT encoding/decoding'
+    call self%timerAoTOps%initialize(aux)
+    aux = 'Simulation::Solver'
+    call self%timerSolver%initialize(aux)
 
     ! Initialize logger
     call Log%initialize(outpath)
@@ -188,15 +191,12 @@
     !printing memory occupation at the time
     call SimMemory%detailedprint()
     !Initializing output file streamer
-    call OutputStreamer%initialize()
+    call self%OutputStreamer%initialize()
     !Writing the domain to file
-    call OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
+    call self%OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
     
     call self%timerInit%Toc()
     call self%timerInit%print()
-
-    !call testField%test()
-    !call testBackground%test()
 
     end subroutine initSimulation
 
@@ -208,8 +208,9 @@
     !---------------------------------------------------------------------------
     subroutine ToggleSources(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerPrep%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(DBlock)
@@ -217,6 +218,7 @@
     end do
     !$OMP END DO
     !$OMP END PARALLEL
+    call self%timerPrep%Toc()
     end subroutine ToggleSources
 
     !---------------------------------------------------------------------------
@@ -226,11 +228,13 @@
     !---------------------------------------------------------------------------
     subroutine BlocksEmitt(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerPrep%Tic()
     do i=1, size(DBlock)
         call DBlock(i)%CallEmitter()
     enddo
+    call self%timerPrep%Toc()
     end subroutine BlocksEmitt
 
     !---------------------------------------------------------------------------
@@ -241,11 +245,13 @@
     !---------------------------------------------------------------------------
     subroutine BlocksDistribute(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerPrep%Tic()
     do i=1, size(DBlock)
         call DBlock(i)%DistributeTracers()
     enddo
+    call self%timerPrep%Toc()
     !need to distribute Sources also! TODO
     end subroutine BlocksDistribute
 
@@ -257,8 +263,9 @@
     !---------------------------------------------------------------------------
     subroutine BlocksConsolidateArrays(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerPrep%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(DBlock)
@@ -266,6 +273,7 @@
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
+    call self%timerPrep%Toc()
     end subroutine BlocksConsolidateArrays
 
     !---------------------------------------------------------------------------
@@ -276,8 +284,9 @@
     !---------------------------------------------------------------------------
     subroutine BlocksTracersToAoT(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerAoTOps%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(DBlock)
@@ -285,6 +294,7 @@
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
+    call self%timerAoTOps%Toc()
     end subroutine BlocksTracersToAoT
 
     !---------------------------------------------------------------------------
@@ -295,8 +305,9 @@
     !---------------------------------------------------------------------------
     subroutine BlocksRunSolver(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerSolver%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(DBlock)
@@ -304,6 +315,7 @@
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
+    call self%timerSolver%Toc()
     end subroutine BlocksRunSolver
 
     !---------------------------------------------------------------------------
@@ -314,8 +326,9 @@
     !---------------------------------------------------------------------------
     subroutine BlocksAoTtoTracers(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerAoTOps%Toc()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(DBlock)
@@ -323,6 +336,7 @@
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
+    call self%timerAoTOps%Toc()
     end subroutine BlocksAoTtoTracers
 
     !---------------------------------------------------------------------------
@@ -333,8 +347,9 @@
     !---------------------------------------------------------------------------
     subroutine BlocksCleanAoT(self)
     implicit none
-    class(simulation_class), intent(in) :: self
+    class(simulation_class), intent(inout) :: self
     integer :: i
+    call self%timerAoTOps%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(DBlock)
@@ -342,7 +357,22 @@
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
+    call self%timerAoTOps%Toc()
     end subroutine BlocksCleanAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to call the output streamer writting methods at 
+    !> current SimTime
+    !---------------------------------------------------------------------------
+    subroutine OutputStepData(self)
+    implicit none
+    class(simulation_class), intent(inout) :: self    
+    call self%timerOutput%Tic()
+    call self%OutputStreamer%WriteStepSerial(DBlock)
+    call self%timerOutput%Toc()
+    end subroutine OutputStepData
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

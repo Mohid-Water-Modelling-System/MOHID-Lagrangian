@@ -40,10 +40,8 @@
     procedure, private :: CheckWriteTime
     end type output_streamer_class
 
-    type(output_streamer_class) :: OutputStreamer
-
     !Public access vars
-    public :: OutputStreamer
+    public :: output_streamer_class
 
     contains
 
