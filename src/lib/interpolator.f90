@@ -32,7 +32,7 @@
     contains
     procedure :: run
     procedure :: getArrayCoordRegular
-    procedure :: getArrayTime
+    procedure :: getPointCoordRegular
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
     procedure :: test4D
@@ -75,10 +75,10 @@
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
                 var_name(i) = aField%name
-                xx = self%getArrayCoordRegular(aot%x, bdata, 1)
-                yy = self%getArrayCoordRegular(aot%y, bdata, 2)
-                zz = self%getArrayCoordRegular(aot%z, bdata, 3)
-                tt = self%getArrayTime(time, bdata)
+                xx = self%getArrayCoordRegular(aot%x, bdata, Globals%Var%lon)
+                yy = self%getArrayCoordRegular(aot%y, bdata, Globals%Var%lat)
+                zz = self%getArrayCoordRegular(aot%z, bdata, Globals%Var%depth)
+                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time)
                 var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
@@ -178,55 +178,46 @@
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate 
     !> array. Works only for regularly spaced data.
-    !> @param[in] self, xdata, bdata, dim
+    !> @param[in] self, xdata, bdata, dimName
     !---------------------------------------------------------------------------
-    function getArrayCoordRegular(self, xdata, bdata, dim)
+    function getArrayCoordRegular(self, xdata, bdata, dimName)
     class(interpolator_class), intent(in) :: self
-    real(prec), dimension(:), intent(in):: xdata !< Tracer coordinate component
-    type(background_class), intent(in) :: bdata !< Background to use
-    integer, intent(in) :: dim                  !< corresponding background dimension
+    real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
+    type(background_class), intent(in) :: bdata                 !< Background to use
+    type(string), intent(in) :: dimName
+    integer :: dim                                              !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
-    real(prec) :: res
-    real(prec) :: minBound, maxBound
-    
-    !call bdata%dim(dim)%print()
+    real(prec) :: minBound, maxBound, res    
+    dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)
-    !print*, 'res =', res
     minBound = bdata%dim(dim)%getFieldMinBound()
-    !print*, 'minBound =', minBound
     maxBound = bdata%dim(dim)%getFieldMaxBound()
-    !print*, 'maxBound =', maxBound
     res = abs(maxBound - minBound)/(res-1)
-    !print*, 'res =', res
     getArrayCoordRegular = (xdata - minBound)/res + 1
-    !print*, 'array =', xdata
-    !print*, 'axed array =', getArrayCoordRegular
-    !read(*,*)
-
     end function getArrayCoordRegular
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns the array coordinates of the time. 
+    !> Returns the array coordinate of a point, along a given dimension. 
     !> Works only for regularly spaced data.
-    !> @param[in] self, xdata, bdata
+    !> @param[in] self, xdata, bdata, dimName
     !---------------------------------------------------------------------------
-    function getArrayTime(self, xdata, bdata)
+    function getPointCoordRegular(self, xdata, bdata, dimName)
     class(interpolator_class), intent(in) :: self
-    real(prec), intent(in):: xdata !< Tracer coordinate component
+    real(prec), intent(in):: xdata              !< Tracer coordinate component
     type(background_class), intent(in) :: bdata !< Background to use
-    integer :: dim                  !< corresponding background dimension
-    real(prec) :: getArrayTime  !< coordinates in array index
-    real(prec) :: res
-    real(prec) :: minBound, maxBound
-    dim = 4
+    type(string), intent(in) :: dimName
+    integer :: dim                              !< corresponding background dimension
+    real(prec) :: getPointCoordRegular          !< coordinates in array index
+    real(prec) :: minBound, maxBound, res
+    dim = bdata%getDimIndex(dimName) 
     res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
-    getArrayTime = (xdata - minBound)/res+1
-    end function getArrayTime
+    getPointCoordRegular = (xdata - minBound)/res+1
+    end function getPointCoordRegular
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

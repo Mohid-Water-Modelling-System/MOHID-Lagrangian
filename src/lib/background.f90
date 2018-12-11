@@ -41,11 +41,12 @@
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,depth for example)
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
     contains
-    procedure :: test
+    procedure :: add => addField
+    procedure :: getDimIndex
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
-    procedure :: add => addField
+    procedure :: test
     procedure :: print => printBackground
     end type background_class
 
@@ -94,6 +95,33 @@
     call constructor%setExtents(extents)
     call constructor%setDims(dims)
     end function constructor
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the index of a given dimension by it's name
+    !> @param[in] self, name
+    !---------------------------------------------------------------------------
+    integer function getDimIndex(self, name)
+    class(background_class), intent(in) :: self
+    type(string), intent(in) :: name
+    integer i
+    type(string) :: outext
+    logical found
+    found = .false.
+    do i=1, size(self%dim)
+        if (self%dim(i)%name == name) then
+            found = .true.
+            getDimIndex = i
+            return
+        end if
+    end do
+    if (.not. found) then
+        outext = '[background_class::getDimIndex]: Field dimensions dont contain a field called '// name //', stoping'
+        call Log%put(outext)
+        stop
+    end if    
+    end function getDimIndex
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
