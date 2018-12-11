@@ -15,7 +15,7 @@
     ! DESCRIPTION:
     !> Defines an input file reader class with an object exposable to the Simulation
     !> This class is in charge of selectig the correct reader for the selected input
-    !> file format.
+    !> file format and controling the respective reader.
     !------------------------------------------------------------------------------
 
     module simulation_input_streamer_mod
@@ -25,17 +25,14 @@
     implicit none
     private
 
-    type :: input_streamer_class
-        integer :: InputFormat = -1
+    type :: input_streamer_class !< Input Streamer class
+        integer :: InputFormat = -1 !< Switch for input format
     contains
     procedure :: initialize => initInputStreamer
-    
     end type input_streamer_class
 
-    type(input_streamer_class) :: InputStreamer
-
     !Public access vars
-    public :: InputStreamer
+    public :: input_streamer_class
 
     contains
 
@@ -49,10 +46,9 @@
     self%InputFormat = Globals%Parameters%InputFormat
     if (self%InputFormat == 1) then
         !initialize netcdf reader class
-    
-    end if    
+
+    end if
     end subroutine initInputStreamer
 
-    
 
     end module simulation_input_streamer_mod

@@ -38,11 +38,13 @@
         type(timer_class) :: timerInit          !< timer for the initialization routines
         type(timer_class) :: timerTotalRun      !< timer for the total wall time spent on the simulation
         type(timer_class) :: timerOutput        !< timer for the output writting routines
-        type(timer_class) :: timerPrep          !< timer for the toggling, emission and consolidation phase of every time-step        
+        type(timer_class) :: timerPrep          !< timer for the toggling, emission and consolidation phase of every time-step
         type(timer_class) :: timerAoTOps        !< timer for the AoT operations (encoding and decoding)
         type(timer_class) :: timerSolver        !< timer for the solver runs
         !Output objects
-        type(output_streamer_class) :: OutputStreamer
+        type(output_streamer_class) :: OutputStreamer !< Writter that streams simulation data out
+        !Input objects
+        type(input_streamer_class)  :: InputStreamer  !< Reader that streams data into the simulation
     contains
     procedure, public  :: initialize => initSimulation
     procedure, public  :: run
@@ -84,7 +86,7 @@
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)
-        
+
     !main time cycle
     do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
         call Globals%Sim%increment_numdt()
@@ -96,17 +98,17 @@
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
         !Optimize Block Tracer lists
-        call self%BlocksConsolidateArrays()        
+        call self%BlocksConsolidateArrays()
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
-        
+
         !Update all tracers with base behavior (AoT) - Integration step
         if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
-        
+
         !Write results if time to do so
         call self%OutputStepData()
         !Print some stats from the time step
@@ -144,7 +146,7 @@
     type(string), intent(in) :: casefilename         !< case file name
     type(string), intent(in) :: outpath              !< Output path
     type(string) :: outext, aux
-    
+
     aux = 'Simulation::initialization'
     call self%timerInit%initialize(aux)
     call self%timerInit%Tic()
@@ -152,7 +154,7 @@
     aux = 'Simulation::Total'
     call self%timerTotalRun%initialize(aux)
     aux = 'Simulation::Output'
-    call self%timerOutput%initialize(aux)    
+    call self%timerOutput%initialize(aux)
     aux = 'Simulation::Preparation'
     call self%timerPrep%initialize(aux)
     aux = 'Simulation::AoT encoding/decoding'
@@ -194,7 +196,7 @@
     call self%OutputStreamer%initialize()
     !Writing the domain to file
     call self%OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
-    
+
     call self%timerInit%Toc()
     call self%timerInit%print()
 
@@ -359,16 +361,16 @@
     !$OMP END PARALLEL
     call self%timerAoTOps%Toc()
     end subroutine BlocksCleanAoT
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the output streamer writting methods at 
+    !> Simulation method to call the output streamer writting methods at
     !> current SimTime
     !---------------------------------------------------------------------------
     subroutine OutputStepData(self)
     implicit none
-    class(simulation_class), intent(inout) :: self    
+    class(simulation_class), intent(inout) :: self
     call self%timerOutput%Tic()
     call self%OutputStreamer%WriteStepSerial(DBlock)
     call self%timerOutput%Toc()
