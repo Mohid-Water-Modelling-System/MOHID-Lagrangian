@@ -28,6 +28,7 @@
     use tracers_mod
     use background_mod
     use simulation_output_streamer_mod
+    use simulation_input_streamer_mod
     use common_modules
 
     implicit none
