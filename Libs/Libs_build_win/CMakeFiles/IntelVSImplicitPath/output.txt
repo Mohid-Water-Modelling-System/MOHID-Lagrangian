@@ -1,11 +1,9 @@
 Change Dir: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/IntelVSImplicitPath
 
-Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio 14.0/Common7/IDE/devenv.com" "IntelFortranImplicit.sln" "/build" "Debug" "/project" "ALL_BUILD"
+Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/devenv.com" "IntelFortranImplicit.sln" "/build" "Debug" "/project" "ALL_BUILD"
 
-Microsoft Visual Studio 2015 Version 14.0.25420.1.
+Microsoft Visual Studio 2017 Version 15.0.28307.280.
 Copyright (C) Microsoft Corp. All rights reserved.
-
-The license for Visual Studio expires in 28 days.
 
 Package 'IFLangServicePackage' failed to load.
 
@@ -17,17 +15,17 @@ Package 'IFLangServicePackage' failed to load.
 
 Package 'IFLangServicePackage' failed to load.
 1>------ Build started: Project: ZERO_CHECK, Configuration: Debug x64 ------
-1>  Checking Build System
-1>  CMake does not need to re-run because C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/IntelVSImplicitPath/CMakeFiles/generate.stamp is up-to-date.
+1>Checking Build System
+1>CMake does not need to re-run because C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/IntelVSImplicitPath/CMakeFiles/generate.stamp is up-to-date.
 2>------ Build started: Project: FortranLib, Configuration: Debug x64 ------
 2>Generating output.cmake
-2>Compiling with Intel(R) Visual Fortran Compiler 18.0.5.274 [Intel(R) 64]...
+2>Compiling with Intel(R) Visual Fortran Compiler 19.0.1.144 [Intel(R) 64]...
 2>hello.f
 2>Creating library...
 2>
 2>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\Libs\Libs_build_win\CMakeFiles\IntelVSImplicitPath\FortranLib.dir\Debug\BuildLog.htm"
 2>FortranLib - 0 error(s), 0 warning(s)
 3>------ Build started: Project: ALL_BUILD, Configuration: Debug x64 ------
-3>  Building Custom Rule C:/Program Files/CMake/share/cmake-3.12/Modules/IntelVSImplicitPath/CMakeLists.txt
-3>  CMake does not need to re-run because C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/IntelVSImplicitPath/CMakeFiles/generate.stamp is up-to-date.
+3>Building Custom Rule C:/Program Files/CMake/share/cmake-3.12/Modules/IntelVSImplicitPath/CMakeLists.txt
+3>CMake does not need to re-run because C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/Libs/Libs_build_win/CMakeFiles/IntelVSImplicitPath/CMakeFiles/generate.stamp is up-to-date.
 ========== Build: 3 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========

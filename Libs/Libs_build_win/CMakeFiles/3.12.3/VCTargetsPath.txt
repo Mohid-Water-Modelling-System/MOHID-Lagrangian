@@ -1,1 +1,1 @@
-C:/Program Files (x86)/MSBuild/Microsoft.Cpp/v4.0/V140
+C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/VC/VCTargets

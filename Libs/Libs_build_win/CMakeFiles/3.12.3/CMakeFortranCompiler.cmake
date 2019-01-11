@@ -1,7 +1,7 @@
-set(CMAKE_Fortran_COMPILER "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018/windows/bin/intel64/ifort.exe")
+set(CMAKE_Fortran_COMPILER "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2019/windows/bin/intel64/ifort.exe")
 set(CMAKE_Fortran_COMPILER_ARG1 "")
 set(CMAKE_Fortran_COMPILER_ID "Intel")
-set(CMAKE_Fortran_COMPILER_VERSION "18.0.5.20180823")
+set(CMAKE_Fortran_COMPILER_VERSION "19.0.0.20181018")
 set(CMAKE_Fortran_COMPILER_WRAPPER "")
 set(CMAKE_Fortran_PLATFORM_ID "Windows")
 set(CMAKE_Fortran_SIMULATE_ID "MSVC")
@@ -62,5 +62,5 @@ endif()
 
 
 set(CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES "")
-set(CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2018/windows/compiler/lib/Intel64_win")
+set(CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries_2019/windows/compiler/lib/Intel64_win")
 set(CMAKE_Fortran_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
