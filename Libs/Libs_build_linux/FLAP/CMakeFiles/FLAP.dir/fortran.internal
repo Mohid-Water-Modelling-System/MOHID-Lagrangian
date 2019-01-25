@@ -1,8 +1,0 @@
-# The fortran modules provided by this target.
-provides
- flap
- flap_command_line_argument_t
- flap_command_line_arguments_group_t
- flap_command_line_interface_t
- flap_object_t
- flap_utils_m

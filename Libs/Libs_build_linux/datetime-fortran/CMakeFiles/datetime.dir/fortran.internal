@@ -1,8 +1,0 @@
-# The fortran modules provided by this target.
-provides
- datetime_module
- mod_clock
- mod_constants
- mod_datetime
- mod_strftime
- mod_timedelta

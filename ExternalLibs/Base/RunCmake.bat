@@ -1,5 +1,5 @@
 
-set build_dir_global=build_win
+set build_dir_global=build
 
 echo ----------------------------------------------------------------------
 echo       Generating build solutions for small base libraries

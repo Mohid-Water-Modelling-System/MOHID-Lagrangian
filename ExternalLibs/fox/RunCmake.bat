@@ -1,5 +1,5 @@
 
-set build_dir_fox=build_win
+set build_dir_fox=build
 
 echo ----------------------------------------------------------------------
 echo           Generating build solution for Fox xml parser
