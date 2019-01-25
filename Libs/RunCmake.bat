@@ -24,22 +24,7 @@ cd ..
 if not "%ERRORLEVEL%" == "0" goto fail
 
 echo ----------------------------------------------------------------------
-echo   Generating build solution for NetCDF-Fortran. Cross your fingers.
-echo   If you run into problems check that the paths to the NetCDF install 
-echo   are correct.
-echo ----------------------------------------------------------------------
-
-cd %dir_netcdff%
-if exist %build_dir_netcdff% del /Q %build_dir_netcdff%\*.*
-if not exist %build_dir_netcdff% mkdir %build_dir_netcdff%
-cd %build_dir_netcdff%
-rem run cmake for NetCDF Fortran
-cmake .. -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE="RELEASE" -DBUILD_SHARED_LIBS="OFF" -DCMAKE_PREFIX_PATH:FILEPATH="%LOCAL_NCF4%" 
-cd ..
-cd ..
-
-echo ----------------------------------------------------------------------
-echo   Generating build solution for Fox xml parser. Cross your fingers.
+echo            Generating build solution for Fox xml parser
 echo ----------------------------------------------------------------------
 
 cd %dir_fox%
