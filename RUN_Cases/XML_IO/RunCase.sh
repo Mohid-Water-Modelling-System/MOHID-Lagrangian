@@ -6,7 +6,7 @@ name=Template_Lagrangian
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
-tools=../../build_linux/bin
+tools=../../build/bin
 mohidlagrangian=${tools}/MOHIDLagrangian
 
 # "dirout" is created to store results or it is cleaned if it already exists
