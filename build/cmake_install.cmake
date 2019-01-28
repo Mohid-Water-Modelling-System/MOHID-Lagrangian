@@ -34,8 +34,10 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/build/src/lib/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/build/src/app/cmake_install.cmake")
+  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/build/src/MOHIDLagrangianLib/cmake_install.cmake")
+  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/build/src/MOHIDLagrangianApp/cmake_install.cmake")
+  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/build/src/MOHIDBase1/cmake_install.cmake")
+  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/build/src/MOHIDBase2/cmake_install.cmake")
 
 endif()
 
