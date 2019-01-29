@@ -1,0 +1,35 @@
+# NetCDF C Configuration Summary
+==============================
+
+# General
+-------
+NetCDF Version:		4.4.1.1
+Configured On:		Tue Jan 29 18:19:04 GMT 2019
+Host System:		x86_64-apple-darwin18.2.0
+Build Directory: 	/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux
+Install Prefix:         /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build
+
+# Compiling Options
+-----------------
+C Compiler:		/usr/bin/gcc
+CFLAGS:			
+CPPFLAGS:		
+LDFLAGS:		
+AM_CFLAGS:		
+AM_CPPFLAGS:		
+AM_LDFLAGS:		
+Shared Library:		yes
+Static Library:		yes
+Extra libraries:	-lsz -lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl 
+
+# Features
+--------
+NetCDF-2 API:		yes
+HDF4 Support:		no
+NetCDF-4 API:		yes
+NC-4 Parallel Support:	no
+PNetCDF Support:	no
+DAP Support:		yes
+Diskless Support:	yes
+MMap Support:		no
+JNA Support:		no

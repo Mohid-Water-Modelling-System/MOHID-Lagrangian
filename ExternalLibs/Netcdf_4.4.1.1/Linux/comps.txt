@@ -1,0 +1,1 @@
+CPPFLAGS= CC=gcc CFLAGS= LDFLAGS= LIBS=-lcurl 
