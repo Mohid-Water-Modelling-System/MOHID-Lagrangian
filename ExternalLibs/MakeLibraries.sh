@@ -6,19 +6,19 @@ csv_dir=fortran-csv-module
 fox_dir=fox
 
 cd $base_dir
-MakeLibraries.sh
+./MakeLibraries.sh
 cd ..
 
 cd $datetime_dir
-MakeLibraries.sh
+./MakeLibraries.sh
 cd ..
 
 cd $csv_dir
-MakeLibraries.sh
+./MakeLibraries.sh
 cd ..
 
 cd $fox_dir
-MakeLibraries.sh
+./MakeLibraries.sh
 cd ..
 
 echo ------------------------------------
