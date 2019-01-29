@@ -1,0 +1,13 @@
+# The fortran modules provided by this target.
+provides
+ fox_wkml.mod
+ m_contours.mod
+ m_wkml_chart.mod
+ m_wkml_color.mod
+ m_wkml_color_def.mod
+ m_wkml_contours.mod
+ m_wkml_core.mod
+ m_wkml_coverage.mod
+ m_wkml_features.mod
+ m_wkml_lowlevel.mod
+ m_wkml_styling.mod

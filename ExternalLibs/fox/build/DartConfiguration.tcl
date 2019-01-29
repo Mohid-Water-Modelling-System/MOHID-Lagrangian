@@ -4,17 +4,17 @@
 
 
 # Configuration directories and files
-SourceDirectory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox
-BuildDirectory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build
+SourceDirectory: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox
+BuildDirectory: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: DESKTOP-DA8CT7F
+Site: Ricardos-MBP.lan
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Win32-MSBuild
+BuildName: Darwin-unknown
 
 # Subprojects
 LabelsForSubprojects: 
@@ -30,14 +30,14 @@ DropSitePassword:
 DropSiteMode: 
 DropMethod: http
 TriggerSite: 
-ScpCommand: C:/Windows/System32/OpenSSH/scp.exe
+ScpCommand: /usr/bin/scp
 
 # Dashboard start time
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "C:/Program Files/CMake/bin/cmake.exe" "C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox"
-MakeCommand: "C:\Program Files\CMake\bin\cmake.exe" --build . --config "${CTEST_CONFIGURATION_TYPE}"
+ConfigureCommand: "/usr/local/Cellar/cmake/3.13.2/bin/cmake" "/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox"
+MakeCommand: /usr/local/Cellar/cmake/3.13.2/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -49,12 +49,12 @@ CVSCommand: CVSCOMMAND-NOTFOUND
 CVSUpdateOptions: -d -A -P
 
 # Subversion options
-SVNCommand: SVNCOMMAND-NOTFOUND
+SVNCommand: /usr/bin/svn
 SVNOptions: 
 SVNUpdateOptions: 
 
 # Git options
-GITCommand: C:/Program Files/Git/cmd/git.exe
+GITCommand: /usr/local/bin/git
 GITInitSubmodules: 
 GITUpdateOptions: 
 GITUpdateCustom: 
@@ -86,7 +86,7 @@ MemoryCheckCommandOptions:
 MemoryCheckSuppressionFile: 
 
 # Coverage
-CoverageCommand: COVERAGE_COMMAND-NOTFOUND
+CoverageCommand: /usr/bin/gcov
 CoverageExtraFlags: -l
 
 # Cluster commands
@@ -104,7 +104,7 @@ TimeOut: 1500
 # so would cause the system load to exceed this value.
 TestLoad: 
 
-UseLaunchers: 0
+UseLaunchers: 
 CurlOptions: 
 # warning, if you add new options here that have to do with submit,
 # you have to update cmCTestSubmitCommand.cxx

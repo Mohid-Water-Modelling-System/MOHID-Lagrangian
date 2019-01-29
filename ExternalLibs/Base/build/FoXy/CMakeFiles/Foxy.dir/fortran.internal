@@ -1,0 +1,5 @@
+# The fortran modules provided by this target.
+provides
+ foxy.mod
+ foxy_xml_file.mod
+ foxy_xml_tag.mod

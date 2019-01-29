@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox
+# Install script for directory: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/FoX")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,15 +34,15 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/fsys/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/utils/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/common/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/wxml/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/wkml/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/wcml/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/sax/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/dom/cmake_install.cmake")
-  include("C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/examples/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/fsys/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/utils/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/common/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/wxml/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/wkml/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/wcml/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/sax/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/dom/cmake_install.cmake")
+  include("/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/examples/cmake_install.cmake")
 
 endif()
 
@@ -54,5 +54,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

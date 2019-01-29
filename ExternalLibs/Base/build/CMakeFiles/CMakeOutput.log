@@ -1,210 +1,204 @@
-The system is: Windows - 10.0.17134 - AMD64
+The system is: Darwin - 18.2.0 - x86_64
 Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" succeeded.
-Compiler:  
+Compiler: /usr/local/bin/gfortran 
 Build flags: 
-Id flags:  
+Id flags: -v 
 
 The output was:
 0
+Driving: /usr/local/bin/gfortran -v CMakeFortranCompilerId.F -mmacosx-version-min=10.14.0 -asm_macosx_version_min=10.14 -l gfortran -shared-libgcc
+Using built-in specs.
+COLLECT_GCC=/usr/local/bin/gfortran
+COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper
+Target: x86_64-apple-darwin17.7.0
+Configured with: ../configure --build=x86_64-apple-darwin17.7.0 --prefix=/usr/local/Cellar/gcc/8.2.0 --libdir=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8 --enable-languages=c,c++,objc,obj-c++,fortran --program-suffix=-8 --with-gmp=/usr/local/opt/gmp --with-mpfr=/usr/local/opt/mpfr --with-mpc=/usr/local/opt/libmpc --with-isl=/usr/local/opt/isl --with-system-zlib --enable-checking=release --with-pkgversion='Homebrew GCC 8.2.0' --with-bugurl=https://github.com/Homebrew/homebrew-core/issues --disable-nls
+Thread model: posix
+gcc version 8.2.0 (Homebrew GCC 8.2.0) 
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccyFxVPH.f90 -quiet -v -D__DYNAMIC__ CMakeFortranCompilerId.F -fPIC -quiet -dumpbase CMakeFortranCompilerId.F -mmacosx-version-min=10.14.0 -mtune=core2 -auxbase CMakeFortranCompilerId -version -fintrinsic-modules-path /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/finclude -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqZBZaM.s
+GNU Fortran (Homebrew GCC 8.2.0) version 8.2.0 (x86_64-apple-darwin17.7.0)
+	compiled by GNU C version 8.2.0, GMP version 6.1.2, MPFR version 4.0.1, MPC version 1.1.0, isl version isl-0.20-GMP
 
-Microsoft Visual Studio 2017 Version 15.0.28307.344.
-Copyright (C) Microsoft Corp. All rights reserved.
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../../../../x86_64-apple-darwin17.7.0/include"
+ignoring nonexistent directory "/usr/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/finclude
+ /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include
+ /usr/local/include
+ /usr/local/Cellar/gcc/8.2.0/include
+ /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/include-fixed
+End of search list.
+GNU Fortran2008 (Homebrew GCC 8.2.0) version 8.2.0 (x86_64-apple-darwin17.7.0)
+	compiled by GNU C version 8.2.0, GMP version 6.1.2, MPFR version 4.0.1, MPC version 1.1.0, isl version isl-0.20-GMP
 
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-1>------ Build started: Project: CompilerIdFortran, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 19.0.1.144 [Intel(R) 64]...
-1>CMakeFortranCompilerId.F
-1>Intel(R) Visual Fortran Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.1.144 Build 20181018
-1>Copyright (C) 1985-2018 Intel Corporation.  All rights reserved.
-1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.16.27026.1
-1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>/OUT:.\CompilerIdFortran.exe
-1>/INCREMENTAL:NO
-1>/MANIFEST
-1>/MANIFESTFILE:Debug\CompilerIdFortran.exe.intermediate.manifest
-1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
-1>/DEBUG
-1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\3.12.3\CompilerIdFortran\CompilerIdFortran.pdb
-1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\3.12.3\CompilerIdFortran\CompilerIdFortran.lib
-1>Debug\CMakeFortranCompilerId.obj
-1>Embedding manifest...
-1>Performing Post-Build Event...
-1>CMAKE_Fortran_COMPILER=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2019\windows\bin\intel64\ifort.exe
-1>
-1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\3.12.3\CompilerIdFortran\Debug\BuildLog.htm"
-1>CompilerIdFortran - 0 error(s), 0 warning(s)
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0'  '-shared-libgcc' '-mtune=core2'
+ as -arch x86_64 -v -force_cpusubtype_ALL -mmacosx-version-min=10.14 -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqZBZaM.s
+Apple LLVM version 10.0.0 (clang-1000.10.44.4)
+Target: x86_64-apple-darwin18.2.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1as -triple x86_64-apple-macosx10.14.0 -filetype obj -main-file-name ccqZBZaM.s -target-cpu penryn -fdebug-compilation-dir /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/3.13.2/CompilerIdFortran -dwarf-debug-producer Apple LLVM version 10.0.0 (clang-1000.10.44.4) -dwarf-version=4 -mrelocation-model pic -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqZBZaM.s
+Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec
+rename spec lib to liborig
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0'  '-shared-libgcc' '-mtune=core2'
+COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/
+LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0'  '-shared-libgcc' '-mtune=core2'
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+collect2 version 8.2.0
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.14.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+@(#)PROGRAM:ld  PROJECT:ld64-409.12
+BUILD 17:47:51 Sep 25 2018
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+ /usr/bin/nm -n /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o
 
 
-Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.exe"
+Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "a.out"
 
-Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.pdb"
-
-Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.u2d"
-
-Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "CompilerIdFortran.vfproj"
-
-The Fortran compiler identification is Intel, found in "C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/3.12.3/CompilerIdFortran/CompilerIdFortran.exe"
+The Fortran compiler identification is GNU, found in "/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/3.13.2/CompilerIdFortran/a.out"
 
 Determining if the Fortran compiler works passed with the following output:
-Change Dir: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_df531"
-
-Microsoft Visual Studio 2017 Version 15.0.28307.344.
-Copyright (C) Microsoft Corp. All rights reserved.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-1>------ Build started: Project: cmTC_df531, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 19.0.1.144 [Intel(R) 64]...
-1>testFortranCompiler.f
-1>Compiling manifest to resources...
-1>Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
-1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.16.27026.1
-1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>/OUT:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug\cmTC_df531.exe
-1>/VERSION:0.0
-1>/MANIFEST
-1>/MANIFESTFILE:cmTC_df531.dir\Debug\cmTC_df531.exe.intermediate.manifest
-1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
-1>/DEBUG
-1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug/cmTC_df531.pdb
-1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug\cmTC_df531.lib
-1>user32.lib
-1>/machine:x64
-1>/debug
-1>/INCREMENTAL
-1>cmTC_df531.dir\Debug\testFortranCompiler.obj
-1>cmTC_df531.dir\Debug\cmTC_df531.exe.embed.manifest.res
-1>Embedding manifest...
-1>Microsoft (R) Manifest Tool
-1>Copyright (c) Microsoft Corporation.
-1>All rights reserved.
-1>
-1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\cmTC_df531.dir\Debug\BuildLog.htm"
-1>cmTC_df531 - 0 error(s), 0 warning(s)
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+Run Build Command:"/usr/bin/make" "cmTC_319b0/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_319b0.dir/build.make CMakeFiles/cmTC_319b0.dir/build
+Building Fortran object CMakeFiles/cmTC_319b0.dir/testFortranCompiler.f.o
+/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_319b0.dir/testFortranCompiler.f.o
+Linking Fortran executable cmTC_319b0
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_319b0.dir/link.txt --verbose=1
+/usr/local/bin/gfortran      -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_319b0.dir/testFortranCompiler.f.o  -o cmTC_319b0 
 
 
 Detecting Fortran compiler ABI info compiled with the following output:
-Change Dir: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_d3f49"
-
-Microsoft Visual Studio 2017 Version 15.0.28307.344.
-Copyright (C) Microsoft Corp. All rights reserved.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-1>------ Build started: Project: cmTC_d3f49, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 19.0.1.144 [Intel(R) 64]...
-1>CMakeFortranCompilerABI.F
-1>Compiling manifest to resources...
-1>Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
-1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.16.27026.1
-1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>/OUT:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug\cmTC_d3f49.exe
-1>/VERSION:0.0
-1>/MANIFEST
-1>/MANIFESTFILE:cmTC_d3f49.dir\Debug\cmTC_d3f49.exe.intermediate.manifest
-1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
-1>/DEBUG
-1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug/cmTC_d3f49.pdb
-1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug\cmTC_d3f49.lib
-1>/machine:x64
-1>/debug
-1>/INCREMENTAL
-1>cmTC_d3f49.dir\Debug\CMakeFortranCompilerABI.obj
-1>cmTC_d3f49.dir\Debug\cmTC_d3f49.exe.embed.manifest.res
-1>Embedding manifest...
-1>Microsoft (R) Manifest Tool
-1>Copyright (c) Microsoft Corporation.
-1>All rights reserved.
-1>
-1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\cmTC_d3f49.dir\Debug\BuildLog.htm"
-1>cmTC_d3f49 - 0 error(s), 0 warning(s)
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+Run Build Command:"/usr/bin/make" "cmTC_d6670/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d6670.dir/build.make CMakeFiles/cmTC_d6670.dir/build
+Building Fortran object CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o
+/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o
+Linking Fortran executable cmTC_d6670
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d6670.dir/link.txt --verbose=1
+/usr/local/bin/gfortran   -v -Wl,-v   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o  -o cmTC_d6670 
+Driving: /usr/local/bin/gfortran -v -Wl,-v -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -o cmTC_d6670 -mmacosx-version-min=10.14.0 -asm_macosx_version_min=10.14 -l gfortran -shared-libgcc
+Using built-in specs.
+COLLECT_GCC=/usr/local/bin/gfortran
+COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper
+Target: x86_64-apple-darwin17.7.0
+Configured with: ../configure --build=x86_64-apple-darwin17.7.0 --prefix=/usr/local/Cellar/gcc/8.2.0 --libdir=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8 --enable-languages=c,c++,objc,obj-c++,fortran --program-suffix=-8 --with-gmp=/usr/local/opt/gmp --with-mpfr=/usr/local/opt/mpfr --with-mpc=/usr/local/opt/libmpc --with-isl=/usr/local/opt/isl --with-system-zlib --enable-checking=release --with-pkgversion='Homebrew GCC 8.2.0' --with-bugurl=https://github.com/Homebrew/homebrew-core/issues --disable-nls
+Thread model: posix
+gcc version 8.2.0 (Homebrew GCC 8.2.0) 
+Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec
+rename spec lib to liborig
+COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
+COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/
+LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_d6670 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+collect2 version 8.2.0
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_d6670 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+@(#)PROGRAM:ld  PROJECT:ld64-409.12
+BUILD 17:47:51 Sep 25 2018
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+@(#)PROGRAM:ld  PROJECT:ld64-409.12
+BUILD 17:47:51 Sep 25 2018
+configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0
+	/usr/local/Cellar/gcc/8.2.0/lib/gcc/8
+	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib
+Framework search paths:
+	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/
+ /usr/bin/nm -n CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o
+
+
+Parsed Fortran implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_d6670/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d6670.dir/build.make CMakeFiles/cmTC_d6670.dir/build]
+  ignore line: [Building Fortran object CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [Linking Fortran executable cmTC_d6670]
+  ignore line: [/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d6670.dir/link.txt --verbose=1]
+  ignore line: [/usr/local/bin/gfortran   -v -Wl,-v   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o  -o cmTC_d6670 ]
+  ignore line: [Driving: /usr/local/bin/gfortran -v -Wl,-v -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -o cmTC_d6670 -mmacosx-version-min=10.14.0 -asm_macosx_version_min=10.14 -l gfortran -shared-libgcc]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/local/bin/gfortran]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper]
+  ignore line: [Target: x86_64-apple-darwin17.7.0]
+  ignore line: [Configured with: ../configure --build=x86_64-apple-darwin17.7.0 --prefix=/usr/local/Cellar/gcc/8.2.0 --libdir=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8 --enable-languages=c,c++,objc,obj-c++,fortran --program-suffix=-8 --with-gmp=/usr/local/opt/gmp --with-mpfr=/usr/local/opt/mpfr --with-mpc=/usr/local/opt/libmpc --with-isl=/usr/local/opt/isl --with-system-zlib --enable-checking=release --with-pkgversion='Homebrew GCC 8.2.0' --with-bugurl=https://github.com/Homebrew/homebrew-core/issues --disable-nls]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 8.2.0 (Homebrew GCC 8.2.0) ]
+  ignore line: [Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec]
+  ignore line: [rename spec lib to liborig]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2']
+  ignore line: [COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/]
+  ignore line: [LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2']
+  link line: [ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_d6670 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v]
+    arg [/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2] ==> ignore
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.14.0] ==> ignore
+    arg [-syslibroot] ==> ignore
+    arg [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk] ==> ignore
+    arg [-weak_reference_mismatches] ==> ignore
+    arg [non-weak] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_d6670] ==> ignore
+    arg [-L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0] ==> dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0]
+    arg [-L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..] ==> dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..]
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o] ==> ignore
+    arg [-lgfortran] ==> lib [gfortran]
+    arg [-no_compact_unwind] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [-lgcc_ext.10.5] ==> lib [gcc_ext.10.5]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lquadmath] ==> lib [quadmath]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_ext.10.5] ==> lib [gcc_ext.10.5]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lSystem] ==> lib [System]
+    arg [-v] ==> ignore
+  Library search paths: [;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
+  Framework search paths: [;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [System]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0]
+  collapse library dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8] ==> [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8]
+  collapse library dir [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
+  collapse framework dir [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/] ==> [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks]
+  implicit libs: [gfortran;gcc_ext.10.5;gcc;quadmath;m;gcc_ext.10.5;gcc]
+  implicit dirs: [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0;/usr/local/Cellar/gcc/8.2.0/lib/gcc/8;/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib]
+  implicit fwks: [/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks]
 
 
 Determining if the Fortran compiler supports Fortran 90 passed with the following output:
-Change Dir: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
+Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/devenv.com" "CMAKE_TRY_COMPILE.sln" "/build" "Debug" "/project" "cmTC_8156c"
-
-Microsoft Visual Studio 2017 Version 15.0.28307.344.
-Copyright (C) Microsoft Corp. All rights reserved.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-
-Package 'IFLangServicePackage' failed to load.
-1>------ Build started: Project: cmTC_8156c, Configuration: Debug x64 ------
-1>Compiling with Intel(R) Visual Fortran Compiler 19.0.1.144 [Intel(R) 64]...
-1>testFortranCompilerF90.f90
-1>Compiling manifest to resources...
-1>Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
-1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>Linking...
-1>Microsoft (R) Incremental Linker Version 14.16.27026.1
-1>Copyright (C) Microsoft Corporation.  All rights reserved.
-1>/OUT:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug\cmTC_8156c.exe
-1>/VERSION:0.0
-1>/MANIFEST
-1>/MANIFESTFILE:cmTC_8156c.dir\Debug\cmTC_8156c.exe.intermediate.manifest
-1>"/MANIFESTUAC:level='asInvoker' uiAccess='false'"
-1>/DEBUG
-1>/PDB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug/cmTC_8156c.pdb
-1>/SUBSYSTEM:CONSOLE
-1>/IMPLIB:C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\Debug\cmTC_8156c.lib
-1>user32.lib
-1>/machine:x64
-1>/debug
-1>/INCREMENTAL
-1>cmTC_8156c.dir\Debug\testFortranCompilerF90.obj
-1>cmTC_8156c.dir\Debug\cmTC_8156c.exe.embed.manifest.res
-1>Embedding manifest...
-1>Microsoft (R) Manifest Tool
-1>Copyright (c) Microsoft Corporation.
-1>All rights reserved.
-1>
-1>Build log written to  "file://C:\Users\RBC_workhorse\Documents\GitHub\MOHID-Lagrangian\ExternalLibs\Base\build\CMakeFiles\CMakeTmp\cmTC_8156c.dir\Debug\BuildLog.htm"
-1>cmTC_8156c - 0 error(s), 0 warning(s)
-========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+Run Build Command:"/usr/bin/make" "cmTC_13850/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_13850.dir/build.make CMakeFiles/cmTC_13850.dir/build
+Building Fortran object CMakeFiles/cmTC_13850.dir/testFortranCompilerF90.f90.o
+/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_13850.dir/testFortranCompilerF90.f90.o
+Linking Fortran executable cmTC_13850
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_13850.dir/link.txt --verbose=1
+/usr/local/bin/gfortran      -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_13850.dir/testFortranCompilerF90.f90.o  -o cmTC_13850 
 
 

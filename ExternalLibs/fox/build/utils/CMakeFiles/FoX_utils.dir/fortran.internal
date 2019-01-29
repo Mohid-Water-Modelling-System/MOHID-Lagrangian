@@ -1,0 +1,6 @@
+# The fortran modules provided by this target.
+provides
+ fox_m_utils_mtprng.mod
+ fox_m_utils_uri.mod
+ fox_m_utils_uuid.mod
+ fox_utils.mod

@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/wcml
+# Install script for directory: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/fox/wcml
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/FoX")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

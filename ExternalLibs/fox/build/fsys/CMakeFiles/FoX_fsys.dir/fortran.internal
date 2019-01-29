@@ -1,0 +1,11 @@
+# The fortran modules provided by this target.
+provides
+ fox_m_fsys_abort_flush.mod
+ fox_m_fsys_array_str.mod
+ fox_m_fsys_count_parse_input.mod
+ fox_m_fsys_format.mod
+ fox_m_fsys_parse_input.mod
+ fox_m_fsys_realtypes.mod
+ fox_m_fsys_string.mod
+ fox_m_fsys_string_list.mod
+ fox_m_fsys_varstr.mod
