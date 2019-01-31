@@ -1,0 +1,11 @@
+prefix=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj-4.9.3/build
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: proj
+Description: Cartographic Projections Library.
+Requires:
+Version: 4.9.3
+Libs: -L${libdir} -lproj
+Cflags: -I${includedir}
