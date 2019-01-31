@@ -15,6 +15,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 SET(BIN_NAME MOHIDLagrangian)
 SET(LIB_NAME MOHIDLagrangianLib)
+set(MOHIDBase1_LIB_NAME MOHIDBase1)
+set(MOHIDBase2_LIB_NAME MOHIDBase2)
 
 message("Project name " ${BIN_NAME})
 message("Library name " ${LIB_NAME})
@@ -94,3 +96,10 @@ ADD_SUBDIRECTORY(${LIBRARY_SOURCE_PATH})
 ADD_SUBDIRECTORY(${APP_SOURCE_PATH})
 ADD_SUBDIRECTORY(${MOHIDBase1_SOURCE_PATH})
 ADD_SUBDIRECTORY(${MOHIDBase2_SOURCE_PATH})
+
+
+#add dependencies between libs
+
+add_dependencies(${MOHIDBase2_LIB_NAME} ${MOHIDBase1_LIB_NAME})
+add_dependencies(${LIB_NAME} ${MOHIDBase1_LIB_NAME})
+add_dependencies(${LIB_NAME} ${MOHIDBase2_LIB_NAME})

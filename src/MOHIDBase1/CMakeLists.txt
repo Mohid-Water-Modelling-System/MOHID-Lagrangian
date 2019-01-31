@@ -22,13 +22,22 @@ FOREACH(item ${LIB_SRC})
     LIST(REMOVE_ITEM LIB_SRC ${item})
   ENDIF(${item} MATCHES "ModulePhreeqCRM.F90")
 ENDFOREACH(item)
+FOREACH(item ${LIB_SRC})
+  IF(${item} MATCHES "IPhreeqc_interface.F90")
+    LIST(REMOVE_ITEM LIB_SRC ${item})
+  ENDIF(${item} MATCHES "IPhreeqc_interface.F90")
+ENDFOREACH(item)
+FOREACH(item ${LIB_SRC})
+  IF(${item} MATCHES "ModuleCuda.F90")
+    LIST(REMOVE_ITEM LIB_SRC ${item})
+  ENDIF(${item} MATCHES "ModuleCuda.F90")
+ENDFOREACH(item)
 SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
 
-set(LOCAL_LIB_NAME MOHIDBase1)
 
 # Create named folders for the sources within the .vcproj
 # Empty name lists them directly under the .vcproj
-source_group(${LOCAL_LIB_NAME} FILES ${LIB_SRC})
+source_group(${MOHIDBase1_LIB_NAME} FILES ${LIB_SRC})
 
 # Check platforms
 if (CMAKE_HOST_WIN32)
@@ -45,7 +54,9 @@ if(WINDOWS)
 	set(hdf5_MOD_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/HDF5_1.8.17_x64/Include/fortran)
 	set(proj4_inc_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/Proj4/Include)
 elseif(LINUX)
-  
+  set(hdf5_LIBS_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/Lib)
+	set(hdf5_MOD_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/include)
+	set(proj4_inc_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/Proj4/Linux/proj4-fortran/build/include)
 endif()
 
 include_directories(${hdf5_LIBS_PATH})
@@ -56,10 +67,10 @@ message(STATUS "Added HDF5 Libraries path " ${hdf5_MOD_PATH})
 message(STATUS "Added Proj4 Libraries path " ${proj4_inc_PATH})
 
 # Also adds sources to the Solution Explorer
-add_library(${LOCAL_LIB_NAME} ${LIB_SRC})
+add_library(${MOHIDBase1_LIB_NAME} ${LIB_SRC})
 
 # Creates folder "libraries" and adds target project (MOHIDLagrangianLib.vcproj)
-set_property(TARGET ${LOCAL_LIB_NAME} PROPERTY FOLDER "libraries")
-set_property(TARGET ${LOCAL_LIB_NAME} PROPERTY LINKER_LANGUAGE Fortran)
+set_property(TARGET ${MOHIDBase1_LIB_NAME} PROPERTY FOLDER "libraries")
+set_property(TARGET ${MOHIDBase1_LIB_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
 
