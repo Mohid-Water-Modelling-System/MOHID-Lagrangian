@@ -62,7 +62,7 @@ cd $curr_dir
 cd $proj4F_dir
 mkdir build
 ./bootstrap
-./configure --with-proj4=$curr_dir/$proj4C_dir/build --prefix=$curr_dir/$proj4F_dir/build FC=gfortran
+./configure --with-proj4=$curr_dir/$proj4C_dir/build --prefix=$curr_dir/$proj4F_dir/build CFLAGS=f2cFortran
 make install
 cd $curr_dir
 

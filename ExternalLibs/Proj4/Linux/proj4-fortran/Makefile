@@ -94,7 +94,7 @@ am__aclocal_m4_deps = $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(am__DIST_COMMON)
+	$(am__configure_deps) $(include_HEADERS) $(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
@@ -127,7 +127,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)" \
+	"$(DESTDIR)$(includedir)"
 LIBRARIES = $(lib_LIBRARIES)
 AR = ar
 ARFLAGS = cru
@@ -190,7 +191,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-HEADERS = $(nodist_include_HEADERS)
+HEADERS = $(include_HEADERS) $(nodist_include_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -231,19 +232,19 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master/missing aclocal-1.16
+ACLOCAL = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old/missing aclocal-1.16
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
-AUTOCONF = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master/missing autoconf
-AUTOHEADER = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master/missing autoheader
-AUTOMAKE = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master/missing automake-1.16
+AUTOCONF = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old/missing autoconf
+AUTOHEADER = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old/missing autoheader
+AUTOMAKE = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old/missing automake-1.16
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPPFLAGS =  -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj-4.9.3/build/include
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"libfproj4\" -DPACKAGE_TARNAME=\"libfproj4\" -DPACKAGE_VERSION=\"\"1.1.0\"\" -DPACKAGE_STRING=\"libfproj4\ \"1.1.0\"\" -DPACKAGE_BUGREPORT=\"Magnus.Hagdorn@ed.ac.uk\" -DPACKAGE_URL=\"\" -DPACKAGE=\"libfproj4\" -DVERSION=\"1.1.0\" -DHAVE_LIBM=1 -DHAVE_LIBPROJ=1
+DEFS = -DPACKAGE_NAME=\"libfproj4\" -DPACKAGE_TARNAME=\"libfproj4\" -DPACKAGE_VERSION=\"1.0\" -DPACKAGE_STRING=\"libfproj4\ 1.0\" -DPACKAGE_BUGREPORT=\"Magnus.Hagdorn@ed.ac.uk\" -DPACKAGE_URL=\"\" -DPACKAGE=\"libfproj4\" -DVERSION=\"1.0\" -DHAVE_LIBM=1 -DHAVE_LIBPROJ=1
 DEPDIR = .deps
 ECHO_C = \c
 ECHO_N = 
@@ -261,26 +262,26 @@ LDFLAGS =  -L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Pr
 LIBOBJS = 
 LIBS = -lproj -lm 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master/missing makeinfo
+MAKEINFO = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old/missing makeinfo
 MKDIR_P = ./install-sh -c -d
 OBJEXT = o
 PACKAGE = libfproj4
 PACKAGE_BUGREPORT = Magnus.Hagdorn@ed.ac.uk
 PACKAGE_NAME = libfproj4
-PACKAGE_STRING = libfproj4 "1.1.0"
+PACKAGE_STRING = libfproj4 1.0
 PACKAGE_TARNAME = libfproj4
 PACKAGE_URL = 
-PACKAGE_VERSION = "1.1.0"
+PACKAGE_VERSION = 1.0
 PATH_SEPARATOR = :
 RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = 
-VERSION = 1.1.0
-abs_builddir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master
-abs_srcdir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master
-abs_top_builddir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master
-abs_top_srcdir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master
+VERSION = 1.0
+abs_builddir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old
+abs_srcdir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old
+abs_top_builddir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old
+abs_top_srcdir = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old
 ac_ct_CC = gcc
 ac_ct_FC = 
 am__include = include
@@ -300,7 +301,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master/install-sh
+install_sh = ${SHELL} /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -309,7 +310,7 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-master/build
+prefix = /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Proj4/Linux/proj4-fortran-old/build
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -321,7 +322,8 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 lib_LIBRARIES = libfproj4.a
-libfproj4_a_SOURCES = fort-proj.c proj4.f90
+libfproj4_a_SOURCES = fort-proj.c proj4.f90 proj4.inc cfortran.h
+include_HEADERS = proj4.inc 
 nodist_include_HEADERS = proj4.mod
 test_proj_SOURCES = test-proj.f90 
 test_proj_LDADD = libfproj4.a
@@ -439,6 +441,27 @@ am--depfiles: $(am__depfiles_remade)
 
 .f90.obj:
 	$(AM_V_FC)$(FCCOMPILE) -c -o $@ $(FCFLAGS_f90) `$(CYGPATH_W) '$<'`
+install-includeHEADERS: $(include_HEADERS)
+	@$(NORMAL_INSTALL)
+	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(includedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(includedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_HEADER) $$files '$(DESTDIR)$(includedir)'"; \
+	  $(INSTALL_HEADER) $$files "$(DESTDIR)$(includedir)" || exit $$?; \
+	done
+
+uninstall-includeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(include_HEADERS)'; test -n "$(includedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(includedir)'; $(am__uninstall_files_from_dir)
 install-nodist_includeHEADERS: $(nodist_include_HEADERS)
 	@$(NORMAL_INSTALL)
 	@list='$(nodist_include_HEADERS)'; test -n "$(includedir)" || list=; \
@@ -691,7 +714,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(LIBRARIES) $(HEADERS)
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -748,7 +771,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-nodist_includeHEADERS
+install-data-am: install-includeHEADERS install-nodist_includeHEADERS
 
 install-dvi: install-dvi-am
 
@@ -795,7 +818,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-libLIBRARIES uninstall-nodist_includeHEADERS
+uninstall-am: uninstall-includeHEADERS uninstall-libLIBRARIES \
+	uninstall-nodist_includeHEADERS
 
 .MAKE: check-am install-am install-strip
 
@@ -808,13 +832,14 @@ uninstall-am: uninstall-libLIBRARIES uninstall-nodist_includeHEADERS
 	distuninstallcheck dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am install-dvi \
 	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am \
-	install-libLIBRARIES install-man install-nodist_includeHEADERS \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-libLIBRARIES \
+	install-html-am install-includeHEADERS install-info \
+	install-info-am install-libLIBRARIES install-man \
+	install-nodist_includeHEADERS install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
+	uninstall-am uninstall-includeHEADERS uninstall-libLIBRARIES \
 	uninstall-nodist_includeHEADERS
 
 .PRECIOUS: Makefile

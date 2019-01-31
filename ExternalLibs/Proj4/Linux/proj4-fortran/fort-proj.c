@@ -19,44 +19,86 @@
 */
 
 #include <projects.h>
-
+#include "cfortran.h"
 
 /*
  * error string
  */
-int cfort_pj_strerrno(int err, char *err_msg)
-{
-    char* msg = pj_strerrno(err);
-    if (msg != NULL)
-        strcpy(err_msg, msg);
-    return pj_ctx_get_errno(pj_get_default_ctx());
-}
+FCALLSCFUN1(STRING,pj_strerrno,PRJF_STRERRNO,prjf_strerrno,INT);
 
 /*
  * initialise projection structure
  */
-int cfort_pj_init_plus(projPJ *prjdefn, char *args)
+#define prjf_init_STRV_A4 NUM_ELEM_ARG(2)
+int cfort_pj_init(int *prj, int nargs, int largs, char *args)
 {
-    *prjdefn = pj_init_plus(args);
-	return pj_ctx_get_errno(pj_get_default_ctx());
+  int i;
+  char **cargs;
+
+  /* copying arguments */
+  cargs = (char **) malloc(sizeof(char *)*nargs);
+  for (i=0;i<nargs;i++)
+    cargs[i] = (args+i*(largs+1));
+
+  *prj = (int) pj_init(nargs,cargs);
+  free(cargs);
+  if (!*prj)
+    return pj_errno;
+  else
+    return 0;
 }
+FCALLSCFUN4(INT,cfort_pj_init,PRJF_INIT,prjf_init, PINT, INT, INT, STRINGV);
 
 /*
  * free projection structure
  */
-int cfort_pj_free(projPJ *prjdefn)
+int cfort_pj_free(int prj)
 {
-    pj_free(*prjdefn);
-	return pj_ctx_get_errno(pj_get_default_ctx());
+  pj_free((PJ *) prj);
+  return 0;
 }
+FCALLSCFUN1(INT,cfort_pj_free, PRJF_FREE, prjf_free, INT);
 
 /*
- * transform projection
+ * forward transform
  */
-int cfort_pj_transform(projPJ *srcdefn, projPJ *dstdefn,
-                         long point_count, int point_offset,
-                         double *x, double *y, double *z)
+int cfort_pj_fwd(int prj, double lam, double phi, double *x, double *y)
 {
-    return  pj_transform(*srcdefn, *dstdefn,
-                         point_count, point_offset, x, y, z);
+  projUV data;
+
+  data.u = lam* DEG_TO_RAD;
+  data.v = phi* DEG_TO_RAD;
+  
+  data = pj_fwd(data, (PJ *) prj);
+
+  *x = data.u;
+  *y = data.v;
+
+  if (data.u==HUGE_VAL && data.v==HUGE_VAL)
+    return  pj_errno;
+  else
+    return 0;
 }
+FCALLSCFUN5(INT,cfort_pj_fwd,PRJF_FWD,prjf_fwd,INT,DOUBLE,DOUBLE,PDOUBLE,PDOUBLE);
+
+/*
+ * inverse transform
+ */
+int cfort_pj_inv(int prj, double x, double y, double *lam, double *phi)
+{
+  projUV data;
+  
+  data.u = x;
+  data.v = y;
+  
+  data = pj_inv(data, (PJ *) prj);
+
+  *lam = data.u * RAD_TO_DEG;
+  *phi = data.v * RAD_TO_DEG;
+
+  if (data.u==HUGE_VAL && data.v==HUGE_VAL)
+    return  pj_errno;
+  else
+    return 0;
+}
+FCALLSCFUN5(INT,cfort_pj_inv,PRJF_INV,prjf_inv,INT,DOUBLE,DOUBLE,PDOUBLE,PDOUBLE);

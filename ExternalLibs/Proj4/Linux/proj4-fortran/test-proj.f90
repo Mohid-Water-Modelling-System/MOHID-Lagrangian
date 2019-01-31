@@ -20,109 +20,54 @@ program testproj
   use proj4
   implicit none
 
-  integer :: status
+  integer status
   type(prj90_projection) :: proj
-  character(len=256)     :: params
-  real(kind=kind(1.0d0)) :: lam0, phi0, x0, y0,&
-                            lam1(2), phi1(2), x1(2), y1(2),&
-                            lam2(2,2), phi2(2,2), x2(2,2), y2(2,2)
-  type(prj90_projection) :: srcdefn, dstdefn
+  character(len=20), dimension(8) :: params
+  real(kind=kind(1.0d0)) :: lam0,phi0,lam1,phi1,x,y
 
-  params = '+proj=aea '//&
-           '+ellps=WGS84 '//&
-           '+lat_1=52.8333320617676 '//&
-           '+lat_2=68.1666641235352 '//&
-           '+lon_0=33.5'//&
-           '+lat_0=60.5 '//&
-           '+x_0=1903970.98145531 '//&
-           '+y_0=898179.31322811'
+  params(1) = 'proj=aea'
+  params(2) = 'ellps=WGS84'
+  params(3) = 'lat_1=52.8333320617676'
+  params(4) = 'lat_2=68.1666641235352'
+  params(5) = 'lon_0=33.5'
+  params(6) = 'lat_0=60.5'
+  params(7) = 'x_0=1903970.98145531'
+  params(8) = 'y_0=898179.31322811'
 
-  status=prj90_init(proj, params)
+  status=prj90_init(proj,params)
   if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
+     write(*,*) prj90_strerrno(status)
      stop
   end if
 
   lam0 = 7.0
   phi0 = 49.0
-  x0 = 0
-  y0 = 0
-  status = prj90_fwd_pt(proj, lam0, phi0, x0, y0)
+  status = prj90_fwd(proj,lam0,phi0,x,y)
   if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
+     write(*,*) prj90_strerrno(status)
      stop
   end if  
-  print*, lam0, phi0, x0, y0
-  lam0 = 0
-  phi0 = 0
-  status = prj90_inv(proj, x0, y0, lam0, phi0)
+  status = prj90_inv(proj,x,y,lam1,phi1)
   if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
+     write(*,*) prj90_strerrno(status)
      stop
   end if    
-  print*, x0, y0, lam0, phi0
+  write(*,*) lam0,phi0,x,y,lam1,phi1
 
-  lam1 = [59.92093, 60.92093]
-  phi1 = [71.9509, 72.9509]
-  x1 = [0, 0]
-  y1 = [0, 0] 
-  status = prj90_fwd(proj, lam1, phi1, x1, y1)
+  lam0 = 59.92093
+  phi0 = 71.9509
+  status = prj90_fwd(proj,lam0,phi0,x,y)
   if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
+     write(*,*) prj90_strerrno(status)
      stop
   end if  
-  print*, lam1, phi1, x1, y1
-  lam1 = [0, 0]
-  phi1 = [0, 0]
+  status = prj90_inv(proj,x,y,lam1,phi1)
+  if (status.ne.PRJ90_NOERR) then
+     write(*,*) prj90_strerrno(status)
+     stop
+  end if    
+  write(*,*) lam0,phi0,x,y,lam1,phi1
 
   status = prj90_free(proj)
-  if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
-     stop
-  end if    
-
-  status=prj90_init(srcdefn, params)
-  if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
-     stop
-  end if
-
-  status=prj90_init(dstdefn, LATLONG_PRJ_STR)
-  if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
-     stop
-  end if
-
-  status = prj90_transfer(srcdefn, dstdefn ,x1, y1, lam1, phi1)
-  if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
-     stop
-  end if    
-
-  print*, x1, y1, lam1*RAD2DEG, phi1*RAD2DEG
-
-  lam2 = reshape([59.92093, 60.92093, 59.92093, 60.92093] , shape(lam2))
-  phi2 = reshape([71.9509, 72.9509, 71.9509, 72.9509], shape(phi2))
-  x2 = lam2*DEG2RAD 
-  y2 = phi2*DEG2RAD 
-
-  status = prj90_transform(dstdefn, srcdefn, x2, y2)
-  if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
-     stop
-  end if    
-  print*, lam2, phi2, x2, y2
-
-  status = prj90_free(srcdefn)
-  if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
-     stop
-  end if    
-
-  status = prj90_free(dstdefn)
-  if (status.ne.PRJ90_NOERR) then
-     print*, prj90_strerrno(status)
-     stop
-  end if    
 
 end program testproj
