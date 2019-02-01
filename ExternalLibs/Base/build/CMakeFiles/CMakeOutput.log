@@ -15,7 +15,7 @@ Configured with: ../configure --build=x86_64-apple-darwin17.7.0 --prefix=/usr/lo
 Thread model: posix
 gcc version 8.2.0 (Homebrew GCC 8.2.0) 
 COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
- /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccyFxVPH.f90 -quiet -v -D__DYNAMIC__ CMakeFortranCompilerId.F -fPIC -quiet -dumpbase CMakeFortranCompilerId.F -mmacosx-version-min=10.14.0 -mtune=core2 -auxbase CMakeFortranCompilerId -version -fintrinsic-modules-path /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/finclude -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqZBZaM.s
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/f951 CMakeFortranCompilerId.F -ffixed-form -cpp=/var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccVZqj6k.f90 -quiet -v -D__DYNAMIC__ CMakeFortranCompilerId.F -fPIC -quiet -dumpbase CMakeFortranCompilerId.F -mmacosx-version-min=10.14.0 -mtune=core2 -auxbase CMakeFortranCompilerId -version -fintrinsic-modules-path /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/finclude -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccINCCkr.s
 GNU Fortran (Homebrew GCC 8.2.0) version 8.2.0 (x86_64-apple-darwin17.7.0)
 	compiled by GNU C version 8.2.0, GMP version 6.1.2, MPFR version 4.0.1, MPC version 1.1.0, isl version isl-0.20-GMP
 
@@ -35,21 +35,21 @@ GNU Fortran2008 (Homebrew GCC 8.2.0) version 8.2.0 (x86_64-apple-darwin17.7.0)
 
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0'  '-shared-libgcc' '-mtune=core2'
- as -arch x86_64 -v -force_cpusubtype_ALL -mmacosx-version-min=10.14 -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqZBZaM.s
+ as -arch x86_64 -v -force_cpusubtype_ALL -mmacosx-version-min=10.14 -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccCJQtov.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccINCCkr.s
 Apple LLVM version 10.0.0 (clang-1000.10.44.4)
 Target: x86_64-apple-darwin18.2.0
 Thread model: posix
 InstalledDir: /Library/Developer/CommandLineTools/usr/bin
- "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1as -triple x86_64-apple-macosx10.14.0 -filetype obj -main-file-name ccqZBZaM.s -target-cpu penryn -fdebug-compilation-dir /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/3.13.2/CompilerIdFortran -dwarf-debug-producer Apple LLVM version 10.0.0 (clang-1000.10.44.4) -dwarf-version=4 -mrelocation-model pic -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccqZBZaM.s
+ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1as -triple x86_64-apple-macosx10.14.0 -filetype obj -main-file-name ccINCCkr.s -target-cpu penryn -fdebug-compilation-dir /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/3.13.2/CompilerIdFortran -dwarf-debug-producer Apple LLVM version 10.0.0 (clang-1000.10.44.4) -dwarf-version=4 -mrelocation-model pic -o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccCJQtov.o /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccINCCkr.s
 Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec
 rename spec lib to liborig
 COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0'  '-shared-libgcc' '-mtune=core2'
 COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/
 LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../
 COLLECT_GCC_OPTIONS='-v' '-mmacosx-version-min=10.14.0'  '-shared-libgcc' '-mtune=core2'
- /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccCJQtov.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
 collect2 version 8.2.0
-/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.14.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.14.0 -weak_reference_mismatches non-weak -o a.out -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccCJQtov.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
 @(#)PROGRAM:ld  PROJECT:ld64-409.12
 BUILD 17:47:51 Sep 25 2018
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
@@ -61,7 +61,7 @@ Library search paths:
 Framework search paths:
 	/Library/Frameworks/
 	/System/Library/Frameworks/
- /usr/bin/nm -n /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccEGkcYv.o
+ /usr/bin/nm -n /var/folders/7n/fq_rr_vn43j2ggg2sycs70v00000gn/T//ccCJQtov.o
 
 
 Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "a.out"
@@ -71,26 +71,26 @@ The Fortran compiler identification is GNU, found in "/Users/rbc-laptop/Document
 Determining if the Fortran compiler works passed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_319b0/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_319b0.dir/build.make CMakeFiles/cmTC_319b0.dir/build
-Building Fortran object CMakeFiles/cmTC_319b0.dir/testFortranCompiler.f.o
-/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_319b0.dir/testFortranCompiler.f.o
-Linking Fortran executable cmTC_319b0
-/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_319b0.dir/link.txt --verbose=1
-/usr/local/bin/gfortran      -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_319b0.dir/testFortranCompiler.f.o  -o cmTC_319b0 
+Run Build Command:"/usr/bin/make" "cmTC_0c97c/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0c97c.dir/build.make CMakeFiles/cmTC_0c97c.dir/build
+Building Fortran object CMakeFiles/cmTC_0c97c.dir/testFortranCompiler.f.o
+/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_0c97c.dir/testFortranCompiler.f.o
+Linking Fortran executable cmTC_0c97c
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c97c.dir/link.txt --verbose=1
+/usr/local/bin/gfortran      -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_0c97c.dir/testFortranCompiler.f.o  -o cmTC_0c97c 
 
 
 Detecting Fortran compiler ABI info compiled with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d6670/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d6670.dir/build.make CMakeFiles/cmTC_d6670.dir/build
-Building Fortran object CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o
-/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o
-Linking Fortran executable cmTC_d6670
-/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d6670.dir/link.txt --verbose=1
-/usr/local/bin/gfortran   -v -Wl,-v   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o  -o cmTC_d6670 
-Driving: /usr/local/bin/gfortran -v -Wl,-v -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -o cmTC_d6670 -mmacosx-version-min=10.14.0 -asm_macosx_version_min=10.14 -l gfortran -shared-libgcc
+Run Build Command:"/usr/bin/make" "cmTC_c478b/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_c478b.dir/build.make CMakeFiles/cmTC_c478b.dir/build
+Building Fortran object CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o
+/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o
+Linking Fortran executable cmTC_c478b
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c478b.dir/link.txt --verbose=1
+/usr/local/bin/gfortran   -v -Wl,-v   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o  -o cmTC_c478b 
+Driving: /usr/local/bin/gfortran -v -Wl,-v -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o -o cmTC_c478b -mmacosx-version-min=10.14.0 -asm_macosx_version_min=10.14 -l gfortran -shared-libgcc
 Using built-in specs.
 COLLECT_GCC=/usr/local/bin/gfortran
 COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper
@@ -100,13 +100,13 @@ Thread model: posix
 gcc version 8.2.0 (Homebrew GCC 8.2.0) 
 Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec
 rename spec lib to liborig
-COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
+COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_c478b' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
 COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/
 LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../
-COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
- /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_d6670 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_c478b' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2'
+ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_c478b -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
 collect2 version 8.2.0
-/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_d6670 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
+/usr/bin/ld -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_c478b -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v
 @(#)PROGRAM:ld  PROJECT:ld64-409.12
 BUILD 17:47:51 Sep 25 2018
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
@@ -119,21 +119,21 @@ Library search paths:
 	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib
 Framework search paths:
 	/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/
- /usr/bin/nm -n CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o
+ /usr/bin/nm -n CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o
 
 
 Parsed Fortran implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_d6670/fast"]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d6670.dir/build.make CMakeFiles/cmTC_d6670.dir/build]
-  ignore line: [Building Fortran object CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o]
-  ignore line: [/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o]
-  ignore line: [Linking Fortran executable cmTC_d6670]
-  ignore line: [/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d6670.dir/link.txt --verbose=1]
-  ignore line: [/usr/local/bin/gfortran   -v -Wl,-v   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o  -o cmTC_d6670 ]
-  ignore line: [Driving: /usr/local/bin/gfortran -v -Wl,-v -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -o cmTC_d6670 -mmacosx-version-min=10.14.0 -asm_macosx_version_min=10.14 -l gfortran -shared-libgcc]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_c478b/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_c478b.dir/build.make CMakeFiles/cmTC_c478b.dir/build]
+  ignore line: [Building Fortran object CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /usr/local/Cellar/cmake/3.13.2/share/cmake/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [Linking Fortran executable cmTC_c478b]
+  ignore line: [/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c478b.dir/link.txt --verbose=1]
+  ignore line: [/usr/local/bin/gfortran   -v -Wl,-v   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o  -o cmTC_c478b ]
+  ignore line: [Driving: /usr/local/bin/gfortran -v -Wl,-v -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o -o cmTC_c478b -mmacosx-version-min=10.14.0 -asm_macosx_version_min=10.14 -l gfortran -shared-libgcc]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/local/bin/gfortran]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/lto-wrapper]
@@ -143,11 +143,11 @@ Parsed Fortran implicit link information from above output:
   ignore line: [gcc version 8.2.0 (Homebrew GCC 8.2.0) ]
   ignore line: [Reading specs from /usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../libgfortran.spec]
   ignore line: [rename spec lib to liborig]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2']
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_c478b' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2']
   ignore line: [COMPILER_PATH=/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/]
   ignore line: [LIBRARY_PATH=/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/:/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../../]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_d6670' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2']
-  link line: [ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_d6670 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-isysroot' '/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk' '-o' 'cmTC_c478b' '-mmacosx-version-min=10.14.0' '-asm_macosx_version_min=10.14' '-shared-libgcc' '-mtune=core2']
+  link line: [ /usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2 -dynamic -arch x86_64 -macosx_version_min 10.14.0 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk -weak_reference_mismatches non-weak -o cmTC_c478b -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0 -L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../.. -v CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o -lgfortran -no_compact_unwind -lSystem -lgcc_ext.10.5 -lgcc -lquadmath -lm -lgcc_ext.10.5 -lgcc -lSystem -v]
     arg [/usr/local/Cellar/gcc/8.2.0/libexec/gcc/x86_64-apple-darwin17.7.0/8.2.0/collect2] ==> ignore
     arg [-dynamic] ==> ignore
     arg [-arch] ==> ignore
@@ -159,11 +159,11 @@ Parsed Fortran implicit link information from above output:
     arg [-weak_reference_mismatches] ==> ignore
     arg [non-weak] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_d6670] ==> ignore
+    arg [cmTC_c478b] ==> ignore
     arg [-L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0] ==> dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0]
     arg [-L/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..] ==> dir [/usr/local/Cellar/gcc/8.2.0/lib/gcc/8/gcc/x86_64-apple-darwin17.7.0/8.2.0/../../..]
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTC_d6670.dir/CMakeFortranCompilerABI.F.o] ==> ignore
+    arg [CMakeFiles/cmTC_c478b.dir/CMakeFortranCompilerABI.F.o] ==> ignore
     arg [-lgfortran] ==> lib [gfortran]
     arg [-no_compact_unwind] ==> ignore
     arg [-lSystem] ==> lib [System]
@@ -193,12 +193,12 @@ Parsed Fortran implicit link information from above output:
 Determining if the Fortran compiler supports Fortran 90 passed with the following output:
 Change Dir: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_13850/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_13850.dir/build.make CMakeFiles/cmTC_13850.dir/build
-Building Fortran object CMakeFiles/cmTC_13850.dir/testFortranCompilerF90.f90.o
-/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_13850.dir/testFortranCompilerF90.f90.o
-Linking Fortran executable cmTC_13850
-/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_13850.dir/link.txt --verbose=1
-/usr/local/bin/gfortran      -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_13850.dir/testFortranCompilerF90.f90.o  -o cmTC_13850 
+Run Build Command:"/usr/bin/make" "cmTC_e1a98/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e1a98.dir/build.make CMakeFiles/cmTC_e1a98.dir/build
+Building Fortran object CMakeFiles/cmTC_e1a98.dir/testFortranCompilerF90.f90.o
+/usr/local/bin/gfortran   -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk   -c /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Base/build/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_e1a98.dir/testFortranCompilerF90.f90.o
+Linking Fortran executable cmTC_e1a98
+/usr/local/Cellar/cmake/3.13.2/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e1a98.dir/link.txt --verbose=1
+/usr/local/bin/gfortran      -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/cmTC_e1a98.dir/testFortranCompilerF90.f90.o  -o cmTC_e1a98 
 
 

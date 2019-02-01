@@ -1,6 +1,6 @@
 #! /bin/sh
 # Generated automatically by config.status (netcdf) 4.4.1.1
-# Libtool was configured on host Ricardos-MBP.lan:
+# Libtool was configured on host Ricardos-MacBook-Pro.local:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 
 # Provide generalized library-building support services.

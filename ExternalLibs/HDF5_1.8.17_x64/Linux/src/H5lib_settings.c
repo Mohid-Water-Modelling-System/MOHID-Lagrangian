@@ -17,8 +17,8 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * Created:		Jan 29, 2019
- *			Ricardo Canelas <rbc-laptop@Ricardos-MBP.lan>
+ * Created:		Feb  1, 2019
+ *			Ricardo Canelas <rbc-laptop@Ricardos-MacBook-Pro.local>
  *
  * Purpose:		This machine-generated source code contains
  *			information about the library build configuration
@@ -38,11 +38,11 @@ char H5libhdf5_settings[]=
 	"General Information:\n"
 	"-------------------\n"
 	"		   HDF5 Version: 1.8.17\n"
-	"		  Configured on: Tue Jan 29 17:52:29 GMT 2019\n"
-	"		  Configured by: rbc-laptop@Ricardos-MBP.lan\n"
+	"		  Configured on: Fri Feb  1 15:09:19 GMT 2019\n"
+	"		  Configured by: rbc-laptop@Ricardos-MacBook-Pro.local\n"
 	"		 Configure mode: production\n"
 	"		    Host system: i386-apple-darwin18.2.0\n"
-	"	      Uname information: Darwin Ricardos-MBP.lan 18.2.0 Darwin Kernel Version 18.2.0: Mon Nov 12 20:24:46 PST 2018; root:xnu-4903.231.4~2/RELEASE_X86_64 x86_64\n"
+	"	      Uname information: Darwin Ricardos-MacBook-Pro.local 18.2.0 Darwin Kernel Version 18.2.0: Mon Nov 12 20:24:46 PST 2018; root:xnu-4903.231.4~2/RELEASE_X86_64 x86_64\n"
 	"		       Byte sex: little-endian\n"
 	"		      Libraries: static, shared\n"
 	"	     Installation point: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5\n"

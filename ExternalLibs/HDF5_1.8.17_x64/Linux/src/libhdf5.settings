@@ -4,11 +4,11 @@
 General Information:
 -------------------
 		   HDF5 Version: 1.8.17
-		  Configured on: Tue Jan 29 17:52:29 GMT 2019
-		  Configured by: rbc-laptop@Ricardos-MBP.lan
+		  Configured on: Fri Feb  1 15:09:19 GMT 2019
+		  Configured by: rbc-laptop@Ricardos-MacBook-Pro.local
 		 Configure mode: production
 		    Host system: i386-apple-darwin18.2.0
-	      Uname information: Darwin Ricardos-MBP.lan 18.2.0 Darwin Kernel Version 18.2.0: Mon Nov 12 20:24:46 PST 2018; root:xnu-4903.231.4~2/RELEASE_X86_64 x86_64
+	      Uname information: Darwin Ricardos-MacBook-Pro.local 18.2.0 Darwin Kernel Version 18.2.0: Mon Nov 12 20:24:46 PST 2018; root:xnu-4903.231.4~2/RELEASE_X86_64 x86_64
 		       Byte sex: little-endian
 		      Libraries: static, shared
 	     Installation point: /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5

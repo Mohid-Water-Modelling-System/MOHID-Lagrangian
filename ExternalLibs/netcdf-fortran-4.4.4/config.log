@@ -30,8 +30,8 @@ Kernel configured for up to 4 processors.
 Processor type: x86_64h (Intel x86-64h Haswell)
 Processors active: 0 1 2 3
 Primary memory available: 8.00 gigabytes
-Default processor set: 353 tasks, 1625 threads, 4 processors
-Load average: 1.82, Mach factor: 2.17
+Default processor set: 367 tasks, 1744 threads, 4 processors
+Load average: 2.96, Mach factor: 1.74
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
@@ -775,7 +775,7 @@ configure:20313: checking for library containing nc_open
 configure:20344: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols for architecture x86_64:
   "_nc_open", referenced from:
-      _main in conftest-d4d4e0.o
+      _main in conftest-b0ad41.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:20344: $? = 1
@@ -846,7 +846,7 @@ configure:20374: checking for nc_set_log_level
 configure:20374: gcc -o conftest -g -O2   conftest.c -lnetcdf  >&5
 Undefined symbols for architecture x86_64:
   "_nc_set_log_level", referenced from:
-      _main in conftest-f98aa5.o
+      _main in conftest-580f07.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:20374: $? = 1
@@ -936,7 +936,7 @@ configure:20374: checking for nc_use_parallel_enabled
 configure:20374: gcc -o conftest -g -O2   conftest.c -lnetcdf  >&5
 Undefined symbols for architecture x86_64:
   "_nc_use_parallel_enabled", referenced from:
-      _main in conftest-5dfde0.o
+      _main in conftest-caaa72.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:20374: $? = 1
@@ -1317,7 +1317,7 @@ configure:20864: checking for _doprnt
 configure:20864: gcc -o conftest -g -O2   conftest.c -lnetcdf  >&5
 Undefined symbols for architecture x86_64:
   "__doprnt", referenced from:
-      _main in conftest-a7cd74.o
+      _main in conftest-0d3aac.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:20864: $? = 1
