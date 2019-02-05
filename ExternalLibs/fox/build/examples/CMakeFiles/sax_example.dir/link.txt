@@ -1,1 +1,0 @@
-/usr/local/bin/gfortran     -O3 -DNDEBUG -O3 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk CMakeFiles/sax_example.dir/sax_example.f90.o  -o ../bin/sax_example ../lib/libFoX_sax.a ../lib/libFoX_common.a ../lib/libFoX_utils.a ../lib/libFoX_fsys.a 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libexpr_bug.a  CMakeFiles/expr_bug.dir/associated_bug.f90.o
-/usr/bin/ranlib libexpr_bug.a

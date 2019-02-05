@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libFoX_utils.a  CMakeFiles/FoX_utils.dir/FoX_utils.f90.o CMakeFiles/FoX_utils.dir/fox_m_utils_mtprng.F90.o CMakeFiles/FoX_utils.dir/fox_m_utils_uri.F90.o CMakeFiles/FoX_utils.dir/fox_m_utils_uuid.F90.o
-/usr/bin/ranlib ../lib/libFoX_utils.a

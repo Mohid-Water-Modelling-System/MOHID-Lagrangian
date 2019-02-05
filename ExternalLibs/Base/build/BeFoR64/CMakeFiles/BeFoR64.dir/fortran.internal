@@ -1,4 +1,0 @@
-# The fortran modules provided by this target.
-provides
- befor64.mod
- befor64_pack_data_m.mod

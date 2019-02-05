@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libfortran-csv-module.a  CMakeFiles/fortran-csv-module.dir/csv_kinds.f90.o CMakeFiles/fortran-csv-module.dir/csv_module.F90.o CMakeFiles/fortran-csv-module.dir/csv_parameters.f90.o CMakeFiles/fortran-csv-module.dir/csv_utilities.f90.o
-/usr/bin/ranlib ../lib/libfortran-csv-module.a
