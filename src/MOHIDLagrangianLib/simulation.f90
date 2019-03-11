@@ -493,6 +493,7 @@
     outext='Simulation ended, freeing resources. See you next time'
     call Log%put(outext)
     call Log%finalize()
+    call self%OutputStreamer%finalize()
     end subroutine closeSimulation
 
 

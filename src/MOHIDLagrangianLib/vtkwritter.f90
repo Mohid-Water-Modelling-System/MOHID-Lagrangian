@@ -32,10 +32,16 @@
     type :: vtkwritter_class    !< VTK writter class
         integer :: numVtkFiles      !< number of vtk files written
         type(string) :: formatType  !< format of the data to write on the VTK xml file - ascii, raw, binary
+        logical :: indexerOpen = .false.
+        integer :: indexerUnit = 99
     contains
     procedure :: initialize => initVTKwritter
+    procedure :: finalize => closeVTKwriter
     procedure :: Domain
     procedure :: TracerSerial
+    procedure, private :: OpenIndexVTKFile
+    procedure, private :: CloseIndexVTKFile
+    procedure, private :: IndexVTKFile
     end type vtkwritter_class
 
     !Public access vars
@@ -53,6 +59,16 @@
     self%numVtkFiles = 0
     self%formatType = 'raw'
     end subroutine initVTKwritter
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Closes a VTK writer object
+    !---------------------------------------------------------------------------
+    subroutine closeVTKwriter(self)
+    class(vtkwritter_class), intent(inout) :: self
+    call self%CloseIndexVTKFile()
+    end subroutine closeVTKwriter
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -67,7 +83,7 @@
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
 
     type(vtk_file) :: vtkfile
-    type(string) :: fullfilename
+    type(string) :: fullfilename, extfilename
     type(string) :: outext
     integer :: error, i
     integer :: np
@@ -76,10 +92,10 @@
     integer(I4P), dimension(1:nc) :: offset     !< Cells offset
     integer(I4P), dimension(:), allocatable :: connect    !< Connectivity
 
-    fullfilename = filename%chars()//'.vtu'
-    outext = '->Writting output file '//fullfilename
+    extfilename = filename%chars()//'.vtu'
+    outext = '->Writting output file '//extfilename
     call Log%put(outext)
-    fullfilename = Globals%Names%outpath//'/'//fullfilename
+    fullfilename = Globals%Names%outpath//'/'//extfilename
 
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     !Write the data of each block
@@ -100,8 +116,68 @@
     end do
     error = vtkfile%finalize()
     self%numVtkFiles = self%numVtkFiles + 1
+    
+    if (self%numVtkFiles /= 1) call self%IndexVTKFile(extfilename, Globals%SimTime%CurrTime)
 
     end subroutine TracerSerial
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> indexes a given file with a correct time stamp in a paraview readable xml format.
+    !> @param[in] self, filename, timestap
+    !---------------------------------------------------------------------------
+    subroutine IndexVTKFile(self, filename, timestamp)
+    class(vtkwritter_class), intent(inout) :: self
+    type(string), intent(in) :: filename
+    real(prec), intent(in) :: timestamp
+    type(string) :: outext, temp
+    
+    if (.not. self%indexerOpen) then
+        call self%OpenIndexVTKFile()
+    end if
+    temp = timestamp
+    outext = '<DataSet timestep="'//temp//'" file="'//filename//'"/>'
+    write(self%indexerUnit,"(A)") outext%chars()
+    
+    end subroutine IndexVTKFile
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Open vtu file indexer.
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine OpenIndexVTKFile(self)
+    class(vtkwritter_class), intent(inout) :: self
+    type(string) :: outext, indexerFilename
+    
+    indexerFilename = Globals%Names%outpath//Globals%Names%casename//'.pvd'
+    open(unit=self%indexerUnit,file=indexerFilename%chars(),action="write",status="replace")    
+    outext = '<VTKFile type="Collection" version="0.1" byte_order="LittleEndian">'//new_line('a')
+    outext = outext//'  <Collection>'    
+    write(self%indexerUnit,"(A)") outext%chars()    
+    self%indexerOpen = .true.
+    
+    end subroutine OpenIndexVTKFile
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Close vtu file indexer.
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine CloseIndexVTKFile(self)
+    class(vtkwritter_class), intent(inout) :: self
+    type(string) :: outext
+    if (self%indexerOpen) then
+        outext = '  </Collection>'//new_line('a')
+        outext = outext//'</VTKFile>'
+        write(self%indexerUnit,"(A)") outext%chars()
+        close(self%indexerUnit)
+    end if    
+    end subroutine CloseIndexVTKFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

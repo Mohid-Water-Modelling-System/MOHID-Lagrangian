@@ -37,6 +37,7 @@
     procedure :: initialize => initOutputStreamer
     procedure :: WriteDomain
     procedure :: WriteStepSerial
+    procedure :: finalize => closeOutputStreamer
     procedure, private :: CheckWriteTime
     end type output_streamer_class
 
@@ -112,5 +113,17 @@
         call self%vtkWritter%initialize()
     end if
     end subroutine initOutputStreamer
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Closes the Output writer object
+    !---------------------------------------------------------------------------
+    subroutine closeOutputStreamer(self)
+    class(output_streamer_class), intent(inout) :: self    
+    if (self%OutputFormat == 2) then !VTK file selected
+        call self%vtkWritter%finalize()
+    end if
+    end subroutine closeOutputStreamer
 
     end module simulation_output_streamer_mod
