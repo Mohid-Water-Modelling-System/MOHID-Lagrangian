@@ -93,7 +93,7 @@
     call Log%put(outext,.false.)
 
     !main time cycle
-    do while (Globals%SimTime .lt. Globals%Parameters%TimeMax)
+    do while (Globals%SimTime%CurrTime .lt. Globals%Parameters%TimeMax)
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
@@ -121,8 +121,8 @@
         !Clean AoT
         call self%BlocksCleanAoT()
         !update Simulation time
-        if (Globals%Sim%getnumdt() /= 1 ) Globals%SimTime = Globals%SimTime + Globals%SimDefs%dt
-        !print*, 'Global time is ', Globals%SimTime
+        if (Globals%Sim%getnumdt() /= 1 ) call Globals%SimTime%setCurrDateTime(Globals%SimDefs%dt)
+        !print*, 'Global time is ', Globals%SimTime%CurrTime
         !print*, 'Can we continue?'
         !read (*,*)
         call self%timerTotalRun%Toc()
@@ -211,7 +211,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to activate and deactivate Sources based on the
-    !> Global%SimTime
+    !> Globals%SimTime%CurrTime
     !---------------------------------------------------------------------------
     subroutine ToggleSources(self)
     implicit none
@@ -231,7 +231,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to emitt tracers at current SimTime
+    !> Simulation method to call the Blocks to emitt tracers at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksEmitt(self)
     implicit none
@@ -248,7 +248,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to distribute Tracers at
-    !> current SimTime
+    !> current Time
     !---------------------------------------------------------------------------
     subroutine BlocksDistribute(self)
     implicit none
@@ -266,7 +266,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to consolidate the Tracer array at
-    !> current SimTime
+    !> current Time
     !---------------------------------------------------------------------------
     subroutine BlocksConsolidateArrays(self)
     implicit none
@@ -287,7 +287,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to build their Array of
-    !> Tracers (AoT) from the Tracer list at current SimTime
+    !> Tracers (AoT) from the Tracer list at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksTracersToAoT(self)
     implicit none
@@ -308,7 +308,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to run the Solver at
-    !> current SimTime
+    !> current Time
     !---------------------------------------------------------------------------
     subroutine BlocksRunSolver(self)
     implicit none
@@ -329,7 +329,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to print their Array of
-    !> Tracers (AoT) back to the Tracer objects on the list at current SimTime
+    !> Tracers (AoT) back to the Tracer objects on the list at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksAoTtoTracers(self)
     implicit none
@@ -350,7 +350,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to clean their Array of
-    !> Tracers (AoT) at current SimTime
+    !> Tracers (AoT) at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksCleanAoT(self)
     implicit none
@@ -371,7 +371,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the output streamer writting methods at
-    !> current SimTime
+    !> current Time
     !---------------------------------------------------------------------------
     subroutine OutputStepData(self)
     implicit none

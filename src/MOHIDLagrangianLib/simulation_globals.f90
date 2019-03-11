@@ -123,18 +123,30 @@
     contains
     procedure, private :: buildvars
     end type var_names_t
+    
+    type :: sim_time_t
+        real(prec)      :: TimeMax = MV              !< Simulation duration (s)
+        type(datetime)  :: StartDate                 !< Start date of the simulation
+        type(datetime)  :: EndDate                   !< End date of the simulation
+        type(datetime)  :: CurrDate                  !< Current date of the simulation
+        real(prec)      :: CurrTime = 0              !< Current time of the simulation (s)
+    contains
+    procedure :: print => printDateTime
+    procedure :: setCurrDateTime
+    end type sim_time_t
 
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
-        real(prec)          :: SimTime
         type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
         type(var_names_t)   :: Var
+        type(sim_time_t)    :: SimTime
     contains
     procedure :: initialize => setdefaults
+    procedure :: setTimeDate
     end type globals_class
 
     !Simulation variables
@@ -165,7 +177,7 @@
     self%Parameters%numOPMthreads = OMPManager%getThreads()
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%TimeOut = MV
-    self%Parameters%StartTime = datetime()
+    self%SimTime%StartDate = datetime()
     self%Parameters%EndTime = datetime()
     self%Parameters%OutputFormat = 2
     self%Parameters%OutputFormatIndexes = [1,2]
@@ -197,7 +209,7 @@
     end if
     self%Names%casename = 'not_set'
     !global time
-    self%SimTime = 0.0
+    self%SimTime%CurrTime = 0.0
     !global counters
     self%Sim%numdt = 0
     self%Sim%numoutfile = 0
@@ -231,8 +243,59 @@
     self%depth   = 'depth'
     self%time    = 'time'
     end subroutine buildvars
+        
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> initializes time stamp and date stamp variables
+    !---------------------------------------------------------------------------
+    subroutine setTimeDate(self)
+    implicit none
+    class(globals_class), intent(inout) :: self
+    self%SimTime%TimeMax = self%Parameters%TimeMax
+    self%SimTime%StartDate = self%Parameters%StartTime
+    self%SimTime%EndDate = self%Parameters%EndTime
+    self%SimTime%CurrDate = self%SimTime%StartDate
+    self%SimTime%CurrTime = 0
+    end subroutine setTimeDate
     
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> sets the current time stamp and date stamp given a dt increment
+    !---------------------------------------------------------------------------
+    subroutine setCurrDateTime(self, dt)
+    implicit none
+    class(sim_time_t), intent(inout) :: self
+    real(prec), intent(in) :: dt
+    type(timedelta) :: step
+    step = timedelta(seconds=floor(dt), milliseconds=floor((dt-floor(dt))*1000))
+    self%CurrDate = self%CurrDate + step
+    self%CurrTime = self%CurrTime + dt
+    end subroutine setCurrDateTime
     
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> prints date & time information.
+    !---------------------------------------------------------------------------
+    subroutine printDateTime(self)
+    implicit none
+    class(sim_time_t), intent(in) :: self
+    type(string) :: outext
+    type(string) :: temp_str
+    character(len=23) :: temp_char
+    temp_char = self%StartDate%isoformat(' ')
+    temp_str = temp_char
+    outext = outext//'      Start date = '//temp_str//new_line('a')
+    temp_char = self%EndDate%isoformat(' ')
+    temp_str = temp_char
+    outext = outext//'       End date   = '//temp_str//new_line('a')
+    temp_str=self%TimeMax
+    outext = outext//'       Simulation will run for '//temp_str//' s'
+    call Log%put(outext,.false.)
+    end subroutine printDateTime
+        
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -456,14 +519,6 @@
     outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
     temp_str=self%TimeOut
     outext = outext//'       TimeOut = '//temp_str//' Hz'//new_line('a')
-    temp_char = self%StartTime%isoformat(' ')
-    temp_str = temp_char
-    outext = outext//'       StartTime = '//temp_str//new_line('a')
-    temp_char = self%EndTime%isoformat(' ')
-    temp_str = temp_char
-    outext = outext//'       EndTime   = '//temp_str//new_line('a')
-    temp_str=self%TimeMax
-    outext = outext//'       Simulation will run for '//temp_str//' s'//new_line('a')
     outext = outext//'       Output file format is '//self%OutputFormatNames(self%OutputFormat)
     call Log%put(outext,.false.)
     end subroutine
@@ -667,6 +722,6 @@
             '       '//temp_str(1)//' X '//temp_str(2)
     end if
     call Log%put(outext,.false.)
-    end subroutine
+    end subroutine printsimdefs
 
     end module simulation_globals_mod

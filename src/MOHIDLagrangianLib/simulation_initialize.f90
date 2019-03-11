@@ -391,6 +391,9 @@
     enddo
     call Globals%Parameters%check()
     call Globals%Parameters%print()
+    
+    call Globals%setTimeDate()
+    call Globals%SimTime%print()
 
     end subroutine init_parameters
 

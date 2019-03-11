@@ -62,7 +62,7 @@
             call self%vtkWritter%TracerSerial(filename, blocks)
         end if
         call Globals%Sim%increment_numoutfile()
-        self%LastWriteTime = Globals%SimTime
+        self%LastWriteTime = Globals%SimTime%CurrTime
     end if
     end subroutine WriteStepSerial
 
@@ -94,8 +94,8 @@
     logical function CheckWriteTime(self)
     class(output_streamer_class), intent(inout) :: self
     CheckWriteTime = .false.
-    if ((Globals%SimTime - self%LastWriteTime) >= 1.0/self%OutputFrequency) CheckWriteTime = .true.
-    if (Globals%SimTime == 0.0) CheckWriteTime = .true.
+    if ((Globals%SimTime%CurrTime - self%LastWriteTime) >= 1.0/self%OutputFrequency) CheckWriteTime = .true.
+    if (Globals%SimTime%CurrTime == 0.0) CheckWriteTime = .true.
     end function CheckWriteTime
 
     !---------------------------------------------------------------------------
@@ -107,7 +107,7 @@
     class(output_streamer_class), intent(inout) :: self
     self%OutputFormat = Globals%Parameters%OutputFormat
     self%OutputFrequency = Globals%Parameters%TimeOut
-    self%LastWriteTime = Globals%SimTime
+    self%LastWriteTime = Globals%SimTime%CurrTime
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
     end if

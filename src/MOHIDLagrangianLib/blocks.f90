@@ -134,7 +134,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to activate and deactivate the sources on this block, based on
-    !> Globa%SimTime
+    !> Globals%SimTime%CurrTime
     !---------------------------------------------------------------------------
     subroutine ToogleBlockSources(self)
     implicit none
@@ -148,11 +148,11 @@
         aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
-            if (Globals%SimTime <= aSource%par%stoptime) then       !SimTime smaller than Source end time
-                if (Globals%SimTime >= aSource%par%startime) then   !SimTime larger than source start time
+            if (Globals%SimTime%CurrTime <= aSource%par%stoptime) then       !CurrTime smaller than Source end time
+                if (Globals%SimTime%CurrTime >= aSource%par%startime) then   !CurrTime larger than source start time
                     aSource%now%active = .true.
                 end if
-            else            !SimTime larger than Source end time
+            else            !CurrTime larger than Source end time
                 aSource%now%active = .false.
             end if
             class default
@@ -274,7 +274,7 @@
     if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
         if (allocated(self%Background)) then    !There are Backgrounds in this Block
             !print*, 'From Block ', self%id
-            call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime, Globals%SimDefs%dt)
+            call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime%CurrTime, Globals%SimDefs%dt)
         end if
     end if
     end subroutine RunSolver
