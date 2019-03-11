@@ -1,0 +1,13 @@
+prefix=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+ccompiler=gcc
+
+Name: netcdf
+Description: NetCDF Client Library for C
+URL: http://www.unidata.ucar.edu/netcdf
+Version: 4.4.1.1
+Libs: -L${libdir} -lnetcdf
+Cflags: -I${includedir}
+

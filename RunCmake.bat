@@ -1,7 +1,7 @@
 @echo off
 cls
 
-set build_dir=build_win
+set build_dir=build
 
 echo ----------------------------------------------------------------------
 echo       Generating build solution for MOHID Lagrangian

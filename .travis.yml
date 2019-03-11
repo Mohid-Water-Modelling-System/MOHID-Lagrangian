@@ -10,7 +10,7 @@ before_install:
 before_script:
   - sudo ln -fs /usr/bin/gfortran-7 /usr/bin/gfortran && gfortran --version
   - export FC=gfortran
-  - cd Libs  
+  - cd ExternalLibs  
   - ./MakeLibraries.sh
   - cd ..
   - ./MakeMOHIDLagrangian.sh

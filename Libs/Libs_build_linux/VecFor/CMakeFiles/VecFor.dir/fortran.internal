@@ -1,6 +1,0 @@
-# The fortran modules provided by this target.
-provides
- vecfor
- vecfor_r16p
- vecfor_r4p
- vecfor_r8p

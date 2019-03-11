@@ -8,7 +8,7 @@ set dirout=%name%_out
 
 rem "executables" are renamed and called from their directory
 
-set tools=../../build_win/bin/RELEASE
+set tools=../../build/bin/RELEASE
 set mohidlagrangian="%tools%/MOHIDLagrangian.exe"
 
 rem "dirout" is created to store results or it is cleaned if it already exists

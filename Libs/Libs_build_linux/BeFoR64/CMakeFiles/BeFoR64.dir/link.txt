@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libBeFoR64.a  CMakeFiles/BeFoR64.dir/befor64.F90.o CMakeFiles/BeFoR64.dir/befor64_pack_data_m.F90.o
-/usr/bin/ranlib ../lib/libBeFoR64.a
