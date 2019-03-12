@@ -199,7 +199,7 @@
     self%SimDefs%blocksize = 0.0
     self%SimDefs%numblocksx = MV
     self%SimDefs%numblocksy = MV
-    self%SimDefs%numblocks = OMPManager%getThreads()  !placeholder number, should be numThreads or numProcesses or computed by user dimensions
+    self%SimDefs%numblocks = OMPManager%getThreads()
     self%SimDefs%Dp = MV
     self%SimDefs%dt = MV
     self%SimDefs%Pointmin = 0.0
@@ -431,7 +431,7 @@
         sizem=sizeof(self%Integrator)
     elseif(parmkey%chars()=="Threads") then
         if (parmvalue /= 'auto') then
-            self%numOPMthreads=parmvalue%to_number(kind=1._R4P)
+            self%numOPMthreads=parmvalue%to_number(kind=1_I1P)
             call OMPManager%setThreads(self%numOPMthreads)
         end if
         sizem=sizeof(self%WarmUpTime)

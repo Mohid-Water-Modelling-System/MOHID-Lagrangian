@@ -434,6 +434,9 @@
     call init_sources(case_node)
     call init_properties(case_node)
 
+    !setting the number of blocks to the correct ammount of selected threads
+    Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads
+
     call XMLReader%closeFile(xmldoc)
 
     end subroutine InitFromXml
