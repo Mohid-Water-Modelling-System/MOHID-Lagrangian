@@ -136,7 +136,7 @@
     contains
     procedure :: print => printDateTime
     procedure :: setCurrDateTime
-    !procedure :: getTimeStamp
+    procedure :: getDateTimeStamp
     end type sim_time_t
 
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
@@ -283,6 +283,19 @@
     self%CurrDate = self%CurrDate + step
     self%CurrTime = self%CurrTime + dt
     end subroutine setCurrDateTime
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the time stamp for the current time/date
+    !---------------------------------------------------------------------------
+    real(prec) function getDateTimeStamp(self)
+    class(sim_time_t), intent(inout) :: self
+    type(timedelta) :: step, day
+    day = timedelta(days=1)
+    step = self%CurrDate - self%BaseDateTime
+    getDateTimeStamp = step%total_seconds()/day%total_seconds()
+    end function getDateTimeStamp
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
