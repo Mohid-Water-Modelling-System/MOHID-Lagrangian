@@ -117,7 +117,7 @@
     error = vtkfile%finalize()
     self%numVtkFiles = self%numVtkFiles + 1
     
-    if (self%numVtkFiles /= 1) call self%IndexVTKFile(extfilename, Globals%SimTime%CurrTime)
+    if (self%numVtkFiles /= 1) call self%IndexVTKFile(extfilename, Globals%SimTime%getDateTimeStamp())
 
     end subroutine TracerSerial
     
