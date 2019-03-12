@@ -29,6 +29,7 @@
     
     type :: utils_class
     contains
+    procedure :: getDateFromISOString
     procedure :: find_str
     procedure :: geo2m
     procedure :: m2geo_vec, m2geo_comp
@@ -43,6 +44,32 @@
     public :: Utils
 
     contains
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Function that returns an integer array of type (year, month, day, hour, 
+    !> minute, second) from an ISO date string.
+    !> @param[in] self, dateStr
+    !---------------------------------------------------------------------------
+    function getDateFromISOString(self, dateStr)
+    class(utils_class), intent(in) :: self
+    type(string), intent(in) :: dateStr
+    integer, dimension(6) :: getDateFromISOString
+    integer :: i
+    type(string), allocatable :: dc(:)
+    type(string) :: outext
+    call dateStr%split(tokens=dc, sep=' ')
+    if (size(dc) == 6) then
+        do i=1, size(dc)
+            getDateFromISOString(i) = dc(i)%to_number(kind=1._R4P)
+        end do
+    else
+        outext = '[Utils::getDateFromISOString] Date '// dateStr //' not in correct format. Eg. "2009 3 1 0 0 0"'
+        call Log%put(outext)
+        stop
+    end if    
+    end function getDateFromISOString
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

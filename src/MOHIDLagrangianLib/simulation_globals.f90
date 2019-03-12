@@ -23,11 +23,12 @@
     !use vecfor_r4p
     use stringifor
     use datetime_module
-
+    
     use simulation_precision_mod
     use simulation_parallel_omp_mod
     use simulation_logger_mod
     use simulation_memory_mod
+    use utilities_mod
 
     implicit none
     private
@@ -42,6 +43,7 @@
         real(prec)      :: TimeOut = MV              !< Time out data (1/Hz)
         type(datetime)  :: StartTime                 !< Start date of the simulation
         type(datetime)  :: EndTime                   !< End date of the simulation
+        type(datetime)  :: BaseDateTime              !< Base date for time stamping results
         integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
         integer         :: InputFormat = 1           !< Format of the Input files (default=1) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
@@ -104,9 +106,9 @@
     procedure, public :: increment_numdt
     procedure, public :: increment_numoutfile
     procedure, public :: getnumdt
-    procedure, public :: getnumoutfile
-    procedure, private :: increment_numTracer
+    procedure, public :: getnumoutfile    
     procedure, public :: getnumTracer
+    procedure, private :: increment_numTracer
     end type sim_t
     
     type :: var_names_t
@@ -125,6 +127,7 @@
     end type var_names_t
     
     type :: sim_time_t
+        type(datetime)  :: BaseDateTime              !< Base date for time stamping results
         real(prec)      :: TimeMax = MV              !< Simulation duration (s)
         type(datetime)  :: StartDate                 !< Start date of the simulation
         type(datetime)  :: EndDate                   !< End date of the simulation
@@ -133,6 +136,7 @@
     contains
     procedure :: print => printDateTime
     procedure :: setCurrDateTime
+    !procedure :: getTimeStamp
     end type sim_time_t
 
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
@@ -177,13 +181,19 @@
     self%Parameters%numOPMthreads = OMPManager%getThreads()
     self%Parameters%WarmUpTime = 0.0
     self%Parameters%TimeOut = MV
-    self%SimTime%StartDate = datetime()
+    self%Parameters%StartTime = datetime()
     self%Parameters%EndTime = datetime()
+    self%Parameters%BaseDateTime = datetime(1950,1,1,0,0,0)
     self%Parameters%OutputFormat = 2
     self%Parameters%OutputFormatIndexes = [1,2]
     !self%Parameters%OutputFormatNames = ['NetCDF','VTK'] !This is not acceptable because FORTRAN
     self%Parameters%OutputFormatNames(1) = 'NetCDF'
     self%Parameters%OutputFormatNames(2) = 'VTK'
+    !SimTime
+    self%SimTime%StartDate = datetime()
+    self%SimTime%EndDate = datetime()
+    self%SimTime%CurrDate = datetime()
+    self%SimTime%BaseDateTime = datetime(1950,1,1,0,0,0)
     !Simulation definitions
     self%SimDefs%autoblocksize =.true.
     self%SimDefs%blocksize = 0.0
@@ -255,6 +265,7 @@
     self%SimTime%TimeMax = self%Parameters%TimeMax
     self%SimTime%StartDate = self%Parameters%StartTime
     self%SimTime%EndDate = self%Parameters%EndTime
+    self%SimTime%BaseDateTime = self%Parameters%BaseDateTime
     self%SimTime%CurrDate = self%SimTime%StartDate
     self%SimTime%CurrTime = 0
     end subroutine setTimeDate
@@ -265,7 +276,6 @@
     !> sets the current time stamp and date stamp given a dt increment
     !---------------------------------------------------------------------------
     subroutine setCurrDateTime(self, dt)
-    implicit none
     class(sim_time_t), intent(inout) :: self
     real(prec), intent(in) :: dt
     type(timedelta) :: step
@@ -280,17 +290,19 @@
     !> prints date & time information.
     !---------------------------------------------------------------------------
     subroutine printDateTime(self)
-    implicit none
     class(sim_time_t), intent(in) :: self
     type(string) :: outext
     type(string) :: temp_str
     character(len=23) :: temp_char
     temp_char = self%StartDate%isoformat(' ')
     temp_str = temp_char
-    outext = outext//'      Start date = '//temp_str//new_line('a')
+    outext = outext//'      Start date                = '//temp_str//new_line('a')
     temp_char = self%EndDate%isoformat(' ')
     temp_str = temp_char
-    outext = outext//'       End date   = '//temp_str//new_line('a')
+    outext = outext//'       End date                  = '//temp_str//new_line('a')
+    temp_char = self%BaseDateTime%isoformat(' ')
+    temp_str = temp_char
+    outext = outext//'       Base date (time stamping) = '//temp_str//new_line('a')
     temp_str=self%TimeMax
     outext = outext//'       Simulation will run for '//temp_str//' s'
     call Log%put(outext,.false.)
@@ -386,7 +398,8 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Private parameter setting method. Builds the simulation parametric space from the input case file.    !
+    !> Private parameter setting method. Builds the simulation parametric space 
+    !> from the input case file.
     !> @param[in] self, parmkey, parmvalue
     !---------------------------------------------------------------------------
     subroutine setparameter(self,parmkey,parmvalue)
@@ -395,7 +408,8 @@
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
     type(string), allocatable :: dc(:)
-    integer :: i, date(6)
+    integer :: i
+    integer, dimension(6) :: date
     integer :: sizem
     !add new parameters to this search
     if (parmkey%chars()=="Integrator") then
@@ -414,35 +428,20 @@
         self%TimeOut=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%TimeOut)
     elseif(parmkey%chars()=="StartTime") then
-        call parmvalue%split(tokens=dc, sep=' ')
-        if (size(dc) == 6) then
-            do i=1, size(dc)
-                date(i) = dc(i)%to_number(kind=1._R4P)
-            end do
-            self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-            if (self%StartTime%isValid()) then
-            else
-                self%StartTime = datetime() !reseting to default so it is caught later on
-            end if
-            sizem=sizeof(self%StartTime)
-        else
-            stop '[Globals::setparameter] StartTime parameter not in correct format. Eg. "2009 3 1 0 0 0"'
-        end if
+        date = Utils%getDateFromISOString(parmvalue)
+        self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        if (.not. self%StartTime%isValid()) self%StartTime = datetime()        
+        sizem=sizeof(self%StartTime)        
     elseif(parmkey%chars()=="EndTime") then
-        call parmvalue%split(tokens=dc, sep=' ')
-        if (size(dc) == 6) then
-            do i=1, size(dc)
-                date(i) = dc(i)%to_number(kind=1._R4P)
-            end do
-            self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-            if (self%EndTime%isValid()) then
-            else
-                self%EndTime = datetime() !reseting to default so it is caught later on
-            end if
-            sizem=sizeof(self%EndTime)
-        else
-            stop '[Globals::setparameter] EndTime parameter not in correct format. Eg. "2009 3 1 0 0 0"'
-        end if
+        date = Utils%getDateFromISOString(parmvalue)
+        self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        if (.not. self%EndTime%isValid()) self%EndTime = datetime()        
+        sizem=sizeof(self%EndTime)
+    elseif(parmkey%chars()=="BaseDateTime") then
+        date = Utils%getDateFromISOString(parmvalue)
+        self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        if (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()        
+        sizem=sizeof(self%BaseDateTime)
     elseif(parmkey%chars()=="OutputFormat") then
         self%OutputFormat=parmvalue%to_number(kind=1_I1P)
         sizem=sizeof(self%OutputFormat)
