@@ -205,7 +205,7 @@ CC = gcc
 CCDEPMODE = depmode=gcc3
 CC_VERSION = /usr/bin/gcc
 CFLAGS = 
-CONFIG_DATE = Fri Feb  1 15:10:40 GMT 2019
+CONFIG_DATE = Tue Mar 12 10:02:17 GMT 2019
 CPP = gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo

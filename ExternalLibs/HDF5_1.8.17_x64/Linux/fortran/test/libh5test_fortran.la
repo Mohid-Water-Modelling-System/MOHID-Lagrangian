@@ -17,7 +17,7 @@ old_library='libh5test_fortran.a'
 inherited_linker_flags=' '
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/zlib-1.2.11/build/lib -lz -ldl -lm'
+dependency_libs=' -L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/lib -lz -ldl -lm'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''
