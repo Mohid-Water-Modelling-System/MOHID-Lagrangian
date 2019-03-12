@@ -199,7 +199,7 @@
     self%SimDefs%blocksize = 0.0
     self%SimDefs%numblocksx = MV
     self%SimDefs%numblocksy = MV
-    self%SimDefs%numblocks = 16  !placeholder number, should be numThreads or numProcesses or computed by user dimensions
+    self%SimDefs%numblocks = OMPManager%getThreads()  !placeholder number, should be numThreads or numProcesses or computed by user dimensions
     self%SimDefs%Dp = MV
     self%SimDefs%dt = MV
     self%SimDefs%Pointmin = 0.0
