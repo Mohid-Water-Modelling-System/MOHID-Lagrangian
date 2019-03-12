@@ -58,7 +58,7 @@ elseif(LINUX)
   set(hdf5_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5)
   set(hdf5_LIBS_PATH ${hdf5_PATH}/Lib)
 	set(hdf5_MOD_PATH ${hdf5_PATH}/include)
-	set(proj4_inc_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/Proj4/Linux/proj4-fortran/build/include)
+	set(proj4_inc_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/Proj4/Linux/proj4-fortran-old/build/include)
 endif()
 
 include_directories(${hdf5_LIBS_PATH})
