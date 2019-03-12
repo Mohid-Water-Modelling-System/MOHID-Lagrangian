@@ -287,7 +287,8 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> returns the time stamp for the current time/date
+    !> returns the time stamp for the current time/date. Time Stamp is days 
+    !> since epoch, given by BaseDateTime. Defaults to Copernicus standard.
     !---------------------------------------------------------------------------
     real(prec) function getDateTimeStamp(self)
     class(sim_time_t), intent(inout) :: self
