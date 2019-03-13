@@ -46,7 +46,7 @@
 
     version  ="v0.3"
     author   ="R. Birjukovs Canelas"
-    date     ="20-09-2018"
+    date     ="12-03-2019"
 
     outext = ' __  __  ___  _   _ ___ ____  _                                      _              '//new_line('a')//&
         ' |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  '//new_line('a')//&
@@ -78,7 +78,6 @@
         'MOHID Lagrangian '//version//' ('//author//') ('//date//')'//new_line('a')//&
         '====================================================================='
 
-    !call Log%put(outext,.false.)
     call Log%put(outext,.false.)
 
     end subroutine
