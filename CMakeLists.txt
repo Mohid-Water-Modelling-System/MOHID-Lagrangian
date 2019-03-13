@@ -15,8 +15,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 SET(BIN_NAME MOHIDLagrangian)
 SET(LIB_NAME MOHIDLagrangianLib)
-set(MOHIDBase1_LIB_NAME MOHIDBase1)
-set(MOHIDBase2_LIB_NAME MOHIDBase2)
 
 message("Project name " ${BIN_NAME})
 message("Library name " ${LIB_NAME})
@@ -45,7 +43,6 @@ message(STATUS "Building paths")
 message(STATUS "Executable output path " ${EXECUTABLE_OUTPUT_PATH})
 message(STATUS "Library output path " ${LIBRARY_OUTPUT_PATH})
 message(STATUS "Modules output path " ${CMAKE_Fortran_MODULE_DIRECTORY})
-
 
 #################################################################
 # FFLAGS depend on the compiler and the build type
@@ -97,23 +94,10 @@ message (STATUS "Fortran extra flags: " ${CMAKE_Fortran_FLAGS_RELEASE})
 
 SET(LIBRARY_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/MOHIDLagrangianLib)
 SET(APP_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/MOHIDLagrangianApp)
-set(MOHIDBase1_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/MOHIDBase1)
-set(MOHIDBase2_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/MOHIDBase2)
 
 message("---------Going through individual Cmake files-----------")
-
-message(STATUS "MOHIDBase1 source path " ${MOHIDBase1_SOURCE_PATH})
-message(STATUS "MOHIDBase2 source path " ${MOHIDBase2_SOURCE_PATH})
 message(STATUS "Library source path " ${LIBRARY_SOURCE_PATH})
 message(STATUS "Application source path " ${APP_SOURCE_PATH})
 
-ADD_SUBDIRECTORY(${MOHIDBase1_SOURCE_PATH})
-ADD_SUBDIRECTORY(${MOHIDBase2_SOURCE_PATH})
 ADD_SUBDIRECTORY(${LIBRARY_SOURCE_PATH})
 ADD_SUBDIRECTORY(${APP_SOURCE_PATH})
-
-#add dependencies between libs
-
-add_dependencies(${MOHIDBase2_LIB_NAME} ${MOHIDBase1_LIB_NAME})
-add_dependencies(${LIB_NAME} ${MOHIDBase1_LIB_NAME})
-add_dependencies(${LIB_NAME} ${MOHIDBase2_LIB_NAME})
