@@ -13,6 +13,7 @@ netcdff_dir=netcdf-fortran-4.4.4
 proj4Base_dir=Proj4/Linux
 proj4C_dir=$proj4Base_dir/proj-4.9.3
 proj4F_dir=$proj4Base_dir/proj4-fortran
+mohid_dir=MOHID
 
 cd $base_dir
 ./MakeLibraries.sh
@@ -64,6 +65,10 @@ mkdir build
 ./bootstrap
 ./configure --with-proj4=$curr_dir/$proj4C_dir/build --prefix=$curr_dir/$proj4F_dir/build CFLAGS=f2cFortran
 make install
+cd $curr_dir
+
+cd $mohid_dir
+./MakeLibraries.sh
 cd $curr_dir
 
 

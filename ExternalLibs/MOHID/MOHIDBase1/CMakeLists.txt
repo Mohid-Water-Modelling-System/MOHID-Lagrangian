@@ -34,10 +34,8 @@ FOREACH(item ${LIB_SRC})
 ENDFOREACH(item)
 SET(LIB_SRC ${LIB_SRC} PARENT_SCOPE)
 
-
-# Create named folders for the sources within the .vcproj
-# Empty name lists them directly under the .vcproj
-source_group(${MOHIDBase1_LIB_NAME} FILES ${LIB_SRC})
+# Also adds sources to the Solution Explorer
+add_library(MOHIDBase1 ${LIB_SRC})
 
 # Check platforms
 if (CMAKE_HOST_WIN32)
@@ -49,30 +47,23 @@ elseif(CMAKE_HOST_UNIX)
 endif()
 
 # Properties->C/C++->General->Additional Include Directories
+get_filename_component(ExternalLibsPath ../../ ABSOLUTE)
 if(WINDOWS)
-  set(hdf5_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/HDF5_1.8.17_x64)
+  set(hdf5_PATH ${ExternalLibsPath}/HDF5_1.8.17_x64)
 	set(hdf5_LIBS_PATH ${hdf5_PATH}/Lib)
 	set(hdf5_MOD_PATH ${hdf5_PATH}/Include/fortran)
-	set(proj4_inc_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/Proj4/Include)
+	set(proj4_inc_PATH ${ExternalLibsPath}/Proj4/Include)
 elseif(LINUX)
-  set(hdf5_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5)
-  set(hdf5_LIBS_PATH ${hdf5_PATH}/Lib)
+  set(hdf5_PATH ${ExternalLibsPath}/HDF5_1.8.17_x64/Linux/hdf5)
+  set(hdf5_LIBS_PATH ${hdf5_PATH}/lib)
 	set(hdf5_MOD_PATH ${hdf5_PATH}/include)
-	set(proj4_inc_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/Proj4/Linux/proj4-fortran-old/build/include)
+	set(proj4_inc_PATH ${ExternalLibsPath}/Proj4/Linux/proj4-fortran-old/build/include)
 endif()
 
 include_directories(${hdf5_LIBS_PATH})
 include_directories(${hdf5_MOD_PATH})
 include_directories(${proj4_inc_PATH})
 
-message(STATUS "Added HDF5 Libraries path " ${hdf5_PATH})
-message(STATUS "Added Proj4 Libraries path " ${proj4_inc_PATH})
 
-# Also adds sources to the Solution Explorer
-add_library(${MOHIDBase1_LIB_NAME} ${LIB_SRC})
-
-# Creates folder "libraries" and adds target project (MOHIDLagrangianLib.vcproj)
-set_property(TARGET ${MOHIDBase1_LIB_NAME} PROPERTY FOLDER "libraries")
-set_property(TARGET ${MOHIDBase1_LIB_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
 

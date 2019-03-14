@@ -28,6 +28,7 @@ set(base_LIBS_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/Base/build)
 set(datetime_LIBS_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/datetime-fortran/build)
 set(cvs_LIBS_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/fortran-csv-module/build)
 set(FOX_LIBS_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/fox/build)
+set(MOHIDBase_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/MOHID/build)
 
 include_directories(${base_LIBS_PATH}/modules)
 include_directories(${base_LIBS_PATH}/lib)
@@ -37,11 +38,14 @@ include_directories(${cvs_LIBS_PATH}/modules)
 include_directories(${cvs_LIBS_PATH}/lib)
 include_directories(${FOX_LIBS_PATH}/modules)
 include_directories(${FOX_LIBS_PATH}/lib)
+include_directories(${MOHIDBase_PATH}/modules)
+include_directories(${MOHIDBase_PATH}/lib)
 
 message(STATUS "Added Base Libraries path " ${base_LIBS_PATH})
 message(STATUS "Added DateTime Libraries path " ${datetime_LIBS_PATH})
 message(STATUS "Added cvs Libraries path " ${cvs_LIBS_PATH})
 message(STATUS "Added FoX Library path " ${FOX_LIBS_PATH})
+message(STATUS "Added MOHID Library path " ${MOHIDBase_PATH})
 
 # Also adds sources to the Solution Explorer
 add_library(${LIB_NAME} ${LIB_SRC})
