@@ -37,18 +37,22 @@
     contains
     
     subroutine writeTestmatrix(mat)
-    real(prec), dimension(: , :), intent(IN) :: mat
-    integer                                  :: ID, HDF5_CREATE, STAT_CALL
+    integer, dimension(:, :), pointer, intent(in) :: mat
+    integer :: ID, HDF5_CREATE, STAT_CALL
     
+    ID = 0
     
         !Gets File Access Code
-        call GetHDF5FileAccess  (HDF5_CREATE = HDF5_CREATE)
+        call GetHDF5FileAccess(HDF5_CREATE = HDF5_CREATE)
 
         !Opens HDF File
-        call ConstructHDF5      (ID, "filehdf", HDF5_CREATE, STAT = STAT_CALL)
-        if (STAT_CALL /= SUCCESS_) stop 'Open_HDF5_OutPut_File - ModuleAtmosphere - ERR01'
+        call ConstructHDF5(ID, "filehdf", HDF5_CREATE, STAT = STAT_CALL)
+        if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5writter_mod - ERR01'
         
-        
+        call HDF5WriteData(ID, "/Data", "TestMatrix", "-",         &
+                              Array2D = mat,            &
+                              STAT = STAT_CALL)
+        if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5writter_mod - ERR07'
         
     end subroutine writeTestmatrix
     

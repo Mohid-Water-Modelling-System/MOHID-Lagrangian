@@ -87,7 +87,7 @@
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, aux
     
-    !real(prec) :: testmat(10,12)
+    !integer :: testmat(10,12)
 
     outext = '====================================================================='
     call Log%put(outext,.false.)
