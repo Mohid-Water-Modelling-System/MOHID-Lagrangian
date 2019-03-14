@@ -31,10 +31,6 @@
     use simulation_input_streamer_mod
     use common_modules
     
-    use ModuleHDF5
-    use ModuleNETCDF
-    use ModuleField4D
-    
     use hdf5writter_mod
 
     implicit none
