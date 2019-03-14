@@ -5,6 +5,7 @@ set base_dir=Base
 set datetime_dir=datetime-fortran
 set csv_dir=fortran-csv-module
 set fox_dir=fox
+set mohid_dir=MOHID
 
 cd %base_dir%
 call RunCmake.bat
@@ -19,6 +20,10 @@ call RunCmake.bat
 cd ..
 
 cd %fox_dir%
+call RunCmake.bat
+cd ..
+
+cd %mohid_dir%
 call RunCmake.bat
 cd ..
 

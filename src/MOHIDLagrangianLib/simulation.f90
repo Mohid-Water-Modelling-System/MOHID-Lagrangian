@@ -87,7 +87,7 @@
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, aux
     
-    real(prec) :: testmat(10,12)
+    !real(prec) :: testmat(10,12)
 
     outext = '====================================================================='
     call Log%put(outext,.false.)
@@ -96,7 +96,7 @@
     outext = '====================================================================='
     call Log%put(outext,.false.)
     
-    call writeTestmatrix(testmat)
+    !call writeTestmatrix(testmat)
 
     !main time cycle
     do while (Globals%SimTime%CurrTime .lt. Globals%Parameters%TimeMax)
