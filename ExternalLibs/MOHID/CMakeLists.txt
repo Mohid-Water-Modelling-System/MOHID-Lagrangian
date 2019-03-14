@@ -10,6 +10,15 @@ SET(LIB ${PROJECT_NAME})
 
 #SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
+# Check platforms
+if (CMAKE_HOST_WIN32)
+    set(WINDOWS 1)
+elseif(CMAKE_HOST_APPLE)
+    set(LINUX 1)
+elseif(CMAKE_HOST_UNIX)
+    set(LINUX 1)
+endif()
+
 #################################################################
 # DEFINE PATHS
 #################################################################
@@ -49,6 +58,10 @@ GET_FILENAME_COMPONENT(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 ADD_DEFINITIONS(-D${CMAKE_Fortran_COMPILER_ID})
 
 message(STATUS "COMPILER INFO: ${CMAKE_Fortran_COMPILER_ID} - ${Fortran_COMPILER_NAME}")
+
+if(LINUX)
+  set(EXTRA_FLAGS "-D_USE_NIX")
+endif()
 
 IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES "gfortran*")
   # gfortran
