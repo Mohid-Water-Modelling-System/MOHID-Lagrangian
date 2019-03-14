@@ -112,7 +112,7 @@
 
     !Tests
     allocate(self%Background(1))
-    call TestMaker%initialize(1, self%extents, self%Background(1))
+    call TestMaker%initialize(3, self%extents, self%Background(1))
 
     end subroutine initBlock
 
