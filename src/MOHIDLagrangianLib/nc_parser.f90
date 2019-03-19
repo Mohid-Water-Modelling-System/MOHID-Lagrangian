@@ -99,9 +99,11 @@
 
     call XMLReader%getFile(xmlmodel, xmlfilename)
     print*, 'I am here'
+    tag = 'model'
+    call XMLReader%gotoNode(xmlmodel, xmlmodel, tag)
     tag = 'MOHID'
-    call XMLReader%gotoNode(xmlvars, xmlvars, tag)
-    print*,'but not here'
+    call XMLReader%gotoNode(xmlmodel, xmlvars, tag)
+    print*,'and here'
 
     do model_index = 1, size(model)
         print*,'Checking if the ouput is an input from', model(model_index)%chars()
