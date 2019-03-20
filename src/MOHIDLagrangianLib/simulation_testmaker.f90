@@ -23,6 +23,7 @@
     use field_types_mod
 
     use nc_parser
+    use ncparser_mod
 
     implicit none
     private
@@ -220,6 +221,12 @@
     type(generic_field_class) :: gfield1, gfield2,gfield3
     type(nc_class),dimension(3) :: nc_input_file
     type(string) :: name, units
+    
+    type(ncfile_class) :: ncFile
+    type(string) :: ncFileName
+    
+    ncFileName = 'MOHID_Vigo_20180904_0000.nc4'
+    call ncFile%getFile(ncFileName)
 
     nc_input_file(1)%file_name = 'MOHID_Vigo_20180904_0000.nc4'
     nc_input_file(2)%file_name = 'MOHID_Vigo_20180904_0000.nc4'
