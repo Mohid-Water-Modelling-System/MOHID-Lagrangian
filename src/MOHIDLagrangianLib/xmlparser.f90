@@ -91,7 +91,7 @@
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
     type(string), intent(out) :: att_value      !<Attribute value
-    character(80) :: att_value_chars
+    character(CHAR_LEN) :: att_value_chars
     call extractDataAttribute(xmlnode, att_name%chars(), att_value_chars) !using FOX function
     att_value=trim(att_value_chars)
     end subroutine getLeafAttribute
@@ -113,7 +113,7 @@
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
 
     type(string) :: outext, nodename
-    character(80) :: att_value_chars
+    character(CHAR_LEN) :: att_value_chars
     type(NodeList), pointer :: target_node_list, nodeChildren
     type(Node), pointer :: nodedetail
     logical :: validtag
