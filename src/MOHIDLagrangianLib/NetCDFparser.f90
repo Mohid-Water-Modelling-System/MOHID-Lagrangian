@@ -55,32 +55,37 @@
         type(string) :: name
         integer :: length
     end type dim_t
+    
+    type :: var_t
+        type(string) :: name
+        integer :: varid
+        integer :: ndims
+        integer, allocatable, dimension(:) :: dimids
+        integer :: natts
+    end type var_t
 
     type :: ncfile_class !> A class that models a netcdf file
         type(string) :: filename   !> name of the file to read
         integer :: ncID        
         integer :: nDims, nVars, nAtt, uDimID
-        type(string) :: model_name
-        type(field_class), allocatable, dimension(:) :: varField
-        integer, allocatable, dimension(:) :: varID
-        type(scalar1d_field_class), allocatable, dimension(:) :: dim
         type(dim_t), allocatable, dimension(:) :: dimData
+        type(var_t), allocatable, dimension(:) :: varData
         integer :: status
-        type(string), allocatable, dimension(:) :: fileVarName
-        type(string), allocatable, dimension(:) :: fileVarUnits
-
+        
         type(string) :: varname, units
         integer,dimension(:),allocatable :: var_dims
         type(field) :: variable
         type(dims),dimension(:),allocatable :: dims
         integer :: varid_s
-
+        type(string) :: model_name
+        
     contains
     procedure :: getFile
     procedure, private :: check
     procedure, private :: getNCid
     procedure, private :: getNCglobalMetadata
     procedure, private :: getNCDimMetadata
+    procedure, private :: getNCVarMetadata
 
     procedure :: initNcLibHeaders
     procedure :: getDimsNumber
@@ -113,6 +118,7 @@
     call self%getNCid()
     call self%getNCglobalMetadata()
     call self%getNCDimMetadata()
+    call self%getNCVarMetadata()
 
     call self%printNcInfo()
 
@@ -146,8 +152,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Inquires the nc file for dimension metadata and the data arrays of each
-    !> dimension. Allocates the corresponding 1d fields 
+    !> Inquires the nc file for dimension metadata
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine getNCDimMetadata(self)
@@ -162,6 +167,38 @@
         self%dimData%length = dimLength
     end do
     end subroutine getNCDimMetadata
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Inquires the nc file for variable metadata
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine getNCVarMetadata(self)
+    class(ncfile_class), intent(inout) :: self
+    integer :: i, j, ndims, nAtts
+    integer :: dimids(self%nDims)
+    character(CHAR_LEN) :: varName
+    allocate(self%varData(self%nVars))
+    do i=1, self%nVars
+        self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
+        call self%check()
+        self%varData(i)%name = varName
+        self%varData(i)%varid = i
+        self%varData(i)%ndims = ndims
+        allocate(self%varData(i)%dimids(ndims))
+        self%varData(i)%dimids = dimids(1:ndims)
+        self%varData(i)%nAtts = nAtts
+        print*, i, varName, ndims
+    end do
+    end subroutine getNCVarMetadata
+    
+    
+    
+    
+    
+    
+    
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
