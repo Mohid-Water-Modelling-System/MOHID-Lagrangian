@@ -23,12 +23,15 @@
     !use vecfor_r4p
     use stringifor
     use datetime_module
+    use FoX_dom
     
     use simulation_precision_mod
     use simulation_parallel_omp_mod
     use simulation_logger_mod
     use simulation_memory_mod
     use utilities_mod
+    use xmlparser_mod
+
 
     implicit none
     private
@@ -49,7 +52,7 @@
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
     contains
-    procedure :: setparameter
+    procedure :: setParam
     procedure :: check
     procedure :: print => printsimparameters
     end type parameters_t
@@ -85,6 +88,7 @@
     type :: filenames_t    !<File names class
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
+        type(string), allocatable, dimension(:) :: namingfilename   !< File names of the naming convention .xml files
         type(string) :: tempfilename        !< Generic temporary file name
         type(string) :: outpath             !< General output directory
         type(string) :: casename            !< Name of the running case
@@ -112,7 +116,7 @@
     end type sim_t
     
     type :: var_names_t
-        type(string) :: u
+        type(string) :: u !< Name of the 'u' variable in the model
         type(string) :: v
         type(string) :: w
         type(string) :: temp
@@ -122,6 +126,16 @@
         type(string) :: lat
         type(string) :: depth
         type(string) :: time
+        type(string), allocatable, dimension(:) :: u_variants  !< possible names for 'u' in the input files
+        type(string), allocatable, dimension(:) :: v_variants
+        type(string), allocatable, dimension(:) :: w_variants
+        type(string), allocatable, dimension(:) :: temp_variants
+        type(string), allocatable, dimension(:) :: sal_variants
+        type(string), allocatable, dimension(:) :: density_variants
+        type(string), allocatable, dimension(:) :: lon_variants
+        type(string), allocatable, dimension(:) :: lat_variants
+        type(string), allocatable, dimension(:) :: depth_variants
+        type(string), allocatable, dimension(:) :: time_variants
     contains
     procedure, private :: buildvars
     end type var_names_t
@@ -151,6 +165,8 @@
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
+    procedure, public :: setNamingConventions
+    procedure :: setVarNames
     end type globals_class
 
     !Simulation variables
@@ -242,9 +258,9 @@
     subroutine buildvars(self)
     implicit none
     class(var_names_t), intent(inout) :: self
-    self%u       = 'vel_x'
-    self%v       = 'vel_y'
-    self%w       = 'vel_z'
+    self%u       = 'u'
+    self%v       = 'v'
+    self%w       = 'w'
     self%temp    = 'temp'
     self%sal     = 'sal'
     self%density = 'density'
@@ -269,6 +285,71 @@
     self%SimTime%CurrDate = self%SimTime%StartDate
     self%SimTime%CurrTime = 0
     end subroutine setTimeDate
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> set the naming conventions. Imports the variable names from given .xml 
+    !> naming files
+    !---------------------------------------------------------------------------
+    subroutine setNamingConventions(self, filename)
+    implicit none
+    class(globals_class), intent(inout) :: self
+    type(string), dimension(:), intent(in) :: filename
+    integer :: i
+    type(string) :: outext, tag
+    type(Node), pointer :: xmldoc                   !< .xml file handle
+    type(Node), pointer :: varNode, dimNode
+    
+    allocate(self%Names%namingfilename, source = filename)
+    do i=1, size(self%Names%namingfilename)
+        call XMLReader%getFile(xmldoc,self%Names%namingfilename(i))
+        outext='-->Setting naming conventions from '//self%Names%namingfilename(i)
+        call Log%put(outext)
+        tag="naming"          !base document node
+        call XMLReader%gotoNode(xmldoc,xmldoc,tag)
+        tag="variables"
+        call XMLReader%gotoNode(xmldoc,varNode,tag)
+        tag="dimensions"
+        call XMLReader%gotoNode(xmldoc,dimNode,tag)
+        call self%setVarNames(varNode)
+    end do
+
+    end subroutine setNamingConventions
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> set the variables naming conventions. Imports the variable names from 
+    !> given .xml naming file
+    !---------------------------------------------------------------------------
+    subroutine setVarNames(self, varNode)
+    implicit none
+    class(globals_class), intent(inout) :: self
+    type(Node), pointer, intent(in) :: varNode
+    integer :: i
+    type(string) :: outext, tag, strValue
+    type(Node), pointer :: tempNode, variantNode
+    type(NodeList), pointer :: varNameList
+    
+    tag="eastward_sea_water_velocity"    !the node we want
+    call XMLReader%gotoNode(varNode, tempNode, tag, mandatory = .false.)
+    if (allocated(tempNode)) then !variable description exists in file
+        tag="name"
+        call XMLReader%getNodeAttribute(tempNode, tag, strValue, mandatory = .true.)
+        self%Var%u = strValue
+        varNameList => getElementsByTagname(tempNode, "variant")
+        allocate(self%Var%u_variants(getLength(varNameList)))
+        do i = 0, getLength(varNameList) - 1
+            variantNode => item(varNameList, i)
+            att_name="name"
+            call XMLReader%getLeafAttribute(variantNode,att_name,strValue)
+            self%Var%u_variants(i+1) = strValue
+            
+        end do
+    end if
+
+    end subroutine setVarNames
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -416,7 +497,7 @@
     !> from the input case file.
     !> @param[in] self, parmkey, parmvalue
     !---------------------------------------------------------------------------
-    subroutine setparameter(self,parmkey,parmvalue)
+    subroutine setParam(self,parmkey,parmvalue)
     implicit none
     class(parameters_t), intent(inout) :: self
     type(string), intent(in) :: parmkey
@@ -462,7 +543,7 @@
     end if
     call SimMemory%adddef(sizem)
 
-    end subroutine
+    end subroutine setParam
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
