@@ -328,24 +328,22 @@
     class(globals_class), intent(inout) :: self
     type(Node), pointer, intent(in) :: varNode
     integer :: i
-    type(string) :: outext, tag, strValue
+    type(string) :: outext, tag, attValue, attName
     type(Node), pointer :: tempNode, variantNode
     type(NodeList), pointer :: varNameList
     
     tag="eastward_sea_water_velocity"    !the node we want
     call XMLReader%gotoNode(varNode, tempNode, tag, mandatory = .false.)
-    if (allocated(tempNode)) then !variable description exists in file
-        tag="name"
-        call XMLReader%getNodeAttribute(tempNode, tag, strValue, mandatory = .true.)
-        self%Var%u = strValue
+    if (associated(tempNode)) then !variable description exists in file
+        attName="name"
+        call XMLReader%getNodeAttribute(tempNode, tag, attName, attValue, mandatory = .true.)
+        self%Var%u = attValue
         varNameList => getElementsByTagname(tempNode, "variant")
         allocate(self%Var%u_variants(getLength(varNameList)))
         do i = 0, getLength(varNameList) - 1
             variantNode => item(varNameList, i)
-            att_name="name"
-            call XMLReader%getLeafAttribute(variantNode,att_name,strValue)
-            self%Var%u_variants(i+1) = strValue
-            
+            call XMLReader%getLeafAttribute(variantNode,attName,attValue)
+            self%Var%u_variants(i+1) = attValue            
         end do
     end if
 
