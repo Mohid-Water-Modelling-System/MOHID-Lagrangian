@@ -44,6 +44,9 @@
       </links>
       <propertyfile name="Material_props.xml"/>
     </properties>
+	<naming>      
+      <namingfile name="nc_library.xml"/>
+    </naming>
   </casedef>
   <execution>
     <parameters>
