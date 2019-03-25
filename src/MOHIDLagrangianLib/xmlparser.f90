@@ -21,8 +21,13 @@
     module xmlparser_mod
 
     use FoX_dom
-    use common_modules
-
+    use penf
+    use vecfor_r8p
+    use stringifor
+    
+    use simulation_precision_mod
+    use simulation_logger_mod
+    
     implicit none
     private
 
@@ -245,8 +250,8 @@
         nullify(targetNode)
         if(present(mandatory)) then
             if (mandatory.eqv..false.) then
-                outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
-                call Log%put(outext)
+                !outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
+                !call Log%put(outext)
                 if (present(read_flag)) then
                     read_flag =.false.
                 endif
