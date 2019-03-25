@@ -138,6 +138,43 @@
     endif
 
     end subroutine init_properties
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> naming xml parser routine. Reads the naming file(s), opens the file(s) and
+    !> stores the naming conventions for input files
+    !> @param[in] case_node
+    !---------------------------------------------------------------------------
+    subroutine init_naming(case_node)
+    implicit none
+    type(Node), intent(in), pointer :: case_node
+
+    type(Node), pointer :: naming_node          !< Single naming block to process
+    type(Node), pointer :: temp
+    type(NodeList), pointer :: namingfileList
+    type(string) :: outext
+    type(string) :: tag, att_name
+    type(string), allocatable, dimension(:) :: namingFilename
+    integer :: i
+
+    tag="naming"    !the node we want
+    call XMLReader%gotoNode(case_node,naming_node,tag,mandatory =.false.)
+    if (associated(naming_node)) then
+        namingfileList => getElementsByTagname(naming_node, "namingfile")       !searching for tags with the 'namingfile' name
+        allocate(namingFilename(getLength(namingfileList)))
+        do i = 0, getLength(namingfileList) - 1
+            temp => item(namingfileList, i)
+            att_name="name"
+            call XMLReader%getLeafAttribute(temp,att_name,namingFilename(i+1))
+        end do
+        call Globals%setNamingConventions(namingFilename)
+    else
+        outext='-->No naming files, assuming basic naming settings for variables from input files'
+        call Log%put(outext,.false.)
+    endif
+
+    end subroutine init_naming
 
 
     !---------------------------------------------------------------------------
@@ -387,8 +424,8 @@
         call XMLReader%getLeafAttribute(parmt,att_name,parmkey)
         att_name="value"
         call XMLReader%getLeafAttribute(parmt,att_name,parmvalue)
-        call Globals%Parameters%setparameter(parmkey,parmvalue)
-    enddo
+        call Globals%Parameters%setParam(parmkey,parmvalue)
+    end do
     call Globals%Parameters%check()
     call Globals%Parameters%print()
     
@@ -433,6 +470,7 @@
     call init_simdefs(case_node)
     call init_sources(case_node)
     call init_properties(case_node)
+    call init_naming(case_node)
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads
