@@ -163,8 +163,8 @@
     do i=1, self%nDims
         self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
         call self%check()
-        self%dimData%name = trim(dimName)
-        self%dimData%length = dimLength
+        self%dimData(i)%name = trim(dimName)
+        self%dimData(i)%length = dimLength
     end do
     end subroutine getNCDimMetadata
     
