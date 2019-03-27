@@ -46,6 +46,7 @@
     </properties>
 	<naming>      
       <namingfile name="nc_library.xml"/>
+	  <namingfile name="nc_library_alt.xml"/>
     </naming>
   </casedef>
   <execution>

@@ -382,15 +382,20 @@
         call XMLReader%getNodeAttribute(tempNode, tag, attName, attValue, mandatory = .true.)
         currVar = attValue
         varNameList => getElementsByTagname(tempNode, "variant")
-        allocate(currVarNames(getLength(varNameList)))
-        do i = 0, getLength(varNameList) - 1
-            variantNode => item(varNameList, i)
-            call XMLReader%getLeafAttribute(variantNode,attName,attValue)
-            currVarNames(i+1) = attValue           
-        end do        
+        if (allocated(currVarNames)) then
+            print*, 'no two lists are supported yet, WIP'
+        else        
+            allocate(currVarNames(getLength(varNameList)))
+            do i = 0, getLength(varNameList) - 1
+                variantNode => item(varNameList, i)
+                call XMLReader%getLeafAttribute(variantNode,attName,attValue)
+                currVarNames(i+1) = attValue           
+            end do
+        end if
     end if
     
     end subroutine setCurrVar
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
