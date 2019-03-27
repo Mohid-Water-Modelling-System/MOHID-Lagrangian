@@ -32,7 +32,6 @@
     use utilities_mod
     use xmlparser_mod
 
-
     implicit none
     private
 
@@ -167,6 +166,7 @@
     procedure :: setTimeDate
     procedure, public :: setNamingConventions
     procedure :: setVarNames
+    procedure :: setCurrVar
     end type globals_class
 
     !Simulation variables
@@ -184,7 +184,6 @@
     !> @param[in] self, outpath
     !---------------------------------------------------------------------------
     subroutine setdefaults(self, outpath)
-    implicit none
     class(globals_class), intent(inout) :: self
     integer :: sizem
     type(string), optional, intent(in) :: outpath
@@ -256,7 +255,6 @@
     !> Builds variable list names.
     !---------------------------------------------------------------------------
     subroutine buildvars(self)
-    implicit none
     class(var_names_t), intent(inout) :: self
     self%u       = 'u'
     self%v       = 'v'
@@ -276,7 +274,6 @@
     !> initializes time stamp and date stamp variables
     !---------------------------------------------------------------------------
     subroutine setTimeDate(self)
-    implicit none
     class(globals_class), intent(inout) :: self
     self%SimTime%TimeMax = self%Parameters%TimeMax
     self%SimTime%StartDate = self%Parameters%StartTime
@@ -293,7 +290,6 @@
     !> naming files
     !---------------------------------------------------------------------------
     subroutine setNamingConventions(self, filename)
-    implicit none
     class(globals_class), intent(inout) :: self
     type(string), dimension(:), intent(in) :: filename
     integer :: i
@@ -320,11 +316,9 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> set the variables naming conventions. Imports the variable names from 
-    !> given .xml naming file
+    !> set the variables naming conventions.
     !---------------------------------------------------------------------------
     subroutine setVarNames(self, varNode)
-    implicit none
     class(globals_class), intent(inout) :: self
     type(Node), pointer, intent(in) :: varNode
     integer :: i
@@ -332,23 +326,52 @@
     type(Node), pointer :: tempNode, variantNode
     type(NodeList), pointer :: varNameList
     
-    tag="eastward_sea_water_velocity"    !the node we want
+    tag="eastward_sea_water_velocity"   
+    call self%setCurrVar(tag, self%Var%u, self%Var%u_variants, varNode)
+    tag="northward_sea_water_velocity"   
+    call self%setCurrVar(tag, self%Var%v, self%Var%v_variants, varNode)
+    tag="upward_sea_water_velocity"   
+    call self%setCurrVar(tag, self%Var%w, self%Var%w_variants, varNode)
+    tag="sea_water_temperature"   
+    call self%setCurrVar(tag, self%Var%temp, self%Var%temp_variants, varNode)
+    tag="sea_water_salinity"   
+    call self%setCurrVar(tag, self%Var%sal, self%Var%sal_variants, varNode)   
+
+    end subroutine setVarNames
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> set the current variable naming conventions. Imports the variable names from 
+    !> given .xml naming file
+    !---------------------------------------------------------------------------
+    subroutine setCurrVar(self, tag, currVar, currVarNames, varNode)
+    class(globals_class), intent(inout) :: self
+    type(string), intent(in) :: tag
+    type(string), intent(inout) :: currVar
+    type(string), intent(inout), allocatable, dimension(:) :: currVarNames
+    type(Node), pointer, intent(in) :: varNode
+    integer :: i
+    type(string) :: attValue, attName
+    type(Node), pointer :: tempNode, variantNode
+    type(NodeList), pointer :: varNameList
+    
     call XMLReader%gotoNode(varNode, tempNode, tag, mandatory = .false.)
     if (associated(tempNode)) then !variable description exists in file
         attName="name"
         call XMLReader%getNodeAttribute(tempNode, tag, attName, attValue, mandatory = .true.)
-        self%Var%u = attValue
+        currVar = attValue
         varNameList => getElementsByTagname(tempNode, "variant")
-        allocate(self%Var%u_variants(getLength(varNameList)))
+        allocate(currVarNames(getLength(varNameList)))
         do i = 0, getLength(varNameList) - 1
             variantNode => item(varNameList, i)
             call XMLReader%getLeafAttribute(variantNode,attName,attValue)
-            self%Var%u_variants(i+1) = attValue            
-        end do
+            currVarNames(i+1) = attValue           
+        end do        
     end if
-
-    end subroutine setVarNames
     
+    end subroutine setCurrVar
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
