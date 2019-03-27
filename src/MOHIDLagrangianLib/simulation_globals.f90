@@ -166,6 +166,7 @@
     procedure :: setTimeDate
     procedure, public :: setNamingConventions
     procedure :: setVarNames
+    procedure :: setDimNames
     procedure :: setCurrVar
     end type globals_class
 
@@ -309,6 +310,7 @@
         tag="dimensions"
         call XMLReader%gotoNode(xmldoc,dimNode,tag)
         call self%setVarNames(varNode)
+        call self%setDimNames(dimNode)
     end do
 
     end subroutine setNamingConventions
@@ -321,10 +323,7 @@
     subroutine setVarNames(self, varNode)
     class(globals_class), intent(inout) :: self
     type(Node), pointer, intent(in) :: varNode
-    integer :: i
-    type(string) :: outext, tag, attValue, attName
-    type(Node), pointer :: tempNode, variantNode
-    type(NodeList), pointer :: varNameList
+    type(string) :: tag
     
     tag="eastward_sea_water_velocity"   
     call self%setCurrVar(tag, self%Var%u, self%Var%u_variants, varNode)
@@ -339,6 +338,26 @@
 
     end subroutine setVarNames
     
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> set the dimensions naming conventions.
+    !---------------------------------------------------------------------------
+    subroutine setDimNames(self, dimNode)
+    class(globals_class), intent(inout) :: self
+    type(Node), pointer, intent(in) :: dimNode
+    type(string) :: tag
+    
+    tag="longitude"   
+    call self%setCurrVar(tag, self%Var%lon, self%Var%lon_variants, dimNode)
+    tag="latitude"   
+    call self%setCurrVar(tag, self%Var%lat, self%Var%lat_variants, dimNode)
+    tag="vertical"   
+    call self%setCurrVar(tag, self%Var%depth, self%Var%depth_variants, dimNode)
+    tag="time"   
+    call self%setCurrVar(tag, self%Var%time, self%Var%time_variants, dimNode)  
+
+    end subroutine setDimNames
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
