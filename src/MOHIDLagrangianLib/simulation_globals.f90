@@ -24,16 +24,24 @@
     use stringifor
     use datetime_module
     use FoX_dom
-    
+
     use simulation_precision_mod
     use simulation_parallel_omp_mod
     use simulation_logger_mod
     use simulation_memory_mod
     use utilities_mod
     use xmlparser_mod
+    use abstract_LinkedList_mod
 
     implicit none
     private
+
+    type, extends(linkedlist) :: stringList_class !< List of strings class
+    contains
+    procedure :: print => print_stringList
+    procedure :: printCurrent => print_stringListCurrent
+    procedure :: notRepeated
+    end type stringList_class
 
     type :: parameters_t   !< Parameters class
         integer         :: Integrator = 1            !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
@@ -109,11 +117,11 @@
     procedure, public :: increment_numdt
     procedure, public :: increment_numoutfile
     procedure, public :: getnumdt
-    procedure, public :: getnumoutfile    
+    procedure, public :: getnumoutfile
     procedure, public :: getnumTracer
     procedure, private :: increment_numTracer
     end type sim_t
-    
+
     type :: var_names_t
         type(string) :: u !< Name of the 'u' variable in the model
         type(string) :: v
@@ -125,20 +133,20 @@
         type(string) :: lat
         type(string) :: depth
         type(string) :: time
-        type(string), allocatable, dimension(:) :: u_variants  !< possible names for 'u' in the input files
-        type(string), allocatable, dimension(:) :: v_variants
-        type(string), allocatable, dimension(:) :: w_variants
-        type(string), allocatable, dimension(:) :: temp_variants
-        type(string), allocatable, dimension(:) :: sal_variants
-        type(string), allocatable, dimension(:) :: density_variants
-        type(string), allocatable, dimension(:) :: lon_variants
-        type(string), allocatable, dimension(:) :: lat_variants
-        type(string), allocatable, dimension(:) :: depth_variants
-        type(string), allocatable, dimension(:) :: time_variants
+        type(stringList_class) :: uVariants !< possible names for 'u' in the input files
+        type(stringList_class) :: vVariants
+        type(stringList_class) :: wVariants
+        type(stringList_class) :: tempVariants
+        type(stringList_class) :: salVariants
+        type(stringList_class) :: densityVariants
+        type(stringList_class) :: lonVariants
+        type(stringList_class) :: latVariants
+        type(stringList_class) :: depthVariants
+        type(stringList_class) :: timeVariants
     contains
     procedure, private :: buildvars
     end type var_names_t
-    
+
     type :: sim_time_t
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
         real(prec)      :: TimeMax = MV              !< Simulation duration (s)
@@ -268,7 +276,7 @@
     self%depth   = 'depth'
     self%time    = 'time'
     end subroutine buildvars
-        
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -283,11 +291,11 @@
     self%SimTime%CurrDate = self%SimTime%StartDate
     self%SimTime%CurrTime = 0
     end subroutine setTimeDate
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> set the naming conventions. Imports the variable names from given .xml 
+    !> set the naming conventions. Imports names from given .xml
     !> naming files
     !---------------------------------------------------------------------------
     subroutine setNamingConventions(self, filename)
@@ -297,7 +305,7 @@
     type(string) :: outext, tag
     type(Node), pointer :: xmldoc                   !< .xml file handle
     type(Node), pointer :: varNode, dimNode
-    
+
     allocate(self%Names%namingfilename, source = filename)
     do i=1, size(self%Names%namingfilename)
         call XMLReader%getFile(xmldoc,self%Names%namingfilename(i))
@@ -314,7 +322,7 @@
     end do
 
     end subroutine setNamingConventions
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -324,20 +332,20 @@
     class(globals_class), intent(inout) :: self
     type(Node), pointer, intent(in) :: varNode
     type(string) :: tag
-    
-    tag="eastward_sea_water_velocity"   
-    call self%setCurrVar(tag, self%Var%u, self%Var%u_variants, varNode)
-    tag="northward_sea_water_velocity"   
-    call self%setCurrVar(tag, self%Var%v, self%Var%v_variants, varNode)
-    tag="upward_sea_water_velocity"   
-    call self%setCurrVar(tag, self%Var%w, self%Var%w_variants, varNode)
-    tag="sea_water_temperature"   
-    call self%setCurrVar(tag, self%Var%temp, self%Var%temp_variants, varNode)
-    tag="sea_water_salinity"   
-    call self%setCurrVar(tag, self%Var%sal, self%Var%sal_variants, varNode)   
+
+    tag="eastward_sea_water_velocity"
+    call self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varNode)
+    tag="northward_sea_water_velocity"
+    call self%setCurrVar(tag, self%Var%v, self%Var%vVariants, varNode)
+    tag="upward_sea_water_velocity"
+    call self%setCurrVar(tag, self%Var%w, self%Var%wVariants, varNode)
+    tag="sea_water_temperature"
+    call self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varNode)
+    tag="sea_water_salinity"
+    call self%setCurrVar(tag, self%Var%sal, self%Var%salVariants, varNode)
 
     end subroutine setVarNames
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -347,55 +355,53 @@
     class(globals_class), intent(inout) :: self
     type(Node), pointer, intent(in) :: dimNode
     type(string) :: tag
-    
-    tag="longitude"   
-    call self%setCurrVar(tag, self%Var%lon, self%Var%lon_variants, dimNode)
-    tag="latitude"   
-    call self%setCurrVar(tag, self%Var%lat, self%Var%lat_variants, dimNode)
-    tag="vertical"   
-    call self%setCurrVar(tag, self%Var%depth, self%Var%depth_variants, dimNode)
-    tag="time"   
-    call self%setCurrVar(tag, self%Var%time, self%Var%time_variants, dimNode)  
+
+    tag="longitude"
+    call self%setCurrVar(tag, self%Var%lon, self%Var%lonVariants, dimNode)
+    tag="latitude"
+    call self%setCurrVar(tag, self%Var%lat, self%Var%latVariants, dimNode)
+    tag="vertical"
+    call self%setCurrVar(tag, self%Var%depth, self%Var%depthVariants, dimNode)
+    tag="time"
+    call self%setCurrVar(tag, self%Var%time, self%Var%timeVariants, dimNode)
 
     end subroutine setDimNames
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> set the current variable naming conventions. Imports the variable names from 
-    !> given .xml naming file
+    !> set the current variable naming conventions. Imports the variable names from
+    !> given .xml naming file.
+    !> If the same variable is given again two things happen:
+    !> a) the system name is overwriten;
+    !> b) new variants are added to the name variant list
     !---------------------------------------------------------------------------
-    subroutine setCurrVar(self, tag, currVar, currVarNames, varNode)
+    subroutine setCurrVar(self, tag, currVar, currVarNameList, varNode)
     class(globals_class), intent(inout) :: self
     type(string), intent(in) :: tag
     type(string), intent(inout) :: currVar
-    type(string), intent(inout), allocatable, dimension(:) :: currVarNames
+    type(stringList_class), intent(inout) :: currVarNameList
     type(Node), pointer, intent(in) :: varNode
     integer :: i
     type(string) :: attValue, attName
     type(Node), pointer :: tempNode, variantNode
     type(NodeList), pointer :: varNameList
-    
+
     call XMLReader%gotoNode(varNode, tempNode, tag, mandatory = .false.)
     if (associated(tempNode)) then !variable description exists in file
         attName="name"
         call XMLReader%getNodeAttribute(tempNode, tag, attName, attValue, mandatory = .true.)
         currVar = attValue
         varNameList => getElementsByTagname(tempNode, "variant")
-        if (allocated(currVarNames)) then
-            print*, 'no two lists are supported yet, WIP'
-        else        
-            allocate(currVarNames(getLength(varNameList)))
-            do i = 0, getLength(varNameList) - 1
-                variantNode => item(varNameList, i)
-                call XMLReader%getLeafAttribute(variantNode,attName,attValue)
-                currVarNames(i+1) = attValue           
-            end do
-        end if
+        do i = 0, getLength(varNameList) - 1
+            variantNode => item(varNameList, i)
+            call XMLReader%getLeafAttribute(variantNode,attName,attValue)
+            if (currVarNameList%notRepeated(attValue)) call currVarNameList%add(attValue)
+        end do
     end if
     
     end subroutine setCurrVar
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -413,7 +419,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> returns the time stamp for the current time/date. Time Stamp is days 
+    !> returns the time stamp for the current time/date. Time Stamp is days
     !> since epoch, given by BaseDateTime. Defaults to Copernicus standard.
     !---------------------------------------------------------------------------
     real(prec) function getDateTimeStamp(self)
@@ -423,7 +429,7 @@
     step = self%CurrDate - self%BaseDateTime
     getDateTimeStamp = step%total_seconds()/day%total_seconds()
     end function getDateTimeStamp
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -447,7 +453,7 @@
     outext = outext//'       Simulation will run for '//temp_str//' s'
     call Log%put(outext,.false.)
     end subroutine printDateTime
-        
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -538,7 +544,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Private parameter setting method. Builds the simulation parametric space 
+    !> Private parameter setting method. Builds the simulation parametric space
     !> from the input case file.
     !> @param[in] self, parmkey, parmvalue
     !---------------------------------------------------------------------------
@@ -570,17 +576,17 @@
     elseif(parmkey%chars()=="StartTime") then
         date = Utils%getDateFromISOString(parmvalue)
         self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-        if (.not. self%StartTime%isValid()) self%StartTime = datetime()        
-        sizem=sizeof(self%StartTime)        
+        if (.not. self%StartTime%isValid()) self%StartTime = datetime()
+        sizem=sizeof(self%StartTime)
     elseif(parmkey%chars()=="EndTime") then
         date = Utils%getDateFromISOString(parmvalue)
         self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-        if (.not. self%EndTime%isValid()) self%EndTime = datetime()        
+        if (.not. self%EndTime%isValid()) self%EndTime = datetime()
         sizem=sizeof(self%EndTime)
     elseif(parmkey%chars()=="BaseDateTime") then
         date = Utils%getDateFromISOString(parmvalue)
         self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-        if (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()        
+        if (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
         sizem=sizeof(self%BaseDateTime)
     elseif(parmkey%chars()=="OutputFormat") then
         self%OutputFormat=parmvalue%to_number(kind=1_I1P)
@@ -862,5 +868,73 @@
     end if
     call Log%put(outext,.false.)
     end subroutine printsimdefs
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints all the links of the list
+    !---------------------------------------------------------------------------
+    subroutine print_stringList(this)
+    class(stringList_class), intent(in) :: this
+    class(*), pointer :: curr
+    call this%reset()               ! reset list iterator
+    do while(this%moreValues())     ! loop while there are values to print
+        call this%printCurrent()
+        call this%next()            ! increment the list iterator
+    end do
+    call this%reset()               ! reset list iterator
+    end subroutine print_stringList
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that prints the current link of the list
+    !---------------------------------------------------------------------------
+    subroutine print_stringListCurrent(this)
+    class(stringList_class), intent(in) :: this
+    class(*), pointer :: curr
+    type(string) :: outext
+    curr => this%currentValue() ! get current value
+    select type(curr)
+    class is (string)
+        outext = curr
+        call Log%put(outext, .false.)
+        class default
+        outext = '[stringList_class::print] Unexepected type of content, not a string'
+        call Log%put(outext)
+        stop
+    end select
+    end subroutine print_stringListCurrent
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that checks if an element is already on the list. Returns false if
+    !> it is.
+    !---------------------------------------------------------------------------
+    logical function notRepeated(this, str)
+    class(stringList_class), intent(in) :: this
+    class(string), intent(in) :: str
+    class(*), pointer :: curr
+    type(string) :: outext
+    notRepeated = .true.
+    call this%reset()               ! reset list iterator
+    do while(this%moreValues())     ! loop while there are values to print
+        curr => this%currentValue() ! get current value
+        select type(curr)
+        class is (string)
+            if (curr == str) then
+                notRepeated = .false.
+                return
+            end if
+            class default
+            outext = '[stringList_class::notRepeated] Unexepected type of content, not a string'
+            call Log%put(outext)
+            stop
+        end select
+        call this%next()            ! increment the list iterator
+    end do
+    call this%reset()               ! reset list iterator
+    end function notRepeated
 
     end module simulation_globals_mod
