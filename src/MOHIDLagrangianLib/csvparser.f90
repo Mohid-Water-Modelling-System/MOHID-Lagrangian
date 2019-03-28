@@ -26,7 +26,7 @@
     implicit none
     private
 
-    type :: csvparser_class  !< The .xml parser class
+    type :: csvparser_class  !< The .csv parser class
     contains
     procedure :: getFile
     procedure :: getColumn
