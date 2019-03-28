@@ -223,8 +223,9 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Reads the dimension fields from the nc file for a given variable
-    !> @param[in] self
+    !> Reads the dimension fields from the nc file for a given variable.
+    !> returns an array of scalar 1D fields, each with a name, units and data
+    !> @param[in] self, varName, dimsArrays
     !---------------------------------------------------------------------------
     subroutine getVarDimensions(self, varName, dimsArrays)
     class(ncfile_class), intent(inout) :: self
@@ -253,6 +254,31 @@
     end do
 
     end subroutine getVarDimensions
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Reads the fields from the nc file for a given variable.
+    !> returns a generic field, with a name, units and data
+    !> @param[in] self, varName, varField
+    !---------------------------------------------------------------------------
+    subroutine getVar(self, varName, varField)
+    class(ncfile_class), intent(inout) :: self
+    type(string), intent(in) :: varName
+    type(generic_field_class), intent(out) :: varField
+    real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
+    real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
+    type(string) :: dimName, dimUnits
+    integer :: i, j, k
+    
+    do i=1, self%nVars !going trough all variables
+        if (self%varData(i)%name == varName) then   !found the requested var
+            
+        end if
+    end do
+
+
+    end subroutine getVar
 
 
 
