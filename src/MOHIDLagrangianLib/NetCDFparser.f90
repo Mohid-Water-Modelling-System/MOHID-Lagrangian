@@ -48,37 +48,44 @@
     end type field
 
     type :: dims
-        real(prec),dimension(:),allocatable :: values
+        real(prec), dimension(:), allocatable :: values
     end type dims
-    
+
     type :: dim_t
         type(string) :: name
+        integer :: dimid
+        type (string) :: units
         integer :: length
+    contains
+    procedure :: print => printDimsNC
     end type dim_t
-    
+
     type :: var_t
         type(string) :: name
         integer :: varid
+        type (string) :: units
         integer :: ndims
         integer, allocatable, dimension(:) :: dimids
         integer :: natts
+    contains
+    procedure :: print => printVarsNC
     end type var_t
 
     type :: ncfile_class !> A class that models a netcdf file
         type(string) :: filename   !> name of the file to read
-        integer :: ncID        
+        integer :: ncID
         integer :: nDims, nVars, nAtt, uDimID
         type(dim_t), allocatable, dimension(:) :: dimData
         type(var_t), allocatable, dimension(:) :: varData
         integer :: status
-        
+
         type(string) :: varname, units
         integer,dimension(:),allocatable :: var_dims
         type(field) :: variable
         type(dims),dimension(:),allocatable :: dims
         integer :: varid_s
         type(string) :: model_name
-        
+
     contains
     procedure :: getFile
     procedure, private :: check
@@ -86,6 +93,7 @@
     procedure, private :: getNCglobalMetadata
     procedure, private :: getNCDimMetadata
     procedure, private :: getNCVarMetadata
+    procedure :: getVarDimensions
 
     procedure :: initNcLibHeaders
     procedure :: getDimsNumber
@@ -96,7 +104,7 @@
     procedure :: getVarData
     procedure :: closeNcid
     procedure :: transferToGenericField
-    procedure :: printNcInfo
+    procedure :: print => printNcInfo
     procedure :: ncToField
     end type ncfile_class
 
@@ -113,15 +121,22 @@
     subroutine getFile(self, filename)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: filename
+    integer :: i
 
     self%filename = filename
     call self%getNCid()
     call self%getNCglobalMetadata()
-    call self%getNCDimMetadata()
     call self%getNCVarMetadata()
+    call self%getNCDimMetadata()
 
-    call self%printNcInfo()
-
+    !call self%print()
+    !do i=1, size(self%varData)
+    !    call self%varData(i)%print()
+    !end do
+    !do i=1, size(self%dimData)
+    !    call self%dimData(i)%print()
+    !end do
+    
     end subroutine getFile
 
     !---------------------------------------------------------------------------
@@ -148,26 +163,7 @@
     self%status = nf90_inquire(self%ncID, self%nDims, self%nVars, self%nAtt, self%uDimID)
     call self%check()
     end subroutine getNCglobalMetadata
-    
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Inquires the nc file for dimension metadata
-    !> @param[in] self
-    !---------------------------------------------------------------------------
-    subroutine getNCDimMetadata(self)
-    class(ncfile_class), intent(inout) :: self
-    integer :: i, dimLength
-    character(CHAR_LEN) :: dimName    
-    allocate(self%dimData(self%nDims))    
-    do i=1, self%nDims
-        self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
-        call self%check()
-        self%dimData(i)%name = trim(dimName)
-        self%dimData(i)%length = dimLength
-    end do
-    end subroutine getNCDimMetadata
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -178,27 +174,98 @@
     class(ncfile_class), intent(inout) :: self
     integer :: i, j, ndims, nAtts
     integer :: dimids(self%nDims)
-    character(CHAR_LEN) :: varName
+    character(CHAR_LEN) :: varName, units
     allocate(self%varData(self%nVars))
     do i=1, self%nVars
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
         call self%check()
-        self%varData(i)%name = varName
+        self%status = nf90_get_att(self%ncID, i, 'units', units)
+        call self%check()
+        self%varData(i)%name = trim(varName)
         self%varData(i)%varid = i
+        self%varData(i)%units = trim(units)
         self%varData(i)%ndims = ndims
         allocate(self%varData(i)%dimids(ndims))
         self%varData(i)%dimids = dimids(1:ndims)
         self%varData(i)%nAtts = nAtts
-        print*, i, varName, ndims
+        print*, i, self%varData(i)%name, self%varData(i)%ndims, self%varData(i)%units
     end do
     end subroutine getNCVarMetadata
-    
-    
-    
-    
-    
-    
-    
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Inquires the nc file for dimension metadata
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine getNCDimMetadata(self)
+    class(ncfile_class), intent(inout) :: self
+    integer :: i, j, dimLength
+    character(CHAR_LEN) :: dimName
+    allocate(self%dimData(self%nDims))
+    do i=1, self%nDims
+        self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
+        call self%check()
+        self%dimData(i)%name = trim(dimName)
+        self%dimData(i)%length = dimLength
+        self%status = nf90_inq_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
+        call self%check()
+        do j=1, self%nVars
+            if (self%dimData(i)%name == self%varData(j)%name) then
+                self%dimData(i)%units = self%varData(j)%units
+                exit
+            end if
+        end do
+    end do
+    end subroutine getNCDimMetadata
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Reads the dimension fields from the nc file for a given variable
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine getVarDimensions(self, varName, dimsArrays)
+    class(ncfile_class), intent(inout) :: self
+    type(string), intent(in) :: varName
+    type(scalar1d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
+    real(prec), allocatable, dimension(:) :: tempRealArray
+    type(string) :: dimName, dimUnits
+    integer :: i, j, k
+
+    print*, 'here, at getVarDimensions, reading from variable ', varName
+    do i=1, self%nVars !going trough all variables
+        if (self%varData(i)%name == varName) then   !found the requested var
+            print*, 'found the variable in question ', self%varData(i)%name
+            allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
+            print*, 'allocated ', self%varData(i)%ndims, '1D fields '
+            print*, 'dimension ids are ', self%varData(i)%dimids
+            do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
+                do k=1, self%nDims  !going trough all available dimensions of the file
+                    if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
+                        print*, 'current dimension ids is ', self%dimData(k)%dimid
+                        allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
+                        dimName = self%dimData(k)%name
+                        dimUnits = self%dimData(k)%units
+                        print*, 'going to read dimension ', dimName, ' in ', dimUnits
+                        self%status = nf90_get_var(self%ncID, self%varData(i)%dimids(j), tempRealArray)
+                        call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
+                        if (allocated(tempRealArray)) deallocate(tempRealArray)
+                    end if
+                end do                
+            end do
+        end if
+    end do
+
+    end subroutine getVarDimensions
+
+
+
+
+
+
+
+
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -477,9 +544,8 @@
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
-    !> Read a field and transfer it to a gfield
-    !> @param[in] self
     !> print the main nc information to check everything is fine
+    !> @param[in] self 
     !---------------------------------------------------------------------------
     subroutine printNcInfo(self)
     class(ncfile_class), intent(inout) :: self
@@ -493,5 +559,46 @@
     outext = outext//'       Number of variable fields = '//temp
     call Log%put(outext,.false.)
     end subroutine printNcInfo
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> print variable metadata
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine printVarsNC(self)
+    class(var_t), intent(inout) :: self
+    type(string) :: outext, temp
+    integer :: i
+    outext = '--->Variable: '// self%name //new_line('a')
+    temp = self%varid
+    outext = outext//'       varid = '//temp//new_line('a')
+    outext = outext//'       units = '//self%units//new_line('a')
+    temp = self%dimids(1)
+    outext = outext//'       dimids = '//temp
+    do i=2, size(self%dimids)
+        temp = self%dimids(i)
+        outext = outext//', '//temp
+    end do
+    call Log%put(outext,.false.)
+    end subroutine printVarsNC
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> print dimensions metadata
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine printDimsNC(self)
+    class(dim_t), intent(inout) :: self
+    type(string) :: outext, temp
+    outext = '--->Dimension: '// self%name //new_line('a')
+    temp = self%dimid
+    outext = outext//'       varid = '//temp//new_line('a')
+    outext = outext//'       units = '//self%units//new_line('a')
+    temp = self%length
+    outext = outext//'       lenght = '//temp
+    call Log%put(outext,.false.)
+    end subroutine printDimsNC
 
     end module ncparser_mod

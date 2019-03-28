@@ -224,9 +224,17 @@
     
     type(ncfile_class) :: ncFile
     type(string) :: ncFileName
+    type(string) :: temp
+    integer :: i
+    type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims_alt
     
     ncFileName = 'MOHID_Vigo_20180904_0000.nc4'
     call ncFile%getFile(ncFileName)
+    temp = 'u'
+    call ncFile%getVarDimensions(temp, testbackgroundims_alt)
+    do i=1, size(testbackgroundims_alt)
+        call testbackgroundims_alt(i)%print()
+    end do
 
     nc_input_file(1)%file_name = 'MOHID_Vigo_20180904_0000.nc4'
     nc_input_file(2)%file_name = 'MOHID_Vigo_20180904_0000.nc4'
