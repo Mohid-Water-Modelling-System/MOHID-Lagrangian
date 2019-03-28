@@ -399,7 +399,7 @@
             if (currVarNameList%notRepeated(attValue)) call currVarNameList%add(attValue)
         end do
     end if
-    
+
     end subroutine setCurrVar
 
     !---------------------------------------------------------------------------
@@ -905,7 +905,7 @@
         stop
     end select
     end subroutine print_stringListCurrent
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
