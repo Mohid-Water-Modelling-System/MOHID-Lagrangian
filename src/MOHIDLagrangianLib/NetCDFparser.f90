@@ -54,6 +54,7 @@
     type :: dim_t
         type(string) :: name
         integer :: dimid
+        integer :: varid
         type (string) :: units
         integer :: length
     contains
@@ -94,6 +95,7 @@
     procedure, private :: getNCDimMetadata
     procedure, private :: getNCVarMetadata
     procedure :: getVarDimensions
+    procedure :: print => printNcInfo
 
     procedure :: initNcLibHeaders
     procedure :: getDimsNumber
@@ -103,8 +105,7 @@
     procedure :: getVarName
     procedure :: getVarData
     procedure :: closeNcid
-    procedure :: transferToGenericField
-    procedure :: print => printNcInfo
+    procedure :: transferToGenericField    
     procedure :: ncToField
     end type ncfile_class
 
@@ -136,7 +137,7 @@
     !do i=1, size(self%dimData)
     !    call self%dimData(i)%print()
     !end do
-    
+
     end subroutine getFile
 
     !---------------------------------------------------------------------------
@@ -188,7 +189,6 @@
         allocate(self%varData(i)%dimids(ndims))
         self%varData(i)%dimids = dimids(1:ndims)
         self%varData(i)%nAtts = nAtts
-        print*, i, self%varData(i)%name, self%varData(i)%ndims, self%varData(i)%units
     end do
     end subroutine getNCVarMetadata
 
@@ -213,6 +213,7 @@
         do j=1, self%nVars
             if (self%dimData(i)%name == self%varData(j)%name) then
                 self%dimData(i)%units = self%varData(j)%units
+                self%dimData(i)%varid = self%varData(j)%varid
                 exit
             end if
         end do
@@ -233,26 +234,20 @@
     type(string) :: dimName, dimUnits
     integer :: i, j, k
 
-    print*, 'here, at getVarDimensions, reading from variable ', varName
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%name == varName) then   !found the requested var
-            print*, 'found the variable in question ', self%varData(i)%name
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
-            print*, 'allocated ', self%varData(i)%ndims, '1D fields '
-            print*, 'dimension ids are ', self%varData(i)%dimids
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 do k=1, self%nDims  !going trough all available dimensions of the file
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
-                        print*, 'current dimension ids is ', self%dimData(k)%dimid
                         allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
                         dimName = self%dimData(k)%name
                         dimUnits = self%dimData(k)%units
-                        print*, 'going to read dimension ', dimName, ' in ', dimUnits
-                        self%status = nf90_get_var(self%ncID, self%varData(i)%dimids(j), tempRealArray)
-                        call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
+                        self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
+                        call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)                        
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
                     end if
-                end do                
+                end do
             end do
         end if
     end do
@@ -545,7 +540,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> print the main nc information to check everything is fine
-    !> @param[in] self 
+    !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine printNcInfo(self)
     class(ncfile_class), intent(inout) :: self
@@ -559,7 +554,7 @@
     outext = outext//'       Number of variable fields = '//temp
     call Log%put(outext,.false.)
     end subroutine printNcInfo
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -582,7 +577,7 @@
     end do
     call Log%put(outext,.false.)
     end subroutine printVarsNC
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -594,6 +589,8 @@
     type(string) :: outext, temp
     outext = '--->Dimension: '// self%name //new_line('a')
     temp = self%dimid
+    outext = outext//'       dimid = '//temp//new_line('a')
+    temp = self%varid
     outext = outext//'       varid = '//temp//new_line('a')
     outext = outext//'       units = '//self%units//new_line('a')
     temp = self%length
