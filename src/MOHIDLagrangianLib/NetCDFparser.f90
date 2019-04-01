@@ -89,12 +89,14 @@
 
     contains
     procedure :: getFile
+    procedure :: getVarDimensions
+    procedure :: getVar
     procedure, private :: check
     procedure, private :: getNCid
     procedure, private :: getNCglobalMetadata
     procedure, private :: getNCDimMetadata
     procedure, private :: getNCVarMetadata
-    procedure :: getVarDimensions
+    procedure, private :: getDimByDimID    
     procedure :: print => printNcInfo
 
     procedure :: initNcLibHeaders
@@ -105,7 +107,7 @@
     procedure :: getVarName
     procedure :: getVarData
     procedure :: closeNcid
-    procedure :: transferToGenericField    
+    procedure :: transferToGenericField
     procedure :: ncToField
     end type ncfile_class
 
@@ -245,7 +247,8 @@
                         dimName = self%dimData(k)%name
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
-                        call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)                        
+                        call self%check()
+                        call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
                     end if
                 end do
@@ -254,7 +257,7 @@
     end do
 
     end subroutine getVarDimensions
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -266,23 +269,71 @@
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
     type(generic_field_class), intent(out) :: varField
+    real(prec), allocatable, dimension(:) :: tempRealField1D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
     real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
-    type(string) :: dimName, dimUnits
+    type(string) :: dimName, varUnits
     integer :: i, j, k
-    
+    type(dim_t) :: tempDim
+    integer, allocatable, dimension(:) :: varShape
+    type(string) :: outext
+
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%name == varName) then   !found the requested var
-            
+            allocate(varShape(self%varData(i)%ndims))
+            do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
+                tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
+                varShape(j) = tempDim%length
+            end do
+            if(self%varData(i)%ndims == 3) then !3D variable
+                allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
+                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
+                call self%check()
+                call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField3D)
+            else if(self%varData(i)%ndims == 4) then !4D variable
+                allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
+                self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
+                call self%check()
+                call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField4D)
+            else
+                outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
+                call Log%put(outext)
+                stop
+            end if
         end if
     end do
-
-
+    
     end subroutine getVar
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns a dimension field metadata structure, given a dimID
+    !> @param[in] self, dimID
+    !---------------------------------------------------------------------------
+    type(dim_t) function getDimByDimID(self, dimID)
+    class(ncfile_class), intent(inout) :: self
+    integer, intent(in) :: dimID
+    integer :: i
+    logical :: found
+    type(string) :: outext
 
+    found = .false.
+    do i=1, self%nDims
+        if (dimID == self%dimData(i)%dimid) then
+            found = .true.
+            getDimByDimID = self%dimData(i)
+            return
+        end if
+    end do
+    if (.not.found) then
+        outext = dimID
+        outext = '[NetCDFparser::getDimByDimID]: dimension with ID='//outext//' not found. Stopping'
+        call Log%put(outext)
+        stop
+    end if
 
-
+    end function getDimByDimID
 
 
 
