@@ -9,8 +9,8 @@
     <simulationdefs>
       <resolution dp="10000" units_comment="metres (m)"/>
       <timestep dt="3600.0" units_comment="seconds (s)"/>
-      <pointmin x="-8.99" y="42.0" z="0.5" units_comment="(deg,deg,m)"/>
-      <pointmax x="-8.61" y="42.44" z="100" units_comment="(deg,deg,m)"/>
+      <pointmin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
+      <pointmax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>
     </simulationdefs>
     <sourcedef>
       <source>
@@ -26,27 +26,18 @@
         <setsource id="1" name="Litter_plastic" />
         <rate value="0.01" comment="Emission rate (Hz)" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-        <point x="1.0004" y="1.004" z="-50.0" units_comment="(deg,deg,m)"/>
-      </source> -->
-      <!-- <source>
-        <setsource id="2" name="Emissary_2" />
-        <rate_dt value="2000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-        <line>
-          <pointa x="1.000" y="1.0003" z="-50" units_comment="(deg,deg,m)"/>
-          <pointb x="1.002" y="1.0003" z="-50" units_comment="(deg,deg,m)"/>
-        </line>
-      </source> -->
+        <point x="-8.95" y="42.25" z="-10.0" units_comment="(deg,deg,m)"/>
+      </source>   -->   
     </sourcedef>    
-    <properties>
+    <!-- <properties>
       <links>
         <link source="1" type='plastic' property="expanded_polysryrene_12" comment="" />
         <link source="18" type='paper' property="cardboard_1" comment="" />
       </links>
       <propertyfile name="Material_props.xml"/>
-    </properties>
+    </properties> -->
 	<naming>      
       <namingfile name="nc_library.xml"/>
-	  <namingfile name="nc_library_alt.xml"/>
     </naming>
   </casedef>
   <execution>
