@@ -46,12 +46,8 @@
 			<variant name="LATITUDE" />
 		</latitude>
 		<vertical name="depth">
-			<variant name="lat" />
-			<variant name="Lat" />
-			<variant name="LAT" />
-			<variant name="latitude" />
-			<variant name="Latitude" />
-			<variant name="LATITUDE" />
+			<variant name="Depth" />
+			<variant name="DEPTH" />			
 		</vertical>
 		<time name="time">
 			<variant name="time" />
