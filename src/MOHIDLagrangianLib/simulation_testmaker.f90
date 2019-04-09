@@ -229,7 +229,7 @@
     type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims_alt
     
     ncFileName = 'MOHID_Vigo_20180904_0000.nc4'
-    call ncFile%getFile(ncFileName)
+    call ncFile%initialize(ncFileName)
     temp = 'u'
     call ncFile%getVarDimensions(temp, testbackgroundims_alt)
     call ncFile%getVar(temp, gfield1)
