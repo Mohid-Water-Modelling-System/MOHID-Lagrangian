@@ -143,18 +143,11 @@
         type(stringList_class) :: latVariants
         type(stringList_class) :: depthVariants
         type(stringList_class) :: timeVariants
-        type(stringList_class) :: varToUse !< list of variables used in a simulation
-        type(var_naming_t), dimension(:), allocatable :: varArray !< array of variable names and name variants to use in a simulation
+        type(stringList_class) :: varToUse !< list of variables used in a simulation       
     contains
     procedure, private :: buildvars
     procedure, public  :: addVar
     end type var_names_t
-    
-    type :: var_naming_t !< Strucure to hold the nomenclature of any variable
-        type(string), pointer :: name !< Name of the variable
-        type(stringList_class), pointer :: variants  !< possible names for the variable in the input files
-        logical :: set
-    end type var_naming_t
 
     type :: sim_time_t
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
@@ -291,10 +284,10 @@
     call self%addVar(self%temp)
     call self%addVar(self%sal)
     call self%addVar(self%density)
-    call self%addVar(self%lon)
-    call self%addVar(self%lat)
-    call self%addVar(self%depth)
-    call self%addVar(self%time)
+    !call self%addVar(self%lon)
+    !call self%addVar(self%lat)
+    !call self%addVar(self%depth)
+    !call self%addVar(self%time)
     end subroutine buildvars
     
     !---------------------------------------------------------------------------
@@ -307,18 +300,6 @@
     type(string), intent(in) :: var
     if (self%varToUse%notRepeated(var)) call self%varToUse%add(var)
     end subroutine addVar
-    
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> sets a variable array from the variable pool of a simulation
-    !---------------------------------------------------------------------------
-    subroutine makeVarArray(self)
-    class(var_names_t), intent(inout) :: self
-    if (self%varToUse%getSize() .ne. 0) then
-        
-    end if
-    end subroutine makeVarArray
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
