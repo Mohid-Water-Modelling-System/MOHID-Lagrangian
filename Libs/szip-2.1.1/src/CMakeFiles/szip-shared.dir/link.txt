@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC   -std=c99 -fomit-frame-pointer -finline-functions -fno-common -fmessage-length=0 -O3 -DNDEBUG   -shared -Wl,-soname,libszip.so.2.1 -o ../bin/libszip.so.2.1 CMakeFiles/szip-shared.dir/rice.c.o CMakeFiles/szip-shared.dir/sz_api.c.o CMakeFiles/szip-shared.dir/encoding.c.o -lm 
