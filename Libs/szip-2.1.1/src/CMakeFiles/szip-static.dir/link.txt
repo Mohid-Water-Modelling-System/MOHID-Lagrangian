@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../bin/libszip.a  CMakeFiles/szip-static.dir/rice.c.o CMakeFiles/szip-static.dir/sz_api.c.o CMakeFiles/szip-static.dir/encoding.c.o
+/usr/bin/ranlib ../bin/libszip.a
