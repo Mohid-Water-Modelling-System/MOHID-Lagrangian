@@ -46,6 +46,7 @@
         integer :: varid
         type (string) :: units
         integer :: length
+        logical :: reverse
     contains
     procedure :: print => printDimsNC
     end type dim_t
@@ -57,6 +58,8 @@
         integer :: ndims
         integer, allocatable, dimension(:) :: dimids
         integer :: natts
+        real :: offset,scale,fillvalue
+
     contains
     procedure :: print => printVarsNC
     end type var_t
@@ -137,6 +140,7 @@
     subroutine getNCVarMetadata(self)
     class(ncfile_class), intent(inout) :: self
     integer :: i, j, ndims, nAtts
+    integer :: offsetlen,factorlen,fillvaluelen
     integer :: dimids(self%nDims)
     character(CHAR_LEN) :: varName, units
     allocate(self%varData(self%nVars))
@@ -144,6 +148,23 @@
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
         call self%check()
         self%status = nf90_get_att(self%ncID, i, 'units', units)
+        call self%check()
+
+        self%status = nf90_inquire_attribute(self%ncID, i, "scale_factor", factorlen)
+        allocate(self%scalefactor(factorlen))
+        self%status = nf90_get_att(self%ncID, i, "scale_factor", self%scalefactor)
+        call self%check()
+
+        self%status = nf90_inquire_attribute(self%ncID, i, "add_offset", offsetlen)
+        allocate(self%offset(offsetlen))
+        self%status = nf90_get_att(self%ncID, i, "add_offset", self%offset)
+        call self%check()
+
+        self%status = nf90_inquire_attribute(self%ncID, i, "_FillValue", fillvaluelen)
+        allocate(self%fillavalue(fillvaluelen))
+        self%status = nf90_get_att(self%ncID, i, "_FillValue", self%fillvalue)
+        call self%check()
+
         call self%check()
         self%varData(i)%name = trim(varName)
         self%varData(i)%varid = i
@@ -209,6 +230,8 @@
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
+                        reverseFlag = all((tempRealArray(i+1)-tempRealArray(i)) < 0 l = 1,length-1)
+
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
                     end if
@@ -249,11 +272,20 @@
             if(self%varData(i)%ndims == 3) then !3D variable
                 allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
+                tempRealField3D = tempRealField3D*self%scale + self%offset ! scale + offset transform 
+                where (tempRealField3D == self%fillvalue) 
+                    tempRealField3D = 0.
+                end where.
                 call self%check()
                 call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
+                tempRealField3D = tempRealField3D*self%scale + self%offset
+                where (tempRealField4D == self%fillvalue) 
+                    tempRealField4D = 0.
+                end where
+
                 call self%check()
                 call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField4D)
             else
