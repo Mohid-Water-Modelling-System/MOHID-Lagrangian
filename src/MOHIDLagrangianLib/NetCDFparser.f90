@@ -230,7 +230,11 @@
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
-                        reverseFlag = all((tempRealArray(i+1)-tempRealArray(i)) < 0 l = 1,length-1)
+                        
+                        self%reverse = all((tempRealArray(i+1)-tempRealArray(i)) < 0 l = 1,length-1) ! 1st Tricky solution: the axis negative
+                        if self%reverse == True 
+                            tempRealArray = - tempRealArray
+                        end if
 
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
