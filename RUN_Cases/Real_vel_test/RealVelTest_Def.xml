@@ -8,17 +8,17 @@
     </constantsdef>
     <simulationdefs>
       <resolution dp="10000" units_comment="metres (m)"/>
-      <timestep dt="3600.0" units_comment="seconds (s)"/>
+      <timestep dt="360.0" units_comment="seconds (s)"/>
       <pointmin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
       <pointmax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>
     </simulationdefs>
     <sourcedef>
       <source>
         <setsource id="18" name="ReleaseBox1" />
-        <rate_dt value="96" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
         <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <box>
-          <point x="-8.95" y="42.10" z="10" units_comment="(deg,deg,m)"/>
+          <point x="-8.95" y="42.10" z="-1" units_comment="(deg,deg,m)"/>
           <size x="10000000" y="10000000" z="1.0" units_comment="metres (m)"/>
         </box>
       </source>

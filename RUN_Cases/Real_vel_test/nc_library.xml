@@ -46,6 +46,7 @@
 			<variant name="LATITUDE" />
 		</latitude>
 		<vertical name="depth">
+			<variant name="depth" />
 			<variant name="Depth" />
 			<variant name="DEPTH" />			
 		</vertical>

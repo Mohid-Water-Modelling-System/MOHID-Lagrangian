@@ -58,8 +58,7 @@
         integer :: ndims
         integer, allocatable, dimension(:) :: dimids
         integer :: natts
-        real :: offset,scale,fillvalue
-
+        real(prec) :: offset, scale, fillvalue
     contains
     procedure :: print => printVarsNC
     end type var_t
@@ -140,39 +139,28 @@
     subroutine getNCVarMetadata(self)
     class(ncfile_class), intent(inout) :: self
     integer :: i, j, ndims, nAtts
-    integer :: offsetlen,factorlen,fillvaluelen
     integer :: dimids(self%nDims)
+    integer :: tempStatus
     character(CHAR_LEN) :: varName, units
     allocate(self%varData(self%nVars))
     do i=1, self%nVars
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
-        call self%check()
-        self%status = nf90_get_att(self%ncID, i, 'units', units)
-        call self%check()
-
-        self%status = nf90_inquire_attribute(self%ncID, i, "scale_factor", factorlen)
-        allocate(self%scalefactor(factorlen))
-        self%status = nf90_get_att(self%ncID, i, "scale_factor", self%scalefactor)
-        call self%check()
-
-        self%status = nf90_inquire_attribute(self%ncID, i, "add_offset", offsetlen)
-        allocate(self%offset(offsetlen))
-        self%status = nf90_get_att(self%ncID, i, "add_offset", self%offset)
-        call self%check()
-
-        self%status = nf90_inquire_attribute(self%ncID, i, "_FillValue", fillvaluelen)
-        allocate(self%fillavalue(fillvaluelen))
-        self%status = nf90_get_att(self%ncID, i, "_FillValue", self%fillvalue)
-        call self%check()
-
-        call self%check()
+        call self%check()        
         self%varData(i)%name = trim(varName)
-        self%varData(i)%varid = i
-        self%varData(i)%units = trim(units)
+        self%varData(i)%varid = i        
         self%varData(i)%ndims = ndims
         allocate(self%varData(i)%dimids(ndims))
         self%varData(i)%dimids = dimids(1:ndims)
         self%varData(i)%nAtts = nAtts
+        tempStatus = nf90_get_att(self%ncID, i, 'units', units)
+        if (tempStatus == -43) units = "not set"
+        self%varData(i)%units = trim(units)
+        tempStatus = nf90_get_att(self%ncID, i, "scale_factor", self%varData(i)%scale)
+        if (tempStatus == -43) self%varData(i)%scale = 1.0
+        tempStatus = nf90_get_att(self%ncID, i, "add_offset", self%varData(i)%offset)
+        if (tempStatus == -43) self%varData(i)%offset = 0.0
+        tempStatus = nf90_get_att(self%ncID, i, "_FillValue", self%varData(i)%fillvalue)
+        if (tempStatus == -43) self%varData(i)%fillvalue = 0.0
     end do
     end subroutine getNCVarMetadata
 
@@ -215,9 +203,9 @@
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
     type(scalar1d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
-    real(prec), allocatable, dimension(:) :: tempRealArray
+    real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
     type(string) :: dimName, dimUnits
-    integer :: i, j, k
+    integer :: i, j, k, l
 
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%name == varName) then   !found the requested var
@@ -229,15 +217,18 @@
                         dimName = self%dimData(k)%name
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
-                        call self%check()
-                        
-                        self%reverse = all((tempRealArray(i+1)-tempRealArray(i)) < 0 l = 1,length-1) ! 1st Tricky solution: the axis negative
-                        if self%reverse == True 
+                        call self%check()    
+                        allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
+                        do l=1, self%dimData(k)%length - 1
+                            tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
+                        end do
+                        self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: the axis negative
+                        if (self%dimData(k)%reverse == .true.) then 
                             tempRealArray = - tempRealArray
                         end if
-
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
+                        if (allocated(tempRealArrayDelta)) deallocate(tempRealArrayDelta)
                     end if
                 end do
             end do
@@ -276,21 +267,20 @@
             if(self%varData(i)%ndims == 3) then !3D variable
                 allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
-                tempRealField3D = tempRealField3D*self%scale + self%offset ! scale + offset transform 
-                where (tempRealField3D == self%fillvalue) 
-                    tempRealField3D = 0.
-                end where.
                 call self%check()
+                tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform 
+                where (tempRealField3D == self%varData(i)%fillvalue) 
+                    tempRealField3D = 0.0
+                end where
                 call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
-                tempRealField3D = tempRealField3D*self%scale + self%offset
-                where (tempRealField4D == self%fillvalue) 
-                    tempRealField4D = 0.
-                end where
-
                 call self%check()
+                tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset
+                where (tempRealField4D == self%varData(i)%fillvalue) 
+                    tempRealField4D = 0.0
+                end where                
                 call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField4D)
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
