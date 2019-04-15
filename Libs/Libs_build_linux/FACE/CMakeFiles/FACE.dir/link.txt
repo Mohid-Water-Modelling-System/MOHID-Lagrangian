@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libFACE.a  CMakeFiles/FACE.dir/face.F90.o
-/usr/bin/ranlib ../lib/libFACE.a

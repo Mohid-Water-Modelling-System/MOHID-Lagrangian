@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/libVecFor.a  CMakeFiles/VecFor.dir/vecfor.F90.o CMakeFiles/VecFor.dir/vecfor_R16P.F90.o CMakeFiles/VecFor.dir/vecfor_R4P.F90.o CMakeFiles/VecFor.dir/vecfor_R8P.F90.o
-/usr/bin/ranlib ../lib/libVecFor.a

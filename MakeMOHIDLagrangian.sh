@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# "name" and "dirout" are named according to the testcase
-
-name=build
-dirout=${name}_linux
+dirout=build
 
 # "dirout" is created to store results or it is cleaned if it already exists
 if [ -e $dirout ]; then

@@ -21,6 +21,15 @@ message("Library name " ${LIB_NAME})
 
 #SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
+# Check platforms
+if (CMAKE_HOST_WIN32)
+    set(WINDOWS 1)
+elseif(CMAKE_HOST_APPLE)
+    set(LINUX 1)
+elseif(CMAKE_HOST_UNIX)
+    set(LINUX 1)
+endif()
+
 #################################################################
 # BUILD PATHS
 #################################################################
@@ -35,7 +44,6 @@ message(STATUS "Executable output path " ${EXECUTABLE_OUTPUT_PATH})
 message(STATUS "Library output path " ${LIBRARY_OUTPUT_PATH})
 message(STATUS "Modules output path " ${CMAKE_Fortran_MODULE_DIRECTORY})
 
-
 #################################################################
 # FFLAGS depend on the compiler and the build type
 #################################################################
@@ -46,9 +54,13 @@ ADD_DEFINITIONS(-D${CMAKE_Fortran_COMPILER_ID})
 
 message(STATUS "COMPILER INFO: ${CMAKE_Fortran_COMPILER_ID} - ${Fortran_COMPILER_NAME}")
 
+if(LINUX)
+  set(EXTRA_FLAGS "-D_USE_NIX")
+endif()
+
 IF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "GNU" OR Fortran_COMPILER_NAME MATCHES "gfortran*")
   # gfortran
-  set(FORTRAN_FLAGS "-fopenmp -fdefault-real-8 -ffree-line-length-0 -cpp -Wimplicit-interface ${EXTRA_FLAGS} ")
+  set(FORTRAN_FLAGS "-fopenmp -fdefault-real-8 -fdefault-double-8 -ffree-line-length-0 -cpp -Wimplicit-interface ${EXTRA_FLAGS} ")
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES} " CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_DEBUG   "-g -fbacktrace -fbounds-check -fprofile-arcs -ftest-coverage -Wimplicit-interface ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
@@ -80,9 +92,10 @@ message (STATUS "Fortran extra flags: " ${CMAKE_Fortran_FLAGS_RELEASE})
 # ADD SOURCE SUBDIRS
 #################################################################
 
-SET(LIBRARY_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/lib)
-SET(APP_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/app)
+SET(LIBRARY_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/MOHIDLagrangianLib)
+SET(APP_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src/MOHIDLagrangianApp)
 
+message("---------Going through individual Cmake files-----------")
 message(STATUS "Library source path " ${LIBRARY_SOURCE_PATH})
 message(STATUS "Application source path " ${APP_SOURCE_PATH})
 

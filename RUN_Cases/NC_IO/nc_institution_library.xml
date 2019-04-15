@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <nc_definitions>
-	<!-- the variables names inside our application -->
+	<!-- the variables names in MOHID Lagrangian -->
 	<eastward_sea_water_velocity value="u" />
 	<northward_sea_water_velocity value="v" />
 	<upward_sea_water_velocity value="w" />
 	<sea_water_temperature value="temp" />
-	<sea_water_salinity value="salt" />
+	<sea_water_salinity value="sal" />
+	<sea_water_density value="density" />
+	<latitude value="lat" />
+	<longitude value="longitude" />
+	<depth value="depth" />
+	<time value="time" />
 </nc_definitions>
 <nc_library>
 	<MOHID>

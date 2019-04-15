@@ -1,0 +1,51 @@
+# Clean first
+
+    rm -rf lib  libfproj4-1.0  libfproj4-1.0.tar.gz  proj-4.7.0  proj-4.7.0.tar.gz  src  teste
+
+# Download
+     
+    wget http://download.osgeo.org/proj/proj-4.7.0.tar.gz
+    wget http://forge.nesc.ac.uk/download.php/10/libfproj4-1.0.tar.gz
+
+# Prepare
+
+    tar -zxvf proj-4.7.0.tar.gz
+    tar -zxvf libfproj4-1.0.tar.gz
+
+    mkdir src
+    cp libfproj4-1.0/fort-proj.c src/
+    cp libfproj4-1.0/cfortran.h src/
+    cp -r proj-4.7.0/src/*.c src/
+    cp -r proj-4.7.0/src/*.h src/
+    cp proj-4.7.0/src/proj_config.h.in src/proj_config.h
+
+# Compile
+
+    cd src
+    rm -rf cs2cs.c geod.c nad2nad.c nad2bin.c proj.c  # with main functions
+    icc -DIFORT -c *.c
+    ar rc libfproj4.a *.o
+    cd ..
+
+# Install
+
+    mkdir lib
+    mkdir include
+    cp src/libfproj4.a lib/
+    cp libfproj4-1.0/proj4.inc include
+
+# Test
+
+    mkdir teste
+    cd teste
+    cp ../libfproj4-1.0/test-proj.f90 .
+    cp ../libfproj4-1.0/proj4.f90 .
+    cp ../libfproj4-1.0/proj4.inc .
+    cp ../src/libfproj4.a .
+
+    ifort -c proj4.f90      #-I../libfproj4-1.0       # needs proj4.inc
+    ifort -c test-proj.f90
+    ifort proj4.o test-proj.o libfproj4.a -o test-proj.exe
+    ./test-proj.exe
+
+
