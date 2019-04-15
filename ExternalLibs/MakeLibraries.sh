@@ -33,38 +33,40 @@ cd $curr_dir
 
 cd $zlib_dir
 mkdir build
-./configure --prefix=$curr_dir/$zlib_dir/build
-make install
+./configure --prefix=$curr_dir/$zlib_dir/build  || exit
+make install || exit
 cd $curr_dir
 
 cd $hdf5_dir
-./configure --with-zlib=$curr_dir/$zlib_dir/build --enable-fortran --enable-fortran2003
-make install
+./configure --with-zlib=$curr_dir/$zlib_dir/build --enable-fortran --enable-fortran2003 --disable-shared  || exit
+make install || exit
 cd $curr_dir
 
 cd $netcdfc_dir
 mkdir build
-./configure --prefix=$curr_dir/$netcdfc_dir/build
-make install
+export CPPFLAGS="-I$hdf5_dir/hdf5/include -I$zlib_dir/build/include" 
+export LDFLAGS="-L$hdf5_dir/hdf5/lib -L$zlib_dir/build/lib"  
+./configure --enable-netcdf-4 --prefix=$pwd/build  || exit
+make install || exit
 cd $curr_dir
 
 cd $netcdff_dir
 mkdir build
-./configure --prefix=$curr_dir/$netcdff_dir/build
-make install
+./configure --prefix=$curr_dir/$netcdff_dir/build  || exit
+make install || exit
 cd $curr_dir
 
 cd $proj4C_dir
 mkdir build
-./configure --prefix=$curr_dir/$proj4C_dir/build
-make install
+./configure --prefix=$curr_dir/$proj4C_dir/build  || exit
+make install || exit
 cd $curr_dir
 
 cd $proj4F_dir
 mkdir build
 ./bootstrap
-./configure --with-proj4=$curr_dir/$proj4C_dir/build --prefix=$curr_dir/$proj4F_dir/build CFLAGS=f2cFortran
-make install
+./configure --with-proj4=$curr_dir/$proj4C_dir/build --prefix=$curr_dir/$proj4F_dir/build CFLAGS=f2cFortran  || exit
+make install || exit
 cd $curr_dir
 
 cd $mohid_dir
