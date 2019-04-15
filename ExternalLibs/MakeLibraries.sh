@@ -33,7 +33,7 @@ cd $curr_dir
 
 cd $zlib_dir
 mkdir build
-./configure --prefix=build
+./configure --prefix=$curr_dir/$zlib_dir/build
 make install
 cd $curr_dir
 
