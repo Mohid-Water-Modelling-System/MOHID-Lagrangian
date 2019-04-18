@@ -300,7 +300,7 @@
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
                 call self%check()
-                tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset
+                tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
                 where (tempRealField4D == self%varData(i)%fillvalue)
                     tempRealField4D = 0.0
                 end where
