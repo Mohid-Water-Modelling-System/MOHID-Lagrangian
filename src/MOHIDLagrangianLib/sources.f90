@@ -57,7 +57,7 @@
         real(prec) :: emission_stack        !< number of emissions on the stack for the current time step
         type(vector) :: pos                 !< Position of the source baricenter (m)
         type(vector) :: vel                 !< Velocity of the source (m s-1)
-        real(prec) :: depth                 !< Depth of the source baricenter (m)
+        real(prec) :: level                 !< Depth of the source baricenter (m)
         real(prec) :: T                     !< Temperature of the source (Celcius)
     end type source_state
 

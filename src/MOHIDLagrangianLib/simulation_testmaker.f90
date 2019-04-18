@@ -131,7 +131,7 @@
     call testbackgroundims(2)%initialize(Globals%Var%lat, units, 1, sy)
     units = 'm'
     sz = sz*testbox%size%z/(res-1) + testbox%pt%z
-    call testbackgroundims(3)%initialize(Globals%Var%depth, units, 1, sz)
+    call testbackgroundims(3)%initialize(Globals%Var%level, units, 1, sz)
     units = 'seg'
     t = t*Globals%Parameters%TimeMax/(res-1)
     call testbackgroundims(4)%initialize(Globals%Var%time, units, 1, t)
@@ -193,7 +193,7 @@
     call testbackgroundims(2)%initialize(Globals%Var%lat, units, 1, sy)
     units = 'm'
     sz = sz*testbox%size%z/(res-1) + testbox%pt%z
-    call testbackgroundims(3)%initialize(Globals%Var%depth, units, 1, sz)
+    call testbackgroundims(3)%initialize(Globals%Var%level, units, 1, sz)
     units = 'seg'
     t = t*Globals%Parameters%TimeMax/(res-1)
     call testbackgroundims(4)%initialize(Globals%Var%time, units, 1, t)
