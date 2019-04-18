@@ -38,7 +38,7 @@
         integer :: id = 0                                                       !< ID of the Background
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
-        type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,depth for example)
+        type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
     contains
     procedure :: add => addField

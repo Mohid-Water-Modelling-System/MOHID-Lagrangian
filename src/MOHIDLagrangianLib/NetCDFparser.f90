@@ -42,6 +42,7 @@
 
     type :: dim_t
         type(string) :: name
+        type(string) :: simName
         integer :: dimid
         integer :: varid
         type (string) :: units
@@ -53,6 +54,7 @@
 
     type :: var_t
         type(string) :: name
+        type(string) :: simName
         integer :: varid
         type (string) :: units
         integer :: ndims
@@ -145,9 +147,10 @@
     allocate(self%varData(self%nVars))
     do i=1, self%nVars
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
-        call self%check()        
+        call self%check()
         self%varData(i)%name = trim(varName)
-        self%varData(i)%varid = i        
+        self%varData(i)%simName = Globals%Var%getVarSimName(self%varData(i)%name)
+        self%varData(i)%varid = i
         self%varData(i)%ndims = ndims
         allocate(self%varData(i)%dimids(ndims))
         self%varData(i)%dimids = dimids(1:ndims)
@@ -179,6 +182,7 @@
         self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
         call self%check()
         self%dimData(i)%name = trim(dimName)
+        self%dimData(i)%simName = Globals%Var%getVarSimName(self%dimData(i)%name)
         self%dimData(i)%length = dimLength
         self%status = nf90_inq_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
         call self%check()
@@ -197,33 +201,34 @@
     !> @brief
     !> Reads the dimension fields from the nc file for a given variable.
     !> returns an array of scalar 1D fields, each with a name, units and data
-    !> @param[in] self, varName, dimsArrays
+    !> @param[in] self, varName, varNameList, dimsArrays
     !---------------------------------------------------------------------------
-    subroutine getVarDimensions(self, varName, dimsArrays)
+    subroutine getVarDimensions(self, varName, varNameList, dimsArrays)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
+    type(stringList_class), intent(in) :: varNameList
     type(scalar1d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
     real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
     type(string) :: dimName, dimUnits
     integer :: i, j, k, l
 
     do i=1, self%nVars !going trough all variables
-        if (self%varData(i)%name == varName) then   !found the requested var
+        if (self%varData(i)%name == varName .or. .not.varNameList%notRepeated(self%varData(i)%name)) then   !found the requested var
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 do k=1, self%nDims  !going trough all available dimensions of the file
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
                         allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
-                        dimName = self%dimData(k)%name
+                        dimName = self%dimData(k)%simName
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
-                        call self%check()    
+                        call self%check()
                         allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
                         do l=1, self%dimData(k)%length - 1
                             tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
                         end do
                         self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: the axis negative
-                        if (self%dimData(k)%reverse == .true.) then 
+                        if (self%dimData(k)%reverse .eqv. .true.) then
                             tempRealArray = - tempRealArray
                         end if
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
@@ -242,11 +247,12 @@
     !> @brief
     !> Reads the fields from the nc file for a given variable.
     !> returns a generic field, with a name, units and data
-    !> @param[in] self, varName, varField
+    !> @param[in] self, varName, varNameList, varField
     !---------------------------------------------------------------------------
-    subroutine getVar(self, varName, varField)
+    subroutine getVar(self, varName, varNameList, varField)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
+    type(stringList_class), intent(in) :: varNameList
     type(generic_field_class), intent(out) :: varField
     real(prec), allocatable, dimension(:) :: tempRealField1D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
@@ -258,7 +264,7 @@
     type(string) :: outext
 
     do i=1, self%nVars !going trough all variables
-        if (self%varData(i)%name == varName) then   !found the requested var
+        if (self%varData(i)%simName == varName ) then   !found the requested var
             allocate(varShape(self%varData(i)%ndims))
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
@@ -268,20 +274,20 @@
                 allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
                 call self%check()
-                tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform 
-                where (tempRealField3D == self%varData(i)%fillvalue) 
+                tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
+                where (tempRealField3D == self%varData(i)%fillvalue)
                     tempRealField3D = 0.0
                 end where
-                call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField3D)
+                call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
                 call self%check()
                 tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset
-                where (tempRealField4D == self%varData(i)%fillvalue) 
+                where (tempRealField4D == self%varData(i)%fillvalue)
                     tempRealField4D = 0.0
-                end where                
-                call varField%initialize(self%varData(i)%name, self%varData(i)%units, tempRealField4D)
+                end where
+                call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)

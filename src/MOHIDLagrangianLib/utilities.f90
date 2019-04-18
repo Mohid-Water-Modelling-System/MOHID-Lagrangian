@@ -132,8 +132,8 @@
     R = 6378137.0 !earth radius in meters
     !pi = 3.1415926
     res = mvec
-    res%y = res%y/R
-    res%x = res%x/(R*cos(pi*res%y/180.0))
+    res%y = res%y/(R*pi/180.0)
+    res%x = res%x/((R*pi/180.0)*cos(pi*res%y/180.0))
     end function m2geo_vec
     
     !---------------------------------------------------------------------------
@@ -154,9 +154,9 @@
     R = 6378137.0 !earth radius in meters
     m2geo_comp = mvec
     if (component) then
-        m2geo_comp = m2geo_comp/R
+        m2geo_comp = m2geo_comp/(R*pi/180.0)
     else
-        m2geo_comp = m2geo_comp/(R*cos(pi*lat/180.0))
+        m2geo_comp = m2geo_comp/((R*pi/180.0)*cos(pi*lat/180.0))
     end if
     end function m2geo_comp
 

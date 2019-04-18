@@ -3,11 +3,13 @@
 	<variables>
 		<eastward_sea_water_velocity name="u">
 			<variant name="u" comment="used in MOHID" />
+			<variant name="uu" />
 			<variant name="U" />
 			<variant name="uo" comment="used in CMEMS" />
 		</eastward_sea_water_velocity>
 		<northward_sea_water_velocity name="v">
 			<variant name="v" comment="used in MOHID" />
+			<variant name="vv" />
 			<variant name="V" />
 			<variant name="vo" comment="used in CMEMS" />
 		</northward_sea_water_velocity>
@@ -45,10 +47,12 @@
 			<variant name="Latitude" />
 			<variant name="LATITUDE" />
 		</latitude>
-		<vertical name="depth">
+		<vertical name="level">
 			<variant name="depth" />
 			<variant name="Depth" />
-			<variant name="DEPTH" />			
+			<variant name="DEPTH" />
+			<variant name="level" />
+			<variant name="Level" />
 		</vertical>
 		<time name="time">
 			<variant name="time" />

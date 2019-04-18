@@ -36,13 +36,13 @@
         type(vector) :: pos                     !< Position of the tracer (m)
         type(vector) :: vel                     !< Velocity of the tracer (m s-1)
         type(vector) :: acc                     !< Acceleration of the tracer (m s-2)
-        real(prec) :: depth = MV                !< Depth of the tracer (m)
+        real(prec) :: level = MV                !< Depth of the tracer (m)
     end type tracer_state_class
 
     type :: tracer_stats_class             !<Type - statistical variables of a pure Lagrangian tracer object
         type(vector) :: acc_pos                 !< Accumulated position of the tracer (m)
         type(vector) :: acc_vel                 !< Accumulated velocity of the tracer (m s-1)
-        real(prec_wrt) :: acc_depth = MV        !< Accumulated depth of the tracer (m)
+        real(prec_wrt) :: acc_level = MV        !< Accumulated depth of the tracer (m)
         integer :: ns = MV                      !< Number of sampling steps
     end type tracer_stats_class
 
@@ -117,11 +117,11 @@
     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
     constructor%now%vel = 0.0
     constructor%now%acc = 0.0
-    constructor%now%depth = 0.0
+    constructor%now%level = 0.0
     ! Initialize statistical accumulator variables
     constructor%stats%acc_pos = 0.0
     constructor%stats%acc_vel = 0.0
-    constructor%stats%acc_depth = 0.0
+    constructor%stats%acc_level = 0.0
     constructor%stats%ns = 0
 
     end function constructor

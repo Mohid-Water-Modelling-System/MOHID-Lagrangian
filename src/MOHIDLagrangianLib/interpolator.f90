@@ -77,7 +77,7 @@
                 var_name(i) = aField%name
                 xx = self%getArrayCoordRegular(aot%x, bdata, Globals%Var%lon)
                 yy = self%getArrayCoordRegular(aot%y, bdata, Globals%Var%lat)
-                zz = self%getArrayCoordRegular(aot%z, bdata, Globals%Var%depth)
+                zz = self%getArrayCoordRegular(aot%z, bdata, Globals%Var%level)
                 tt = self%getPointCoordRegular(time, bdata, Globals%Var%time)
                 var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
