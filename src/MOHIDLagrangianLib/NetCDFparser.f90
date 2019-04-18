@@ -203,17 +203,16 @@
     !> returns an array of scalar 1D fields, each with a name, units and data
     !> @param[in] self, varName, varNameList, dimsArrays
     !---------------------------------------------------------------------------
-    subroutine getVarDimensions(self, varName, varNameList, dimsArrays)
+    subroutine getVarDimensions(self, varName, dimsArrays)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
-    type(stringList_class), intent(in) :: varNameList
     type(scalar1d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
     real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
     type(string) :: dimName, dimUnits
     integer :: i, j, k, l
 
     do i=1, self%nVars !going trough all variables
-        if (self%varData(i)%name == varName .or. .not.varNameList%notRepeated(self%varData(i)%name)) then   !found the requested var
+        if (self%varData(i)%simName == varName) then   !found the requested var
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 do k=1, self%nDims  !going trough all available dimensions of the file
@@ -227,9 +226,13 @@
                         do l=1, self%dimData(k)%length - 1
                             tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
                         end do
-                        self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: the axis negative
+                        self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
                         if (self%dimData(k)%reverse .eqv. .true.) then
                             tempRealArray = - tempRealArray
+                        end if
+                        !need to check for 'time' variable specific issues
+                        if (dimName == Globals%Var%time) then
+                            call correctNCTime(dimUnits, tempRealArray)
                         end if
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
@@ -249,10 +252,9 @@
     !> returns a generic field, with a name, units and data
     !> @param[in] self, varName, varNameList, varField
     !---------------------------------------------------------------------------
-    subroutine getVar(self, varName, varNameList, varField)
+    subroutine getVar(self, varName, varField)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
-    type(stringList_class), intent(in) :: varNameList
     type(generic_field_class), intent(out) :: varField
     real(prec), allocatable, dimension(:) :: tempRealField1D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
@@ -283,7 +285,7 @@
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
                 call self%check()
-                tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset
+                tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
                 where (tempRealField4D == self%varData(i)%fillvalue)
                     tempRealField4D = 0.0
                 end where
@@ -419,4 +421,52 @@
     call Log%put(outext,.false.)
     end subroutine printDimsNC
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> corrects the time array to a more efficient format if needed.
+    !> assumes netcdf comment as 'seconds since 1981-01-01 00:00:00'
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine correctNCTime(timeComments, timeArray)
+    type(string), intent(in) :: timeComments
+    real(prec), dimension(:), intent(inout) :: timeArray
+    integer :: i
+    type(string), allocatable :: dc(:), dates(:), hours(:)
+    type(string) :: isoDateStr
+    integer, dimension(6) :: date
+    type(datetime) :: NCDate
+    type(timedelta) :: dateOffset
+    type(string) :: outext
+    real(prec) :: scale, offset
+    
+    call timeComments%split(tokens=dc, sep=' ')
+    if (size(dc) == 4) then
+        scale = 1.0
+        if (dc(1) == 'seconds') scale = 1.0
+        if (dc(1) == 'hours')   scale = 3600.0
+        if (dc(1) == 'days')    scale = 3600.0*24.0
+        if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
+        if (dc(1) == 'years')   scale = 3600.0*24.0*30.0*12.0 !or this
+        call dc(3)%split(tokens=dates, sep='-')
+        call dc(4)%split(tokens=hours, sep=':')
+        isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//hours(1)//' '//hours(2)//' '//hours(3)
+        date = Utils%getDateFromISOString(isoDateStr)
+        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        dateOffset = Globals%SimTime%StartDate - NCDate
+        offset = -dateOffset%total_seconds()
+        
+        timeArray = timeArray*scale + offset
+        
+    else
+        outext = '[NetCDF parser::correctNCTime]:WARNING - Time units is not in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
+        call Log%put(outext)
+    end if  
+    
+    end subroutine correctNCTime
+    
+    
+    
+    
+    
     end module ncparser_mod

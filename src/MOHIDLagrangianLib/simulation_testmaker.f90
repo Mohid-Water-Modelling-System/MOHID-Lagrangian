@@ -226,12 +226,12 @@
     type(string) :: ncFileName
     integer :: i
     
-    ncFileName = 'MOHID_Vigo_20180904_0000.nc4'
+    ncFileName = 'Particle_out_3d_242.nc'
     call ncFile%initialize(ncFileName)    
-    call ncFile%getVarDimensions(Globals%Var%u, Globals%Var%uVariants, testbackgroundims)
-    call ncFile%getVar(Globals%Var%u, Globals%Var%uVariants, gfield1)
-    call ncFile%getVar(Globals%Var%v, Globals%Var%vVariants, gfield2)
-    call ncFile%getVar(Globals%Var%w, Globals%Var%wVariants, gfield3)
+    call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)
+    call ncFile%getVar(Globals%Var%u, gfield1)
+    call ncFile%getVar(Globals%Var%v, gfield2)
+    call ncFile%getVar(Globals%Var%w, gfield3)
     call ncFile%finalize()
     !do i=1, size(testbackgroundims_alt)
     !    call testbackgroundims_alt(i)%print()
