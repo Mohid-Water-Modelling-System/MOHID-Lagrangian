@@ -222,13 +222,16 @@
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
-                        allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
-                        do l=1, self%dimData(k)%length - 1
-                            tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
-                        end do
-                        self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
-                        if (self%dimData(k)%reverse .eqv. .true.) then
-                            tempRealArray = - tempRealArray
+                        !need to check for 'level' variable specific issues
+                        if (dimName == Globals%Var%level) then
+                            allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
+                            do l=1, self%dimData(k)%length - 1
+                                tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
+                            end do
+                            self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
+                            if ((self%dimData(k)%reverse .eqv. .true.) .or. all(tempRealArray >=0) ) then !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for now it stays
+                                tempRealArray = - tempRealArray
+                            end if
                         end if
                         !need to check for 'time' variable specific issues
                         if (dimName == Globals%Var%time) then
