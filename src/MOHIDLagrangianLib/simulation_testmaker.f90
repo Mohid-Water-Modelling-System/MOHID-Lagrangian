@@ -22,7 +22,6 @@
     use background_mod
     use field_types_mod
 
-    use nc_parser
     use ncparser_mod
 
     implicit none
@@ -219,54 +218,26 @@
     type(background_class), intent(inout) :: testbackground
     type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
     type(generic_field_class) :: gfield1, gfield2,gfield3
-    type(nc_class),dimension(3) :: nc_input_file
+    !type(nc_class),dimension(3) :: nc_input_file
     type(string) :: name, units
+    
     
     type(ncfile_class) :: ncFile
     type(string) :: ncFileName
     integer :: i
     
     ncFileName = 'MOHID_Vigo_20180904_0000.nc4'
-    call ncFile%initialize(ncFileName)
-    call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)
-    call ncFile%getVar(Globals%Var%u, gfield1)
-    call ncFile%getVar(Globals%Var%v, gfield2)
-    call ncFile%getVar(Globals%Var%w, gfield3)
+    call ncFile%initialize(ncFileName)    
+    call ncFile%getVarDimensions(Globals%Var%u, Globals%Var%uVariants, testbackgroundims)
+    call ncFile%getVar(Globals%Var%u, Globals%Var%uVariants, gfield1)
+    call ncFile%getVar(Globals%Var%v, Globals%Var%vVariants, gfield2)
+    call ncFile%getVar(Globals%Var%w, Globals%Var%wVariants, gfield3)
     call ncFile%finalize()
     !do i=1, size(testbackgroundims_alt)
     !    call testbackgroundims_alt(i)%print()
     !end do
     !call gfield1%print()
-
-    !nc_input_file(1)%file_name = 'MOHID_Vigo_20180904_0000.nc4'
-    !nc_input_file(2)%file_name = 'MOHID_Vigo_20180904_0000.nc4'
-    !nc_input_file(3)%file_name = 'MOHID_Vigo_20180904_0000.nc4'
-    !nc_input_file(1)%varname = 'u'
-    !nc_input_file(2)%varname = 'v'
-    !nc_input_file(3)%varname = 'w'
-    !
-    !call nc_input_file(1)%ncToField(gfield1)
-    !call nc_input_file(2)%ncToField(gfield2)
-    !call nc_input_file(3)%ncToField(gfield3)
-    !
-    !call nc_input_file(1)%printNcInfo()
-    !allocate(testbackgroundims(3))
-    !
-    !!create the dimensions for the background
-    !name = 'lon'
-    !units = 'deg'
-    !call testbackgroundims(1)%initialize(name, units, 1, nc_input_file(1)%dims(1)%values)
-    !name = 'lat'
-    !units = 'deg'
-    !call testbackgroundims(2)%initialize(name, units, 1, nc_input_file(1)%dims(2)%values)
-    !name = 'depth'
-    !units = 'm'
-    !call testbackgroundims(3)%initialize(name, units, 1, nc_input_file(1)%dims(3)%values)
-    !name = 'time'
-    !units = 's'
-    !call testbackgroundims(4)%initialize(name, units, 1, nc_input_file(1)%dims(4)%values)
-    !print*, nc_input_file(3)%dims(4)%values
-    !construct background
+   
     name = 'Real surface velocity field'
     testbackground = Background(1, name, testbox, testbackgroundims)
     call testbackground%add(gfield1)
