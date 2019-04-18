@@ -131,7 +131,7 @@
         type(string) :: density
         type(string) :: lon
         type(string) :: lat
-        type(string) :: depth
+        type(string) :: level
         type(string) :: time
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
@@ -141,12 +141,13 @@
         type(stringList_class) :: densityVariants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
-        type(stringList_class) :: depthVariants
+        type(stringList_class) :: levelVariants
         type(stringList_class) :: timeVariants
-        type(stringList_class) :: varToUse !< list of variables used in a simulation       
+        type(stringList_class) :: varToUse !< list of variables used in a simulation
     contains
     procedure, private :: buildvars
     procedure, public  :: addVar
+    procedure, public  :: getVarSimName
     end type var_names_t
 
     type :: sim_time_t
@@ -275,7 +276,7 @@
     self%density = 'density'
     self%lon     = 'lon'
     self%lat     = 'lat'
-    self%depth   = 'depth'
+    self%level   = 'level'
     self%time    = 'time'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
@@ -286,10 +287,10 @@
     call self%addVar(self%density)
     !call self%addVar(self%lon)
     !call self%addVar(self%lat)
-    !call self%addVar(self%depth)
+    !call self%addVar(self%level)
     !call self%addVar(self%time)
     end subroutine buildvars
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -300,6 +301,71 @@
     type(string), intent(in) :: var
     if (self%varToUse%notRepeated(var)) call self%varToUse%add(var)
     end subroutine addVar
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the simulation name of a given variabe name, by brute force searching
+    !> trough the naming variable lists...
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    type(string) function getVarSimName(self, var)
+    class(var_names_t), intent(inout) :: self
+    type(string), intent(in) :: var
+
+    !searching for u
+    if (var == self%u .or. .not.self%uVariants%notRepeated(var)) then
+        getVarSimName = self%u
+        return
+    end if
+    !searching for v
+    if (var == self%v .or. .not.self%vVariants%notRepeated(var)) then
+        getVarSimName = self%v
+        return
+    end if
+    !searching for w
+    if (var == self%w .or. .not.self%wVariants%notRepeated(var)) then
+        getVarSimName = self%w
+        return
+    end if
+    !searching for temp
+    if (var == self%temp .or. .not.self%tempVariants%notRepeated(var)) then
+        getVarSimName = self%temp
+        return
+    end if
+    !searching for sal
+    if (var == self%sal .or. .not.self%salVariants%notRepeated(var)) then
+        getVarSimName = self%sal
+        return
+    end if
+    !searching for density
+    if (var == self%density .or. .not.self%densityVariants%notRepeated(var)) then
+        getVarSimName = self%density
+        return
+    end if
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        getVarSimName = self%lon
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        getVarSimName = self%lat
+        return
+    end if
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        getVarSimName = self%level
+        return
+    end if
+    !searching for time
+    if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
+        getVarSimName = self%time
+        return
+    end if
+
+    end function getVarSimName
+
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -370,7 +436,7 @@
     tag="latitude"
     call self%setCurrVar(tag, self%Var%lat, self%Var%latVariants, dimNode)
     tag="vertical"
-    call self%setCurrVar(tag, self%Var%depth, self%Var%depthVariants, dimNode)
+    call self%setCurrVar(tag, self%Var%level, self%Var%levelVariants, dimNode)
     tag="time"
     call self%setCurrVar(tag, self%Var%time, self%Var%timeVariants, dimNode)
 
@@ -410,7 +476,7 @@
     end if
 
     end subroutine setCurrVar
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

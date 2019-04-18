@@ -42,6 +42,7 @@
 
     type :: dim_t
         type(string) :: name
+        type(string) :: simName
         integer :: dimid
         integer :: varid
         type (string) :: units
@@ -53,6 +54,7 @@
 
     type :: var_t
         type(string) :: name
+        type(string) :: simName
         integer :: varid
         type (string) :: units
         integer :: ndims
@@ -147,6 +149,7 @@
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
         call self%check()
         self%varData(i)%name = trim(varName)
+        self%varData(i)%simName = Globals%Var%getVarSimName(self%varData(i)%name)
         self%varData(i)%varid = i
         self%varData(i)%ndims = ndims
         allocate(self%varData(i)%dimids(ndims))
@@ -179,6 +182,7 @@
         self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
         call self%check()
         self%dimData(i)%name = trim(dimName)
+        self%dimData(i)%simName = Globals%Var%getVarSimName(self%dimData(i)%name)
         self%dimData(i)%length = dimLength
         self%status = nf90_inq_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
         call self%check()
@@ -215,7 +219,7 @@
                 do k=1, self%nDims  !going trough all available dimensions of the file
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
                         allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
-                        dimName = self%dimData(k)%name
+                        dimName = self%dimData(k)%simName
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
@@ -224,7 +228,7 @@
                             tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
                         end do
                         self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: the axis negative
-                        if (self%dimData(k)%reverse == .true.) then
+                        if (self%dimData(k)%reverse .eqv. .true.) then
                             tempRealArray = - tempRealArray
                         end if
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
@@ -260,7 +264,7 @@
     type(string) :: outext
 
     do i=1, self%nVars !going trough all variables
-        if (self%varData(i)%name == varName .or. .not.varNameList%notRepeated(self%varData(i)%name)) then   !found the requested var
+        if (self%varData(i)%simName == varName ) then   !found the requested var
             allocate(varShape(self%varData(i)%ndims))
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 tempDim = self%getDimByDimID(self%varData(i)%dimids(j))
