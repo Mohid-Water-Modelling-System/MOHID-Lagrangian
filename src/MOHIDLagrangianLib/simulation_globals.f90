@@ -184,7 +184,7 @@
     type(globals_class) :: Globals
 
     !Public access vars
-    public :: Globals
+    public :: Globals, stringList_class
 
     contains
 
