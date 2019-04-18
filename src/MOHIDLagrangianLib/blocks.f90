@@ -418,6 +418,7 @@
         ar = BBox%size%x/BBox%size%y
         ar = Utils%get_closest_twopow(ar) !aspect ratio of our bounding box
         nyi = sqrt(nblk/ar)
+        if (nblk == 1) nyi = 1
         if (nyi == 0) then
             temp(1) = ar
             outext='[setBlocks]: block auto sizing failed. Bouding box aspect ratio = '//temp(1)//'. Stoping'
