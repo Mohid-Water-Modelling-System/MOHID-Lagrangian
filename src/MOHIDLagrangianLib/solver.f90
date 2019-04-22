@@ -261,9 +261,9 @@
         
         !---- k4 step: k4 = f(x_n + k3,t + dt)------
         !update positions for the predictor step: x_n + k3*dt
-        k(4)%x = k(4)%x + Utils%m2geo(k(3)%u, k(3)%y, .false.)*dt
-        k(4)%y = k(4)%y + Utils%m2geo(k(3)%v, k(3)%y, .true.)*dt
-        k(4)%z = k(4)%z + k(3)%w*dt
+        k(4)%x = k(3)%x + Utils%m2geo(k(3)%u, k(3)%y, .false.)*dt
+        k(4)%y = k(3)%y + Utils%m2geo(k(3)%v, k(3)%y, .true.)*dt
+        k(4)%z = k(3)%z + k(3)%w*dt
         !update the time: t + dt2
         mstime = time+dt
         call self%Interpolator%run(k(4), bdata(bkg), mstime, var_dt, var_name)
