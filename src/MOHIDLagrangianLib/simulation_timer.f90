@@ -115,7 +115,7 @@
     if (this%initialized) then
         temp = this%elapsed
         outext = 'Total elapsed time for '// this%name //' is '// temp//' s'
-        call Log%put(outext,.false.)
+        call Log%put(outext)
     else
         call this%printNotInitialized()
     end if    
