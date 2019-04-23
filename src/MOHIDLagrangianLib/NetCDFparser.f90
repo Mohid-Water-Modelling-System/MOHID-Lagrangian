@@ -48,7 +48,6 @@
         type (string) :: units
         integer :: length
         logical :: reverse
-        logical :: revind 
     contains
     procedure :: print => printDimsNC
     end type dim_t
@@ -223,7 +222,6 @@
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
-
                         !need to check for 'level' variable specific issues
                         if (dimName == Globals%Var%level) then
                             allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
@@ -238,9 +236,6 @@
                         !need to check for 'time' variable specific issues
                         if (dimName == Globals%Var%time) then
                             call correctNCTime(dimUnits, tempRealArray)
-                        end if
-                        if (self%dimData(k)%reverse .eqv. .false. .and.  self%dimData(k)%revidn .eqv. .true.) then 
-                            tempRealArray = tempRealArray(::-1)
                         end if
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
@@ -288,18 +283,6 @@
                 where (tempRealField3D == self%varData(i)%fillvalue)
                     tempRealField3D = 0.0
                 end where
-                
-                do l = 1,self%varData(i)%ndims 
-                    
-                    if(self%dimData(l)%revind == .True. .and. l == 1)then
-                        tempRealField4D = tempRealField4D(::-1,:,:)
-                        else if(self%dimData(l)%revind == .True. .and. l == 2) then
-                                tempRealField4D = tempRealField4D(:,::-1,:) 
-                        else if (self%dimData(l)%revind == .True. .and. l == 3) then
-                                tempRealField4D = tempRealField4D(:,:,::-1) 
-                        end if
-                end do
-
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
@@ -309,20 +292,6 @@
                 where (tempRealField4D == self%varData(i)%fillvalue)
                     tempRealField4D = 0.0
                 end where
-
-                do l = 1,self%varData(i)%ndims 
-                    
-                    if(self%dimData(l)%revind == .True. .and. idr == 1)then
-                        tempRealField4D = tempRealField4D(::-1,:,:,:)
-                        else if(self%dimData(l)%revind == .True. .and. l == 2) then
-                                tempRealField4D = tempRealField4D(:,::-1,:,:) 
-                        else if (self%dimData(l)%revind == .True. .and. l == 3) then
-                                tempRealField4D = tempRealField4D(:,:,::-1,:) 
-                        else if (self%dimData(l)%revind == .True. .and. l == 4) then
-                                tempRealField4D = tempRealField4D(:,:,:,::-1)  
-                        end if
-
-                end do
                 call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
