@@ -226,7 +226,7 @@
     type(string) :: ncFileName
     integer :: i
     
-    ncFileName = 'Particle_out_3d_242.nc'
+    ncFileName = 'MOHID_Vigo_20180904_0000.nc4'
     call ncFile%initialize(ncFileName)    
     call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)
     call ncFile%getVar(Globals%Var%u, gfield1)
