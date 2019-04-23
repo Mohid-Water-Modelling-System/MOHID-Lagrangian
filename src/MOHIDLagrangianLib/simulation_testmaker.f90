@@ -69,7 +69,7 @@
         call self%makeConstantVel(resolution, testbox, testbackground)
     else if  (self%TestCode == 3) then
         !make real (from file) velocity test
-        outext = 'Reading velocity fields from a netcdf file, stand by...'
+        outext = 'Reading fields from a netcdf file, stand by...'
         call Log%put(outext)
         call self%makeRealVel(resolution, testbox, testbackground)
     end if
@@ -244,7 +244,7 @@
     call testbackground%add(gfield2)
     call testbackground%add(gfield3)
     
-    call testbackground%print()
+    !call testbackground%print()
 
     end subroutine makeRealVel
 
