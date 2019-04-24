@@ -1,6 +1,7 @@
 build/
 anim/
 Anim/
+hdf5/
 
 .vscode
 
@@ -9,3 +10,6 @@ Anim/
 
 *_out/
 *.out
+*.o
+*.lo
+*.ol
