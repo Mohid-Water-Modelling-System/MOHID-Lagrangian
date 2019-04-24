@@ -17,8 +17,8 @@
     !> the parsing of netcdf files. Each object of this class is responsible for
     !> one file, effectivelly representing it.
     !> The object should return the necessary data fields with corresponding meta
-    !> data, such as names and units. An institution library is consulted when
-    !> required, because even netCDF CF compliance allows ambiguity.
+    !> data, such as names and units. An variable library is consulted when
+    !> required, because even NetCDF CF compliance allows ambiguity.
     !------------------------------------------------------------------------------
 
     module netcdfParser_mod
@@ -201,7 +201,7 @@
     !> @brief
     !> Reads the dimension fields from the nc file for a given variable.
     !> returns an array of scalar 1D fields, each with a name, units and data
-    !> @param[in] self, varName, varNameList, dimsArrays
+    !> @param[in] self, varName, dimsArrays
     !---------------------------------------------------------------------------
     subroutine getVarDimensions(self, varName, dimsArrays)
     class(ncfile_class), intent(inout) :: self
@@ -253,7 +253,7 @@
     !> @brief
     !> Reads the fields from the nc file for a given variable.
     !> returns a generic field, with a name, units and data
-    !> @param[in] self, varName, varNameList, varField
+    !> @param[in] self, varName, varField
     !---------------------------------------------------------------------------
     subroutine getVar(self, varName, varField)
     class(ncfile_class), intent(inout) :: self
@@ -350,7 +350,6 @@
     !> @brief
     !> Debug the netcdf error after a netcdf command
     !> @param[in] self
-    !
     !---------------------------------------------------------------------------
     subroutine check(self)
     class(ncfile_class), intent(inout) :: self
@@ -365,7 +364,7 @@
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
-    !> print the main nc information to check everything is fine
+    !> prints most of the file model metadata
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine printNcInfo(self)
