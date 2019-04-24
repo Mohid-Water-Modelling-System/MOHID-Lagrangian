@@ -59,7 +59,7 @@ static herr_t test_filter_internal(hid_t fid, const char *name, hid_t dcpl,
 /* Temporary filter IDs used for testing */
 const int H5Z_FILTER_BOGUS = 305;
 
-#if 0 // H5_ATTR_UNUSED variables caused warning, so duplicated below with NULL instead
+#if 0 // UNUSED variables caused warning, so duplicated below with NULL instead
 static size_t filter_bogus(unsigned int flags, size_t cd_nelmts,
     const unsigned int *cd_values, size_t nbytes, size_t *buf_size, void **buf);
 #endif
@@ -92,10 +92,10 @@ const H5Z_class2_t H5Z_BOGUS[1] = {{
  *-------------------------------------------------------------------------
  */
 static size_t
-#if 0 // H5_ATTR_UNUSED variables caused warning, so duplicated below with NULL instead
-filter_bogus(unsigned int H5_ATTR_UNUSED flags, size_t H5_ATTR_UNUSED cd_nelmts,
-      const unsigned int H5_ATTR_UNUSED *cd_values, size_t nbytes,
-      size_t H5_ATTR_UNUSED *buf_size, void H5_ATTR_UNUSED **buf)
+#if 0 // UNUSED variables caused warning, so duplicated below with NULL instead
+filter_bogus(unsigned int UNUSED flags, size_t UNUSED cd_nelmts,
+      const unsigned int UNUSED *cd_values, size_t nbytes,
+      size_t UNUSED *buf_size, void UNUSED **buf)
 #endif
 filter_bogus(size_t nbytes)
 {
@@ -148,7 +148,7 @@ static void test_null_filter()
     } // end of try
 
     // catch all other exceptions
-    catch (Exception& E)
+    catch (Exception E)
     {
         issue_fail_msg("test_null_filter()", __LINE__, __FILE__, E.getCDetailMsg());
     }
@@ -232,7 +232,7 @@ static void test_szip_filter(H5File& file1)
         } // end of try
 
         // catch all other exceptions
-        catch (Exception& E)
+        catch (Exception E)
         {
             issue_fail_msg("test_szip_filter()", __LINE__, __FILE__, E.getCDetailMsg());
         }
@@ -280,7 +280,7 @@ void test_filters()
 	test_null_filter();
 	test_szip_filter(file1);
     }
-    catch (Exception& E)
+    catch (Exception E)
     {
         issue_fail_msg("test_filters()", __LINE__, __FILE__, E.getCDetailMsg());
     }

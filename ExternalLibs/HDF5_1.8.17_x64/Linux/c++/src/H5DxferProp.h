@@ -30,8 +30,7 @@ namespace H5 {
 */
 class H5_DLLCPP DSetMemXferPropList : public PropList {
    public:
-	///\brief Default dataset memory and transfer property list.
-	static const DSetMemXferPropList& DEFAULT;
+	static const DSetMemXferPropList DEFAULT;
 
 	// Creates a dataset memory and transfer property list.
 	DSetMemXferPropList();
@@ -117,19 +116,6 @@ class H5_DLLCPP DSetMemXferPropList : public PropList {
 
 	// Noop destructor
 	virtual ~DSetMemXferPropList();
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-        // Deletes the global constant, should only be used by the library
-        static void deleteConstants();
-
-    private:
-	static DSetMemXferPropList* DEFAULT_;
-
-        // Creates the global constant, should only be used by the library
-        static DSetMemXferPropList* getConstant();
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 };
 #ifndef H5_NO_NAMESPACE
 }

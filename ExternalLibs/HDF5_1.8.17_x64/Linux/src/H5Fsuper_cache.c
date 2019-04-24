@@ -110,7 +110,7 @@ H5FL_EXTERN(H5F_super_t);
  *-------------------------------------------------------------------------
  */
 static H5F_super_t *
-H5F_sblock_load(H5F_t *f, hid_t dxpl_id, haddr_t H5_ATTR_UNUSED addr, void *_udata)
+H5F_sblock_load(H5F_t *f, hid_t dxpl_id, haddr_t UNUSED addr, void *_udata)
 {
     H5F_super_t        *sblock = NULL;      /* File's superblock */
     haddr_t             base_addr = HADDR_UNDEF;        /* Base address of file */
@@ -599,7 +599,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5F_sblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t H5_ATTR_UNUSED addr,
+H5F_sblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t UNUSED addr,
     H5F_super_t *sblock)
 {
     herr_t          ret_value = SUCCEED;
@@ -661,7 +661,7 @@ H5F_sblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t H5_ATTR_UNUSE
                 HGOTO_ERROR(H5E_FILE, H5E_CANTENCODE, FAIL, "can't encode root group symbol table entry")
 
             /* Encode the driver information block. */
-            H5_CHECKED_ASSIGN(driver_size, size_t, H5FD_sb_size(f->shared->lf), hsize_t);
+            H5_ASSIGN_OVERFLOW(driver_size, H5FD_sb_size(f->shared->lf), hsize_t, size_t);
 
             /* Checking whether driver block address is defined here is to handle backward
              * compatibility.  If the file was created with v1.6 library or earlier and no
@@ -728,7 +728,7 @@ H5F_sblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t H5_ATTR_UNUSE
         } /* end else */
 
         /* Retrieve the total size of the superblock info */
-        H5_CHECKED_ASSIGN(superblock_size, size_t, (p - buf), ptrdiff_t);
+        H5_ASSIGN_OVERFLOW(superblock_size, (p - buf), ptrdiff_t, size_t);
 
         /* Double check we didn't overrun the block (unlikely) */
         HDassert(superblock_size <= sizeof(buf));
@@ -747,7 +747,7 @@ H5F_sblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t H5_ATTR_UNUSE
             /* Check for ignoring the driver info for this file */
             if(!H5F_HAS_FEATURE(f, H5FD_FEAT_IGNORE_DRVRINFO)) {
                 /* Check for driver info message */
-                H5_CHECKED_ASSIGN(driver_size, size_t, H5FD_sb_size(f->shared->lf), hsize_t);
+                H5_ASSIGN_OVERFLOW(driver_size, H5FD_sb_size(f->shared->lf), hsize_t, size_t);
                 if(driver_size > 0) {
                     H5O_drvinfo_t drvinfo;      /* Driver info */
                     H5O_loc_t 	ext_loc; 	/* "Object location" for superblock extension */
@@ -803,7 +803,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5F_sblock_dest(H5F_t H5_ATTR_UNUSED *f, H5F_super_t* sblock)
+H5F_sblock_dest(H5F_t UNUSED *f, H5F_super_t* sblock)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 

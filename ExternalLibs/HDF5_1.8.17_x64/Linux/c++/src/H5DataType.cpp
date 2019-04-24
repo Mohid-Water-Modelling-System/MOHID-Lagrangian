@@ -28,7 +28,6 @@
 #include "H5Object.h"
 #include "H5FaccProp.h"
 #include "H5FcreatProp.h"
-#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5DxferProp.h"
 #include "H5CommonFG.h"
@@ -69,8 +68,9 @@ DataType::DataType() : H5Object(), id(H5I_INVALID_HID) {}
 //		Removed second argument, "predefined", after changing to the
 //		new ref counting mechanism that relies on C's ref counting.
 //--------------------------------------------------------------------------
-DataType::DataType(const hid_t existing_id) : H5Object(), id(existing_id)
+DataType::DataType(const hid_t existing_id) : H5Object()
 {
+    id = existing_id;
     incRefCount(); // increment number of references to this id
 }
 
@@ -133,15 +133,16 @@ DataType::DataType(const Attribute& attr, const void* ref, H5R_type_t ref_type) 
 ///\brief	Copy constructor: makes a copy of the original DataType object.
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DataType::DataType(const DataType& original) : H5Object(), id(original.id)
+DataType::DataType(const DataType& original) : H5Object()
 {
+    id = original.getId();
     incRefCount(); // increment number of references to this id
 }
 
 //--------------------------------------------------------------------------
 // Function:    DataType overloaded constructor
 ///\brief       Creates a DataType instance using a predefined type
-///\param       pred_type - IN: Predefined datatype
+///\param       pred_type - IN: Predefined type instance
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - 2015
 // Description
@@ -155,7 +156,7 @@ DataType::DataType(const PredType& pred_type) : H5Object()
 {
     // call C routine to copy the datatype
     id = H5Tcopy( pred_type.getId() );
-    if (id < 0)
+    if( id < 0 )
 	throw DataTypeIException("DataType constructor", "H5Tcopy failed");
 }
 
@@ -177,7 +178,7 @@ void DataType::copy( const DataType& like_type )
     try {
 	close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	throw DataTypeIException(inMemFunc("copy"), close_error.getDetailMsg());
     }
 
@@ -202,7 +203,7 @@ void DataType::copy(const DataSet& dset)
     try {
 	close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	throw DataTypeIException(inMemFunc("copy"), close_error.getDetailMsg());
     }
 
@@ -235,7 +236,8 @@ DataType& DataType::operator=( const DataType& rhs )
 {
     if (this != &rhs)
     {
-	setId(rhs.id);
+	id = rhs.id;
+	incRefCount(); // increment number of references to this id
     }
     return(*this);
 }
@@ -302,16 +304,13 @@ void DataType::commit(const H5Location& loc, const char* name)
 
 //--------------------------------------------------------------------------
 // Function:	DataType::commit
-// Purpose	This is an overloaded member function, kept for backward
-//		compatibility.  It differs from the above function in that it
-//		misses const's.  This wrapper will be removed in future release.
-// Param	loc - IN: A location (file, dataset, datatype, or group)
-// Param 	name - IN: Name of the datatype
-// Exception	H5::DataTypeIException
+///\brief	This is an overloaded member function, kept for backward
+///		compatibility.  It differs from the above function in that it
+///		misses const's.  This wrapper will be removed in future release.
+///\param	loc - IN: A location (file, dataset, datatype, or group)
+///\param	name - IN: Name of the datatype
+///\exception	H5::DataTypeIException
 // Programmer	Binh-Minh Ribler - Jan, 2007
-// Modification
-//		Planned for removal. -BMR, 2014/04/16
-//		Removed from documentation. -BMR, 2016/03/07
 //--------------------------------------------------------------------------
 void DataType::commit(H5Location& loc, const char* name)
 {
@@ -332,16 +331,13 @@ void DataType::commit(const H5Location& loc, const H5std_string& name)
 
 //--------------------------------------------------------------------------
 // Function:	DataType::commit
-// Purpose	This is an overloaded member function, kept for backward
-//		compatibility.  It differs from the above function in that it
-//		misses const's.  This wrapper will be removed in future release.
-// Param 	loc - IN: A location (file, dataset, datatype, or group)
-// Param 	name - IN: Name of the datatype
-// Exception	H5::DataTypeIException
+///\brief	This is an overloaded member function, kept for backward
+///		compatibility.  It differs from the above function in that it
+///		misses const's.  This wrapper will be removed in future release.
+///\param	loc - IN: A location (file, dataset, datatype, or group)
+///\param	name - IN: Name of the datatype
+///\exception	H5::DataTypeIException
 // Programmer	Binh-Minh Ribler - Jan, 2007
-// Modification
-//		Planned for removal. -BMR, 2014/04/16
-//		Removed from documentation. -BMR, 2016/03/07
 //--------------------------------------------------------------------------
 void DataType::commit(H5Location& loc, const H5std_string& name)
 {
@@ -360,10 +356,10 @@ void DataType::commit(H5Location& loc, const H5std_string& name)
 bool DataType::committed() const
 {
    // Call C function to determine if a datatype is a named one
-   htri_t is_committed = H5Tcommitted( id );
-   if (is_committed > 0)
+   htri_t committed = H5Tcommitted( id );
+   if( committed > 0 )
       return true;
-   else if (is_committed == 0)
+   else if( committed == 0 )
       return false;
    else
    {
@@ -721,7 +717,7 @@ void DataType::p_setId(const hid_t new_id)
     try {
         close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
         throw DataTypeIException(inMemFunc("p_setId"), close_error.getDetailMsg());
     }
    // reset object's id to the given id
@@ -762,19 +758,25 @@ void DataType::close()
 //		- Added the use of H5CPP_EXITED to terminate the HDF5 library
 //		  and elimiate previous memory leaks.  See comments in the
 //		  header file "H5PredType.h" for details. - BMR, Mar 30, 2012
-//		- Major re-implementation of the global constants was done
-//		  to avoid relying on the order of the creation and deletion
-//		  of the global constants.  Hence, H5CPP_EXITED was removed.
-//		  See Design Notes in "H5PredType.cpp" for details.
-//		  - BMR, Sep 30, 2015
 //--------------------------------------------------------------------------
 DataType::~DataType()
 {
     try
     {
-	close();
+	/* If this is the object AtExit, terminate the HDF5 library.  This is
+	   to eliminate memory leaks due to the library being re-initiated
+	   (after the program has ended) and not re-terminated. */
+	if (id == H5CPP_EXITED)
+	{
+	    herr_t ret_value = H5close();
+	    if (ret_value == FAIL)
+		throw DataTypeIException(inMemFunc("~DataType - "), "H5close failed");
+	}
+	// Close the HDF5 datatype
+	else
+	    close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	cerr << inMemFunc("~DataType - ") << close_error.getDetailMsg() << endl;
     }
 }

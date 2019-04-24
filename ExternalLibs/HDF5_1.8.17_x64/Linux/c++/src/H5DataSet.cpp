@@ -26,7 +26,6 @@
 #include "H5PropList.h"
 #include "H5Object.h"
 #include "H5PropList.h"
-#include "H5OcreatProp.h"
 #include "H5DxferProp.h"
 #include "H5DcreatProp.h"
 #include "H5FaccProp.h"
@@ -60,15 +59,10 @@ DataSet::DataSet() : H5Object(), AbstractDs(), id(H5I_INVALID_HID) {}
 ///\brief	Creates an DataSet object using the id of an existing dataset.
 ///\param	existing_id - IN: Id of an existing dataset
 // Programmer	Binh-Minh Ribler - 2000
-// Description
-//		incRefCount() is needed here to prevent the id from being closed
-//		prematurely.  That is, when application uses the id of an
-//		existing DataSet object to create another DataSet object.  So,
-//		when one of those objects is deleted, the id will be closed if
-//		the reference counter is only 1.
 //--------------------------------------------------------------------------
-DataSet::DataSet(const hid_t existing_id) : H5Object(), AbstractDs(), id(existing_id)
+DataSet::DataSet(const hid_t existing_id) : H5Object(), AbstractDs()
 {
+    id = existing_id;
     incRefCount(); // increment number of references to this id
 }
 
@@ -78,8 +72,9 @@ DataSet::DataSet(const hid_t existing_id) : H5Object(), AbstractDs(), id(existin
 ///\param	original - IN: DataSet instance to copy
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DataSet::DataSet(const DataSet& original) : H5Object(), AbstractDs(), id(original.id)
+DataSet::DataSet(const DataSet& original) : H5Object(), AbstractDs()
 {
+    id = original.getId();
     incRefCount(); // increment number of references to this id
 }
 
@@ -174,10 +169,8 @@ DSetCreatPropList DataSet::getCreatePlist() const
    {
       throw DataSetIException("DataSet::getCreatePlist", "H5Dget_create_plist failed");
    }
-
    // create and return the DSetCreatPropList object
-   DSetCreatPropList create_plist;
-   f_PropList_setId(&create_plist, create_plist_id);
+   DSetCreatPropList create_plist(create_plist_id); // ok to use existing id const
    return(create_plist);
 }
 
@@ -302,8 +295,6 @@ void DataSet::getSpaceStatus(H5D_space_status_t& status) const
 ///\return	Amount of storage
 ///\exception	H5::DataSetIException
 // Programmer	Binh-Minh Ribler - 2000
-// Modification
-//		Replaced the version without const parameter - Apr, 2014
 //--------------------------------------------------------------------------
 hsize_t DataSet::getVlenBufSize(const DataType& type, const DataSpace& space ) const
 {
@@ -319,6 +310,20 @@ hsize_t DataSet::getVlenBufSize(const DataType& type, const DataSpace& space ) c
       throw DataSetIException("DataSet::getVlenBufSize", "H5Dvlen_get_buf_size failed");
    }
    return( size );
+}
+
+//--------------------------------------------------------------------------
+// Function:	DataSet::getVlenBufSize
+///\brief       This is an overloaded member function, kept for backward
+///		compatibility.  It differs from the above function in that it
+///             misses const's.  This wrapper will be removed in future release.
+///\return	Amount of storage
+///\exception	H5::DataSetIException
+// Programmer	Binh-Minh Ribler - 2000
+//--------------------------------------------------------------------------
+hsize_t DataSet::getVlenBufSize( DataType& type, DataSpace& space ) const
+{
+    return(getVlenBufSize((const DataType)type, (const DataSpace)space));
 }
 
 //--------------------------------------------------------------------------
@@ -588,8 +593,6 @@ void DataSet::extend( const hsize_t* size ) const
 ///\exception	H5::DataSetIException
 // Programmer	Binh-Minh Ribler - 2014
 // Modification
-//		Replaced the version without const parameter - Apr, 2014
-// Modification
 //		Used the non-const version.
 //--------------------------------------------------------------------------
 void DataSet::fillMemBuf(const void *fill, const DataType& fill_type, void *buf, const DataType& buf_type, const DataSpace& space) const
@@ -606,14 +609,30 @@ void DataSet::fillMemBuf(const void *fill, const DataType& fill_type, void *buf,
 
 //--------------------------------------------------------------------------
 // Function:	DataSet::fillMemBuf
+///\brief       This is an overloaded member function, kept for backward
+///		compatibility.  It differs from the above function in that it
+///             misses const's.  This wrapper will be removed in future release.
+///\param	fill - IN: Pointer to fill value to use - default NULL
+///\param	fill_type - IN: Datatype of the fill value
+///\param	buf - IN/OUT: Memory buffer to fill selection within
+///\param	buf_type - IN: Datatype of the elements in buffer
+///\param	space - IN: Dataspace describing memory buffer & containing selection to use
+///\exception	H5::DataSetIException
+// Programmer	Binh-Minh Ribler - 2000
+//--------------------------------------------------------------------------
+void DataSet::fillMemBuf(const void *fill, DataType& fill_type, void *buf, DataType& buf_type, DataSpace& space)
+{
+    fillMemBuf(fill, (const DataType)fill_type, buf, (const DataType)buf_type, (const DataSpace)space);
+}
+
+//--------------------------------------------------------------------------
+// Function:	DataSet::fillMemBuf
 ///\brief	Fills a selection in memory with 0.
 ///\param	buf - IN/OUT: Memory buffer to fill selection within
 ///\param	buf_type - IN: Datatype of the elements in buffer
 ///\param	space - IN: Dataspace describing memory buffer & containing selection to use
 ///\exception	H5::DataSetIException
 // Programmer	Binh-Minh Ribler - 2000
-// Modification
-//		Replaced the version without const parameter - Apr, 2014
 //--------------------------------------------------------------------------
 void DataSet::fillMemBuf(void *buf, const DataType& buf_type, const DataSpace& space) const
 {
@@ -624,6 +643,22 @@ void DataSet::fillMemBuf(void *buf, const DataType& buf_type, const DataSpace& s
     {
 	throw DataSetIException("DataSet::fillMemBuf", "H5Dfill failed");
     }
+}
+
+//--------------------------------------------------------------------------
+// Function:    DataSet::fillMemBuf
+///\brief       This is an overloaded member function, kept for backward
+///		compatibility.  It differs from the above function in that it
+///             misses const's.  This wrapper will be removed in future release.
+///\param       buf - IN/OUT: Memory buffer to fill selection within
+///\param       buf_type - IN: Datatype of the elements in buffer
+///\param       space - IN: Dataspace describing memory buffer & containing selection to use
+///\exception   H5::DataSetIException
+// Programmer   Binh-Minh Ribler - 2000
+//--------------------------------------------------------------------------
+void DataSet::fillMemBuf(void *buf, DataType& buf_type, DataSpace& space)
+{
+    fillMemBuf(buf, (const DataType)buf_type, (const DataSpace)space);
 }
 
 //--------------------------------------------------------------------------
@@ -728,28 +763,12 @@ void DataSet::p_setId(const hid_t new_id)
     try {
         close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
         throw DataSetIException(inMemFunc("p_setId"), close_error.getDetailMsg());
     }
    // reset object's id to the given id
    id = new_id;
 }
-
-//--------------------------------------------------------------------------
-// Function:    f_PropList_setId - friend
-// Purpose:     This function is friend to class H5::PropList so that it
-//              can set PropList::id in order to work around a problem
-//              described in the JIRA issue HDFFV-7947.
-//              Applications shouldn't need to use it.
-// param        dset   - IN/OUT: DataSet object to be changed
-// param        new_id - IN: New id to set
-// Programmer   Binh-Minh Ribler - 2015
-//--------------------------------------------------------------------------
-void f_PropList_setId(PropList* plist, hid_t new_id)
-{
-    plist->p_setId(new_id);
-}
-
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
@@ -788,7 +807,7 @@ DataSet::~DataSet()
     try {
 	close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	cerr << "DataSet::~DataSet - " << close_error.getDetailMsg() << endl;
     }
 }

@@ -28,10 +28,10 @@ namespace H5 {
     \brief Class DSetCreatPropList represents the dataset creation property
     list.
 */
-class H5_DLLCPP DSetCreatPropList : public ObjCreatPropList {
+class H5_DLLCPP DSetCreatPropList : public PropList {
    public:
-	///\brief Default dataset creation property list.
-	static const DSetCreatPropList& DEFAULT;
+	// Default dataset creation property list.
+	static const DSetCreatPropList DEFAULT;
 
 	// Creates a dataset creation property list.
 	DSetCreatPropList();
@@ -114,9 +114,6 @@ class H5_DLLCPP DSetCreatPropList : public ObjCreatPropList {
 	// Sets SZIP compression method.
 	void setSzip(unsigned int options_mask, unsigned int pixels_per_block) const;
 
-	// Sets N-bit compression method.
-	void setNbit() const;
-
 	///\brief Returns this class name.
 	virtual H5std_string fromClass () const { return("DSetCreatPropList"); }
 
@@ -129,19 +126,6 @@ class H5_DLLCPP DSetCreatPropList : public ObjCreatPropList {
 
 	// Noop destructor.
 	virtual ~DSetCreatPropList();
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-        // Deletes the global constant, should only be used by the library
-        static void deleteConstants();
-
-    private:
-	static DSetCreatPropList* DEFAULT_;
-
-        // Creates the global constant, should only be used by the library
-        static DSetCreatPropList* getConstant();
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 };
 #ifndef H5_NO_NAMESPACE
 }

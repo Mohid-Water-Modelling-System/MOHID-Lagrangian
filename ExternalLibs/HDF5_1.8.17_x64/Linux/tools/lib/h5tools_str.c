@@ -48,7 +48,6 @@
 static char    *h5tools_escape(char *s, size_t size);
 static hbool_t  h5tools_str_is_zero(const void *_mem, size_t size);
 static void     h5tools_print_char(h5tools_str_t *str, const h5tool_format_t *info, char ch);
-void            h5tools_str_indent(h5tools_str_t *str, const h5tool_format_t *info, h5tools_context_t *ctx);
 
 /*-------------------------------------------------------------------------
  * Function:    h5tools_str_close
@@ -145,16 +144,16 @@ h5tools_str_append(h5tools_str_t *str/*in,out*/, const char *fmt, ...)
         nchars = HDvsnprintf(str->s + str->len, avail, fmt, ap);
         HDva_end(ap);
 
-        /* Note: HDvsnprintf() behaves differently on Windows as Unix, when
-         * buffer is smaller than source string. On Unix, this function
-         * returns length of the source string and copy string upto the
-         * buffer size with NULL at the end of the buffer. However on
-         * Windows with the same condition, this function returns -1 and
+        /* Note: HDvsnprintf() behaves differently on Windows as Unix, when 
+         * buffer is smaller than source string. On Unix, this function 
+         * returns length of the source string and copy string upto the 
+         * buffer size with NULL at the end of the buffer. However on 
+         * Windows with the same condition, this function returns -1 and 
          * doesn't add NULL at the end of the buffer.
          * Because of this different return results, the strlen of the new string
          * is used to handle when HDvsnprintf() returns -1 on Windows due
          * to lack of buffer size, so try one more time after realloc more
-         * buffer size before return NULL.
+         * buffer size before return NULL. 
          */
         if (nchars < 0) {
             /* failure, such as bad format */
@@ -278,7 +277,7 @@ h5tools_str_fmt(h5tools_str_t *str/*in,out*/, size_t start, const char *fmt)
     if (HDstrchr(fmt, '%')) {
         size_t n = sizeof(_temp);
         if (str->len - start + 1 > n) {
-            n = str->len - start + 1;
+            n = str->len - start + 1; 
             temp = (char*)HDmalloc(n);
             HDassert(temp);
         }
@@ -666,12 +665,12 @@ h5tools_str_indent(h5tools_str_t *str, const h5tool_format_t *info,
  *
  *  PVN, 28 March 2006
  *  added H5T_NATIVE_LDOUBLE case
- *
+ * 
  *  Raymond Lu, 2011-09-01
  *  CLANG compiler complained about the line (about 800):
  *    tempint = (tempint >> packed_data_offset) & packed_data_mask;
- *  The right shift may cause undefined behavior if PACKED_DATA_OFFSET is
- *  32-bit or more. For every kind of native integers, I changed the code
+ *  The right shift may cause undefined behavior if PACKED_DATA_OFFSET is 
+ *  32-bit or more. For every kind of native integers, I changed the code 
  *  to make it zero if PACKED_DATA_OFFSET is greater than or equal to the
  *  size of integer.
  *-------------------------------------------------------------------------
@@ -860,7 +859,11 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
                             else
                                 tempchar = (tempchar >> packed_data_offset) & packed_data_mask;
                         }
+    #ifdef H5_VMS
+                        h5tools_str_append(str, OPT(info->fmt_schar, "%hd"), tempchar);
+    #else
                         h5tools_str_append(str, OPT(info->fmt_schar, "%hhd"), tempchar);
+    #endif
                     }
                 } /* end if (sizeof(char) == nsize) */
                 else if (sizeof(int) == nsize) {
@@ -1058,8 +1061,6 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
                                     h5tools_str_append(str, H5_TOOLS_DATATYPE);
                                     break;
 
-                                case H5O_TYPE_UNKNOWN:
-                                case H5O_TYPE_NTYPES:
                                 default:
                                     h5tools_str_append(str, "%u-", (unsigned) oi.type);
                                     break;
@@ -1189,9 +1190,7 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
                 }
                 break;
 
-            case H5T_TIME:
-            case H5T_BITFIELD:
-            case H5T_OPAQUE:
+            default:
                 {
                     /* All other types get printed as hexadecimal */
                     size_t i;
@@ -1203,12 +1202,6 @@ h5tools_str_sprint(h5tools_str_t *str, const h5tool_format_t *info, hid_t contai
                             h5tools_str_append(str, "%s%02x", i ? ":" : "", ucp_vp[i]);
                     }
                 }
-                break;
-
-            case H5T_NO_CLASS:
-            case H5T_NCLASSES:
-            default:
-                h5tools_str_append(str, "invalid datatype");
                 break;
         } /* end switch */
     }
@@ -1378,14 +1371,14 @@ h5tools_str_is_zero(const void *_mem, size_t size)
  *
  * Purpose:     replace all occurrences of substring.
  *
- * Return:      char *
+ * Return:      char * 
  *
  * Programmer:  Peter Cao
  *              March 8, 2012
  *
  * Notes:
- *   Applications need to call free() to free the memoery allocated for
- *   the return string
+ *   Applications need to call free() to free the memoery allocated for 
+ *   the return string 
  *
  *-------------------------------------------------------------------------
  */
@@ -1398,12 +1391,13 @@ h5tools_str_replace ( const char *string, const char *substr, const char *replac
 	char *head = NULL;
      
 	if ( substr == NULL || replacement == NULL ) 
-	    return HDstrdup (string);
+		return HDstrdup (string);
+		
 	newstr = HDstrdup (string);
 	head = newstr;
 	while ( (tok = HDstrstr ( head, substr ))){
 		oldstr = newstr;
-		newstr = (char *)HDmalloc( HDstrlen( oldstr ) - HDstrlen( substr ) + HDstrlen( replacement ) + 1 );
+		newstr = HDmalloc ( HDstrlen ( oldstr ) - HDstrlen ( substr ) + HDstrlen ( replacement ) + 1 );
 
         if ( newstr == NULL ){
 			HDfree (oldstr);
@@ -1417,6 +1411,6 @@ h5tools_str_replace ( const char *string, const char *substr, const char *replac
         head = newstr + (tok - oldstr) + HDstrlen( replacement );
         HDfree (oldstr);
     }
-
+	
     return newstr;
 }

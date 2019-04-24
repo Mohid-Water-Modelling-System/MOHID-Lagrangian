@@ -111,6 +111,19 @@
                                                 /* (_not_ setting H5T_VISIT_SIMPLE and setting either H5T_VISIT_COMPLEX_FIRST or H5T_VISIT_COMPLEX_LAST will mean visiting all nodes _except_ "simple" "leafs" in the "tree" */
 
 
+/* Define an internal macro for converting between floating number(float and double) and floating number.
+ * All Cray compilers don't support denormalized floating values generating exception(?). */
+#if H5_CONVERT_DENORMAL_FLOAT
+#define H5T_CONV_INTERNAL_FP_FP           1
+#endif /*H5_CONVERT_DENORMAL_FLOAT*/
+
+/* Define an internal macro for converting between floating number(float and double) and long double.
+ * All Cray compilers don't support denormalized floating values generating exception(?).  NEC doesn't
+ * support long double. */
+#if H5_SIZEOF_LONG_DOUBLE && H5_CONVERT_DENORMAL_FLOAT
+#define H5T_CONV_INTERNAL_FP_LDOUBLE      1
+#endif /*H5_SIZEOF_LONG_DOUBLE && H5_CONVERT_DENORMAL_FLOAT*/
+
 /* Define an internal macro for converting long long to long double.  Mac OS 10.4 gives some
  * incorrect conversions. */
 #if (H5_WANT_DATA_ACCURACY && defined(H5_LLONG_TO_LDOUBLE_CORRECT)) || (!H5_WANT_DATA_ACCURACY)
@@ -126,11 +139,18 @@
 #define H5T_CONV_INTERNAL_ULLONG_LDOUBLE         1
 #endif
 
+/* Define an internal macro for converting floating numbers to long long.  The hard conversion on Windows
+ * .NET 2003 has a bug and gives wrong exception value. */
+#if (H5_WANT_DATA_ACCURACY && !defined(H5_HW_FP_TO_LLONG_NOT_WORKS)) || (!H5_WANT_DATA_ACCURACY)
+#define H5T_CONV_INTERNAL_FP_LLONG         1
+#endif
+
 /* Define an internal macro for converting long double to long long.  SGI compilers give some incorrect
  * conversions. Mac OS 10.4 gives incorrect conversions. HP-UX 11.00 compiler generates floating exception.
  * The hard conversion on Windows .NET 2003 has a bug and gives wrong exception value. */
-#if (H5_WANT_DATA_ACCURACY && defined(H5_LDOUBLE_TO_LLONG_ACCURATE)) || \
-    (!H5_WANT_DATA_ACCURACY)
+#if (H5_WANT_DATA_ACCURACY && !defined(H5_HW_FP_TO_LLONG_NOT_WORKS) && \
+    defined(H5_LDOUBLE_TO_LLONG_ACCURATE)) || \
+    (!H5_WANT_DATA_ACCURACY && !defined(H5_HW_FP_TO_LLONG_NOT_WORKS))
 #define H5T_CONV_INTERNAL_LDOUBLE_LLONG         1
 #endif
 

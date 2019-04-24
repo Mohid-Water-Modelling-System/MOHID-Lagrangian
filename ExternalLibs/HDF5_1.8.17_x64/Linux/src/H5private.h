@@ -183,22 +183,11 @@
 
 #endif /*H5_HAVE_WIN32_API*/
 
-/* Various ways that inline functions can be declared */
-#if defined(H5_HAVE___INLINE__)
-    /* GNU (alternative form) */
-    #define H5_INLINE __inline__
-#elif defined(H5_HAVE___INLINE)
-    /* Visual Studio */
-    #define H5_INLINE __inline
-#elif defined(H5_HAVE_INLINE)
-    /* GNU, C++
-     * Use "inline" as a last resort on the off-chance that there will
-     * be C++ problems.
-     */
-    #define H5_INLINE inline
-#else
-    #define H5_INLINE
-#endif /* inline choices */
+/* H5_inline */
+#ifndef H5_inline
+#define H5_inline
+#endif /* H5_inline */
+
 
 #ifndef F_OK
 #   define F_OK  00
@@ -291,10 +280,15 @@
  * big deal if we don't.
  */
 #ifdef __cplusplus
-#   define __attribute__(X)  /*void*/
+#   define UNUSED    /*void*/
+#   define NORETURN  /*void*/
 #else /* __cplusplus */
-#ifndef H5_HAVE_ATTRIBUTE
-#   define __attribute__(X)  /*void*/
+#ifdef H5_HAVE_ATTRIBUTE
+#   define UNUSED    __attribute__((unused))
+#   define NORETURN  __attribute__((noreturn))
+#else
+#   define UNUSED    /*void*/
+#   define NORETURN  /*void*/
 #endif
 #endif /* __cplusplus */
 
@@ -800,37 +794,58 @@ H5_DLL int HDfprintf (FILE *stream, const char *fmt, ...);
 #endif /* HDfrexpl */
 /* fscanf() variable arguments */
 #ifndef HDfseek
-    #define HDfseek(F,O,W)  fseeko(F,O,W)
+    #ifdef H5_HAVE_FSEEKO
+             #define HDfseek(F,O,W)  fseeko(F,O,W)
+    #else /* H5_HAVE_FSEEKO */
+             #define HDfseek(F,O,W)  fseek(F,O,W)
+    #endif /* H5_HAVE_FSEEKO */
 #endif /* HDfseek */
 #ifndef HDfsetpos
     #define HDfsetpos(F,P)    fsetpos(F,P)
 #endif /* HDfsetpos */
-#ifndef HDfstat
-    #define HDfstat(F,B)        fstat(F,B)
-#endif /* HDfstat */
-#ifndef HDlstat
-    #define HDlstat(S,B)    lstat(S,B)
-#endif /* HDlstat */
-#ifndef HDstat
-    #define HDstat(S,B)    stat(S,B)
-#endif /* HDstat */
-
-#ifndef H5_HAVE_WIN32_API
-/* These definitions differ in Windows and are defined in
- * H5win32defs for that platform.
+/* definitions related to the file stat utilities.
+ * For Unix, if off_t is not 64bit big, try use the pseudo-standard
+ * xxx64 versions if available.
  */
-typedef struct stat         h5_stat_t;
-typedef off_t               h5_stat_size_t;
-#define HDoff_t             off_t
-#endif /* H5_HAVE_WIN32_API */
-
-#define H5_SIZEOF_H5_STAT_SIZE_T H5_SIZEOF_OFF_T
+#if !defined(HDfstat) || !defined(HDstat) || !defined(HDlstat)
+    #if H5_SIZEOF_OFF_T!=8 && H5_SIZEOF_OFF64_T==8 && defined(H5_HAVE_STAT64)
+        #ifndef HDfstat
+            #define HDfstat(F,B)        fstat64(F,B)
+        #endif /* HDfstat */
+        #ifndef HDlstat
+            #define HDlstat(S,B)    lstat64(S,B)
+        #endif /* HDlstat */
+        #ifndef HDstat
+            #define HDstat(S,B)    stat64(S,B)
+        #endif /* HDstat */
+        typedef struct stat64       h5_stat_t;
+        typedef off64_t             h5_stat_size_t;
+        #define H5_SIZEOF_H5_STAT_SIZE_T H5_SIZEOF_OFF64_T
+    #else /* H5_SIZEOF_OFF_T!=8 && ... */
+        #ifndef HDfstat
+            #define HDfstat(F,B)        fstat(F,B)
+        #endif /* HDfstat */
+        #ifndef HDlstat
+            #define HDlstat(S,B)    lstat(S,B)
+        #endif /* HDlstat */
+        #ifndef HDstat
+            #define HDstat(S,B)    stat(S,B)
+        #endif /* HDstat */
+        typedef struct stat         h5_stat_t;
+        typedef off_t               h5_stat_size_t;
+        #define H5_SIZEOF_H5_STAT_SIZE_T H5_SIZEOF_OFF_T
+    #endif /* H5_SIZEOF_OFF_T!=8 && ... */
+#endif /* !defined(HDfstat) || !defined(HDstat) */
 
 #ifndef HDftell
-    #define HDftell(F)    ftello(F)
+    #define HDftell(F)    ftell(F)
 #endif /* HDftell */
 #ifndef HDftruncate
+  #ifdef H5_HAVE_FTRUNCATE64
+    #define HDftruncate(F,L)        ftruncate64(F,L)
+  #else
     #define HDftruncate(F,L)        ftruncate(F,L)
+  #endif
 #endif /* HDftruncate */
 #ifndef HDfwrite
     #define HDfwrite(M,Z,N,F)  fwrite(M,Z,N,F)
@@ -973,8 +988,15 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDlongjmp
     #define HDlongjmp(J,N)    longjmp(J,N)
 #endif /* HDlongjmp */
+/* HDlseek and HDoff_t must be defined together for consistency. */
 #ifndef HDlseek
-    #define HDlseek(F,O,W)  lseek(F,O,W)
+    #ifdef H5_HAVE_LSEEK64
+        #define HDlseek(F,O,W)  lseek64(F,O,W)
+        #define HDoff_t    off64_t
+    #else
+        #define HDlseek(F,O,W)  lseek(F,O,W)
+  #define HDoff_t    off_t
+    #endif
 #endif /* HDlseek */
 #ifndef HDmalloc
     #define HDmalloc(Z)    malloc(Z)
@@ -1097,9 +1119,22 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDrealpath
     #define HDrealpath(F1,F2)    realpath(F1,F2)
 #endif /* HDrealloc */
-#ifndef HDremove
-    #define HDremove(S)    remove(S)
-#endif /* HDremove */
+#ifdef H5_VMS
+    #ifdef __cplusplus
+        extern "C" {
+    #endif /* __cplusplus */
+    int HDremove_all(const char * fname);
+    #ifdef __cplusplus
+        }
+    #endif /* __cplusplus */
+    #ifndef HDremove
+        #define HDremove(S)     HDremove_all(S)
+    #endif /* HDremove */
+#else /* H5_VMS */
+    #ifndef HDremove
+        #define HDremove(S)    remove(S)
+    #endif /* HDremove */
+#endif /*H5_VMS*/
 #ifndef HDrename
     #define HDrename(OLD,NEW)  rename(OLD,NEW)
 #endif /* HDrename */
@@ -1116,9 +1151,6 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDsetbuf
     #define HDsetbuf(F,S)    setbuf(F,S)
 #endif /* HDsetbuf */
-#ifndef HDsetenv
-    #define HDsetenv(N,V,O)    setenv(N,V,O)
-#endif /* HDsetenv */
 #ifndef HDsetgid
     #define HDsetgid(G)    setgid(G)
 #endif /* HDsetgid */
@@ -1185,9 +1217,7 @@ typedef off_t               h5_stat_size_t;
 #ifndef HDsnprintf
     #define HDsnprintf    snprintf /*varargs*/
 #endif /* HDsnprintf */
-#ifndef HDsprintf
-    #define HDsprintf    sprintf /*varargs*/
-#endif /* HDsprintf */
+/* sprintf() variable arguments */
 #ifndef HDsqrt
     #define HDsqrt(X)    sqrt(X)
 #endif /* HDsqrt */
@@ -1488,14 +1518,11 @@ extern char *strdup(const char *s);
 /* Include the generated overflow header file */
 #include "H5overflow.h"
 
-/* Assign a variable to one of a different size (think safer dst = (dsttype)src").
- * The code generated by the macro checks for overflows.
- */
-#define H5_CHECKED_ASSIGN(dst, dsttype, src, srctype)  \
+#define H5_ASSIGN_OVERFLOW(dst, src, srctype, dsttype)  \
     H5_GLUE4(ASSIGN_,srctype,_TO_,dsttype)(dst,dsttype,src,srctype)\
 
 #else /* NDEBUG */
-#define H5_CHECKED_ASSIGN(dst, dsttype, src, srctype)  \
+#define H5_ASSIGN_OVERFLOW(dst, src, srctype, dsttype)  \
     (dst) = (dsttype)(src);
 #endif /* NDEBUG */
 
@@ -1521,7 +1548,19 @@ extern char *strdup(const char *s);
         (ptr = slash);                                  \
 }
 
-#else /* H5_HAVE_WINDOW_PATH */
+#elif defined(H5_HAVE_VMS_PATH)
+
+/* OpenVMS pathname: <disk name>$<partition>:[path]<file name>
+ *     i.g. SYS$SYSUSERS:[LU.HDF5.SRC]H5system.c */
+#define H5_DIR_SEPC                     ']'
+#define H5_DIR_SEPS                     "]"
+#define H5_CHECK_DELIMITER(SS)             (SS == H5_DIR_SEPC)
+#define H5_CHECK_ABSOLUTE(NAME)            (HDstrrchr(NAME, ':') && HDstrrchr(NAME, '['))
+#define H5_CHECK_ABS_DRIVE(NAME)           (0)
+#define H5_CHECK_ABS_PATH(NAME)            (0)
+#define H5_GET_LAST_DELIMITER(NAME, ptr)   ptr = HDstrrchr(NAME, H5_DIR_SEPC);
+
+#else
 
 #define H5_DIR_SEPC             '/'
 #define H5_DIR_SEPS             "/"
@@ -1531,7 +1570,7 @@ extern char *strdup(const char *s);
 #define H5_CHECK_ABS_PATH(NAME)    (0)
 #define H5_GET_LAST_DELIMITER(NAME, ptr)   ptr = HDstrrchr(NAME, H5_DIR_SEPC);
 
-#endif /* H5_HAVE_WINDOW_PATH */
+#endif
 
 #define   H5_COLON_SEPC  ':'
 
@@ -1693,24 +1732,9 @@ H5_DLL double H5_trace(const double *calltime, const char *func, const char *typ
  *-------------------------------------------------------------------------
  */
 
-/* `S' is the name of a function which is being tested to check if it's
- *  an API function.
- *
- *  BADNESS:
- *      - Underscore at positions 2 or 3 (0-indexed string). Handles
- *        H5_ and H5X_.
- *      - Underscore at position 4 if position 3 is uppercase or a digit.
- *        Handles H5XY_.
- */
-#define H5_IS_API(S) (\
-    '_'!=((const char *)S)[2]       /* underscore at position 2     */  \
-    && '_'!=((const char *)S)[3]    /* underscore at position 3     */  \
-    && !(                                       /* NOT              */  \
-        ((const char *)S)[4]                    /* pos 4 exists     */  \
-        && (HDisupper(S[3]) || HDisdigit(S[3])) /* pos 3 dig | uc   */  \
-        && '_'==((const char *)S)[4]            /* pos 4 underscore */  \
-    )\
-)
+/* `S' is the name of a function which is being tested to check if its */
+/*      an API function */
+#define H5_IS_API(S) ('_'!=((const char *)S)[2] && '_'!=((const char *)S)[3] && (!((const char *)S)[4] || '_'!=((const char *)S)[4]))
 
 /* `S' is the name of a function which is being tested to check if it's */
 /*      a public API function */
@@ -2111,8 +2135,7 @@ H5_DLL uint32_t H5_checksum_metadata(const void *data, size_t len, uint32_t init
 H5_DLL uint32_t H5_hash_string(const char *str);
 
 /* Functions for building paths, etc. */
-H5_DLL herr_t   H5_build_extpath(const char *name, char **extpath /*out*/);
-H5_DLL herr_t   H5_combine_path(const char *path1, const char *path2, char **full_name /*out*/);
+H5_DLL herr_t   H5_build_extpath(const char *, char ** /*out*/ );
 
 /* Functions for debugging */
 H5_DLL herr_t H5_buffer_dump(FILE *stream, int indent, const uint8_t *buf,

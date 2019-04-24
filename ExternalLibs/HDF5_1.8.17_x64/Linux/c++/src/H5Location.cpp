@@ -21,7 +21,6 @@
 #include "H5PropList.h"
 #include "H5Location.h"
 #include "H5Object.h"
-#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5DxferProp.h"
 #include "H5FaccProp.h"
@@ -34,6 +33,9 @@
 #include "H5DataSet.h"
 #include "H5Attribute.h"
 #include "H5private.h"		// for HDmemset
+#include <iostream>
+using namespace std;
+
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
@@ -190,7 +192,7 @@ Attribute H5Location::openAttribute( const H5std_string& name ) const
 Attribute H5Location::openAttribute( const unsigned int idx ) const
 {
    hid_t attr_id = H5Aopen_by_idx(getId(), ".", H5_INDEX_CRT_ORDER,
-		H5_ITER_INC, static_cast<hsize_t>(idx), H5P_DEFAULT, H5P_DEFAULT);
+			H5_ITER_INC, (hsize_t)idx, H5P_DEFAULT, H5P_DEFAULT);
    if( attr_id > 0 )
    {
 	Attribute attr;
@@ -230,9 +232,9 @@ int H5Location::iterateAttrs( attr_operator_t user_op, unsigned *_idx, void *op_
    userData->location = this;
 
    // call the C library routine H5Aiterate2 to iterate the attributes
-   hsize_t idx = _idx ? static_cast<hsize_t>(*_idx) : 0;
+   hsize_t idx = _idx ? (hsize_t)*_idx : 0;
    int ret_value = H5Aiterate2(getId(), H5_INDEX_NAME, H5_ITER_INC, &idx,
-			userAttrOpWrpr, static_cast<void *>(userData));
+			userAttrOpWrpr, (void *) userData);
 
    // release memory
    delete userData;
@@ -240,7 +242,7 @@ int H5Location::iterateAttrs( attr_operator_t user_op, unsigned *_idx, void *op_
    if( ret_value >= 0 ) {
       /* Pass back update index value to calling code */
       if (_idx)
-	 *_idx = static_cast<unsigned>(idx);
+	 *_idx = (unsigned)idx;
 
       return( ret_value );
    }
@@ -262,7 +264,7 @@ int H5Location::getNumAttrs() const
    if(H5Oget_info(getId(), &oinfo) < 0)
       throw AttributeIException(inMemFunc("getNumAttrs"), "H5Oget_info failed");
    else
-      return(static_cast<int>(oinfo.num_attrs));
+      return( (int)oinfo.num_attrs );
 }
 
 //--------------------------------------------------------------------------
@@ -387,7 +389,7 @@ H5std_string H5Location::getFileName() const
    try {
       return(p_get_file_name());
    }
-   catch (LocationException& E) {
+   catch (LocationException E) {
       throw FileIException(inMemFunc("getFileName"), E.getDetailMsg());
    }
 }
@@ -517,7 +519,7 @@ ssize_t H5Location::getComment(const char* name, size_t buf_size, char* comment)
     }
     // If the comment is longer than the provided buffer size, the C library
     // will not null terminate it
-    if (static_cast<size_t>(comment_len) >= buf_size)
+    if ((size_t)comment_len >= buf_size)
 	comment[buf_size-1] = '\0';
 
     // Return the actual comment length, which might be different from buf_size
@@ -634,7 +636,7 @@ void H5Location::reference(void* ref, const char* name, const DataSpace& dataspa
    try {
       p_reference(ref, name, dataspace.getId(), ref_type);
    }
-   catch (ReferenceException& E) {
+   catch (ReferenceException E) {
       throw ReferenceException(inMemFunc("reference"), E.getDetailMsg());
    }
 }
@@ -660,7 +662,7 @@ void H5Location::reference(void* ref, const H5std_string& name, const DataSpace&
    try {
       p_reference(ref, name.c_str(), dataspace.getId(), ref_type);
    }
-   catch (ReferenceException& E) {
+   catch (ReferenceException E) {
       throw ReferenceException(inMemFunc("reference"), E.getDetailMsg());
    }
 }
@@ -684,7 +686,7 @@ void H5Location::reference(void* ref, const char* name, H5R_type_t ref_type) con
    try {
       p_reference(ref, name, -1, ref_type);
    }
-   catch (ReferenceException& E) {
+   catch (ReferenceException E) {
       throw ReferenceException(inMemFunc("reference"), E.getDetailMsg());
    }
 }
@@ -793,7 +795,7 @@ H5G_obj_t H5Location::getObjType(void *ref, H5R_type_t ref_type) const
    try {
       return(p_get_obj_type(ref, ref_type));
    }
-   catch (ReferenceException& E) {
+   catch (ReferenceException E) {
       throw ReferenceException(inMemFunc("getObjType"), E.getDetailMsg());
    }
 }
@@ -849,7 +851,7 @@ H5O_type_t H5Location::getRefObjType(void *ref, H5R_type_t ref_type) const
    try {
       return(p_get_ref_obj_type(ref, ref_type));
    }
-   catch (ReferenceException& E) {
+   catch (ReferenceException E) {
       throw ReferenceException(inMemFunc("getRefObjType"), E.getDetailMsg());
    }
 }
@@ -915,7 +917,7 @@ DataSpace H5Location::getRegion(void *ref, H5R_type_t ref_type) const
 	f_DataSpace_setId(&dataspace, space_id);
 	return(dataspace);
    }
-   catch (DataSpaceIException& E) {
+   catch (DataSpaceIException E) {
       throw ReferenceException(inMemFunc("getRegion"), E.getDetailMsg());
    }
 }
@@ -940,7 +942,7 @@ H5Location::~H5Location() {}
 //--------------------------------------------------------------------------
 void f_Attribute_setId(Attribute* attr, hid_t new_id)
 {
-    attr->p_setId(new_id);
+    attr->id = new_id;
 }
 
 //--------------------------------------------------------------------------
@@ -955,7 +957,7 @@ void f_Attribute_setId(Attribute* attr, hid_t new_id)
 //--------------------------------------------------------------------------
 void f_DataSpace_setId(DataSpace* dspace, hid_t new_id)
 {
-    dspace->p_setId(new_id);
+    dspace->id = new_id;
 }
 
 #ifndef H5_NO_NAMESPACE

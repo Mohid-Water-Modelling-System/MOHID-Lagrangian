@@ -36,8 +36,13 @@
 /* File for external link test.  Created with gen_udlinks.c */
 #define LINKED_FILE  "be_extlink2.h5"
 
+#ifdef H5_VMS
+#define TMPDIR          "[.tmp]"
+#define TMPDIR2         "[.tmp2]"
+#else /* H5_VMS */
 #define TMPDIR          "tmp/"
 #define TMPDIR2         "tmp2/"
+#endif /* H5_VMS */
 
 /* Symlinks for external link symlink test */
 #define SYMLINK1  TMPDIR "sym1.h5"
@@ -315,7 +320,7 @@ typedef struct {
  * Function:    fix_ext_filename
  *
  * Purpose:     Internal function to append path to file name.  It handles
- *              path name of Unix and Windows.
+ *              path name of Unix, Windows, and OpenVMS.
  *
  * Return:      void
  *
@@ -328,8 +333,17 @@ fix_ext_filename(char *path_name, char *cwd, const char *file_name)
 {
     HDstrcpy(path_name, cwd);
 
+#ifdef H5_VMS
+    if(file_name[0] == '[') {
+        char *tmp = file_name;
+        path_name[strlen(cwd)-1] = '\0';
+        HDstrcat(path_name, ++tmp);
+    } else
+        HDstrcat(path_name, file_name);
+#else
     HDstrcat(path_name, "/");
     HDstrcat(path_name, file_name);
+#endif
 }
 
 
@@ -2863,6 +2877,7 @@ external_link_abs_mainpath(hid_t fapl, hbool_t new_format)
      * set up name for main file:
      *	Linux: "/CWD/tmp/extlinks0"
      *  Window: "<cur drive>:/CWD/tmp/extlinks0"
+     *  OpenVMS: "<cur disk>$<partition>:[CWD.tmp]extlinks0"
      */
     fix_ext_filename(tmpname, cwdpath, FILENAME[13]);
     h5_fixname(tmpname, fapl, filename1, sizeof filename1);
@@ -4005,6 +4020,10 @@ external_set_elink_acc_flags(hid_t fapl, hbool_t new_format)
     if(ret != FAIL) TEST_ERROR
     H5E_BEGIN_TRY {
         ret = H5Pset_elink_acc_flags(gapl, H5F_ACC_EXCL);
+    } H5E_END_TRY;
+    if(ret != FAIL) TEST_ERROR
+    H5E_BEGIN_TRY {
+        ret = H5Pset_elink_acc_flags(gapl, H5F_ACC_DEBUG);
     } H5E_END_TRY;
     if(ret != FAIL) TEST_ERROR
     H5E_BEGIN_TRY {
@@ -6945,6 +6964,7 @@ external_file_cache(hid_t fapl, hbool_t new_format)
     /* Verify that all files are now closed */
     H5F_sfile_assert_num(0);
 
+#ifndef H5_CANNOT_OPEN_TWICE
     /*
      * Test 5: 3 file cycle
      */
@@ -7046,6 +7066,7 @@ external_file_cache(hid_t fapl, hbool_t new_format)
 
     /* Verify that all files are now closed */
     H5F_sfile_assert_num(0);
+#endif /* H5_CANNOT_OPEN_TWICE */
 
     /* Close fapl */
     H5Pclose(my_fapl);
@@ -7300,7 +7321,7 @@ error:
     } H5E_END_TRY
 
     return -1;
-} /* end external_open_twice() */
+} /* end efc_open_twice */
 
 
 /*-------------------------------------------------------------------------
@@ -7320,8 +7341,8 @@ error:
 /* Callback functions for UD hard links. */
 /* UD_hard_create increments the object's reference count */
 static herr_t
-UD_hard_create(const char H5_ATTR_UNUSED * link_name, hid_t loc_group, const void *udata,
-    size_t udata_size, hid_t H5_ATTR_UNUSED lcpl_id)
+UD_hard_create(const char UNUSED * link_name, hid_t loc_group, const void *udata,
+    size_t udata_size, hid_t UNUSED lcpl_id)
 {
     haddr_t addr;
     hid_t target_obj = -1;
@@ -7389,8 +7410,8 @@ done:
 
 /* Traverse a hard link by opening the object */
 static hid_t
-UD_hard_traverse(const char H5_ATTR_UNUSED *link_name, hid_t cur_group,
-    const void *udata, size_t udata_size, hid_t H5_ATTR_UNUSED lapl_id)
+UD_hard_traverse(const char UNUSED *link_name, hid_t cur_group,
+    const void *udata, size_t udata_size, hid_t UNUSED lapl_id)
 {
     haddr_t addr;
     hid_t ret_value = -1;
@@ -7407,7 +7428,7 @@ UD_hard_traverse(const char H5_ATTR_UNUSED *link_name, hid_t cur_group,
 
 /* UD_hard_delete decrements the object's reference count */
 static herr_t
-UD_hard_delete(const char H5_ATTR_UNUSED * link_name, hid_t file, const void *udata,
+UD_hard_delete(const char UNUSED * link_name, hid_t file, const void *udata,
     size_t udata_size)
 {
     haddr_t addr;
@@ -7625,8 +7646,8 @@ ud_hard_links(hid_t fapl)
  * in the current group named REREG_TARGET_NAME
  */
 static hid_t
-UD_rereg_traverse(const char H5_ATTR_UNUSED * link_name, hid_t cur_group,
-    const void H5_ATTR_UNUSED *udata, size_t H5_ATTR_UNUSED udata_size, hid_t lapl_id)
+UD_rereg_traverse(const char UNUSED * link_name, hid_t cur_group,
+    const void UNUSED *udata, size_t UNUSED udata_size, hid_t lapl_id)
 {
     hid_t ret_value;
 
@@ -8064,8 +8085,8 @@ error:
  *-------------------------------------------------------------------------
  */
 static hid_t
-UD_plist_traverse(const char H5_ATTR_UNUSED * link_name, hid_t cur_group,
-    const void H5_ATTR_UNUSED *udata, size_t udata_size, hid_t lapl_id)
+UD_plist_traverse(const char UNUSED * link_name, hid_t cur_group,
+    const void UNUSED *udata, size_t udata_size, hid_t lapl_id)
 {
     char target[NAME_BUF_SIZE];
     hid_t ret_value;
@@ -8203,8 +8224,8 @@ lapl_udata(hid_t fapl, hbool_t new_format)
  *-------------------------------------------------------------------------
  */
 static herr_t
-UD_cbsucc_create(const char H5_ATTR_UNUSED * link_name, hid_t H5_ATTR_UNUSED loc_group,
-    const void *udata, size_t udata_size, hid_t H5_ATTR_UNUSED lcpl_id)
+UD_cbsucc_create(const char UNUSED * link_name, hid_t UNUSED loc_group,
+    const void *udata, size_t udata_size, hid_t UNUSED lcpl_id)
 {
     /* Check to make sure that this "soft link" has a target */
     if(udata_size < 1 || !udata)
@@ -8214,8 +8235,8 @@ UD_cbsucc_create(const char H5_ATTR_UNUSED * link_name, hid_t H5_ATTR_UNUSED loc
 } /* end UD_cbsucc_create() */
 
 static hid_t
-UD_cbsucc_traverse(const char H5_ATTR_UNUSED *link_name, hid_t cur_group,
-    const void *udata, size_t H5_ATTR_UNUSED udata_size, hid_t lapl_id)
+UD_cbsucc_traverse(const char UNUSED *link_name, hid_t cur_group,
+    const void *udata, size_t UNUSED udata_size, hid_t lapl_id)
 {
     const char *target = (const char *)udata;
     hid_t ret_value;
@@ -8232,8 +8253,8 @@ error:
 
 /* Failure callback for when the link is moved or renamed */
 static herr_t
-UD_cbfail_move(const char H5_ATTR_UNUSED *new_name, hid_t H5_ATTR_UNUSED new_loc,
-    const void H5_ATTR_UNUSED *udata, size_t H5_ATTR_UNUSED udata_size)
+UD_cbfail_move(const char UNUSED *new_name, hid_t UNUSED new_loc,
+    const void UNUSED *udata, size_t UNUSED udata_size)
 {
     /* This traversal function will always fail. */
     return -1;
@@ -8241,8 +8262,8 @@ UD_cbfail_move(const char H5_ATTR_UNUSED *new_name, hid_t H5_ATTR_UNUSED new_loc
 
 /* SuccessCallback for when the link is moved or renamed */
 static herr_t
-UD_cbsucc_move(const char H5_ATTR_UNUSED *new_name, hid_t H5_ATTR_UNUSED new_loc,
-    const void H5_ATTR_UNUSED *udata, size_t H5_ATTR_UNUSED udata_size)
+UD_cbsucc_move(const char UNUSED *new_name, hid_t UNUSED new_loc,
+    const void UNUSED *udata, size_t UNUSED udata_size)
 {
     /* This traversal function will always succeed. */
     return 0;
@@ -8250,8 +8271,8 @@ UD_cbsucc_move(const char H5_ATTR_UNUSED *new_name, hid_t H5_ATTR_UNUSED new_loc
 
 /* Callback for when the link is deleted.  Also called during move */
 static herr_t
-UD_cbsucc_delete(const char H5_ATTR_UNUSED *link_name, hid_t H5_ATTR_UNUSED file,
-    const void H5_ATTR_UNUSED *udata, size_t H5_ATTR_UNUSED udata_size)
+UD_cbsucc_delete(const char UNUSED *link_name, hid_t UNUSED file,
+    const void UNUSED *udata, size_t UNUSED udata_size)
 {
     /* This callback will always succeed */
     return 0;
@@ -8259,8 +8280,8 @@ UD_cbsucc_delete(const char H5_ATTR_UNUSED *link_name, hid_t H5_ATTR_UNUSED file
 
 /* Callback for when the link is deleted.  Also called during move */
 static herr_t
-UD_cbfail_delete(const char H5_ATTR_UNUSED *link_name, hid_t H5_ATTR_UNUSED file,
-    const void H5_ATTR_UNUSED *udata, size_t H5_ATTR_UNUSED udata_size)
+UD_cbfail_delete(const char UNUSED *link_name, hid_t UNUSED file,
+    const void UNUSED *udata, size_t UNUSED udata_size)
 {
     /* This traversal function will always fail. */
     /* Note: un-deletable links are in general a very bad idea! */
@@ -8269,8 +8290,8 @@ UD_cbfail_delete(const char H5_ATTR_UNUSED *link_name, hid_t H5_ATTR_UNUSED file
 
 /* Callback for when the link is queried */
 static ssize_t
-UD_cbfail_query(const char H5_ATTR_UNUSED *link_name, const void H5_ATTR_UNUSED *udata,
-    size_t H5_ATTR_UNUSED udata_size, void H5_ATTR_UNUSED *buf, size_t H5_ATTR_UNUSED buf_size)
+UD_cbfail_query(const char UNUSED *link_name, const void UNUSED *udata,
+    size_t UNUSED udata_size, void UNUSED *buf, size_t UNUSED buf_size)
 {
     /* This traversal function will always fail. */
     return -1;
@@ -8278,8 +8299,8 @@ UD_cbfail_query(const char H5_ATTR_UNUSED *link_name, const void H5_ATTR_UNUSED 
 
 /* Callback for when the link is queried */
 static ssize_t
-UD_cbfail_on_write_query(const char H5_ATTR_UNUSED *link_name, const void H5_ATTR_UNUSED *udata,
-    size_t H5_ATTR_UNUSED udata_size, void *buf, size_t H5_ATTR_UNUSED buf_size)
+UD_cbfail_on_write_query(const char UNUSED *link_name, const void UNUSED *udata,
+    size_t UNUSED udata_size, void *buf, size_t UNUSED buf_size)
 {
     /* This traversal function will return a buffer size,
      * but will fail when a buffer is passed in ("writing to the buffer"
@@ -8294,8 +8315,8 @@ UD_cbfail_on_write_query(const char H5_ATTR_UNUSED *link_name, const void H5_ATT
 
 /* Callback for when the link is queried */
 static ssize_t
-UD_cbsucc_query(const char H5_ATTR_UNUSED *link_name, const void H5_ATTR_UNUSED *udata,
-    size_t H5_ATTR_UNUSED udata_size, void *buf, size_t buf_size)
+UD_cbsucc_query(const char UNUSED *link_name, const void UNUSED *udata,
+    size_t UNUSED udata_size, void *buf, size_t buf_size)
 {
     /* This traversal function will return a buffer size,
      * but will fail when a buffer is passed in ("writing to the buffer"
@@ -9016,7 +9037,7 @@ error:
  *-------------------------------------------------------------------------
  */
 static int
-visit_link_cb(hid_t H5_ATTR_UNUSED group_id, const char *name, const H5L_info_t *linfo,
+visit_link_cb(hid_t UNUSED group_id, const char *name, const H5L_info_t *linfo,
     void *_op_data)
 {
     lvisit_ud_t *op_data = (lvisit_ud_t *)_op_data;
@@ -9194,7 +9215,7 @@ error:
  *-------------------------------------------------------------------------
  */
 static int
-visit_obj_cb(hid_t H5_ATTR_UNUSED group_id, const char *name, const H5O_info_t *oinfo,
+visit_obj_cb(hid_t UNUSED group_id, const char *name, const H5O_info_t *oinfo,
     void *_op_data)
 {
     ovisit_ud_t *op_data = (ovisit_ud_t *)_op_data;
@@ -9372,7 +9393,7 @@ error:
  *-------------------------------------------------------------------------
  */
 static int
-visit_obj_stop_cb(hid_t H5_ATTR_UNUSED group_id, const char H5_ATTR_UNUSED *name, const H5O_info_t H5_ATTR_UNUSED *oinfo,
+visit_obj_stop_cb(hid_t UNUSED group_id, const char UNUSED *name, const H5O_info_t UNUSED *oinfo,
     void *_op_data)
 {
     unsigned *op_data = (unsigned *)_op_data;
@@ -9498,8 +9519,8 @@ static herr_t link_filter_set_local(hid_t dcpl_id, hid_t type_id, hid_t space_id
 } /* end link_filter_set_local */
 
 static size_t link_filter_filter(unsigned int flags, size_t cd_nelmts,
-    const unsigned int cd_values[], size_t nbytes, size_t H5_ATTR_UNUSED *buf_size,
-    void H5_ATTR_UNUSED **buf)
+    const unsigned int cd_values[], size_t nbytes, size_t UNUSED *buf_size,
+    void UNUSED **buf)
 {
     if(flags & H5Z_FLAG_OPTIONAL || cd_nelmts != 1 || cd_values[0] != 2112)
         return 0;
@@ -11999,8 +12020,8 @@ group_iterate_cb(hid_t group_id, const char *link_name, void *_op_data)
  *-------------------------------------------------------------------------
  */
 static int
-link_iterate_fail_cb(hid_t H5_ATTR_UNUSED group_id, const char H5_ATTR_UNUSED *link_name,
-    const H5L_info_t H5_ATTR_UNUSED *info, void H5_ATTR_UNUSED *_op_data)
+link_iterate_fail_cb(hid_t UNUSED group_id, const char UNUSED *link_name,
+    const H5L_info_t UNUSED *info, void UNUSED *_op_data)
 {
     return(H5_ITER_ERROR);
 } /* end link_iterate_fail_cb() */
@@ -14589,11 +14610,15 @@ main(void)
                 printf("\n---Testing without external file cache---\n");
             } /* end else */
 
+#ifndef H5_CANNOT_OPEN_TWICE
             nerrors += external_link_root(my_fapl, new_format) < 0 ? 1 : 0;
+#endif /* H5_CANNOT_OPEN_TWICE */
             nerrors += external_link_path(my_fapl, new_format) < 0 ? 1 : 0;
+#ifndef H5_CANNOT_OPEN_TWICE
             nerrors += external_link_self(my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_link_pingpong(my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_link_toomany(my_fapl, new_format) < 0 ? 1 : 0;
+#endif /* H5_CANNOT_OPEN_TWICE */
             nerrors += external_link_dangling(my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_link_recursive(my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_link_query(my_fapl, new_format) < 0 ? 1 : 0;
@@ -14601,7 +14626,9 @@ main(void)
             nerrors += external_link_unlink_dense(my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_link_move(my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_link_ride(my_fapl, new_format) < 0 ? 1 : 0;
+#ifndef H5_CANNOT_OPEN_TWICE
             nerrors += external_link_closing(my_fapl, new_format) < 0 ? 1 : 0;
+#endif /* H5_CANNOT_OPEN_TWICE */
             nerrors += external_link_endian(new_format) < 0 ? 1 : 0;
             nerrors += external_link_strong(my_fapl, new_format) < 0 ? 1 : 0;
 
@@ -14631,7 +14658,9 @@ main(void)
             nerrors += external_symlink(env_h5_drvr, my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_copy_invalid_object(my_fapl, new_format) < 0 ? 1 : 0;
             nerrors += external_dont_fail_to_source(my_fapl, new_format) < 0 ? 1 : 0;
+#ifndef H5_CANNOT_OPEN_TWICE
             nerrors += external_open_twice(my_fapl, new_format) < 0 ? 1 : 0;
+#endif /* H5_CANNOT_OPEN_TWICE */
         } /* end for */
 
         /* These tests assume that external links are a form of UD links,
@@ -14655,7 +14684,9 @@ main(void)
         nerrors += obj_visit_by_name(my_fapl, new_format) < 0 ? 1 : 0;
         nerrors += obj_visit_stop(my_fapl, new_format) < 0 ? 1 : 0;
         nerrors += link_filters(my_fapl, new_format) < 0 ? 1 : 0;
+#ifndef H5_CANNOT_OPEN_TWICE
         nerrors += obj_exists(my_fapl, new_format) < 0 ? 1 : 0;
+#endif /* H5_CANNOT_OPEN_TWICE */
 
         /* Keep this test last, it's testing files that are used above */
         /* do not do this for files used by external link tests */

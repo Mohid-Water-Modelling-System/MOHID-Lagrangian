@@ -112,7 +112,7 @@ dump_dataspace(hid_t space)
  *-------------------------------------------------------------------------
  */
 herr_t
-dump_attr_cb(hid_t oid, const char *attr_name, const H5A_info_t H5_ATTR_UNUSED *info, void H5_ATTR_UNUSED *_op_data)
+dump_attr_cb(hid_t oid, const char *attr_name, const H5A_info_t UNUSED *info, void UNUSED *_op_data)
 {
     h5tools_context_t ctx;            /* print context  */
     h5tool_format_t  *outputformat = &h5tools_dataformat;
@@ -182,7 +182,7 @@ dump_attr_cb(hid_t oid, const char *attr_name, const H5A_info_t H5_ATTR_UNUSED *
  *-------------------------------------------------------------------------
  */
 static herr_t
-dump_all_cb(hid_t group, const char *name, const H5L_info_t *linfo, void H5_ATTR_UNUSED *op_data)
+dump_all_cb(hid_t group, const char *name, const H5L_info_t *linfo, void UNUSED *op_data)
 {
     hid_t       obj;
     herr_t      ret = SUCCEED;
@@ -377,8 +377,6 @@ dump_all_cb(hid_t group, const char *name, const H5L_info_t *linfo, void H5_ATTR
             }
             break;
 
-        case H5O_TYPE_UNKNOWN:
-        case H5O_TYPE_NTYPES:
         default:
             error_msg("unknown object \"%s\"\n", name);
             h5tools_setstatus(EXIT_FAILURE);
@@ -511,11 +509,6 @@ dump_all_cb(hid_t group, const char *name, const H5L_info_t *linfo, void H5_ATTR
             HDfree(targbuf);
             break;
 
-        case H5L_TYPE_ERROR:
-        case H5L_TYPE_MAX:
-            HDassert(0);
-            /* fall through */
-        case H5L_TYPE_HARD:
         default:
             ctx.need_prefix = TRUE;
             h5tools_simple_prefix(rawoutstream, outputformat, &ctx, (hsize_t)0, 0);
@@ -1061,10 +1054,7 @@ dump_dataset(hid_t did, const char *name, struct subset_t *sset)
                 }
                 break;
 
-            case H5T_NO_CLASS:
-            case H5T_NCLASSES:
             default:
-                HDassert(0);
                 break;
             } /* end switch */
         } /* for(i=0;i<data_loop;i++) */
@@ -1279,9 +1269,8 @@ dump_fcontents(hid_t fid)
         unsigned u;
 
         for (u = 0; u < type_table->nobjs; u++) {
-            if (!type_table->objs[u].recorded) {
+            if (!type_table->objs[u].recorded)
                 PRINTSTREAM(rawoutstream, " %-10s /#"H5_PRINTF_HADDR_FMT"\n", "datatype", type_table->objs[u].objno);
-            }
         }
     }
 
@@ -1292,7 +1281,7 @@ dump_fcontents(hid_t fid)
 }
 
 static herr_t
-attr_search(hid_t oid, const char *attr_name, const H5A_info_t H5_ATTR_UNUSED *ainfo, void *_op_data)
+attr_search(hid_t oid, const char *attr_name, const H5A_info_t UNUSED *ainfo, void *_op_data)
 {
     herr_t              ret = SUCCEED;
     int 				i;
@@ -1348,7 +1337,7 @@ attr_search(hid_t oid, const char *attr_name, const H5A_info_t H5_ATTR_UNUSED *a
 } /* end attr_search() */
 
 static herr_t
-obj_search(const char *path, const H5O_info_t *oi, const char H5_ATTR_UNUSED *already_visited, void *_op_data)
+obj_search(const char *path, const H5O_info_t *oi, const char UNUSED *already_visited, void *_op_data)
 {
 	trav_handle_udata_t  *handle_data = (trav_handle_udata_t*)_op_data;
     char *op_name = (char*)handle_data->op_name;
@@ -1440,7 +1429,7 @@ lnk_search(const char *path, const H5L_info_t *li, void *_op_data)
  *-------------------------------------------------------------------------
  */
 void
-handle_paths(hid_t fid, const char *path_name, void H5_ATTR_UNUSED * data, int H5_ATTR_UNUSED pe, const char H5_ATTR_UNUSED *display_name)
+handle_paths(hid_t fid, const char *path_name, void UNUSED * data, int UNUSED pe, const char UNUSED *display_name)
 {
     hid_t  gid = -1;
 
@@ -1503,12 +1492,12 @@ handle_paths(hid_t fid, const char *path_name, void H5_ATTR_UNUSED * data, int H
  *-------------------------------------------------------------------------
  */
 void
-handle_attributes(hid_t fid, const char *attr, void H5_ATTR_UNUSED * data, int H5_ATTR_UNUSED pe, const char H5_ATTR_UNUSED *display_name)
+handle_attributes(hid_t fid, const char *attr, void UNUSED * data, int UNUSED pe, const char UNUSED *display_name)
 {
     hid_t  oid = -1;
     hid_t  attr_id = -1;
-    char *obj_name      = NULL;
-    char *attr_name     = NULL;
+    char *obj_name;
+    char *attr_name;
     int j;
     h5tools_str_t buffer;          /* string into which to render   */
     h5tools_context_t ctx;            /* print context  */
@@ -1814,7 +1803,7 @@ handle_datasets(hid_t fid, const char *dset, void *data, int pe, const char *dis
  *-------------------------------------------------------------------------
  */
 void
-handle_groups(hid_t fid, const char *group, void H5_ATTR_UNUSED *data, int pe, const char *display_name)
+handle_groups(hid_t fid, const char *group, void UNUSED *data, int pe, const char *display_name)
 {
     hid_t       gid;
     const char  *real_name = display_name ? display_name : group;
@@ -1864,7 +1853,7 @@ handle_groups(hid_t fid, const char *group, void H5_ATTR_UNUSED *data, int pe, c
  *-------------------------------------------------------------------------
  */
 void
-handle_links(hid_t fid, const char *links, void H5_ATTR_UNUSED * data, int H5_ATTR_UNUSED pe, const char H5_ATTR_UNUSED *display_name)
+handle_links(hid_t fid, const char *links, void UNUSED * data, int UNUSED pe, const char UNUSED *display_name)
 {
     H5L_info_t linfo;
 
@@ -1885,9 +1874,8 @@ handle_links(hid_t fid, const char *links, void H5_ATTR_UNUSED * data, int H5_AT
             begin_obj(h5tools_dump_header_format->softlinkbegin, links, h5tools_dump_header_format->softlinkblockbegin);
             PRINTVALSTREAM(rawoutstream, "\n");
             indentation(COL);
-            if(H5Lget_val(fid, links, buf, linfo.u.val_size, H5P_DEFAULT) >= 0) {
+            if(H5Lget_val(fid, links, buf, linfo.u.val_size, H5P_DEFAULT) >= 0)
                 PRINTSTREAM(rawoutstream, "LINKTARGET \"%s\"\n", buf);
-            }
             else {
                 error_msg("h5dump error: unable to get link value for \"%s\"\n", links);
                 h5tools_setstatus(EXIT_FAILURE);
@@ -1925,11 +1913,6 @@ handle_links(hid_t fid, const char *links, void H5_ATTR_UNUSED * data, int H5_AT
             end_obj(h5tools_dump_header_format->extlinkend, h5tools_dump_header_format->extlinkblockend);
             break;
 
-        case H5L_TYPE_ERROR:
-        case H5L_TYPE_MAX:
-            HDassert(0);
-            /* fall through */
-        case H5L_TYPE_HARD:
         default:
             begin_obj(h5tools_dump_header_format->udlinkbegin, links, h5tools_dump_header_format->udlinkblockbegin);
             PRINTVALSTREAM(rawoutstream, "\n");
@@ -1965,7 +1948,7 @@ handle_links(hid_t fid, const char *links, void H5_ATTR_UNUSED * data, int H5_AT
  *-------------------------------------------------------------------------
  */
 void
-handle_datatypes(hid_t fid, const char *type, void H5_ATTR_UNUSED * data, int pe, const char *display_name)
+handle_datatypes(hid_t fid, const char *type, void UNUSED * data, int pe, const char *display_name)
 {
     hid_t       type_id;
     const char  *real_name = display_name ? display_name : type;
@@ -2097,8 +2080,6 @@ dump_extlink(hid_t group, const char *linkname, const char *objname)
             case H5O_TYPE_NAMED_DATATYPE:
                 handle_datatypes(group, linkname, NULL, 0, objname);
                 break;
-            case H5O_TYPE_UNKNOWN:
-            case H5O_TYPE_NTYPES:
             default:
                 h5tools_setstatus(EXIT_FAILURE);
         }

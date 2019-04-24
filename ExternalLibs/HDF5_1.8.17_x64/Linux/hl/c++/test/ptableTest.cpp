@@ -15,11 +15,9 @@
 
 /* ptableTest.cpp */
 
-#include <iostream>
 #include "ptableTest.h"
 
 using namespace H5;
-using namespace std;
 
 #define TEST_FILE "packettest.h5"
 
@@ -76,7 +74,7 @@ int main(void)
       return -1;
 }
 
-const char* BASICTEST_PT("/basicTest");
+
 int BasicTest()
 {
     herr_t err;
@@ -84,23 +82,23 @@ int BasicTest()
     hsize_t count;
     int error;
 
-    TESTING("basic functionality")
+    TESTING("basic funtionality")
 
-    FL_PacketTable wrapper(fileID, H5P_DEFAULT, BASICTEST_PT, H5T_NATIVE_INT, 1);
+    FL_PacketTable wrapper(fileID, "/basicTest", H5T_NATIVE_INT, 1);
     if(! wrapper.IsValid())
-      goto error;
+      goto out;
 
     /* Ensure initial count is zero */
     count = wrapper.GetPacketCount(error);
     if(count != 0 || error != 0)
-      goto error;
+      goto out;
 
     myRecord = 1;
 
     /* add some records test */
     err = wrapper.AppendPacket(&myRecord);
     if(err < 0)
-        goto error;
+        goto out;
 
     myRecord = 2;
 
@@ -109,31 +107,30 @@ int BasicTest()
     /* get number of records test */
     count = wrapper.GetPacketCount();
     if(count != 2)
-      goto error;
+      goto out;
 
     /* get records test */
     err = wrapper.GetPacket(0, &myRecord);
     if(err < 0)
-      goto error;
+      goto out;
 
     if(myRecord != 1)
-      goto error;
+      goto out;
 
     err = wrapper.GetPacket(1, &myRecord);
     if(err < 0)
-      goto error;
+      goto out;
     if(myRecord != 2)
-      goto error;
+      goto out;
 
     PASSED();
     return 0;
 
-error:
+out:
     H5_FAILED();
     return 1;
 }
 
-const char* CMPDTEST_PT("/compoundTest");
 int TestCompoundDatatype()
 {
     hid_t dtypeID;
@@ -156,11 +153,11 @@ int TestCompoundDatatype()
     H5Tinsert(dtypeID, "charlie", HOFFSET( compoundType, c ), H5T_NATIVE_SHORT);
     H5Tinsert(dtypeID, "ebert", HOFFSET( compoundType, e ), H5T_NATIVE_INT);
 
-    /* Create packet table using default property list. */
-    FL_PacketTable wrapper(fileID, H5P_DEFAULT, CMPDTEST_PT, dtypeID, 1);
+    /* Create packet table.  Explicitly specify no compression */
+    FL_PacketTable wrapper(fileID, "/compoundTest", dtypeID, 1, -1);
 
     if(! wrapper.IsValid())
-      goto error;
+      goto out;
 
     compoundType first;
     first.a = 1;
@@ -172,7 +169,7 @@ int TestCompoundDatatype()
 
     count = wrapper.GetPacketCount(error);
     if(count != 1)
-      goto error;
+      goto out;
 
     first.a = first.b = first.c = 0;
     first.e = 0;
@@ -181,16 +178,16 @@ int TestCompoundDatatype()
     wrapper.GetPacket(0, &first);
 
     if(first.a != 1)
-      goto error;
+      goto out;
     if(first.e != 5)
-      goto error;
+      goto out;
 
     PASSED();
 
     H5Tclose(dtypeID);
     return 0;
 
-error:
+out:
 
     H5E_BEGIN_TRY {
         H5Tclose(dtypeID);
@@ -201,7 +198,6 @@ error:
     return 1;
 }
 
-const char* GETNEXT_PT("/TestGetNext");
 int TestGetNext()
 {
     int error;
@@ -212,10 +208,10 @@ int TestGetNext()
     TESTING("GetNextPacket")
 
     /* Create a dataset */
-    FL_PacketTable wrapper(fileID, H5P_DEFAULT, GETNEXT_PT, H5T_NATIVE_INT, 500);
+    FL_PacketTable wrapper(fileID, "/TestGetNext", H5T_NATIVE_INT, 500);
 
     if(! wrapper.IsValid())
-      goto error;
+      goto out;
 
     /* Append 5 records to the dataset */
     for(record = 1; record < 6; record++)
@@ -226,65 +222,56 @@ int TestGetNext()
     {
         wrapper.GetNextPacket(&record);
         if(record != i)
-          goto error;
+          goto out;
     }
 
     /* Reset the index and check that it worked */
     wrapper.ResetIndex();
-    if(wrapper.GetIndex(error) != 0) goto error;
-    if(error < 0) goto error;
+    if(wrapper.GetIndex(error) != 0) goto out;
+    if(error < 0) goto out;
 
     /* Ensure that we can interate through the records and get the right ones */
     for(i = 1; i < 6; i++)
     {
         error = wrapper.GetNextPacket(&record);
         if(record != i || error <0)
-          goto error;
+          goto out;
     }
 
     wrapper.SetIndex(1);
-    if(wrapper.GetIndex(error) != 1) goto error;
-    if(error < 0) goto error;
+    if(wrapper.GetIndex(error) != 1) goto out;
+    if(error < 0) goto out;
 
     /* Ensure we can get multiple records with our index pointer */
     wrapper.GetNextPackets(2, records);
     if(records[0] != 2 || records[1] != 3)
-      goto error;
+      goto out;
 
     /* Ensure our pointer was updated correctly */
     wrapper.GetNextPacket(&record);
     if(record != 4)
-      goto error;
+      goto out;
 
     PASSED();
     return 0;
 
-error:
+out:
     H5_FAILED();
     return 1;
 }
 
-const char* COMPRESS_PT("/compressTest");
 int TestCompress()
 {
-    unsigned int flags = 0;
+
+	unsigned int flags = 0;
     unsigned int config = 0;
     size_t cd_nelemts = 0;
 
     TESTING("compression")
 #ifdef H5_HAVE_FILTER_DEFLATE
     try {
-	/* Prepare property list to set compression, randomly use deflate */
-	DSetCreatPropList dscreatplist;
-	dscreatplist.setDeflate(6);
-
         /* Create packet table with compression. */
-        FL_PacketTable wrapper(fileID, COMPRESS_PT, H5T_NATIVE_CHAR, 100, dscreatplist.getId());
-
-	/* Close the property list */
-	dscreatplist.close();
-
-	/* Verify that the deflate filter is set */
+        FL_PacketTable wrapper(fileID, "/compressTest", H5T_NATIVE_CHAR, 100, 8);
 
         /* Create an HDF5 C++ file object */
         H5File file;
@@ -292,14 +279,11 @@ int TestCompress()
 
         /* Make sure that the deflate filter is set by opening the packet table
          * as a dataset and getting its creation property list */
-        DataSet dset = file.openDataSet(COMPRESS_PT);
+        DataSet dsetID = file.openDataSet("/compressTest");
 
-        DSetCreatPropList dcpl = dset.getCreatePlist();
+        DSetCreatPropList dcplID = dsetID.getCreatePlist();
 
-	char filter_name[8];
-        dcpl.getFilterById(H5Z_FILTER_DEFLATE, flags, cd_nelemts, NULL, 8, filter_name, config);
-	if (HDstrncmp(filter_name, "deflate", 7) != 0)
-	    H5_FAILED()
+        dcplID.getFilterById(H5Z_FILTER_DEFLATE, flags, cd_nelemts, NULL, 0, NULL, config);
     } catch (Exception e) {
       H5_FAILED();
       return 1;
@@ -312,7 +296,6 @@ int TestCompress()
     return 0;
 }
 
-const char* PT_TESTGETPT = "/TestGetPacket";
 int TestGetPacket()
 {
     int record;
@@ -320,12 +303,11 @@ int TestGetPacket()
     int i;
     TESTING("GetPacket")
 
-    /* Create a dataset.  Does not need to specify property list because
-       there is no compression. */
-    FL_PacketTable wrapper(fileID, PT_TESTGETPT, H5T_NATIVE_INT, 1);
+    /* Create a dataset.  Explicitly specify no compression */
+    FL_PacketTable wrapper(fileID, "/TestGetPacket", H5T_NATIVE_INT, 1, -1);
 
     if(! wrapper.IsValid())
-      goto error;
+      goto out;
 
     /* Append 5 records to the dataset */
     for(record = 1; record < 6; record++)
@@ -334,35 +316,33 @@ int TestGetPacket()
     /* Ensure that the records were written properly */
     wrapper.GetPacket(1, &record);
     if(record != 2)
-      goto error;
+      goto out;
 
     /* Ensure that we can retrieve multiple records */
     wrapper.GetPackets(1, 3, theRecs);
     for(i = 0; i < 3; i++)
     {
         if(theRecs[i] != i+2)
-          goto error;
+          goto out;
     }
 
     PASSED();
     return 0;
 
-error:
+out:
     H5_FAILED();
     return 1;
 }
-
-const char* PT_TESTERROR = "/TestErrors";
 
 int TestErrors()
 {
     TESTING("error conditions")
 
     /* Create a dataset */
-    FL_PacketTable wrapper(fileID, PT_TESTERROR, H5T_NATIVE_INT, 1);
+    FL_PacketTable wrapper(fileID, "/TestErrors", H5T_NATIVE_INT, 1);
 
     if(! wrapper.IsValid())
-      goto error;
+      goto out;
 
     int record;
     int records[3];
@@ -373,98 +353,96 @@ int TestErrors()
         wrapper.AppendPacket(&record);
 
     /* Try to confuse functions with bad indexes */
-    error = wrapper.GetPacket(static_cast<unsigned>(-1), &record);
+    error = wrapper.GetPacket( (unsigned) -1, &record);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetPacket(4, &record);
     if(error >= 0)
-      goto error;
-    error = wrapper.GetPacket(static_cast<unsigned>(-250), &record);
+      goto out;
+    error = wrapper.GetPacket((unsigned) -250, &record);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetPacket(3000, &record);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetPacket(1, &record);
     if(error < 0)
-      goto error;
+      goto out;
 
-    error = wrapper.GetPackets(static_cast<unsigned>(-1), 1, records);
+    error = wrapper.GetPackets((unsigned) -1, 1, records);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetPackets(2, 4, records);
     if(error >= 0)
-      goto error;
-    error = wrapper.GetPackets(static_cast<unsigned>(-60), static_cast<unsigned>(-62), records);
+      goto out;
+    error = wrapper.GetPackets((unsigned) -60, (unsigned) -62, records);
      if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetPackets(10, 12, records);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetPackets(0, 2, records);
     if(error < 0)
-      goto error;
+      goto out;
     error = wrapper.GetPackets(2, 0, records);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetPackets(1, 1, records);
     if(error < 0)
-      goto error;
+      goto out;
     error = wrapper.GetPackets(1, 3, records);
     if(error < 0)
-      goto error;
+      goto out;
 
     wrapper.ResetIndex();
-    error = wrapper.SetIndex(static_cast<unsigned>(-1));
+    error = wrapper.SetIndex((unsigned) -1);
     if(error >= 0)
-      goto error;
-    if(wrapper.GetIndex(error) != 0) goto error;
-    if(error < 0) goto error;
+      goto out;
+    if(wrapper.GetIndex(error) != 0) goto out;
+    if(error < 0) goto out;
     error = wrapper.GetNextPacket(&record);
     if(error < 0)
-      goto error;
+      goto out;
     if(record != 1)
-      goto error;
-    if(wrapper.GetIndex(error) != 1) goto error;
-    if(error < 0) goto error;
+      goto out;
+    if(wrapper.GetIndex(error) != 1) goto out;
+    if(error < 0) goto out;
     error = wrapper.SetIndex(20);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetNextPacket(&record);
     if(error < 0)
-      goto error;
+      goto out;
     if(record != 2)
-      goto error;
+      goto out;
     wrapper.SetIndex(3);
     error = wrapper.GetNextPacket(&record);
     if(error < 0)
-      goto error;
+      goto out;
     if(record != 4)
-      goto error;
-    if(wrapper.GetIndex(error) != 4) goto error;
-    if(error < 0) goto error;
+      goto out;
+    if(wrapper.GetIndex(error) != 4) goto out;
+    if(error < 0) goto out;
     error = wrapper.GetNextPacket(&record);
     if(error >= 0)
-      goto error;
+      goto out;
 
     wrapper.ResetIndex();
     error = wrapper.GetNextPackets(10, records);
     if(error >= 0)
-      goto error;
+      goto out;
     error = wrapper.GetNextPackets(0, records);
     if(error < 0)
-      goto error;
+      goto out;
 
     PASSED();
     return 0;
 
-error:
+out:
     H5_FAILED();
     return 1;
 }
 
-const char* PT_SYSTEMTST1 = "/SystemTest1";
-const char* PT_SYSTEMTST2 = "/SystemTest2";
 int SystemTest()
 {
     TESTING("multiple datatypes")
@@ -481,7 +459,7 @@ int SystemTest()
         int e;
     } compoundType;
 
-    dtypeID1 = H5Tcreate(H5T_COMPOUND, sizeof(compoundType));
+    dtypeID1 = H5Tcreate( H5T_COMPOUND, sizeof(compoundType));
 
     H5Tinsert(dtypeID1, "abbey", HOFFSET( compoundType, a ), H5T_NATIVE_SHORT);
     H5Tinsert(dtypeID1, "bert", HOFFSET( compoundType, b ), H5T_NATIVE_SHORT);
@@ -494,7 +472,7 @@ int SystemTest()
         compoundType g;
     } cType2;
 
-    dtypeID2 = H5Tcreate(H5T_COMPOUND, sizeof(cType2));
+    dtypeID2 = H5Tcreate ( H5T_COMPOUND, sizeof(cType2));
 
     H5Tinsert(dtypeID2, "f", HOFFSET( cType2, f ), H5T_NATIVE_CHAR);
     H5Tinsert(dtypeID2, "g", HOFFSET( cType2, g ), dtypeID1);
@@ -506,21 +484,21 @@ int SystemTest()
     ct2[0].g.c = 0;
     ct2[0].g.e = 3000;
 
-    /* Create the packet table datasets.  One used a deprecated constructor */
-    FL_PacketTable wrapper1(fileID, PT_SYSTEMTST1, dtypeID1, 1);
-    FL_PacketTable wrapper2(fileID, H5P_DEFAULT, PT_SYSTEMTST2, dtypeID2, 1);
+    /* Create the packet table datasets.  Make one of them compressed. */
+    FL_PacketTable wrapper1(fileID, "/SystemTest1", dtypeID1, 1);
+    FL_PacketTable wrapper2(fileID, "/SystemTest2", dtypeID2, 1, 5);
 
     if(! wrapper1.IsValid())
-      goto error;
+      goto out;
     if(! wrapper2.IsValid())
-      goto error;
+      goto out;
 
     /* Write and read packets, ensure that nothing is unusual */
     wrapper2.AppendPacket(ct2);
 
     count = wrapper1.GetPacketCount();
     if(count != 0)
-      goto error;
+      goto out;
 
     compoundType ct1[10];
     ct1[0].a = 31;
@@ -537,13 +515,13 @@ int SystemTest()
     wrapper1.ResetIndex();
     wrapper1.GetNextPacket(&ct1[1]);
     wrapper2.GetPacket(1, &ct2[2]);
-    if(wrapper1.GetIndex(error) != 1) goto error;
-    if(error < 0) goto error;
-    if(wrapper2.GetIndex(error) != 0) goto error;
-    if(error < 0) goto error;
+    if(wrapper1.GetIndex(error) != 1) goto out;
+    if(error < 0) goto out;
+    if(wrapper2.GetIndex(error) != 0) goto out;
+    if(error < 0) goto out;
 
     if(ct1[1].b != ct2[2].g.b)
-      goto error;
+      goto out;
 
     H5Tclose(dtypeID1);
     H5Tclose(dtypeID2);
@@ -551,7 +529,7 @@ int SystemTest()
     PASSED();
     return 0;
 
-error:
+out:
 
     H5E_BEGIN_TRY {
         H5Tclose(dtypeID1);
@@ -578,7 +556,7 @@ int VariableLengthTest(void)
 
     /* Verify that the creation succeeded */
     if(! test_VLPT->IsValid())
-      goto error;
+      goto out;
 
     /* Append some packets */
     test_short = 9;
@@ -590,9 +568,9 @@ int VariableLengthTest(void)
     test_VLPT->GetNextPackets(1, &read_buf);
 
     if(read_buf.len != sizeof(short))
-      goto error;
+      goto out;
     if(*(short *)(read_buf.p) != test_short)
-      goto error;
+      goto out;
 
     /* Free the memory used by the read */
     test_VLPT->FreeReadbuff(1, &read_buf);
@@ -601,9 +579,9 @@ int VariableLengthTest(void)
     test_VLPT->GetNextPackets(1, &read_buf);
 
     if(read_buf.len != sizeof(long))
-      goto error;
+      goto out;
     if(*(long *)(read_buf.p) != test_long)
-      goto error;
+      goto out;
 
     /* Free the memory used by the read */
     test_VLPT->FreeReadbuff(1, &read_buf);
@@ -616,10 +594,10 @@ int VariableLengthTest(void)
 
     /* Verify that the open succeeded */
     if(! new_pt->IsValid())
-      goto error;
+      goto out;
 
     if(new_pt->IsVariableLength() != 1)
-      goto error;
+      goto out;
 
     /* Close the packet table */
     delete new_pt;
@@ -627,7 +605,7 @@ int VariableLengthTest(void)
     PASSED();
     return 0;
 
-error:
+out:
     H5_FAILED();
     return 1;
 }

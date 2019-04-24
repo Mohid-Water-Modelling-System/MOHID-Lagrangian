@@ -13,7 +13,6 @@ PROJECT (HDF5_CPP_TEST)
 #-----------------------------------------------------------------------------
 set (CPP_TEST_SRCS
     ${HDF5_CPP_TEST_SOURCE_DIR}/testhdf5.cpp
-    ${HDF5_CPP_TEST_SOURCE_DIR}/tarray.cpp
     ${HDF5_CPP_TEST_SOURCE_DIR}/tattr.cpp
     ${HDF5_CPP_TEST_SOURCE_DIR}/tcompound.cpp
     ${HDF5_CPP_TEST_SOURCE_DIR}/tdspl.cpp
@@ -36,8 +35,8 @@ set (srcdir ${CMAKE_CURRENT_SOURCE_DIR})
 configure_file (${HDF5_CPP_TEST_SOURCE_DIR}/H5srcdir_str.h.in H5srcdir_str.h  @ONLY)
 
 add_executable (cpp_testhdf5 ${CPP_TEST_SRCS} )
-TARGET_NAMING (cpp_testhdf5 STATIC)
-TARGET_C_PROPERTIES (cpp_testhdf5 STATIC " " " ")
+TARGET_NAMING (cpp_testhdf5 ${LIB_TYPE})
+TARGET_C_PROPERTIES (cpp_testhdf5 ${LIB_TYPE} " " " ")
 target_link_libraries (cpp_testhdf5
     ${HDF5_CPP_LIB_TARGET}
     ${HDF5_LIB_TARGET}

@@ -52,9 +52,6 @@
 #define FILE1	"tfile1.h5"
 #define SFILE1	"sys_file1"
 
-#define REOPEN_FILE "tfile_reopen.h5"
-#define REOPEN_DSET "dset"
-
 #define F2_USERBLOCK_SIZE  (hsize_t)512
 #define F2_OFFSET_SIZE	   8
 #define F2_LENGTH_SIZE	   8
@@ -77,7 +74,6 @@
 #define DSET_NAME         "dataset"
 #define ATTR_NAME          "attr"
 #define TYPE_NAME          "type"
-#define DSET_VL 	   "vlinteger"
 #define FILE4	           "tfile4.h5"
 
 #define OBJ_ID_COUNT_0     0
@@ -156,15 +152,19 @@ test_file_create(void)
      * try to create the same file with H5F_ACC_TRUNC. This should fail
      * because fid1 is the same file and is currently open.
      */
+#ifndef H5_HAVE_FILE_VERSIONS
     fid2 = H5Fcreate(FILE1, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     VERIFY(fid2, FAIL, "H5Fcreate");
+#endif /*H5_DONT_HAVE_FILE_VERSIONS*/
 
     /* Close all files */
     ret = H5Fclose(fid1);
     CHECK(ret, FAIL, "H5Fclose");
 
+#ifndef H5_HAVE_FILE_VERSIONS
     ret = H5Fclose(fid2);
     VERIFY(ret, FAIL, "H5Fclose"); /*file should not have been open */
+#endif /*H5_HAVE_FILE_VERSIONS*/
 
     /*
      * Try again with H5F_ACC_EXCL. This should fail because the file already
@@ -177,6 +177,7 @@ test_file_create(void)
     fid1 = H5Fcreate(FILE1, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     CHECK(fid1, FAIL, "H5Fcreate");
 
+#ifndef H5_HAVE_FILE_VERSIONS
     /*
      * Try to truncate first file again. This should fail because fid1 is the
      * same file and is currently open.
@@ -190,6 +191,7 @@ test_file_create(void)
      */
     fid2 = H5Fcreate(FILE1, H5F_ACC_EXCL, H5P_DEFAULT, H5P_DEFAULT);
     VERIFY(fid2, FAIL, "H5Fcreate");
+#endif /*H5_HAVE_FILE_VERSIONS*/
 
     /* Get the file-creation template */
     tmpl1 = H5Fget_create_plist(fid1);
@@ -504,59 +506,6 @@ test_file_open(void)
     ret = H5Pclose(fapl_id);
     CHECK(ret, FAIL, "H5Pclose");
 }   /* test_file_open() */
-
-/****************************************************************
-**
-**  test_file_reopen(): File reopen test routine.
-**
-****************************************************************/
-static void
-test_file_reopen(void)
-{
-    hid_t   fid = -1;           /* file ID from initial open            */
-    hid_t   rfid = -1;          /* file ID from reopen                  */
-    hid_t   did = -1;           /* dataset ID (both opens)              */
-    hid_t   sid = -1;           /* dataspace ID for dataset creation    */
-    hsize_t dims = 6;           /* dataspace size                       */
-    herr_t  ret;                /* Generic return value                 */
-
-    /* Output message about test being performed */
-    MESSAGE(5, ("Testing File Re-opening\n"));
-
-    /* Create file via first ID */
-    fid = H5Fcreate(REOPEN_FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-    CHECK_I(fid, "H5Fcreate");
-
-    /* Create a dataset in the file */
-    sid = H5Screate_simple(1, &dims, &dims);
-    CHECK_I(sid, "H5Screate_simple")
-    did = H5Dcreate2(fid, REOPEN_DSET, H5T_NATIVE_INT, sid, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-    CHECK_I(did, "H5Dcreate2");
-
-    /* Close dataset and dataspace */
-    ret = H5Sclose(sid);
-    CHECK(ret, FAIL, "H5Sclose");
-    ret = H5Dclose(did);
-    CHECK(ret, FAIL, "H5Dclose");
-
-    /* Reopen the file with a different file ID */
-    rfid = H5Freopen(fid);
-    CHECK_I(rfid, "H5Freopen");
-
-    /* Reopen the dataset through the reopen file ID */
-    did = H5Dopen2(rfid, REOPEN_DSET, H5P_DEFAULT);
-    CHECK_I(did, "H5Dopen2");
-
-    /* Close and clean up */
-    ret = H5Dclose(did);
-    CHECK(ret, FAIL, "H5Dclose");
-    ret = H5Fclose(fid);
-    CHECK(ret, FAIL, "H5Fclose");
-    ret = H5Fclose(rfid);
-    CHECK(ret, FAIL, "H5Fclose");
-    HDremove(REOPEN_FILE);
-
-}   /* test_file_reopen() */
 
 /****************************************************************
 **
@@ -1392,6 +1341,7 @@ test_file_perm(void)
     ret = H5Dclose(dset);
     CHECK(ret, FAIL, "H5Dclose");
 
+#ifndef H5_CANNOT_OPEN_TWICE
     /* Open the file (with read-only permission) */
     filero = H5Fopen(FILE2, H5F_ACC_RDONLY, H5P_DEFAULT);
     CHECK(filero, FAIL, "H5Fopen");
@@ -1408,6 +1358,7 @@ test_file_perm(void)
 
     ret = H5Fclose(filero);
     CHECK(ret, FAIL, "H5Fclose");
+#endif /*H5_CANNOT_OPEN_TWICE*/
 
     ret = H5Fclose(file);
     CHECK(ret, FAIL, "H5Fclose");
@@ -2130,162 +2081,6 @@ test_file_double_dataset_open(void)
 
 /****************************************************************
 **
-**  test_open2x_vlen():
-**      This is the helper routine used by test_open2x_vlen().
-**	This is modified based on the customer's test program.
-**	(HDFFV-9469):
-**	--read from the specified dataset
-**
-*****************************************************************/
-static void 
-CheckRead(hid_t did)
-{
-    hid_t mtid = -1; 
-    hid_t sid = -1;
-    hvl_t *read = NULL;
-    herr_t ret;
-    int ndims;
-    hsize_t dims[1]={1};
-
-    mtid = H5Tvlen_create(H5T_NATIVE_INT64);
-    CHECK(mtid, FAIL, "H5Tvlen_create");
-
-    sid = H5Dget_space(did);
-    CHECK(sid, FAIL, "H5Dget_space");
-
-    ndims = H5Sget_simple_extent_dims(sid, dims, NULL);
-    CHECK(ndims, FAIL, "H5Sget_simple_extent_dims");
-
-    read = (hvl_t *) HDmalloc (dims[0] * sizeof (hvl_t));
-    CHECK_PTR(read, "HDmalloc");
-
-    ret = H5Dread(did, mtid, H5S_ALL, H5S_ALL, H5P_DEFAULT, read);
-    CHECK(ret, FAIL, "H5Dread");
-
-    ret = H5Dvlen_reclaim(mtid, sid, H5P_DEFAULT, read);
-    CHECK(ret, FAIL, "H5Dvlen_reclaim");
-
-    HDfree(read);
-
-    ret = H5Tclose(mtid);
-    CHECK(ret, FAIL, "H5Tclose");
-
-    ret = H5Sclose(sid);
-    CHECK(ret, FAIL, "H5Sclose");
-} /* CheckRead */
-
-/****************************************************************
-**
-**  test_open2x_vlen():
-**      This test is modified based on the customer's test program.
-**	(HDFFV-9469):
-** 	--open a file and a dataset with variable length type twice
-** 	--close both opens of the file
-**	--close the dataset from first open
-**	--verify that reading from the dataset (second open) is successful
-**
-*****************************************************************/
-static void
-test_open2x_vlen(void)
-{
-    hid_t fid1 = -1, fid2 = -1;
-    hid_t did1 = -1, did2 = -1;
-    hid_t sid = -1;
-    hid_t ftid = -1;
-    hid_t mtid = -1;
-    hsize_t dims[1] = { 1 };
-    int64_t integers[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    hvl_t written;
-    herr_t ret;         			/* Generic return value */
-
-    /* Output message about test being performed */
-    MESSAGE(5, ("Testing open file and variable length dataset twice and closing 1 dataset\n"));
-
-    /* Setting up the test file */
-
-    written.p = integers;
-    written.len = 10;
-
-    fid1 = H5Fcreate(FILE1, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-    CHECK(fid1, FAIL, "H5Fcreate");
-
-    /* Create a variable-length type */
-    ftid = H5Tvlen_create(H5T_STD_I64LE);
-    CHECK(ftid, FAIL, "H5Tvlen_create");
-    mtid = H5Tvlen_create(H5T_NATIVE_INT64);
-    CHECK(mtid, FAIL, "H5Tvlen_create");
-
-    /* Create the dataset */
-    sid = H5Screate_simple(1, dims, dims);
-    CHECK(sid, FAIL, "H5Screate_simple");
-
-    did1 = H5Dcreate2(fid1, DSET_VL, ftid, sid, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-    CHECK(did1, FAIL, "H5Dcreate");
-
-    /* Write to the dataset */
-    ret = H5Dwrite(did1, mtid, H5S_ALL, H5S_ALL, H5P_DEFAULT, &written);
-    CHECK(ret, FAIL, "H5Dwrite");
-
-    /* Close the dataset */
-    ret = H5Dclose(did1);
-    CHECK(ret, FAIL, "H5Dclose");
-
-    ret = H5Tclose(mtid);
-    CHECK(ret, FAIL, "H5Tclose");
-    ret = H5Tclose(ftid);
-    CHECK(ret, FAIL, "H5Tclose");
-    ret = H5Sclose(sid);
-    CHECK(ret, FAIL, "H5Sclose");
-
-    /* Close the file */
-    ret = H5Fclose(fid1);
-    CHECK(ret, FAIL, "H5Fclose");
-
-
-    /* First open of the file */
-    fid1 = H5Fopen(FILE1, H5F_ACC_RDWR, H5P_DEFAULT);
-    CHECK(fid1, FAIL, "H5Fopen");
-
-    /* First open of the dataset */
-    did1 = H5Dopen2(fid1, DSET_VL, H5P_DEFAULT);
-    CHECK(did1, FAIL, "H5Dopen");
-
-    /* Close the file */
-    ret = H5Fclose(fid1);
-    CHECK(ret, FAIL, "H5Fclose");
-
-    /* Second open of the file */
-    fid2 = H5Fopen(FILE1, H5F_ACC_RDWR, H5P_DEFAULT);
-    CHECK(fid2, FAIL, "H5Fopen");
-
-    /* Second open of the dataset */
-    did2 = H5Dopen2(fid2, DSET_VL, H5P_DEFAULT);
-    CHECK(did2, FAIL, "H5Dopen");
-
-    /* Close the file */
-    ret = H5Fclose(fid2);
-    CHECK(ret, FAIL, "H5Fclose");
-
-    /* Read from the dataset (first open) */
-    CheckRead(did1);
-    /* Read from the dataset (second open) */
-    CheckRead(did2);
-
-    /* Close the dataset from first open */
-    ret = H5Dclose(did1);
-    CHECK(ret, FAIL, "H5Dclose");
-
-    /* Read from the dataset (second open) */
-    CheckRead(did2);
-
-    /* Close the dataset from second open */
-    ret = H5Dclose(did2);
-    CHECK(ret, FAIL, "H5Dclose");
-
-} /* end test_open2x_vlen() */
-
-/****************************************************************
-**
 **  test_file_double_datatype_open(): low-level file test routine.
 **      This test checks whether opening the same named datatype from two
 **      different files works correctly.
@@ -2540,7 +2335,7 @@ test_rw_noupdate(void)
     /* Check That Timestamps Are Equal */
     if(diff > 0.0F) {
         /* Output message about test being performed */
-        MESSAGE(1, ("Testing to verify that nothing is written if nothing is changed: This test is skipped on this system because the modification time from stat is the same as the last access time.\n"));
+        MESSAGE(1, ("Testing to verify that nothing is written if nothing is changed: This test is skipped on this system because the modification time from stat is the same as the last access time (We know OpenVMS behaves in this way).\n"));
     } /* end if */
     else {
         hid_t file_id;      /* HDF5 File ID */
@@ -3160,9 +2955,8 @@ test_file(void)
     /* Output message about test being performed */
     MESSAGE(5, ("Testing Low-Level File I/O\n"));
 
-    test_file_create();         /* Test file creation(also creation templates)*/
-    test_file_open();           /* Test file opening */
-    test_file_reopen();         /* Test file reopening */
+    test_file_create();		/* Test file creation(also creation templates)*/
+    test_file_open();		/* Test file opening */
     test_file_close();          /* Test file close behavior */
     test_get_file_id();         /* Test H5Iget_file_id */
     test_get_obj_ids();         /* Test H5Fget_obj_ids for Jira Issue 8528 */
@@ -3171,13 +2965,16 @@ test_file(void)
     test_file_freespace();      /* Test file free space information */
     test_file_ishdf5();         /* Test detecting HDF5 files correctly */
     test_file_open_dot();       /* Test opening objects with "." for a name */
+#ifndef H5_CANNOT_OPEN_TWICE
     test_file_open_overlap();   /* Test opening files in an overlapping manner */
+#endif /*H5_CANNOT_OPEN_TWICE*/
     test_file_getname();        /* Test basic H5Fget_name() functionality */
+#ifndef H5_CANNOT_OPEN_TWICE
     test_file_double_root_open();       /* Test opening root group from two files works properly */
     test_file_double_group_open();      /* Test opening same group from two files works properly */
     test_file_double_dataset_open();    /* Test opening same dataset from two files works properly */
     test_file_double_datatype_open();   /* Test opening same named datatype from two files works properly */
-    test_open2x_vlen();		/* Test opening file and variable length dataset twice and closing 1 dataset */
+#endif /*H5_CANNOT_OPEN_TWICE*/
     test_userblock_file_size(); /* Tests that files created with a userblock have the correct size */
     test_cached_stab_info();    /* Tests that files are created with cached stab info in the superblock */
     test_rw_noupdate();         /* Test to ensure that RW permissions don't write the file unless dirtied */

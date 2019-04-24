@@ -21,16 +21,17 @@
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"          /* Generic Functions                    */
-#include "H5ACprivate.h"        /* Metadata cache                       */
-#include "H5Dprivate.h"         /* Datasets                             */
-#include "H5Eprivate.h"         /* Error handling                       */
-#include "H5FLprivate.h"        /* Free lists                           */
-#include "H5Lprivate.h"         /* Links                                */
+#include "H5private.h"		/* Generic Functions			*/
+#include "H5ACprivate.h"	/* Metadata cache			*/
+#include "H5Dprivate.h"		/* Datasets				*/
+#include "H5Eprivate.h"		/* Error handling		  	*/
+#include "H5FLprivate.h"	/* Free lists                           */
+#include "H5Lprivate.h"		/* Links		  		*/
 #include "H5MMprivate.h"        /* Memory management                    */
-#include "H5Pprivate.h"         /* Property lists                       */
+#include "H5Pprivate.h"		/* Property lists			*/
+#include "H5Tprivate.h"		/* Datatypes				*/
 #include "H5SLprivate.h"        /* Skip lists                           */
-#include "H5Tprivate.h"         /* Datatypes                            */
+
 
 /****************/
 /* Local Macros */
@@ -110,27 +111,26 @@ H5_init_library(void)
 #ifdef H5_HAVE_PARALLEL
     {
 	int mpi_initialized;
-	int mpi_finalized;
         int mpi_code;
 
 	MPI_Initialized(&mpi_initialized);
-	MPI_Finalized(&mpi_finalized);
 
 #ifdef H5_HAVE_MPE
         /* Initialize MPE instrumentation library. */
-        if (!H5_MPEinit_g) {
-            int mpe_code;
-            if (mpi_initialized && !mpi_finalized) {
-                mpe_code = MPE_Init_log();
-                HDassert(mpe_code >=0);
-                H5_MPEinit_g = TRUE;
+        if (!H5_MPEinit_g)
+            {
+                int mpe_code;
+                if (mpi_initialized){
+                    mpe_code = MPE_Init_log();
+                    HDassert(mpe_code >=0);
+                    H5_MPEinit_g = TRUE;
+                }
             }
-        }
 #endif /*H5_HAVE_MPE*/
 
         /* add an attribute on MPI_COMM_SELF to call H5_term_library
            when it is destroyed, i.e. on MPI_Finalize */
-        if (mpi_initialized && !mpi_finalized) {
+        if (mpi_initialized) {
             int key_val;
 
             if(MPI_SUCCESS != (mpi_code = MPI_Comm_create_keyval(MPI_NULL_COPY_FN, 
@@ -140,9 +140,6 @@ H5_init_library(void)
 
             if(MPI_SUCCESS != (mpi_code = MPI_Comm_set_attr(MPI_COMM_SELF, key_val, NULL)))
                 HMPI_GOTO_ERROR(FAIL, "MPI_Comm_set_attr failed", mpi_code)
-
-            if(MPI_SUCCESS != (mpi_code = MPI_Comm_free_keyval(&key_val)))
-                HMPI_GOTO_ERROR(FAIL, "MPI_Comm_free_keyval failed", mpi_code)
         }
     }
 #endif /*H5_HAVE_PARALLEL*/
@@ -188,8 +185,7 @@ H5_init_library(void)
 
         /* Normal library termination code */
         (void)HDatexit(H5_term_library);
-
-        H5_dont_atexit_g = TRUE;
+	H5_dont_atexit_g = TRUE;
     } /* end if */
 
     /*
@@ -302,8 +298,9 @@ H5_term_library(void)
             pending += DOWN(Z);
             pending += DOWN(FD);
             pending += DOWN(P);
+#ifndef H5_VMS
             pending += DOWN(PL);
-
+#endif /*H5_VMS*/
             /* Don't shut down the error code until other APIs which use it are shut down */
             if(pending == 0)
                 pending += DOWN(E);
@@ -335,14 +332,11 @@ H5_term_library(void)
      * down if any of the below code involves using the instrumentation code.
      */
     if(H5_MPEinit_g) {
-	int mpi_initialized;
-	int mpi_finalized;
 	int mpe_code;
+	int mpi_initialized;
 
 	MPI_Initialized(&mpi_initialized);
-	MPI_Finalized(&mpi_finalized);
-
-        if (mpi_initialized && !mpi_finalized) {
+	if(mpi_initialized) {
 	    mpe_code = MPE_Finish_log("h5log");
 	    HDassert(mpe_code >=0);
 	} /* end if */
@@ -619,7 +613,7 @@ H5_debug_mask(const char *s)
  *
  *-------------------------------------------------------------------------
  */
-static int H5_mpi_delete_cb(MPI_Comm H5_ATTR_UNUSED comm, int H5_ATTR_UNUSED keyval, void H5_ATTR_UNUSED *attr_val, int H5_ATTR_UNUSED *flag)
+static int H5_mpi_delete_cb(MPI_Comm UNUSED comm, int UNUSED keyval, void UNUSED *attr_val, int UNUSED *flag)
 {
     H5_term_library();
     return MPI_SUCCESS;
@@ -968,36 +962,6 @@ H5free_memory(void *mem)
     FUNC_LEAVE_API(SUCCEED)
 
 } /* end H5free_memory() */
-
-
-/*-------------------------------------------------------------------------
- * Function:	H5is_library_threadsafe
- *
- * Purpose:	    Checks to see if the library was built with thread-safety
- *              enabled.
- *
- * Return:	    SUCCEED/FAIL
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5is_library_threadsafe(hbool_t *is_ts)
-{
-    herr_t ret_value = SUCCEED;
-
-    FUNC_ENTER_API_NOINIT
-    H5TRACE1("e", "*b", is_ts);
-
-    HDassert(is_ts);
- 
-#ifdef H5_HAVE_THREADSAFE
-    *is_ts = TRUE;
-#else /* H5_HAVE_THREADSAFE */
-    *is_ts = FALSE;
-#endif /* H5_HAVE_THREADSAFE */
-
-    FUNC_LEAVE_API(ret_value)
-} /* end H5is_library_threadsafe() */
 
 
 #if defined(H5_HAVE_THREADSAFE) && defined(H5_BUILT_AS_DYNAMIC_LIB) \

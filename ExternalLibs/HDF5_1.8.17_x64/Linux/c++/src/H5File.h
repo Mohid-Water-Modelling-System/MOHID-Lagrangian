@@ -68,6 +68,7 @@ class H5_DLLCPP H5File : public H5Location, public CommonFG {
 	// Returns the pointer to the file handle of the low-level file driver.
 	void getVFDHandle(void **file_handle) const;
 	void getVFDHandle(const FileAccPropList& fapl, void **file_handle) const;
+	void getVFDHandle(FileAccPropList& fapl, void **file_handle) const; // kept for backward compatibility
 
 	// Determines if a file, specified by its name, is in HDF5 format
 	static bool isHdf5(const char* name );
@@ -82,8 +83,7 @@ class H5_DLLCPP H5File : public H5Location, public CommonFG {
 	// Gets the file id
 	virtual hid_t getLocId() const;
 
-	// Creates an H5File using an existing file id.  Not recommended
-	// in applications.
+	// Creates an H5File using an existing file id.
 	H5File(hid_t existing_id);
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS

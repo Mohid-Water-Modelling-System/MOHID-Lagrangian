@@ -27,7 +27,6 @@
 #include "H5Object.h"
 #include "H5FaccProp.h"
 #include "H5FcreatProp.h"
-#include "H5OcreatProp.h"
 #include "H5DxferProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
@@ -74,6 +73,9 @@ H5File::H5File() : H5Location(), CommonFG(), id(H5I_INVALID_HID) {}
 ///					exists, and fail, otherwise
 ///		\li \c H5F_ACC_RDWR - Open file for read/write, if it already
 ///					exists, and fail, otherwise
+///		\li \c H5F_ACC_DEBUG - print debug information. This flag is
+///			used only by HDF5 library developers; it is neither
+///			tested nor supported for use in applications.
 ///\par
 ///		For info on file creation in the case of an already-open file,
 ///		please refer to the \b Special \b case section in the C layer
@@ -88,7 +90,7 @@ H5File::H5File( const char* name, unsigned int flags, const FileCreatPropList& c
 {
     try {
 	p_get_file(name, flags, create_plist, access_plist);
-    } catch (FileIException& open_file) {
+    } catch (FileIException open_file) {
 	throw open_file;
     }
 }
@@ -113,7 +115,7 @@ H5File::H5File( const H5std_string& name, unsigned int flags, const FileCreatPro
 {
     try {
 	p_get_file(name.c_str(), flags, create_plist, access_plist);
-    } catch (FileIException& open_file) {
+    } catch (FileIException open_file) {
 	throw open_file;
     }
 }
@@ -131,7 +133,7 @@ void H5File::p_get_file(const char* name, unsigned int flags, const FileCreatPro
 {
     // These bits only set for creation, so if any of them are set,
     // create the file.
-    if( flags & (H5F_ACC_EXCL|H5F_ACC_TRUNC))
+    if( flags & (H5F_ACC_EXCL|H5F_ACC_TRUNC|H5F_ACC_DEBUG))
     {
 	hid_t create_plist_id = create_plist.getId();
 	hid_t access_plist_id = access_plist.getId();
@@ -153,6 +155,8 @@ void H5File::p_get_file(const char* name, unsigned int flags, const FileCreatPro
     }
 }
 
+#endif // DOXYGEN_SHOULD_SKIP_THIS
+
 //--------------------------------------------------------------------------
 // Function:	H5File overloaded constructor
 ///\brief	Creates an H5File object using an existing file id.
@@ -171,8 +175,6 @@ H5File::H5File(hid_t existing_id) : H5Location(), CommonFG()
     id = existing_id;
     incRefCount(); // increment number of references to this id
 }
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
 // Function:	H5File copy constructor
@@ -228,7 +230,7 @@ bool H5File::isHdf5(const H5std_string& name )
 ///\param	name         - IN: Name of the file
 ///\param	flags        - IN: File access flags
 ///\param	access_plist - IN: File access property list.  Default to
-///		FileAccPropList::DEFAULT
+///		FileCreatPropList::DEFAULT
 ///\par Description
 ///		Valid values of \a flags include:
 ///		H5F_ACC_RDWR:   Open with read/write access. If the file is
@@ -245,7 +247,7 @@ void H5File::openFile(const char* name, unsigned int flags, const FileAccPropLis
     try {
         close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
         throw FileIException("H5File::openFile", close_error.getDetailMsg());
     }
 
@@ -294,7 +296,7 @@ void H5File::reOpen()
     try {
         close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
         throw FileIException("H5File::reOpen", close_error.getDetailMsg());
     }
 
@@ -454,8 +456,6 @@ void H5File::getObjIDs(unsigned types, size_t max_objs, hid_t *oid_list) const
 ///		the file remains open; it will be invalid if the file is
 ///		closed and reopened or opened during a subsequent session.
 // Programmer   Binh-Minh Ribler - May 2004
-// Modification
-//		Replaced the version without const parameter - Apr, 2014
 //--------------------------------------------------------------------------
 void H5File::getVFDHandle(const FileAccPropList& fapl, void **file_handle) const
 {
@@ -465,6 +465,23 @@ void H5File::getVFDHandle(const FileAccPropList& fapl, void **file_handle) const
    {
       throw FileIException("H5File::getVFDHandle", "H5Fget_vfd_handle failed");
    }
+}
+
+//--------------------------------------------------------------------------
+// Function:	H5File::getVFDHandle
+///\brief	This is an overloaded member function, kept for backward
+///		compatibility.  It differs from the above function in that it
+///		misses const.  This wrapper will be removed in future release.
+///\param	fapl        - File access property list
+///\param	file_handle - Pointer to the file handle being used by
+///			      the low-level virtual file driver
+///\exception	H5::FileIException
+// Programmer   Binh-Minh Ribler - May 2004
+// Note:	Retiring April, 2014
+//--------------------------------------------------------------------------
+void H5File::getVFDHandle(FileAccPropList& fapl, void **file_handle) const
+{
+    getVFDHandle((const FileAccPropList)fapl, file_handle);
 }
 
 //--------------------------------------------------------------------------
@@ -507,23 +524,6 @@ hsize_t H5File::getFileSize() const
    return (file_size);
 }
 
-//--------------------------------------------------------------------------
-// Function:	H5File::getId
-///\brief	Get the id of this file
-///\return	File identifier
-// Modification:
-//	May 2008 - BMR
-//		Class hierarchy is revised to address bugzilla 1068.  Class
-//		AbstractDS and Attribute are moved out of H5Object.  In
-//		addition, member IdComponent::id is moved into subclasses, and
-//		IdComponent::getId now becomes pure virtual function.
-// Programmer	Binh-Minh Ribler - May, 2008
-//--------------------------------------------------------------------------
-hid_t H5File::getId() const
-{
-   return(id);
-}
-
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------------------
 // Function:	H5File::reopen
@@ -550,18 +550,37 @@ hid_t H5File::getLocId() const
 {
    return( getId() );
 }
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
-// Function:	H5File::p_setId (protected)
-///\brief	Sets the identifier of this object to a new value.
+// Function:    H5File::getId
+///\brief	Get the id of this file
+///\return	File identifier
+// Modification:
+//      May 2008 - BMR
+//              Class hierarchy is revised to address bugzilla 1068.  Class
+//              AbstractDS and Attribute are moved out of H5Object.  In
+//              addition, member IdComponent::id is moved into subclasses, and
+//              IdComponent::getId now becomes pure virtual function.
+// Programmer   Binh-Minh Ribler - May, 2008
+//--------------------------------------------------------------------------
+hid_t H5File::getId() const
+{
+   return(id);
+}
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//--------------------------------------------------------------------------
+// Function:    H5File::p_setId (protected)
+///\brief       Sets the identifier of this object to a new value.
 ///
-///\exception	H5::IdComponentException when the attempt to close the HDF5
-///		object fails
+///\exception   H5::IdComponentException when the attempt to close the HDF5
+///             object fails
 // Description:
-//		The underlaying reference counting in the C library ensures
-//		that the current valid id of this object is properly closed.
-//		Then the object's id is reset to the new id.
-// Programmer	Binh-Minh Ribler - 2000
+//              The underlaying reference counting in the C library ensures
+//              that the current valid id of this object is properly closed.
+//              Then the object's id is reset to the new id.
+// Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 void H5File::p_setId(const hid_t new_id)
 {
@@ -569,7 +588,7 @@ void H5File::p_setId(const hid_t new_id)
     try {
         close();
     }
-    catch (Exception& E) {
+    catch (Exception E) {
         throw FileIException("H5File::p_setId", E.getDetailMsg());
     }
    // reset object's id to the given id
@@ -633,7 +652,7 @@ H5File::~H5File()
 {
     try {
 	close();
-    } catch (Exception& close_error) {
+    } catch (Exception close_error) {
 	cerr << "H5File::~H5File - " << close_error.getDetailMsg() << endl;
     }
 }

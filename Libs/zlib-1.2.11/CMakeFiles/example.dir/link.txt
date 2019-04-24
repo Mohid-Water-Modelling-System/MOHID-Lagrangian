@@ -1,1 +1,0 @@
-/usr/bin/cc -O3 -DNDEBUG   -Wl,--allow-multiple-definition -rdynamic CMakeFiles/example.dir/test/example.o  -o ../szip-2.1.1/bin/example -Wl,-rpath,/home/daniel/FLORIAN/PROYECTOS/MOHID/Libraries/szip-2.1.1/bin ../szip-2.1.1/bin/libz.so.1.2.11 

@@ -305,7 +305,7 @@ H5D__pre_write(H5D_t *dset, hbool_t direct_write, hid_t mem_type_id,
 	int      ndims = 0;
 	hsize_t  dims[H5O_LAYOUT_NDIMS];
 	hsize_t  internal_offset[H5O_LAYOUT_NDIMS];
-	unsigned u;
+	int      i;
 
         /* Get the dataset transfer property list */
         if(NULL == (plist = (H5P_genplist_t *)H5I_object(dxpl_id)))
@@ -327,16 +327,16 @@ H5D__pre_write(H5D_t *dset, hbool_t direct_write, hid_t mem_type_id,
 	if((ndims = H5S_get_simple_extent_dims(dset->shared->space, dims, NULL)) < 0)
 	    HGOTO_ERROR(H5E_DATASPACE, H5E_CANTGET, FAIL, "can't retrieve dataspace extent dims")
 
-	for(u = 0; u < ndims; u++) {
+	for(i = 0; i < ndims; i++) {
 	    /* Make sure the offset doesn't exceed the dataset's dimensions */
-            if(direct_offset[u] > dims[u])
+            if(direct_offset[i] > dims[i])
 		HGOTO_ERROR(H5E_DATASPACE, H5E_BADTYPE, FAIL, "offset exceeds dimensions of dataset")
 
             /* Make sure the offset fall right on a chunk's boundary */
-	    if(direct_offset[u] % dset->shared->layout.u.chunk.dim[u])
+	    if(direct_offset[i] % dset->shared->layout.u.chunk.dim[i])
 		HGOTO_ERROR(H5E_DATASPACE, H5E_BADTYPE, FAIL, "offset doesn't fall on chunks's boundary")
 
-	    internal_offset[u] = direct_offset[u]; 
+	    internal_offset[i] = direct_offset[i]; 
 	} /* end for */
 	   
 	/* Terminate the offset with a zero */ 
@@ -414,14 +414,11 @@ H5D__read(H5D_t *dataset, hid_t mem_type_id, const H5S_t *mem_space,
         mem_space = file_space;
     if((snelmts = H5S_GET_SELECT_NPOINTS(mem_space)) < 0)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "dst dataspace has invalid selection")
-    H5_CHECKED_ASSIGN(nelmts, hsize_t, snelmts, hssize_t);
+    H5_ASSIGN_OVERFLOW(nelmts,snelmts,hssize_t,hsize_t);
 
     /* Fill the DXPL cache values for later use */
     if(H5D__get_dxpl_cache(dxpl_id, &dxpl_cache) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't fill dxpl cache")
-
-    /* Patch the top level file pointer for dt->shared->u.vlen.f if needed */
-    H5T_patch_vlen_file(dataset->shared->type, dataset->oloc.file);
 
     /* Set up datatype info for operation */
     if(H5D__typeinfo_init(dataset, dxpl_cache, dxpl_id, mem_type_id, FALSE, &type_info) < 0)
@@ -643,9 +640,6 @@ H5D__write(H5D_t *dataset, hid_t mem_type_id, const H5S_t *mem_space,
     if(H5D__get_dxpl_cache(dxpl_id, &dxpl_cache) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTGET, FAIL, "can't fill dxpl cache")
 
-    /* Patch the top level file pointer for dt->shared->u.vlen.f if needed */
-    H5T_patch_vlen_file(dataset->shared->type, dataset->oloc.file);
-
     /* Set up datatype info for operation */
     if(H5D__typeinfo_init(dataset, dxpl_cache, dxpl_id, mem_type_id, TRUE, &type_info) < 0)
         HGOTO_ERROR(H5E_DATASET, H5E_CANTINIT, FAIL, "unable to set up type info")
@@ -690,7 +684,7 @@ H5D__write(H5D_t *dataset, hid_t mem_type_id, const H5S_t *mem_space,
 
     if((snelmts = H5S_GET_SELECT_NPOINTS(mem_space)) < 0)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "src dataspace has invalid selection")
-    H5_CHECKED_ASSIGN(nelmts, hsize_t, snelmts, hssize_t);
+    H5_ASSIGN_OVERFLOW(nelmts, snelmts, hssize_t, hsize_t);
 
     /* Make certain that the number of elements in each selection is the same */
     if(nelmts != (hsize_t)H5S_GET_SELECT_NPOINTS(file_space))

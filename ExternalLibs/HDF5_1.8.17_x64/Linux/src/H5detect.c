@@ -73,7 +73,7 @@ static const char *FileHeader = "\n\
 #define H5JMP_BUF	sigjmp_buf
 #define H5SETJMP(buf)	HDsigsetjmp(buf, 1)
 #define H5LONGJMP(buf, val)	HDsiglongjmp(buf, val)
-#define H5HAVE_SIGJMP		/* sigsetjmp/siglongjmp are supported. */
+#define H5HAVE_SIGJMP		# sigsetjmp/siglongjmp are supported.
 #elif defined(H5_HAVE_LONGJMP)
 #define H5JMP_BUF	jmp_buf
 #define H5SETJMP(buf)	HDsetjmp(buf)
@@ -485,7 +485,7 @@ precision (detected_t *d)
  *-------------------------------------------------------------------------
  */
 static void
-sigsegv_handler(int H5_ATTR_UNUSED signo)
+sigsegv_handler(int UNUSED signo)
 {
 #if !defined(H5HAVE_SIGJMP) && defined(H5_HAVE_SIGPROCMASK)
     /* Use sigprocmask to unblock the signal if sigsetjmp/siglongjmp are not */
@@ -523,7 +523,7 @@ sigsegv_handler(int H5_ATTR_UNUSED signo)
  *-------------------------------------------------------------------------
  */
 static void
-sigbus_handler(int H5_ATTR_UNUSED signo)
+sigbus_handler(int UNUSED signo)
 {
 #if !defined(H5HAVE_SIGJMP) && defined(H5_HAVE_SIGPROCMASK)
     /* Use sigprocmask to unblock the signal if sigsetjmp/siglongjmp are not */
@@ -559,7 +559,7 @@ sigbus_handler(int H5_ATTR_UNUSED signo)
  *-------------------------------------------------------------------------
  */
 static void
-sigill_handler(int H5_ATTR_UNUSED signo)
+sigill_handler(int UNUSED signo)
 {
 #if !defined(H5HAVE_SIGJMP) && defined(H5_HAVE_SIGPROCMASK)
     /* Use sigprocmask to unblock the signal if sigsetjmp/siglongjmp are not */

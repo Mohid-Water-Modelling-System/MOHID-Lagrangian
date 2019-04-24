@@ -36,7 +36,5 @@
 /* Implements verbose 'assert' with 'goto error' exit  */
 #define VERIFY(condition, string) do { if (!(condition)) FAIL_PUTS_ERROR(string) } while(0)
 
-int test_packet_table_with_varlen(void);
-
 #endif /* _H5HLTEST_H */
 
