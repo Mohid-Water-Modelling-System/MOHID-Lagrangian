@@ -21,7 +21,7 @@
     use common_modules
     use AoT_mod
     use background_mod
-    use field_types_mod
+    use fieldTypes_mod
 
     implicit none
     private

@@ -19,7 +19,7 @@
     !> deletion and iteration of the desired contents
     !------------------------------------------------------------------------------
 
-    module tracer_list_mod
+    module tracerList_mod
 
     use tracers_mod
     use abstract_LinkedList_mod
@@ -115,4 +115,4 @@
     end subroutine print_tracerListCurrent
 
 
-    end module tracer_list_mod
+    end module tracerList_mod

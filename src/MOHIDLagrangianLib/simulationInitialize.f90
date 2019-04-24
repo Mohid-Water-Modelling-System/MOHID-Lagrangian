@@ -19,11 +19,11 @@
     !> space from input files.
     !------------------------------------------------------------------------------
 
-    module simulation_initialize_mod
+    module simulationInitialize_mod
 
     use common_modules
-    use tracer_base_mod
-    use xmlparser_mod
+    use tracerBase_mod
+    use xmlParser_mod
     use sources_mod
 
     use FoX_dom
@@ -479,4 +479,4 @@
 
     end subroutine InitFromXml
 
-    end module simulation_initialize_mod
+    end module simulationInitialize_mod

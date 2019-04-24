@@ -16,7 +16,7 @@
     !> Module to control the precision of the variables trough the project.
     !------------------------------------------------------------------------------
 
-    module simulation_precision_mod
+    module simulationPrecision_mod
 
     use penf
 
@@ -46,4 +46,4 @@
     ! char handling
     integer, parameter :: CHAR_LEN = 99
 
-    end module simulation_precision_mod
+    end module simulationPrecision_mod

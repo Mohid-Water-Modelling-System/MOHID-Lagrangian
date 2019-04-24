@@ -19,9 +19,9 @@
     module sources_mod
 
     use common_modules
-    use simulation_globals_mod
+    use simulationGlobals_mod
     use csv_module
-    use csvparser_mod
+    use csvParser_mod
 
     implicit none
     private

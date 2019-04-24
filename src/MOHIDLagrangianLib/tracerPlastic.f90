@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : tracer_paper
+    ! MODULE        : tracer_plastic
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : April 2018
@@ -13,46 +13,46 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module that defines a Lagrangian tracer class for paper modelling and related methods.
+    !> Module that defines a Lagrangian tracer class for plastic modelling and related methods.
     !> The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all
     !> of it's data and methods
     !------------------------------------------------------------------------------
 
-    module tracer_paper_mod
+    module tracerPlastic_mod
 
-    use tracer_base_mod
+    use tracerBase_mod
     use common_modules
     use sources_mod
 
     implicit none
     private
 
-    type :: paper_par_class               !<Type - parameters of a Lagrangian tracer object representing a paper material
+    type :: plastic_par_class               !<Type - parameters of a Lagrangian tracer object representing a plastic material
         real(prec) :: degradation_rate              !< degradation rate of the material
         logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
-    end type paper_par_class
+    end type plastic_par_class
 
-    type :: paper_state_class             !<Type - State variables of a tracer object representing a paper material
+    type :: plastic_state_class             !<Type - State variables of a tracer object representing a plastic material
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: condition                     !< Material condition (1-0)
         real(prec) :: concentration                 !< Particle concentration
-    end type paper_state_class
+    end type plastic_state_class
 
-    type, extends(tracer_class) :: paper_class    !<Type - The plastic material Lagrangian tracer class
-        type(paper_par_class)   :: mpar     !<To access material parameters
-        type(paper_state_class) :: mnow     !<To access material state variables
+    type, extends(tracer_class) :: plastic_class    !<Type - The plastic material Lagrangian tracer class
+        type(plastic_par_class)   :: mpar     !<To access material parameters
+        type(plastic_state_class) :: mnow     !<To access material state variables
     contains
-    end type paper_class
+    end type plastic_class
 
     !Public access vars
-    public :: paper_class
+    public :: plastic_class
 
     !Public access routines
-    public :: paperTracer
+    public :: plasticTracer
 
-    interface paperTracer !< Constructor
+    interface plasticTracer !< Constructor
     procedure constructor
     end interface
 
@@ -61,11 +61,11 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Paper Tracer constructor
+    !> Plastic Tracer constructor
     !> @param[in] id, src, time, p
     !---------------------------------------------------------------------------
     function constructor(id, src, time, p)
-    type(paper_class) :: constructor
+    type(plastic_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
@@ -93,4 +93,4 @@
 
     end function constructor
 
-    end module tracer_paper_mod
+    end module tracerPlastic_mod

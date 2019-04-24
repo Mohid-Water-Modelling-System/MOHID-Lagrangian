@@ -19,9 +19,9 @@
     !> that a user can then explore in the methods.
     !------------------------------------------------------------------------------
 
-    module tracer_user_mod
+    module tracerUser_mod
 
-    use tracer_base_mod
+    use tracerBase_mod
     use common_modules
     use sources_mod
 
@@ -81,4 +81,4 @@
     end function constructor
 
 
-    end module tracer_user_mod
+    end module tracerUser_mod

@@ -21,9 +21,9 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
-    use simulation_precision_mod
-    use simulation_logger_mod
-    use simulation_globals_mod
+    use simulationPrecision_mod
+    use simulationLogger_mod
+    use simulationGlobals_mod
     use utilities_mod
 
     implicit none

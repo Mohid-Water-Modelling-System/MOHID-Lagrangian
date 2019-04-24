@@ -18,7 +18,7 @@
     !> file format and controling the respective reader.
     !------------------------------------------------------------------------------
 
-    module simulation_input_streamer_mod
+    module simulationInputStreamer_mod
 
     use common_modules
 
@@ -51,4 +51,4 @@
     end subroutine initInputStreamer
 
 
-    end module simulation_input_streamer_mod
+    end module simulationInputStreamer_mod

@@ -16,7 +16,7 @@
     !> Module to hold the simulation global parameter classes and their methods
     !------------------------------------------------------------------------------
 
-    module simulation_globals_mod
+    module simulationGlobals_mod
 
     use penf
     use vecfor_r8p
@@ -25,12 +25,12 @@
     use datetime_module
     use FoX_dom
 
-    use simulation_precision_mod
-    use simulation_parallel_omp_mod
-    use simulation_logger_mod
-    use simulation_memory_mod
+    use simulationPrecision_mod
+    use simulationParallel_omp_mod
+    use simulationLogger_mod
+    use simulationMemory_mod
     use utilities_mod
-    use xmlparser_mod
+    use xmlParser_mod
     use abstract_LinkedList_mod
 
     implicit none
@@ -1027,4 +1027,4 @@
     call this%reset()               ! reset list iterator
     end function notRepeated
 
-    end module simulation_globals_mod
+    end module simulationGlobals_mod

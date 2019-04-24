@@ -19,7 +19,7 @@
     !> choose their data dimensionality or type to create a field.
     !------------------------------------------------------------------------------
 
-    module field_types_mod
+    module fieldTypes_mod
 
     use common_modules
 
@@ -519,4 +519,4 @@
     end function getFieldMinBound
 
 
-    end module field_types_mod
+    end module fieldTypes_mod

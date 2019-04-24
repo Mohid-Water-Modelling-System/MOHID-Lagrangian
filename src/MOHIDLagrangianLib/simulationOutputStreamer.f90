@@ -18,10 +18,10 @@
     !> file format.
     !------------------------------------------------------------------------------
 
-    module simulation_output_streamer_mod
+    module simulationOutputStreamer_mod
 
     use common_modules
-    use vtkwritter_mod
+    use vtkWritter_mod
     use boundingbox_mod
     use blocks_mod
 
@@ -88,7 +88,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Streamer method to check if this timestep is appropriate to write an 
+    !> Streamer method to check if this timestep is appropriate to write an
     !> output file
     !> @param[in] self
     !---------------------------------------------------------------------------
@@ -113,17 +113,18 @@
         call self%vtkWritter%initialize()
     end if
     end subroutine initOutputStreamer
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Closes the Output writer object
     !---------------------------------------------------------------------------
     subroutine closeOutputStreamer(self)
-    class(output_streamer_class), intent(inout) :: self    
+    class(output_streamer_class), intent(inout) :: self
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%finalize()
     end if
     end subroutine closeOutputStreamer
 
-    end module simulation_output_streamer_mod
+
+    end module simulationOutputStreamer_mod

@@ -19,7 +19,7 @@
     !> Tracers. Supports scalar and vectorial data.
     !------------------------------------------------------------------------------
 
-    module hdf5writter_mod
+    module hdf5Writter_mod
 
     use common_modules
 
@@ -47,14 +47,14 @@
 
         !Opens HDF File
         call ConstructHDF5(ID, "filehdf", HDF5_CREATE, STAT = STAT_CALL)
-        if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5writter_mod - ERR01'
+        if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5Writter_mod - ERR01'
         
         call HDF5WriteData(ID, "/Data", "TestMatrix", "-",         &
                               Array2D = mat,            &
                               STAT = STAT_CALL)
-        if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5writter_mod - ERR07'
+        if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5Writter_mod - ERR07'
         
     end subroutine writeTestmatrix
     
 
-    end module hdf5writter_mod
+    end module hdf5Writter_mod

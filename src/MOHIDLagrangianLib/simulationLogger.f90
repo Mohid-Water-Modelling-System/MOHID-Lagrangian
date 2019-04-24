@@ -16,7 +16,7 @@
     !> Module to hold all the simulation logger related definitions and methods
     !------------------------------------------------------------------------------
 
-    module simulation_logger_mod
+    module simulationLogger_mod
 
     use penf
     use vecfor_r8p
@@ -118,4 +118,5 @@
     timestamp=trim(adjustl(temp(1)))//'-'//trim(adjustl(temp(2)))//'-'//trim(adjustl(temp(3)))//' @'//trim(adjustl(temp(5)))//':'//trim(adjustl(temp(6)))//':'//trim(adjustl(temp(7)))
     end subroutine getTimeStamp
 
-    end module simulation_logger_mod
+
+    end module simulationLogger_mod

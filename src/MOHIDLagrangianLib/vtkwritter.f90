@@ -19,7 +19,7 @@
     !> Tracers. Supports scalar and vectorial data.
     !------------------------------------------------------------------------------
 
-    module vtkwritter_mod
+    module vtkWritter_mod
 
     use common_modules
     use vtk_fortran
@@ -263,4 +263,4 @@
 
     end subroutine Domain
 
-    end module vtkwritter_mod
+    end module vtkWritter_mod

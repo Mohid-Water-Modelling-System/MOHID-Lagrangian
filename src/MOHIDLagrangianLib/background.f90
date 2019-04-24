@@ -23,7 +23,7 @@
 
     use common_modules
     use abstract_LinkedList_mod
-    use field_types_mod
+    use fieldTypes_mod
 
     implicit none
     private

@@ -13,10 +13,10 @@
     !> wall time. API supports accumulation, several start-stop cycles and printing.
     !------------------------------------------------------------------------------
 
-    module simulation_timer_mod
+    module simulationTimer_mod
 
-    use simulation_precision_mod
-    use simulation_logger_mod
+    use simulationPrecision_mod
+    use simulationLogger_mod
     use stringifor
     use omp_lib
 
@@ -156,4 +156,4 @@
     call Log%put(outext,.false.)
     end subroutine printNotInitialized
 
-    end module simulation_timer_mod
+    end module simulationTimer_mod

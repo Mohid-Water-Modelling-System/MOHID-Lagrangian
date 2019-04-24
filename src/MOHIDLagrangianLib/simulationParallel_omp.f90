@@ -13,7 +13,7 @@
     !> wall time. API supports accumulation, several start-stop cycles and printing.
     !------------------------------------------------------------------------------
 
-    module simulation_parallel_omp_mod
+    module simulationParallel_omp_mod
 
     use penf
     use stringifor
@@ -88,4 +88,4 @@
     end function getThreads
 
 
-    end module simulation_parallel_omp_mod
+    end module simulationParallel_omp_mod

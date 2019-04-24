@@ -18,7 +18,7 @@
     !> fortran-csv-module library. https://github.com/jacobwilliams/fortran-csv-module
     !------------------------------------------------------------------------------
 
-    module csvparser_mod
+    module csvParser_mod
 
     use csv_module
     use common_modules
@@ -102,4 +102,4 @@
     end subroutine closeFile
 
 
-    end module csvparser_mod
+    end module csvParser_mod

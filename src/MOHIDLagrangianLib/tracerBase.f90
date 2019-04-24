@@ -16,7 +16,7 @@
     !> Module that defines a pure Lagrangian tracer class and related methods.
     !------------------------------------------------------------------------------
 
-    module tracer_base_mod
+    module tracerBase_mod
 
     use common_modules
     use sources_mod
@@ -126,4 +126,4 @@
 
     end function constructor
 
-    end module tracer_base_mod
+    end module tracerBase_mod

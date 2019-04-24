@@ -16,11 +16,11 @@
     !> Module to hold the simulation memory managment class and its methods
     !------------------------------------------------------------------------------
 
-    module simulation_memory_mod
+    module simulationMemory_mod
 
     use stringifor
-    use simulation_logger_mod
-    use simulation_precision_mod
+    use simulationLogger_mod
+    use simulationPrecision_mod
 
     implicit none
     private
@@ -194,7 +194,7 @@
     temp(4)= sizemb
     sizemb = self%size_of_blocks*1E-6
     temp(5)= sizemb
-    sizemb = self%ntrc*self%sizeTrc*1E-6    
+    sizemb = self%ntrc*self%sizeTrc*1E-6
     outext='->Total allocated memory: '//temp(1)//' mb'//new_line('a')//&
         '       Allocated memory for Blocks  = '//temp(5)//' mb'//new_line('a')//&
         '       Allocated memory for Sources = '//temp(2)//' mb'//new_line('a')//&
@@ -204,4 +204,4 @@
     call Log%put(outext)
     end subroutine
 
-    end module simulation_memory_mod
+    end module simulationMemory_mod

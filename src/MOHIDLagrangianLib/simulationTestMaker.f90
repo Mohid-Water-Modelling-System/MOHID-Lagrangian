@@ -16,13 +16,12 @@
     !> Defines synthetic hydrodynamic fields to test Tracer behavior.
     !------------------------------------------------------------------------------
 
-    module simulation_testmaker_mod
+    module simulationTestMaker_mod
 
     use common_modules
     use background_mod
-    use field_types_mod
-
-    use ncparser_mod
+    use fieldTypes_mod
+    use netcdfParser_mod
 
     implicit none
     private
@@ -249,4 +248,4 @@
     end subroutine makeRealVel
 
 
-    end module simulation_testmaker_mod
+    end module simulationTestMaker_mod

@@ -16,7 +16,7 @@
     !> Module to print version, licence, preambles.
     !------------------------------------------------------------------------------
 
-    module simulation_about_mod
+    module simulationAbout_mod
 
     use common_modules
 
@@ -44,9 +44,9 @@
     implicit none
     type(string) :: outext
 
-    version  ="v0.3"
+    version  ="v0.4"
     author   ="R. Birjukovs Canelas"
-    date     ="12-03-2019"
+    date     ="24-04-2019"
 
     outext = ' __  __  ___  _   _ ___ ____  _                                      _              '//new_line('a')//&
         ' |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  '//new_line('a')//&
@@ -82,4 +82,4 @@
 
     end subroutine
 
-    end module simulation_about_mod
+    end module simulationAbout_mod

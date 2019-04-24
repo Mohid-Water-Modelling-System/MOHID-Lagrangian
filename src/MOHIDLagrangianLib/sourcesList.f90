@@ -19,7 +19,7 @@
     !> deletion and iteration of the desired contents
     !------------------------------------------------------------------------------
 
-    module sources_list_mod
+    module sourcesList_mod
 
     use sources_mod
     use abstract_LinkedList_mod
@@ -75,4 +75,4 @@
     end subroutine print_sourceListCurrent
 
 
-    end module sources_list_mod
+    end module sourcesList_mod

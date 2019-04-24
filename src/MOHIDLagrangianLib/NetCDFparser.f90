@@ -21,7 +21,7 @@
     !> required, because even netCDF CF compliance allows ambiguity.
     !------------------------------------------------------------------------------
 
-    module ncparser_mod
+    module netcdfParser_mod
 
 #ifdef _USE_NIX
     use netcdf
@@ -31,8 +31,8 @@
 
     use common_modules
     use background_mod
-    use field_types_mod
-    use xmlparser_mod
+    use fieldTypes_mod
+    use xmlParser_mod
     use background_mod
 
     use FoX_dom
@@ -469,7 +469,4 @@
     end subroutine correctNCTime
     
     
-    
-    
-    
-    end module ncparser_mod
+    end module netcdfParser_mod

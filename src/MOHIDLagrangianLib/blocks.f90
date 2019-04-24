@@ -22,10 +22,10 @@
     module blocks_mod
 
     use common_modules
-    use simulation_globals_mod
+    use simulationGlobals_mod
     use boundingbox_mod
-    use tracer_list_mod
-    use sources_list_mod
+    use tracerList_mod
+    use sourcesList_mod
     use sources_mod
     use tracers_mod
     use emitter_mod
@@ -33,7 +33,7 @@
     use solver_mod
     use background_mod
 
-    use simulation_testmaker_mod
+    use simulationTestMaker_mod
 
 
     implicit none
