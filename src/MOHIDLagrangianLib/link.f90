@@ -128,7 +128,7 @@
     !> @brief
     !> Link constructor, can be used with the 'link' name since it was defined 
     !> as such in an interface declaration
-    !> @param[to_store, prev, next]
+    !> @param[in] to_store, prev, next, key
     !---------------------------------------------------------------------------
     function constructor(to_store, prev, next, key)
     class(link), pointer :: constructor

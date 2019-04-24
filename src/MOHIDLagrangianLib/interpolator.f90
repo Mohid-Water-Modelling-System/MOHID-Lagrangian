@@ -48,7 +48,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that runs the chosen interpolator method on the given data.
-    !> @param[in] self, aot, bdata, time, dt, var_dt, var_name
+    !> @param[in] self, aot, bdata, time, var_dt, var_name
     !---------------------------------------------------------------------------
     subroutine run(self, aot, bdata, time, var_dt, var_name)
     class(interpolator_class), intent(in) :: self
@@ -107,7 +107,7 @@
     !> divided into 16 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] self, x, y, z, t, field, f_out, n_fv, n_cv, n_pv, n_tv, n_e
+    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
     function interp4D(self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self

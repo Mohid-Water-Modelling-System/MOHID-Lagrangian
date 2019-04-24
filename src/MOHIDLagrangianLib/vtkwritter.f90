@@ -126,7 +126,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> indexes a given file with a correct time stamp in a paraview readable xml format.
-    !> @param[in] self, filename, timestap
+    !> @param[in] self, filename, timestamp
     !---------------------------------------------------------------------------
     subroutine IndexVTKFile(self, filename, timestamp)
     class(vtkwritter_class), intent(inout) :: self

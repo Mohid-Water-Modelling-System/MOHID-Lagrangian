@@ -307,8 +307,9 @@
     !> Method to send a Tracer from the current Block to another Block. Checks
     !> if Block index exists, if not, Tracer is not added to any Block Tracer 
     !> list
+    !> @param[in] blk, trc
     !---------------------------------------------------------------------------
-    subroutine sendTracer(blk,trc)
+    subroutine sendTracer(blk, trc)
     implicit none
     integer, intent(in) :: blk
     class(tracer_class), intent(inout) :: trc
@@ -336,7 +337,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns true if the point is inside the requested box.
-    !> @param[in] pt, testbox
+    !> @param[in] trc, testbox
     !---------------------------------------------------------------------------
     logical function TrcInBox(trc, testbox)
     implicit none

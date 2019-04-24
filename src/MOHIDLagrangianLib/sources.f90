@@ -322,7 +322,7 @@
     !> @brief
     !> Method that sets the rate for the current time step, in case of a variable 
     !> rate.
-    !> @param[in] self, time
+    !> @param[in] self, index
     !---------------------------------------------------------------------------
     subroutine getVariableRate(self, index)
     class(source_class), intent(inout) :: self        
@@ -335,9 +335,9 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source inititialization proceadure - initializes Source variables
-    !> @param[in] src,id,name,emitting_rate,start,finish,source_geometry,shapetype
+    !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src,id,name,emitting_rate,emitting_fixed_rate,rate_file,start,finish,source_geometry,shapetype)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name

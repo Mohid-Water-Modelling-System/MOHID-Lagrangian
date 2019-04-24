@@ -428,7 +428,7 @@
     !> @brief
     !> corrects the time array to a more efficient format if needed.
     !> assumes netcdf comment as 'seconds since 1981-01-01 00:00:00'
-    !> @param[in] self
+    !> @param[in] timeComments, timeArray
     !---------------------------------------------------------------------------
     subroutine correctNCTime(timeComments, timeArray)
     type(string), intent(in) :: timeComments
