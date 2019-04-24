@@ -1,8 +1,8 @@
 libnetcdf3_la-v1hpg.lo: v1hpg.c ../config.h ../include/ncconfigure.h \
   ../include/nc3internal.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_int8_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_int16_t.h \
@@ -129,11 +129,11 @@ libnetcdf3_la-v1hpg.lo: v1hpg.c ../config.h ../include/ncconfigure.h \
 
 ../include/nc3internal.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h:
 

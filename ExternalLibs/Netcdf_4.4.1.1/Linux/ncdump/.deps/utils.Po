@@ -1,5 +1,5 @@
 utils.o: utils.c ../config.h ../include/ncconfigure.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdarg.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdarg.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/cdefs.h \
@@ -50,7 +50,7 @@ utils.o: utils.c ../config.h ../include/ncconfigure.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_sigset_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_uid_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/resource.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_types/_uint8_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_types/_uint16_t.h \
@@ -78,8 +78,8 @@ utils.o: utils.c ../config.h ../include/ncconfigure.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/secure/_strings.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/secure/_string.h \
   ../include/netcdf.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/assert.h \
@@ -93,7 +93,7 @@ utils.o: utils.c ../config.h ../include/ncconfigure.h \
 
 ../include/ncconfigure.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdarg.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdarg.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdio.h:
 
@@ -195,7 +195,7 @@ utils.o: utils.c ../config.h ../include/ncconfigure.h \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/resource.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h:
 
@@ -251,9 +251,9 @@ utils.o: utils.c ../config.h ../include/ncconfigure.h \
 
 ../include/netcdf.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/errno.h:
 

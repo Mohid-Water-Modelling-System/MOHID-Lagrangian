@@ -41,7 +41,7 @@ libnetcdf3_la-nc3internal.lo: nc3internal.c ../config.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_size_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_uid_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/resource.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_types/_uint8_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_types/_uint16_t.h \
@@ -94,8 +94,8 @@ libnetcdf3_la-nc3internal.lo: nc3internal.c ../config.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_uuid_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/gethostuuid.h \
   ../include/nc3internal.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_u_char.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_u_short.h \
@@ -218,7 +218,7 @@ libnetcdf3_la-nc3internal.lo: nc3internal.c ../config.h \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/resource.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h:
 
@@ -324,9 +324,9 @@ libnetcdf3_la-nc3internal.lo: nc3internal.c ../config.h \
 
 ../include/nc3internal.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/types.h:
 

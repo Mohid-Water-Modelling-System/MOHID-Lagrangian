@@ -1,5 +1,5 @@
 libdap2_la-dapdebug.lo: dapdebug.c ../config.h ../include/ncconfigure.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdarg.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdarg.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/cdefs.h \
@@ -51,7 +51,7 @@ libdap2_la-dapdebug.lo: dapdebug.c ../config.h ../include/ncconfigure.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_sigset_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_uid_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/resource.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_types/_uint8_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/_types/_uint16_t.h \
@@ -113,8 +113,8 @@ libdap2_la-dapdebug.lo: dapdebug.c ../config.h ../include/ncconfigure.h \
   ../include/ncbytes.h ../include/nclist.h ../include/nchashmap.h \
   ../include/ncuri.h ../include/fbits.h dceconstraints.h \
   ../include/ceconstraints.h ../include/netcdf.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/errno.h \
   ../include/ncdispatch.h \
@@ -152,10 +152,10 @@ libdap2_la-dapdebug.lo: dapdebug.c ../config.h ../include/ncconfigure.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_socklen_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_iovec_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/curl/curlbuild.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/inttypes.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/inttypes.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/inttypes.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/curl/curlrules.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/limits.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/limits.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/limits.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/machine/limits.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/i386/limits.h \
@@ -175,7 +175,7 @@ libdap2_la-dapdebug.lo: dapdebug.c ../config.h ../include/ncconfigure.h \
 
 ../include/ncconfigure.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdarg.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdarg.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdio.h:
 
@@ -281,7 +281,7 @@ ncdap.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/resource.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stdint.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stdint.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/stdint.h:
 
@@ -415,9 +415,9 @@ dceconstraints.h:
 
 ../include/netcdf.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/stddef.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/stddef.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/__stddef_max_align_t.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/__stddef_max_align_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/errno.h:
 
@@ -501,13 +501,13 @@ dapdebug.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/curl/curlbuild.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/inttypes.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/inttypes.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/inttypes.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/curl/curlrules.h:
 
-/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0/include/limits.h:
+/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include/limits.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/limits.h:
 

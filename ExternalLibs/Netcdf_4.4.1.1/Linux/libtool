@@ -1,6 +1,6 @@
 #! /bin/sh
 # Generated automatically by config.status (netcdf) 4.4.1.1
-# Libtool was configured on host Ricardos-MBP.lan:
+# Libtool was configured on host Ricardos-MacBook-Pro.local:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 
 # Provide generalized library-building support services.
@@ -76,13 +76,13 @@ PATH_SEPARATOR=":"
 
 # The host system.
 host_alias=
-host=x86_64-apple-darwin18.2.0
-host_os=darwin18.2.0
+host=x86_64-apple-darwin18.5.0
+host_os=darwin18.5.0
 
 # The build system.
 build_alias=
-build=x86_64-apple-darwin18.2.0
-build_os=darwin18.2.0
+build=x86_64-apple-darwin18.5.0
+build_os=darwin18.5.0
 
 # A sed program that does not truncate output.
 SED="/usr/bin/sed"
@@ -285,7 +285,7 @@ finish_eval=""
 hardcode_into_libs=no
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.0  /usr/local/lib"
+sys_lib_search_path_spec="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1  /usr/local/lib"
 
 # Detected run-time system search path for libraries.
 sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"

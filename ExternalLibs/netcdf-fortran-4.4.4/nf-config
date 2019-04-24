@@ -10,14 +10,14 @@ includedir=${prefix}/include
 
 cc="gcc"
 fc="gfortran"
-cflags=" -I${includedir} " 
+cflags=" -I${includedir} -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/include -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/include -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build/include" 
 fflags="-I${includedir}"
 has_dap="yes"
 has_nc2="yes"
 has_nc4="yes"
 has_f90="no"
 has_f03="yes"
-flibs="-L${libdir} -lnetcdff  -lnetcdf -lnetcdf "
+flibs="-L${libdir} -lnetcdff -L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/lib -L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/lib -L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build/lib -lnetcdf -lnetcdf "
 version="netCDF-Fortran 4.4.4"
 
 usage()

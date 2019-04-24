@@ -10,7 +10,7 @@ libdir=${exec_prefix}/lib
 includedir=${prefix}/include
 
 cc="gcc"
-cflags="-I${includedir} "
+cflags="-I${includedir} -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/include -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/include"
 libs="-L${libdir} -lnetcdf"
 
 has_dap="yes"

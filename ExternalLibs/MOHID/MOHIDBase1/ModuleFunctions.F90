@@ -6227,8 +6227,8 @@ d5:     do k = klast + 1,KUB
             !The run period must be a multiple of the model DT
             !The abs function is used, to avoid rounding erros
 
-            aux1 = dmod (aux, DTD)
-            MinError = min (dabs(aux1), dabs(DTD - aux1))
+            aux1 = mod (aux, DTD)
+            MinError = min (abs(aux1), abs(DTD - aux1))
             if (MinError >= 1.e-5.and.(.not.VariableDT)) then
                 write(*,*)
                 write(*,*)' Time step error - Run period must be a multiple of DT'

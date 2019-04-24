@@ -4,8 +4,8 @@
 # General
 -------
 NetCDF Version:		4.4.1.1
-Configured On:		Tue Mar 12 10:02:17 GMT 2019
-Host System:		x86_64-apple-darwin18.2.0
+Configured On:		Wed Apr 24 14:35:00 BST 2019
+Host System:		x86_64-apple-darwin18.5.0
 Build Directory: 	/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux
 Install Prefix:         /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build
 
@@ -13,14 +13,14 @@ Install Prefix:         /Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/Exte
 -----------------
 C Compiler:		/usr/bin/gcc
 CFLAGS:			
-CPPFLAGS:		
-LDFLAGS:		
+CPPFLAGS:		-I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/include -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/include
+LDFLAGS:		-L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/lib -L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/lib
 AM_CFLAGS:		
 AM_CPPFLAGS:		
 AM_LDFLAGS:		
 Shared Library:		yes
 Static Library:		yes
-Extra libraries:	-lsz -lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl 
+Extra libraries:	-lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl 
 
 # Features
 --------

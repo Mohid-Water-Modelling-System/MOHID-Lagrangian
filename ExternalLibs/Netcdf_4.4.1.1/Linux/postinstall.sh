@@ -124,9 +124,9 @@ if [ "x$DOAUTOTOOL" = "xTRUE" ]; then
             SHARED_BUILD="--enable-shared"
         fi
 
-        LIBS="-lsz -lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl " CFLAGS="-I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build/include" LDFLAGS="-L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build/lib" ./configure --prefix=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build $STATIC_BUILD $SHARED_BUILD
-        LIBS="-lsz -lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl " make
-        LIBS="-lsz -lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl " make check
+        LIBS="-lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl " CFLAGS="-I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build/include" LDFLAGS="-L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build/lib" ./configure --prefix=/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/Netcdf_4.4.1.1/Linux/build $STATIC_BUILD $SHARED_BUILD
+        LIBS="-lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl " make
+        LIBS="-lhdf5_hl -lhdf5 -ldl -lm -lz -lcurl " make check
     fi
 
     if [ "x$DOACTION" = "xinstall" ]; then

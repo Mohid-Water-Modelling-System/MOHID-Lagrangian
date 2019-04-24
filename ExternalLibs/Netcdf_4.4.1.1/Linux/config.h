@@ -136,7 +136,7 @@
 #define HAVE_H5PSET_DEFLATE 1
 
 /* Define to 1 if you have the `H5Z_SZIP' function. */
-#define HAVE_H5Z_SZIP 1
+/* #undef HAVE_H5Z_SZIP */
 
 /* Define to 1 if you have the <hdf5.h> header file. */
 #define HAVE_HDF5_H 1
@@ -512,7 +512,7 @@
 /* #undef USE_STDIO */
 
 /* if true, compile in szip compression in netCDF-4 variables */
-#define USE_SZIP 1
+/* #undef USE_SZIP */
 
 /* if true, compile in zlib compression in netCDF-4 variables */
 #define USE_ZLIB 1

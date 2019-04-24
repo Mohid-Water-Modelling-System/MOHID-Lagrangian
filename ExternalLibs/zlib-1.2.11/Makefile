@@ -45,7 +45,7 @@ TAR=tar
 SHELL=/bin/sh
 EXE=
 
-prefix =build
+prefix =/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build
 exec_prefix =${prefix}
 libdir =${exec_prefix}/lib
 sharedlibdir =${libdir}

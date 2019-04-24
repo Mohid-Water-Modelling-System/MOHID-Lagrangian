@@ -1,3 +1,4 @@
 CPPFLAGS= CC=gcc CFLAGS= LDFLAGS= LIBS=-lcurl 
 CPPFLAGS= CC=gcc CFLAGS= LDFLAGS= LIBS=-lcurl 
 CPPFLAGS= CC=gcc CFLAGS= LDFLAGS= LIBS=-lcurl 
+CPPFLAGS=-I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/include -I/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/include CC=gcc CFLAGS= LDFLAGS=-L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/HDF5_1.8.17_x64/Linux/hdf5/lib -L/Users/rbc-laptop/Documents/GitHub/MOHID-Lagrangian/ExternalLibs/zlib-1.2.11/build/lib LIBS=-lcurl 
