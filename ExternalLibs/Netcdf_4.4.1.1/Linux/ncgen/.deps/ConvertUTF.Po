@@ -1,8 +1,0 @@
-ConvertUTF.o: ConvertUTF.c ../config.h ../include/ncconfigure.h \
-  ConvertUTF.h
-
-../config.h:
-
-../include/ncconfigure.h:
-
-ConvertUTF.h:
