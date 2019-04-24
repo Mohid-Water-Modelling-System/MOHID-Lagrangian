@@ -14,11 +14,17 @@ Collaboration diagram for sources\+\_\+mod\+:\+:source\+\_\+par\+:\nopagebreak
 \item 
 integer \mbox{\hyperlink{structsources__mod_1_1source__par_a88d333946d18fee527b7b207f44dd3ff}{id}}
 \begin{DoxyCompactList}\small\item\em unique source identification (integer) \end{DoxyCompactList}\item 
-integer \mbox{\hyperlink{structsources__mod_1_1source__par_a4edfa7359d6e8ee0e066dbdd1f5b25a4}{emitting\+\_\+rate}}
-\begin{DoxyCompactList}\small\item\em Emitting rate of the source (Hz) \end{DoxyCompactList}\item 
-real(prec\+\_\+time) \mbox{\hyperlink{structsources__mod_1_1source__par_afcde2655b2a557f3a3e2c952dc8a51b0}{startime}}
+real(prec) \mbox{\hyperlink{structsources__mod_1_1source__par_a8374d8f2d32dfa9e9f5863c7a45d0e1d}{emitting\+\_\+rate}}
+\begin{DoxyCompactList}\small\item\em Emitting rate of the Source (Hz) \end{DoxyCompactList}\item 
+logical \mbox{\hyperlink{structsources__mod_1_1source__par_a957d4184d9cd997abeac05c04821139c}{emitting\+\_\+fixed\+\_\+rate}}
+\begin{DoxyCompactList}\small\item\em Type of emitter rate\+: true-\/fixed rate(\+Hz); false-\/variable(from file) \end{DoxyCompactList}\item 
+type(string) \mbox{\hyperlink{structsources__mod_1_1source__par_ae236b50563bb0dadd55af1aadac3023e}{rate\+\_\+file}}
+\begin{DoxyCompactList}\small\item\em File name of the emission rate data (csv) \end{DoxyCompactList}\item 
+real(prec), dimension(\+:), allocatable \mbox{\hyperlink{structsources__mod_1_1source__par_ad5a8b90aed8636e98daafb1ede1390fd}{variable\+\_\+rate}}
+\begin{DoxyCompactList}\small\item\em Emission rate read from the rate\+\_\+file of the Source -\/ interpolated on a regular time series spaced dt. \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsources__mod_1_1source__par_a86f38cfdf7cd0bc42a72785aca69b9f9}{startime}}
 \begin{DoxyCompactList}\small\item\em time to start emitting tracers \end{DoxyCompactList}\item 
-real(prec\+\_\+time) \mbox{\hyperlink{structsources__mod_1_1source__par_ac2c04f0d36ad034e160e3de15fe0c283}{stoptime}}
+real(prec) \mbox{\hyperlink{structsources__mod_1_1source__par_ac5270ce3b0124a710527f4fa60ce30bc}{stoptime}}
 \begin{DoxyCompactList}\small\item\em time to stop emitting tracers \end{DoxyCompactList}\item 
 type(string) \mbox{\hyperlink{structsources__mod_1_1source__par_ac56d7761e7da3a906a3f0fbf4c7f49f8}{name}}
 \begin{DoxyCompactList}\small\item\em source name \end{DoxyCompactList}\item 
@@ -31,28 +37,46 @@ class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), allocatable \mbox
 \subsection{Detailed Description}
 
 
-Definition at line 27 of file sources.\+f90.
+Definition at line 29 of file sources.\+f90.
 
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structsources__mod_1_1source__par_a4edfa7359d6e8ee0e066dbdd1f5b25a4}\label{structsources__mod_1_1source__par_a4edfa7359d6e8ee0e066dbdd1f5b25a4}} 
-\index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!emitting\+\_\+rate@{emitting\+\_\+rate}}
-\index{emitting\+\_\+rate@{emitting\+\_\+rate}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
-\subsubsection{\texorpdfstring{emitting\+\_\+rate}{emitting\_rate}}
-{\footnotesize\ttfamily integer sources\+\_\+mod\+::source\+\_\+par\+::emitting\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsources__mod_1_1source__par_a957d4184d9cd997abeac05c04821139c}\label{structsources__mod_1_1source__par_a957d4184d9cd997abeac05c04821139c}} 
+\index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!emitting\+\_\+fixed\+\_\+rate@{emitting\+\_\+fixed\+\_\+rate}}
+\index{emitting\+\_\+fixed\+\_\+rate@{emitting\+\_\+fixed\+\_\+rate}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
+\subsubsection{\texorpdfstring{emitting\+\_\+fixed\+\_\+rate}{emitting\_fixed\_rate}}
+{\footnotesize\ttfamily logical sources\+\_\+mod\+::source\+\_\+par\+::emitting\+\_\+fixed\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Emitting rate of the source (Hz) 
+Type of emitter rate\+: true-\/fixed rate(\+Hz); false-\/variable(from file) 
 
 
 
-Definition at line 29 of file sources.\+f90.
+Definition at line 32 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-29         \textcolor{keywordtype}{integer} :: emitting\_rate
+32         \textcolor{keywordtype}{logical} :: emitting\_fixed\_rate
+\end{DoxyCode}
+\mbox{\Hypertarget{structsources__mod_1_1source__par_a8374d8f2d32dfa9e9f5863c7a45d0e1d}\label{structsources__mod_1_1source__par_a8374d8f2d32dfa9e9f5863c7a45d0e1d}} 
+\index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!emitting\+\_\+rate@{emitting\+\_\+rate}}
+\index{emitting\+\_\+rate@{emitting\+\_\+rate}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
+\subsubsection{\texorpdfstring{emitting\+\_\+rate}{emitting\_rate}}
+{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+par\+::emitting\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Emitting rate of the Source (Hz) 
+
+
+
+Definition at line 31 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+31         \textcolor{keywordtype}{real(prec)} :: emitting\_rate
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_abf09d59fd65f02d1a8139e2f9f477207}\label{structsources__mod_1_1source__par_abf09d59fd65f02d1a8139e2f9f477207}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!geometry@{geometry}}
@@ -66,11 +90,11 @@ Source geometry.
 
 
 
-Definition at line 34 of file sources.\+f90.
+Definition at line 39 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-34         \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{allocatable} :: geometry
+39         \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{allocatable} :: geometry
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_a88d333946d18fee527b7b207f44dd3ff}\label{structsources__mod_1_1source__par_a88d333946d18fee527b7b207f44dd3ff}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!id@{id}}
@@ -84,11 +108,11 @@ unique source identification (integer)
 
 
 
-Definition at line 28 of file sources.\+f90.
+Definition at line 30 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-28         \textcolor{keywordtype}{integer} :: id
+30         \textcolor{keywordtype}{integer} :: id
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_ac56d7761e7da3a906a3f0fbf4c7f49f8}\label{structsources__mod_1_1source__par_ac56d7761e7da3a906a3f0fbf4c7f49f8}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!name@{name}}
@@ -102,11 +126,29 @@ source name
 
 
 
-Definition at line 32 of file sources.\+f90.
+Definition at line 37 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-32         \textcolor{keywordtype}{type}(string) :: name
+37         \textcolor{keywordtype}{type}(string) :: name
+\end{DoxyCode}
+\mbox{\Hypertarget{structsources__mod_1_1source__par_ae236b50563bb0dadd55af1aadac3023e}\label{structsources__mod_1_1source__par_ae236b50563bb0dadd55af1aadac3023e}} 
+\index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!rate\+\_\+file@{rate\+\_\+file}}
+\index{rate\+\_\+file@{rate\+\_\+file}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
+\subsubsection{\texorpdfstring{rate\+\_\+file}{rate\_file}}
+{\footnotesize\ttfamily type(string) sources\+\_\+mod\+::source\+\_\+par\+::rate\+\_\+file\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+File name of the emission rate data (csv) 
+
+
+
+Definition at line 33 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{type}(string) :: rate\_file
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__par_a66e7627f128290f25c2c9eb36808eb5b}\label{structsources__mod_1_1source__par_a66e7627f128290f25c2c9eb36808eb5b}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!source\+\_\+geometry@{source\+\_\+geometry}}
@@ -120,17 +162,17 @@ Source type \+: \textquotesingle{}point\textquotesingle{}, \textquotesingle{}lin
 
 
 
-Definition at line 33 of file sources.\+f90.
+Definition at line 38 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-33         \textcolor{keywordtype}{type}(string) :: source\_geometry
+38         \textcolor{keywordtype}{type}(string) :: source\_geometry
 \end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__par_afcde2655b2a557f3a3e2c952dc8a51b0}\label{structsources__mod_1_1source__par_afcde2655b2a557f3a3e2c952dc8a51b0}} 
+\mbox{\Hypertarget{structsources__mod_1_1source__par_a86f38cfdf7cd0bc42a72785aca69b9f9}\label{structsources__mod_1_1source__par_a86f38cfdf7cd0bc42a72785aca69b9f9}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!startime@{startime}}
 \index{startime@{startime}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
 \subsubsection{\texorpdfstring{startime}{startime}}
-{\footnotesize\ttfamily real(prec\+\_\+time) sources\+\_\+mod\+::source\+\_\+par\+::startime\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+par\+::startime\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -138,17 +180,17 @@ time to start emitting tracers
 
 
 
-Definition at line 30 of file sources.\+f90.
+Definition at line 35 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-30         \textcolor{keywordtype}{real(prec\_time)} :: startime
+35         \textcolor{keywordtype}{real(prec)} :: startime
 \end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__par_ac2c04f0d36ad034e160e3de15fe0c283}\label{structsources__mod_1_1source__par_ac2c04f0d36ad034e160e3de15fe0c283}} 
+\mbox{\Hypertarget{structsources__mod_1_1source__par_ac5270ce3b0124a710527f4fa60ce30bc}\label{structsources__mod_1_1source__par_ac5270ce3b0124a710527f4fa60ce30bc}} 
 \index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!stoptime@{stoptime}}
 \index{stoptime@{stoptime}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
 \subsubsection{\texorpdfstring{stoptime}{stoptime}}
-{\footnotesize\ttfamily real(prec\+\_\+time) sources\+\_\+mod\+::source\+\_\+par\+::stoptime\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+par\+::stoptime\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -156,14 +198,32 @@ time to stop emitting tracers
 
 
 
-Definition at line 31 of file sources.\+f90.
+Definition at line 36 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-31         \textcolor{keywordtype}{real(prec\_time)} :: stoptime
+36         \textcolor{keywordtype}{real(prec)} :: stoptime
+\end{DoxyCode}
+\mbox{\Hypertarget{structsources__mod_1_1source__par_ad5a8b90aed8636e98daafb1ede1390fd}\label{structsources__mod_1_1source__par_ad5a8b90aed8636e98daafb1ede1390fd}} 
+\index{sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}!variable\+\_\+rate@{variable\+\_\+rate}}
+\index{variable\+\_\+rate@{variable\+\_\+rate}!sources\+\_\+mod\+::source\+\_\+par@{sources\+\_\+mod\+::source\+\_\+par}}
+\subsubsection{\texorpdfstring{variable\+\_\+rate}{variable\_rate}}
+{\footnotesize\ttfamily real(prec), dimension(\+:), allocatable sources\+\_\+mod\+::source\+\_\+par\+::variable\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Emission rate read from the rate\+\_\+file of the Source -\/ interpolated on a regular time series spaced dt. 
+
+
+
+Definition at line 34 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+34         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: variable\_rate
 \end{DoxyCode}
 
 
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{sources_8f90}{sources.\+f90}}\end{DoxyCompactItemize}
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{sources_8f90}{sources.\+f90}}\end{DoxyCompactItemize}

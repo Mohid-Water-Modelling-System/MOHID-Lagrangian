@@ -1,0 +1,106 @@
+\hypertarget{simulation_globals_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Globals.f90 File Reference}
+\label{simulation_globals_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Globals.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Globals.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1stringlist__class}{simulationglobals\+\_\+mod\+::stringlist\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t}{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simulationglobals\+\_\+mod\+::simdefs\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation definitions class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{simulationglobals\+\_\+mod\+::constants\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Case Constants class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t}{simulationglobals\+\_\+mod\+::filenames\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em File names class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1src__parm__t}{simulationglobals\+\_\+mod\+::src\+\_\+parm\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Lists for Source parameters. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation related counters and others. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1var__names__t}{simulationglobals\+\_\+mod\+::var\+\_\+names\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{simulationglobals\+\_\+mod\+::sim\+\_\+time\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{simulationglobals\+\_\+mod\+::globals\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Globals class -\/ This is a container for every global variable on the simulation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesimulationglobals__mod}{simulationglobals\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module to hold the simulation global parameter classes and their methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_aa01e0a958ef2e94a02991dcfe390bfa0}{simulationglobals\+\_\+mod\+::setdefaults}} (self, outpath)
+\begin{DoxyCompactList}\small\item\em Globals default setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a4aa829af1699c705e46f47bb023ac162}{simulationglobals\+\_\+mod\+::buildvars}} (self)
+\begin{DoxyCompactList}\small\item\em Builds variable list names. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_afd372c5764a180f9029d4dc3cddce94d}{simulationglobals\+\_\+mod\+::addvar}} (self, var)
+\begin{DoxyCompactList}\small\item\em adding variables to variable pool of a simulation \end{DoxyCompactList}\item 
+type(string) function \mbox{\hyperlink{namespacesimulationglobals__mod_ac83c53dd4e998e653981c7b1fa5dacbd}{simulationglobals\+\_\+mod\+::getvarsimname}} (self, var)
+\begin{DoxyCompactList}\small\item\em returns the simulation name of a given variabe name, by brute force searching trough the naming variable lists... \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_affd52c4c7b1c3f7ce282eeb7e4b4a359}{simulationglobals\+\_\+mod\+::setnamingconventions}} (self, filename)
+\begin{DoxyCompactList}\small\item\em set the naming conventions. Imports names from given .xml naming files \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a2c6fa0a9123d06b2110258ea200f4f52}{simulationglobals\+\_\+mod\+::setvarnames}} (self, var\+Node)
+\begin{DoxyCompactList}\small\item\em set the variables naming conventions. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a878fdcfa67037a1bc8411995394c2bef}{simulationglobals\+\_\+mod\+::setdimnames}} (self, dim\+Node)
+\begin{DoxyCompactList}\small\item\em set the dimensions naming conventions. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a4dd64cb7a896b62d90e20a7eab65a6bf}{simulationglobals\+\_\+mod\+::setcurrvar}} (self, tag, curr\+Var, curr\+Var\+Name\+List, var\+Node)
+\begin{DoxyCompactList}\small\item\em set the current variable naming conventions. Imports the variable names from given .xml naming file. If the same variable is given again two things happen\+: a) the system name is overwriten; b) new variants are added to the name variant list \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_aefda4344f03a705055ad6cb97cb90c65}{simulationglobals\+\_\+mod\+::settimedate}} (self)
+\begin{DoxyCompactList}\small\item\em initializes time stamp and date stamp variables \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_acbb28eee5547a03dc28c924d8e23ad9a}{simulationglobals\+\_\+mod\+::setcurrdatetime}} (self, dt)
+\begin{DoxyCompactList}\small\item\em sets the current time stamp and date stamp given a dt increment \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespacesimulationglobals__mod_a1fd33b50ae2216b3b7db074da1672398}{simulationglobals\+\_\+mod\+::getdatetimestamp}} (self)
+\begin{DoxyCompactList}\small\item\em returns the time stamp for the current time/date. Time Stamp is days since epoch, given by Base\+Date\+Time. Defaults to Copernicus standard. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_abd0e28a5ec7733d0292dd8e631e96577}{simulationglobals\+\_\+mod\+::printdatetime}} (self)
+\begin{DoxyCompactList}\small\item\em prints date \& time information. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3f11ed9f7735018950e1921ead871269}{simulationglobals\+\_\+mod\+::increment\+\_\+numtracer}} (self)
+\begin{DoxyCompactList}\small\item\em Increments Tracer count. This routine M\+U\+ST be A\+T\+O\+M\+IC. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationglobals__mod_ac4915156236196940b31ff02d53af295}{simulationglobals\+\_\+mod\+::getnumtracer}} (self)
+\begin{DoxyCompactList}\small\item\em Returns a new ID for a Tracer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ad983ee8885b275c6fa1369f1e158e078}{simulationglobals\+\_\+mod\+::increment\+\_\+numdt}} (self)
+\begin{DoxyCompactList}\small\item\em incrementing time step count. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationglobals__mod_af313959d6cbfc4cb0ab330aa094511c5}{simulationglobals\+\_\+mod\+::getnumdt}} (self)
+\begin{DoxyCompactList}\small\item\em Returns the number of time steps. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a77d7175bc03e472ee9a00ee9f6ff1b0e}{simulationglobals\+\_\+mod\+::increment\+\_\+numoutfile}} (self)
+\begin{DoxyCompactList}\small\item\em incrementing output file count. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}{simulationglobals\+\_\+mod\+::getnumoutfile}} (self)
+\begin{DoxyCompactList}\small\item\em Returns the number of output files written. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}{simulationglobals\+\_\+mod\+::buildlists}} (self)
+\begin{DoxyCompactList}\small\item\em Method to build the parameters list of the Sources. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}{simulationglobals\+\_\+mod\+::setparam}} (self, parmkey, parmvalue)
+\begin{DoxyCompactList}\small\item\em Private parameter setting method. Builds the simulation parametric space from the input case file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}{simulationglobals\+\_\+mod\+::check}} (self)
+\begin{DoxyCompactList}\small\item\em Parameter checking method. Checks if mandatory parameters were set. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ab67964fe7c3fb20a4ce0b4193520aa1d}{simulationglobals\+\_\+mod\+::printsimparameters}} (self)
+\begin{DoxyCompactList}\small\item\em Parameter printing method. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ae6b88d15ddc389aedd73d600de0337df}{simulationglobals\+\_\+mod\+::setgravity}} (self, grav)
+\begin{DoxyCompactList}\small\item\em Gravity setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a36c2833caae3767434115cc966fe2c5d}{simulationglobals\+\_\+mod\+::setz0}} (self, read\+\_\+z0)
+\begin{DoxyCompactList}\small\item\em Z0 setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}{simulationglobals\+\_\+mod\+::setrho}} (self, read\+\_\+rho)
+\begin{DoxyCompactList}\small\item\em Rho\+\_\+\+Ref setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}{simulationglobals\+\_\+mod\+::printconstants}} (self)
+\begin{DoxyCompactList}\small\item\em Public constants printing routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_afda1e73e6e0cd075875c70aded99d425}{simulationglobals\+\_\+mod\+::setdp}} (self, read\+\_\+dp)
+\begin{DoxyCompactList}\small\item\em Dp setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a0eced3f4367d08f3d0cb6ef2044bdc56}{simulationglobals\+\_\+mod\+::setdt}} (self, read\+\_\+dt)
+\begin{DoxyCompactList}\small\item\em Dt setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_abf5afcc12763caab3a5fc394255ced44}{simulationglobals\+\_\+mod\+::setboundingbox}} (self, point\+\_\+, coords)
+\begin{DoxyCompactList}\small\item\em Bounding box setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_af0bc0b00ee3aa2ba9e47dc50daa72799}{simulationglobals\+\_\+mod\+::setblocksize}} (self, bsize)
+\begin{DoxyCompactList}\small\item\em blocksize box setting routine \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a54196bff569fc838730ba39a722319ff}{simulationglobals\+\_\+mod\+::printsimdefs}} (self)
+\begin{DoxyCompactList}\small\item\em Public simulation definitions printing routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7adb33aaa9ea0a94c38789c07ff3e787}{simulationglobals\+\_\+mod\+::print\+\_\+stringlist}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints all the links of the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a405f70548e38f0af65d4cbdb7c7025a4}{simulationglobals\+\_\+mod\+::print\+\_\+stringlistcurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints the current link of the list. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacesimulationglobals__mod_a12410ee549ead4c6d892dca6ead74d15}{simulationglobals\+\_\+mod\+::notrepeated}} (this, str)
+\begin{DoxyCompactList}\small\item\em Method that checks if an element is already on the list. Returns false if it is. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(globals\+\_\+class), public \mbox{\hyperlink{namespacesimulationglobals__mod_acf1e2786d81bd0fe337a8458efce8733}{simulationglobals\+\_\+mod\+::globals}}
+\end{DoxyCompactItemize}

@@ -5,17 +5,33 @@
 Module that provides useful back-\/end routines.  
 
 
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}
+\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-type(vector) function, public \mbox{\hyperlink{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b}{geo2m}} (geovec, lat)
-\begin{DoxyCompactList}\small\item\em Public function that returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
-type(vector) function, public \mbox{\hyperlink{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9}{m2geo}} (mvec, lat)
-\begin{DoxyCompactList}\small\item\em Public function that returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
-character(\+:) function, allocatable, public \mbox{\hyperlink{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}{int2str}} (fmt, i)
-\begin{DoxyCompactList}\small\item\em Public function that returns a zero paded string from an integer number and a format descriptor. \end{DoxyCompactList}\item 
-real(prec) function, public \mbox{\hyperlink{namespaceutilities__mod_a683f93677348e11d331c1c37c66caf7a}{get\+\_\+closest\+\_\+twopow}} (num)
-\begin{DoxyCompactList}\small\item\em Public function that returns the closest power of 2 or a given real number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+integer function, dimension(6) \mbox{\hyperlink{namespaceutilities__mod_ab5b97f243f9347a40db76d55509d37ca}{getdatefromisostring}} (self, date\+Str)
+\begin{DoxyCompactList}\small\item\em Function that returns an integer array of type (year, month, day, hour, minute, second) from an I\+SO date string. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespaceutilities__mod_ad446cce78a6509db0e839439a0e84564}{find\+\_\+str}} (self, str\+\_\+array, str, mandatory)
+\begin{DoxyCompactList}\small\item\em returns the index of a given string in an array of strings. Has optional mandatory flag. \end{DoxyCompactList}\item 
+type(vector) function \mbox{\hyperlink{namespaceutilities__mod_ad6e463f7e5fc49fe4fcd5464326ade01}{geo2m}} (self, geovec, lat)
+\begin{DoxyCompactList}\small\item\em Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
+type(vector) function \mbox{\hyperlink{namespaceutilities__mod_a70b21b18c8633b7fd4c3057530d3f16f}{m2geo\+\_\+vec}} (self, mvec, lat)
+\begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(mvec)) \mbox{\hyperlink{namespaceutilities__mod_ae6b8a45b229e3f1f8c2b12dd74e7a2dd}{m2geo\+\_\+comp}} (self, mvec, lat, component)
+\begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
+character(\+:) function, allocatable \mbox{\hyperlink{namespaceutilities__mod_a6ba00b0a503f26c7e755d1efbbe83c5b}{int2str}} (self, fmt, i)
+\begin{DoxyCompactList}\small\item\em Returns a zero paded string from an integer number and a format descriptor. \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespaceutilities__mod_a164054d89c012d95f63c12a6cc0ac8d7}{get\+\_\+closest\+\_\+twopow}} (self, num)
+\begin{DoxyCompactList}\small\item\em Returns the closest power of 2 or a given real number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), public \mbox{\hyperlink{namespaceutilities__mod_aa12c2506b3107528a2511d059186f12d}{utils}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -27,158 +43,299 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b}\label{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b}} 
+\mbox{\Hypertarget{namespaceutilities__mod_ad446cce78a6509db0e839439a0e84564}\label{namespaceutilities__mod_ad446cce78a6509db0e839439a0e84564}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!find\+\_\+str@{find\+\_\+str}}
+\index{find\+\_\+str@{find\+\_\+str}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{find\+\_\+str()}{find\_str()}}
+{\footnotesize\ttfamily integer function utilities\+\_\+mod\+::find\+\_\+str (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), dimension(\+:), intent(in)}]{str\+\_\+array,  }\item[{type(string), intent(in)}]{str,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the index of a given string in an array of strings. Has optional mandatory flag. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,str\+\_\+array,str,mandatory} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 82 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+82     \textcolor{keywordtype}{class}(utils\_class), \textcolor{keywordtype}{intent(in)} :: self
+83     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: str\_array
+84     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: str
+85     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: mandatory
+86     \textcolor{keywordtype}{type}(string) :: outext
+87     \textcolor{keywordflow}{do} find\_str=1, \textcolor{keyword}{size}(str\_array)
+88         \textcolor{keywordflow}{if} (str == str\_array(find\_str)) \textcolor{keywordflow}{return}
+89 \textcolor{keywordflow}{    end do}
+90     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+91         \textcolor{keywordflow}{if} (mandatory) \textcolor{keywordflow}{then}
+92             outext = \textcolor{stringliteral}{'[Utils::find\_str]: string "'}// str //\textcolor{stringliteral}{'" not found on list, stopping'}
+93             \textcolor{keyword}{call }log%put(outext)
+94             stop
+95 \textcolor{keywordflow}{        end if}
+96 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutilities__mod_ad6e463f7e5fc49fe4fcd5464326ade01}\label{namespaceutilities__mod_ad6e463f7e5fc49fe4fcd5464326ade01}} 
 \index{utilities\+\_\+mod@{utilities\+\_\+mod}!geo2m@{geo2m}}
 \index{geo2m@{geo2m}!utilities\+\_\+mod@{utilities\+\_\+mod}}
 \subsubsection{\texorpdfstring{geo2m()}{geo2m()}}
-{\footnotesize\ttfamily type(vector) function, public utilities\+\_\+mod\+::geo2m (\begin{DoxyParamCaption}\item[{type(vector), intent(in)}]{geovec,  }\item[{real(prec), intent(in)}]{lat }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily type(vector) function utilities\+\_\+mod\+::geo2m (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), intent(in)}]{self,  }\item[{type(vector), intent(in)}]{geovec,  }\item[{real(prec), intent(in)}]{lat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Public function that returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. 
+Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em geovec,lat} & \\
+\mbox{\tt in}  & {\em self,geovec,lat} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 43 of file utilities.\+f90.
+Definition at line 107 of file utilities.\+f90.
 
 
 \begin{DoxyCode}
-43     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: geovec
-44     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: lat
-45     \textcolor{keywordtype}{integer} :: R
-46     \textcolor{keywordtype}{real(prec)} :: pi
-47     r = 6378137 \textcolor{comment}{!earth radius in meters}
-48     pi = 3.1415926
-49     res = geovec
-50     res%x = res%x*r*cos(pi*lat/180.0)
-51     res%y = res%y*r
+107     \textcolor{keywordtype}{class}(utils\_class), \textcolor{keywordtype}{intent(in)} :: self
+108     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: geovec
+109     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: lat
+110     \textcolor{keywordtype}{integer} :: R
+111     \textcolor{keywordtype}{real(prec)} :: pi = 4*atan(1.0)
+112     r = 6378137 \textcolor{comment}{!earth radius in meters}
+113     \textcolor{comment}{!pi = 3.1415926}
+114     res = geovec
+115     res%x = res%x*r*cos(pi*lat/180.0)
+116     res%y = res%y*r
 \end{DoxyCode}
-Here is the caller graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=337pt]{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{namespaceutilities__mod_a683f93677348e11d331c1c37c66caf7a}\label{namespaceutilities__mod_a683f93677348e11d331c1c37c66caf7a}} 
+\mbox{\Hypertarget{namespaceutilities__mod_a164054d89c012d95f63c12a6cc0ac8d7}\label{namespaceutilities__mod_a164054d89c012d95f63c12a6cc0ac8d7}} 
 \index{utilities\+\_\+mod@{utilities\+\_\+mod}!get\+\_\+closest\+\_\+twopow@{get\+\_\+closest\+\_\+twopow}}
 \index{get\+\_\+closest\+\_\+twopow@{get\+\_\+closest\+\_\+twopow}!utilities\+\_\+mod@{utilities\+\_\+mod}}
 \subsubsection{\texorpdfstring{get\+\_\+closest\+\_\+twopow()}{get\_closest\_twopow()}}
-{\footnotesize\ttfamily real(prec) function, public utilities\+\_\+mod\+::get\+\_\+closest\+\_\+twopow (\begin{DoxyParamCaption}\item[{real(prec), intent(in)}]{num }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily real(prec) function utilities\+\_\+mod\+::get\+\_\+closest\+\_\+twopow (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), intent(in)}]{self,  }\item[{real(prec), intent(in)}]{num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Public function that returns the closest power of 2 or a given real number. 
+Returns the closest power of 2 or a given real number. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em num} & \\
+\mbox{\tt in}  & {\em self,num} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 96 of file utilities.\+f90.
+Definition at line 187 of file utilities.\+f90.
 
 
 \begin{DoxyCode}
-96     \textcolor{keywordtype}{implicit none}
-97     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: num
-98     \textcolor{keywordtype}{real(prec)} :: twopow
-99     \textcolor{keywordtype}{integer} :: i
-100     \textcolor{keywordtype}{real(prec)} :: dist1, dist2
-101     \textcolor{keywordflow}{do} i=-4, 10
-102         twopow = 2.0**i
-103         \textcolor{keywordflow}{if} (num < twopow) \textcolor{keywordflow}{then}
-104             dist1 = sqrt(twopow-num)
-105             dist2 = sqrt(num-2.0**(i-1))
-106             \textcolor{keywordflow}{if} (dist2 < dist1) \textcolor{keywordflow}{then}
-107                 twopow = 2.0**(i-1)
-108                 \textcolor{keywordflow}{exit}
-109 \textcolor{keywordflow}{            endif}
-110             \textcolor{keywordflow}{exit}
-111 \textcolor{keywordflow}{        endif}
-112 \textcolor{keywordflow}{    enddo}
+187     \textcolor{keywordtype}{class}(utils\_class), \textcolor{keywordtype}{intent(in)} :: self
+188     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: num
+189     \textcolor{keywordtype}{real(prec)} :: twopow
+190     \textcolor{keywordtype}{integer} :: i
+191     \textcolor{keywordtype}{real(prec)} :: dist1, dist2
+192     \textcolor{keywordflow}{do} i=-4, 10
+193         twopow = 2.0**i
+194         \textcolor{keywordflow}{if} (num < twopow) \textcolor{keywordflow}{then}
+195             dist1 = sqrt(twopow-num)
+196             dist2 = sqrt(num-2.0**(i-1))
+197             \textcolor{keywordflow}{if} (dist2 < dist1) \textcolor{keywordflow}{then}
+198                 twopow = 2.0**(i-1)
+199                 \textcolor{keywordflow}{exit}
+200 \textcolor{keywordflow}{            endif}
+201             \textcolor{keywordflow}{exit}
+202 \textcolor{keywordflow}{        endif}
+203 \textcolor{keywordflow}{    enddo}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}\label{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}} 
+\mbox{\Hypertarget{namespaceutilities__mod_ab5b97f243f9347a40db76d55509d37ca}\label{namespaceutilities__mod_ab5b97f243f9347a40db76d55509d37ca}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!getdatefromisostring@{getdatefromisostring}}
+\index{getdatefromisostring@{getdatefromisostring}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{getdatefromisostring()}{getdatefromisostring()}}
+{\footnotesize\ttfamily integer function, dimension(6) utilities\+\_\+mod\+::getdatefromisostring (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), intent(in)}]{date\+Str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Function that returns an integer array of type (year, month, day, hour, minute, second) from an I\+SO date string. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,date\+Str} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 56 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+56     \textcolor{keywordtype}{class}(utils\_class), \textcolor{keywordtype}{intent(in)} :: self
+57     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: dateStr
+58     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(6)} :: getDateFromISOString
+59     \textcolor{keywordtype}{integer} :: i
+60     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable} :: dc(:)
+61     \textcolor{keywordtype}{type}(string) :: outext
+62     \textcolor{keyword}{call }datestr%split(tokens=dc, sep=\textcolor{stringliteral}{' '})
+63     \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(dc) == 6) \textcolor{keywordflow}{then}
+64         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dc)
+65             getdatefromisostring(i) = dc(i)%to\_number(kind=1.\_r4p)
+66 \textcolor{keywordflow}{        end do}
+67     \textcolor{keywordflow}{else}
+68         outext = \textcolor{stringliteral}{'[Utils::getDateFromISOString] Date '}// datestr //\textcolor{stringliteral}{' not in correct format. Eg. "2009 3 1 0
+       0 0"'}
+69         \textcolor{keyword}{call }log%put(outext)
+70         stop
+71 \textcolor{keywordflow}{    end if}    
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutilities__mod_a6ba00b0a503f26c7e755d1efbbe83c5b}\label{namespaceutilities__mod_a6ba00b0a503f26c7e755d1efbbe83c5b}} 
 \index{utilities\+\_\+mod@{utilities\+\_\+mod}!int2str@{int2str}}
 \index{int2str@{int2str}!utilities\+\_\+mod@{utilities\+\_\+mod}}
 \subsubsection{\texorpdfstring{int2str()}{int2str()}}
-{\footnotesize\ttfamily character(\+:) function, allocatable, public utilities\+\_\+mod\+::int2str (\begin{DoxyParamCaption}\item[{character(len=6), intent(in)}]{fmt,  }\item[{integer, intent(in)}]{i }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily character(\+:) function, allocatable utilities\+\_\+mod\+::int2str (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), intent(in)}]{self,  }\item[{character(len=6), intent(in)}]{fmt,  }\item[{integer, intent(in)}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Public function that returns a zero paded string from an integer number and a format descriptor. 
+Returns a zero paded string from an integer number and a format descriptor. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em fmt,i} & \\
+\mbox{\tt in}  & {\em self,fmt,i} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 81 of file utilities.\+f90.
+Definition at line 171 of file utilities.\+f90.
 
 
 \begin{DoxyCode}
-81     \textcolor{keywordtype}{character(:)}, \textcolor{keywordtype}{allocatable} :: res
-82     \textcolor{keywordtype}{character(len=6)}, \textcolor{keywordtype}{intent(in)} :: fmt \textcolor{comment}{! format descriptor}
-83     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: i
-84     \textcolor{keywordtype}{character(range(i)+2)} :: tmp
-85     \textcolor{keyword}{write}(tmp, fmt) i
-86     res = trim(tmp)
+171     \textcolor{keywordtype}{class}(utils\_class), \textcolor{keywordtype}{intent(in)} :: self
+172     \textcolor{keywordtype}{character(:)}, \textcolor{keywordtype}{allocatable} :: res
+173     \textcolor{keywordtype}{character(len=6)}, \textcolor{keywordtype}{intent(in)} :: fmt \textcolor{comment}{! format descriptor}
+174     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: i
+175     \textcolor{keywordtype}{character(range(i)+2)} :: tmp
+176     \textcolor{keyword}{write}(tmp, fmt) i
+177     res = trim(tmp)
 \end{DoxyCode}
-\mbox{\Hypertarget{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9}\label{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9}} 
-\index{utilities\+\_\+mod@{utilities\+\_\+mod}!m2geo@{m2geo}}
-\index{m2geo@{m2geo}!utilities\+\_\+mod@{utilities\+\_\+mod}}
-\subsubsection{\texorpdfstring{m2geo()}{m2geo()}}
-{\footnotesize\ttfamily type(vector) function, public utilities\+\_\+mod\+::m2geo (\begin{DoxyParamCaption}\item[{type(vector), intent(in)}]{mvec,  }\item[{real(prec), intent(in)}]{lat }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespaceutilities__mod_ae6b8a45b229e3f1f8c2b12dd74e7a2dd}\label{namespaceutilities__mod_ae6b8a45b229e3f1f8c2b12dd74e7a2dd}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!m2geo\+\_\+comp@{m2geo\+\_\+comp}}
+\index{m2geo\+\_\+comp@{m2geo\+\_\+comp}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{m2geo\+\_\+comp()}{m2geo\_comp()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(mvec)) utilities\+\_\+mod\+::m2geo\+\_\+comp (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), intent(in)}]{self,  }\item[{real(prec), dimension(\+:), intent(in)}]{mvec,  }\item[{real(prec), dimension(\+:), intent(in)}]{lat,  }\item[{logical, intent(in)}]{component }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Public function that returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. 
+Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em mvec,lat} & \\
+\mbox{\tt in}  & {\em self,mvec,lat} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 62 of file utilities.\+f90.
+Definition at line 147 of file utilities.\+f90.
 
 
 \begin{DoxyCode}
-62     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: mvec
-63     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: lat
-64     \textcolor{keywordtype}{integer} :: R
-65     \textcolor{keywordtype}{real(prec)} :: pi
-66     r = 6378137 \textcolor{comment}{!earth radius in meters}
-67     pi = 3.1415926
-68     res = mvec
-69     res%x = res%x/(r*cos(pi*lat/180.0))
-70     res%y = res%y/r
+147     \textcolor{keywordtype}{class}(utils\_class), \textcolor{keywordtype}{intent(in)} :: self
+148     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: mvec    
+149     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: lat
+150     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} :: component
+151     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(mvec))} :: m2geo\_comp
+152     \textcolor{keywordtype}{real(prec)} :: R
+153     \textcolor{keywordtype}{real(prec)} :: pi = 4*atan(1.0)
+154     r = 6378137.0 \textcolor{comment}{!earth radius in meters}
+155     m2geo\_comp = mvec
+156     \textcolor{keywordflow}{if} (component) \textcolor{keywordflow}{then}
+157         m2geo\_comp = m2geo\_comp/(r*pi/180.0)
+158     \textcolor{keywordflow}{else}
+159         m2geo\_comp = m2geo\_comp/((r*pi/180.0)*cos(pi*lat/180.0))
+160 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9_icgraph}
+\includegraphics[width=347pt]{namespaceutilities__mod_ae6b8a45b229e3f1f8c2b12dd74e7a2dd_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{namespaceutilities__mod_a70b21b18c8633b7fd4c3057530d3f16f}\label{namespaceutilities__mod_a70b21b18c8633b7fd4c3057530d3f16f}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!m2geo\+\_\+vec@{m2geo\+\_\+vec}}
+\index{m2geo\+\_\+vec@{m2geo\+\_\+vec}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{m2geo\+\_\+vec()}{m2geo\_vec()}}
+{\footnotesize\ttfamily type(vector) function utilities\+\_\+mod\+::m2geo\+\_\+vec (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), intent(in)}]{self,  }\item[{type(vector), intent(in)}]{mvec,  }\item[{real(prec), intent(in)}]{lat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,mvec,lat} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 127 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+127     \textcolor{keywordtype}{class}(utils\_class), \textcolor{keywordtype}{intent(in)} :: self
+128     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: mvec    
+129     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: lat
+130     \textcolor{keywordtype}{real(prec)} :: R
+131     \textcolor{keywordtype}{real(prec)} :: pi = 4*atan(1.0)
+132     r = 6378137.0 \textcolor{comment}{!earth radius in meters}
+133     \textcolor{comment}{!pi = 3.1415926}
+134     res = mvec
+135     res%y = res%y/(r*pi/180.0)
+136     res%x = res%x/((r*pi/180.0)*cos(pi*res%y/180.0))
+\end{DoxyCode}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=337pt]{namespaceutilities__mod_a70b21b18c8633b7fd4c3057530d3f16f_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceutilities__mod_aa12c2506b3107528a2511d059186f12d}\label{namespaceutilities__mod_aa12c2506b3107528a2511d059186f12d}} 
+\index{utilities\+\_\+mod@{utilities\+\_\+mod}!utils@{utils}}
+\index{utils@{utils}!utilities\+\_\+mod@{utilities\+\_\+mod}}
+\subsubsection{\texorpdfstring{utils}{utils}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structutilities__mod_1_1utils__class}{utils\+\_\+class}}), public utilities\+\_\+mod\+::utils}
+
+
+
+Definition at line 41 of file utilities.\+f90.
+
+
+\begin{DoxyCode}
+41     \textcolor{keywordtype}{type}(utils\_class) :: Utils
+\end{DoxyCode}

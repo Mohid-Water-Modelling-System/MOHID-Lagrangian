@@ -1,0 +1,274 @@
+\hypertarget{namespacesimulationtimer__mod}{}\section{simulationtimer\+\_\+mod Module Reference}
+\label{namespacesimulationtimer__mod}\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+
+
+Module that defines a timer class using the O\+MP timer function to get the wall time. A\+PI supports accumulation, several start-\/stop cycles and printing.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a3e4c0de31b2db7da6c0c781c047a3743}{inittimer}} (this, name, restartime)
+\begin{DoxyCompactList}\small\item\em Method that initializes a timer object. Optionaly receives a time to start the timer at a specified elapsed time. \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespacesimulationtimer__mod_a54fa7688c279c747bd76554fb8adb819}{getelapsed}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the total elapsed time on this timer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a0924f340c4f5785a5981bdc99226e576}{tic}} (this)
+\begin{DoxyCompactList}\small\item\em Method that starts the timmer in the current cycle. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_ae5c4ca42de2cd1f446eee79112cedd14}{toc}} (this)
+\begin{DoxyCompactList}\small\item\em Method that stops the timmer in the current cycle and stores the timmings. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a9df6f995616d7fa53094178c3aff1fad}{printelapsed}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the total elapsed time. Rudimentary at best. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_ae6e0d8f98a24587daf93cedb4e93ad79}{printlast}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the elapsed time of the last cycle. Rudimentary at best. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_abf4d4c3f383597e975e7c9d12dab6f13}{printcurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the current elapsed time. Rudimentary at best. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a1c7581b4e12efde67021c8d94e0ef696}{printnotinitialized}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the total elapsed time. Rudimentary at best. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a timer class using the O\+MP timer function to get the wall time. A\+PI supports accumulation, several start-\/stop cycles and printing. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_a54fa7688c279c747bd76554fb8adb819}\label{namespacesimulationtimer__mod_a54fa7688c279c747bd76554fb8adb819}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!getelapsed@{getelapsed}}
+\index{getelapsed@{getelapsed}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{getelapsed()}{getelapsed()}}
+{\footnotesize\ttfamily real(prec) function simulationtimer\+\_\+mod\+::getelapsed (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the total elapsed time on this timer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 78 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+78     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+79     getelapsed = this%elapsed
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_a3e4c0de31b2db7da6c0c781c047a3743}\label{namespacesimulationtimer__mod_a3e4c0de31b2db7da6c0c781c047a3743}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!inittimer@{inittimer}}
+\index{inittimer@{inittimer}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{inittimer()}{inittimer()}}
+{\footnotesize\ttfamily subroutine simulationtimer\+\_\+mod\+::inittimer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(inout)}]{this,  }\item[{type(string), intent(in)}]{name,  }\item[{real, intent(in), optional}]{restartime }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes a timer object. Optionaly receives a time to start the timer at a specified elapsed time. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this,name,restartime} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 58 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+58     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
+59     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+60     \textcolor{keywordtype}{real}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: restartime
+61     this%initialized = .true.
+62     this%name = name
+63     this%elapsed = 0.0
+64     this%last = 0.0
+65     this%start = 0.0
+66     this%stop = 0.0
+67     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(restartime)) \textcolor{keywordflow}{then}
+68         this%elapsed = restartime
+69 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_abf4d4c3f383597e975e7c9d12dab6f13}\label{namespacesimulationtimer__mod_abf4d4c3f383597e975e7c9d12dab6f13}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printcurrent@{printcurrent}}
+\index{printcurrent@{printcurrent}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{printcurrent()}{printcurrent()}}
+{\footnotesize\ttfamily subroutine simulationtimer\+\_\+mod\+::printcurrent (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print the current elapsed time. Rudimentary at best. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 142 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+142     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+143     print*, \textcolor{stringliteral}{"[timer\_class::printCurrent]: current elapsed time is "}, omp\_get\_wtime() - this%start
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_a9df6f995616d7fa53094178c3aff1fad}\label{namespacesimulationtimer__mod_a9df6f995616d7fa53094178c3aff1fad}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printelapsed@{printelapsed}}
+\index{printelapsed@{printelapsed}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{printelapsed()}{printelapsed()}}
+{\footnotesize\ttfamily subroutine simulationtimer\+\_\+mod\+::printelapsed (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print the total elapsed time. Rudimentary at best. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 113 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+113     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+114     \textcolor{keywordtype}{type}(string) :: outext, temp
+115     \textcolor{keywordflow}{if} (this%initialized) \textcolor{keywordflow}{then}
+116         temp = this%elapsed
+117         outext = \textcolor{stringliteral}{'Total elapsed time for '}// this%name //\textcolor{stringliteral}{' is '}// temp//\textcolor{stringliteral}{' s'}
+118         \textcolor{keyword}{call }log%put(outext)
+119     \textcolor{keywordflow}{else}
+120         \textcolor{keyword}{call }this%printNotInitialized()
+121 \textcolor{keywordflow}{    end if}    
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_ae6e0d8f98a24587daf93cedb4e93ad79}\label{namespacesimulationtimer__mod_ae6e0d8f98a24587daf93cedb4e93ad79}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printlast@{printlast}}
+\index{printlast@{printlast}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{printlast()}{printlast()}}
+{\footnotesize\ttfamily subroutine simulationtimer\+\_\+mod\+::printlast (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print the elapsed time of the last cycle. Rudimentary at best. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 131 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+131     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+132     print*, \textcolor{stringliteral}{"[timer\_class::printLast]: elapsed time from last cycle is "}, this%last
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_a1c7581b4e12efde67021c8d94e0ef696}\label{namespacesimulationtimer__mod_a1c7581b4e12efde67021c8d94e0ef696}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printnotinitialized@{printnotinitialized}}
+\index{printnotinitialized@{printnotinitialized}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{printnotinitialized()}{printnotinitialized()}}
+{\footnotesize\ttfamily subroutine simulationtimer\+\_\+mod\+::printnotinitialized (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print the total elapsed time. Rudimentary at best. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 153 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+153     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+154     \textcolor{keywordtype}{type}(string) :: outext
+155     outext = \textcolor{stringliteral}{'Requested timer not initialized, you might have a bug...'}
+156     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_a0924f340c4f5785a5981bdc99226e576}\label{namespacesimulationtimer__mod_a0924f340c4f5785a5981bdc99226e576}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!tic@{tic}}
+\index{tic@{tic}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{tic()}{tic()}}
+{\footnotesize\ttfamily subroutine simulationtimer\+\_\+mod\+::tic (\begin{DoxyParamCaption}\item[{class (\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(inout)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that starts the timmer in the current cycle. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 89 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+89     class(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
+90     this%start = omp\_get\_wtime()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_ae5c4ca42de2cd1f446eee79112cedd14}\label{namespacesimulationtimer__mod_ae5c4ca42de2cd1f446eee79112cedd14}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!toc@{toc}}
+\index{toc@{toc}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{toc()}{toc()}}
+{\footnotesize\ttfamily subroutine simulationtimer\+\_\+mod\+::toc (\begin{DoxyParamCaption}\item[{class (\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(inout)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that stops the timmer in the current cycle and stores the timmings. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 100 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+100     class(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
+101     this%stop = omp\_get\_wtime()
+102     this%last = this%stop - this%start
+103     this%elapsed = this%elapsed + this%last
+\end{DoxyCode}

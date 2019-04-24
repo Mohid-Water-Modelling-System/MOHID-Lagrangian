@@ -1,0 +1,77 @@
+\hypertarget{fields_types_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/fields\+Types.f90 File Reference}
+\label{fields_types_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/fields\+Types.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/fields\+Types.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1field__class}{fieldtypes\+\_\+mod\+::field\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1scalar__field__class}{fieldtypes\+\_\+mod\+::scalar\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1scalar1d__field__class}{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 1D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1scalar2d__field__class}{fieldtypes\+\_\+mod\+::scalar2d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 2D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1scalar3d__field__class}{fieldtypes\+\_\+mod\+::scalar3d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 3D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1scalar4d__field__class}{fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 4D scalar field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1vectorial__field__class}{fieldtypes\+\_\+mod\+::vectorial\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a vectorial field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1vectorial2d__field__class}{fieldtypes\+\_\+mod\+::vectorial2d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 2D vectorial field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1vectorial3d__field__class}{fieldtypes\+\_\+mod\+::vectorial3d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 3D vectorial field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1vectorial4d__field__class}{fieldtypes\+\_\+mod\+::vectorial4d\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em a 4D vectorial field class \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{fieldtypes\+\_\+mod\+::generic\+\_\+field\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em generic field class. This works as a wrapper for a generic initialization routine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacefieldtypes__mod}{fieldtypes\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Defines classes for \textquotesingle{}fields\textquotesingle{}\+: 1, 2, 3 and 4D labeled data. Valid for both scalar and vectorial (real) data. Defines a generic wrapper for these classes, that abstracts the user from having to choose their data dimensionality or type to create a field. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a3f1571ad15733a3f2fff43e35f309416}{fieldtypes\+\_\+mod\+::inits1d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 1D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_ad3329e97ec60bf9226d19be45ed21859}{fieldtypes\+\_\+mod\+::inits2d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 2D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a750ce2c729d98ea7031c839a3a5ebd7c}{fieldtypes\+\_\+mod\+::inits3d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 3D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a1987bd94293cfd9e35016ac5992501cd}{fieldtypes\+\_\+mod\+::inits4d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a scalar 4D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_ad1af664e23793260f9c2fcd03829a1f5}{fieldtypes\+\_\+mod\+::initv2d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a vectorial 2D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_aa0a152c9e5131d3003cc34e4f3b2974d}{fieldtypes\+\_\+mod\+::initv3d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a vectorial 3D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a08d665678bea0956a323d08863e164e5}{fieldtypes\+\_\+mod\+::initv4d}} (self, name, units, field)
+\begin{DoxyCompactList}\small\item\em Method that allocates and initializes a vectorial 4D field in a generic field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a96ff5318da6a7db8bb61c525315c1c89}{fieldtypes\+\_\+mod\+::initscalar1dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 1D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a1a3160727c99017639d758aad9031df5}{fieldtypes\+\_\+mod\+::initscalar2dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 2D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a3f2b90bc391ea5b84ead8069ee90f515}{fieldtypes\+\_\+mod\+::initscalar3dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 3D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a21dba84bb8fdb02d8bf5fd0052b51283}{fieldtypes\+\_\+mod\+::initscalar4dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a scalar 4D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_ac3e3d9aabba3893d61583e890e3bdf41}{fieldtypes\+\_\+mod\+::initvectorial2dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a vectorial 2D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a20d935cfa1513350667d04f969be5e26}{fieldtypes\+\_\+mod\+::initvectorial3dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a vectorial 3D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_ad458710e4a2d6c40a3dfa7f19481cd5a}{fieldtypes\+\_\+mod\+::initvectorial4dfield}} (self, name, units, dim, field)
+\begin{DoxyCompactList}\small\item\em Method that initializes a vectorial 4D field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_abc601ce9f8a974f426e876cc4c02e2a2}{fieldtypes\+\_\+mod\+::setfieldmetadata}} (self, name, units, dim)
+\begin{DoxyCompactList}\small\item\em Method that initializes a base field object by filling metadata. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a63d399d72fffde3fe8169b76cce59259}{fieldtypes\+\_\+mod\+::printgenericfield}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the generic field information. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a0babd6327ed77199d5437d17de34bafe}{fieldtypes\+\_\+mod\+::test}} (self)
+\begin{DoxyCompactList}\small\item\em A class \textquotesingle{}unit\textquotesingle{} test for the \mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a5a556fba603c1d39b20713fdbc813332}{fieldtypes\+\_\+mod\+::printfield}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints the field information. \end{DoxyCompactList}\item 
+type(string) function \mbox{\hyperlink{namespacefieldtypes__mod_a5faf9c157541acaa9681be2d59eda850}{fieldtypes\+\_\+mod\+::getfieldtype}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the field type (scalar or vectorial), in a string. \end{DoxyCompactList}\item 
+real function \mbox{\hyperlink{namespacefieldtypes__mod_a2f817d22e8ca12aea1c9468c365f6460}{fieldtypes\+\_\+mod\+::getfieldmaxbound}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the field\textquotesingle{}s maximum value (scalar) \end{DoxyCompactList}\item 
+real function \mbox{\hyperlink{namespacefieldtypes__mod_a6811e4246f656bb9074955c5c7c107e8}{fieldtypes\+\_\+mod\+::getfieldminbound}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the field\textquotesingle{}s minimum value (scalar) \end{DoxyCompactList}\end{DoxyCompactItemize}

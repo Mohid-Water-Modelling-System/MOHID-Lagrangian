@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/sources.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/sources.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -154,9 +154,15 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a6fcfcb690cd1b9375915b01f7ddbe801"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a6fcfcb690cd1b9375915b01f7ddbe801">sources_mod::check</a> (self)</td></tr>
 <tr class="memdesc:a6fcfcb690cd1b9375915b01f7ddbe801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that checks for the consistency of the Source properties.  <a href="namespacesources__mod.html#a6fcfcb690cd1b9375915b01f7ddbe801">More...</a><br /></td></tr>
 <tr class="separator:a6fcfcb690cd1b9375915b01f7ddbe801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dcf7a3e3ccf75e01853df166231d484"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a6dcf7a3e3ccf75e01853df166231d484">sources_mod::initializesource</a> (src, id, name, emitting_rate, start, finish, source_geometry, shapetype)</td></tr>
-<tr class="memdesc:a6dcf7a3e3ccf75e01853df166231d484"><td class="mdescLeft">&#160;</td><td class="mdescRight">source inititialization proceadure - initializes Source variables  <a href="namespacesources__mod.html#a6dcf7a3e3ccf75e01853df166231d484">More...</a><br /></td></tr>
-<tr class="separator:a6dcf7a3e3ccf75e01853df166231d484"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7fab14b56573184d5ca4371409118b0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#af7fab14b56573184d5ca4371409118b0">sources_mod::setvariablerate</a> (self, filename)</td></tr>
+<tr class="memdesc:af7fab14b56573184d5ca4371409118b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that reads a csv file with variable emission rate data, allocates the space, and stores the data in the Source.  <a href="namespacesources__mod.html#af7fab14b56573184d5ca4371409118b0">More...</a><br /></td></tr>
+<tr class="separator:af7fab14b56573184d5ca4371409118b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d56083fdc0453f03f9dfdb24f704ac4"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#a0d56083fdc0453f03f9dfdb24f704ac4">sources_mod::getvariablerate</a> (self, index)</td></tr>
+<tr class="memdesc:a0d56083fdc0453f03f9dfdb24f704ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that sets the rate for the current time step, in case of a variable rate.  <a href="namespacesources__mod.html#a0d56083fdc0453f03f9dfdb24f704ac4">More...</a><br /></td></tr>
+<tr class="separator:a0d56083fdc0453f03f9dfdb24f704ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef3551e97236f03fc73fcf77276bb318"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#aef3551e97236f03fc73fcf77276bb318">sources_mod::initializesource</a> (src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype)</td></tr>
+<tr class="memdesc:aef3551e97236f03fc73fcf77276bb318"><td class="mdescLeft">&#160;</td><td class="mdescRight">source inititialization proceadure - initializes Source variables  <a href="namespacesources__mod.html#aef3551e97236f03fc73fcf77276bb318">More...</a><br /></td></tr>
+<tr class="separator:aef3551e97236f03fc73fcf77276bb318"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4e4f33da78d030e1b56a48789da6a05"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesources__mod.html#ac4e4f33da78d030e1b56a48789da6a05">sources_mod::isparticulate</a> (self)</td></tr>
 <tr class="memdesc:ac4e4f33da78d030e1b56a48789da6a05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns particulate status of this Source, i.e, true if the emitted Tracers are actually a collection of particles with an evolving concentration.  <a href="namespacesources__mod.html#ac4e4f33da78d030e1b56a48789da6a05">More...</a><br /></td></tr>
 <tr class="separator:ac4e4f33da78d030e1b56a48789da6a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,7 +184,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="sources_8f90.html">sources.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="sources_8f90.html">sources.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

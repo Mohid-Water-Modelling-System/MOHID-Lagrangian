@@ -1,0 +1,9 @@
+<map id="fieldtypes_mod::generic_field_class::initialize" name="fieldtypes_mod::generic_field_class::initialize">
+<area shape="rect" id="node2" href="$namespacefieldtypes__mod.html#a3f1571ad15733a3f2fff43e35f309416" title="Method that allocates and initializes a scalar 1D field in a generic field. " alt="" coords="212,5,367,32"/>
+<area shape="rect" id="node3" href="$namespacefieldtypes__mod.html#ad3329e97ec60bf9226d19be45ed21859" title="Method that allocates and initializes a scalar 2D field in a generic field. " alt="" coords="212,56,367,83"/>
+<area shape="rect" id="node4" href="$namespacefieldtypes__mod.html#a750ce2c729d98ea7031c839a3a5ebd7c" title="Method that allocates and initializes a scalar 3D field in a generic field. " alt="" coords="212,107,367,133"/>
+<area shape="rect" id="node5" href="$namespacefieldtypes__mod.html#a1987bd94293cfd9e35016ac5992501cd" title="Method that allocates and initializes a scalar 4D field in a generic field. " alt="" coords="212,157,367,184"/>
+<area shape="rect" id="node6" href="$namespacefieldtypes__mod.html#ad1af664e23793260f9c2fcd03829a1f5" title="Method that allocates and initializes a vectorial 2D field in a generic field. " alt="" coords="213,208,366,235"/>
+<area shape="rect" id="node7" href="$namespacefieldtypes__mod.html#aa0a152c9e5131d3003cc34e4f3b2974d" title="Method that allocates and initializes a vectorial 3D field in a generic field. " alt="" coords="213,259,366,285"/>
+<area shape="rect" id="node8" href="$namespacefieldtypes__mod.html#a08d665678bea0956a323d08863e164e5" title="Method that allocates and initializes a vectorial 4D field in a generic field. " alt="" coords="213,309,366,336"/>
+</map>

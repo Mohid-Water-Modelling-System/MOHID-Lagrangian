@@ -24,6 +24,8 @@ subroutine \mbox{\hyperlink{namespaceaot__mod_a054fca942c27758a0ad6afaa68a3a08e}
 subroutine \mbox{\hyperlink{namespaceaot__mod_a73ecd8babd54975720741493be733c48}{totracers}} (self)
 \begin{DoxyCompactList}\small\item\em Sends the data on the AoT to the Tracer objects. Less type guard checks because they were already made in the constructor of the AoT. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceaot__mod_aa6ef0ed7c67e66bf04e7aa0070bbde7f}{print\+\_\+aot}} (self)
+\begin{DoxyCompactList}\small\item\em Method that prints all the elements of the array. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceaot__mod_a4affda04a7a0278b350231db9cc4ffb8}{deeprint\+\_\+aot}} (self)
 \begin{DoxyCompactList}\small\item\em Method that prints all the elements of the array. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -51,27 +53,27 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 111 of file Ao\+T.\+f90.
+Definition at line 112 of file Ao\+T.\+f90.
 
 
 \begin{DoxyCode}
-111     \textcolor{keywordtype}{implicit none}
-112     \textcolor{keywordtype}{class}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: self
-113     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keyword}{deallocate}(self%id)
-114     \textcolor{comment}{!if (associated(self%trc%ptr)) nullify(self%trc%ptr) !need make sure there are no memory leaks}
-115     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%trc)) \textcolor{keyword}{deallocate}(self%trc)
-116     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%x)) \textcolor{keyword}{deallocate}(self%x)
-117     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%y)) \textcolor{keyword}{deallocate}(self%y)
-118     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%z)) \textcolor{keyword}{deallocate}(self%z)
-119     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%u)) \textcolor{keyword}{deallocate}(self%u)
-120     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%v)) \textcolor{keyword}{deallocate}(self%v)
-121     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%w)) \textcolor{keyword}{deallocate}(self%w)
+112     \textcolor{keywordtype}{implicit none}
+113     \textcolor{keywordtype}{class}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: self
+114     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keyword}{deallocate}(self%id)
+115     \textcolor{comment}{!if (associated(self%trc%ptr)) nullify(self%trc%ptr) !need make sure there are no memory leaks}
+116     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%trc)) \textcolor{keyword}{deallocate}(self%trc)
+117     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%x)) \textcolor{keyword}{deallocate}(self%x)
+118     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%y)) \textcolor{keyword}{deallocate}(self%y)
+119     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%z)) \textcolor{keyword}{deallocate}(self%z)
+120     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%u)) \textcolor{keyword}{deallocate}(self%u)
+121     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%v)) \textcolor{keyword}{deallocate}(self%v)
+122     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%w)) \textcolor{keyword}{deallocate}(self%w)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceaot__mod_a74ce07a020a7470208360766cfdb12df}\label{namespaceaot__mod_a74ce07a020a7470208360766cfdb12df}} 
 \index{aot\+\_\+mod@{aot\+\_\+mod}!constructor@{constructor}}
 \index{constructor@{constructor}!aot\+\_\+mod@{aot\+\_\+mod}}
 \subsubsection{\texorpdfstring{constructor()}{constructor()}}
-{\footnotesize\ttfamily type(\mbox{\hyperlink{structaot__mod_1_1aot__class}{aot\+\_\+class}}) function aot\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracer__list__mod_1_1tracerlist__class}{tracerlist\+\_\+class}}), intent(in)}]{trclist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structaot__mod_1_1aot__class}{aot\+\_\+class}}) function aot\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{class(tracerlist\+\_\+class), intent(in)}]{trclist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -100,38 +102,80 @@ Definition at line 62 of file Ao\+T.\+f90.
 68     \textcolor{comment}{!allocating the necessary space}
 69     nt = trclist%getSize()
 70     \textcolor{keyword}{allocate}(constructor%id(nt))
-71     \textcolor{keyword}{allocate}(constructor%trc(nt))
-72     \textcolor{keyword}{allocate}(constructor%x(nt))
-73     \textcolor{keyword}{allocate}(constructor%y(nt))
-74     \textcolor{keyword}{allocate}(constructor%z(nt))
-75     \textcolor{keyword}{allocate}(constructor%u(nt))
-76     \textcolor{keyword}{allocate}(constructor%v(nt))
-77     \textcolor{keyword}{allocate}(constructor%w(nt))
-78     nt=1
-79     \textcolor{keyword}{call }trclist%reset()               \textcolor{comment}{! reset list iterator}
-80     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(trclist%moreValues())     \textcolor{comment}{! loop while there are values}
-81         atracer => trclist%currentValue() \textcolor{comment}{! get current value}
-82         \textcolor{keywordflow}{select type}(atracer)
-83 \textcolor{keywordflow}{        class is} (tracer\_class)
-84             \textcolor{keywordflow}{if} (atracer%now%active) \textcolor{keywordflow}{then}
-85                 constructor%id(nt) = atracer%par%id
-86                 constructor%trc(nt)%ptr => atracer
-87                 constructor%x(nt) = atracer%now%pos%x
-88                 constructor%y(nt) = atracer%now%pos%y
-89                 constructor%z(nt) = atracer%now%pos%z
-90                 constructor%u(nt) = atracer%now%vel%x
-91                 constructor%v(nt) = atracer%now%vel%y
-92                 constructor%w(nt) = atracer%now%vel%z
-93                 nt= nt + 1
-94 \textcolor{keywordflow}{            end if}
-95 \textcolor{keywordflow}{            class default}
-96             outext = \textcolor{stringliteral}{'[AoT::Constructor]: Unexepected type of content, not a Tracer'}
-97             \textcolor{keyword}{call }log%put(outext)
-98             stop
-99 \textcolor{keywordflow}{        end select}
-100         \textcolor{keyword}{call }trclist%next()            \textcolor{comment}{! increment the list iterator}
-101 \textcolor{keywordflow}{    end do}
-102     \textcolor{keyword}{call }trclist%reset()               \textcolor{comment}{! reset list iterator}
+71     constructor%id = mv
+72     \textcolor{keyword}{allocate}(constructor%trc(nt))
+73     \textcolor{keyword}{allocate}(constructor%x(nt))
+74     \textcolor{keyword}{allocate}(constructor%y(nt))
+75     \textcolor{keyword}{allocate}(constructor%z(nt))
+76     \textcolor{keyword}{allocate}(constructor%u(nt))
+77     \textcolor{keyword}{allocate}(constructor%v(nt))
+78     \textcolor{keyword}{allocate}(constructor%w(nt))
+79     nt=1
+80     \textcolor{keyword}{call }trclist%reset()               \textcolor{comment}{! reset list iterator}
+81     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(trclist%moreValues())     \textcolor{comment}{! loop while there are values}
+82         atracer => trclist%currentValue() \textcolor{comment}{! get current value}
+83         \textcolor{keywordflow}{select type}(atracer)
+84 \textcolor{keywordflow}{        class is} (tracer\_class)
+85             \textcolor{keywordflow}{if} (atracer%now%active) \textcolor{keywordflow}{then}
+86                 constructor%id(nt) = atracer%par%id
+87                 constructor%trc(nt)%ptr => atracer
+88                 constructor%x(nt) = atracer%now%pos%x
+89                 constructor%y(nt) = atracer%now%pos%y
+90                 constructor%z(nt) = atracer%now%pos%z
+91                 constructor%u(nt) = atracer%now%vel%x
+92                 constructor%v(nt) = atracer%now%vel%y
+93                 constructor%w(nt) = atracer%now%vel%z
+94                 nt= nt + 1
+95 \textcolor{keywordflow}{            end if}
+96 \textcolor{keywordflow}{            class default}
+97             outext = \textcolor{stringliteral}{'[AoT::Constructor]: Unexepected type of content, not a Tracer'}
+98             \textcolor{keyword}{call }log%put(outext)
+99             stop
+100 \textcolor{keywordflow}{        end select}
+101         \textcolor{keyword}{call }trclist%next()            \textcolor{comment}{! increment the list iterator}
+102 \textcolor{keywordflow}{    end do}
+103     \textcolor{keyword}{call }trclist%reset()               \textcolor{comment}{! reset list iterator}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceaot__mod_a4affda04a7a0278b350231db9cc4ffb8}\label{namespaceaot__mod_a4affda04a7a0278b350231db9cc4ffb8}} 
+\index{aot\+\_\+mod@{aot\+\_\+mod}!deeprint\+\_\+aot@{deeprint\+\_\+aot}}
+\index{deeprint\+\_\+aot@{deeprint\+\_\+aot}!aot\+\_\+mod@{aot\+\_\+mod}}
+\subsubsection{\texorpdfstring{deeprint\+\_\+aot()}{deeprint\_aot()}}
+{\footnotesize\ttfamily subroutine aot\+\_\+mod\+::deeprint\+\_\+aot (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structaot__mod_1_1aot__class}{aot\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints all the elements of the array. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 190 of file Ao\+T.\+f90.
+
+
+\begin{DoxyCode}
+190     \textcolor{keywordtype}{class}(aot\_class), \textcolor{keywordtype}{intent(in)} :: self
+191     \textcolor{keywordtype}{type}(string) :: outext, t(7)
+192     \textcolor{keywordtype}{integer} :: i
+193     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keywordflow}{then}
+194         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%id)
+195             t(1) = self%id(i)
+196             t(2) = self%x(i)
+197             t(3) = self%y(i)
+198             t(4) = self%z(i)
+199             t(5) = self%u(i)
+200             t(6) = self%v(i)
+201             t(7) = self%w(i)
+202             outext = \textcolor{stringliteral}{'Tracer['}//t(1)//\textcolor{stringliteral}{']::xyz('}//t(2)//\textcolor{stringliteral}{','}//t(3)//\textcolor{stringliteral}{','}//t(4)//\textcolor{stringliteral}{')'}
+203             \textcolor{keyword}{call }log%put(outext,.false.)
+204             outext = \textcolor{stringliteral}{'Tracer['}//t(1)//\textcolor{stringliteral}{']::uvw('}//t(5)//\textcolor{stringliteral}{','}//t(6)//\textcolor{stringliteral}{','}//t(7)//\textcolor{stringliteral}{')'}
+205             \textcolor{keyword}{call }log%put(outext,.false.)
+206 \textcolor{keywordflow}{        end do}
+207     \textcolor{keywordflow}{else}
+208         outext = \textcolor{stringliteral}{'AoT is empty'}
+209         \textcolor{keyword}{call }log%put(outext,.false.)
+210 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceaot__mod_aa6ef0ed7c67e66bf04e7aa0070bbde7f}\label{namespaceaot__mod_aa6ef0ed7c67e66bf04e7aa0070bbde7f}} 
 \index{aot\+\_\+mod@{aot\+\_\+mod}!print\+\_\+aot@{print\+\_\+aot}}
@@ -148,21 +192,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 162 of file Ao\+T.\+f90.
+Definition at line 166 of file Ao\+T.\+f90.
 
 
 \begin{DoxyCode}
-162     \textcolor{keywordtype}{class}(aot\_class), \textcolor{keywordtype}{intent(in)} :: self
-163     \textcolor{keywordtype}{type}(string) :: outext, t(4)
-164     \textcolor{keywordtype}{integer} :: i
-165     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%id)
-166         t(1) = self%id(i)
-167         t(2) = self%x(i)
-168         t(3) = self%y(i)
-169         t(4) = self%z(i)
-170         outext = \textcolor{stringliteral}{'Tracer['}//t(1)//\textcolor{stringliteral}{']::xyz('}//t(2)//\textcolor{stringliteral}{','}//t(3)//\textcolor{stringliteral}{','}//t(4)//\textcolor{stringliteral}{')'}
-171         \textcolor{keyword}{call }log%put(outext,.false.)
-172 \textcolor{keywordflow}{    end do}
+166     \textcolor{keywordtype}{class}(aot\_class), \textcolor{keywordtype}{intent(in)} :: self
+167     \textcolor{keywordtype}{type}(string) :: outext, t(4)
+168     \textcolor{keywordtype}{integer} :: i
+169     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keywordflow}{then}
+170         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%id)
+171             t(1) = self%id(i)
+172             t(2) = self%x(i)
+173             t(3) = self%y(i)
+174             t(4) = self%z(i)
+175             outext = \textcolor{stringliteral}{'Tracer['}//t(1)//\textcolor{stringliteral}{']::xyz('}//t(2)//\textcolor{stringliteral}{','}//t(3)//\textcolor{stringliteral}{','}//t(4)//\textcolor{stringliteral}{')'}
+176             \textcolor{keyword}{call }log%put(outext,.false.)
+177 \textcolor{keywordflow}{        end do}
+178     \textcolor{keywordflow}{else}
+179         outext = \textcolor{stringliteral}{'AoT is empty'}
+180         \textcolor{keyword}{call }log%put(outext,.false.)
+181 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceaot__mod_a73ecd8babd54975720741493be733c48}\label{namespaceaot__mod_a73ecd8babd54975720741493be733c48}} 
 \index{aot\+\_\+mod@{aot\+\_\+mod}!totracers@{totracers}}
@@ -179,30 +228,34 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 131 of file Ao\+T.\+f90.
+Definition at line 132 of file Ao\+T.\+f90.
 
 
 \begin{DoxyCode}
-131     \textcolor{keywordtype}{implicit none}
-132     \textcolor{keywordtype}{class}(aot\_class), \textcolor{keywordtype}{intent(in)} :: self
-133     \textcolor{keywordtype}{integer} :: i
-134     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{pointer} :: aTracer
-135     \textcolor{keywordtype}{type}(string) :: outext
-136     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keywordflow}{then}
-137         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%id)
-138             \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(self%trc(i)%ptr)) \textcolor{keywordflow}{then}
-139                 atracer => self%trc(i)%ptr
-140                 atracer%now%pos%x = self%x(i)
-141                 atracer%now%pos%y = self%y(i)
-142                 atracer%now%pos%z = self%z(i)
-143                 atracer%now%vel%x = self%u(i)
-144                 atracer%now%vel%y = self%v(i)
-145                 atracer%now%vel%z = self%w(i)
-146             \textcolor{keywordflow}{else}
-147                 outext = \textcolor{stringliteral}{'[AoT::AoTtoTracers]: pointer to Tracer no associated, stoping'}
-148                 \textcolor{keyword}{call }log%put(outext)
-149                 stop
-150 \textcolor{keywordflow}{            end if}
-151 \textcolor{keywordflow}{        end do}
-152 \textcolor{keywordflow}{    end if}    
+132     \textcolor{keywordtype}{implicit none}
+133     \textcolor{keywordtype}{class}(aot\_class), \textcolor{keywordtype}{intent(in)} :: self
+134     \textcolor{keywordtype}{integer} :: i
+135     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{pointer} :: aTracer
+136     \textcolor{keywordtype}{type}(string) :: outext
+137     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keywordflow}{then}
+138         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%id)
+139             \textcolor{keywordflow}{if} (self%id(i) /= mv) \textcolor{keywordflow}{then}
+140                 \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(self%trc(i)%ptr)) \textcolor{keywordflow}{then}
+141                     atracer => self%trc(i)%ptr
+142                     atracer%now%pos%x = self%x(i)
+143                     atracer%now%pos%y = self%y(i)
+144                     atracer%now%pos%z = self%z(i)
+145                     atracer%now%vel%x = self%u(i)
+146                     atracer%now%vel%y = self%v(i)
+147                     atracer%now%vel%z = self%w(i)
+148                 \textcolor{keywordflow}{else}
+149                     outext = self%id(i)
+150                     outext = \textcolor{stringliteral}{'[AoT::AoTtoTracers]: pointer to Tracer['}// outext //\textcolor{stringliteral}{'] not associated,
+       stoping'}
+151                     \textcolor{keyword}{call }log%put(outext)
+152                     stop
+153 \textcolor{keywordflow}{                end if}
+154 \textcolor{keywordflow}{            end if}
+155 \textcolor{keywordflow}{        end do}
+156 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}

@@ -1,6 +1,7 @@
 var structbackground__mod_1_1background__class =
 [
     [ "add", "structbackground__mod_1_1background__class.html#adbf91df5efe766dead76d836cb0663c4", null ],
+    [ "getdimindex", "structbackground__mod_1_1background__class.html#a91992b0ccc0956daecda2f250ba934d6", null ],
     [ "print", "structbackground__mod_1_1background__class.html#aa1c611fb6813d423cba8f53bdf25465d", null ],
     [ "setdims", "structbackground__mod_1_1background__class.html#a5a4418427175db3e0d549fc328369993", null ],
     [ "setextents", "structbackground__mod_1_1background__class.html#a2265e90a0a0685465a17721576919af5", null ],

@@ -1,0 +1,1413 @@
+\hypertarget{namespacesimulationglobals__mod}{}\section{simulationglobals\+\_\+mod Module Reference}
+\label{namespacesimulationglobals__mod}\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+
+
+Module to hold the simulation global parameter classes and their methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Case Constants class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t}{filenames\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em File names class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Globals class -\/ This is a container for every global variable on the simulation. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t}{parameters\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation related counters and others. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{sim\+\_\+time\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation definitions class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1src__parm__t}{src\+\_\+parm\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Lists for Source parameters. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1stringlist__class}{stringlist\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1var__names__t}{var\+\_\+names\+\_\+t}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_aa01e0a958ef2e94a02991dcfe390bfa0}{setdefaults}} (self, outpath)
+\begin{DoxyCompactList}\small\item\em Globals default setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a4aa829af1699c705e46f47bb023ac162}{buildvars}} (self)
+\begin{DoxyCompactList}\small\item\em Builds variable list names. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_afd372c5764a180f9029d4dc3cddce94d}{addvar}} (self, var)
+\begin{DoxyCompactList}\small\item\em adding variables to variable pool of a simulation \end{DoxyCompactList}\item 
+type(string) function \mbox{\hyperlink{namespacesimulationglobals__mod_ac83c53dd4e998e653981c7b1fa5dacbd}{getvarsimname}} (self, var)
+\begin{DoxyCompactList}\small\item\em returns the simulation name of a given variabe name, by brute force searching trough the naming variable lists... \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_affd52c4c7b1c3f7ce282eeb7e4b4a359}{setnamingconventions}} (self, filename)
+\begin{DoxyCompactList}\small\item\em set the naming conventions. Imports names from given .xml naming files \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a2c6fa0a9123d06b2110258ea200f4f52}{setvarnames}} (self, var\+Node)
+\begin{DoxyCompactList}\small\item\em set the variables naming conventions. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a878fdcfa67037a1bc8411995394c2bef}{setdimnames}} (self, dim\+Node)
+\begin{DoxyCompactList}\small\item\em set the dimensions naming conventions. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a4dd64cb7a896b62d90e20a7eab65a6bf}{setcurrvar}} (self, tag, curr\+Var, curr\+Var\+Name\+List, var\+Node)
+\begin{DoxyCompactList}\small\item\em set the current variable naming conventions. Imports the variable names from given .xml naming file. If the same variable is given again two things happen\+: a) the system name is overwriten; b) new variants are added to the name variant list \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_aefda4344f03a705055ad6cb97cb90c65}{settimedate}} (self)
+\begin{DoxyCompactList}\small\item\em initializes time stamp and date stamp variables \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_acbb28eee5547a03dc28c924d8e23ad9a}{setcurrdatetime}} (self, dt)
+\begin{DoxyCompactList}\small\item\em sets the current time stamp and date stamp given a dt increment \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespacesimulationglobals__mod_a1fd33b50ae2216b3b7db074da1672398}{getdatetimestamp}} (self)
+\begin{DoxyCompactList}\small\item\em returns the time stamp for the current time/date. Time Stamp is days since epoch, given by Base\+Date\+Time. Defaults to Copernicus standard. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_abd0e28a5ec7733d0292dd8e631e96577}{printdatetime}} (self)
+\begin{DoxyCompactList}\small\item\em prints date \& time information. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3f11ed9f7735018950e1921ead871269}{increment\+\_\+numtracer}} (self)
+\begin{DoxyCompactList}\small\item\em Increments Tracer count. This routine M\+U\+ST be A\+T\+O\+M\+IC. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationglobals__mod_ac4915156236196940b31ff02d53af295}{getnumtracer}} (self)
+\begin{DoxyCompactList}\small\item\em Returns a new ID for a Tracer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ad983ee8885b275c6fa1369f1e158e078}{increment\+\_\+numdt}} (self)
+\begin{DoxyCompactList}\small\item\em incrementing time step count. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationglobals__mod_af313959d6cbfc4cb0ab330aa094511c5}{getnumdt}} (self)
+\begin{DoxyCompactList}\small\item\em Returns the number of time steps. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a77d7175bc03e472ee9a00ee9f6ff1b0e}{increment\+\_\+numoutfile}} (self)
+\begin{DoxyCompactList}\small\item\em incrementing output file count. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}{getnumoutfile}} (self)
+\begin{DoxyCompactList}\small\item\em Returns the number of output files written. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}{buildlists}} (self)
+\begin{DoxyCompactList}\small\item\em Method to build the parameters list of the Sources. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}{setparam}} (self, parmkey, parmvalue)
+\begin{DoxyCompactList}\small\item\em Private parameter setting method. Builds the simulation parametric space from the input case file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}{check}} (self)
+\begin{DoxyCompactList}\small\item\em Parameter checking method. Checks if mandatory parameters were set. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ab67964fe7c3fb20a4ce0b4193520aa1d}{printsimparameters}} (self)
+\begin{DoxyCompactList}\small\item\em Parameter printing method. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ae6b88d15ddc389aedd73d600de0337df}{setgravity}} (self, grav)
+\begin{DoxyCompactList}\small\item\em Gravity setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a36c2833caae3767434115cc966fe2c5d}{setz0}} (self, read\+\_\+z0)
+\begin{DoxyCompactList}\small\item\em Z0 setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}{setrho}} (self, read\+\_\+rho)
+\begin{DoxyCompactList}\small\item\em Rho\+\_\+\+Ref setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}{printconstants}} (self)
+\begin{DoxyCompactList}\small\item\em Public constants printing routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_afda1e73e6e0cd075875c70aded99d425}{setdp}} (self, read\+\_\+dp)
+\begin{DoxyCompactList}\small\item\em Dp setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a0eced3f4367d08f3d0cb6ef2044bdc56}{setdt}} (self, read\+\_\+dt)
+\begin{DoxyCompactList}\small\item\em Dt setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_abf5afcc12763caab3a5fc394255ced44}{setboundingbox}} (self, point\+\_\+, coords)
+\begin{DoxyCompactList}\small\item\em Bounding box setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_af0bc0b00ee3aa2ba9e47dc50daa72799}{setblocksize}} (self, bsize)
+\begin{DoxyCompactList}\small\item\em blocksize box setting routine \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a54196bff569fc838730ba39a722319ff}{printsimdefs}} (self)
+\begin{DoxyCompactList}\small\item\em Public simulation definitions printing routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7adb33aaa9ea0a94c38789c07ff3e787}{print\+\_\+stringlist}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints all the links of the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a405f70548e38f0af65d4cbdb7c7025a4}{print\+\_\+stringlistcurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method that prints the current link of the list. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacesimulationglobals__mod_a12410ee549ead4c6d892dca6ead74d15}{notrepeated}} (this, str)
+\begin{DoxyCompactList}\small\item\em Method that checks if an element is already on the list. Returns false if it is. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), public \mbox{\hyperlink{namespacesimulationglobals__mod_acf1e2786d81bd0fe337a8458efce8733}{globals}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to hold the simulation global parameter classes and their methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_afd372c5764a180f9029d4dc3cddce94d}\label{namespacesimulationglobals__mod_afd372c5764a180f9029d4dc3cddce94d}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!addvar@{addvar}}
+\index{addvar@{addvar}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{addvar()}{addvar()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::addvar (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1var__names__t}{var\+\_\+names\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+adding variables to variable pool of a simulation 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 300 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+300     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
+301     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
+302     \textcolor{keywordflow}{if} (self%varToUse%notRepeated(var)) \textcolor{keyword}{call }self%varToUse%add(var)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}\label{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!buildlists@{buildlists}}
+\index{buildlists@{buildlists}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{buildlists()}{buildlists()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::buildlists (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1src__parm__t}{src\+\_\+parm\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to build the parameters list of the Sources. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 621 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+621     \textcolor{keywordtype}{implicit none}
+622     \textcolor{keywordtype}{class}(src\_parm\_t), \textcolor{keywordtype}{intent(inout)} :: self
+623     \textcolor{keyword}{allocate}(self%baselist(5))
+624     self%baselist(1) = \textcolor{stringliteral}{'particulate'}
+625     self%baselist(2) = \textcolor{stringliteral}{'density'}
+626     self%baselist(3) = \textcolor{stringliteral}{'radius'}
+627     self%baselist(4) = \textcolor{stringliteral}{'condition'}
+628     self%baselist(5) = \textcolor{stringliteral}{'degradation\_rate'}
+629     \textcolor{keyword}{allocate}(self%particulatelist(2))
+630     self%particulatelist(1) = \textcolor{stringliteral}{'intitial\_concentration'}
+631     self%particulatelist(2) = \textcolor{stringliteral}{'particle\_radius'}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a4aa829af1699c705e46f47bb023ac162}\label{namespacesimulationglobals__mod_a4aa829af1699c705e46f47bb023ac162}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!buildvars@{buildvars}}
+\index{buildvars@{buildvars}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{buildvars()}{buildvars()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::buildvars (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1var__names__t}{var\+\_\+names\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Builds variable list names. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 270 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+270     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
+271     self%u       = \textcolor{stringliteral}{'u'}
+272     self%v       = \textcolor{stringliteral}{'v'}
+273     self%w       = \textcolor{stringliteral}{'w'}
+274     self%temp    = \textcolor{stringliteral}{'temp'}
+275     self%sal     = \textcolor{stringliteral}{'sal'}
+276     self%density = \textcolor{stringliteral}{'density'}
+277     self%lon     = \textcolor{stringliteral}{'lon'}
+278     self%lat     = \textcolor{stringliteral}{'lat'}
+279     self%level   = \textcolor{stringliteral}{'level'}
+280     self%time    = \textcolor{stringliteral}{'time'}
+281     \textcolor{comment}{!adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors}
+282     \textcolor{keyword}{call }self%addVar(self%u)
+283     \textcolor{keyword}{call }self%addVar(self%v)
+284     \textcolor{keyword}{call }self%addVar(self%w)
+285     \textcolor{keyword}{call }self%addVar(self%temp)
+286     \textcolor{keyword}{call }self%addVar(self%sal)
+287     \textcolor{keyword}{call }self%addVar(self%density)
+288     \textcolor{comment}{!call self%addVar(self%lon)}
+289     \textcolor{comment}{!call self%addVar(self%lat)}
+290     \textcolor{comment}{!call self%addVar(self%level)}
+291     \textcolor{comment}{!call self%addVar(self%time)}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}\label{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!check@{check}}
+\index{check@{check}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{check()}{check()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::check (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t}{parameters\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Parameter checking method. Checks if mandatory parameters were set. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 695 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+695     \textcolor{keywordtype}{implicit none}
+696     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
+697     \textcolor{keywordtype}{type}(string) :: outext
+698     \textcolor{keywordtype}{type}(datetime) :: temp
+699     \textcolor{keywordtype}{type}(timedelta) :: simtime
+700 
+701     \textcolor{keywordflow}{if} ( any(self%IntegratorIndexes == self%Integrator)) \textcolor{keywordflow}{then}
+702     \textcolor{keywordflow}{else}
+703         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: Integrator not recognized, stoping'}
+704         \textcolor{keyword}{call }log%put(outext)
+705         stop
+706 \textcolor{keywordflow}{    end if}
+707     \textcolor{keywordflow}{if} ( any(self%OutputFormatIndexes == self%OutputFormat)) \textcolor{keywordflow}{then}
+708         \textcolor{keywordflow}{if} (self%OutputFormat == 1) \textcolor{keywordflow}{then}
+709             outext = \textcolor{stringliteral}{'[Globals::parameters::check]: NetCDF is not implemented yet, try something nicer like
+       VTK, stoping'}
+710             \textcolor{keyword}{call }log%put(outext)
+711             stop
+712 \textcolor{keywordflow}{        end if}
+713     \textcolor{keywordflow}{else}
+714         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: OutputFormat not recognized, stoping'}
+715         \textcolor{keyword}{call }log%put(outext)
+716         stop
+717 \textcolor{keywordflow}{    end if}
+718     temp = datetime() \textcolor{comment}{!default initialization}
+719     \textcolor{comment}{!add new parameters to this search}
+720     \textcolor{keywordflow}{if} (self%TimeOut==mv) \textcolor{keywordflow}{then}
+721         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: sampling rate parameter (TimeOut) is not set, stoping'}
+722         \textcolor{keyword}{call }log%put(outext)
+723         stop
+724     \textcolor{keywordflow}{elseif} (self%StartTime==temp) \textcolor{keywordflow}{then}
+725         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: start time parameter (StartTime) is not set or invalid,
+       stoping'}
+726         \textcolor{keyword}{call }log%put(outext)
+727         stop
+728     \textcolor{keywordflow}{elseif} (self%EndTime==temp) \textcolor{keywordflow}{then}
+729         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: end time parameter (EndTime) is not set or invalid,
+       stoping'}
+730         \textcolor{keyword}{call }log%put(outext)
+731         stop
+732 \textcolor{keywordflow}{    end if}
+733     \textcolor{comment}{!Build timemax from the difference between start and end time}
+734     simtime = self%EndTime - self%StartTime
+735     self%TimeMax = simtime%total\_seconds()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a1fd33b50ae2216b3b7db074da1672398}\label{namespacesimulationglobals__mod_a1fd33b50ae2216b3b7db074da1672398}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getdatetimestamp@{getdatetimestamp}}
+\index{getdatetimestamp@{getdatetimestamp}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{getdatetimestamp()}{getdatetimestamp()}}
+{\footnotesize\ttfamily real(prec) function simulationglobals\+\_\+mod\+::getdatetimestamp (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{sim\+\_\+time\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the time stamp for the current time/date. Time Stamp is days since epoch, given by Base\+Date\+Time. Defaults to Copernicus standard. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 516 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+516     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(inout)} :: self
+517     \textcolor{keywordtype}{type}(timedelta) :: step, day
+518     day = timedelta(days=1)
+519     step = self%CurrDate - self%BaseDateTime
+520     getdatetimestamp = step%total\_seconds()/day%total\_seconds()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_af313959d6cbfc4cb0ab330aa094511c5}\label{namespacesimulationglobals__mod_af313959d6cbfc4cb0ab330aa094511c5}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getnumdt@{getnumdt}}
+\index{getnumdt@{getnumdt}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnumdt()}{getnumdt()}}
+{\footnotesize\ttfamily integer function simulationglobals\+\_\+mod\+::getnumdt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns the number of time steps. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 588 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+588     \textcolor{keywordtype}{implicit none}
+589     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+590     getnumdt = self%numdt
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}\label{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getnumoutfile@{getnumoutfile}}
+\index{getnumoutfile@{getnumoutfile}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnumoutfile()}{getnumoutfile()}}
+{\footnotesize\ttfamily integer function simulationglobals\+\_\+mod\+::getnumoutfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns the number of output files written. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 610 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+610     \textcolor{keywordtype}{implicit none}
+611     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+612     getnumoutfile = self%numoutfile
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_ac4915156236196940b31ff02d53af295}\label{namespacesimulationglobals__mod_ac4915156236196940b31ff02d53af295}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getnumtracer@{getnumtracer}}
+\index{getnumtracer@{getnumtracer}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnumtracer()}{getnumtracer()}}
+{\footnotesize\ttfamily integer function simulationglobals\+\_\+mod\+::getnumtracer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns a new ID for a Tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 565 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+565     \textcolor{keywordtype}{implicit none}
+566     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+567     \textcolor{keyword}{call }self%increment\_numTracer()
+568     getnumtracer = self%numTracer
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_ac83c53dd4e998e653981c7b1fa5dacbd}\label{namespacesimulationglobals__mod_ac83c53dd4e998e653981c7b1fa5dacbd}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getvarsimname@{getvarsimname}}
+\index{getvarsimname@{getvarsimname}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{getvarsimname()}{getvarsimname()}}
+{\footnotesize\ttfamily type(string) function simulationglobals\+\_\+mod\+::getvarsimname (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1var__names__t}{var\+\_\+names\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the simulation name of a given variabe name, by brute force searching trough the naming variable lists... 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,var} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 313 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+313     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
+314     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
+315 
+316     \textcolor{comment}{!searching for u}
+317     \textcolor{keywordflow}{if} (var == self%u .or. .not.self%uVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+318         getvarsimname = self%u
+319         \textcolor{keywordflow}{return}
+320 \textcolor{keywordflow}{    end if}
+321     \textcolor{comment}{!searching for v}
+322     \textcolor{keywordflow}{if} (var == self%v .or. .not.self%vVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+323         getvarsimname = self%v
+324         \textcolor{keywordflow}{return}
+325 \textcolor{keywordflow}{    end if}
+326     \textcolor{comment}{!searching for w}
+327     \textcolor{keywordflow}{if} (var == self%w .or. .not.self%wVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+328         getvarsimname = self%w
+329         \textcolor{keywordflow}{return}
+330 \textcolor{keywordflow}{    end if}
+331     \textcolor{comment}{!searching for temp}
+332     \textcolor{keywordflow}{if} (var == self%temp .or. .not.self%tempVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+333         getvarsimname = self%temp
+334         \textcolor{keywordflow}{return}
+335 \textcolor{keywordflow}{    end if}
+336     \textcolor{comment}{!searching for sal}
+337     \textcolor{keywordflow}{if} (var == self%sal .or. .not.self%salVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+338         getvarsimname = self%sal
+339         \textcolor{keywordflow}{return}
+340 \textcolor{keywordflow}{    end if}
+341     \textcolor{comment}{!searching for density}
+342     \textcolor{keywordflow}{if} (var == self%density .or. .not.self%densityVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+343         getvarsimname = self%density
+344         \textcolor{keywordflow}{return}
+345 \textcolor{keywordflow}{    end if}
+346     \textcolor{comment}{!searching for lon}
+347     \textcolor{keywordflow}{if} (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+348         getvarsimname = self%lon
+349         \textcolor{keywordflow}{return}
+350 \textcolor{keywordflow}{    end if}
+351     \textcolor{comment}{!searching for lat}
+352     \textcolor{keywordflow}{if} (var == self%lat .or. .not.self%latVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+353         getvarsimname = self%lat
+354         \textcolor{keywordflow}{return}
+355 \textcolor{keywordflow}{    end if}
+356     \textcolor{comment}{!searching for level}
+357     \textcolor{keywordflow}{if} (var == self%level .or. .not.self%levelVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+358         getvarsimname = self%level
+359         \textcolor{keywordflow}{return}
+360 \textcolor{keywordflow}{    end if}
+361     \textcolor{comment}{!searching for time}
+362     \textcolor{keywordflow}{if} (var == self%time .or. .not.self%timeVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+363         getvarsimname = self%time
+364         \textcolor{keywordflow}{return}
+365 \textcolor{keywordflow}{    end if}
+366 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_ad983ee8885b275c6fa1369f1e158e078}\label{namespacesimulationglobals__mod_ad983ee8885b275c6fa1369f1e158e078}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!increment\+\_\+numdt@{increment\+\_\+numdt}}
+\index{increment\+\_\+numdt@{increment\+\_\+numdt}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{increment\+\_\+numdt()}{increment\_numdt()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::increment\+\_\+numdt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+incrementing time step count. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 577 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+577     \textcolor{keywordtype}{implicit none}
+578     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+579     self%numdt = self%numdt + 1
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a77d7175bc03e472ee9a00ee9f6ff1b0e}\label{namespacesimulationglobals__mod_a77d7175bc03e472ee9a00ee9f6ff1b0e}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!increment\+\_\+numoutfile@{increment\+\_\+numoutfile}}
+\index{increment\+\_\+numoutfile@{increment\+\_\+numoutfile}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{increment\+\_\+numoutfile()}{increment\_numoutfile()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::increment\+\_\+numoutfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+incrementing output file count. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 599 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+599     \textcolor{keywordtype}{implicit none}
+600     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+601     self%numoutfile = self%numoutfile + 1
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a3f11ed9f7735018950e1921ead871269}\label{namespacesimulationglobals__mod_a3f11ed9f7735018950e1921ead871269}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!increment\+\_\+numtracer@{increment\+\_\+numtracer}}
+\index{increment\+\_\+numtracer@{increment\+\_\+numtracer}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{increment\+\_\+numtracer()}{increment\_numtracer()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::increment\+\_\+numtracer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Increments Tracer count. This routine M\+U\+ST be A\+T\+O\+M\+IC. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 553 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+553     \textcolor{keywordtype}{implicit none}
+554     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+555     \textcolor{comment}{!ATOMIC pragma here please}
+556     self%numTracer = self%numTracer + 1
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a12410ee549ead4c6d892dca6ead74d15}\label{namespacesimulationglobals__mod_a12410ee549ead4c6d892dca6ead74d15}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!notrepeated@{notrepeated}}
+\index{notrepeated@{notrepeated}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{notrepeated()}{notrepeated()}}
+{\footnotesize\ttfamily logical function simulationglobals\+\_\+mod\+::notrepeated (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1stringlist__class}{stringlist\+\_\+class}}), intent(in)}]{this,  }\item[{class(string), intent(in)}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that checks if an element is already on the list. Returns false if it is. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 1006 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+1006     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
+1007     \textcolor{keywordtype}{class}(string), \textcolor{keywordtype}{intent(in)} :: str
+1008     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+1009     \textcolor{keywordtype}{type}(string) :: outext
+1010     notrepeated = .true.
+1011     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+1012     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
+1013         curr => this%currentValue() \textcolor{comment}{! get current value}
+1014         \textcolor{keywordflow}{select type}(curr)
+1015 \textcolor{keywordflow}{        class is} (string)
+1016             \textcolor{keywordflow}{if} (curr == str) \textcolor{keywordflow}{then}
+1017                 notrepeated = .false.
+1018                 \textcolor{keywordflow}{return}
+1019 \textcolor{keywordflow}{            end if}
+1020 \textcolor{keywordflow}{            class default}
+1021             outext = \textcolor{stringliteral}{'[stringList\_class::notRepeated] Unexepected type of content, not a string'}
+1022             \textcolor{keyword}{call }log%put(outext)
+1023             stop
+1024 \textcolor{keywordflow}{        end select}
+1025         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
+1026 \textcolor{keywordflow}{    end do}
+1027     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a7adb33aaa9ea0a94c38789c07ff3e787}\label{namespacesimulationglobals__mod_a7adb33aaa9ea0a94c38789c07ff3e787}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!print\+\_\+stringlist@{print\+\_\+stringlist}}
+\index{print\+\_\+stringlist@{print\+\_\+stringlist}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{print\+\_\+stringlist()}{print\_stringlist()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::print\+\_\+stringlist (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1stringlist__class}{stringlist\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints all the links of the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 968 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+968     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
+969     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+970     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+971     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
+972         \textcolor{keyword}{call }this%printCurrent()
+973         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
+974 \textcolor{keywordflow}{    end do}
+975     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a405f70548e38f0af65d4cbdb7c7025a4}\label{namespacesimulationglobals__mod_a405f70548e38f0af65d4cbdb7c7025a4}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!print\+\_\+stringlistcurrent@{print\+\_\+stringlistcurrent}}
+\index{print\+\_\+stringlistcurrent@{print\+\_\+stringlistcurrent}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{print\+\_\+stringlistcurrent()}{print\_stringlistcurrent()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::print\+\_\+stringlistcurrent (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1stringlist__class}{stringlist\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that prints the current link of the list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 984 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+984     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
+985     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+986     \textcolor{keywordtype}{type}(string) :: outext
+987     curr => this%currentValue() \textcolor{comment}{! get current value}
+988     \textcolor{keywordflow}{select type}(curr)
+989 \textcolor{keywordflow}{    class is} (string)
+990         outext = curr
+991         \textcolor{keyword}{call }log%put(outext, .false.)
+992 \textcolor{keywordflow}{        class default}
+993         outext = \textcolor{stringliteral}{'[stringList\_class::print] Unexepected type of content, not a string'}
+994         \textcolor{keyword}{call }log%put(outext)
+995         stop
+996 \textcolor{keywordflow}{    end select}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}\label{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printconstants@{printconstants}}
+\index{printconstants@{printconstants}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{printconstants()}{printconstants()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::printconstants (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Public constants printing routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 827 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+827     \textcolor{keywordtype}{implicit none}
+828     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(in)} :: self
+829     \textcolor{keywordtype}{type}(string) :: outext
+830     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
+831 
+832     temp\_str(1)=self%Gravity%x
+833     temp\_str(2)=self%Gravity%y
+834     temp\_str(3)=self%Gravity%z
+835     outext = \textcolor{stringliteral}{'      Gravity is '}//new\_line(\textcolor{stringliteral}{'a'})//&
+836         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+837     temp\_str(1)=self%Z0
+838     outext = outext//\textcolor{stringliteral}{'       Z0 = '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
+839     temp\_str(1)=self%Rho\_ref
+840     outext = outext//\textcolor{stringliteral}{'       Rho\_ref = '}//temp\_str(1)//\textcolor{stringliteral}{' kg/m^3'}
+841 
+842     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_abd0e28a5ec7733d0292dd8e631e96577}\label{namespacesimulationglobals__mod_abd0e28a5ec7733d0292dd8e631e96577}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printdatetime@{printdatetime}}
+\index{printdatetime@{printdatetime}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{printdatetime()}{printdatetime()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::printdatetime (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{sim\+\_\+time\+\_\+t}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+prints date \& time information. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 529 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+529     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(in)} :: self
+530     \textcolor{keywordtype}{type}(string) :: outext
+531     \textcolor{keywordtype}{type}(string) :: temp\_str
+532     \textcolor{keywordtype}{character(len=23)} :: temp\_char
+533     temp\_char = self%StartDate%isoformat(\textcolor{stringliteral}{' '})
+534     temp\_str = temp\_char
+535     outext = outext//\textcolor{stringliteral}{'      Start date                = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+536     temp\_char = self%EndDate%isoformat(\textcolor{stringliteral}{' '})
+537     temp\_str = temp\_char
+538     outext = outext//\textcolor{stringliteral}{'       End date                  = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+539     temp\_char = self%BaseDateTime%isoformat(\textcolor{stringliteral}{' '})
+540     temp\_str = temp\_char
+541     outext = outext//\textcolor{stringliteral}{'       Base date (time stamping) = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+542     temp\_str=self%TimeMax
+543     outext = outext//\textcolor{stringliteral}{'       Simulation will run for '}//temp\_str//\textcolor{stringliteral}{' s'}
+544     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a54196bff569fc838730ba39a722319ff}\label{namespacesimulationglobals__mod_a54196bff569fc838730ba39a722319ff}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printsimdefs@{printsimdefs}}
+\index{printsimdefs@{printsimdefs}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{printsimdefs()}{printsimdefs()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::printsimdefs (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Public simulation definitions printing routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 932 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+932     \textcolor{keywordtype}{implicit none}
+933     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(in)} :: self
+934     \textcolor{keywordtype}{type}(string) :: outext
+935     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
+936 
+937     temp\_str(1)=self%Dp
+938     outext = \textcolor{stringliteral}{'      Initial resolution is '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
+939     temp\_str(1)=self%dt
+940     outext = \textcolor{stringliteral}{'      Timestep is '}//temp\_str(1)//\textcolor{stringliteral}{' s'}//new\_line(\textcolor{stringliteral}{'a'})
+941     temp\_str(1)=self%Pointmin%x
+942     temp\_str(2)=self%Pointmin%y
+943     temp\_str(3)=self%Pointmin%z
+944     outext = outext//\textcolor{stringliteral}{'       Pointmin (BB) is '}//new\_line(\textcolor{stringliteral}{'a'})//&
+945         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+946     temp\_str(1)=self%Pointmax%x
+947     temp\_str(2)=self%Pointmax%y
+948     temp\_str(3)=self%Pointmax%z
+949     outext = outext//\textcolor{stringliteral}{'       Pointmax (BB) is '}//new\_line(\textcolor{stringliteral}{'a'})//&
+950         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+951     \textcolor{keywordflow}{if} (self%autoblocksize) \textcolor{keywordflow}{then}
+952         outext = outext//\textcolor{stringliteral}{'       Blocks are automatically sized'}
+953     \textcolor{keywordflow}{else}
+954         temp\_str(1)=self%blocksize%x
+955         temp\_str(2)=self%blocksize%y
+956         outext = outext//\textcolor{stringliteral}{'       Blocks are sized '}//new\_line(\textcolor{stringliteral}{'a'})//&
+957             \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' X '}//temp\_str(2)
+958 \textcolor{keywordflow}{    end if}
+959     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_ab67964fe7c3fb20a4ce0b4193520aa1d}\label{namespacesimulationglobals__mod_ab67964fe7c3fb20a4ce0b4193520aa1d}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printsimparameters@{printsimparameters}}
+\index{printsimparameters@{printsimparameters}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{printsimparameters()}{printsimparameters()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::printsimparameters (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t}{parameters\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Parameter printing method. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 744 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+744     \textcolor{keywordtype}{implicit none}
+745     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
+746     \textcolor{keywordtype}{type}(string) :: outext
+747     \textcolor{keywordtype}{type}(string) :: temp\_str
+748     \textcolor{keywordtype}{character(len=23)} :: temp\_char
+749     outext = \textcolor{stringliteral}{'      Integrator scheme is '}//self%IntegratorNames(self%Integrator)//new\_line(\textcolor{stringliteral}{'a'})
+750     temp\_str=self%numOPMthreads
+751     temp\_str=ompmanager%getThreads()
+752     outext = outext//\textcolor{stringliteral}{'       OMP threads = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+753     temp\_str=self%WarmUpTime
+754     outext = outext//\textcolor{stringliteral}{'       WarmUpTime = '}//temp\_str//\textcolor{stringliteral}{' s'}//new\_line(\textcolor{stringliteral}{'a'})
+755     temp\_str=self%TimeOut
+756     outext = outext//\textcolor{stringliteral}{'       TimeOut = '}//temp\_str//\textcolor{stringliteral}{' Hz'}//new\_line(\textcolor{stringliteral}{'a'})
+757     outext = outext//\textcolor{stringliteral}{'       Output file format is '}//self%OutputFormatNames(self%OutputFormat)
+758     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_af0bc0b00ee3aa2ba9e47dc50daa72799}\label{namespacesimulationglobals__mod_af0bc0b00ee3aa2ba9e47dc50daa72799}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setblocksize@{setblocksize}}
+\index{setblocksize@{setblocksize}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setblocksize()}{setblocksize()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setblocksize (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}), intent(inout)}]{self,  }\item[{type(vector)}]{bsize }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+blocksize box setting routine 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,bsize} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 917 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+917     \textcolor{keywordtype}{implicit none}
+918     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+919     \textcolor{keywordtype}{type}(vector) :: bsize
+920     \textcolor{keywordtype}{integer} :: sizem
+921     self%blocksize = bsize
+922     sizem = sizeof(bsize)
+923     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_abf5afcc12763caab3a5fc394255ced44}\label{namespacesimulationglobals__mod_abf5afcc12763caab3a5fc394255ced44}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setboundingbox@{setboundingbox}}
+\index{setboundingbox@{setboundingbox}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setboundingbox()}{setboundingbox()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setboundingbox (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{point\+\_\+,  }\item[{type(vector)}]{coords }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Bounding box setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,point\+\_\+,coords} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 896 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+896     \textcolor{keywordtype}{implicit none}
+897     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+898     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: point\_
+899     \textcolor{keywordtype}{type}(vector) :: coords
+900     \textcolor{keywordtype}{integer} :: sizem
+901     \textcolor{keywordflow}{if} (point\_%chars() == \textcolor{stringliteral}{"pointmin"}) \textcolor{keywordflow}{then}
+902         self%Pointmin= coords
+903     \textcolor{keywordflow}{elseif} (point\_%chars() == \textcolor{stringliteral}{"pointmax"}) \textcolor{keywordflow}{then}
+904         self%Pointmax= coords
+905 \textcolor{keywordflow}{    endif}
+906     sizem=sizeof(coords)
+907     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_acbb28eee5547a03dc28c924d8e23ad9a}\label{namespacesimulationglobals__mod_acbb28eee5547a03dc28c924d8e23ad9a}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setcurrdatetime@{setcurrdatetime}}
+\index{setcurrdatetime@{setcurrdatetime}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setcurrdatetime()}{setcurrdatetime()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setcurrdatetime (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{sim\+\_\+time\+\_\+t}}), intent(inout)}]{self,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+sets the current time stamp and date stamp given a dt increment 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 501 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+501     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(inout)} :: self
+502     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
+503     \textcolor{keywordtype}{type}(timedelta) :: step
+504     step = timedelta(seconds=floor(dt), milliseconds=floor((dt-floor(dt))*1000))
+505     self%CurrDate = self%CurrDate + step
+506     self%CurrTime = self%CurrTime + dt
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a4dd64cb7a896b62d90e20a7eab65a6bf}\label{namespacesimulationglobals__mod_a4dd64cb7a896b62d90e20a7eab65a6bf}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setcurrvar@{setcurrvar}}
+\index{setcurrvar@{setcurrvar}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setcurrvar()}{setcurrvar()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setcurrvar (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{tag,  }\item[{type(string), intent(inout)}]{curr\+Var,  }\item[{type(\mbox{\hyperlink{structsimulationglobals__mod_1_1stringlist__class}{stringlist\+\_\+class}}), intent(inout)}]{curr\+Var\+Name\+List,  }\item[{type(node), intent(in), pointer}]{var\+Node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+set the current variable naming conventions. Imports the variable names from given .xml naming file. If the same variable is given again two things happen\+: a) the system name is overwriten; b) new variants are added to the name variant list 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 455 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+455     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+456     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
+457     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(inout)} :: currVar
+458     \textcolor{keywordtype}{type}(stringList\_class), \textcolor{keywordtype}{intent(inout)} :: currVarNameList
+459     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: varNode
+460     \textcolor{keywordtype}{integer} :: i
+461     \textcolor{keywordtype}{type}(string) :: attValue, attName
+462     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: tempNode, variantNode
+463     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: varNameList
+464 
+465     \textcolor{keyword}{call }xmlreader%gotoNode(varnode, tempnode, tag, mandatory = .false.)
+466     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(tempnode)) \textcolor{keywordflow}{then} \textcolor{comment}{!variable description exists in file}
+467         attname=\textcolor{stringliteral}{"name"}
+468         \textcolor{keyword}{call }xmlreader%getNodeAttribute(tempnode, tag, attname, attvalue, mandatory = .true.)
+469         currvar = attvalue
+470         varnamelist => getelementsbytagname(tempnode, \textcolor{stringliteral}{"variant"})
+471         \textcolor{keywordflow}{do} i = 0, getlength(varnamelist) - 1
+472             variantnode => item(varnamelist, i)
+473             \textcolor{keyword}{call }xmlreader%getLeafAttribute(variantnode,attname,attvalue)
+474             \textcolor{keywordflow}{if} (currvarnamelist%notRepeated(attvalue)) \textcolor{keyword}{call }currvarnamelist%add(attvalue)
+475 \textcolor{keywordflow}{        end do}
+476 \textcolor{keywordflow}{    end if}
+477 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_aa01e0a958ef2e94a02991dcfe390bfa0}\label{namespacesimulationglobals__mod_aa01e0a958ef2e94a02991dcfe390bfa0}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdefaults@{setdefaults}}
+\index{setdefaults@{setdefaults}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setdefaults()}{setdefaults()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setdefaults (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in), optional}]{outpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Globals default setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,outpath} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 199 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+199     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+200     \textcolor{keywordtype}{integer} :: sizem
+201     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: outpath
+202     \textcolor{comment}{!parameters}
+203     self%Parameters%Integrator = 1
+204     self%Parameters%IntegratorIndexes = [1,2,3]
+205     self%Parameters%IntegratorNames(1) = \textcolor{stringliteral}{'Euler'}
+206     self%Parameters%IntegratorNames(2) = \textcolor{stringliteral}{'Multi-Step Euler'}
+207     self%Parameters%IntegratorNames(3) = \textcolor{stringliteral}{'Runge-Kuta 4'}
+208     self%Parameters%numOPMthreads = ompmanager%getThreads()
+209     self%Parameters%WarmUpTime = 0.0
+210     self%Parameters%TimeOut = mv
+211     self%Parameters%StartTime = datetime()
+212     self%Parameters%EndTime = datetime()
+213     self%Parameters%BaseDateTime = datetime(1950,1,1,0,0,0)
+214     self%Parameters%OutputFormat = 2
+215     self%Parameters%OutputFormatIndexes = [1,2]
+216     \textcolor{comment}{!self%Parameters%OutputFormatNames = ['NetCDF','VTK'] !This is not acceptable because FORTRAN}
+217     self%Parameters%OutputFormatNames(1) = \textcolor{stringliteral}{'NetCDF'}
+218     self%Parameters%OutputFormatNames(2) = \textcolor{stringliteral}{'VTK'}
+219     \textcolor{comment}{!SimTime}
+220     self%SimTime%StartDate = datetime()
+221     self%SimTime%EndDate = datetime()
+222     self%SimTime%CurrDate = datetime()
+223     self%SimTime%BaseDateTime = datetime(1950,1,1,0,0,0)
+224     \textcolor{comment}{!Simulation definitions}
+225     self%SimDefs%autoblocksize =.true.
+226     self%SimDefs%blocksize = 0.0
+227     self%SimDefs%numblocksx = mv
+228     self%SimDefs%numblocksy = mv
+229     self%SimDefs%numblocks = ompmanager%getThreads()
+230     self%SimDefs%Dp = mv
+231     self%SimDefs%dt = mv
+232     self%SimDefs%Pointmin = 0.0
+233     self%SimDefs%Pointmax = 0.0
+234     \textcolor{comment}{!simulation constants}
+235     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
+236     self%Constants%Z0 = 0.0
+237     self%Constants%Rho\_ref = 1000.0
+238     \textcolor{comment}{!filenames}
+239     self%Names%mainxmlfilename = \textcolor{stringliteral}{'not\_set'}
+240     self%Names%propsxmlfilename = \textcolor{stringliteral}{'not\_set'}
+241     self%Names%tempfilename = \textcolor{stringliteral}{'not\_set'}
+242     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(outpath)) \textcolor{keywordflow}{then}
+243         self%Names%outpath = outpath
+244     \textcolor{keywordflow}{else}
+245         self%Names%outpath = \textcolor{stringliteral}{'not\_set'}
+246 \textcolor{keywordflow}{    end if}
+247     self%Names%casename = \textcolor{stringliteral}{'not\_set'}
+248     \textcolor{comment}{!global time}
+249     self%SimTime%CurrTime = 0.0
+250     \textcolor{comment}{!global counters}
+251     self%Sim%numdt = 0
+252     self%Sim%numoutfile = 0
+253     self%Sim%numTracer = 0
+254     \textcolor{comment}{!Source parameters list}
+255     \textcolor{keyword}{call }self%SrcProp%buildlists()
+256     \textcolor{comment}{!Variable names}
+257     \textcolor{keyword}{call }self%Var%buildvars()
+258 
+259     sizem=sizeof(self)
+260     \textcolor{keyword}{call }simmemory%adddef(sizem)
+261 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a878fdcfa67037a1bc8411995394c2bef}\label{namespacesimulationglobals__mod_a878fdcfa67037a1bc8411995394c2bef}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdimnames@{setdimnames}}
+\index{setdimnames@{setdimnames}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setdimnames()}{setdimnames()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setdimnames (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), intent(inout)}]{self,  }\item[{type(node), intent(in), pointer}]{dim\+Node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+set the dimensions naming conventions. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 430 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+430     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+431     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: dimNode
+432     \textcolor{keywordtype}{type}(string) :: tag
+433 
+434     tag=\textcolor{stringliteral}{"longitude"}
+435     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%lon, self%Var%lonVariants, dimnode)
+436     tag=\textcolor{stringliteral}{"latitude"}
+437     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%lat, self%Var%latVariants, dimnode)
+438     tag=\textcolor{stringliteral}{"vertical"}
+439     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%level, self%Var%levelVariants, dimnode)
+440     tag=\textcolor{stringliteral}{"time"}
+441     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%time, self%Var%timeVariants, dimnode)
+442 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_afda1e73e6e0cd075875c70aded99d425}\label{namespacesimulationglobals__mod_afda1e73e6e0cd075875c70aded99d425}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdp@{setdp}}
+\index{setdp@{setdp}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setdp()}{setdp()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setdp (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Dp setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,read\+\_\+dp} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 852 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+852     \textcolor{keywordtype}{implicit none}
+853     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+854     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_dp
+855     \textcolor{keywordtype}{type}(string) :: outext
+856     \textcolor{keywordtype}{integer} :: sizem
+857     self%Dp=read\_dp%to\_number(kind=1.\_r4p)
+858     \textcolor{keywordflow}{if} (self%Dp.le.0.0) \textcolor{keywordflow}{then}
+859         outext=\textcolor{stringliteral}{'Dp must be positive and non-zero, stopping'}
+860         \textcolor{keyword}{call }log%put(outext)
+861         stop
+862 \textcolor{keywordflow}{    endif}
+863     sizem = sizeof(self%Dp)
+864     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a0eced3f4367d08f3d0cb6ef2044bdc56}\label{namespacesimulationglobals__mod_a0eced3f4367d08f3d0cb6ef2044bdc56}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdt@{setdt}}
+\index{setdt@{setdt}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setdt()}{setdt()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setdt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Dt setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,read\+\_\+dt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 874 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+874     \textcolor{keywordtype}{implicit none}
+875     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+876     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_dt
+877     \textcolor{keywordtype}{type}(string) :: outext
+878     \textcolor{keywordtype}{integer} :: sizem
+879     self%dt=read\_dt%to\_number(kind=1.\_r4p)
+880     \textcolor{keywordflow}{if} (self%dt.le.0.0) \textcolor{keywordflow}{then}
+881         outext=\textcolor{stringliteral}{'dt must be positive and non-zero, stopping'}
+882         \textcolor{keyword}{call }log%put(outext)
+883         stop
+884 \textcolor{keywordflow}{    endif}
+885     sizem = sizeof(self%dt)
+886     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_ae6b88d15ddc389aedd73d600de0337df}\label{namespacesimulationglobals__mod_ae6b88d15ddc389aedd73d600de0337df}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setgravity@{setgravity}}
+\index{setgravity@{setgravity}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setgravity()}{setgravity()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setgravity (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}), intent(inout)}]{self,  }\item[{type(vector), intent(in)}]{grav }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Gravity setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,grav} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 768 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+768     \textcolor{keywordtype}{implicit none}
+769     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+770     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: grav
+771     \textcolor{keywordtype}{integer} :: sizem
+772     \textcolor{keywordtype}{type}(string) :: outext
+773     self%Gravity= grav
+774     \textcolor{keywordflow}{if} (grav%x==mv) \textcolor{keywordflow}{then} \textcolor{comment}{!Gravity was not read, setting default}
+775         self%Gravity= -9.81*ez
+776         outext = \textcolor{stringliteral}{'       Gravity not specified, setting to default value = (0,0,-9.81)'}
+777         \textcolor{keyword}{call }log%put(outext,.false.)
+778 \textcolor{keywordflow}{    endif}
+779     sizem=sizeof(self%Gravity)
+780     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_affd52c4c7b1c3f7ce282eeb7e4b4a359}\label{namespacesimulationglobals__mod_affd52c4c7b1c3f7ce282eeb7e4b4a359}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setnamingconventions@{setnamingconventions}}
+\index{setnamingconventions@{setnamingconventions}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setnamingconventions()}{setnamingconventions()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setnamingconventions (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), dimension(\+:), intent(in)}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+set the naming conventions. Imports names from given .xml naming files 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 377 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+377     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+378     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: filename
+379     \textcolor{keywordtype}{integer} :: i
+380     \textcolor{keywordtype}{type}(string) :: outext, tag
+381     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmldoc
+382     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: varNode, dimNode
+383 
+384     \textcolor{keyword}{allocate}(self%Names%namingfilename, source = filename)
+385     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%Names%namingfilename)
+386         \textcolor{keyword}{call }xmlreader%getFile(xmldoc,self%Names%namingfilename(i))
+387         outext=\textcolor{stringliteral}{'-->Setting naming conventions from '}//self%Names%namingfilename(i)
+388         \textcolor{keyword}{call }log%put(outext)
+389         tag=\textcolor{stringliteral}{"naming"}          \textcolor{comment}{!base document node}
+390         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,xmldoc,tag)
+391         tag=\textcolor{stringliteral}{"variables"}
+392         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,varnode,tag)
+393         tag=\textcolor{stringliteral}{"dimensions"}
+394         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,dimnode,tag)
+395         \textcolor{keyword}{call }self%setVarNames(varnode)
+396         \textcolor{keyword}{call }self%setDimNames(dimnode)
+397 \textcolor{keywordflow}{    end do}
+398 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}\label{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setparam@{setparam}}
+\index{setparam@{setparam}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setparam()}{setparam()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setparam (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t}{parameters\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{parmkey,  }\item[{type(string), intent(in)}]{parmvalue }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Private parameter setting method. Builds the simulation parametric space from the input case file. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,parmkey,parmvalue} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 642 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+642     \textcolor{keywordtype}{implicit none}
+643     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
+644     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: parmkey
+645     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: parmvalue
+646     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable} :: dc(:)
+647     \textcolor{keywordtype}{integer} :: i
+648     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(6)} :: date
+649     \textcolor{keywordtype}{integer} :: sizem
+650     \textcolor{comment}{!add new parameters to this search}
+651     \textcolor{keywordflow}{if} (parmkey%chars()==\textcolor{stringliteral}{"Integrator"}) \textcolor{keywordflow}{then}
+652         self%Integrator=parmvalue%to\_number(kind=1\_i1p)
+653         sizem=sizeof(self%Integrator)
+654     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"Threads"}) \textcolor{keywordflow}{then}
+655         \textcolor{keywordflow}{if} (parmvalue /= \textcolor{stringliteral}{'auto'}) \textcolor{keywordflow}{then}
+656             self%numOPMthreads=parmvalue%to\_number(kind=1\_i1p)
+657             \textcolor{keyword}{call }ompmanager%setThreads(self%numOPMthreads)
+658 \textcolor{keywordflow}{        end if}
+659         sizem=sizeof(self%WarmUpTime)
+660     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"WarmUpTime"}) \textcolor{keywordflow}{then}
+661         self%WarmUpTime=parmvalue%to\_number(kind=1.\_r4p)
+662         sizem=sizeof(self%WarmUpTime)
+663     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"TimeOut"}) \textcolor{keywordflow}{then}
+664         self%TimeOut=parmvalue%to\_number(kind=1.\_r4p)
+665         sizem=sizeof(self%TimeOut)
+666     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"StartTime"}) \textcolor{keywordflow}{then}
+667         date = utils%getDateFromISOString(parmvalue)
+668         self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+669         \textcolor{keywordflow}{if} (.not. self%StartTime%isValid()) self%StartTime = datetime()
+670         sizem=sizeof(self%StartTime)
+671     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"EndTime"}) \textcolor{keywordflow}{then}
+672         date = utils%getDateFromISOString(parmvalue)
+673         self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+674         \textcolor{keywordflow}{if} (.not. self%EndTime%isValid()) self%EndTime = datetime()
+675         sizem=sizeof(self%EndTime)
+676     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"BaseDateTime"}) \textcolor{keywordflow}{then}
+677         date = utils%getDateFromISOString(parmvalue)
+678         self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+679         \textcolor{keywordflow}{if} (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
+680         sizem=sizeof(self%BaseDateTime)
+681     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"OutputFormat"}) \textcolor{keywordflow}{then}
+682         self%OutputFormat=parmvalue%to\_number(kind=1\_i1p)
+683         sizem=sizeof(self%OutputFormat)
+684 \textcolor{keywordflow}{    end if}
+685     \textcolor{keyword}{call }simmemory%adddef(sizem)
+686 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}\label{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setrho@{setrho}}
+\index{setrho@{setrho}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setrho()}{setrho()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setrho (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+rho }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Rho\+\_\+\+Ref setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,read\+\_\+rho} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 806 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+806     \textcolor{keywordtype}{implicit none}
+807     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+808     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_rho
+809     \textcolor{keywordtype}{type}(string) :: outext
+810     \textcolor{keywordtype}{integer} :: sizem
+811     self%Rho\_ref=read\_rho%to\_number(kind=1.\_r4p)
+812     \textcolor{keywordflow}{if} (self%Rho\_ref.le.0.0) \textcolor{keywordflow}{then}
+813         outext=\textcolor{stringliteral}{'Rho\_ref must be positive and non-zero, stopping'}
+814         \textcolor{keyword}{call }log%put(outext)
+815         stop
+816 \textcolor{keywordflow}{    endif}
+817     sizem = sizeof(self%Rho\_ref)
+818     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_aefda4344f03a705055ad6cb97cb90c65}\label{namespacesimulationglobals__mod_aefda4344f03a705055ad6cb97cb90c65}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!settimedate@{settimedate}}
+\index{settimedate@{settimedate}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{settimedate()}{settimedate()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::settimedate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+initializes time stamp and date stamp variables 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 486 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+486     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+487     self%SimTime%TimeMax = self%Parameters%TimeMax
+488     self%SimTime%StartDate = self%Parameters%StartTime
+489     self%SimTime%EndDate = self%Parameters%EndTime
+490     self%SimTime%BaseDateTime = self%Parameters%BaseDateTime
+491     self%SimTime%CurrDate = self%SimTime%StartDate
+492     self%SimTime%CurrTime = 0
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a2c6fa0a9123d06b2110258ea200f4f52}\label{namespacesimulationglobals__mod_a2c6fa0a9123d06b2110258ea200f4f52}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setvarnames@{setvarnames}}
+\index{setvarnames@{setvarnames}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setvarnames()}{setvarnames()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setvarnames (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), intent(inout)}]{self,  }\item[{type(node), intent(in), pointer}]{var\+Node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+set the variables naming conventions. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 407 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+407     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+408     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: varNode
+409     \textcolor{keywordtype}{type}(string) :: tag
+410 
+411     tag=\textcolor{stringliteral}{"eastward\_sea\_water\_velocity"}
+412     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varnode)
+413     tag=\textcolor{stringliteral}{"northward\_sea\_water\_velocity"}
+414     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%v, self%Var%vVariants, varnode)
+415     tag=\textcolor{stringliteral}{"upward\_sea\_water\_velocity"}
+416     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%w, self%Var%wVariants, varnode)
+417     tag=\textcolor{stringliteral}{"sea\_water\_temperature"}
+418     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varnode)
+419     tag=\textcolor{stringliteral}{"sea\_water\_salinity"}
+420     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%sal, self%Var%salVariants, varnode)
+421 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a36c2833caae3767434115cc966fe2c5d}\label{namespacesimulationglobals__mod_a36c2833caae3767434115cc966fe2c5d}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setz0@{setz0}}
+\index{setz0@{setz0}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setz0()}{setz0()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setz0 (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+z0 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Z0 setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,read\+\_\+z0} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 790 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+790     \textcolor{keywordtype}{implicit none}
+791     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+792     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_z0
+793     \textcolor{keywordtype}{integer} :: sizem
+794     self%Z0=read\_z0%to\_number(kind=1.\_r4p)
+795     sizem = sizeof(self%Z0)
+796     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_acf1e2786d81bd0fe337a8458efce8733}\label{namespacesimulationglobals__mod_acf1e2786d81bd0fe337a8458efce8733}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!globals@{globals}}
+\index{globals@{globals}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{globals}{globals}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), public simulationglobals\+\_\+mod\+::globals}
+
+
+
+Definition at line 185 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+185     \textcolor{keywordtype}{type}(globals\_class) :: Globals
+\end{DoxyCode}

@@ -1,0 +1,54 @@
+\hypertarget{namespacesimulationinputstreamer__mod}{}\section{simulationinputstreamer\+\_\+mod Module Reference}
+\label{namespacesimulationinputstreamer__mod}\index{simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}}
+
+
+Defines an input file reader class with an object exposable to the Simulation This class is in charge of selectig the correct reader for the selected input file format and controling the respective reader.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{input\+\_\+streamer\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}{initinputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Initializes the Input writer object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines an input file reader class with an object exposable to the Simulation This class is in charge of selectig the correct reader for the selected input file format and controling the respective reader. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}\label{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}} 
+\index{simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}!initinputstreamer@{initinputstreamer}}
+\index{initinputstreamer@{initinputstreamer}!simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{initinputstreamer()}{initinputstreamer()}}
+{\footnotesize\ttfamily subroutine simulationinputstreamer\+\_\+mod\+::initinputstreamer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{input\+\_\+streamer\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes the Input writer object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 45 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+45     \textcolor{keywordtype}{class}(input\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+46     self%InputFormat = globals%Parameters%InputFormat
+47     \textcolor{keywordflow}{if} (self%InputFormat == 1) \textcolor{keywordflow}{then}
+48         \textcolor{comment}{!initialize netcdf reader class}
+49 
+50 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}

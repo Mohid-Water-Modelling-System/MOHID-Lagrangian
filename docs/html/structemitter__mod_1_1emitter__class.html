@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -112,12 +112,10 @@ Collaboration diagram for emitter_mod::emitter_class:</div>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:acd215b2680677e298267c5940f0cf79b"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#acd215b2680677e298267c5940f0cf79b">initialize</a> =&gt; initializeEmitter</td></tr>
 <tr class="separator:acd215b2680677e298267c5940f0cf79b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a162685b7b0bf96b555fee37e129c9783"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#a162685b7b0bf96b555fee37e129c9783">addsource</a></td></tr>
-<tr class="separator:a162685b7b0bf96b555fee37e129c9783"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a277317a5cca4d7679d0e77edd350ef79"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#a277317a5cca4d7679d0e77edd350ef79">removesource</a></td></tr>
-<tr class="separator:a277317a5cca4d7679d0e77edd350ef79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac33721448c01508a8e8c486cd7a76b65"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#ac33721448c01508a8e8c486cd7a76b65">emitt</a></td></tr>
 <tr class="separator:ac33721448c01508a8e8c486cd7a76b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add0931d8dbc76013de6ca81660639835"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#add0931d8dbc76013de6ca81660639835">emitt_src</a></td></tr>
+<tr class="separator:add0931d8dbc76013de6ca81660639835"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35d90033d453c725390c4532cc8231f7"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#a35d90033d453c725390c4532cc8231f7">tracermaker</a></td></tr>
 <tr class="separator:a35d90033d453c725390c4532cc8231f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -126,41 +124,11 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aa8f56d34f32e452a2e78f93f44780b4b"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#aa8f56d34f32e452a2e78f93f44780b4b">emitted</a></td></tr>
 <tr class="memdesc:aa8f56d34f32e452a2e78f93f44780b4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of Tracers this Emitter has created  <a href="#aa8f56d34f32e452a2e78f93f44780b4b">More...</a><br /></td></tr>
 <tr class="separator:aa8f56d34f32e452a2e78f93f44780b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a201a8b070193b7217c5a5c8973d76cd6"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structemitter__mod_1_1emitter__class.html#a201a8b070193b7217c5a5c8973d76cd6">emittable</a></td></tr>
-<tr class="memdesc:a201a8b070193b7217c5a5c8973d76cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of Tracers this Emitter should create throughout the simulation  <a href="#a201a8b070193b7217c5a5c8973d76cd6">More...</a><br /></td></tr>
-<tr class="separator:a201a8b070193b7217c5a5c8973d76cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00032">32</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a162685b7b0bf96b555fee37e129c9783"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a162685b7b0bf96b555fee37e129c9783">&#9670;&nbsp;</a></span>addsource()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">procedure emitter_mod::emitter_class::addsource </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00037">37</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-
-</div>
-</div>
 <a id="ac33721448c01508a8e8c486cd7a76b65"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac33721448c01508a8e8c486cd7a76b65">&#9670;&nbsp;</a></span>emitt()</h2>
 
@@ -184,7 +152,34 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00039">39</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00036">36</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+
+</div>
+</div>
+<a id="add0931d8dbc76013de6ca81660639835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add0931d8dbc76013de6ca81660639835">&#9670;&nbsp;</a></span>emitt_src()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure emitter_mod::emitter_class::emitt_src </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00037">37</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
 
 </div>
 </div>
@@ -211,34 +206,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00036">36</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-
-</div>
-</div>
-<a id="a277317a5cca4d7679d0e77edd350ef79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a277317a5cca4d7679d0e77edd350ef79">&#9670;&nbsp;</a></span>removesource()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">procedure emitter_mod::emitter_class::removesource </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00038">38</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00035">35</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
 
 </div>
 </div>
@@ -265,37 +233,11 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00040">40</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00038">38</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a201a8b070193b7217c5a5c8973d76cd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a201a8b070193b7217c5a5c8973d76cd6">&#9670;&nbsp;</a></span>emittable</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">integer emitter_mod::emitter_class::emittable</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>number of Tracers this Emitter should create throughout the simulation </p>
-
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00034">34</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">integer</span> :: emittable</div></div><!-- fragment -->
-</div>
-</div>
 <a id="aa8f56d34f32e452a2e78f93f44780b4b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa8f56d34f32e452a2e78f93f44780b4b">&#9670;&nbsp;</a></span>emitted</h2>
 
@@ -323,7 +265,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="emitter_8f90_source.html">emitter.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="emitter_8f90_source.html">emitter.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

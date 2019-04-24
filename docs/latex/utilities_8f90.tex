@@ -1,5 +1,10 @@
-\hypertarget{utilities_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/utilities.f90 File Reference}
-\label{utilities_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/utilities.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/utilities.\+f90}}
+\hypertarget{utilities_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/utilities.f90 File Reference}
+\label{utilities_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/utilities.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/utilities.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structutilities__mod_1_1utils__class}{utilities\+\_\+mod\+::utils\+\_\+class}}
+\end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
 \item 
@@ -8,11 +13,22 @@ module \mbox{\hyperlink{namespaceutilities__mod}{utilities\+\_\+mod}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-type(vector) function, public \mbox{\hyperlink{namespaceutilities__mod_a415de70150d626b1e8c6e0c8c0e09e8b}{utilities\+\_\+mod\+::geo2m}} (geovec, lat)
-\begin{DoxyCompactList}\small\item\em Public function that returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
-type(vector) function, public \mbox{\hyperlink{namespaceutilities__mod_ac4f9ec7e3dc3683a4e79e462d89a90b9}{utilities\+\_\+mod\+::m2geo}} (mvec, lat)
-\begin{DoxyCompactList}\small\item\em Public function that returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
-character(\+:) function, allocatable, public \mbox{\hyperlink{namespaceutilities__mod_ab414aa8d1299fc8dfb5941113d050dd3}{utilities\+\_\+mod\+::int2str}} (fmt, i)
-\begin{DoxyCompactList}\small\item\em Public function that returns a zero paded string from an integer number and a format descriptor. \end{DoxyCompactList}\item 
-real(prec) function, public \mbox{\hyperlink{namespaceutilities__mod_a683f93677348e11d331c1c37c66caf7a}{utilities\+\_\+mod\+::get\+\_\+closest\+\_\+twopow}} (num)
-\begin{DoxyCompactList}\small\item\em Public function that returns the closest power of 2 or a given real number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+integer function, dimension(6) \mbox{\hyperlink{namespaceutilities__mod_ab5b97f243f9347a40db76d55509d37ca}{utilities\+\_\+mod\+::getdatefromisostring}} (self, date\+Str)
+\begin{DoxyCompactList}\small\item\em Function that returns an integer array of type (year, month, day, hour, minute, second) from an I\+SO date string. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespaceutilities__mod_ad446cce78a6509db0e839439a0e84564}{utilities\+\_\+mod\+::find\+\_\+str}} (self, str\+\_\+array, str, mandatory)
+\begin{DoxyCompactList}\small\item\em returns the index of a given string in an array of strings. Has optional mandatory flag. \end{DoxyCompactList}\item 
+type(vector) function \mbox{\hyperlink{namespaceutilities__mod_ad6e463f7e5fc49fe4fcd5464326ade01}{utilities\+\_\+mod\+::geo2m}} (self, geovec, lat)
+\begin{DoxyCompactList}\small\item\em Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
+type(vector) function \mbox{\hyperlink{namespaceutilities__mod_a70b21b18c8633b7fd4c3057530d3f16f}{utilities\+\_\+mod\+::m2geo\+\_\+vec}} (self, mvec, lat)
+\begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(mvec)) \mbox{\hyperlink{namespaceutilities__mod_ae6b8a45b229e3f1f8c2b12dd74e7a2dd}{utilities\+\_\+mod\+::m2geo\+\_\+comp}} (self, mvec, lat, component)
+\begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
+character(\+:) function, allocatable \mbox{\hyperlink{namespaceutilities__mod_a6ba00b0a503f26c7e755d1efbbe83c5b}{utilities\+\_\+mod\+::int2str}} (self, fmt, i)
+\begin{DoxyCompactList}\small\item\em Returns a zero paded string from an integer number and a format descriptor. \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespaceutilities__mod_a164054d89c012d95f63c12a6cc0ac8d7}{utilities\+\_\+mod\+::get\+\_\+closest\+\_\+twopow}} (self, num)
+\begin{DoxyCompactList}\small\item\em Returns the closest power of 2 or a given real number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(utils\+\_\+class), public \mbox{\hyperlink{namespaceutilities__mod_aa12c2506b3107528a2511d059186f12d}{utilities\+\_\+mod\+::utils}}
+\end{DoxyCompactItemize}

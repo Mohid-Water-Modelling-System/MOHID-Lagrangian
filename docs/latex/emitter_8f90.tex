@@ -1,5 +1,5 @@
-\hypertarget{emitter_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/emitter.f90 File Reference}
-\label{emitter_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/emitter.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/emitter.\+f90}}
+\hypertarget{emitter_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/emitter.f90 File Reference}
+\label{emitter_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/emitter.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/emitter.\+f90}}
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -15,11 +15,9 @@ module \mbox{\hyperlink{namespaceemitter__mod}{emitter\+\_\+mod}}
 \item 
 subroutine \mbox{\hyperlink{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}{emitter\+\_\+mod\+::initializeemitter}} (self)
 \begin{DoxyCompactList}\small\item\em method that initializes an emmiter class object. Sets default values \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceemitter__mod_ab704fb0e2eb9b3b4b9542706b6fb4eaf}{emitter\+\_\+mod\+::addsource}} (self, src)
-\begin{DoxyCompactList}\small\item\em method to compute the total emittable particles per source and allocate that space in the Blocks Tracer array \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceemitter__mod_a49b704640270da1c4fad50fcd5374376}{emitter\+\_\+mod\+::removesource}} (self, src)
-\begin{DoxyCompactList}\small\item\em method to remove from the total emittable particles count a Source \end{DoxyCompactList}\item 
-subroutine class(source\+\_\+class), intent(inout) \mbox{\hyperlink{namespaceemitter__mod_ae620ebb6a0515272d2f3aa12a88e983a}{emitter\+\_\+mod\+::emitt}} (self, src, trclist)
-\begin{DoxyCompactList}\small\item\em method that emitts the Tracers, based on the Sources on this Block Emitter \end{DoxyCompactList}\item 
+subroutine class(sourcelist\+\_\+class), intent(inout) \mbox{\hyperlink{namespaceemitter__mod_a5127564ae5d2f00d214c1518ac420da7}{emitter\+\_\+mod\+::emitt}} (self, srclist, trclist)
+\begin{DoxyCompactList}\small\item\em method that emitts the Tracers, based on the Sources on the list of the Emitter\textquotesingle{}s Block \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceemitter__mod_a942679c07927fa594173fdd02da38922}{emitter\+\_\+mod\+::emitt\+\_\+src}} (self, src, trclist)
+\begin{DoxyCompactList}\small\item\em method that emitts the Tracers, given a particular Source \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceemitter__mod_aee7b24637d2249727bccab333e062516}{emitter\+\_\+mod\+::tracermaker}} (self, trc, src, p)
 \begin{DoxyCompactList}\small\item\em method that calls the corresponding Tracer constructor, depending on the requested type from the emitting Source \end{DoxyCompactList}\end{DoxyCompactItemize}

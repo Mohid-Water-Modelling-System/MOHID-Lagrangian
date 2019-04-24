@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/solver.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/solver.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -121,12 +121,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ab87d71c6c8aa1709901ec14f9bf12505"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#ab87d71c6c8aa1709901ec14f9bf12505">solver_mod::runstep</a> (self, aot, bdata, time, dt)</td></tr>
 <tr class="memdesc:ab87d71c6c8aa1709901ec14f9bf12505"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, according to the selected integration algorithm.  <a href="namespacesolver__mod.html#ab87d71c6c8aa1709901ec14f9bf12505">More...</a><br /></td></tr>
 <tr class="separator:ab87d71c6c8aa1709901ec14f9bf12505"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91ddfd70d0f6d65b00fe6b08f4113cd6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#a91ddfd70d0f6d65b00fe6b08f4113cd6">solver_mod::runstepsymplectic</a> (self, aot, bdata, time, dt)</td></tr>
-<tr class="memdesc:a91ddfd70d0f6d65b00fe6b08f4113cd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, using a Symplectic integration algorithm. This is a predictor-corrector type explicit scheme with excelent conservation properties and average cost.  <a href="namespacesolver__mod.html#a91ddfd70d0f6d65b00fe6b08f4113cd6">More...</a><br /></td></tr>
-<tr class="separator:a91ddfd70d0f6d65b00fe6b08f4113cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf893016edd8e0eb4bc77666aed1096f"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#acf893016edd8e0eb4bc77666aed1096f">solver_mod::runstepverlet</a> (self, aot, bdata, time, dt)</td></tr>
-<tr class="memdesc:acf893016edd8e0eb4bc77666aed1096f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, using a Velocity Verlet integration algorithm. This is a one-shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements \( {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}\) \( {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t\).  <a href="namespacesolver__mod.html#acf893016edd8e0eb4bc77666aed1096f">More...</a><br /></td></tr>
-<tr class="separator:acf893016edd8e0eb4bc77666aed1096f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c6bb2899a5ce28d6b63f1d0e67d2b92"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#a1c6bb2899a5ce28d6b63f1d0e67d2b92">solver_mod::runstepeuler</a> (self, aot, bdata, time, dt)</td></tr>
+<tr class="memdesc:a1c6bb2899a5ce28d6b63f1d0e67d2b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, using a Velocity Euler integration algorithm. This is a one-shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements \( {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}\) \( {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t\).  <a href="namespacesolver__mod.html#a1c6bb2899a5ce28d6b63f1d0e67d2b92">More...</a><br /></td></tr>
+<tr class="separator:a1c6bb2899a5ce28d6b63f1d0e67d2b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a799bf8b0b57a431b29c8dbeef9be6e48"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#a799bf8b0b57a431b29c8dbeef9be6e48">solver_mod::runstepmseuler</a> (self, aot, bdata, time, dt)</td></tr>
+<tr class="memdesc:a799bf8b0b57a431b29c8dbeef9be6e48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, using a Multi-Step Euler integration algorithm. This is a predictor-corrector type explicit scheme with excelent conservation properties and average cost.  <a href="namespacesolver__mod.html#a799bf8b0b57a431b29c8dbeef9be6e48">More...</a><br /></td></tr>
+<tr class="separator:a799bf8b0b57a431b29c8dbeef9be6e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae59da54f053ae369d76f130b3790f3b7"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#ae59da54f053ae369d76f130b3790f3b7">solver_mod::runsteprk4</a> (self, aot, bdata, time, dt)</td></tr>
 <tr class="memdesc:ae59da54f053ae369d76f130b3790f3b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, using a Runge-Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost.  <a href="namespacesolver__mod.html#ae59da54f053ae369d76f130b3790f3b7">More...</a><br /></td></tr>
 <tr class="separator:ae59da54f053ae369d76f130b3790f3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,7 +142,7 @@ Functions/Subroutines</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="solver_8f90.html">solver.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="solver_8f90.html">solver.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

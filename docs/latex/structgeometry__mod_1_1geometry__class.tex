@@ -16,6 +16,8 @@ procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a97a9a90ff4143
 \begin{DoxyCompactList}\small\item\em Builds the geometry list, possible geometry types (new types must be manually added) \end{DoxyCompactList}\item 
 procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a6dfcc19f822da875bebc58c3bf26e999}{inlist}}
 \begin{DoxyCompactList}\small\item\em checks if a given geometry is defined as a derived type (new types must be manually added) \end{DoxyCompactList}\item 
+procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a435975f73e28fc8c9f04b47c390cb089}{allocateshape}}
+\begin{DoxyCompactList}\small\item\em Returns allocated Shape with a specific shape given a name. \end{DoxyCompactList}\item 
 procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}{fillsize}}
 \begin{DoxyCompactList}\small\item\em Gets the number of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) \end{DoxyCompactList}\item 
 procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}{fill}}
@@ -43,6 +45,20 @@ Definition at line 33 of file geometry.\+f90.
 
 
 \subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a435975f73e28fc8c9f04b47c390cb089}\label{structgeometry__mod_1_1geometry__class_a435975f73e28fc8c9f04b47c390cb089}} 
+\index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!allocateshape@{allocateshape}}
+\index{allocateshape@{allocateshape}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
+\subsubsection{\texorpdfstring{allocateshape()}{allocateshape()}}
+{\footnotesize\ttfamily procedure geometry\+\_\+mod\+::geometry\+\_\+class\+::allocateshape (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns allocated Shape with a specific shape given a name. 
+
+
+
+Definition at line 38 of file geometry.\+f90.
+
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}\label{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!fill@{fill}}
 \index{fill@{fill}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
@@ -55,7 +71,7 @@ Gets the list of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp
 
 
 
-Definition at line 39 of file geometry.\+f90.
+Definition at line 40 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}\label{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!fillsize@{fillsize}}
@@ -69,7 +85,7 @@ Gets the number of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::
 
 
 
-Definition at line 38 of file geometry.\+f90.
+Definition at line 39 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a691891378a677185f2f13e736f68ff11}\label{structgeometry__mod_1_1geometry__class_a691891378a677185f2f13e736f68ff11}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!getcenter@{getcenter}}
@@ -83,7 +99,7 @@ Function that retuns the shape baricenter.
 
 
 
-Definition at line 40 of file geometry.\+f90.
+Definition at line 41 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a8988388d683fbf7e5727a39b71d3c479}\label{structgeometry__mod_1_1geometry__class_a8988388d683fbf7e5727a39b71d3c479}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!getnumpoints@{getnumpoints}}
@@ -97,7 +113,7 @@ Function that returns the number of points (vertexes) that define the geometrica
 
 
 
-Definition at line 42 of file geometry.\+f90.
+Definition at line 43 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a4dd64d46f41c5c429a0b2b88250fa04e}\label{structgeometry__mod_1_1geometry__class_a4dd64d46f41c5c429a0b2b88250fa04e}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!getpoints@{getpoints}}
@@ -111,7 +127,7 @@ Function that retuns the points (vertexes) that define the geometrical shape.
 
 
 
-Definition at line 41 of file geometry.\+f90.
+Definition at line 42 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}\label{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!initialize@{initialize}}
@@ -153,7 +169,7 @@ prints the geometry type and contents
 
 
 
-Definition at line 43 of file geometry.\+f90.
+Definition at line 44 of file geometry.\+f90.
 
 
 
@@ -180,4 +196,4 @@ Definition at line 34 of file geometry.\+f90.
 
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{geometry_8f90}{geometry.\+f90}}\end{DoxyCompactItemize}
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{geometry_8f90}{geometry.\+f90}}\end{DoxyCompactItemize}

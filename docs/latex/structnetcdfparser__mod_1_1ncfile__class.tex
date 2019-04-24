@@ -1,0 +1,324 @@
+\hypertarget{structnetcdfparser__mod_1_1ncfile__class}{}\section{netcdfparser\+\_\+mod\+:\+:ncfile\+\_\+class Type Reference}
+\label{structnetcdfparser__mod_1_1ncfile__class}\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+
+
+A class that models a netcdf file.  
+
+
+
+
+Collaboration diagram for netcdfparser\+\_\+mod\+:\+:ncfile\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{structnetcdfparser__mod_1_1ncfile__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a5f736ec85f6aff6ea52407d3f47cd4a1}{initialize}} =$>$ get\+File
+\item 
+procedure \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a6d381b153b3aca351ddafc042834a96b}{getvardimensions}}
+\item 
+procedure \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a616823bed0c99a683741ce8398898b72}{getvar}}
+\item 
+procedure \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a62c3404b0742346374753743e349e6f1}{finalize}} =$>$ close\+File
+\item 
+procedure, private \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a2b41dc377688a881f9252bd4fc09bec9}{check}}
+\item 
+procedure, private \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a78eb48e6493c1f48f44b89517addf2bc}{getncid}}
+\item 
+procedure, private \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a8fc97bc9b7ed5f74d29436dfc527d6e2}{getncglobalmetadata}}
+\item 
+procedure, private \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_aace24549667b19d98fd2220684e34b64}{getncdimmetadata}}
+\item 
+procedure, private \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a87e2ab9be12dd33782a39be6103c05b4}{getncvarmetadata}}
+\item 
+procedure, private \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a3d0ee52a9df4b11f8566592fa283202a}{getdimbydimid}}
+\item 
+procedure \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_af7aae078c0672cbfe8e6667311a94dcd}{print}} =$>$ print\+Nc\+Info
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+type(string) \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_ae3784734e7d33f1c44284a489dc18b8e}{filename}}
+\begin{DoxyCompactList}\small\item\em name of the file to read \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_aebae7955a6afd3914e32076d4e60b28d}{ncid}}
+\begin{DoxyCompactList}\small\item\em ID of the file. \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a0edd626e9b8aa88287846fdba796df6b}{ndims}}
+\item 
+integer \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a108ff95589ac0afa4a3ebcfdd178c4f8}{nvars}}
+\item 
+integer \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a79568f0aae456c7a278c44a767a7be11}{natt}}
+\item 
+integer \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a4ecd4e68d99de349ac131df9572b5738}{udimid}}
+\begin{DoxyCompactList}\small\item\em number of dimensions, variables, attributes and dim I\+Ds on the file \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{dim\+\_\+t}}), dimension(\+:), allocatable \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_a4dd2f6e32f04a63ad8c3303d76dab84f}{dimdata}}
+\begin{DoxyCompactList}\small\item\em metadata from the dimensions on the file \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structnetcdfparser__mod_1_1var__t}{var\+\_\+t}}), dimension(\+:), allocatable \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_af4da1e5ae03037a7a8a8543713dcb8cd}{vardata}}
+\begin{DoxyCompactList}\small\item\em metadata from the variables on the file \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class_ad5ca70c79d7fb287890f7c0cda5a222c}{status}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class that models a netcdf file. 
+
+Definition at line 68 of file netcdf\+Parser.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a2b41dc377688a881f9252bd4fc09bec9}\label{structnetcdfparser__mod_1_1ncfile__class_a2b41dc377688a881f9252bd4fc09bec9}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!check@{check}}
+\index{check@{check}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{check()}{check()}}
+{\footnotesize\ttfamily procedure, private netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::check (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 80 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a62c3404b0742346374753743e349e6f1}\label{structnetcdfparser__mod_1_1ncfile__class_a62c3404b0742346374753743e349e6f1}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!finalize@{finalize}}
+\index{finalize@{finalize}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily procedure netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 79 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a3d0ee52a9df4b11f8566592fa283202a}\label{structnetcdfparser__mod_1_1ncfile__class_a3d0ee52a9df4b11f8566592fa283202a}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!getdimbydimid@{getdimbydimid}}
+\index{getdimbydimid@{getdimbydimid}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{getdimbydimid()}{getdimbydimid()}}
+{\footnotesize\ttfamily procedure, private netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::getdimbydimid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 85 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_aace24549667b19d98fd2220684e34b64}\label{structnetcdfparser__mod_1_1ncfile__class_aace24549667b19d98fd2220684e34b64}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!getncdimmetadata@{getncdimmetadata}}
+\index{getncdimmetadata@{getncdimmetadata}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{getncdimmetadata()}{getncdimmetadata()}}
+{\footnotesize\ttfamily procedure, private netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::getncdimmetadata (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 83 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a8fc97bc9b7ed5f74d29436dfc527d6e2}\label{structnetcdfparser__mod_1_1ncfile__class_a8fc97bc9b7ed5f74d29436dfc527d6e2}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!getncglobalmetadata@{getncglobalmetadata}}
+\index{getncglobalmetadata@{getncglobalmetadata}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{getncglobalmetadata()}{getncglobalmetadata()}}
+{\footnotesize\ttfamily procedure, private netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::getncglobalmetadata (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 82 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a78eb48e6493c1f48f44b89517addf2bc}\label{structnetcdfparser__mod_1_1ncfile__class_a78eb48e6493c1f48f44b89517addf2bc}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!getncid@{getncid}}
+\index{getncid@{getncid}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{getncid()}{getncid()}}
+{\footnotesize\ttfamily procedure, private netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::getncid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 81 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a87e2ab9be12dd33782a39be6103c05b4}\label{structnetcdfparser__mod_1_1ncfile__class_a87e2ab9be12dd33782a39be6103c05b4}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!getncvarmetadata@{getncvarmetadata}}
+\index{getncvarmetadata@{getncvarmetadata}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{getncvarmetadata()}{getncvarmetadata()}}
+{\footnotesize\ttfamily procedure, private netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::getncvarmetadata (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 84 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a616823bed0c99a683741ce8398898b72}\label{structnetcdfparser__mod_1_1ncfile__class_a616823bed0c99a683741ce8398898b72}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!getvar@{getvar}}
+\index{getvar@{getvar}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{getvar()}{getvar()}}
+{\footnotesize\ttfamily procedure netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::getvar (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 78 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a6d381b153b3aca351ddafc042834a96b}\label{structnetcdfparser__mod_1_1ncfile__class_a6d381b153b3aca351ddafc042834a96b}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!getvardimensions@{getvardimensions}}
+\index{getvardimensions@{getvardimensions}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{getvardimensions()}{getvardimensions()}}
+{\footnotesize\ttfamily procedure netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::getvardimensions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 77 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a5f736ec85f6aff6ea52407d3f47cd4a1}\label{structnetcdfparser__mod_1_1ncfile__class_a5f736ec85f6aff6ea52407d3f47cd4a1}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!initialize@{initialize}}
+\index{initialize@{initialize}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 76 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_af7aae078c0672cbfe8e6667311a94dcd}\label{structnetcdfparser__mod_1_1ncfile__class_af7aae078c0672cbfe8e6667311a94dcd}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!print@{print}}
+\index{print@{print}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 86 of file netcdf\+Parser.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a4dd2f6e32f04a63ad8c3303d76dab84f}\label{structnetcdfparser__mod_1_1ncfile__class_a4dd2f6e32f04a63ad8c3303d76dab84f}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!dimdata@{dimdata}}
+\index{dimdata@{dimdata}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{dimdata}{dimdata}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{dim\+\_\+t}}), dimension(\+:), allocatable netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::dimdata\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+metadata from the dimensions on the file 
+
+
+
+Definition at line 72 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+72         \textcolor{keywordtype}{type}(dim\_t), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: dimData
+\end{DoxyCode}
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_ae3784734e7d33f1c44284a489dc18b8e}\label{structnetcdfparser__mod_1_1ncfile__class_ae3784734e7d33f1c44284a489dc18b8e}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!filename@{filename}}
+\index{filename@{filename}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{filename}{filename}}
+{\footnotesize\ttfamily type(string) netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::filename\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+name of the file to read 
+
+
+
+Definition at line 69 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+69         \textcolor{keywordtype}{type}(string) :: filename
+\end{DoxyCode}
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a79568f0aae456c7a278c44a767a7be11}\label{structnetcdfparser__mod_1_1ncfile__class_a79568f0aae456c7a278c44a767a7be11}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!natt@{natt}}
+\index{natt@{natt}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{natt}{natt}}
+{\footnotesize\ttfamily integer netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::natt\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 71 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_aebae7955a6afd3914e32076d4e60b28d}\label{structnetcdfparser__mod_1_1ncfile__class_aebae7955a6afd3914e32076d4e60b28d}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!ncid@{ncid}}
+\index{ncid@{ncid}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{ncid}{ncid}}
+{\footnotesize\ttfamily integer netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::ncid\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+ID of the file. 
+
+
+
+Definition at line 70 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+70         \textcolor{keywordtype}{integer} :: ncID
+\end{DoxyCode}
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a0edd626e9b8aa88287846fdba796df6b}\label{structnetcdfparser__mod_1_1ncfile__class_a0edd626e9b8aa88287846fdba796df6b}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!ndims@{ndims}}
+\index{ndims@{ndims}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{ndims}{ndims}}
+{\footnotesize\ttfamily integer netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::ndims\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 71 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+71         \textcolor{keywordtype}{integer} :: nDims, nVars, nAtt, uDimID
+\end{DoxyCode}
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a108ff95589ac0afa4a3ebcfdd178c4f8}\label{structnetcdfparser__mod_1_1ncfile__class_a108ff95589ac0afa4a3ebcfdd178c4f8}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!nvars@{nvars}}
+\index{nvars@{nvars}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{nvars}{nvars}}
+{\footnotesize\ttfamily integer netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::nvars\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 71 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_ad5ca70c79d7fb287890f7c0cda5a222c}\label{structnetcdfparser__mod_1_1ncfile__class_ad5ca70c79d7fb287890f7c0cda5a222c}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!status@{status}}
+\index{status@{status}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{status}{status}}
+{\footnotesize\ttfamily integer netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::status\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 74 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+74         \textcolor{keywordtype}{integer} :: status
+\end{DoxyCode}
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_a4ecd4e68d99de349ac131df9572b5738}\label{structnetcdfparser__mod_1_1ncfile__class_a4ecd4e68d99de349ac131df9572b5738}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!udimid@{udimid}}
+\index{udimid@{udimid}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{udimid}{udimid}}
+{\footnotesize\ttfamily integer netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::udimid\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+number of dimensions, variables, attributes and dim I\+Ds on the file 
+
+
+
+Definition at line 71 of file netcdf\+Parser.\+f90.
+
+\mbox{\Hypertarget{structnetcdfparser__mod_1_1ncfile__class_af4da1e5ae03037a7a8a8543713dcb8cd}\label{structnetcdfparser__mod_1_1ncfile__class_af4da1e5ae03037a7a8a8543713dcb8cd}} 
+\index{netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}!vardata@{vardata}}
+\index{vardata@{vardata}!netcdfparser\+\_\+mod\+::ncfile\+\_\+class@{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\subsubsection{\texorpdfstring{vardata}{vardata}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structnetcdfparser__mod_1_1var__t}{var\+\_\+t}}), dimension(\+:), allocatable netcdfparser\+\_\+mod\+::ncfile\+\_\+class\+::vardata\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+metadata from the variables on the file 
+
+
+
+Definition at line 73 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+73         \textcolor{keywordtype}{type}(var\_t), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: varData
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{netcdf_parser_8f90}{netcdf\+Parser.\+f90}}\end{DoxyCompactItemize}

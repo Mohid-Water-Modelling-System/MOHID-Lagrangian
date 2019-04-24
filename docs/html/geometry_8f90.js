@@ -7,6 +7,7 @@ var geometry_8f90 =
     [ "sphere", "structgeometry__mod_1_1sphere.html", "structgeometry__mod_1_1sphere" ],
     [ "box", "structgeometry__mod_1_1box.html", "structgeometry__mod_1_1box" ],
     [ "allocatelist", "geometry_8f90.html#a1b6f259b0b6be71e02ffae7670f7d8ba", null ],
+    [ "allocateshape", "geometry_8f90.html#a571a294c2a1869259d21267005c32025", null ],
     [ "box_grid", "geometry_8f90.html#ae87e4ecff2d21a839da2b82919b5fd0b", null ],
     [ "fill", "geometry_8f90.html#a1d97564e04562532b5389bfb91aa676b", null ],
     [ "fillsize", "geometry_8f90.html#ad790edd694561b33dad20cfa3a14e8f2", null ],

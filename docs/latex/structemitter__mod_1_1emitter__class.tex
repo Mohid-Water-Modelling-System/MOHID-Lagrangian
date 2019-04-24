@@ -14,11 +14,9 @@ Collaboration diagram for emitter\+\_\+mod\+:\+:emitter\+\_\+class\+:\nopagebrea
 \item 
 procedure \mbox{\hyperlink{structemitter__mod_1_1emitter__class_acd215b2680677e298267c5940f0cf79b}{initialize}} =$>$ initialize\+Emitter
 \item 
-procedure \mbox{\hyperlink{structemitter__mod_1_1emitter__class_a162685b7b0bf96b555fee37e129c9783}{addsource}}
-\item 
-procedure \mbox{\hyperlink{structemitter__mod_1_1emitter__class_a277317a5cca4d7679d0e77edd350ef79}{removesource}}
-\item 
 procedure \mbox{\hyperlink{structemitter__mod_1_1emitter__class_ac33721448c01508a8e8c486cd7a76b65}{emitt}}
+\item 
+procedure \mbox{\hyperlink{structemitter__mod_1_1emitter__class_add0931d8dbc76013de6ca81660639835}{emitt\+\_\+src}}
 \item 
 procedure \mbox{\hyperlink{structemitter__mod_1_1emitter__class_a35d90033d453c725390c4532cc8231f7}{tracermaker}}
 \end{DoxyCompactItemize}
@@ -26,9 +24,7 @@ procedure \mbox{\hyperlink{structemitter__mod_1_1emitter__class_a35d90033d453c72
 \begin{DoxyCompactItemize}
 \item 
 integer \mbox{\hyperlink{structemitter__mod_1_1emitter__class_aa8f56d34f32e452a2e78f93f44780b4b}{emitted}}
-\begin{DoxyCompactList}\small\item\em number of Tracers this Emitter has created \end{DoxyCompactList}\item 
-integer \mbox{\hyperlink{structemitter__mod_1_1emitter__class_a201a8b070193b7217c5a5c8973d76cd6}{emittable}}
-\begin{DoxyCompactList}\small\item\em number of Tracers this Emitter should create throughout the simulation \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em number of Tracers this Emitter has created \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -39,16 +35,6 @@ Definition at line 32 of file emitter.\+f90.
 
 
 \subsection{Member Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{structemitter__mod_1_1emitter__class_a162685b7b0bf96b555fee37e129c9783}\label{structemitter__mod_1_1emitter__class_a162685b7b0bf96b555fee37e129c9783}} 
-\index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!addsource@{addsource}}
-\index{addsource@{addsource}!emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}}
-\subsubsection{\texorpdfstring{addsource()}{addsource()}}
-{\footnotesize\ttfamily procedure emitter\+\_\+mod\+::emitter\+\_\+class\+::addsource (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Definition at line 37 of file emitter.\+f90.
-
 \mbox{\Hypertarget{structemitter__mod_1_1emitter__class_ac33721448c01508a8e8c486cd7a76b65}\label{structemitter__mod_1_1emitter__class_ac33721448c01508a8e8c486cd7a76b65}} 
 \index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!emitt@{emitt}}
 \index{emitt@{emitt}!emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}}
@@ -57,7 +43,17 @@ Definition at line 37 of file emitter.\+f90.
 
 
 
-Definition at line 39 of file emitter.\+f90.
+Definition at line 36 of file emitter.\+f90.
+
+\mbox{\Hypertarget{structemitter__mod_1_1emitter__class_add0931d8dbc76013de6ca81660639835}\label{structemitter__mod_1_1emitter__class_add0931d8dbc76013de6ca81660639835}} 
+\index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!emitt\+\_\+src@{emitt\+\_\+src}}
+\index{emitt\+\_\+src@{emitt\+\_\+src}!emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}}
+\subsubsection{\texorpdfstring{emitt\+\_\+src()}{emitt\_src()}}
+{\footnotesize\ttfamily procedure emitter\+\_\+mod\+::emitter\+\_\+class\+::emitt\+\_\+src (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file emitter.\+f90.
 
 \mbox{\Hypertarget{structemitter__mod_1_1emitter__class_acd215b2680677e298267c5940f0cf79b}\label{structemitter__mod_1_1emitter__class_acd215b2680677e298267c5940f0cf79b}} 
 \index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!initialize@{initialize}}
@@ -67,17 +63,7 @@ Definition at line 39 of file emitter.\+f90.
 
 
 
-Definition at line 36 of file emitter.\+f90.
-
-\mbox{\Hypertarget{structemitter__mod_1_1emitter__class_a277317a5cca4d7679d0e77edd350ef79}\label{structemitter__mod_1_1emitter__class_a277317a5cca4d7679d0e77edd350ef79}} 
-\index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!removesource@{removesource}}
-\index{removesource@{removesource}!emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}}
-\subsubsection{\texorpdfstring{removesource()}{removesource()}}
-{\footnotesize\ttfamily procedure emitter\+\_\+mod\+::emitter\+\_\+class\+::removesource (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Definition at line 38 of file emitter.\+f90.
+Definition at line 35 of file emitter.\+f90.
 
 \mbox{\Hypertarget{structemitter__mod_1_1emitter__class_a35d90033d453c725390c4532cc8231f7}\label{structemitter__mod_1_1emitter__class_a35d90033d453c725390c4532cc8231f7}} 
 \index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!tracermaker@{tracermaker}}
@@ -87,29 +73,11 @@ Definition at line 38 of file emitter.\+f90.
 
 
 
-Definition at line 40 of file emitter.\+f90.
+Definition at line 38 of file emitter.\+f90.
 
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structemitter__mod_1_1emitter__class_a201a8b070193b7217c5a5c8973d76cd6}\label{structemitter__mod_1_1emitter__class_a201a8b070193b7217c5a5c8973d76cd6}} 
-\index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!emittable@{emittable}}
-\index{emittable@{emittable}!emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}}
-\subsubsection{\texorpdfstring{emittable}{emittable}}
-{\footnotesize\ttfamily integer emitter\+\_\+mod\+::emitter\+\_\+class\+::emittable\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-number of Tracers this Emitter should create throughout the simulation 
-
-
-
-Definition at line 34 of file emitter.\+f90.
-
-
-\begin{DoxyCode}
-34         \textcolor{keywordtype}{integer} :: emittable
-\end{DoxyCode}
 \mbox{\Hypertarget{structemitter__mod_1_1emitter__class_aa8f56d34f32e452a2e78f93f44780b4b}\label{structemitter__mod_1_1emitter__class_aa8f56d34f32e452a2e78f93f44780b4b}} 
 \index{emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}!emitted@{emitted}}
 \index{emitted@{emitted}!emitter\+\_\+mod\+::emitter\+\_\+class@{emitter\+\_\+mod\+::emitter\+\_\+class}}
@@ -132,4 +100,4 @@ Definition at line 33 of file emitter.\+f90.
 
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{emitter_8f90}{emitter.\+f90}}\end{DoxyCompactItemize}
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{emitter_8f90}{emitter.\+f90}}\end{DoxyCompactItemize}

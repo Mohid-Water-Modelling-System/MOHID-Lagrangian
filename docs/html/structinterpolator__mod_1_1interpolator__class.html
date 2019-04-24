@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -112,12 +112,18 @@ Collaboration diagram for interpolator_mod::interpolator_class:</div>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a1080aca342174069db9c5639853d5dc0"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#a1080aca342174069db9c5639853d5dc0">run</a></td></tr>
 <tr class="separator:a1080aca342174069db9c5639853d5dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad95ae9cbdbc00c17ef2c463b58e23678"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#ad95ae9cbdbc00c17ef2c463b58e23678">getarraycoordregular</a></td></tr>
+<tr class="separator:ad95ae9cbdbc00c17ef2c463b58e23678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab712786f431ad1f76e5a48cbf4812083"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#ab712786f431ad1f76e5a48cbf4812083">getpointcoordregular</a></td></tr>
+<tr class="separator:ab712786f431ad1f76e5a48cbf4812083"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6911f5a4e2cbe3fcd8fbfce906429436"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#a6911f5a4e2cbe3fcd8fbfce906429436">initialize</a> =&gt; initInterpolator</td></tr>
 <tr class="separator:a6911f5a4e2cbe3fcd8fbfce906429436"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b3112a37f09901a223d8cc3d81be4dd"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#a4b3112a37f09901a223d8cc3d81be4dd">print</a> =&gt; printInterpolator</td></tr>
 <tr class="separator:a4b3112a37f09901a223d8cc3d81be4dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ee1db117f9411f5969b139499bd61ea"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#a5ee1db117f9411f5969b139499bd61ea">interp4d</a></td></tr>
-<tr class="separator:a5ee1db117f9411f5969b139499bd61ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13fd2e0a083654c0c3961bccd2e39f3a"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#a13fd2e0a083654c0c3961bccd2e39f3a">test4d</a></td></tr>
+<tr class="separator:a13fd2e0a083654c0c3961bccd2e39f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a150485e59a4b0edc41e730c116a37073"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterpolator__mod_1_1interpolator__class.html#a150485e59a4b0edc41e730c116a37073">interp4d</a></td></tr>
+<tr class="separator:a150485e59a4b0edc41e730c116a37073"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -132,6 +138,60 @@ Private Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00029">29</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a id="ad95ae9cbdbc00c17ef2c463b58e23678"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad95ae9cbdbc00c17ef2c463b58e23678">&#9670;&nbsp;</a></span>getarraycoordregular()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure interpolator_mod::interpolator_class::getarraycoordregular </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00034">34</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
+
+</div>
+</div>
+<a id="ab712786f431ad1f76e5a48cbf4812083"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab712786f431ad1f76e5a48cbf4812083">&#9670;&nbsp;</a></span>getpointcoordregular()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure interpolator_mod::interpolator_class::getpointcoordregular </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00035">35</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
+
+</div>
+</div>
 <a id="a6911f5a4e2cbe3fcd8fbfce906429436"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6911f5a4e2cbe3fcd8fbfce906429436">&#9670;&nbsp;</a></span>initialize()</h2>
 
@@ -155,12 +215,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00034">34</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00036">36</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
 
 </div>
 </div>
-<a id="a5ee1db117f9411f5969b139499bd61ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ee1db117f9411f5969b139499bd61ea">&#9670;&nbsp;</a></span>interp4d()</h2>
+<a id="a150485e59a4b0edc41e730c116a37073"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a150485e59a4b0edc41e730c116a37073">&#9670;&nbsp;</a></span>interp4d()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -169,7 +229,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">procedure interpolator_mod::interpolator_class::interp4d </td>
+          <td class="memname">procedure, private interpolator_mod::interpolator_class::interp4d </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -182,7 +242,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00036">36</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00039">39</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
 
 </div>
 </div>
@@ -209,7 +269,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00035">35</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00037">37</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
 
 </div>
 </div>
@@ -237,6 +297,33 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00033">33</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
+
+</div>
+</div>
+<a id="a13fd2e0a083654c0c3961bccd2e39f3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13fd2e0a083654c0c3961bccd2e39f3a">&#9670;&nbsp;</a></span>test4d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure interpolator_mod::interpolator_class::test4d </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="interpolator_8f90_source.html#l00038">38</a> of file <a class="el" href="interpolator_8f90_source.html">interpolator.f90</a>.</p>
 
 </div>
 </div>
@@ -294,7 +381,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="interpolator_8f90_source.html">interpolator.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="interpolator_8f90_source.html">interpolator.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

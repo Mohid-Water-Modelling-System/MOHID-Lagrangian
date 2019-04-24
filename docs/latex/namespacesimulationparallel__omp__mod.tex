@@ -1,0 +1,166 @@
+\hypertarget{namespacesimulationparallel__omp__mod}{}\section{simulationparallel\+\_\+omp\+\_\+mod Module Reference}
+\label{namespacesimulationparallel__omp__mod}\index{simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}}
+
+
+Module that defines a timer class using the O\+MP timer function to get the wall time. A\+PI supports accumulation, several start-\/stop cycles and printing.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{parallel\+\_\+omp\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationparallel__omp__mod_a43af0d6de562e53dfbaa874bce957ba9}{initompmanager}} (this)
+\begin{DoxyCompactList}\small\item\em Method that initializes an omp data manager object. Sets the number of threads as the maximum given by the system. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationparallel__omp__mod_ac5d0e4616b102fc7f4edddf8285fb61f}{setthreads}} (this, tvalue)
+\begin{DoxyCompactList}\small\item\em Method that sets the number of threads to the given value. Checks for the maximum admissible number of threads. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationparallel__omp__mod_af3219ed75e38a01f71255314b2cd9eee}{getmaxthreads}} (this)
+\begin{DoxyCompactList}\small\item\em Returns the maximum number of O\+MP threads as given by the system. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationparallel__omp__mod_a1f07ce2cf6390af06c3478e6271644e5}{getthreads}} (this)
+\begin{DoxyCompactList}\small\item\em Returns the set number of O\+MP threads for the simulation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{parallel\+\_\+omp\+\_\+class}}), public \mbox{\hyperlink{namespacesimulationparallel__omp__mod_abc49bae2a6d752c9868b8b7bd233e740}{ompmanager}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a timer class using the O\+MP timer function to get the wall time. A\+PI supports accumulation, several start-\/stop cycles and printing. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationparallel__omp__mod_af3219ed75e38a01f71255314b2cd9eee}\label{namespacesimulationparallel__omp__mod_af3219ed75e38a01f71255314b2cd9eee}} 
+\index{simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}!getmaxthreads@{getmaxthreads}}
+\index{getmaxthreads@{getmaxthreads}!simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}}
+\subsubsection{\texorpdfstring{getmaxthreads()}{getmaxthreads()}}
+{\footnotesize\ttfamily integer function simulationparallel\+\_\+omp\+\_\+mod\+::getmaxthreads (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{parallel\+\_\+omp\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns the maximum number of O\+MP threads as given by the system. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 75 of file simulation\+Parallel\+\_\+omp.\+f90.
+
+
+\begin{DoxyCode}
+75     \textcolor{keywordtype}{class}(parallel\_omp\_class), \textcolor{keywordtype}{intent(in)} :: this
+76     getmaxthreads = omp\_get\_num\_procs()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationparallel__omp__mod_a1f07ce2cf6390af06c3478e6271644e5}\label{namespacesimulationparallel__omp__mod_a1f07ce2cf6390af06c3478e6271644e5}} 
+\index{simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}!getthreads@{getthreads}}
+\index{getthreads@{getthreads}!simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}}
+\subsubsection{\texorpdfstring{getthreads()}{getthreads()}}
+{\footnotesize\ttfamily integer function simulationparallel\+\_\+omp\+\_\+mod\+::getthreads (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{parallel\+\_\+omp\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns the set number of O\+MP threads for the simulation. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 86 of file simulation\+Parallel\+\_\+omp.\+f90.
+
+
+\begin{DoxyCode}
+86     \textcolor{keywordtype}{class}(parallel\_omp\_class), \textcolor{keywordtype}{intent(in)} :: this
+87     getthreads = this%numThreads
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationparallel__omp__mod_a43af0d6de562e53dfbaa874bce957ba9}\label{namespacesimulationparallel__omp__mod_a43af0d6de562e53dfbaa874bce957ba9}} 
+\index{simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}!initompmanager@{initompmanager}}
+\index{initompmanager@{initompmanager}!simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}}
+\subsubsection{\texorpdfstring{initompmanager()}{initompmanager()}}
+{\footnotesize\ttfamily subroutine simulationparallel\+\_\+omp\+\_\+mod\+::initompmanager (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{parallel\+\_\+omp\+\_\+class}}), intent(inout)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that initializes an omp data manager object. Sets the number of threads as the maximum given by the system. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 50 of file simulation\+Parallel\+\_\+omp.\+f90.
+
+
+\begin{DoxyCode}
+50     \textcolor{keywordtype}{class}(parallel\_omp\_class), \textcolor{keywordtype}{intent(inout)} :: this
+51     this%numThreads = this%getMaxThreads()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationparallel__omp__mod_ac5d0e4616b102fc7f4edddf8285fb61f}\label{namespacesimulationparallel__omp__mod_ac5d0e4616b102fc7f4edddf8285fb61f}} 
+\index{simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}!setthreads@{setthreads}}
+\index{setthreads@{setthreads}!simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}}
+\subsubsection{\texorpdfstring{setthreads()}{setthreads()}}
+{\footnotesize\ttfamily subroutine simulationparallel\+\_\+omp\+\_\+mod\+::setthreads (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{parallel\+\_\+omp\+\_\+class}}), intent(inout)}]{this,  }\item[{integer, intent(in)}]{tvalue }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that sets the number of threads to the given value. Checks for the maximum admissible number of threads. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em this,tvalue} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 62 of file simulation\+Parallel\+\_\+omp.\+f90.
+
+
+\begin{DoxyCode}
+62     \textcolor{keywordtype}{class}(parallel\_omp\_class), \textcolor{keywordtype}{intent(inout)} :: this
+63     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: tvalue
+64     this%numThreads = min(tvalue, this%getMaxThreads())
+65     \textcolor{keyword}{CALL }omp\_set\_num\_threads(this%numThreads)
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulationparallel__omp__mod_abc49bae2a6d752c9868b8b7bd233e740}\label{namespacesimulationparallel__omp__mod_abc49bae2a6d752c9868b8b7bd233e740}} 
+\index{simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}!ompmanager@{ompmanager}}
+\index{ompmanager@{ompmanager}!simulationparallel\+\_\+omp\+\_\+mod@{simulationparallel\+\_\+omp\+\_\+mod}}
+\subsubsection{\texorpdfstring{ompmanager}{ompmanager}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulationparallel__omp__mod_1_1parallel__omp__class}{parallel\+\_\+omp\+\_\+class}}), public simulationparallel\+\_\+omp\+\_\+mod\+::ompmanager}
+
+
+
+Definition at line 35 of file simulation\+Parallel\+\_\+omp.\+f90.
+
+
+\begin{DoxyCode}
+35     \textcolor{keywordtype}{type}(parallel\_omp\_class) :: OMPManager
+\end{DoxyCode}

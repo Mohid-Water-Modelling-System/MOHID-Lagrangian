@@ -8,7 +8,8 @@ var sources_8f90 =
     [ "source_class", "structsources__mod_1_1source__class.html", "structsources__mod_1_1source__class" ],
     [ "source_group_class", "structsources__mod_1_1source__group__class.html", "structsources__mod_1_1source__group__class" ],
     [ "check", "sources_8f90.html#a6fcfcb690cd1b9375915b01f7ddbe801", null ],
-    [ "initializesource", "sources_8f90.html#a6dcf7a3e3ccf75e01853df166231d484", null ],
+    [ "getvariablerate", "sources_8f90.html#a0d56083fdc0453f03f9dfdb24f704ac4", null ],
+    [ "initializesource", "sources_8f90.html#aef3551e97236f03fc73fcf77276bb318", null ],
     [ "initsources", "sources_8f90.html#a6da3303e5c39d77c0111ec50623bf5fe", null ],
     [ "isparticulate", "sources_8f90.html#ac4e4f33da78d030e1b56a48789da6a05", null ],
     [ "killsources", "sources_8f90.html#aee745aa084adcfa41ecfc3469b90aa8e", null ],
@@ -17,5 +18,6 @@ var sources_8f90 =
     [ "setotalnp", "sources_8f90.html#a9a62c41b71d2d6ad85def74087542ef5", null ],
     [ "setpropertyatributes", "sources_8f90.html#abbb4557b46c533439fe258cecf31a76c", null ],
     [ "setpropertynames", "sources_8f90.html#aa76f16f8ee96bc86b553aa54d420321c", null ],
+    [ "setvariablerate", "sources_8f90.html#af7fab14b56573184d5ca4371409118b0", null ],
     [ "tempsources", "sources_8f90.html#ab04ea8c02cdf83a1a356c8710ae811d5", null ]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/blocks.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/blocks.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -129,7 +129,7 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memdesc:ae3bd1bfeee831f4b41932839495bb108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to place a Source on the Block sourceList_class object. Adds the Source info to the Block Emitter.  <a href="namespaceblocks__mod.html#ae3bd1bfeee831f4b41932839495bb108">More...</a><br /></td></tr>
 <tr class="separator:ae3bd1bfeee831f4b41932839495bb108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9e57cbf0103b632b2b2dfa4e4d4139c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#ab9e57cbf0103b632b2b2dfa4e4d4139c">blocks_mod::toogleblocksources</a> (self)</td></tr>
-<tr class="memdesc:ab9e57cbf0103b632b2b2dfa4e4d4139c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to activate and deactivate the sources on this block, based on GlobaSimTime.  <a href="namespaceblocks__mod.html#ab9e57cbf0103b632b2b2dfa4e4d4139c">More...</a><br /></td></tr>
+<tr class="memdesc:ab9e57cbf0103b632b2b2dfa4e4d4139c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to activate and deactivate the sources on this block, based on GlobalsSimTimeCurrTime.  <a href="namespaceblocks__mod.html#ab9e57cbf0103b632b2b2dfa4e4d4139c">More...</a><br /></td></tr>
 <tr class="separator:ab9e57cbf0103b632b2b2dfa4e4d4139c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c3cf5113e1422d812c2c869afde2729"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a2c3cf5113e1422d812c2c869afde2729">blocks_mod::callemitter</a> (self)</td></tr>
 <tr class="memdesc:a2c3cf5113e1422d812c2c869afde2729"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to emitt Tracers from currently active Sources on the Block.  <a href="namespaceblocks__mod.html#a2c3cf5113e1422d812c2c869afde2729">More...</a><br /></td></tr>
@@ -138,7 +138,7 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memdesc:aa178415bcc40cf169744d356e1a09c6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to distribute the Tracers to their correct Blocks.  <a href="namespaceblocks__mod.html#aa178415bcc40cf169744d356e1a09c6b">More...</a><br /></td></tr>
 <tr class="separator:aa178415bcc40cf169744d356e1a09c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25ff530b5125e4cee5b1f474b2491883"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a25ff530b5125e4cee5b1f474b2491883">blocks_mod::consolidatearrays</a> (self)</td></tr>
-<tr class="memdesc:a25ff530b5125e4cee5b1f474b2491883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to clean the Tracer list from inactive Tracers. TODO test further optimization.  <a href="namespaceblocks__mod.html#a25ff530b5125e4cee5b1f474b2491883">More...</a><br /></td></tr>
+<tr class="memdesc:a25ff530b5125e4cee5b1f474b2491883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to clean the Tracer list from inactive Tracers. This includes tracers that escaped from the Simulation Bounding Box.  <a href="namespaceblocks__mod.html#a25ff530b5125e4cee5b1f474b2491883">More...</a><br /></td></tr>
 <tr class="separator:a25ff530b5125e4cee5b1f474b2491883"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7afa742f8f89a6a8afdefb7f8c87efd"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#ae7afa742f8f89a6a8afdefb7f8c87efd">blocks_mod::tracerstoaot</a> (self)</td></tr>
 <tr class="memdesc:ae7afa742f8f89a6a8afdefb7f8c87efd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to build the AoT object at this timestep for actual numerical work.  <a href="namespaceblocks__mod.html#ae7afa742f8f89a6a8afdefb7f8c87efd">More...</a><br /></td></tr>
@@ -153,11 +153,14 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memdesc:a6cc313e046daa2720cbca810d083faa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to clean out the AoT object.  <a href="namespaceblocks__mod.html#a6cc313e046daa2720cbca810d083faa0">More...</a><br /></td></tr>
 <tr class="separator:a6cc313e046daa2720cbca810d083faa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a9992de40470e417ec8e40e688f6a0e"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a5a9992de40470e417ec8e40e688f6a0e">blocks_mod::sendtracer</a> (blk, trc)</td></tr>
-<tr class="memdesc:a5a9992de40470e417ec8e40e688f6a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to send a Tracer from the current Block to another Block.  <a href="namespaceblocks__mod.html#a5a9992de40470e417ec8e40e688f6a0e">More...</a><br /></td></tr>
+<tr class="memdesc:a5a9992de40470e417ec8e40e688f6a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to send a Tracer from the current Block to another Block. Checks if Block index exists, if not, Tracer is not added to any Block Tracer list.  <a href="namespaceblocks__mod.html#a5a9992de40470e417ec8e40e688f6a0e">More...</a><br /></td></tr>
 <tr class="separator:a5a9992de40470e417ec8e40e688f6a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62e8fb0d6b2535b4499c7a4d848c24ba"><td class="memItemLeft" align="right" valign="top">integer function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a62e8fb0d6b2535b4499c7a4d848c24ba">blocks_mod::getblockindex</a> (pt)</td></tr>
 <tr class="memdesc:a62e8fb0d6b2535b4499c7a4d848c24ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of a Block for a given set of coordinates.  <a href="namespaceblocks__mod.html#a62e8fb0d6b2535b4499c7a4d848c24ba">More...</a><br /></td></tr>
 <tr class="separator:a62e8fb0d6b2535b4499c7a4d848c24ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8d92210b3d4ade090d2a19b97f4c88e"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#ad8d92210b3d4ade090d2a19b97f4c88e">blocks_mod::trcinbox</a> (trc, testbox)</td></tr>
+<tr class="memdesc:ad8d92210b3d4ade090d2a19b97f4c88e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the point is inside the requested box.  <a href="namespaceblocks__mod.html#ad8d92210b3d4ade090d2a19b97f4c88e">More...</a><br /></td></tr>
+<tr class="separator:ad8d92210b3d4ade090d2a19b97f4c88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eab8b323cb15dcecb5c6b0c31b4e246"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a6eab8b323cb15dcecb5c6b0c31b4e246">blocks_mod::printblock</a> (self)</td></tr>
 <tr class="memdesc:a6eab8b323cb15dcecb5c6b0c31b4e246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to print basic info about the block.  <a href="namespaceblocks__mod.html#a6eab8b323cb15dcecb5c6b0c31b4e246">More...</a><br /></td></tr>
 <tr class="separator:a6eab8b323cb15dcecb5c6b0c31b4e246"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,7 +184,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="blocks_8f90.html">blocks.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="blocks_8f90.html">blocks.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

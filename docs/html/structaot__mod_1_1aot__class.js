@@ -1,6 +1,7 @@
 var structaot__mod_1_1aot__class =
 [
     [ "clean", "structaot__mod_1_1aot__class.html#aab1eb00e5cd2868ff08fcd5bb1529688", null ],
+    [ "detailedprint", "structaot__mod_1_1aot__class.html#a9e102da285babd08bff501efbe3b3b10", null ],
     [ "print", "structaot__mod_1_1aot__class.html#a92925f914d4cc5f252e4ca638e104628", null ],
     [ "totracers", "structaot__mod_1_1aot__class.html#a834962484645337446945ae834ea5293", null ],
     [ "id", "structaot__mod_1_1aot__class.html#ad4bc41c8c0f5dc4ade794eae2d2d5cd5", null ],

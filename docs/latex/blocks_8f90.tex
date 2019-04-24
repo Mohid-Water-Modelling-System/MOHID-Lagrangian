@@ -1,5 +1,5 @@
-\hypertarget{blocks_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/blocks.f90 File Reference}
-\label{blocks_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/blocks.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/blocks.\+f90}}
+\hypertarget{blocks_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/blocks.f90 File Reference}
+\label{blocks_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/blocks.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/blocks.\+f90}}
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -20,13 +20,13 @@ subroutine \mbox{\hyperlink{namespaceblocks__mod_a534ca69b17b6f54ee07f995b02feff
 subroutine \mbox{\hyperlink{namespaceblocks__mod_ae3bd1bfeee831f4b41932839495bb108}{blocks\+\_\+mod\+::putsource}} (self, sourcetoadd)
 \begin{DoxyCompactList}\small\item\em Method to place a Source on the Block source\+List\+\_\+class object. Adds the Source info to the Block Emitter. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_ab9e57cbf0103b632b2b2dfa4e4d4139c}{blocks\+\_\+mod\+::toogleblocksources}} (self)
-\begin{DoxyCompactList}\small\item\em Method to activate and deactivate the sources on this block, based on GlobaSim\+Time. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method to activate and deactivate the sources on this block, based on GlobalsSim\+TimeCurr\+Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde2729}{blocks\+\_\+mod\+::callemitter}} (self)
 \begin{DoxyCompactList}\small\item\em Method to emitt Tracers from currently active Sources on the Block. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b}{blocks\+\_\+mod\+::distributetracers}} (self)
 \begin{DoxyCompactList}\small\item\em Method to distribute the Tracers to their correct Blocks. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}{blocks\+\_\+mod\+::consolidatearrays}} (self)
-\begin{DoxyCompactList}\small\item\em Method to clean the Tracer list from inactive Tracers. T\+O\+DO test further optimization. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method to clean the Tracer list from inactive Tracers. This includes tracers that escaped from the Simulation Bounding Box. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}{blocks\+\_\+mod\+::tracerstoaot}} (self)
 \begin{DoxyCompactList}\small\item\em Method to build the AoT object at this timestep for actual numerical work. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a3245bdadbec6bb123c517921d1503b48}{blocks\+\_\+mod\+::runsolver}} (self)
@@ -36,9 +36,11 @@ subroutine \mbox{\hyperlink{namespaceblocks__mod_a27c7e788c5f3979bfe9d43aad13828
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}{blocks\+\_\+mod\+::cleanaot}} (self)
 \begin{DoxyCompactList}\small\item\em Method to clean out the AoT object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}{blocks\+\_\+mod\+::sendtracer}} (blk, trc)
-\begin{DoxyCompactList}\small\item\em Method to send a Tracer from the current Block to another Block. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method to send a Tracer from the current Block to another Block. Checks if Block index exists, if not, Tracer is not added to any Block Tracer list. \end{DoxyCompactList}\item 
 integer function, public \mbox{\hyperlink{namespaceblocks__mod_a62e8fb0d6b2535b4499c7a4d848c24ba}{blocks\+\_\+mod\+::getblockindex}} (pt)
 \begin{DoxyCompactList}\small\item\em Returns the index of a Block for a given set of coordinates. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespaceblocks__mod_ad8d92210b3d4ade090d2a19b97f4c88e}{blocks\+\_\+mod\+::trcinbox}} (trc, testbox)
+\begin{DoxyCompactList}\small\item\em Returns true if the point is inside the requested box. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{blocks\+\_\+mod\+::printblock}} (self)
 \begin{DoxyCompactList}\small\item\em Method to print basic info about the block. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a10f356706988c45a255922fe70851488}{blocks\+\_\+mod\+::printdetailblock}} (self)

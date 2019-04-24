@@ -1,5 +1,5 @@
-\hypertarget{background_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/background.f90 File Reference}
-\label{background_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/background.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/background.\+f90}}
+\hypertarget{background_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/background.f90 File Reference}
+\label{background_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/background.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/background.\+f90}}
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -21,6 +21,8 @@ subroutine \mbox{\hyperlink{namespacebackground__mod_aa6ddc308698724f00ce1177ded
 \begin{DoxyCompactList}\small\item\em Method that adds a field to the Background object\textquotesingle{}s field list. \end{DoxyCompactList}\item 
 type(background\+\_\+class) function \mbox{\hyperlink{namespacebackground__mod_ad0096fb6a5a11854fd70a7ce58dc3000}{background\+\_\+mod\+::constructor}} (id, name, extents, dims)
 \begin{DoxyCompactList}\small\item\em Constructor for Background object. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacebackground__mod_a4e05d8be917e0143fe5889f2b19b750d}{background\+\_\+mod\+::getdimindex}} (self, name)
+\begin{DoxyCompactList}\small\item\em Method that returns the index of a given dimension by it\textquotesingle{}s name. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_a06d96d4627391d74feb105a842a87dc0}{background\+\_\+mod\+::setdims}} (self, dims)
 \begin{DoxyCompactList}\small\item\em Method that allocates and sets the dimensions of the Background object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_ae8871564866fdd657a25f6a5a2256c33}{background\+\_\+mod\+::setextents}} (self, bbox)

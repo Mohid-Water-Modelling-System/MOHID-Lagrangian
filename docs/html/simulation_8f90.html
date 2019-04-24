@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/simulation.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/simulation.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -125,26 +125,32 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memdesc:aedbba2bb458cbcd7eb93938a5f7b5940"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation initialization method. Effectively builds and populates the simulation objects that will be used latter on.  <a href="namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940">More...</a><br /></td></tr>
 <tr class="separator:aedbba2bb458cbcd7eb93938a5f7b5940"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87a5141e4516b9610a6e4f0d2ff2d719"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a87a5141e4516b9610a6e4f0d2ff2d719">simulation_mod::togglesources</a> (self)</td></tr>
-<tr class="memdesc:a87a5141e4516b9610a6e4f0d2ff2d719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to activate and deactivate Sources based on the GlobalSimTime.  <a href="namespacesimulation__mod.html#a87a5141e4516b9610a6e4f0d2ff2d719">More...</a><br /></td></tr>
+<tr class="memdesc:a87a5141e4516b9610a6e4f0d2ff2d719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to activate and deactivate Sources based on the GlobalsSimTimeCurrTime.  <a href="namespacesimulation__mod.html#a87a5141e4516b9610a6e4f0d2ff2d719">More...</a><br /></td></tr>
 <tr class="separator:a87a5141e4516b9610a6e4f0d2ff2d719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13aa0745f4601e3f418143dab2f18276"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a13aa0745f4601e3f418143dab2f18276">simulation_mod::blocksemitt</a> (self)</td></tr>
-<tr class="memdesc:a13aa0745f4601e3f418143dab2f18276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to emitt tracers at current SimTime.  <a href="namespacesimulation__mod.html#a13aa0745f4601e3f418143dab2f18276">More...</a><br /></td></tr>
+<tr class="memdesc:a13aa0745f4601e3f418143dab2f18276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to emitt tracers at current Time.  <a href="namespacesimulation__mod.html#a13aa0745f4601e3f418143dab2f18276">More...</a><br /></td></tr>
 <tr class="separator:a13aa0745f4601e3f418143dab2f18276"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a058892630af07fc0fe8a4bffec531c6a"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a058892630af07fc0fe8a4bffec531c6a">simulation_mod::blocksdistribute</a> (self)</td></tr>
-<tr class="memdesc:a058892630af07fc0fe8a4bffec531c6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to distribute Tracers at current SimTime.  <a href="namespacesimulation__mod.html#a058892630af07fc0fe8a4bffec531c6a">More...</a><br /></td></tr>
+<tr class="memdesc:a058892630af07fc0fe8a4bffec531c6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to distribute Tracers at current Time.  <a href="namespacesimulation__mod.html#a058892630af07fc0fe8a4bffec531c6a">More...</a><br /></td></tr>
 <tr class="separator:a058892630af07fc0fe8a4bffec531c6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac838d4afe33303dc49a5790ca957baa1"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#ac838d4afe33303dc49a5790ca957baa1">simulation_mod::blocksconsolidatearrays</a> (self)</td></tr>
-<tr class="memdesc:ac838d4afe33303dc49a5790ca957baa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to consolidate the Tracer array at current SimTime.  <a href="namespacesimulation__mod.html#ac838d4afe33303dc49a5790ca957baa1">More...</a><br /></td></tr>
+<tr class="memdesc:ac838d4afe33303dc49a5790ca957baa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to consolidate the Tracer array at current Time.  <a href="namespacesimulation__mod.html#ac838d4afe33303dc49a5790ca957baa1">More...</a><br /></td></tr>
 <tr class="separator:ac838d4afe33303dc49a5790ca957baa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a624d5b402a8d359219839841862ab307"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a624d5b402a8d359219839841862ab307">simulation_mod::blockstracerstoaot</a> (self)</td></tr>
-<tr class="memdesc:a624d5b402a8d359219839841862ab307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to build their Array of Tracers (AoT) from the Tracer list at current SimTime.  <a href="namespacesimulation__mod.html#a624d5b402a8d359219839841862ab307">More...</a><br /></td></tr>
+<tr class="memdesc:a624d5b402a8d359219839841862ab307"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to build their Array of Tracers (AoT) from the Tracer list at current Time.  <a href="namespacesimulation__mod.html#a624d5b402a8d359219839841862ab307">More...</a><br /></td></tr>
 <tr class="separator:a624d5b402a8d359219839841862ab307"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2e7a1b0f131ab6fe40454d32cb3e24f"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#ab2e7a1b0f131ab6fe40454d32cb3e24f">simulation_mod::blocksrunsolver</a> (self)</td></tr>
+<tr class="memdesc:ab2e7a1b0f131ab6fe40454d32cb3e24f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to run the Solver at current Time.  <a href="namespacesimulation__mod.html#ab2e7a1b0f131ab6fe40454d32cb3e24f">More...</a><br /></td></tr>
+<tr class="separator:ab2e7a1b0f131ab6fe40454d32cb3e24f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03afd8682d3239c0ce8eb1637e4da806"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a03afd8682d3239c0ce8eb1637e4da806">simulation_mod::blocksaottotracers</a> (self)</td></tr>
-<tr class="memdesc:a03afd8682d3239c0ce8eb1637e4da806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to print their Array of Tracers (AoT) back to the Tracer objects on the list at current SimTime.  <a href="namespacesimulation__mod.html#a03afd8682d3239c0ce8eb1637e4da806">More...</a><br /></td></tr>
+<tr class="memdesc:a03afd8682d3239c0ce8eb1637e4da806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to print their Array of Tracers (AoT) back to the Tracer objects on the list at current Time.  <a href="namespacesimulation__mod.html#a03afd8682d3239c0ce8eb1637e4da806">More...</a><br /></td></tr>
 <tr class="separator:a03afd8682d3239c0ce8eb1637e4da806"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c7e093e5cf65d3414f9a8cf8beab611"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a9c7e093e5cf65d3414f9a8cf8beab611">simulation_mod::blockscleanaot</a> (self)</td></tr>
-<tr class="memdesc:a9c7e093e5cf65d3414f9a8cf8beab611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to clean their Array of Tracers (AoT) at current SimTime.  <a href="namespacesimulation__mod.html#a9c7e093e5cf65d3414f9a8cf8beab611">More...</a><br /></td></tr>
+<tr class="memdesc:a9c7e093e5cf65d3414f9a8cf8beab611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the Blocks to clean their Array of Tracers (AoT) at current Time.  <a href="namespacesimulation__mod.html#a9c7e093e5cf65d3414f9a8cf8beab611">More...</a><br /></td></tr>
 <tr class="separator:a9c7e093e5cf65d3414f9a8cf8beab611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5735e9ecb39f15061f3d766b0de7809d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a5735e9ecb39f15061f3d766b0de7809d">simulation_mod::outputstepdata</a> (self)</td></tr>
+<tr class="memdesc:a5735e9ecb39f15061f3d766b0de7809d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to call the output streamer writting methods at current Time.  <a href="namespacesimulation__mod.html#a5735e9ecb39f15061f3d766b0de7809d">More...</a><br /></td></tr>
+<tr class="separator:a5735e9ecb39f15061f3d766b0de7809d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a447c6d709de6aa360a65d39d660e627b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulation__mod.html#a447c6d709de6aa360a65d39d660e627b">simulation_mod::setinitialstate</a> (self)</td></tr>
 <tr class="memdesc:a447c6d709de6aa360a65d39d660e627b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation method to distribute the Sources to the Blocks, allocate the respective Tracers and redistribute if needed.  <a href="namespacesimulation__mod.html#a447c6d709de6aa360a65d39d660e627b">More...</a><br /></td></tr>
 <tr class="separator:a447c6d709de6aa360a65d39d660e627b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,7 +175,7 @@ Functions/Subroutines</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="simulation_8f90.html">simulation.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="simulation_8f90.html">simulation.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

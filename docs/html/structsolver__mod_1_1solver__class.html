@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -117,10 +117,10 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a9ac72acd3e4fbb8881c7eaabe9e3d585"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54ee0f169b626d3fb484d79cce91c3be"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#a54ee0f169b626d3fb484d79cce91c3be">runstep</a></td></tr>
 <tr class="separator:a54ee0f169b626d3fb484d79cce91c3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6">runstepsymplectic</a></td></tr>
-<tr class="separator:a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e32c00f2a75c3701f66f83d4682bc6f"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#a0e32c00f2a75c3701f66f83d4682bc6f">runstepverlet</a></td></tr>
-<tr class="separator:a0e32c00f2a75c3701f66f83d4682bc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8048d91cd5b808369a84f08f63feb7d"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#ac8048d91cd5b808369a84f08f63feb7d">runstepmseuler</a></td></tr>
+<tr class="separator:ac8048d91cd5b808369a84f08f63feb7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74396adb5f6525ecd691ff70912ee35e"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#a74396adb5f6525ecd691ff70912ee35e">runstepeuler</a></td></tr>
+<tr class="separator:a74396adb5f6525ecd691ff70912ee35e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c86ed273b0b9141e74cc55b59377a3"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#a58c86ed273b0b9141e74cc55b59377a3">runsteprk4</a></td></tr>
 <tr class="separator:a58c86ed273b0b9141e74cc55b59377a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac61135f89371079744ac9b5fd8da8a41"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#ac61135f89371079744ac9b5fd8da8a41">print</a> =&gt; printSolver</td></tr>
@@ -129,7 +129,7 @@ Private Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a6bd9eec5b3a11d34981b191b54944ac4"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#a6bd9eec5b3a11d34981b191b54944ac4">solvertype</a> = 1</td></tr>
-<tr class="memdesc:a6bd9eec5b3a11d34981b191b54944ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1)  <a href="#a6bd9eec5b3a11d34981b191b54944ac4">More...</a><br /></td></tr>
+<tr class="memdesc:a6bd9eec5b3a11d34981b191b54944ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)  <a href="#a6bd9eec5b3a11d34981b191b54944ac4">More...</a><br /></td></tr>
 <tr class="separator:a6bd9eec5b3a11d34981b191b54944ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a2677f8e0403b82095b826378f9439d"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsolver__mod_1_1solver__class.html#a0a2677f8e0403b82095b826378f9439d">name</a></td></tr>
 <tr class="memdesc:a0a2677f8e0403b82095b826378f9439d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the Integrator algorithm.  <a href="#a0a2677f8e0403b82095b826378f9439d">More...</a><br /></td></tr>
@@ -223,6 +223,60 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a74396adb5f6525ecd691ff70912ee35e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74396adb5f6525ecd691ff70912ee35e">&#9670;&nbsp;</a></span>runstepeuler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private solver_mod::solver_class::runstepeuler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00038">38</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
+
+</div>
+</div>
+<a id="ac8048d91cd5b808369a84f08f63feb7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8048d91cd5b808369a84f08f63feb7d">&#9670;&nbsp;</a></span>runstepmseuler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private solver_mod::solver_class::runstepmseuler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00037">37</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
+
+</div>
+</div>
 <a id="a58c86ed273b0b9141e74cc55b59377a3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58c86ed273b0b9141e74cc55b59377a3">&#9670;&nbsp;</a></span>runsteprk4()</h2>
 
@@ -247,60 +301,6 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00039">39</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
-
-</div>
-</div>
-<a id="a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a6bdb2ea0ab6adb0c1ef29b7c4c02a6">&#9670;&nbsp;</a></span>runstepsymplectic()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">procedure, private solver_mod::solver_class::runstepsymplectic </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00037">37</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
-
-</div>
-</div>
-<a id="a0e32c00f2a75c3701f66f83d4682bc6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e32c00f2a75c3701f66f83d4682bc6f">&#9670;&nbsp;</a></span>runstepverlet()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">procedure, private solver_mod::solver_class::runstepverlet </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00038">38</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
 
 </div>
 </div>
@@ -377,14 +377,14 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Integration Algorithm 1:Verlet, 2:Symplectic, 3:RK4 (default=1) </p>
+<p>Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1) </p>
 
 <p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00031">31</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">integer</span> :: solverType = 1</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="solver_8f90_source.html">solver.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="solver_8f90_source.html">solver.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

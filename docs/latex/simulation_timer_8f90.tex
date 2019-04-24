@@ -1,0 +1,31 @@
+\hypertarget{simulation_timer_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Timer.f90 File Reference}
+\label{simulation_timer_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Timer.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Timer.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesimulationtimer__mod}{simulationtimer\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines a timer class using the O\+MP timer function to get the wall time. A\+PI supports accumulation, several start-\/stop cycles and printing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a3e4c0de31b2db7da6c0c781c047a3743}{simulationtimer\+\_\+mod\+::inittimer}} (this, name, restartime)
+\begin{DoxyCompactList}\small\item\em Method that initializes a timer object. Optionaly receives a time to start the timer at a specified elapsed time. \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespacesimulationtimer__mod_a54fa7688c279c747bd76554fb8adb819}{simulationtimer\+\_\+mod\+::getelapsed}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the total elapsed time on this timer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a0924f340c4f5785a5981bdc99226e576}{simulationtimer\+\_\+mod\+::tic}} (this)
+\begin{DoxyCompactList}\small\item\em Method that starts the timmer in the current cycle. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_ae5c4ca42de2cd1f446eee79112cedd14}{simulationtimer\+\_\+mod\+::toc}} (this)
+\begin{DoxyCompactList}\small\item\em Method that stops the timmer in the current cycle and stores the timmings. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a9df6f995616d7fa53094178c3aff1fad}{simulationtimer\+\_\+mod\+::printelapsed}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the total elapsed time. Rudimentary at best. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_ae6e0d8f98a24587daf93cedb4e93ad79}{simulationtimer\+\_\+mod\+::printlast}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the elapsed time of the last cycle. Rudimentary at best. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_abf4d4c3f383597e975e7c9d12dab6f13}{simulationtimer\+\_\+mod\+::printcurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the current elapsed time. Rudimentary at best. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a1c7581b4e12efde67021c8d94e0ef696}{simulationtimer\+\_\+mod\+::printnotinitialized}} (this)
+\begin{DoxyCompactList}\small\item\em Method to print the total elapsed time. Rudimentary at best. \end{DoxyCompactList}\end{DoxyCompactItemize}

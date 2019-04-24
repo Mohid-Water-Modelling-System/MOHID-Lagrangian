@@ -1,0 +1,47 @@
+\hypertarget{netcdf_parser_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/netcdf\+Parser.f90 File Reference}
+\label{netcdf_parser_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/netcdf\+Parser.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/netcdf\+Parser.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{netcdfparser\+\_\+mod\+::dim\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structnetcdfparser__mod_1_1var__t}{netcdfparser\+\_\+mod\+::var\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{netcdfparser\+\_\+mod\+::ncfile\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em A class that models a netcdf file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacenetcdfparser__mod}{netcdfparser\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines a netcdf file model class, responsible for abstracting the parsing of netcdf files. Each object of this class is responsible for one file, effectivelly representing it. The object should return the necessary data fields with corresponding meta data, such as names and units. An variable library is consulted when required, because even Net\+C\+DF CF compliance allows ambiguity. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a57c39a4003778a6bf90cfd36b69380bc}{netcdfparser\+\_\+mod\+::getfile}} (self, filename)
+\begin{DoxyCompactList}\small\item\em Parse the netcdf file headers and assembles the file model. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a741dd5b5985255e73aa9d3cf08755e91}{netcdfparser\+\_\+mod\+::getncid}} (self)
+\begin{DoxyCompactList}\small\item\em Opens the netcdf file, assigns the N\+C\+ID and checks for errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a409f59662d71fb63e5fb5e057fdfd6ee}{netcdfparser\+\_\+mod\+::getncglobalmetadata}} (self)
+\begin{DoxyCompactList}\small\item\em Inquires the nc file for global metadata -\/ number of dimensions, variables and attributes. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a46989199271acb6205cc61ac413d5a56}{netcdfparser\+\_\+mod\+::getncvarmetadata}} (self)
+\begin{DoxyCompactList}\small\item\em Inquires the nc file for variable metadata. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a6354ee8b3c773cc7a5ad247ad1e34eeb}{netcdfparser\+\_\+mod\+::getncdimmetadata}} (self)
+\begin{DoxyCompactList}\small\item\em Inquires the nc file for dimension metadata. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec}{netcdfparser\+\_\+mod\+::getvardimensions}} (self, var\+Name, dims\+Arrays)
+\begin{DoxyCompactList}\small\item\em Reads the dimension fields from the nc file for a given variable. returns an array of scalar 1D fields, each with a name, units and data. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a1f59a93ed593b1f4670d2c62fa9d5949}{netcdfparser\+\_\+mod\+::getvar}} (self, var\+Name, var\+Field)
+\begin{DoxyCompactList}\small\item\em Reads the fields from the nc file for a given variable. returns a generic field, with a name, units and data. \end{DoxyCompactList}\item 
+type(dim\+\_\+t) function \mbox{\hyperlink{namespacenetcdfparser__mod_a5fcd4b7fb27dbc9befd0a6fcfb9929a1}{netcdfparser\+\_\+mod\+::getdimbydimid}} (self, dim\+ID)
+\begin{DoxyCompactList}\small\item\em returns a dimension field metadata structure, given a dim\+ID \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a518627511cac4bf3dbc338bf3bfd5e24}{netcdfparser\+\_\+mod\+::closefile}} (self)
+\begin{DoxyCompactList}\small\item\em Close the netcdf file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_ae1a034f6540ac7a1ce7d0e3831bb2f03}{netcdfparser\+\_\+mod\+::check}} (self)
+\begin{DoxyCompactList}\small\item\em Debug the netcdf error after a netcdf command. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_aeb48d33c014bae21b2fceaaa70cbdc67}{netcdfparser\+\_\+mod\+::printncinfo}} (self)
+\begin{DoxyCompactList}\small\item\em prints most of the file model metadata \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a6b57fa47d7bd796c75483216a51e5e04}{netcdfparser\+\_\+mod\+::printvarsnc}} (self)
+\begin{DoxyCompactList}\small\item\em print variable metadata \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_ac01c000a97d23613684155708249ce89}{netcdfparser\+\_\+mod\+::printdimsnc}} (self)
+\begin{DoxyCompactList}\small\item\em print dimensions metadata \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_af93319fde6cf6baedb7fe27bf3396e7b}{netcdfparser\+\_\+mod\+::correctnctime}} (time\+Comments, time\+Array)
+\begin{DoxyCompactList}\small\item\em corrects the time array to a more efficient format if needed. assumes netcdf comment as \textquotesingle{}seconds since 1981-\/01-\/01 00\+:00\+:00\textquotesingle{} \end{DoxyCompactList}\end{DoxyCompactItemize}
