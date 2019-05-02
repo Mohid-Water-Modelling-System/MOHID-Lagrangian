@@ -43,32 +43,45 @@
 import os
 import sys
 import argparse
+import xml.etree.ElementTree as ET
 
-sys.path.append('Common')
+basePath = os.path.dirname(os.path.realpath(__file__))
+commonPath = os.path.abspath(os.path.join(basePath, "Common"))
+sys.path.append(commonPath)
+
 import os_dir
+
+import Licence
 
 
 def run():
     
+    lic = Licence.Licence()
+    lic.print()
+    
     #cmd line argument parsing---------------------------
     argParser = argparse.ArgumentParser(description='Indexes input files for MOHID Lagrangian to parse. Use -h for help.')
-    argParser.add_argument("-case", "--caseXML", dest="caseXML",
+    argParser.add_argument("-i", "--input", dest="caseXML",
                     help=".xml file with the case definition for the MOHID Lagrangian run", metavar=".xml")
-    argParser.add_argument("-i", "--input", dest="dataDir",
-                    help="input directory containing .hdf5 files or subdirectories with them", metavar="dir")
-    
     args = argParser.parse_args()
-
-    dataDir = getattr(args,'dataDir')
-    if dataDir == None: #reverting to the default
-        basepath = os.path.dirname(__file__)
-        dataDir = os.path.abspath(os.path.join(basepath, "inputData"))
+    
     caseXML = getattr(args,'caseXML')
+    
+    #---------------------------------------------------
+    
+    #parsing case definition file
+    root = ET.parse(caseXML).getroot()
+    
+    dataDir = []
+    for type_tag in root.findall('casedef/inputData/inputDataDir'):
+        dataDir.append(type_tag.get('name'))
+        
+    
     
     #datadir="C:\Users\RBC_workhorse\Documents\GitHub\MOHID_python_tools\ConvertCSV2HDF5\testFiles"
     
     print('-> Case definition file is ', caseXML)
-    print('-> Data files directory is', dataDir)
+    print('-> Input data directory is', dataDir)
     
     #------------------------------------------------------    
     
