@@ -44,19 +44,19 @@ import os
 import sys
 import argparse
 import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta
 
 basePath = os.path.dirname(os.path.realpath(__file__))
 commonPath = os.path.abspath(os.path.join(basePath, "Common"))
 sys.path.append(commonPath)
-
 import os_dir
 
-import Licence
+import about
 
 
 def run():
     
-    lic = Licence.Licence()
+    lic = about.Licence()
     lic.print()
     
     #cmd line argument parsing---------------------------
@@ -65,8 +65,8 @@ def run():
                     help=".xml file with the case definition for the MOHID Lagrangian run", metavar=".xml")
     args = argParser.parse_args()
     
-    caseXML = getattr(args,'caseXML')
-    
+    caseXML = getattr(args,'caseXML')    
+    print('-> Case definition file is ', caseXML)
     #---------------------------------------------------
     
     #parsing case definition file
@@ -75,15 +75,25 @@ def run():
     dataDir = []
     for type_tag in root.findall('casedef/inputData/inputDataDir'):
         dataDir.append(type_tag.get('name'))
+    
+    for type_tag in root.findall('execution/parameters/parameter'):
+        if type_tag.get('key') == 'StartTime':
+            StartTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
+        if type_tag.get('key') == 'EndTime':
+            EndTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
         
+    #dataDir="C:\Users\RBC_workhorse\Documents\GitHub\MOHID_python_tools\ConvertCSV2HDF5\testFiles"
     
-    
-    #datadir="C:\Users\RBC_workhorse\Documents\GitHub\MOHID_python_tools\ConvertCSV2HDF5\testFiles"
-    
-    print('-> Case definition file is ', caseXML)
-    print('-> Input data directory is', dataDir)
-    
+    if len(dataDir) > 1:
+        print('-> Input data directories are', dataDir)
+    else:
+        print('-> Input data directory is', dataDir)
     #------------------------------------------------------    
+    
+    
+    
+    
+    
     
             
 run()
