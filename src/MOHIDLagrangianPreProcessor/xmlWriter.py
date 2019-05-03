@@ -22,32 +22,31 @@
 #    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #    SOFTWARE.
 
-from datetime import datetime, timedelta
-import xarray as xr
+class xmlWriter:
+    def __init__(self, fileName):
+        self.filename = fileName
+        
+        self.openFile()
+        
+    def openFile(self):
+        self.f = open(self.filename + '.xml', 'w')
+        self.writeHeader()
+    
+    def closeFile(self):
+        self.f.write('''</file_collection>''')
+        self.f.close()
+        
+    def writeHeader(self):
+        self.f.write('''<?xml version="1.0" encoding="UTF-8" ?>
+<file_collection>
+''')
 
-class ncMetadata:
-    def __init__(self, fileName, baseTime):
-        self.fileName = []
-        self.startTime = []
-        self.endTime = []
-        
-        self.fileName = fileName        
-        ds = xr.open_dataset(self.fileName)
-        tMin = ds.time.min()
-        tMax = ds.time.max()
-        dMin = datetime(tMin.dt.year, tMin.dt.month, tMin.dt.day, tMin.dt.hour, tMin.dt.minute, tMin.dt.second)
-        dMax = datetime(tMax.dt.year, tMax.dt.month, tMax.dt.day, tMax.dt.hour, tMax.dt.minute, tMax.dt.second)
-        self.startTime = (dMin - baseTime).total_seconds()
-        self.endTime = (dMax - baseTime).total_seconds()
-        
-        ds.close
-        
-    def getName(self):
-        return self.fileName
-    
-    def getstartTime(self):
-        return self.startTime
-    
-    def getendTime(self):
-        return self.endTime
+    def writeFile(self,fileName,startTime,endTime):                        
+        toWrite = '''    <file>
+        <name value="'''+fileName+'''" />
+        <startTime value="'''+str(startTime)+'''" />
+        <endTime value="'''+str(endTime)+'''" />
+    </file>
+'''
+        self.f.write(toWrite)
         

@@ -53,6 +53,7 @@ sys.path.append(commonPath)
 import os_dir
 import about
 import ncMetaParser
+import xmlWriter
 
 
 def run():
@@ -64,9 +65,12 @@ def run():
     argParser = argparse.ArgumentParser(description='Indexes input files for MOHID Lagrangian to parse. Use -h for help.')
     argParser.add_argument("-i", "--input", dest="caseXML",
                     help=".xml file with the case definition for the MOHID Lagrangian run", metavar=".xml")
+    argParser.add_argument("-o", "--outputDir", dest="outDir",
+                    help="output directory", metavar=".xml")
     args = argParser.parse_args()
     
-    caseXML = getattr(args,'caseXML')    
+    caseXML = getattr(args,'caseXML')
+    outDir = getattr(args,'outDir')
     print('-> Case definition file is ', caseXML)
     #---------------------------------------------------
     
@@ -99,13 +103,18 @@ def run():
     #cleaning list of empty values
     inputFiles = list(filter(None, inputFiles))
     
-    #going trough every file and extracting some metadata
+    indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
+    
+    indexer = xmlWriter.xmlWriter(indexerFileName)
+    
+    #going trough every file, extracting some metadata and writting in the indexer file
     for idir in inputFiles:
         for ifile in idir:
+            print('--> indexing file', ifile)
             ncMeta = ncMetaParser.ncMetadata(ifile, StartTime)
+            indexer.writeFile(ncMeta.getName(), ncMeta.getstartTime(), ncMeta.getendTime())
     
-    
-    
+    indexer.closeFile()
     
             
 run()
