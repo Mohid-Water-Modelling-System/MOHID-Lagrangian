@@ -45,13 +45,14 @@ import sys
 import argparse
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
+import glob
 
 basePath = os.path.dirname(os.path.realpath(__file__))
 commonPath = os.path.abspath(os.path.join(basePath, "Common"))
 sys.path.append(commonPath)
 import os_dir
-
 import about
+import ncMetaParser
 
 
 def run():
@@ -90,7 +91,18 @@ def run():
         print('-> Input data directory is', dataDir)
     #------------------------------------------------------    
     
+    #going for each input directory and indexing its files
+    inputFiles = []
+    for idir in dataDir:
+        inputFiles.append(glob.glob(idir+ '/**/*.nc', recursive=True))
+        inputFiles.append(glob.glob(idir+ '/**/*.nc4', recursive=True))
+    #cleaning list of empty values
+    inputFiles = list(filter(None, inputFiles))
     
+    #going trough every file and extracting some metadata
+    for idir in inputFiles:
+        for ifile in idir:
+            ncMeta = ncMetaParser.ncMetadata(ifile, StartTime)
     
     
     
