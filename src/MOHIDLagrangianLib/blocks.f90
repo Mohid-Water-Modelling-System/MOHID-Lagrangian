@@ -22,10 +22,10 @@
     module blocks_mod
 
     use common_modules
-    use simulation_globals_mod
+    use simulationGlobals_mod
     use boundingbox_mod
-    use tracer_list_mod
-    use sources_list_mod
+    use tracerList_mod
+    use sourcesList_mod
     use sources_mod
     use tracers_mod
     use emitter_mod
@@ -33,7 +33,7 @@
     use solver_mod
     use background_mod
 
-    use simulation_testmaker_mod
+    use simulationTestMaker_mod
 
 
     implicit none
@@ -307,8 +307,9 @@
     !> Method to send a Tracer from the current Block to another Block. Checks
     !> if Block index exists, if not, Tracer is not added to any Block Tracer 
     !> list
+    !> @param[in] blk, trc
     !---------------------------------------------------------------------------
-    subroutine sendTracer(blk,trc)
+    subroutine sendTracer(blk, trc)
     implicit none
     integer, intent(in) :: blk
     class(tracer_class), intent(inout) :: trc
@@ -336,7 +337,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns true if the point is inside the requested box.
-    !> @param[in] pt, testbox
+    !> @param[in] trc, testbox
     !---------------------------------------------------------------------------
     logical function TrcInBox(trc, testbox)
     implicit none

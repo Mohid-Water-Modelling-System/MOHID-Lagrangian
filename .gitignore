@@ -1,4 +1,9 @@
 build/
+anim/
+Anim/
+hdf5/
+
+ExternalLibs/
 
 .vscode
 
@@ -7,3 +12,7 @@ build/
 
 *_out/
 *.out
+*.o
+*.lo
+*.ol
+*.pyc

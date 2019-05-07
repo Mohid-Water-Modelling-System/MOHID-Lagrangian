@@ -1,0 +1,26 @@
+\hypertarget{csv_parser_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/csv\+Parser.f90 File Reference}
+\label{csv_parser_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/csv\+Parser.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/csv\+Parser.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+mod\+::csvparser\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacecsvparser__mod}{csvparser\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module defining a csv parsing and emitting class and methods, encapsulates the fortran-\/csv-\/module library. \href{https://github.com/jacobwilliams/fortran-csv-module}{\tt https\+://github.\+com/jacobwilliams/fortran-\/csv-\/module}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacecsvparser__mod_aa200ea4f5e06c67f7a627af0a70450a6}{csvparser\+\_\+mod\+::getfile}} (self, csvdoc, csvfilename, header\+\_\+row)
+\begin{DoxyCompactList}\small\item\em Method that parses a csv file and returns the file with the data. Gets and trashes the header. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacecsvparser__mod_ae966faafebb8c4035e12e0bb24de717c}{csvparser\+\_\+mod\+::getcolumn}} (self, csvdoc, csvfilename, column, data\+\_\+out)
+\begin{DoxyCompactList}\small\item\em Method that gets data from a column of a .csv file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacecsvparser__mod_a8f56a69c948d139a3e9c88476f25305d}{csvparser\+\_\+mod\+::closefile}} (self, csvdoc)
+\begin{DoxyCompactList}\small\item\em Method that closes a .csv file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(csvparser\+\_\+class), public \mbox{\hyperlink{namespacecsvparser__mod_ab6217ec53c20650314f678ba29d4c105}{csvparser\+\_\+mod\+::csvreader}}
+\end{DoxyCompactItemize}

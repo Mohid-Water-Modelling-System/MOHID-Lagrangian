@@ -1,0 +1,337 @@
+\hypertarget{namespacesimulationmemory__mod}{}\section{simulationmemory\+\_\+mod Module Reference}
+\label{namespacesimulationmemory__mod}\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+
+
+Module to hold the simulation memory managment class and its methods.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_afaf06c4001ebc289c12a9358a99d224d}{initializememory}} (self)
+\begin{DoxyCompactList}\small\item\em Memory logger initialization method. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a3eb0ad61a559664ed4227ca4ad1746af}{getotal}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to retreive the total size of the allocated memory. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a936043befeeb2a3a79b31b519295b842}{setntrc}} (self, ntrc)
+\begin{DoxyCompactList}\small\item\em Method to set the total expected number of Tracers. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a48844ee646c6d29108f5bb1bdb9fd1bf}{setsizetrc}} (self, size\+Trc)
+\begin{DoxyCompactList}\small\item\em Method to set the size of a typical Tracer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a2ade4b86d68e8daa4f22e1cdf7473e2c}{addblock}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a Block to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_ae5682757ed7e3e005a1b54e5b44ed8a1}{addsource}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a Source to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a3209dc0fdd14fe4a6190e67607076f65}{setracer}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a Tracer to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a0812b4222f930cfb142586f47b2de0da}{adddef}} (self, size)
+\begin{DoxyCompactList}\small\item\em Method to add the size of a definition to the memory log. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a5b7c22d236e24b59599f705f63ba3c09}{printmemory}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print the total allocated memory. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationmemory__mod_a9e12442b1b7b5d105cd70686e04106d3}{printmemorydetailed}} (self)
+\begin{DoxyCompactList}\small\item\em Method to print the allocated memory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), public \mbox{\hyperlink{namespacesimulationmemory__mod_a47d351637c32a0493b99ed3fb269f22c}{simmemory}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to hold the simulation memory managment class and its methods. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a2ade4b86d68e8daa4f22e1cdf7473e2c}\label{namespacesimulationmemory__mod_a2ade4b86d68e8daa4f22e1cdf7473e2c}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!addblock@{addblock}}
+\index{addblock@{addblock}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{addblock()}{addblock()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::addblock (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to add the size of a Block to the memory log. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 113 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+113     \textcolor{keywordtype}{implicit none}
+114     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+115     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: size
+116     self%size\_of\_blocks = self%size\_of\_blocks + \textcolor{keyword}{size}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a0812b4222f930cfb142586f47b2de0da}\label{namespacesimulationmemory__mod_a0812b4222f930cfb142586f47b2de0da}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!adddef@{adddef}}
+\index{adddef@{adddef}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{adddef()}{adddef()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::adddef (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to add the size of a definition to the memory log. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 150 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+150     \textcolor{keywordtype}{implicit none}
+151     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+152     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: size
+153     self%size\_of\_defs = self%size\_of\_defs + \textcolor{keyword}{size}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_ae5682757ed7e3e005a1b54e5b44ed8a1}\label{namespacesimulationmemory__mod_ae5682757ed7e3e005a1b54e5b44ed8a1}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!addsource@{addsource}}
+\index{addsource@{addsource}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{addsource()}{addsource()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::addsource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to add the size of a Source to the memory log. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 125 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+125     \textcolor{keywordtype}{implicit none}
+126     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+127     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: size
+128     self%size\_of\_sources = self%size\_of\_sources + \textcolor{keyword}{size}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a3eb0ad61a559664ed4227ca4ad1746af}\label{namespacesimulationmemory__mod_a3eb0ad61a559664ed4227ca4ad1746af}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!getotal@{getotal}}
+\index{getotal@{getotal}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{getotal()}{getotal()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::getotal (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(out)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to retreive the total size of the allocated memory. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 77 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+77     \textcolor{keywordtype}{implicit none}
+78     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+79     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(out)} :: size
+80     \textcolor{keyword}{size} = self%size\_of\_sources + self%size\_of\_tracers + self%size\_of\_defs + self%size\_of\_blocks
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_afaf06c4001ebc289c12a9358a99d224d}\label{namespacesimulationmemory__mod_afaf06c4001ebc289c12a9358a99d224d}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!initializememory@{initializememory}}
+\index{initializememory@{initializememory}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{initializememory()}{initializememory()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::initializememory (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Memory logger initialization method. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 63 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+63     \textcolor{keywordtype}{implicit none}
+64     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+65     self%size\_of\_sources = 0
+66     self%size\_of\_tracers = 0
+67     self%size\_of\_defs = 0
+68     self%size\_of\_blocks = 0
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a5b7c22d236e24b59599f705f63ba3c09}\label{namespacesimulationmemory__mod_a5b7c22d236e24b59599f705f63ba3c09}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!printmemory@{printmemory}}
+\index{printmemory@{printmemory}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{printmemory()}{printmemory()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::printmemory (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print the total allocated memory. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 162 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+162     \textcolor{keywordtype}{implicit none}
+163     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+164     \textcolor{keywordtype}{integer} :: size
+165     \textcolor{keywordtype}{real(prec)} :: sizemb
+166     \textcolor{keywordtype}{type}(string) :: outext,temp
+167     \textcolor{keyword}{call }self%getotal(size)
+168     sizemb = size*1e-6
+169     temp= sizemb
+170     outext=\textcolor{stringliteral}{'->Total allocated memory: '}//temp//\textcolor{stringliteral}{' mb'}
+171     \textcolor{keyword}{call }log%put(outext)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a9e12442b1b7b5d105cd70686e04106d3}\label{namespacesimulationmemory__mod_a9e12442b1b7b5d105cd70686e04106d3}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!printmemorydetailed@{printmemorydetailed}}
+\index{printmemorydetailed@{printmemorydetailed}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{printmemorydetailed()}{printmemorydetailed()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::printmemorydetailed (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to print the allocated memory. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 180 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+180     \textcolor{keywordtype}{implicit none}
+181     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+182     \textcolor{keywordtype}{integer} :: size
+183     \textcolor{keywordtype}{real(prec)} :: sizemb
+184     \textcolor{keywordtype}{type}(string) :: outext,temp(6)
+185     \textcolor{keyword}{call }self%getotal(size)
+186     sizemb = size*1e-6
+187     temp(6) = 2.25*sizemb
+188     temp(1)= sizemb
+189     sizemb = self%size\_of\_sources*1e-6
+190     temp(2)= sizemb
+191     sizemb = self%size\_of\_tracers*1e-6
+192     temp(3)= sizemb
+193     sizemb = self%size\_of\_defs*1e-6
+194     temp(4)= sizemb
+195     sizemb = self%size\_of\_blocks*1e-6
+196     temp(5)= sizemb
+197     sizemb = self%ntrc*self%sizeTrc*1e-6
+198     outext=\textcolor{stringliteral}{'->Total allocated memory: '}//temp(1)//\textcolor{stringliteral}{' mb'}//new\_line(\textcolor{stringliteral}{'a'})//&
+199         \textcolor{stringliteral}{'       Allocated memory for Blocks  = '}//temp(5)//\textcolor{stringliteral}{' mb'}//new\_line(\textcolor{stringliteral}{'a'})//&
+200         \textcolor{stringliteral}{'       Allocated memory for Sources = '}//temp(2)//\textcolor{stringliteral}{' mb'}//new\_line(\textcolor{stringliteral}{'a'})//&
+201         \textcolor{stringliteral}{'       Allocated memory for Tracers = '}//temp(3)//\textcolor{stringliteral}{' mb'}//new\_line(\textcolor{stringliteral}{'a'})//&
+202         \textcolor{stringliteral}{'       Allocated memory for Consts  = '}//temp(4)//\textcolor{stringliteral}{' mb'}//new\_line(\textcolor{stringliteral}{'a'})//&
+203         \textcolor{stringliteral}{'       Expected memory requirements exceed '}//temp(6)//\textcolor{stringliteral}{' mb'}
+204     \textcolor{keyword}{call }log%put(outext)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a936043befeeb2a3a79b31b519295b842}\label{namespacesimulationmemory__mod_a936043befeeb2a3a79b31b519295b842}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!setntrc@{setntrc}}
+\index{setntrc@{setntrc}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{setntrc()}{setntrc()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::setntrc (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{ntrc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to set the total expected number of Tracers. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 89 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+89     \textcolor{keywordtype}{implicit none}
+90     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+91     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: ntrc
+92     self%ntrc = ntrc
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a3209dc0fdd14fe4a6190e67607076f65}\label{namespacesimulationmemory__mod_a3209dc0fdd14fe4a6190e67607076f65}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!setracer@{setracer}}
+\index{setracer@{setracer}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{setracer()}{setracer()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::setracer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to add the size of a Tracer to the memory log. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 137 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+137     \textcolor{keywordtype}{implicit none}
+138     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+139     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: size
+140     self%size\_of\_tracers = \textcolor{keyword}{size}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a48844ee646c6d29108f5bb1bdb9fd1bf}\label{namespacesimulationmemory__mod_a48844ee646c6d29108f5bb1bdb9fd1bf}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!setsizetrc@{setsizetrc}}
+\index{setsizetrc@{setsizetrc}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{setsizetrc()}{setsizetrc()}}
+{\footnotesize\ttfamily subroutine simulationmemory\+\_\+mod\+::setsizetrc (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), intent(inout)}]{self,  }\item[{integer$\ast$8, intent(in)}]{size\+Trc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method to set the size of a typical Tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 101 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+101     \textcolor{keywordtype}{implicit none}
+102     \textcolor{keywordtype}{class}(memory\_t), \textcolor{keywordtype}{intent(inout)} :: self
+103     \textcolor{keywordtype}{integer*8}, \textcolor{keywordtype}{intent(in)} :: sizeTrc
+104     self%sizeTrc = sizetrc
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulationmemory__mod_a47d351637c32a0493b99ed3fb269f22c}\label{namespacesimulationmemory__mod_a47d351637c32a0493b99ed3fb269f22c}} 
+\index{simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}!simmemory@{simmemory}}
+\index{simmemory@{simmemory}!simulationmemory\+\_\+mod@{simulationmemory\+\_\+mod}}
+\subsubsection{\texorpdfstring{simmemory}{simmemory}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulationmemory__mod_1_1memory__t}{memory\+\_\+t}}), public simulationmemory\+\_\+mod\+::simmemory}
+
+
+
+Definition at line 50 of file simulation\+Memory.\+f90.
+
+
+\begin{DoxyCode}
+50     \textcolor{keywordtype}{type}(memory\_t) :: SimMemory
+\end{DoxyCode}

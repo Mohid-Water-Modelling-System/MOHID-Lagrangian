@@ -19,19 +19,19 @@
     !------------------------------------------------------------------------------
     module simulation_mod
 
-    use simulation_about_mod
-    use simulation_initialize_mod
+    use simulationAbout_mod
+    use simulationInitialize_mod
     use boundingbox_mod
     use blocks_mod
     use emitter_mod
     use sources_mod
     use tracers_mod
     use background_mod
-    use simulation_output_streamer_mod
-    use simulation_input_streamer_mod
+    use simulationOutputStreamer_mod
+    use simulationInputStreamer_mod
     use common_modules
-    
-    use hdf5writter_mod
+
+    use hdf5Writter_mod
 
     implicit none
     private
@@ -82,7 +82,7 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, aux
-    
+
     !integer :: testmat(10,12)
 
     outext = '====================================================================='
@@ -91,7 +91,7 @@
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)
-    
+
     !call writeTestmatrix(testmat)
 
     !main time cycle

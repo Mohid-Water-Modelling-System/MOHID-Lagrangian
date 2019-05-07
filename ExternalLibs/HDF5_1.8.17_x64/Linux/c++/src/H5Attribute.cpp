@@ -28,7 +28,6 @@
 #include "H5AbstractDs.h"
 #include "H5FaccProp.h"
 #include "H5FcreatProp.h"
-#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
 #include "H5DataType.h"
@@ -46,7 +45,6 @@ namespace H5 {
 #endif
 
 class H5_DLLCPP H5Object;  // forward declaration for UserData4Aiterate
-
 //--------------------------------------------------------------------------
 // Function:	Attribute default constructor
 ///\brief	Default constructor: Creates a stub attribute
@@ -60,8 +58,9 @@ Attribute::Attribute() : AbstractDs(), IdComponent(), id(H5I_INVALID_HID) {}
 ///\param	original  - IN: Original Attribute object to copy
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Attribute::Attribute(const Attribute& original) : AbstractDs(), IdComponent(), id(original.id)
+Attribute::Attribute(const Attribute& original) : AbstractDs(), IdComponent()
 {
+    id = original.getId();
     incRefCount(); // increment number of references to this id
 }
 
@@ -73,8 +72,9 @@ Attribute::Attribute(const Attribute& original) : AbstractDs(), IdComponent(), i
 ///\exception	H5::AttributeIException
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Attribute::Attribute(const hid_t existing_id) : AbstractDs(), IdComponent(), id(existing_id)
+Attribute::Attribute(const hid_t existing_id) : AbstractDs(), IdComponent()
 {
+    id = existing_id;
     incRefCount(); // increment number of references to this id
 }
 
@@ -293,7 +293,7 @@ H5std_string Attribute::getFileName() const
    try {
       return(p_get_file_name());
    }
-   catch (IdComponentException& E) {
+   catch (IdComponentException E) {
       throw FileIException("Attribute::getFileName", E.getDetailMsg());
    }
 }
@@ -348,7 +348,7 @@ H5std_string Attribute::getName() const
     H5std_string attr_name(""); // attribute name to return
 
     // Preliminary call to get the size of the attribute name
-    ssize_t name_size = H5Aget_name(id, static_cast<size_t>(0), NULL);
+    ssize_t name_size = H5Aget_name(id, (size_t)0, NULL);
 
     // If H5Aget_name failed, throw exception
     if (name_size < 0)
@@ -451,18 +451,17 @@ ssize_t Attribute::getName(H5std_string& attr_name, size_t len) const
 }
 
 //--------------------------------------------------------------------------
-// Function:	Attribute::getName
-// Purpose	This function is replaced by the previous function, which
-//		provides more convenient prototype.  It will be removed
-//		in future release.
-// Param	len  -  IN: Desired length of the name
-// Param	attr_name - OUT: Buffer for the name string
-// Return	Actual length of the attribute name
-// Exception	H5::AttributeIException
-// Programmer	Binh-Minh Ribler - Nov, 2001
+// Function:    Attribute::getName
+///\brief       This function is replaced by the previous function, which
+///		provides more convenient prototype.  It will be removed
+///		in future release.
+///\param       len  -  IN: Desired length of the name
+///\param       attr_name - OUT: Buffer for the name string
+///\return      Actual length of the attribute name
+///\exception   H5::AttributeIException
+// Programmer   Binh-Minh Ribler - Nov, 2001
 // Modification
 //		Modified to call its replacement. -BMR, 2014/04/16
-//		Removed from documentation. -BMR, 2016/03/07
 //--------------------------------------------------------------------------
 ssize_t Attribute::getName( size_t len, H5std_string& attr_name ) const
 {
@@ -567,7 +566,7 @@ void Attribute::p_read_fixed_len(const DataType& mem_type, H5std_string& strg) c
     // If there is data, allocate buffer and read it.
     if (attr_size > 0)
     {
-	char *strg_C = new char[attr_size+1];
+	char *strg_C = new char[(size_t)attr_size+1];
 	herr_t ret_value = H5Aread(id, mem_type.getId(), strg_C);
 	if( ret_value < 0 )
 	{
@@ -611,7 +610,6 @@ void Attribute::p_read_variable_len(const DataType& mem_type, H5std_string& strg
     HDfree(strg_C);
 }
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------------------
 // Function:    Attribute::p_setId
 ///\brief       Sets the identifier of this object to a new value.
@@ -630,13 +628,12 @@ void Attribute::p_setId(const hid_t new_id)
     try {
 	close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	throw AttributeIException("Attribute::p_setId", close_error.getDetailMsg());
     }
    // reset object's id to the given id
    id = new_id;
 }
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
 // Function:	Attribute::close
@@ -674,7 +671,7 @@ Attribute::~Attribute()
     try {
 	close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	cerr << "Attribute::~Attribute - " << close_error.getDetailMsg() << endl;
     }
 }

@@ -1,0 +1,175 @@
+\hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class}{}\section{simulationoutputstreamer\+\_\+mod\+:\+:output\+\_\+streamer\+\_\+class Type Reference}
+\label{structsimulationoutputstreamer__mod_1_1output__streamer__class}\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+
+
+Collaboration diagram for simulationoutputstreamer\+\_\+mod\+:\+:output\+\_\+streamer\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{structsimulationoutputstreamer__mod_1_1output__streamer__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_aef05ba910aa8ebe5567fae9d59989dd1}{initialize}} =$>$ init\+Output\+Streamer
+\item 
+procedure \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a4013e6853675f44c7df2409114da35d2}{writedomain}}
+\item 
+procedure \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a815312dcf6d6933e5fe01a6a19c078ed}{writestepserial}}
+\item 
+procedure \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a3c178b135b90289720d9cb549fa8dce2}{finalize}} =$>$ close\+Output\+Streamer
+\item 
+procedure, private \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a2085a877c0b95c662c0012d911e34c58}{checkwritetime}}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+real(prec) \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a920e9e77fa191ab17e85c82d3816d913}{outputfrequency}} = MV
+\begin{DoxyCompactList}\small\item\em Output frequency to write simulation outputs. \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a9ea996af0c9a2d9f3930092e83ca71bb}{lastwritetime}} = MV
+\begin{DoxyCompactList}\small\item\em Time stamp of the last output write. \end{DoxyCompactList}\item 
+integer \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a53a4af6464bb24e7191a7632fb3b4f38}{outputformat}} = -\/1
+\begin{DoxyCompactList}\small\item\em Switch for output format. \end{DoxyCompactList}\item 
+type(vtkwritter\+\_\+class) \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a883916a5ede4ceff754115bd3317649e}{vtkwritter}}
+\begin{DoxyCompactList}\small\item\em The vtk writter object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 31 of file simulation\+Output\+Streamer.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a2085a877c0b95c662c0012d911e34c58}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a2085a877c0b95c662c0012d911e34c58}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!checkwritetime@{checkwritetime}}
+\index{checkwritetime@{checkwritetime}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{checkwritetime()}{checkwritetime()}}
+{\footnotesize\ttfamily procedure, private simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::checkwritetime (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file simulation\+Output\+Streamer.\+f90.
+
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a3c178b135b90289720d9cb549fa8dce2}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a3c178b135b90289720d9cb549fa8dce2}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!finalize@{finalize}}
+\index{finalize@{finalize}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily procedure simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 40 of file simulation\+Output\+Streamer.\+f90.
+
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_aef05ba910aa8ebe5567fae9d59989dd1}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_aef05ba910aa8ebe5567fae9d59989dd1}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!initialize@{initialize}}
+\index{initialize@{initialize}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file simulation\+Output\+Streamer.\+f90.
+
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a4013e6853675f44c7df2409114da35d2}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a4013e6853675f44c7df2409114da35d2}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!writedomain@{writedomain}}
+\index{writedomain@{writedomain}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{writedomain()}{writedomain()}}
+{\footnotesize\ttfamily procedure simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::writedomain (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 38 of file simulation\+Output\+Streamer.\+f90.
+
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a815312dcf6d6933e5fe01a6a19c078ed}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a815312dcf6d6933e5fe01a6a19c078ed}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!writestepserial@{writestepserial}}
+\index{writestepserial@{writestepserial}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{writestepserial()}{writestepserial()}}
+{\footnotesize\ttfamily procedure simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::writestepserial (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file simulation\+Output\+Streamer.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a9ea996af0c9a2d9f3930092e83ca71bb}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a9ea996af0c9a2d9f3930092e83ca71bb}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!lastwritetime@{lastwritetime}}
+\index{lastwritetime@{lastwritetime}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{lastwritetime}{lastwritetime}}
+{\footnotesize\ttfamily real(prec) simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::lastwritetime = MV\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Time stamp of the last output write. 
+
+
+
+Definition at line 33 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{real(prec)} :: LastWriteTime = mv        
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a53a4af6464bb24e7191a7632fb3b4f38}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a53a4af6464bb24e7191a7632fb3b4f38}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!outputformat@{outputformat}}
+\index{outputformat@{outputformat}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{outputformat}{outputformat}}
+{\footnotesize\ttfamily integer simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::outputformat = -\/1\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Switch for output format. 
+
+
+
+Definition at line 34 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+34         \textcolor{keywordtype}{integer} :: OutputFormat = -1
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a920e9e77fa191ab17e85c82d3816d913}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a920e9e77fa191ab17e85c82d3816d913}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!outputfrequency@{outputfrequency}}
+\index{outputfrequency@{outputfrequency}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{outputfrequency}{outputfrequency}}
+{\footnotesize\ttfamily real(prec) simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::outputfrequency = MV\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Output frequency to write simulation outputs. 
+
+
+
+Definition at line 32 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+32         \textcolor{keywordtype}{real(prec)} :: OutputFrequency = mv      
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a883916a5ede4ceff754115bd3317649e}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a883916a5ede4ceff754115bd3317649e}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!vtkwritter@{vtkwritter}}
+\index{vtkwritter@{vtkwritter}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{vtkwritter}{vtkwritter}}
+{\footnotesize\ttfamily type(vtkwritter\+\_\+class) simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::vtkwritter\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The vtk writter object. 
+
+
+
+Definition at line 35 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{type}(vtkwritter\_class) :: vtkWritter
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{simulation_output_streamer_8f90}{simulation\+Output\+Streamer.\+f90}}\end{DoxyCompactItemize}

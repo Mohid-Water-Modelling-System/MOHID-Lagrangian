@@ -19,7 +19,6 @@
 #include "H5Exception.h"
 #include "H5IdComponent.h"
 #include "H5PropList.h"
-#include "H5OcreatProp.h"
 #include "H5Object.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
@@ -29,70 +28,17 @@
 namespace H5 {
 #endif
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-// This DOXYGEN_SHOULD_SKIP_THIS block is a work-around approach to control
-// the order of creation and deletion of the global constants.  See Design Notes
-// in "H5PredType.cpp" for information.
-
-// Initialize a pointer for the constant
-DSetCreatPropList* DSetCreatPropList::DEFAULT_ = 0;
-
 //--------------------------------------------------------------------------
-// Function:    DSetCreatPropList::getConstant
-// Purpose:     Creates a DSetCreatPropList object representing the HDF5
-//              constant H5P_DATASET_CREATE, pointed to by
-//		DSetCreatPropList::DEFAULT_
-// exception    H5::PropListIException
-// Description
-//              If DSetCreatPropList::DEFAULT_ already points to an allocated
-//              object, throw a PropListIException.  This scenario should
-//              not happen.
-// Programmer   Binh-Minh Ribler - 2015
+///\brief	Constant for dataset creation default property
 //--------------------------------------------------------------------------
-DSetCreatPropList* DSetCreatPropList::getConstant()
-{
-    // Tell the C library not to clean up, H5Library::termH5cpp will call
-    // H5close - more dependency if use H5Library::dontAtExit()
-    if (!IdComponent::H5dontAtexit_called)
-    {
-        (void) H5dont_atexit();
-        IdComponent::H5dontAtexit_called = true;
-    }
-
-    // If the constant pointer is not allocated, allocate it. Otherwise,
-    // throw because it shouldn't be.
-    if (DEFAULT_ == 0)
-        DEFAULT_ = new DSetCreatPropList(H5P_DATASET_CREATE);
-    else
-        throw PropListIException("DSetCreatPropList::getConstant", "DSetCreatPropList::getConstant is being invoked on an allocated DEFAULT_");
-    return(DEFAULT_);
-}
-
-//--------------------------------------------------------------------------
-// Function:    DSetCreatPropList::deleteConstants
-// Purpose:     Deletes the constant object that DSetCreatPropList::DEFAULT_
-//              points to.
-// Programmer   Binh-Minh Ribler - 2015
-//--------------------------------------------------------------------------
-void DSetCreatPropList::deleteConstants()
-{
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
-}
-
-//--------------------------------------------------------------------------
-// Purpose	Constant for dataset creation default property
-//--------------------------------------------------------------------------
-const DSetCreatPropList& DSetCreatPropList::DEFAULT = *getConstant();
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
+const DSetCreatPropList DSetCreatPropList::DEFAULT;
 
 //--------------------------------------------------------------------------
 // Function:	DSetCreatPropList default constructor
 ///\brief	Default constructor: creates a stub dataset creation property list
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DSetCreatPropList::DSetCreatPropList() : ObjCreatPropList(H5P_DATASET_CREATE) {}
+DSetCreatPropList::DSetCreatPropList() : PropList( H5P_DATASET_CREATE) {}
 
 //--------------------------------------------------------------------------
 // Function:	DSetCreatPropList copy constructor
@@ -100,7 +46,7 @@ DSetCreatPropList::DSetCreatPropList() : ObjCreatPropList(H5P_DATASET_CREATE) {}
 ///		DSetCreatPropList object
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DSetCreatPropList::DSetCreatPropList( const DSetCreatPropList& orig ) : ObjCreatPropList(orig) {}
+DSetCreatPropList::DSetCreatPropList( const DSetCreatPropList& orig ) : PropList( orig ) {}
 
 //--------------------------------------------------------------------------
 // Function:	DSetCreatPropList overloaded constructor
@@ -108,7 +54,7 @@ DSetCreatPropList::DSetCreatPropList( const DSetCreatPropList& orig ) : ObjCreat
 ///		existing dataset creation property list.
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DSetCreatPropList::DSetCreatPropList(const hid_t plist_id) : ObjCreatPropList(plist_id) {}
+DSetCreatPropList::DSetCreatPropList(const hid_t plist_id) : PropList(plist_id) {}
 
 //--------------------------------------------------------------------------
 // Function:	DSetCreatPropList::setChunk
@@ -247,28 +193,6 @@ void DSetCreatPropList::setSzip(unsigned int options_mask, unsigned int pixels_p
     {
 	throw PropListIException("DSetCreatPropList::setSzip",
 		"H5Pset_szip failed");
-    }
-}
-
-//--------------------------------------------------------------------------
-// Function:	DSetCreatPropList::setNbit
-///\brief	Sets up for the use of the Nbit compression filter.
-///\exception	H5::PropListIException
-///\par Description
-///		The associate C function sets an Nbit compression filter,
-///		H5Z_FILTER_NBIT, for a dataset.  For more information about
-///		Nbit compression, please refer to the C layer Reference
-///		Manual at:
-/// http://www.hdfgroup.org/HDF5/doc/RM/RM_H5P.html#Property-setNbit
-// Programmer	Binh-Minh Ribler - Apr, 2016
-//--------------------------------------------------------------------------
-void DSetCreatPropList::setNbit() const
-{
-    herr_t ret_value = H5Pset_nbit(id);
-    if( ret_value < 0 )
-    {
-	throw PropListIException("DSetCreatPropList::setNbit",
-		"H5Pset_nbit failed");
     }
 }
 

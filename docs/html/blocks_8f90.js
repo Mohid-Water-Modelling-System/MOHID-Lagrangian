@@ -18,5 +18,6 @@ var blocks_8f90 =
     [ "setblocks", "blocks_8f90.html#a8f5a5d9e6cfd16cfd1b179092a204696", null ],
     [ "toogleblocksources", "blocks_8f90.html#ab9e57cbf0103b632b2b2dfa4e4d4139c", null ],
     [ "tracerstoaot", "blocks_8f90.html#ae7afa742f8f89a6a8afdefb7f8c87efd", null ],
+    [ "trcinbox", "blocks_8f90.html#ad8d92210b3d4ade090d2a19b97f4c88e", null ],
     [ "dblock", "blocks_8f90.html#ac8ad6e3cf7a812f95dadb592336aca50", null ]
 ];

@@ -18,9 +18,9 @@
 
 module tracers_mod
 
-    use tracer_base_mod     ! The base type - pure Lagrangian Tracer
-    use tracer_user_mod     ! User defined type
-    use tracer_plastic_mod  ! Plastic particles
-    use tracer_paper_mod    ! Paper particles
+    use tracerBase_mod     ! The base type - pure Lagrangian Tracer
+    use tracerUser_mod     ! User defined type
+    use tracerPlastic_mod  ! Plastic particles
+    use tracerPaper_mod    ! Paper particles
 
 end module tracers_mod

@@ -15,15 +15,18 @@ type \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_
 \item 
 subroutine \mbox{\hyperlink{namespacevtkwritter__mod_abd35d591c8e15730a277b2d26deb83e8}{initvtkwritter}} (self)
 \begin{DoxyCompactList}\small\item\em Initializes a V\+TK writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a13f1b870d2367704bcd4143a80b552f9}{closevtkwriter}} (self)
+\begin{DoxyCompactList}\small\item\em Closes a V\+TK writer object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacevtkwritter__mod_ac11e4d1d71141e6de89ba67508212ce0}{tracerserial}} (self, filename, blocks)
 \begin{DoxyCompactList}\small\item\em Public Tracer writting routine. Writes Tracer data in binary X\+ML V\+TK format using an unstructured grid. Serial writer for serial files. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a4c50b52b496bad6b053ffd5749da1582}{indexvtkfile}} (self, filename, timestamp)
+\begin{DoxyCompactList}\small\item\em indexes a given file with a correct time stamp in a paraview readable xml format. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a0c26bb22a8b7dd9f9da69309ad65d669}{openindexvtkfile}} (self)
+\begin{DoxyCompactList}\small\item\em Open vtu file indexer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a6f9a731d9dee5651f85d4aeed3f3ea5d}{closeindexvtkfile}} (self)
+\begin{DoxyCompactList}\small\item\em Close vtu file indexer. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacevtkwritter__mod_a9f44d9fd1c5da759c4f2d721d12a8181}{domain}} (self, filename, bbox, npbbox, blocks)
 \begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-type(\mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_\+class}}), public \mbox{\hyperlink{namespacevtkwritter__mod_a80eabc5e7153822e7ddd54b662294c81}{vtkwritter}}
-\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -35,6 +38,61 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacevtkwritter__mod_a6f9a731d9dee5651f85d4aeed3f3ea5d}\label{namespacevtkwritter__mod_a6f9a731d9dee5651f85d4aeed3f3ea5d}} 
+\index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!closeindexvtkfile@{closeindexvtkfile}}
+\index{closeindexvtkfile@{closeindexvtkfile}!vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}}
+\subsubsection{\texorpdfstring{closeindexvtkfile()}{closeindexvtkfile()}}
+{\footnotesize\ttfamily subroutine vtkwritter\+\_\+mod\+::closeindexvtkfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Close vtu file indexer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 172 of file vtk\+Writter.\+f90.
+
+
+\begin{DoxyCode}
+172     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+173     \textcolor{keywordtype}{type}(string) :: outext
+174     \textcolor{keywordflow}{if} (self%indexerOpen) \textcolor{keywordflow}{then}
+175         outext = \textcolor{stringliteral}{'  </Collection>'}//new\_line(\textcolor{stringliteral}{'a'})
+176         outext = outext//\textcolor{stringliteral}{'</VTKFile>'}
+177         \textcolor{keyword}{write}(self%indexerUnit,\textcolor{stringliteral}{"(A)"}) outext%chars()
+178         \textcolor{keyword}{close}(self%indexerUnit)
+179 \textcolor{keywordflow}{    end if}    
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacevtkwritter__mod_a13f1b870d2367704bcd4143a80b552f9}\label{namespacevtkwritter__mod_a13f1b870d2367704bcd4143a80b552f9}} 
+\index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!closevtkwriter@{closevtkwriter}}
+\index{closevtkwriter@{closevtkwriter}!vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}}
+\subsubsection{\texorpdfstring{closevtkwriter()}{closevtkwriter()}}
+{\footnotesize\ttfamily subroutine vtkwritter\+\_\+mod\+::closevtkwriter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Closes a V\+TK writer object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 69 of file vtk\+Writter.\+f90.
+
+
+\begin{DoxyCode}
+69     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+70     \textcolor{keyword}{call }self%CloseIndexVTKFile()
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacevtkwritter__mod_a9f44d9fd1c5da759c4f2d721d12a8181}\label{namespacevtkwritter__mod_a9f44d9fd1c5da759c4f2d721d12a8181}} 
 \index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!domain@{domain}}
 \index{domain@{domain}!vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}}
@@ -63,89 +121,125 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 118 of file vtkwritter.\+f90.
+Definition at line 190 of file vtk\+Writter.\+f90.
 
 
 \begin{DoxyCode}
-118     \textcolor{keywordtype}{implicit none}
-119     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
-120     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
-121     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
-122     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
-123     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
-124 
-125     \textcolor{keywordtype}{type}(vtk\_file) :: vtkfile
-126     \textcolor{keywordtype}{type}(string) :: fullfilename
-127     \textcolor{keywordtype}{type}(string) :: outext
-128     \textcolor{keywordtype}{integer} :: error, i, b
-129     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{parameter} :: nc = 1
-130     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(1:npbbox)} :: xx, yy, zz
-131     \textcolor{keywordtype}{type}(vector) :: pts(npbbox)
-132     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(1:npbbox)} :: connect, var
-133     \textcolor{keywordtype}{integer(I4P)}, \textcolor{keywordtype}{dimension(1:nc)} :: offset
-134     \textcolor{keywordtype}{integer(I1P)}, \textcolor{keywordtype}{dimension(1:nc)} :: cell\_type
-135 
-136     offset = [8]
-137     cell\_type = [12]
-138 
-139     \textcolor{comment}{!preparing file}
-140     fullfilename = filename%chars()//\textcolor{stringliteral}{'\_BoundingBox.vtu'}
-141     outext = \textcolor{stringliteral}{'->Writting Bounding Box file '}//fullfilename
-142     \textcolor{keyword}{call }log%put(outext)
-143     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
-144 
-145     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
+190     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+191     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+192     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
+193     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+194     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
+195 
+196     \textcolor{keywordtype}{type}(vtk\_file) :: vtkfile
+197     \textcolor{keywordtype}{type}(string) :: fullfilename
+198     \textcolor{keywordtype}{type}(string) :: outext
+199     \textcolor{keywordtype}{integer} :: error, i, b
+200     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{parameter} :: nc = 1
+201     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(1:npbbox)} :: xx, yy, zz
+202     \textcolor{keywordtype}{type}(vector) :: pts(npbbox)
+203     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(1:npbbox)} :: connect, var
+204     \textcolor{keywordtype}{integer(I4P)}, \textcolor{keywordtype}{dimension(1:nc)} :: offset
+205     \textcolor{keywordtype}{integer(I1P)}, \textcolor{keywordtype}{dimension(1:nc)} :: cell\_type
+206 
+207     offset = [8]
+208     cell\_type = [12]
+209 
+210     \textcolor{comment}{!preparing file}
+211     fullfilename = filename%chars()//\textcolor{stringliteral}{'\_BoundingBox.vtu'}
+212     outext = \textcolor{stringliteral}{'->Writting Bounding Box file '}//fullfilename
+213     \textcolor{keyword}{call }log%put(outext)
+214     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
+215 
+216     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
       =\textcolor{stringliteral}{'UnstructuredGrid'})
-146 
-147     \textcolor{comment}{!Writting bounding box geometry}
-148     pts = geometry%getPoints(bbox)
-149     \textcolor{keywordflow}{do} i=1, npbbox
-150         xx(i) = pts(i)%x
-151         yy(i) = pts(i)%y
-152         zz(i) = pts(i)%z
-153         connect(i) = i-1
-154 \textcolor{keywordflow}{    end do}
-155     error = vtkfile%xml\_writer%write\_piece(np=npbbox, nc=nc)
-156     error = vtkfile%xml\_writer%write\_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
-157     error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, cell\_type=
+217 
+218     \textcolor{comment}{!Writting bounding box geometry}
+219     pts = geometry%getPoints(bbox)
+220     \textcolor{keywordflow}{do} i=1, npbbox
+221         xx(i) = pts(i)%x
+222         yy(i) = pts(i)%y
+223         zz(i) = pts(i)%z
+224         connect(i) = i-1
+225 \textcolor{keywordflow}{    end do}
+226     error = vtkfile%xml\_writer%write\_piece(np=npbbox, nc=nc)
+227     error = vtkfile%xml\_writer%write\_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
+228     error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, cell\_type=
       cell\_type)
-158     error = vtkfile%xml\_writer%write\_piece()
-159 
-160     \textcolor{comment}{!Closing file}
-161     error = vtkfile%finalize()
-162 
-163     \textcolor{comment}{!preparing file}
-164     fullfilename = filename%chars()//\textcolor{stringliteral}{'\_Blocks.vtu'}
-165     outext = \textcolor{stringliteral}{'->Writting Blocks file '}//fullfilename
-166     \textcolor{keyword}{call }log%put(outext)
-167     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
-168 
-169     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
+229     error = vtkfile%xml\_writer%write\_piece()
+230 
+231     \textcolor{comment}{!Closing file}
+232     error = vtkfile%finalize()
+233 
+234     \textcolor{comment}{!preparing file}
+235     fullfilename = filename%chars()//\textcolor{stringliteral}{'\_Blocks.vtu'}
+236     outext = \textcolor{stringliteral}{'->Writting Blocks file '}//fullfilename
+237     \textcolor{keyword}{call }log%put(outext)
+238     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
+239 
+240     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
       =\textcolor{stringliteral}{'UnstructuredGrid'})
-170 
-171     \textcolor{comment}{!Writting block geometries}
-172     \textcolor{keywordflow}{do} b=1, \textcolor{keyword}{size}(blocks)
-173         pts = geometry%getPoints(blocks(b)%extents)
-174         \textcolor{keywordflow}{do} i=1, npbbox
-175             xx(i) = pts(i)%x
-176             yy(i) = pts(i)%y
-177             \textcolor{comment}{!zz(i) = pts(i)%z}
-178             connect(i) = i-1
-179             var(i) = b
-180 \textcolor{keywordflow}{        end do}
-181         error = vtkfile%xml\_writer%write\_piece(np=npbbox, nc=nc)
-182         error = vtkfile%xml\_writer%write\_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
-183         error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, cell\_type
+241 
+242     \textcolor{comment}{!Writting block geometries}
+243     \textcolor{keywordflow}{do} b=1, \textcolor{keyword}{size}(blocks)
+244         pts = geometry%getPoints(blocks(b)%extents)
+245         \textcolor{keywordflow}{do} i=1, npbbox
+246             xx(i) = pts(i)%x
+247             yy(i) = pts(i)%y
+248             \textcolor{comment}{!zz(i) = pts(i)%z}
+249             connect(i) = i-1
+250             var(i) = b
+251 \textcolor{keywordflow}{        end do}
+252         error = vtkfile%xml\_writer%write\_piece(np=npbbox, nc=nc)
+253         error = vtkfile%xml\_writer%write\_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
+254         error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, cell\_type
       =cell\_type)
-184         error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
-185         error = vtkfile%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'Block'}, x=var)
-186         error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
-187         error = vtkfile%xml\_writer%write\_piece()
-188 \textcolor{keywordflow}{    end do}
-189 
-190     \textcolor{comment}{!Closing file}
-191     error = vtkfile%finalize()
-192 
+255         error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
+256         error = vtkfile%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'Block'}, x=var)
+257         error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
+258         error = vtkfile%xml\_writer%write\_piece()
+259 \textcolor{keywordflow}{    end do}
+260 
+261     \textcolor{comment}{!Closing file}
+262     error = vtkfile%finalize()
+263 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacevtkwritter__mod_a4c50b52b496bad6b053ffd5749da1582}\label{namespacevtkwritter__mod_a4c50b52b496bad6b053ffd5749da1582}} 
+\index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!indexvtkfile@{indexvtkfile}}
+\index{indexvtkfile@{indexvtkfile}!vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}}
+\subsubsection{\texorpdfstring{indexvtkfile()}{indexvtkfile()}}
+{\footnotesize\ttfamily subroutine vtkwritter\+\_\+mod\+::indexvtkfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename,  }\item[{real(prec), intent(in)}]{timestamp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+indexes a given file with a correct time stamp in a paraview readable xml format. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,filename,timestamp} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 132 of file vtk\+Writter.\+f90.
+
+
+\begin{DoxyCode}
+132     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+133     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+134     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: timestamp
+135     \textcolor{keywordtype}{type}(string) :: outext, temp
+136     
+137     \textcolor{keywordflow}{if} (.not. self%indexerOpen) \textcolor{keywordflow}{then}
+138         \textcolor{keyword}{call }self%OpenIndexVTKFile()
+139 \textcolor{keywordflow}{    end if}
+140     temp = timestamp
+141     outext = \textcolor{stringliteral}{'<DataSet timestep="'}//temp//\textcolor{stringliteral}{'" file="'}//filename//\textcolor{stringliteral}{'"/>'}
+142     \textcolor{keyword}{write}(self%indexerUnit,\textcolor{stringliteral}{"(A)"}) outext%chars()
+143     
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacevtkwritter__mod_abd35d591c8e15730a277b2d26deb83e8}\label{namespacevtkwritter__mod_abd35d591c8e15730a277b2d26deb83e8}} 
 \index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!initvtkwritter@{initvtkwritter}}
@@ -162,14 +256,48 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 54 of file vtkwritter.\+f90.
+Definition at line 58 of file vtk\+Writter.\+f90.
 
 
 \begin{DoxyCode}
-54     \textcolor{keywordtype}{implicit none}
-55     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
-56     self%numVtkFiles = 0
-57     self%formatType = \textcolor{stringliteral}{'raw'}
+58     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+59     self%numVtkFiles = 0
+60     self%formatType = \textcolor{stringliteral}{'raw'}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacevtkwritter__mod_a0c26bb22a8b7dd9f9da69309ad65d669}\label{namespacevtkwritter__mod_a0c26bb22a8b7dd9f9da69309ad65d669}} 
+\index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!openindexvtkfile@{openindexvtkfile}}
+\index{openindexvtkfile@{openindexvtkfile}!vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}}
+\subsubsection{\texorpdfstring{openindexvtkfile()}{openindexvtkfile()}}
+{\footnotesize\ttfamily subroutine vtkwritter\+\_\+mod\+::openindexvtkfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Open vtu file indexer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 153 of file vtk\+Writter.\+f90.
+
+
+\begin{DoxyCode}
+153     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+154     \textcolor{keywordtype}{type}(string) :: outext, indexerFilename
+155     
+156     indexerfilename = globals%Names%outpath//globals%Names%casename//\textcolor{stringliteral}{'.pvd'}
+157     \textcolor{keyword}{open}(unit=self%indexerUnit,file=indexerfilename%chars(),action=\textcolor{stringliteral}{"write"},status=\textcolor{stringliteral}{"replace"})    
+158     outext = \textcolor{stringliteral}{'<VTKFile type="Collection" version="0.1" byte\_order="LittleEndian">'}//new\_line(\textcolor{stringliteral}{'a'})
+159     outext = outext//\textcolor{stringliteral}{'  <Collection>'}    
+160     \textcolor{keyword}{write}(self%indexerUnit,\textcolor{stringliteral}{"(A)"}) outext%chars()    
+161     self%indexerOpen = .true.
+162     
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacevtkwritter__mod_ac11e4d1d71141e6de89ba67508212ce0}\label{namespacevtkwritter__mod_ac11e4d1d71141e6de89ba67508212ce0}} 
 \index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!tracerserial@{tracerserial}}
@@ -193,69 +321,53 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 68 of file vtkwritter.\+f90.
+Definition at line 81 of file vtk\+Writter.\+f90.
 
 
 \begin{DoxyCode}
-68     \textcolor{keywordtype}{implicit none}
-69     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
-70     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
-71     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
-72 
-73     \textcolor{keywordtype}{type}(vtk\_file) :: vtkfile
-74     \textcolor{keywordtype}{type}(string) :: fullfilename
-75     \textcolor{keywordtype}{type}(string) :: outext
-76     \textcolor{keywordtype}{integer} :: error, i
-77     \textcolor{keywordtype}{integer} :: np
-78     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{parameter} :: nc = 0
-79     \textcolor{keywordtype}{integer(I1P)}, \textcolor{keywordtype}{dimension(1:nc)} :: cell\_type
-80     \textcolor{keywordtype}{integer(I4P)}, \textcolor{keywordtype}{dimension(1:nc)} :: offset
-81     \textcolor{keywordtype}{integer(I4P)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: connect
-82 
-83     fullfilename = filename%chars()//\textcolor{stringliteral}{'.vtu'}
-84     outext = \textcolor{stringliteral}{'->Writting output file '}//fullfilename
-85     \textcolor{keyword}{call }log%put(outext)
-86     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//fullfilename
-87 
-88     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
+81     \textcolor{keywordtype}{class}(vtkwritter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+82     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+83     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+84 
+85     \textcolor{keywordtype}{type}(vtk\_file) :: vtkfile
+86     \textcolor{keywordtype}{type}(string) :: fullfilename, extfilename
+87     \textcolor{keywordtype}{type}(string) :: outext
+88     \textcolor{keywordtype}{integer} :: error, i
+89     \textcolor{keywordtype}{integer} :: np
+90     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{parameter} :: nc = 0
+91     \textcolor{keywordtype}{integer(I1P)}, \textcolor{keywordtype}{dimension(1:nc)} :: cell\_type
+92     \textcolor{keywordtype}{integer(I4P)}, \textcolor{keywordtype}{dimension(1:nc)} :: offset
+93     \textcolor{keywordtype}{integer(I4P)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: connect
+94 
+95     extfilename = filename%chars()//\textcolor{stringliteral}{'.vtu'}
+96     outext = \textcolor{stringliteral}{'->Writting output file '}//extfilename
+97     \textcolor{keyword}{call }log%put(outext)
+98     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//extfilename
+99 
+100     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh\_topology
       =\textcolor{stringliteral}{'UnstructuredGrid'})
-89     \textcolor{comment}{!Write the data of each block}
-90     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(blocks)
-91         \textcolor{keywordflow}{if} (blocks(i)%LTracer%getSize() > 0) \textcolor{keywordflow}{then}
-92             np = blocks(i)%LTracer%getSize()
-93             \textcolor{keyword}{allocate}(connect(np))
-94             error = vtkfile%xml\_writer%write\_piece(np=np, nc=nc)
-95             error = vtkfile%xml\_writer%write\_geo(np=np, nc=nc, x=blocks(i)%AoT%x, y=blocks(i)%AoT%y, z=
+101     \textcolor{comment}{!Write the data of each block}
+102     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(blocks)
+103         \textcolor{keywordflow}{if} (blocks(i)%LTracer%getSize() > 0) \textcolor{keywordflow}{then}
+104             np = blocks(i)%LTracer%getSize()
+105             \textcolor{keyword}{allocate}(connect(np))
+106             error = vtkfile%xml\_writer%write\_piece(np=np, nc=nc)
+107             error = vtkfile%xml\_writer%write\_geo(np=np, nc=nc, x=blocks(i)%AoT%x, y=blocks(i)%AoT%y, z=
       blocks(i)%AoT%z)
-96             error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, 
+108             error = vtkfile%xml\_writer%write\_connectivity(nc=nc, connectivity=connect, offset=offset, 
       cell\_type=cell\_type)
-97             error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
-98             error = vtkfile%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'id'}, x=blocks(i)%AoT%id)
-99             error = vtkfile%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'velocity'}, x=blocks(i)%AoT%u, y=blocks(i)
+109             error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'open'})
+110             error = vtkfile%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'id'}, x=blocks(i)%AoT%id)
+111             error = vtkfile%xml\_writer%write\_dataarray(data\_name=\textcolor{stringliteral}{'velocity'}, x=blocks(i)%AoT%u, y=blocks(i)
       %AoT%v, z=blocks(i)%AoT%w)
-100             error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
-101             error = vtkfile%xml\_writer%write\_piece()
-102             \textcolor{keyword}{deallocate}(connect)
-103 \textcolor{keywordflow}{        end if}
-104 \textcolor{keywordflow}{    end do}
-105     error = vtkfile%finalize()
-106     self%numVtkFiles = self%numVtkFiles + 1
-107 
-\end{DoxyCode}
-
-
-\subsection{Variable Documentation}
-\mbox{\Hypertarget{namespacevtkwritter__mod_a80eabc5e7153822e7ddd54b662294c81}\label{namespacevtkwritter__mod_a80eabc5e7153822e7ddd54b662294c81}} 
-\index{vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}!vtkwritter@{vtkwritter}}
-\index{vtkwritter@{vtkwritter}!vtkwritter\+\_\+mod@{vtkwritter\+\_\+mod}}
-\subsubsection{\texorpdfstring{vtkwritter}{vtkwritter}}
-{\footnotesize\ttfamily type(\mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class}{vtkwritter\+\_\+class}}), public vtkwritter\+\_\+mod\+::vtkwritter}
-
-
-
-Definition at line 41 of file vtkwritter.\+f90.
-
-
-\begin{DoxyCode}
-41     \textcolor{keywordtype}{type}(vtkwritter\_class) :: vtkWritter
+112             error = vtkfile%xml\_writer%write\_dataarray(location=\textcolor{stringliteral}{'node'}, action=\textcolor{stringliteral}{'close'})
+113             error = vtkfile%xml\_writer%write\_piece()
+114             \textcolor{keyword}{deallocate}(connect)
+115 \textcolor{keywordflow}{        end if}
+116 \textcolor{keywordflow}{    end do}
+117     error = vtkfile%finalize()
+118     self%numVtkFiles = self%numVtkFiles + 1
+119     
+120     \textcolor{keywordflow}{if} (self%numVtkFiles /= 1) \textcolor{keyword}{call }self%IndexVTKFile(extfilename, globals%SimTime%getDateTimeStamp())
+121 
 \end{DoxyCode}

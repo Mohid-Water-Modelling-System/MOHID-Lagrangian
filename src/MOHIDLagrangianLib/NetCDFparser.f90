@@ -17,11 +17,11 @@
     !> the parsing of netcdf files. Each object of this class is responsible for
     !> one file, effectivelly representing it.
     !> The object should return the necessary data fields with corresponding meta
-    !> data, such as names and units. An institution library is consulted when
-    !> required, because even netCDF CF compliance allows ambiguity.
+    !> data, such as names and units. An variable library is consulted when
+    !> required, because even NetCDF CF compliance allows ambiguity.
     !------------------------------------------------------------------------------
 
-    module ncparser_mod
+    module netcdfParser_mod
 
 #ifdef _USE_NIX
     use netcdf
@@ -31,8 +31,8 @@
 
     use common_modules
     use background_mod
-    use field_types_mod
-    use xmlparser_mod
+    use fieldTypes_mod
+    use xmlParser_mod
     use background_mod
 
     use FoX_dom
@@ -48,7 +48,6 @@
         type (string) :: units
         integer :: length
         logical :: reverse
-        logical :: revind 
     contains
     procedure :: print => printDimsNC
     end type dim_t
@@ -202,19 +201,18 @@
     !> @brief
     !> Reads the dimension fields from the nc file for a given variable.
     !> returns an array of scalar 1D fields, each with a name, units and data
-    !> @param[in] self, varName, varNameList, dimsArrays
+    !> @param[in] self, varName, dimsArrays
     !---------------------------------------------------------------------------
-    subroutine getVarDimensions(self, varName, varNameList, dimsArrays)
+    subroutine getVarDimensions(self, varName, dimsArrays)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
-    type(stringList_class), intent(in) :: varNameList
     type(scalar1d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
     real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
     type(string) :: dimName, dimUnits
     integer :: i, j, k, l
 
     do i=1, self%nVars !going trough all variables
-        if (self%varData(i)%name == varName .or. .not.varNameList%notRepeated(self%varData(i)%name)) then   !found the requested var
+        if (self%varData(i)%simName == varName) then   !found the requested var
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 do k=1, self%nDims  !going trough all available dimensions of the file
@@ -224,17 +222,20 @@
                         dimUnits = self%dimData(k)%units
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
-                        allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
-                        do l=1, self%dimData(k)%length - 1
-                            tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
-                        end do
-                        self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: the axis negative
-                        self%dimData(k)%revind = all(tempRealArray > 0)
-                        if (self%dimData(k)%reverse .eqv. .true.) then
-                            tempRealArray = - tempRealArray
+                        !need to check for 'level' variable specific issues
+                        if (dimName == Globals%Var%level) then
+                            allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
+                            do l=1, self%dimData(k)%length - 1
+                                tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
+                            end do
+                            self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
+                            if ((self%dimData(k)%reverse .eqv. .true.) .or. all(tempRealArray >=0) ) then !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for now it stays
+                                tempRealArray = - tempRealArray
+                            end if
                         end if
-                        if (self%dimData(k)%reverse .eqv. .false. .and.  self%dimData(k)%revidn .eqv. .true.) then 
-                            tempRealArray = tempRealArray(::-1)
+                        !need to check for 'time' variable specific issues
+                        if (dimName == Globals%Var%time) then
+                            call correctNCTime(dimUnits, tempRealArray)
                         end if
                         call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
                         if (allocated(tempRealArray)) deallocate(tempRealArray)
@@ -252,12 +253,11 @@
     !> @brief
     !> Reads the fields from the nc file for a given variable.
     !> returns a generic field, with a name, units and data
-    !> @param[in] self, varName, varNameList, varField
+    !> @param[in] self, varName, varField
     !---------------------------------------------------------------------------
-    subroutine getVar(self, varName, varNameList, varField)
+    subroutine getVar(self, varName, varField)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
-    type(stringList_class), intent(in) :: varNameList
     type(generic_field_class), intent(out) :: varField
     real(prec), allocatable, dimension(:) :: tempRealField1D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
@@ -283,18 +283,6 @@
                 where (tempRealField3D == self%varData(i)%fillvalue)
                     tempRealField3D = 0.0
                 end where
-                
-                do l = 1,self%varData(i)%ndims 
-                    
-                    if(self%dimData(l)%revind == .True. .and. l == 1)then
-                        tempRealField4D = tempRealField4D(::-1,:,:)
-                        else if(self%dimData(l)%revind == .True. .and. l == 2) then
-                                tempRealField4D = tempRealField4D(:,::-1,:) 
-                        else if (self%dimData(l)%revind == .True. .and. l == 3) then
-                                tempRealField4D = tempRealField4D(:,:,::-1) 
-                        end if
-                end do
-
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
@@ -304,20 +292,6 @@
                 where (tempRealField4D == self%varData(i)%fillvalue)
                     tempRealField4D = 0.0
                 end where
-
-                do l = 1,self%varData(i)%ndims 
-                    
-                    if(self%dimData(l)%revind == .True. .and. idr == 1)then
-                        tempRealField4D = tempRealField4D(::-1,:,:,:)
-                        else if(self%dimData(l)%revind == .True. .and. l == 2) then
-                                tempRealField4D = tempRealField4D(:,::-1,:,:) 
-                        else if (self%dimData(l)%revind == .True. .and. l == 3) then
-                                tempRealField4D = tempRealField4D(:,:,::-1,:) 
-                        else if (self%dimData(l)%revind == .True. .and. l == 4) then
-                                tempRealField4D = tempRealField4D(:,:,:,::-1)  
-                        end if
-
-                end do
                 call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
@@ -376,7 +350,6 @@
     !> @brief
     !> Debug the netcdf error after a netcdf command
     !> @param[in] self
-    !
     !---------------------------------------------------------------------------
     subroutine check(self)
     class(ncfile_class), intent(inout) :: self
@@ -391,7 +364,7 @@
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
-    !> print the main nc information to check everything is fine
+    !> prints most of the file model metadata
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine printNcInfo(self)
@@ -450,4 +423,49 @@
     call Log%put(outext,.false.)
     end subroutine printDimsNC
 
-    end module ncparser_mod
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> corrects the time array to a more efficient format if needed.
+    !> assumes netcdf comment as 'seconds since 1981-01-01 00:00:00'
+    !> @param[in] timeComments, timeArray
+    !---------------------------------------------------------------------------
+    subroutine correctNCTime(timeComments, timeArray)
+    type(string), intent(in) :: timeComments
+    real(prec), dimension(:), intent(inout) :: timeArray
+    integer :: i
+    type(string), allocatable :: dc(:), dates(:), hours(:)
+    type(string) :: isoDateStr
+    integer, dimension(6) :: date
+    type(datetime) :: NCDate
+    type(timedelta) :: dateOffset
+    type(string) :: outext
+    real(prec) :: scale, offset
+    
+    call timeComments%split(tokens=dc, sep=' ')
+    if (size(dc) == 4) then
+        scale = 1.0
+        if (dc(1) == 'seconds') scale = 1.0
+        if (dc(1) == 'hours')   scale = 3600.0
+        if (dc(1) == 'days')    scale = 3600.0*24.0
+        if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
+        if (dc(1) == 'years')   scale = 3600.0*24.0*30.0*12.0 !or this
+        call dc(3)%split(tokens=dates, sep='-')
+        call dc(4)%split(tokens=hours, sep=':')
+        isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//hours(1)//' '//hours(2)//' '//hours(3)
+        date = Utils%getDateFromISOString(isoDateStr)
+        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        dateOffset = Globals%SimTime%StartDate - NCDate
+        offset = -dateOffset%total_seconds()
+        
+        timeArray = timeArray*scale + offset
+        
+    else
+        outext = '[NetCDF parser::correctNCTime]:WARNING - Time units is not in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
+        call Log%put(outext)
+    end if  
+    
+    end subroutine correctNCTime
+    
+    
+    end module netcdfParser_mod

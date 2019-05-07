@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -97,6 +97,7 @@ $(document).ready(function(){initNavTree('structsimulation__mod_1_1simulation__c
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="structsimulation__mod_1_1simulation__class-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">simulation_mod::simulation_class Type Reference</div>  </div>
@@ -131,10 +132,14 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a8280bb9b6d664b82c58d0a41c7ffc3cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86fd4b37e89c2ecbcdef93b156d83fc4"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a86fd4b37e89c2ecbcdef93b156d83fc4">blockstracerstoaot</a></td></tr>
 <tr class="separator:a86fd4b37e89c2ecbcdef93b156d83fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4e34759252b0517c37c79c95ece1167"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#aa4e34759252b0517c37c79c95ece1167">blocksrunsolver</a></td></tr>
+<tr class="separator:aa4e34759252b0517c37c79c95ece1167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76130621d9de5c88e1af063a21b4afa6"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a76130621d9de5c88e1af063a21b4afa6">blocksaottotracers</a></td></tr>
 <tr class="separator:a76130621d9de5c88e1af063a21b4afa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b9db63a26711c01fc0e994c39a7ae1a"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a1b9db63a26711c01fc0e994c39a7ae1a">blockscleanaot</a></td></tr>
 <tr class="separator:a1b9db63a26711c01fc0e994c39a7ae1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaef8771dbe443c43b1355437bfa9ef4a"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#aaef8771dbe443c43b1355437bfa9ef4a">outputstepdata</a></td></tr>
+<tr class="separator:aaef8771dbe443c43b1355437bfa9ef4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb84b150c76e399c3dc33fbc3f7874ae"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#aeb84b150c76e399c3dc33fbc3f7874ae">setinitialstate</a></td></tr>
 <tr class="separator:aeb84b150c76e399c3dc33fbc3f7874ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab22e46320d4a3dd0f2739894d1165a85"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#ab22e46320d4a3dd0f2739894d1165a85">gettracertotals</a></td></tr>
@@ -143,10 +148,37 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a8ddba2b86c2137f5dfc7fcd301badd66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cabf864e327d6e35f6cb7bd85b1db6a"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a7cabf864e327d6e35f6cb7bd85b1db6a">settracermemory</a></td></tr>
 <tr class="separator:a7cabf864e327d6e35f6cb7bd85b1db6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ae5fe25a2db3a3e3c6896c13af90edb1c"><td class="memItemLeft" align="right" valign="top">type(timer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#ae5fe25a2db3a3e3c6896c13af90edb1c">timerinit</a></td></tr>
+<tr class="memdesc:ae5fe25a2db3a3e3c6896c13af90edb1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">timer for the initialization routines  <a href="#ae5fe25a2db3a3e3c6896c13af90edb1c">More...</a><br /></td></tr>
+<tr class="separator:ae5fe25a2db3a3e3c6896c13af90edb1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff028c1a3b421c73038e43b860f45de1"><td class="memItemLeft" align="right" valign="top">type(timer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#aff028c1a3b421c73038e43b860f45de1">timertotalrun</a></td></tr>
+<tr class="memdesc:aff028c1a3b421c73038e43b860f45de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">timer for the total wall time spent on the simulation  <a href="#aff028c1a3b421c73038e43b860f45de1">More...</a><br /></td></tr>
+<tr class="separator:aff028c1a3b421c73038e43b860f45de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8273da2899310646a161fedc96434bf9"><td class="memItemLeft" align="right" valign="top">type(timer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a8273da2899310646a161fedc96434bf9">timeroutput</a></td></tr>
+<tr class="memdesc:a8273da2899310646a161fedc96434bf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">timer for the output writting routines  <a href="#a8273da2899310646a161fedc96434bf9">More...</a><br /></td></tr>
+<tr class="separator:a8273da2899310646a161fedc96434bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac759ee5fda4ddfb16deeb833c59709e3"><td class="memItemLeft" align="right" valign="top">type(timer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#ac759ee5fda4ddfb16deeb833c59709e3">timerprep</a></td></tr>
+<tr class="memdesc:ac759ee5fda4ddfb16deeb833c59709e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">timer for the toggling, emission and consolidation phase of every time-step  <a href="#ac759ee5fda4ddfb16deeb833c59709e3">More...</a><br /></td></tr>
+<tr class="separator:ac759ee5fda4ddfb16deeb833c59709e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257e36d030e7226c67f04e871ab39a6b"><td class="memItemLeft" align="right" valign="top">type(timer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a257e36d030e7226c67f04e871ab39a6b">timeraotops</a></td></tr>
+<tr class="memdesc:a257e36d030e7226c67f04e871ab39a6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">timer for the AoT operations (encoding and decoding)  <a href="#a257e36d030e7226c67f04e871ab39a6b">More...</a><br /></td></tr>
+<tr class="separator:a257e36d030e7226c67f04e871ab39a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25e03717a6e87410b816ac1f299b282b"><td class="memItemLeft" align="right" valign="top">type(timer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a25e03717a6e87410b816ac1f299b282b">timersolver</a></td></tr>
+<tr class="memdesc:a25e03717a6e87410b816ac1f299b282b"><td class="mdescLeft">&#160;</td><td class="mdescRight">timer for the solver runs  <a href="#a25e03717a6e87410b816ac1f299b282b">More...</a><br /></td></tr>
+<tr class="separator:a25e03717a6e87410b816ac1f299b282b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75e838871eedd2fd66dc7d9bfce015ad"><td class="memItemLeft" align="right" valign="top">type(output_streamer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a75e838871eedd2fd66dc7d9bfce015ad">outputstreamer</a></td></tr>
+<tr class="memdesc:a75e838871eedd2fd66dc7d9bfce015ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writter that streams simulation data out.  <a href="#a75e838871eedd2fd66dc7d9bfce015ad">More...</a><br /></td></tr>
+<tr class="separator:a75e838871eedd2fd66dc7d9bfce015ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40add8001e631510e3530931b9a9d06a"><td class="memItemLeft" align="right" valign="top">type(input_streamer_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulation__mod_1_1simulation__class.html#a40add8001e631510e3530931b9a9d06a">inputstreamer</a></td></tr>
+<tr class="memdesc:a40add8001e631510e3530931b9a9d06a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reader that streams data into the simulation.  <a href="#a40add8001e631510e3530931b9a9d06a">More...</a><br /></td></tr>
+<tr class="separator:a40add8001e631510e3530931b9a9d06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00038">38</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00039">39</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a76130621d9de5c88e1af063a21b4afa6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a76130621d9de5c88e1af063a21b4afa6">&#9670;&nbsp;</a></span>blocksaottotracers()</h2>
@@ -171,7 +203,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00049">49</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00062">62</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -198,7 +230,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00050">50</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00063">63</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -225,7 +257,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00047">47</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00059">59</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -252,7 +284,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00046">46</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -279,7 +311,34 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00045">45</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00057">57</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+
+</div>
+</div>
+<a id="aa4e34759252b0517c37c79c95ece1167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4e34759252b0517c37c79c95ece1167">&#9670;&nbsp;</a></span>blocksrunsolver()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private simulation_mod::simulation_class::blocksrunsolver </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00061">61</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -306,7 +365,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00048">48</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00060">60</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -333,7 +392,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00043">43</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00055">55</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -352,7 +411,7 @@ Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00042">42</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00054">54</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -379,7 +438,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00052">52</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00066">66</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -398,7 +457,34 @@ Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00040">40</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00052">52</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+
+</div>
+</div>
+<a id="aaef8771dbe443c43b1355437bfa9ef4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaef8771dbe443c43b1355437bfa9ef4a">&#9670;&nbsp;</a></span>outputstepdata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private simulation_mod::simulation_class::outputstepdata </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00064">64</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -425,7 +511,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00067">67</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -444,7 +530,7 @@ Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00041">41</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -471,7 +557,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00051">51</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00065">65</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -498,7 +584,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00054">54</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00068">68</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
@@ -525,12 +611,221 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00044">44</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00056">56</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a40add8001e631510e3530931b9a9d06a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40add8001e631510e3530931b9a9d06a">&#9670;&nbsp;</a></span>inputstreamer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(input_streamer_class) simulation_mod::simulation_class::inputstreamer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reader that streams data into the simulation. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00050">50</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">type</span>(input_streamer_class)  :: InputStreamer</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a75e838871eedd2fd66dc7d9bfce015ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e838871eedd2fd66dc7d9bfce015ad">&#9670;&nbsp;</a></span>outputstreamer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(output_streamer_class) simulation_mod::simulation_class::outputstreamer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writter that streams simulation data out. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00048">48</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">type</span>(output_streamer_class) :: OutputStreamer</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a257e36d030e7226c67f04e871ab39a6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a257e36d030e7226c67f04e871ab39a6b">&#9670;&nbsp;</a></span>timeraotops</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(timer_class) simulation_mod::simulation_class::timeraotops</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>timer for the AoT operations (encoding and decoding) </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00045">45</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">type</span>(timer_class) :: timerAoTOps</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ae5fe25a2db3a3e3c6896c13af90edb1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5fe25a2db3a3e3c6896c13af90edb1c">&#9670;&nbsp;</a></span>timerinit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(timer_class) simulation_mod::simulation_class::timerinit</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>timer for the initialization routines </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00041">41</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">type</span>(timer_class) :: timerInit</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a8273da2899310646a161fedc96434bf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8273da2899310646a161fedc96434bf9">&#9670;&nbsp;</a></span>timeroutput</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(timer_class) simulation_mod::simulation_class::timeroutput</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>timer for the output writting routines </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00043">43</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">type</span>(timer_class) :: timerOutput</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ac759ee5fda4ddfb16deeb833c59709e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac759ee5fda4ddfb16deeb833c59709e3">&#9670;&nbsp;</a></span>timerprep</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(timer_class) simulation_mod::simulation_class::timerprep</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>timer for the toggling, emission and consolidation phase of every time-step </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00044">44</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">type</span>(timer_class) :: timerPrep</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a25e03717a6e87410b816ac1f299b282b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25e03717a6e87410b816ac1f299b282b">&#9670;&nbsp;</a></span>timersolver</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(timer_class) simulation_mod::simulation_class::timersolver</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>timer for the solver runs </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00046">46</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">type</span>(timer_class) :: timerSolver</div></div><!-- fragment -->
+</div>
+</div>
+<a id="aff028c1a3b421c73038e43b860f45de1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff028c1a3b421c73038e43b860f45de1">&#9670;&nbsp;</a></span>timertotalrun</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(timer_class) simulation_mod::simulation_class::timertotalrun</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>timer for the total wall time spent on the simulation </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_8f90_source.html#l00042">42</a> of file <a class="el" href="simulation_8f90_source.html">simulation.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">type</span>(timer_class) :: timerTotalRun</div></div><!-- fragment -->
+</div>
+</div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="simulation_8f90_source.html">simulation.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="simulation_8f90_source.html">simulation.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

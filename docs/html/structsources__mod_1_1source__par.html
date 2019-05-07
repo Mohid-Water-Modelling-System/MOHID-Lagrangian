@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -112,15 +112,24 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a88d333946d18fee527b7b207f44dd3ff"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#a88d333946d18fee527b7b207f44dd3ff">id</a></td></tr>
 <tr class="memdesc:a88d333946d18fee527b7b207f44dd3ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">unique source identification (integer)  <a href="#a88d333946d18fee527b7b207f44dd3ff">More...</a><br /></td></tr>
 <tr class="separator:a88d333946d18fee527b7b207f44dd3ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4edfa7359d6e8ee0e066dbdd1f5b25a4"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#a4edfa7359d6e8ee0e066dbdd1f5b25a4">emitting_rate</a></td></tr>
-<tr class="memdesc:a4edfa7359d6e8ee0e066dbdd1f5b25a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emitting rate of the source (Hz)  <a href="#a4edfa7359d6e8ee0e066dbdd1f5b25a4">More...</a><br /></td></tr>
-<tr class="separator:a4edfa7359d6e8ee0e066dbdd1f5b25a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcde2655b2a557f3a3e2c952dc8a51b0"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#afcde2655b2a557f3a3e2c952dc8a51b0">startime</a></td></tr>
-<tr class="memdesc:afcde2655b2a557f3a3e2c952dc8a51b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">time to start emitting tracers  <a href="#afcde2655b2a557f3a3e2c952dc8a51b0">More...</a><br /></td></tr>
-<tr class="separator:afcde2655b2a557f3a3e2c952dc8a51b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2c04f0d36ad034e160e3de15fe0c283"><td class="memItemLeft" align="right" valign="top">real(prec_time)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#ac2c04f0d36ad034e160e3de15fe0c283">stoptime</a></td></tr>
-<tr class="memdesc:ac2c04f0d36ad034e160e3de15fe0c283"><td class="mdescLeft">&#160;</td><td class="mdescRight">time to stop emitting tracers  <a href="#ac2c04f0d36ad034e160e3de15fe0c283">More...</a><br /></td></tr>
-<tr class="separator:ac2c04f0d36ad034e160e3de15fe0c283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8374d8f2d32dfa9e9f5863c7a45d0e1d"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#a8374d8f2d32dfa9e9f5863c7a45d0e1d">emitting_rate</a></td></tr>
+<tr class="memdesc:a8374d8f2d32dfa9e9f5863c7a45d0e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emitting rate of the Source (Hz)  <a href="#a8374d8f2d32dfa9e9f5863c7a45d0e1d">More...</a><br /></td></tr>
+<tr class="separator:a8374d8f2d32dfa9e9f5863c7a45d0e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a957d4184d9cd997abeac05c04821139c"><td class="memItemLeft" align="right" valign="top">logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#a957d4184d9cd997abeac05c04821139c">emitting_fixed_rate</a></td></tr>
+<tr class="memdesc:a957d4184d9cd997abeac05c04821139c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of emitter rate: true-fixed rate(Hz); false-variable(from file)  <a href="#a957d4184d9cd997abeac05c04821139c">More...</a><br /></td></tr>
+<tr class="separator:a957d4184d9cd997abeac05c04821139c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae236b50563bb0dadd55af1aadac3023e"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#ae236b50563bb0dadd55af1aadac3023e">rate_file</a></td></tr>
+<tr class="memdesc:ae236b50563bb0dadd55af1aadac3023e"><td class="mdescLeft">&#160;</td><td class="mdescRight">File name of the emission rate data (csv)  <a href="#ae236b50563bb0dadd55af1aadac3023e">More...</a><br /></td></tr>
+<tr class="separator:ae236b50563bb0dadd55af1aadac3023e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5a8b90aed8636e98daafb1ede1390fd"><td class="memItemLeft" align="right" valign="top">real(prec), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#ad5a8b90aed8636e98daafb1ede1390fd">variable_rate</a></td></tr>
+<tr class="memdesc:ad5a8b90aed8636e98daafb1ede1390fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt.  <a href="#ad5a8b90aed8636e98daafb1ede1390fd">More...</a><br /></td></tr>
+<tr class="separator:ad5a8b90aed8636e98daafb1ede1390fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86f38cfdf7cd0bc42a72785aca69b9f9"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#a86f38cfdf7cd0bc42a72785aca69b9f9">startime</a></td></tr>
+<tr class="memdesc:a86f38cfdf7cd0bc42a72785aca69b9f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">time to start emitting tracers  <a href="#a86f38cfdf7cd0bc42a72785aca69b9f9">More...</a><br /></td></tr>
+<tr class="separator:a86f38cfdf7cd0bc42a72785aca69b9f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5270ce3b0124a710527f4fa60ce30bc"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#ac5270ce3b0124a710527f4fa60ce30bc">stoptime</a></td></tr>
+<tr class="memdesc:ac5270ce3b0124a710527f4fa60ce30bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">time to stop emitting tracers  <a href="#ac5270ce3b0124a710527f4fa60ce30bc">More...</a><br /></td></tr>
+<tr class="separator:ac5270ce3b0124a710527f4fa60ce30bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac56d7761e7da3a906a3f0fbf4c7f49f8"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__par.html#ac56d7761e7da3a906a3f0fbf4c7f49f8">name</a></td></tr>
 <tr class="memdesc:ac56d7761e7da3a906a3f0fbf4c7f49f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">source name  <a href="#ac56d7761e7da3a906a3f0fbf4c7f49f8">More...</a><br /></td></tr>
 <tr class="separator:ac56d7761e7da3a906a3f0fbf4c7f49f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,10 +142,10 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00027">27</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00029">29</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a4edfa7359d6e8ee0e066dbdd1f5b25a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4edfa7359d6e8ee0e066dbdd1f5b25a4">&#9670;&nbsp;</a></span>emitting_rate</h2>
+<a id="a957d4184d9cd997abeac05c04821139c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a957d4184d9cd997abeac05c04821139c">&#9670;&nbsp;</a></span>emitting_fixed_rate</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -145,7 +154,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">integer sources_mod::source_par::emitting_rate</td>
+          <td class="memname">logical sources_mod::source_par::emitting_fixed_rate</td>
         </tr>
       </table>
   </td>
@@ -155,10 +164,36 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Emitting rate of the source (Hz) </p>
+<p>Type of emitter rate: true-fixed rate(Hz); false-variable(from file) </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00029">29</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordtype">integer</span> :: emitting_rate</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00032">32</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">logical</span> :: emitting_fixed_rate</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a8374d8f2d32dfa9e9f5863c7a45d0e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8374d8f2d32dfa9e9f5863c7a45d0e1d">&#9670;&nbsp;</a></span>emitting_rate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) sources_mod::source_par::emitting_rate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Emitting rate of the Source (Hz) </p>
+
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00031">31</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">real(prec)</span> :: emitting_rate</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abf09d59fd65f02d1a8139e2f9f477207"></a>
@@ -183,8 +218,8 @@ Private Attributes</h2></td></tr>
 
 <p>Source geometry. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00034">34</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">class</span>(shape), <span class="keywordtype">allocatable</span> :: geometry</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00039">39</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">class</span>(shape), <span class="keywordtype">allocatable</span> :: geometry</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a88d333946d18fee527b7b207f44dd3ff"></a>
@@ -209,8 +244,8 @@ Private Attributes</h2></td></tr>
 
 <p>unique source identification (integer) </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00028">28</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordtype">integer</span> :: id</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00030">30</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">integer</span> :: id</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ac56d7761e7da3a906a3f0fbf4c7f49f8"></a>
@@ -235,8 +270,34 @@ Private Attributes</h2></td></tr>
 
 <p>source name </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00032">32</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">type</span>(string) :: name</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00037">37</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">type</span>(string) :: name</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ae236b50563bb0dadd55af1aadac3023e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae236b50563bb0dadd55af1aadac3023e">&#9670;&nbsp;</a></span>rate_file</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(string) sources_mod::source_par::rate_file</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>File name of the emission rate data (csv) </p>
+
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00033">33</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">type</span>(string) :: rate_file</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a66e7627f128290f25c2c9eb36808eb5b"></a>
@@ -261,12 +322,12 @@ Private Attributes</h2></td></tr>
 
 <p>Source type : 'point', 'line', 'sphere', 'box'. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00033">33</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">type</span>(string) :: source_geometry</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00038">38</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">type</span>(string) :: source_geometry</div></div><!-- fragment -->
 </div>
 </div>
-<a id="afcde2655b2a557f3a3e2c952dc8a51b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afcde2655b2a557f3a3e2c952dc8a51b0">&#9670;&nbsp;</a></span>startime</h2>
+<a id="a86f38cfdf7cd0bc42a72785aca69b9f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86f38cfdf7cd0bc42a72785aca69b9f9">&#9670;&nbsp;</a></span>startime</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,7 +336,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec_time) sources_mod::source_par::startime</td>
+          <td class="memname">real(prec) sources_mod::source_par::startime</td>
         </tr>
       </table>
   </td>
@@ -287,12 +348,12 @@ Private Attributes</h2></td></tr>
 
 <p>time to start emitting tracers </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00030">30</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordtype">real(prec_time)</span> :: startime</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00035">35</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">real(prec)</span> :: startime</div></div><!-- fragment -->
 </div>
 </div>
-<a id="ac2c04f0d36ad034e160e3de15fe0c283"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2c04f0d36ad034e160e3de15fe0c283">&#9670;&nbsp;</a></span>stoptime</h2>
+<a id="ac5270ce3b0124a710527f4fa60ce30bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5270ce3b0124a710527f4fa60ce30bc">&#9670;&nbsp;</a></span>stoptime</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,7 +362,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec_time) sources_mod::source_par::stoptime</td>
+          <td class="memname">real(prec) sources_mod::source_par::stoptime</td>
         </tr>
       </table>
   </td>
@@ -313,12 +374,38 @@ Private Attributes</h2></td></tr>
 
 <p>time to stop emitting tracers </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00031">31</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">real(prec_time)</span> :: stoptime</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00036">36</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">real(prec)</span> :: stoptime</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ad5a8b90aed8636e98daafb1ede1390fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5a8b90aed8636e98daafb1ede1390fd">&#9670;&nbsp;</a></span>variable_rate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec), dimension(:), allocatable sources_mod::source_par::variable_rate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt. </p>
+
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00034">34</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">real(prec)</span>, <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">allocatable</span> :: variable_rate</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="sources_8f90_source.html">sources.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="sources_8f90_source.html">sources.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

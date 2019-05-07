@@ -14,9 +14,17 @@ Collaboration diagram for vtkwritter\+\_\+mod\+:\+:vtkwritter\+\_\+class\+:\nopa
 \item 
 procedure \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_ad74a863969884dacf4c8d9b96088c6a6}{initialize}} =$>$ init\+V\+T\+Kwritter
 \item 
+procedure \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_af59165b0d29d4de99d50c3db4dff848e}{finalize}} =$>$ close\+V\+T\+Kwriter
+\item 
 procedure \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_a7abd7831d763c178e15bd8b6fb7e358e}{domain}}
 \item 
 procedure \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_ad87da7194456a9b70f60f53f19a5c47b}{tracerserial}}
+\item 
+procedure, private \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_aab225b4fa3f3cd814f2760fe79bd426c}{openindexvtkfile}}
+\item 
+procedure, private \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_af87d85e730f5865b23012cea94d5274e}{closeindexvtkfile}}
+\item 
+procedure, private \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_a04e94de0e49912859408ce8bff14003c}{indexvtkfile}}
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -24,17 +32,31 @@ procedure \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_ad87da7194
 integer \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_a31a432e4d44ff478500f0f95bb8582d2}{numvtkfiles}}
 \begin{DoxyCompactList}\small\item\em number of vtk files written \end{DoxyCompactList}\item 
 type(string) \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_a1488d11c6ab4adaf97a2eac301bab694}{formattype}}
-\begin{DoxyCompactList}\small\item\em format of the data to write on the V\+TK xml file -\/ ascii, raw, binary \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em format of the data to write on the V\+TK xml file -\/ ascii, raw, binary \end{DoxyCompactList}\item 
+logical \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_a008c58d836b282731d2ad9caabb7629c}{indexeropen}} = .false.
+\item 
+integer \mbox{\hyperlink{structvtkwritter__mod_1_1vtkwritter__class_a75ca6f11bb375eac69b0bd5eb8dbdbf4}{indexerunit}} = 99
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 
 
-Definition at line 32 of file vtkwritter.\+f90.
+Definition at line 32 of file vtk\+Writter.\+f90.
 
 
 
 \subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_af87d85e730f5865b23012cea94d5274e}\label{structvtkwritter__mod_1_1vtkwritter__class_af87d85e730f5865b23012cea94d5274e}} 
+\index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!closeindexvtkfile@{closeindexvtkfile}}
+\index{closeindexvtkfile@{closeindexvtkfile}!vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
+\subsubsection{\texorpdfstring{closeindexvtkfile()}{closeindexvtkfile()}}
+{\footnotesize\ttfamily procedure, private vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class\+::closeindexvtkfile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 43 of file vtk\+Writter.\+f90.
+
 \mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_a7abd7831d763c178e15bd8b6fb7e358e}\label{structvtkwritter__mod_1_1vtkwritter__class_a7abd7831d763c178e15bd8b6fb7e358e}} 
 \index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!domain@{domain}}
 \index{domain@{domain}!vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
@@ -43,7 +65,27 @@ Definition at line 32 of file vtkwritter.\+f90.
 
 
 
-Definition at line 37 of file vtkwritter.\+f90.
+Definition at line 40 of file vtk\+Writter.\+f90.
+
+\mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_af59165b0d29d4de99d50c3db4dff848e}\label{structvtkwritter__mod_1_1vtkwritter__class_af59165b0d29d4de99d50c3db4dff848e}} 
+\index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!finalize@{finalize}}
+\index{finalize@{finalize}!vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily procedure vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file vtk\+Writter.\+f90.
+
+\mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_a04e94de0e49912859408ce8bff14003c}\label{structvtkwritter__mod_1_1vtkwritter__class_a04e94de0e49912859408ce8bff14003c}} 
+\index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!indexvtkfile@{indexvtkfile}}
+\index{indexvtkfile@{indexvtkfile}!vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
+\subsubsection{\texorpdfstring{indexvtkfile()}{indexvtkfile()}}
+{\footnotesize\ttfamily procedure, private vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class\+::indexvtkfile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 44 of file vtk\+Writter.\+f90.
 
 \mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_ad74a863969884dacf4c8d9b96088c6a6}\label{structvtkwritter__mod_1_1vtkwritter__class_ad74a863969884dacf4c8d9b96088c6a6}} 
 \index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!initialize@{initialize}}
@@ -53,7 +95,17 @@ Definition at line 37 of file vtkwritter.\+f90.
 
 
 
-Definition at line 36 of file vtkwritter.\+f90.
+Definition at line 38 of file vtk\+Writter.\+f90.
+
+\mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_aab225b4fa3f3cd814f2760fe79bd426c}\label{structvtkwritter__mod_1_1vtkwritter__class_aab225b4fa3f3cd814f2760fe79bd426c}} 
+\index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!openindexvtkfile@{openindexvtkfile}}
+\index{openindexvtkfile@{openindexvtkfile}!vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
+\subsubsection{\texorpdfstring{openindexvtkfile()}{openindexvtkfile()}}
+{\footnotesize\ttfamily procedure, private vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class\+::openindexvtkfile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 42 of file vtk\+Writter.\+f90.
 
 \mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_ad87da7194456a9b70f60f53f19a5c47b}\label{structvtkwritter__mod_1_1vtkwritter__class_ad87da7194456a9b70f60f53f19a5c47b}} 
 \index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!tracerserial@{tracerserial}}
@@ -63,7 +115,7 @@ Definition at line 36 of file vtkwritter.\+f90.
 
 
 
-Definition at line 38 of file vtkwritter.\+f90.
+Definition at line 41 of file vtk\+Writter.\+f90.
 
 
 
@@ -80,11 +132,39 @@ format of the data to write on the V\+TK xml file -\/ ascii, raw, binary
 
 
 
-Definition at line 34 of file vtkwritter.\+f90.
+Definition at line 34 of file vtk\+Writter.\+f90.
 
 
 \begin{DoxyCode}
 34         \textcolor{keywordtype}{type}(string) :: formatType
+\end{DoxyCode}
+\mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_a008c58d836b282731d2ad9caabb7629c}\label{structvtkwritter__mod_1_1vtkwritter__class_a008c58d836b282731d2ad9caabb7629c}} 
+\index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!indexeropen@{indexeropen}}
+\index{indexeropen@{indexeropen}!vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
+\subsubsection{\texorpdfstring{indexeropen}{indexeropen}}
+{\footnotesize\ttfamily logical vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class\+::indexeropen = .false.\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 35 of file vtk\+Writter.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{logical} :: indexerOpen = .false.
+\end{DoxyCode}
+\mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_a75ca6f11bb375eac69b0bd5eb8dbdbf4}\label{structvtkwritter__mod_1_1vtkwritter__class_a75ca6f11bb375eac69b0bd5eb8dbdbf4}} 
+\index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!indexerunit@{indexerunit}}
+\index{indexerunit@{indexerunit}!vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}}
+\subsubsection{\texorpdfstring{indexerunit}{indexerunit}}
+{\footnotesize\ttfamily integer vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class\+::indexerunit = 99\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 36 of file vtk\+Writter.\+f90.
+
+
+\begin{DoxyCode}
+36         \textcolor{keywordtype}{integer} :: indexerUnit = 99
 \end{DoxyCode}
 \mbox{\Hypertarget{structvtkwritter__mod_1_1vtkwritter__class_a31a432e4d44ff478500f0f95bb8582d2}\label{structvtkwritter__mod_1_1vtkwritter__class_a31a432e4d44ff478500f0f95bb8582d2}} 
 \index{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class@{vtkwritter\+\_\+mod\+::vtkwritter\+\_\+class}!numvtkfiles@{numvtkfiles}}
@@ -98,7 +178,7 @@ number of vtk files written
 
 
 
-Definition at line 33 of file vtkwritter.\+f90.
+Definition at line 33 of file vtk\+Writter.\+f90.
 
 
 \begin{DoxyCode}
@@ -108,4 +188,4 @@ Definition at line 33 of file vtkwritter.\+f90.
 
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/\mbox{\hyperlink{vtkwritter_8f90}{vtkwritter.\+f90}}\end{DoxyCompactItemize}
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{vtk_writter_8f90}{vtk\+Writter.\+f90}}\end{DoxyCompactItemize}

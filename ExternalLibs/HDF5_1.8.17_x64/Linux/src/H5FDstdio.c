@@ -97,7 +97,11 @@ typedef struct H5FD_stdio_t {
      * Windows code further below.
      */
     dev_t           device;     /* file device number   */
+#ifdef H5_VMS
+    ino_t           inode[3];   /* file i-node number   */
+#else
     ino_t           inode;      /* file i-node number   */
+#endif /* H5_VMS */
 #else
     /* Files in windows are uniquely identified by the volume serial
      * number and the file index (both low and high parts).
@@ -131,14 +135,23 @@ typedef struct H5FD_stdio_t {
 #endif /* H5_HAVE_MINGW */
 #endif /* H5_HAVE_WIN32_API */
 
-/* If these functions weren't re-defined for Windows, give them
- * more platform-independent names.
+/* Use file_xxx to indicate these are local macros, avoiding confusing 
+ * with the global HD_xxx macros. 
+ * Assume fseeko, which is POSIX standard, is always supported; 
+ * but prefer to use fseeko64 if supported. 
  */
 #ifndef file_fseek
-    #define file_fseek      fseeko
-    #define file_offset_t   off_t
-    #define file_ftruncate  ftruncate
-    #define file_ftell      ftello
+    #ifdef H5_HAVE_FSEEKO64
+        #define file_fseek      fseeko64
+        #define file_offset_t   off64_t
+        #define file_ftruncate  ftruncate64
+        #define file_ftell      ftello64
+    #else
+        #define file_fseek      fseeko
+        #define file_offset_t   off_t
+        #define file_ftruncate  ftruncate
+        #define file_ftell      ftello
+    #endif /* H5_HAVE_FSEEKO64 */
 #endif /* file_fseek */
 
 /* These macros check for overflow of various quantities.  These macros
@@ -435,7 +448,13 @@ H5FD_stdio_open( const char *name, unsigned flags, hid_t fapl_id,
         H5Epush_ret(func, H5E_ERR_CLS, H5E_FILE, H5E_BADFILE, "unable to fstat file", NULL)
     } /* end if */
     file->device = sb.st_dev;
+#ifdef H5_VMS
+    file->inode[0] = sb.st_ino[0];
+    file->inode[1] = sb.st_ino[1];
+    file->inode[2] = sb.st_ino[2];
+#else /* H5_VMS */
     file->inode = sb.st_ino;
+#endif /* H5_VMS */
 #endif /* H5_HAVE_WIN32_API */
 
     return (H5FD_t*)file;
@@ -521,8 +540,13 @@ H5FD_stdio_cmp(const H5FD_t *_f1, const H5FD_t *_f2)
     if(memcmp(&(f1->device),&(f2->device),sizeof(dev_t)) < 0) return -1;
     if(memcmp(&(f1->device),&(f2->device),sizeof(dev_t)) > 0) return 1;
 #endif /* H5_DEV_T_IS_SCALAR */
+#ifdef H5_VMS
+    if(memcmp(&(f1->inode), &(f2->inode), 3 * sizeof(ino_t)) < 0) return -1;
+    if(memcmp(&(f1->inode), &(f2->inode), 3 * sizeof(ino_t)) > 0) return 1;
+#else /* H5_VMS */
     if(f1->inode < f2->inode) return -1;
     if(f1->inode > f2->inode) return 1;
+#endif /* H5_VMS */
 #endif /* H5_HAVE_WIN32_API */
 
     return 0;
@@ -582,7 +606,7 @@ H5FD_stdio_query(const H5FD_t *_f, unsigned long *flags /* out */)
  *-------------------------------------------------------------------------
  */
 static haddr_t
-H5FD_stdio_alloc(H5FD_t *_file, H5FD_mem_t /*H5_ATTR_UNUSED*/ type, hid_t /*H5_ATTR_UNUSED*/ dxpl_id, hsize_t size)
+H5FD_stdio_alloc(H5FD_t *_file, H5FD_mem_t /*UNUSED*/ type, hid_t /*UNUSED*/ dxpl_id, hsize_t size)
 {
     H5FD_stdio_t    *file = (H5FD_stdio_t*)_file;
     haddr_t         addr;
@@ -627,7 +651,7 @@ H5FD_stdio_alloc(H5FD_t *_file, H5FD_mem_t /*H5_ATTR_UNUSED*/ type, hid_t /*H5_A
  *-------------------------------------------------------------------------
  */
 static haddr_t
-H5FD_stdio_get_eoa(const H5FD_t *_file, H5FD_mem_t /*H5_ATTR_UNUSED*/ type)
+H5FD_stdio_get_eoa(const H5FD_t *_file, H5FD_mem_t /*UNUSED*/ type)
 {
     const H5FD_stdio_t *file = (const H5FD_stdio_t *)_file;
 
@@ -658,7 +682,7 @@ H5FD_stdio_get_eoa(const H5FD_t *_file, H5FD_mem_t /*H5_ATTR_UNUSED*/ type)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FD_stdio_set_eoa(H5FD_t *_file, H5FD_mem_t /*H5_ATTR_UNUSED*/ type, haddr_t addr)
+H5FD_stdio_set_eoa(H5FD_t *_file, H5FD_mem_t /*UNUSED*/ type, haddr_t addr)
 {
     H5FD_stdio_t  *file = (H5FD_stdio_t*)_file;
 

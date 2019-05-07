@@ -21,8 +21,8 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
-    use simulation_precision_mod
-    use simulation_logger_mod
+    use simulationPrecision_mod
+    use simulationLogger_mod
 
     implicit none
     private
@@ -101,7 +101,7 @@
     !> @brief
     !> Returns a vector in meters given an array in
     !> geographical coordinates (lon, lat, z) and a lattitude
-    !> @param[in] geovec, lat
+    !> @param[in] self, geovec, lat
     !---------------------------------------------------------------------------
     type(vector) function geo2m(self, geovec, lat) result(res)
     class(utils_class), intent(in) :: self

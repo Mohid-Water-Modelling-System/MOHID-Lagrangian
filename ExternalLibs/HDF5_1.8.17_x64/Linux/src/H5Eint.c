@@ -272,12 +272,10 @@ H5E_walk1_cb(int n, H5E_error1_t *err_desc, void *client_data)
         /* try show the process or thread id in multiple processes cases*/
 #ifdef H5_HAVE_PARALLEL
         {
-            int mpi_rank, mpi_initialized, mpi_finalized;
+            int mpi_rank, mpi_initialized;
 
 	    MPI_Initialized(&mpi_initialized);
-            MPI_Finalized(&mpi_finalized);
-
-            if(mpi_initialized && !mpi_finalized) {
+	    if(mpi_initialized) {
 	        MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 	        fprintf(stream, "MPI-process %d", mpi_rank);
 	    } /* end if */
@@ -404,12 +402,10 @@ H5E_walk2_cb(unsigned n, const H5E_error2_t *err_desc, void *client_data)
         /* try show the process or thread id in multiple processes cases*/
 #ifdef H5_HAVE_PARALLEL
         {
-            int mpi_rank, mpi_initialized, mpi_finalized;
+            int mpi_rank, mpi_initialized;
 
 	    MPI_Initialized(&mpi_initialized);
-            MPI_Finalized(&mpi_finalized);
-
-            if(mpi_initialized && !mpi_finalized) {
+	    if(mpi_initialized) {
 	        MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 	        fprintf(stream, "MPI-process %d", mpi_rank);
 	    } /* end if */

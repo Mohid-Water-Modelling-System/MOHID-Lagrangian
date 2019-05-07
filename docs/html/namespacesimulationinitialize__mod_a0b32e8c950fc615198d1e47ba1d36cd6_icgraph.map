@@ -1,0 +1,4 @@
+<map id="simulationinitialize_mod::init_parameters" name="simulationinitialize_mod::init_parameters">
+<area shape="rect" id="node2" href="$namespacesimulationinitialize__mod.html#ada0310fe0d45fa2eec30deaf3ad25ba7" title="Public xml parser routine. Builds the simulation space from the input xml case file. " alt="" coords="204,5,332,47"/>
+<area shape="rect" id="node3" href="$namespacesimulation__mod.html#aedbba2bb458cbcd7eb93938a5f7b5940" title="Simulation initialization method. Effectively builds and populates the simulation objects that will b..." alt="" coords="380,13,577,39"/>
+</map>

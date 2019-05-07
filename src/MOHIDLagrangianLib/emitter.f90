@@ -22,8 +22,8 @@
 
     use sources_mod
     use tracers_mod
-    use tracer_list_mod
-    use sources_list_mod
+    use tracerList_mod
+    use sourcesList_mod
     use common_modules
 
     implicit none

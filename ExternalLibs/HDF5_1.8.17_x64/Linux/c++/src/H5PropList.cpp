@@ -36,60 +36,10 @@ namespace H5 {
 #endif  // H5_NO_STD
 #endif
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-// This DOXYGEN_SHOULD_SKIP_THIS block is a work-around approach to control
-// the order of creation and deletion of the global constants.  See Design Notes
-// in "H5PredType.cpp" for information.
-
-// Initialize a pointer for the constant
-PropList* PropList::DEFAULT_ = 0;
-
 //--------------------------------------------------------------------------
-// Function:    PropList::getConstant
-// Purpose:     Creates a PropList object representing the HDF5 constant
-//              H5P_DEFAULT, pointed to by PropList::DEFAULT_.
-// Exception    H5::PropListIException
-// Description
-//              If PropList::DEFAULT_ already points to an allocated object,
-//              throw a PropListIException.  This scenario should not happen.
-// Programmer   Binh-Minh Ribler - 2015
+///\brief	Constant for default property.
 //--------------------------------------------------------------------------
-PropList* PropList::getConstant()
-{
-    // Tell the C library not to clean up, H5Library::termH5cpp will call
-    // H5close - more dependency if use H5Library::dontAtExit()
-    if (!IdComponent::H5dontAtexit_called)
-    {
-        (void) H5dont_atexit();
-        IdComponent::H5dontAtexit_called = true;
-    }
-
-    // If the constant pointer is not allocated, allocate it. Otherwise,
-    // throw because it shouldn't be.
-    if (DEFAULT_ == 0)
-        DEFAULT_ = new PropList(H5P_DEFAULT);
-    else
-        throw PropListIException("PropList::getConstant", "PropList::getConstant is being invoked on an allocated DEFAULT_");
-    return(DEFAULT_);
-}
-
-//--------------------------------------------------------------------------
-// Function:    PropList::deleteConstants
-// Purpose:     Deletes the constant object that PropList::DEFAULT_ points to.
-// Programmer   Binh-Minh Ribler - 2015
-//--------------------------------------------------------------------------
-void PropList::deleteConstants()
-{
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
-}
-
-//--------------------------------------------------------------------------
-// Purpose	Constant for default property.
-//--------------------------------------------------------------------------
-const PropList& PropList::DEFAULT = *getConstant();
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
+const PropList PropList::DEFAULT;
 
 //--------------------------------------------------------------------------
 // Function	Default constructor
@@ -104,8 +54,9 @@ PropList::PropList() : IdComponent(), id(H5P_DEFAULT) {}
 ///\param	original - IN: The original property list to copy
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-PropList::PropList(const PropList& original) : IdComponent(), id(original.id)
+PropList::PropList(const PropList& original) : IdComponent()
 {
+    id = original.getId();
     incRefCount(); // increment number of references to this id
 }
 
@@ -169,7 +120,7 @@ void PropList::copy( const PropList& like_plist )
     try {
 	close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	throw PropListIException(inMemFunc("copy"), close_error.getDetailMsg());
     }
 
@@ -301,7 +252,7 @@ void PropList::p_setId(const hid_t new_id)
     try {
         close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
         throw PropListIException(inMemFunc("p_setId"), close_error.getDetailMsg());
     }
    // reset object's id to the given id
@@ -592,7 +543,7 @@ void PropList::setProperty(const char* name, void* value) const
 //--------------------------------------------------------------------------
 void PropList::setProperty(const char* name, const char* charptr) const
 {
-   herr_t ret_value = H5Pset(id, name, (void*)charptr);
+   herr_t ret_value = H5Pset(id, name, (void*) charptr);
    if (ret_value < 0)
    {
       throw PropListIException(inMemFunc("setProperty"), "H5Pset failed");
@@ -747,7 +698,7 @@ PropList::~PropList()
     try {
 	close();
     }
-    catch (Exception& close_error) {
+    catch (Exception close_error) {
 	cerr << "PropList::~PropList - " << close_error.getDetailMsg() << endl;
     }
 }

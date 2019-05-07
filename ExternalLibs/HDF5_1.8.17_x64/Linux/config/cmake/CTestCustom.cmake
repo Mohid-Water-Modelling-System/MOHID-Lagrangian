@@ -29,7 +29,6 @@ set (CTEST_CUSTOM_MEMCHECK_IGNORE
     H5TEST-clear-objects
     H5TEST-clear-cache-objects
     H5TEST-clear-cache_api-objects
-    H5TEST-clear-cache_tagging-objects
     H5TEST-clear-ttsafe-objects
     H5TEST-clear-err_compat-objects
     H5TEST-clear-error_test-objects

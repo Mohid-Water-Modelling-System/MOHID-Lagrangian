@@ -1,0 +1,196 @@
+\hypertarget{namespacesimulationoutputstreamer__mod}{}\section{simulationoutputstreamer\+\_\+mod Module Reference}
+\label{namespacesimulationoutputstreamer__mod}\index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}}
+
+
+Defines a output file writer class with an object exposable to the Simulation This class is in charge of selectig the correct writter for the selected output file format.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_ac619e3f6f7ebc099c1e8298460f4f183}{writestepserial}} (self, blocks)
+\begin{DoxyCompactList}\small\item\em Streamer method to call a simulation step writer. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}{writedomain}} (self, filename, bbox, npbbox, blocks)
+\begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a81b788c12b0520901e6fc9b113a10dec}{checkwritetime}} (self)
+\begin{DoxyCompactList}\small\item\em Streamer method to check if this timestep is appropriate to write an output file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a9ab3e2101fbed18ea896729f7201e1aa}{initoutputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Initializes the Output writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_adc0f21d337c283eee1f5f13b2eb51d52}{closeoutputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Closes the Output writer object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines a output file writer class with an object exposable to the Simulation This class is in charge of selectig the correct writter for the selected output file format. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a81b788c12b0520901e6fc9b113a10dec}\label{namespacesimulationoutputstreamer__mod_a81b788c12b0520901e6fc9b113a10dec}} 
+\index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!checkwritetime@{checkwritetime}}
+\index{checkwritetime@{checkwritetime}!simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{checkwritetime()}{checkwritetime()}}
+{\footnotesize\ttfamily logical function simulationoutputstreamer\+\_\+mod\+::checkwritetime (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Streamer method to check if this timestep is appropriate to write an output file. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 96 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+96     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+97     checkwritetime = .false.
+98     \textcolor{keywordflow}{if} ((globals%SimTime%CurrTime - self%LastWriteTime) >= 1.0/self%OutputFrequency) checkwritetime = .true
+      .
+99     \textcolor{keywordflow}{if} (globals%SimTime%CurrTime == 0.0) checkwritetime = .true.
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_adc0f21d337c283eee1f5f13b2eb51d52}\label{namespacesimulationoutputstreamer__mod_adc0f21d337c283eee1f5f13b2eb51d52}} 
+\index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!closeoutputstreamer@{closeoutputstreamer}}
+\index{closeoutputstreamer@{closeoutputstreamer}!simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{closeoutputstreamer()}{closeoutputstreamer()}}
+{\footnotesize\ttfamily subroutine simulationoutputstreamer\+\_\+mod\+::closeoutputstreamer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Closes the Output writer object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 123 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+123     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+124     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+125         \textcolor{keyword}{call }self%vtkWritter%finalize()
+126 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a9ab3e2101fbed18ea896729f7201e1aa}\label{namespacesimulationoutputstreamer__mod_a9ab3e2101fbed18ea896729f7201e1aa}} 
+\index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!initoutputstreamer@{initoutputstreamer}}
+\index{initoutputstreamer@{initoutputstreamer}!simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{initoutputstreamer()}{initoutputstreamer()}}
+{\footnotesize\ttfamily subroutine simulationoutputstreamer\+\_\+mod\+::initoutputstreamer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes the Output writer object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 108 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+108     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+109     self%OutputFormat = globals%Parameters%OutputFormat
+110     self%OutputFrequency = globals%Parameters%TimeOut
+111     self%LastWriteTime = globals%SimTime%CurrTime
+112     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+113         \textcolor{keyword}{call }self%vtkWritter%initialize()
+114 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}\label{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}} 
+\index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!writedomain@{writedomain}}
+\index{writedomain@{writedomain}!simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{writedomain()}{writedomain()}}
+{\footnotesize\ttfamily subroutine simulationoutputstreamer\+\_\+mod\+::writedomain (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename,  }\item[{class(\mbox{\hyperlink{structboundingbox__mod_1_1boundingbox__class}{boundingbox\+\_\+class}}), intent(in)}]{bbox,  }\item[{integer, intent(in)}]{npbbox,  }\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(in)}]{blocks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,filename,bbox,npbbox,blocks} & \\
+\hline
+\mbox{\tt in}  & {\em filename} & name of the case to add\\
+\hline
+\mbox{\tt in}  & {\em bbox} & Case bounding box\\
+\hline
+\mbox{\tt in}  & {\em npbbox} & number of points of the bbox geometry\\
+\hline
+\mbox{\tt in}  & {\em blocks} & Case Blocks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 78 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+78     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+79     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+80     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
+81     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
+82     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+83     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+84         \textcolor{keyword}{call }self%vtkWritter%Domain(filename, bbox, npbbox, blocks)
+85 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_ac619e3f6f7ebc099c1e8298460f4f183}\label{namespacesimulationoutputstreamer__mod_ac619e3f6f7ebc099c1e8298460f4f183}} 
+\index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!writestepserial@{writestepserial}}
+\index{writestepserial@{writestepserial}!simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{writestepserial()}{writestepserial()}}
+{\footnotesize\ttfamily subroutine simulationoutputstreamer\+\_\+mod\+::writestepserial (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(in)}]{blocks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Streamer method to call a simulation step writer. Writes binary X\+ML V\+TK format using an unstructured grid. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,blocks} & \\
+\hline
+\mbox{\tt in}  & {\em blocks} & Case Blocks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 57 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+57     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+58     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+59     \textcolor{keywordtype}{type}(string) :: filename
+60     \textcolor{keywordflow}{if} (self%CheckWriteTime()) \textcolor{keywordflow}{then}
+61         filename = globals%Names%casename//\textcolor{stringliteral}{'\_'}//utils%int2str(\textcolor{stringliteral}{'(i5.5)'},globals%Sim%getnumoutfile())
+62         \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+63             \textcolor{keyword}{call }self%vtkWritter%TracerSerial(filename, blocks)
+64 \textcolor{keywordflow}{        end if}
+65         \textcolor{keyword}{call }globals%Sim%increment\_numoutfile()
+66         self%LastWriteTime = globals%SimTime%CurrTime
+67 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}

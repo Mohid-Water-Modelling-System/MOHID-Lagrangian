@@ -29,7 +29,7 @@ var NAVTREE =
       [ "Modules List", "namespaces.html", "namespaces_dup" ],
       [ "Module Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
-        [ "Functions/Subroutines", "namespacemembers_func.html", null ],
+        [ "Functions/Subroutines", "namespacemembers_func.html", "namespacemembers_func" ],
         [ "Variables", "namespacemembers_vars.html", null ]
       ] ]
     ] ],
@@ -39,8 +39,8 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Data Fields", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions/Subroutines", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Functions/Subroutines", "functions_func.html", "functions_func" ],
+        [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -56,9 +56,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_ao_t_8f90.html",
-"simulation_8f90.html#a03afd8682d3239c0ce8eb1637e4da806",
-"structfield__types__mod_1_1vectorial3d__field__class.html#a219c7d1c8e49593aa1616ed50253a6cc",
-"structtracer__paper__mod_1_1paper__state__class.html#a52ea928258826e92f35119aa62021cbe"
+"namespacelink__mod.html",
+"solver_8f90.html#a54ea6899cce026a7a5da2dd05922628f",
+"structsimulation__mod_1_1simulation__class.html#a1b9db63a26711c01fc0e994c39a7ae1a",
+"structsources__mod_1_1source__prop.html#ac569c18f02e33c5ca95f423bcb9fb30e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

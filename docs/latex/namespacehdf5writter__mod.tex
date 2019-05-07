@@ -1,0 +1,53 @@
+\hypertarget{namespacehdf5writter__mod}{}\section{hdf5writter\+\_\+mod Module Reference}
+\label{namespacehdf5writter__mod}\index{hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}}
+
+
+Defines a vtk writer class with an object exposable to the Output streamer. Writes files in .xml vtk, both in serial and parallel model. Uses an unstructured mesh format specifier to store any type of data, both meshes and Tracers. Supports scalar and vectorial data.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \mbox{\hyperlink{namespacehdf5writter__mod_a365615aa2f72e08015a020475c37a6c8}{writetestmatrix}} (mat)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines a vtk writer class with an object exposable to the Output streamer. Writes files in .xml vtk, both in serial and parallel model. Uses an unstructured mesh format specifier to store any type of data, both meshes and Tracers. Supports scalar and vectorial data. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacehdf5writter__mod_a365615aa2f72e08015a020475c37a6c8}\label{namespacehdf5writter__mod_a365615aa2f72e08015a020475c37a6c8}} 
+\index{hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}!writetestmatrix@{writetestmatrix}}
+\index{writetestmatrix@{writetestmatrix}!hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}}
+\subsubsection{\texorpdfstring{writetestmatrix()}{writetestmatrix()}}
+{\footnotesize\ttfamily subroutine, public hdf5writter\+\_\+mod\+::writetestmatrix (\begin{DoxyParamCaption}\item[{integer, dimension(\+:, \+:), intent(in), pointer}]{mat }\end{DoxyParamCaption})}
+
+
+
+Definition at line 40 of file hdf5\+Writter.\+f90.
+
+
+\begin{DoxyCode}
+40     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(:, :)}, \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: mat
+41     \textcolor{keywordtype}{integer} :: ID, HDF5\_CREATE, STAT\_CALL
+42     
+43     id = 0
+44     
+45         \textcolor{comment}{!Gets File Access Code}
+46         \textcolor{keyword}{call }gethdf5fileaccess(hdf5\_create = hdf5\_create)
+47 
+48         \textcolor{comment}{!Opens HDF File}
+49         \textcolor{keyword}{call }constructhdf5(id, \textcolor{stringliteral}{"filehdf"}, hdf5\_create, stat = stat\_call)
+50         \textcolor{keywordflow}{if} (stat\_call /= success\_) stop \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR01'}
+51         
+52         \textcolor{keyword}{call }hdf5writedata(id, \textcolor{stringliteral}{"/Data"}, \textcolor{stringliteral}{"TestMatrix"}, \textcolor{stringliteral}{"-"},         &
+53                               array2d = mat,            &
+54                               stat = stat\_call)
+55         \textcolor{keywordflow}{if} (stat\_call /= success\_) stop \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR07'}
+56         
+\end{DoxyCode}

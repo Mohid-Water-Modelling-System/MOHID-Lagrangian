@@ -55,9 +55,8 @@ Definition at line 45 of file boundingbox.\+f90.
 45     \textcolor{keywordtype}{implicit none}
 46     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(inout)} :: self
 47     self%pt = globals%SimDefs%Pointmin
-48     \textcolor{comment}{!self%size = geo2m(Globals%SimDefs%Pointmax - Globals%SimDefs%Pointmin, Globals%SimDefs%Pointmin%y)}
-49     self%size = globals%SimDefs%Pointmax - globals%SimDefs%Pointmin
-50     self%offset = -self%pt \textcolor{comment}{!distance to the origin - local reference}
+48     self%size = globals%SimDefs%Pointmax - globals%SimDefs%Pointmin
+49     self%offset = -self%pt \textcolor{comment}{!distance to the origin - local reference}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceboundingbox__mod_a6ec461b758bc180dc72b5fb23169feca}\label{namespaceboundingbox__mod_a6ec461b758bc180dc72b5fb23169feca}} 
 \index{boundingbox\+\_\+mod@{boundingbox\+\_\+mod}!printboundingbox@{printboundingbox}}
@@ -74,24 +73,24 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 59 of file boundingbox.\+f90.
+Definition at line 58 of file boundingbox.\+f90.
 
 
 \begin{DoxyCode}
-59     \textcolor{keywordtype}{implicit none}
-60     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(inout)} :: self
-61     \textcolor{keywordtype}{type}(string) :: outext
-62     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
-63     outext = \textcolor{stringliteral}{'-->Main bounding box is '}//new\_line(\textcolor{stringliteral}{'a'})
-64     temp\_str(1)=self%pt%x
-65     temp\_str(2)=self%pt%y
-66     temp\_str(3)=self%pt%z
-67     outext = outext//\textcolor{stringliteral}{'       Point = '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
-68     temp\_str(1)=self%size%x
-69     temp\_str(2)=self%size%y
-70     temp\_str(3)=self%size%z
-71     outext = outext//\textcolor{stringliteral}{'       Size = '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)
-72     \textcolor{keyword}{call }log%put(outext,.false.)
+58     \textcolor{keywordtype}{implicit none}
+59     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(inout)} :: self
+60     \textcolor{keywordtype}{type}(string) :: outext
+61     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
+62     outext = \textcolor{stringliteral}{'-->Main bounding box is '}//new\_line(\textcolor{stringliteral}{'a'})
+63     temp\_str(1)=self%pt%x
+64     temp\_str(2)=self%pt%y
+65     temp\_str(3)=self%pt%z
+66     outext = outext//\textcolor{stringliteral}{'       Point = '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+67     temp\_str(1)=self%size%x
+68     temp\_str(2)=self%size%y
+69     temp\_str(3)=self%size%z
+70     outext = outext//\textcolor{stringliteral}{'       Size = '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)
+71     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 
 

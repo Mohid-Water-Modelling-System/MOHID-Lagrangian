@@ -22,8 +22,8 @@ INCLUDE_DIRECTORIES (${HDF5_TEST_SRC_DIR})
 # --------------------------------------------------------------------
 MACRO (HL_ADD_EXE hl_name)
   add_executable (hl_${hl_name} ${hl_name}.c)
-  TARGET_NAMING (hl_${hl_name} STATIC)
-  TARGET_C_PROPERTIES (hl_${hl_name} STATIC " " " ")
+  TARGET_NAMING (hl_${hl_name} ${LIB_TYPE})
+  TARGET_C_PROPERTIES (hl_${hl_name} ${LIB_TYPE} " " " ")
   target_link_libraries (hl_${hl_name}
       ${HDF5_HL_LIB_TARGET}
       ${HDF5_LIB_TARGET}
@@ -32,40 +32,18 @@ MACRO (HL_ADD_EXE hl_name)
   set_target_properties (hl_${hl_name} PROPERTIES FOLDER test/hl)
 ENDMACRO (HL_ADD_EXE)
 
-MACRO (HL_ADD_SHEXE hl_name)
-  add_executable (hl_${hl_name} ${hl_name}.c)
-  TARGET_NAMING (hl_${hl_name} SHARED)
-  TARGET_C_PROPERTIES (hl_${hl_name} SHARED " " " ")
-  target_link_libraries (hl_${hl_name}
-      ${HDF5_HL_LIBSH_TARGET}
-      ${HDF5_LIBSH_TARGET}
-      ${HDF5_TEST_LIBSH_TARGET}
-  )
-  set_target_properties (hl_${hl_name} PROPERTIES FOLDER test/hl)
-ENDMACRO (HL_ADD_SHEXE)
-
 HL_ADD_EXE (test_ds)
 HL_ADD_EXE (test_dset_opt)
 HL_ADD_EXE (test_image)
 HL_ADD_EXE (test_lite)
+HL_ADD_EXE (test_packet)
 HL_ADD_EXE (test_table)
-
-# test_packet has two source files
-add_executable (hl_test_packet test_packet.c test_packet_vlen.c)
-TARGET_NAMING (hl_test_packet STATIC)
-TARGET_C_PROPERTIES (hl_test_packet STATIC " " " ")
-target_link_libraries (hl_test_packet
-    ${HDF5_HL_LIB_TARGET}
-    ${HDF5_LIB_TARGET}
-    ${HDF5_TEST_LIB_TARGET}
-)
-set_target_properties (hl_test_packet PROPERTIES FOLDER test/hl)
 
 # --------------------------------------------------------------------
 # This executable is used to generate test files for the test_ds test.
 # It should only be run during development when new test files are needed
 # --------------------------------------------------------------------
-if (HDF5_BUILD_GENERATORS)
+if (HDF5_BUILD_GENERATORS AND NOT BUILD_SHARED_LIBS)
   add_executable (hl_gen_test_ds gen_test_ds.c)
   TARGET_NAMING (hl_gen_test_ds STATIC)
   TARGET_C_PROPERTIES (hl_gen_test_ds STATIC " " " ")
@@ -75,6 +53,6 @@ if (HDF5_BUILD_GENERATORS)
       ${HDF5_TEST_LIB_TARGET}
   )
   set_target_properties (hl_gen_test_ds PROPERTIES FOLDER test/hl/gen)
-endif (HDF5_BUILD_GENERATORS)
+endif (HDF5_BUILD_GENERATORS AND NOT BUILD_SHARED_LIBS)
 
 include (CMakeTests.cmake)

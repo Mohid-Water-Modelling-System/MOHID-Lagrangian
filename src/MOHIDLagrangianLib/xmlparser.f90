@@ -18,15 +18,15 @@
     !> FOX_dom library.
     !------------------------------------------------------------------------------
 
-    module xmlparser_mod
+    module xmlParser_mod
 
     use FoX_dom
     use penf
     use vecfor_r8p
     use stringifor
     
-    use simulation_precision_mod
-    use simulation_logger_mod
+    use simulationPrecision_mod
+    use simulationLogger_mod
     
     implicit none
     private
@@ -268,4 +268,4 @@
     endif
     end subroutine gotoNode
 
-    end module xmlparser_mod
+    end module xmlParser_mod

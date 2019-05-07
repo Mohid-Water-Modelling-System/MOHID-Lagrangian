@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/emitter.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/emitter.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -121,15 +121,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a6376ad0f8e1739b29caf672aa0750373"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a6376ad0f8e1739b29caf672aa0750373">emitter_mod::initializeemitter</a> (self)</td></tr>
 <tr class="memdesc:a6376ad0f8e1739b29caf672aa0750373"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that initializes an emmiter class object. Sets default values  <a href="namespaceemitter__mod.html#a6376ad0f8e1739b29caf672aa0750373">More...</a><br /></td></tr>
 <tr class="separator:a6376ad0f8e1739b29caf672aa0750373"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#ab704fb0e2eb9b3b4b9542706b6fb4eaf">emitter_mod::addsource</a> (self, src)</td></tr>
-<tr class="memdesc:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to compute the total emittable particles per source and allocate that space in the Blocks Tracer array  <a href="namespaceemitter__mod.html#ab704fb0e2eb9b3b4b9542706b6fb4eaf">More...</a><br /></td></tr>
-<tr class="separator:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49b704640270da1c4fad50fcd5374376"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a49b704640270da1c4fad50fcd5374376">emitter_mod::removesource</a> (self, src)</td></tr>
-<tr class="memdesc:a49b704640270da1c4fad50fcd5374376"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to remove from the total emittable particles count a Source  <a href="namespaceemitter__mod.html#a49b704640270da1c4fad50fcd5374376">More...</a><br /></td></tr>
-<tr class="separator:a49b704640270da1c4fad50fcd5374376"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae620ebb6a0515272d2f3aa12a88e983a"><td class="memItemLeft" align="right" valign="top">subroutine class(source_class), intent(inout)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#ae620ebb6a0515272d2f3aa12a88e983a">emitter_mod::emitt</a> (self, src, trclist)</td></tr>
-<tr class="memdesc:ae620ebb6a0515272d2f3aa12a88e983a"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that emitts the Tracers, based on the Sources on this Block Emitter  <a href="namespaceemitter__mod.html#ae620ebb6a0515272d2f3aa12a88e983a">More...</a><br /></td></tr>
-<tr class="separator:ae620ebb6a0515272d2f3aa12a88e983a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5127564ae5d2f00d214c1518ac420da7"><td class="memItemLeft" align="right" valign="top">subroutine class(sourcelist_class), intent(inout)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a5127564ae5d2f00d214c1518ac420da7">emitter_mod::emitt</a> (self, srclist, trclist)</td></tr>
+<tr class="memdesc:a5127564ae5d2f00d214c1518ac420da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that emitts the Tracers, based on the Sources on the list of the Emitter's Block  <a href="namespaceemitter__mod.html#a5127564ae5d2f00d214c1518ac420da7">More...</a><br /></td></tr>
+<tr class="separator:a5127564ae5d2f00d214c1518ac420da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a942679c07927fa594173fdd02da38922"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a942679c07927fa594173fdd02da38922">emitter_mod::emitt_src</a> (self, src, trclist)</td></tr>
+<tr class="memdesc:a942679c07927fa594173fdd02da38922"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that emitts the Tracers, given a particular Source  <a href="namespaceemitter__mod.html#a942679c07927fa594173fdd02da38922">More...</a><br /></td></tr>
+<tr class="separator:a942679c07927fa594173fdd02da38922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee7b24637d2249727bccab333e062516"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#aee7b24637d2249727bccab333e062516">emitter_mod::tracermaker</a> (self, trc, src, p)</td></tr>
 <tr class="memdesc:aee7b24637d2249727bccab333e062516"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that calls the corresponding Tracer constructor, depending on the requested type from the emitting Source  <a href="namespaceemitter__mod.html#aee7b24637d2249727bccab333e062516">More...</a><br /></td></tr>
 <tr class="separator:aee7b24637d2249727bccab333e062516"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,7 +136,7 @@ Functions/Subroutines</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="emitter_8f90.html">emitter.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="emitter_8f90.html">emitter.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

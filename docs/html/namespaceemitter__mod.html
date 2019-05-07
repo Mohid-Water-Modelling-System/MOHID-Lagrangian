@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -115,15 +115,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a6376ad0f8e1739b29caf672aa0750373"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a6376ad0f8e1739b29caf672aa0750373">initializeemitter</a> (self)</td></tr>
 <tr class="memdesc:a6376ad0f8e1739b29caf672aa0750373"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that initializes an emmiter class object. Sets default values  <a href="#a6376ad0f8e1739b29caf672aa0750373">More...</a><br /></td></tr>
 <tr class="separator:a6376ad0f8e1739b29caf672aa0750373"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#ab704fb0e2eb9b3b4b9542706b6fb4eaf">addsource</a> (self, src)</td></tr>
-<tr class="memdesc:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to compute the total emittable particles per source and allocate that space in the Blocks Tracer array  <a href="#ab704fb0e2eb9b3b4b9542706b6fb4eaf">More...</a><br /></td></tr>
-<tr class="separator:ab704fb0e2eb9b3b4b9542706b6fb4eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49b704640270da1c4fad50fcd5374376"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a49b704640270da1c4fad50fcd5374376">removesource</a> (self, src)</td></tr>
-<tr class="memdesc:a49b704640270da1c4fad50fcd5374376"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to remove from the total emittable particles count a Source  <a href="#a49b704640270da1c4fad50fcd5374376">More...</a><br /></td></tr>
-<tr class="separator:a49b704640270da1c4fad50fcd5374376"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae620ebb6a0515272d2f3aa12a88e983a"><td class="memItemLeft" align="right" valign="top">subroutine class(<a class="el" href="structsources__mod_1_1source__class.html">source_class</a>), intent(inout)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#ae620ebb6a0515272d2f3aa12a88e983a">emitt</a> (self, src, trclist)</td></tr>
-<tr class="memdesc:ae620ebb6a0515272d2f3aa12a88e983a"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that emitts the Tracers, based on the Sources on this Block Emitter  <a href="#ae620ebb6a0515272d2f3aa12a88e983a">More...</a><br /></td></tr>
-<tr class="separator:ae620ebb6a0515272d2f3aa12a88e983a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5127564ae5d2f00d214c1518ac420da7"><td class="memItemLeft" align="right" valign="top">subroutine class(sourcelist_class), intent(inout)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a5127564ae5d2f00d214c1518ac420da7">emitt</a> (self, srclist, trclist)</td></tr>
+<tr class="memdesc:a5127564ae5d2f00d214c1518ac420da7"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that emitts the Tracers, based on the Sources on the list of the Emitter's Block  <a href="#a5127564ae5d2f00d214c1518ac420da7">More...</a><br /></td></tr>
+<tr class="separator:a5127564ae5d2f00d214c1518ac420da7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a942679c07927fa594173fdd02da38922"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#a942679c07927fa594173fdd02da38922">emitt_src</a> (self, src, trclist)</td></tr>
+<tr class="memdesc:a942679c07927fa594173fdd02da38922"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that emitts the Tracers, given a particular Source  <a href="#a942679c07927fa594173fdd02da38922">More...</a><br /></td></tr>
+<tr class="separator:a942679c07927fa594173fdd02da38922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee7b24637d2249727bccab333e062516"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceemitter__mod.html#aee7b24637d2249727bccab333e062516">tracermaker</a> (self, trc, src, p)</td></tr>
 <tr class="memdesc:aee7b24637d2249727bccab333e062516"><td class="mdescLeft">&#160;</td><td class="mdescRight">method that calls the corresponding Tracer constructor, depending on the requested type from the emitting Source  <a href="#aee7b24637d2249727bccab333e062516">More...</a><br /></td></tr>
 <tr class="separator:aee7b24637d2249727bccab333e062516"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,8 +129,8 @@ Functions/Subroutines</h2></td></tr>
 <div class="textblock"><p>Module that defines an emitter class and related methods. This module is responsible for building a potential tracer list based on the availble sources and calling their initializers. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="ab704fb0e2eb9b3b4b9542706b6fb4eaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab704fb0e2eb9b3b4b9542706b6fb4eaf">&#9670;&nbsp;</a></span>addsource()</h2>
+<a id="a5127564ae5d2f00d214c1518ac420da7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5127564ae5d2f00d214c1518ac420da7">&#9670;&nbsp;</a></span>emitt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -142,7 +139,7 @@ Functions/Subroutines</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine emitter_mod::addsource </td>
+          <td class="memname">subroutine class(sourcelist_class), intent(inout) emitter_mod::emitt </td>
           <td>(</td>
           <td class="paramtype">class(<a class="el" href="structemitter__mod_1_1emitter__class.html">emitter_class</a>), intent(inout)&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -150,60 +147,13 @@ Functions/Subroutines</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">class(<a class="el" href="structsources__mod_1_1source__class.html">source_class</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>src</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>method to compute the total emittable particles per source and allocate that space in the Blocks Tracer array </p>
-<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">self,src</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00068">68</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">class</span>(source_class),<span class="keywordtype">intent(in)</span> :: src</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    self%emittable = self%emittable + src%stencil%total_np</div></div><!-- fragment -->
-</div>
-</div>
-<a id="ae620ebb6a0515272d2f3aa12a88e983a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae620ebb6a0515272d2f3aa12a88e983a">&#9670;&nbsp;</a></span>emitt()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine class(<a class="el" href="structsources__mod_1_1source__class.html">source_class</a>), intent(inout) emitter_mod::emitt </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structemitter__mod_1_1emitter__class.html">emitter_class</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
+          <td class="paramtype">class(sourcelist_class), intent(inout)&#160;</td>
+          <td class="paramname"><em>srclist</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">class(<a class="el" href="structsources__mod_1_1source__class.html">source_class</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>src</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">class(<a class="el" href="structtracer__list__mod_1_1tracerlist__class.html">tracerlist_class</a>), intent(inout)&#160;</td>
+          <td class="paramtype">class(tracerlist_class), intent(inout)&#160;</td>
           <td class="paramname"><em>trclist</em>&#160;</td>
         </tr>
         <tr>
@@ -219,7 +169,60 @@ Functions/Subroutines</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>method that emitts the Tracers, based on the Sources on this Block Emitter </p>
+<p>method that emitts the Tracers, based on the Sources on the list of the Emitter's Block </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,srclist,trclist</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00065">65</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">class</span>(sourceList_class), <span class="keywordtype">intent(inout)</span>  :: srclist</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">class</span>(tracerList_class), <span class="keywordtype">intent(inout)</span>  :: trclist</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">class</span>(*), <span class="keywordtype">pointer</span> :: aSource</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">type</span>(string) :: outext</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">integer</span> :: i</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">logical</span> :: reset_stack</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    reset_stack = .false.</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">call </span>srclist%reset()                   <span class="comment">! reset list iterator</span></div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">do</span> <span class="keywordflow">while</span>(srclist%moreValues())         <span class="comment">! loop while there are values</span></div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        asource =&gt; srclist%currentValue()  <span class="comment">! get current value</span></div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">select type</span>(asource)</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordflow">        class is</span> (source_class)</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">if</span> (asource%now%active) <span class="keywordflow">then</span></div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="keywordflow">if</span> (asource%par%emitting_fixed_rate .eqv. .false.) <span class="keyword">call </span>asource%getVariableRate(globals%Sim%getnumdt())</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                asource%now%emission_stack = asource%now%emission_stack + asource%par%emitting_rate*globals%SimDefs%dt  <span class="comment">!adding to the emission stack               </span></div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordflow">do</span> i=1, floor(asource%now%emission_stack)</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="keyword">call </span>self%emitt_src(asource, trclist)</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    reset_stack = .true.                    </div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordflow">                end do</span> </div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="keywordflow">if</span> (reset_stack) <span class="keywordflow">then</span></div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    asource%now%emission_stack = 0 <span class="comment">!reseting for the next time step              </span></div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keywordflow">                end if</span></div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keywordflow">            end if</span></div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordflow">            class default</span></div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            outext = <span class="stringliteral">&#39;[Emitter] Unexepected type of content, not a Source&#39;</span></div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            stop</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keywordflow">        end select</span></div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">call </span>srclist%next()            <span class="comment">! increment the list iterator</span></div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">call </span>srclist%reset()               <span class="comment">! reset list iterator</span></div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a942679c07927fa594173fdd02da38922"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a942679c07927fa594173fdd02da38922">&#9670;&nbsp;</a></span>emitt_src()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine emitter_mod::emitt_src </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structemitter__mod_1_1emitter__class.html">emitter_class</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class(<a class="el" href="structsources__mod_1_1source__class.html">source_class</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class(tracerlist_class), intent(inout)&#160;</td>
+          <td class="paramname"><em>trclist</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>method that emitts the Tracers, given a particular Source </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -228,8 +231,8 @@ Functions/Subroutines</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00094">94</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">class</span>(source_class), <span class="keywordtype">intent(inout)</span>  :: src</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">class</span>(tracerList_class), <span class="keywordtype">intent(inout)</span>   :: trclist</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">integer</span> i</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">class</span>(*), <span class="keywordtype">allocatable</span> :: newtrc</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">do</span> i=1, src%stencil%np</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        self%emitted = self%emitted + 1</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment">!PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id</span></div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keyword">call </span>self%tracerMaker(newtrc, src, i)</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keyword">call </span>trclist%add(newtrc)</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00109">109</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">class</span>(source_class), <span class="keywordtype">intent(inout)</span>  :: src</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">class</span>(tracerList_class), <span class="keywordtype">intent(inout)</span>   :: trclist</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">integer</span> i</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordtype">class</span>(*), <span class="keywordtype">allocatable</span> :: newtrc</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">do</span> i=1, src%stencil%np</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="comment">!PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial Tracer Id</span></div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keyword">call </span>self%tracerMaker(newtrc, src, i)</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keyword">call </span>trclist%add(newtrc)</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    self%emitted = self%emitted + src%stencil%np</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    src%stats%particles_emitted = src%stats%particles_emitted + src%stencil%np</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a6376ad0f8e1739b29caf672aa0750373"></a>
@@ -259,55 +262,8 @@ Functions/Subroutines</h2></td></tr>
 <p>method that initializes an emmiter class object. Sets default values </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00054">54</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    self%emitted = 0</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    self%emittable = 0</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a49b704640270da1c4fad50fcd5374376"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49b704640270da1c4fad50fcd5374376">&#9670;&nbsp;</a></span>removesource()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine emitter_mod::removesource </td>
-          <td>(</td>
-          <td class="paramtype">class(<a class="el" href="structemitter__mod_1_1emitter__class.html">emitter_class</a>), intent(inout)&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">class(<a class="el" href="structsources__mod_1_1source__class.html">source_class</a>), intent(in)&#160;</td>
-          <td class="paramname"><em>src</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>method to remove from the total emittable particles count a Source </p>
-<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">self,src</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00081">81</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">class</span>(source_class),<span class="keywordtype">intent(in)</span> :: src</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    self%emittable = self%emittable - src%stencil%total_np</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00052">52</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    self%emitted = 0</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aee7b24637d2249727bccab333e062516"></a>
@@ -365,8 +321,8 @@ Functions/Subroutines</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00117">117</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(in)</span> :: self</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">class</span>(*), <span class="keywordtype">allocatable</span>, <span class="keywordtype">intent(out)</span> :: trc</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">class</span>(source_class), <span class="keywordtype">intent(in)</span> :: src</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: p</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">type</span>(string) :: outext, temp</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="comment">!PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id</span></div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">select case</span> (src%prop%property_type%chars())</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">case</span> (<span class="stringliteral">&#39;base&#39;</span>)</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">allocate</span>(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime, p)) <span class="comment">!Beacause ifort 2017 is not F2008 compliant...</span></div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="comment">!trc = Tracer(1, src, Globals%SimTime, p) !Otherwise instinsic allocation would be enough and more readable, like this. Compiles fine in GFortran</span></div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">case</span> (<span class="stringliteral">&#39;paper&#39;</span>)</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keyword">allocate</span>(trc, source = papertracer(globals%Sim%getnumTracer(), src, globals%SimTime, p))</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">case</span> (<span class="stringliteral">&#39;plastic&#39;</span>)</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keyword">allocate</span>(trc, source = plastictracer(globals%Sim%getnumTracer(), src, globals%SimTime, p))</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keywordflow">        case default</span></div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        outext=<span class="stringliteral">&#39;[Emitter::tracerMaker]: unexpected type for Tracer object: &#39;</span>//src%prop%property_type</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        stop</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="keywordflow">    end select</span></div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="emitter_8f90_source.html#l00132">132</a> of file <a class="el" href="emitter_8f90_source.html">emitter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">implicit none</span></div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">class</span>(emitter_class), <span class="keywordtype">intent(in)</span> :: self</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">class</span>(*), <span class="keywordtype">allocatable</span>, <span class="keywordtype">intent(out)</span> :: trc</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">class</span>(source_class), <span class="keywordtype">intent(in)</span> :: src</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: p</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">type</span>(string) :: outext, temp</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="comment">!PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id</span></div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordflow">select case</span> (src%prop%property_type%chars())</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">case</span> (<span class="stringliteral">&#39;base&#39;</span>)</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keyword">allocate</span>(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p)) <span class="comment">!Beacause ifort 2017 is not F2008 compliant...</span></div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="comment">!trc = Tracer(1, src, Globals%Time%CurrTime, p) !Otherwise instinsic allocation would be enough and more readable, like this. Compiles fine in GFortran</span></div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">case</span> (<span class="stringliteral">&#39;paper&#39;</span>)</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keyword">allocate</span>(trc, source = papertracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p))</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">case</span> (<span class="stringliteral">&#39;plastic&#39;</span>)</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keyword">allocate</span>(trc, source = plastictracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p))</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordflow">        case default</span></div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        outext=<span class="stringliteral">&#39;[Emitter::tracerMaker]: unexpected type for Tracer object: &#39;</span>//src%prop%property_type</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        stop</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="keywordflow">    end select</span></div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

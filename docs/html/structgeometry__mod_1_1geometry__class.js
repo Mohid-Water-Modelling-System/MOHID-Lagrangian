@@ -1,5 +1,6 @@
 var structgeometry__mod_1_1geometry__class =
 [
+    [ "allocateshape", "structgeometry__mod_1_1geometry__class.html#a435975f73e28fc8c9f04b47c390cb089", null ],
     [ "fill", "structgeometry__mod_1_1geometry__class.html#a0afee5607f0e2443a862741e40794368", null ],
     [ "fillsize", "structgeometry__mod_1_1geometry__class.html#a75f5a37d0b38c8baf66ee5089ea44d7a", null ],
     [ "getcenter", "structgeometry__mod_1_1geometry__class.html#a691891378a677185f2f13e736f68ff11", null ],

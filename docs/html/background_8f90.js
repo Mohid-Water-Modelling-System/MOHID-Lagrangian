@@ -5,6 +5,7 @@ var background_8f90 =
     [ "background", "interfacebackground__mod_1_1background.html", null ],
     [ "addfield", "background_8f90.html#aa6ddc308698724f00ce1177ded5afc4c", null ],
     [ "constructor", "background_8f90.html#ad0096fb6a5a11854fd70a7ce58dc3000", null ],
+    [ "getdimindex", "background_8f90.html#a4e05d8be917e0143fe5889f2b19b750d", null ],
     [ "print_fieldlist", "background_8f90.html#acdcc52b4fb298bc145a121f9e8a4b929", null ],
     [ "print_fieldlistcurrent", "background_8f90.html#a2bd18f3830c0667741efd086d36753db", null ],
     [ "printbackground", "background_8f90.html#a8a8f225cffcddb742f22a402155b703f", null ],

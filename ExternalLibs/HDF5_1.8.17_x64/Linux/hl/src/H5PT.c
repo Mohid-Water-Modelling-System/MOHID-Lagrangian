@@ -48,133 +48,6 @@ static herr_t H5PT_get_index(htbl_t *table_id, hsize_t *pt_index);
  */
 
 /*-------------------------------------------------------------------------
- * Function: H5PTcreate
- *
- * Purpose: Creates a dataset containing a table and returns the Identifier
- *          of the table. (Copied mostly from H5PTcreate_fl)
- *
- * Return: Success: table ID, Failure: FAIL
- *
- * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu (Author of H5PTcreate_fl)
- *             James Laird, jlaird@ncsa.uiuc.edu (Author of H5PTcreate_fl)
- *
- * Date: March 12, 2004
- *
- * Comments: This function does not handle fill data
- *           currently.  Fill data is not necessary because the
- *           table is initially of size 0.
- *
- * Modifications:
- *	Mar 1, 2016
- *		This function is added to replace H5PTcreate_fl and it differs
- *		from H5PTcreate_fl only because its last argument is plist_id
- *		instead of compression; this is to allow flexible compression.
- *		-BMR
- *
- *-------------------------------------------------------------------------
- */
-hid_t H5PTcreate(hid_t loc_id,
-                 const char *dset_name,
-                 hid_t dtype_id,
-                 hsize_t chunk_size,
-                 hid_t plist_id)
-{
-  htbl_t * table = NULL;
-  hid_t dset_id = H5I_INVALID_HID;
-  hid_t space_id = H5I_INVALID_HID;
-  hid_t plistcopy_id = H5I_INVALID_HID;
-  hsize_t dims[1];
-  hsize_t dims_chunk[1];
-  hsize_t maxdims[1];
-  hid_t ret_value = H5I_INVALID_HID;
-
-  /* check the arguments */
-  if (dset_name == NULL) {
-    goto error;
-  }
-
-  /* Register the packet table ID type if this is the first table created */
-  if(H5PT_ptable_id_type < 0)
-    if((H5PT_ptable_id_type = H5Iregister_type((size_t)H5PT_HASH_TABLE_SIZE, 0, (H5I_free_t)H5PT_free_id)) < 0)
-      goto error;
-
-  /* Get memory for the table identifier */
-  table = (htbl_t *)HDmalloc(sizeof(htbl_t));
-  if ( table == NULL ) {
-    goto error;
-  }
-  table->dset_id = H5I_INVALID_HID;
-  table->type_id = H5I_INVALID_HID;
-
-  /* Create a simple data space with unlimited size */
-  dims[0] = 0;
-  dims_chunk[0] = chunk_size;
-  maxdims[0] = H5S_UNLIMITED;
-  if((space_id = H5Screate_simple(1, dims, maxdims)) < 0)
-    goto error;
-
-  /* Modify dataset creation properties to enable chunking  */
-  if (plist_id == H5P_DEFAULT) {
-	plistcopy_id = H5Pcreate(H5P_DATASET_CREATE);
-  }
-  else {
-	plistcopy_id = H5Pcopy(plist_id);
-  }
-  if (chunk_size > 0)
-  {
-    if(H5Pset_chunk(plistcopy_id, 1, dims_chunk) < 0)
-      goto error;
-  }
-
-  /* Create the dataset. */
-  if((dset_id = H5Dcreate2(loc_id, dset_name, dtype_id, space_id, H5P_DEFAULT, plistcopy_id, H5P_DEFAULT)) < 0)
-    goto error;
-
-  /* Create the table identifier */
-  table->dset_id = dset_id;
-
-  /* Terminate access to the data space. */
-  if(H5Sclose(space_id) < 0)
-    goto error;
-
-  /* End access to the property list */
-  if(H5Pclose(plistcopy_id) < 0)
-    goto error;
-
-  if((table->type_id = H5Tget_native_type(dtype_id, H5T_DIR_DEFAULT)) < 0)
-    goto error;
-
-  H5PT_create_index(table);
-  table->size = 0;
-
-  /* Get an ID for this table */
-  ret_value = H5Iregister(H5PT_ptable_id_type, table);
-  if(ret_value != H5I_INVALID_HID)
-    H5PT_ptable_count++;
-  else
-    H5PT_close(table);
-
-  return ret_value;
-
-error:
-    if (space_id != H5I_INVALID_HID)
-	H5Sclose(space_id);
-    if (plistcopy_id != H5I_INVALID_HID)
-	H5Pclose(plistcopy_id);
-    if (dset_id != H5I_INVALID_HID)
-	H5Dclose(dset_id);
-    if (table)
-    {
-        if (table->type_id != H5I_INVALID_HID)
-	    H5Tclose(table->type_id);
-	HDfree(table);
-    }
-
-    return ret_value;
-} /* H5PTcreate */
-
-
-/*-------------------------------------------------------------------------
  * Function: H5PTcreate_fl
  *
  * Purpose: Creates a dataset containing a table and returns the Identifier
@@ -203,70 +76,69 @@ hid_t H5PTcreate_fl ( hid_t loc_id,
                               int compression )
 {
   htbl_t * table = NULL;
-  hid_t dset_id = H5I_INVALID_HID;
-  hid_t space_id = H5I_INVALID_HID;
-  hid_t plist_id = H5I_INVALID_HID;
+  hid_t dset_id = H5I_BADID;
+  hid_t space_id = H5I_BADID;
+  hid_t plist_id = H5I_BADID;
   hsize_t dims[1];
   hsize_t dims_chunk[1];
   hsize_t maxdims[1];
-  hid_t ret_value = H5I_INVALID_HID;
+  hid_t ret_value;
 
   /* check the arguments */
   if (dset_name == NULL) {
-    goto error;
+    goto out;
   }
 
   /* Register the packet table ID type if this is the first table created */
   if(H5PT_ptable_id_type < 0)
     if((H5PT_ptable_id_type = H5Iregister_type((size_t)H5PT_HASH_TABLE_SIZE, 0, (H5I_free_t)H5PT_free_id)) < 0)
-      goto error;
+      goto out;
 
   /* Get memory for the table identifier */
   table = (htbl_t *)HDmalloc(sizeof(htbl_t));
-  if ( table == NULL ) {
-    goto error;
-  }
-  table->dset_id = H5I_INVALID_HID;
-  table->type_id = H5I_INVALID_HID;
 
   /* Create a simple data space with unlimited size */
   dims[0] = 0;
   dims_chunk[0] = chunk_size;
   maxdims[0] = H5S_UNLIMITED;
   if((space_id = H5Screate_simple(1, dims, maxdims)) < 0)
-    goto error;
+    goto out;
 
   /* Modify dataset creation properties to enable chunking  */
   plist_id = H5Pcreate(H5P_DATASET_CREATE);
   if(H5Pset_chunk(plist_id, 1, dims_chunk) < 0)
-    goto error;
+    goto out;
   if(compression >= 0 && compression <= 9)
     if(H5Pset_deflate(plist_id, (unsigned)compression) < 0)
-        goto error;
+        goto out;
 
   /* Create the dataset. */
   if((dset_id = H5Dcreate2(loc_id, dset_name, dtype_id, space_id, H5P_DEFAULT, plist_id, H5P_DEFAULT)) < 0)
-    goto error;
+    goto out;
+
+  /* Terminate access to the data space. */
+  if(H5Sclose(space_id) < 0)
+    goto out;
+
+  /* End access to the property list */
+  if(H5Pclose(plist_id) < 0)
+    goto out;
 
   /* Create the table identifier */
   table->dset_id = dset_id;
 
-  /* Terminate access to the data space. */
-  if(H5Sclose(space_id) < 0)
-    goto error;
+  if((table->type_id = H5Tcopy(dtype_id)) < 0)
+    goto out;
 
-  /* End access to the property list */
-  if(H5Pclose(plist_id) < 0)
-    goto error;
-
-  if((table->type_id = H5Tget_native_type(dtype_id, H5T_DIR_DEFAULT)) < 0)
-    goto error;
+  if((table->type_id = H5Tget_native_type(table->type_id, H5T_DIR_DEFAULT)) < 0)
+    goto out;
 
   H5PT_create_index(table);
   table->size = 0;
 
   /* Get an ID for this table */
   ret_value = H5Iregister(H5PT_ptable_id_type, table);
+
   if(ret_value != H5I_INVALID_HID)
     H5PT_ptable_count++;
   else
@@ -274,22 +146,71 @@ hid_t H5PTcreate_fl ( hid_t loc_id,
 
   return ret_value;
 
-error:
-    if (space_id != H5I_INVALID_HID)
-	H5Sclose(space_id);
-    if (plist_id != H5I_INVALID_HID)
-	H5Pclose(plist_id);
-    if (dset_id != H5I_INVALID_HID)
-	H5Dclose(dset_id);
-    if (table)
-    {
-        if (table->type_id != H5I_INVALID_HID)
-	    H5Tclose(table->type_id);
-	HDfree(table);
-    }
+  out:
+    H5E_BEGIN_TRY
+    H5Sclose(space_id);
+    H5Pclose(plist_id);
+    H5Dclose(dset_id);
+    if(table)
+      HDfree(table);
+    H5E_END_TRY
+    return H5I_INVALID_HID;
+}
 
-    return ret_value;
-} /* H5PTcreate_fl */
+#ifdef H5_VLPT_ENABLED
+/*-------------------------------------------------------------------------
+ * Function: H5PTcreate_vl
+ *
+ * Purpose: Creates a dataset containing a table of variable length records
+ *          and returns the Identifier of the table.
+ *
+ * Return: Success: table ID, Failure: Negative
+ *
+ * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
+ *             James Laird, jlaird@ncsa.uiuc.edu
+ *
+ * Date: April 12, 2004
+ *
+ * Comments: This function does not handle compression or fill data
+ *           currently.  Fill data is not necessary because the
+ *           table is initially of size 0.
+ *
+ * Modifications:
+ *
+ *-------------------------------------------------------------------------
+ */
+hid_t H5PTcreate_vl ( hid_t loc_id,
+                                 const char*dset_name,
+                                 hsize_t chunk_size)
+{
+  hid_t ret_value=H5I_BADID;
+  hid_t vltype;
+
+  /* check the arguments */
+  if (dset_name == NULL) {
+    goto out;
+  }
+
+  /* Create a variable length type that uses single bytes as its base type */
+  vltype = H5Tvlen_create(H5T_NATIVE_UCHAR);
+  if(vltype < 0)
+    goto out;
+
+  if((ret_value=H5PTcreate_fl(loc_id, dset_name, vltype, chunk_size, 0)) < 0)
+    goto out;
+
+  /* close the vltype */
+  if(H5Tclose(vltype) < 0)
+    goto out;
+
+  return ret_value;
+
+out:
+  if(ret_value != H5I_BADID)
+    H5PTclose(ret_value);
+  return H5I_BADID;
+}
+#endif /* H%_VLPT_ENABLED */
 
 /*-------------------------------------------------------------------------
  * Function: H5PTopen
@@ -318,59 +239,58 @@ error:
 hid_t H5PTopen( hid_t loc_id,
                              const char *dset_name )
 {
-  hid_t type_id=H5I_INVALID_HID;
-  hid_t space_id=H5I_INVALID_HID;
+  hid_t type_id=H5I_BADID;
+  hid_t space_id=H5I_BADID;
   htbl_t * table = NULL;
+  hid_t ret_value;
   hsize_t dims[1];
-  hid_t ret_value = H5I_INVALID_HID;
 
   /* check the arguments */
   if (dset_name == NULL) {
-    goto error;
+    goto out;
   }
 
   /* Register the packet table ID type if this is the first table created */
   if( H5PT_ptable_id_type < 0)
     if((H5PT_ptable_id_type = H5Iregister_type((size_t)H5PT_HASH_TABLE_SIZE, 0, (H5I_free_t)H5PT_free_id)) < 0)
-      goto error;
+      goto out;
 
   table = (htbl_t *)HDmalloc(sizeof(htbl_t));
+
   if ( table == NULL ) {
-    goto error;
+    goto out;
   }
-  table->dset_id = H5I_INVALID_HID;
-  table->type_id = H5I_INVALID_HID;
+  table->dset_id = H5I_BADID;
+  table->type_id = H5I_BADID;
 
   /* Open the dataset */
   if((table->dset_id = H5Dopen2(loc_id, dset_name, H5P_DEFAULT)) < 0)
-    goto error;
+      goto out;
+  if(table->dset_id < 0)
+    goto out;
 
   /* Get the dataset's disk datatype */
   if((type_id = H5Dget_type(table->dset_id)) < 0)
-    goto error;
+    goto out;
 
   /* Get the table's native datatype */
   if((table->type_id = H5Tget_native_type(type_id, H5T_DIR_ASCEND)) < 0)
-    goto error;
+    goto out;
 
-  /* Close the disk datatype */
   if(H5Tclose(type_id) < 0)
-    goto error;
-  type_id = H5I_INVALID_HID;
+    goto out;
 
   /* Initialize the current record pointer */
   if((H5PT_create_index(table)) < 0)
-    goto error;
+    goto out;
 
   /* Get number of records in table */
   if((space_id=H5Dget_space(table->dset_id)) < 0)
-    goto error;
-  if(H5Sget_simple_extent_dims(space_id, dims, NULL) < 0)
-    goto error;
+    goto out;
+  if( H5Sget_simple_extent_dims( space_id, dims, NULL) < 0)
+    goto out;
   if(H5Sclose(space_id) < 0)
-    goto error;
-  space_id = H5I_INVALID_HID;
-
+    goto out;
   table->size = dims[0];
 
   /* Get an ID for this table */
@@ -383,36 +303,33 @@ hid_t H5PTopen( hid_t loc_id,
 
   return ret_value;
 
-error:
-    if (type_id != H5I_INVALID_HID)
-	H5Dclose(type_id);
-    if (space_id != H5I_INVALID_HID)
-	H5Sclose(space_id);
-    if(table)
-    {
-        if (table->type_id != H5I_INVALID_HID)
-	    H5Tclose(table->type_id);
-	if (table->dset_id != H5I_INVALID_HID)
-	    H5Dclose(table->dset_id);
-	HDfree(table);
-    }
-
-    return ret_value;
-} /* H5PTopen */
+out:
+  H5E_BEGIN_TRY
+  H5Tclose(type_id);
+  H5Sclose(space_id);
+  if(table)
+  {
+    H5Dclose(table->dset_id);
+    H5Tclose(table->type_id);
+    HDfree(table);
+  }
+  H5E_END_TRY
+  return H5I_INVALID_HID;
+}
 
 /*-------------------------------------------------------------------------
  * Function: H5PT_free_id
  *
  * Purpose: Free an id.  Callback for H5Iregister_type.
  *
- * Return: Success: SUCCEED, Failure: N/A
+ * Return: Success: 0, Failure: N/A
  *-------------------------------------------------------------------------
  */
 static herr_t
 H5PT_free_id(void *id)
 {
     HDfree(id);
-    return SUCCEED;
+    return 0;
 }
 
 /*-------------------------------------------------------------------------
@@ -421,7 +338,7 @@ H5PT_free_id(void *id)
  * Purpose: Closes a table (i.e. cleans up all open resources used by a
  *          table).
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -438,21 +355,21 @@ static herr_t
 H5PT_close( htbl_t* table)
 {
   if(table == NULL)
-    goto error;
+    goto out;
 
   /* Close the dataset */
   if(H5Dclose(table->dset_id) < 0)
-    goto error;
+    goto out;
 
   /* Close the memory datatype */
   if(H5Tclose(table->type_id) < 0)
-    goto error;
+    goto out;
 
   HDfree(table);
 
-  return SUCCEED;
+  return 0;
 
-error:
+out:
   if(table)
   {
     H5E_BEGIN_TRY
@@ -461,7 +378,7 @@ error:
     H5E_END_TRY
     HDfree(table);
   }
-  return FAIL;
+  return -1;
 }
 
 /*-------------------------------------------------------------------------
@@ -470,7 +387,7 @@ error:
  * Purpose: Closes a table (i.e. cleans up all open resources used by a
  *          table).
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -489,11 +406,11 @@ herr_t H5PTclose( hid_t table_id )
 
   /* Remove the ID from the library */
   if((table = (htbl_t *)H5Iremove_verify(table_id, H5PT_ptable_id_type)) ==NULL)
-    goto error;
+    goto out;
 
   /* If the library found the table, remove it */
   if( H5PT_close(table) < 0)
-    goto error;
+    goto out;
 
   /* One less packet table open */
   H5PT_ptable_count--;
@@ -506,10 +423,10 @@ herr_t H5PTclose( hid_t table_id )
     H5PT_ptable_id_type = H5I_UNINIT;
   }
 
-  return SUCCEED;
+  return 0;
 
-error:
-  return FAIL;
+out:
+  return -1;
 }
 
 
@@ -525,7 +442,7 @@ error:
  *
  * Purpose: Appends packets to the end of a packet table
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -546,22 +463,22 @@ herr_t H5PTappend( hid_t table_id,
 
   /* Find the table struct from its ID */
   if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    goto error;
+    goto out;
 
   /* If we are asked to write 0 records, just do nothing */
   if(nrecords == 0)
-    return SUCCEED;
+    return 0;
 
   if((H5TB_common_append_records(table->dset_id, table->type_id,
   			nrecords, table->size, data)) < 0)
-    goto error;
+    goto out;
 
   /* Update table size */
   table->size += nrecords;
-  return SUCCEED;
+  return 0;
 
-error:
-  return FAIL;
+out:
+  return -1;
 }
 
 /*-------------------------------------------------------------------------
@@ -578,7 +495,7 @@ error:
  * Purpose: Reads packets starting at the current index and updates
  *          that index
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -600,22 +517,22 @@ herr_t H5PTget_next( hid_t table_id,
 
   /* Find the table struct from its ID */
   if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    goto error;
+    goto out;
 
   /* If nrecords == 0, do nothing */
   if(nrecords == 0)
-    return SUCCEED;
+    return 0;
 
   if((H5TB_common_read_records(table->dset_id, table->type_id,
                               table->current_index, nrecords, table->size, data)) < 0)
-    goto error;
+    goto out;
 
   /* Update the current index */
   table->current_index += nrecords;
-  return SUCCEED;
+  return 0;
 
-error:
-  return FAIL;
+out:
+  return -1;
 }
 
 /*-------------------------------------------------------------------------
@@ -623,7 +540,7 @@ error:
  *
  * Purpose: Reads packets from anywhere in a packet table
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -647,20 +564,20 @@ herr_t H5PTread_packets( hid_t table_id,
   /* find the table struct from its ID */
   table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type);
   if(table == NULL)
-    goto error;
+    goto out;
 
   /* If nrecords == 0, do nothing */
   if(nrecords == 0)
-    return SUCCEED;
+    return 0;
 
   if( H5TB_common_read_records(table->dset_id, table->type_id,
                               start, nrecords, table->size, data) < 0)
-    goto error;
+    goto out;
 
-  return SUCCEED;
+  return 0;
 
-error:
-  return FAIL;
+out:
+  return -1;
 }
 
 /*-------------------------------------------------------------------------
@@ -675,7 +592,7 @@ error:
  *
  * Purpose: Resets, sets, and gets the current record index for a packet table
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *  		   James Laird, jlaird@ncsa.uiuc.edu
@@ -694,37 +611,37 @@ H5PT_create_index(htbl_t *table)
   if( table != NULL)
   {
     table->current_index = 0;
-    return SUCCEED;
+    return 0;
   }
-  return FAIL;
+  return -1;
 }
 
 static herr_t
-H5PT_set_index(htbl_t *table, hsize_t pt_index)
+H5PT_set_index(htbl_t *table, hsize_t index)
 {
   /* Ensure index is valid */
   if( table != NULL )
   {
-    if( pt_index < table->size )
+    if( index < table->size )
     {
-      table->current_index = pt_index;
-      return SUCCEED;
+      table->current_index = index;
+      return 0;
     }
   }
-  return FAIL;
+  return -1;
 }
 
 static herr_t
-H5PT_get_index(htbl_t *table, hsize_t *pt_index)
+H5PT_get_index(htbl_t *table, hsize_t *index)
 {
   /* Ensure index is valid */
   if( table != NULL )
   {
-    if(pt_index)
-      *pt_index = table->current_index;
-    return SUCCEED;
+    if(index)
+      *index = table->current_index;
+    return 0;
   }
-  return FAIL;
+  return -1;
 }
 
 /*-------------------------------------------------------------------------
@@ -732,7 +649,7 @@ H5PT_get_index(htbl_t *table, hsize_t *pt_index)
  *
  * Purpose: Resets, sets, and gets the current record index for a packet table
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -751,7 +668,7 @@ herr_t H5PTcreate_index(hid_t table_id)
 
   /* find the table struct from its ID */
   if((table = (htbl_t *) (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    return FAIL;
+    return -1;
 
   return H5PT_create_index(table);
 }
@@ -762,7 +679,7 @@ herr_t H5PTset_index(hid_t table_id, hsize_t pt_index)
 
   /* find the table struct from its ID */
   if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    return FAIL;
+    return -1;
 
   return H5PT_set_index(table, pt_index);
 }
@@ -773,7 +690,7 @@ herr_t H5PTget_index(hid_t table_id, hsize_t *pt_index)
 
   /* find the table struct from its ID */
   if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    return FAIL;
+    return -1;
 
   return H5PT_get_index(table, pt_index);
 }
@@ -788,9 +705,9 @@ herr_t H5PTget_index(hid_t table_id, hsize_t *pt_index)
 /*-------------------------------------------------------------------------
  * Function: H5PTget_num_packets
  *
- * Purpose: Returns by reference the number of packets in the packet table
+ * Purpose: Returns by reference the number of packets in the dataset
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -810,15 +727,14 @@ herr_t H5PTget_num_packets( hid_t table_id, hsize_t *nrecords)
 
   /* find the table struct from its ID */
   if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    goto error;
+    goto out;
 
   if(nrecords)
     *nrecords = table->size;
 
-  return SUCCEED;
-
-error:
-  return FAIL;
+  return 0;
+out:
+  return -1;
 }
 
 
@@ -827,7 +743,7 @@ error:
  *
  * Purpose: Validates a table identifier
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -845,18 +761,19 @@ herr_t H5PTis_valid(hid_t table_id)
 {
   /* find the table struct from its ID */
   if(H5Iobject_verify(table_id, H5PT_ptable_id_type) ==NULL)
-    return FAIL;
+    return -1;
 
-  return SUCCEED;
+  return 0;
 }
 
+#ifdef H5_VLPT_ENABLED
 /*-------------------------------------------------------------------------
  * Function: H5PTis_varlen
  *
  * Purpose: Returns 1 if a table_id corresponds to a packet table of variable-
  *          length records or 0 for fixed-length records.
  *
- * Return: True: 1, False: 0, Failure: FAIL
+ * Return: True: 1, False: 0, Failure: -1
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
  *             James Laird, jlaird@ncsa.uiuc.edu
@@ -877,18 +794,17 @@ herr_t H5PTis_varlen(hid_t table_id)
 
   /* find the table struct from its ID */
   if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    goto error;
+    goto out;
 
   if((type = H5Tget_class( table->type_id )) == H5T_NO_CLASS)
-    goto error;
+    goto out;
 
   if( type == H5T_VLEN )
     return 1;
   else
     return 0;
-
-error:
-  return FAIL;
+out:
+  return -1;
 }
 
 /*-------------------------------------------------------------------------
@@ -899,12 +815,12 @@ error:
  */
 
 /*-------------------------------------------------------------------------
- * Function: H5PTfree_vlen_buff
+ * Function: H5PTfree_vlen_readbuff
  *
  * Purpose: Frees memory used when reading from a variable length packet
  *          table.
  *
- * Return: Success: SUCCEED, Failure: FAIL
+ * Return: Success: 0, Failure: -1
  *          -2 if memory was reclaimed but another error occurred
  *
  * Programmer: Nat Furrer, nfurrer@ncsa.uiuc.edu
@@ -920,25 +836,25 @@ error:
  *-------------------------------------------------------------------------
  */
 
-herr_t H5PTfree_vlen_buff( hid_t table_id,
+herr_t H5PTfree_vlen_readbuff( hid_t table_id,
                                size_t _bufflen,
                                void * buff )
 {
-  hid_t space_id = H5I_INVALID_HID;
+  hid_t space_id = H5I_BADID;
   htbl_t * table;
   hsize_t bufflen = _bufflen;
   herr_t ret_value;
 
   /* find the table struct from its ID */
   if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    goto error;
+    goto out;
 
   if((space_id = H5Screate_simple(1, &bufflen, NULL)) < 0)
-    goto error;
+    goto out;
 
   /* Free the memory.  If this succeeds, ret_value should be 0. */
   if((ret_value = H5Dvlen_reclaim(table->type_id, space_id, H5P_DEFAULT, buff)) < 0)
-    goto error;
+    goto out;
 
   /* If the dataspace cannot be closed, return -2 to indicate that memory */
   /* was freed successfully but an error still occurred. */
@@ -947,83 +863,11 @@ herr_t H5PTfree_vlen_buff( hid_t table_id,
 
   return ret_value;
 
-error:
+out:
   H5E_BEGIN_TRY
     H5Sclose(space_id);
   H5E_END_TRY
-  return FAIL;
-} /* H5PTfree_vlen_buff */
-
-/*-------------------------------------------------------------------------
- *
- * Accessor functions
- *
- *-------------------------------------------------------------------------
- */
-/*-------------------------------------------------------------------------
- * Function: H5PTget_dataset
- *
- * Purpose: Returns the backend dataset of this packet table
- *
- * Return: Success: SUCCEED, Failure: FAIL
- *
- * Programmer: User's patch 0003, HDFFV-8623. -BMR
- *
- * Date: Feb 10, 2016
- *
- * Comments:
- *
- * Modifications:
- *
- *
- *-------------------------------------------------------------------------
- */
-hid_t H5PTget_dataset(hid_t table_id)
-{
-  htbl_t * table;
-  hid_t ret_value = H5I_INVALID_HID;
-
-  /* find the table struct from its ID */
-  if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    goto error;
-
-  ret_value = table->dset_id;
-
-error:
-
-  return ret_value;
+  return -1;
 }
 
-/*-------------------------------------------------------------------------
- * Function: H5PTget_type
- *
- * Purpose: Returns the backend type of this packet table
- *
- * Return: Success: datatype ID, Failure: H5I_INVALID_HID
- *
- * Programmer: User's patch 0003, HDFFV-8623. -BMR
- *
- * Date: Feb 10, 2016
- *
- * Comments:
- *
- * Modifications:
- *
- *
- *-------------------------------------------------------------------------
- */
-hid_t H5PTget_type( hid_t table_id)
-{
-  htbl_t * table;
-  hid_t ret_value = H5I_INVALID_HID;
-
-  /* find the table struct from its ID */
-  if((table = (htbl_t *) H5Iobject_verify(table_id, H5PT_ptable_id_type)) == NULL)
-    goto error;
-
-  ret_value = table->type_id;
-
-error:
-
-  return ret_value;
-}
+#endif /* H5_VLPT_ENABLED */

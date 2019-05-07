@@ -1,0 +1,25 @@
+\hypertarget{simulation_output_streamer_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Output\+Streamer.f90 File Reference}
+\label{simulation_output_streamer_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Output\+Streamer.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/simulation\+Output\+Streamer.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacesimulationoutputstreamer__mod}{simulationoutputstreamer\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Defines a output file writer class with an object exposable to the Simulation This class is in charge of selectig the correct writter for the selected output file format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_ac619e3f6f7ebc099c1e8298460f4f183}{simulationoutputstreamer\+\_\+mod\+::writestepserial}} (self, blocks)
+\begin{DoxyCompactList}\small\item\em Streamer method to call a simulation step writer. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}{simulationoutputstreamer\+\_\+mod\+::writedomain}} (self, filename, bbox, npbbox, blocks)
+\begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a81b788c12b0520901e6fc9b113a10dec}{simulationoutputstreamer\+\_\+mod\+::checkwritetime}} (self)
+\begin{DoxyCompactList}\small\item\em Streamer method to check if this timestep is appropriate to write an output file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a9ab3e2101fbed18ea896729f7201e1aa}{simulationoutputstreamer\+\_\+mod\+::initoutputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Initializes the Output writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_adc0f21d337c283eee1f5f13b2eb51d52}{simulationoutputstreamer\+\_\+mod\+::closeoutputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Closes the Output writer object. \end{DoxyCompactList}\end{DoxyCompactItemize}

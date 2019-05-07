@@ -1,0 +1,39 @@
+\hypertarget{abstract_linked_list_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/abstract\+Linked\+List.f90 File Reference}
+\label{abstract_linked_list_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/abstract\+Linked\+List.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/abstract\+Linked\+List.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{abstract\+\_\+linkedlist\+\_\+mod\+::linkedlist}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespaceabstract__linkedlist__mod}{abstract\+\_\+linkedlist\+\_\+mod}}
+\begin{DoxyCompactList}\small\item\em Module that defines an unlimited polymorphic container list class and related methods. A container is a fundamental entity allowing to build data structures such as lists and arrays. This is an abstract type, so a derived type must be defined for any specific contents that may be required. Those derived types should provide type-\/specific methods that require type-\/guards, such as printing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a1075e2f234dacc9daf8407e14fac0929}{abstract\+\_\+linkedlist\+\_\+mod\+::addvalue}} (this, value, key)
+\begin{DoxyCompactList}\small\item\em Method that stores a value on a new link. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ae725ed63dd3b08d29e1c4ff824e05589}{abstract\+\_\+linkedlist\+\_\+mod\+::removecurrent}} (this)
+\begin{DoxyCompactList}\small\item\em Method that removes a link from the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}{abstract\+\_\+linkedlist\+\_\+mod\+::remove}} (this, n)
+\begin{DoxyCompactList}\small\item\em Method that removes the nth link from a list. \end{DoxyCompactList}\item 
+class(link) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ad7b7ffee891627ae2b0548001650f72b}{abstract\+\_\+linkedlist\+\_\+mod\+::getfirst}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the first link of the list. \end{DoxyCompactList}\item 
+class(link) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a7c0a2e5b554e8859fc9b4d8fb52b124f}{abstract\+\_\+linkedlist\+\_\+mod\+::getlast}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the last link of the list. \end{DoxyCompactList}\item 
+pure integer function \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ab4e548906863da517d7fedb02931b79f}{abstract\+\_\+linkedlist\+\_\+mod\+::getsize}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the size (number of links) of a list. \end{DoxyCompactList}\item 
+class($\ast$) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a3c3ad627fd9f87da9831c53802975104}{abstract\+\_\+linkedlist\+\_\+mod\+::getvalue}} (this, n)
+\begin{DoxyCompactList}\small\item\em Method that returns the value of the nth link of a list. \end{DoxyCompactList}\item 
+class($\ast$) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a87a81a4be29c8d4e8d2fb0d02247033b}{abstract\+\_\+linkedlist\+\_\+mod\+::currentvalue}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the value of the current link. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a576f148096561712d6ddd8c848bc7c4b}{abstract\+\_\+linkedlist\+\_\+mod\+::next}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the next link in the list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a0b36d862899c5a40cb98bef4ffd5e2f4}{abstract\+\_\+linkedlist\+\_\+mod\+::previous}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the previous link in the list. \end{DoxyCompactList}\item 
+pure logical function \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a91ec7f6e570a87769ebb3d11b33f577e}{abstract\+\_\+linkedlist\+\_\+mod\+::morevalues}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns a logical with signaling if the current link is ok. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a46ff8b8a3ab81610eb47d72d742778c3}{abstract\+\_\+linkedlist\+\_\+mod\+::reset}} (this)
+\begin{DoxyCompactList}\small\item\em Method that resets the list iterator. \end{DoxyCompactList}\end{DoxyCompactItemize}

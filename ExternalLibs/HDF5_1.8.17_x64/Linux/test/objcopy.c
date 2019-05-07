@@ -11457,7 +11457,7 @@ error:
  */
 static herr_t
 test_copy_iterate_cb(hid_t loc_id, const char *name,
-    const H5L_info_t H5_ATTR_UNUSED *link_info, void *op_data)
+    const H5L_info_t UNUSED *link_info, void *op_data)
 {
     hid_t dst_loc_id = *((hid_t *)op_data);
 
@@ -12284,7 +12284,9 @@ main(void)
         nerrors += test_copy_group_wide_loop(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
         nerrors += test_copy_group_links(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
         nerrors += test_copy_soft_link(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
+#ifndef H5_CANNOT_OPEN_TWICE
         nerrors += test_copy_ext_link(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
+#endif /* H5_CANNOT_OPEN_TWICE */
         nerrors += test_copy_exist(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
         nerrors += test_copy_path(fcpl_src, fcpl_dst, src_fapl, dst_fapl);
 

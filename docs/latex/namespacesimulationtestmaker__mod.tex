@@ -1,0 +1,309 @@
+\hypertarget{namespacesimulationtestmaker__mod}{}\section{simulationtestmaker\+\_\+mod Module Reference}
+\label{namespacesimulationtestmaker__mod}\index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}}
+
+
+Defines synthetic hydrodynamic fields to test Tracer behavior.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_a4ad5df056a516e03a3d1c17f6d3046cf}{inittestmaker}} (self, testcode, testbox, testbackground)
+\begin{DoxyCompactList}\small\item\em Initializes the Test\+Maker. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_a45bbd32a561c88c18498d88f2d540cc4}{maketaylorgreen}} (self, res, testbox, testbackground)
+\begin{DoxyCompactList}\small\item\em Fills a domain\textquotesingle{}s Background with taylor green vortices. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_a59ecca693ee5dfe472e2694c9399f0f0}{makeconstantvel}} (self, res, testbox, testbackground)
+\begin{DoxyCompactList}\small\item\em Fills a domain\textquotesingle{}s Background with a constant velocity field. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_a99df61e4a45020aa1e2d30d33a4e2fa0}{makerealvel}} (self, res, testbox, testbackground)
+\begin{DoxyCompactList}\small\item\em Fills a domain\textquotesingle{}s with sfc velocity field. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), public \mbox{\hyperlink{namespacesimulationtestmaker__mod_a344a43a231fc0e61e77875fa7ec95b12}{testmaker}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Defines synthetic hydrodynamic fields to test Tracer behavior. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationtestmaker__mod_a4ad5df056a516e03a3d1c17f6d3046cf}\label{namespacesimulationtestmaker__mod_a4ad5df056a516e03a3d1c17f6d3046cf}} 
+\index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!inittestmaker@{inittestmaker}}
+\index{inittestmaker@{inittestmaker}!simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}}
+\subsubsection{\texorpdfstring{inittestmaker()}{inittestmaker()}}
+{\footnotesize\ttfamily subroutine simulationtestmaker\+\_\+mod\+::inittestmaker (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{testcode,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{testbox,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(inout)}]{testbackground }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes the Test\+Maker. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 51 of file simulation\+Test\+Maker.\+f90.
+
+
+\begin{DoxyCode}
+51     \textcolor{keywordtype}{class}(testmaker\_class), \textcolor{keywordtype}{intent(inout)} :: self
+52     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: testcode
+53     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: testbox
+54     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(inout)} :: testbackground
+55     \textcolor{keywordtype}{integer} :: resolution
+56     \textcolor{keywordtype}{type}(string) :: outext
+57     resolution = 20
+58     self%TestCode = testcode
+59     \textcolor{keywordflow}{if} (self%TestCode == 1) \textcolor{keywordflow}{then}
+60         \textcolor{comment}{!make Taylor-Green vortices test}
+61         outext = \textcolor{stringliteral}{'Creating Taylor-Green vortices, stand by...'}
+62         \textcolor{keyword}{call }log%put(outext)
+63         \textcolor{keyword}{call }self%makeTaylorGreen(resolution, testbox, testbackground)
+64     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (self%TestCode == 2) \textcolor{keywordflow}{then}
+65         \textcolor{comment}{!make constant velocity test}
+66         outext = \textcolor{stringliteral}{'Creating constant velocity fields, stand by...'}
+67         \textcolor{keyword}{call }log%put(outext)
+68         \textcolor{keyword}{call }self%makeConstantVel(resolution, testbox, testbackground)
+69     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}  (self%TestCode == 3) \textcolor{keywordflow}{then}
+70         \textcolor{comment}{!make real (from file) velocity test}
+71         outext = \textcolor{stringliteral}{'Reading fields from a netcdf file, stand by...'}
+72         \textcolor{keyword}{call }log%put(outext)
+73         \textcolor{keyword}{call }self%makeRealVel(resolution, testbox, testbackground)
+74 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtestmaker__mod_a59ecca693ee5dfe472e2694c9399f0f0}\label{namespacesimulationtestmaker__mod_a59ecca693ee5dfe472e2694c9399f0f0}} 
+\index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!makeconstantvel@{makeconstantvel}}
+\index{makeconstantvel@{makeconstantvel}!simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}}
+\subsubsection{\texorpdfstring{makeconstantvel()}{makeconstantvel()}}
+{\footnotesize\ttfamily subroutine simulationtestmaker\+\_\+mod\+::makeconstantvel (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{res,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{testbox,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(inout)}]{testbackground }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Fills a domain\textquotesingle{}s Background with a constant velocity field. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 152 of file simulation\+Test\+Maker.\+f90.
+
+
+\begin{DoxyCode}
+152     \textcolor{keywordtype}{class}(testmaker\_class), \textcolor{keywordtype}{intent(inout)} :: self
+153     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: res
+154     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: testbox
+155     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(inout)} :: testbackground
+156     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: testbackgroundims
+157     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2, gfield3
+158     \textcolor{keywordtype}{type}(string) :: name, units
+159     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: sx, sy, sz, t
+160     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: vx, vy, vz
+161     \textcolor{keywordtype}{integer} :: i, j, k, m
+162     \textcolor{keywordtype}{real(prec)} :: pi = 4*atan(1.0)
+163     \textcolor{keywordtype}{real(prec)} :: sst
+164 
+165     \textcolor{keyword}{allocate}(sx(res), sy(res), sz(res), t(res))
+166     \textcolor{keyword}{allocate}(vx(res,res,res,res))
+167     \textcolor{keyword}{allocate}(vy(res,res,res,res))
+168     \textcolor{keyword}{allocate}(vz(res,res,res,res))
+169     \textcolor{comment}{!create scaled coordinate arrays}
+170     \textcolor{keywordflow}{do} i=1, res
+171         sx(i) = i-1
+172 \textcolor{keywordflow}{    end do}
+173     sy = sx
+174     sz = sx
+175     t = sz
+176     \textcolor{comment}{!create the velocity fields in time and space}
+177     vx = 1.0
+178     vy = 2.0
+179     vz = 0.0
+180     \textcolor{comment}{!put the data on generic fields}
+181     units = \textcolor{stringliteral}{'m/s'}
+182     \textcolor{keyword}{call }gfield1%initialize(globals%Var%u, units, vx)
+183     \textcolor{keyword}{call }gfield2%initialize(globals%Var%v, units, vy)
+184     \textcolor{keyword}{call }gfield3%initialize(globals%Var%w, units, vz)
+185     \textcolor{comment}{!create the dimensions for the background}
+186     \textcolor{keyword}{allocate}(testbackgroundims(4))
+187     units = \textcolor{stringliteral}{'deg'}
+188     sx = sx*testbox%size%x/(res-1) + testbox%pt%x
+189     \textcolor{keyword}{call }testbackgroundims(1)%initialize(globals%Var%lon, units, 1, sx)
+190     units = \textcolor{stringliteral}{'deg'}
+191     sy = sy*testbox%size%y/(res-1) + testbox%pt%y
+192     \textcolor{keyword}{call }testbackgroundims(2)%initialize(globals%Var%lat, units, 1, sy)
+193     units = \textcolor{stringliteral}{'m'}
+194     sz = sz*testbox%size%z/(res-1) + testbox%pt%z
+195     \textcolor{keyword}{call }testbackgroundims(3)%initialize(globals%Var%level, units, 1, sz)
+196     units = \textcolor{stringliteral}{'seg'}
+197     t = t*globals%Parameters%TimeMax/(res-1)
+198     \textcolor{keyword}{call }testbackgroundims(4)%initialize(globals%Var%time, units, 1, t)
+199     \textcolor{comment}{!construct background}
+200     name = \textcolor{stringliteral}{'Constant velocity test'}
+201     testbackground = background(1, name, testbox, testbackgroundims)
+202     \textcolor{keyword}{call }testbackground%add(gfield1)
+203     \textcolor{keyword}{call }testbackground%add(gfield2)
+204     \textcolor{keyword}{call }testbackground%add(gfield3)
+205 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtestmaker__mod_a99df61e4a45020aa1e2d30d33a4e2fa0}\label{namespacesimulationtestmaker__mod_a99df61e4a45020aa1e2d30d33a4e2fa0}} 
+\index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!makerealvel@{makerealvel}}
+\index{makerealvel@{makerealvel}!simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}}
+\subsubsection{\texorpdfstring{makerealvel()}{makerealvel()}}
+{\footnotesize\ttfamily subroutine simulationtestmaker\+\_\+mod\+::makerealvel (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{res,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{testbox,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(inout)}]{testbackground }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Fills a domain\textquotesingle{}s with sfc velocity field. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa -\/ U\+SC 
+\end{DoxyAuthor}
+
+
+Definition at line 214 of file simulation\+Test\+Maker.\+f90.
+
+
+\begin{DoxyCode}
+214     \textcolor{keywordtype}{class}(testmaker\_class), \textcolor{keywordtype}{intent(inout)} :: self
+215     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: res
+216     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: testbox
+217     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(inout)} :: testbackground
+218     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: testbackgroundims
+219     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2,gfield3
+220     \textcolor{comment}{!type(nc\_class),dimension(3) :: nc\_input\_file}
+221     \textcolor{keywordtype}{type}(string) :: name, units
+222     
+223     
+224     \textcolor{keywordtype}{type}(ncfile\_class) :: ncFile
+225     \textcolor{keywordtype}{type}(string) :: ncFileName
+226     \textcolor{keywordtype}{integer} :: i
+227     
+228     ncfilename = \textcolor{stringliteral}{'MOHID\_Vigo\_20180904\_0000.nc4'}
+229     \textcolor{keyword}{call }ncfile%initialize(ncfilename)    
+230     \textcolor{keyword}{call }ncfile%getVarDimensions(globals%Var%u, testbackgroundims)
+231     \textcolor{keyword}{call }ncfile%getVar(globals%Var%u, gfield1)
+232     \textcolor{keyword}{call }ncfile%getVar(globals%Var%v, gfield2)
+233     \textcolor{keyword}{call }ncfile%getVar(globals%Var%w, gfield3)
+234     \textcolor{keyword}{call }ncfile%finalize()
+235     \textcolor{comment}{!do i=1, size(testbackgroundims\_alt)}
+236     \textcolor{comment}{!    call testbackgroundims\_alt(i)%print()}
+237     \textcolor{comment}{!end do}
+238     \textcolor{comment}{!call gfield1%print()}
+239    
+240     name = \textcolor{stringliteral}{'Real surface velocity field'}
+241     testbackground = background(1, name, testbox, testbackgroundims)
+242     \textcolor{keyword}{call }testbackground%add(gfield1)
+243     \textcolor{keyword}{call }testbackground%add(gfield2)
+244     \textcolor{keyword}{call }testbackground%add(gfield3)
+245     
+246     \textcolor{comment}{!call testbackground%print()}
+247 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtestmaker__mod_a45bbd32a561c88c18498d88f2d540cc4}\label{namespacesimulationtestmaker__mod_a45bbd32a561c88c18498d88f2d540cc4}} 
+\index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!maketaylorgreen@{maketaylorgreen}}
+\index{maketaylorgreen@{maketaylorgreen}!simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}}
+\subsubsection{\texorpdfstring{maketaylorgreen()}{maketaylorgreen()}}
+{\footnotesize\ttfamily subroutine simulationtestmaker\+\_\+mod\+::maketaylorgreen (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{res,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{testbox,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(inout)}]{testbackground }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Fills a domain\textquotesingle{}s Background with taylor green vortices. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 83 of file simulation\+Test\+Maker.\+f90.
+
+
+\begin{DoxyCode}
+83     \textcolor{keywordtype}{class}(testmaker\_class), \textcolor{keywordtype}{intent(inout)} :: self
+84     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: res
+85     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: testbox
+86     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(inout)} :: testbackground
+87     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: testbackgroundims
+88     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2, gfield3
+89     \textcolor{keywordtype}{type}(string) :: name, units
+90     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: sx, sy, sz, t
+91     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: vx, vy, vz
+92     \textcolor{keywordtype}{integer} :: i, j, m
+93     \textcolor{keywordtype}{real(prec)} :: pi = 4*atan(1.0)
+94     \textcolor{keywordtype}{real(prec)} :: sst
+95 
+96     \textcolor{keyword}{allocate}(sx(res), sy(res), sz(res), t(res))
+97     \textcolor{keyword}{allocate}(vx(res,res,res,res))
+98     \textcolor{keyword}{allocate}(vy(res,res,res,res))
+99     \textcolor{keyword}{allocate}(vz(res,res,res,res))
+100     \textcolor{comment}{!create scaled coordinate arrays}
+101     \textcolor{keywordflow}{do} i=1, res
+102         sx(i) = (i-1)*2.0*pi/(res-1)
+103         sz(i) = i-1
+104 \textcolor{keywordflow}{    end do}
+105     sy = sx
+106     t = sz
+107     \textcolor{comment}{!create the velocity fields in time and space}
+108     \textcolor{keywordflow}{do} m=1, res
+109         \textcolor{keywordflow}{do} i=1, res
+110             \textcolor{keywordflow}{do} j=1, res
+111                 sst = 1.0 - m/res
+112                 vx(i,j,:,m) = cos(sx(i))*sin(sy(j))*sst
+113                 vy(i,j,:,m) = -sin(sx(i))*cos(sy(j))*sst
+114 \textcolor{keywordflow}{            end do}
+115 \textcolor{keywordflow}{        end do}
+116 \textcolor{keywordflow}{    end do}
+117     vz = 0.0
+118     \textcolor{comment}{!put the data on generic fields}
+119     units = \textcolor{stringliteral}{'m/s'}
+120     \textcolor{keyword}{call }gfield1%initialize(globals%Var%u, units, vx)
+121     \textcolor{keyword}{call }gfield2%initialize(globals%Var%v, units, vy)
+122     \textcolor{keyword}{call }gfield3%initialize(globals%Var%w, units, vz)
+123     \textcolor{comment}{!create the dimensions for the background}
+124     \textcolor{keyword}{allocate}(testbackgroundims(4))
+125     units = \textcolor{stringliteral}{'deg'}
+126     sx = sx*testbox%size%x/(2.0*pi) + testbox%pt%x
+127     \textcolor{keyword}{call }testbackgroundims(1)%initialize(globals%Var%lon, units, 1, sx)
+128     units = \textcolor{stringliteral}{'deg'}
+129     sy = sy*testbox%size%y/(2.0*pi) + testbox%pt%y
+130     \textcolor{keyword}{call }testbackgroundims(2)%initialize(globals%Var%lat, units, 1, sy)
+131     units = \textcolor{stringliteral}{'m'}
+132     sz = sz*testbox%size%z/(res-1) + testbox%pt%z
+133     \textcolor{keyword}{call }testbackgroundims(3)%initialize(globals%Var%level, units, 1, sz)
+134     units = \textcolor{stringliteral}{'seg'}
+135     t = t*globals%Parameters%TimeMax/(res-1)
+136     \textcolor{keyword}{call }testbackgroundims(4)%initialize(globals%Var%time, units, 1, t)
+137     \textcolor{comment}{!construct background}
+138     name = \textcolor{stringliteral}{'Taylor-Green test'}
+139     testbackground = background(1, name, testbox, testbackgroundims)
+140     \textcolor{keyword}{call }testbackground%add(gfield1)
+141     \textcolor{keyword}{call }testbackground%add(gfield2)
+142     \textcolor{keyword}{call }testbackground%add(gfield3)
+143 
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulationtestmaker__mod_a344a43a231fc0e61e77875fa7ec95b12}\label{namespacesimulationtestmaker__mod_a344a43a231fc0e61e77875fa7ec95b12}} 
+\index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!testmaker@{testmaker}}
+\index{testmaker@{testmaker}!simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}}
+\subsubsection{\texorpdfstring{testmaker}{testmaker}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), public simulationtestmaker\+\_\+mod\+::testmaker}
+
+
+
+Definition at line 38 of file simulation\+Test\+Maker.\+f90.
+
+
+\begin{DoxyCode}
+38     \textcolor{keywordtype}{type}(testmaker\_class) :: TestMaker
+\end{DoxyCode}

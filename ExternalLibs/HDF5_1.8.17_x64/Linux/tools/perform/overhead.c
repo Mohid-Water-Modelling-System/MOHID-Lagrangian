@@ -46,13 +46,12 @@
 #   include <io.h>
 #endif
 
-/* Solaris Studio defines attribute, but for the attributes we need */
-#if !defined(H5_HAVE_ATTRIBUTE) || defined __cplusplus || defined(__SUNPRO_C)
+#ifndef H5_HAVE_ATTRIBUTE
 #   undef __attribute__
 #   define __attribute__(X) /*void*/
-#   define H5_ATTR_UNUSED /*void*/
+#   define UNUSED /*void*/
 #else
-#   define H5_ATTR_UNUSED __attribute__((unused))
+#   define UNUSED __attribute__((unused))
 #endif
 
 #define FILE_NAME_1  "overhead.h5"
@@ -164,7 +163,7 @@ cleanup (void)
  *-------------------------------------------------------------------------
  */
 static herr_t
-display_error_cb (hid_t estack, void H5_ATTR_UNUSED *client_data)
+display_error_cb (hid_t estack, void UNUSED *client_data)
 {
     puts ("*FAILED*");
     H5Eprint2(estack, stdout);

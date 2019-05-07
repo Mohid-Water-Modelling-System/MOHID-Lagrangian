@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -112,10 +112,18 @@ Collaboration diagram for vtkwritter_mod::vtkwritter_class:</div>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:ad74a863969884dacf4c8d9b96088c6a6"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#ad74a863969884dacf4c8d9b96088c6a6">initialize</a> =&gt; initVTKwritter</td></tr>
 <tr class="separator:ad74a863969884dacf4c8d9b96088c6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af59165b0d29d4de99d50c3db4dff848e"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#af59165b0d29d4de99d50c3db4dff848e">finalize</a> =&gt; closeVTKwriter</td></tr>
+<tr class="separator:af59165b0d29d4de99d50c3db4dff848e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7abd7831d763c178e15bd8b6fb7e358e"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#a7abd7831d763c178e15bd8b6fb7e358e">domain</a></td></tr>
 <tr class="separator:a7abd7831d763c178e15bd8b6fb7e358e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad87da7194456a9b70f60f53f19a5c47b"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#ad87da7194456a9b70f60f53f19a5c47b">tracerserial</a></td></tr>
 <tr class="separator:ad87da7194456a9b70f60f53f19a5c47b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab225b4fa3f3cd814f2760fe79bd426c"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#aab225b4fa3f3cd814f2760fe79bd426c">openindexvtkfile</a></td></tr>
+<tr class="separator:aab225b4fa3f3cd814f2760fe79bd426c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af87d85e730f5865b23012cea94d5274e"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#af87d85e730f5865b23012cea94d5274e">closeindexvtkfile</a></td></tr>
+<tr class="separator:af87d85e730f5865b23012cea94d5274e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04e94de0e49912859408ce8bff14003c"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#a04e94de0e49912859408ce8bff14003c">indexvtkfile</a></td></tr>
+<tr class="separator:a04e94de0e49912859408ce8bff14003c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -125,11 +133,42 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a1488d11c6ab4adaf97a2eac301bab694"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#a1488d11c6ab4adaf97a2eac301bab694">formattype</a></td></tr>
 <tr class="memdesc:a1488d11c6ab4adaf97a2eac301bab694"><td class="mdescLeft">&#160;</td><td class="mdescRight">format of the data to write on the VTK xml file - ascii, raw, binary  <a href="#a1488d11c6ab4adaf97a2eac301bab694">More...</a><br /></td></tr>
 <tr class="separator:a1488d11c6ab4adaf97a2eac301bab694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a008c58d836b282731d2ad9caabb7629c"><td class="memItemLeft" align="right" valign="top">logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#a008c58d836b282731d2ad9caabb7629c">indexeropen</a> = .false.</td></tr>
+<tr class="separator:a008c58d836b282731d2ad9caabb7629c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75ca6f11bb375eac69b0bd5eb8dbdbf4"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvtkwritter__mod_1_1vtkwritter__class.html#a75ca6f11bb375eac69b0bd5eb8dbdbf4">indexerunit</a> = 99</td></tr>
+<tr class="separator:a75ca6f11bb375eac69b0bd5eb8dbdbf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="vtkwritter_8f90_source.html#l00032">32</a> of file <a class="el" href="vtkwritter_8f90_source.html">vtkwritter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00032">32</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a id="af87d85e730f5865b23012cea94d5274e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af87d85e730f5865b23012cea94d5274e">&#9670;&nbsp;</a></span>closeindexvtkfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private vtkwritter_mod::vtkwritter_class::closeindexvtkfile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00043">43</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
+
+</div>
+</div>
 <a id="a7abd7831d763c178e15bd8b6fb7e358e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7abd7831d763c178e15bd8b6fb7e358e">&#9670;&nbsp;</a></span>domain()</h2>
 
@@ -153,7 +192,61 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vtkwritter_8f90_source.html#l00037">37</a> of file <a class="el" href="vtkwritter_8f90_source.html">vtkwritter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00040">40</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
+
+</div>
+</div>
+<a id="af59165b0d29d4de99d50c3db4dff848e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af59165b0d29d4de99d50c3db4dff848e">&#9670;&nbsp;</a></span>finalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure vtkwritter_mod::vtkwritter_class::finalize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00039">39</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
+
+</div>
+</div>
+<a id="a04e94de0e49912859408ce8bff14003c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04e94de0e49912859408ce8bff14003c">&#9670;&nbsp;</a></span>indexvtkfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private vtkwritter_mod::vtkwritter_class::indexvtkfile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00044">44</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
 
 </div>
 </div>
@@ -180,7 +273,34 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vtkwritter_8f90_source.html#l00036">36</a> of file <a class="el" href="vtkwritter_8f90_source.html">vtkwritter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00038">38</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
+
+</div>
+</div>
+<a id="aab225b4fa3f3cd814f2760fe79bd426c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab225b4fa3f3cd814f2760fe79bd426c">&#9670;&nbsp;</a></span>openindexvtkfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private vtkwritter_mod::vtkwritter_class::openindexvtkfile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00042">42</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
 
 </div>
 </div>
@@ -207,7 +327,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="vtkwritter_8f90_source.html#l00038">38</a> of file <a class="el" href="vtkwritter_8f90_source.html">vtkwritter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00041">41</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
 
 </div>
 </div>
@@ -234,8 +354,56 @@ Private Attributes</h2></td></tr>
 
 <p>format of the data to write on the VTK xml file - ascii, raw, binary </p>
 
-<p class="definition">Definition at line <a class="el" href="vtkwritter_8f90_source.html#l00034">34</a> of file <a class="el" href="vtkwritter_8f90_source.html">vtkwritter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00034">34</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">type</span>(string) :: formatType</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a008c58d836b282731d2ad9caabb7629c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a008c58d836b282731d2ad9caabb7629c">&#9670;&nbsp;</a></span>indexeropen</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">logical vtkwritter_mod::vtkwritter_class::indexeropen = .false.</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00035">35</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">logical</span> :: indexerOpen = .false.</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a75ca6f11bb375eac69b0bd5eb8dbdbf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75ca6f11bb375eac69b0bd5eb8dbdbf4">&#9670;&nbsp;</a></span>indexerunit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer vtkwritter_mod::vtkwritter_class::indexerunit = 99</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00036">36</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">integer</span> :: indexerUnit = 99</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a31a432e4d44ff478500f0f95bb8582d2"></a>
@@ -260,12 +428,12 @@ Private Attributes</h2></td></tr>
 
 <p>number of vtk files written </p>
 
-<p class="definition">Definition at line <a class="el" href="vtkwritter_8f90_source.html#l00033">33</a> of file <a class="el" href="vtkwritter_8f90_source.html">vtkwritter.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="vtk_writter_8f90_source.html#l00033">33</a> of file <a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">integer</span> :: numVtkFiles</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="vtkwritter_8f90_source.html">vtkwritter.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="vtk_writter_8f90_source.html">vtkWritter.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

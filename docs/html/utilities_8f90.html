@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/utilities.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/utilities.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -95,8 +95,10 @@ $(document).ready(function(){initNavTree('utilities_8f90.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Types</a> &#124;
 <a href="#namespaces">Modules</a> &#124;
-<a href="#func-members">Functions/Subroutines</a>  </div>
+<a href="#func-members">Functions/Subroutines</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">utilities.f90 File Reference</div>  </div>
 </div><!--header-->
@@ -104,6 +106,11 @@ $(document).ready(function(){initNavTree('utilities_8f90.html','');});
 
 <p><a href="utilities_8f90_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Types</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structutilities__mod_1_1utils__class.html">utilities_mod::utils_class</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Modules</h2></td></tr>
 <tr class="memitem:namespaceutilities__mod"><td class="memItemLeft" align="right" valign="top">module &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html">utilities_mod</a></td></tr>
@@ -112,25 +119,39 @@ Modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:a415de70150d626b1e8c6e0c8c0e09e8b"><td class="memItemLeft" align="right" valign="top">type(vector) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#a415de70150d626b1e8c6e0c8c0e09e8b">utilities_mod::geo2m</a> (geovec, lat)</td></tr>
-<tr class="memdesc:a415de70150d626b1e8c6e0c8c0e09e8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public function that returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude.  <a href="namespaceutilities__mod.html#a415de70150d626b1e8c6e0c8c0e09e8b">More...</a><br /></td></tr>
-<tr class="separator:a415de70150d626b1e8c6e0c8c0e09e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4f9ec7e3dc3683a4e79e462d89a90b9"><td class="memItemLeft" align="right" valign="top">type(vector) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#ac4f9ec7e3dc3683a4e79e462d89a90b9">utilities_mod::m2geo</a> (mvec, lat)</td></tr>
-<tr class="memdesc:ac4f9ec7e3dc3683a4e79e462d89a90b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public function that returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude.  <a href="namespaceutilities__mod.html#ac4f9ec7e3dc3683a4e79e462d89a90b9">More...</a><br /></td></tr>
-<tr class="separator:ac4f9ec7e3dc3683a4e79e462d89a90b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab414aa8d1299fc8dfb5941113d050dd3"><td class="memItemLeft" align="right" valign="top">character(:) function, allocatable, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#ab414aa8d1299fc8dfb5941113d050dd3">utilities_mod::int2str</a> (fmt, i)</td></tr>
-<tr class="memdesc:ab414aa8d1299fc8dfb5941113d050dd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public function that returns a zero paded string from an integer number and a format descriptor.  <a href="namespaceutilities__mod.html#ab414aa8d1299fc8dfb5941113d050dd3">More...</a><br /></td></tr>
-<tr class="separator:ab414aa8d1299fc8dfb5941113d050dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a683f93677348e11d331c1c37c66caf7a"><td class="memItemLeft" align="right" valign="top">real(prec) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#a683f93677348e11d331c1c37c66caf7a">utilities_mod::get_closest_twopow</a> (num)</td></tr>
-<tr class="memdesc:a683f93677348e11d331c1c37c66caf7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public function that returns the closest power of 2 or a given real number.  <a href="namespaceutilities__mod.html#a683f93677348e11d331c1c37c66caf7a">More...</a><br /></td></tr>
-<tr class="separator:a683f93677348e11d331c1c37c66caf7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5b97f243f9347a40db76d55509d37ca"><td class="memItemLeft" align="right" valign="top">integer function, dimension(6)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#ab5b97f243f9347a40db76d55509d37ca">utilities_mod::getdatefromisostring</a> (self, dateStr)</td></tr>
+<tr class="memdesc:ab5b97f243f9347a40db76d55509d37ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that returns an integer array of type (year, month, day, hour, minute, second) from an ISO date string.  <a href="namespaceutilities__mod.html#ab5b97f243f9347a40db76d55509d37ca">More...</a><br /></td></tr>
+<tr class="separator:ab5b97f243f9347a40db76d55509d37ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad446cce78a6509db0e839439a0e84564"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#ad446cce78a6509db0e839439a0e84564">utilities_mod::find_str</a> (self, str_array, str, mandatory)</td></tr>
+<tr class="memdesc:ad446cce78a6509db0e839439a0e84564"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the index of a given string in an array of strings. Has optional mandatory flag.  <a href="namespaceutilities__mod.html#ad446cce78a6509db0e839439a0e84564">More...</a><br /></td></tr>
+<tr class="separator:ad446cce78a6509db0e839439a0e84564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6e463f7e5fc49fe4fcd5464326ade01"><td class="memItemLeft" align="right" valign="top">type(vector) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#ad6e463f7e5fc49fe4fcd5464326ade01">utilities_mod::geo2m</a> (self, geovec, lat)</td></tr>
+<tr class="memdesc:ad6e463f7e5fc49fe4fcd5464326ade01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude.  <a href="namespaceutilities__mod.html#ad6e463f7e5fc49fe4fcd5464326ade01">More...</a><br /></td></tr>
+<tr class="separator:ad6e463f7e5fc49fe4fcd5464326ade01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70b21b18c8633b7fd4c3057530d3f16f"><td class="memItemLeft" align="right" valign="top">type(vector) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#a70b21b18c8633b7fd4c3057530d3f16f">utilities_mod::m2geo_vec</a> (self, mvec, lat)</td></tr>
+<tr class="memdesc:a70b21b18c8633b7fd4c3057530d3f16f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude.  <a href="namespaceutilities__mod.html#a70b21b18c8633b7fd4c3057530d3f16f">More...</a><br /></td></tr>
+<tr class="separator:a70b21b18c8633b7fd4c3057530d3f16f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6b8a45b229e3f1f8c2b12dd74e7a2dd"><td class="memItemLeft" align="right" valign="top">real(prec) function, dimension(size(mvec))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#ae6b8a45b229e3f1f8c2b12dd74e7a2dd">utilities_mod::m2geo_comp</a> (self, mvec, lat, component)</td></tr>
+<tr class="memdesc:ae6b8a45b229e3f1f8c2b12dd74e7a2dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude.  <a href="namespaceutilities__mod.html#ae6b8a45b229e3f1f8c2b12dd74e7a2dd">More...</a><br /></td></tr>
+<tr class="separator:ae6b8a45b229e3f1f8c2b12dd74e7a2dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ba00b0a503f26c7e755d1efbbe83c5b"><td class="memItemLeft" align="right" valign="top">character(:) function, allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#a6ba00b0a503f26c7e755d1efbbe83c5b">utilities_mod::int2str</a> (self, fmt, i)</td></tr>
+<tr class="memdesc:a6ba00b0a503f26c7e755d1efbbe83c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a zero paded string from an integer number and a format descriptor.  <a href="namespaceutilities__mod.html#a6ba00b0a503f26c7e755d1efbbe83c5b">More...</a><br /></td></tr>
+<tr class="separator:a6ba00b0a503f26c7e755d1efbbe83c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a164054d89c012d95f63c12a6cc0ac8d7"><td class="memItemLeft" align="right" valign="top">real(prec) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#a164054d89c012d95f63c12a6cc0ac8d7">utilities_mod::get_closest_twopow</a> (self, num)</td></tr>
+<tr class="memdesc:a164054d89c012d95f63c12a6cc0ac8d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the closest power of 2 or a given real number.  <a href="namespaceutilities__mod.html#a164054d89c012d95f63c12a6cc0ac8d7">More...</a><br /></td></tr>
+<tr class="separator:a164054d89c012d95f63c12a6cc0ac8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aa12c2506b3107528a2511d059186f12d"><td class="memItemLeft" align="right" valign="top">type(utils_class), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutilities__mod.html#aa12c2506b3107528a2511d059186f12d">utilities_mod::utils</a></td></tr>
+<tr class="separator:aa12c2506b3107528a2511d059186f12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="utilities_8f90.html">utilities.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="utilities_8f90.html">utilities.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

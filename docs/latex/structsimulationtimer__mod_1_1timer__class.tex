@@ -1,0 +1,271 @@
+\hypertarget{structsimulationtimer__mod_1_1timer__class}{}\section{simulationtimer\+\_\+mod\+:\+:timer\+\_\+class Type Reference}
+\label{structsimulationtimer__mod_1_1timer__class}\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+
+
+Collaboration diagram for simulationtimer\+\_\+mod\+:\+:timer\+\_\+class\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=187pt]{structsimulationtimer__mod_1_1timer__class__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a5ff00a291d05b6135e421e4b5718c810}{initialize}} =$>$ init\+Timer
+\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a8d93e7223e1bbd78bc38c72e88fd2e41}{getelapsed}}
+\begin{DoxyCompactList}\small\item\em returns the elasped time on this timer \end{DoxyCompactList}\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_ab51b61f25cc929cb440d0b9ffd039b34}{tic}}
+\begin{DoxyCompactList}\small\item\em starts timming cycle \end{DoxyCompactList}\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_aa86e28516c4a22dac2aba3ccbf027233}{toc}}
+\begin{DoxyCompactList}\small\item\em ends timming cycle and accumulates the total \end{DoxyCompactList}\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a34a700b5bb4f2a401a582caf995e4cae}{print}} =$>$ print\+Elapsed
+\begin{DoxyCompactList}\small\item\em prints elapsed time of this timmer \end{DoxyCompactList}\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a1ac8844fe0766c418d301064155d9cc9}{printlast}}
+\begin{DoxyCompactList}\small\item\em prints the elapsed time of the last ran cycle \end{DoxyCompactList}\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_ae7896d93f60b31af526f91adc324a641}{printcurrent}}
+\begin{DoxyCompactList}\small\item\em prints time of last cycle \end{DoxyCompactList}\item 
+procedure \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a559692fe52fabf6a4f5078b03ed08620}{printnotinitialized}}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+logical \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a9252b5815eda23bfb60fda8d24265455}{initialized}} = .false.
+\item 
+type(string) \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_aa9021f130f1ff4431ce394e38cea3ac1}{name}}
+\begin{DoxyCompactList}\small\item\em name of the timer \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a17d19848f82f69a33cecb52829992d06}{elapsed}} = 0.\+0
+\begin{DoxyCompactList}\small\item\em full elapsed time of all cycles \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a6dadb87043528a52de8e2571400a84e5}{last}} = 0.\+0
+\begin{DoxyCompactList}\small\item\em elapsed time of the last cycle \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_ad61018be29f7e3ac5ecfa6b2d068e581}{start}}
+\begin{DoxyCompactList}\small\item\em time of the tic at the current cycle \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class_a96b9fcb1a8e2ae20422e274a025b290d}{stop}}
+\begin{DoxyCompactList}\small\item\em time of the tac at the current cycle \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 29 of file simulation\+Timer.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a8d93e7223e1bbd78bc38c72e88fd2e41}\label{structsimulationtimer__mod_1_1timer__class_a8d93e7223e1bbd78bc38c72e88fd2e41}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!getelapsed@{getelapsed}}
+\index{getelapsed@{getelapsed}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{getelapsed()}{getelapsed()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::getelapsed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns the elasped time on this timer 
+
+
+
+Definition at line 39 of file simulation\+Timer.\+f90.
+
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a5ff00a291d05b6135e421e4b5718c810}\label{structsimulationtimer__mod_1_1timer__class_a5ff00a291d05b6135e421e4b5718c810}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!initialize@{initialize}}
+\index{initialize@{initialize}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 38 of file simulation\+Timer.\+f90.
+
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a34a700b5bb4f2a401a582caf995e4cae}\label{structsimulationtimer__mod_1_1timer__class_a34a700b5bb4f2a401a582caf995e4cae}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!print@{print}}
+\index{print@{print}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+prints elapsed time of this timmer 
+
+
+
+Definition at line 42 of file simulation\+Timer.\+f90.
+
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_ae7896d93f60b31af526f91adc324a641}\label{structsimulationtimer__mod_1_1timer__class_ae7896d93f60b31af526f91adc324a641}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!printcurrent@{printcurrent}}
+\index{printcurrent@{printcurrent}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{printcurrent()}{printcurrent()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::printcurrent (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+prints time of last cycle 
+
+
+
+Definition at line 44 of file simulation\+Timer.\+f90.
+
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a1ac8844fe0766c418d301064155d9cc9}\label{structsimulationtimer__mod_1_1timer__class_a1ac8844fe0766c418d301064155d9cc9}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!printlast@{printlast}}
+\index{printlast@{printlast}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{printlast()}{printlast()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::printlast (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+prints the elapsed time of the last ran cycle 
+
+
+
+Definition at line 43 of file simulation\+Timer.\+f90.
+
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a559692fe52fabf6a4f5078b03ed08620}\label{structsimulationtimer__mod_1_1timer__class_a559692fe52fabf6a4f5078b03ed08620}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!printnotinitialized@{printnotinitialized}}
+\index{printnotinitialized@{printnotinitialized}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{printnotinitialized()}{printnotinitialized()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::printnotinitialized (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 45 of file simulation\+Timer.\+f90.
+
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_ab51b61f25cc929cb440d0b9ffd039b34}\label{structsimulationtimer__mod_1_1timer__class_ab51b61f25cc929cb440d0b9ffd039b34}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!tic@{tic}}
+\index{tic@{tic}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{tic()}{tic()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::tic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+starts timming cycle 
+
+
+
+Definition at line 40 of file simulation\+Timer.\+f90.
+
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_aa86e28516c4a22dac2aba3ccbf027233}\label{structsimulationtimer__mod_1_1timer__class_aa86e28516c4a22dac2aba3ccbf027233}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!toc@{toc}}
+\index{toc@{toc}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{toc()}{toc()}}
+{\footnotesize\ttfamily procedure simulationtimer\+\_\+mod\+::timer\+\_\+class\+::toc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+ends timming cycle and accumulates the total 
+
+
+
+Definition at line 41 of file simulation\+Timer.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a17d19848f82f69a33cecb52829992d06}\label{structsimulationtimer__mod_1_1timer__class_a17d19848f82f69a33cecb52829992d06}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!elapsed@{elapsed}}
+\index{elapsed@{elapsed}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{elapsed}{elapsed}}
+{\footnotesize\ttfamily real(prec) simulationtimer\+\_\+mod\+::timer\+\_\+class\+::elapsed = 0.\+0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+full elapsed time of all cycles 
+
+
+
+Definition at line 33 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+33         \textcolor{keywordtype}{real(prec)} :: elapsed = 0.0
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a9252b5815eda23bfb60fda8d24265455}\label{structsimulationtimer__mod_1_1timer__class_a9252b5815eda23bfb60fda8d24265455}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!initialized@{initialized}}
+\index{initialized@{initialized}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{initialized}{initialized}}
+{\footnotesize\ttfamily logical simulationtimer\+\_\+mod\+::timer\+\_\+class\+::initialized = .false.\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 31 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+31         \textcolor{keywordtype}{logical} :: initialized = .false.
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a6dadb87043528a52de8e2571400a84e5}\label{structsimulationtimer__mod_1_1timer__class_a6dadb87043528a52de8e2571400a84e5}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!last@{last}}
+\index{last@{last}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{last}{last}}
+{\footnotesize\ttfamily real(prec) simulationtimer\+\_\+mod\+::timer\+\_\+class\+::last = 0.\+0\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+elapsed time of the last cycle 
+
+
+
+Definition at line 34 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+34         \textcolor{keywordtype}{real(prec)} :: last = 0.0
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_aa9021f130f1ff4431ce394e38cea3ac1}\label{structsimulationtimer__mod_1_1timer__class_aa9021f130f1ff4431ce394e38cea3ac1}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!name@{name}}
+\index{name@{name}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily type(string) simulationtimer\+\_\+mod\+::timer\+\_\+class\+::name\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+name of the timer 
+
+
+
+Definition at line 32 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+32         \textcolor{keywordtype}{type}(string) :: name
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_ad61018be29f7e3ac5ecfa6b2d068e581}\label{structsimulationtimer__mod_1_1timer__class_ad61018be29f7e3ac5ecfa6b2d068e581}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!start@{start}}
+\index{start@{start}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{start}{start}}
+{\footnotesize\ttfamily real(prec) simulationtimer\+\_\+mod\+::timer\+\_\+class\+::start\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+time of the tic at the current cycle 
+
+
+
+Definition at line 35 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{real(prec)} :: start
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationtimer__mod_1_1timer__class_a96b9fcb1a8e2ae20422e274a025b290d}\label{structsimulationtimer__mod_1_1timer__class_a96b9fcb1a8e2ae20422e274a025b290d}} 
+\index{simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}!stop@{stop}}
+\index{stop@{stop}!simulationtimer\+\_\+mod\+::timer\+\_\+class@{simulationtimer\+\_\+mod\+::timer\+\_\+class}}
+\subsubsection{\texorpdfstring{stop}{stop}}
+{\footnotesize\ttfamily real(prec) simulationtimer\+\_\+mod\+::timer\+\_\+class\+::stop\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+time of the tac at the current cycle 
+
+
+
+Definition at line 36 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+36         \textcolor{keywordtype}{real(prec)} :: stop
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{simulation_timer_8f90}{simulation\+Timer.\+f90}}\end{DoxyCompactItemize}

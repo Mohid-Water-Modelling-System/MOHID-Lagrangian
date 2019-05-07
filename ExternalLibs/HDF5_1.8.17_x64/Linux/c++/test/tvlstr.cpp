@@ -207,8 +207,7 @@ static void test_vlstring_dataset()
     } // end try block
 
     // Catch all exceptions.
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_vlstring_dataset()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 
@@ -307,7 +306,7 @@ static void test_vlstring_array_dataset()
     } // end try
 
     // Catch all exceptions.
-    catch (Exception& E)
+    catch (Exception E)
     {
 	issue_fail_msg("test_vlstring_array_dataset()", __LINE__, __FILE__, E.getCDetailMsg());
     }
@@ -428,7 +427,7 @@ static void test_vlstrings_special()
     } // end try
 
     // Catch all exceptions.
-    catch (Exception& E)
+    catch (Exception E)
     {
 	issue_fail_msg("test_vlstrings_special()", __LINE__, __FILE__, E.getCDetailMsg());
     }
@@ -514,7 +513,7 @@ static void test_vlstring_type()
     } // end try block
 
     // Catch all exceptions.
-    catch (Exception& E)
+    catch (Exception E)
     {
         issue_fail_msg("test_vlstring_type()", __LINE__, __FILE__, E.getCDetailMsg());
     }
@@ -593,7 +592,7 @@ static void test_compact_vlstring()
     } // end try
 
     // Catch all exceptions.
-    catch (Exception& E)
+    catch (Exception E)
     {
         issue_fail_msg("test_compact_vlstrings()", __LINE__, __FILE__, E.getCDetailMsg());
     }
@@ -683,8 +682,7 @@ static void test_vlstring_attribute()
     } // end try block
 
     // Catch all exceptions.
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_vlstring_attribute()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_vlstring_attribute()
@@ -745,8 +743,7 @@ static void test_read_vl_string_attribute()
     } // end try
 
     // Catch all exceptions.
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_read_vl_string_attribute()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 } // test_read_vl_string_attribute
@@ -817,8 +814,7 @@ static void test_vlstring_array_attribute()
     } // end try block
 
     // Catch all exceptions.
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_vlstring_array_attribute()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_vlstring_array_attribute()
@@ -833,10 +829,10 @@ static void write_scalar_dset(H5File& file, DataType& type, DataSpace& space,
 	dset.write(&data, type, space, space);
 	dset.close();
     } // end try
-    catch (FileIException& ferr) {
+    catch (FileIException ferr) {
 	throw;
     }
-    catch (DataSetIException& derr) {
+    catch (DataSetIException derr) {
 	throw;
     }
 }
@@ -857,10 +853,10 @@ static void read_scalar_dset(H5File& file, DataType& type, DataSpace& space,
 
 	HDfree(data_read);
     } // end try
-    catch (FileIException& ferr) {
+    catch (FileIException ferr) {
 	throw;
     }
-    catch (DataSetIException& derr) {
+    catch (DataSetIException derr) {
 	throw;
     }
 }
@@ -940,8 +936,7 @@ static void test_vl_rewrite()
     } // end try
 
     // Catch all exceptions.
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_vl_rewrite()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 } // end test_vl_rewrite()

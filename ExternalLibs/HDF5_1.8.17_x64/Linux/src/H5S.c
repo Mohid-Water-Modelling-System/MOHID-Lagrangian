@@ -190,7 +190,7 @@ H5S_create(H5S_class_t type)
     FUNC_ENTER_NOAPI(NULL)
 
     /* Create a new dataspace */
-    if(NULL == (new_ds = H5FL_CALLOC(H5S_t)))
+    if(NULL == (new_ds = H5FL_MALLOC(H5S_t)))
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* Initialize default dataspace state */
@@ -1520,7 +1520,7 @@ H5S_encode(H5S_t *obj, unsigned char *buf, size_t *nalloc)
     /* Find out the size of buffer needed for selection */
     if((sselect_size = H5S_SELECT_SERIAL_SIZE(obj)) < 0)
 	HGOTO_ERROR(H5E_DATASPACE, H5E_BADSIZE, FAIL, "can't find dataspace selection size")
-    H5_CHECKED_ASSIGN(select_size, size_t, sselect_size, hssize_t);
+    H5_ASSIGN_OVERFLOW(select_size, sselect_size, hssize_t, size_t);
 
     /* Verify the size of buffer.  If it's not big enough, simply return the
      * right size without filling the buffer. */

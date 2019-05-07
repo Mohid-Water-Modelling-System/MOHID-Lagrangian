@@ -1,0 +1,11 @@
+<map id="simulationglobals_mod::globals_class" name="simulationglobals_mod::globals_class">
+<area shape="rect" id="node2" href="$structsimulationglobals__mod_1_1src__parm__t.html" title="Lists for Source parameters. " alt="" coords="5,565,160,672"/>
+<area shape="rect" id="node3" href="$structsimulationglobals__mod_1_1simdefs__t.html" title="Simulation definitions class. " alt="" coords="184,485,339,753"/>
+<area shape="rect" id="node4" href="$structsimulationglobals__mod_1_1sim__time__t.html" title="{simulationglobals_mod\l::sim_time_t\n|&#45; basedatetime\l&#45; timemax\l&#45; startdate\l&#45; enddate\l&#45; currdate\l&#45; currtime\l|&#45; print()\l&#45; setcurrdatetime()\l&#45; getdatetimestamp()\l}" alt="" coords="363,521,517,716"/>
+<area shape="rect" id="node5" href="$structsimulationglobals__mod_1_1var__names__t.html" title="{simulationglobals_mod\l::var_names_t\n|&#45; u\l&#45; v\l&#45; w\l&#45; temp\l&#45; sal\l&#45; density\l&#45; lon\l&#45; lat\l&#45; level\l&#45; time\l&#45; wvariants\l|+ addvar()\l+ getvarsimname()\l&#45; buildvars()\l}" alt="" coords="541,485,696,753"/>
+<area shape="rect" id="node6" href="$structsimulationglobals__mod_1_1stringlist__class.html" title="{simulationglobals_mod\l::stringlist_class\n||&#45; print()\l&#45; printcurrent()\l&#45; notrepeated()\l}" alt="" coords="541,132,696,253"/>
+<area shape="rect" id="node8" href="$structsimulationglobals__mod_1_1sim__t.html" title="Simulation related counters and others. " alt="" coords="720,521,885,716"/>
+<area shape="rect" id="node9" href="$structsimulationglobals__mod_1_1constants__t.html" title="Case Constants class. " alt="" coords="909,536,1064,701"/>
+<area shape="rect" id="node10" href="$structsimulationglobals__mod_1_1parameters__t.html" title="{simulationglobals_mod\l::parameters_t\n|&#45; integrator\l&#45; integratorindexes\l&#45; integratornames\l&#45; numopmthreads\l&#45; warmuptime\l&#45; timemax\l&#45; timeout\l&#45; starttime\l&#45; endtime\l&#45; basedatetime\l&#45; outputformat\l&#45; inputformat\l&#45; outputformatindexes\l&#45; outputformatnames\l|&#45; setparam()\l&#45; check()\l&#45; print()\l}" alt="" coords="1088,463,1243,775"/>
+<area shape="rect" id="node11" href="$structsimulationglobals__mod_1_1filenames__t.html" title="File names class. " alt="" coords="1267,536,1421,701"/>
+</map>

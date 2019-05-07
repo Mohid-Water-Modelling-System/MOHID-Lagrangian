@@ -4,8 +4,7 @@
 
 #ifndef __CFORTRAN_LOADED
 #define __CFORTRAN_LOADED
-
-/* 
+/*
    THIS FILE IS PROPERTY OF BURKHARD BUROW. IF YOU ARE USING THIS FILE YOU
    SHOULD ALSO HAVE ACCESS TO CFORTRAN.DOC WHICH PROVIDES TERMS FOR USING,
    MODIFYING, COPYING AND DISTRIBUTING THE CFORTRAN.H PACKAGE.
@@ -20,6 +19,7 @@
 
 /* First prepare for the C compiler. */
 
+#define f2cFortran
 #ifndef ANSI_C_preprocessor /* i.e. user can override. */
 #ifdef __CF__KnR
 #define ANSI_C_preprocessor 0

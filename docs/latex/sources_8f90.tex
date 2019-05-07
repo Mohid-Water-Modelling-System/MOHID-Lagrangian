@@ -1,5 +1,5 @@
-\hypertarget{sources_8f90}{}\section{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.f90 File Reference}
-\label{sources_8f90}\index{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.\+f90@{C\+:/\+Users/administrator/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/lib/sources.\+f90}}
+\hypertarget{sources_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/sources.f90 File Reference}
+\label{sources_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/sources.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/sources.\+f90}}
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -37,7 +37,11 @@ subroutine \mbox{\hyperlink{namespacesources__mod_abbb4557b46c533439fe258cecf31a
 \begin{DoxyCompactList}\small\item\em source property atribute setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesources__mod_a6fcfcb690cd1b9375915b01f7ddbe801}{sources\+\_\+mod\+::check}} (self)
 \begin{DoxyCompactList}\small\item\em Method that checks for the consistency of the Source properties. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}{sources\+\_\+mod\+::initializesource}} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, shapetype)
+subroutine \mbox{\hyperlink{namespacesources__mod_af7fab14b56573184d5ca4371409118b0}{sources\+\_\+mod\+::setvariablerate}} (self, filename)
+\begin{DoxyCompactList}\small\item\em Method that reads a csv file with variable emission rate data, allocates the space, and stores the data in the Source. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a0d56083fdc0453f03f9dfdb24f704ac4}{sources\+\_\+mod\+::getvariablerate}} (self, index)
+\begin{DoxyCompactList}\small\item\em Method that sets the rate for the current time step, in case of a variable rate. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_aef3551e97236f03fc73fcf77276bb318}{sources\+\_\+mod\+::initializesource}} (src, id, name, emitting\+\_\+rate, emitting\+\_\+fixed\+\_\+rate, rate\+\_\+file, start, finish, source\+\_\+geometry, shapetype)
 \begin{DoxyCompactList}\small\item\em source inititialization proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
 logical function \mbox{\hyperlink{namespacesources__mod_ac4e4f33da78d030e1b56a48789da6a05}{sources\+\_\+mod\+::isparticulate}} (self)
 \begin{DoxyCompactList}\small\item\em Returns particulate status of this Source, i.\+e, true if the emitted Tracers are actually a collection of particles with an evolving concentration. \end{DoxyCompactList}\item 

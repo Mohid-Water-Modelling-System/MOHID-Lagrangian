@@ -37,7 +37,11 @@ subroutine \mbox{\hyperlink{namespacesources__mod_abbb4557b46c533439fe258cecf31a
 \begin{DoxyCompactList}\small\item\em source property atribute setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesources__mod_a6fcfcb690cd1b9375915b01f7ddbe801}{check}} (self)
 \begin{DoxyCompactList}\small\item\em Method that checks for the consistency of the Source properties. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}{initializesource}} (src, id, name, emitting\+\_\+rate, start, finish, source\+\_\+geometry, shapetype)
+subroutine \mbox{\hyperlink{namespacesources__mod_af7fab14b56573184d5ca4371409118b0}{setvariablerate}} (self, filename)
+\begin{DoxyCompactList}\small\item\em Method that reads a csv file with variable emission rate data, allocates the space, and stores the data in the Source. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a0d56083fdc0453f03f9dfdb24f704ac4}{getvariablerate}} (self, index)
+\begin{DoxyCompactList}\small\item\em Method that sets the rate for the current time step, in case of a variable rate. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_aef3551e97236f03fc73fcf77276bb318}{initializesource}} (src, id, name, emitting\+\_\+rate, emitting\+\_\+fixed\+\_\+rate, rate\+\_\+file, start, finish, source\+\_\+geometry, shapetype)
 \begin{DoxyCompactList}\small\item\em source inititialization proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
 logical function \mbox{\hyperlink{namespacesources__mod_ac4e4f33da78d030e1b56a48789da6a05}{isparticulate}} (self)
 \begin{DoxyCompactList}\small\item\em Returns particulate status of this Source, i.\+e, true if the emitted Tracers are actually a collection of particles with an evolving concentration. \end{DoxyCompactList}\item 
@@ -76,48 +80,76 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 241 of file sources.\+f90.
+Definition at line 244 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-241     \textcolor{keywordtype}{implicit none}
-242     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: self
-243     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
-244     \textcolor{keywordtype}{logical} :: failed
-245     failed = .false.
-246     temp(1) = self%par%id
-247     \textcolor{keywordflow}{if} (self%prop%radius == mv) \textcolor{keywordflow}{then}
-248         failed = .true.
-249         temp(2) = \textcolor{stringliteral}{'radius'}
-250     \textcolor{keywordflow}{elseif} (self%prop%density == mv) \textcolor{keywordflow}{then}
-251         failed = .true.
-252         temp(2) = \textcolor{stringliteral}{'density'}
-253     \textcolor{keywordflow}{elseif} (self%prop%condition == mv) \textcolor{keywordflow}{then}
-254         failed = .true.
-255         temp(2) = \textcolor{stringliteral}{'condition'}
-256     \textcolor{keywordflow}{elseif} (self%prop%degrd\_rate == mv) \textcolor{keywordflow}{then}
-257         failed = .true.
-258         temp(2) = \textcolor{stringliteral}{'degradation rate'}
-259     \textcolor{keywordflow}{elseif} (self%prop%particulate) \textcolor{keywordflow}{then}
-260         \textcolor{keywordflow}{if} (self%prop%pt\_radius == mv) \textcolor{keywordflow}{then}
-261             failed = .true.
-262             temp(2) = \textcolor{stringliteral}{'particle radius'}
-263         \textcolor{keywordflow}{elseif} (self%prop%ini\_concentration == mv) \textcolor{keywordflow}{then}
-264             failed = .true.
-265             temp(2) = \textcolor{stringliteral}{'initial concentration'}
-266 \textcolor{keywordflow}{        end if}
-267 \textcolor{keywordflow}{    end if}
-268     \textcolor{keywordflow}{if} (failed) \textcolor{keywordflow}{then}
-269         outext = \textcolor{stringliteral}{'Source'}//temp(1)//\textcolor{stringliteral}{' '}//temp(2)//\textcolor{stringliteral}{' is not set, stoping'}
-270         \textcolor{keyword}{call }log%put(outext)
-271         stop
-272 \textcolor{keywordflow}{    end if}
+244     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: self
+245     \textcolor{keywordtype}{type}(string) :: outext, temp(2)
+246     \textcolor{keywordtype}{logical} :: failed
+247     failed = .false.
+248     temp(1) = self%par%id
+249     \textcolor{keywordflow}{if} (self%prop%radius == mv) \textcolor{keywordflow}{then}
+250         failed = .true.
+251         temp(2) = \textcolor{stringliteral}{'radius'}
+252     \textcolor{keywordflow}{elseif} (self%prop%density == mv) \textcolor{keywordflow}{then}
+253         failed = .true.
+254         temp(2) = \textcolor{stringliteral}{'density'}
+255     \textcolor{keywordflow}{elseif} (self%prop%condition == mv) \textcolor{keywordflow}{then}
+256         failed = .true.
+257         temp(2) = \textcolor{stringliteral}{'condition'}
+258     \textcolor{keywordflow}{elseif} (self%prop%degrd\_rate == mv) \textcolor{keywordflow}{then}
+259         failed = .true.
+260         temp(2) = \textcolor{stringliteral}{'degradation rate'}
+261     \textcolor{keywordflow}{elseif} (self%prop%particulate) \textcolor{keywordflow}{then}
+262         \textcolor{keywordflow}{if} (self%prop%pt\_radius == mv) \textcolor{keywordflow}{then}
+263             failed = .true.
+264             temp(2) = \textcolor{stringliteral}{'particle radius'}
+265         \textcolor{keywordflow}{elseif} (self%prop%ini\_concentration == mv) \textcolor{keywordflow}{then}
+266             failed = .true.
+267             temp(2) = \textcolor{stringliteral}{'initial concentration'}
+268 \textcolor{keywordflow}{        end if}
+269 \textcolor{keywordflow}{    end if}
+270     \textcolor{keywordflow}{if} (failed) \textcolor{keywordflow}{then}
+271         outext = \textcolor{stringliteral}{'Property '}//temp(2)//\textcolor{stringliteral}{' from Source id = '}//temp(1)//\textcolor{stringliteral}{' is not set, stoping'}
+272         \textcolor{keyword}{call }log%put(outext)
+273         stop
+274 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}\label{namespacesources__mod_a6dcf7a3e3ccf75e01853df166231d484}} 
+\mbox{\Hypertarget{namespacesources__mod_a0d56083fdc0453f03f9dfdb24f704ac4}\label{namespacesources__mod_a0d56083fdc0453f03f9dfdb24f704ac4}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!getvariablerate@{getvariablerate}}
+\index{getvariablerate@{getvariablerate}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{getvariablerate()}{getvariablerate()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::getvariablerate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{self,  }\item[{integer}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that sets the rate for the current time step, in case of a variable rate. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,index} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 328 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+328     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: self        
+329     \textcolor{keywordtype}{integer} :: index
+330     \textcolor{keywordtype}{type}(string) :: outext
+331     self%par%emitting\_rate = self%par%variable\_rate(min(index,\textcolor{keyword}{size}(self%par%variable\_rate)))
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesources__mod_aef3551e97236f03fc73fcf77276bb318}\label{namespacesources__mod_aef3551e97236f03fc73fcf77276bb318}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!initializesource@{initializesource}}
 \index{initializesource@{initializesource}!sources\+\_\+mod@{sources\+\_\+mod}}
 \subsubsection{\texorpdfstring{initializesource()}{initializesource()}}
-{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initializesource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::initializesource (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}})}]{src,  }\item[{integer, intent(in)}]{id,  }\item[{type(string), intent(in)}]{name,  }\item[{real(prec), intent(in)}]{emitting\+\_\+rate,  }\item[{logical, intent(in)}]{emitting\+\_\+fixed\+\_\+rate,  }\item[{type(string), intent(in)}]{rate\+\_\+file,  }\item[{real(prec), intent(in)}]{start,  }\item[{real(prec), intent(in)}]{finish,  }\item[{type(string), intent(in)}]{source\+\_\+geometry,  }\item[{class(\mbox{\hyperlink{structgeometry__mod_1_1shape}{shape}}), intent(in)}]{shapetype }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -128,79 +160,79 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em src,id,name,emitting\+\_\+rate,start,finish,source\+\_\+geometry,shapetype} & \\
+\mbox{\tt in}  & {\em src,id,name,emitting\+\_\+rate,emitting\+\_\+fixed\+\_\+rate,rate\+\_\+file,start,finish,source\+\_\+geometry,shapetype} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 282 of file sources.\+f90.
+Definition at line 341 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-282     \textcolor{keywordtype}{implicit none}
-283     \textcolor{keywordtype}{class}(source\_class) :: src
-284     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-285     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-286     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: emitting\_rate
-287     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: start
-288     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: finish
-289     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: source\_geometry
-290     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
-291 
-292     \textcolor{keywordtype}{integer} :: sizem, i
-293     \textcolor{keywordtype}{type}(string) :: outext
-294     \textcolor{keywordtype}{integer} :: err
-295 
-296     \textcolor{comment}{!Setting parameters}
-297     src%par%id=id
-298     src%par%emitting\_rate=emitting\_rate
-299     src%par%startime=start
-300     src%par%stoptime=finish
-301     src%par%name=name
-302     src%par%source\_geometry=source\_geometry
-303     \textcolor{keyword}{allocate}(src%par%geometry, source=shapetype)
-304     \textcolor{comment}{!Setting properties}
-305     src%prop%property\_type = \textcolor{stringliteral}{"base"} \textcolor{comment}{! pure Lagrangian trackers by default}
-306     src%prop%property\_name = \textcolor{stringliteral}{"base"}
-307     src%prop%particulate = .false.
-308     src%prop%radius = mv
-309     src%prop%density = mv
-310     src%prop%condition = mv
-311     src%prop%degrd\_rate = mv
-312     src%prop%pt\_radius = mv
-313     src%prop%ini\_concentration = mv
-314     \textcolor{comment}{!Setting state variables}
-315     src%now%age=0.0
-316     src%now%active=.false. \textcolor{comment}{!disabled by default}
-317     src%now%emission\_stride=1 \textcolor{comment}{!first time-step once active the Source emitts}
-318     src%now%pos=src%par%geometry%pt \textcolor{comment}{!coords of the Source (meaning depends on the geometry type!)}
-319     \textcolor{comment}{!setting statistical samplers}
-320     src%stats%particles\_emitted=0
-321     src%stats%acc\_T=0.0
-322     src%stats%ns=0
-323     \textcolor{comment}{!setting stencil variables}
-324     src%stencil%np = geometry%fillsize(src%par%geometry, globals%SimDefs%Dp)
-325     \textcolor{keyword}{call }src%setotalnp()
-326     \textcolor{keyword}{allocate}(src%stencil%ptlist(src%stencil%np), stat=err)
-327     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
-328         outext=\textcolor{stringliteral}{'[Sources::initialize]:Cannot allocate point list for Source '}// src%par%name //\textcolor{stringliteral}{', stoping'}
-329         \textcolor{keyword}{call }log%put(outext)
-330         stop
-331 \textcolor{keywordflow}{    endif}
-332     \textcolor{keyword}{call }geometry%fill(src%par%geometry, globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
-333     \textcolor{keywordflow}{do} i=1, src%stencil%np
-334         src%stencil%ptlist(i) = m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
-335 \textcolor{keywordflow}{    end do}
-336 
-337 
-338     sizem = sizeof(src)
-339     \textcolor{keyword}{call }simmemory%addsource(sizem)
-340     \textcolor{keyword}{call }src%print()
-341 
-342     \textcolor{comment}{!DBG}
-343     \textcolor{comment}{!do i=1, src%stencil%np}
-344     \textcolor{comment}{!print*, src%stencil%ptlist(i)}
-345     \textcolor{comment}{!end do}
+341     \textcolor{keywordtype}{class}(source\_class) :: src
+342     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+343     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+344     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: emitting\_rate
+345     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)} :: emitting\_fixed\_rate
+346     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: rate\_file
+347     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: start
+348     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: finish
+349     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: source\_geometry
+350     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(in)} :: shapetype
+351     \textcolor{keywordtype}{integer} :: sizem, i
+352     \textcolor{keywordtype}{type}(string) :: outext
+353     \textcolor{keywordtype}{integer} :: err
+354 
+355     \textcolor{comment}{!Setting parameters}
+356     src%par%id=id
+357     src%par%name=name
+358     src%par%emitting\_rate=emitting\_rate
+359     src%par%emitting\_fixed\_rate = emitting\_fixed\_rate
+360     src%par%rate\_file = rate\_file
+361     \textcolor{keywordflow}{if} (emitting\_fixed\_rate .eqv. .false.) \textcolor{keywordflow}{then}
+362         \textcolor{keyword}{call }src%setVariableRate(src%par%rate\_file)
+363         \textcolor{keyword}{call }src%getVariableRate(globals%Sim%getnumdt())
+364 \textcolor{keywordflow}{    end if}
+365     src%par%startime=start
+366     src%par%stoptime=finish
+367     src%par%source\_geometry=source\_geometry
+368     \textcolor{keyword}{allocate}(src%par%geometry, source=shapetype)
+369     \textcolor{comment}{!Setting properties}
+370     src%prop%property\_type = \textcolor{stringliteral}{"base"} \textcolor{comment}{! pure Lagrangian trackers by default}
+371     src%prop%property\_name = \textcolor{stringliteral}{"base"}
+372     src%prop%particulate = .false.
+373     src%prop%radius = mv
+374     src%prop%density = mv
+375     src%prop%condition = mv
+376     src%prop%degrd\_rate = mv
+377     src%prop%pt\_radius = mv
+378     src%prop%ini\_concentration = mv
+379     \textcolor{comment}{!Setting state variables}
+380     src%now%age=0.0
+381     src%now%active=.false. \textcolor{comment}{!disabled by default}
+382     src%now%emission\_stack = 1
+383     src%now%pos=src%par%geometry%pt \textcolor{comment}{!coords of the Source (meaning depends on the geometry type!)}
+384     \textcolor{comment}{!setting statistical samplers}
+385     src%stats%particles\_emitted=0
+386     src%stats%ns=0
+387     \textcolor{comment}{!setting stencil variables}
+388     src%stencil%np = geometry%fillsize(src%par%geometry, globals%SimDefs%Dp)
+389     \textcolor{keyword}{call }src%setotalnp()
+390     \textcolor{keyword}{allocate}(src%stencil%ptlist(src%stencil%np), stat=err)
+391     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+392         outext=\textcolor{stringliteral}{'[Sources::initialize]:Cannot allocate point list for Source '}// src%par%name //\textcolor{stringliteral}{', stoping'}
+393         \textcolor{keyword}{call }log%put(outext)
+394         stop
+395 \textcolor{keywordflow}{    endif}
+396     \textcolor{keyword}{call }geometry%fill(src%par%geometry, globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
+397     \textcolor{keywordflow}{do} i=1, src%stencil%np
+398         src%stencil%ptlist(i) = utils%m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
+399 \textcolor{keywordflow}{    end do}
+400 
+401     sizem = sizeof(src)
+402     \textcolor{keyword}{call }simmemory%addsource(sizem)
+403     \textcolor{keyword}{call }src%print()
+404 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}\label{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf5fe}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!initsources@{initsources}}
@@ -222,25 +254,25 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 112 of file sources.\+f90.
+Definition at line 118 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-112     \textcolor{keywordtype}{implicit none}
-113     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
-114     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: nsources
-115     \textcolor{keywordtype}{integer} err
-116     \textcolor{keywordtype}{type}(string) :: outext, temp
-117     \textcolor{keyword}{allocate}(self%src(nsources), stat=err)
-118     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
-119         outext=\textcolor{stringliteral}{'[initSources]: Cannot allocate Sources, stoping'}
-120         \textcolor{keyword}{call }log%put(outext)
-121         stop
-122     \textcolor{keywordflow}{else}
-123         temp = nsources
-124         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Sources.'}
-125         \textcolor{keyword}{call }log%put(outext)
-126 \textcolor{keywordflow}{    endif}
+118     \textcolor{keywordtype}{implicit none}
+119     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
+120     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: nsources
+121     \textcolor{keywordtype}{integer} err
+122     \textcolor{keywordtype}{type}(string) :: outext, temp
+123     \textcolor{keyword}{allocate}(self%src(nsources), stat=err)
+124     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+125         outext=\textcolor{stringliteral}{'[initSources]: Cannot allocate Sources, stoping'}
+126         \textcolor{keyword}{call }log%put(outext)
+127         stop
+128     \textcolor{keywordflow}{else}
+129         temp = nsources
+130         outext = \textcolor{stringliteral}{'Allocated '}// temp // \textcolor{stringliteral}{' Sources.'}
+131         \textcolor{keyword}{call }log%put(outext)
+132 \textcolor{keywordflow}{    endif}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_ac4e4f33da78d030e1b56a48789da6a05}\label{namespacesources__mod_ac4e4f33da78d030e1b56a48789da6a05}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!isparticulate@{isparticulate}}
@@ -257,12 +289,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 356 of file sources.\+f90.
+Definition at line 415 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-356     \textcolor{keywordtype}{class}(source\_class) :: self
-357     isparticulate = self%prop%particulate
+415     \textcolor{keywordtype}{class}(source\_class) :: self
+416     isparticulate = self%prop%particulate
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_aee745aa084adcfa41ecfc3469b90aa8e}\label{namespacesources__mod_aee745aa084adcfa41ecfc3469b90aa8e}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!killsources@{killsources}}
@@ -279,20 +311,20 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 136 of file sources.\+f90.
+Definition at line 141 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-136     \textcolor{keywordtype}{implicit none}
-137     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
-138     \textcolor{keywordtype}{integer} err
-139     \textcolor{keywordtype}{type}(string) :: outext
-140     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%src)) \textcolor{keyword}{deallocate}(self%src, stat=err)
-141     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
-142         outext=\textcolor{stringliteral}{'[killSources]: Cannot deallocate Sources, stoping'}
-143         \textcolor{keyword}{call }log%put(outext)
-144         stop
-145 \textcolor{keywordflow}{    endif}
+141     \textcolor{keywordtype}{implicit none}
+142     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
+143     \textcolor{keywordtype}{integer} err
+144     \textcolor{keywordtype}{type}(string) :: outext
+145     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%src)) \textcolor{keyword}{deallocate}(self%src, stat=err)
+146     \textcolor{keywordflow}{if}(err/=0)\textcolor{keywordflow}{then}
+147         outext=\textcolor{stringliteral}{'[killSources]: Cannot deallocate Sources, stoping'}
+148         \textcolor{keyword}{call }log%put(outext)
+149         stop
+150 \textcolor{keywordflow}{    endif}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}\label{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!linkproperty@{linkproperty}}
@@ -314,16 +346,16 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 155 of file sources.\+f90.
+Definition at line 160 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-155     \textcolor{keywordtype}{implicit none}
-156     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: src
-157     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: ptype
-158     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
-159     src%prop%property\_type = ptype
-160     src%prop%property\_name = pname
+160     \textcolor{keywordtype}{implicit none}
+161     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: src
+162     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: ptype
+163     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
+164     src%prop%property\_type = ptype
+165     src%prop%property\_name = pname
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}\label{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d991}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!printsource@{printsource}}
@@ -345,37 +377,35 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 379 of file sources.\+f90.
+Definition at line 438 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-379     \textcolor{keywordtype}{implicit none}
-380     \textcolor{keywordtype}{class}(source\_class) :: src
-381 
-382     \textcolor{keywordtype}{type}(string) :: outext
-383     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
-384 
-385     temp\_str(1)=src%par%id
-386     outext = \textcolor{stringliteral}{'-->Source '}//src%par%name//new\_line(\textcolor{stringliteral}{'a'})//&
-387         \textcolor{stringliteral}{'       Id = '}//temp\_str(1)//new\_line(\textcolor{stringliteral}{'a'})//&
-388         \textcolor{stringliteral}{'       Geometry type is '}//src%par%source\_geometry//new\_line(\textcolor{stringliteral}{'a'})
-389     temp\_str(1)=src%now%pos%x
-390     temp\_str(2)=src%now%pos%y
-391     temp\_str(3)=src%now%pos%z
-392     outext = outext//\textcolor{stringliteral}{'       Initially at coordinates'}//new\_line(\textcolor{stringliteral}{'a'})//&
-393         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
-394     temp\_str(1)=src%par%emitting\_rate
-395     temp\_str(2)=src%stencil%np
-396     temp\_str(3)=src%stencil%total\_np
-397     outext = outext//\textcolor{stringliteral}{'       Emitting '}//temp\_str(2)//\textcolor{stringliteral}{' tracers at every '}//temp\_str(1)//\textcolor{stringliteral}{' time-steps'}//
-      new\_line(\textcolor{stringliteral}{'a'})
-398     outext = outext//\textcolor{stringliteral}{'       For an estimated total of '}//temp\_str(3)//\textcolor{stringliteral}{' tracers'} //new\_line(\textcolor{stringliteral}{'a'})
-399     temp\_str(1)=src%par%startime
-400     temp\_str(2)=src%par%stoptime
-401     outext = outext//\textcolor{stringliteral}{'       Active from '}//temp\_str(1)//\textcolor{stringliteral}{' to '}//temp\_str(2)//\textcolor{stringliteral}{' seconds'}
-402 
-403     \textcolor{keyword}{call }log%put(outext,.false.)
-404 
+438     \textcolor{keywordtype}{implicit none}
+439     \textcolor{keywordtype}{class}(source\_class) :: src
+440     \textcolor{keywordtype}{type}(string) :: outext
+441     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
+442     temp\_str(1)=src%par%id
+443     outext = \textcolor{stringliteral}{'-->Source '}//src%par%name//new\_line(\textcolor{stringliteral}{'a'})//&
+444         \textcolor{stringliteral}{'       Id = '}//temp\_str(1)//new\_line(\textcolor{stringliteral}{'a'})//&
+445         \textcolor{stringliteral}{'       Geometry type is '}//src%par%source\_geometry//new\_line(\textcolor{stringliteral}{'a'})
+446     temp\_str(1)=src%now%pos%x
+447     temp\_str(2)=src%now%pos%y
+448     temp\_str(3)=src%now%pos%z
+449     outext = outext//\textcolor{stringliteral}{'       Initially at coordinates'}//new\_line(\textcolor{stringliteral}{'a'})//&
+450         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+451     temp\_str(1)=src%stencil%np
+452     \textcolor{keywordflow}{if} (src%par%emitting\_fixed\_rate) \textcolor{keywordflow}{then}
+453         temp\_str(2)=src%par%emitting\_rate        
+454         outext = outext//\textcolor{stringliteral}{'       Emitting '}//temp\_str(1)//\textcolor{stringliteral}{' tracers at '}//temp\_str(2)//\textcolor{stringliteral}{' Hz'}//new\_line(\textcolor{stringliteral}{'a'})
+455     \textcolor{keywordflow}{else}
+456         outext = outext//\textcolor{stringliteral}{'       Emitting '}//temp\_str(1)//\textcolor{stringliteral}{' tracers at a rate defined in '}//src%par
+      %rate\_file//new\_line(\textcolor{stringliteral}{'a'})
+457 \textcolor{keywordflow}{    end if}
+458     temp\_str(1)=src%par%startime
+459     temp\_str(2)=src%par%stoptime
+460     outext = outext//\textcolor{stringliteral}{'       Active from '}//temp\_str(1)//\textcolor{stringliteral}{' to '}//temp\_str(2)//\textcolor{stringliteral}{' seconds'}
+461     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_a9a62c41b71d2d6ad85def74087542ef5}\label{namespacesources__mod_a9a62c41b71d2d6ad85def74087542ef5}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!setotalnp@{setotalnp}}
@@ -392,14 +422,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 367 of file sources.\+f90.
+Definition at line 426 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-367     \textcolor{keywordtype}{implicit none}
-368     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: self
-369     self%stencil%total\_np=int((self%par%stoptime-self%par%startime)/(globals%SimDefs%dt)/self%par
-      %emitting\_rate*self%stencil%np)
+426     \textcolor{keywordtype}{implicit none}
+427     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: self
+428     self%stencil%total\_np=int((self%par%stoptime-self%par%startime)*self%par%emitting\_rate*self%stencil%np)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_abbb4557b46c533439fe258cecf31a76c}\label{namespacesources__mod_abbb4557b46c533439fe258cecf31a76c}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!setpropertyatributes@{setpropertyatributes}}
@@ -421,37 +450,37 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 207 of file sources.\+f90.
+Definition at line 210 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-207     \textcolor{keywordtype}{implicit none}
-208     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: src
-209     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
-210     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pvalue
-211     \textcolor{keywordtype}{type}(string) :: outext
-212     \textcolor{keywordflow}{select case} (pname%chars())
-213     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'particulate'})
-214         \textcolor{keywordflow}{if} (pvalue%to\_number(kind=1\_i1p) == 1) \textcolor{keywordflow}{then}
-215             src%prop%particulate = .true.
-216 \textcolor{keywordflow}{        end if}
-217     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'radius'})
-218         src%prop%radius = pvalue%to\_number(kind=1.\_r4p)
-219     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'particle\_radius'})
-220         src%prop%pt\_radius = pvalue%to\_number(kind=1.\_r4p)
-221     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'density'})
-222         src%prop%density = pvalue%to\_number(kind=1.\_r4p)
-223     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'condition'})
-224         src%prop%condition = pvalue%to\_number(kind=1.\_r4p)
-225     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'degradation\_rate'})
-226         src%prop%degrd\_rate = pvalue%to\_number(kind=1.\_r4p)
-227     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'intitial\_concentration'})
-228         src%prop%ini\_concentration = pvalue%to\_number(kind=1.\_r4p)
-229 \textcolor{keywordflow}{        case default}
-230         outext=\textcolor{stringliteral}{'[Sources::setPropertyAtributes]: unexpected atribute '}//pname//\textcolor{stringliteral}{' for property '}//src%prop
+210     \textcolor{keywordtype}{implicit none}
+211     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: src
+212     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
+213     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pvalue
+214     \textcolor{keywordtype}{type}(string) :: outext
+215     \textcolor{keywordflow}{select case} (pname%chars())
+216     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'particulate'})
+217         \textcolor{keywordflow}{if} (pvalue%to\_number(kind=1\_i1p) == 1) \textcolor{keywordflow}{then}
+218             src%prop%particulate = .true.
+219 \textcolor{keywordflow}{        end if}
+220     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'radius'})
+221         src%prop%radius = pvalue%to\_number(kind=1.\_r4p)
+222     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'particle\_radius'})
+223         src%prop%pt\_radius = pvalue%to\_number(kind=1.\_r4p)
+224     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'density'})
+225         src%prop%density = pvalue%to\_number(kind=1.\_r4p)
+226     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'condition'})
+227         src%prop%condition = pvalue%to\_number(kind=1.\_r4p)
+228     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'degradation\_rate'})
+229         src%prop%degrd\_rate = pvalue%to\_number(kind=1.\_r4p)
+230     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'intitial\_concentration'})
+231         src%prop%ini\_concentration = pvalue%to\_number(kind=1.\_r4p)
+232 \textcolor{keywordflow}{        case default}
+233         outext=\textcolor{stringliteral}{'[Sources::setPropertyAtributes]: unexpected atribute '}//pname//\textcolor{stringliteral}{' for property '}//src%prop
       %property\_name//\textcolor{stringliteral}{', ignoring'}
-231         \textcolor{keyword}{call }log%put(outext)
-232 \textcolor{keywordflow}{    end select}
+234         \textcolor{keyword}{call }log%put(outext)
+235 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesources__mod_aa76f16f8ee96bc86b553aa54d420321c}\label{namespacesources__mod_aa76f16f8ee96bc86b553aa54d420321c}} 
 \index{sources\+\_\+mod@{sources\+\_\+mod}!setpropertynames@{setpropertynames}}
@@ -479,40 +508,96 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 170 of file sources.\+f90.
+Definition at line 175 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-170     \textcolor{keywordtype}{implicit none}
-171     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
-172     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: srcid\_str
-173     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: ptype
-174     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
-175 
-176     \textcolor{keywordtype}{integer} :: srcid
-177     \textcolor{keywordtype}{type}(string) :: outext, temp
-178     \textcolor{keywordtype}{integer} :: i
-179     \textcolor{keywordtype}{logical} :: notlinked
-180 
-181     srcid = srcid\_str%to\_number(kind=1\_i1p)
-182     notlinked = .true.  \textcolor{comment}{!assuming not linked}
-183     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%src)
-184         \textcolor{keywordflow}{if} (self%src(i)%par%id == srcid) \textcolor{keywordflow}{then} \textcolor{comment}{! found the correct source to link to}
-185             \textcolor{keyword}{call }self%src(i)%linkproperty(ptype,pname) \textcolor{comment}{! calling Source method to link property}
-186             temp = self%src(i)%par%id
-187             outext=\textcolor{stringliteral}{'      Source id = '}// temp // \textcolor{stringliteral}{', '}// self%src(i)%par%name //\textcolor{stringliteral}{' is of type '}// self%src(i
+175     \textcolor{keywordtype}{implicit none}
+176     \textcolor{keywordtype}{class}(source\_group\_class), \textcolor{keywordtype}{intent(inout)} :: self
+177     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: srcid\_str
+178     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: ptype
+179     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: pname
+180     \textcolor{keywordtype}{integer} :: srcid
+181     \textcolor{keywordtype}{type}(string) :: outext, temp
+182     \textcolor{keywordtype}{integer} :: i
+183     \textcolor{keywordtype}{logical} :: notlinked
+184     srcid = srcid\_str%to\_number(kind=1\_i1p)
+185     notlinked = .true.  \textcolor{comment}{!assuming not linked}
+186     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%src)
+187         \textcolor{keywordflow}{if} (self%src(i)%par%id == srcid) \textcolor{keywordflow}{then} \textcolor{comment}{! found the correct source to link to}
+188             \textcolor{keyword}{call }self%src(i)%linkproperty(ptype,pname) \textcolor{comment}{! calling Source method to link property}
+189             temp = self%src(i)%par%id
+190             outext=\textcolor{stringliteral}{'      Source id = '}// temp // \textcolor{stringliteral}{', '}// self%src(i)%par%name //\textcolor{stringliteral}{' is of type '}// self%src(i
       )%prop%property\_type //\textcolor{stringliteral}{', with property name '} // self%src(i)%prop%property\_name
-188             \textcolor{keyword}{call }log%put(outext,.false.)
-189             notlinked = .false. \textcolor{comment}{! we linked it}
-190             \textcolor{keywordflow}{exit}
-191 \textcolor{keywordflow}{        endif}
-192 \textcolor{keywordflow}{    enddo}
-193     \textcolor{keywordflow}{if} (notlinked) \textcolor{keywordflow}{then} \textcolor{comment}{! property has no corresponding Source}
-194         temp = srcid
-195         outext=\textcolor{stringliteral}{'      Source id = '}// temp //\textcolor{stringliteral}{' not listed, property '}// pname //\textcolor{stringliteral}{', of type '} // ptype // \textcolor{stringliteral}{'
+191             \textcolor{keyword}{call }log%put(outext,.false.)
+192             notlinked = .false. \textcolor{comment}{! we linked it}
+193             \textcolor{keywordflow}{exit}
+194 \textcolor{keywordflow}{        endif}
+195 \textcolor{keywordflow}{    enddo}
+196     \textcolor{keywordflow}{if} (notlinked) \textcolor{keywordflow}{then} \textcolor{comment}{! property has no corresponding Source}
+197         temp = srcid
+198         outext=\textcolor{stringliteral}{'      Source id = '}// temp //\textcolor{stringliteral}{' not listed, property '}// pname //\textcolor{stringliteral}{', of type '} // ptype // \textcolor{stringliteral}{'
        not linked, ignoring'}
-196         \textcolor{keyword}{call }log%put(outext,.false.)
-197 \textcolor{keywordflow}{    endif}
+199         \textcolor{keyword}{call }log%put(outext,.false.)
+200 \textcolor{keywordflow}{    endif}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesources__mod_af7fab14b56573184d5ca4371409118b0}\label{namespacesources__mod_af7fab14b56573184d5ca4371409118b0}} 
+\index{sources\+\_\+mod@{sources\+\_\+mod}!setvariablerate@{setvariablerate}}
+\index{setvariablerate@{setvariablerate}!sources\+\_\+mod@{sources\+\_\+mod}}
+\subsubsection{\texorpdfstring{setvariablerate()}{setvariablerate()}}
+{\footnotesize\ttfamily subroutine sources\+\_\+mod\+::setvariablerate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that reads a csv file with variable emission rate data, allocates the space, and stores the data in the Source. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,filename} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 285 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+285     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)} :: self
+286     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+287     \textcolor{keywordtype}{type}(csv\_file) :: rateFile
+288     \textcolor{keywordtype}{character(len=30)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: header
+289     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: time, rate, stime, srate
+290     \textcolor{keywordtype}{integer} :: i, index
+291     \textcolor{keywordtype}{real(prec)} :: weight
+292     \textcolor{keywordtype}{logical} :: status
+293     \textcolor{keywordtype}{type}(string) :: outext
+294 
+295     \textcolor{keyword}{call }csvreader%getFile(ratefile, filename, 1)
+296     \textcolor{keyword}{call }csvreader%getColumn(ratefile, filename, 1, time)
+297     \textcolor{keyword}{call }csvreader%getColumn(ratefile, filename, 2, rate)
+298     \textcolor{keyword}{call }csvreader%closeFile(ratefile)
+299     \textcolor{comment}{!interpolating the csv data to a regular dt spaced array and storing the data in the Source}
+300     \textcolor{keyword}{allocate}(stime(int(min(globals%Parameters%TimeMax,maxval(time))/globals%SimDefs%dt)+1))
+301     \textcolor{keyword}{allocate}(srate(\textcolor{keyword}{size}(stime)))
+302     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(stime)
+303         stime(i)=globals%SimDefs%dt*(i-1)
+304 \textcolor{keywordflow}{    end do}
+305     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(stime)
+306         \textcolor{keywordflow}{if} (stime(i)<time(1)) \textcolor{keywordflow}{then} 
+307             srate(i) = 0.0
+308         \textcolor{keywordflow}{else}
+309             \textcolor{keywordflow}{do} index=1, \textcolor{keyword}{size}(time)-1
+310                 \textcolor{keywordflow}{if} (stime(i)>=time(index)) \textcolor{keywordflow}{then}
+311                     weight = (stime(i)-time(index))/(time(index+1)-time(index));
+312                     srate(i) = (1.0-weight)*rate(index) + weight*rate(index+1);
+313 \textcolor{keywordflow}{                end if}
+314 \textcolor{keywordflow}{            end do}
+315 \textcolor{keywordflow}{        end if}
+316 \textcolor{keywordflow}{    end do}
+317     \textcolor{keyword}{allocate}(self%par%variable\_rate(\textcolor{keyword}{size}(srate)), source=srate)
 \end{DoxyCode}
 
 
@@ -529,9 +614,9 @@ Temporary Source array, used exclusively for building the case from a descriptio
 
 
 
-Definition at line 98 of file sources.\+f90.
+Definition at line 104 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-98     \textcolor{keywordtype}{type}(source\_group\_class) :: tempSources
+104     \textcolor{keywordtype}{type}(source\_group\_class) :: tempSources
 \end{DoxyCode}

@@ -13,7 +13,7 @@ GROUP "/" {
       }
       FILLVALUE {
          FILL_TIME H5D_FILL_TIME_IFSET
-         VALUE  H5D_FILL_VALUE_DEFAULT
+         VALUE  [ 0, 0, 0 ]
       }
       ALLOCATION_TIME {
          H5D_ALLOC_TIME_LATE
@@ -136,7 +136,7 @@ GROUP "/" {
       }
       FILLVALUE {
          FILL_TIME H5D_FILL_TIME_ALLOC
-         VALUE  H5D_FILL_VALUE_DEFAULT
+         VALUE  ()
       }
       ALLOCATION_TIME {
          H5D_ALLOC_TIME_LATE
@@ -158,7 +158,7 @@ GROUP "/" {
       }
       FILLVALUE {
          FILL_TIME H5D_FILL_TIME_IFSET
-         VALUE  H5D_FILL_VALUE_DEFAULT
+         VALUE  0
       }
       ALLOCATION_TIME {
          H5D_ALLOC_TIME_LATE

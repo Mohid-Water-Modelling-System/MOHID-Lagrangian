@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -116,6 +116,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a6dfcc19f822da875bebc58c3bf26e999"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeometry__mod_1_1geometry__class.html#a6dfcc19f822da875bebc58c3bf26e999">inlist</a></td></tr>
 <tr class="memdesc:a6dfcc19f822da875bebc58c3bf26e999"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if a given geometry is defined as a derived type (new types must be manually added)  <a href="#a6dfcc19f822da875bebc58c3bf26e999">More...</a><br /></td></tr>
 <tr class="separator:a6dfcc19f822da875bebc58c3bf26e999"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a435975f73e28fc8c9f04b47c390cb089"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeometry__mod_1_1geometry__class.html#a435975f73e28fc8c9f04b47c390cb089">allocateshape</a></td></tr>
+<tr class="memdesc:a435975f73e28fc8c9f04b47c390cb089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns allocated Shape with a specific shape given a name.  <a href="#a435975f73e28fc8c9f04b47c390cb089">More...</a><br /></td></tr>
+<tr class="separator:a435975f73e28fc8c9f04b47c390cb089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75f5a37d0b38c8baf66ee5089ea44d7a"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeometry__mod_1_1geometry__class.html#a75f5a37d0b38c8baf66ee5089ea44d7a">fillsize</a></td></tr>
 <tr class="memdesc:a75f5a37d0b38c8baf66ee5089ea44d7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the number of points that fill a geometry (based on GLOBALS::dp)  <a href="#a75f5a37d0b38c8baf66ee5089ea44d7a">More...</a><br /></td></tr>
 <tr class="separator:a75f5a37d0b38c8baf66ee5089ea44d7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,6 +148,35 @@ Private Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00033">33</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a id="a435975f73e28fc8c9f04b47c390cb089"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a435975f73e28fc8c9f04b47c390cb089">&#9670;&nbsp;</a></span>allocateshape()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure geometry_mod::geometry_class::allocateshape </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns allocated Shape with a specific shape given a name. </p>
+
+<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00038">38</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
+
+</div>
+</div>
 <a id="a0afee5607f0e2443a862741e40794368"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0afee5607f0e2443a862741e40794368">&#9670;&nbsp;</a></span>fill()</h2>
 
@@ -170,7 +202,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the list of points that fill a geometry (based on GLOBALS::dp) </p>
 
-<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00039">39</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00040">40</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
 
 </div>
 </div>
@@ -199,7 +231,7 @@ Private Attributes</h2></td></tr>
 
 <p>Gets the number of points that fill a geometry (based on GLOBALS::dp) </p>
 
-<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00038">38</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00039">39</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
 
 </div>
 </div>
@@ -228,7 +260,7 @@ Private Attributes</h2></td></tr>
 
 <p>Function that retuns the shape baricenter. </p>
 
-<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00040">40</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00041">41</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
 
 </div>
 </div>
@@ -257,7 +289,7 @@ Private Attributes</h2></td></tr>
 
 <p>Function that returns the number of points (vertexes) that define the geometrical shape. </p>
 
-<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00042">42</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00043">43</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
 
 </div>
 </div>
@@ -286,7 +318,7 @@ Private Attributes</h2></td></tr>
 
 <p>Function that retuns the points (vertexes) that define the geometrical shape. </p>
 
-<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00041">41</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00042">42</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
 
 </div>
 </div>
@@ -373,7 +405,7 @@ Private Attributes</h2></td></tr>
 
 <p>prints the geometry type and contents </p>
 
-<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00043">43</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="geometry_8f90_source.html#l00044">44</a> of file <a class="el" href="geometry_8f90_source.html">geometry.f90</a>.</p>
 
 </div>
 </div>
@@ -405,7 +437,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/<a class="el" href="geometry_8f90_source.html">geometry.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="geometry_8f90_source.html">geometry.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

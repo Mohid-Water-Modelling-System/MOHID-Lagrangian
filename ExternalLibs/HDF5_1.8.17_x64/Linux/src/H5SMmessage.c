@@ -129,7 +129,7 @@ H5SM_compare_cb(const void *obj, size_t obj_len, void *_udata)
  */
 static herr_t
 H5SM_compare_iter_op(H5O_t *oh, H5O_mesg_t *mesg/*in,out*/, unsigned sequence,
-    unsigned H5_ATTR_UNUSED *oh_modified, void *_udata/*in,out*/)
+    unsigned UNUSED *oh_modified, void *_udata/*in,out*/)
 {
     H5SM_compare_udata_t *udata = (H5SM_compare_udata_t *) _udata;
     herr_t ret_value = H5_ITER_CONT;
@@ -190,13 +190,13 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5SM_message_compare(const void *rec1, const void *rec2, int *result)
+H5SM_message_compare(const void *rec1, const void *rec2)
 {
     const H5SM_mesg_key_t *key = (const H5SM_mesg_key_t *) rec1;
     const H5SM_sohm_t *mesg = (const H5SM_sohm_t *) rec2;
-    herr_t ret_value = SUCCEED;
+    herr_t ret_value = 0;
 
-    FUNC_ENTER_NOAPI_NOINIT
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* If the key has an fheap ID, we're looking for a message that's
      * already in the index; if the fheap ID matches, we've found the message
@@ -205,31 +205,28 @@ H5SM_message_compare(const void *rec1, const void *rec2, int *result)
      * message in the index, we've found the message.
      */
     if(mesg->location == H5SM_IN_HEAP && key->message.location == H5SM_IN_HEAP) {
-        if(key->message.u.heap_loc.fheap_id.val == mesg->u.heap_loc.fheap_id.val) {
-            *result = 0;
-            HGOTO_DONE(SUCCEED);
-        }
+        if(key->message.u.heap_loc.fheap_id.val == mesg->u.heap_loc.fheap_id.val)
+            HGOTO_DONE(0);
     } /* end if */
     else if(mesg->location == H5SM_IN_OH && key->message.location == H5SM_IN_OH) {
         if(key->message.u.mesg_loc.oh_addr == mesg->u.mesg_loc.oh_addr &&
-           key->message.u.mesg_loc.index == mesg->u.mesg_loc.index &&
-           key->message.msg_type_id == mesg->msg_type_id) {
-            *result = 0;
-            HGOTO_DONE(SUCCEED);
-        }
+                key->message.u.mesg_loc.index == mesg->u.mesg_loc.index &&
+                key->message.msg_type_id == mesg->msg_type_id)
+            HGOTO_DONE(0);
     } /* end if */
 
     /* Compare hash values */
     if(key->message.hash > mesg->hash)
-        *result = 1;
+        ret_value = 1;
     else if(key->message.hash < mesg->hash)
-        *result = -1;
+        ret_value = -1;
     /* If the hash values match, make sure the messages are really the same */
     else {
         /* Hash values match; compare the encoded message with the one in
          * the index.
          */
         H5SM_compare_udata_t udata;
+        herr_t status;
 
         HDassert(key->message.hash == mesg->hash);
         HDassert(key->encoding_size > 0 && key->encoding);
@@ -242,8 +239,8 @@ H5SM_message_compare(const void *rec1, const void *rec2, int *result)
          */
         if(mesg->location == H5SM_IN_HEAP) {
             /* Call heap op routine with comparison callback */
-            if(H5HF_op(key->fheap, key->dxpl_id, &(mesg->u.heap_loc.fheap_id), H5SM_compare_cb, &udata) < 0)
-                HGOTO_ERROR(H5E_HEAP, H5E_CANTCOMPARE, FAIL, "can't compare btree2 records")
+            status = H5HF_op(key->fheap, key->dxpl_id, &(mesg->u.heap_loc.fheap_id), H5SM_compare_cb, &udata);
+            HDassert(status >= 0);
         } /* end if */
         else {
             H5O_loc_t oloc;             /* Object owning the message */
@@ -254,8 +251,8 @@ H5SM_message_compare(const void *rec1, const void *rec2, int *result)
             HDassert(mesg->location == H5SM_IN_OH);
 
             /* Reset the object location */
-            if(H5O_loc_reset(&oloc) < 0)
-                HGOTO_ERROR(H5E_SYM, H5E_CANTRESET, FAIL, "unable to initialize target location")
+            status = H5O_loc_reset(&oloc);
+            HDassert(status >= 0);
 
             /* Set up object location */
             oloc.file = key->file;
@@ -267,11 +264,11 @@ H5SM_message_compare(const void *rec1, const void *rec2, int *result)
             /* Locate the right message and compare with it */
             op.op_type = H5O_MESG_OP_LIB;
             op.u.lib_op = H5SM_compare_iter_op;
-            if(H5O_msg_iterate(&oloc, mesg->msg_type_id, &op, &udata, key->dxpl_id) < 0)
-                HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "error iterating over links")
+            status = H5O_msg_iterate(&oloc, mesg->msg_type_id, &op, &udata, key->dxpl_id);
+            HDassert(status >= 0);
         } /* end else */
 
-        *result = udata.ret;
+        ret_value = udata.ret;
     } /* end if */
 
 done:

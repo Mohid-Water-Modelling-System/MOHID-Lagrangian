@@ -114,8 +114,7 @@ static void test_transfplist()
 
 	PASSED();
     }
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_transfplist", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }

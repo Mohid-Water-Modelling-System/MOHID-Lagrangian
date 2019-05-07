@@ -164,7 +164,7 @@ static void test_attr_basic_write()
 	    // continuation here, that means no exception has been thrown
 	    throw InvalidActionException("H5File::createDataSet", "Library allowed overwrite of existing dataset");
 	}
-	catch (AttributeIException& E) // catching invalid creating attribute
+	catch (AttributeIException E) // catching invalid creating attribute
         {} // do nothing, exception expected
 
 	// Write attribute information
@@ -223,7 +223,7 @@ static void test_attr_basic_write()
             throw InvalidActionException("H5Group::createAttribute",
 			"Attempting to create an existing attribute");
 	}
-        catch (AttributeIException& E) // catching invalid creating attribute
+        catch (AttributeIException E) // catching invalid creating attribute
         {} // do nothing, exception expected
 
 	// Write attribute information
@@ -237,8 +237,7 @@ static void test_attr_basic_write()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_basic_write()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_basic_write()
@@ -372,8 +371,7 @@ static void test_attr_getname()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_getname()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_getname()
@@ -483,8 +481,7 @@ static void test_attr_rename()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_rename()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_rename()
@@ -552,8 +549,7 @@ static void test_attr_basic_read()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_basic_read()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_basic_read()
@@ -603,7 +599,7 @@ static void test_attr_compound_write()
 	try {
 	    Attribute invalid_attr = dataset.createAttribute (ATTR4_NAME, comp_type, sid2);
 	}
-        catch (AttributeIException& E) // catching invalid creating attribute
+        catch (AttributeIException E) // catching invalid creating attribute
         {} // do nothing, exception expected
 
 	// Write complex attribute data
@@ -612,8 +608,7 @@ static void test_attr_compound_write()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_compound_write()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_compound_write()
@@ -748,8 +743,7 @@ static void test_attr_compound_read()
 	verify_val(attr_name, ATTR4_NAME, "Attribute::getName", __LINE__, __FILE__);
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_compound_read()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 
@@ -764,8 +758,7 @@ static void test_attr_compound_read()
 	PASSED();
     } // end try block
 
-    catch (FileIException& E)
-    {
+    catch (FileIException E) {
 	issue_fail_msg("test_attr_compound_read()", __LINE__, __FILE__, "Unable to truncate file, possibly because some objects are left opened");
     }
 }   // test_attr_compound_read()
@@ -810,7 +803,7 @@ static void test_attr_scalar_write()
 	    // continuation here, that means no exception has been thrown
 	    throw InvalidActionException("H5File::createDataSet", "Library allowed overwrite of existing dataset");
 	}
-	catch (AttributeIException& E) // catching invalid creating attribute
+	catch (AttributeIException E) // catching invalid creating attribute
         {} // do nothing, exception expected
 
 	// Write attribute information
@@ -819,8 +812,7 @@ static void test_attr_scalar_write()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_scalar_write()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_scalar_write()
@@ -864,8 +856,7 @@ static void test_attr_scalar_read()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_scalar_read()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_scalar_read()
@@ -928,7 +919,7 @@ static void test_attr_mult_write()
 	    // continuation here, that means no exception has been thrown
 	    throw InvalidActionException("DataSet::createAttribute", "Attempting to create a duplicate attribute");
 	}
-	catch (AttributeIException& E) // catching invalid creating attribute
+	catch (AttributeIException E) // catching invalid creating attribute
         {} // do nothing, exception expected
 
 	// Write 3rd attribute information
@@ -937,8 +928,7 @@ static void test_attr_mult_write()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_mult_write()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_mult_write()
@@ -1128,8 +1118,7 @@ static void test_attr_mult_read()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_mult_read()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_mult_read()
@@ -1165,7 +1154,7 @@ static void test_attr_delete()
 
 	// Verify the name of the only file attribute left
 	Attribute fattr = fid1.openAttribute((unsigned)0);
-	attr_name = fattr.getName();
+	H5std_string attr_name = fattr.getName();
 	verify_val(attr_name, FATTR1_NAME, "Attribute::getName", __LINE__, __FILE__);
 	fattr.close();
 	
@@ -1185,7 +1174,7 @@ static void test_attr_delete()
 	    // continuation here, that means no exception has been thrown
 	    throw InvalidActionException("DataSet::removeAttr", "Attempting to remove non-existing attribute");
 	}
-	catch (AttributeIException& E) // catching invalid removing attribute
+	catch (AttributeIException E) // catching invalid removing attribute
         {} // do nothing, exception expected
 
 	// Test deleting dataset's attributes
@@ -1246,8 +1235,7 @@ static void test_attr_delete()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_delete()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_delete()
@@ -1404,8 +1392,7 @@ static void test_attr_dtype_shared()
 	PASSED();
     }   // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_dtype_shared()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_dtype_shared()
@@ -1529,8 +1516,7 @@ static void test_string_attr()
 	PASSED();
     } // end try block
 
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_string_attr()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_string_attr()
@@ -1574,209 +1560,13 @@ static void test_attr_exists()
 	PASSED();
     } // end try block
 
-    catch (InvalidActionException& E)
-    {
+    catch (InvalidActionException E) {
 	issue_fail_msg("test_attr_exists()", __LINE__, __FILE__, E.getCDetailMsg());
     }
-    catch (Exception& E)
-    {
+    catch (Exception E) {
 	issue_fail_msg("test_attr_exists()", __LINE__, __FILE__, E.getCDetailMsg());
     }
 }   // test_attr_exists()
-
-/****************************************************************
-**
-**  test_attr_dense_create(): Test phase change properties
-**      Tests "dense" attribute storage creation
-**
-****************************************************************/
-const H5std_string FILE_CRTPROPS("tattr_crt_properties.h5");
-const int NAME_BUF_SIZE = 1024;
-const unsigned MAX_COMPACT_DEF = 8;
-const unsigned MIN_DENSE_DEF = 6;
-
-static void test_attr_dense_create(FileCreatPropList& fcpl,
-				   FileAccPropList& fapl)
-{
-    // Output message about test being performed
-    SUBTEST("Dense Attribute Storage Creation");
-
-    try {
-	// Create file
-	H5File fid1 (FILE_CRTPROPS, H5F_ACC_TRUNC, fcpl, fapl);
-
-	// Close file
-	fid1.close();
-
-	// Get size of file
-	h5_stat_size_t empty_filesize;       // Size of empty file
-	empty_filesize = h5_get_file_size(FILE_CRTPROPS.c_str(), fapl.getId());
-	if (empty_filesize < 0)
-            TestErrPrintf("Line %d: file size wrong!\n", __LINE__);
-
-	// Re-open file
-	fid1.openFile(FILE_CRTPROPS, H5F_ACC_RDWR, fapl);
-
-	// Create dataspace for dataset
-	DataSpace ds_space(H5S_SCALAR);
-
-	//  Create dataset creation property list.
-	DSetCreatPropList dcpl;
-
-	// Create a dataset
-	DataSet dataset = fid1.createDataSet(DSET1_NAME, PredType::NATIVE_UCHAR, ds_space, dcpl);
-
-	unsigned max_compact = 0, min_dense = 0;
-
-	// Retrieve limits for compact/dense attribute storage
-	dcpl.getAttrPhaseChange(max_compact, min_dense);
-	verify_val(max_compact, MAX_COMPACT_DEF, "DSetCreatPropList::getAttrPhaseChange",__LINE__,__FILE__);
-	verify_val(min_dense, MIN_DENSE_DEF, "DSetCreatPropList::getAttrPhaseChange",__LINE__,__FILE__);
-
-	// Set new compact/dense attribute storage limits to some random numbers
-	dcpl.setAttrPhaseChange(7, 5);
-
-	// Retrieve limits for compact/dense attribute storage and verify them
-	dcpl.getAttrPhaseChange(max_compact, min_dense);
-	verify_val(max_compact, static_cast<unsigned>(7), "DSetCreatPropList::getAttrPhaseChange",__LINE__,__FILE__);
-	verify_val(min_dense, static_cast<unsigned>(5), "DSetCreatPropList::getAttrPhaseChange",__LINE__,__FILE__);
-
-	// Close property list
-	dcpl.close();
-
-	// H5O_is_attr_dense_test - un-usable
-
-	// Add attributes, until just before converting to dense storage
-	char attr_name[NAME_BUF_SIZE];
-	unsigned attr_num;
-	for (attr_num = 0; attr_num < max_compact; attr_num++)
-	{
-	    // Create attribute
-	    sprintf(attr_name, "attr %02u", attr_num);
-	    Attribute attr = dataset.createAttribute(attr_name, PredType::NATIVE_UINT, ds_space);
-
-	    // Write data to the attribute
-	    attr.write(PredType::NATIVE_UINT, &attr_num);
-	} // end for
-
-	// H5O_is_attr_dense_test - un-usable
-
-	{ // Add one more attribute, to push into "dense" storage
-
-	    // Create another attribute
-	    sprintf(attr_name, "attr %02u", attr_num);
-	    Attribute attr = dataset.createAttribute(attr_name, PredType::NATIVE_UINT, ds_space);
-
-	    // Write data to the attribute
-	    attr.write(PredType::NATIVE_UINT, &attr_num);
-	}
-
-	// Attempt to add attribute again, which should fail
-	try
-	{
-	    // Create another attribute
-	    sprintf(attr_name, "attr %02u", attr_num);
-	    Attribute attr = dataset.createAttribute(attr_name, PredType::NATIVE_UINT, ds_space);
-
-	    // continuation here, that means no exception has been thrown
-	    throw InvalidActionException("DataSet::createAttribute", "Maximum number of attributes has been reached");
-	}
-	catch (AttributeIException& E) // catching invalid action
-        {} // do nothing, exception expected
-
-	PASSED();
-    } // end try block
-
-    catch (Exception& E)
-    {
-	issue_fail_msg("test_attr_dense_create()", __LINE__, __FILE__, E.getCDetailMsg());
-    }
-}   // test_attr_dense_create()
-
-/****************************************************************
-**
-**  test_attr_corder_create_basic(): Test creation order properties
-**      Tests creating an object w/attribute creation order info
-**
-****************************************************************/
-static void test_attr_corder_create_basic(FileCreatPropList& fcpl,
-				   FileAccPropList& fapl)
-{
-    // Output message about test being performed
-    SUBTEST("Basic Code for Attributes with Creation Order Info");
-
-    try {
-	// Create file
-	H5File fid1 (FILE_CRTPROPS, H5F_ACC_TRUNC, fcpl, fapl);
-
-	//  Create dataset creation property list.
-	DSetCreatPropList dcpl;
-
-	// Get creation order indexing on object
-	unsigned crt_order_flags = 0;
-	crt_order_flags = dcpl.getAttrCrtOrder();
-	verify_val(crt_order_flags, 0, "DSetCreatPropList::getAttrCrtOrder",__LINE__,__FILE__);
-
-	// Setting invalid combination of a attribute order creation order
-	// indexing on should fail
-	try {
-	    dcpl.setAttrCrtOrder(H5P_CRT_ORDER_INDEXED);
-
-	    // continuation here, that means no exception has been thrown
-	    throw InvalidActionException("DSetCreatPropList::getAttrCrtOrder", "Indexing cannot be set alone, order tracking is required");
-	}
-	catch (PropListIException& E) // catching invalid action
-        {} // do nothing, exception expected
-
-	// Set attribute creation order tracking & indexing for object then
-	// verify them
-	dcpl.setAttrCrtOrder(H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
-	crt_order_flags = dcpl.getAttrCrtOrder();
-	verify_val(crt_order_flags, (H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED), "DSetCreatPropList::getAttrCrtOrder",__LINE__,__FILE__);
-
-	// Create dataspace for dataset
-	DataSpace ds_space(H5S_SCALAR);
-
-	// Create a dataset
-	DataSet dataset = fid1.createDataSet(DSET1_NAME, PredType::NATIVE_UCHAR, ds_space, dcpl);
-
-	// Close dataspace
-	ds_space.close();
-
-	// Check on dataset's attribute storage status.
-	// NOTE: Wrappers not available yet (H5O_is_attr_empty_test
-	// and H5O_is_attr_dense_test)
-
-	// Close dataset
-	dataset.close();
-
-	// Close property list
-	dcpl.close();
-
-	// Close file
-	fid1.close();
-
-	// Re-open file
-	fid1.openFile(FILE_CRTPROPS, H5F_ACC_RDWR, fapl);
-
-	// Open dataset created previously
-	dataset = fid1.openDataSet(DSET1_NAME);
-
-	// Retrieve dataset creation property list for the dataset
-	dcpl = dataset.getCreatePlist();
-
-	// Query the attribute creation properties
-	crt_order_flags = dcpl.getAttrCrtOrder();
-	verify_val(crt_order_flags, (H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED), "DSetCreatPropList::getAttrCrtOrder",__LINE__,__FILE__);
-
-	PASSED();
-    } // end try block
-
-    catch (Exception& E)
-    {
-	issue_fail_msg("test_attr_corder_create_basic()", __LINE__, __FILE__, E.getCDetailMsg());
-    }
-}   // test_attr_corder_create_basic()
 
 /****************************************************************
 **
@@ -1792,81 +1582,26 @@ void test_attr()
     //MESSAGE("Testing Attributes\n");
     MESSAGE(5, ("Testing Attributes\n"));
 
-    try
-    {
-        // Create a default file access property list
-        FileAccPropList fapl;
+    test_attr_basic_write();	// Test basic H5A writing code
+    test_attr_getname();	// Test overloads of Attribute::getName
+    test_attr_rename();		// Test renaming attribute
+    test_attr_basic_read(); 	// Test basic H5A reading code
 
-        // Copy the file access property list for new format test
-        FileAccPropList fapl_new = fapl;
+    test_attr_compound_write();	// Test complex datatype H5A writing code
+    test_attr_compound_read();	// Test complex datatype H5A reading code
 
-        // Set the "use the latest version of the format" bounds for creating
-        // objects in the file
-        fapl_new.setLibverBounds(H5F_LIBVER_LATEST, H5F_LIBVER_LATEST);
+    test_attr_scalar_write();	// Test scalar dataspace H5A writing code
+    test_attr_scalar_read();	// Test scalar dataspace H5A reading code
 
-        // Create a default file creation property list
-        FileCreatPropList fcpl;
+    test_attr_mult_write();	// Test writing multiple attributes
+    test_attr_mult_read();	// Test reading multiple attributes
+    test_attr_delete();		// Test deleting attributes
 
-        // Copy the file creation property list for new format test
-        FileCreatPropList fcpl_new = fcpl;
+    test_attr_dtype_shared();	// Test using shared datatypes in attributes
 
-        // Wrappers for ..._shared_mesg_nindexes are not available, skip
-        // use_shared test
+    test_string_attr();		// Test read/write string attribute
+    test_attr_exists();		// Test H5Location::attrExists
 
-        // Loop over using new group format
-        hbool_t new_format;
-        for (new_format = FALSE; new_format <= TRUE; new_format++)
-        {
-            FileAccPropList curr_fapl;
-
-            // Set the file access proplist for the type of format
-            if (new_format)
-            {
-	    MESSAGE(7, ("testing with new file format\n"));
-	    curr_fapl = fapl_new;
-            }
-            else
-            {
-	    MESSAGE(7, ("testing with old file format\n"));
-	    curr_fapl = fapl;
-            }
-
-            test_attr_basic_write();	// Test basic H5A writing code
-            test_attr_getname();	// Test overloads of Attribute::getName
-            test_attr_rename();		// Test renaming attribute
-            test_attr_basic_read(); 	// Test basic H5A reading code
-
-            test_attr_compound_write();	// Test complex datatype H5A writing code
-            test_attr_compound_read();	// Test complex datatype H5A reading code
-
-            test_attr_scalar_write();	// Test scalar dataspace H5A writing code
-            test_attr_scalar_read();	// Test scalar dataspace H5A reading code
-
-            test_attr_mult_write();	// Test writing multiple attributes
-            test_attr_mult_read();	// Test reading multiple attributes
-            test_attr_delete();		// Test deleting attributes
-
-            test_attr_dtype_shared();	// Test using shared datatypes in attributes
-
-            test_string_attr();		// Test read/write string attribute
-            test_attr_exists();		// Test H5Location::attrExists
-
-            // Test with new format
-            if (new_format)
-            {
-		// Test dense attribute storage creation
-                test_attr_dense_create(fcpl, curr_fapl);
-
-		// Test create objects with attribute creation info
-                test_attr_corder_create_basic(fcpl, curr_fapl);
-            }
-        } // end for
-    } // end try block
-
-    catch (Exception& E)
-    {
-	issue_fail_msg("test_attr()", __LINE__, __FILE__, E.getCDetailMsg());
-    }
 }   // test_attr()
 
 /*-------------------------------------------------------------------------
@@ -1893,6 +1628,5 @@ void cleanup_attr()
     HDremove(FILE_SCALAR.c_str());
     HDremove(FILE_MULTI.c_str());
     HDremove(FILE_DTYPE.c_str());
-    HDremove(FILE_CRTPROPS.c_str());
 }
 

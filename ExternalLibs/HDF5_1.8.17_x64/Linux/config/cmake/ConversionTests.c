@@ -1,7 +1,19 @@
-#ifdef H5_LDOUBLE_TO_LONG_SPECIAL_TEST
+#ifdef H5_FP_TO_INTEGER_OVERFLOW_WORKS_TEST
 
-#include <string.h>
-#include <stdlib.h>
+int main(void)
+{
+    float  f = 2147483648.0f;
+    int    i;
+
+    i = (int)f;
+
+done:
+    exit(0);
+}
+
+#endif
+
+#ifdef H5_LDOUBLE_TO_LONG_SPECIAL_TEST
 
 int main(void)
 {
@@ -60,9 +72,6 @@ done:
 #endif
 
 #ifdef H5_LONG_TO_LDOUBLE_SPECIAL_TEST
-
-#include <string.h>
-#include <stdlib.h>
 
 int main(void)
 {
@@ -123,10 +132,6 @@ done:
 #endif
 
 #ifdef H5_LDOUBLE_TO_LLONG_ACCURATE_TEST
-
-#include <string.h>
-#include <stdlib.h>
-
 int main(void)
 {
     long double         ld = 20041683600089727.779961L;
@@ -166,10 +171,6 @@ done:
 #endif
 
 #ifdef H5_LLONG_TO_LDOUBLE_CORRECT_TEST
-
-#include <string.h>
-#include <stdlib.h>
-
 int main(void)
 {
     long double         ld;

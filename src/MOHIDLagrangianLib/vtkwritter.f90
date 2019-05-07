@@ -19,7 +19,7 @@
     !> Tracers. Supports scalar and vectorial data.
     !------------------------------------------------------------------------------
 
-    module vtkwritter_mod
+    module vtkWritter_mod
 
     use common_modules
     use vtk_fortran
@@ -126,7 +126,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> indexes a given file with a correct time stamp in a paraview readable xml format.
-    !> @param[in] self, filename, timestap
+    !> @param[in] self, filename, timestamp
     !---------------------------------------------------------------------------
     subroutine IndexVTKFile(self, filename, timestamp)
     class(vtkwritter_class), intent(inout) :: self
@@ -263,4 +263,4 @@
 
     end subroutine Domain
 
-    end module vtkwritter_mod
+    end module vtkWritter_mod

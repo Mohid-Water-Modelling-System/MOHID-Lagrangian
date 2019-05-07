@@ -1,0 +1,678 @@
+\hypertarget{namespacenetcdfparser__mod}{}\section{netcdfparser\+\_\+mod Module Reference}
+\label{namespacenetcdfparser__mod}\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+
+
+Module that defines a netcdf file model class, responsible for abstracting the parsing of netcdf files. Each object of this class is responsible for one file, effectivelly representing it. The object should return the necessary data fields with corresponding meta data, such as names and units. An variable library is consulted when required, because even Net\+C\+DF CF compliance allows ambiguity.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{dim\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em A class that models a netcdf file. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structnetcdfparser__mod_1_1var__t}{var\+\_\+t}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a57c39a4003778a6bf90cfd36b69380bc}{getfile}} (self, filename)
+\begin{DoxyCompactList}\small\item\em Parse the netcdf file headers and assembles the file model. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a741dd5b5985255e73aa9d3cf08755e91}{getncid}} (self)
+\begin{DoxyCompactList}\small\item\em Opens the netcdf file, assigns the N\+C\+ID and checks for errors. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a409f59662d71fb63e5fb5e057fdfd6ee}{getncglobalmetadata}} (self)
+\begin{DoxyCompactList}\small\item\em Inquires the nc file for global metadata -\/ number of dimensions, variables and attributes. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a46989199271acb6205cc61ac413d5a56}{getncvarmetadata}} (self)
+\begin{DoxyCompactList}\small\item\em Inquires the nc file for variable metadata. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a6354ee8b3c773cc7a5ad247ad1e34eeb}{getncdimmetadata}} (self)
+\begin{DoxyCompactList}\small\item\em Inquires the nc file for dimension metadata. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec}{getvardimensions}} (self, var\+Name, dims\+Arrays)
+\begin{DoxyCompactList}\small\item\em Reads the dimension fields from the nc file for a given variable. returns an array of scalar 1D fields, each with a name, units and data. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a1f59a93ed593b1f4670d2c62fa9d5949}{getvar}} (self, var\+Name, var\+Field)
+\begin{DoxyCompactList}\small\item\em Reads the fields from the nc file for a given variable. returns a generic field, with a name, units and data. \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{dim\+\_\+t}}) function \mbox{\hyperlink{namespacenetcdfparser__mod_a5fcd4b7fb27dbc9befd0a6fcfb9929a1}{getdimbydimid}} (self, dim\+ID)
+\begin{DoxyCompactList}\small\item\em returns a dimension field metadata structure, given a dim\+ID \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a518627511cac4bf3dbc338bf3bfd5e24}{closefile}} (self)
+\begin{DoxyCompactList}\small\item\em Close the netcdf file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_ae1a034f6540ac7a1ce7d0e3831bb2f03}{check}} (self)
+\begin{DoxyCompactList}\small\item\em Debug the netcdf error after a netcdf command. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_aeb48d33c014bae21b2fceaaa70cbdc67}{printncinfo}} (self)
+\begin{DoxyCompactList}\small\item\em prints most of the file model metadata \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a6b57fa47d7bd796c75483216a51e5e04}{printvarsnc}} (self)
+\begin{DoxyCompactList}\small\item\em print variable metadata \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_ac01c000a97d23613684155708249ce89}{printdimsnc}} (self)
+\begin{DoxyCompactList}\small\item\em print dimensions metadata \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_af93319fde6cf6baedb7fe27bf3396e7b}{correctnctime}} (time\+Comments, time\+Array)
+\begin{DoxyCompactList}\small\item\em corrects the time array to a more efficient format if needed. assumes netcdf comment as \textquotesingle{}seconds since 1981-\/01-\/01 00\+:00\+:00\textquotesingle{} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module that defines a netcdf file model class, responsible for abstracting the parsing of netcdf files. Each object of this class is responsible for one file, effectivelly representing it. The object should return the necessary data fields with corresponding meta data, such as names and units. An variable library is consulted when required, because even Net\+C\+DF CF compliance allows ambiguity. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa Paz 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_ae1a034f6540ac7a1ce7d0e3831bb2f03}\label{namespacenetcdfparser__mod_ae1a034f6540ac7a1ce7d0e3831bb2f03}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!check@{check}}
+\index{check@{check}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{check()}{check()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::check (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Debug the netcdf error after a netcdf command. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa Paz -\/ U\+SC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 355 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+355     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+356     \textcolor{keywordtype}{type}(string) :: outext
+357     \textcolor{keywordflow}{if}(self%status /= nf90\_noerr) \textcolor{keywordflow}{then}
+358         outext = \textcolor{stringliteral}{'[NetCDFparser::check]: '}//trim(nf90\_strerror(self%status))//\textcolor{stringliteral}{', stoping'}
+359         \textcolor{keyword}{call }log%put(outext)
+360         stop
+361 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a518627511cac4bf3dbc338bf3bfd5e24}\label{namespacenetcdfparser__mod_a518627511cac4bf3dbc338bf3bfd5e24}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!closefile@{closefile}}
+\index{closefile@{closefile}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{closefile()}{closefile()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::closefile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Close the netcdf file. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa Paz -\/ U\+SC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 343 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+343     \textcolor{keywordtype}{class}(ncfile\_class),\textcolor{keywordtype}{intent(inout)} :: self
+344     self%status = nf90\_close(self%ncID)
+345     \textcolor{keyword}{call }self%check()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_af93319fde6cf6baedb7fe27bf3396e7b}\label{namespacenetcdfparser__mod_af93319fde6cf6baedb7fe27bf3396e7b}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!correctnctime@{correctnctime}}
+\index{correctnctime@{correctnctime}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{correctnctime()}{correctnctime()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::correctnctime (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{time\+Comments,  }\item[{real(prec), dimension(\+:), intent(inout)}]{time\+Array }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+corrects the time array to a more efficient format if needed. assumes netcdf comment as \textquotesingle{}seconds since 1981-\/01-\/01 00\+:00\+:00\textquotesingle{} 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em time\+Comments,time\+Array} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 434 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+434     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: timeComments
+435     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: timeArray
+436     \textcolor{keywordtype}{integer} :: i
+437     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable} :: dc(:), dates(:), hours(:)
+438     \textcolor{keywordtype}{type}(string) :: isoDateStr
+439     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(6)} :: date
+440     \textcolor{keywordtype}{type}(datetime) :: NCDate
+441     \textcolor{keywordtype}{type}(timedelta) :: dateOffset
+442     \textcolor{keywordtype}{type}(string) :: outext
+443     \textcolor{keywordtype}{real(prec)} :: scale, offset
+444     
+445     \textcolor{keyword}{call }timecomments%split(tokens=dc, sep=\textcolor{stringliteral}{' '})
+446     \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(dc) == 4) \textcolor{keywordflow}{then}
+447         scale = 1.0
+448         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'seconds'}) scale = 1.0
+449         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'hours'})   scale = 3600.0
+450         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'days'})    scale = 3600.0*24.0
+451         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'months'})  scale = 3600.0*24.0*30.0 \textcolor{comment}{!really hope no one gets such a brilliant idea as
+       to use this as a time unit}
+452         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'years'})   scale = 3600.0*24.0*30.0*12.0 \textcolor{comment}{!or this}
+453         \textcolor{keyword}{call }dc(3)%split(tokens=dates, sep=\textcolor{stringliteral}{'-'})
+454         \textcolor{keyword}{call }dc(4)%split(tokens=hours, sep=\textcolor{stringliteral}{':'})
+455         isodatestr = dates(1)//\textcolor{stringliteral}{' '}//dates(2)//\textcolor{stringliteral}{' '}//dates(3)//\textcolor{stringliteral}{' '}//hours(1)//\textcolor{stringliteral}{' '}//hours(2)//\textcolor{stringliteral}{' '}//hours(3)
+456         date = utils%getDateFromISOString(isodatestr)
+457         ncdate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+458         dateoffset = globals%SimTime%StartDate - ncdate
+459         offset = -dateoffset%total\_seconds()
+460         
+461         timearray = timearray*scale + offset
+462         
+463     \textcolor{keywordflow}{else}
+464         outext = \textcolor{stringliteral}{'[NetCDF parser::correctNCTime]:WARNING - Time units is not in the format *seconds since
+       1981-01-01 00:00:00*, you might have some problems in a few moments...'}
+465         \textcolor{keyword}{call }log%put(outext)
+466 \textcolor{keywordflow}{    end if}  
+467     
+\end{DoxyCode}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacenetcdfparser__mod_af93319fde6cf6baedb7fe27bf3396e7b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a5fcd4b7fb27dbc9befd0a6fcfb9929a1}\label{namespacenetcdfparser__mod_a5fcd4b7fb27dbc9befd0a6fcfb9929a1}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getdimbydimid@{getdimbydimid}}
+\index{getdimbydimid@{getdimbydimid}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getdimbydimid()}{getdimbydimid()}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{dim\+\_\+t}}) function netcdfparser\+\_\+mod\+::getdimbydimid (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{dim\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns a dimension field metadata structure, given a dim\+ID 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,dim\+ID} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 313 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+313     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+314     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dimID
+315     \textcolor{keywordtype}{integer} :: i
+316     \textcolor{keywordtype}{logical} :: found
+317     \textcolor{keywordtype}{type}(string) :: outext
+318 
+319     found = .false.
+320     \textcolor{keywordflow}{do} i=1, self%nDims
+321         \textcolor{keywordflow}{if} (dimid == self%dimData(i)%dimid) \textcolor{keywordflow}{then}
+322             found = .true.
+323             getdimbydimid = self%dimData(i)
+324             \textcolor{keywordflow}{return}
+325 \textcolor{keywordflow}{        end if}
+326 \textcolor{keywordflow}{    end do}
+327     \textcolor{keywordflow}{if} (.not.found) \textcolor{keywordflow}{then}
+328         outext = dimid
+329         outext = \textcolor{stringliteral}{'[NetCDFparser::getDimByDimID]: dimension with ID='}//outext//\textcolor{stringliteral}{' not found. Stopping'}
+330         \textcolor{keyword}{call }log%put(outext)
+331         stop
+332 \textcolor{keywordflow}{    end if}
+333 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a57c39a4003778a6bf90cfd36b69380bc}\label{namespacenetcdfparser__mod_a57c39a4003778a6bf90cfd36b69380bc}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getfile@{getfile}}
+\index{getfile@{getfile}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getfile()}{getfile()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Parse the netcdf file headers and assembles the file model. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,filename} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 100 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+100     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+101     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+102     \textcolor{keywordtype}{integer} :: i
+103     self%filename = filename
+104     \textcolor{keyword}{call }self%getNCid()
+105     \textcolor{keyword}{call }self%getNCglobalMetadata()
+106     \textcolor{keyword}{call }self%getNCVarMetadata()
+107     \textcolor{keyword}{call }self%getNCDimMetadata()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a6354ee8b3c773cc7a5ad247ad1e34eeb}\label{namespacenetcdfparser__mod_a6354ee8b3c773cc7a5ad247ad1e34eeb}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncdimmetadata@{getncdimmetadata}}
+\index{getncdimmetadata@{getncdimmetadata}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getncdimmetadata()}{getncdimmetadata()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getncdimmetadata (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Inquires the nc file for dimension metadata. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 177 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+177     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+178     \textcolor{keywordtype}{integer} :: i, j, dimLength
+179     \textcolor{keywordtype}{character(CHAR\_LEN)} :: dimName
+180     \textcolor{keyword}{allocate}(self%dimData(self%nDims))
+181     \textcolor{keywordflow}{do} i=1, self%nDims
+182         self%status = nf90\_inquire\_dimension(self%ncID, i, dimname, dimlength)
+183         \textcolor{keyword}{call }self%check()
+184         self%dimData(i)%name = trim(dimname)
+185         self%dimData(i)%simName = globals%Var%getVarSimName(self%dimData(i)%name)
+186         self%dimData(i)%length = dimlength
+187         self%status = nf90\_inq\_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
+188         \textcolor{keyword}{call }self%check()
+189         \textcolor{keywordflow}{do} j=1, self%nVars
+190             \textcolor{keywordflow}{if} (self%dimData(i)%name == self%varData(j)%name) \textcolor{keywordflow}{then}
+191                 self%dimData(i)%units = self%varData(j)%units
+192                 self%dimData(i)%varid = self%varData(j)%varid
+193                 \textcolor{keywordflow}{exit}
+194 \textcolor{keywordflow}{            end if}
+195 \textcolor{keywordflow}{        end do}
+196 \textcolor{keywordflow}{    end do}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a409f59662d71fb63e5fb5e057fdfd6ee}\label{namespacenetcdfparser__mod_a409f59662d71fb63e5fb5e057fdfd6ee}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncglobalmetadata@{getncglobalmetadata}}
+\index{getncglobalmetadata@{getncglobalmetadata}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getncglobalmetadata()}{getncglobalmetadata()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getncglobalmetadata (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Inquires the nc file for global metadata -\/ number of dimensions, variables and attributes. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 130 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+130     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+131     self%status = nf90\_inquire(self%ncID, self%nDims, self%nVars, self%nAtt, self%uDimID)
+132     \textcolor{keyword}{call }self%check()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a741dd5b5985255e73aa9d3cf08755e91}\label{namespacenetcdfparser__mod_a741dd5b5985255e73aa9d3cf08755e91}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncid@{getncid}}
+\index{getncid@{getncid}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getncid()}{getncid()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getncid (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Opens the netcdf file, assigns the N\+C\+ID and checks for errors. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa Paz -\/ U\+SC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 117 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+117     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+118     self%status = nf90\_open(trim(self%filename%chars()), nf90\_nowrite, self%ncID)
+119     \textcolor{keyword}{call }self%check()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a46989199271acb6205cc61ac413d5a56}\label{namespacenetcdfparser__mod_a46989199271acb6205cc61ac413d5a56}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncvarmetadata@{getncvarmetadata}}
+\index{getncvarmetadata@{getncvarmetadata}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getncvarmetadata()}{getncvarmetadata()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getncvarmetadata (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Inquires the nc file for variable metadata. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 142 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+142     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+143     \textcolor{keywordtype}{integer} :: i, j, ndims, nAtts
+144     \textcolor{keywordtype}{integer} :: dimids(self%nDims)
+145     \textcolor{keywordtype}{integer} :: tempStatus
+146     \textcolor{keywordtype}{character(CHAR\_LEN)} :: varName, units
+147     \textcolor{keyword}{allocate}(self%varData(self%nVars))
+148     \textcolor{keywordflow}{do} i=1, self%nVars
+149         self%status = nf90\_inquire\_variable(self%ncID, i, varname, ndims=ndims, dimids=dimids, natts=natts)
+150         \textcolor{keyword}{call }self%check()
+151         self%varData(i)%name = trim(varname)
+152         self%varData(i)%simName = globals%Var%getVarSimName(self%varData(i)%name)
+153         self%varData(i)%varid = i
+154         self%varData(i)%ndims = ndims
+155         \textcolor{keyword}{allocate}(self%varData(i)%dimids(ndims))
+156         self%varData(i)%dimids = dimids(1:ndims)
+157         self%varData(i)%nAtts = natts
+158         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{'units'}, units)
+159         \textcolor{keywordflow}{if} (tempstatus == -43) units = \textcolor{stringliteral}{"not set"}
+160         self%varData(i)%units = trim(units)
+161         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"scale\_factor"}, self%varData(i)%scale)
+162         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%scale = 1.0
+163         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"add\_offset"}, self%varData(i)%offset)
+164         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%offset = 0.0
+165         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"\_FillValue"}, self%varData(i)%fillvalue)
+166         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%fillvalue = 0.0
+167 \textcolor{keywordflow}{    end do}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a1f59a93ed593b1f4670d2c62fa9d5949}\label{namespacenetcdfparser__mod_a1f59a93ed593b1f4670d2c62fa9d5949}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getvar@{getvar}}
+\index{getvar@{getvar}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getvar()}{getvar()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getvar (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var\+Name,  }\item[{type(generic\+\_\+field\+\_\+class), intent(out)}]{var\+Field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Reads the fields from the nc file for a given variable. returns a generic field, with a name, units and data. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,var\+Name,var\+Field} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 259 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+259     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+260     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: varName
+261     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(out)} :: varField
+262     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: tempRealField1D
+263     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: tempRealField3D
+264     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: tempRealField4D
+265     \textcolor{keywordtype}{type}(string) :: dimName, varUnits
+266     \textcolor{keywordtype}{integer} :: i, j, k
+267     \textcolor{keywordtype}{type}(dim\_t) :: tempDim
+268     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: varShape
+269     \textcolor{keywordtype}{type}(string) :: outext
+270 
+271     \textcolor{keywordflow}{do} i=1, self%nVars \textcolor{comment}{!going trough all variables}
+272         \textcolor{keywordflow}{if} (self%varData(i)%simName == varname ) \textcolor{keywordflow}{then}   \textcolor{comment}{!found the requested var}
+273             \textcolor{keyword}{allocate}(varshape(self%varData(i)%ndims))
+274             \textcolor{keywordflow}{do} j=1, self%varData(i)%ndims   \textcolor{comment}{!going trough all of the variable dimensions}
+275                 tempdim = self%getDimByDimID(self%varData(i)%dimids(j))
+276                 varshape(j) = tempdim%length
+277 \textcolor{keywordflow}{            end do}
+278             \textcolor{keywordflow}{if}(self%varData(i)%ndims == 3) \textcolor{keywordflow}{then} \textcolor{comment}{!3D variable}
+279                 \textcolor{keyword}{allocate}(temprealfield3d(varshape(1),varshape(2),varshape(3)))
+280                 self%status = nf90\_get\_var(self%ncID, self%varData(i)%varid, temprealfield3d)
+281                 \textcolor{keyword}{call }self%check()
+282                 temprealfield3d = temprealfield3d*self%varData(i)%scale + self%varData(i)%offset \textcolor{comment}{! scale +
+       offset transform}
+283                 \textcolor{keywordflow}{where} (temprealfield3d == self%varData(i)%fillvalue)
+284                     temprealfield3d = 0.0
+285 \textcolor{keywordflow}{                end where}
+286                 \textcolor{keyword}{call }varfield%initialize(varname, self%varData(i)%units, temprealfield3d)
+287             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(self%varData(i)%ndims == 4) \textcolor{keywordflow}{then} \textcolor{comment}{!4D variable}
+288                 \textcolor{keyword}{allocate}(temprealfield4d(varshape(1),varshape(2),varshape(3),varshape(4)))
+289                 self%status = nf90\_get\_var(self%ncID, self%varData(i)%varid, temprealfield4d)
+290                 \textcolor{keyword}{call }self%check()
+291                 temprealfield4d = temprealfield4d*self%varData(i)%scale + self%varData(i)%offset
+292                 \textcolor{keywordflow}{where} (temprealfield4d == self%varData(i)%fillvalue)
+293                     temprealfield4d = 0.0
+294 \textcolor{keywordflow}{                end where}
+295                 \textcolor{keyword}{call }varfield%initialize(varname, self%varData(i)%units, temprealfield4d)
+296             \textcolor{keywordflow}{else}
+297                 outext = \textcolor{stringliteral}{'[NetCDFparser::getVar]: Variable '}//varname//\textcolor{stringliteral}{' has a non-supported
+       dimensionality. Stopping'}
+298                 \textcolor{keyword}{call }log%put(outext)
+299                 stop
+300 \textcolor{keywordflow}{            end if}
+301 \textcolor{keywordflow}{        end if}
+302 \textcolor{keywordflow}{    end do}
+303 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec}\label{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getvardimensions@{getvardimensions}}
+\index{getvardimensions@{getvardimensions}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getvardimensions()}{getvardimensions()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getvardimensions (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var\+Name,  }\item[{type(scalar1d\+\_\+field\+\_\+class), dimension(\+:), intent(out), allocatable}]{dims\+Arrays }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Reads the dimension fields from the nc file for a given variable. returns an array of scalar 1D fields, each with a name, units and data. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,var\+Name,dims\+Arrays} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 207 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+207     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+208     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: varName
+209     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(out)} :: dimsArrays
+210     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: tempRealArray, tempRealArrayDelta
+211     \textcolor{keywordtype}{type}(string) :: dimName, dimUnits
+212     \textcolor{keywordtype}{integer} :: i, j, k, l
+213 
+214     \textcolor{keywordflow}{do} i=1, self%nVars \textcolor{comment}{!going trough all variables}
+215         \textcolor{keywordflow}{if} (self%varData(i)%simName == varname) \textcolor{keywordflow}{then}   \textcolor{comment}{!found the requested var}
+216             \textcolor{keyword}{allocate}(dimsarrays(self%varData(i)%ndims)) \textcolor{comment}{!allocating output fields}
+217             \textcolor{keywordflow}{do} j=1, self%varData(i)%ndims   \textcolor{comment}{!going trough all of the variable dimensions}
+218                 \textcolor{keywordflow}{do} k=1, self%nDims  \textcolor{comment}{!going trough all available dimensions of the file}
+219                     \textcolor{keywordflow}{if} (self%varData(i)%dimids(j) == self%dimData(k)%dimid) \textcolor{keywordflow}{then}    \textcolor{comment}{!found a corresponding
+       dimension between the variable and the file}
+220                         \textcolor{keyword}{allocate}(temprealarray(self%dimData(k)%length)) \textcolor{comment}{!allocating a place to read the
+       field data to}
+221                         dimname = self%dimData(k)%simName
+222                         dimunits = self%dimData(k)%units
+223                         self%status = nf90\_get\_var(self%ncID, self%dimData(k)%varid, temprealarray)
+224                         \textcolor{keyword}{call }self%check()
+225                         \textcolor{comment}{!need to check for 'level' variable specific issues}
+226                         \textcolor{keywordflow}{if} (dimname == globals%Var%level) \textcolor{keywordflow}{then}
+227                             \textcolor{keyword}{allocate}(temprealarraydelta(self%dimData(k)%length - 1))
+228                             \textcolor{keywordflow}{do} l=1, self%dimData(k)%length - 1
+229                                 temprealarraydelta(l) = temprealarray(l+1)-temprealarray(l)
+230 \textcolor{keywordflow}{                            end do}
+231                             self%dimData(k)%reverse = all(temprealarraydelta < 0) \textcolor{comment}{! 1st Tricky solution:
+       needs explanation [@Daniel]}
+232                             \textcolor{keywordflow}{if} ((self%dimData(k)%reverse .eqv. .true.) .or. all(temprealarray >=0) ) \textcolor{keywordflow}{then} \textcolor{comment}{
+      !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for
+       now it stays}
+233                                 temprealarray = - temprealarray
+234 \textcolor{keywordflow}{                            end if}
+235 \textcolor{keywordflow}{                        end if}
+236                         \textcolor{comment}{!need to check for 'time' variable specific issues}
+237                         \textcolor{keywordflow}{if} (dimname == globals%Var%time) \textcolor{keywordflow}{then}
+238                             \textcolor{keyword}{call }correctnctime(dimunits, temprealarray)
+239 \textcolor{keywordflow}{                        end if}
+240                         \textcolor{keyword}{call }dimsarrays(j)%initialize(dimname, dimunits, 1, temprealarray)
+241                         \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(temprealarray)) \textcolor{keyword}{deallocate}(temprealarray)
+242                         \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(temprealarraydelta)) \textcolor{keyword}{deallocate}(temprealarraydelta)
+243 \textcolor{keywordflow}{                    end if}
+244 \textcolor{keywordflow}{                end do}
+245 \textcolor{keywordflow}{            end do}
+246 \textcolor{keywordflow}{        end if}
+247 \textcolor{keywordflow}{    end do}
+248 
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_ac01c000a97d23613684155708249ce89}\label{namespacenetcdfparser__mod_ac01c000a97d23613684155708249ce89}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!printdimsnc@{printdimsnc}}
+\index{printdimsnc@{printdimsnc}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{printdimsnc()}{printdimsnc()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::printdimsnc (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{dim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+print dimensions metadata 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 413 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+413     \textcolor{keywordtype}{class}(dim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+414     \textcolor{keywordtype}{type}(string) :: outext, temp
+415     outext = \textcolor{stringliteral}{'--->Dimension: '}// self%name //new\_line(\textcolor{stringliteral}{'a'})
+416     temp = self%dimid
+417     outext = outext//\textcolor{stringliteral}{'       dimid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+418     temp = self%varid
+419     outext = outext//\textcolor{stringliteral}{'       varid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+420     outext = outext//\textcolor{stringliteral}{'       units = '}//self%units//new\_line(\textcolor{stringliteral}{'a'})
+421     temp = self%length
+422     outext = outext//\textcolor{stringliteral}{'       lenght = '}//temp
+423     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_aeb48d33c014bae21b2fceaaa70cbdc67}\label{namespacenetcdfparser__mod_aeb48d33c014bae21b2fceaaa70cbdc67}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!printncinfo@{printncinfo}}
+\index{printncinfo@{printncinfo}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{printncinfo()}{printncinfo()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::printncinfo (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+prints most of the file model metadata 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa Paz -\/ U\+SC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 371 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+371     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+372     \textcolor{keywordtype}{type}(string) :: outext, temp
+373     outext = \textcolor{stringliteral}{'-->Reading NetCDF file '}//self%filename%chars()//new\_line(\textcolor{stringliteral}{'a'})
+374     temp = self%ncid
+375     outext = outext//\textcolor{stringliteral}{'       file ID = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+376     temp = self%nDims
+377     outext = outext//\textcolor{stringliteral}{'       Number of dimensions = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+378     temp = self%nVars
+379     outext = outext//\textcolor{stringliteral}{'       Number of variable fields = '}//temp
+380     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacenetcdfparser__mod_a6b57fa47d7bd796c75483216a51e5e04}\label{namespacenetcdfparser__mod_a6b57fa47d7bd796c75483216a51e5e04}} 
+\index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!printvarsnc@{printvarsnc}}
+\index{printvarsnc@{printvarsnc}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{printvarsnc()}{printvarsnc()}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::printvarsnc (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1var__t}{var\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+print variable metadata 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 390 of file netcdf\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+390     \textcolor{keywordtype}{class}(var\_t), \textcolor{keywordtype}{intent(inout)} :: self
+391     \textcolor{keywordtype}{type}(string) :: outext, temp
+392     \textcolor{keywordtype}{integer} :: i
+393     outext = \textcolor{stringliteral}{'--->Variable: '}// self%name //new\_line(\textcolor{stringliteral}{'a'})
+394     temp = self%varid
+395     outext = outext//\textcolor{stringliteral}{'       varid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+396     outext = outext//\textcolor{stringliteral}{'       units = '}//self%units//new\_line(\textcolor{stringliteral}{'a'})
+397     temp = self%dimids(1)
+398     outext = outext//\textcolor{stringliteral}{'       dimids = '}//temp
+399     \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(self%dimids)
+400         temp = self%dimids(i)
+401         outext = outext//\textcolor{stringliteral}{', '}//temp
+402 \textcolor{keywordflow}{    end do}
+403     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}

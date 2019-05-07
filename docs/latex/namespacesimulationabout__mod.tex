@@ -1,0 +1,149 @@
+\hypertarget{namespacesimulationabout__mod}{}\section{simulationabout\+\_\+mod Module Reference}
+\label{namespacesimulationabout__mod}\index{simulationabout\+\_\+mod@{simulationabout\+\_\+mod}}
+
+
+Module to print version, licence, preambles.  
+
+
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine, public \mbox{\hyperlink{namespacesimulationabout__mod_a4248c37e1b337cda7226a41aac346761}{printlicpreamble}}
+\begin{DoxyCompactList}\small\item\em Public licence and preamble printer routine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(string) \mbox{\hyperlink{namespacesimulationabout__mod_ab3a538e4f741e6ea5be60e667a966fda}{version}}
+\item 
+type(string) \mbox{\hyperlink{namespacesimulationabout__mod_a64b9a218dda33c3c5abdf4503b71e8a4}{author}}
+\item 
+type(string) \mbox{\hyperlink{namespacesimulationabout__mod_ab8debffcb94d9718e06501a71218ef26}{date}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to print version, licence, preambles. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationabout__mod_a4248c37e1b337cda7226a41aac346761}\label{namespacesimulationabout__mod_a4248c37e1b337cda7226a41aac346761}} 
+\index{simulationabout\+\_\+mod@{simulationabout\+\_\+mod}!printlicpreamble@{printlicpreamble}}
+\index{printlicpreamble@{printlicpreamble}!simulationabout\+\_\+mod@{simulationabout\+\_\+mod}}
+\subsubsection{\texorpdfstring{printlicpreamble()}{printlicpreamble()}}
+{\footnotesize\ttfamily subroutine, public simulationabout\+\_\+mod\+::printlicpreamble (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Public licence and preamble printer routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 44 of file simulation\+About.\+f90.
+
+
+\begin{DoxyCode}
+44     \textcolor{keywordtype}{implicit none}
+45     \textcolor{keywordtype}{type}(string) :: outext
+46 
+47     version  =\textcolor{stringliteral}{"v0.4"}
+48     author   =\textcolor{stringliteral}{"R. Birjukovs Canelas"}
+49     date     =\textcolor{stringliteral}{"24-04-2019"}
+50 
+51     outext = \textcolor{stringliteral}{' \_\_  \_\_  \_\_\_  \_   \_ \_\_\_ \_\_\_\_  \_                                      \_              '}//
+      new\_line(\textcolor{stringliteral}{'a'})//&
+52         \textcolor{stringliteral}{' |  \(\backslash\)/  |/ \_ \(\backslash\)| | | |\_ \_|  \_ \(\backslash\)| |    \_\_ \_  \_\_ \_ \_ \_\_ \_\_ \_ \_ \_\_   \_\_ \_(\_) \_\_ \_ \_ \_\_  '}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+53         \textcolor{stringliteral}{' | |\(\backslash\)/| | | | | |\_| || || | | | |   / \_` |/ \_` | \_\_/  \_` |  \_ \(\backslash\) / \_` | |/ \_` |  \_ \(\backslash\) '}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+54         \textcolor{stringliteral}{' | |  | | |\_| |  \_  || || |\_| | |\_\_| (\_| | (\_| | | | (\_| | | | | (\_| | | (\_| | | | |'}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+55         \textcolor{stringliteral}{' |\_|  |\_|\(\backslash\)\_\_\_/|\_| |\_|\_\_\_|\_\_\_\_/|\_\_\_\_\_\(\backslash\)\_\_,\_|\(\backslash\)\_\_, |\_|  \(\backslash\)\_\_,\_|\_| |\_|\(\backslash\)\_\_, |\_|\(\backslash\)\_\_,\_|\_| |\_|'}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+56         \textcolor{stringliteral}{'                                          |\_\_\_/                 |\_\_\_/               '}//new\_line(\textcolor{stringliteral}{
+      'a'})//&
+57 
+58         \textcolor{stringliteral}{'  <MOHIDLagrangian> Copyright (C) 2018 by'}//new\_line(\textcolor{stringliteral}{'a'})//&
+59         \textcolor{stringliteral}{'  R. Birjukovs Canelas'}//new\_line(\textcolor{stringliteral}{'a'})//&
+60         \textcolor{stringliteral}{'  MARETEC - Research Centre for Marine, Environment and Technology'}//new\_line(\textcolor{stringliteral}{'a'})//&
+61         \textcolor{stringliteral}{'  University of Lisbon - IST'}//new\_line(\textcolor{stringliteral}{'a'})//&
+62         \textcolor{stringliteral}{'  A. Daniel Garaboa'}//new\_line(\textcolor{stringliteral}{'a'})//&
+63         \textcolor{stringliteral}{'  Non-Linear Physics Group - University of Santiago de Compostela, Spain'}//new\_line(\textcolor{stringliteral}{'a'})//&
+64         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+65         \textcolor{stringliteral}{'  MOHID Lagrangian is free software: you can redistribute it and/or'}//new\_line(\textcolor{stringliteral}{'a'})//&
+66         \textcolor{stringliteral}{'  modify it under the terms of the GNU General Public License as'}//new\_line(\textcolor{stringliteral}{'a'})//&
+67         \textcolor{stringliteral}{'  published by the Free Software Foundation, either version 3 of'}//new\_line(\textcolor{stringliteral}{'a'})//&
+68         \textcolor{stringliteral}{'  the License, or (at your option) any later version.'}//new\_line(\textcolor{stringliteral}{'a'})//&
+69         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+70         \textcolor{stringliteral}{'  MOHID Lagrangian is distributed WITHOUT ANY WARRANTY; without even'}//new\_line(\textcolor{stringliteral}{'a'})//&
+71         \textcolor{stringliteral}{'  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR'}//new\_line(\textcolor{stringliteral}{'a'})//&
+72         \textcolor{stringliteral}{'  PURPOSE. See the GNU General Public License for more details.'}//new\_line(\textcolor{stringliteral}{'a'})//&
+73         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+74         \textcolor{stringliteral}{'  You should have received a copy of the GNU General Public License,'}//new\_line(\textcolor{stringliteral}{'a'})//&
+75         \textcolor{stringliteral}{'  along with MOHID Lagrangian. If not, see <http://www.gnu.org/licenses/>.,'}//new\_line(\textcolor{stringliteral}{'a'})//&
+76         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+77         \textcolor{stringliteral}{''}//new\_line(\textcolor{stringliteral}{'a'})//&
+78         \textcolor{stringliteral}{'MOHID Lagrangian '}//version//\textcolor{stringliteral}{' ('}//author//\textcolor{stringliteral}{') ('}//date//\textcolor{stringliteral}{')'}//new\_line(\textcolor{stringliteral}{'a'})//&
+79         \textcolor{stringliteral}{'====================================================================='}
+80 
+81     \textcolor{keyword}{call }log%put(outext,.false.)
+82 
+\end{DoxyCode}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulationabout__mod_a4248c37e1b337cda7226a41aac346761_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesimulationabout__mod_a64b9a218dda33c3c5abdf4503b71e8a4}\label{namespacesimulationabout__mod_a64b9a218dda33c3c5abdf4503b71e8a4}} 
+\index{simulationabout\+\_\+mod@{simulationabout\+\_\+mod}!author@{author}}
+\index{author@{author}!simulationabout\+\_\+mod@{simulationabout\+\_\+mod}}
+\subsubsection{\texorpdfstring{author}{author}}
+{\footnotesize\ttfamily type(string) simulationabout\+\_\+mod\+::author\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 31 of file simulation\+About.\+f90.
+
+
+\begin{DoxyCode}
+31     \textcolor{keywordtype}{type}(string) :: author
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationabout__mod_ab8debffcb94d9718e06501a71218ef26}\label{namespacesimulationabout__mod_ab8debffcb94d9718e06501a71218ef26}} 
+\index{simulationabout\+\_\+mod@{simulationabout\+\_\+mod}!date@{date}}
+\index{date@{date}!simulationabout\+\_\+mod@{simulationabout\+\_\+mod}}
+\subsubsection{\texorpdfstring{date}{date}}
+{\footnotesize\ttfamily type(string) simulationabout\+\_\+mod\+::date\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 32 of file simulation\+About.\+f90.
+
+
+\begin{DoxyCode}
+32     \textcolor{keywordtype}{type}(string) :: date
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationabout__mod_ab3a538e4f741e6ea5be60e667a966fda}\label{namespacesimulationabout__mod_ab3a538e4f741e6ea5be60e667a966fda}} 
+\index{simulationabout\+\_\+mod@{simulationabout\+\_\+mod}!version@{version}}
+\index{version@{version}!simulationabout\+\_\+mod@{simulationabout\+\_\+mod}}
+\subsubsection{\texorpdfstring{version}{version}}
+{\footnotesize\ttfamily type(string) simulationabout\+\_\+mod\+::version\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 30 of file simulation\+About.\+f90.
+
+
+\begin{DoxyCode}
+30     \textcolor{keywordtype}{type}(string) :: version
+\end{DoxyCode}
