@@ -3,6 +3,8 @@ anim/
 Anim/
 hdf5/
 
+ExternalLibs/
+
 .vscode
 
 .DS_Store
