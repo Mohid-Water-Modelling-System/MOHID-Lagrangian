@@ -7,6 +7,7 @@ datetime_dir=datetime-fortran
 csv_dir=fortran-csv-module
 fox_dir=fox
 zlib_dir=zlib-1.2.11
+#curl_dir=curl-7.26.0
 hdf5_dir=HDF5_1.8.17_x64/Linux
 netcdfc_dir=Netcdf_4.4.1.1/Linux
 netcdff_dir=netcdf-fortran-4.4.4
@@ -84,6 +85,13 @@ mkdir build
 make install || exit
 cd $root_libs_dir
 
+# cd $curl_dir
+# make clean
+# mkdir build
+# ./configure --prefix=$root_libs_dir/$curl_dir/build || exit
+# make install || exit
+# cd $root_libs_dir
+
 cd $hdf5_dir
 make clean
 ./configure --with-zlib=$root_libs_dir/$zlib_dir/build --enable-fortran --enable-fortran2003 --disable-shared || exit
@@ -95,7 +103,7 @@ make clean
 mkdir build
 export CPPFLAGS="-I$root_libs_dir/$hdf5_dir/hdf5/include -I$root_libs_dir/$zlib_dir/build/include" 
 export LDFLAGS="-L$root_libs_dir/$hdf5_dir/hdf5/lib -L$root_libs_dir/$zlib_dir/build/lib"  
-./configure --enable-netcdf-4 --prefix=$root_libs_dir/$netcdfc_dir/build || exit
+./configure --enable-netcdf-4 --prefix=$root_libs_dir/$netcdfc_dir/build --disable-dap || exit
 make install || exit
 cd $root_libs_dir
 
@@ -117,7 +125,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NETCDF_LIB
 export CPPFLAGS="$CPPFLAGS -I$NETCDF_INC"
 export LDFLAGS="$LDFLAGS -L$NETCDF_LIB"
 mkdir build
-./configure --prefix=$root_libs_dir/$netcdff_dir/build || exit
+./configure --prefix=$root_libs_dir/$netcdff_dir/build --disable-dap || exit
 make install || exit
 cd $root_libs_dir
 
