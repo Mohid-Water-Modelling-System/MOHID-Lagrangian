@@ -244,6 +244,7 @@
     call testbackground%add(gfield3)
     
     !call testbackground%print()
+    !print*, testbackground%getDimExtents(Globals%Var%time)
 
     end subroutine makeRealVel
 
