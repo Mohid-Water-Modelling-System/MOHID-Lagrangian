@@ -469,7 +469,7 @@
     !> @brief
     !> Method that returns the field's maximum value (scalar)
     !---------------------------------------------------------------------------
-    real function getFieldMaxBound(self)
+    real(prec) function getFieldMaxBound(self)
     class(field_class), intent(in) :: self
     type(string) :: outext
     select type(self)
@@ -496,7 +496,7 @@
     !> @brief
     !> Method that returns the field's minimum value (scalar)
     !---------------------------------------------------------------------------
-    real function getFieldMinBound(self)
+    real(prec) function getFieldMinBound(self)
     class(field_class), intent(in) :: self
     type(string) :: outext
     select type(self)
