@@ -43,9 +43,14 @@
     contains
     procedure :: add => addField
     procedure :: getDimIndex
+    procedure :: getDimExtents
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
+    !get hyperslab
+    !sum in time
+    !clean by dimension range
+
     procedure :: test
     procedure :: print => printBackground
     end type background_class
@@ -122,6 +127,22 @@
         stop
     end if    
     end function getDimIndex
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns two reals, min and max of a given dimension
+    !> @param[in] self, name
+    !---------------------------------------------------------------------------
+    function getDimExtents(self, name) result(dimExtent)
+    class(background_class), intent(in) :: self
+    type(string), intent(in) :: name
+    integer i
+    real(prec) :: dimExtent(2)
+    i = self%getDimIndex(name)
+    dimExtent(1) = self%dim(i)%getFieldMinBound()
+    dimExtent(2) = self%dim(i)%getFieldMaxBound()
+    end function getDimExtents
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
