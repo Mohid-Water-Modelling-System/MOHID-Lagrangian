@@ -1,7 +1,6 @@
 build/
 anim/
 Anim/
-hdf5/
 
 ExternalLibs/
 
@@ -16,3 +15,7 @@ ExternalLibs/
 *.lo
 *.ol
 *.pyc
+Makefile
+*.h
+*.Po
+*.log
