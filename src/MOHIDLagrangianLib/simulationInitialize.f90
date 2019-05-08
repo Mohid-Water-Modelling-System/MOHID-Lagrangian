@@ -39,12 +39,42 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Private input data files metadata xml parser routine.
+    !> @param[in] xmlfilename
+    !---------------------------------------------------------------------------
+    subroutine init_inputFiles(xmlfilename)
+    type(string) :: xmlfilename
+    type(Node), pointer :: xmlInputs           !< .xml file handle
+    type(Node), pointer :: fileNode
+    type(NodeList), pointer :: fileList
+    type(string) :: tag, att_name, outext
+    type(string), allocatable, dimension(:) :: fileNames
+    integer :: i
+
+    call XMLReader%getFile(xmlInputs,xmlfilename)
+    !Go to the materials node
+    tag = "file_collection"
+    call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
+    fileList => getElementsByTagname(xmlInputs, "file")       !searching for tags with the 'namingfile' name
+    allocate(fileNames(getLength(fileList)))
+    do i = 0, getLength(fileList) - 1
+        fileNode => item(fileList, i)
+        tag="name"
+        att_name="value"
+        call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+    end do
+    call Globals%setInputFileNames(fileNames)
+    end subroutine init_inputFiles
+
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Private property xml parser routine. Reads the properties tab from the xml
     !> file and links these to the corresponding Source
     !> @param[in] linksNode
     !---------------------------------------------------------------------------
     subroutine linkPropertySources(linksNode)
-    implicit none
     type(Node), intent(in), pointer :: linksNode
 
     type(NodeList), pointer :: linkList
@@ -114,7 +144,6 @@
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_properties(case_node)
-    implicit none
     type(Node), intent(in), pointer :: case_node
 
     type(Node), pointer :: props_node          !< Single properties block to process
@@ -147,7 +176,6 @@
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_naming(case_node)
-    implicit none
     type(Node), intent(in), pointer :: case_node
 
     type(Node), pointer :: naming_node          !< Single naming block to process
@@ -453,6 +481,9 @@
     Globals%Names%casename = xmlfilename%basename(extension='.xml')
     outext='->Case name is '//Globals%Names%casename
     call Log%put(outext)
+    Globals%Names%inputsXmlFilename = Globals%Names%outpath//xmlfilename%basename(extension='.xml')//'_inputs.xml'
+    outext='->Input files index file name is '//Globals%Names%inputsXmlFilename
+    call Log%put(outext)
 
     tag="case"          !base document node
     call XMLReader%gotoNode(xmldoc,execution_node,tag)
@@ -471,6 +502,7 @@
     call init_sources(case_node)
     call init_properties(case_node)
     call init_naming(case_node)
+    call init_inputFiles(Globals%Names%inputsXmlFilename)
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads

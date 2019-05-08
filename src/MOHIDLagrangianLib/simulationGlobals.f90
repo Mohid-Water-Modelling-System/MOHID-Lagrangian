@@ -55,7 +55,6 @@
         type(datetime)  :: EndTime                   !< End date of the simulation
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
         integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
-        integer         :: InputFormat = 1           !< Format of the Input files (default=1) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
     contains
@@ -95,6 +94,8 @@
     type :: filenames_t    !<File names class
         type(string) :: mainxmlfilename     !< Input .xml file name
         type(string) :: propsxmlfilename    !< Properties .xml file name
+        type(string) :: inputsXmlFilename   !< .xml file name with metadata on input files
+        type(string), allocatable, dimension(:) :: inputFile   !< File names of input data
         type(string), allocatable, dimension(:) :: namingfilename   !< File names of the naming convention .xml files
         type(string) :: tempfilename        !< Generic temporary file name
         type(string) :: outpath             !< General output directory
@@ -176,6 +177,7 @@
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
     procedure, public :: setNamingConventions
+    procedure, public :: setInputFileNames
     procedure :: setVarNames
     procedure :: setDimNames
     procedure :: setCurrVar
@@ -366,6 +368,16 @@
 
     end function getVarSimName
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> set the name of the input data files
+    !---------------------------------------------------------------------------
+    subroutine setInputFileNames(self, filenames)
+    class(globals_class), intent(inout) :: self
+    type(string), dimension(:), intent(in) :: filenames
+    allocate(self%Names%inputFile, source = filenames)
+    end subroutine setInputFileNames
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
