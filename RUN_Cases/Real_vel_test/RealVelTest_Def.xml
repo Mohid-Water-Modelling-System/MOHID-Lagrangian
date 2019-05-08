@@ -39,6 +39,9 @@
 	<naming>      
       <namingfile name="nc_library.xml"/>
     </naming>
+    <inputData>      
+      <inputDataDir name="nc_fields"/>
+    </inputData>
   </casedef>
   <execution>
     <parameters>
