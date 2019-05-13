@@ -116,6 +116,7 @@
     procedure :: initS1D, initS2D, initS3D, initS4D
     procedure :: initV2D, initV3D, initV4D
     generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
+    procedure :: compare
     procedure :: print => printGenericField
     end type generic_field_class
 
@@ -126,6 +127,29 @@
 
     contains
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that compares the metadata of a scalar 1D field to the object field
+    !> @param[in] self, name, units, field
+    !---------------------------------------------------------------------------
+    logical function compare(self, gfield) result(comp)
+    class(generic_field_class), intent(inout) :: self
+    class(generic_field_class), intent(in) :: gfield
+    type(string) :: outext
+    comp = .true.
+    if (self%name /= gfield%name) comp = .false.
+    if (self%units /= gfield%units) comp = .false. !might be asking too much...
+    if (self%dim /= gfield%dim) comp = .false.
+    if (allocated(self%scalar1d%field) .and. .not. allocated(gfield%scalar1d%field)) comp = .false.
+    if (allocated(self%scalar2d%field) .and. .not. allocated(gfield%scalar2d%field)) comp = .false.
+    if (allocated(self%scalar3d%field) .and. .not. allocated(gfield%scalar3d%field)) comp = .false.
+    if (allocated(self%scalar4d%field) .and. .not. allocated(gfield%scalar4d%field)) comp = .false.
+    if (allocated(self%vectorial2d%field) .and. .not. allocated(gfield%vectorial2d%field)) comp = .false.
+    if (allocated(self%vectorial3d%field) .and. .not. allocated(gfield%vectorial3d%field)) comp = .false.
+    if (allocated(self%vectorial4d%field) .and. .not. allocated(gfield%vectorial4d%field)) comp = .false.
+    end function compare
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
