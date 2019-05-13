@@ -28,15 +28,15 @@
     implicit none
     private
 
-    type :: inputFileModel_class
-        type(string) :: name
-        real(prec) :: startTime
-        real(prec) :: endTime
+    type :: inputFileModel_class !< Input file model class
+        type(string) :: name        !< name of the file
+        real(prec) :: startTime     !< starting time of the data on the file
+        real(prec) :: endTime       !< ending time of the data on the file
     end type inputFileModel_class
 
-    type :: input_streamer_class !< Input Streamer class
+    type :: input_streamer_class        !< Input Streamer class
         type(inputFileModel_class), allocatable, dimension(:) :: inputFileModel !< array of input file metadata
-        real(prec) :: buffer_size   !< half of the biggest tail of data behind current time
+        real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
     contains
     procedure :: initialize => initInputStreamer
     procedure :: print => printInputStreamer
@@ -50,7 +50,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Initializes the Input writer object, imports metadata on input files
+    !> Initializes the input writer object, imports metadata on input files
     !---------------------------------------------------------------------------
     subroutine initInputStreamer(self)
     class(input_streamer_class), intent(inout) :: self
@@ -91,7 +91,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Prints the Input writer object, and metadata on input files
+    !> Prints the input writer object and metadata on input files
     !---------------------------------------------------------------------------
     subroutine printInputStreamer(self)
     class(input_streamer_class), intent(in) :: self
