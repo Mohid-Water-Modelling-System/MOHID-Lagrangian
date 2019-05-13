@@ -1,6 +1,8 @@
 build/
 anim/
 Anim/
+RUN_Cases/Atlantic/
+RUN_Cases/Real_vel_test_Cefas/
 
 ExternalLibs/
 
