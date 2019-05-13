@@ -29,7 +29,7 @@
     private
 
     type :: output_streamer_class       !< Output Streamer class
-        real(prec) :: OutputFrequency = MV      !< Output frequency to write simulation outputs
+        real(prec) :: OutputIntervalTime = MV      !< Output interval to write simulation outputs
         real(prec) :: LastWriteTime = MV        !< Time stamp of the last output write
         integer :: OutputFormat = -1            !< Switch for output format
         type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
@@ -95,7 +95,7 @@
     logical function CheckWriteTime(self)
     class(output_streamer_class), intent(inout) :: self
     CheckWriteTime = .false.
-    if ((Globals%SimTime%CurrTime - self%LastWriteTime) >= 1.0/self%OutputFrequency) CheckWriteTime = .true.
+    if ((Globals%SimTime%CurrTime - self%LastWriteTime) >= self%OutputIntervalTime) CheckWriteTime = .true.
     if (Globals%SimTime%CurrTime == 0.0) CheckWriteTime = .true.
     end function CheckWriteTime
 
@@ -107,7 +107,7 @@
     subroutine initOutputStreamer(self)
     class(output_streamer_class), intent(inout) :: self
     self%OutputFormat = Globals%Parameters%OutputFormat
-    self%OutputFrequency = Globals%Parameters%TimeOut
+    self%OutputIntervalTime = Globals%Parameters%OutputWriteTime
     self%LastWriteTime = Globals%SimTime%CurrTime
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()

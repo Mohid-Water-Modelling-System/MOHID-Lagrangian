@@ -50,7 +50,7 @@
         integer         :: numOPMthreads             !< number of openMP threads to be used
         real(prec)      :: WarmUpTime = 0.0          !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
         real(prec)      :: TimeMax = MV              !< Simulation duration (s)
-        real(prec)      :: TimeOut = MV              !< Time out data (1/Hz)
+        real(prec)      :: OutputWriteTime = MV              !< Output write time (1/Hz)
         type(datetime)  :: StartTime                 !< Start date of the simulation
         type(datetime)  :: EndTime                   !< End date of the simulation
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
@@ -209,7 +209,7 @@
     self%Parameters%IntegratorNames(3) = 'Runge-Kuta 4'
     self%Parameters%numOPMthreads = OMPManager%getThreads()
     self%Parameters%WarmUpTime = 0.0
-    self%Parameters%TimeOut = MV
+    self%Parameters%OutputWriteTime = MV
     self%Parameters%StartTime = datetime()
     self%Parameters%EndTime = datetime()
     self%Parameters%BaseDateTime = datetime(1950,1,1,0,0,0)
@@ -672,9 +672,9 @@
     elseif(parmkey%chars()=="WarmUpTime") then
         self%WarmUpTime=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%WarmUpTime)
-    elseif(parmkey%chars()=="TimeOut") then
-        self%TimeOut=parmvalue%to_number(kind=1._R4P)
-        sizem=sizeof(self%TimeOut)
+    elseif(parmkey%chars()=="OutputWriteTime") then
+        self%OutputWriteTime=parmvalue%to_number(kind=1._R4P)
+        sizem=sizeof(self%OutputWriteTime)
     elseif(parmkey%chars()=="StartTime") then
         date = Utils%getDateFromISOString(parmvalue)
         self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
@@ -729,8 +729,8 @@
     end if
     temp = datetime() !default initialization
     !add new parameters to this search
-    if (self%TimeOut==MV) then
-        outext = '[Globals::parameters::check]: sampling rate parameter (TimeOut) is not set, stoping'
+    if (self%OutputWriteTime==MV) then
+        outext = '[Globals::parameters::check]: Output sampling rate parameter (OutputWriteTime) is not set, stoping'
         call Log%put(outext)
         stop
     elseif (self%StartTime==temp) then
@@ -764,8 +764,8 @@
     outext = outext//'       OMP threads = '//temp_str//new_line('a')
     temp_str=self%WarmUpTime
     outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
-    temp_str=self%TimeOut
-    outext = outext//'       TimeOut = '//temp_str//' Hz'//new_line('a')
+    temp_str=self%OutputWriteTime
+    outext = outext//'       OutputWriteTime = '//temp_str//' Hz'//new_line('a')
     outext = outext//'       Output file format is '//self%OutputFormatNames(self%OutputFormat)
     call Log%put(outext,.false.)
     end subroutine

@@ -31,15 +31,15 @@
     implicit none
     private
 
-    type :: inputFileModel_class
-        type(string) :: name
-        real(prec) :: startTime
-        real(prec) :: endTime
+    type :: inputFileModel_class !< Input file model class
+        type(string) :: name        !< name of the file
+        real(prec) :: startTime     !< starting time of the data on the file
+        real(prec) :: endTime       !< ending time of the data on the file
     end type inputFileModel_class
 
-    type :: input_streamer_class !< Input Streamer class
+    type :: input_streamer_class        !< Input Streamer class
         type(inputFileModel_class), allocatable, dimension(:) :: inputFileModel !< array of input file metadata
-        real(prec) :: buffer_size   !< half of the biggest tail of data behind current time
+        real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
     contains
     procedure :: initialize => initInputStreamer
     procedure :: getFullFile
@@ -78,7 +78,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Initializes the Input writer object, imports metadata on input files
+    !> Initializes the input writer object, imports metadata on input files
     !---------------------------------------------------------------------------
     subroutine initInputStreamer(self)
     class(input_streamer_class), intent(inout) :: self
@@ -119,15 +119,15 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Prints the Input writer object, and metadata on input files
+    !> Prints the input writer object and metadata on input files
     !---------------------------------------------------------------------------
     subroutine printInputStreamer(self)
     class(input_streamer_class), intent(in) :: self
     type(string) :: outext, temp_str
     integer :: i
-
-    outext = '-->Input Streamer stack:'//new_line('a')
+    outext = '-->Input Streamer stack:'
     do i=1, size(self%inputFileModel)
+        outext = outext//new_line('a')
         outext = outext//'--->File '//self%inputFileModel(i)%name//new_line('a')
         temp_str=self%inputFileModel(i)%startTime
         outext = outext//'      Starting time is '//temp_str//' s'//new_line('a')
@@ -135,7 +135,6 @@
         outext = outext//'      Ending time is   '//temp_str//' s'
     end do
     call Log%put(outext,.false.)
-
     end subroutine printInputStreamer
 
     end module simulationInputStreamer_mod

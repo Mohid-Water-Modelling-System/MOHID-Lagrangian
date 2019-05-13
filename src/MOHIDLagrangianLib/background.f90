@@ -44,11 +44,11 @@
     procedure :: add => addField
     procedure :: getDimIndex
     procedure :: getDimExtents
+    procedure :: append => appendFieldByTime
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
     !get hyperslab
-    !sum in time
     !clean by dimension range
 
     procedure :: test
@@ -71,7 +71,6 @@
     !> @param[in] self, gfield
     !---------------------------------------------------------------------------
     subroutine addField(self, gfield)
-    implicit none
     class(background_class), intent(inout) :: self
     type(generic_field_class), intent(in) :: gfield
     if (allocated(gfield%scalar1d%field)) call self%fields%add(gfield%scalar1d)
@@ -90,7 +89,6 @@
     !> @param[in] id, name, extents, dims
     !---------------------------------------------------------------------------
     function constructor(id, name, extents, dims)
-    implicit none
     type(background_class) :: constructor
     integer, intent(in) :: id
     type(string), intent(in) :: name
@@ -100,7 +98,7 @@
     call constructor%setExtents(extents)
     call constructor%setDims(dims)
     end function constructor
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -110,7 +108,7 @@
     integer function getDimIndex(self, name)
     class(background_class), intent(in) :: self
     type(string), intent(in) :: name
-    integer i
+    integer :: i
     type(string) :: outext
     logical found
     found = .false.
@@ -125,7 +123,7 @@
         outext = '[background_class::getDimIndex]: Field dimensions dont contain a field called '// name //', stoping'
         call Log%put(outext)
         stop
-    end if    
+    end if
     end function getDimIndex
 
     !---------------------------------------------------------------------------
@@ -137,12 +135,51 @@
     function getDimExtents(self, name) result(dimExtent)
     class(background_class), intent(in) :: self
     type(string), intent(in) :: name
-    integer i
+    integer :: i
     real(prec) :: dimExtent(2)
     i = self%getDimIndex(name)
     dimExtent(1) = self%dim(i)%getFieldMinBound()
     dimExtent(2) = self%dim(i)%getFieldMaxBound()
     end function getDimExtents
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> appends a given field to a matching field in the Background object's
+    !> field list, if possible
+    !> @param[in] self, gfield
+    !---------------------------------------------------------------------------
+    subroutine appendFieldByTime(self, gfield, dims)
+    class(background_class), intent(inout) :: self
+    type(generic_field_class), intent(in) :: gfield
+    type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    class(*), pointer :: aField
+    type(string) :: outext
+    logical :: comparableFieldData
+    
+    !check that dimensions are compatible
+    !spacial dims must be the same, temporal must be consecutive
+    
+    !check that fields are compatible
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values to print
+        aField => self%fields%currentValue()
+        select type(aField)
+        class is (generic_field_class)
+            if (aField%compare(gfield)) then
+                !append the field
+                
+            end if
+            class default
+            outext = '[Background::appendFieldByTime] Unexepected type of content, not a Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+    end do
+    call self%fields%reset()               ! reset list iterator
+    
+    end subroutine appendFieldByTime
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -268,7 +305,6 @@
     !---------------------------------------------------------------------------
     subroutine print_fieldList(this)
     class(fieldsList_class), intent(in) :: this
-    class(*), pointer :: curr
     call this%reset()               ! reset list iterator
     do while(this%moreValues())     ! loop while there are values to print
         call this%printCurrent()
