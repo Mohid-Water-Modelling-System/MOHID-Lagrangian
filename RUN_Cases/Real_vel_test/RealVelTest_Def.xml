@@ -22,20 +22,7 @@
           <size x="100000" y="100000" z="1.0" units_comment="metres (m)"/>
         </box>
       </source>
-      <!-- <source>
-        <setsource id="1" name="Litter_plastic" />
-        <rate value="0.01" comment="Emission rate (Hz)" />
-        <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-        <point x="-8.95" y="42.25" z="-10.0" units_comment="(deg,deg,m)"/>
-      </source>  -->  
-    </sourcedef>    
-    <!-- <properties>
-      <links>
-        <link source="1" type='plastic' property="expanded_polysryrene_12" comment="" />
-        <link source="18" type='paper' property="cardboard_1" comment="" />
-      </links>
-      <propertyfile name="Material_props.xml"/>
-    </properties> -->
+    </sourcedef>
 	<naming>      
       <namingfile name="nc_library.xml"/>
     </naming>
@@ -49,7 +36,7 @@
 	  <parameter key="Threads" value="1" comment="Computation threads for shared memory computation (default=auto)" />      
       <parameter key="StartTime" value="2018 9 5 00 00 0" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
       <parameter key="EndTime"   value="2018 9 6 15 00 0" comment="Date of final instant" units_comment="ISO format" />
-      <parameter key="TimeOut" value="1.1" comment="Time out data (1/Hz)" units_comment="seconds" />
+      <parameter key="OutputWriteTime" value="1000" comment="Time out data (1/Hz)" units_comment="seconds" />
 	  <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
     </parameters>
   </execution>
