@@ -137,10 +137,14 @@
     real(prec), intent(in), dimension(:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar1d%field)) then
-        stop '[generic_field_class::initialize]: scalar 1D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 1D field already allocated'
+        call Log%put(outext)
+        stop
     else
         call self%scalar1d%initialize(name, units, 1, field)
+        call self%setFieldMetadata(name, units, 1)
     end if
     end subroutine initS1D
 
@@ -155,10 +159,14 @@
     real(prec), intent(in), dimension(:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar2d%field)) then
-        stop '[generic_field_class::initialize]: scalar 2D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 2D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%scalar2d%initialize(name, units, 2, field)
+        call self%setFieldMetadata(name, units, 2)
     end if
     end subroutine initS2D
 
@@ -173,10 +181,14 @@
     real(prec), intent(in), dimension(:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar3d%field)) then
-        stop '[generic_field_class::initialize]: scalar 3D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 3D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%scalar3d%initialize(name, units, 3, field)
+        call self%setFieldMetadata(name, units, 3)
     end if
     end subroutine initS3D
 
@@ -191,10 +203,14 @@
     real(prec), intent(in), dimension(:,:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar4d%field)) then
-        stop '[generic_field_class::initialize]: scalar 4D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 4D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%scalar4d%initialize(name, units, 4, field)
+        call self%setFieldMetadata(name, units, 4)
     end if
     end subroutine initS4D
 
@@ -209,10 +225,14 @@
     type(vector), intent(in), dimension(:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%vectorial2d%field)) then
-        stop '[generic_field_class::initialize]: vectorial 2D field already allocated'
+        outext = '[generic_field_class::initialize]: vectorial 2D field already allocated'
+        call Log%put(outext)
+        stop       
     else
         call self%vectorial2d%initialize(name, units, 2, field)
+        call self%setFieldMetadata(name, units, 2)
     end if
     end subroutine initV2D
 
@@ -227,10 +247,14 @@
     type(vector), intent(in), dimension(:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%vectorial3d%field)) then
-        stop '[generic_field_class::initialize]: vectorial 3D field already allocated'
+        outext = '[generic_field_class::initialize]: vectorial 3D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%vectorial3d%initialize(name, units, 3, field)
+        call self%setFieldMetadata(name, units, 3)
     end if
     end subroutine initV3D
 
@@ -245,10 +269,14 @@
     type(vector), intent(in), dimension(:,:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%vectorial4d%field)) then
-        stop '[generic_field_class::initialize]: vectorial 4D field already allocated'
+        outext = '[generic_field_class::initialize]: vectorial 4D field already allocated'
+        call Log%put(outext)
+        stop 
     else
         call self%vectorial4d%initialize(name, units, 4, field)
+        call self%setFieldMetadata(name, units, 4)
     end if
     end subroutine initV4D
 
