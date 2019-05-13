@@ -97,9 +97,9 @@
     class(input_streamer_class), intent(in) :: self
     type(string) :: outext, temp_str
     integer :: i
-
-    outext = '-->Input Streamer stack:'//new_line('a')
+    outext = '-->Input Streamer stack:'
     do i=1, size(self%inputFileModel)
+        outext = outext//new_line('a')
         outext = outext//'--->File '//self%inputFileModel(i)%name//new_line('a')
         temp_str=self%inputFileModel(i)%startTime
         outext = outext//'      Starting time is '//temp_str//' s'//new_line('a')
@@ -107,7 +107,6 @@
         outext = outext//'      Ending time is   '//temp_str//' s'
     end do
     call Log%put(outext,.false.)
-
     end subroutine printInputStreamer
 
     end module simulationInputStreamer_mod
