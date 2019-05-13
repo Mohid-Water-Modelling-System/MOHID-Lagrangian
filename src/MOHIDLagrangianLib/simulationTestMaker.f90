@@ -217,10 +217,7 @@
     type(background_class), intent(inout) :: testbackground
     type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
     type(generic_field_class) :: gfield1, gfield2,gfield3
-    !type(nc_class),dimension(3) :: nc_input_file
-    type(string) :: name, units
-    
-    
+    type(string) :: name
     type(ncfile_class) :: ncFile
     type(string) :: ncFileName
     integer :: i
@@ -232,10 +229,6 @@
     call ncFile%getVar(Globals%Var%v, gfield2)
     call ncFile%getVar(Globals%Var%w, gfield3)
     call ncFile%finalize()
-    !do i=1, size(testbackgroundims_alt)
-    !    call testbackgroundims_alt(i)%print()
-    !end do
-    !call gfield1%print()
    
     name = 'Real surface velocity field'
     testbackground = Background(1, name, testbox, testbackgroundims)
