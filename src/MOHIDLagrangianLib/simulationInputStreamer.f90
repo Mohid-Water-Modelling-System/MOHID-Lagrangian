@@ -22,6 +22,9 @@
 
     use common_modules
     use xmlParser_mod
+    use netcdfParser_mod
+    use fieldTypes_mod
+    use background_mod
 
     use FoX_dom
 
@@ -39,6 +42,7 @@
         real(prec) :: buffer_size   !< half of the biggest tail of data behind current time
     contains
     procedure :: initialize => initInputStreamer
+    procedure :: getFullFile
     procedure :: print => printInputStreamer
     end type input_streamer_class
 
@@ -46,6 +50,30 @@
     public :: input_streamer_class
 
     contains
+
+    type(background_class) function getFullFile(self, nfile)
+    class(input_streamer_class), intent(in) :: self
+    integer, intent(in) :: nfile
+    type(ncfile_class) :: ncFile
+    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
+    type(generic_field_class) :: gfield1, gfield2, gfield3
+    type(string) :: name
+    type(box) :: extents
+
+    call ncFile%initialize(self%inputFileModel(nfile)%name)
+    call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
+    call ncFile%getVar(Globals%Var%u, gfield1)
+    call ncFile%getVar(Globals%Var%v, gfield2)
+    call ncFile%getVar(Globals%Var%w, gfield3)
+    call ncFile%finalize()
+
+    name = self%inputFileModel(nfile)%name%basename(strip_last_extension=.true.)
+    getFullFile = Background(nfile, name, extents, backgrounDims)
+    call getFullFile%add(gfield1)
+    call getFullFile%add(gfield2)
+    call getFullFile%add(gfield3)
+
+    end function getFullFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
