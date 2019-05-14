@@ -190,6 +190,9 @@
         call Log%put(outext)
         stop
     endif
+    !Initializing input file streamer
+    call self%InputStreamer%initialize()
+    call self%InputStreamer%print()
     !Case was read and now we can build/initialize our simulation objects that are case-dependent
     !initilize simulation bounding box
     call BBox%initialize()

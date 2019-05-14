@@ -43,9 +43,14 @@
     contains
     procedure :: add => addField
     procedure :: getDimIndex
+    procedure :: getDimExtents
+    procedure :: append => appendFieldByTime
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
+    !get hyperslab
+    !clean by dimension range
+
     procedure :: test
     procedure :: print => printBackground
     end type background_class
@@ -66,7 +71,6 @@
     !> @param[in] self, gfield
     !---------------------------------------------------------------------------
     subroutine addField(self, gfield)
-    implicit none
     class(background_class), intent(inout) :: self
     type(generic_field_class), intent(in) :: gfield
     if (allocated(gfield%scalar1d%field)) call self%fields%add(gfield%scalar1d)
@@ -85,7 +89,6 @@
     !> @param[in] id, name, extents, dims
     !---------------------------------------------------------------------------
     function constructor(id, name, extents, dims)
-    implicit none
     type(background_class) :: constructor
     integer, intent(in) :: id
     type(string), intent(in) :: name
@@ -95,17 +98,18 @@
     call constructor%setExtents(extents)
     call constructor%setDims(dims)
     end function constructor
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the index of a given dimension by it's name
-    !> @param[in] self, name
+    !> @param[in] self, name, mandatory
     !---------------------------------------------------------------------------
-    integer function getDimIndex(self, name)
+    integer function getDimIndex(self, name, mandatory)
     class(background_class), intent(in) :: self
     type(string), intent(in) :: name
-    integer i
+    logical, optional, intent(in) :: mandatory
+    integer :: i
     type(string) :: outext
     logical found
     found = .false.
@@ -116,12 +120,99 @@
             return
         end if
     end do
-    if (.not. found) then
-        outext = '[background_class::getDimIndex]: Field dimensions dont contain a field called '// name //', stoping'
-        call Log%put(outext)
-        stop
-    end if    
+    if (present(mandatory)) then
+        if (mandatory) then            
+            if (.not. found) then
+                outext = '[background_class::getDimIndex]: Field dimensions dont contain a field called '// name //', stoping'
+                call Log%put(outext)
+                stop
+            end if
+        else 
+            getDimIndex = MV_INT
+        end if
+    end if
     end function getDimIndex
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns two reals, min and max of a given dimension
+    !> @param[in] self, name, mandatory
+    !---------------------------------------------------------------------------
+    function getDimExtents(self, name, mandatory) result(dimExtent)
+    class(background_class), intent(in) :: self
+    type(string), intent(in) :: name
+    logical, optional, intent(in) :: mandatory
+    logical :: mand
+    integer :: i
+    real(prec) :: dimExtent(2)
+    mand = .true.
+    if (present(mandatory)) mand = mandatory
+    i = self%getDimIndex(name, mand)
+    if ( i/= MV_INT) then
+        dimExtent(1) = self%dim(i)%getFieldMinBound()
+        dimExtent(2) = self%dim(i)%getFieldMaxBound()
+    else
+        dimExtent(1) = MV
+        dimExtent(2) = MV
+    end if
+    end function getDimExtents
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> appends a given field to a matching field in the Background object's
+    !> field list, if possible
+    !> @param[in] self, gfield, dims
+    !---------------------------------------------------------------------------
+    subroutine appendFieldByTime(self, gfield, dims)
+    class(background_class), intent(inout) :: self
+    type(generic_field_class), intent(in) :: gfield
+    type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    class(*), pointer :: aField
+    type(string) :: outext
+    integer :: i, j
+    
+    logical :: comparableFieldData
+    logical :: comparableDimensionData
+    
+    comparableDimensionData = .false.
+    !check that dimensions are compatible
+    !spacial dims must be the same, temporal must be consecutive
+    if (size(self%dim) == size(dims)) then !ammount of dimensions is the same
+        do i = 1, size(dims)
+            j = self%getDimIndex(dims(i)%name) !getting the same dimension for the fields
+            if (dims(i)%name /= Globals%Var%time) then  !dimension is not 'time'
+                if (size(dims(i)%field) == size(self%dim(j)%field)) then !size of the arrays is the same                    
+                    comparableDimensionData = all(dims(i)%field == self%dim(j)%field)  !dimensions array is the same                    
+                end if
+            else
+                comparableDimensionData = all(dims(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
+            end if
+        end do
+    end if
+    if (.not.comparableDimensionData) return
+    
+    !check that fields are compatible
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values to print
+        aField => self%fields%currentValue()
+        select type(aField)
+        class is (generic_field_class)
+            if (aField%compare(gfield)) then
+                !append the field
+                
+            end if
+            class default
+            outext = '[Background::appendFieldByTime] Unexepected type of content, not a Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+    end do
+    call self%fields%reset()               ! reset list iterator
+    
+    end subroutine appendFieldByTime
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -247,7 +338,6 @@
     !---------------------------------------------------------------------------
     subroutine print_fieldList(this)
     class(fieldsList_class), intent(in) :: this
-    class(*), pointer :: curr
     call this%reset()               ! reset list iterator
     do while(this%moreValues())     ! loop while there are values to print
         call this%printCurrent()

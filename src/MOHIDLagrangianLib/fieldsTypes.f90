@@ -116,6 +116,7 @@
     procedure :: initS1D, initS2D, initS3D, initS4D
     procedure :: initV2D, initV3D, initV4D
     generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
+    procedure :: compare
     procedure :: print => printGenericField
     end type generic_field_class
 
@@ -129,6 +130,29 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method that compares the metadata of a scalar 1D field to the object field
+    !> @param[in] self, name, units, field
+    !---------------------------------------------------------------------------
+    logical function compare(self, gfield) result(comp)
+    class(generic_field_class), intent(inout) :: self
+    class(generic_field_class), intent(in) :: gfield
+    type(string) :: outext
+    comp = .true.
+    if (self%name /= gfield%name) comp = .false.
+    if (self%units /= gfield%units) comp = .false. !might be asking too much...
+    if (self%dim /= gfield%dim) comp = .false.
+    if (allocated(self%scalar1d%field) .and. .not. allocated(gfield%scalar1d%field)) comp = .false.
+    if (allocated(self%scalar2d%field) .and. .not. allocated(gfield%scalar2d%field)) comp = .false.
+    if (allocated(self%scalar3d%field) .and. .not. allocated(gfield%scalar3d%field)) comp = .false.
+    if (allocated(self%scalar4d%field) .and. .not. allocated(gfield%scalar4d%field)) comp = .false.
+    if (allocated(self%vectorial2d%field) .and. .not. allocated(gfield%vectorial2d%field)) comp = .false.
+    if (allocated(self%vectorial3d%field) .and. .not. allocated(gfield%vectorial3d%field)) comp = .false.
+    if (allocated(self%vectorial4d%field) .and. .not. allocated(gfield%vectorial4d%field)) comp = .false.
+    end function compare
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Method that allocates and initializes a scalar 1D field in a generic field
     !> @param[in] self, name, units, field
     !---------------------------------------------------------------------------
@@ -137,10 +161,14 @@
     real(prec), intent(in), dimension(:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar1d%field)) then
-        stop '[generic_field_class::initialize]: scalar 1D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 1D field already allocated'
+        call Log%put(outext)
+        stop
     else
         call self%scalar1d%initialize(name, units, 1, field)
+        call self%setFieldMetadata(name, units, 1)
     end if
     end subroutine initS1D
 
@@ -155,10 +183,14 @@
     real(prec), intent(in), dimension(:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar2d%field)) then
-        stop '[generic_field_class::initialize]: scalar 2D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 2D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%scalar2d%initialize(name, units, 2, field)
+        call self%setFieldMetadata(name, units, 2)
     end if
     end subroutine initS2D
 
@@ -173,10 +205,14 @@
     real(prec), intent(in), dimension(:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar3d%field)) then
-        stop '[generic_field_class::initialize]: scalar 3D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 3D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%scalar3d%initialize(name, units, 3, field)
+        call self%setFieldMetadata(name, units, 3)
     end if
     end subroutine initS3D
 
@@ -191,10 +227,14 @@
     real(prec), intent(in), dimension(:,:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%scalar4d%field)) then
-        stop '[generic_field_class::initialize]: scalar 4D field already allocated'
+        outext = '[generic_field_class::initialize]: scalar 4D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%scalar4d%initialize(name, units, 4, field)
+        call self%setFieldMetadata(name, units, 4)
     end if
     end subroutine initS4D
 
@@ -209,10 +249,14 @@
     type(vector), intent(in), dimension(:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%vectorial2d%field)) then
-        stop '[generic_field_class::initialize]: vectorial 2D field already allocated'
+        outext = '[generic_field_class::initialize]: vectorial 2D field already allocated'
+        call Log%put(outext)
+        stop       
     else
         call self%vectorial2d%initialize(name, units, 2, field)
+        call self%setFieldMetadata(name, units, 2)
     end if
     end subroutine initV2D
 
@@ -227,10 +271,14 @@
     type(vector), intent(in), dimension(:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%vectorial3d%field)) then
-        stop '[generic_field_class::initialize]: vectorial 3D field already allocated'
+        outext = '[generic_field_class::initialize]: vectorial 3D field already allocated'
+        call Log%put(outext)
+        stop        
     else
         call self%vectorial3d%initialize(name, units, 3, field)
+        call self%setFieldMetadata(name, units, 3)
     end if
     end subroutine initV3D
 
@@ -245,10 +293,14 @@
     type(vector), intent(in), dimension(:,:,:,:) :: field
     type(string), intent(in) :: name
     type(string), intent(in) :: units
+    type(string) :: outext
     if (allocated(self%vectorial4d%field)) then
-        stop '[generic_field_class::initialize]: vectorial 4D field already allocated'
+        outext = '[generic_field_class::initialize]: vectorial 4D field already allocated'
+        call Log%put(outext)
+        stop 
     else
         call self%vectorial4d%initialize(name, units, 4, field)
+        call self%setFieldMetadata(name, units, 4)
     end if
     end subroutine initV4D
 
@@ -469,7 +521,7 @@
     !> @brief
     !> Method that returns the field's maximum value (scalar)
     !---------------------------------------------------------------------------
-    real function getFieldMaxBound(self)
+    real(prec) function getFieldMaxBound(self)
     class(field_class), intent(in) :: self
     type(string) :: outext
     select type(self)
@@ -496,7 +548,7 @@
     !> @brief
     !> Method that returns the field's minimum value (scalar)
     !---------------------------------------------------------------------------
-    real function getFieldMinBound(self)
+    real(prec) function getFieldMinBound(self)
     class(field_class), intent(in) :: self
     type(string) :: outext
     select type(self)

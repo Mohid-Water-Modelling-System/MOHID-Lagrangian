@@ -1,7 +1,8 @@
 build/
 anim/
 Anim/
-hdf5/
+RUN_Cases/Atlantic/
+RUN_Cases/Real_vel_test_Cefas/
 
 ExternalLibs/
 
@@ -16,3 +17,7 @@ ExternalLibs/
 *.lo
 *.ol
 *.pyc
+Makefile
+*.h
+*.Po
+*.log

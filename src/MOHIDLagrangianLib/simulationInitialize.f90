@@ -44,7 +44,6 @@
     !> @param[in] linksNode
     !---------------------------------------------------------------------------
     subroutine linkPropertySources(linksNode)
-    implicit none
     type(Node), intent(in), pointer :: linksNode
 
     type(NodeList), pointer :: linkList
@@ -114,7 +113,6 @@
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_properties(case_node)
-    implicit none
     type(Node), intent(in), pointer :: case_node
 
     type(Node), pointer :: props_node          !< Single properties block to process
@@ -147,7 +145,6 @@
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_naming(case_node)
-    implicit none
     type(Node), intent(in), pointer :: case_node
 
     type(Node), pointer :: naming_node          !< Single naming block to process
@@ -452,6 +449,9 @@
     Globals%Names%mainxmlfilename = xmlfilename
     Globals%Names%casename = xmlfilename%basename(extension='.xml')
     outext='->Case name is '//Globals%Names%casename
+    call Log%put(outext)
+    Globals%Names%inputsXmlFilename = Globals%Names%outpath//xmlfilename%basename(extension='.xml')//'_inputs.xml'
+    outext='->Input files index file name is '//Globals%Names%inputsXmlFilename
     call Log%put(outext)
 
     tag="case"          !base document node

@@ -39,10 +39,10 @@ then
 	
 	if [ $1 = '-gfortran' ]
 	then
-		export CFLAGS='-03 -fPIC'
-		export CXXFLAGS='-03'
-		export FCFLAGS='-03'
-		export FFLAGS='-03'
+		export CFLAGS='-O3 -fPIC'
+		export CXXFLAGS='-O3'
+		export FCFLAGS='-O3'
+		export FFLAGS='-O3'
 		export CC=/usr/bin/gcc
 		export FC=/usr/bin/gfortran
 		if [ $# -eq 2 ]

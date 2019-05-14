@@ -70,7 +70,7 @@
         !make real (from file) velocity test
         outext = 'Reading fields from a netcdf file, stand by...'
         call Log%put(outext)
-        call self%makeRealVel(resolution, testbox, testbackground)
+        call self%makeRealVel(testbox, testbackground)
     end if
     end subroutine initTestMaker
 
@@ -210,40 +210,32 @@
     !> @brief
     !> Fills a domain's with sfc velocity field
     !---------------------------------------------------------------------------
-    subroutine makeRealVel(self, res, testbox, testbackground)
+    subroutine makeRealVel(self, testbox, testbackground)
     class(testmaker_class), intent(inout) :: self
-    integer, intent(in) :: res
     type(box), intent(in) :: testbox
     type(background_class), intent(inout) :: testbackground
     type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
     type(generic_field_class) :: gfield1, gfield2,gfield3
-    !type(nc_class),dimension(3) :: nc_input_file
-    type(string) :: name, units
-    
-    
     type(ncfile_class) :: ncFile
     type(string) :: ncFileName
     integer :: i
     
-    ncFileName = 'MOHID_Vigo_20180904_0000.nc4'
+    !testMaker class has no acess to input stream objects, so we hack it
+    ncFileName = Globals%Names%inputFile(1)
     call ncFile%initialize(ncFileName)    
     call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)
     call ncFile%getVar(Globals%Var%u, gfield1)
     call ncFile%getVar(Globals%Var%v, gfield2)
     call ncFile%getVar(Globals%Var%w, gfield3)
     call ncFile%finalize()
-    !do i=1, size(testbackgroundims_alt)
-    !    call testbackgroundims_alt(i)%print()
-    !end do
-    !call gfield1%print()
    
-    name = 'Real surface velocity field'
-    testbackground = Background(1, name, testbox, testbackgroundims)
+    testbackground = Background(1, ncFileName, testbox, testbackgroundims)
     call testbackground%add(gfield1)
     call testbackground%add(gfield2)
     call testbackground%add(gfield3)
     
     !call testbackground%print()
+    !print*, testbackground%getDimExtents(Globals%Var%time)
 
     end subroutine makeRealVel
 

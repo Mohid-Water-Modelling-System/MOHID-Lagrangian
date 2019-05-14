@@ -10,6 +10,9 @@ dirout=${name}_out
 tools=../../build/bin
 mohidlagrangian=${tools}/MOHIDLagrangian
 
+preprocessorDir=../../src/MOHIDLagrangianPreProcessor
+mohidPreprocessor=${preprocessorDir}/MOHIDLagrangianPreProcessor.py
+
 # "dirout" is created to store results or it is cleaned if it already exists
 if [ -e $dirout ]; then
   rm -f -r $dirout
@@ -20,6 +23,9 @@ cp ${name}_Def.xml $dirout/
 mv $dirout/${name}_Def.xml $dirout/${name}.xml
 
 # CODES are executed according the selected parameters of execution in this testcase
+
+python $mohidPreprocessor -i $dirout/${name}.xml -o $dirout
+
 errcode=0
 if [ $errcode -eq 0 ]; then
   $mohidlagrangian -i $dirout/${name}.xml -o $dirout
