@@ -51,6 +51,12 @@
 
     contains
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a NC file
+    !> @param[in] self, nfile
+    !---------------------------------------------------------------------------
     type(background_class) function getFullFile(self, nfile)
     class(input_streamer_class), intent(in) :: self
     integer, intent(in) :: nfile
@@ -59,6 +65,9 @@
     type(generic_field_class) :: gfield1, gfield2, gfield3
     type(string) :: name
     type(box) :: extents
+    type(vector) :: pt
+    real(prec), dimension(3,2) :: dimExtents
+    integer :: i
 
     call ncFile%initialize(self%inputFileModel(nfile)%name)
     call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
@@ -66,6 +75,23 @@
     call ncFile%getVar(Globals%Var%v, gfield2)
     call ncFile%getVar(Globals%Var%w, gfield3)
     call ncFile%finalize()
+    
+    dimExtents = 0.0    
+    do i = 1, size(backgrounDims)
+        if (backgrounDims(i)%name == Globals%Var%lon) then
+            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%lat) then
+            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%level) then
+            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
+        end if
+    end do    
+    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
+    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
+    extents%size = pt - extents%pt
 
     name = self%inputFileModel(nfile)%name%basename(strip_last_extension=.true.)
     getFullFile = Background(nfile, name, extents, backgrounDims)
@@ -125,7 +151,7 @@
     class(input_streamer_class), intent(in) :: self
     type(string) :: outext, temp_str
     integer :: i
-    outext = '-->Input Streamer stack:'
+    outext = '-->Input streamer stack:'
     do i=1, size(self%inputFileModel)
         outext = outext//new_line('a')
         outext = outext//'--->File '//self%inputFileModel(i)%name//new_line('a')
