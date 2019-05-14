@@ -183,16 +183,15 @@
         do i = 1, size(dims)
             j = self%getDimIndex(dims(i)%name) !getting the same dimension for the fields
             if (dims(i)%name /= Globals%Var%time) then  !dimension is not 'time'
-                if (size(dims(i)%field) == size(self%dim(j)%field)) then
-                    
-                    !if (dims(i)%field == self%dim(j)%field) comparableDimensionData = .true.  !dimensions array is the same
-                    
+                if (size(dims(i)%field) == size(self%dim(j)%field)) then !size of the arrays is the same                    
+                    comparableDimensionData = all(dims(i)%field == self%dim(j)%field)  !dimensions array is the same                    
                 end if
             else
-                !if (all(dims(i)%field) >= maxval(self%dim(j)%field)) comparableDimensionData = .true. !time arrays are consecutive or the same
+                comparableDimensionData = all(dims(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
             end if
         end do
-    end if            
+    end if
+    if (.not.comparableDimensionData) return
     
     !check that fields are compatible
     call self%fields%reset()               ! reset list iterator
