@@ -103,7 +103,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the index of a given dimension by it's name
-    !> @param[in] self, name
+    !> @param[in] self, name, mandatory
     !---------------------------------------------------------------------------
     integer function getDimIndex(self, name, mandatory)
     class(background_class), intent(in) :: self
@@ -137,7 +137,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns two reals, min and max of a given dimension
-    !> @param[in] self, name
+    !> @param[in] self, name, mandatory
     !---------------------------------------------------------------------------
     function getDimExtents(self, name, mandatory) result(dimExtent)
     class(background_class), intent(in) :: self
@@ -163,7 +163,7 @@
     !> @brief
     !> appends a given field to a matching field in the Background object's
     !> field list, if possible
-    !> @param[in] self, gfield
+    !> @param[in] self, gfield, dims
     !---------------------------------------------------------------------------
     subroutine appendFieldByTime(self, gfield, dims)
     class(background_class), intent(inout) :: self
@@ -171,10 +171,28 @@
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
     class(*), pointer :: aField
     type(string) :: outext
-    logical :: comparableFieldData
+    integer :: i, j
     
+    logical :: comparableFieldData
+    logical :: comparableDimensionData
+    
+    comparableDimensionData = .false.
     !check that dimensions are compatible
     !spacial dims must be the same, temporal must be consecutive
+    if (size(self%dim) == size(dims)) then !ammount of dimensions is the same
+        do i = 1, size(dims)
+            j = self%getDimIndex(dims(i)%name) !getting the same dimension for the fields
+            if (dims(i)%name /= Globals%Var%time) then  !dimension is not 'time'
+                if (size(dims(i)%field) == size(self%dim(j)%field)) then
+                    
+                    !if (dims(i)%field == self%dim(j)%field) comparableDimensionData = .true.  !dimensions array is the same
+                    
+                end if
+            else
+                !if (all(dims(i)%field) >= maxval(self%dim(j)%field)) comparableDimensionData = .true. !time arrays are consecutive or the same
+            end if
+        end do
+    end if            
     
     !check that fields are compatible
     call self%fields%reset()               ! reset list iterator
