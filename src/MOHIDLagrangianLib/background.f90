@@ -105,9 +105,10 @@
     !> Method that returns the index of a given dimension by it's name
     !> @param[in] self, name
     !---------------------------------------------------------------------------
-    integer function getDimIndex(self, name)
+    integer function getDimIndex(self, name, mandatory)
     class(background_class), intent(in) :: self
     type(string), intent(in) :: name
+    logical, optional, intent(in) :: mandatory
     integer :: i
     type(string) :: outext
     logical found
@@ -119,10 +120,16 @@
             return
         end if
     end do
-    if (.not. found) then
-        outext = '[background_class::getDimIndex]: Field dimensions dont contain a field called '// name //', stoping'
-        call Log%put(outext)
-        stop
+    if (present(mandatory)) then
+        if (mandatory) then            
+            if (.not. found) then
+                outext = '[background_class::getDimIndex]: Field dimensions dont contain a field called '// name //', stoping'
+                call Log%put(outext)
+                stop
+            end if
+        else 
+            getDimIndex = MV_INT
+        end if
     end if
     end function getDimIndex
 
@@ -132,14 +139,23 @@
     !> Method that returns two reals, min and max of a given dimension
     !> @param[in] self, name
     !---------------------------------------------------------------------------
-    function getDimExtents(self, name) result(dimExtent)
+    function getDimExtents(self, name, mandatory) result(dimExtent)
     class(background_class), intent(in) :: self
     type(string), intent(in) :: name
+    logical, optional, intent(in) :: mandatory
+    logical :: mand
     integer :: i
     real(prec) :: dimExtent(2)
-    i = self%getDimIndex(name)
-    dimExtent(1) = self%dim(i)%getFieldMinBound()
-    dimExtent(2) = self%dim(i)%getFieldMaxBound()
+    mand = .true.
+    if (present(mandatory)) mand = mandatory
+    i = self%getDimIndex(name, mand)
+    if ( i/= MV_INT) then
+        dimExtent(1) = self%dim(i)%getFieldMinBound()
+        dimExtent(2) = self%dim(i)%getFieldMaxBound()
+    else
+        dimExtent(1) = MV
+        dimExtent(2) = MV
+    end if
     end function getDimExtents
 
     !---------------------------------------------------------------------------
