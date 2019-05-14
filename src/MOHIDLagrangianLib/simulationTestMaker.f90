@@ -220,6 +220,7 @@
     type(string) :: ncFileName
     integer :: i
     
+    !testMaker class has no acess to input stream objects, so we hack it
     ncFileName = Globals%Names%inputFile(1)
     call ncFile%initialize(ncFileName)    
     call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)
