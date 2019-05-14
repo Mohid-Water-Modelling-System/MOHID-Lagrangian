@@ -82,24 +82,7 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v
-
-    ! print*, 'got here!'
-    ! np = size(aot%id) !number of particles
-    ! allocate(rand_vel_u(np))
-    ! allocate(rand_vel_v(np))
-    ! call random_number(rand_vel_u)
-    ! call random_number(rand_vel_v)
-    ! rand_vel_u = 0.001*(2*rand_vel_u - 1)
-    ! rand_vel_v = 0.001*(2*rand_vel_v - 1)
-    ! aot%u = rand_vel_u
-    ! aot%v = rand_vel_v
-    ! !aot%w = rand_vel
-    ! !print*, aot%u
-    ! !update positions
-    ! aot%x = aot%x + aot%u*dt
-    ! aot%y = aot%y + aot%v*dt
-    ! !!aot%z = aot%z + aot%w*dt
-
+  
     !interpolate each background
     do bkg = 1, size(bdata)
         np = size(aot%id) !number of particles
