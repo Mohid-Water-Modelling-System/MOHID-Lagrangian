@@ -200,7 +200,9 @@
         select type(aField)
         class is (generic_field_class)
             if (aField%compare(gfield)) then
-                !append the field
+                !concatenate the fields on the background
+                call aField%concatenate(gfield)
+                !concatenate the 'time' dimension of the background
                 
             end if
             class default

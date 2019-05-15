@@ -117,6 +117,7 @@
     procedure :: initV2D, initV3D, initV4D
     generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
     procedure :: compare
+    procedure :: concatenate
     procedure :: print => printGenericField
     end type generic_field_class
 
@@ -126,6 +127,32 @@
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method concatenates two fields by their last dimension
+    !> @param[in] self, gfield
+    !---------------------------------------------------------------------------
+    subroutine concatenate(self, gfield) 
+    class(generic_field_class), intent(inout) :: self
+    class(generic_field_class), intent(in) :: gfield
+    integer :: fDim
+    type(string) :: fType
+
+    fDim = self%dim
+    fType = self%getFieldType()
+    
+    if (gfield%dim /= fDim) return
+    if (gfield%getFieldType() /= fType) return
+    
+    if (fType == 'Scalar') then
+        if (fDim == 1) then        
+            self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]        
+        end if
+    end if
+    
+    end subroutine concatenate
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
