@@ -130,6 +130,7 @@ make install || exit
 cd $root_libs_dir
 
 cd $proj4C_dir
+autoreconf -f -i
 make clean
 mkdir build
 ./configure --prefix=$root_libs_dir/$proj4C_dir/build  || exit
@@ -138,6 +139,7 @@ ln -sf $root_libs_dir/$proj4C_dir/build/lib/libproj.so $root_libs_dir/$proj4C_di
 cd $root_libs_dir
 
 cd $proj4F_dir
+autoreconf -f -i
 make clean
 mkdir build
 cp cgfortran.h cfortran.h
