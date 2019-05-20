@@ -65,6 +65,14 @@
     class(input_streamer_class), intent(inout) :: self
     class(boundingbox_class), intent(in) :: bBox            !< Case bounding box
     class(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
+    integer :: i
+    
+    do i=1, size(blocks)
+        if (Globals%Sim%getnumdt() == 1 ) then
+            allocate(blocks(i)%Background(1))
+            blocks(i)%Background(1) = self%getFullFile(1)
+        end if
+    end do
     
     end subroutine loadDataFromStack
 
