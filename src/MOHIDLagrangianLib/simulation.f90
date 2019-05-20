@@ -109,7 +109,7 @@
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
-
+        call self%InputStreamer%loadDataFromStack(BBox, sBlock)
         !Update all tracers with base behavior (AoT) - Integration step
         if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
@@ -205,7 +205,7 @@
     !Initializing output file streamer
     call self%OutputStreamer%initialize()
     !Writing the domain to file
-    call self%OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), DBlock)
+    call self%OutputStreamer%WriteDomain(Globals%Names%casename, BBox, Geometry%getnumPoints(BBox), sBlock)
 
     call self%timerInit%Toc()
     call self%timerInit%print()
@@ -225,8 +225,8 @@
     call self%timerPrep%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
-    do i=1, size(DBlock)
-        call DBlock(i)%ToogleBlockSources()
+    do i=1, size(sBlock)
+        call sBlock(i)%ToogleBlockSources()
     end do
     !$OMP END DO
     !$OMP END PARALLEL
@@ -243,8 +243,8 @@
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
-    do i=1, size(DBlock)
-        call DBlock(i)%CallEmitter()
+    do i=1, size(sBlock)
+        call sBlock(i)%CallEmitter()
     enddo
     call self%timerPrep%Toc()
     end subroutine BlocksEmitt
@@ -260,8 +260,8 @@
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
-    do i=1, size(DBlock)
-        call DBlock(i)%DistributeTracers()
+    do i=1, size(sBlock)
+        call sBlock(i)%DistributeTracers()
     enddo
     call self%timerPrep%Toc()
     !need to distribute Sources also! TODO
@@ -280,8 +280,8 @@
     call self%timerPrep%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
-    do i=1, size(DBlock)
-        call DBlock(i)%ConsolidateArrays()
+    do i=1, size(sBlock)
+        call sBlock(i)%ConsolidateArrays()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
@@ -301,8 +301,8 @@
     call self%timerAoTOps%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
-    do i=1, size(DBlock)
-        call DBlock(i)%TracersToAoT()
+    do i=1, size(sBlock)
+        call sBlock(i)%TracersToAoT()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
@@ -322,8 +322,8 @@
     call self%timerSolver%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
-    do i=1, size(DBlock)
-        call DBlock(i)%RunSolver()
+    do i=1, size(sBlock)
+        call sBlock(i)%RunSolver()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
@@ -343,8 +343,8 @@
     call self%timerAoTOps%Toc()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
-    do i=1, size(DBlock)
-        call DBlock(i)%AoTtoTracers()
+    do i=1, size(sBlock)
+        call sBlock(i)%AoTtoTracers()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
@@ -364,8 +364,8 @@
     call self%timerAoTOps%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
-    do i=1, size(DBlock)
-        call DBlock(i)%CleanAoT()
+    do i=1, size(sBlock)
+        call sBlock(i)%CleanAoT()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
@@ -382,7 +382,7 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     call self%timerOutput%Tic()
-    call self%OutputStreamer%WriteStepSerial(DBlock)
+    call self%OutputStreamer%WriteStepSerial(sBlock)
     call self%timerOutput%Toc()
     end subroutine OutputStepData
 
@@ -401,7 +401,7 @@
     ntrc = 0
     do i=1, size(tempSources%src)
         blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))
-        call DBlock(blk)%putSource(tempSources%src(i))
+        call sBlock(blk)%putSource(tempSources%src(i))
         ntrc = ntrc + tempSources%src(i)%stencil%total_np
     end do
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
@@ -423,8 +423,8 @@
     class(simulation_class), intent(in) :: self
     integer :: i, total
     total = 0
-    do i=1, size(DBlock)
-        total = total + DBlock(i)%numAllocTracers()
+    do i=1, size(sBlock)
+        total = total + sBlock(i)%numAllocTracers()
     enddo
     getTracerTotals = total
     end function getTracerTotals
@@ -455,9 +455,9 @@
     integer :: sizem, i
     type(tracer_class) :: dummyTracer
     sizem = 0
-    do i=1, size(DBlock)
-        sizem = sizem + sizeof(DBlock(i)%LTracer) !this accounts for the array structure
-        sizem = sizem + sizeof(dummyTracer)*DBlock(i)%LTracer%getSize() !this accounts for the contents
+    do i=1, size(sBlock)
+        sizem = sizem + sizeof(sBlock(i)%LTracer) !this accounts for the array structure
+        sizem = sizem + sizeof(dummyTracer)*sBlock(i)%LTracer%getSize() !this accounts for the contents
     enddo
     call SimMemory%setracer(sizem)
     if(present(ntrc)) then
