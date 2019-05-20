@@ -25,6 +25,8 @@
     use netcdfParser_mod
     use fieldTypes_mod
     use background_mod
+    use blocks_mod
+    use boundingbox_mod
 
     use FoX_dom
 
@@ -42,7 +44,9 @@
         real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
     contains
     procedure :: initialize => initInputStreamer
+    procedure :: loadDataFromStack
     procedure :: getFullFile
+    
     procedure :: print => printInputStreamer
     end type input_streamer_class
 
@@ -50,6 +54,19 @@
     public :: input_streamer_class
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> loads data from files and populates the backgrounds accordingly
+    !> @param[in] self, bbox, sBlocks
+    !---------------------------------------------------------------------------
+    subroutine loadDataFromStack(self, bBox, blocks)
+    class(input_streamer_class), intent(inout) :: self
+    class(boundingbox_class), intent(in) :: bBox            !< Case bounding box
+    class(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
+    
+    end subroutine loadDataFromStack
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -75,8 +92,8 @@
     call ncFile%getVar(Globals%Var%v, gfield2)
     call ncFile%getVar(Globals%Var%w, gfield3)
     call ncFile%finalize()
-    
-    dimExtents = 0.0    
+
+    dimExtents = 0.0
     do i = 1, size(backgrounDims)
         if (backgrounDims(i)%name == Globals%Var%lon) then
             dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
@@ -88,7 +105,7 @@
             dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
             dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
         end if
-    end do    
+    end do
     extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
@@ -154,11 +171,11 @@
     outext = '-->Input streamer stack:'
     do i=1, size(self%inputFileModel)
         outext = outext//new_line('a')
-        outext = outext//'--->File '//self%inputFileModel(i)%name//new_line('a')
-        temp_str=self%inputFileModel(i)%startTime
-        outext = outext//'      Starting time is '//temp_str//' s'//new_line('a')
-        temp_str=self%inputFileModel(i)%endTime
-        outext = outext//'      Ending time is   '//temp_str//' s'
+        outext = outext//'--->File '//self%inputFileModel(i)%name!//new_line('a')
+        !temp_str=self%inputFileModel(i)%startTime
+        !outext = outext//'      Starting time is '//temp_str//' s'//new_line('a')
+        !temp_str=self%inputFileModel(i)%endTime
+        !outext = outext//'      Ending time is   '//temp_str//' s'
     end do
     call Log%put(outext,.false.)
     end subroutine printInputStreamer
