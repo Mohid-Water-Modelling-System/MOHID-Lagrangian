@@ -37,6 +37,7 @@
         type(string) :: name        !< name of the file
         real(prec) :: startTime     !< starting time of the data on the file
         real(prec) :: endTime       !< ending time of the data on the file
+        logical :: used             !< flag that indicates the file is no longer to be read
     end type inputFileModel_class
 
     type :: input_streamer_class        !< Input Streamer class
@@ -66,11 +67,21 @@
     class(boundingbox_class), intent(in) :: bBox            !< Case bounding box
     class(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
     integer :: i
+    integer :: fNumber
+    
+    do i=1, size(self%inputFileModel)
+        if (self%inputFileModel(i)%endTime > Globals%SimTime%CurrTime) then
+            if (self%inputFileModel(i)%startTime <= Globals%SimTime%CurrTime) then
+                fNumber = i
+                exit
+            end if
+        end if
+    end do
     
     do i=1, size(blocks)
         if (Globals%Sim%getnumdt() == 1 ) then
             allocate(blocks(i)%Background(1))
-            blocks(i)%Background(1) = self%getFullFile(1)
+            blocks(i)%Background(1) = self%getFullFile(fNumber)
         end if
     end do
     
@@ -163,6 +174,7 @@
         att_name="value"
         call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
         self%inputFileModel(i+1)%endTime = att_val%to_number(kind=1._R4P)
+        self%inputFileModel(i+1)%used = .false.
     end do
     call Globals%setInputFileNames(fileNames)
     end subroutine initInputStreamer
