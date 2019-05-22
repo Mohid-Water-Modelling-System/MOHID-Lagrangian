@@ -86,7 +86,7 @@
         do i=1, size(blocks)
             if (Globals%Sim%getnumdt() == 1 ) then
                 allocate(blocks(i)%Background(1))
-                blocks(i)%Background(1) = self%getFullFile(fNumber)
+                blocks(i)%Background(1) = self%getFullFile(self%currentsInputFile(fNumber)%name)
             end if
         end do
 
@@ -100,9 +100,9 @@
     !> instantiates and returns a background object with the data from a NC file
     !> @param[in] self, nfile
     !---------------------------------------------------------------------------
-    type(background_class) function getFullFile(self, nfile)
+    type(background_class) function getFullFile(self, fileName)
     class(input_streamer_class), intent(in) :: self
-    integer, intent(in) :: nfile
+    type(string), intent(in) :: fileName
     type(ncfile_class) :: ncFile
     type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
     type(generic_field_class) :: gfield1, gfield2, gfield3
@@ -112,7 +112,7 @@
     real(prec), dimension(3,2) :: dimExtents
     integer :: i
 
-    call ncFile%initialize(self%currentsInputFile(nfile)%name)
+    call ncFile%initialize(fileName)
     call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
     call ncFile%getVar(Globals%Var%u, gfield1)
     call ncFile%getVar(Globals%Var%v, gfield2)
@@ -136,8 +136,8 @@
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
 
-    name = self%currentsInputFile(nfile)%name%basename(strip_last_extension=.true.)
-    getFullFile = Background(nfile, name, extents, backgrounDims)
+    name = fileName%basename(strip_last_extension=.true.)
+    getFullFile = Background(1, name, extents, backgrounDims)
     call getFullFile%add(gfield1)
     call getFullFile%add(gfield2)
     call getFullFile%add(gfield3)
