@@ -36,7 +36,8 @@
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: WriteDomain
-    procedure :: WriteStepSerial
+    procedure :: WriteStep
+    procedure, private :: WriteStepSerial
     procedure :: finalize => closeOutputStreamer
     procedure, private :: CheckWriteTime
     end type output_streamer_class
@@ -53,18 +54,36 @@
     !> format using an unstructured grid.
     !> @param[in] self, blocks
     !---------------------------------------------------------------------------
-    subroutine WriteStepSerial(self, blocks)
+    subroutine WriteStep(self, blocks)
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
-    type(string) :: filename                                !< name of the case to add
+    type(string) :: fileName
+    
     if (self%CheckWriteTime()) then
         filename = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
-        if (self%OutputFormat == 2) then !VTK file selected
-            call self%vtkWritter%TracerSerial(filename, blocks)
-        end if
+        call self%WriteStepSerial(fileName, blocks)
         call Globals%Sim%increment_numoutfile()
         self%LastWriteTime = Globals%SimTime%CurrTime
     end if
+
+    end subroutine WriteStep
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Streamer method to call a simulation step writer. Writes binary XML VTK
+    !> format using an unstructured grid.
+    !> @param[in] self, blocks
+    !---------------------------------------------------------------------------
+    subroutine WriteStepSerial(self, filename, blocks)
+    class(output_streamer_class), intent(inout) :: self
+    class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
+    type(string), intent(in) :: filename                                !< name of the case to add
+
+    if (self%OutputFormat == 2) then !VTK file selected
+        call self%vtkWritter%TracerSerial(filename, blocks)
+    end if
+
     end subroutine WriteStepSerial
 
     !---------------------------------------------------------------------------

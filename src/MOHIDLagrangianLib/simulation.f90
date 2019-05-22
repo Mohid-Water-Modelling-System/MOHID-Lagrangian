@@ -83,16 +83,12 @@
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, aux
 
-    !integer :: testmat(10,12)
-
     outext = '====================================================================='
     call Log%put(outext,.false.)
     outext = '->Simulation starting'
     call Log%put(outext)
     outext = '====================================================================='
     call Log%put(outext,.false.)
-
-    !call writeTestmatrix(testmat)
 
     !main time cycle
     do while (Globals%SimTime%CurrTime .lt. Globals%Parameters%TimeMax)
@@ -382,7 +378,7 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     call self%timerOutput%Tic()
-    call self%OutputStreamer%WriteStepSerial(sBlock)
+    call self%OutputStreamer%WriteStep(sBlock)
     call self%timerOutput%Toc()
     end subroutine OutputStepData
 
