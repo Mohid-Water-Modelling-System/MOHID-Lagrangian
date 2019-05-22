@@ -477,7 +477,7 @@
     call XMLReader%gotoNode(varNode, tempNode, tag, mandatory = .false.)
     if (associated(tempNode)) then !variable description exists in file
         attName="name"
-        call XMLReader%getNodeAttribute(tempNode, tag, attName, attValue, mandatory = .true.)
+        call XMLReader%getNodeAttribute(varNode, tag, attName, attValue, mandatory = .true.)
         currVar = attValue
         varNameList => getElementsByTagname(tempNode, "variant")
         do i = 0, getLength(varNameList) - 1
