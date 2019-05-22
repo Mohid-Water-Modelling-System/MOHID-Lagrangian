@@ -41,6 +41,7 @@
     end type inputFileModel_class
 
     type :: input_streamer_class        !< Input Streamer class
+        logical :: useInputFiles
         type(inputFileModel_class), allocatable, dimension(:) :: inputFileModel !< array of input file metadata
         real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
     contains
@@ -60,7 +61,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> loads data from files and populates the backgrounds accordingly
-    !> @param[in] self, bbox, sBlocks
+    !> @param[in] self, bbox, blocks
     !---------------------------------------------------------------------------
     subroutine loadDataFromStack(self, bBox, blocks)
     class(input_streamer_class), intent(inout) :: self
@@ -69,21 +70,23 @@
     integer :: i
     integer :: fNumber
     
-    do i=1, size(self%inputFileModel)
-        if (self%inputFileModel(i)%endTime > Globals%SimTime%CurrTime) then
-            if (self%inputFileModel(i)%startTime <= Globals%SimTime%CurrTime) then
-                fNumber = i
-                exit
+    if (self%useInputFiles) then
+        do i=1, size(self%inputFileModel)
+            if (self%inputFileModel(i)%endTime > Globals%SimTime%CurrTime) then
+                if (self%inputFileModel(i)%startTime <= Globals%SimTime%CurrTime) then
+                    fNumber = i
+                    exit
+                end if
             end if
-        end if
-    end do
+        end do
     
-    do i=1, size(blocks)
-        if (Globals%Sim%getnumdt() == 1 ) then
-            allocate(blocks(i)%Background(1))
-            blocks(i)%Background(1) = self%getFullFile(fNumber)
-        end if
-    end do
+        do i=1, size(blocks)
+            if (Globals%Sim%getnumdt() == 1 ) then
+                allocate(blocks(i)%Background(1))
+                blocks(i)%Background(1) = self%getFullFile(fNumber)
+            end if
+        end do
+    end if
     
     end subroutine loadDataFromStack
 
@@ -153,30 +156,35 @@
 
     self%buffer_size = 3600*24*2 !seconds/hour*hours*days
 
-    call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename)
-    !Go to the file_collection node
-    tag = "file_collection"
-    call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
-    fileList => getElementsByTagname(xmlInputs, "file")       !searching for tags with the 'namingfile' name
-    allocate(fileNames(getLength(fileList)))
-    allocate(self%inputFileModel(getLength(fileList)))
-    do i = 0, getLength(fileList) - 1
-        fileNode => item(fileList, i)
-        tag="name"
-        att_name="value"
-        call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
-        self%inputFileModel(i+1)%name = fileNames(i+1)
-        tag="startTime"
-        att_name="value"
-        call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-        self%inputFileModel(i+1)%startTime = att_val%to_number(kind=1._R4P)
-        tag="endTime"
-        att_name="value"
-        call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-        self%inputFileModel(i+1)%endTime = att_val%to_number(kind=1._R4P)
-        self%inputFileModel(i+1)%used = .false.
-    end do
-    call Globals%setInputFileNames(fileNames)
+    call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
+    if (associated(xmlInputs)) then
+        self%useInputFiles = .true.
+        !Go to the file_collection node
+        tag = "file_collection"
+        call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
+        fileList => getElementsByTagname(xmlInputs, "file")       !searching for tags with the 'namingfile' name
+        allocate(fileNames(getLength(fileList)))
+        allocate(self%inputFileModel(getLength(fileList)))
+        do i = 0, getLength(fileList) - 1
+            fileNode => item(fileList, i)
+            tag="name"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+            self%inputFileModel(i+1)%name = fileNames(i+1)
+            tag="startTime"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+            self%inputFileModel(i+1)%startTime = att_val%to_number(kind=1._R4P)
+            tag="endTime"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+            self%inputFileModel(i+1)%endTime = att_val%to_number(kind=1._R4P)
+            self%inputFileModel(i+1)%used = .false.
+        end do
+        call Globals%setInputFileNames(fileNames)
+    else
+        self%useInputFiles = .false.
+    end if
     end subroutine initInputStreamer
 
     !---------------------------------------------------------------------------
@@ -197,7 +205,7 @@
         !temp_str=self%inputFileModel(i)%endTime
         !outext = outext//'      Ending time is   '//temp_str//' s'
     end do
-    call Log%put(outext,.false.)
+    if (self%useInputFiles) call Log%put(outext,.false.)
     end subroutine printInputStreamer
 
     end module simulationInputStreamer_mod
