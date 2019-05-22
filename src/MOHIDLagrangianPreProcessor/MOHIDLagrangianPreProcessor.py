@@ -115,11 +115,14 @@ def run():
             ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
 	
     ncMeta.sort(key=lambda x: x.startTime)
+	
+    indexer.openCurrentsCollection()
     
-    print('--> indexing files')
+    print('--> indexing currents data')
     for ncfile in ncMeta:
         indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y/%m/%d, %H:%M:%S"), ncfile.getendDate().strftime("%Y/%m/%d, %H:%M:%S"))
     
+    indexer.closeCurrentsCollection()
     indexer.closeFile()
     
             

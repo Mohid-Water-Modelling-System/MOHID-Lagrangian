@@ -42,13 +42,15 @@
 
     type :: input_streamer_class        !< Input Streamer class
         logical :: useInputFiles
-        type(inputFileModel_class), allocatable, dimension(:) :: inputFileModel !< array of input file metadata
+        type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile !< array of input file metadata for currents
+        type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
+        type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
         real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
     contains
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
     procedure :: getFullFile
-    
+
     procedure :: print => printInputStreamer
     end type input_streamer_class
 
@@ -56,7 +58,7 @@
     public :: input_streamer_class
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -69,25 +71,27 @@
     class(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
     integer :: i
     integer :: fNumber
-    
+
     if (self%useInputFiles) then
-        do i=1, size(self%inputFileModel)
-            if (self%inputFileModel(i)%endTime > Globals%SimTime%CurrTime) then
-                if (self%inputFileModel(i)%startTime <= Globals%SimTime%CurrTime) then
+
+        do i=1, size(self%currentsInputFile)
+            if (self%currentsInputFile(i)%endTime > Globals%SimTime%CurrTime) then
+                if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
                     fNumber = i
                     exit
                 end if
             end if
         end do
-    
+
         do i=1, size(blocks)
             if (Globals%Sim%getnumdt() == 1 ) then
                 allocate(blocks(i)%Background(1))
                 blocks(i)%Background(1) = self%getFullFile(fNumber)
             end if
         end do
+
     end if
-    
+
     end subroutine loadDataFromStack
 
     !---------------------------------------------------------------------------
@@ -108,7 +112,7 @@
     real(prec), dimension(3,2) :: dimExtents
     integer :: i
 
-    call ncFile%initialize(self%inputFileModel(nfile)%name)
+    call ncFile%initialize(self%currentsInputFile(nfile)%name)
     call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
     call ncFile%getVar(Globals%Var%u, gfield1)
     call ncFile%getVar(Globals%Var%v, gfield2)
@@ -132,7 +136,7 @@
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
 
-    name = self%inputFileModel(nfile)%name%basename(strip_last_extension=.true.)
+    name = self%currentsInputFile(nfile)%name%basename(strip_last_extension=.true.)
     getFullFile = Background(nfile, name, extents, backgrounDims)
     call getFullFile%add(gfield1)
     call getFullFile%add(gfield2)
@@ -162,24 +166,26 @@
         !Go to the file_collection node
         tag = "file_collection"
         call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
+        tag = "currents"
+        call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
         fileList => getElementsByTagname(xmlInputs, "file")       !searching for tags with the 'namingfile' name
         allocate(fileNames(getLength(fileList)))
-        allocate(self%inputFileModel(getLength(fileList)))
+        allocate(self%currentsInputFile(getLength(fileList)))
         do i = 0, getLength(fileList) - 1
             fileNode => item(fileList, i)
             tag="name"
             att_name="value"
             call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
-            self%inputFileModel(i+1)%name = fileNames(i+1)
+            self%currentsInputFile(i+1)%name = fileNames(i+1)
             tag="startTime"
             att_name="value"
             call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%inputFileModel(i+1)%startTime = att_val%to_number(kind=1._R4P)
+            self%currentsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
             tag="endTime"
             att_name="value"
             call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%inputFileModel(i+1)%endTime = att_val%to_number(kind=1._R4P)
-            self%inputFileModel(i+1)%used = .false.
+            self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+            self%currentsInputFile(i+1)%used = .false.
         end do
         call Globals%setInputFileNames(fileNames)
     else
@@ -196,16 +202,18 @@
     class(input_streamer_class), intent(in) :: self
     type(string) :: outext, temp_str
     integer :: i
-    outext = '-->Input streamer stack:'
-    do i=1, size(self%inputFileModel)
+    outext = '-->Input streamer stack:'//new_line('a')
+    outext = outext//'--->Currents data '
+    do i=1, size(self%currentsInputFile)
         outext = outext//new_line('a')
-        outext = outext//'--->File '//self%inputFileModel(i)%name!//new_line('a')
-        !temp_str=self%inputFileModel(i)%startTime
+        outext = outext//'---->File '//self%currentsInputFile(i)%name!//new_line('a')
+        !temp_str=self%currentsInputFile(i)%startTime
         !outext = outext//'      Starting time is '//temp_str//' s'//new_line('a')
-        !temp_str=self%inputFileModel(i)%endTime
+        !temp_str=self%currentsInputFile(i)%endTime
         !outext = outext//'      Ending time is   '//temp_str//' s'
     end do
-    if (self%useInputFiles) call Log%put(outext,.false.)
+    if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'    
+    call Log%put(outext,.false.)
     end subroutine printInputStreamer
 
     end module simulationInputStreamer_mod
