@@ -35,6 +35,8 @@
         type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
     contains
     procedure :: initialize => initOutputStreamer
+    procedure :: writeOutputHeader
+    procedure :: writeOutputSummary
     procedure :: WriteDomain
     procedure :: WriteStep
     procedure, private :: WriteStepSerial
@@ -73,7 +75,7 @@
     !> @brief
     !> Streamer method to call a simulation step writer. Writes binary XML VTK
     !> format using an unstructured grid.
-    !> @param[in] self, blocks
+    !> @param[in] self, filename, blocks
     !---------------------------------------------------------------------------
     subroutine WriteStepSerial(self, filename, blocks)
     class(output_streamer_class), intent(inout) :: self
@@ -117,6 +119,37 @@
     if ((Globals%SimTime%CurrTime - self%LastWriteTime) >= self%OutputIntervalTime) CheckWriteTime = .true.
     if (Globals%SimTime%CurrTime == 0.0) CheckWriteTime = .true.
     end function CheckWriteTime
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Streamer method to check if this timestep is appropriate to write an
+    !> output file
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine writeOutputHeader(self)
+    class(output_streamer_class), intent(in) :: self
+    type(string) :: outext
+    outext = '====================================================================='//new_line('a')
+    outext = outext//'->Simulation starting'//new_line('a')
+    outext = outext//'====================================================================='
+    call Log%put(outext,.false.)
+    outext = 'Part # | # of steps | total steps | sim/time | output file name'
+    call Log%put(outext)
+    end subroutine writeOutputHeader
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Streamer method to check if this timestep is appropriate to write an
+    !> output file
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine writeOutputSummary(self)
+    class(output_streamer_class), intent(in) :: self
+    type(string) :: outext
+    
+    end subroutine writeOutputSummary
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

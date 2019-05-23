@@ -83,12 +83,7 @@
     class(simulation_class), intent(inout) :: self
     type(string) :: outext, aux
 
-    outext = '====================================================================='
-    call Log%put(outext,.false.)
-    outext = '->Simulation starting'
-    call Log%put(outext)
-    outext = '====================================================================='
-    call Log%put(outext,.false.)
+    call self%OutputStreamer%writeOutputHeader()
 
     !main time cycle
     do while (Globals%SimTime%CurrTime .lt. Globals%Parameters%TimeMax)
