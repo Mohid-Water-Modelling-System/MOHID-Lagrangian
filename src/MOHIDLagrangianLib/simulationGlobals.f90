@@ -112,12 +112,15 @@
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
+        integer :: lastOutNumDt    !<number of the last outputed iteration
         integer :: numoutfile   !<number of the current output file
         integer :: numTracer    !<Global Tracer number holder. Incremented at tracer construction or first activation time
     contains
     procedure, public :: increment_numdt
     procedure, public :: increment_numoutfile
     procedure, public :: getnumdt
+    procedure, public :: getlastOutNumDt
+    procedure, public :: setlastOutNumDt
     procedure, public :: getnumoutfile
     procedure, public :: getnumTracer
     procedure, private :: increment_numTracer
@@ -251,6 +254,7 @@
     self%SimTime%CurrTime = 0.0
     !global counters
     self%Sim%numdt = 0
+    self%Sim%lastOutNumDt = 0
     self%Sim%numoutfile = 0
     self%Sim%numTracer = 0
     !Source parameters list
@@ -601,7 +605,28 @@
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the number of time steps from last ouptut.
+    !---------------------------------------------------------------------------
+    integer function getlastOutNumDt(self)
+    class(sim_t), intent(inout) :: self
+    getlastOutNumDt = self%lastOutNumDt
+    end function getlastOutNumDt
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Sets the number of time steps from last ouptut.
+    !---------------------------------------------------------------------------
+    subroutine setlastOutNumDt(self, num)
+    class(sim_t), intent(inout) :: self
+    integer, intent(in) :: num
+    self%lastOutNumDt = num
+    end subroutine setlastOutNumDt
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
