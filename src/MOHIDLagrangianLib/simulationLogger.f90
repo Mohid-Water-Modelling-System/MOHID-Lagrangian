@@ -22,6 +22,8 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
+    
+    use datetime_module
 
     implicit none
     private
@@ -110,12 +112,11 @@
     type(string), intent(out) :: timestamp
     character(80) :: temp(8)
     integer :: values(8),i
-
-    call date_and_time(values=values)
-    do i=1,8
-        write(temp(i),*) values(i)
-    enddo
-    timestamp=trim(adjustl(temp(1)))//'-'//trim(adjustl(temp(2)))//'-'//trim(adjustl(temp(3)))//' @'//trim(adjustl(temp(5)))//':'//trim(adjustl(temp(6)))//':'//trim(adjustl(temp(7)))
+    type(datetime) :: date
+    call date_and_time(values=values)    
+    date = datetime(values(1),values(2),values(3),values(5),values(6),values(7))
+    timestamp = date%isoformat(' ')
+    timestamp = timestamp%basename(extension='.000')
     end subroutine getTimeStamp
 
 
