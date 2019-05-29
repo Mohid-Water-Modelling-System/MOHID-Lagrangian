@@ -36,7 +36,7 @@
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: writeOutputHeader
-    procedure :: writeOutputSummary
+    procedure, private :: writeOutputSummary
     procedure :: WriteDomain
     procedure :: WriteStep
     procedure, private :: WriteStepSerial
@@ -52,18 +52,22 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Streamer method to call a simulation step writer. Writes binary XML VTK
-    !> format using an unstructured grid.
+    !> output streamer method to check if it is writ time, and call a 
+    !> step writer. Assembles output file name and updates streamer data.
     !> @param[in] self, blocks
     !---------------------------------------------------------------------------
-    subroutine WriteStep(self, blocks)
+    subroutine WriteStep(self, blocks, numTracers, simTimer)
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
+    integer, intent(in) :: numTracers
+    type(timer_class), intent(in) :: simTimer
     type(string) :: fileName
     
     if (self%CheckWriteTime()) then
-        filename = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
+        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
         call self%WriteStepSerial(fileName, blocks)
+        call self%writeOutputSummary(numTracers, simTimer, fileName)
+        call Globals%Sim%setlastOutNumDt(Globals%Sim%getnumdt())
         call Globals%Sim%increment_numoutfile()
         self%LastWriteTime = Globals%SimTime%CurrTime
     end if
@@ -73,14 +77,13 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Streamer method to call a simulation step writer. Writes binary XML VTK
-    !> format using an unstructured grid.
+    !> Streamer method to call an appropriate writer.
     !> @param[in] self, filename, blocks
     !---------------------------------------------------------------------------
     subroutine WriteStepSerial(self, filename, blocks)
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
-    type(string), intent(in) :: filename                                !< name of the case to add
+    type(string), intent(in) :: filename                    !< name of the case to add
 
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%TracerSerial(filename, blocks)
@@ -91,8 +94,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Public simulation domain writting routine. Writes binary XML VTK
-    !> format using an unstructured grid.
+    !> Public simulation domain writting routine.
     !> @param[in] self, filename, bbox, npbbox, blocks
     !---------------------------------------------------------------------------
     subroutine WriteDomain(self, filename, bbox, npbbox, blocks)
@@ -123,32 +125,41 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Streamer method to check if this timestep is appropriate to write an
-    !> output file
+    !> Writes simulation log header
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine writeOutputHeader(self)
     class(output_streamer_class), intent(in) :: self
     type(string) :: outext
-    outext = '====================================================================='//new_line('a')
-    outext = outext//'->Simulation starting'//new_line('a')
-    outext = outext//'====================================================================='
+    outext = '============================================================================================='//new_line('a')
+    outext = outext//'                                  Simulation starting'//new_line('a')
+    outext = outext//' ============================================================================================='
     call Log%put(outext,.false.)
-    outext = 'Part # | # of steps | total steps | sim/time | output file name'
-    call Log%put(outext)
+    outext = '    Output time    |   Simulation time   |  Part | Tracer # |  Steps | sim/time | output file'
+    call Log%put(outext, .false.)
     end subroutine writeOutputHeader
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Streamer method to check if this timestep is appropriate to write an
-    !> output file
+    !> writes log entry with data regarding current output
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine writeOutputSummary(self)
+    subroutine writeOutputSummary(self, numTracers, simTimer, fileName)
     class(output_streamer_class), intent(in) :: self
-    type(string) :: outext
-    
+    integer, intent(in) :: numTracers
+    type(timer_class), intent(in) :: simTimer
+    type(string), intent(in) :: fileName
+    type(string) :: outext, temp
+    temp = Globals%SimTime%CurrDate%isoformat(' ')
+    temp = temp%basename(extension='.000')
+    outext = '| '//temp
+    outext = outext//' | '//Utils%int2str('(i5.5)', Globals%Sim%getnumoutfile())
+    outext = outext//' | '//Utils%int2str('(i8.1)', numTracers)
+    outext = outext//' | '//Utils%int2str('(i6.1)', Globals%Sim%getnumdt())
+    outext = outext//' | '//Utils%real2str('(f8.2)', Globals%SimDefs%dt/simTimer%getElapsedLast())   
+    outext = outext//' | '//fileName
+    call Log%put(outext)
     end subroutine writeOutputSummary
 
     !---------------------------------------------------------------------------

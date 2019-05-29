@@ -109,8 +109,6 @@
 
         !Write results if time to do so
         call self%OutputStepData()
-        !Print some stats from the time step
-        call self%printTracerTotals()
         !Clean AoT
         call self%BlocksCleanAoT()
         !update Simulation time
@@ -373,7 +371,7 @@
     implicit none
     class(simulation_class), intent(inout) :: self
     call self%timerOutput%Tic()
-    call self%OutputStreamer%WriteStep(sBlock)
+    call self%OutputStreamer%WriteStep(sBlock, self%getTracerTotals(), self%timerTotalRun)
     call self%timerOutput%Toc()
     end subroutine OutputStepData
 
