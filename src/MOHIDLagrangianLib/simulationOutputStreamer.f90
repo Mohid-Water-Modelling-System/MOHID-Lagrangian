@@ -131,9 +131,9 @@
     subroutine writeOutputHeader(self)
     class(output_streamer_class), intent(in) :: self
     type(string) :: outext
-    outext = '============================================================================================='//new_line('a')
-    outext = outext//'                                  Simulation starting'//new_line('a')
-    outext = outext//' ============================================================================================='
+    outext =         '==================================================================================================================='//new_line('a')
+    outext = outext//'                                             Simulation starting'//new_line('a')
+    outext = outext//' ==================================================================================================================='
     call Log%put(outext,.false.)
     outext = '    Output time    |   Simulation time   |      Finish time    |  Part | Tracer # |  Steps | sim/time | output file'
     call Log%put(outext, .false.)
