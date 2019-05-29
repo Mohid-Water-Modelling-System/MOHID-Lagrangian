@@ -37,6 +37,7 @@
     contains
     procedure :: initialize => initTimer
     procedure :: getElapsed             !< returns the elasped time on this timer
+    procedure :: getElapsedLast
     procedure :: Tic                    !< starts timming cycle
     procedure :: Toc                    !< ends timming cycle and accumulates the total
     procedure :: print => printElapsed  !< prints elapsed time of this timmer
@@ -78,6 +79,16 @@
     class(timer_class), intent(in) :: this
     getElapsed = this%elapsed
     end function getElapsed
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the last time on this timer
+    !---------------------------------------------------------------------------
+    real(prec) function getElapsedLast(this)
+    class(timer_class), intent(in) :: this
+    getElapsedLast = this%last
+    end function getElapsedLast
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
