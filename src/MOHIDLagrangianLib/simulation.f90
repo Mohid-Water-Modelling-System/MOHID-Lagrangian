@@ -40,6 +40,7 @@
         !Timers
         type(timer_class) :: timerInit          !< timer for the initialization routines
         type(timer_class) :: timerTotalRun      !< timer for the total wall time spent on the simulation
+        type(timer_class) :: timerInput        !< timer for the output writting routines
         type(timer_class) :: timerOutput        !< timer for the output writting routines
         type(timer_class) :: timerPrep          !< timer for the toggling, emission and consolidation phase of every time-step
         type(timer_class) :: timerAoTOps        !< timer for the AoT operations (encoding and decoding)
@@ -61,6 +62,7 @@
     procedure, private :: BlocksRunSolver
     procedure, private :: BlocksAoTtoTracers
     procedure, private :: BlocksCleanAoT
+    procedure, private :: InputData
     procedure, private :: OutputStepData
     procedure, private :: setInitialState
     procedure, private :: getTracerTotals
@@ -100,7 +102,7 @@
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
-        call self%InputStreamer%loadDataFromStack(BBox, sBlock)
+        call self%InputData()
         !Update all tracers with base behavior (AoT) - Integration step
         if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
         !AoT to Tracers
@@ -125,6 +127,7 @@
     call self%timerPrep%print()
     call self%timerAoTOps%print()
     call self%timerSolver%print()
+    call self%timerInput%print()
     call self%timerOutput%print()
 
     end subroutine run
@@ -149,6 +152,8 @@
 
     aux = 'Simulation::Total'
     call self%timerTotalRun%initialize(aux)
+    aux = 'Simulation::Input'
+    call self%timerInput%initialize(aux)
     aux = 'Simulation::Output'
     call self%timerOutput%initialize(aux)
     aux = 'Simulation::Preparation'
@@ -360,6 +365,19 @@
     !$OMP END PARALLEL
     call self%timerAoTOps%Toc()
     end subroutine BlocksCleanAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to call the input streamer reading methods at
+    !> current Time
+    !---------------------------------------------------------------------------
+    subroutine InputData(self)
+    class(simulation_class), intent(inout) :: self
+    call self%timerInput%Tic()
+    call self%InputStreamer%loadDataFromStack(BBox, sBlock)
+    call self%timerInput%Toc()
+    end subroutine InputData
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
