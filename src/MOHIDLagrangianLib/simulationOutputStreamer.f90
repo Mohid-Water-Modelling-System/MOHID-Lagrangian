@@ -135,7 +135,7 @@
     outext = outext//'                                  Simulation starting'//new_line('a')
     outext = outext//' ============================================================================================='
     call Log%put(outext,.false.)
-    outext = '    Output time    |   Simulation time   |  Part | Tracer # |  Steps | sim/time | output file'
+    outext = '    Output time    |   Simulation time   |      Finish time    |  Part | Tracer # |  Steps | sim/time | output file'
     call Log%put(outext, .false.)
     end subroutine writeOutputHeader
     
@@ -151,9 +151,20 @@
     type(timer_class), intent(in) :: simTimer
     type(string), intent(in) :: fileName
     type(string) :: outext, temp
+    type(datetime) :: finishDateTime
+    type(timedelta) :: estimTimeDelta
+    integer :: totalSecsToFinish
     temp = Globals%SimTime%CurrDate%isoformat(' ')
-    temp = temp%basename(extension='.000')
+    temp = temp%basename(strip_last_extension=.true.)
     outext = '| '//temp
+    finishDateTime = finishDateTime%now()
+    estimTimeDelta = Globals%SimTime%EndDate - Globals%SimTime%StartDate
+    totalSecsToFinish = estimTimeDelta%total_seconds()/(Globals%SimDefs%dt/simTimer%getElapsedLast())
+    estimTimeDelta = timedelta(0,0,0,totalSecsToFinish,0)
+    finishDateTime = finishDateTime + estimTimeDelta
+    temp = finishDateTime%isoformat(' ')
+    temp = temp%basename(strip_last_extension=.true.)
+    outext = outext//' | '//temp
     outext = outext//' | '//Utils%int2str('(i5.5)', Globals%Sim%getnumoutfile())
     outext = outext//' | '//Utils%int2str('(i8.1)', numTracers)
     outext = outext//' | '//Utils%int2str('(i6.1)', Globals%Sim%getnumdt())
