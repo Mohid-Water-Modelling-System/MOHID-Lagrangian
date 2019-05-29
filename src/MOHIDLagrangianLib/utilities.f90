@@ -35,6 +35,7 @@
     procedure :: m2geo_vec, m2geo_comp
     generic   :: m2geo => m2geo_vec, m2geo_comp
     procedure :: int2str
+    procedure :: real2str
     procedure :: get_closest_twopow
     end type utils_class
     
@@ -176,6 +177,23 @@
     write(tmp, fmt) i
     res = trim(tmp)
     end function
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a string from an real number
+    !> and a format descriptor
+    !> @param[in] self, fmt, i
+    !---------------------------------------------------------------------------
+    function real2str(self, fmt, i) result(res)
+    class(utils_class), intent(in) :: self
+    character(:), allocatable :: res
+    character(len=6), intent(in) :: fmt ! format descriptor
+    real(prec), intent(in) :: i
+    character(range(i)+2) :: tmp
+    write(tmp, fmt) i
+    res = trim(tmp)
+    end function real2str
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
