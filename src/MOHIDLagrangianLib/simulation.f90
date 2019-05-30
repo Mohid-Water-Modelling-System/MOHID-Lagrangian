@@ -65,6 +65,7 @@
     procedure, private :: InputData
     procedure, private :: OutputStepData
     procedure, private :: setInitialState
+    procedure, private :: updateSimDateTime
     procedure, private :: getTracerTotals
     procedure, private :: printTracerTotals
     procedure, private :: setTracerMemory
@@ -81,9 +82,7 @@
     !> Simulation run method. Runs the initialized case main time cycle.
     !---------------------------------------------------------------------------
     subroutine run(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
-    type(string) :: outext, aux
 
     call self%OutputStreamer%writeOutputHeader()
 
@@ -104,7 +103,7 @@
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         call self%InputData()
         !Update all tracers with base behavior (AoT) - Integration step
-        if (Globals%Sim%getnumdt() /= 1 ) call self%BlocksRunSolver()
+        call self%BlocksRunSolver()
         !AoT to Tracers
         call self%BlocksAoTtoTracers()
         !Update Tracers with type-specific behavior
@@ -114,15 +113,15 @@
         !Clean AoT
         call self%BlocksCleanAoT()
         !update Simulation time
-        if (Globals%Sim%getnumdt() /= 1 ) call Globals%SimTime%setCurrDateTime(Globals%SimDefs%dt)
+        call self%updateSimDateTime()
         !print*, 'Global time is ', Globals%SimTime%CurrTime
         !print*, 'Can we continue?'
         !read (*,*)
         call self%timerTotalRun%Toc()
     enddo
+    
     call self%setTracerMemory()
     call SimMemory%detailedprint()
-
     call self%timerTotalRun%print()
     call self%timerPrep%print()
     call self%timerAoTOps%print()
@@ -140,7 +139,6 @@
     !> @param[in] self, casefilename, outpath
     !---------------------------------------------------------------------------
     subroutine initSimulation(self, casefilename, outpath)
-    implicit none
     class(simulation_class), intent(inout) :: self
     type(string), intent(in) :: casefilename         !< case file name
     type(string), intent(in) :: outpath              !< Output path
@@ -213,7 +211,6 @@
     !> Globals%SimTime%CurrTime
     !---------------------------------------------------------------------------
     subroutine ToggleSources(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
@@ -233,7 +230,6 @@
     !> Simulation method to call the Blocks to emitt tracers at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksEmitt(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
@@ -250,7 +246,6 @@
     !> current Time
     !---------------------------------------------------------------------------
     subroutine BlocksDistribute(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
@@ -268,7 +263,6 @@
     !> current Time
     !---------------------------------------------------------------------------
     subroutine BlocksConsolidateArrays(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
@@ -289,7 +283,6 @@
     !> Tracers (AoT) from the Tracer list at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksTracersToAoT(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerAoTOps%Tic()
@@ -310,18 +303,19 @@
     !> current Time
     !---------------------------------------------------------------------------
     subroutine BlocksRunSolver(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
-    call self%timerSolver%Tic()
-    !$OMP PARALLEL PRIVATE(i)
-    !$OMP DO
-    do i=1, size(sBlock)
-        call sBlock(i)%RunSolver()
-    enddo
-    !$OMP END DO
-    !$OMP END PARALLEL
-    call self%timerSolver%Toc()
+    if (Globals%Sim%getnumdt() /= 1 ) then
+        call self%timerSolver%Tic()
+        !$OMP PARALLEL PRIVATE(i)
+        !$OMP DO
+        do i=1, size(sBlock)
+            call sBlock(i)%RunSolver()
+        enddo
+        !$OMP END DO
+        !$OMP END PARALLEL
+        call self%timerSolver%Toc()
+    end if
     end subroutine BlocksRunSolver
 
     !---------------------------------------------------------------------------
@@ -331,7 +325,6 @@
     !> Tracers (AoT) back to the Tracer objects on the list at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksAoTtoTracers(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerAoTOps%Toc()
@@ -352,7 +345,6 @@
     !> Tracers (AoT) at current Time
     !---------------------------------------------------------------------------
     subroutine BlocksCleanAoT(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerAoTOps%Tic()
@@ -365,6 +357,17 @@
     !$OMP END PARALLEL
     call self%timerAoTOps%Toc()
     end subroutine BlocksCleanAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Simulation method to update the date and time variables
+    !---------------------------------------------------------------------------
+    subroutine updateSimDateTime(self)
+    class(simulation_class), intent(inout) :: self
+    integer :: i
+    if (Globals%Sim%getnumdt() /= 1 ) call Globals%SimTime%setCurrDateTime(Globals%SimDefs%dt)
+    end subroutine updateSimDateTime
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -386,7 +389,6 @@
     !> current Time
     !---------------------------------------------------------------------------
     subroutine OutputStepData(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     call self%timerOutput%Tic()
     call self%OutputStreamer%WriteStep(sBlock, self%getTracerTotals(), self%timerTotalRun)
@@ -400,7 +402,6 @@
     !> respective Tracers and redistribute if needed
     !---------------------------------------------------------------------------
     subroutine setInitialState(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
     integer :: i, blk, ntrc
@@ -426,7 +427,6 @@
     !> Simulation method to count Tracer numbers
     !---------------------------------------------------------------------------
     integer function getTracerTotals(self)
-    implicit none
     class(simulation_class), intent(in) :: self
     integer :: i, total
     total = 0
@@ -442,7 +442,6 @@
     !> Simulation method to count Tracer numbers
     !---------------------------------------------------------------------------
     subroutine printTracerTotals(self)
-    implicit none
     class(simulation_class), intent(in) :: self
     type(string) :: outext, temp
     temp = self%getTracerTotals()
@@ -456,7 +455,6 @@
     !> Simulation method to account for Tracer memory consumption
     !---------------------------------------------------------------------------
     subroutine setTracerMemory(self, ntrc)
-    implicit none
     class(simulation_class), intent(in) :: self
     integer, optional, intent(in) :: ntrc
     integer :: sizem, i
@@ -479,7 +477,6 @@
     !> Simulation method to do domain decomposition and define the Blocks
     !---------------------------------------------------------------------------
     subroutine DecomposeDomain(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
     if (Globals%SimDefs%autoblocksize) then
@@ -499,7 +496,6 @@
     !> Simulation finishing method. Closes output files and writes the final messages
     !---------------------------------------------------------------------------
     subroutine closeSimulation(self)
-    implicit none
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
     outext='Simulation ended, freeing resources. See you next time'
