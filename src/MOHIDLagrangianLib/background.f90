@@ -45,6 +45,7 @@
     procedure :: getDimIndex
     procedure :: getDimExtents
     procedure :: append => appendFieldByTime
+    procedure :: finalize => cleanBackground
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
@@ -225,6 +226,41 @@
     return
     
     end subroutine appendFieldByTime
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that cleans all data in the Background object
+    !---------------------------------------------------------------------------
+    subroutine cleanBackground(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    type(string) :: outext
+    self%id = MV_INT
+    self%name = ''
+    deallocate(self%dim)
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar1d_field_class)
+            call curr%finalize()
+        class is (scalar2d_field_class)
+            call curr%finalize()
+        class is (scalar3d_field_class)
+            call curr%finalize()
+        class is (scalar4d_field_class)
+            call curr%finalize()
+        class default
+        outext = '[background_class::cleanBackground] Unexepected type of content, not a Field'
+        call Log%put(outext)
+        stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+    end do
+    call self%fields%reset()               ! reset list iterator
+    call self%fields%finalize()    
+    end subroutine cleanBackground
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
