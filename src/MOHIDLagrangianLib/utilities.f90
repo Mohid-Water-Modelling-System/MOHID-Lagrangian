@@ -37,6 +37,8 @@
     procedure :: int2str
     procedure :: real2str
     procedure :: get_closest_twopow
+    procedure :: isBoundedSingle, isBoundedArray
+    generic :: isBounded => isBoundedSingle, isBoundedArray
     end type utils_class
     
     type(utils_class) :: Utils
@@ -220,5 +222,33 @@
         endif
     enddo
     end function get_closest_twopow
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Logical function that checks if a set of numbers are bounded between 2 values
+    !> @param[in] self, nums, minBound, maxBound
+    !---------------------------------------------------------------------------
+    logical function isBoundedSingle(self, nums, minBound, maxBound)
+    class(utils_class), intent(in) :: self
+    real(prec), intent(in) :: nums
+    real(prec), intent(in) :: minBound
+    real(prec), intent(in) :: maxBound
+    isBoundedSingle = (nums >= minBound).and.(nums < maxBound)    
+    end function isBoundedSingle
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Logical function that checks if a set of numbers are bounded between 2 values
+    !> @param[in] self, nums, minBound, maxBound
+    !---------------------------------------------------------------------------
+    logical function isBoundedArray(self, nums, minBound, maxBound)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: nums
+    real(prec), intent(in) :: minBound
+    real(prec), intent(in) :: maxBound
+    isBoundedArray = all(nums >= minBound).and.all(nums < maxBound)    
+    end function isBoundedArray
 
     end module utilities_mod
