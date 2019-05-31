@@ -84,10 +84,12 @@
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
         real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
+        real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
+    procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
 
@@ -240,6 +242,7 @@
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
     self%Constants%Rho_ref = 1000.0
+    self%Constants%smallDt = 0.0
     !filenames
     self%Names%mainxmlfilename = 'not_set'
     self%Names%propsxmlfilename = 'not_set'
@@ -854,6 +857,27 @@
     sizem = sizeof(self%Rho_ref)
     call SimMemory%adddef(sizem)
     end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> smallDt setting routine.
+    !> @param[in] self, dt
+    !---------------------------------------------------------------------------
+    subroutine setSmallDt(self, dt)
+    class(constants_t), intent(inout) :: self
+    real(prec), intent(in) :: dt
+    type(string) :: outext
+    integer :: sizem
+    self%smallDt=dt/3.0
+    if (self%smallDt.le.0.0) then
+        outext='dt must be positive and non-zero, stopping'
+        call Log%put(outext)
+        stop
+    endif
+    sizem = sizeof(self%smallDt)
+    call SimMemory%adddef(sizem)
+    end subroutine setSmallDt
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
