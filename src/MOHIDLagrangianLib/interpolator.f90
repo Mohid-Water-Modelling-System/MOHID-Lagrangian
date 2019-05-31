@@ -187,13 +187,19 @@
     type(string), intent(in) :: dimName
     integer :: dim                                              !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
-    real(prec) :: minBound, maxBound, res    
+    real(prec) :: minBound, maxBound, res
+    type(string) :: outext
     dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/(res-1)
     getArrayCoordRegular = (xdata - minBound)/res + 1
+    if (.not.Utils%isBounded(xdata, minBound, maxBound)) then
+        outext = '[Interpolator::getArrayCoordRegular] Points not contained in "'//dimName//'" dimension, stoping'
+        call Log%put(outext)
+        stop
+    end if
     end function getArrayCoordRegular
 
     !---------------------------------------------------------------------------
@@ -211,12 +217,18 @@
     integer :: dim                              !< corresponding background dimension
     real(prec) :: getPointCoordRegular          !< coordinates in array index
     real(prec) :: minBound, maxBound, res
+    type(string) :: outext
     dim = bdata%getDimIndex(dimName) 
     res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
     getPointCoordRegular = (xdata - minBound)/res+1
+    if (.not.Utils%isBounded(xdata, minBound, maxBound)) then
+        outext = '[Interpolator::getPointCoordRegular] Point not contained in "'//dimName//'" dimension, stoping'
+        call Log%put(outext)
+        stop
+    end if
     end function getPointCoordRegular
 
     !---------------------------------------------------------------------------
