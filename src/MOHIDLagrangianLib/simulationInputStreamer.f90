@@ -46,6 +46,7 @@
         type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
         real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
+        real(prec) :: lastReadTime
     contains
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
@@ -67,29 +68,47 @@
     !---------------------------------------------------------------------------
     subroutine loadDataFromStack(self, bBox, blocks)
     class(input_streamer_class), intent(inout) :: self
-    class(boundingbox_class), intent(in) :: bBox            !< Case bounding box
-    class(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
+    type(boundingbox_class), intent(in) :: bBox            !< Case bounding box
+    type(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
+    type(background_class) :: tempBkgd
     integer :: i
     integer :: fNumber
+    real(prec) :: tempTime(2)
+    logical :: needToRead
 
+    needToRead = .false.
     if (self%useInputFiles) then
+        !check if we need to import data (current time and buffer size)
+        if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/2.0) needToRead = .true.
+        if (Globals%SimTime%CurrTime + self%buffer_size/2.0 > self%currentsInputFile(size(self%currentsInputFile))%endTime) needToRead = .false.
+        if (needToRead) then
+            !import data to temporary background
+            print*, Globals%SimTime%CurrTime
+            print*, self%buffer_size/2.0
+            print*, self%lastReadTime
+            tempBkgd = self%getFullFile(self%currentsInputFile(1)%name)
+            !slice data by block and either join to existing background or add a new one
 
-        do i=1, size(self%currentsInputFile)
-            if (self%currentsInputFile(i)%endTime > Globals%SimTime%CurrTime) then
-                if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
-                    fNumber = i
-                    exit
+            do i=1, size(self%currentsInputFile)
+                if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
+                        fNumber = i
+                        exit
+                    end if
                 end if
-            end if
-        end do
+            end do
 
-        do i=1, size(blocks)
-            if (Globals%Sim%getnumdt() == 1 ) then
-                allocate(blocks(i)%Background(1))
-                blocks(i)%Background(1) = self%getFullFile(self%currentsInputFile(fNumber)%name)
-            end if
-        end do
-
+            do i=1, size(blocks)
+                if (Globals%Sim%getnumdt() == 1 ) then
+                    allocate(blocks(i)%Background(1))
+                    blocks(i)%Background(1) = self%getFullFile(self%currentsInputFile(fNumber)%name)
+                    tempTime = blocks(i)%Background(1)%getDimExtents(Globals%Var%time)
+                    self%lastReadTime = tempTime(2)
+                end if
+            end do
+        
+            call tempBkgd%finalize()
+        end if
     end if
 
     end subroutine loadDataFromStack
@@ -159,6 +178,7 @@
     integer :: i
 
     self%buffer_size = 3600*24*2 !seconds/hour*hours*days
+    self%lastReadTime = -1.0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
     if (associated(xmlInputs)) then
