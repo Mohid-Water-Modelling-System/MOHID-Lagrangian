@@ -52,6 +52,7 @@
     procedure, non_overridable :: getValue    !< get nth value in list
     procedure, non_overridable :: removeCurrent !< Method that removes the current link from a list
     procedure, non_overridable :: remove      !< Method that removes the nth link from a list
+    procedure, non_overridable :: finalize => cleanList   !< erases all contents of the list
     procedure, non_overridable :: getFirst    !< returns the fist link of the list
     procedure, non_overridable :: getLast     !< returns the last link of the list
     procedure, non_overridable :: getSize     !< returns the size of the list
@@ -162,6 +163,21 @@
         end if
     end if
     end subroutine remove
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that removes the contents from a list
+    !---------------------------------------------------------------------------    
+    subroutine cleanList(this)
+    class(linkedlist), intent(inout) :: this
+    call this%reset()               ! reset list iterator
+    do while(this%moreValues())     ! loop while there are values to print
+        call this%removeCurrent()
+        call this%next()            ! increment the list iterator
+    end do
+    call this%reset()               ! reset list iterator
+    end subroutine cleanList
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

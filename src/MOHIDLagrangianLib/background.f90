@@ -45,6 +45,7 @@
     procedure :: getDimIndex
     procedure :: getDimExtents
     procedure :: append => appendFieldByTime
+    procedure :: finalize => cleanBackground
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
@@ -165,43 +166,54 @@
     !> field list, if possible
     !> @param[in] self, gfield, dims
     !---------------------------------------------------------------------------
-    subroutine appendFieldByTime(self, gfield, dims)
+    subroutine appendFieldByTime(self, gfield, dims, done)
     class(background_class), intent(inout) :: self
     type(generic_field_class), intent(in) :: gfield
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    logical, intent(out) :: done
+    real(prec), allocatable, dimension(:) :: newTime, oldTime, toAppendTime
     class(*), pointer :: aField
     type(string) :: outext
-    integer :: i, j
+    integer :: i, j, posiTime
     
-    logical :: comparableFieldData
-    logical :: comparableDimensionData
-    
-    comparableDimensionData = .false.
+    done = .false.
     !check that dimensions are compatible
     !spacial dims must be the same, temporal must be consecutive
     if (size(self%dim) == size(dims)) then !ammount of dimensions is the same
         do i = 1, size(dims)
             j = self%getDimIndex(dims(i)%name) !getting the same dimension for the fields
             if (dims(i)%name /= Globals%Var%time) then  !dimension is not 'time'
-                if (size(dims(i)%field) == size(self%dim(j)%field)) then !size of the arrays is the same                    
-                    comparableDimensionData = all(dims(i)%field == self%dim(j)%field)  !dimensions array is the same                    
+                if (size(dims(i)%field) == size(self%dim(j)%field)) then !size of the arrays is the same
+                    done = all(dims(i)%field == self%dim(j)%field)  !dimensions array is the same
                 end if
             else
-                comparableDimensionData = all(dims(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
+                posiTime = i
+                done = all(dims(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
             end if
         end do
     end if
-    if (.not.comparableDimensionData) return
+    if (.not.done) return
     
+    done = .false.
     !check that fields are compatible
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values to print
         aField => self%fields%currentValue()
         select type(aField)
         class is (generic_field_class)
-            if (aField%compare(gfield)) then
-                !append the field
-                
+            if (aField%compare(gfield)) then                
+                !concatenate the fields on the background
+                call aField%concatenate(gfield)
+                !concatenate the 'time' dimension of the background
+                i = self%getDimIndex(Globals%Var%time)
+                allocate(oldTime, source = self%dim(i)%field)
+                !allocate(newTime(size(oldTime) + size(dims(posiTime)%field)))
+                newTime = [oldTime, dims(posiTime)%field]
+                deallocate(self%dim(i)%field)
+                allocate(self%dim(i)%field, source = newTime)
+                call self%fields%reset()
+                done = .true.
+                return
             end if
             class default
             outext = '[Background::appendFieldByTime] Unexepected type of content, not a Field'
@@ -211,8 +223,44 @@
         call self%fields%next()            ! increment the list iterator
     end do
     call self%fields%reset()               ! reset list iterator
+    return
     
     end subroutine appendFieldByTime
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that cleans all data in the Background object
+    !---------------------------------------------------------------------------
+    subroutine cleanBackground(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    type(string) :: outext
+    self%id = MV_INT
+    self%name = ''
+    deallocate(self%dim)
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar1d_field_class)
+            call curr%finalize()
+        class is (scalar2d_field_class)
+            call curr%finalize()
+        class is (scalar3d_field_class)
+            call curr%finalize()
+        class is (scalar4d_field_class)
+            call curr%finalize()
+        class default
+        outext = '[background_class::cleanBackground] Unexepected type of content, not a Field'
+        call Log%put(outext)
+        stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+    end do
+    call self%fields%reset()               ! reset list iterator
+    call self%fields%finalize()    
+    end subroutine cleanBackground
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

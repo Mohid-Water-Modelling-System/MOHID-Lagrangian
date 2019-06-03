@@ -84,10 +84,12 @@
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
         real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
+        real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
+    procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
 
@@ -112,12 +114,15 @@
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
+        integer :: lastOutNumDt    !<number of the last outputed iteration
         integer :: numoutfile   !<number of the current output file
         integer :: numTracer    !<Global Tracer number holder. Incremented at tracer construction or first activation time
     contains
     procedure, public :: increment_numdt
     procedure, public :: increment_numoutfile
     procedure, public :: getnumdt
+    procedure, public :: getlastOutNumDt
+    procedure, public :: setlastOutNumDt
     procedure, public :: getnumoutfile
     procedure, public :: getnumTracer
     procedure, private :: increment_numTracer
@@ -237,6 +242,7 @@
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
     self%Constants%Rho_ref = 1000.0
+    self%Constants%smallDt = 0.0
     !filenames
     self%Names%mainxmlfilename = 'not_set'
     self%Names%propsxmlfilename = 'not_set'
@@ -251,6 +257,7 @@
     self%SimTime%CurrTime = 0.0
     !global counters
     self%Sim%numdt = 0
+    self%Sim%lastOutNumDt = 0
     self%Sim%numoutfile = 0
     self%Sim%numTracer = 0
     !Source parameters list
@@ -477,7 +484,7 @@
     call XMLReader%gotoNode(varNode, tempNode, tag, mandatory = .false.)
     if (associated(tempNode)) then !variable description exists in file
         attName="name"
-        call XMLReader%getNodeAttribute(tempNode, tag, attName, attValue, mandatory = .true.)
+        call XMLReader%getNodeAttribute(varNode, tag, attName, attValue, mandatory = .true.)
         currVar = attValue
         varNameList => getElementsByTagname(tempNode, "variant")
         do i = 0, getLength(varNameList) - 1
@@ -601,7 +608,28 @@
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the number of time steps from last ouptut.
+    !---------------------------------------------------------------------------
+    integer function getlastOutNumDt(self)
+    class(sim_t), intent(inout) :: self
+    getlastOutNumDt = self%lastOutNumDt
+    end function getlastOutNumDt
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Sets the number of time steps from last ouptut.
+    !---------------------------------------------------------------------------
+    subroutine setlastOutNumDt(self, num)
+    class(sim_t), intent(inout) :: self
+    integer, intent(in) :: num
+    self%lastOutNumDt = num
+    end subroutine setlastOutNumDt
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -829,6 +857,27 @@
     sizem = sizeof(self%Rho_ref)
     call SimMemory%adddef(sizem)
     end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> smallDt setting routine.
+    !> @param[in] self, dt
+    !---------------------------------------------------------------------------
+    subroutine setSmallDt(self, dt)
+    class(constants_t), intent(inout) :: self
+    real(prec), intent(in) :: dt
+    type(string) :: outext
+    integer :: sizem
+    self%smallDt=dt/3.0
+    if (self%smallDt.le.0.0) then
+        outext='dt must be positive and non-zero, stopping'
+        call Log%put(outext)
+        stop
+    endif
+    sizem = sizeof(self%smallDt)
+    call SimMemory%adddef(sizem)
+    end subroutine setSmallDt
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

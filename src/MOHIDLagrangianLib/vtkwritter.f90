@@ -93,8 +93,8 @@
     integer(I4P), dimension(:), allocatable :: connect    !< Connectivity
 
     extfilename = filename%chars()//'.vtu'
-    outext = '->Writting output file '//extfilename
-    call Log%put(outext)
+    !outext = '->Writting output file '//extfilename
+    !call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//extfilename
 
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')

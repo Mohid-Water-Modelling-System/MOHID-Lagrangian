@@ -108,12 +108,21 @@ def run():
     indexer = xmlWriter.xmlWriter(indexerFileName)
     
     #going trough every file, extracting some metadata and writting in the indexer file
+    ncMeta = []
     for idir in inputFiles:
         for ifile in idir:
-            print('--> indexing file', ifile)
-            ncMeta = ncMetaParser.ncMetadata(ifile, StartTime)
-            indexer.writeFile(ncMeta.getName(), ncMeta.getstartTime(), ncMeta.getendTime())
+            print('--> reading file', ifile)
+            ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
+	
+    ncMeta.sort(key=lambda x: x.startTime)
+	
+    indexer.openCurrentsCollection()
     
+    print('--> indexing currents data')
+    for ncfile in ncMeta:
+        indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y/%m/%d, %H:%M:%S"), ncfile.getendDate().strftime("%Y/%m/%d, %H:%M:%S"))
+    
+    indexer.closeCurrentsCollection()
     indexer.closeFile()
     
             

@@ -30,15 +30,17 @@ class ncMetadata:
         self.fileName = []
         self.startTime = []
         self.endTime = []
+        self.startDate = []
+        self.endDate = []
         
         self.fileName = fileName        
         ds = xr.open_dataset(self.fileName)
         tMin = ds.time.min()
         tMax = ds.time.max()
-        dMin = datetime(tMin.dt.year, tMin.dt.month, tMin.dt.day, tMin.dt.hour, tMin.dt.minute, tMin.dt.second)
-        dMax = datetime(tMax.dt.year, tMax.dt.month, tMax.dt.day, tMax.dt.hour, tMax.dt.minute, tMax.dt.second)
-        self.startTime = (dMin - baseTime).total_seconds()
-        self.endTime = (dMax - baseTime).total_seconds()
+        self.startDate = datetime(tMin.dt.year, tMin.dt.month, tMin.dt.day, tMin.dt.hour, tMin.dt.minute, tMin.dt.second)
+        self.endDate = datetime(tMax.dt.year, tMax.dt.month, tMax.dt.day, tMax.dt.hour, tMax.dt.minute, tMax.dt.second)
+        self.startTime = (self.startDate - baseTime).total_seconds()
+        self.endTime = (self.endDate - baseTime).total_seconds()
         
         ds.close
         
@@ -50,4 +52,10 @@ class ncMetadata:
     
     def getendTime(self):
         return self.endTime
+		
+    def getstartDate(self):
+        return self.startDate
+    
+    def getendDate(self):
+        return self.endDate
         

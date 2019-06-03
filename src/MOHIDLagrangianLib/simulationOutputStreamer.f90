@@ -35,8 +35,11 @@
         type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
     contains
     procedure :: initialize => initOutputStreamer
+    procedure :: writeOutputHeader
+    procedure, private :: writeOutputSummary
     procedure :: WriteDomain
-    procedure :: WriteStepSerial
+    procedure :: WriteStep
+    procedure, private :: WriteStepSerial
     procedure :: finalize => closeOutputStreamer
     procedure, private :: CheckWriteTime
     end type output_streamer_class
@@ -49,29 +52,49 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Streamer method to call a simulation step writer. Writes binary XML VTK
-    !> format using an unstructured grid.
+    !> output streamer method to check if it is writ time, and call a 
+    !> step writer. Assembles output file name and updates streamer data.
     !> @param[in] self, blocks
     !---------------------------------------------------------------------------
-    subroutine WriteStepSerial(self, blocks)
+    subroutine WriteStep(self, blocks, numTracers, simTimer)
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
-    type(string) :: filename                                !< name of the case to add
+    integer, intent(in) :: numTracers
+    type(timer_class), intent(in) :: simTimer
+    type(string) :: fileName
+    
     if (self%CheckWriteTime()) then
-        filename = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
-        if (self%OutputFormat == 2) then !VTK file selected
-            call self%vtkWritter%TracerSerial(filename, blocks)
-        end if
+        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
+        call self%WriteStepSerial(fileName, blocks)
+        call self%writeOutputSummary(numTracers, simTimer, fileName)
+        call Globals%Sim%setlastOutNumDt(Globals%Sim%getnumdt())
         call Globals%Sim%increment_numoutfile()
         self%LastWriteTime = Globals%SimTime%CurrTime
     end if
+
+    end subroutine WriteStep
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Streamer method to call an appropriate writer.
+    !> @param[in] self, filename, blocks
+    !---------------------------------------------------------------------------
+    subroutine WriteStepSerial(self, filename, blocks)
+    class(output_streamer_class), intent(inout) :: self
+    class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
+    type(string), intent(in) :: filename                    !< name of the case to add
+
+    if (self%OutputFormat == 2) then !VTK file selected
+        call self%vtkWritter%TracerSerial(filename, blocks)
+    end if
+
     end subroutine WriteStepSerial
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Public simulation domain writting routine. Writes binary XML VTK
-    !> format using an unstructured grid.
+    !> Public simulation domain writting routine.
     !> @param[in] self, filename, bbox, npbbox, blocks
     !---------------------------------------------------------------------------
     subroutine WriteDomain(self, filename, bbox, npbbox, blocks)
@@ -98,6 +121,57 @@
     if ((Globals%SimTime%CurrTime - self%LastWriteTime) >= self%OutputIntervalTime) CheckWriteTime = .true.
     if (Globals%SimTime%CurrTime == 0.0) CheckWriteTime = .true.
     end function CheckWriteTime
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Writes simulation log header
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine writeOutputHeader(self)
+    class(output_streamer_class), intent(in) :: self
+    type(string) :: outext
+    outext =         '==================================================================================================================='//new_line('a')
+    outext = outext//'                                             Simulation starting'//new_line('a')
+    outext = outext//' ==================================================================================================================='
+    call Log%put(outext,.false.)
+    outext = '    Output time    |   Simulation time   |      Finish time    |  Part | Tracer # |  Steps | sim/time | output file'
+    call Log%put(outext, .false.)
+    end subroutine writeOutputHeader
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> writes log entry with data regarding current output
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine writeOutputSummary(self, numTracers, simTimer, fileName)
+    class(output_streamer_class), intent(in) :: self
+    integer, intent(in) :: numTracers
+    type(timer_class), intent(in) :: simTimer
+    type(string), intent(in) :: fileName
+    type(string) :: outext, temp
+    type(datetime) :: finishDateTime
+    type(timedelta) :: estimTimeDelta
+    integer :: totalSecsToFinish
+    temp = Globals%SimTime%CurrDate%isoformat(' ')
+    temp = temp%basename(strip_last_extension=.true.)
+    outext = '| '//temp
+    finishDateTime = finishDateTime%now()
+    estimTimeDelta = Globals%SimTime%EndDate - Globals%SimTime%StartDate
+    totalSecsToFinish = estimTimeDelta%total_seconds()/(Globals%SimDefs%dt/simTimer%getElapsedLast())
+    estimTimeDelta = timedelta(0,0,0,totalSecsToFinish,0)
+    finishDateTime = finishDateTime + estimTimeDelta
+    temp = finishDateTime%isoformat(' ')
+    temp = temp%basename(strip_last_extension=.true.)
+    outext = outext//' | '//temp
+    outext = outext//' | '//Utils%int2str('(i5.5)', Globals%Sim%getnumoutfile())
+    outext = outext//' | '//Utils%int2str('(i8.1)', numTracers)
+    outext = outext//' | '//Utils%int2str('(i6.1)', Globals%Sim%getnumdt())
+    outext = outext//' | '//Utils%real2str('(f8.2)', Globals%SimDefs%dt/simTimer%getElapsedLast())   
+    outext = outext//' | '//fileName
+    call Log%put(outext)
+    end subroutine writeOutputSummary
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

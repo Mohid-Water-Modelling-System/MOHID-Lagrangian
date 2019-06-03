@@ -26,7 +26,7 @@
 
     implicit none
     private
-    
+
     type :: utils_class
     contains
     procedure :: getDateFromISOString
@@ -35,11 +35,14 @@
     procedure :: m2geo_vec, m2geo_comp
     generic   :: m2geo => m2geo_vec, m2geo_comp
     procedure :: int2str
+    procedure :: real2str
     procedure :: get_closest_twopow
+    procedure :: isBoundedSingle, isBoundedArray
+    generic :: isBounded => isBoundedSingle, isBoundedArray
     end type utils_class
-    
+
     type(utils_class) :: Utils
-    
+
     !public objects
     public :: Utils
 
@@ -48,7 +51,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Function that returns an integer array of type (year, month, day, hour, 
+    !> Function that returns an integer array of type (year, month, day, hour,
     !> minute, second) from an ISO date string.
     !> @param[in] self, dateStr
     !---------------------------------------------------------------------------
@@ -68,13 +71,13 @@
         outext = '[Utils::getDateFromISOString] Date '// dateStr //' not in correct format. Eg. "2009 3 1 0 0 0"'
         call Log%put(outext)
         stop
-    end if    
+    end if
     end function getDateFromISOString
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> returns the index of a given string in an array of strings. 
+    !> returns the index of a given string in an array of strings.
     !> Has optional mandatory flag.
     !> @param[in] self, str_array, str, mandatory
     !---------------------------------------------------------------------------
@@ -95,7 +98,7 @@
         end if
     end if
     end function find_str
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -125,7 +128,7 @@
     !---------------------------------------------------------------------------
     type(vector) function m2geo_vec(self, mvec, lat) result(res)
     class(utils_class), intent(in) :: self
-    type(vector), intent(in) :: mvec    
+    type(vector), intent(in) :: mvec
     real(prec), intent(in) :: lat
     real(prec) :: R
     real(prec) :: pi = 4*atan(1.0)
@@ -135,7 +138,7 @@
     res%y = res%y/(R*pi/180.0)
     res%x = res%x/((R*pi/180.0)*cos(pi*res%y/180.0))
     end function m2geo_vec
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -145,7 +148,7 @@
     !---------------------------------------------------------------------------
     function m2geo_comp(self, mvec, lat, component)
     class(utils_class), intent(in) :: self
-    real(prec), dimension(:), intent(in) :: mvec    
+    real(prec), dimension(:), intent(in) :: mvec
     real(prec), dimension(:), intent(in) :: lat
     logical, intent(in) :: component
     real(prec), dimension(size(mvec)) :: m2geo_comp
@@ -180,6 +183,23 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Returns a string from an real number
+    !> and a format descriptor
+    !> @param[in] self, fmt, i
+    !---------------------------------------------------------------------------
+    function real2str(self, fmt, i) result(res)
+    class(utils_class), intent(in) :: self
+    character(:), allocatable :: res
+    character(len=6), intent(in) :: fmt ! format descriptor
+    real(prec), intent(in) :: i
+    character(range(i)+2) :: tmp
+    write(tmp, fmt) i
+    res = trim(tmp)
+    end function real2str
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Returns the closest power of 2 or a given real number
     !> @param[in] self, num
     !---------------------------------------------------------------------------
@@ -202,5 +222,41 @@
         endif
     enddo
     end function get_closest_twopow
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Logical function that checks if a set of numbers are bounded between 2 values
+    !> @param[in] self, nums, minBound, maxBound
+    !---------------------------------------------------------------------------
+    logical function isBoundedSingle(self, nums, minBound, maxBound, eta)
+    class(utils_class), intent(in) :: self
+    real(prec), intent(in) :: nums
+    real(prec), intent(in) :: minBound
+    real(prec), intent(in) :: maxBound
+    real(prec), optional, intent(in) :: eta
+    real(prec) :: ieta
+    ieta = 0.0
+    if (present(eta)) ieta = eta
+    isBoundedSingle = (nums >= minBound).and.(nums <= maxBound+ieta)
+    end function isBoundedSingle
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Logical function that checks if a set of numbers are bounded between 2 values
+    !> @param[in] self, nums, minBound, maxBound
+    !---------------------------------------------------------------------------
+    logical function isBoundedArray(self, nums, minBound, maxBound, eta)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: nums
+    real(prec), intent(in) :: minBound
+    real(prec), intent(in) :: maxBound
+    real(prec), optional, intent(in) :: eta
+    real(prec) :: ieta
+    ieta = 0.0
+    if (present(eta)) ieta = eta
+    isBoundedArray = all(nums >= minBound).and.all(nums <= maxBound+ieta)
+    end function isBoundedArray
 
     end module utilities_mod

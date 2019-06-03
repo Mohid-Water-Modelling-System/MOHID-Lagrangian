@@ -22,6 +22,8 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
+    
+    use datetime_module
 
     implicit none
     private
@@ -106,16 +108,11 @@
     !> @param[in] timestamp
     !---------------------------------------------------------------------------
     subroutine getTimeStamp(timestamp)
-    implicit none
     type(string), intent(out) :: timestamp
-    character(80) :: temp(8)
-    integer :: values(8),i
-
-    call date_and_time(values=values)
-    do i=1,8
-        write(temp(i),*) values(i)
-    enddo
-    timestamp=trim(adjustl(temp(1)))//'-'//trim(adjustl(temp(2)))//'-'//trim(adjustl(temp(3)))//' @'//trim(adjustl(temp(5)))//':'//trim(adjustl(temp(6)))//':'//trim(adjustl(temp(7)))
+    type(datetime) :: date   
+    date = date%now()
+    timestamp = date%isoformat(' ')
+    timestamp = timestamp%basename(strip_last_extension=.true.) !getting rid of miliseconds
     end subroutine getTimeStamp
 
 

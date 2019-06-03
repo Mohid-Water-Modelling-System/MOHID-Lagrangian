@@ -41,12 +41,20 @@ class xmlWriter:
 <file_collection>
 ''')
 
-    def writeFile(self,fileName,startTime,endTime):                        
-        toWrite = '''    <file>
-        <name value="'''+fileName+'''" />
-        <startTime value="'''+str(startTime)+'''" />
-        <endTime value="'''+str(endTime)+'''" />
-    </file>
+    def openCurrentsCollection(self):
+        self.f.write('''	<currents>
+''')
+		
+    def closeCurrentsCollection(self):
+        self.f.write('''	</currents>
+''')
+
+    def writeFile(self,fileName,startTime,endTime,startDateStr,endDateStr):                        
+        toWrite = '''    	<file>
+			<name value="'''+fileName+'''" />
+			<startTime value="'''+str(startTime)+'''" />	<!-- '''+startDateStr+'''-->
+			<endTime value="'''+str(endTime)+'''" />	<!-- '''+endDateStr+'''-->
+		</file>
 '''
         self.f.write(toWrite)
         

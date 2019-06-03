@@ -66,10 +66,10 @@
     end type block_class
 
     !Simulation variables
-    type(block_class), allocatable, dimension(:) :: DBlock
+    type(block_class), allocatable, dimension(:) :: sBlock
 
     !Public access vars
-    public :: DBlock, block_class
+    public :: sBlock, block_class
     !Public access procedures
     public :: allocBlocks, setBlocks, getBlockIndex
 
@@ -111,8 +111,8 @@
     call SimMemory%addblock(sizem)
 
     !Tests
-    allocate(self%Background(1))
-    call TestMaker%initialize(3, self%extents, self%Background(1))
+    !allocate(self%Background(1))
+    !call TestMaker%initialize(3, self%extents, self%Background(1))
 
     end subroutine initBlock
 
@@ -315,7 +315,7 @@
     class(tracer_class), intent(inout) :: trc
     !PARALLEL this is a CRITICAL section, need to ensure correct tracer
     !index attribution at the new block
-    call DBlock(blk)%LTracer%add(trc)
+    call sBlock(blk)%LTracer%add(trc)
     end subroutine sendTracer
 
     !---------------------------------------------------------------------------
@@ -433,7 +433,7 @@
             do j=1, nyi
                 tempbox%pt = BBox%pt + BBox%size%x*(i-1)/nxi*ex + BBox%size%y*(j-1)/nyi*ey
                 tempbox%size = BBox%size%x/nxi*ex + BBox%size%y/nyi*ey + BBox%size%z*ez
-                call DBlock(b)%initialize(b, tempbox)
+                call sBlock(b)%initialize(b, tempbox)
                 b=b+1
             end do
         end do
@@ -442,9 +442,9 @@
         outext='-->Automatic domain decomposition sucessful. Domain is '//temp(1)// ' X ' //temp(2)//' Blocks'
         call Log%put(outext,.false.)
     end if
-    Globals%SimDefs%blocksize = DBlock(1)%extents%size
-    !do i=1, size(DBlock)
-    !    call DBlock(i)%print()
+    Globals%SimDefs%blocksize = sBlock(1)%extents%size
+    !do i=1, size(sBlock)
+    !    call sBlock(i)%print()
     !enddo
 
     return
@@ -461,7 +461,7 @@
     integer, intent(in) ::  nblk
     type(string) :: outext, temp
     integer err
-    allocate(DBlock(nblk), stat=err)
+    allocate(sBlock(nblk), stat=err)
     if(err/=0)then
         outext='[allocBlobks]: Cannot allocate Blocks, stoping'
         call Log%put(outext)

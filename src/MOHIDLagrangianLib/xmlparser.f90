@@ -53,23 +53,38 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that parses a xml file and returns a pointer to the master node.
-    !> @param[in] self, xmldoc, xmlfilename
+    !> @param[in] self, xmldoc, xmlfilename, mandatory
     !---------------------------------------------------------------------------
-    subroutine getFile(self, xmldoc, xmlfilename)
+    subroutine getFile(self, xmldoc, xmlfilename, mandatory)
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(out), pointer :: xmldoc   !< Node that contains the parsed file
     type(string), intent(in) :: xmlfilename      !< File name
+    logical, intent(in), optional :: mandatory   !<Swich for optional or mandatory tags
+    logical :: mand
     integer :: err
     type(string) :: outext
+    
+    if (present(mandatory)) then
+        mand = mandatory
+    else
+        mand = .true.
+    end if    
+    
     xmldoc => parseFile(xmlfilename%chars(), iostat=err) !using FOX function
     if (err==0) then
         outext='->Reading .xml file '//xmlfilename
         call Log%put(outext)
     else
-        outext='[XMLReader::getFile]: no '//xmlfilename//' file, or file is invalid. Stoping'
-        call Log%put(outext)
-        stop
-    endif
+        nullify(xmldoc)
+        if (.not.mand) then            
+            outext='[XMLReader::getFile]: no '//xmlfilename//' file, or file is invalid. Ignoring'
+            call Log%put(outext)
+        else
+            outext='[XMLReader::getFile]: no '//xmlfilename//' file, or file is invalid. Stoping'
+            call Log%put(outext)
+            stop
+        end if
+    end if
     end subroutine getFile
 
     !---------------------------------------------------------------------------
@@ -114,9 +129,9 @@
     type(string), intent(in) :: tag             !<Tag to search in xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
     type(string), intent(out) :: att_value      !<Attribute value
-    logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
+    logical, intent(out), optional :: read_flag !< Optional flag to capture read/non-read status
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
-
+    logical :: mand
     type(string) :: outext, nodename
     character(CHAR_LEN) :: att_value_chars
     type(NodeList), pointer :: target_node_list, nodeChildren
@@ -124,6 +139,12 @@
     logical :: validtag
     integer :: i
 
+    if (present(mandatory)) then
+        mand = mandatory
+    else
+        mand = .true.
+    end if
+    
     validtag = .false.
     nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info) !using FOX function
     do i=0, getLength(nodeChildren)-1
@@ -132,8 +153,8 @@
         if (nodename == tag) then
             validtag=.true.
             exit
-        endif
-    enddo
+        end if
+    end do
     if (validtag) then
         target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name !using FOX function
         nodedetail => item(target_node_list, 0) !using FOX function
@@ -141,20 +162,18 @@
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
             read_flag =.true.
-        endif
+        end if
     else
-        if(present(mandatory)) then
-            if(mandatory.eqv..false.) then
-                if (present(read_flag)) then
-                    read_flag =.false.
-                endif
-            endif
+        if(.not.mand) then
+            if (present(read_flag)) then
+                read_flag =.false.
+            end if                
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
             call Log%put(outext)
             stop
-        endif
-    endif
+        end if
+    end if
     end subroutine getNodeAttribute
 
     !---------------------------------------------------------------------------
@@ -171,13 +190,19 @@
     type(vector), intent(out) :: vec            !<Vector to fill with read contents
     logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
-
+    logical :: mand
     type(string) :: outext, nodename
     type(NodeList), pointer :: target_node_list, nodeChildren
     type(Node), pointer :: nodedetail
     logical :: validtag
     integer :: i
 
+    if (present(mandatory)) then
+        mand = mandatory
+    else
+        mand = .true.
+    end if
+    
     vec%x=MV !marking the array as not read
     validtag = .false.
     nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info) !using FOX function
@@ -187,8 +212,8 @@
         if (nodename == tag) then
             validtag =.true.
             exit
-        endif
-    enddo
+        end if
+    end do
     if (validtag) then
         target_node_list => getElementsByTagname(xmlnode, tag%chars())   !searching for tags with the given name !using FOX function
         nodedetail => item(target_node_list, 0) !using FOX function
@@ -197,20 +222,18 @@
         call extractDataAttribute(nodedetail, "z", vec%z)
         if (present(read_flag)) then
             read_flag =.true.
-        endif
+        end if
     else
-        if(present(mandatory)) then
-            if(mandatory.eqv..false.) then
-                if (present(read_flag)) then
-                    read_flag =.false.
-                endif
-            endif
+        if(.not.mand) then
+            if (present(read_flag)) then
+                read_flag =.false.
+            end if
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
             call Log%put(outext)
             stop
-        endif
-    endif
+        end if
+    end if
     end subroutine getNodeVector
 
     !---------------------------------------------------------------------------
@@ -227,12 +250,18 @@
     type(string), intent(in) :: targetNodeName
     logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
     logical, intent(in), optional :: mandatory   !<Swich for optional or mandatory tags
-
+    logical :: mand
     type(NodeList), pointer :: target_node_list
     type(string) :: outext, nodename
     integer :: i
     logical :: target_node_exists
 
+    if (present(mandatory)) then
+        mand = mandatory
+    else
+        mand = .true.
+    end if
+    
     target_node_exists = .false.
     target_node_list => getChildNodes(currentNode) !using FOX function
     do i=0, getLength(target_node_list)-1
@@ -242,30 +271,24 @@
             target_node_exists = .true.
             if (present(read_flag)) then
                 read_flag =.true.
-            endif
+            end if
             exit
-        endif
-    enddo
-    if (target_node_exists .eqv. .false.) then
+        end if
+    end do
+    if (.not.target_node_exists) then
         nullify(targetNode)
-        if(present(mandatory)) then
-            if (mandatory.eqv..false.) then
-                !outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
-                !call Log%put(outext)
-                if (present(read_flag)) then
-                    read_flag =.false.
-                endif
-            else
-                outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
-                call Log%put(outext)
-                stop
-            endif
+        if(.not.mand) then
+            !outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'
+            !call Log%put(outext)
+            if (present(read_flag)) then
+                read_flag =.false.
+            end if
         else
             outext='Could not find any node called "'//targetNodeName//'" in the xml file, stoping'
             call Log%put(outext)
             stop
-        endif
-    endif
+        end if
+    end if
     end subroutine gotoNode
 
     end module xmlParser_mod

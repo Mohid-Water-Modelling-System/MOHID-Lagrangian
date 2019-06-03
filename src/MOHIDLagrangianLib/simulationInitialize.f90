@@ -340,6 +340,7 @@
     att_name="dt"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
     call Globals%SimDefs%setdt(att_val)
+    call Globals%Constants%setSmallDt(Globals%SimDefs%dt)
     pts=(/ 'pointmin', 'pointmax'/) !strings to search for
     do i=1, size(pts)
         call XMLReader%getNodeVector(simdefs_node, pts(i), coords)
