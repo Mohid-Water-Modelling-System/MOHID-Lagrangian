@@ -80,12 +80,12 @@
     if (self%useInputFiles) then
         !check if we need to import data (current time and buffer size)
         if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/2.0) needToRead = .true.
-        if (Globals%SimTime%CurrTime + self%buffer_size/2.0 > self%currentsInputFile(size(self%currentsInputFile))%endTime) needToRead = .false.
+        !if (Globals%SimTime%CurrTime + self%buffer_size/2.0 > self%currentsInputFile(size(self%currentsInputFile))%endTime) needToRead = .false.
         if (needToRead) then
             !import data to temporary background
-            print*, Globals%SimTime%CurrTime
-            print*, self%buffer_size/2.0
-            print*, self%lastReadTime
+            !print*, Globals%SimTime%CurrTime
+            !print*, self%buffer_size/2.0
+            !print*, self%lastReadTime
             tempBkgd = self%getFullFile(self%currentsInputFile(1)%name)
             !slice data by block and either join to existing background or add a new one
 
