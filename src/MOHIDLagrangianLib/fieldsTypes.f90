@@ -54,6 +54,7 @@
         real(prec), allocatable, dimension(:) :: field !< the data on the scalar data field
     contains
     procedure :: initialize => initScalar1dField
+    procedure :: getFieldNearestIndex
     procedure :: finalize => cleanScalar1dField
     end type scalar1d_field_class
 
@@ -249,6 +250,21 @@
         call self%setFieldMetadata(name, units, 1)
     end if
     end subroutine initS1D
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the field's nearest value index (scalar)
+    !> @param[in] self, value
+    !---------------------------------------------------------------------------
+    integer function getFieldNearestIndex(self, value)
+    class(scalar1d_field_class), intent(in) :: self
+    real(prec), intent(in) :: value
+    real(prec), allocatable, dimension(:) :: comp
+    allocate(comp(size(self%field)))
+    comp = value
+    getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)   
+    end function getFieldNearestIndex
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

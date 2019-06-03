@@ -45,6 +45,9 @@
     procedure :: getDimIndex
     procedure :: getDimExtents
     procedure :: append => appendFieldByTime
+    procedure :: getHyperSlab
+    procedure :: getSlabDim
+    procedure :: getPointDimIndexes
     procedure :: finalize => cleanBackground
     procedure, private :: setDims
     procedure, private :: setExtents
@@ -226,6 +229,74 @@
     return
     
     end subroutine appendFieldByTime
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns a background as a subset of another
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    type(background_class) function getHyperSlab(self, domain, time)
+    class(background_class), intent(in) :: self
+    type(box), intent(in) :: domain
+    real(prec), intent(in), optional :: time(2)
+    real(prec) :: ltime(2)
+    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
+    type(generic_field_class), allocatable, dimension(:) :: gfield
+    real(prec), allocatable, dimension(:) :: tempRealArray
+    integer, allocatable, dimension(:) :: llbound
+    integer, allocatable, dimension(:) :: uubound
+    integer :: i
+    
+    ltime = self%getDimExtents(Globals%Var%time)
+    if (present(time)) ltime = time
+    allocate(backgrounDims(size(self%dim)))
+    llbound = self%getPointDimIndexes(domain%pt, ltime(1))
+    uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
+    do i=1, size(self%dim)
+        llbound(i) = max(1, llbound(i)-1)
+        uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
+        allocate(tempRealArray, source = self%getSlabDim(i, llbound(i), uubound(i)))
+        call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, tempRealArray)
+        deallocate(tempRealArray)
+    end do
+    
+    end function getHyperSlab
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the indexes of the dims for a given point
+    !> @param[in] self, pt, time
+    !---------------------------------------------------------------------------
+    function getPointDimIndexes(self, pt, time)
+    class(background_class), intent(in) :: self
+    type(vector), intent(in) :: pt
+    real(prec), intent(in) :: time
+    integer, allocatable, dimension(:) :: getPointDimIndexes
+    integer :: i
+    allocate(getPointDimIndexes(size(self%dim)))
+    do i= 1, size(self%dim)
+        if (self%dim(i)%name == Globals%Var%lon) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%x)
+        if (self%dim(i)%name == Globals%Var%lat) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%y)
+        if (self%dim(i)%name == Globals%Var%level) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%z)
+        if (self%dim(i)%name == Globals%Var%time)  getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(time)
+    end do
+    end function getPointDimIndexes
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns an array witn a sliced dimension
+    !> @param[in] self, domain, time
+    !---------------------------------------------------------------------------
+    function getSlabDim(self, numDim, llbound, uubound)
+    class(background_class), intent(in) :: self
+    integer, intent(in) :: numDim, llbound, uubound
+    real(prec), allocatable, dimension(:) :: getSlabDim
+    allocate(getSlabDim, source = self%dim(numDim)%field(llbound:uubound))    
+    end function getSlabDim    
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
