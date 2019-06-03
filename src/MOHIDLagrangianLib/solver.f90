@@ -23,6 +23,7 @@
     use AoT_mod
     use background_mod
     use interpolator_mod
+    use kernel_mod
 
     implicit none
     private
@@ -31,6 +32,7 @@
         integer :: solverType = 1   !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
         type(string) :: name        !< Name of the Integrator algorithm
         type(interpolator_class) :: Interpolator !< The interpolator object for this Solver
+        type(kernel_class) :: Kernel
     contains
     procedure :: initialize => initSolver
     procedure :: runStep
@@ -82,14 +84,38 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v
-  
+
+    ! print*, 'got here!'
+    ! np = size(aot%id) !number of particles
+    ! allocate(rand_vel_u(np))
+    ! allocate(rand_vel_v(np))
+    ! call random_number(rand_vel_u)
+    ! call random_number(rand_vel_v)
+    ! rand_vel_u = 0.001*(2*rand_vel_u - 1)
+    ! rand_vel_v = 0.001*(2*rand_vel_v - 1)
+    ! aot%u = rand_vel_u
+    ! aot%v = rand_vel_v
+    ! !aot%w = rand_vel
+    ! !print*, aot%u
+    ! !update positions
+    ! aot%x = aot%x + aot%u*dt
+    ! aot%y = aot%y + aot%v*dt
+    ! !!aot%z = aot%z + aot%w*dt
+    
+    ! Prelude for kernel use
+    drdt = self%kernel%run(aot, bdata(bkg), time, var_dt, var_name)
+    
+    aot%x = aot%x + Utils%m2geo(drdt%u, aot%y, .false.)*dt
+    aot%y = aot%y + Utils%m2geo(drdt%v, aot%y, .true.)*dt
+    aot%z = aot%z + aot%w*dt
+
     !interpolate each background
     do bkg = 1, size(bdata)
         np = size(aot%id) !number of particles
         nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
-        call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
+        call self%kernel%run(aot, bdata(bkg), time, var_dt, var_name)
         !update velocities
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         aot%u = var_dt(:,nf)
@@ -97,6 +123,7 @@
         aot%v = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         aot%w = var_dt(:,nf)
+ 
         !update positions
         aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
         aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
