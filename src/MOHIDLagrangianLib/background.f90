@@ -244,6 +244,9 @@
     real(prec) :: ltime(2)
     type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
     type(generic_field_class), allocatable, dimension(:) :: gfield
+    type(box) :: extents
+    type(vector) :: pt
+    real(prec), dimension(3,2) :: dimExtents
     real(prec), allocatable, dimension(:) :: tempRealArray
     integer, allocatable, dimension(:) :: llbound
     integer, allocatable, dimension(:) :: uubound
@@ -252,6 +255,8 @@
     ltime = self%getDimExtents(Globals%Var%time)
     if (present(time)) ltime = time
     allocate(backgrounDims(size(self%dim)))
+    allocate(llbound(size(self%dim)))
+    allocate(uubound(size(self%dim)))
     llbound = self%getPointDimIndexes(domain%pt, ltime(1))
     uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
     do i=1, size(self%dim)
@@ -261,6 +266,27 @@
         call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, tempRealArray)
         deallocate(tempRealArray)
     end do
+    
+    
+    
+    dimExtents = 0.0
+    do i = 1, size(backgrounDims)
+        if (backgrounDims(i)%name == Globals%Var%lon) then
+            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%lat) then
+            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%level) then
+            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
+        end if
+    end do
+    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
+    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
+    extents%size = pt - extents%pt
+    
+    getHyperSlab = constructor(1, self%name, extents, backgrounDims)
     
     end function getHyperSlab
     
