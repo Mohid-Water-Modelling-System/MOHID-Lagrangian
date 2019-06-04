@@ -80,15 +80,9 @@
     if (self%useInputFiles) then
         !check if we need to import data (current time and buffer size)
         if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/2.0) needToRead = .true.
-        !if (Globals%SimTime%CurrTime + self%buffer_size/2.0 > self%currentsInputFile(size(self%currentsInputFile))%endTime) needToRead = .false.
+        if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
         if (needToRead) then
-            !import data to temporary background
-            !print*, Globals%SimTime%CurrTime
-            !print*, self%buffer_size/2.0
-            !print*, self%lastReadTime
-            tempBkgd = self%getFullFile(self%currentsInputFile(1)%name)
-            !slice data by block and either join to existing background or add a new one
-
+                    
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
                     if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
@@ -97,11 +91,13 @@
                     end if
                 end if
             end do
-
+            !import data to temporary background
+            tempBkgd = self%getFullFile(self%currentsInputFile(fNumber)%name)
             do i=1, size(blocks)
                 if (Globals%Sim%getnumdt() == 1 ) then
                     allocate(blocks(i)%Background(1))
-                    blocks(i)%Background(1) = self%getFullFile(self%currentsInputFile(fNumber)%name)
+                    !slice data by block and either join to existing background or add a new one
+                    blocks(i)%Background(1) = tempBkgd%getHyperSlab(blocks(i)%extents)
                     tempTime = blocks(i)%Background(1)%getDimExtents(Globals%Var%time)
                     self%lastReadTime = tempTime(2)
                 end if
