@@ -110,26 +110,26 @@
     aot%z = aot%z + aot%w*dt
 
     !interpolate each background
-    do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles
-        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        allocate(var_dt(np,nf))
-        allocate(var_name(nf))
-        call self%kernel%run(aot, bdata(bkg), time, var_dt, var_name)
-        !update velocities
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        aot%u = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        aot%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        aot%w = var_dt(:,nf)
+    ! do bkg = 1, size(bdata)
+    !     np = size(aot%id) !number of particles
+    !     nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+    !     allocate(var_dt(np,nf))
+    !     allocate(var_name(nf))
+    !     call self%kernel%run(aot, bdata(bkg), time, var_dt, var_name)
+    !     !update velocities
+    !     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+    !     aot%u = var_dt(:,nf)
+    !     nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+    !     aot%v = var_dt(:,nf)
+    !     nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+    !     aot%w = var_dt(:,nf)
  
-        !update positions
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
-        aot%z = aot%z + aot%w*dt
-        !update other vars...
-    end do
+    !     !update positions
+    !     aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
+    !     aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
+    !     aot%z = aot%z + aot%w*dt
+    !     !update other vars...
+    ! end do
 
     end subroutine runStepEuler
 
