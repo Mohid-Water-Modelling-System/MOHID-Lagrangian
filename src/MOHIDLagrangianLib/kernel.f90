@@ -1,4 +1,4 @@
-module kernel
+module kernel_mod
 !------------------------------------------------------------------------------
     !        IST/MARETEC, Water Modelling Group, Mohid modelling system
     !------------------------------------------------------------------------------
@@ -23,17 +23,18 @@ module kernel
     use interpolator_mod
 
     type :: kernel_class        !< Solver class
-        integer :: kernelType = 1   !< kernel Integrator 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
+        integer :: kernelType = 2   !< kernel Integrator 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
         type(string) :: name        !< Name of the Integrator algorithm
         type(interpolator_class) :: Interpolator !< The interpolator object for this Solver
     contains
     procedure :: initialize => initKernel
-    procedure, private :: runKernel
+    procedure :: runKernel
     procedure, private :: Lagrangian
     procedure, private :: Diffusion
     procedure :: print => printKernel
 end type kernel_class
 
+public :: kernel_class
 contains 
 
 
@@ -61,6 +62,7 @@ do bkg = 1, size(bdata)
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
         call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
+        print*, 'EVALUATING THE LAGRANGIAN KERNEL'
         !update velocities
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         Lagrangian%u = var_dt(:,nf)
@@ -73,7 +75,13 @@ end do
 end function Lagrangian
 
 
-
+!---------------------------------------------------------------------------
+!> @author Daniel Garaboa Paz - USC
+!> @brief
+!> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
+!> diffusion coefficient. D = 1 m/s
+!> @param[in] self, aot, bdata, time, dt
+!---------------------------------------------------------------------------
 function Diffusion(self, aot, bdata, time, dt)
     class(kernel_class), intent(inout) :: self
     type(aot_class), intent(in) :: aot
@@ -83,29 +91,27 @@ function Diffusion(self, aot, bdata, time, dt)
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v
+    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
     real(prec) :: D = 1.
 
-do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles
-        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        allocate(var_dt(np,nf))
-        allocate(var_name(nf))
-        call random_number(var_dt)
-        !update velocities
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        ! For the moment we set D = 1 m/s, then the D parameter
-        ! should be part of the array of tracers parameter
-        Diffusion%u = (2*var_dt(:,nf)-1)*sqrt(2*D/dt)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        Diffusion%v = (2*var_dt(:,nf)-1)*sqrt(2*D/dt)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        Diffusion%w = var_dt(:,nf)
-end do
-
+    print*, 'DIFUSSION_KERNEL'
+    !call self%Interpolator%run(aot, bdata(1), time, var_dt, var_name)
+    np = size(aot%id)
+    allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
+    call random_number(rand_vel_u)
+    call random_number(rand_vel_v)
+    call random_number(rand_vel_w)
+    !update velocities
+    ! For the moment we set D = 1 m/s, then the D parameter
+    ! should be part of the array of tracers parameter
+    Diffusion%u = (2.*rand_vel_u-1.)*sqrt(2.*D/dt)
+    !print*, 'DIFUSSION_KERNEL', Diffusion%u
+    Diffusion%v = (2.*rand_vel_v-1.)*sqrt(2.*D/dt)
+    Diffusion%w = (2.*rand_vel_w-1.)*sqrt(2.*D/dt)
 
 
 end function Diffusion
+
 
 !---------------------------------------------------------------------------
 !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -155,4 +161,4 @@ subroutine printKernel(self)
     call Log%put(outext,.false.)
     end subroutine printKernel
 
-end module kernel
+end module kernel_mod

@@ -78,6 +78,7 @@
     subroutine runStepEuler(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
+    type(aot_class) :: drdt
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg
@@ -103,11 +104,11 @@
     ! !!aot%z = aot%z + aot%w*dt
     
     ! Prelude for kernel use
-    drdt = self%kernel%run(aot, bdata(bkg), time, var_dt, var_name)
+    drdt = self%kernel%runKernel(aot, bdata, time, dt)
     
     aot%x = aot%x + Utils%m2geo(drdt%u, aot%y, .false.)*dt
     aot%y = aot%y + Utils%m2geo(drdt%v, aot%y, .true.)*dt
-    aot%z = aot%z + aot%w*dt
+    aot%z = aot%z + drdt%w*dt
 
     !interpolate each background
     ! do bkg = 1, size(bdata)
@@ -319,6 +320,7 @@
     self%name = name
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
+    call self%Kernel%initialize(2,interpName)
     end subroutine initSolver
 
     !---------------------------------------------------------------------------
