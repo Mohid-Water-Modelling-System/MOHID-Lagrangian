@@ -93,39 +93,42 @@ def run():
         print('-> Input data directories are', dataDir)
     else:
         print('-> Input data directory is', dataDir)
-    #------------------------------------------------------    
+    #------------------------------------------------------
+    fileExtensions = ['.nc', '.nc4']  
     
     #going for each input directory and indexing its files
     inputFiles = []
     for idir in dataDir:
-        inputFiles.append(glob.glob(idir+ '/**/*.nc', recursive=True))
-        inputFiles.append(glob.glob(idir+ '/**/*.nc4', recursive=True))
+        for ext in fileExtensions:
+            inputFiles.append(glob.glob(idir+ '/**/*'+ext, recursive=True))
     #cleaning list of empty values
     inputFiles = list(filter(None, inputFiles))
 	
-	if not inputFiles:
+    if not inputFiles:
+
+        print('No input files found. Supported files are ', fileExtensions)
     
-		indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
-		
-		indexer = xmlWriter.xmlWriter(indexerFileName)
+    else:
+    
+        indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
+        indexer = xmlWriter.xmlWriter(indexerFileName)
 		
 		#going trough every file, extracting some metadata and writting in the indexer file
-		ncMeta = []
-		for idir in inputFiles:
-			for ifile in idir:
-				print('--> reading file', ifile)
-				ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
+        ncMeta = []
+        for idir in inputFiles:
+            for ifile in idir:
+                print('--> reading file', ifile)
+                ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
 		
-		ncMeta.sort(key=lambda x: x.startTime)
+        ncMeta.sort(key=lambda x: x.startTime)
 		
-		indexer.openCurrentsCollection()
+        indexer.openCurrentsCollection()
 		
-		print('--> indexing currents data')
-		for ncfile in ncMeta:
-			indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y/%m/%d, %H:%M:%S"), ncfile.getendDate().strftime("%Y/%m/%d, %H:%M:%S"))
+        print('--> indexing currents data')
+        for ncfile in ncMeta:
+            indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y/%m/%d, %H:%M:%S"), ncfile.getendDate().strftime("%Y/%m/%d, %H:%M:%S"))
 		
-		indexer.closeCurrentsCollection()
-		indexer.closeFile()
-    
+        indexer.closeCurrentsCollection()
+        indexer.closeFile()
             
 run()
