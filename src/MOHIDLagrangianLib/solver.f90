@@ -212,83 +212,41 @@
     type(string), dimension(:), allocatable :: var_name
 
 
-    do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles
-        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        allocate(var_dt(np,nf))
-        allocate(var_name(nf))
-
         !copying the aot for the several intermediate steps
+        print*,'I arrived here step 0'
         k(1) = aot
         k(2) = aot
         k(3) = aot
         k(4) = aot
+        print*,'I arrived here step 1'
+        k(1) = self%kernel%runKernel(aot, bdata, time, dt)
+        k(1)%x = aot%x
+        k(1)%y = aot%y
+        k(1)%z = aot%x
 
-        !-----k1 step: k1 = f(x_n,t_n)-----
-        call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
-
-        !update velocities for the predictor step
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        k(1)%u = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        k(1)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(1)%w = var_dt(:,nf)
-        !-----k1 step: k1 = f(x_n,t_n)-----
-
-        !---- k2 step: k2 = f(x_n + k1/2,t_n + dt/2)------
-        !update positions:  x_n + k1./2*dt
+        print*,'I arrived here step 2'
         k(2)%x = k(1)%x + Utils%m2geo(k(1)%u, k(1)%y, .false.)*0.5*dt
-        k(2)%y = K(1)%y + Utils%m2geo(k(1)%v, k(1)%y, .true.)*0.5*dt
+        k(2)%y = k(1)%y + Utils%m2geo(k(1)%v, k(1)%y, .true.)*0.5*dt
         k(2)%z = k(1)%z + k(1)%w*dt*0.5
-        !update the time: t + dt/2
+        print*,'I arrived here step 3'
         mstime = time+0.5*dt
-        !run the interpolator: f(x_n + k1/2,t + dt/2)
-        call self%Interpolator%run(k(2), bdata(bkg), mstime, var_dt, var_name)
-        !update velocities
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        k(2)%u = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        k(2)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(2)%w = var_dt(:,nf)
-        !---- k2 step: k2 = f(x_n + k1/2,t + dt/2)------
+        k(2) = self%kernel%runKernel(k(2), bdata, mstime, dt)
 
-        !---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
-        !update positions: x_n + k2*dt/2
         k(3)%x = k(2)%x + Utils%m2geo(k(2)%u, k(2)%y, .false.)*0.5*dt
         k(3)%y = k(2)%y + Utils%m2geo(k(2)%v, k(2)%y, .true.)*0.5*dt
         k(3)%z = k(2)%z + k(2)%w*dt*0.5
-        !update the time: t + dt/2
+        
         mstime = time+0.5*dt
-        !Corrector step
-        !run the interpolator: f(x_n + k2*dt/2,t + dt/2)
-        call self%Interpolator%run(k(3), bdata(bkg), mstime, var_dt, var_name)
-        !update velocities
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        k(3)%u = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        k(3)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(3)%w = var_dt(:,nf)
-        !---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
+        k(3) = self%kernel%runKernel(k(3), bdata, mstime, dt)
 
-        !---- k4 step: k4 = f(x_n + k3,t + dt)------
-        !update positions: x_n + k3*dt
         k(4)%x = k(3)%x + Utils%m2geo(k(3)%u, k(3)%y, .false.)*dt
         k(4)%y = k(3)%y + Utils%m2geo(k(3)%v, k(3)%y, .true.)*dt
         k(4)%z = k(3)%z + k(3)%w*dt
-        !update the time: t + dt2
-        mstime = time+dt
-        call self%Interpolator%run(k(4), bdata(bkg), mstime, var_dt, var_name)
-        !update velocities
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        k(4)%u = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        k(4)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(4)%w = var_dt(:,nf)
-        !---- k4 step: k4 = f(x_n + k3,t + dt)------
+        !update the time: t + dt/2
+        mstime = time + dt
+
+        k(4) = self%kernel%runKernel(k(4), bdata, mstime, dt)
+        !-----k1 step: k1 = f(x_n,t_n)-----
 
         aot%u = (k(1)%u + 2.*k(2)%u + 2.*k(3)%u + k(4)%u)/6.0
         aot%v = (k(1)%v + 2.*k(2)%v + 2.*k(3)%v + k(4)%v)/6.0
@@ -297,10 +255,77 @@
         aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
         aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
         aot%z = aot%z + aot%w*dt
+        !update velocities for the predictor step
+        ! nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        ! k(1)%u = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        ! k(1)%v = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+        ! k(1)%w = var_dt(:,nf)
+        !-----k1 step: k1 = f(x_n,t_n)-----
 
+        !---- k2 step: k2 = f(x_n + k1/2,t_n + dt/2)------
+        ! !update positions:  x_n + k1./2*dt
+        ! k(2)%x = k(1)%x + Utils%m2geo(k(1)%u, k(1)%y, .false.)*0.5*dt
+        ! k(2)%y = K(1)%y + Utils%m2geo(k(1)%v, k(1)%y, .true.)*0.5*dt
+        ! k(2)%z = k(1)%z + k(1)%w*dt*0.5
+        ! !update the time: t + dt/2
+        ! mstime = time+0.5*dt
+        ! !run the interpolator: f(x_n + k1/2,t + dt/2)
+        ! call self%Interpolator%run(k(2), bdata(bkg), mstime, var_dt, var_name)
+        ! !update velocities
+        ! nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        ! k(2)%u = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        ! k(2)%v = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+        ! k(2)%w = var_dt(:,nf)
+        ! !---- k2 step: k2 = f(x_n + k1/2,t + dt/2)------
 
+        ! !---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
+        ! !update positions: x_n + k2*dt/2
+        ! k(3)%x = k(2)%x + Utils%m2geo(k(2)%u, k(2)%y, .false.)*0.5*dt
+        ! k(3)%y = k(2)%y + Utils%m2geo(k(2)%v, k(2)%y, .true.)*0.5*dt
+        ! k(3)%z = k(2)%z + k(2)%w*dt*0.5
+        ! !update the time: t + dt/2
+        ! mstime = time+0.5*dt
+        ! !Corrector step
+        ! !run the interpolator: f(x_n + k2*dt/2,t + dt/2)
+        ! call self%Interpolator%run(k(3), bdata(bkg), mstime, var_dt, var_name)
+        ! !update velocities
+        ! nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        ! k(3)%u = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        ! k(3)%v = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+        ! k(3)%w = var_dt(:,nf)
+        ! !---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
 
-    end do
+        ! !---- k4 step: k4 = f(x_n + k3,t + dt)------
+        ! !update positions: x_n + k3*dt
+        ! k(4)%x = k(3)%x + Utils%m2geo(k(3)%u, k(3)%y, .false.)*dt
+        ! k(4)%y = k(3)%y + Utils%m2geo(k(3)%v, k(3)%y, .true.)*dt
+        ! k(4)%z = k(3)%z + k(3)%w*dt
+        ! !update the time: t + dt2
+        ! mstime = time+dt
+        ! call self%Interpolator%run(k(4), bdata(bkg), mstime, var_dt, var_name)
+        ! !update velocities
+        ! nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        ! k(4)%u = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        ! k(4)%v = var_dt(:,nf)
+        ! nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+        ! k(4)%w = var_dt(:,nf)
+        ! !---- k4 step: k4 = f(x_n + k3,t + dt)------
+
+        ! aot%u = (k(1)%u + 2.*k(2)%u + 2.*k(3)%u + k(4)%u)/6.0
+        ! aot%v = (k(1)%v + 2.*k(2)%v + 2.*k(3)%v + k(4)%v)/6.0
+        ! aot%w = (k(1)%w + 2.*k(2)%w + 2.*k(3)%w + k(4)%w)/6.0
+
+        ! aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
+        ! aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
+        ! aot%z = aot%z + aot%w*dt
+
 
     end subroutine runStepRK4
 
@@ -320,7 +345,7 @@
     self%name = name
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
-    call self%Kernel%initialize(2,interpName)
+    call self%Kernel%initialize(1,interpName)
     end subroutine initSolver
 
     !---------------------------------------------------------------------------
