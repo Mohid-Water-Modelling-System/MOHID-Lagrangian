@@ -226,7 +226,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Logical function that checks if a set of numbers are bounded between 2 values
+    !> Logical function that checks if a number is bounded between 2 values
     !> @param[in] self, nums, minBound, maxBound
     !---------------------------------------------------------------------------
     logical function isBoundedSingle(self, nums, minBound, maxBound, eta)
