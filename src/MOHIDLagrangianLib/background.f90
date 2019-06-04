@@ -235,7 +235,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> returns a background as a subset of another
-    !> @param[in] self
+    !> @param[in] self, domain, time
     !---------------------------------------------------------------------------
     type(background_class) function getHyperSlab(self, domain, time)
     class(background_class), intent(in) :: self
@@ -244,31 +244,51 @@
     real(prec) :: ltime(2)
     type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
     type(generic_field_class), allocatable, dimension(:) :: gfield
+    class(*), pointer :: curr
     type(box) :: extents
     type(vector) :: pt
     real(prec), dimension(3,2) :: dimExtents
     real(prec), allocatable, dimension(:) :: tempRealArray
     integer, allocatable, dimension(:) :: llbound
     integer, allocatable, dimension(:) :: uubound
+    type(string) :: outext
     integer :: i
     
     ltime = self%getDimExtents(Globals%Var%time)
     if (present(time)) ltime = time
-    allocate(backgrounDims(size(self%dim)))
+    !finding index bounds of the slicing geometry
     allocate(llbound(size(self%dim)))
     allocate(uubound(size(self%dim)))
     llbound = self%getPointDimIndexes(domain%pt, ltime(1))
     uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
+    !slicing dimensions
+    allocate(backgrounDims(size(self%dim)))    
     do i=1, size(self%dim)
-        llbound(i) = max(1, llbound(i)-1)
+        llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
         uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
         allocate(tempRealArray, source = self%getSlabDim(i, llbound(i), uubound(i)))
         call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, tempRealArray)
         deallocate(tempRealArray)
     end do
-    
-    
-    
+    !slicing variables
+    allocate(gfield(self%fields%getSize()))
+    i=1
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (field_class)
+            gfield(i) = curr%getFieldSlice(llbound, uubound)        
+        class default
+        outext = '[background_class::getHyperSlab] Unexepected type of content, not a scalar Field'
+        call Log%put(outext)
+        stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        i = i+1
+    end do
+    call self%fields%reset()               ! reset list iterator
+    !creating bounding box
     dimExtents = 0.0
     do i = 1, size(backgrounDims)
         if (backgrounDims(i)%name == Globals%Var%lon) then
@@ -285,8 +305,11 @@
     extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
-    
+    !creating the sliced background
     getHyperSlab = constructor(1, self%name, extents, backgrounDims)
+    do i=1, size(gfield)
+        call getHyperSlab%add(gfield(i))
+    end do
     
     end function getHyperSlab
     
@@ -349,7 +372,7 @@
         class is (scalar4d_field_class)
             call curr%finalize()
         class default
-        outext = '[background_class::cleanBackground] Unexepected type of content, not a Field'
+        outext = '[background_class::cleanBackground] Unexepected type of content, not a scalar Field'
         call Log%put(outext)
         stop
         end select
