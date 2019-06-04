@@ -1,25 +1,53 @@
-module kernelAbstractions
+module kernel
+!------------------------------------------------------------------------------
+    !        IST/MARETEC, Water Modelling Group, Mohid modelling system
+    !------------------------------------------------------------------------------
+    !
+    ! TITLE         : Mohid Model
+    ! PROJECT       : Mohid Lagrangian Tracer
+    ! MODULE        : solver
+    ! URL           : http://www.mohid.com
+    ! AFFILIATION   : USC/MARETEC, Marine Modelling Group
+    ! DATE          : September 2018
+    ! REVISION      : Canelas 0.1
+    !> @author
+    !> Daniel Garaboa Paz
+    !
+    ! DESCRIPTION:
+    !> Defines an abstraction kernel class. This class split the solver and 
+    !> evaluation proces to allow other functions to be evaluated.
+    !------------------------------------------------------------------------------
+    use common_modules
+    use AoT_mod
+    use background_mod
+    use interpolator_mod
 
     type :: kernel_class        !< Solver class
-    integer :: kernelType = 1   !< kernel Integrator 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
-    type(string) :: name        !< Name of the Integrator algorithm
-    type(interpolator_class) :: Interpolator !< The interpolator object for this Solver
-contains
+        integer :: kernelType = 1   !< kernel Integrator 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
+        type(string) :: name        !< Name of the Integrator algorithm
+        type(interpolator_class) :: Interpolator !< The interpolator object for this Solver
+    contains
     procedure :: initialize => initKernel
     procedure, private :: runKernel
     procedure, private :: Lagrangian
-    procedure, private :: AnisotropicDiffusion
-    procedure, private :: Windage
-    procedure :: print => printSolver
+    procedure, private :: Diffusion
+    procedure :: print => printKernel
 end type kernel_class
 
 contains 
 
 
+!---------------------------------------------------------------------------
+!> @author Daniel Garaboa Paz - USC
+!> @brief
+!> Lagrangian Kernel, evaluate the velocities at given points
+!> using the interpolants and split the evaluation part from the solver module.
+!> @param[in] self, aot, bdata, time, dt
+!---------------------------------------------------------------------------
 function Lagrangian(self, aot, bdata, time, dt)
-    class(solver_class), intent(inout) :: self
+    class(kernel_class), intent(inout) :: self
     type(aot_class), intent(in) :: aot
-    type(aot_class), intent(in) :: Lagrangian
+    type(aot_class) :: Lagrangian
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg
@@ -45,16 +73,18 @@ end do
 end function Lagrangian
 
 
-function AnisotropicDiffusion(self, aot, bdata, time, dt)
-    class(solver_class), intent(inout) :: self
+
+function Diffusion(self, aot, bdata, time, dt)
+    class(kernel_class), intent(inout) :: self
     type(aot_class), intent(in) :: aot
-    type(aot_class), intent(in) :: Lagrangian
+    type(aot_class) :: Diffusion
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v
+    real(prec) :: D = 1.
 
 do bkg = 1, size(bdata)
         np = size(aot%id) !number of particles
@@ -64,16 +94,18 @@ do bkg = 1, size(bdata)
         call random_number(var_dt)
         !update velocities
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        Diffusion%u = (2*var_dt(:,nf)-1)*sqrt(2*aot%D/dt)
+        ! For the moment we set D = 1 m/s, then the D parameter
+        ! should be part of the array of tracers parameter
+        Diffusion%u = (2*var_dt(:,nf)-1)*sqrt(2*D/dt)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        Diffusion%v = (2*var_dt(:,nf)-1)*sqrt(2*aot%D/dt)
+        Diffusion%v = (2*var_dt(:,nf)-1)*sqrt(2*D/dt)
         nf = Utils%find_str(var_name, Globals%Var%w, .true.)
         Diffusion%w = var_dt(:,nf)
 end do
 
 
 
-end function AnisotropicDiffusion
+end function Diffusion
 
 !---------------------------------------------------------------------------
 !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -82,15 +114,15 @@ end function AnisotropicDiffusion
 !> the selected integration algorithm
 !> @param[in] self, aot, bdata, time, dt
 !---------------------------------------------------------------------------
-subroutine runKernel(self, aot, bdata, time, dt)
-    class(solver_class), intent(inout) :: self
+function runKernel(self, aot, bdata, time, dt)
+    class(kernel_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
+    type(aot_class) :: runKernel
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
-    if (self%kernelType == 1) call self%Lagrangian(aot, bdata, time, dt)
-    if (self%kernelType == 2) call self%Diffusion(aot, bdata, time, dt)
-    if (self%solverType == 3) call self%Windage(aot, bdata, time, dt)
-end subroutine runKernel
+    if (self%kernelType == 1) runKernel = self%Lagrangian(aot, bdata, time, dt)
+    if (self%kernelType == 2) runKernel = self%Diffusion(aot, bdata, time, dt)
+end function runKernel
 
 
 !---------------------------------------------------------------------------
@@ -101,14 +133,14 @@ end subroutine runKernel
 !> @param[in] self, flag, name
 !---------------------------------------------------------------------------
 subroutine initKernel(self, flag, name)
-    class(solver_class), intent(inout) :: self
+    class(kernel_class), intent(inout) :: self
     integer, intent(in) :: flag
     type(string), intent(in) :: name
     type(string) :: interpName
     self%kernelType = flag
     self%name = name
     interpName = 'linear'
-    call self%Kernel%initialize(1,interpName)
+    call self%Interpolator%initialize(1,interpName)
 end subroutine initKernel
 
 !---------------------------------------------------------------------------
@@ -117,10 +149,10 @@ end subroutine initKernel
 !> Method that prints the Solver information
 !---------------------------------------------------------------------------
 subroutine printKernel(self)
-    class(solver_class), intent(inout) :: self
+    class(kernel_class), intent(inout) :: self
     type(string) :: outext, t
     outext = 'Kernel type is '//self%name
     call Log%put(outext,.false.)
     end subroutine printKernel
 
-end module kernelAbstractions
+end module kernel
