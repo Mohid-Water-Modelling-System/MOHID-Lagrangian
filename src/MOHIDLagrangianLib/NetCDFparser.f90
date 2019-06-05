@@ -431,7 +431,7 @@
     !> @param[in] timeComments, timeArray
     !---------------------------------------------------------------------------
     subroutine correctNCTime(timeComments, timeArray)
-    type(string), intent(in) :: timeComments
+    type(string), intent(inout) :: timeComments
     real(prec), dimension(:), intent(inout) :: timeArray
     integer :: i
     type(string), allocatable :: dc(:), dates(:), hours(:)
@@ -459,9 +459,9 @@
         offset = -dateOffset%total_seconds()
         
         timeArray = timeArray*scale + offset
-        
+        timeComments = 'seconds since '//Globals%SimTime%StartDate%isoformat(' ')        
     else
-        outext = '[NetCDF parser::correctNCTime]:WARNING - Time units is not in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
+        outext = '[NetCDF parser::correctNCTime]:WARNING - Time units may not be in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
         call Log%put(outext)
     end if  
     
