@@ -90,6 +90,7 @@
     do find_str=1, size(str_array)
         if (str == str_array(find_str)) return
     end do
+    find_str = MV_INT
     if(present(mandatory)) then
         if (mandatory) then
             outext = '[Utils::find_str]: string "'// str //'" not found on list, stopping'
