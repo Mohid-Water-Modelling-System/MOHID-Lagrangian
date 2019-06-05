@@ -81,7 +81,6 @@
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v
   
     !interpolate each background
     do bkg = 1, size(bdata)
@@ -92,14 +91,18 @@
         call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
         !update velocities
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        aot%u = var_dt(:,nf)
+        aot%u = Utils%m2geo(var_dt(:,nf), aot%y, .false.)
+        !where(aot%u/=aot%u) aot%u = 0.0
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        aot%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        aot%w = var_dt(:,nf)
+        aot%v = Utils%m2geo(var_dt(:,nf), aot%y, .true.)
+        !where(aot%v/=aot%v) aot%v = 0.0
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) aot%w = var_dt(:,nf)
+        if (nf == MV_INT) aot%w = 0.0
+        !where(aot%w/=aot%w) aot%w = 0.0
         !update positions
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
+        aot%x = aot%x + aot%u*dt
+        aot%y = aot%y + aot%v*dt
         aot%z = aot%z + aot%w*dt
         !update other vars...
     end do
@@ -138,8 +141,9 @@
         aot%u = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         aot%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        aot%w = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) aot%w = var_dt(:,nf)
+        if (nf == MV_INT) aot%w = 0.0
         !update positions for the predictor step
         aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
         aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
@@ -153,8 +157,9 @@
         aot%u = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         aot%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        aot%w = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) aot%w = var_dt(:,nf)
+        if (nf == MV_INT) aot%w = 0.0
         !update positions for the corrector step
         aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
         aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
@@ -204,8 +209,9 @@
         k(1)%u = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         k(1)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(1)%w = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) k(1)%w = var_dt(:,nf)
+        if (nf == MV_INT) k(1)%w = 0.0
         !-----k1 step: k1 = f(x_n,t_n)-----
 
         !---- k2 step: k2 = f(x_n + k1/2,t_n + dt/2)------
@@ -222,8 +228,9 @@
         k(2)%u = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         k(2)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(2)%w = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) k(2)%w = var_dt(:,nf)
+        if (nf == MV_INT) k(2)%w = 0.0
         !---- k2 step: k2 = f(x_n + k1/2,t + dt/2)------
 
         !---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
@@ -241,8 +248,9 @@
         k(3)%u = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         k(3)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(3)%w = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) k(3)%w = var_dt(:,nf)
+        if (nf == MV_INT) k(3)%w = 0.0
         !---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
 
         !---- k4 step: k4 = f(x_n + k3,t + dt)------
@@ -258,8 +266,9 @@
         k(4)%u = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         k(4)%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        k(4)%w = var_dt(:,nf)
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) k(4)%w = var_dt(:,nf)
+        if (nf == MV_INT) k(4)%w = 0.0
         !---- k4 step: k4 = f(x_n + k3,t + dt)------
 
         aot%u = (k(1)%u + 2.*k(2)%u + 2.*k(3)%u + k(4)%u)/6.0
