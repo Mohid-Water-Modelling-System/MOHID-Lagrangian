@@ -78,7 +78,7 @@
                 xx = self%getArrayCoordRegular(aot%x, bdata, Globals%Var%lon)
                 yy = self%getArrayCoordRegular(aot%y, bdata, Globals%Var%lat)
                 zz = self%getArrayCoordRegular(aot%z, bdata, Globals%Var%level)
-                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time)
+                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
                 var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
@@ -209,14 +209,15 @@
     !> Works only for regularly spaced data.
     !> @param[in] self, xdata, bdata, dimName
     !---------------------------------------------------------------------------
-    function getPointCoordRegular(self, xdata, bdata, dimName)
+    function getPointCoordRegular(self, xdata, bdata, dimName, eta)
     class(interpolator_class), intent(in) :: self
     real(prec), intent(in):: xdata              !< Tracer coordinate component
     type(background_class), intent(in) :: bdata !< Background to use
     type(string), intent(in) :: dimName
+    real(prec), intent(in), optional :: eta
     integer :: dim                              !< corresponding background dimension
     real(prec) :: getPointCoordRegular          !< coordinates in array index
-    real(prec) :: minBound, maxBound, res
+    real(prec) :: minBound, maxBound, res, ieta
     type(string) :: outext
     dim = bdata%getDimIndex(dimName) 
     res = size(bdata%dim(dim)%field)-1
@@ -224,8 +225,12 @@
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
     getPointCoordRegular = (xdata - minBound)/res+1
-    if (.not.Utils%isBounded(xdata, minBound, maxBound, -res/3.0)) then
+    ieta = -res/10.0
+    if (present(eta)) ieta = eta
+    if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
         outext = '[Interpolator::getPointCoordRegular] Point not contained in "'//dimName//'" dimension, stoping'
+        print*, xdata
+        print*, minBound, maxBound+ieta
         call Log%put(outext)
         stop
     end if
