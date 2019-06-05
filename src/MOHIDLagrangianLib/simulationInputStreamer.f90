@@ -162,6 +162,8 @@
     call getFullFile%add(gfield1)
     call getFullFile%add(gfield2)
     call getFullFile%add(gfield3)
+    
+    call getFullFile%print()
 
     end function getFullFile
 
