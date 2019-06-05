@@ -279,19 +279,15 @@
                 allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
                 call self%check()
+                where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
                 tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
-                where (tempRealField3D == self%varData(i)%fillvalue)
-                    tempRealField3D = 0.0
-                end where
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
-                call self%check()
+                call self%check()                
+                where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
                 tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
-                where (tempRealField4D == self%varData(i)%fillvalue)
-                    tempRealField4D = 0.0
-                end where
                 call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
