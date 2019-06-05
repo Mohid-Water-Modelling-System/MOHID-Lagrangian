@@ -82,7 +82,9 @@
         if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/2.0) needToRead = .true.
         if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
         if (needToRead) then
-                    
+            !while buffer isn't full, we need to keep reading files and sending the backgrounds to the blocks
+            
+            
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
                     if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
@@ -126,7 +128,11 @@
     type(vector) :: pt
     real(prec), dimension(3,2) :: dimExtents
     integer :: i
-
+    type(string) :: outext
+    
+    outext = '->Reading '//fileName
+    call Log%put(outext,.false.)
+    
     call ncFile%initialize(fileName)
     call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
     call ncFile%getVar(Globals%Var%u, gfield1)
@@ -169,7 +175,7 @@
     type(Node), pointer :: xmlInputs           !< .xml file handle
     type(Node), pointer :: fileNode
     type(NodeList), pointer :: fileList
-    type(string) :: tag, att_name, att_val, outext
+    type(string) :: tag, att_name, att_val
     type(string), allocatable, dimension(:) :: fileNames
     integer :: i
 
