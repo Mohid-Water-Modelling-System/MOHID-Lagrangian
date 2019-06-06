@@ -59,7 +59,7 @@ subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
     type(string), dimension(:), allocatable :: var_name
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v
 
-    
+    daot_dt = aot
     do bkg = 1, size(bdata)
             np = size(aot%id) !number of particles
             nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
@@ -73,10 +73,12 @@ subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
             daot_dt%v = var_dt(:,nf)
             nf = Utils%find_str(var_name, Globals%Var%w, .true.)
             daot_dt%w = var_dt(:,nf)
+
+            daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
+            daot_dt%v = Utils%m2geo(daot_dt%v, aot%y, .True.)
     end do
 
-    daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
-    daot_dt%v = Utils%m2geo(daot_dt%v, aot%y, .True.)
+
 
 end subroutine Lagrangian
 
@@ -127,7 +129,7 @@ end subroutine Diffusion
 !---------------------------------------------------------------------------
 subroutine runKernel(self, aot, bdata, time, dt,daot_dt)
     class(kernel_class), intent(inout) :: self
-    type(aot_class), intent(inout) :: aot
+    type(aot_class), intent(in) :: aot
     type(aot_class) :: daot_dt
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt

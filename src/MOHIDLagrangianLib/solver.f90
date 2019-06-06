@@ -147,6 +147,7 @@
     subroutine runStepMSEuler(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
+    type(aot_class) :: daot_dt
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec) :: mstime
@@ -154,43 +155,21 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
 
-    ! interpolate each background
-    do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles
-        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        allocate(var_dt(np,nf))
-        allocate(var_name(nf))
-        !Predictor step
-        !run the interpolator
-        call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
-        !update velocities for the predictor step
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        aot%u = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        aot%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        aot%w = var_dt(:,nf)
+        call self%kernel%runKernel(aot, bdata, time, dt, daot_dt)
         !update positions for the predictor step
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
-        aot%z = aot%z + aot%w*dt*0.5
+        aot%x = aot%x + daot_dt%u*0.5*dt
+        aot%y = aot%y + daot_dt%v*0.5*dt
+        aot%z = aot%z + daot_dt%w*0.5*dt
         !Corrector step
         !run the interpolator
         mstime = time+0.5*dt
-        call self%Interpolator%run(aot, bdata(bkg), mstime, var_dt, var_name)
-        !update velocities for the corrector step
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        aot%u = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        aot%v = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .true.)
-        aot%w = var_dt(:,nf)
-        !update positions for the corrector step
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
-        aot%z = aot%z + aot%w*dt*0.5
-        !update other vars...
-    end do
+
+        call self%kernel%runKernel(aot, bdata, mstime, dt, daot_dt)
+      
+        aot%x = aot%x + daot_dt%u*0.5*dt
+        aot%y = aot%y + daot_dt%v*0.5*dt
+        aot%z = aot%z + daot_dt%w*0.5*dt
+
 
     end subroutine runStepMSEuler
 
@@ -213,34 +192,31 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
 
-        k(1) = aot
-        k(2) = aot
-        k(3) = aot
-        k(4) = aot
         !copying the aot for the several intermediate steps
-        call self%kernel%runKernel(k(1), bdata, time, dt, k(1))
 
-        k(2)%x = k(1)%x + k(1)%u*0.5*dt
-        k(2)%y = k(1)%y + k(1)%v*0.5*dt
-        k(2)%z = k(1)%z + k(1)%w*0.5*dt
-        mstime = time+0.5*dt
+        call self%kernel%runKernel(aot, bdata, time, dt, k(1))
 
-        call self%kernel%runKernel(k(2), bdata, mstime, dt, k(2))
+        k(1)%x = aot%x + k(1)%u*dt*0.5
+        k(1)%y = aot%y + k(1)%v*dt*0.5
+        k(1)%z = aot%z + k(1)%w*dt*0.5
+        mstime = time + 0.5*dt
 
-        k(3)%x = k(2)%x + k(2)%u*0.5*dt
-        k(3)%y = k(2)%y + k(2)%v*0.5*dt
-        k(3)%z = k(2)%z + k(2)%w*0.5*dt
+        call self%kernel%runKernel(k(1), bdata, mstime, dt, k(2))
+
+        k(2)%x = aot%x + k(2)%u*0.5*dt
+        k(2)%y = aot%y + k(2)%v*0.5*dt
+        k(2)%z = aot%z + k(2)%w*0.5*dt
         mstime = time+0.5*dt
         
         
-        call self%kernel%runKernel(k(3), bdata, mstime, dt, k(3))
+        call self%kernel%runKernel(k(2), bdata, mstime, dt, k(3))
 
-        k(4)%x = k(3)%x + k(3)%u*dt
-        k(4)%y = k(3)%y + k(3)%v*dt
-        k(4)%z = k(3)%z + k(3)%w*dt
+        k(3)%x = aot%x + k(3)%u*dt
+        k(3)%y = aot%y + k(3)%v*dt
+        k(3)%z = aot%z + k(3)%w*dt
         mstime = time + dt
 
-        call self%kernel%runKernel(k(4), bdata, mstime, dt, k(4))
+        call self%kernel%runKernel(k(3), bdata, mstime, dt, k(4))
         !-----k1 step: k1 = f(x_n,t_n)-----
 
         aot%u = (k(1)%u + 2.*k(2)%u + 2.*k(3)%u + k(4)%u)/6.0
