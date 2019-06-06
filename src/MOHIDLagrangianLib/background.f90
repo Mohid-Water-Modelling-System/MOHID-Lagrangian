@@ -251,6 +251,7 @@
     real(prec), allocatable, dimension(:) :: tempRealArray
     integer, allocatable, dimension(:) :: llbound
     integer, allocatable, dimension(:) :: uubound
+    integer :: temp_int
     type(string) :: outext
     integer :: i
     
@@ -264,6 +265,11 @@
     !slicing dimensions
     allocate(backgrounDims(size(self%dim)))    
     do i=1, size(self%dim)
+        if (llbound(i) > uubound(i)) then
+            temp_int = llbound(i)
+            llbound(i) = uubound(i)
+            uubound(i) = temp_int
+        end if
         llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
         uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
         allocate(tempRealArray, source = self%getSlabDim(i, llbound(i), uubound(i)))
