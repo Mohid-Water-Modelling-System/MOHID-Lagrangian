@@ -38,6 +38,7 @@
         real(prec) :: startTime     !< starting time of the data on the file
         real(prec) :: endTime       !< ending time of the data on the file
         logical :: used             !< flag that indicates the file is no longer to be read
+        logical :: toRead
     end type inputFileModel_class
 
     type :: input_streamer_class        !< Input Streamer class
@@ -51,7 +52,7 @@
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
     procedure :: getFullFile
-
+    procedure, private :: resetReadStatus
     procedure :: print => printInputStreamer
     end type input_streamer_class
 
@@ -70,8 +71,8 @@
     class(input_streamer_class), intent(inout) :: self
     type(boundingbox_class), intent(in) :: bBox            !< Case bounding box
     type(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
-    type(background_class) :: tempBkgd
-    integer :: i
+    type(background_class) :: tempBkgd, tempBkgdSlice
+    integer :: i, j
     integer :: fNumber
     real(prec) :: tempTime(2)
     logical :: needToRead
@@ -82,32 +83,38 @@
         if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/2.0) needToRead = .true.
         if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
         if (needToRead) then
+            call self%resetReadStatus()
             !while buffer isn't full, we need to keep reading files and sending the backgrounds to the blocks
-            
-            
+
             do i=1, size(self%currentsInputFile)
-                if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
-                        fNumber = i
-                        exit
+                if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
+                    if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                        if (self%currentsInputFile(i)%endTime <= Globals%SimTime%CurrTime + self%buffer_size) then
+                            if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+                        end if
                     end if
                 end if
             end do
-            !import data to temporary background
-            tempBkgd = self%getFullFile(self%currentsInputFile(fNumber)%name)
-            do i=1, size(blocks)
-                if (Globals%Sim%getnumdt() == 1 ) then
-                    allocate(blocks(i)%Background(1))
-                    !slice data by block and either join to existing background or add a new one
-                    blocks(i)%Background(1) = tempBkgd%getHyperSlab(blocks(i)%extents)
-                    !tempBkgd = blocks(i)%Background(1)%getHyperSlab(blocks(i)%extents)
-                    !call tempBkgd%print()
-                    tempTime = blocks(i)%Background(1)%getDimExtents(Globals%Var%time)
-                    self%lastReadTime = tempTime(2)
+            do i=1, size(self%currentsInputFile)
+                if (self%currentsInputFile(i)%toRead) then
+                    !import data to temporary background
+                    tempBkgd = self%getFullFile(self%currentsInputFile(i)%name)
+                    self%currentsInputFile(i)%used = .true.
+                    do j=1, size(blocks)
+                        if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
+                        !slice data by block and either join to existing background or add a new one
+                        tempBkgdSlice = tempBkgd%getHyperSlab(blocks(i)%extents)
+                        if (Globals%Sim%getnumdt() == 1 ) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(i)%extents)
+                        !if (Globals%Sim%getnumdt() /= 1 )
+
+                        tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
+                        self%lastReadTime = tempTime(2)
+                        call tempBkgdSlice%finalize()
+                    end do
+                    !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
+                    call tempBkgd%finalize()
                 end if
             end do
-        
-            call tempBkgd%finalize()
         end if
     end if
 
@@ -131,10 +138,10 @@
     real(prec), dimension(3,2) :: dimExtents
     integer :: i
     type(string) :: outext
-    
+
     outext = '->Reading '//fileName
     call Log%put(outext,.false.)
-    
+
     call ncFile%initialize(fileName)
     call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
     call ncFile%getVar(Globals%Var%u, gfield1)
@@ -164,7 +171,7 @@
     call getFullFile%add(gfield1)
     call getFullFile%add(gfield2)
     call getFullFile%add(gfield3)
-    
+
     call getFullFile%print()
 
     end function getFullFile
@@ -222,6 +229,19 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> resets input files read status
+    !---------------------------------------------------------------------------
+    subroutine resetReadStatus(self)
+    class(input_streamer_class), intent(inout) :: self
+    integer :: i
+    do i=1, size(self%currentsInputFile)
+        self%currentsInputFile(i)%toRead = .false.
+    end do
+    end subroutine resetReadStatus
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Prints the input writer object and metadata on input files
     !---------------------------------------------------------------------------
     subroutine printInputStreamer(self)
@@ -238,7 +258,7 @@
         !temp_str=self%currentsInputFile(i)%endTime
         !outext = outext//'      Ending time is   '//temp_str//' s'
     end do
-    if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'    
+    if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'
     call Log%put(outext,.false.)
     end subroutine printInputStreamer
 
