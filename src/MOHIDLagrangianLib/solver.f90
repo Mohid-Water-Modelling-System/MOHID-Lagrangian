@@ -78,7 +78,7 @@
     subroutine runStepEuler(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
-    type(aot_class) :: drdt
+    type(aot_class) :: daot_dt
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg
@@ -104,11 +104,13 @@
     ! !!aot%z = aot%z + aot%w*dt
     
     ! Prelude for kernel use
-    drdt = self%kernel%runKernel(aot, bdata, time, dt)
+ 
+    call self%kernel%runKernel(aot, bdata, time, dt, daot_dt)
     
-    aot%x = aot%x + Utils%m2geo(drdt%u, aot%y, .false.)*dt
-    aot%y = aot%y + Utils%m2geo(drdt%v, aot%y, .true.)*dt
-    aot%z = aot%z + drdt%w*dt
+    aot%x = aot%x + daot_dt%u*dt
+    aot%y = aot%y + daot_dt%v*dt
+    aot%z = aot%z + daot_dt%w*dt
+      
 
     !interpolate each background
     ! do bkg = 1, size(bdata)
@@ -211,50 +213,44 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
 
-
-        !copying the aot for the several intermediate steps
-        print*,'I arrived here step 0'
         k(1) = aot
         k(2) = aot
         k(3) = aot
         k(4) = aot
-        print*,'I arrived here step 1'
-        k(1) = self%kernel%runKernel(aot, bdata, time, dt)
-        k(1)%x = aot%x
-        k(1)%y = aot%y
-        k(1)%z = aot%x
+        !copying the aot for the several intermediate steps
+        call self%kernel%runKernel(k(1), bdata, time, dt, k(1))
 
-        print*,'I arrived here step 2'
-        k(2)%x = k(1)%x + Utils%m2geo(k(1)%u, k(1)%y, .false.)*0.5*dt
-        k(2)%y = k(1)%y + Utils%m2geo(k(1)%v, k(1)%y, .true.)*0.5*dt
-        k(2)%z = k(1)%z + k(1)%w*dt*0.5
-        print*,'I arrived here step 3'
+        k(2)%x = k(1)%x + k(1)%u*0.5*dt
+        k(2)%y = k(1)%y + k(1)%v*0.5*dt
+        k(2)%z = k(1)%z + k(1)%w*0.5*dt
         mstime = time+0.5*dt
-        k(2) = self%kernel%runKernel(k(2), bdata, mstime, dt)
 
-        k(3)%x = k(2)%x + Utils%m2geo(k(2)%u, k(2)%y, .false.)*0.5*dt
-        k(3)%y = k(2)%y + Utils%m2geo(k(2)%v, k(2)%y, .true.)*0.5*dt
-        k(3)%z = k(2)%z + k(2)%w*dt*0.5
+        call self%kernel%runKernel(k(2), bdata, mstime, dt, k(2))
+
+        k(3)%x = k(2)%x + k(2)%u*0.5*dt
+        k(3)%y = k(2)%y + k(2)%v*0.5*dt
+        k(3)%z = k(2)%z + k(2)%w*0.5*dt
+        mstime = time+0.5*dt
         
-        mstime = time+0.5*dt
-        k(3) = self%kernel%runKernel(k(3), bdata, mstime, dt)
+        
+        call self%kernel%runKernel(k(3), bdata, mstime, dt, k(3))
 
-        k(4)%x = k(3)%x + Utils%m2geo(k(3)%u, k(3)%y, .false.)*dt
-        k(4)%y = k(3)%y + Utils%m2geo(k(3)%v, k(3)%y, .true.)*dt
+        k(4)%x = k(3)%x + k(3)%u*dt
+        k(4)%y = k(3)%y + k(3)%v*dt
         k(4)%z = k(3)%z + k(3)%w*dt
-        !update the time: t + dt/2
         mstime = time + dt
 
-        k(4) = self%kernel%runKernel(k(4), bdata, mstime, dt)
+        call self%kernel%runKernel(k(4), bdata, mstime, dt, k(4))
         !-----k1 step: k1 = f(x_n,t_n)-----
 
         aot%u = (k(1)%u + 2.*k(2)%u + 2.*k(3)%u + k(4)%u)/6.0
         aot%v = (k(1)%v + 2.*k(2)%v + 2.*k(3)%v + k(4)%v)/6.0
         aot%w = (k(1)%w + 2.*k(2)%w + 2.*k(3)%w + k(4)%w)/6.0
 
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
+        aot%x = aot%x + aot%u*dt
+        aot%y = aot%y + aot%v*dt
         aot%z = aot%z + aot%w*dt
+
         !update velocities for the predictor step
         ! nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         ! k(1)%u = var_dt(:,nf)
