@@ -99,7 +99,9 @@
                 if (Globals%Sim%getnumdt() == 1 ) then
                     allocate(blocks(i)%Background(1))
                     !slice data by block and either join to existing background or add a new one
-                    blocks(i)%Background(1) = self%getFullFile(self%currentsInputFile(fNumber)%name) !tempBkgd%getHyperSlab(blocks(i)%extents)
+                    blocks(i)%Background(1) = tempBkgd%getHyperSlab(blocks(i)%extents)
+                    !tempBkgd = blocks(i)%Background(1)%getHyperSlab(blocks(i)%extents)
+                    !call tempBkgd%print()
                     tempTime = blocks(i)%Background(1)%getDimExtents(Globals%Var%time)
                     self%lastReadTime = tempTime(2)
                 end if
