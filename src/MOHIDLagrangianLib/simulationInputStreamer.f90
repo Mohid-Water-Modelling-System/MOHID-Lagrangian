@@ -71,11 +71,11 @@
     class(input_streamer_class), intent(inout) :: self
     type(boundingbox_class), intent(in) :: bBox            !< Case bounding box
     type(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
-    type(background_class) :: tempBkgd, tempBkgdSlice
+    type(background_class) :: tempBkgd
     integer :: i, j
     integer :: fNumber
     real(prec) :: tempTime(2)
-    logical :: needToRead
+    logical :: needToRead, appended
 
     needToRead = .false.
     if (self%useInputFiles) then
@@ -84,17 +84,15 @@
         if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
         if (needToRead) then
             call self%resetReadStatus()
-            !while buffer isn't full, we need to keep reading files and sending the backgrounds to the blocks
-
-            do i=1, size(self%currentsInputFile)
-                if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
-                    if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                        if (self%currentsInputFile(i)%endTime <= Globals%SimTime%CurrTime + self%buffer_size) then
-                            if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
-                        end if
+            !check what files on the stack are to read to backgrounds
+            do i=1, size(self%currentsInputFile)                
+                if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%buffer_size) then
+                        if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
                     end if
                 end if
             end do
+            !read selected files
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%toRead) then
                     !import data to temporary background
@@ -103,13 +101,13 @@
                     do j=1, size(blocks)
                         if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
                         !slice data by block and either join to existing background or add a new one
-                        tempBkgdSlice = tempBkgd%getHyperSlab(blocks(i)%extents)
-                        if (Globals%Sim%getnumdt() == 1 ) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(i)%extents)
-                        !if (Globals%Sim%getnumdt() /= 1 )
+                        if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%appendBackgroundByTime(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)                        
 
+                        !save last time available in memory
                         tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
-                        call tempBkgdSlice%finalize()
+                        
                     end do
                     !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
                     call tempBkgd%finalize()
@@ -172,7 +170,7 @@
     call getFullFile%add(gfield2)
     call getFullFile%add(gfield3)
 
-    call getFullFile%print()
+    !call getFullFile%print()
 
     end function getFullFile
 

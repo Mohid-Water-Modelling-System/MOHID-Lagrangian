@@ -35,6 +35,7 @@
     end type fieldsList_class
 
     type :: background_class        !< a background solution class
+        logical :: initialized = .false.
         integer :: id = 0                                                       !< ID of the Background
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
@@ -45,14 +46,14 @@
     procedure :: getDimIndex
     procedure :: getDimExtents
     procedure :: append => appendFieldByTime
+    procedure :: appendBackgroundByTime
     procedure :: getHyperSlab
-    procedure :: getSlabDim
-    procedure :: getPointDimIndexes
+    procedure, private :: getSlabDim
+    procedure, private :: getPointDimIndexes
     procedure :: finalize => cleanBackground
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
-    !get hyperslab
     !clean by dimension range
 
     procedure :: test
@@ -98,6 +99,7 @@
     type(string), intent(in) :: name
     type(box), intent(in) :: extents
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    constructor%initialized = .true.
     call constructor%setID(id, name)
     call constructor%setExtents(extents)
     call constructor%setDims(dims)
@@ -167,7 +169,7 @@
     !> @brief
     !> appends a given field to a matching field in the Background object's
     !> field list, if possible
-    !> @param[in] self, gfield, dims
+    !> @param[in] self, gfield, dims, done
     !---------------------------------------------------------------------------
     subroutine appendFieldByTime(self, gfield, dims, done)
     class(background_class), intent(inout) :: self
@@ -230,7 +232,79 @@
     
     end subroutine appendFieldByTime
     
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> appends a given field to a matching field in the Background object's
+    !> field list, if possible
+    !> @param[in] self, gfield, dims, done
+    !---------------------------------------------------------------------------
+    subroutine appendBackgroundByTime(self, bkg, done)
+    class(background_class), intent(inout) :: self
+    type(background_class), intent(in) :: bkg
+    type(generic_field_class) :: gfield
+    type(scalar1d_field_class), allocatable, dimension(:) :: dims
+    logical, intent(out) :: done
+    real(prec), allocatable, dimension(:) :: newTime, oldTime, toAppendTime
+    class(*), pointer :: aField
+    type(string) :: outext
+    integer :: i, j, posiTime
     
+    print*, 'appending backgrounds'
+    done = .false.
+    !check that dimensions are compatible
+    !spacial dims must be the same, temporal must be consecutive
+    if (size(self%dim) == size(bkg%dim)) then !ammount of dimensions is the same
+        do i = 1, size(bkg%dim)
+            j = self%getDimIndex(bkg%dim(i)%name) !getting the same dimension for the fields
+            if (dims(i)%name /= Globals%Var%time) then  !dimension is not 'time'
+                if (size(bkg%dim(i)%field) == size(self%dim(j)%field)) then !size of the arrays is the same
+                    done = all(bkg%dim(i)%field == self%dim(j)%field)  !dimensions array is the same
+                end if
+            else
+                posiTime = i
+                done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
+            end if
+        end do
+    end if
+    if (done) print*, 'field dims are compatible'
+    if (.not.done) print*, 'field dims are not compatible'
+    
+    !if (.not.done) return
+    
+    !done = .false.
+    !!check that fields are compatible
+    !call self%fields%reset()               ! reset list iterator
+    !do while(self%fields%moreValues())     ! loop while there are values to print
+    !    aField => self%fields%currentValue()
+    !    select type(aField)
+    !    class is (generic_field_class)
+    !        if (aField%compare(gfield)) then                
+    !            !concatenate the fields on the background
+    !            call aField%concatenate(gfield)
+    !            !concatenate the 'time' dimension of the background
+    !            i = self%getDimIndex(Globals%Var%time)
+    !            allocate(oldTime, source = self%dim(i)%field)
+    !            !allocate(newTime(size(oldTime) + size(dims(posiTime)%field)))
+    !            newTime = [oldTime, dims(posiTime)%field]
+    !            deallocate(self%dim(i)%field)
+    !            allocate(self%dim(i)%field, source = newTime)
+    !            call self%fields%reset()
+    !            done = .true.
+    !            return
+    !        end if
+    !        class default
+    !        outext = '[Background::appendFieldByTime] Unexepected type of content, not a Field'
+    !        call Log%put(outext)
+    !        stop
+    !    end select
+    !    call self%fields%next()            ! increment the list iterator
+    !end do
+    !call self%fields%reset()               ! reset list iterator
+    !return
+    
+    end subroutine appendBackgroundByTime
+        
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -362,6 +436,7 @@
     class(background_class), intent(inout) :: self
     class(*), pointer :: curr
     type(string) :: outext
+    !self%initialized = .false.
     self%id = MV_INT
     self%name = ''
     deallocate(self%dim)
