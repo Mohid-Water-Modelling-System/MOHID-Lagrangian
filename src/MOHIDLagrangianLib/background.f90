@@ -265,7 +265,7 @@
     !slicing dimensions
     allocate(backgrounDims(size(self%dim)))    
     do i=1, size(self%dim)
-        if (llbound(i) > uubound(i)) then
+        if (llbound(i) > uubound(i)) then !because We're not inverting the dimension and fields - Needs to be corrected 
             temp_int = llbound(i)
             llbound(i) = uubound(i)
             uubound(i) = temp_int

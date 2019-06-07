@@ -230,6 +230,7 @@
                             end do
                             self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
                             if ((self%dimData(k)%reverse .eqv. .true.) .or. all(tempRealArray >=0) ) then !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for now it stays
+                                !NEED TO INVERT THE DIMENSION ARRAY AND THE FIELDS AS WELL, OTHERWISE THE INTERPOLATOR DOESN'T KNOW WHERE THE POINTS ARE IN THE VERTICAL - TODO
                                 tempRealArray = - tempRealArray
                             end if
                         end if
