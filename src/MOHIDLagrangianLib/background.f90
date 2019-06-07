@@ -45,6 +45,9 @@
     procedure :: getDimIndex
     procedure :: getDimExtents
     procedure :: append => appendFieldByTime
+    procedure :: getHyperSlab
+    procedure :: getSlabDim
+    procedure :: getPointDimIndexes
     procedure :: finalize => cleanBackground
     procedure, private :: setDims
     procedure, private :: setExtents
@@ -227,6 +230,129 @@
     
     end subroutine appendFieldByTime
     
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns a background as a subset of another
+    !> @param[in] self, domain, time
+    !---------------------------------------------------------------------------
+    type(background_class) function getHyperSlab(self, domain, time)
+    class(background_class), intent(in) :: self
+    type(box), intent(in) :: domain
+    real(prec), intent(in), optional :: time(2)
+    real(prec) :: ltime(2)
+    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
+    type(generic_field_class), allocatable, dimension(:) :: gfield
+    class(*), pointer :: curr
+    type(box) :: extents
+    type(vector) :: pt
+    real(prec), dimension(3,2) :: dimExtents
+    real(prec), allocatable, dimension(:) :: tempRealArray
+    integer, allocatable, dimension(:) :: llbound
+    integer, allocatable, dimension(:) :: uubound
+    integer :: temp_int
+    type(string) :: outext
+    integer :: i
+    
+    ltime = self%getDimExtents(Globals%Var%time)
+    if (present(time)) ltime = time
+    !finding index bounds of the slicing geometry
+    allocate(llbound(size(self%dim)))
+    allocate(uubound(size(self%dim)))
+    llbound = self%getPointDimIndexes(domain%pt, ltime(1))
+    uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
+    !slicing dimensions
+    allocate(backgrounDims(size(self%dim)))    
+    do i=1, size(self%dim)
+        if (llbound(i) > uubound(i)) then !because We're not inverting the dimension and fields - Needs to be corrected 
+            temp_int = llbound(i)
+            llbound(i) = uubound(i)
+            uubound(i) = temp_int
+        end if
+        llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
+        uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
+        allocate(tempRealArray, source = self%getSlabDim(i, llbound(i), uubound(i)))
+        call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, tempRealArray)
+        deallocate(tempRealArray)
+    end do
+    !slicing variables
+    allocate(gfield(self%fields%getSize()))
+    i=1
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (field_class)
+            gfield(i) = curr%getFieldSlice(llbound, uubound)        
+        class default
+        outext = '[background_class::getHyperSlab] Unexepected type of content, not a scalar Field'
+        call Log%put(outext)
+        stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        i = i+1
+    end do
+    call self%fields%reset()               ! reset list iterator
+    !creating bounding box
+    dimExtents = 0.0
+    do i = 1, size(backgrounDims)
+        if (backgrounDims(i)%name == Globals%Var%lon) then
+            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%lat) then
+            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%level) then
+            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
+        end if
+    end do
+    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
+    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
+    extents%size = pt - extents%pt
+    !creating the sliced background
+    getHyperSlab = constructor(1, self%name, extents, backgrounDims)
+    do i=1, size(gfield)
+        call getHyperSlab%add(gfield(i))
+    end do
+    
+    end function getHyperSlab
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the indexes of the dims for a given point
+    !> @param[in] self, pt, time
+    !---------------------------------------------------------------------------
+    function getPointDimIndexes(self, pt, time)
+    class(background_class), intent(in) :: self
+    type(vector), intent(in) :: pt
+    real(prec), intent(in) :: time
+    integer, allocatable, dimension(:) :: getPointDimIndexes
+    integer :: i
+    allocate(getPointDimIndexes(size(self%dim)))
+    do i= 1, size(self%dim)
+        if (self%dim(i)%name == Globals%Var%lon) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%x)
+        if (self%dim(i)%name == Globals%Var%lat) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%y)
+        if (self%dim(i)%name == Globals%Var%level) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%z)
+        if (self%dim(i)%name == Globals%Var%time)  getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(time)
+    end do
+    end function getPointDimIndexes
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns an array witn a sliced dimension
+    !> @param[in] self, domain, time
+    !---------------------------------------------------------------------------
+    function getSlabDim(self, numDim, llbound, uubound)
+    class(background_class), intent(in) :: self
+    integer, intent(in) :: numDim, llbound, uubound
+    real(prec), allocatable, dimension(:) :: getSlabDim
+    allocate(getSlabDim, source = self%dim(numDim)%field(llbound:uubound))    
+    end function getSlabDim    
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -252,7 +378,7 @@
         class is (scalar4d_field_class)
             call curr%finalize()
         class default
-        outext = '[background_class::cleanBackground] Unexepected type of content, not a Field'
+        outext = '[background_class::cleanBackground] Unexepected type of content, not a scalar Field'
         call Log%put(outext)
         stop
         end select

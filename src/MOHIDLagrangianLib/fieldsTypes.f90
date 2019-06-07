@@ -36,6 +36,7 @@
     procedure :: setFieldMetadata
     procedure :: print => printField    !< Method that prints the field information
     procedure :: getFieldType           !< Method that returns the field type (scalar or vectorial), in a string
+    procedure :: getFieldSlice
     procedure :: getFieldMinBound
     procedure :: getFieldMaxBound
     end type field_class
@@ -54,6 +55,7 @@
         real(prec), allocatable, dimension(:) :: field !< the data on the scalar data field
     contains
     procedure :: initialize => initScalar1dField
+    procedure :: getFieldNearestIndex
     procedure :: finalize => cleanScalar1dField
     end type scalar1d_field_class
 
@@ -249,6 +251,21 @@
         call self%setFieldMetadata(name, units, 1)
     end if
     end subroutine initS1D
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the field's nearest value index (scalar)
+    !> @param[in] self, value
+    !---------------------------------------------------------------------------
+    integer function getFieldNearestIndex(self, value)
+    class(scalar1d_field_class), intent(in) :: self
+    real(prec), intent(in) :: value
+    real(prec), allocatable, dimension(:) :: comp
+    allocate(comp(size(self%field)))
+    comp = value
+    getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)   
+    end function getFieldNearestIndex
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -637,6 +654,52 @@
         stop
     end select
     end function getFieldType
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns a slice of a field stored on a generic field
+    !---------------------------------------------------------------------------
+    function getFieldSlice(self, llbound, uubound)
+    class(field_class), intent(in) :: self
+    integer, dimension(:), intent(in) :: llbound, uubound
+    type(generic_field_class) :: getFieldSlice
+    logical :: sliced
+    type(string) :: outext
+    sliced = .false.
+    select type(self)
+    class is (scalar_field_class)
+        class is (scalar1d_field_class)
+            if (size(llbound) == 1) then
+                call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1)))
+                sliced = .true.
+            end if
+        class is (scalar2d_field_class)
+            if (size(llbound) == 2) then
+                call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1),llbound(2):uubound(2)))
+                sliced = .true.
+            end if
+        class is (scalar3d_field_class)
+            if (size(llbound) == 3) then
+                call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(2):uubound(2), llbound(3):uubound(3)))
+                sliced = .true.
+            end if            
+        class is (scalar4d_field_class)
+            if (size(llbound) == 4) then
+                call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(2):uubound(2), llbound(3):uubound(3), llbound(4):uubound(4)))
+                sliced = .true.
+            end if        
+        class default
+        outext = '[field_class::getFieldSlice]: Unexepected type of content, not a scalar Field'
+        call Log%put(outext)
+        stop
+    end select
+    if (.not.sliced) then
+        outext = '[field_class::getFieldSlice]: type of Field and dimensions do not match'
+        call Log%put(outext)
+        stop
+    end if        
+    end function getFieldSlice
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

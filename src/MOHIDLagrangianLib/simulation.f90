@@ -94,10 +94,10 @@
         call self%ToggleSources()
         !emitt Tracers from active Sources
         call self%BlocksEmitt()
-        !Distribute Tracers and Sources by Blocks
-        call self%BlocksDistribute()
         !Optimize Block Tracer lists
         call self%BlocksConsolidateArrays()
+        !Distribute Tracers and Sources by Blocks
+        call self%BlocksDistribute()
         !Build AoT
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
