@@ -322,7 +322,6 @@
     type(box) :: extents
     type(vector) :: pt
     real(prec), dimension(3,2) :: dimExtents
-    real(prec), allocatable, dimension(:) :: tempRealArray
     integer, allocatable, dimension(:) :: llbound
     integer, allocatable, dimension(:) :: uubound
     integer :: temp_int
@@ -346,9 +345,7 @@
         end if
         llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
         uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
-        allocate(tempRealArray, source = self%getSlabDim(i, llbound(i), uubound(i)))
-        call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, tempRealArray)
-        deallocate(tempRealArray)
+        call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
     end do
     !slicing variables
     allocate(gfield(self%fields%getSize()))
