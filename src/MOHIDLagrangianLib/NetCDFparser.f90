@@ -47,7 +47,7 @@
         integer :: varid
         type (string) :: units
         integer :: length
-        logical :: reverse
+        logical :: reverse, negate
     contains
     procedure :: print => printDimsNC
     end type dim_t
@@ -224,15 +224,31 @@
                         call self%check()
                         !need to check for 'level' variable specific issues
                         if (dimName == Globals%Var%level) then
-                            allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
-                            do l=1, self%dimData(k)%length - 1
-                                tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
-                            end do
-                            self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
-                            if ((self%dimData(k)%reverse .eqv. .true.) .or. all(tempRealArray >=0) ) then !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for now it stays
-                                !NEED TO INVERT THE DIMENSION ARRAY AND THE FIELDS AS WELL, OTHERWISE THE INTERPOLATOR DOESN'T KNOW WHERE THE POINTS ARE IN THE VERTICAL - TODO
-                                tempRealArray = - tempRealArray
+                            if ((tempRealArray(0) > 0) .and. (tempRealArray(size(tempRealArray))> tempRealArray(0))) then
+                                self%varData(i)%revert = .false.
+                                self%varData(i)%negate = .false.
+                            elseif ((tempRealArray(0) < 0) .and. (tempRealArray(0) < tempRealArray(size(tempRealArray)))) then
+                                self%varData(i)%revert = .true.
+                                self%varData(i)%negate = .false.
+                            elseif ((tempRealArray(0) > 0) .and. (tempRealArray(0) > tempRealArray(size(tempRealArray)))) then
+                                self%varData(i)%revert = .true.
+                                self%varData(i)%negate = .true.
                             end if
+                            
+                            if self%varData(i)%revert == .true.
+                             tempRealArray = tempRealArray(size(tempRealArray):0:-1)
+                            if self%varData(i)%negate == .true.
+                             tempRealArray = -tempRealArray
+                            ! allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
+                            ! do l=1, self%dimData(k)%length - 1
+                            !     tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
+                            ! end do
+                            ! self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
+                            ! if ((self%dimData(k)%reverse .eqv. .true.) .or. all(tempRealArray >=0) ) then !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for now it stays
+                            !     !NEED TO INVERT THE DIMENSION ARRAY AND THE FIELDS AS WELL, OTHERWISE THE INTERPOLATOR DOESN'T KNOW WHERE THE POINTS ARE IN THE VERTICAL - TODO
+                            !     tempRealArray = - tempRealArray
+                            ! end if
+
                         end if
                         !need to check for 'time' variable specific issues
                         if (dimName == Globals%Var%time) then
