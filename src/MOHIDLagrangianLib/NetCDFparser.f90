@@ -223,6 +223,15 @@
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
                         !need to check for 'level' variable specific issues
+
+                        !@Daniel
+                        ! We seek for: index=(0, ...n), array=(+surface=0 ... -bottom)
+                        ! Three situations:
+                        !     index=(0,1,2,    ...  n-1,n)  
+                        ! 1)  array=(+surface, ... ,-bottom)   --> No transform
+                        ! 2)  array=(-bottom, ... , +surface)  --> Transform: reverse
+                        ! 3)  array=(+bottom, ... , +surface)  --> Transform: reverse and negate
+                     
                         if (dimName == Globals%Var%level) then
                             if ((tempRealArray(0) > 0) .and. (tempRealArray(size(tempRealArray))> tempRealArray(0))) then
                                 self%dimData(i)%revert = .false.
@@ -299,6 +308,12 @@
                 where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
                 tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
                 
+                ! WARNING------------Pending to check--------------------------------WARNING:
+                ! The self%dimdata, must be initialized before use this method.
+                ! Start reversing part --- WARNING: the id_dim suposses an agreement between the 
+                ! dimData(i) and the dimensions of the preallocated tempRealField: that is
+                ! id_dim(1,2,3,4)---> tempRealField3D(lon,lat,depth,time) -- dimData(id_dim 1=lon), dimData(id_dim 2=lat)...
+                ! If this, happens, aplly the reverse of the data in the required dimension.
                 do id_dim=1,3
                     last = ubound(tempRealField3D, dim=id_dim)
                     first= lbound(tempRealField3D, dim=id_dim)
@@ -310,6 +325,8 @@
                         tempRealField3D = tempRealField3D(:,:,last:first:-1)
                     endif
                 enddo
+                ! WARNING------------Pending to check--------------------------------WARNING:
+
             endif
 
 
