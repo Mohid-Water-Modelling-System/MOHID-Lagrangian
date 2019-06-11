@@ -225,19 +225,19 @@
                         !need to check for 'level' variable specific issues
                         if (dimName == Globals%Var%level) then
                             if ((tempRealArray(0) > 0) .and. (tempRealArray(size(tempRealArray))> tempRealArray(0))) then
-                                self%varData(i)%revert = .false.
-                                self%varData(i)%negate = .false.
+                                self%dimData(i)%revert = .false.
+                                self%dimData(i)%negate = .false.
                             elseif ((tempRealArray(0) < 0) .and. (tempRealArray(0) < tempRealArray(size(tempRealArray)))) then
-                                self%varData(i)%revert = .true.
-                                self%varData(i)%negate = .false.
+                                self%dimData(i)%revert = .true.
+                                self%dimData(i)%negate = .false.
                             elseif ((tempRealArray(0) > 0) .and. (tempRealArray(0) > tempRealArray(size(tempRealArray)))) then
-                                self%varData(i)%revert = .true.
-                                self%varData(i)%negate = .true.
+                                self%dimData(i)%revert = .true.
+                                self%dimData(i)%negate = .true.
                             end if
                             
-                            if self%varData(i)%revert == .true.
+                            if self%dimData(i)%revert == .true.
                              tempRealArray = tempRealArray(size(tempRealArray):0:-1)
-                            if self%varData(i)%negate == .true.
+                            if self%dimData(i)%negate == .true.
                              tempRealArray = -tempRealArray
                             ! allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
                             ! do l=1, self%dimData(k)%length - 1
@@ -280,7 +280,7 @@
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
     real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
     type(string) :: dimName, varUnits
-    integer :: i, j, k
+    integer :: i, j, k, id_dim, first,last
     type(dim_t) :: tempDim
     integer, allocatable, dimension(:) :: varShape
     type(string) :: outext
@@ -298,6 +298,21 @@
                 call self%check()
                 where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
                 tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
+                
+                do id_dim=1,3
+                    last = ubound(tempRealField3D, dim=id_dim)
+                    first= lbound(tempRealField3D, dim=id_dim)
+                    if ((id_dim == 1) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        tempRealField3D = tempRealField3D(last:first:-1,:,:)
+                    elseif ((id_dim == 2) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        tempRealField3D = tempRealField3D(:,last:first:-1,:)
+                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        tempRealField3D = tempRealField3D(:,:,last:first:-1)
+                    endif
+                enddo
+            endif
+
+
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
@@ -305,7 +320,23 @@
                 call self%check()                
                 where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
                 tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
+                
+                do id_dim=1,4
+                    last = ubound(tempRealField4D, dim=id_dim)
+                    first = lbound(tempRealField4D, dim=id_dim)
+                    if ((id_dim == 1) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        tempRealField4D = tempRealField4D(last:first:-1,:,:,:)
+                    elseif ((id_dim == 2) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        tempRealField4D = tempRealField4D(:,last:first:-1,:,:)
+                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        tempRealField4D = tempRealField4D(:,:,last:first:-1,:)
+                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        tempRealField4D = tempRealField4D(:,:,:,last:first:-1)
+                    endif
+                end do
+                 
                 call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)
