@@ -230,6 +230,7 @@
                             end do
                             self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
                             if ((self%dimData(k)%reverse .eqv. .true.) .or. all(tempRealArray >=0) ) then !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for now it stays
+                                !NEED TO INVERT THE DIMENSION ARRAY AND THE FIELDS AS WELL, OTHERWISE THE INTERPOLATOR DOESN'T KNOW WHERE THE POINTS ARE IN THE VERTICAL - TODO
                                 tempRealArray = - tempRealArray
                             end if
                         end if
@@ -279,19 +280,15 @@
                 allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
                 call self%check()
+                where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
                 tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
-                where (tempRealField3D == self%varData(i)%fillvalue)
-                    tempRealField3D = 0.0
-                end where
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
-                call self%check()
+                call self%check()                
+                where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
                 tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
-                where (tempRealField4D == self%varData(i)%fillvalue)
-                    tempRealField4D = 0.0
-                end where
                 call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
@@ -431,7 +428,7 @@
     !> @param[in] timeComments, timeArray
     !---------------------------------------------------------------------------
     subroutine correctNCTime(timeComments, timeArray)
-    type(string), intent(in) :: timeComments
+    type(string), intent(inout) :: timeComments
     real(prec), dimension(:), intent(inout) :: timeArray
     integer :: i
     type(string), allocatable :: dc(:), dates(:), hours(:)
@@ -459,9 +456,9 @@
         offset = -dateOffset%total_seconds()
         
         timeArray = timeArray*scale + offset
-        
+        timeComments = 'seconds since '//Globals%SimTime%StartDate%isoformat(' ')        
     else
-        outext = '[NetCDF parser::correctNCTime]:WARNING - Time units is not in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
+        outext = '[NetCDF parser::correctNCTime]:WARNING - Time units may not be in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
         call Log%put(outext)
     end if  
     

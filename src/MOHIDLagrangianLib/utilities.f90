@@ -90,6 +90,7 @@
     do find_str=1, size(str_array)
         if (str == str_array(find_str)) return
     end do
+    find_str = MV_INT
     if(present(mandatory)) then
         if (mandatory) then
             outext = '[Utils::find_str]: string "'// str //'" not found on list, stopping'
@@ -226,7 +227,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Logical function that checks if a set of numbers are bounded between 2 values
+    !> Logical function that checks if a number is bounded between 2 values
     !> @param[in] self, nums, minBound, maxBound
     !---------------------------------------------------------------------------
     logical function isBoundedSingle(self, nums, minBound, maxBound, eta)
