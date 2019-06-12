@@ -174,7 +174,6 @@
     call this%reset()               ! reset list iterator
     do while(this%moreValues())     ! loop while there are values to print
         call this%removeCurrent()
-        call this%next()            ! increment the list iterator
     end do
     call this%reset()               ! reset list iterator
     end subroutine cleanList
