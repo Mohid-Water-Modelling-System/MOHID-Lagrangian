@@ -85,7 +85,7 @@
         if (needToRead) then
             call self%resetReadStatus()
             !check what files on the stack are to read to backgrounds
-            do i=1, size(self%currentsInputFile)                
+            do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
                     if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%buffer_size) then
                         if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
@@ -102,12 +102,12 @@
                         if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
                         !slice data by block and either join to existing background or add a new one
                         if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%appendBackgroundByTime(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                        if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)                        
+                        if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)
 
                         !save last time available in memory
                         tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
-                        
+
                     end do
                     !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
                     call tempBkgd%finalize()
