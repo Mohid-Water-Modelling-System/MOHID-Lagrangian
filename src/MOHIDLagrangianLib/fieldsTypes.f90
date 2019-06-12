@@ -124,6 +124,7 @@
     generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
     procedure :: compare
     procedure :: concatenate
+    procedure :: getGFieldType
     procedure :: finalize => cleanFields
     procedure :: print => printGenericField
     end type generic_field_class
@@ -150,11 +151,11 @@
     real(prec), allocatable, dimension(:,:) :: field2d
     real(prec), allocatable, dimension(:,:,:) :: field3d
     real(prec), allocatable, dimension(:,:,:,:) :: field4d
-
+    
     fDim = self%dim
-    fType = self%getFieldType()    
+    fType = self%getGFieldType()
     if (gfield%dim /= fDim) return
-    if (gfield%getFieldType() /= fType) return
+    if (gfield%getGFieldType() /= fType) return
     
     if (fType == 'Scalar') then
         if (fDim == 1) then        
@@ -587,6 +588,23 @@
     if (allocated(self%vectorial3d%field)) call self%vectorial3d%print()
     if (allocated(self%vectorial4d%field)) call self%vectorial4d%print()
     end subroutine printGenericField
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the field type (scalar or vectorial), in a string, 
+    !> of a generic field
+    !---------------------------------------------------------------------------
+    type(string) function getGFieldType(self)
+    class(generic_field_class), intent(in) :: self
+    if (allocated(self%scalar1d%field)) getGFieldType = self%scalar1d%getFieldType()
+    if (allocated(self%scalar2d%field)) getGFieldType = self%scalar2d%getFieldType()
+    if (allocated(self%scalar3d%field)) getGFieldType = self%scalar3d%getFieldType()
+    if (allocated(self%scalar4d%field)) getGFieldType = self%scalar4d%getFieldType()
+    if (allocated(self%vectorial2d%field)) getGFieldType = self%vectorial2d%getFieldType()
+    if (allocated(self%vectorial3d%field)) getGFieldType = self%vectorial3d%getFieldType()
+    if (allocated(self%vectorial4d%field)) getGFieldType = self%vectorial4d%getFieldType()
+    end function getGFieldType
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
