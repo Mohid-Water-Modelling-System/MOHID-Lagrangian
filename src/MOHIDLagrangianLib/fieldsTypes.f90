@@ -133,6 +133,9 @@
     public :: field_class, generic_field_class
     public :: scalar_field_class, scalar1d_field_class, scalar2d_field_class, scalar3d_field_class, scalar4d_field_class
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
+    
+    !public acess functions
+    public :: getGField
 
     contains
     
@@ -776,5 +779,42 @@
     end select
     end function getFieldMinBound
 
-
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Function that returns a generic field object given a field object
+    !> @param[in] aField
+    !---------------------------------------------------------------------------
+    function getGField(aField)
+    class(*), intent(in) :: aField
+    type(generic_field_class) :: getGField
+    logical :: done
+    type(string) :: outext
+    done = .false.
+    select type(aField)
+    class is (scalar1d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    class is (scalar2d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    class is (scalar3d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    class is (scalar4d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    end select
+    if (.not.done) then
+        outext = '[fieldTypes::getGField] Unexepected type of content, not a Field'
+        call Log%put(outext)
+        stop
+    end if
+    end function getGField
+    
+    
     end module fieldTypes_mod

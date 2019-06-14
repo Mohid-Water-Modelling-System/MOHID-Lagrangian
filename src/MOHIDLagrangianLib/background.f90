@@ -285,14 +285,14 @@
         aField => self%fields%currentValue()
         select type(aField)
         class is (field_class)
-            gField(i) = getField(aField)
+            gField(i) = getGField(aField)
             call bkg%fields%reset()
             do while(bkg%fields%moreValues())
                 bField => bkg%fields%currentValue()
                 select type(bField)
                 class is (field_class)
                     if (bField%name == aField%name) then
-                        tempGField = getField(bField)
+                        tempGField = getGField(bField)
                         !append the new time instances of the field
                         call gField(i)%concatenate(tempGField)
                         done = .true.
@@ -637,37 +637,6 @@
         stop
     end select
     end subroutine print_fieldListCurrent
-    
-    function getField(aField)
-    class(*), intent(in) :: aField
-    type(generic_field_class) :: getField
-    logical :: done
-    type(string) :: outext
-    done = .false.
-    select type(aField)
-    class is (scalar1d_field_class)
-        call getField%initialize(aField%name, aField%units, aField%field)
-        done = .true.
-        return
-    class is (scalar2d_field_class)
-        call getField%initialize(aField%name, aField%units, aField%field)
-        done = .true.
-        return
-    class is (scalar3d_field_class)
-        call getField%initialize(aField%name, aField%units, aField%field)
-        done = .true.
-        return
-    class is (scalar4d_field_class)
-        call getField%initialize(aField%name, aField%units, aField%field)
-        done = .true.
-        return
-    end select
-    if (.not.done) then
-        outext = '[background::getField] Unexepected type of content, not a Field'
-        call Log%put(outext)
-        stop
-    end if
-    end function getField
 
 
     end module background_mod
