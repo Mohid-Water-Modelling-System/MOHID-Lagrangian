@@ -103,11 +103,11 @@
                         !slice data by block and either join to existing background or add a new one
                         if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%appendBackgroundByTime(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
                         if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)
-
-                        !save last time available in memory
+                        
+                        !save last time already loaded
                         tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
-
+                        
                     end do
                     !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
                     call tempBkgd%finalize()

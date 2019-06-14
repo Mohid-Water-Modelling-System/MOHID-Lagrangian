@@ -250,8 +250,6 @@
     class(*), pointer :: aField, bField
     type(string) :: outext, name, units
     integer :: i, j, posiTime
-    
-    call self%print()
 
     done = .false.
     !check that dimensions are compatible
@@ -295,12 +293,8 @@
                 class is (field_class)
                     if (bField%name == aField%name) then
                         tempGField = getField(bField)
-                        print*,'------'
-                        call gField(i)%print()
-                        call tempGField%print()
                         !append the new time instances of the field
                         call gField(i)%concatenate(tempGField)
-                        call gField(i)%print()
                         done = .true.
                         exit
                     end if
@@ -318,16 +312,13 @@
     end do
     call self%fields%reset()               ! reset list iterator
 
-    print*, 'cleaning fields'
     call self%cleanFields()
     call self%fields%finalize()
         
     do i=1, size(gField)
-        call self%fields%add(gField(i))
+        call self%add(gField(i))
     end do
-    
-    call self%print()
-    
+
     end subroutine appendBackgroundByTime
 
     !---------------------------------------------------------------------------
@@ -456,7 +447,7 @@
     !---------------------------------------------------------------------------
     subroutine cleanBackground(self)
     class(background_class), intent(inout) :: self
-    !self%initialized = .false.
+    self%initialized = .false.
     self%id = MV_INT
     self%name = ''
     deallocate(self%dim)
@@ -650,22 +641,33 @@
     function getField(aField)
     class(*), intent(in) :: aField
     type(generic_field_class) :: getField
+    logical :: done
+    type(string) :: outext
+    done = .false.
     select type(aField)
     class is (scalar1d_field_class)
         call getField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
         return
     class is (scalar2d_field_class)
         call getField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
         return
     class is (scalar3d_field_class)
         call getField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
         return
     class is (scalar4d_field_class)
         call getField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
         return
     end select
+    if (.not.done) then
+        outext = '[background::getField] Unexepected type of content, not a Field'
+        call Log%put(outext)
+        stop
+    end if
     end function getField
-    
 
 
     end module background_mod
