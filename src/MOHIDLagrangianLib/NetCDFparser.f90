@@ -357,16 +357,16 @@
                     first = lbound(tempRealField4D, dim=id_dim)
                     if ((id_dim == 1) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(last:first:-1,:,:,:)
-                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS 1'
                     elseif ((id_dim == 2) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(:,last:first:-1,:,:)
-                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS 2'
                     elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(:,:,last:first:-1,:)
-                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
-                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS 3'
+                    elseif ((id_dim == 4) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(:,:,:,last:first:-1)
-                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS 4'
                     endif
                 end do
                  
