@@ -54,6 +54,7 @@
         type(datetime)  :: StartTime                 !< Start date of the simulation
         type(datetime)  :: EndTime                   !< End date of the simulation
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
+        real(prec)      :: buffer_size               !< Controls the frequency of consumption and ammout of input data kept in memory
         integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
@@ -218,6 +219,7 @@
     self%Parameters%StartTime = datetime()
     self%Parameters%EndTime = datetime()
     self%Parameters%BaseDateTime = datetime(1950,1,1,0,0,0)
+    self%Parameters%buffer_size = 3600*24*5 !seconds/hour*hours*days
     self%Parameters%OutputFormat = 2
     self%Parameters%OutputFormatIndexes = [1,2]
     !self%Parameters%OutputFormatNames = ['NetCDF','VTK'] !This is not acceptable because FORTRAN

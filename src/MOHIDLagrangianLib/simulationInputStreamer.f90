@@ -80,7 +80,7 @@
     needToRead = .false.
     if (self%useInputFiles) then
         !check if we need to import data (current time and buffer size)
-        if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/2.0) needToRead = .true.
+        if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/4.0) needToRead = .true.
         if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
         if (needToRead) then
             call self%resetReadStatus()
@@ -188,7 +188,7 @@
     type(string), allocatable, dimension(:) :: fileNames
     integer :: i
 
-    self%buffer_size = 3600*24*2 !seconds/hour*hours*days
+    self%buffer_size = Globals%Parameters%buffer_size
     self%lastReadTime = -1.0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
