@@ -47,7 +47,7 @@
         integer :: varid
         type (string) :: units
         integer :: length
-        logical :: reverse, negate
+        logical :: reverse = .false., negate = .false.
     contains
     procedure :: print => printDimsNC
     end type dim_t
@@ -225,25 +225,32 @@
                         !need to check for 'level' variable specific issues
 
                         !@Daniel
-                        ! We seek for: index=(0, ...n), array=(+surface=0 ... -bottom)
+                        ! We seek for: index=(0, ...n), array=(-bottom ... +surface=0)
                         ! Three situations:
                         !     index=(0,1,2,    ...  n-1,n)  
-                        ! 1)  array=(+surface, ... ,-bottom)   --> No transform
-                        ! 2)  array=(-bottom, ... , +surface)  --> Transform: reverse
+                        ! 1)  array=(+bottom, ... ,+surface)   --> Transform: Negate
+                        ! 2)  array=(+surface, ... , -bottom)  --> Transform: reverse
                         ! 3)  array=(+bottom, ... , +surface)  --> Transform: reverse and negate
                      
                         if (dimName == Globals%Var%level) then
-                            if ((tempRealArray(1) > 0) .and. (tempRealArray(size(tempRealArray))> tempRealArray(1))) then
+                            print*, 'Value index=0', tempRealArray(1), 'value index n', tempRealArray(size(tempRealArray))
+                            if ((tempRealArray(1) < 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
                                 self%dimData(k)%reverse = .false.
                                 self%dimData(k)%negate = .false.
-                                print*, 'The axis',k,'is right. Continue'
-                            elseif ((tempRealArray(1) < 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
-                                self%dimData(k)%reverse = .true.
-                                self%dimData(k)%negate = .false.
-                                print*, 'The axis',k,'is bad. Reverting the axis'
-                            elseif ((tempRealArray(1) > 0) .and. (tempRealArray(1) > tempRealArray(size(tempRealArray)))) then
+                                print*, 'CASE:0 The axis',k,'is ok. Continue' 
+                            elseif ((tempRealArray(1) > 0) .and. (tempRealArray(1)>tempRealArray(size(tempRealArray)))) then
+                                self%dimData(k)%reverse = .false.
+                                self%dimData(k)%negate = .true.
+                                print*, 'CASE 1: The axis',k,'has wrong sing.'  
+                            elseif ((tempRealArray(1) > 0) .and. (tempRealArray(size(tempRealArray)) > tempRealArray(1))) then
                                 self%dimData(k)%reverse = .true.
                                 self%dimData(k)%negate = .true.
+                                print*, 'CASE 2 The axis',k,'is has wrong directon.'
+                                print*, 'The axis',k,'is bad. Reverting the axis and negating it'
+                            elseif ((tempRealArray(1) < 0) .and. (tempRealArray(size(tempRealArray)) < tempRealArray(1))) then
+                                self%dimData(k)%reverse = .true.
+                                self%dimData(k)%negate = .false.
+                                print*, 'CASE 2 The axis',k,'is has wrong directon.'
                                 print*, 'The axis',k,'is bad. Reverting the axis and negating it'
                             end if
                             
