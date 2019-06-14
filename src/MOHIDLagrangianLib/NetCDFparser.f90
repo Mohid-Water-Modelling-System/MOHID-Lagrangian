@@ -233,21 +233,28 @@
                         ! 3)  array=(+bottom, ... , +surface)  --> Transform: reverse and negate
                      
                         if (dimName == Globals%Var%level) then
-                            if ((tempRealArray(0) > 0) .and. (tempRealArray(size(tempRealArray))> tempRealArray(0))) then
-                                self%dimData(i)%revert = .false.
-                                self%dimData(i)%negate = .false.
-                            elseif ((tempRealArray(0) < 0) .and. (tempRealArray(0) < tempRealArray(size(tempRealArray)))) then
-                                self%dimData(i)%revert = .true.
-                                self%dimData(i)%negate = .false.
-                            elseif ((tempRealArray(0) > 0) .and. (tempRealArray(0) > tempRealArray(size(tempRealArray)))) then
-                                self%dimData(i)%revert = .true.
-                                self%dimData(i)%negate = .true.
+                            if ((tempRealArray(1) > 0) .and. (tempRealArray(size(tempRealArray))> tempRealArray(1))) then
+                                self%dimData(k)%reverse = .false.
+                                self%dimData(k)%negate = .false.
+                                print*, 'The axis',k,'is right. Continue'
+                            elseif ((tempRealArray(1) < 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
+                                self%dimData(k)%reverse = .true.
+                                self%dimData(k)%negate = .false.
+                                print*, 'The axis',k,'is bad. Reverting the axis'
+                            elseif ((tempRealArray(1) > 0) .and. (tempRealArray(1) > tempRealArray(size(tempRealArray)))) then
+                                self%dimData(k)%reverse = .true.
+                                self%dimData(k)%negate = .true.
+                                print*, 'The axis',k,'is bad. Reverting the axis and negating it'
                             end if
                             
-                            if self%dimData(i)%revert == .true.
-                             tempRealArray = tempRealArray(size(tempRealArray):0:-1)
-                            if self%dimData(i)%negate == .true.
+                            if (self%dimData(k)%reverse .eqv. .true.) then 
+                             tempRealArray = tempRealArray(size(tempRealArray):1:-1)
+                            end if
+
+                            if (self%dimData(k)%negate .eqv. .true.) then 
                              tempRealArray = -tempRealArray
+                            end if
+                            
                             ! allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
                             ! do l=1, self%dimData(k)%length - 1
                             !     tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
@@ -317,17 +324,17 @@
                 do id_dim=1,3
                     last = ubound(tempRealField3D, dim=id_dim)
                     first= lbound(tempRealField3D, dim=id_dim)
-                    if ((id_dim == 1) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                    if ((id_dim == 1) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField3D = tempRealField3D(last:first:-1,:,:)
-                    elseif ((id_dim == 2) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                    elseif ((id_dim == 2) .and. (self%dimData(id_dim)%reverse .eqv..true.)) then
                         tempRealField3D = tempRealField3D(:,last:first:-1,:)
-                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField3D = tempRealField3D(:,:,last:first:-1)
                     endif
                 enddo
                 ! WARNING------------Pending to check--------------------------------WARNING:
 
-            endif
+           
 
 
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
@@ -341,14 +348,18 @@
                 do id_dim=1,4
                     last = ubound(tempRealField4D, dim=id_dim)
                     first = lbound(tempRealField4D, dim=id_dim)
-                    if ((id_dim == 1) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                    if ((id_dim == 1) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(last:first:-1,:,:,:)
-                    elseif ((id_dim == 2) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
+                    elseif ((id_dim == 2) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(:,last:first:-1,:,:)
-                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
+                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(:,:,last:first:-1,:)
-                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse == .true.)) then
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
+                    elseif ((id_dim == 3) .and. (self%dimData(id_dim)%reverse .eqv. .true.)) then
                         tempRealField4D = tempRealField4D(:,:,:,last:first:-1)
+                        print*, 'DEBUG_PURPOSES','REVERTING THE AXIS'
                     endif
                 end do
                  
