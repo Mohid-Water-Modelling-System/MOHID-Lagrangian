@@ -159,33 +159,36 @@
     
     if (fType == 'Scalar') then
         if (fDim == 1) then        
-            self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]        
+            self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]
         end if
         if (fDim == 2) then
             allocate(field2d(size(self%scalar2d%field,1),size(self%scalar2d%field,2) + size(gfield%scalar2d%field,2)))
             field2d(:,1:size(self%scalar2d%field,2)) = self%scalar2d%field
-            field2d(:,size(self%scalar2d%field,2)+1:size(gfield%scalar2d%field,2)) = gfield%scalar2d%field
+            field2d(:,size(self%scalar2d%field,2)+1:size(field2d,2)) = gfield%scalar2d%field
             deallocate(self%scalar2d%field)
-            allocate(self%scalar2d%field, source = field2d)
+            allocate(self%scalar2d%field(size(field2d,1), size(field2d,2)))
+            self%scalar2d%field = field2d
         end if
         if (fDim == 3) then
             allocate(field3d(size(self%scalar3d%field,1),size(self%scalar3d%field,2),size(self%scalar3d%field,3) + size(gfield%scalar3d%field,3)))
             field3d(:,:,1:size(self%scalar3d%field,3)) = self%scalar3d%field
-            field3d(:,:,size(self%scalar3d%field,3)+1:size(gfield%scalar3d%field,3)) = gfield%scalar3d%field
+            field3d(:,:,size(self%scalar3d%field,3)+1:size(field3d,3)) = gfield%scalar3d%field
             deallocate(self%scalar3d%field)
-            allocate(self%scalar3d%field, source = field3d)
+            allocate(self%scalar3d%field(size(field3d,1), size(field3d,2), size(field3d,3)))
+            self%scalar3d%field = field3d
         end if
-        if (fDim == 4) then
+        if (fDim == 4) then           
             allocate(field4d(size(self%scalar4d%field,1),size(self%scalar4d%field,2),size(self%scalar4d%field,3),size(self%scalar4d%field,4) + size(gfield%scalar4d%field,4)))
             field4d(:,:,:,1:size(self%scalar4d%field,4)) = self%scalar4d%field
-            field4d(:,:,:,size(self%scalar4d%field,4)+1:size(gfield%scalar4d%field,4)) = gfield%scalar4d%field
+            field4d(:,:,:,size(self%scalar4d%field,4)+1:size(field4d,4)) = gfield%scalar4d%field
             deallocate(self%scalar4d%field)
-            allocate(self%scalar4d%field, source = field4d)
+            allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
+            self%scalar4d%field = field4d
         end if
     else if (fType == 'Vectorial') then
         return
     end if
-    
+        
     end subroutine concatenate
 
     !---------------------------------------------------------------------------
