@@ -260,9 +260,11 @@
     subroutine ShedMemory(self)
     class(block_class), intent(inout) :: self
     integer :: i
-    do i=1, size(self%Background)
-        call self%Background(i)%ShedMemory()
-    end do        
+    if (allocated(self%Background)) then
+        do i=1, size(self%Background)
+            call self%Background(i)%ShedMemory()
+        end do
+    end if
     end subroutine ShedMemory
 
     !---------------------------------------------------------------------------
