@@ -146,6 +146,7 @@ elseif(LINUX)
   #target_link_libraries (${BIN_NAME}  -Wl,--start-group ${CURL_LIBS} -Wl,--end-group)
   target_link_libraries (${BIN_NAME}  -Wl,--start-group ${HDF5_LIBS} -Wl,--end-group)
   target_link_libraries (${BIN_NAME}  -Wl,--start-group ${NETCDFC_LIBS} -Wl,--end-group)
+  target_link_libraries (${BIN_NAME} dl )
   target_link_libraries (${BIN_NAME} -Wl,--start-group ${ZLIB_LIBS} ${HDF5_LIBS} ${NETCDFC_LIBS} ${NETCDFF_LIBS} -Wl,--end-group)
 endif()
 
