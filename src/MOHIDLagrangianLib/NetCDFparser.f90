@@ -238,19 +238,19 @@
                                 self%dimData(k)%reverse = .false.
                                 self%dimData(k)%negate = .false.
                                 print*, 'CASE:0 The axis',k,'is ok. Continue' 
-                            elseif ((tempRealArray(1) > 0) .and. (tempRealArray(1)>tempRealArray(size(tempRealArray)))) then
+                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1)>tempRealArray(size(tempRealArray)))) then
                                 self%dimData(k)%reverse = .false.
                                 self%dimData(k)%negate = .true.
                                 print*, 'CASE 1: The axis',k,'has wrong sing.'  
-                            elseif ((tempRealArray(1) > 0) .and. (tempRealArray(size(tempRealArray)) > tempRealArray(1))) then
+                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(size(tempRealArray)) > tempRealArray(1))) then
                                 self%dimData(k)%reverse = .true.
                                 self%dimData(k)%negate = .true.
                                 print*, 'CASE 2 The axis',k,'is has wrong directon.'
                                 print*, 'The axis',k,'is bad. Reverting the axis and negating it'
-                            elseif ((tempRealArray(1) < 0) .and. (tempRealArray(size(tempRealArray)) < tempRealArray(1))) then
+                            elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(size(tempRealArray)) < tempRealArray(1))) then
                                 self%dimData(k)%reverse = .true.
                                 self%dimData(k)%negate = .false.
-                                print*, 'CASE 2 The axis',k,'is has wrong directon.'
+                                print*, 'CASE 3 The axis',k,'is has wrong directon.'
                                 print*, 'The axis',k,'is bad. Reverting the axis and negating it'
                             end if
                             
