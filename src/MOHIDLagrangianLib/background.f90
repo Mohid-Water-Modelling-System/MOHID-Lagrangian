@@ -48,6 +48,7 @@
     procedure :: append => appendFieldByTime
     procedure :: appendBackgroundByTime
     procedure :: getHyperSlab
+    procedure :: ShedMemory
     procedure, private :: getSlabDim
     procedure, private :: getPointDimIndexes
     procedure :: finalize => cleanBackground
@@ -439,6 +440,43 @@
     real(prec), allocatable, dimension(:) :: getSlabDim
     allocate(getSlabDim, source = self%dim(numDim)%field(llbound:uubound))
     end function getSlabDim
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that cleans data in the Background object not needed any longer
+    !---------------------------------------------------------------------------
+    subroutine ShedMemory(self)
+    class(background_class), intent(inout) :: self
+    integer :: llbound, uubound
+    real(prec), allocatable, dimension(:) :: newTime
+    class(*), pointer :: aField, bField
+    type(string) :: outext, name, units
+    integer :: i
+    !select valid time coordinate array elements
+    do i= 1, size(self%dim)
+        if (self%dim(i)%name == Globals%Var%time) then
+            if (self%dim(i)%field(1) < Globals%SimTime%CurrTime - Globals%Parameters%buffer_size) then
+                llbound = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%buffer_size/2.0)
+                if (llbound == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound = llbound - 1
+                if (llbound > 1) then
+                    uubound = size(self%dim(i)%field)
+                    print*, 'would like to clean memory ', llbound, uubound
+                    !allocate(newTime, source = self%getSlabDim(i, llbound, uubound))
+                    !name = self%dim(i)%name
+                    !units = self%dim(i)%units
+                    !call self%dim(i)%finalize()
+                    !call self%dim(i)%initialize(name, units, 1, newTime)
+                end if
+                
+                exit
+            end if
+        end if
+    end do
+        
+    !slice variables accordingly
+    
+    end subroutine ShedMemory
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
