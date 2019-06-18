@@ -57,7 +57,7 @@
     procedure, private :: ToggleSources
     procedure, private :: BlocksEmitt
     procedure, private :: BlocksDistribute
-    procedure, private :: BlocksConsolidateArrays
+    procedure, private :: BlocksConsolidate
     procedure, private :: BlocksTracersToAoT
     procedure, private :: BlocksRunSolver
     procedure, private :: BlocksAoTtoTracers
@@ -94,8 +94,8 @@
         call self%ToggleSources()
         !emitt Tracers from active Sources
         call self%BlocksEmitt()
-        !Optimize Block Tracer lists
-        call self%BlocksConsolidateArrays()
+        !Optimize Block Tracer lists and memory use
+        call self%BlocksConsolidate()
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
         !Build AoT
@@ -260,9 +260,9 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Simulation method to call the Blocks to consolidate the Tracer array at
-    !> current Time
+    !> current Time and optimize background memory useage
     !---------------------------------------------------------------------------
-    subroutine BlocksConsolidateArrays(self)
+    subroutine BlocksConsolidate(self)
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
@@ -270,11 +270,12 @@
     !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%ConsolidateArrays()
+        call sBlock(i)%ShedMemory()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
     call self%timerPrep%Toc()
-    end subroutine BlocksConsolidateArrays
+    end subroutine BlocksConsolidate
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

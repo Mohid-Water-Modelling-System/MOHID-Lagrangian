@@ -54,6 +54,7 @@
         type(datetime)  :: StartTime                 !< Start date of the simulation
         type(datetime)  :: EndTime                   !< End date of the simulation
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
+        real(prec)      :: BufferSize                !< Controls the frequency of consumption and ammout of input data kept in memory
         integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
@@ -218,6 +219,7 @@
     self%Parameters%StartTime = datetime()
     self%Parameters%EndTime = datetime()
     self%Parameters%BaseDateTime = datetime(1950,1,1,0,0,0)
+    self%Parameters%BufferSize = 3600*24*6 !seconds/hour*hours*days
     self%Parameters%OutputFormat = 2
     self%Parameters%OutputFormatIndexes = [1,2]
     !self%Parameters%OutputFormatNames = ['NetCDF','VTK'] !This is not acceptable because FORTRAN
@@ -718,6 +720,9 @@
         self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
         sizem=sizeof(self%BaseDateTime)
+    elseif(parmkey%chars()=="BufferSize") then
+        self%BufferSize=parmvalue%to_number(kind=1_I_P)
+        sizem=sizeof(self%BufferSize)
     elseif(parmkey%chars()=="OutputFormat") then
         self%OutputFormat=parmvalue%to_number(kind=1_I1P)
         sizem=sizeof(self%OutputFormat)
@@ -794,7 +799,9 @@
     outext = outext//'       WarmUpTime = '//temp_str//' s'//new_line('a')
     temp_str=self%OutputWriteTime
     outext = outext//'       OutputWriteTime = '//temp_str//' Hz'//new_line('a')
-    outext = outext//'       Output file format is '//self%OutputFormatNames(self%OutputFormat)
+    outext = outext//'       Output file format is '//self%OutputFormatNames(self%OutputFormat)//new_line('a')
+    temp_str=self%BufferSize
+    outext = outext//'       Input buffer size is '//temp_str//' s'
     call Log%put(outext,.false.)
     end subroutine
 
