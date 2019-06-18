@@ -29,14 +29,12 @@
     private
 
     type :: trc_ptr_class                   !< tracer pointer class, because foooooortraaaaaaan
-        class(tracer_class), pointer :: ptr !< the actual pointer
-    contains
-    procedure :: cleanTrcPointers
+        class(tracer_class), pointer :: ptr => null() !< the actual pointer
     end type trc_ptr_class
 
     type :: aot_class                                           !< Arrays of Tracers class
         integer, allocatable, dimension(:) :: id                !< Id of the Tracer
-        type(trc_ptr_class), allocatable, dimension(:) :: trc  !< pointer to the Tracer
+        type(trc_ptr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:) :: x,y,z          !< coordinates of the Tracer
         real(prec), allocatable, dimension(:) :: u,v,w          !< velocities of the Tracer
     contains
@@ -115,25 +113,17 @@
     class(aot_class), intent(inout) :: self
     integer :: i
     if (allocated(self%id)) deallocate(self%id)
-    !if (associated(self%trc%ptr)) nullify(self%trc%ptr) !need make sure there are no memory leaks
-    if (allocated(self%trc)) deallocate(self%trc)
     if (allocated(self%x)) deallocate(self%x)
     if (allocated(self%y)) deallocate(self%y)
     if (allocated(self%z)) deallocate(self%z)
     if (allocated(self%u)) deallocate(self%u)
     if (allocated(self%v)) deallocate(self%v)
     if (allocated(self%w)) deallocate(self%w)
-    !print*, 'nullifying trc pointers'
-    !do i=1, size(self%trc)
-    !    call self%trc(i)%cleanTrcPointers()
-    !end do
+    do i=1, size(self%trc)
+        if (associated(self%trc(i)%ptr)) nullify(self%trc(i)%ptr)
+    end do
+    if (allocated(self%trc)) deallocate(self%trc)
     end subroutine Clean
-    
-    subroutine cleanTrcPointers(self)
-    class(trc_ptr_class), intent(inout) :: self
-    if (associated(self%ptr)) nullify(self%ptr)
-    end subroutine cleanTrcPointers
-    
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
