@@ -448,33 +448,68 @@
     !---------------------------------------------------------------------------
     subroutine ShedMemory(self)
     class(background_class), intent(inout) :: self
-    integer :: llbound, uubound
+    integer, allocatable, dimension(:) :: llbound
+    integer, allocatable, dimension(:) :: uubound
     real(prec), allocatable, dimension(:) :: newTime
-    class(*), pointer :: aField, bField
     type(string) :: outext, name, units
+    type(generic_field_class), allocatable, dimension(:) :: gField
+    type(generic_field_class) :: tempGField
+    class(*), pointer :: aField
+    logical :: done
     integer :: i
+    
+    done = .false.
+    allocate(llbound(size(self%dim)))
+    allocate(uubound(size(self%dim)))
     !select valid time coordinate array elements
     do i= 1, size(self%dim)
+        llbound(i) = 1
+        uubound(i) = size(self%dim(i)%field)
+        
         if (self%dim(i)%name == Globals%Var%time) then
             if (self%dim(i)%field(1) < Globals%SimTime%CurrTime - Globals%Parameters%buffer_size) then
-                llbound = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%buffer_size/2.0)
-                if (llbound == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound = llbound - 1
-                if (llbound > 1) then
-                    uubound = size(self%dim(i)%field)
-                    print*, 'would like to clean memory ', llbound, uubound
-                    !allocate(newTime, source = self%getSlabDim(i, llbound, uubound))
-                    !name = self%dim(i)%name
-                    !units = self%dim(i)%units
-                    !call self%dim(i)%finalize()
-                    !call self%dim(i)%initialize(name, units, 1, newTime)
-                end if
-                
+                llbound(i) = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%buffer_size/3.0)
+                if (llbound(i) == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound(i) = llbound(i) - 1
+                if (llbound(i) > 1) then
+                    uubound(i) = size(self%dim(i)%field)                    
+                    allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i)))                    
+                    name = self%dim(i)%name
+                    units = self%dim(i)%units
+                    call self%dim(i)%finalize()
+                    call self%dim(i)%initialize(name, units, 1, newTime)
+                    done  = .true.
+                end if                
                 exit
             end if
         end if
-    end do
-        
+    end do        
     !slice variables accordingly
+    if (done) then
+        allocate(gField(self%fields%getSize()))
+        i=1    
+        call self%fields%reset()               ! reset list iterator
+        do while(self%fields%moreValues())     ! loop while there are values to process
+            aField => self%fields%currentValue()
+            select type(aField)
+            class is (field_class)
+                gfield(i) = aField%getFieldSlice(llbound, uubound)
+                class default
+                outext = '[Background::appendFieldByTime] Unexepected type of content, not a Field'
+                call Log%put(outext)
+                stop
+            end select        
+            call self%fields%next()            ! increment the list iterator
+            i = i+1
+        end do
+        call self%fields%reset()               ! reset list iterator
+    
+        call self%cleanFields()
+        call self%fields%finalize()
+        
+        do i=1, size(gField)
+            call self%add(gField(i))
+        end do
+    end if    
     
     end subroutine ShedMemory
 
