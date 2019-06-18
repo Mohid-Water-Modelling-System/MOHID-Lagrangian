@@ -202,6 +202,40 @@
     !end if
     end function getArrayCoordRegular
 
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Returns the array coordinate of a point, along a given dimension. 
+    !> @param[in] self, xdata, bdata, dimName
+    ! !---------------------------------------------------------------------------
+    ! function getPointCoordNonRegular(self, xdata, bdata, dimName, eta)
+    ! class(interpolator_class), intent(in) :: self
+    ! real(prec), intent(in):: xdata              !< Tracer coordinate component
+    ! type(background_class), intent(in) :: bdata !< Background to use
+    ! type(string), intent(in) :: dimName
+    ! real(prec), intent(in), optional :: eta
+    ! integer :: i,idx_1,idx_2                              !< corresponding background dimension
+    ! real(prec) :: getPointCoordNonRegular          !< coordinates in array index
+    ! real(prec) :: minBound, maxBound, res, ieta
+    ! type(string) :: outext
+
+    ! do i=1,size(xdata)
+    !     idx_1 = minloc(xdata(i)-bdata%dim(dim)%field)
+    !     idx_2 = idx_1+1
+    !     getPointCoordNonRegular(i) = idx_1 + xdata(i)*(idx_2-idx_1)/(bdata%dim(dim)%values(idx_2)-bdata%dim(dim)%field(idx_1))
+    ! end do
+    ! ieta = -res/10.0
+    ! if (present(eta)) ieta = eta
+    ! if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
+    !     outext = '[Interpolator::getPointCoordNonRegular] Point not contained in "'//dimName//'" dimension, stoping'
+    !     print*, xdata
+    !     print*, minBound, maxBound+ieta
+    !     call Log%put(outext)
+    !     stop
+    ! end if
+    ! end function getPointCoordNonRegular
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -210,31 +244,31 @@
     !> @param[in] self, xdata, bdata, dimName
     !---------------------------------------------------------------------------
     function getPointCoordRegular(self, xdata, bdata, dimName, eta)
-    class(interpolator_class), intent(in) :: self
-    real(prec), intent(in):: xdata              !< Tracer coordinate component
-    type(background_class), intent(in) :: bdata !< Background to use
-    type(string), intent(in) :: dimName
-    real(prec), intent(in), optional :: eta
-    integer :: dim                              !< corresponding background dimension
-    real(prec) :: getPointCoordRegular          !< coordinates in array index
-    real(prec) :: minBound, maxBound, res, ieta
-    type(string) :: outext
-    dim = bdata%getDimIndex(dimName) 
-    res = size(bdata%dim(dim)%field)-1
-    minBound = bdata%dim(dim)%getFieldMinBound()
-    maxBound = bdata%dim(dim)%getFieldMaxBound()
-    res = abs(maxBound - minBound)/res
-    getPointCoordRegular = (xdata - minBound)/res+1
-    ieta = -res/10.0
-    if (present(eta)) ieta = eta
-    if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
-        outext = '[Interpolator::getPointCoordRegular] Point not contained in "'//dimName//'" dimension, stoping'
-        print*, xdata
-        print*, minBound, maxBound+ieta
-        call Log%put(outext)
-        stop
-    end if
-    end function getPointCoordRegular
+        class(interpolator_class), intent(in) :: self
+        real(prec), intent(in):: xdata              !< Tracer coordinate component
+        type(background_class), intent(in) :: bdata !< Background to use
+        type(string), intent(in) :: dimName
+        real(prec), intent(in), optional :: eta
+        integer :: dim                              !< corresponding background dimension
+        real(prec) :: getPointCoordRegular          !< coordinates in array index
+        real(prec) :: minBound, maxBound, res, ieta
+        type(string) :: outext
+        dim = bdata%getDimIndex(dimName) 
+        res = size(bdata%dim(dim)%field)-1
+        minBound = bdata%dim(dim)%getFieldMinBound()
+        maxBound = bdata%dim(dim)%getFieldMaxBound()
+        res = abs(maxBound - minBound)/res
+        getPointCoordRegular = (xdata - minBound)/res+1
+        ieta = -res/10.0
+        if (present(eta)) ieta = eta
+        if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
+            outext = '[Interpolator::getPointCoordRegular] Point not contained in "'//dimName//'" dimension, stoping'
+            print*, xdata
+            print*, minBound, maxBound+ieta
+            call Log%put(outext)
+            stop
+        end if
+        end function getPointCoordRegular
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

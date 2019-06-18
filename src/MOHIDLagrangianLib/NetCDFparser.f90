@@ -226,33 +226,34 @@
                         !need to check for 'level' variable specific issues
 
                         !@Daniel
-                        ! We seek for: 0) index=(0, ...n), axis=(+surface=0 .... -bottom)
+                        ! We seek for: 
+                        ! 0) index=(0, ...n), axis=(--bottom ..>>.. ++surface)
                         ! Three situations:
                         !     index=(0,1,2,    ...  n-1,n)  
-                        ! 1)  axis=(-bottom, ... ,-surface)   --> Transform: reverse
+                        ! 1)  axis=(-bottom, ... ,-surface)  --> Transform: reverse
                         ! 2)  axis=(+bottom, ... , +bottom)  --> Transform: reverse and negate
-                        ! 3)  axis=(+surface, ... , +bottom)  --> Transform: negate
+                        ! 3)  axis=(+surface, ... , +bottom) --> Transform: negate
                      
                         if (dimName == Globals%Var%level) then
 
-                            if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
+                            if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) < tempRealArray(size(tempRealArray))) then
                                 self%dimData(k)%reverse_axis = .false.
                                 self%dimData(k)%negate = .false.
-                            elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) < tempRealArray(size(tempRealArray))) then
+                            elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
                                 self%dimData(k)%reverse_axis = .true.
                                 self%dimData(k)%negate = .false.
                                 self%dimData(k)%reverse_axis = .true.
                                 print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong directon. Correcting...'
                             elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) > tempRealArray(size(tempRealArray)))) then
-                                self%dimData(k)%reverse_axis = .true.
-                                self%dimData(k)%negate = .true.
-                                self%dimData(k)%reverse_data = .true.
-                                print*, '[NetCDFparser::getVarDimension]:', 'The axis',k,'has wrong sing/direction. Correcting...'  
-                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
                                 self%dimData(k)%reverse_axis = .false.
                                 self%dimData(k)%negate = .true.
                                 self%dimData(k)%reverse_data = .false.
-                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign. Correcting...'
+                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing. Correcting...'  
+                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
+                                self%dimData(k)%reverse_axis = .true.
+                                self%dimData(k)%negate = .true.
+                                self%dimData(k)%reverse_data = .true.
+                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign/direction. Correcting...'
                             end if
                             
                             if (self%dimData(k)%reverse_axis .eqv. .true.) then 
