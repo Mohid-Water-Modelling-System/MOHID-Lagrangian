@@ -271,7 +271,7 @@
     real(prec), allocatable, dimension(:) :: comp
     allocate(comp(size(self%field)))
     comp = value
-    getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)   
+    getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)
     end function getFieldNearestIndex
 
     !---------------------------------------------------------------------------

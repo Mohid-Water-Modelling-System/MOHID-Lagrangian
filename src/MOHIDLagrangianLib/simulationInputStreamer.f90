@@ -46,7 +46,7 @@
         type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
-        real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
+        real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
         real(prec) :: lastReadTime
     contains
     procedure :: initialize => initInputStreamer
@@ -80,14 +80,14 @@
     needToRead = .false.
     if (self%useInputFiles) then
         !check if we need to import data (current time and buffer size)
-        if (self%lastReadTime <= Globals%SimTime%CurrTime + self%buffer_size/4.0) needToRead = .true.
+        if (self%lastReadTime <= Globals%SimTime%CurrTime + self%BufferSize/4.0) needToRead = .true.
         if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
         if (needToRead) then
             call self%resetReadStatus()
             !check what files on the stack are to read to backgrounds
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%buffer_size) then
+                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
                         if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
                     end if
                 end if
@@ -188,7 +188,7 @@
     type(string), allocatable, dimension(:) :: fileNames
     integer :: i
 
-    self%buffer_size = Globals%Parameters%buffer_size
+    self%bufferSize = Globals%Parameters%BufferSize
     self%lastReadTime = -1.0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)

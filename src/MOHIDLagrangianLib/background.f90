@@ -467,8 +467,8 @@
         uubound(i) = size(self%dim(i)%field)
         
         if (self%dim(i)%name == Globals%Var%time) then
-            if (self%dim(i)%field(1) < Globals%SimTime%CurrTime - Globals%Parameters%buffer_size) then
-                llbound(i) = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%buffer_size/3.0)
+            if (self%dim(i)%field(1) < Globals%SimTime%CurrTime - Globals%Parameters%BufferSize) then
+                llbound(i) = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%BufferSize/3.0)
                 if (llbound(i) == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound(i) = llbound(i) - 1
                 if (llbound(i) > 1) then
                     uubound(i) = size(self%dim(i)%field)                    
