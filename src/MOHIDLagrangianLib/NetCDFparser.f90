@@ -323,23 +323,23 @@
                 ! If this, happens, aplly the reverse of the data in the required dimension.
                 do id_dim=1,3
                     if (self%dimData(id_dim)%reverse_data .eqv. .true.) then
-                    last = ubound(tempRealField3D, dim=id_dim)
-                    first= lbound(tempRealField3D, dim=id_dim)
-                    if (id_dim == 1)  then
-                        tempRealField3D = tempRealField3D(last:first:-1,:,:)
-                    elseif (id_dim == 2) then
-                        tempRealField3D = tempRealField3D(:,last:first:-1,:)
-                    elseif (id_dim == 3) then
-                        tempRealField3D = tempRealField3D(:,:,last:first:-1)
+                       
+                        last = ubound(tempRealField3D, dim=id_dim)
+                        first= lbound(tempRealField3D, dim=id_dim)
+                        if (id_dim == 1)  then
+                            tempRealField3D = tempRealField3D(last:first:-1,:,:)
+                        elseif (id_dim == 2) then
+                            tempRealField3D = tempRealField3D(:,last:first:-1,:)
+                        elseif (id_dim == 3) then
+                            tempRealField3D = tempRealField3D(:,:,last:first:-1)
+ 
+                        endif
                     endif
-                endif
                 enddo
                 ! WARNING------------Pending to check--------------------------------WARNING:
 
-           
-
-
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)

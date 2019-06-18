@@ -194,7 +194,12 @@
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
-    getArrayCoordRegular = (xdata - minBound)/res + 1
+    if ((minBound < 0) .and. (maxBound <0)) then
+        getArrayCoordRegular = size(bdata%dim(dim)%field)-(xdata - minBound)/res+1
+        ! other option getArrayCoordRegular = (xdata - maxBound)/res+1
+    else
+        getArrayCoordRegular = (xdata - minBound)/res+1
+    end if
     !if (.not.Utils%isBounded(xdata, minBound, maxBound, res/3.0)) then
     !    outext = '[Interpolator::getArrayCoordRegular] Points not contained in "'//dimName//'" dimension, stoping'
     !    call Log%put(outext)
@@ -258,6 +263,11 @@
         minBound = bdata%dim(dim)%getFieldMinBound()
         maxBound = bdata%dim(dim)%getFieldMaxBound()
         res = abs(maxBound - minBound)/res
+        if ((minBound < 0) .and. (maxBound <0)) then
+            getPointCoordRegular = size(bdata%dim(dim)%field)-(xdata - minBound)/res+1
+        else
+            getPointCoordRegular = (xdata - minBound)/res+1
+        end if
         getPointCoordRegular = (xdata - minBound)/res+1
         ieta = -res/10.0
         if (present(eta)) ieta = eta
