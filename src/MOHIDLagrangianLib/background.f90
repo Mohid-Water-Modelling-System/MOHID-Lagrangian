@@ -454,7 +454,7 @@
     self%initialized = .false.
     self%id = MV_INT
     self%name = ''
-    deallocate(self%dim)
+    if (allocated(self%dim)) deallocate(self%dim)
     call self%cleanFields()
     call self%fields%finalize()
     end subroutine cleanBackground
@@ -478,8 +478,8 @@
             call curr%finalize()
         class is (scalar3d_field_class)
             call curr%finalize()
-        class is (scalar4d_field_class)
-            call curr%finalize()
+        class is (scalar4d_field_class)            
+            call curr%finalize()            
             class default
             outext = '[background_class::cleanFields] Unexepected type of content, not a scalar Field'
             call Log%put(outext)
