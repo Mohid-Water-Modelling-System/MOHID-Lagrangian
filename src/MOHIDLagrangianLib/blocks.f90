@@ -56,6 +56,7 @@
     procedure, public :: DistributeTracers
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
+    procedure, public :: ShedMemory
     procedure, public :: TracersToAoT
     procedure, public :: RunSolver
     procedure, public :: AoTtoTracers
@@ -250,6 +251,21 @@
     call self%LTracer%reset()                       ! reset list iterator
 
     end subroutine ConsolidateArrays
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that calls background functions to clean data no longer needed
+    !---------------------------------------------------------------------------
+    subroutine ShedMemory(self)
+    class(block_class), intent(inout) :: self
+    integer :: i
+    if (allocated(self%Background)) then
+        do i=1, size(self%Background)
+            call self%Background(i)%ShedMemory()
+        end do
+    end if
+    end subroutine ShedMemory
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

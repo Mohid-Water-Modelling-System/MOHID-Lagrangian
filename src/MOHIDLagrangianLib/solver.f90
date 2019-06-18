@@ -57,9 +57,12 @@
     type(aot_class), intent(inout) :: aot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
-    if (self%solverType == 1) call self%runStepEuler(aot, bdata, time, dt)
-    if (self%solverType == 2) call self%runStepMSEuler(aot, bdata, time, dt)
-    if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
+    !so the forward integrators don't overextend beyond calendar time
+    if (time+dt < Globals%Parameters%TimeMax) then
+        if (self%solverType == 1) call self%runStepEuler(aot, bdata, time, dt)
+        if (self%solverType == 2) call self%runStepMSEuler(aot, bdata, time, dt)
+        if (self%solverType == 3) call self%runStepRK4(aot, bdata, time, dt)
+    end if
     end subroutine runStep
 
     !---------------------------------------------------------------------------
