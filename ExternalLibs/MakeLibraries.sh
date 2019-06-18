@@ -25,8 +25,8 @@ then
                 export CXXFLAGS='-O3 -xHost -ip'
                 export FCFLAGS='-O3 -xHost -ip'
                 export FFLAGS='-O3 -xHost -ip'
-                export CC=/opt/intel/bin/icc
-                export FC=/opt/intel/bin/ifort
+                export CC=$(type -P icc)
+                export FC=$(type -P ifort)
                 if [ $# -eq 2 ]
                 then
                         export CC=$2
@@ -43,8 +43,8 @@ then
 		export CXXFLAGS='-O3'
 		export FCFLAGS='-O3'
 		export FFLAGS='-O3'
-		export CC=/usr/bin/gcc
-		export FC=/usr/bin/gfortran
+		export CC=$(type -P gcc)
+		export FC=$(type -P gfortran)
 		if [ $# -eq 2 ]
 		then
 			export CC=$2

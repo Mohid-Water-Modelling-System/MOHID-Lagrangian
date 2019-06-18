@@ -47,7 +47,8 @@
         integer :: varid
         type (string) :: units
         integer :: length
-        logical :: reverse
+        logical :: reverse_axis = .false., negate = .false.
+        logical :: reverse_data = .false.
     contains
     procedure :: print => printDimsNC
     end type dim_t
@@ -223,16 +224,43 @@
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
                         !need to check for 'level' variable specific issues
+
+                        !@Daniel
+                        ! We seek for: index=(0, ...n), axis=(-bottom ... +surface=0)
+                        ! Three situations:
+                        !     index=(0,1,2,    ...  n-1,n)  
+                        ! 1)  axis=(+bottom, ... ,+surface)   --> Transform: Negate
+                        ! 2)  axis=(+surface, ... , -bottom)  --> Transform: reverse
+                        ! 3)  axis=(+bottom, ... , +surface)  --> Transform: reverse and negate
+                     
                         if (dimName == Globals%Var%level) then
-                            allocate(tempRealArrayDelta(self%dimData(k)%length - 1))
-                            do l=1, self%dimData(k)%length - 1
-                                tempRealArrayDelta(l) = tempRealArray(l+1)-tempRealArray(l)
-                            end do
-                            self%dimData(k)%reverse = all(tempRealArrayDelta < 0) ! 1st Tricky solution: needs explanation [@Daniel]
-                            if ((self%dimData(k)%reverse .eqv. .true.) .or. all(tempRealArray >=0) ) then !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for now it stays
-                                !NEED TO INVERT THE DIMENSION ARRAY AND THE FIELDS AS WELL, OTHERWISE THE INTERPOLATOR DOESN'T KNOW WHERE THE POINTS ARE IN THE VERTICAL - TODO
-                                tempRealArray = - tempRealArray
+
+                            if ((tempRealArray(1) < 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
+                                self%dimData(k)%reverse_axis = .false.
+                                self%dimData(k)%negate = .false.
+                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1)>tempRealArray(size(tempRealArray)))) then
+                                self%dimData(k)%reverse_axis = .false.
+                                self%dimData(k)%negate = .true.
+                                print*, '[NetCDFparser::getVarDimension]:', 'The axis',k,'has wrong sing. Correcting...'  
+                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(size(tempRealArray)) > tempRealArray(1))) then
+                                self%dimData(k)%reverse_axis = .true.
+                                self%dimData(k)%negate = .true.
+                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign and directon. Correcting...'
+                            elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(size(tempRealArray)) < tempRealArray(1))) then
+                                self%dimData(k)%reverse_axis = .true.
+                                self%dimData(k)%negate = .false.
+                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong directon. Correcting...'
                             end if
+                            
+                            if (self%dimData(k)%reverse_axis .eqv. .true.) then 
+                             tempRealArray = tempRealArray(size(tempRealArray):1:-1)
+                            end if
+
+                            if (self%dimData(k)%negate .eqv. .true.) then 
+                             tempRealArray = -tempRealArray
+                            end if
+                            
+
                         end if
                         !need to check for 'time' variable specific issues
                         if (dimName == Globals%Var%time) then
@@ -264,7 +292,7 @@
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
     real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
     type(string) :: dimName, varUnits
-    integer :: i, j, k
+    integer :: i, j, k, id_dim, first,last
     type(dim_t) :: tempDim
     integer, allocatable, dimension(:) :: varShape
     type(string) :: outext
@@ -282,6 +310,31 @@
                 call self%check()
                 where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
                 tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
+                
+                ! WARNING------------Pending to check--------------------------------WARNING:
+                ! The self%dimdata, must be initialized before use this method.
+                ! Start reversing part --- WARNING: the id_dim suposses an agreement between the 
+                ! dimData(i) and the dimensions of the preallocated tempRealField: that is
+                ! id_dim(1,2,3,4)---> tempRealField3D(lon,lat,depth,time) -- dimData(id_dim 1=lon), dimData(id_dim 2=lat)...
+                ! If this, happens, aplly the reverse of the data in the required dimension.
+                do id_dim=1,3
+                    if (self%dimData(id_dim)%reverse_data .eqv. .true.) then
+                    last = ubound(tempRealField3D, dim=id_dim)
+                    first= lbound(tempRealField3D, dim=id_dim)
+                    if (id_dim == 1)  then
+                        tempRealField3D = tempRealField3D(last:first:-1,:,:)
+                    elseif (id_dim == 2) then
+                        tempRealField3D = tempRealField3D(:,last:first:-1,:)
+                    elseif (id_dim == 3) then
+                        tempRealField3D = tempRealField3D(:,:,last:first:-1)
+                    endif
+                endif
+                enddo
+                ! WARNING------------Pending to check--------------------------------WARNING:
+
+           
+
+
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
@@ -289,7 +342,25 @@
                 call self%check()                
                 where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
                 tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
+                
+                do id_dim=1,4
+                    if (self%dimData(id_dim)%reverse_data .eqv. .true.) then
+                        last = ubound(tempRealField4D, dim=id_dim)
+                        first = lbound(tempRealField4D, dim=id_dim)
+                        if (id_dim == 1) then
+                            tempRealField4D = tempRealField4D(last:first:-1,:,:,:)
+                        elseif (id_dim == 2) then
+                            tempRealField4D = tempRealField4D(:,last:first:-1,:,:)    
+                        elseif (id_dim == 3) then
+                            tempRealField4D = tempRealField4D(:,:,last:first:-1,:)
+                        elseif (id_dim == 4) then
+                            tempRealField4D = tempRealField4D(:,:,:,last:first:-1)
+                        endif
+                    endif
+                end do
+                 
                 call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)
