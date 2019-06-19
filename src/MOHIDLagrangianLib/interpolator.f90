@@ -202,6 +202,53 @@
     !end if
     end function getArrayCoordRegular
 
+    
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Returns the array coordinate of a point, along a given dimension. 
+    !> @param[in] self, xdata, bdata, dimName
+    ! !---------------------------------------------------------------------------
+    function getArrayCoordNonRegular(self, xdata, bdata, dimName)
+        class(interpolator_class), intent(in) :: self
+        real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
+        type(background_class), intent(in) :: bdata                 !< Background to use
+        type(string), intent(in) :: dimName
+        integer :: dim,i                                              !< corresponding background dimension
+        integer :: id,idx_1,idx_2,n_idx                              !< corresponding background dimension
+        real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
+        real(prec), allocatable,dimension(:) :: rest
+        type(string) :: outext
+        
+        dim = bdata%getDimIndex(dimName) 
+        n_idx = size(bdata%dim(dim)%field)
+        !allocate(rest(size(bdata%dim(dim)%field))) 
+        ! Algorithm search 2
+        do id = 1,size(xdata) 
+            do i = 2, n_idx
+                if (bdata%dim(dim)%field(i) > xdata(id)) then
+                    idx_1 = i-1
+                    idx_2 = i
+                    exit
+                end if
+            enddo
+            getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+        enddo
+    
+        ! do id = 1,size(xdata) 
+        !     rest = xdata(id)-bdata%dim(dim)%field
+        !     idx_1 = minloc(abs(rest),dim=1)
+        !     idx_2 = idx_1 + 1
+        !     if (rest(idx_1) < 0) then
+        !         idx_2 = idx_1
+        !         idx_1 = idx_2 - 1
+        !     endif
+        !     getArrayCoordNonRegular = idx_1 + xdata(id)*(idx_2-idx_1)/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1))
+        ! end do
+    
+        
+        end function getArrayCoordNonRegular
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
