@@ -226,20 +226,24 @@
                         !need to check for 'level' variable specific issues
 
                         !@Daniel
-                        ! We seek for: 
-                        ! 0) index=(0, ...n), axis=(--bottom ..>>.. ++surface)
+                        ! We seek for:
+                        ! The search of the index position inside the array is based on the lower bound
+                        ! of the axis, which is the minvalue. When the axis is negative such us,
+                        ! level coordinates. The minvalue is the highest index. 
+                        ! 0) index=(0, ...n), axis=( ++surface ..>>.. --bottom)
                         ! Three situations:
                         !     index=(0,1,2,    ...  n-1,n)  
                         ! 1)  axis=(-bottom, ... ,-surface)  --> Transform: reverse
-                        ! 2)  axis=(+bottom, ... , +bottom)  --> Transform: reverse and negate
+                        ! 2)  axis=(+bottom, ... , +surface)  --> Transform: reverse and negate
                         ! 3)  axis=(+surface, ... , +bottom) --> Transform: negate
-                     
+                        
                         if (dimName == Globals%Var%level) then
+                            
 
-                            if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) < tempRealArray(size(tempRealArray))) then
+                            if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
                                 self%dimData(k)%reverse_axis = .false.
                                 self%dimData(k)%negate = .false.
-                            elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
+                            elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) < tempRealArray(size(tempRealArray))) then
                                 self%dimData(k)%reverse_axis = .true.
                                 self%dimData(k)%negate = .false.
                                 self%dimData(k)%reverse_axis = .true.
@@ -248,12 +252,12 @@
                                 self%dimData(k)%reverse_axis = .false.
                                 self%dimData(k)%negate = .true.
                                 self%dimData(k)%reverse_data = .false.
-                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing. Correcting...'  
+                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing/direction. Correcting...'  
                             elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
                                 self%dimData(k)%reverse_axis = .true.
                                 self%dimData(k)%negate = .true.
                                 self%dimData(k)%reverse_data = .true.
-                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign/direction. Correcting...'
+                                print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign. Correcting...'
                             end if
                             
                             if (self%dimData(k)%reverse_axis .eqv. .true.) then 
@@ -322,20 +326,17 @@
                 ! id_dim(1,2,3,4)---> tempRealField3D(lon,lat,depth,time) -- dimData(id_dim 1=lon), dimData(id_dim 2=lat)...
                 ! If this, happens, aplly the reverse of the data in the required dimension.
                 do id_dim=1,3
-                    if (self%dimData(id_dim)%reverse_data .eqv. .true.) then
-                       
-                        last = ubound(tempRealField3D, dim=id_dim)
-                        first= lbound(tempRealField3D, dim=id_dim)
-                        if (id_dim == 1)  then
-                            tempRealField3D = tempRealField3D(last:first:-1,:,:)
-                        elseif (id_dim == 2) then
-                            tempRealField3D = tempRealField3D(:,last:first:-1,:)
-                        elseif (id_dim == 3) then
-                            tempRealField3D = tempRealField3D(:,:,last:first:-1)
- 
+                    if (self%dimData(id_dim)%reverse_data) then
+                        if (self%dimData(id_dim)%simName == Globals%Var%lon) then
+                            tempRealField3D = tempRealField3D(varshape(1):1:-1,:,:)
+                        elseif (self%dimData(id_dim)%simName == Globals%Var%lat) then
+                            tempRealField3D = tempRealField3D(:,varshape(2):1:-1,:)
+                        elseif (self%dimData(id_dim)%simName == Globals%Var%level) then
+                            tempRealField3D = tempRealField3D(:,:,varshape(3):1:-1)
                         endif
-                    endif
-                enddo
+
+                    end if
+                end do
                 ! WARNING------------Pending to check--------------------------------WARNING:
 
                 call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
@@ -348,19 +349,18 @@
                 tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
                 
                 do id_dim=1,4
-                    if (self%dimData(id_dim)%reverse_data .eqv. .true.) then
-                        last = ubound(tempRealField4D, dim=id_dim)
-                        first = lbound(tempRealField4D, dim=id_dim)
-                        if (id_dim == 1) then
-                            tempRealField4D = tempRealField4D(last:first:-1,:,:,:)
-                        elseif (id_dim == 2) then
-                            tempRealField4D = tempRealField4D(:,last:first:-1,:,:)    
-                        elseif (id_dim == 3) then
-                            tempRealField4D = tempRealField4D(:,:,last:first:-1,:)
-                        elseif (id_dim == 4) then
-                            tempRealField4D = tempRealField4D(:,:,:,last:first:-1)
-                        endif
-                    endif
+                    if (self%dimData(id_dim)%reverse_data) then
+     
+                        if (self%dimData(id_dim)%simName == Globals%Var%lon) then
+                            tempRealField4D = tempRealField4D(varshape(1):1:-1,:,:,:)
+                        elseif (self%dimData(id_dim)%simName == Globals%Var%lat) then
+                            tempRealField4D = tempRealField4D(:,varshape(2):1:-1,:,:)    
+                        elseif (self%dimData(id_dim)%simName == Globals%Var%level) then
+                            tempRealField4D = tempRealField4D(:,:,varshape(3):1:-1,:)
+                        elseif (self%dimData(id_dim)%simName == Globals%Var%time) then
+                            tempRealField4D = tempRealField4D(:,:,:,varshape(4):1:-1)
+                        end if
+                    end if
                 end do
                  
                 call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
@@ -371,7 +371,7 @@
                 stop
             end if
         end if
-    end do
+     end do
 
     end subroutine getVar
 
