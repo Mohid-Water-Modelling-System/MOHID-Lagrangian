@@ -101,7 +101,7 @@
                     do j=1, size(blocks)
                         if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
                         !slice data by block and either join to existing background or add a new one
-                        if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%appendBackgroundByTime(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
                         if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)
                         
                         !save last time already loaded
