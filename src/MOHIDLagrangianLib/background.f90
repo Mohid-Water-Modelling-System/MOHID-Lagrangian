@@ -227,11 +227,13 @@
                         tempGField = getGField(bField)
                         !append the new time instances of the field
                         call gField(i)%concatenate(tempGField)
+                        call tempGField%cleanField()
                         done = .true.
                         exit
                     end if
                 end select
                 call bkg%fields%next()
+                nullify(bField)
             end do
             call bkg%fields%reset()            
             class default
@@ -241,6 +243,7 @@
         end select        
         call self%fields%next()            ! increment the list iterator
         i = i+1
+        nullify(aField)
     end do
     call self%fields%reset()               ! reset list iterator
 
@@ -249,6 +252,7 @@
         
     do i=1, size(gField)
         call self%add(gField(i))
+        call gField(i)%cleanField()
     end do
 
     end subroutine appendBackgroundByTime

@@ -126,7 +126,7 @@
     procedure :: concatenate
     procedure :: getGFieldType
     procedure :: finalize => cleanField
-    final :: delGfield
+    !final :: delGfield
     procedure :: print => printGenericField
     end type generic_field_class
 
