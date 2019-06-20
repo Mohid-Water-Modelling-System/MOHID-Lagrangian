@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <case>
+
   <casedef>
     <constantsdef>
       <Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />
