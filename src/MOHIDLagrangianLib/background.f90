@@ -40,6 +40,7 @@
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
+        logical, allocatable, dimension(:) :: regularDim                        !< Logical that points  
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
     contains
     procedure :: add => addField
@@ -56,8 +57,6 @@
     procedure, private :: setExtents
     procedure, private :: setID
     procedure :: check
-    !clean by dimension range
-
     procedure :: test
     procedure :: print => printBackground
     end type background_class
@@ -183,6 +182,7 @@
     class(*), pointer :: aField, bField
     type(string) :: outext, name, units
     integer :: i, j, posiTime
+    logical, allocatable, dimension(:) :: usedTime
 
     done = .false.
     !check that dimensions are compatible
@@ -199,7 +199,7 @@
                 done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
                 if (done) then !append time dimensions of the two backgrounds
                     allocate(newTime, source = self%dim(j)%field)
-                    call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field)
+                    call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
                     name = self%dim(j)%name
                     units = self%dim(j)%units
                     call self%dim(j)%finalize()
@@ -528,7 +528,21 @@
     subroutine setDims(self, dims)
     class(background_class), intent(inout) :: self
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    real(prec), allocatable, dimension(:) :: rest
+    integer :: i
+    real(prec) ::fmin, fmax, eta
     allocate(self%dim, source = dims)
+    allocate(self%regularDim(size(dims)))
+    self%regularDim = .false.
+    do i=1, size(dims)        
+        fmin = minval(self%dim(i)%field)
+        fmax = maxval(self%dim(i)%field)
+        eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
+        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:-2))
+        self%regularDim(i) = all(rest(1)+eta > rest)
+        self%regularDim(i) = all(rest(1)-eta < rest)        
+        deallocate(rest)
+    end do
     end subroutine setDims
 
     !---------------------------------------------------------------------------

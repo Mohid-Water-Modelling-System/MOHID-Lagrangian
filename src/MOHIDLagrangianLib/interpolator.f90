@@ -31,12 +31,13 @@
         type(string) :: name                !< Name of the Interpolation algorithm
     contains
     procedure :: run
-    procedure :: getArrayCoordRegular
-    procedure :: getPointCoordRegular
-    procedure :: getArrayCoordNonRegular
+    procedure, private :: getArrayCoord
+    procedure, private :: getArrayCoordRegular
+    procedure, private :: getPointCoordRegular
+    procedure, private :: getArrayCoordNonRegular
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
-    procedure :: test4D
+    procedure, private :: test4D
     procedure, private :: interp4D
     procedure, private :: interp3D
     end type interpolator_class
@@ -77,17 +78,17 @@
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
                 var_name(i) = aField%name
-                xx = self%getArrayCoordRegular(aot%x, bdata, Globals%Var%lon)
-                yy = self%getArrayCoordRegular(aot%y, bdata, Globals%Var%lat)
-                zz = self%getArrayCoordNonRegular(aot%z, bdata, Globals%Var%level)
+                xx = self%getArrayCoord(aot%x, bdata, Globals%Var%lon)
+                yy = self%getArrayCoord(aot%y, bdata, Globals%Var%lat)
+                zz = self%getArrayCoord(aot%z, bdata, Globals%Var%level)
                 tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
                 var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
                 var_name(i) = aField%name
-                xx = self%getArrayCoordRegular(aot%x, bdata, Globals%Var%lon)
-                yy = self%getArrayCoordRegular(aot%y, bdata, Globals%Var%lat)
+                xx = self%getArrayCoord(aot%x, bdata, Globals%Var%lon)
+                yy = self%getArrayCoord(aot%y, bdata, Globals%Var%lat)
                 tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
                 var_dt(:,i) = self%interp3D(xx, yy, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aot%x))
             end if !add more interpolation types here
@@ -228,34 +229,47 @@
     ! Interpolation on the time dimension and get the final result.
     interp3D = c0*(1.-td)+c1*td
     end function interp3D
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the array coordinates of a set of points, given a coordinate
+    !> array.
+    !> @param[in] self, xdata, bdata, dimName
+    !---------------------------------------------------------------------------
+    function getArrayCoord(self, xdata, bdata, dimName)
+    class(interpolator_class), intent(in) :: self
+    real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
+    type(background_class), intent(in) :: bdata                 !< Background to use
+    type(string), intent(in) :: dimName
+    integer :: dim                                              !< corresponding background dimension
+    real(prec), dimension(size(xdata)) :: getArrayCoord         !< coordinates in array index
+
+    dim = bdata%getDimIndex(dimName)
+    if (bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim)
+    if (.not.bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim)
+
+    end function getArrayCoord
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array. Works only for regularly spaced data.
-    !> @param[in] self, xdata, bdata, dimName
+    !> @param[in] self, xdata, bdata, dim
     !---------------------------------------------------------------------------
-    function getArrayCoordRegular(self, xdata, bdata, dimName)
+    function getArrayCoordRegular(self, xdata, bdata, dim)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                 !< Background to use
-    type(string), intent(in) :: dimName
-    integer :: dim                                              !< corresponding background dimension
+    integer, intent(in) :: dim
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
     real(prec) :: minBound, maxBound, res
-    !type(string) :: outext
-    dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
     getArrayCoordRegular = (xdata - minBound)/res + 1
-    !if (.not.Utils%isBounded(xdata, minBound, maxBound, res/3.0)) then
-    !    outext = '[Interpolator::getArrayCoordRegular] Points not contained in "'//dimName//'" dimension, stoping'
-    !    call Log%put(outext)
-    !    stop
-    !end if
     end function getArrayCoordRegular
 
 
@@ -263,17 +277,16 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Returns the array coordinate of a point, along a given dimension.
-    !> @param[in] self, xdata, bdata, dimName
+    !> @param[in] self, xdata, bdata, dim
     ! !---------------------------------------------------------------------------
-    function getArrayCoordNonRegular(self, xdata, bdata, dimName)
+    function getArrayCoordNonRegular(self, xdata, bdata, dim)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:), intent(in):: xdata                    !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                     !< Background to use
-    type(string), intent(in) :: dimName
-    integer :: dim,i                                                !< corresponding background dimension
+    integer, intent(in) :: dim
+    integer :: i                                                !< corresponding background dimension
     integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
-    dim = bdata%getDimIndex(dimName)
     n_idx = size(bdata%dim(dim)%field)
     do id = 1,size(xdata)
         do i = 2, n_idx
