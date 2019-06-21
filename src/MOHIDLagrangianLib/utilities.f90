@@ -272,7 +272,7 @@
     class(utils_class), intent(in) :: self
     real(prec), dimension(:), allocatable, intent(inout) :: baseArray
     real(prec), dimension(:), allocatable, intent(in) :: newArray
-    logical, dimension(:), allocatable, intent(inout), optional :: usedArray
+    logical, dimension(:), allocatable, intent(out), optional :: usedArray
     logical, dimension(:), allocatable :: usedTemp
     real(prec), dimension(:), allocatable :: newBaseArray
     integer :: i, j, k

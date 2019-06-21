@@ -147,9 +147,11 @@
     !> Method concatenates two fields by their last dimension
     !> @param[in] self, gfield
     !---------------------------------------------------------------------------
-    subroutine concatenate(self, gfield)
+    subroutine concatenate(self, gfield, usedPosi)
     class(generic_field_class), intent(inout) :: self
     class(generic_field_class), intent(in) :: gfield
+    logical, dimension(:), optional, intent(in) :: usedPosi 
+    logical, allocatable, dimension(:) :: usedPos
     integer :: fDim
     type(string) :: fType
     real(prec), allocatable, dimension(:) :: field1d
@@ -161,9 +163,12 @@
     fType = self%getGFieldType()
     if (gfield%dim /= fDim) return
     if (gfield%getGFieldType() /= fType) return
-
+    
+    if (present(usedPosi)) allocate(usedPos, source = usedPosi)    
+    
     if (fType == 'Scalar') then
         if (fDim == 1) then
+            
             self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]
         end if
         if (fDim == 2) then
