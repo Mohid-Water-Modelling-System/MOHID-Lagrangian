@@ -446,8 +446,7 @@
     !---------------------------------------------------------------------------
     subroutine cleanScalar1dField(self)
     class(scalar1d_field_class), intent(out) :: self
-    !if (allocated(self%field)) deallocate(self%field)
-    return
+    if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar1dField
 
     !---------------------------------------------------------------------------
@@ -474,8 +473,7 @@
     !---------------------------------------------------------------------------
     subroutine cleanScalar2dField(self)
     class(scalar2d_field_class), intent(out) :: self
-    !if (allocated(self%field)) deallocate(self%field)
-    return
+    if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar2dField
 
     !---------------------------------------------------------------------------
@@ -502,8 +500,7 @@
     !---------------------------------------------------------------------------
     subroutine cleanScalar3dField(self)
     class(scalar3d_field_class), intent(out) :: self
-    !if (allocated(self%field)) deallocate(self%field)
-    return
+    if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar3dField
 
     !---------------------------------------------------------------------------
@@ -530,8 +527,7 @@
     !---------------------------------------------------------------------------
     subroutine cleanScalar4dField(self)
     class(scalar4d_field_class), intent(out) :: self
-    !if (allocated(self%field)) deallocate(self%field)
-    return
+    if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar4dField
 
     !---------------------------------------------------------------------------
