@@ -24,7 +24,7 @@
       </source>
       <source>
         <setsource id="1" name="Litter_plastic" />
-        <rate value="0.0333" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate value="0.0333" comment="emission rate (Hz)" />
         <active start="15" end="90" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="2.5" y="5.5" z="0.75" units_comment="(deg,deg,m)"/>
       </source>
