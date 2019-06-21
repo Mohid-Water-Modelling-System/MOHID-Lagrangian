@@ -37,6 +37,7 @@
     procedure :: print => printInterpolator
     procedure :: test4D
     procedure, private :: interp4D
+    procedure, private :: interp3D
     end type interpolator_class
 
     !Public access vars
@@ -83,7 +84,11 @@
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
-                !call self%interp3D(...)
+                var_name(i) = aField%name
+                xx = self%getArrayCoordRegular(aot%x, bdata, Globals%Var%lon)
+                yy = self%getArrayCoordRegular(aot%y, bdata, Globals%Var%lat)
+                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
+                var_dt(:,i) = self%interp3D(xx, yy, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aot%x))
             end if !add more interpolation types here
             !add more field types here
             class default
@@ -172,6 +177,70 @@
     interp4D = c0*(1.-td)+c1*td
 
     end function interp4D
+
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> method to interpolate a particle position in a given data box based
+    !> on array coordinates. 3d interpolation is a weighted average of 8
+    !> neighbors. Consider the 4D domain between the 8 neighbors. The hypercube is
+    !> divided into 4 sub-hypercubes by the point in question. The weight of each
+    !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
+    !> of the whole hypercube.
+    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !---------------------------------------------------------------------------
+    function interp3D(self, x, y, t, field, n_fv, n_cv, n_tv, n_e)
+        class(interpolator_class), intent(in) :: self
+        real(prec), dimension(n_e),intent(in):: x, y                        !< 1-d. Array of particle component positions in array coordinates
+        real(prec), intent(in) :: t                                      !< time to interpolate to in array coordinates
+        real(prec), dimension(n_fv, n_cv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
+        integer, intent(in) :: n_fv, n_cv,n_tv                         !< field dimensions
+        integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
+        integer, dimension(n_e) :: x0, y0, x1, y1
+        real(prec), dimension(n_e) :: xd, yd, c00, c10, c01, c11
+        real(prec), dimension(n_e) :: c0, c1
+        real(prec) :: td
+        integer :: i, j, k, l, t0, t1
+        real(prec), dimension(n_e) :: interp3D                      !< Field evaluated at x,y,z,t
+        
+        ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
+        x0 = floor(x)
+        y0 = floor(y)
+        t0 = floor(t)
+
+        x1 = ceiling(x)
+        y1 = ceiling(y)
+        t1 = ceiling(t)
+    
+        ! Compute the "normalized coordinates" of the particle inside the data field box
+        xd = (x-x0)/(x1-x0)
+        yd = (y-y0)/(y1-y0)
+
+        td = (t-t0)/(t1-t0)
+    
+        ! In case that particle is on a point box, we set it to 0 to avoid inf errors
+        where (x1 == x0) xd = 0.
+        where (y1 == y0) yd = 0.
+
+        if (t1 == t0)    td = 0.
+        
+        ! Interpolation on the first dimension and collapse it to a three dimension problem
+        forall(i=1:n_e)
+            c00(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
+            c10(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
+            c01(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i)
+            c11(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
+        end forall
+        
+        ! Interpolation on the second dimension and collapse it to a two dimension problem
+        c0 = c00*(1.-yd)+c10*yd
+        c1 = c01*(1.-yd)+c11*yd
+    
+        ! Interpolation on the time dimension and get the final result.
+        interp3D = c0*(1.-td)+c1*td
+    
+        end function interp3D
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
