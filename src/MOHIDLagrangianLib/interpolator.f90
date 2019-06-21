@@ -73,7 +73,7 @@
     call bdata%fields%reset()                   ! reset list iterator
     do while(bdata%fields%moreValues())         ! loop while there are values
         aField => bdata%fields%currentValue()   ! get current value
-        select type(aField)        
+        select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
                 var_name(i) = aField%name
@@ -84,7 +84,6 @@
                 var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
-           
             if (self%interpType == 1) then !linear interpolation in space and time
                 var_name(i) = aField%name
                 xx = self%getArrayCoordRegular(aot%x, bdata, Globals%Var%lon)
@@ -127,9 +126,9 @@
     real(prec), dimension(n_e) :: xd, yd, zd, c000, c100, c010, c110, c001
     real(prec), dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
     real(prec) :: td
-    integer :: i, j, k, l, t0, t1
+    integer :: i, t0, t1
     real(prec), dimension(n_e) :: interp4D                      !< Field evaluated at x,y,z,t
-    
+
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     x0 = floor(x)
     y0 = floor(y)
@@ -151,7 +150,7 @@
     where (y1 == y0) yd = 0.
     where (z1 == z0) zd = 0.
     if (t1 == t0)    td = 0.
-    
+
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     forall(i=1:n_e)
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
@@ -164,22 +163,17 @@
         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
         c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
     end forall
-    
     ! Interpolation on the second dimension and collapse it to a two dimension problem
     c00 = c000*(1.-yd)+c100*yd
     c10 = c010*(1.-yd)+c110*yd
     c01 = c001*(1.-yd)+c101*yd
     c11 = c011*(1.-yd)+c111*yd
-
     ! Interpolation on the third dimension and collapse it to a one dimension problem
     c0 = c00*(1.-zd)+c10*zd
     c1 = c01*(1.-zd)+c11*zd
-
     ! Interpolation on the time dimension and get the final result.
     interp4D = c0*(1.-td)+c1*td
-
     end function interp4D
-
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -193,62 +187,52 @@
     !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
     function interp3D(self, x, y, t, field, n_fv, n_cv, n_tv, n_e)
-        class(interpolator_class), intent(in) :: self
-        real(prec), dimension(n_e),intent(in):: x, y                        !< 1-d. Array of particle component positions in array coordinates
-        real(prec), intent(in) :: t                                      !< time to interpolate to in array coordinates
-        real(prec), dimension(n_fv, n_cv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
-        integer, intent(in) :: n_fv, n_cv,n_tv                         !< field dimensions
-        integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
-        integer, dimension(n_e) :: x0, y0, x1, y1
-        real(prec), dimension(n_e) :: xd, yd, c00, c10, c01, c11
-        real(prec), dimension(n_e) :: c0, c1
-        real(prec) :: td
-        integer :: i, j, k, l, t0, t1
-        real(prec), dimension(n_e) :: interp3D                      !< Field evaluated at x,y,z,t
-        
-        ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
-        x0 = floor(x)
-        y0 = floor(y)
-        t0 = floor(t)
+    class(interpolator_class), intent(in) :: self
+    real(prec), dimension(n_e),intent(in):: x, y                        !< 1-d. Array of particle component positions in array coordinates
+    real(prec), intent(in) :: t                                         !< time to interpolate to in array coordinates
+    real(prec), dimension(n_fv, n_cv, n_tv), intent(in) :: field        !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
+    integer, intent(in) :: n_fv, n_cv,n_tv                              !< field dimensions
+    integer, intent(in) :: n_e                                          !< Number of particles to interpolate to
+    integer, dimension(n_e) :: x0, y0, x1, y1
+    real(prec), dimension(n_e) :: xd, yd, c00, c10, c01, c11
+    real(prec), dimension(n_e) :: c0, c1
+    real(prec) :: td
+    integer :: i, t0, t1
+    real(prec), dimension(n_e) :: interp3D                      !< Field evaluated at x,y,z,t
 
-        x1 = ceiling(x)
-        y1 = ceiling(y)
-        t1 = ceiling(t)
-    
-        ! Compute the "normalized coordinates" of the particle inside the data field box
-        xd = (x-x0)/(x1-x0)
-        yd = (y-y0)/(y1-y0)
+    ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
+    x0 = floor(x)
+    y0 = floor(y)
+    t0 = floor(t)
+    x1 = ceiling(x)
+    y1 = ceiling(y)
+    t1 = ceiling(t)
+    ! Compute the "normalized coordinates" of the particle inside the data field box
+    xd = (x-x0)/(x1-x0)
+    yd = (y-y0)/(y1-y0)
+    td = (t-t0)/(t1-t0)
+    ! In case that particle is on a point box, we set it to 0 to avoid inf errors
+    where (x1 == x0) xd = 0.
+    where (y1 == y0) yd = 0.
+    if (t1 == t0)    td = 0.
+    ! Interpolation on the first dimension and collapse it to a three dimension problem
+    forall(i=1:n_e)
+        c00(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
+        c10(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
+        c01(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i)
+        c11(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
+    end forall
+    ! Interpolation on the second dimension and collapse it to a two dimension problem
+    c0 = c00*(1.-yd)+c10*yd
+    c1 = c01*(1.-yd)+c11*yd
+    ! Interpolation on the time dimension and get the final result.
+    interp3D = c0*(1.-td)+c1*td
+    end function interp3D
 
-        td = (t-t0)/(t1-t0)
-    
-        ! In case that particle is on a point box, we set it to 0 to avoid inf errors
-        where (x1 == x0) xd = 0.
-        where (y1 == y0) yd = 0.
-
-        if (t1 == t0)    td = 0.
-        
-        ! Interpolation on the first dimension and collapse it to a three dimension problem
-        forall(i=1:n_e)
-            c00(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
-            c10(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
-            c01(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i)
-            c11(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
-        end forall
-        
-        ! Interpolation on the second dimension and collapse it to a two dimension problem
-        c0 = c00*(1.-yd)+c10*yd
-        c1 = c01*(1.-yd)+c11*yd
-    
-        ! Interpolation on the time dimension and get the final result.
-        interp3D = c0*(1.-td)+c1*td
-
-    
-        end function interp3D
-    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns the array coordinates of a set of points, given a coordinate 
+    !> Returns the array coordinates of a set of points, given a coordinate
     !> array. Works only for regularly spaced data.
     !> @param[in] self, xdata, bdata, dimName
     !---------------------------------------------------------------------------
@@ -260,7 +244,7 @@
     integer :: dim                                              !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
     real(prec) :: minBound, maxBound, res
-    type(string) :: outext
+    !type(string) :: outext
     dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
@@ -274,57 +258,39 @@
     !end if
     end function getArrayCoordRegular
 
-    
+
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
-    !> Returns the array coordinate of a point, along a given dimension. 
+    !> Returns the array coordinate of a point, along a given dimension.
     !> @param[in] self, xdata, bdata, dimName
     ! !---------------------------------------------------------------------------
     function getArrayCoordNonRegular(self, xdata, bdata, dimName)
-        class(interpolator_class), intent(in) :: self
-        real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
-        type(background_class), intent(in) :: bdata                 !< Background to use
-        type(string), intent(in) :: dimName
-        integer :: dim,i                                              !< corresponding background dimension
-        integer :: id,idx_1,idx_2,n_idx                              !< corresponding background dimension
-        real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
-        real(prec), allocatable,dimension(:) :: rest
-        type(string) :: outext
-        
-        dim = bdata%getDimIndex(dimName) 
-        n_idx = size(bdata%dim(dim)%field)
-        !allocate(rest(size(bdata%dim(dim)%field))) 
-        ! Algorithm search 2
-        do id = 1,size(xdata) 
-            do i = 2, n_idx
-                if (bdata%dim(dim)%field(i) > xdata(id)) then
-                    idx_1 = i-1
-                    idx_2 = i
-                    exit
-                end if
-            enddo
-            getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
-        enddo
-    
-        ! do id = 1,size(xdata) 
-        !     rest = xdata(id)-bdata%dim(dim)%field
-        !     idx_1 = minloc(abs(rest),dim=1)
-        !     idx_2 = idx_1 + 1
-        !     if (rest(idx_1) < 0) then
-        !         idx_2 = idx_1
-        !         idx_1 = idx_2 - 1
-        !     endif
-        !     getArrayCoordNonRegular = idx_1 + xdata(id)*(idx_2-idx_1)/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1))
-        ! end do
-    
-        
-        end function getArrayCoordNonRegular
+    class(interpolator_class), intent(in) :: self
+    real(prec), dimension(:), intent(in):: xdata                    !< Tracer coordinate component
+    type(background_class), intent(in) :: bdata                     !< Background to use
+    type(string), intent(in) :: dimName
+    integer :: dim,i                                                !< corresponding background dimension
+    integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
+    real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
+    dim = bdata%getDimIndex(dimName)
+    n_idx = size(bdata%dim(dim)%field)
+    do id = 1,size(xdata)
+        do i = 2, n_idx
+            if (bdata%dim(dim)%field(i) > xdata(id)) then
+                idx_1 = i-1
+                idx_2 = i
+                exit
+            end if
+        end do
+        getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+    end do
+    end function getArrayCoordNonRegular
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns the array coordinate of a point, along a given dimension. 
+    !> Returns the array coordinate of a point, along a given dimension.
     !> Works only for regularly spaced data.
     !> @param[in] self, xdata, bdata, dimName
     !---------------------------------------------------------------------------
@@ -338,7 +304,7 @@
     real(prec) :: getPointCoordRegular          !< coordinates in array index
     real(prec) :: minBound, maxBound, res, ieta
     type(string) :: outext
-    dim = bdata%getDimIndex(dimName) 
+    dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
@@ -379,7 +345,7 @@
     subroutine test4D(self)
     class(interpolator_class), intent(inout) :: self
     real(prec), dimension(:,:,:,:), allocatable :: field
-    real(prec), dimension(:), allocatable :: xx, yy, zz 
+    real(prec), dimension(:), allocatable :: xx, yy, zz
     real(prec) :: time
     integer :: npts, fieldDims
     real(prec) :: fieldVal
@@ -387,7 +353,7 @@
     fieldVal = 1.9
     allocate(field(fieldDims,fieldDims,fieldDims,fieldDims))
     field = fieldVal
-    npts = 1 
+    npts = 1
     allocate(xx(npts), yy(npts), zz(npts))
     xx = 13.45
     yy = xx
@@ -396,7 +362,7 @@
     print*, 'testing 4D interpolation, expected result is ', fieldVal
     xx = self%interp4D(xx, yy, zz, time, field, fieldDims, fieldDims, fieldDims, fieldDims, npts)
     print*, 'result = ', xx
-    if (xx(1) == fieldVal) then 
+    if (xx(1) == fieldVal) then
         print*, 'Test: SUCCESS'
     else
         print*, 'Test: FAILED'
