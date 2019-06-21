@@ -227,7 +227,7 @@
                     if (bField%name == aField%name) then
                         tempGField = getGField(bField)
                         !append the new time instances of the field
-                        call gField(i)%concatenate(tempGField)
+                        call gField(i)%concatenate(tempGField, usedTime)
                         call tempGField%finalize()
                         done = .true.
                         exit
