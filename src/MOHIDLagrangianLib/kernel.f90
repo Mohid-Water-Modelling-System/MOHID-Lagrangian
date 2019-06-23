@@ -105,10 +105,11 @@ subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
-    real(prec) :: D = 1.
+    real(prec) :: D = 0.1
 
     daot_dt = aot
 
+    ! Advection term
     do bkg = 1, size(bdata)
             np = size(aot%id) !number of particles
             nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
@@ -127,16 +128,19 @@ subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
 
     end do
 
-
+    ! Diffusion term
     allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
     call random_number(rand_vel_u)
     call random_number(rand_vel_v)
     call random_number(rand_vel_w)
     !update velocities
-    ! For the moment we set D = 1 m/s, then the D parameter
+    ! For the moment we set D = 0.1 m/s, then the D parameter
     ! should be part of the array of tracers parameter
-    daot_dt%u = daot_dt%u + (2.*rand_vel_u-1.)*sqrt(2.*0.1/dt)
-    daot_dt%v = daot_dt%v + (2.*rand_vel_v-1.)*sqrt(2.*0.1/dt)
+
+    ! Advection + Diffusion! (we neglect the w diffusion component)
+    ! bounds error from bottom-top layer!
+    daot_dt%u = daot_dt%u + (2.*rand_vel_u-1.)*sqrt(2.*D/dt)
+    daot_dt%v = daot_dt%v + (2.*rand_vel_v-1.)*sqrt(2.*D/dt)
     !daot_dt%w = daot_dt%w + (2.*rand_vel_w-1.)*sqrt(2.*0.001/dt)
 
 
