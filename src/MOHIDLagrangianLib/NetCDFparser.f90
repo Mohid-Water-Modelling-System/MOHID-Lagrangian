@@ -518,7 +518,7 @@
             if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
             if (dc(1) == 'years')   scale = 3600.0*24.0*30.0*12.0 !or this
             call dc(3)%split(tokens=dates, sep='-')
-            isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//0//' '//0//' '//0
+            isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//'00'//' '//'00'//' '//'00'
             date = Utils%getDateFromISOString(isoDateStr)
             NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
             dateOffset = Globals%SimTime%StartDate - NCDate
