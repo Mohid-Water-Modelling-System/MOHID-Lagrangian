@@ -57,9 +57,10 @@ subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v
+
 
     daot_dt = aot
+    
     do bkg = 1, size(bdata)
             np = size(aot%id) !number of particles
             nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
@@ -75,10 +76,11 @@ subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
             daot_dt%w = var_dt(:,nf)
             if (nf /= MV_INT) daot_dt%w = var_dt(:,nf)
             if (nf == MV_INT) daot_dt%w = 0.0
-
             daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
             daot_dt%v = Utils%m2geo(daot_dt%v, aot%y, .True.)
+
     end do
+
 
 
 
@@ -105,7 +107,27 @@ subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
     real(prec) :: D = 1.
 
-    np = size(aot%id)
+    daot_dt = aot
+
+    do bkg = 1, size(bdata)
+            np = size(aot%id) !number of particles
+            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+            allocate(var_dt(np,nf))
+            allocate(var_name(nf))
+            call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
+            !update velocities
+            nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+            daot_dt%u = var_dt(:,nf)
+            nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+            daot_dt%v = var_dt(:,nf)
+            nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+            daot_dt%w = var_dt(:,nf)
+            if (nf /= MV_INT) daot_dt%w = var_dt(:,nf)
+            if (nf == MV_INT) daot_dt%w = 0.0
+
+    end do
+
+
     allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
     call random_number(rand_vel_u)
     call random_number(rand_vel_v)
@@ -113,9 +135,13 @@ subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
     !update velocities
     ! For the moment we set D = 1 m/s, then the D parameter
     ! should be part of the array of tracers parameter
-    daot_dt%u = (2.*rand_vel_u-1.)*sqrt(2.*D/dt)
-    daot_dt%v = (2.*rand_vel_v-1.)*sqrt(2.*D/dt)
-    daot_dt%w = (2.*rand_vel_w-1.)*sqrt(2.*D/dt)
+    daot_dt%u = daot_dt%u + (2.*rand_vel_u-1.)*sqrt(2.*0.1/dt)
+    daot_dt%v = daot_dt%v + (2.*rand_vel_v-1.)*sqrt(2.*0.1/dt)
+    !daot_dt%w = daot_dt%w + (2.*rand_vel_w-1.)*sqrt(2.*0.001/dt)
+
+
+    daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
+    daot_dt%v = Utils%m2geo(daot_dt%v, aot%y, .True.)
 
 
 end subroutine Diffusion
