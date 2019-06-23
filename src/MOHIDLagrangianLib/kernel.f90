@@ -73,6 +73,8 @@ subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
             daot_dt%v = var_dt(:,nf)
             nf = Utils%find_str(var_name, Globals%Var%w, .true.)
             daot_dt%w = var_dt(:,nf)
+            if (nf /= MV_INT) daot_dt%w = var_dt(:,nf)
+            if (nf == MV_INT) daot_dt%w = 0.0
 
             daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
             daot_dt%v = Utils%m2geo(daot_dt%v, aot%y, .True.)
