@@ -109,32 +109,38 @@
     nextlink => this%currLink%nextLink()
     if (associated(this%currLink,this%firstLink)) then !This is the first link
         call this%currLink%removeLink()
-        deallocate(this%currLink)    
+        deallocate(this%currLink)
+        nullify(this%currLink)
         if (associated(nextlink)) then
             this%firstLink => nextlink
             this%currLink  => nextlink
+        else
+            this%firstLink => null()
+            this%currLink  => null()
+            this%lastLink => null()
         end if
     else if (associated(this%currLink,this%lastLink)) then !This is the last link
         call this%currLink%removeLink()
         deallocate(this%currLink)
+        nullify(this%currLink)
         if (associated(previouslink)) then
             call previouslink%setNextLink(null())
             this%lastLink => previouslink
             this%currLink  => previouslink
+        else
+            this%firstLink => null()
+            this%currLink  => null()
+            this%lastLink => null()
         end if
     else !middle link
         call previouslink%setNextLink(nextlink)
         call nextlink%setPreviousLink(previouslink)
         call this%currLink%removeLink()
-        deallocate(this%currLink)    
+        deallocate(this%currLink) 
+        nullify(this%currLink)
         this%currLink => nextlink
     end if
     this%numLinks = this%numLinks - 1
-    if (this%numLinks == 0) then
-        this%firstLink => null()
-        this%lastLink => null()
-        this%currLink => null()
-    end if
     
     end subroutine removeCurrent
     
@@ -174,7 +180,6 @@
     call this%reset()               ! reset list iterator
     do while(this%moreValues())     ! loop while there are values to print
         call this%removeCurrent()
-        call this%next()            ! increment the list iterator
     end do
     call this%reset()               ! reset list iterator
     end subroutine cleanList

@@ -38,6 +38,7 @@
         real(prec) :: startTime     !< starting time of the data on the file
         real(prec) :: endTime       !< ending time of the data on the file
         logical :: used             !< flag that indicates the file is no longer to be read
+        logical :: toRead
     end type inputFileModel_class
 
     type :: input_streamer_class        !< Input Streamer class
@@ -45,12 +46,13 @@
         type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
-        real(prec) :: buffer_size                                               !< half of the biggest tail of data behind current time
+        real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
+        real(prec) :: lastReadTime
     contains
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
     procedure :: getFullFile
-
+    procedure, private :: resetReadStatus
     procedure :: print => printInputStreamer
     end type input_streamer_class
 
@@ -67,29 +69,51 @@
     !---------------------------------------------------------------------------
     subroutine loadDataFromStack(self, bBox, blocks)
     class(input_streamer_class), intent(inout) :: self
-    class(boundingbox_class), intent(in) :: bBox            !< Case bounding box
-    class(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
-    integer :: i
+    type(boundingbox_class), intent(in) :: bBox            !< Case bounding box
+    type(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
+    type(background_class) :: tempBkgd
+    integer :: i, j
     integer :: fNumber
+    real(prec) :: tempTime(2)
+    logical :: needToRead, appended
 
+    needToRead = .false.
     if (self%useInputFiles) then
-
-        do i=1, size(self%currentsInputFile)
-            if (self%currentsInputFile(i)%endTime > Globals%SimTime%CurrTime) then
-                if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime) then
-                    fNumber = i
-                    exit
+        !check if we need to import data (current time and buffer size)
+        if (self%lastReadTime <= Globals%SimTime%CurrTime + self%BufferSize/4.0) needToRead = .true.
+        if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
+        if (needToRead) then
+            call self%resetReadStatus()
+            !check what files on the stack are to read to backgrounds
+            do i=1, size(self%currentsInputFile)
+                if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                        if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+                    end if
                 end if
-            end if
-        end do
-
-        do i=1, size(blocks)
-            if (Globals%Sim%getnumdt() == 1 ) then
-                allocate(blocks(i)%Background(1))
-                blocks(i)%Background(1) = self%getFullFile(self%currentsInputFile(fNumber)%name)
-            end if
-        end do
-
+            end do
+            !read selected files
+            do i=1, size(self%currentsInputFile)
+                if (self%currentsInputFile(i)%toRead) then
+                    !import data to temporary background
+                    tempBkgd = self%getFullFile(self%currentsInputFile(i)%name)
+                    self%currentsInputFile(i)%used = .true.
+                    do j=1, size(blocks)
+                        if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
+                        !slice data by block and either join to existing background or add a new one
+                        if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                        
+                        !save last time already loaded
+                        tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
+                        self%lastReadTime = tempTime(2)
+                        
+                    end do
+                    !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
+                    call tempBkgd%finalize()
+                end if
+            end do
+        end if
     end if
 
     end subroutine loadDataFromStack
@@ -111,6 +135,10 @@
     type(vector) :: pt
     real(prec), dimension(3,2) :: dimExtents
     integer :: i
+    type(string) :: outext
+
+    outext = '->Reading '//fileName
+    call Log%put(outext,.false.)
 
     call ncFile%initialize(fileName)
     call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
@@ -142,6 +170,8 @@
     call getFullFile%add(gfield2)
     call getFullFile%add(gfield3)
 
+    !call getFullFile%print()
+
     end function getFullFile
 
     !---------------------------------------------------------------------------
@@ -154,11 +184,12 @@
     type(Node), pointer :: xmlInputs           !< .xml file handle
     type(Node), pointer :: fileNode
     type(NodeList), pointer :: fileList
-    type(string) :: tag, att_name, att_val, outext
+    type(string) :: tag, att_name, att_val
     type(string), allocatable, dimension(:) :: fileNames
     integer :: i
 
-    self%buffer_size = 3600*24*2 !seconds/hour*hours*days
+    self%bufferSize = Globals%Parameters%BufferSize
+    self%lastReadTime = -1.0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
     if (associated(xmlInputs)) then
@@ -196,6 +227,19 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> resets input files read status
+    !---------------------------------------------------------------------------
+    subroutine resetReadStatus(self)
+    class(input_streamer_class), intent(inout) :: self
+    integer :: i
+    do i=1, size(self%currentsInputFile)
+        self%currentsInputFile(i)%toRead = .false.
+    end do
+    end subroutine resetReadStatus
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Prints the input writer object and metadata on input files
     !---------------------------------------------------------------------------
     subroutine printInputStreamer(self)
@@ -212,7 +256,7 @@
         !temp_str=self%currentsInputFile(i)%endTime
         !outext = outext//'      Ending time is   '//temp_str//' s'
     end do
-    if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'    
+    if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'
     call Log%put(outext,.false.)
     end subroutine printInputStreamer
 

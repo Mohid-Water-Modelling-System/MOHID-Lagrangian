@@ -35,23 +35,28 @@
     end type fieldsList_class
 
     type :: background_class        !< a background solution class
+        logical :: initialized = .false.
         integer :: id = 0                                                       !< ID of the Background
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
+        logical, allocatable, dimension(:) :: regularDim                        !< Logical that points  
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
     contains
     procedure :: add => addField
     procedure :: getDimIndex
     procedure :: getDimExtents
-    procedure :: append => appendFieldByTime
+    procedure :: append => appendBackgroundByTime
+    procedure :: getHyperSlab
+    procedure :: ShedMemory
+    procedure, private :: getSlabDim
+    procedure, private :: getPointDimIndexes
     procedure :: finalize => cleanBackground
+    procedure, private :: cleanFields
     procedure, private :: setDims
     procedure, private :: setExtents
     procedure, private :: setID
-    !get hyperslab
-    !clean by dimension range
-
+    procedure :: check
     procedure :: test
     procedure :: print => printBackground
     end type background_class
@@ -95,6 +100,7 @@
     type(string), intent(in) :: name
     type(box), intent(in) :: extents
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    constructor%initialized = .true.
     call constructor%setID(id, name)
     call constructor%setExtents(extents)
     call constructor%setDims(dims)
@@ -122,13 +128,13 @@
         end if
     end do
     if (present(mandatory)) then
-        if (mandatory) then            
+        if (mandatory) then
             if (.not. found) then
                 outext = '[background_class::getDimIndex]: Field dimensions dont contain a field called '// name //', stoping'
                 call Log%put(outext)
                 stop
             end if
-        else 
+        else
             getDimIndex = MV_INT
         end if
     end if
@@ -164,69 +170,308 @@
     !> @brief
     !> appends a given field to a matching field in the Background object's
     !> field list, if possible
-    !> @param[in] self, gfield, dims
+    !> @param[in] self, bkg, done
     !---------------------------------------------------------------------------
-    subroutine appendFieldByTime(self, gfield, dims, done)
+    subroutine appendBackgroundByTime(self, bkg, done)
     class(background_class), intent(inout) :: self
-    type(generic_field_class), intent(in) :: gfield
-    type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    type(background_class), intent(in) :: bkg
+    type(generic_field_class) :: tempGField
+    type(generic_field_class), allocatable, dimension(:) :: gField
     logical, intent(out) :: done
-    real(prec), allocatable, dimension(:) :: newTime, oldTime, toAppendTime
-    class(*), pointer :: aField
-    type(string) :: outext
+    real(prec), allocatable, dimension(:) :: newTime
+    class(*), pointer :: aField, bField
+    type(string) :: outext, name, units
     integer :: i, j, posiTime
-    
+    logical, allocatable, dimension(:) :: usedTime
+
     done = .false.
     !check that dimensions are compatible
     !spacial dims must be the same, temporal must be consecutive
-    if (size(self%dim) == size(dims)) then !ammount of dimensions is the same
-        do i = 1, size(dims)
-            j = self%getDimIndex(dims(i)%name) !getting the same dimension for the fields
-            if (dims(i)%name /= Globals%Var%time) then  !dimension is not 'time'
-                if (size(dims(i)%field) == size(self%dim(j)%field)) then !size of the arrays is the same
-                    done = all(dims(i)%field == self%dim(j)%field)  !dimensions array is the same
+    if (size(self%dim) == size(bkg%dim)) then !ammount of dimensions is the same
+        do i = 1, size(bkg%dim)
+            j = self%getDimIndex(bkg%dim(i)%name) !getting the same dimension for the fields
+            if (bkg%dim(i)%name /= Globals%Var%time) then  !dimension is not 'time'
+                if (size(bkg%dim(i)%field) == size(self%dim(j)%field)) then !size of the arrays is the same
+                    done = all(bkg%dim(i)%field == self%dim(j)%field)  !dimensions array is the same
                 end if
             else
                 posiTime = i
-                done = all(dims(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
+                done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
+                if (done) then !append time dimensions of the two backgrounds
+                    allocate(newTime, source = self%dim(j)%field)
+                    call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
+                    name = self%dim(j)%name
+                    units = self%dim(j)%units
+                    call self%dim(j)%finalize()
+                    call self%dim(j)%initialize(name, units, 1, newTime)
+                end if
             end if
         end do
     end if
     if (.not.done) return
-    
-    done = .false.
-    !check that fields are compatible
+
+    allocate(gField(self%fields%getSize()))
+    i=1
     call self%fields%reset()               ! reset list iterator
-    do while(self%fields%moreValues())     ! loop while there are values to print
+    do while(self%fields%moreValues())     ! loop while there are values to process
+        done = .false.
         aField => self%fields%currentValue()
         select type(aField)
-        class is (generic_field_class)
-            if (aField%compare(gfield)) then                
-                !concatenate the fields on the background
-                call aField%concatenate(gfield)
-                !concatenate the 'time' dimension of the background
-                i = self%getDimIndex(Globals%Var%time)
-                allocate(oldTime, source = self%dim(i)%field)
-                !allocate(newTime(size(oldTime) + size(dims(posiTime)%field)))
-                newTime = [oldTime, dims(posiTime)%field]
-                deallocate(self%dim(i)%field)
-                allocate(self%dim(i)%field, source = newTime)
-                call self%fields%reset()
-                done = .true.
-                return
-            end if
+        class is (field_class)
+            gField(i) = getGField(aField)
+            call bkg%fields%reset()
+            do while(bkg%fields%moreValues())
+                bField => bkg%fields%currentValue()
+                select type(bField)
+                class is (field_class)
+                    if (bField%name == aField%name) then
+                        tempGField = getGField(bField)
+                        !append the new time instances of the field
+                        call gField(i)%concatenate(tempGField, usedTime)
+                        call tempGField%finalize()
+                        done = .true.
+                        exit
+                    end if
+                end select
+                call bkg%fields%next()
+                nullify(bField)
+            end do
+            call bkg%fields%reset()
             class default
-            outext = '[Background::appendFieldByTime] Unexepected type of content, not a Field'
+            outext = '[Background::appendBackgroundByTime] Unexepected type of content, not a Field'
             call Log%put(outext)
             stop
         end select
         call self%fields%next()            ! increment the list iterator
+        i = i+1
+        nullify(aField)
     end do
     call self%fields%reset()               ! reset list iterator
-    return
+
+    call self%cleanFields()
+    call self%fields%finalize()
+
+    do i=1, size(gField)
+        call self%add(gField(i))
+        call gField(i)%finalize()
+    end do
     
-    end subroutine appendFieldByTime
-    
+    if(.not.self%check()) then
+        outext = '[Background::appendBackgroundByTime]: non-conformant Background, stoping '
+        call Log%put(outext)
+        stop
+    end if
+
+    end subroutine appendBackgroundByTime
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns a background as a subset of another
+    !> @param[in] self, domain, time
+    !---------------------------------------------------------------------------
+    type(background_class) function getHyperSlab(self, domain, time)
+    class(background_class), intent(in) :: self
+    type(box), intent(in) :: domain
+    real(prec), intent(in), optional :: time(2)
+    real(prec) :: ltime(2)
+    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
+    type(generic_field_class), allocatable, dimension(:) :: gfield
+    class(*), pointer :: curr
+    type(box) :: extents
+    type(vector) :: pt
+    real(prec), dimension(3,2) :: dimExtents
+    integer, allocatable, dimension(:) :: llbound
+    integer, allocatable, dimension(:) :: uubound
+    integer :: temp_int
+    type(string) :: outext
+    integer :: i
+
+    ltime = self%getDimExtents(Globals%Var%time)
+    if (present(time)) ltime = time
+    !finding index bounds of the slicing geometry
+    allocate(llbound(size(self%dim)))
+    allocate(uubound(size(self%dim)))
+    llbound = self%getPointDimIndexes(domain%pt, ltime(1))
+    uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
+    !slicing dimensions
+    allocate(backgrounDims(size(self%dim)))
+    do i=1, size(self%dim)
+        if (llbound(i) > uubound(i)) then !because We're not inverting the dimension and fields - Needs to be corrected
+            temp_int = llbound(i)
+            llbound(i) = uubound(i)
+            uubound(i) = temp_int
+        end if
+        llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
+        uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
+        call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
+    end do
+    !slicing variables
+    allocate(gfield(self%fields%getSize()))
+    i=1
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (field_class)
+            gfield(i) = curr%getFieldSlice(llbound, uubound)
+            class default
+            outext = '[background_class::getHyperSlab] Unexepected type of content, not a scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        i = i+1
+        nullify(curr)
+    end do
+    call self%fields%reset()               ! reset list iterator
+    !creating bounding box
+    dimExtents = 0.0
+    do i = 1, size(backgrounDims)
+        if (backgrounDims(i)%name == Globals%Var%lon) then
+            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%lat) then
+            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%level) then
+            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
+        end if
+    end do
+    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
+    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
+    extents%size = pt - extents%pt
+    !creating the sliced background
+    getHyperSlab = constructor(1, self%name, extents, backgrounDims)
+    do i=1, size(gfield)
+        call getHyperSlab%add(gfield(i))
+        call gField(i)%finalize()
+    end do
+
+    if(.not.self%check()) then
+        outext = '[Background::getHyperSlab]: non-conformant Background, stoping '
+        call Log%put(outext)
+        stop
+    end if
+
+    end function getHyperSlab
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the indexes of the dims for a given point
+    !> @param[in] self, pt, time
+    !---------------------------------------------------------------------------
+    function getPointDimIndexes(self, pt, time)
+    class(background_class), intent(in) :: self
+    type(vector), intent(in) :: pt
+    real(prec), intent(in) :: time
+    integer, allocatable, dimension(:) :: getPointDimIndexes
+    integer :: i
+    allocate(getPointDimIndexes(size(self%dim)))
+    do i= 1, size(self%dim)
+        if (self%dim(i)%name == Globals%Var%lon) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%x)
+        if (self%dim(i)%name == Globals%Var%lat) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%y)
+        if (self%dim(i)%name == Globals%Var%level) getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(pt%z)
+        if (self%dim(i)%name == Globals%Var%time)  getPointDimIndexes(i) = self%dim(i)%getFieldNearestIndex(time)
+    end do
+    end function getPointDimIndexes
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns an array witn a sliced dimension
+    !> @param[in] self, domain, time
+    !---------------------------------------------------------------------------
+    function getSlabDim(self, numDim, llbound, uubound)
+    class(background_class), intent(in) :: self
+    integer, intent(in) :: numDim, llbound, uubound
+    real(prec), allocatable, dimension(:) :: getSlabDim
+    allocate(getSlabDim, source = self%dim(numDim)%field(llbound:uubound))
+    end function getSlabDim
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that cleans data in the Background object not needed any longer
+    !---------------------------------------------------------------------------
+    subroutine ShedMemory(self)
+    class(background_class), intent(inout) :: self
+    integer, allocatable, dimension(:) :: llbound
+    integer, allocatable, dimension(:) :: uubound
+    real(prec), allocatable, dimension(:) :: newTime
+    type(string) :: outext, name, units
+    type(generic_field_class), allocatable, dimension(:) :: gField
+    type(generic_field_class) :: tempGField
+    class(*), pointer :: aField
+    logical :: done
+    integer :: i
+
+    done = .false.
+    allocate(llbound(size(self%dim)))
+    allocate(uubound(size(self%dim)))
+    !select valid time coordinate array elements
+    do i= 1, size(self%dim)
+        llbound(i) = 1
+        uubound(i) = size(self%dim(i)%field)
+
+        if (self%dim(i)%name == Globals%Var%time) then
+            if (self%dim(i)%field(1) < Globals%SimTime%CurrTime - Globals%Parameters%BufferSize) then
+                llbound(i) = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%BufferSize/3.0)
+                if (llbound(i) == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound(i) = llbound(i) - 1
+                if (llbound(i) > 1) then
+                    uubound(i) = size(self%dim(i)%field)
+                    allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i)))
+                    name = self%dim(i)%name
+                    units = self%dim(i)%units
+                    call self%dim(i)%finalize()
+                    call self%dim(i)%initialize(name, units, 1, newTime)
+                    done  = .true.
+                end if
+                exit
+            end if
+        end if
+    end do
+    !slice variables accordingly
+    if (done) then
+        allocate(gField(self%fields%getSize()))
+        i=1
+        call self%fields%reset()               ! reset list iterator
+        do while(self%fields%moreValues())     ! loop while there are values to process
+            aField => self%fields%currentValue()
+            select type(aField)
+            class is (field_class)
+                gfield(i) = aField%getFieldSlice(llbound, uubound)
+                class default
+                outext = '[Background::ShedMemory] Unexepected type of content, not a Field'
+                call Log%put(outext)
+                stop
+            end select
+            call self%fields%next()            ! increment the list iterator
+            i = i+1
+            nullify(aField)
+        end do
+        call self%fields%reset()               ! reset list iterator
+
+        call self%cleanFields()
+        call self%fields%finalize()
+
+        do i=1, size(gField)
+            call self%add(gField(i))
+            call gField(i)%finalize()
+        end do
+
+        if(.not.self%check()) then
+            outext = '[Background::ShedMemory]: non-conformant Background, stoping '
+            call Log%put(outext)
+            stop
+        end if
+
+    end if
+
+    end subroutine ShedMemory
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -234,11 +479,23 @@
     !---------------------------------------------------------------------------
     subroutine cleanBackground(self)
     class(background_class), intent(inout) :: self
-    class(*), pointer :: curr
-    type(string) :: outext
+    self%initialized = .false.
     self%id = MV_INT
     self%name = ''
-    deallocate(self%dim)
+    if (allocated(self%dim)) deallocate(self%dim)
+    call self%cleanFields()
+    call self%fields%finalize()
+    end subroutine cleanBackground
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that cleans all data in the Background object fields
+    !---------------------------------------------------------------------------
+    subroutine cleanFields(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    type(string) :: outext
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
@@ -251,16 +508,16 @@
             call curr%finalize()
         class is (scalar4d_field_class)
             call curr%finalize()
-        class default
-        outext = '[background_class::cleanBackground] Unexepected type of content, not a Field'
-        call Log%put(outext)
-        stop
+            class default
+            outext = '[background_class::cleanFields] Unexepected type of content, not a scalar Field'
+            call Log%put(outext)
+            stop
         end select
         call self%fields%next()            ! increment the list iterator
+        nullify(curr)
     end do
     call self%fields%reset()               ! reset list iterator
-    call self%fields%finalize()    
-    end subroutine cleanBackground
+    end subroutine cleanFields
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -271,7 +528,21 @@
     subroutine setDims(self, dims)
     class(background_class), intent(inout) :: self
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
+    real(prec), allocatable, dimension(:) :: rest
+    integer :: i
+    real(prec) ::fmin, fmax, eta
     allocate(self%dim, source = dims)
+    allocate(self%regularDim(size(dims)))
+    self%regularDim = .false.
+    do i=1, size(dims)        
+        fmin = minval(self%dim(i)%field)
+        fmax = maxval(self%dim(i)%field)
+        eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
+        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:-2))
+        self%regularDim(i) = all(rest(1)+eta > rest)
+        self%regularDim(i) = all(rest(1)-eta < rest)        
+        deallocate(rest)
+    end do
     end subroutine setDims
 
     !---------------------------------------------------------------------------
@@ -413,6 +684,45 @@
         stop
     end select
     end subroutine print_fieldListCurrent
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that checks the internal consistency of the fields within the
+    !> background
+    !---------------------------------------------------------------------------
+    logical function check(self)
+    class(background_class), intent(in) :: self
+    integer, allocatable, dimension(:) :: dimSize, fieldShape
+    class(*), pointer :: aField
+    logical :: equal
+    integer :: i
+    type(string) :: outext
+    check = .true.
+    equal = .true.
+    if (.not.self%initialized) check = .false.
+    allocate(dimSize(size(self%dim)))
+    allocate(fieldShape(size(self%dim)))
+    do i=1, size(self%dim)
+        dimSize(i) = size(self%dim(i)%field)
+    end do
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values to process
+        aField => self%fields%currentValue()
+        select type(aField)
+        class is (field_class)
+            equal = ALL(dimSize.eq.aField%getFieldShape())
+            if (.not.equal) check = .false.
+            class default
+            outext = '[background_class::check] Unexepected type of content, not a scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+    end do
+    call self%fields%reset()               ! reset list iterator
+
+    end function check
 
 
     end module background_mod

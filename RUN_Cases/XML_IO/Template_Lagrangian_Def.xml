@@ -24,7 +24,7 @@
       </source>
       <source>
         <setsource id="1" name="Litter_plastic" />
-        <rate value="0.0333" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <rate value="0.0333" comment="emission rate (Hz)" />
         <active start="15" end="90" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
         <point x="2.5" y="5.5" z="0.75" units_comment="(deg,deg,m)"/>
       </source>
@@ -81,6 +81,7 @@
       <parameter key="BaseDateTime" value="1950 1 1 0 0 0" comment="Base Date for time stamping purposes. Optional, default = 1950/1/1" units_comment="ISO format" />
       <parameter key="OutputWriteTime" value="60" comment="Time out data (1/Hz)" units_comment="seconds" />
 	  <parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
+	  <parameter key="BufferSize" value="520000" comment="Optional parameter. Controls input frequency" units_comment="seconds" />
     </parameters>
   </execution>
 </case>

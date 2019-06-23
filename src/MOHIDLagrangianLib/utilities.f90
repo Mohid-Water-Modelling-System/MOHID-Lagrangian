@@ -39,6 +39,7 @@
     procedure :: get_closest_twopow
     procedure :: isBoundedSingle, isBoundedArray
     generic :: isBounded => isBoundedSingle, isBoundedArray
+    procedure :: appendArraysUniqueReal
     end type utils_class
 
     type(utils_class) :: Utils
@@ -90,6 +91,7 @@
     do find_str=1, size(str_array)
         if (str == str_array(find_str)) return
     end do
+    find_str = MV_INT
     if(present(mandatory)) then
         if (mandatory) then
             outext = '[Utils::find_str]: string "'// str //'" not found on list, stopping'
@@ -226,7 +228,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Logical function that checks if a set of numbers are bounded between 2 values
+    !> Logical function that checks if a number is bounded between 2 values
     !> @param[in] self, nums, minBound, maxBound
     !---------------------------------------------------------------------------
     logical function isBoundedSingle(self, nums, minBound, maxBound, eta)
@@ -258,5 +260,47 @@
     if (present(eta)) ieta = eta
     isBoundedArray = all(nums >= minBound).and.all(nums <= maxBound+ieta)
     end function isBoundedArray
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> receives 2 real arrays and appends the new values of the second to the first.
+    !> also returns an optional logical array with the used values of the second array
+    !> @param[in] self, baseArray, newArray, usedArray
+    !---------------------------------------------------------------------------
+    subroutine appendArraysUniqueReal(self, baseArray, newArray, usedArray)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), allocatable, intent(inout) :: baseArray
+    real(prec), dimension(:), allocatable, intent(in) :: newArray
+    logical, dimension(:), allocatable, intent(out), optional :: usedArray
+    logical, dimension(:), allocatable :: usedTemp
+    real(prec), dimension(:), allocatable :: newBaseArray
+    integer :: i, j, k
+    
+    allocate(usedTemp(size(newArray)))
+    usedTemp = .false.
+    do i=1, size(newArray)
+        if (.not.any(baseArray == newArray(i))) then
+            usedTemp(i) = .true.
+        end if
+    end do
+    allocate(newBaseArray(size(baseArray) + count(usedTemp)))
+    newBaseArray(1:size(baseArray)) = baseArray
+    k = 1
+    do i= size(baseArray)+1, size(baseArray) + count(usedTemp)
+        do j=k, size(newArray)
+            if (usedTemp(j)) then
+                newBaseArray(i) =  newArray(j)
+                k = k+1
+                exit
+            end if 
+            k = k+1
+        end do        
+    end do    
+    deallocate(baseArray)
+    allocate(baseArray, source=newBaseArray)
+    
+    if (present(usedArray)) allocate(usedArray, source = usedTemp)    
+    end subroutine appendArraysUniqueReal
 
     end module utilities_mod

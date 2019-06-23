@@ -135,7 +135,7 @@
     outext = outext//'                                             Simulation starting'//new_line('a')
     outext = outext//' ==================================================================================================================='
     call Log%put(outext,.false.)
-    outext = '    Output time    |   Simulation time   |      Finish time    |  Part | Tracer # |  Steps | sim/time | output file'
+    outext = '    Output time    |   Simulation time   |      Finish time    |     % | Tracer # |  Steps | sim/time | output file'
     call Log%put(outext, .false.)
     end subroutine writeOutputHeader
     
@@ -165,7 +165,7 @@
     temp = finishDateTime%isoformat(' ')
     temp = temp%basename(strip_last_extension=.true.)
     outext = outext//' | '//temp
-    outext = outext//' | '//Utils%int2str('(i5.5)', Globals%Sim%getnumoutfile())
+    outext = outext//' | '//Utils%real2str('(f5.1)', (Globals%SimTime%CurrTime/Globals%Parameters%TimeMax*100.0))
     outext = outext//' | '//Utils%int2str('(i8.1)', numTracers)
     outext = outext//' | '//Utils%int2str('(i6.1)', Globals%Sim%getnumdt())
     outext = outext//' | '//Utils%real2str('(f8.2)', Globals%SimDefs%dt/simTimer%getElapsedLast())   

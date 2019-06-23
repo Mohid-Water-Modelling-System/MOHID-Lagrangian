@@ -36,8 +36,10 @@
     procedure :: setFieldMetadata
     procedure :: print => printField    !< Method that prints the field information
     procedure :: getFieldType           !< Method that returns the field type (scalar or vectorial), in a string
+    procedure :: getFieldSlice
     procedure :: getFieldMinBound
     procedure :: getFieldMaxBound
+    procedure :: getFieldShape
     end type field_class
 
     !scalar fields
@@ -54,6 +56,7 @@
         real(prec), allocatable, dimension(:) :: field !< the data on the scalar data field
     contains
     procedure :: initialize => initScalar1dField
+    procedure :: getFieldNearestIndex
     procedure :: finalize => cleanScalar1dField
     end type scalar1d_field_class
 
@@ -122,7 +125,9 @@
     generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
     procedure :: compare
     procedure :: concatenate
-    procedure :: finalize => cleanFields
+    procedure :: getGFieldType
+    procedure :: finalize => cleanField
+    !final :: delGfield
     procedure :: print => printGenericField
     end type generic_field_class
 
@@ -131,17 +136,22 @@
     public :: scalar_field_class, scalar1d_field_class, scalar2d_field_class, scalar3d_field_class, scalar4d_field_class
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
 
+    !public acess functions
+    public :: getGField
+
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method concatenates two fields by their last dimension
     !> @param[in] self, gfield
     !---------------------------------------------------------------------------
-    subroutine concatenate(self, gfield) 
+    subroutine concatenate(self, gfield, usedPosi)
     class(generic_field_class), intent(inout) :: self
     class(generic_field_class), intent(in) :: gfield
+    logical, dimension(:), optional, intent(in) :: usedPosi 
+    logical, allocatable, dimension(:) :: usedPos
     integer :: fDim
     type(string) :: fType
     real(prec), allocatable, dimension(:) :: field1d
@@ -150,39 +160,45 @@
     real(prec), allocatable, dimension(:,:,:,:) :: field4d
 
     fDim = self%dim
-    fType = self%getFieldType()    
+    fType = self%getGFieldType()
     if (gfield%dim /= fDim) return
-    if (gfield%getFieldType() /= fType) return
+    if (gfield%getGFieldType() /= fType) return
+    
+    if (present(usedPosi)) allocate(usedPos, source = usedPosi)    
     
     if (fType == 'Scalar') then
-        if (fDim == 1) then        
-            self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]        
+        if (fDim == 1) then
+            
+            self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]
         end if
         if (fDim == 2) then
             allocate(field2d(size(self%scalar2d%field,1),size(self%scalar2d%field,2) + size(gfield%scalar2d%field,2)))
             field2d(:,1:size(self%scalar2d%field,2)) = self%scalar2d%field
-            field2d(:,size(self%scalar2d%field,2)+1:size(gfield%scalar2d%field,2)) = gfield%scalar2d%field
+            field2d(:,size(self%scalar2d%field,2)+1:size(field2d,2)) = gfield%scalar2d%field
             deallocate(self%scalar2d%field)
-            allocate(self%scalar2d%field, source = field2d)
+            allocate(self%scalar2d%field(size(field2d,1), size(field2d,2)))
+            self%scalar2d%field = field2d
         end if
         if (fDim == 3) then
             allocate(field3d(size(self%scalar3d%field,1),size(self%scalar3d%field,2),size(self%scalar3d%field,3) + size(gfield%scalar3d%field,3)))
             field3d(:,:,1:size(self%scalar3d%field,3)) = self%scalar3d%field
-            field3d(:,:,size(self%scalar3d%field,3)+1:size(gfield%scalar3d%field,3)) = gfield%scalar3d%field
+            field3d(:,:,size(self%scalar3d%field,3)+1:size(field3d,3)) = gfield%scalar3d%field
             deallocate(self%scalar3d%field)
-            allocate(self%scalar3d%field, source = field3d)
+            allocate(self%scalar3d%field(size(field3d,1), size(field3d,2), size(field3d,3)))
+            self%scalar3d%field = field3d
         end if
         if (fDim == 4) then
             allocate(field4d(size(self%scalar4d%field,1),size(self%scalar4d%field,2),size(self%scalar4d%field,3),size(self%scalar4d%field,4) + size(gfield%scalar4d%field,4)))
             field4d(:,:,:,1:size(self%scalar4d%field,4)) = self%scalar4d%field
-            field4d(:,:,:,size(self%scalar4d%field,4)+1:size(gfield%scalar4d%field,4)) = gfield%scalar4d%field
+            field4d(:,:,:,size(self%scalar4d%field,4)+1:size(field4d,4)) = gfield%scalar4d%field
             deallocate(self%scalar4d%field)
-            allocate(self%scalar4d%field, source = field4d)
+            allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
+            self%scalar4d%field = field4d
         end if
     else if (fType == 'Vectorial') then
         return
     end if
-    
+
     end subroutine concatenate
 
     !---------------------------------------------------------------------------
@@ -207,14 +223,14 @@
     if (allocated(self%vectorial3d%field) .and. .not. allocated(gfield%vectorial3d%field)) comp = .false.
     if (allocated(self%vectorial4d%field) .and. .not. allocated(gfield%vectorial4d%field)) comp = .false.
     end function compare
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> cleans a generic field
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine cleanFields(self) 
+    subroutine cleanField(self)
     class(generic_field_class), intent(inout) :: self
     self%name = ''
     self%units = ''
@@ -226,8 +242,22 @@
     if (allocated(self%vectorial2d%field)) deallocate(self%vectorial2d%field)
     if (allocated(self%vectorial3d%field)) deallocate(self%vectorial3d%field)
     if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
-    end subroutine cleanFields
-    
+    end subroutine cleanField
+
+    !subroutine delGfield(self)
+    !type(generic_field_class), intent(inout) :: self
+    !self%name = ''
+    !self%units = ''
+    !self%dim = MV
+    !if (allocated(self%scalar1d%field)) deallocate(self%scalar1d%field)
+    !if (allocated(self%scalar2d%field)) deallocate(self%scalar2d%field)
+    !if (allocated(self%scalar3d%field)) deallocate(self%scalar3d%field)
+    !if (allocated(self%scalar4d%field)) deallocate(self%scalar4d%field)
+    !if (allocated(self%vectorial2d%field)) deallocate(self%vectorial2d%field)
+    !if (allocated(self%vectorial3d%field)) deallocate(self%vectorial3d%field)
+    !if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
+    !end subroutine delGfield
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -253,6 +283,21 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method that returns the field's nearest value index (scalar)
+    !> @param[in] self, value
+    !---------------------------------------------------------------------------
+    integer function getFieldNearestIndex(self, value)
+    class(scalar1d_field_class), intent(in) :: self
+    real(prec), intent(in) :: value
+    real(prec), allocatable, dimension(:) :: comp
+    allocate(comp(size(self%field)))
+    comp = value
+    getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)
+    end function getFieldNearestIndex
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Method that allocates and initializes a scalar 2D field in a generic field
     !> @param[in] self, name, units, field
     !---------------------------------------------------------------------------
@@ -265,7 +310,7 @@
     if (allocated(self%scalar2d%field)) then
         outext = '[generic_field_class::initialize]: scalar 2D field already allocated'
         call Log%put(outext)
-        stop        
+        stop
     else
         call self%scalar2d%initialize(name, units, 2, field)
         call self%setFieldMetadata(name, units, 2)
@@ -287,7 +332,7 @@
     if (allocated(self%scalar3d%field)) then
         outext = '[generic_field_class::initialize]: scalar 3D field already allocated'
         call Log%put(outext)
-        stop        
+        stop
     else
         call self%scalar3d%initialize(name, units, 3, field)
         call self%setFieldMetadata(name, units, 3)
@@ -309,7 +354,7 @@
     if (allocated(self%scalar4d%field)) then
         outext = '[generic_field_class::initialize]: scalar 4D field already allocated'
         call Log%put(outext)
-        stop        
+        stop
     else
         call self%scalar4d%initialize(name, units, 4, field)
         call self%setFieldMetadata(name, units, 4)
@@ -331,7 +376,7 @@
     if (allocated(self%vectorial2d%field)) then
         outext = '[generic_field_class::initialize]: vectorial 2D field already allocated'
         call Log%put(outext)
-        stop       
+        stop
     else
         call self%vectorial2d%initialize(name, units, 2, field)
         call self%setFieldMetadata(name, units, 2)
@@ -353,7 +398,7 @@
     if (allocated(self%vectorial3d%field)) then
         outext = '[generic_field_class::initialize]: vectorial 3D field already allocated'
         call Log%put(outext)
-        stop        
+        stop
     else
         call self%vectorial3d%initialize(name, units, 3, field)
         call self%setFieldMetadata(name, units, 3)
@@ -375,7 +420,7 @@
     if (allocated(self%vectorial4d%field)) then
         outext = '[generic_field_class::initialize]: vectorial 4D field already allocated'
         call Log%put(outext)
-        stop 
+        stop
     else
         call self%vectorial4d%initialize(name, units, 4, field)
         call self%setFieldMetadata(name, units, 4)
@@ -397,7 +442,7 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar1dField
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -405,10 +450,10 @@
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine cleanScalar1dField(self)
-    class(scalar1d_field_class), intent(inout) :: self
+    class(scalar1d_field_class), intent(out) :: self
     if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar1dField
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -424,15 +469,15 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar2dField
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that initializes a scalar 2D field
+    !> Method that deallocates a scalar 2D field
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine cleanScalar2dField(self)
-    class(scalar2d_field_class), intent(inout) :: self
+    class(scalar2d_field_class), intent(out) :: self
     if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar2dField
 
@@ -451,15 +496,15 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar3dField
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that initializes a scalar 3D field
+    !> Method that deallocates a scalar 3D field
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine cleanScalar3dField(self)
-    class(scalar3d_field_class), intent(inout) :: self
+    class(scalar3d_field_class), intent(out) :: self
     if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar3dField
 
@@ -478,15 +523,15 @@
     call self%setFieldMetadata(name, units, dim)
     allocate(self%field, source = field)
     end subroutine initScalar4dField
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that initializes a scalar 1D field
+    !> Method that deallocates a scalar 4D field
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine cleanScalar4dField(self)
-    class(scalar4d_field_class), intent(inout) :: self
+    class(scalar4d_field_class), intent(out) :: self
     if (allocated(self%field)) deallocate(self%field)
     end subroutine cleanScalar4dField
 
@@ -574,6 +619,23 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method that returns the field type (scalar or vectorial), in a string,
+    !> of a generic field
+    !---------------------------------------------------------------------------
+    type(string) function getGFieldType(self)
+    class(generic_field_class), intent(in) :: self
+    if (allocated(self%scalar1d%field)) getGFieldType = self%scalar1d%getFieldType()
+    if (allocated(self%scalar2d%field)) getGFieldType = self%scalar2d%getFieldType()
+    if (allocated(self%scalar3d%field)) getGFieldType = self%scalar3d%getFieldType()
+    if (allocated(self%scalar4d%field)) getGFieldType = self%scalar4d%getFieldType()
+    if (allocated(self%vectorial2d%field)) getGFieldType = self%vectorial2d%getFieldType()
+    if (allocated(self%vectorial3d%field)) getGFieldType = self%vectorial3d%getFieldType()
+    if (allocated(self%vectorial4d%field)) getGFieldType = self%vectorial4d%getFieldType()
+    end function getGFieldType
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> A class 'unit' test for the generic_field_class
     !---------------------------------------------------------------------------
     subroutine test(self)
@@ -637,7 +699,90 @@
         stop
     end select
     end function getFieldType
-    
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns a slice of a field stored on a generic field
+    !---------------------------------------------------------------------------
+    function getFieldSlice(self, llbound, uubound)
+    class(field_class), intent(in) :: self
+    integer, dimension(:), intent(in) :: llbound, uubound
+    type(generic_field_class) :: getFieldSlice
+    logical :: sliced
+    type(string) :: outext
+    sliced = .false.
+    select type(self)
+    class is (scalar_field_class)
+    class is (scalar1d_field_class)
+        if (size(llbound) == 1) then
+            call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1)))
+            sliced = .true.
+        end if
+    class is (scalar2d_field_class)
+        if (size(llbound) == 2) then
+            call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1),llbound(2):uubound(2)))
+            sliced = .true.
+        end if
+    class is (scalar3d_field_class)
+        if (size(llbound) == 3) then
+            call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(2):uubound(2), llbound(3):uubound(3)))
+            sliced = .true.
+        end if
+    class is (scalar4d_field_class)
+        if (size(llbound) == 4) then
+            call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(2):uubound(2), llbound(3):uubound(3), llbound(4):uubound(4)))
+            sliced = .true.
+        end if
+        class default
+        outext = '[field_class::getFieldSlice]: Unexepected type of content, not a scalar Field'
+        call Log%put(outext)
+        stop
+    end select
+    if (.not.sliced) then
+        outext = '[field_class::getFieldSlice]: type of Field and dimensions do not match'
+        call Log%put(outext)
+        stop
+    end if
+    end function getFieldSlice
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns a slice of a field stored on a generic field
+    !---------------------------------------------------------------------------
+    function getFieldShape(self)
+    class(field_class), intent(in) :: self
+    integer, allocatable, dimension(:) :: getFieldShape
+    type(string) :: outext
+
+    select type(self)
+    class is (scalar_field_class)
+    class is (scalar1d_field_class)
+        allocate(getFieldShape(1))
+        getFieldShape(1) = size(self%field)
+    class is (scalar2d_field_class)
+        allocate(getFieldShape(2))
+        getFieldShape(1) = size(self%field,1)
+        getFieldShape(2) = size(self%field,2)
+    class is (scalar3d_field_class)
+        allocate(getFieldShape(3))
+        getFieldShape(1) = size(self%field,1)
+        getFieldShape(2) = size(self%field,2)
+        getFieldShape(3) = size(self%field,3)
+    class is (scalar4d_field_class)
+        allocate(getFieldShape(4))
+        getFieldShape(1) = size(self%field,1)
+        getFieldShape(2) = size(self%field,2)
+        getFieldShape(3) = size(self%field,3)
+        getFieldShape(4) = size(self%field,4)
+        class default
+        outext = '[field_class::getFieldShape]: Unexepected type of content, not a scalar Field'
+        call Log%put(outext)
+        stop
+    end select
+    end function getFieldShape
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -648,14 +793,14 @@
     type(string) :: outext
     select type(self)
     class is (scalar_field_class)
-        class is (scalar1d_field_class)
-            getFieldMaxBound = maxval(self%field)
-        class is (scalar2d_field_class)
-            getFieldMaxBound = maxval(self%field)
-        class is (scalar3d_field_class)
-            getFieldMaxBound = maxval(self%field)
-        class is (scalar4d_field_class)
-            getFieldMaxBound = maxval(self%field)
+    class is (scalar1d_field_class)
+        getFieldMaxBound = maxval(self%field)
+    class is (scalar2d_field_class)
+        getFieldMaxBound = maxval(self%field)
+    class is (scalar3d_field_class)
+        getFieldMaxBound = maxval(self%field)
+    class is (scalar4d_field_class)
+        getFieldMaxBound = maxval(self%field)
     class is (vectorial_field_class)
         getFieldMaxBound = MV
         class default
@@ -664,7 +809,7 @@
         stop
     end select
     end function getFieldMaxBound
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -675,14 +820,14 @@
     type(string) :: outext
     select type(self)
     class is (scalar_field_class)
-        class is (scalar1d_field_class)
-            getFieldMinBound = minval(self%field)
-        class is (scalar2d_field_class)
-            getFieldMinBound = minval(self%field)
-        class is (scalar3d_field_class)
-            getFieldMinBound = minval(self%field)
-        class is (scalar4d_field_class)
-            getFieldMinBound = minval(self%field)
+    class is (scalar1d_field_class)
+        getFieldMinBound = minval(self%field)
+    class is (scalar2d_field_class)
+        getFieldMinBound = minval(self%field)
+    class is (scalar3d_field_class)
+        getFieldMinBound = minval(self%field)
+    class is (scalar4d_field_class)
+        getFieldMinBound = minval(self%field)
     class is (vectorial_field_class)
         getFieldMinBound = MV
         class default
@@ -691,6 +836,43 @@
         stop
     end select
     end function getFieldMinBound
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Function that returns a generic field object given a field object
+    !> @param[in] aField
+    !---------------------------------------------------------------------------
+    function getGField(aField)
+    class(field_class), intent(in) :: aField
+    type(generic_field_class) :: getGField
+    logical :: done
+    type(string) :: outext
+    done = .false.
+    select type(aField)
+    class is (scalar1d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    class is (scalar2d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    class is (scalar3d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    class is (scalar4d_field_class)
+        call getGField%initialize(aField%name, aField%units, aField%field)
+        done = .true.
+        return
+    end select
+    if (.not.done) then
+        outext = '[fieldTypes::getGField] Unexepected type of content, not a scalar Field'
+        call Log%put(outext)
+        stop
+    end if
+    end function getGField
 
 
     end module fieldTypes_mod
