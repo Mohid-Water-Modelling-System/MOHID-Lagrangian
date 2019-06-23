@@ -51,7 +51,7 @@ contains
 subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
     class(kernel_class), intent(inout) :: self
     type(aot_class), intent(in) :: aot
-    type(aot_class),intent(out) :: daot_dt
+    type(aot_class), intent(out) :: daot_dt
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg
@@ -71,7 +71,7 @@ subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
             daot_dt%u = var_dt(:,nf)
             nf = Utils%find_str(var_name, Globals%Var%v, .true.)
             daot_dt%v = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
             if (nf /= MV_INT) daot_dt%w = var_dt(:,nf)
             if (nf == MV_INT) daot_dt%w = 0.0
             daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
@@ -115,7 +115,7 @@ subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
             daot_dt%u = var_dt(:,nf)
             nf = Utils%find_str(var_name, Globals%Var%v, .true.)
             daot_dt%v = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%w, .true.)
+            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
             if (nf /= MV_INT) daot_dt%w = var_dt(:,nf)
             if (nf == MV_INT) daot_dt%w = 0.0
 
