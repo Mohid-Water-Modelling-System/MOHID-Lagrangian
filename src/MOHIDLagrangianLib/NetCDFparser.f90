@@ -518,7 +518,6 @@
             if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
             if (dc(1) == 'years')   scale = 3600.0*24.0*30.0*12.0 !or this
             call dc(3)%split(tokens=dates, sep='-')
-            call dc(4)%split(tokens=hours, sep=':')
             isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//0//' '//0//' '//0
             date = Utils%getDateFromISOString(isoDateStr)
             NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
