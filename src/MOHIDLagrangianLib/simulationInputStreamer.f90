@@ -103,11 +103,11 @@
                         !slice data by block and either join to existing background or add a new one
                         if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
                         if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)
-                        
+
                         !save last time already loaded
                         tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
-                        
+
                     end do
                     !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
                     call tempBkgd%finalize()
@@ -129,7 +129,7 @@
     type(string), intent(in) :: fileName
     type(ncfile_class) :: ncFile
     type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
-    type(generic_field_class) :: gfield1, gfield2, gfield3
+    type(generic_field_class), allocatable, dimension(:) :: gfield
     type(string) :: name
     type(box) :: extents
     type(vector) :: pt
@@ -137,14 +137,19 @@
     integer :: i
     type(string) :: outext
 
+    allocate(gfield(4))
+
     outext = '->Reading '//fileName
     call Log%put(outext,.false.)
 
     call ncFile%initialize(fileName)
     call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
-    call ncFile%getVar(Globals%Var%u, gfield1)
-    call ncFile%getVar(Globals%Var%v, gfield2)
-    call ncFile%getVar(Globals%Var%w, gfield3)
+    call ncFile%getVar(Globals%Var%u, gfield(1))
+    call ncFile%getVar(Globals%Var%v, gfield(2))
+    call ncFile%getVar(Globals%Var%w, gfield(3))
+    !reading a field to use later as land mask
+    call ncFile%getVar(Globals%Var%u, gfield(4), .true.)
+    gfield(4)%name = Globals%Var%landMask
     call ncFile%finalize()
 
     dimExtents = 0.0
@@ -166,9 +171,10 @@
 
     name = fileName%basename(strip_last_extension=.true.)
     getFullFile = Background(1, name, extents, backgrounDims)
-    call getFullFile%add(gfield1)
-    call getFullFile%add(gfield2)
-    call getFullFile%add(gfield3)
+    do i =1, size(gfield)
+        call getFullFile%add(gfield(i))
+        call gfield(i)%finalize()
+    end do
 
     !call getFullFile%print()
 
