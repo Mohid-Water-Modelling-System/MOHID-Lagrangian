@@ -202,12 +202,14 @@
     real(prec), dimension(n_e) :: interp3D                      !< Field evaluated at x,y,z,t
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
+
     x0 = floor(x)
     y0 = floor(y)
     t0 = floor(t)
     x1 = ceiling(x)
     y1 = ceiling(y)
     t1 = ceiling(t)
+    print*,t,t0,t1,size(field,1),size(field,2),size(field,3)
     ! Compute the "normalized coordinates" of the particle inside the data field box
     xd = (x-x0)/(x1-x0)
     yd = (y-y0)/(y1-y0)
@@ -220,8 +222,8 @@
     forall(i=1:n_e)
         c00(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c10(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
-        c01(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i)
-        c11(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
+        c01(i) = field(x0(i),y0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),t1)*xd(i)
+        c11(i) = field(x0(i),y1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),t1)*xd(i)
     end forall
     ! Interpolation on the second dimension and collapse it to a two dimension problem
     c0 = c00*(1.-yd)+c10*yd
@@ -317,13 +319,30 @@
     real(prec) :: getPointCoordRegular          !< coordinates in array index
     real(prec) :: minBound, maxBound, res, ieta
     type(string) :: outext
-    dim = bdata%getDimIndex(dimName)
+    integer :: i                                                !< corresponding background dimension
+    integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
+
+    
+     dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)-1
+
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
     getPointCoordRegular = (xdata - minBound)/res+1
+    ! n_idx = size(bdata%dim(dim)%field)
+    ! do i = 2, n_idx
+    !         if (bdata%dim(dim)%field(i) > xdata) then
+    !             idx_1 = i-1
+    !             idx_2 = i
+    !             exit
+    !         end if
+    ! end do
+    ! getPointCoordRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+
     ieta = -res/10.0
+    print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
+    
     if (present(eta)) ieta = eta
     if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
         outext = '[Interpolator::getPointCoordRegular] Point not contained in "'//dimName//'" dimension, stoping'

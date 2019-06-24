@@ -201,7 +201,7 @@
                 call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
                 
                 !check if new time dimension is consistent (monotonic and not repeating)
-                done = all(newTime(2:)-newTime(1:size(newTime)-2) > 0)
+                done = all(newTime(2:)-newTime(1:size(newTime)-1) > 0)
                 
                 name = self%dim(j)%name
                 units = self%dim(j)%units
@@ -592,7 +592,7 @@
         fmin = minval(self%dim(i)%field)
         fmax = maxval(self%dim(i)%field)
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
-        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:-2))
+        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
         self%regularDim(i) = all(rest(1)+eta > rest)
         self%regularDim(i) = all(rest(1)-eta < rest)
         deallocate(rest)
