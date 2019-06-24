@@ -539,7 +539,7 @@
         fmin = minval(self%dim(i)%field)
         fmax = maxval(self%dim(i)%field)
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
-        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:-2))
+        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
         self%regularDim(i) = all(rest(1)+eta > rest)
         self%regularDim(i) = all(rest(1)-eta < rest)
         deallocate(rest)
