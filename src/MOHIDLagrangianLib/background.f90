@@ -40,7 +40,7 @@
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
-        logical, allocatable, dimension(:) :: regularDim                        !< Logical that points  
+        logical, allocatable, dimension(:) :: regularDim                        !< Logical that points
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
     contains
     procedure :: add => addField
@@ -181,7 +181,7 @@
     real(prec), allocatable, dimension(:) :: newTime
     class(*), pointer :: aField, bField
     type(string) :: outext, name, units
-    integer :: i, j, posiTime
+    integer :: i, j
     logical, allocatable, dimension(:) :: usedTime
 
     done = .false.
@@ -195,16 +195,17 @@
                     done = all(bkg%dim(i)%field == self%dim(j)%field)  !dimensions array is the same
                 end if
             else
-                posiTime = i
-                done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
-                if (done) then !append time dimensions of the two backgrounds
-                    allocate(newTime, source = self%dim(j)%field)
-                    call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
-                    name = self%dim(j)%name
-                    units = self%dim(j)%units
-                    call self%dim(j)%finalize()
-                    call self%dim(j)%initialize(name, units, 1, newTime)
-                end if
+                !done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
+                allocate(newTime, source = self%dim(j)%field)
+                call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
+                
+                !check if new time dimension is consistent (monotonic and not repeating)
+                done = all(newTime(2:)-newTime(1:size(newTime)-2) > 0)
+                
+                name = self%dim(j)%name
+                units = self%dim(j)%units
+                call self%dim(j)%finalize()
+                call self%dim(j)%initialize(name, units, 1, newTime)
             end if
         end do
     end if
@@ -255,7 +256,7 @@
         call self%add(gField(i))
         call gField(i)%finalize()
     end do
-    
+
     if(.not.self%check()) then
         outext = '[Background::appendBackgroundByTime]: non-conformant Background, stoping '
         call Log%put(outext)
@@ -534,13 +535,13 @@
     allocate(self%dim, source = dims)
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
-    do i=1, size(dims)        
+    do i=1, size(dims)
         fmin = minval(self%dim(i)%field)
         fmax = maxval(self%dim(i)%field)
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
         allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:-2))
         self%regularDim(i) = all(rest(1)+eta > rest)
-        self%regularDim(i) = all(rest(1)-eta < rest)        
+        self%regularDim(i) = all(rest(1)-eta < rest)
         deallocate(rest)
     end do
     end subroutine setDims
