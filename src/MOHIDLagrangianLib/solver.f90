@@ -99,18 +99,19 @@
         !update velocities
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         aot%u = var_dt(:,nf)
-        !where(aot%u/=aot%u) aot%u = 0.0
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         aot%v = var_dt(:,nf)
-        !where(aot%v/=aot%v) aot%v = 0.0
         nf = Utils%find_str(var_name, Globals%Var%w, .false.)
         if (nf /= MV_INT) aot%w = var_dt(:,nf)
         if (nf == MV_INT) aot%w = 0.0
-        !where(aot%w/=aot%w) aot%w = 0.0
         !update positions
         aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
         aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
         aot%z = aot%z + aot%w*dt
+        !update land mask status
+        nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
+        if (nf /= MV_INT) aot%landMask = int(var_dt(:,nf))
+        if (nf == MV_INT) aot%landMask = 0
         !update other vars...
     end do
 

@@ -140,6 +140,7 @@
         type(string) :: lat
         type(string) :: level
         type(string) :: time
+        type(string) :: landMask
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -289,6 +290,7 @@
     self%lat     = 'lat'
     self%level   = 'level'
     self%time    = 'time'
+    self%landMask    = 'landMask'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)

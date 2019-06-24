@@ -37,6 +37,7 @@
         type(vector) :: vel                     !< Velocity of the tracer (m s-1)
         type(vector) :: acc                     !< Acceleration of the tracer (m s-2)
         real(prec) :: level = MV                !< Depth of the tracer (m)
+        integer :: landMask
     end type tracer_state_class
 
     type :: tracer_stats_class             !<Type - statistical variables of a pure Lagrangian tracer object
@@ -118,6 +119,7 @@
     constructor%now%vel = 0.0
     constructor%now%acc = 0.0
     constructor%now%level = 0.0
+    constructor%now%landMask = 0
     ! Initialize statistical accumulator variables
     constructor%stats%acc_pos = 0.0
     constructor%stats%acc_vel = 0.0
