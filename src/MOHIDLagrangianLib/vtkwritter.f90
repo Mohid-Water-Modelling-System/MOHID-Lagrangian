@@ -108,6 +108,7 @@
             error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
             error = vtkfile%xml_writer%write_dataarray(location='node', action='open')
             error = vtkfile%xml_writer%write_dataarray(data_name='id', x=blocks(i)%AoT%id)
+            error = vtkfile%xml_writer%write_dataarray(data_name='source', x=blocks(i)%AoT%source)
             error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=blocks(i)%AoT%u, y=blocks(i)%AoT%v, z=blocks(i)%AoT%w)
             error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
             error = vtkfile%xml_writer%write_piece()

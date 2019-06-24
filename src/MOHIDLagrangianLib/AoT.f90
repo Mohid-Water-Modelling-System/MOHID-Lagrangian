@@ -37,6 +37,7 @@
         type(trc_ptr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:) :: x,y,z          !< coordinates of the Tracer
         real(prec), allocatable, dimension(:) :: u,v,w          !< velocities of the Tracer
+        integer, allocatable, dimension(:) :: source
     contains
     procedure :: Clean
     procedure :: toTracers
@@ -76,6 +77,7 @@
     allocate(constructor%u(nt))
     allocate(constructor%v(nt))
     allocate(constructor%w(nt))
+    allocate(constructor%source(nt))
     nt=1
     call trclist%reset()               ! reset list iterator
     do while(trclist%moreValues())     ! loop while there are values
@@ -91,6 +93,7 @@
                 constructor%u(nt) = aTracer%now%vel%x
                 constructor%v(nt) = aTracer%now%vel%y
                 constructor%w(nt) = aTracer%now%vel%z
+                constructor%source(nt) = aTracer%par%idsource
                 nt= nt + 1
             end if
             class default
@@ -119,6 +122,7 @@
     if (allocated(self%u)) deallocate(self%u)
     if (allocated(self%v)) deallocate(self%v)
     if (allocated(self%w)) deallocate(self%w)
+    if (allocated(self%source)) deallocate(self%source)
     do i=1, size(self%trc)
         if (associated(self%trc(i)%ptr)) nullify(self%trc(i)%ptr)
     end do
