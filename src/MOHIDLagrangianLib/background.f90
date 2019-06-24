@@ -200,7 +200,7 @@
                 call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
                 
                 !check if new time dimension is consistent (monotonic and not repeating)
-                done = all(newTime(2:)-newTime(1:size(newTime)-2) > 0)
+                done = all(newTime(2:)-newTime(1:size(newTime)-1) > 0)
                 
                 name = self%dim(j)%name
                 units = self%dim(j)%units
