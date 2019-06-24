@@ -49,6 +49,7 @@
     procedure :: append => appendBackgroundByTime
     procedure :: getHyperSlab
     procedure :: ShedMemory
+    procedure :: makeLandMask
     procedure, private :: getSlabDim
     procedure, private :: getPointDimIndexes
     procedure :: finalize => cleanBackground
@@ -472,6 +473,58 @@
     end if
 
     end subroutine ShedMemory
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to use a stored binary field to make a land mask used for land
+    !> interaction: bed settling, beaching, ...
+    !---------------------------------------------------------------------------
+    subroutine makeLandMask(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    logical, allocatable, dimension(:,:,:) :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d, beach3d
+    logical, allocatable, dimension(:,:,:,:) :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, shiftdownlat4d, beach4d
+    type(string) :: outext
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value        
+            select type(curr)            
+            class is (scalar3d_field_class)
+                if (curr%name == Globals%Var%landMask) then
+                    allocate(shiftleftlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                    allocate(shiftuplat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                    allocate(shiftrigthlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                    allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                    allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                    shiftleftlon3d = .false.
+                    shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == 1
+                    shiftrigthlon3d = .false.
+                    shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == 1
+                    shiftuplat3d = .false.
+                    shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == 1
+                    shiftdownlat3d = .false.
+                    shiftdownlat3d(:, 2:,:) = abs(curr%field(:,1:,:) - curr%field(:,:size(curr%field,2)-1,:)) == 1
+                    beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d
+                    where(beach3d) curr%field = 2
+                    !NEED TO TEST THIS and do the 4d case
+                end if
+            class is (scalar4d_field_class)
+                if (curr%name == Globals%Var%landMask) then
+                    
+                end if                
+                class default
+                outext = '[background_class::makeLandMask] Unexepected type of content, not a scalar Field'
+                call Log%put(outext)
+                stop
+            end select       
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    call self%fields%reset()               ! reset list iterator
+    
+    end subroutine makeLandMask
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
