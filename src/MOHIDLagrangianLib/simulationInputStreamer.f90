@@ -130,7 +130,7 @@
     type(ncfile_class) :: ncFile
     type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
     type(generic_field_class), allocatable, dimension(:) :: gfield
-    type(string) :: name
+    type(string) :: name, units
     type(box) :: extents
     type(vector) :: pt
     real(prec), dimension(3,2) :: dimExtents
@@ -148,8 +148,9 @@
     call ncFile%getVar(Globals%Var%v, gfield(2))
     call ncFile%getVar(Globals%Var%w, gfield(3))
     !reading a field to use later as land mask
-    call ncFile%getVar(Globals%Var%u, gfield(4), .true.)
-    gfield(4)%name = Globals%Var%landMask
+    units = '-'
+    call ncFile%getVar(Globals%Var%u, gfield(4), .true., Globals%Var%landMask, units)
+    !finalizing reader
     call ncFile%finalize()
 
     dimExtents = 0.0
@@ -171,11 +172,12 @@
 
     name = fileName%basename(strip_last_extension=.true.)
     getFullFile = Background(1, name, extents, backgrounDims)
-    do i =1, size(gfield)
+    do i = 1, size(gfield)
         call getFullFile%add(gfield(i))
+        !call gfield(i)%print()
         call gfield(i)%finalize()
     end do
-
+    
     !call getFullFile%print()
 
     end function getFullFile

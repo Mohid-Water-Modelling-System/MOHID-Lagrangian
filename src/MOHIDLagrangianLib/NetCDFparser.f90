@@ -282,13 +282,14 @@
     !> @brief
     !> Reads the fields from the nc file for a given variable.
     !> returns a generic field, with a name, units and data
-    !> @param[in] self, varName, varField
+    !> @param[in] self, varName, varField, binaryVar, altName, altUnits
     !---------------------------------------------------------------------------
-    subroutine getVar(self, varName, varField, binaryVar)
+    subroutine getVar(self, varName, varField, binaryVar, altName, altUnits)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
     type(generic_field_class), intent(out) :: varField
     logical, optional, intent(in) :: binaryVar
+    type(string), optional, intent(in) :: altName, altUnits
     logical :: bVar
     real(prec), allocatable, dimension(:) :: tempRealField1D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
@@ -318,7 +319,7 @@
                     tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
                 else
                     where (tempRealField3D /= self%varData(i)%fillvalue) tempRealField3D = 0.0
-                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 2.0
+                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 1.0
                 end if
                 do id_dim=1,3 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then
@@ -331,7 +332,15 @@
                         end if
                     end if
                 end do
-                call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+                if (.not.bVar) then
+                    call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+                else
+                    dimName = varName
+                    if(present(altName)) dimName = altName
+                    varUnits = self%varData(i)%units
+                    if(present(altUnits)) varUnits = altUnits
+                    call varField%initialize(dimName, varUnits, tempRealField3D)
+                end if
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
@@ -341,7 +350,7 @@
                     tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset    ! scale + offset transform
                 else
                     where (tempRealField4D /= self%varData(i)%fillvalue) tempRealField4D = 0.0
-                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 2.0
+                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 1.0
                 end if
                 do id_dim=1,4 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then
@@ -356,7 +365,15 @@
                         end if
                     end if
                 end do
-                call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+                if (.not.bVar) then
+                    call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+                else
+                    dimName = varName
+                    if(present(altName)) dimName = altName
+                    varUnits = self%varData(i)%units
+                    if(present(altUnits)) varUnits = altUnits
+                    call varField%initialize(dimName, varUnits, tempRealField4D)
+                end if
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)
