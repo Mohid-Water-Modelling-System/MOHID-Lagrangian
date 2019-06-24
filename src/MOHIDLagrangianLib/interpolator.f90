@@ -319,14 +319,30 @@
     real(prec) :: getPointCoordRegular          !< coordinates in array index
     real(prec) :: minBound, maxBound, res, ieta
     type(string) :: outext
-    dim = bdata%getDimIndex(dimName)
+    integer :: i                                                !< corresponding background dimension
+    integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
+
+    
+     dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)-1
+
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
     getPointCoordRegular = (xdata - minBound)/res+1
+    ! n_idx = size(bdata%dim(dim)%field)
+    ! do i = 2, n_idx
+    !         if (bdata%dim(dim)%field(i) > xdata) then
+    !             idx_1 = i-1
+    !             idx_2 = i
+    !             exit
+    !         end if
+    ! end do
+    ! getPointCoordRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+
     ieta = -res/10.0
-    !print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
+    print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
+    
     if (present(eta)) ieta = eta
     if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
         outext = '[Interpolator::getPointCoordRegular] Point not contained in "'//dimName//'" dimension, stoping'
