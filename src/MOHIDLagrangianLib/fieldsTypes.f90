@@ -127,7 +127,7 @@
     procedure :: concatenate
     procedure :: getGFieldType
     procedure :: finalize => cleanField
-    !final :: delGfield
+    final :: delGfield
     procedure :: print => printGenericField
     end type generic_field_class
 
@@ -303,19 +303,19 @@
     if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
     end subroutine cleanField
 
-    !subroutine delGfield(self)
-    !type(generic_field_class), intent(inout) :: self
-    !self%name = ''
-    !self%units = ''
-    !self%dim = MV
-    !if (allocated(self%scalar1d%field)) deallocate(self%scalar1d%field)
-    !if (allocated(self%scalar2d%field)) deallocate(self%scalar2d%field)
-    !if (allocated(self%scalar3d%field)) deallocate(self%scalar3d%field)
-    !if (allocated(self%scalar4d%field)) deallocate(self%scalar4d%field)
-    !if (allocated(self%vectorial2d%field)) deallocate(self%vectorial2d%field)
-    !if (allocated(self%vectorial3d%field)) deallocate(self%vectorial3d%field)
-    !if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
-    !end subroutine delGfield
+    subroutine delGfield(self)
+    type(generic_field_class), intent(inout) :: self
+    self%name = ''
+    self%units = ''
+    self%dim = MV
+    if (allocated(self%scalar1d%field)) deallocate(self%scalar1d%field)
+    if (allocated(self%scalar2d%field)) deallocate(self%scalar2d%field)
+    if (allocated(self%scalar3d%field)) deallocate(self%scalar3d%field)
+    if (allocated(self%scalar4d%field)) deallocate(self%scalar4d%field)
+    if (allocated(self%vectorial2d%field)) deallocate(self%vectorial2d%field)
+    if (allocated(self%vectorial3d%field)) deallocate(self%vectorial3d%field)
+    if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
+    end subroutine delGfield
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
