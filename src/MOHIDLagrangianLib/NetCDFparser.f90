@@ -509,11 +509,29 @@
         
         timeArray = timeArray*scale + offset
         timeComments = 'seconds since '//Globals%SimTime%StartDate%isoformat(' ')        
-    else
+    
+    elseif (size(dc) == 3) then
+        scale = 1.0
+        if (dc(1) == 'seconds') scale = 1.0
+        if (dc(1) == 'hours')   scale = 3600.0
+        if (dc(1) == 'days')    scale = 3600.0*24.0
+        if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
+        if (dc(1) == 'years')   scale = 3600.0*24.0*30.0*12.0 !or this
+        call dc(3)%split(tokens=dates, sep='-')
+        isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//'00'//' '//'00'//' '//'00'
+        date = Utils%getDateFromISOString(isoDateStr)
+        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        dateOffset = Globals%SimTime%StartDate - NCDate
+        offset = -dateOffset%total_seconds()
+        
+        timeArray = timeArray*scale + offset
+        timeComments = 'seconds since '//Globals%SimTime%StartDate%isoformat(' ')
+        
+    else       
         outext = '[NetCDF parser::correctNCTime]:WARNING - Time units may not be in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
         call Log%put(outext)
-    end if  
-    
+    end if
+
     end subroutine correctNCTime
     
     
