@@ -164,7 +164,7 @@
         tempStatus = nf90_get_att(self%ncID, i, "add_offset", self%varData(i)%offset)
         if (tempStatus == -43) self%varData(i)%offset = 0.0
         tempStatus = nf90_get_att(self%ncID, i, "_FillValue", self%varData(i)%fillvalue)
-        if (tempStatus == -43) self%varData(i)%fillvalue = 0.0
+        if (tempStatus == -43) self%varData(i)%fillvalue = MV
     end do
     end subroutine getNCVarMetadata
 
@@ -318,6 +318,10 @@
                     where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
                     tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
                 else
+                    if (self%varData(i)%fillvalue == MV) then
+                        outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
+                    call Log%put(outext)
+                    end if
                     where (tempRealField3D /= self%varData(i)%fillvalue) tempRealField3D = 0.0
                     where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 1.0
                 end if
@@ -349,6 +353,10 @@
                     where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
                     tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset    ! scale + offset transform
                 else
+                    if (self%varData(i)%fillvalue == MV) then
+                        outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
+                    call Log%put(outext)
+                    end if
                     where (tempRealField4D /= self%varData(i)%fillvalue) tempRealField4D = 0.0
                     where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 1.0
                 end if
