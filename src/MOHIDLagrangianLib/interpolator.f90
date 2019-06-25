@@ -209,7 +209,7 @@
     x1 = ceiling(x)
     y1 = ceiling(y)
     t1 = ceiling(t)
-    print*,t,t0,t1,size(field,1),size(field,2),size(field,3)
+    print*,t,t0,t1,size(field,3)
     ! Compute the "normalized coordinates" of the particle inside the data field box
     xd = (x-x0)/(x1-x0)
     yd = (y-y0)/(y1-y0)
@@ -341,7 +341,7 @@
     ! getPointCoordRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
 
     ieta = -res/10.0
-    !print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
+    print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
     
     if (present(eta)) ieta = eta
     if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
