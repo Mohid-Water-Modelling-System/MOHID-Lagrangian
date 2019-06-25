@@ -408,7 +408,7 @@
     type(generic_field_class) :: tempGField
     class(*), pointer :: aField
     logical :: done
-    integer :: i
+    integer :: i, j
 
     done = .false.
     allocate(llbound(size(self%dim)))
@@ -424,7 +424,10 @@
                 if (llbound(i) == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound(i) = llbound(i) - 1
                 if (llbound(i) > 1) then
                     uubound(i) = size(self%dim(i)%field)
-                    allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i)))
+                    j=size(self%dim(i)%field(llbound(i):uubound(i)))
+                    allocate(newTime(j))
+                    newTime = self%dim(i)%field(llbound(i):uubound(i))
+                    !allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i)))
                     name = self%dim(i)%name
                     units = self%dim(i)%units
                     call self%dim(i)%finalize()
