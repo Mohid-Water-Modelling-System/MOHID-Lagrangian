@@ -38,7 +38,8 @@
         real(prec), allocatable, dimension(:) :: x,y,z          !< coordinates of the Tracer
         real(prec), allocatable, dimension(:) :: u,v,w          !< velocities of the Tracer
         integer, allocatable, dimension(:) :: source
-        integer, allocatable, dimension(:) :: landMask
+        integer, allocatable, dimension(:) :: landMask, landIntMask
+        logical, allocatable, dimension(:) :: active
     contains
     procedure :: Clean
     procedure :: toTracers
@@ -80,6 +81,8 @@
     allocate(constructor%w(nt))
     allocate(constructor%source(nt))
     allocate(constructor%landMask(nt))
+    allocate(constructor%landIntMask(nt))
+    allocate(constructor%active(nt))
     nt=1
     call trclist%reset()               ! reset list iterator
     do while(trclist%moreValues())     ! loop while there are values
@@ -96,6 +99,7 @@
                 constructor%v(nt) = aTracer%now%vel%y
                 constructor%w(nt) = aTracer%now%vel%z
                 constructor%source(nt) = aTracer%par%idsource
+                constructor%active(nt) = .true.
                 nt= nt + 1
             end if
             class default
@@ -126,12 +130,14 @@
     if (allocated(self%w)) deallocate(self%w)
     if (allocated(self%source)) deallocate(self%source)
     if (allocated(self%landMask)) deallocate(self%landMask)
+    if (allocated(self%landIntMask)) deallocate(self%landIntMask)
+    if (allocated(self%active)) deallocate(self%active)
     do i=1, size(self%trc)
         if (associated(self%trc(i)%ptr)) nullify(self%trc(i)%ptr)
     end do
     if (allocated(self%trc)) deallocate(self%trc)
     end subroutine Clean
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -139,7 +145,6 @@
     !> because they were already made in the constructor of the AoT
     !---------------------------------------------------------------------------
     subroutine toTracers(self)
-    implicit none
     class(aot_class), intent(in) :: self
     integer :: i
     class(tracer_class), pointer :: aTracer
@@ -155,6 +160,7 @@
                     aTracer%now%vel%x = self%u(i)
                     aTracer%now%vel%y = self%v(i)
                     aTracer%now%vel%z = self%w(i)
+                    aTracer%now%active = self%active(i)
                 else
                     outext = self%id(i)
                     outext = '[AoT::AoTtoTracers]: pointer to Tracer['// outext //'] not associated, stoping'
@@ -165,7 +171,6 @@
         end do
     end if
     end subroutine toTracers
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
