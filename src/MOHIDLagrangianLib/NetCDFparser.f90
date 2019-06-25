@@ -323,7 +323,7 @@
                     call Log%put(outext)
                     end if
                     where (tempRealField3D /= self%varData(i)%fillvalue) tempRealField3D = 0.0
-                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 1.0
+                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 2.0
                 end if
                 do id_dim=1,3 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then
@@ -358,7 +358,7 @@
                     call Log%put(outext)
                     end if
                     where (tempRealField4D /= self%varData(i)%fillvalue) tempRealField4D = 0.0
-                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 1.0
+                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 2.0
                 end if
                 do id_dim=1,4 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then

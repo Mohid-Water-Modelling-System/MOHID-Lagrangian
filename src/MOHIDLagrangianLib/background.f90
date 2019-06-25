@@ -485,7 +485,7 @@
     class(background_class), intent(inout) :: self
     class(*), pointer :: curr
     logical, allocatable, dimension(:,:,:) :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d, beach3d
-    logical, allocatable, dimension(:,:,:,:) :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, shiftdownlat4d, beach4d
+    logical, allocatable, dimension(:,:,:,:) :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, shiftdownlat4d, shiftUpLevel, shiftDownLevel, beach4d
     type(string) :: outext
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
@@ -499,16 +499,17 @@
                     allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                     allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                     shiftleftlon3d = .false.
-                    shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == 1.0
+                    shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == 2.0
                     shiftrigthlon3d = .false.
-                    shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == 1.0
+                    shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == 2.0
                     shiftuplat3d = .false.
-                    shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == 1.0
+                    shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == 2.0
                     shiftdownlat3d = .false.
-                    shiftdownlat3d(:, 2:,:) = abs(curr%field(:,1:,:) - curr%field(:,:size(curr%field,2)-1,:)) == 1.0
+                    shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) == 2.0
                     beach3d = .false.
-                    beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d                    
-                    where(beach3d) curr%field = 2.0
+                    beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d !colapsing all the shifts
+                    beach3d = beach3d .and. (curr%field == 0.0) !just points that were already wet
+                    where(beach3d) curr%field = 1.0
                 end if
             class is (scalar4d_field_class)
                 if (curr%name == Globals%Var%landMask) then
@@ -516,18 +517,25 @@
                     allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                     allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                     allocate(shiftdownlat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    allocate(shiftDownLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                     allocate(beach4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                     shiftleftlon4d = .false.
-                    shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) == 1.0
+                    shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) == 2.0
                     shiftrigthlon4d = .false.
-                    shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) == 1.0
-                    shiftuplat4d = .false.
-                    shiftuplat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) == 1.0
+                    shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) == 2.0
                     shiftdownlat4d = .false.
-                    shiftdownlat4d(:,2:,:,:) = abs(curr%field(:,1:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) == 1.0
+                    shiftdownlat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) == 2.0
+                    shiftuplat4d = .false.
+                    shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) == 2.0
+                    shiftUpLevel = .false.
+                    shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) == 2.0
+                    shiftDownLevel = .false.
+                    shiftDownLevel(:,:,:size(curr%field,3)-1,:) = abs(curr%field(:,:,:size(curr%field,3)-1,:) - curr%field(:,:,2:,:)) == 2.0
                     beach4d = .false.                    
-                    beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d                    
-                    where(shiftrigthlon4d) curr%field = 2.0   !this must be above a certain level only
+                    beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. shiftDownLevel .or. shiftUpLevel !colapsing all the shifts
+                    beach4d = beach4d .and. (curr%field == 0.0) !just points that were already wet
+                    where(beach4d) curr%field = 1.0   !this must be above a certain level only
                 end if                
                 class default
                 outext = '[background_class::makeLandMask] Unexepected type of content, not a 3D or 4D scalar Field'
