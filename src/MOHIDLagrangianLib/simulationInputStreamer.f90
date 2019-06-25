@@ -137,7 +137,7 @@
     integer :: i
     type(string) :: outext
 
-    allocate(gfield(4))
+    allocate(gfield(5))
 
     outext = '->Reading '//fileName
     call Log%put(outext,.false.)
@@ -150,6 +150,7 @@
     !reading a field to use later as land mask
     units = '-'
     call ncFile%getVar(Globals%Var%u, gfield(4), .true., Globals%Var%landMask, units)
+    call ncFile%getVar(Globals%Var%u, gfield(5), .true., Globals%Var%landIntMask, units)
     !finalizing reader
     call ncFile%finalize()
 

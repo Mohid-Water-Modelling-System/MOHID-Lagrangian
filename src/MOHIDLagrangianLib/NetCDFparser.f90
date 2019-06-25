@@ -322,8 +322,8 @@
                         outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
                     call Log%put(outext)
                     end if
-                    where (tempRealField3D /= self%varData(i)%fillvalue) tempRealField3D = 0.0
-                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 2.0
+                    where (tempRealField3D /= self%varData(i)%fillvalue) tempRealField3D = Globals%Mask%waterVal
+                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = Globals%Mask%landVal
                 end if
                 do id_dim=1,3 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then
@@ -357,8 +357,8 @@
                         outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
                     call Log%put(outext)
                     end if
-                    where (tempRealField4D /= self%varData(i)%fillvalue) tempRealField4D = 0.0
-                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 2.0
+                    where (tempRealField4D /= self%varData(i)%fillvalue) tempRealField4D = Globals%Mask%waterVal
+                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = Globals%Mask%landVal
                 end if
                 do id_dim=1,4 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then

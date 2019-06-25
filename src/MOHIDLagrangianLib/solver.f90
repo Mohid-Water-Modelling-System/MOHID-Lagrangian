@@ -110,8 +110,14 @@
         aot%z = aot%z + aot%w*dt
         !update land mask status
         nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
-        if (nf /= MV_INT) aot%landMask = int(var_dt(:,nf))
-        if (nf == MV_INT) aot%landMask = 0
+        if (nf /= MV_INT) aot%landMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landMask = Globals%Mask%waterVal
+        !marking tracers for deletion because they are in land
+        where(aot%landMask == 2) aot%active = .false.
+        !update land interaction status
+        nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
+        if (nf /= MV_INT) aot%landIntMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landIntMask = Globals%Mask%waterVal
         !update other vars...
     end do
 

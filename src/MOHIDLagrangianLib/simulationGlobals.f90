@@ -86,10 +86,12 @@
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
         real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
+        real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
+    procedure :: setBeachingLevel
     procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
@@ -140,6 +142,7 @@
         type(string) :: lat
         type(string) :: level
         type(string) :: time
+        type(string) :: landIntMask
         type(string) :: landMask
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
@@ -157,6 +160,14 @@
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
     end type var_names_t
+    
+    type :: maskVals_t
+        real(prec) :: landVal  = 2.0
+        real(prec) :: bedVal   = -1.0
+        real(prec) :: waterVal = 0.0
+        real(prec) :: beachVal = 1.0
+        contains
+    end type maskVals_t
 
     type :: sim_time_t
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
@@ -180,6 +191,7 @@
         type(sim_t)         :: Sim
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
+        type(maskVals_t)    :: Mask
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
@@ -244,6 +256,7 @@
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
+    self%Constants%BeachingLevel = -3.0
     self%Constants%Rho_ref = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
@@ -291,6 +304,7 @@
     self%level   = 'level'
     self%time    = 'time'
     self%landMask    = 'landMask'
+    self%landIntMask = 'landIntMask'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -870,6 +884,27 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Beaching Level setting routine.
+    !> @param[in] self, read_BeachingLevel
+    !---------------------------------------------------------------------------
+    subroutine setBeachingLevel(self, read_BeachingLevel)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BeachingLevel
+    type(string) :: outext
+    integer :: sizem    
+    if (read_BeachingLevel%to_number(kind=1._R4P).gt.0.0) then
+        outext='Beaching level must be negative, assuming default value'
+        call Log%put(outext)
+    else        
+        self%BeachingLevel=read_BeachingLevel%to_number(kind=1._R4P)
+    endif
+    sizem = sizeof(self%BeachingLevel)
+    call SimMemory%adddef(sizem)
+    end subroutine setBeachingLevel
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> smallDt setting routine.
     !> @param[in] self, dt
     !---------------------------------------------------------------------------
@@ -906,6 +941,8 @@
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
     temp_str(1)=self%Z0
     outext = outext//'       Z0 = '//temp_str(1)//' m'//new_line('a')
+    temp_str(1)=self%BeachingLevel
+    outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%Rho_ref
     outext = outext//'       Rho_ref = '//temp_str(1)//' kg/m^3'
 
