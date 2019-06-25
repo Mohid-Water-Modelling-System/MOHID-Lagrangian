@@ -209,7 +209,6 @@
     x1 = ceiling(x)
     y1 = ceiling(y)
     t1 = ceiling(t)
-    print*,t,t0,t1,size(field,3)
     ! Compute the "normalized coordinates" of the particle inside the data field box
     xd = (x-x0)/(x1-x0)
     yd = (y-y0)/(y1-y0)
@@ -321,28 +320,13 @@
     type(string) :: outext
     integer :: i                                                !< corresponding background dimension
     integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
-
-    
-     dim = bdata%getDimIndex(dimName)
+    dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)-1
-
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/res
     getPointCoordRegular = (xdata - minBound)/res+1
-    ! n_idx = size(bdata%dim(dim)%field)
-    ! do i = 2, n_idx
-    !         if (bdata%dim(dim)%field(i) > xdata) then
-    !             idx_1 = i-1
-    !             idx_2 = i
-    !             exit
-    !         end if
-    ! end do
-    ! getPointCoordRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
-
     ieta = -res/10.0
-    print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
-    
     if (present(eta)) ieta = eta
     if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
         outext = '[Interpolator::getPointCoordRegular] Point not contained in "'//dimName//'" dimension, stoping'
