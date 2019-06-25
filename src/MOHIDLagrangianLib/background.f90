@@ -506,8 +506,8 @@
                     shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == 1.0
                     shiftdownlat3d = .false.
                     shiftdownlat3d(:, 2:,:) = abs(curr%field(:,1:,:) - curr%field(:,:size(curr%field,2)-1,:)) == 1.0
-                    beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d
                     beach3d = .false.
+                    beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d                    
                     where(beach3d) curr%field = 2.0
                 end if
             class is (scalar4d_field_class)
@@ -527,7 +527,7 @@
                     shiftdownlat4d(:,2:,:,:) = abs(curr%field(:,1:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) == 1.0
                     beach4d = .false.                    
                     beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d                    
-                    where(shiftrigthlon4d) curr%field = 2.0   !this mus be above a certain level only                 
+                    where(shiftrigthlon4d) curr%field = 2.0   !this must be above a certain level only
                 end if                
                 class default
                 outext = '[background_class::makeLandMask] Unexepected type of content, not a 3D or 4D scalar Field'
