@@ -178,6 +178,8 @@
         call gfield(i)%finalize()
     end do
     
+    call getFullFile%makeLandMask()
+    
     !call getFullFile%print()
 
     end function getFullFile

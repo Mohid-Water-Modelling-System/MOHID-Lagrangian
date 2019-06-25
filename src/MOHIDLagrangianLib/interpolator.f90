@@ -341,7 +341,7 @@
     ! getPointCoordRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
 
     ieta = -res/10.0
-    print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
+    !print*,'MinBound',minBound,'MaxBound',maxbound,'xdata',xdata,'res',res,'getPointCoordRegular',getPointCoordRegular 
     
     if (present(eta)) ieta = eta
     if (.not.Utils%isBounded(xdata, minBound, maxBound, ieta)) then
