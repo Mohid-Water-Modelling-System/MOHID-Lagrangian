@@ -499,23 +499,38 @@
                     allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                     allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                     shiftleftlon3d = .false.
-                    shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == 1
+                    shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == 1.0
                     shiftrigthlon3d = .false.
-                    shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == 1
+                    shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == 1.0
                     shiftuplat3d = .false.
-                    shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == 1
+                    shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == 1.0
                     shiftdownlat3d = .false.
-                    shiftdownlat3d(:, 2:,:) = abs(curr%field(:,1:,:) - curr%field(:,:size(curr%field,2)-1,:)) == 1
+                    shiftdownlat3d(:, 2:,:) = abs(curr%field(:,1:,:) - curr%field(:,:size(curr%field,2)-1,:)) == 1.0
                     beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d
-                    where(beach3d) curr%field = 2
-                    !NEED TO TEST THIS and do the 4d case
+                    beach3d = .false.
+                    where(beach3d) curr%field = 2.0
                 end if
             class is (scalar4d_field_class)
                 if (curr%name == Globals%Var%landMask) then
-                    
+                    allocate(shiftleftlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    allocate(shiftdownlat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    allocate(beach4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    shiftleftlon4d = .false.
+                    shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) == 1.0
+                    shiftrigthlon4d = .false.
+                    shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) == 1.0
+                    shiftuplat4d = .false.
+                    shiftuplat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) == 1.0
+                    shiftdownlat4d = .false.
+                    shiftdownlat4d(:,2:,:,:) = abs(curr%field(:,1:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) == 1.0
+                    beach4d = .false.                    
+                    beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d                    
+                    where(shiftrigthlon4d) curr%field = 2.0   !this mus be above a certain level only                 
                 end if                
                 class default
-                outext = '[background_class::makeLandMask] Unexepected type of content, not a scalar Field'
+                outext = '[background_class::makeLandMask] Unexepected type of content, not a 3D or 4D scalar Field'
                 call Log%put(outext)
                 stop
             end select       
