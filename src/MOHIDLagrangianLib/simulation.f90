@@ -99,18 +99,19 @@
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
         !Build AoT
+        print*,'building SV'
         call self%BlocksTracersToAoT()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         call self%InputData()
         !Update all tracers with base behavior (AoT) - Integration step
         call self%BlocksRunSolver()
         !AoT to Tracers
+        print*,'SV to tracers'
         call self%BlocksAoTtoTracers()
-        !Update Tracers with type-specific behavior
-
         !Write results if time to do so
         call self%OutputStepData()
         !Clean AoT
+        print*,'cleaning SV'
         call self%BlocksCleanAoT()
         !update Simulation time
         call self%updateSimDateTime()
@@ -290,6 +291,7 @@
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(sBlock)
+        call sBlock(i)%TracersToSV()
         call sBlock(i)%TracersToAoT()
     enddo
     !$OMP END DO
@@ -332,6 +334,7 @@
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(sBlock)
+        call sBlock(i)%SVtoTracers()
         call sBlock(i)%AoTtoTracers()
     enddo
     !$OMP END DO
@@ -352,6 +355,7 @@
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(sBlock)
+        call sBlock(i)%CleanSV()
         call sBlock(i)%CleanAoT()
     enddo
     !$OMP END DO

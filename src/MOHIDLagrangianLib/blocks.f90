@@ -32,9 +32,9 @@
     use AoT_mod
     use solver_mod
     use background_mod
+    use stateVector_mod
 
-    use simulationTestMaker_mod
-
+    !use simulationTestMaker_mod
 
     implicit none
     private
@@ -47,7 +47,9 @@
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
         type(aot_class)        :: AoT         !< Block Array of Tracers for actual numerical work
         type(solver_class)     :: Solver      !< Block Solver
+        type(stateVector_class), allocatable, dimension(:) :: BlockState     !< State vector of the Tracers in the Block, per type
         type(background_class), allocatable, dimension(:) :: Background !< Solution Backgrounds for the Block
+        integer, allocatable, dimension(:,:) :: trcType
     contains
     private
     procedure, public :: initialize => initBlock
@@ -62,6 +64,9 @@
     procedure, public :: AoTtoTracers
     procedure, public :: CleanAoT
     procedure, public :: numAllocTracers
+    procedure, public :: TracersToSV
+    procedure, public :: SVtoTracers
+    procedure, public :: CleanSV
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
     end type block_class
@@ -221,7 +226,8 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to clean the Tracer list from inactive Tracers. This includes
-    !> tracers that escaped from the Simulation Bounding Box
+    !> tracers that escaped from the Simulation Bounding Box. Also builds the
+    !> counter of types and tracers per type.
     !---------------------------------------------------------------------------
     subroutine ConsolidateArrays(self)
     implicit none
@@ -229,7 +235,7 @@
     class(*), pointer :: aTracer
     type(string) :: outext
     logical :: notremoved
-
+   
     call self%LTracer%reset()                   ! reset list iterator
     do while(self%LTracer%moreValues())         ! loop while there are values
         notremoved = .true.
@@ -239,7 +245,7 @@
             if (aTracer%now%active) aTracer%now%active = TrcInBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
             if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
-                notremoved = .false.
+                notremoved = .false.            
             end if
             class default
             outext = '[Block::ConsolidateArrays]: Unexepected type of content, not a Tracer'
@@ -274,9 +280,111 @@
     !---------------------------------------------------------------------------
     subroutine TracersToAoT(self)
     implicit none
-    class(block_class), intent(inout) :: self    
+    class(block_class), intent(inout) :: self
     self%AoT = AoT(self%LTracer)
     end subroutine TracersToAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to build the State Vector at this timestep for actual numerical work
+    !---------------------------------------------------------------------------
+    subroutine TracersToSV(self)
+    class(block_class), intent(inout) :: self    
+    integer :: i, tType, idx
+    class(*), pointer :: aTracer
+    logical :: builtState, notFound
+    type(string) :: outext
+    integer, allocatable, dimension(:,:) :: tempTrcType
+    
+    if (allocated(self%trcType)) deallocate(self%trcType)
+    call self%LTracer%reset()                   ! reset list iterator
+    do while(self%LTracer%moreValues())         ! loop while there are values
+        notFound = .true.
+        aTracer => self%LTracer%currentValue()  ! get current value
+        select type(aTracer)
+        class is (tracer_class)
+                tType = aTracer%par%ttype
+                if (allocated(self%trcType)) then
+                    do i =1, size(self%trcType,1)
+                        if (self%trcType(i,1) == tType) then
+                            self%trcType(i,2) = self%trcType(i,2) + 1
+                            notFound = .false.
+                            exit
+                        end if
+                    end do
+                end if
+                if (notFound) then
+                    if (allocated(self%trcType)) then
+                        allocate(tempTrcType(size(self%trcType,1),size(self%trcType,2)))
+                        tempTrcType = self%trcType
+                        deallocate(self%trcType)
+                        allocate(self%trcType(size(tempTrcType,1)+1,size(tempTrcType,2)))
+                        self%trcType(:size(tempTrcType,1),:) = tempTrcType
+                        deallocate(tempTrcType)
+                        idx = size(self%trcType,1)
+                    else
+                        allocate(self%trcType(1,3))
+                        idx = 1
+                    end if
+                    self%trcType(idx,1) = tType
+                    self%trcType(idx,2) = 1
+                    self%trcType(idx,3) = aTracer%getNumVars()
+                end if
+            class default
+            outext = '[Block::TracersToSV]: Unexepected type of content, not a Tracer'
+            call Log%put(outext)
+            stop
+        end select
+        call self%LTracer%next()    ! increment the list iterator
+    end do
+    call self%LTracer%reset()                       ! reset list iterator
+        
+    if (size(self%trcType,1)/= 0) then
+        allocate(self%BlockState(size(self%trcType,1)))        
+        do i=1, size(self%BlockState)
+            self%BlockState(i)%idx = 1
+            self%BlockState(i)%ttype = self%trcType(i,1)
+            allocate(self%BlockState(i)%state(self%trcType(i,2),self%trcType(i,3)))
+            allocate(self%BlockState(i)%trc(self%trcType(i,2)))
+            allocate(self%BlockState(i)%active(self%trcType(i,2)))
+            allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
+            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))        
+        end do
+        call self%LTracer%reset()                   ! reset list iterator
+        do while(self%LTracer%moreValues())         ! loop while there are values
+            builtState = .false.
+            aTracer => self%LTracer%currentValue()  ! get current value
+            select type(aTracer)
+            class is (tracer_class)
+                tType = aTracer%par%ttype
+                !aTracer%now%active = .false.
+                do i = 1, size(self%BlockState)
+                    if (tType == self%BlockState(i)%ttype) then
+                        !print*, 'tracer state array ', aTracer%getStateArray()
+                        !print*, 'needs to fit in ', size(self%BlockState(i)%state,2)
+                        self%BlockState(i)%state(self%BlockState(i)%idx,:) = aTracer%getStateArray()
+                        self%BlockState(i)%trc(self%BlockState(i)%idx)%ptr => aTracer
+                        self%BlockState(i)%idx = self%BlockState(i)%idx + 1
+                        builtstate = .true.
+                        exit
+                    end if
+                end do
+                if (.not.builtState) then
+                    outext = '[Block::TracersToSV]: Tracer did not find correspoding State Vector, stoping'
+                    call Log%put(outext)
+                    stop
+                end if
+                class default
+                outext = '[Block::TracersToSV]: Unexepected type of content, not a Tracer'
+                call Log%put(outext)
+                stop
+            end select
+            call self%LTracer%next()    ! increment the list iterator
+        end do
+        call self%LTracer%reset()                       ! reset list iterator
+    end if
+    end subroutine TracersToSV
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -300,6 +408,19 @@
     !> @brief
     !> Method to write the data in the AoT back to the Tracer objects in the list
     !---------------------------------------------------------------------------
+    subroutine SVtoTracers(self)
+    class(block_class), intent(inout) :: self
+    integer :: i
+    do i=1, size(self%BlockState)
+        call self%BlockState(i)%toTracers()
+    end do
+    end subroutine SVtoTracers
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to write the data in the AoT back to the Tracer objects in the list
+    !---------------------------------------------------------------------------
     subroutine AoTtoTracers(self)
     implicit none
     class(block_class), intent(inout) :: self
@@ -316,6 +437,20 @@
     class(block_class), intent(inout) :: self
     call self%AoT%finalize()
     end subroutine CleanAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to clean out the State Vector object
+    !---------------------------------------------------------------------------
+    subroutine CleanSV(self)
+    class(block_class), intent(inout) :: self
+    integer :: i
+    do i=1, size(self%BlockState)
+        call self%BlockState(i)%finalize()
+    end do
+    if (allocated(self%BlockState)) deallocate(self%BlockState)
+    end subroutine CleanSV
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
