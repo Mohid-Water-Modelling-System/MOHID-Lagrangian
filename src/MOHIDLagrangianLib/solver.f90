@@ -23,6 +23,7 @@
     use AoT_mod
     use background_mod
     use interpolator_mod
+    use kernel_mod
 
     implicit none
     private
@@ -31,6 +32,7 @@
         integer :: solverType = 1   !< Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)
         type(string) :: name        !< Name of the Integrator algorithm
         type(interpolator_class) :: Interpolator !< The interpolator object for this Solver
+        type(kernel_class) :: Kernel
     contains
     procedure :: initialize => initSolver
     procedure :: runStep
@@ -79,11 +81,13 @@
     subroutine runStepEuler(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
+    type(aot_class) :: daot_dt
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
+
   
     !interpolate each background
     do bkg = 1, size(bdata)
@@ -95,18 +99,25 @@
         !update velocities
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         aot%u = var_dt(:,nf)
-        !where(aot%u/=aot%u) aot%u = 0.0
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
         aot%v = var_dt(:,nf)
-        !where(aot%v/=aot%v) aot%v = 0.0
         nf = Utils%find_str(var_name, Globals%Var%w, .false.)
         if (nf /= MV_INT) aot%w = var_dt(:,nf)
         if (nf == MV_INT) aot%w = 0.0
-        !where(aot%w/=aot%w) aot%w = 0.0
         !update positions
         aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
         aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
         aot%z = aot%z + aot%w*dt
+        !update land mask status
+        nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
+        if (nf /= MV_INT) aot%landMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landMask = Globals%Mask%waterVal
+        !marking tracers for deletion because they are in land
+        where(aot%landMask == 2) aot%active = .false.
+        !update land interaction status
+        nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
+        if (nf /= MV_INT) aot%landIntMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landIntMask = Globals%Mask%waterVal
         !update other vars...
     end do
 
@@ -123,13 +134,15 @@
     subroutine runStepMSEuler(self, aot, bdata, time, dt)
     class(solver_class), intent(inout) :: self
     type(aot_class), intent(inout) :: aot
+    type(aot_class) :: predAot
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec) :: mstime
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-
+    
+    call predAot%initialize(size(aot%id))
     ! interpolate each background
     do bkg = 1, size(bdata)
         np = size(aot%id) !number of particles
@@ -141,20 +154,22 @@
         call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
         !update velocities for the predictor step
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        aot%u = var_dt(:,nf)
+        predAot%u = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        aot%v = var_dt(:,nf)
+        predAot%v = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-        if (nf /= MV_INT) aot%w = var_dt(:,nf)
-        if (nf == MV_INT) aot%w = 0.0
+        if (nf /= MV_INT) predAot%w = var_dt(:,nf)
+        if (nf == MV_INT) predAot%w = 0.0
+
         !update positions for the predictor step
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
-        aot%z = aot%z + aot%w*dt*0.5
+        predAot%x = aot%x + Utils%m2geo(predAot%u, aot%y, .false.)*0.5*dt
+        predAot%y = aot%y + Utils%m2geo(predAot%v, aot%y, .true.)*0.5*dt
+        predAot%z = aot%z + aot%w*0.5*dt
         !Corrector step
         !run the interpolator
         mstime = time+0.5*dt
-        call self%Interpolator%run(aot, bdata(bkg), mstime, var_dt, var_name)
+
+        call self%Interpolator%run(predAot, bdata(bkg), mstime, var_dt, var_name)
         !update velocities for the corrector step
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
         aot%u = var_dt(:,nf)
@@ -164,11 +179,22 @@
         if (nf /= MV_INT) aot%w = var_dt(:,nf)
         if (nf == MV_INT) aot%w = 0.0
         !update positions for the corrector step
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
-        aot%z = aot%z + aot%w*dt*0.5
+        aot%x = aot%x + Utils%m2geo(aot%u+predAot%u, aot%y, .false.)*0.5*dt
+        aot%y = aot%y + Utils%m2geo(aot%v+predAot%v, aot%y, .true.)*0.5*dt
+        aot%z = aot%z + (aot%w+predAot%w)*dt*0.5
+        !update land mask status
+        nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
+        if (nf /= MV_INT) aot%landMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landMask = Globals%Mask%waterVal
+        !marking tracers for deletion because they are in land
+        where(aot%landMask == 2) aot%active = .false.
+        !update land interaction status
+        nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
+        if (nf /= MV_INT) aot%landIntMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landIntMask = Globals%Mask%waterVal
         !update other vars...
     end do
+    call predAot%finalize()
 
     end subroutine runStepMSEuler
 
@@ -190,22 +216,6 @@
     integer :: np, nf, bkg
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-
-
-    do bkg = 1, size(bdata)
-        np = size(aot%id) !number of particles
-        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        allocate(var_dt(np,nf))
-        allocate(var_name(nf))
-
-        !copying the aot for the several intermediate steps
-        k(1) = aot
-        k(2) = aot
-        k(3) = aot
-        k(4) = aot
-
-        !-----k1 step: k1 = f(x_n,t_n)-----
-        call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
 
         !update velocities for the predictor step
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
@@ -278,13 +288,19 @@
         aot%v = (k(1)%v + 2.*k(2)%v + 2.*k(3)%v + k(4)%v)/6.0
         aot%w = (k(1)%w + 2.*k(2)%w + 2.*k(3)%w + k(4)%w)/6.0
 
-        aot%x = aot%x + Utils%m2geo(aot%u, aot%y, .false.)*dt
-        aot%y = aot%y + Utils%m2geo(aot%v, aot%y, .true.)*dt
+        aot%x = aot%x + aot%u*dt
+        aot%y = aot%y + aot%v*dt
         aot%z = aot%z + aot%w*dt
-
-
-
-    end do
+        !update land mask status
+        nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
+        if (nf /= MV_INT) aot%landMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landMask = Globals%Mask%waterVal
+        !marking tracers for deletion because they are in land
+        where(aot%landMask == 2) aot%active = .false.
+        !update land interaction status
+        nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
+        if (nf /= MV_INT) aot%landIntMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) aot%landIntMask = Globals%Mask%waterVal
 
     end subroutine runStepRK4
 
@@ -304,6 +320,7 @@
     self%name = name
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
+    call self%Kernel%initialize(1,interpName)
     end subroutine initSolver
 
     !---------------------------------------------------------------------------

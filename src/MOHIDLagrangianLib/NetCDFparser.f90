@@ -164,7 +164,7 @@
         tempStatus = nf90_get_att(self%ncID, i, "add_offset", self%varData(i)%offset)
         if (tempStatus == -43) self%varData(i)%offset = 0.0
         tempStatus = nf90_get_att(self%ncID, i, "_FillValue", self%varData(i)%fillvalue)
-        if (tempStatus == -43) self%varData(i)%fillvalue = 0.0
+        if (tempStatus == -43) self%varData(i)%fillvalue = MV
     end do
     end subroutine getNCVarMetadata
 
@@ -228,11 +228,11 @@
                         !@Daniel
                         ! We seek for: 0) index=(0, ...n), axis=(+surface=0 .... -bottom)
                         ! Three situations:
-                        !     index=(0,1,2,    ...  n-1,n)  
+                        !     index=(0,1,2,    ...  n-1,n)
                         ! 1)  axis=(-bottom, ... ,-surface)   --> Transform: reverse
                         ! 2)  axis=(+bottom, ... , +bottom)  --> Transform: reverse and negate
                         ! 3)  axis=(+surface, ... , +bottom)  --> Transform: negate
-                     
+
                         if (dimName == Globals%Var%level) then
                             if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
                                 self%dimData(k)%reverse_axis = .false.
@@ -246,20 +246,20 @@
                                 self%dimData(k)%reverse_axis = .false.
                                 self%dimData(k)%negate = .true.
                                 self%dimData(k)%reverse_data = .false.
-                                !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing/direction. Correcting...'  
+                                !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing/direction. Correcting...'
                             elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
                                 self%dimData(k)%reverse_axis = .true.
                                 self%dimData(k)%negate = .true.
                                 self%dimData(k)%reverse_data = .true.
                                 !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign. Correcting...'
                             end if
-                            
-                            if (self%dimData(k)%reverse_axis .eqv. .true.) then 
-                             tempRealArray = tempRealArray(size(tempRealArray):1:-1)
+
+                            if (self%dimData(k)%reverse_axis .eqv. .true.) then
+                                tempRealArray = tempRealArray(size(tempRealArray):1:-1)
                             end if
 
-                            if (self%dimData(k)%negate .eqv. .true.) then 
-                             tempRealArray = -tempRealArray
+                            if (self%dimData(k)%negate .eqv. .true.) then
+                                tempRealArray = -tempRealArray
                             end if
                         end if
                         !need to check for 'time' variable specific issues
@@ -282,12 +282,15 @@
     !> @brief
     !> Reads the fields from the nc file for a given variable.
     !> returns a generic field, with a name, units and data
-    !> @param[in] self, varName, varField
+    !> @param[in] self, varName, varField, binaryVar, altName, altUnits
     !---------------------------------------------------------------------------
-    subroutine getVar(self, varName, varField)
+    subroutine getVar(self, varName, varField, binaryVar, altName, altUnits)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
     type(generic_field_class), intent(out) :: varField
+    logical, optional, intent(in) :: binaryVar
+    type(string), optional, intent(in) :: altName, altUnits
+    logical :: bVar
     real(prec), allocatable, dimension(:) :: tempRealField1D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
     real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
@@ -296,6 +299,9 @@
     type(dim_t) :: tempDim
     integer, allocatable, dimension(:) :: varShape
     type(string) :: outext
+
+    bVar= .false.
+    if(present(binaryVar)) bVar = binaryVar
 
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
@@ -308,8 +314,17 @@
                 allocate(tempRealField3D(varShape(1),varShape(2),varShape(3)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
                 call self%check()
-                where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
-                tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
+                if (.not.bVar) then
+                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
+                    tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
+                else
+                    if (self%varData(i)%fillvalue == MV) then
+                        outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
+                    call Log%put(outext)
+                    end if
+                    where (tempRealField3D /= self%varData(i)%fillvalue) tempRealField3D = Globals%Mask%waterVal
+                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = Globals%Mask%landVal
+                end if
                 do id_dim=1,3 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then
                         if (self%dimData(id_dim)%simName == Globals%Var%lon) then
@@ -321,19 +336,36 @@
                         end if
                     end if
                 end do
-                call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+                if (.not.bVar) then
+                    call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+                else
+                    dimName = varName
+                    if(present(altName)) dimName = altName
+                    varUnits = self%varData(i)%units
+                    if(present(altUnits)) varUnits = altUnits
+                    call varField%initialize(dimName, varUnits, tempRealField3D)
+                end if
             else if(self%varData(i)%ndims == 4) then !4D variable
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
-                call self%check()                
-                where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
-                tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
+                call self%check()
+                if (.not.bVar) then
+                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
+                    tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset    ! scale + offset transform
+                else
+                    if (self%varData(i)%fillvalue == MV) then
+                        outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
+                    call Log%put(outext)
+                    end if
+                    where (tempRealField4D /= self%varData(i)%fillvalue) tempRealField4D = Globals%Mask%waterVal
+                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = Globals%Mask%landVal
+                end if
                 do id_dim=1,4 !reverting fields to have 'natural' coordinate-field storage
                     if (self%dimData(id_dim)%reverse_data) then
                         if (self%dimData(id_dim)%simName == Globals%Var%lon) then
                             tempRealField4D = tempRealField4D(varshape(1):1:-1,:,:,:)
                         elseif (self%dimData(id_dim)%simName == Globals%Var%lat) then
-                            tempRealField4D = tempRealField4D(:,varshape(2):1:-1,:,:)    
+                            tempRealField4D = tempRealField4D(:,varshape(2):1:-1,:,:)
                         elseif (self%dimData(id_dim)%simName == Globals%Var%level) then
                             tempRealField4D = tempRealField4D(:,:,varshape(3):1:-1,:)
                         elseif (self%dimData(id_dim)%simName == Globals%Var%time) then
@@ -341,7 +373,15 @@
                         end if
                     end if
                 end do
-                call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+                if (.not.bVar) then
+                    call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+                else
+                    dimName = varName
+                    if(present(altName)) dimName = altName
+                    varUnits = self%varData(i)%units
+                    if(present(altUnits)) varUnits = altUnits
+                    call varField%initialize(dimName, varUnits, tempRealField4D)
+                end if
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'
                 call Log%put(outext)
@@ -490,7 +530,7 @@
     type(timedelta) :: dateOffset
     type(string) :: outext
     real(prec) :: scale, offset
-    
+
     call timeComments%split(tokens=dc, sep=' ')
     if (size(dc) == 4) then
         scale = 1.0
@@ -506,15 +546,34 @@
         NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         dateOffset = Globals%SimTime%StartDate - NCDate
         offset = -dateOffset%total_seconds()
-        
+
         timeArray = timeArray*scale + offset
         timeComments = 'seconds since '//Globals%SimTime%StartDate%isoformat(' ')        
-    else
+    
+    elseif (size(dc) == 3) then
+        scale = 1.0
+        if (dc(1) == 'seconds') scale = 1.0
+        if (dc(1) == 'hours')   scale = 3600.0
+        if (dc(1) == 'days')    scale = 3600.0*24.0
+        if (dc(1) == 'months')  scale = 3600.0*24.0*30.0 !really hope no one gets such a brilliant idea as to use this as a time unit
+        if (dc(1) == 'years')   scale = 3600.0*24.0*30.0*12.0 !or this
+        call dc(3)%split(tokens=dates, sep='-')
+        isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//'00'//' '//'00'//' '//'00'
+        date = Utils%getDateFromISOString(isoDateStr)
+        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        dateOffset = Globals%SimTime%StartDate - NCDate
+        offset = -dateOffset%total_seconds()
+        
+        timeArray = timeArray*scale + offset
+        timeComments = 'seconds since '//Globals%SimTime%StartDate%isoformat(' ')
+        
+    else       
+
         outext = '[NetCDF parser::correctNCTime]:WARNING - Time units may not be in the format *seconds since 1981-01-01 00:00:00*, you might have some problems in a few moments...'
         call Log%put(outext)
-    end if  
-    
+    end if
+
     end subroutine correctNCTime
-    
-    
+
+
     end module netcdfParser_mod
