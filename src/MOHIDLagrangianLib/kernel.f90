@@ -47,6 +47,7 @@
     !---------------------------------------------------------------------------
     function runKernel(self, sv, bdata, time, dt)
     class(kernel_class), intent(inout) :: self
+
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
@@ -59,6 +60,7 @@
     else if (sv%ttype == Globals%Types%plastic) then
 
     end if
+
 
     end function runKernel
 
