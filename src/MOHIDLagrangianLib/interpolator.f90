@@ -20,6 +20,7 @@
 
     use common_modules
     use AoT_mod
+    use stateVector_mod
     use background_mod
     use fieldTypes_mod
 
@@ -53,9 +54,9 @@
     !> Method that runs the chosen interpolator method on the given data.
     !> @param[in] self, aot, bdata, time, var_dt, var_name
     !---------------------------------------------------------------------------
-    subroutine run(self, aot, bdata, time, var_dt, var_name)
+    subroutine run(self, state, bdata, time, var_dt, var_name)
     class(interpolator_class), intent(in) :: self
-    type(aot_class), intent(in) :: aot
+    real(prec), dimension(:,:), intent(in) :: state
     type(background_class), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), dimension(:,:), intent(out) :: var_dt
@@ -65,7 +66,7 @@
     integer :: i
     type(string) :: outext
 
-    real(prec), dimension(size(aot%x)) :: xx, yy, zz
+    real(prec), dimension(size(state,1)) :: xx, yy, zz
     real(prec) :: tt
 
     !Check field extents and what particles will be interpolated
@@ -78,19 +79,19 @@
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
                 var_name(i) = aField%name
-                xx = self%getArrayCoord(aot%x, bdata, Globals%Var%lon)
-                yy = self%getArrayCoord(aot%y, bdata, Globals%Var%lat)
-                zz = self%getArrayCoord(aot%z, bdata, Globals%Var%level)
+                xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
+                yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
+                zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level)
                 tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
-                var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(aot%x))
+                var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
                 var_name(i) = aField%name
-                xx = self%getArrayCoord(aot%x, bdata, Globals%Var%lon)
-                yy = self%getArrayCoord(aot%y, bdata, Globals%Var%lat)
+                xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
+                yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
                 tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
-                var_dt(:,i) = self%interp3D(xx, yy, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aot%x))
+                var_dt(:,i) = self%interp3D(xx, yy, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(state,1))
             end if !add more interpolation types here
             !add more field types here
             class default
@@ -202,6 +203,7 @@
     real(prec), dimension(n_e) :: interp3D                      !< Field evaluated at x,y,z,t
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
+
     x0 = floor(x)
     y0 = floor(y)
     t0 = floor(t)
@@ -220,8 +222,8 @@
     forall(i=1:n_e)
         c00(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c10(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
-        c01(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i)
-        c11(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
+        c01(i) = field(x0(i),y0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),t1)*xd(i)
+        c11(i) = field(x0(i),y1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),t1)*xd(i)
     end forall
     ! Interpolation on the second dimension and collapse it to a two dimension problem
     c0 = c00*(1.-yd)+c10*yd
@@ -317,6 +319,8 @@
     real(prec) :: getPointCoordRegular          !< coordinates in array index
     real(prec) :: minBound, maxBound, res, ieta
     type(string) :: outext
+    integer :: i                                                !< corresponding background dimension
+    integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
     dim = bdata%getDimIndex(dimName)
     res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()

@@ -1,5 +1,5 @@
-module kernel_mod
-!------------------------------------------------------------------------------
+    module kernel_mod
+    !------------------------------------------------------------------------------
     !        IST/MARETEC, Water Modelling Group, Mohid modelling system
     !        USC/GFNL, Group of NonLinear Physics, Mohid modelling system
     !------------------------------------------------------------------------------
@@ -15,182 +15,157 @@ module kernel_mod
     !> Daniel Garaboa Paz
     !
     ! DESCRIPTION:
-    !> Defines an abstraction kernel class adpated from solver class. 
-    !> This class split the solver and evaluation proces to allow other functions 
+    !> Defines an abstraction kernel class adpated from solver class.
+    !> This class split the solver and evaluation proces to allow other functions
     !> to be evaluated.
     !------------------------------------------------------------------------------
     use common_modules
     use AoT_mod
+    use stateVector_mod
     use background_mod
     use interpolator_mod
 
     type :: kernel_class        !< Solver class
-        integer :: kernelType = 1   !< kernel Integrator 1:Lagrangian, 2:Diffusion
-        type(string) :: name        !< Name of the kernel
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
     contains
     procedure :: initialize => initKernel
-    procedure :: runKernel
+    procedure :: run => runKernel
     procedure, private :: Lagrangian
-    procedure, private :: Diffusion
-    procedure :: print => printKernel
-end type kernel_class
+    !procedure, private :: Diffusion
+    end type kernel_class
 
-public :: kernel_class
-contains 
+    public :: kernel_class
+    contains
 
-
-!---------------------------------------------------------------------------
-!> @author Daniel Garaboa Paz - USC
-!> @brief
-!> Lagrangian Kernel, evaluate the velocities at given points
-!> using the interpolants and split the evaluation part from the solver module.
-!> @param[in] self, aot, bdata, time, dt
-!> @param[out] daot_dt
-!---------------------------------------------------------------------------
-subroutine Lagrangian(self, aot, bdata, time, dt, daot_dt)
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - GFNL
+    !> @brief
+    !> Adaptation from runSolver (Ricardo) method that evaluates the specific
+    !> kernel, according to the selected kernel
+    !> @param[in] self, aot, bdata, time, dt
+    !> @param[out] daot_dt
+    !---------------------------------------------------------------------------
+    function runKernel(self, sv, bdata, time, dt)
     class(kernel_class), intent(inout) :: self
-    type(aot_class), intent(in) :: aot
-    type(aot_class), intent(out) :: daot_dt
+
+    type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
-    integer :: np, nf, bkg
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
+
+    if (sv%ttype == Globals%Types%base) then
+        runKernel = self%Lagrangian(sv, bdata, time, dt)! + self%Diffusion(sv, bdata, time, dt)
+    else if (sv%ttype == Globals%Types%paper) then
+
+    else if (sv%ttype == Globals%Types%plastic) then
+
+    end if
+
+
+    end function runKernel
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Lagrangian Kernel, evaluate the velocities at given points
+    !> using the interpolants and split the evaluation part from the solver module.
+    !> @param[in] self, sv, bdata, time, dt
+    !---------------------------------------------------------------------------
+    function Lagrangian(self, sv, bdata, time, dt)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time, dt
+    integer :: np, nf, bkg, i
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Lagrangian
 
-    daot_dt = aot
-    
+    Lagrangian = 0.0    
+    !interpolate each background
     do bkg = 1, size(bdata)
-            np = size(aot%id) !number of particles
-            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-            allocate(var_dt(np,nf))
-            allocate(var_name(nf))
-            call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
-            !update velocities
-            nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-            daot_dt%u = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-            daot_dt%v = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-            if (nf /= MV_INT) daot_dt%w = var_dt(:,nf)
-            if (nf == MV_INT) daot_dt%w = 0.0
-            daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
-            daot_dt%v = Utils%m2geo(daot_dt%v, aot%y, .True.)
+        np = size(sv%active) !number of particles
+        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+        allocate(var_dt(np,nf))
+        allocate(var_name(nf))
+        call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+        !write dx/dt
+        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+        Lagrangian(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+        Lagrangian(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+        if (nf /= MV_INT) Lagrangian(:,3) = var_dt(:,nf)
+        if (nf == MV_INT) Lagrangian(:,3) = 0.0
+        !write vel
+        do i=1,3
+            sv%state(:,i+3) = Lagrangian(:,i)
+        end do
+        !update land mask status
+        nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
+        if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
+        !marking tracers for deletion because they are in land
+        where(sv%landMask == 2) sv%active = .false.
+        !update land interaction status
+        nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
+        if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
+        if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
+        !update other vars...
     end do
 
-end subroutine Lagrangian
+    end function Lagrangian
 
 
-!---------------------------------------------------------------------------
-!> @author Daniel Garaboa Paz - USC
-!> @brief
-!> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
-!> diffusion coefficient. D = 1 m/s
-!> @param[in] self, aot, bdata, time, dt
-!> @param[out] daot_dt
-!---------------------------------------------------------------------------
-subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
+    !!---------------------------------------------------------------------------
+    !!> @author Daniel Garaboa Paz - USC
+    !!> @brief
+    !!> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
+    !!> diffusion coefficient. D = 1 m/s
+    !!> @param[in] self, aot, bdata, time, dt
+    !!> @param[out] daot_dt
+    !!---------------------------------------------------------------------------
+    !subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
+    !class(kernel_class), intent(inout) :: self
+    !type(aot_class), intent(in) :: aot
+    !type(aot_class),intent(out) :: daot_dt
+    !type(background_class), dimension(:), intent(in) :: bdata
+    !real(prec), intent(in) :: time, dt
+    !integer :: np, nf, bkg
+    !real(prec), dimension(:,:), allocatable :: var_dt
+    !type(string), dimension(:), allocatable :: var_name
+    !real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
+    !real(prec) :: D = 1.
+    !
+    !np = size(aot%id)
+    !allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
+    !call random_number(rand_vel_u)
+    !call random_number(rand_vel_v)
+    !call random_number(rand_vel_w)
+    !!update velocities
+    !! For the moment we set D = 1 m/s, then the D parameter
+    !! should be part of the array of tracers parameter
+    !daot_dt%u = (2.*rand_vel_u-1.)*sqrt(2.*D/dt)
+    !daot_dt%v = (2.*rand_vel_v-1.)*sqrt(2.*D/dt)
+    !daot_dt%w = (2.*rand_vel_w-1.)*sqrt(2.*D/dt)
+    !
+    !
+    !end subroutine Diffusion
+
+
+
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - GFNL
+    !> @brief
+    !> Initializer method adpated from for solver kernel class. Sets the type of
+    !> kernel and the interpolator to evaluate it.
+    !---------------------------------------------------------------------------
+    subroutine initKernel(self)
     class(kernel_class), intent(inout) :: self
-    type(aot_class), intent(in) :: aot
-    type(aot_class),intent(out) :: daot_dt
-    type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
-    integer :: np, nf, bkg
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
-    real(prec) :: D = 0.1
-
-    daot_dt = aot
-
-    ! Advection term
-    do bkg = 1, size(bdata)
-            np = size(aot%id) !number of particles
-            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-            allocate(var_dt(np,nf))
-            allocate(var_name(nf))
-            call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
-            !update velocities
-            nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-            daot_dt%u = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-            daot_dt%v = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-            if (nf /= MV_INT) daot_dt%w = var_dt(:,nf)
-            if (nf == MV_INT) daot_dt%w = 0.0
-
-    end do
-
-    ! Diffusion term
-    allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
-    call random_number(rand_vel_u)
-    call random_number(rand_vel_v)
-    call random_number(rand_vel_w)
-    !update velocities
-    ! For the moment we set D = 0.1 m/s, then the D parameter
-    ! should be part of the array of tracers parameter
-
-    ! Advection + Diffusion! (we neglect the w diffusion component)
-    ! bounds error from bottom-top layer!
-    daot_dt%u = daot_dt%u + (2.*rand_vel_u-1.)*sqrt(2.*D/dt)
-    daot_dt%v = daot_dt%v + (2.*rand_vel_v-1.)*sqrt(2.*D/dt)
-    !daot_dt%w = daot_dt%w + (2.*rand_vel_w-1.)*sqrt(2.*0.001/dt)
-
-
-    daot_dt%u = Utils%m2geo(daot_dt%u, aot%y, .False.)
-    daot_dt%v = Utils%m2geo(daot_dt%v, aot%y, .True.)
-
-
-end subroutine Diffusion
-
-
-!---------------------------------------------------------------------------
-!> @author Daniel Garaboa Paz - GFNL
-!> @brief
-!> Adaptation from runSolver (Ricardo) method that evaluates the specific 
-!> kernel, according to the selected kernel
-!> @param[in] self, aot, bdata, time, dt
-!> @param[out] daot_dt
-!---------------------------------------------------------------------------
-subroutine runKernel(self, aot, bdata, time, dt,daot_dt)
-    class(kernel_class), intent(inout) :: self
-    type(aot_class), intent(in) :: aot
-    type(aot_class) :: daot_dt
-    type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
-    if (self%kernelType == 1) call self%Lagrangian(aot, bdata, time, dt, daot_dt)
-    if (self%kernelType == 2) call self%Diffusion(aot, bdata, time, dt, daot_dt)
-end subroutine runKernel
-
-
-!---------------------------------------------------------------------------
-!> @author Daniel Garaboa Paz - GFNL
-!> @brief
-!> Initializer method adpated from for solver kernel class. Sets the type of 
-!> kernel and the interpolator to evaluate it.
-!> @param[in] self, flag, name
-!---------------------------------------------------------------------------
-subroutine initKernel(self, flag, name)
-    class(kernel_class), intent(inout) :: self
-    integer, intent(in) :: flag
-    type(string), intent(in) :: name
     type(string) :: interpName
-    self%kernelType = flag
-    self%name = name
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
-end subroutine initKernel
+    end subroutine initKernel
 
-!---------------------------------------------------------------------------
-!> @author Ricardo Birjukovs Canelas - MARETEC
-!> @brief
-!> Method that prints the Kernel information
-!---------------------------------------------------------------------------
-subroutine printKernel(self)
-    class(kernel_class), intent(inout) :: self
-    type(string) :: outext, t
-    outext = 'Kernel type is '//self%name
-    call Log%put(outext,.false.)
-    end subroutine printKernel
-
-end module kernel_mod
+    end module kernel_mod

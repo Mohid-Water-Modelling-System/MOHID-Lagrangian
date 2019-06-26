@@ -123,11 +123,12 @@
     procedure :: initS1D, initS2D, initS3D, initS4D
     procedure :: initV2D, initV3D, initV4D
     generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
+    procedure :: replaceMetaData
     procedure :: compare
     procedure :: concatenate
     procedure :: getGFieldType
     procedure :: finalize => cleanField
-    !final :: delGfield
+    final :: delGfield
     procedure :: print => printGenericField
     end type generic_field_class
 
@@ -152,7 +153,7 @@
     class(generic_field_class), intent(in) :: gfield
     logical, dimension(:), optional, intent(in) :: usedPosi 
     logical, allocatable, dimension(:) :: usedPos
-    integer :: fDim
+    integer :: fDim, nUsedPos, i, j
     type(string) :: fType
     real(prec), allocatable, dimension(:) :: field1d
     real(prec), allocatable, dimension(:,:) :: field2d
@@ -164,36 +165,95 @@
     if (gfield%dim /= fDim) return
     if (gfield%getGFieldType() /= fType) return
     
-    if (present(usedPosi)) allocate(usedPos, source = usedPosi)    
+    if (present(usedPosi)) then
+        allocate(usedPos, source = usedPosi)
+        nUsedPos = count(usedPos)
+    end if
     
     if (fType == 'Scalar') then
         if (fDim == 1) then
-            
-            self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]
+            if (.not.allocated(usedPos)) then
+                nUsedPos = size(gfield%scalar1d%field)
+                allocate(usedPos(nUsedPos))
+                usedPos = .true.
+            end if
+            allocate(field1d(size(self%scalar1d%field) + nUsedPos))
+            field1d(1:size(self%scalar1d%field)) = self%scalar1d%field
+            i= size(self%scalar1d%field)+1
+            do j= 1, size(usedPos)
+                if (usedPos(j)) then
+                    field1d(i) = gfield%scalar1d%field(j)
+                    i= i+1
+                end if
+            end do
+            deallocate(self%scalar1d%field)
+            allocate(self%scalar1d%field, source = field1d)
+            !allocate(self%scalar1d%field(size(field1d)))
+            !self%scalar1d%field = field1d
+            !self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]
         end if
         if (fDim == 2) then
-            allocate(field2d(size(self%scalar2d%field,1),size(self%scalar2d%field,2) + size(gfield%scalar2d%field,2)))
+            if (.not.allocated(usedPos)) then
+                nUsedPos = size(gfield%scalar2d%field,2)
+                allocate(usedPos(nUsedPos))
+                usedPos = .true.
+            end if
+            allocate(field2d(size(self%scalar2d%field,1),size(self%scalar2d%field,2) + nUsedPos))
             field2d(:,1:size(self%scalar2d%field,2)) = self%scalar2d%field
-            field2d(:,size(self%scalar2d%field,2)+1:size(field2d,2)) = gfield%scalar2d%field
+            i= size(self%scalar2d%field, 2) +1
+            do j= 1, size(usedPos)
+                if (usedPos(j)) then
+                    field2d(:, i) = gfield%scalar2d%field(:, j)
+                    i= i+1
+                end if
+            end do
+            !field2d(:,size(self%scalar2d%field,2)+1:size(field2d,2)) = gfield%scalar2d%field
             deallocate(self%scalar2d%field)
-            allocate(self%scalar2d%field(size(field2d,1), size(field2d,2)))
-            self%scalar2d%field = field2d
+            allocate(self%scalar2d%field, source = field2d)
+            !allocate(self%scalar2d%field(size(field2d,1), size(field2d,2)))
+            !self%scalar2d%field = field2d
         end if
         if (fDim == 3) then
-            allocate(field3d(size(self%scalar3d%field,1),size(self%scalar3d%field,2),size(self%scalar3d%field,3) + size(gfield%scalar3d%field,3)))
+            if (.not.allocated(usedPos)) then
+                nUsedPos = size(gfield%scalar3d%field,3)
+                allocate(usedPos(nUsedPos))
+                usedPos = .true.
+            end if
+            allocate(field3d(size(self%scalar3d%field,1),size(self%scalar3d%field,2),size(self%scalar3d%field,3) + nUsedPos))
             field3d(:,:,1:size(self%scalar3d%field,3)) = self%scalar3d%field
-            field3d(:,:,size(self%scalar3d%field,3)+1:size(field3d,3)) = gfield%scalar3d%field
+            i= size(self%scalar3d%field, 3) +1
+            do j= 1, size(usedPos)
+                if (usedPos(j)) then
+                    field3d(:,:, i) = gfield%scalar3d%field(:,:, j)
+                    i= i+1
+                end if
+            end do
+            !field3d(:,:,size(self%scalar3d%field,3)+1:size(field3d,3)) = gfield%scalar3d%field
             deallocate(self%scalar3d%field)
-            allocate(self%scalar3d%field(size(field3d,1), size(field3d,2), size(field3d,3)))
-            self%scalar3d%field = field3d
+            allocate(self%scalar3d%field, source = field3d)
+            !allocate(self%scalar3d%field(size(field3d,1), size(field3d,2), size(field3d,3)))
+            !self%scalar3d%field = field3d
         end if
         if (fDim == 4) then
-            allocate(field4d(size(self%scalar4d%field,1),size(self%scalar4d%field,2),size(self%scalar4d%field,3),size(self%scalar4d%field,4) + size(gfield%scalar4d%field,4)))
+            if (.not.allocated(usedPos)) then
+                nUsedPos = size(gfield%scalar4d%field,4)
+                allocate(usedPos(nUsedPos))
+                usedPos = .true.
+            end if
+            allocate(field4d(size(self%scalar4d%field,1),size(self%scalar4d%field,2),size(self%scalar4d%field,3),size(self%scalar4d%field,4) + nUsedPos))
             field4d(:,:,:,1:size(self%scalar4d%field,4)) = self%scalar4d%field
-            field4d(:,:,:,size(self%scalar4d%field,4)+1:size(field4d,4)) = gfield%scalar4d%field
+             i= size(self%scalar4d%field, 4) +1
+            do j= 1, size(usedPos)
+                if (usedPos(j)) then
+                    field4d(:,:,:, i) = gfield%scalar4d%field(:,:,:, j)
+                    i= i+1
+                end if
+            end do
+            !field4d(:,:,:,size(self%scalar4d%field,4)+1:size(field4d,4)) = gfield%scalar4d%field
             deallocate(self%scalar4d%field)
-            allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
-            self%scalar4d%field = field4d
+            allocate(self%scalar4d%field, source = field4d)
+            !allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
+            !self%scalar4d%field = field4d
         end if
     else if (fType == 'Vectorial') then
         return
@@ -223,6 +283,20 @@
     if (allocated(self%vectorial3d%field) .and. .not. allocated(gfield%vectorial3d%field)) comp = .false.
     if (allocated(self%vectorial4d%field) .and. .not. allocated(gfield%vectorial4d%field)) comp = .false.
     end function compare
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> replaces metadata on a generic field
+    !> @param[in] self, name, units
+    !---------------------------------------------------------------------------
+    subroutine replaceMetaData(self, name, units)
+    class(generic_field_class), intent(inout) :: self
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    self%name = name
+    self%units = units
+    end subroutine replaceMetaData
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -244,19 +318,19 @@
     if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
     end subroutine cleanField
 
-    !subroutine delGfield(self)
-    !type(generic_field_class), intent(inout) :: self
-    !self%name = ''
-    !self%units = ''
-    !self%dim = MV
-    !if (allocated(self%scalar1d%field)) deallocate(self%scalar1d%field)
-    !if (allocated(self%scalar2d%field)) deallocate(self%scalar2d%field)
-    !if (allocated(self%scalar3d%field)) deallocate(self%scalar3d%field)
-    !if (allocated(self%scalar4d%field)) deallocate(self%scalar4d%field)
-    !if (allocated(self%vectorial2d%field)) deallocate(self%vectorial2d%field)
-    !if (allocated(self%vectorial3d%field)) deallocate(self%vectorial3d%field)
-    !if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
-    !end subroutine delGfield
+    subroutine delGfield(self)
+    type(generic_field_class), intent(inout) :: self
+    self%name = ''
+    self%units = ''
+    self%dim = MV
+    if (allocated(self%scalar1d%field)) deallocate(self%scalar1d%field)
+    if (allocated(self%scalar2d%field)) deallocate(self%scalar2d%field)
+    if (allocated(self%scalar3d%field)) deallocate(self%scalar3d%field)
+    if (allocated(self%scalar4d%field)) deallocate(self%scalar4d%field)
+    if (allocated(self%vectorial2d%field)) deallocate(self%vectorial2d%field)
+    if (allocated(self%vectorial3d%field)) deallocate(self%vectorial3d%field)
+    if (allocated(self%vectorial4d%field)) deallocate(self%vectorial4d%field)
+    end subroutine delGfield
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
