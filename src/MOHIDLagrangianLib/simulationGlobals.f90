@@ -168,6 +168,13 @@
         real(prec) :: beachVal = 1.0
         contains
     end type maskVals_t
+        
+    type :: tracerTypes_t
+        integer :: base  = 0
+        integer :: paper   = 1
+        integer :: plastic = 2
+        contains
+    end type tracerTypes_t
 
     type :: sim_time_t
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
@@ -192,6 +199,7 @@
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
         type(maskVals_t)    :: Mask
+        type(tracerTypes_t) :: Types
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
