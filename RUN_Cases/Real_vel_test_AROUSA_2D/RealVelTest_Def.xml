@@ -23,6 +23,24 @@
           <size x="100000" y="100000" z="1.0" units_comment="metres (m)"/>
         </box>
       </source>
+	  <source>
+        <setsource id="1" name="ReleaseBox10" />
+        <rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+        <box>
+          <point x="-8.90" y="42.55" z="0" units_comment="(deg,deg,m)"/>
+          <size x="100" y="100" z="1.0" units_comment="metres (m)"/>
+        </box>
+      </source>
+	  <source>
+        <setsource id="3" name="ReleaseBox17" />
+        <rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+        <active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+        <box>
+          <point x="-8.90" y="42.55" z="0" units_comment="(deg,deg,m)"/>
+          <size x="1000" y="100" z="1.0" units_comment="metres (m)"/>
+        </box>
+      </source>
     </sourcedef>
 	<naming>      
       <namingfile name="nc_library.xml"/>
@@ -30,6 +48,13 @@
     <inputData>      
       <inputDataDir name="nc_fields"/>
     </inputData>
+	<properties>
+      <links>
+        <link source="1" type='plastic' property="bag_1" comment="" />
+		<link source="3" type='paper' property="cardboard_1" comment="" />
+      </links>
+      <propertyfile name="Material_props.xml"/>
+    </properties>
   </casedef>
   <execution>
     <parameters>
