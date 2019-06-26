@@ -123,6 +123,7 @@
     procedure :: initS1D, initS2D, initS3D, initS4D
     procedure :: initV2D, initV3D, initV4D
     generic   :: initialize => initS1D, initS2D, initS3D, initS4D, initV2D, initV3D, initV4D
+    procedure :: replaceMetaData
     procedure :: compare
     procedure :: concatenate
     procedure :: getGFieldType
@@ -282,6 +283,20 @@
     if (allocated(self%vectorial3d%field) .and. .not. allocated(gfield%vectorial3d%field)) comp = .false.
     if (allocated(self%vectorial4d%field) .and. .not. allocated(gfield%vectorial4d%field)) comp = .false.
     end function compare
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> replaces metadata on a generic field
+    !> @param[in] self, name, units
+    !---------------------------------------------------------------------------
+    subroutine replaceMetaData(self, name, units)
+    class(generic_field_class), intent(inout) :: self
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    self%name = name
+    self%units = units
+    end subroutine replaceMetaData
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
