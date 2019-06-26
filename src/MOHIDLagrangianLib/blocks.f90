@@ -66,6 +66,8 @@
     procedure, public :: numAllocTracers
     procedure, public :: TracersToSV
     procedure, public :: SVtoTracers
+    procedure, public :: getSVvar
+    procedure, public :: getActive
     procedure, public :: CleanSV
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
@@ -348,6 +350,8 @@
             allocate(self%BlockState(i)%state(self%trcType(i,2),self%trcType(i,3)))
             allocate(self%BlockState(i)%trc(self%trcType(i,2)))
             allocate(self%BlockState(i)%active(self%trcType(i,2)))
+            allocate(self%BlockState(i)%source(self%trcType(i,2)))
+            allocate(self%BlockState(i)%id(self%trcType(i,2)))
             allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
             allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))        
         end do
@@ -358,12 +362,14 @@
             select type(aTracer)
             class is (tracer_class)
                 tType = aTracer%par%ttype
-                !aTracer%now%active = .false.
+                aTracer%now%active = .false.
                 do i = 1, size(self%BlockState)
                     if (tType == self%BlockState(i)%ttype) then
                         !print*, 'tracer state array ', aTracer%getStateArray()
                         !print*, 'needs to fit in ', size(self%BlockState(i)%state,2)
                         self%BlockState(i)%state(self%BlockState(i)%idx,:) = aTracer%getStateArray()
+                        self%BlockState(i)%source(self%BlockState(i)%idx) = aTracer%par%idsource
+                        self%BlockState(i)%id(self%BlockState(i)%idx) = aTracer%par%id
                         self%BlockState(i)%trc(self%BlockState(i)%idx)%ptr => aTracer
                         self%BlockState(i)%idx = self%BlockState(i)%idx + 1
                         builtstate = .true.
@@ -398,7 +404,7 @@
     if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
         if (allocated(self%Background)) then    !There are Backgrounds in this Block
             !print*, 'From Block ', self%id
-            call self%Solver%runStep(self%AoT, self%Background, Globals%SimTime%CurrTime, Globals%SimDefs%dt)
+            call self%Solver%runStep(self%BlockState, self%Background, Globals%SimTime%CurrTime, Globals%SimDefs%dt)
         end if
     end if
     end subroutine RunSolver
@@ -437,6 +443,39 @@
     class(block_class), intent(inout) :: self
     call self%AoT%finalize()
     end subroutine CleanAoT
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns a given variable for all the tracers on the block
+    !---------------------------------------------------------------------------
+    function getSVvar(self, idx)
+    class(block_class), intent(in) :: self
+    integer, intent(in) :: idx
+    integer :: i, j
+    real(prec), dimension(self%LTracer%getSize()) :: getSVvar
+    j=0
+    do i=1, size(self%BlockState)
+        getSVvar(j+1: j+size(self%BlockState(i)%active)) = self%BlockState(i)%state(:,idx)
+        j= size(self%BlockState(i)%active)
+    end do
+    end function
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the active tracers array on the block
+    !---------------------------------------------------------------------------
+    function getActive(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    logical, dimension(self%LTracer%getSize()) :: getActive
+    j=0
+    do i=1, size(self%BlockState)
+        getActive(j+1: j+size(self%BlockState(i)%active)) = self%BlockState(i)%active
+        j= size(self%BlockState(i)%active)
+    end do
+    end function
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

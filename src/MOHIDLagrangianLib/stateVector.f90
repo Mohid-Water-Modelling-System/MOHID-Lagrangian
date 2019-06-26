@@ -36,7 +36,7 @@
         integer :: ttype
         type(trcPtr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:,:) :: state
-        integer, allocatable, dimension(:) :: landMask, landIntMask
+        integer, allocatable, dimension(:) :: landMask, landIntMask, source, id
         logical, allocatable, dimension(:) :: active
         integer :: idx
     contains
@@ -88,6 +88,8 @@
     if (allocated(self%landMask)) deallocate(self%landMask)
     if (allocated(self%landIntMask)) deallocate(self%landIntMask)
     if (allocated(self%active)) deallocate(self%active)
+    if (allocated(self%source)) deallocate(self%source)
+    if (allocated(self%id)) deallocate(self%id)
     self%idx = 1    
     end subroutine cleanState
     

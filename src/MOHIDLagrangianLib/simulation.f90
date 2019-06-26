@@ -292,7 +292,7 @@
     !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%TracersToSV()
-        call sBlock(i)%TracersToAoT()
+        !call sBlock(i)%TracersToAoT()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
@@ -335,7 +335,7 @@
     !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%SVtoTracers()
-        call sBlock(i)%AoTtoTracers()
+        !call sBlock(i)%AoTtoTracers()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
@@ -356,7 +356,7 @@
     !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%CleanSV()
-        call sBlock(i)%CleanAoT()
+        !call sBlock(i)%CleanAoT()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
