@@ -41,8 +41,9 @@
         integer, allocatable, dimension(:) :: landMask, landIntMask
         logical, allocatable, dimension(:) :: active
     contains
-    procedure :: Clean
+    procedure :: finalize => Clean
     procedure :: toTracers
+    procedure :: initialize => makeEmptyAoT
     procedure :: print => print_AoT
     procedure :: detailedprint => Deeprint_AoT
     end type aot_class
@@ -111,7 +112,31 @@
     end do
     call trclist%reset()               ! reset list iterator
     end function constructor
-
+    
+    
+     !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Allocates empty AoT object with a given size
+    !> @param[in] self, nt
+    !---------------------------------------------------------------------------
+    subroutine makeEmptyAoT(self, nt)
+    class(aot_class) :: self
+    integer :: nt
+    allocate(self%id(nt))
+    allocate(self%trc(nt))
+    allocate(self%x(nt))
+    allocate(self%y(nt))
+    allocate(self%z(nt))
+    allocate(self%u(nt))
+    allocate(self%v(nt))
+    allocate(self%w(nt))
+    allocate(self%source(nt))
+    allocate(self%landMask(nt))
+    allocate(self%landIntMask(nt))
+    allocate(self%active(nt))    
+    end subroutine makeEmptyAoT
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

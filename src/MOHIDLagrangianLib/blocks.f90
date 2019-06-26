@@ -314,7 +314,7 @@
     subroutine CleanAoT(self)
     implicit none
     class(block_class), intent(inout) :: self
-    call self%AoT%Clean()
+    call self%AoT%finalize()
     end subroutine CleanAoT
 
     !---------------------------------------------------------------------------
