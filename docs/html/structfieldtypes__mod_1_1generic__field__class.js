@@ -1,5 +1,10 @@
 var structfieldtypes__mod_1_1generic__field__class =
 [
+    [ "compare", "structfieldtypes__mod_1_1generic__field__class.html#a8dec8ff3e2f37167c4952805f5d189e9", null ],
+    [ "concatenate", "structfieldtypes__mod_1_1generic__field__class.html#a6424e68038376c898b08883fe1ed1304", null ],
+    [ "delgfield", "structfieldtypes__mod_1_1generic__field__class.html#a14b5aa7f77712f703849552381484eed", null ],
+    [ "finalize", "structfieldtypes__mod_1_1generic__field__class.html#ab787d81bd092318c61cb43fe0b255dca", null ],
+    [ "getgfieldtype", "structfieldtypes__mod_1_1generic__field__class.html#a293a405922469cfc6e2fd61401a0bac7", null ],
     [ "initialize", "structfieldtypes__mod_1_1generic__field__class.html#a0fa61024cf22776788544cf848d767d7", null ],
     [ "inits1d", "structfieldtypes__mod_1_1generic__field__class.html#a6a077022127f5450a2e77c034704ad2d", null ],
     [ "inits2d", "structfieldtypes__mod_1_1generic__field__class.html#ac813b40a98c7b82891bb51e6b0d56124", null ],
@@ -9,7 +14,8 @@ var structfieldtypes__mod_1_1generic__field__class =
     [ "initv3d", "structfieldtypes__mod_1_1generic__field__class.html#a4641235772209bcc9558d6d6c53a80c7", null ],
     [ "initv4d", "structfieldtypes__mod_1_1generic__field__class.html#a178957bfe9f480ff799ca870d13db306", null ],
     [ "print", "structfieldtypes__mod_1_1generic__field__class.html#a436070152766aaf4f47e56a1dba98611", null ],
-    [ "test", "structfieldtypes__mod_1_1generic__field__class.html#a1f71463147144553320805b6086d42b5", null ],
+    [ "replacemetadata", "structfieldtypes__mod_1_1generic__field__class.html#a040a6a67e64938b6ce249dd6a584584f", null ],
+    [ "test", "structfieldtypes__mod_1_1generic__field__class.html#a884e1d0b4152f873edc421ee4079aafb", null ],
     [ "scalar1d", "structfieldtypes__mod_1_1generic__field__class.html#ab28f23e646f7cfe4a42d6dc47a896bf9", null ],
     [ "scalar2d", "structfieldtypes__mod_1_1generic__field__class.html#ad4d960a63ab944d31c3a5c7538418d59", null ],
     [ "scalar3d", "structfieldtypes__mod_1_1generic__field__class.html#a8ffce3cc5f44742a29d0d9815301f218", null ],

@@ -106,16 +106,23 @@ $(document).ready(function(){initNavTree('structsimulationoutputstreamer__mod_1_
 Collaboration diagram for simulationoutputstreamer_mod::output_streamer_class:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulationoutputstreamer__mod_1_1output__streamer__class__coll__graph.png" border="0" usemap="#simulationoutputstreamer__mod_1_1output__streamer__class_coll__map" alt="Collaboration graph"/></div>
+<!-- MAP 0 -->
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:aef05ba910aa8ebe5567fae9d59989dd1"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#aef05ba910aa8ebe5567fae9d59989dd1">initialize</a> =&gt; initOutputStreamer</td></tr>
 <tr class="separator:aef05ba910aa8ebe5567fae9d59989dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a790aab2b95d7f236ae4c66e4456b641e"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a790aab2b95d7f236ae4c66e4456b641e">writeoutputheader</a></td></tr>
+<tr class="separator:a790aab2b95d7f236ae4c66e4456b641e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae54b9ad37209fc6cafb8c80ca70d73c3"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#ae54b9ad37209fc6cafb8c80ca70d73c3">writeoutputsummary</a></td></tr>
+<tr class="separator:ae54b9ad37209fc6cafb8c80ca70d73c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4013e6853675f44c7df2409114da35d2"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a4013e6853675f44c7df2409114da35d2">writedomain</a></td></tr>
 <tr class="separator:a4013e6853675f44c7df2409114da35d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a815312dcf6d6933e5fe01a6a19c078ed"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a815312dcf6d6933e5fe01a6a19c078ed">writestepserial</a></td></tr>
-<tr class="separator:a815312dcf6d6933e5fe01a6a19c078ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26f4f2807f3e0d0067db555e1351b04e"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a26f4f2807f3e0d0067db555e1351b04e">writestep</a></td></tr>
+<tr class="separator:a26f4f2807f3e0d0067db555e1351b04e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b9e10001cb0aa3315f94647c59bb941"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a8b9e10001cb0aa3315f94647c59bb941">writestepserial</a></td></tr>
+<tr class="separator:a8b9e10001cb0aa3315f94647c59bb941"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c178b135b90289720d9cb549fa8dce2"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a3c178b135b90289720d9cb549fa8dce2">finalize</a> =&gt; closeOutputStreamer</td></tr>
 <tr class="separator:a3c178b135b90289720d9cb549fa8dce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2085a877c0b95c662c0012d911e34c58"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a2085a877c0b95c662c0012d911e34c58">checkwritetime</a></td></tr>
@@ -123,9 +130,9 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a920e9e77fa191ab17e85c82d3816d913"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a920e9e77fa191ab17e85c82d3816d913">outputfrequency</a> = MV</td></tr>
-<tr class="memdesc:a920e9e77fa191ab17e85c82d3816d913"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output frequency to write simulation outputs.  <a href="#a920e9e77fa191ab17e85c82d3816d913">More...</a><br /></td></tr>
-<tr class="separator:a920e9e77fa191ab17e85c82d3816d913"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacf7688bfe4a91af5a8db9e7003a041b"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#aacf7688bfe4a91af5a8db9e7003a041b">outputintervaltime</a> = MV</td></tr>
+<tr class="memdesc:aacf7688bfe4a91af5a8db9e7003a041b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output interval to write simulation outputs.  <a href="#aacf7688bfe4a91af5a8db9e7003a041b">More...</a><br /></td></tr>
+<tr class="separator:aacf7688bfe4a91af5a8db9e7003a041b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ea996af0c9a2d9f3930092e83ca71bb"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a9ea996af0c9a2d9f3930092e83ca71bb">lastwritetime</a> = MV</td></tr>
 <tr class="memdesc:a9ea996af0c9a2d9f3930092e83ca71bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time stamp of the last output write.  <a href="#a9ea996af0c9a2d9f3930092e83ca71bb">More...</a><br /></td></tr>
 <tr class="separator:a9ea996af0c9a2d9f3930092e83ca71bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,7 +170,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00041">41</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00044">44</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -190,7 +197,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00040">40</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00043">43</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -244,12 +251,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00038">38</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00040">40</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
 
 </div>
 </div>
-<a id="a815312dcf6d6933e5fe01a6a19c078ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a815312dcf6d6933e5fe01a6a19c078ed">&#9670;&nbsp;</a></span>writestepserial()</h2>
+<a id="a790aab2b95d7f236ae4c66e4456b641e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a790aab2b95d7f236ae4c66e4456b641e">&#9670;&nbsp;</a></span>writeoutputheader()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -258,7 +265,34 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">procedure simulationoutputstreamer_mod::output_streamer_class::writestepserial </td>
+          <td class="memname">procedure simulationoutputstreamer_mod::output_streamer_class::writeoutputheader </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00038">38</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
+
+</div>
+</div>
+<a id="ae54b9ad37209fc6cafb8c80ca70d73c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae54b9ad37209fc6cafb8c80ca70d73c3">&#9670;&nbsp;</a></span>writeoutputsummary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private simulationoutputstreamer_mod::output_streamer_class::writeoutputsummary </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -272,6 +306,60 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00039">39</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
+
+</div>
+</div>
+<a id="a26f4f2807f3e0d0067db555e1351b04e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26f4f2807f3e0d0067db555e1351b04e">&#9670;&nbsp;</a></span>writestep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure simulationoutputstreamer_mod::output_streamer_class::writestep </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00041">41</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
+
+</div>
+</div>
+<a id="a8b9e10001cb0aa3315f94647c59bb941"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b9e10001cb0aa3315f94647c59bb941">&#9670;&nbsp;</a></span>writestepserial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private simulationoutputstreamer_mod::output_streamer_class::writestepserial </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00042">42</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -328,8 +416,8 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordtype">integer</span> :: OutputFormat = -1</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a920e9e77fa191ab17e85c82d3816d913"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a920e9e77fa191ab17e85c82d3816d913">&#9670;&nbsp;</a></span>outputfrequency</h2>
+<a id="aacf7688bfe4a91af5a8db9e7003a041b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacf7688bfe4a91af5a8db9e7003a041b">&#9670;&nbsp;</a></span>outputintervaltime</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -338,7 +426,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec) simulationoutputstreamer_mod::output_streamer_class::outputfrequency = MV</td>
+          <td class="memname">real(prec) simulationoutputstreamer_mod::output_streamer_class::outputintervaltime = MV</td>
         </tr>
       </table>
   </td>
@@ -348,10 +436,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Output frequency to write simulation outputs. </p>
+<p>Output interval to write simulation outputs. </p>
 
 <p class="definition">Definition at line <a class="el" href="simulation_output_streamer_8f90_source.html#l00032">32</a> of file <a class="el" href="simulation_output_streamer_8f90_source.html">simulationOutputStreamer.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">real(prec)</span> :: OutputFrequency = mv      </div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">real(prec)</span> :: OutputIntervalTime = mv      </div></div><!-- fragment -->
 </div>
 </div>
 <a id="a883916a5ede4ceff754115bd3317649e"></a>

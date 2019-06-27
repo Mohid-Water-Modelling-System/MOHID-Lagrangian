@@ -13,13 +13,19 @@ module \mbox{\hyperlink{namespaceinterpolator__mod}{interpolator\+\_\+mod}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespaceinterpolator__mod_a1c98c171b308ef58850102f67abcca95}{interpolator\+\_\+mod\+::run}} (self, aot, bdata, time, var\+\_\+dt, var\+\_\+name)
+subroutine \mbox{\hyperlink{namespaceinterpolator__mod_a53b61f6bca0d966521c68cb3ca838d93}{interpolator\+\_\+mod\+::run}} (self, state, bdata, time, var\+\_\+dt, var\+\_\+name)
 \begin{DoxyCompactList}\small\item\em Method that runs the chosen interpolator method on the given data. \end{DoxyCompactList}\item 
 real(prec) function, dimension(n\+\_\+e) \mbox{\hyperlink{namespaceinterpolator__mod_ac54a92d43721099e8e5bc5a888d7ee73}{interpolator\+\_\+mod\+::interp4d}} (self, x, y, z, t, field, n\+\_\+fv, n\+\_\+cv, n\+\_\+pv, n\+\_\+tv, n\+\_\+e)
 \begin{DoxyCompactList}\small\item\em method to interpolate a particle position in a given data box based on array coordinates. 4d interpolation is a weighted average of 16 neighbors. Consider the 4D domain between the 16 neighbors. The hypercube is divided into 16 sub-\/hypercubes by the point in question. The weight of each neighbor is given by the volume of the opposite sub-\/hypercube, as a fraction of the whole hypercube. \end{DoxyCompactList}\item 
-real(prec) function, dimension(size(xdata)) \mbox{\hyperlink{namespaceinterpolator__mod_a6aca35ff7ad8ecb7c741c51f1863a30d}{interpolator\+\_\+mod\+::getarraycoordregular}} (self, xdata, bdata, dim\+Name)
+real(prec) function, dimension(n\+\_\+e) \mbox{\hyperlink{namespaceinterpolator__mod_adcd5e67fbafc57180f69bfafa64377dc}{interpolator\+\_\+mod\+::interp3d}} (self, x, y, t, field, n\+\_\+fv, n\+\_\+cv, n\+\_\+tv, n\+\_\+e)
+\begin{DoxyCompactList}\small\item\em method to interpolate a particle position in a given data box based on array coordinates. 3d interpolation is a weighted average of 8 neighbors. Consider the 4D domain between the 8 neighbors. The hypercube is divided into 4 sub-\/hypercubes by the point in question. The weight of each neighbor is given by the volume of the opposite sub-\/hypercube, as a fraction of the whole hypercube. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(xdata)) \mbox{\hyperlink{namespaceinterpolator__mod_a8a01c7e0b55ffb05a24c08ab97b4a6a1}{interpolator\+\_\+mod\+::getarraycoord}} (self, xdata, bdata, dim\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the array coordinates of a set of points, given a coordinate array. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(xdata)) \mbox{\hyperlink{namespaceinterpolator__mod_af568a0d2fbcd2dc571f47372a8f4cce8}{interpolator\+\_\+mod\+::getarraycoordregular}} (self, xdata, bdata, dim)
 \begin{DoxyCompactList}\small\item\em Returns the array coordinates of a set of points, given a coordinate array. Works only for regularly spaced data. \end{DoxyCompactList}\item 
-real(prec) function \mbox{\hyperlink{namespaceinterpolator__mod_aeb34e8a46a439ed5ca9115c405b225f1}{interpolator\+\_\+mod\+::getpointcoordregular}} (self, xdata, bdata, dim\+Name)
+real(prec) function, dimension(size(xdata)) \mbox{\hyperlink{namespaceinterpolator__mod_a8c61cbe21c0cf09029e9117b7b1520df}{interpolator\+\_\+mod\+::getarraycoordnonregular}} (self, xdata, bdata, dim)
+\begin{DoxyCompactList}\small\item\em Returns the array coordinate of a point, along a given dimension. \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespaceinterpolator__mod_ab47cccb1adf61dcfca1b1ca5a5d213cd}{interpolator\+\_\+mod\+::getpointcoordregular}} (self, xdata, bdata, dim\+Name, eta)
 \begin{DoxyCompactList}\small\item\em Returns the array coordinate of a point, along a given dimension. Works only for regularly spaced data. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceinterpolator__mod_adcaf3bba800f19991ed4f33c968184e9}{interpolator\+\_\+mod\+::initinterpolator}} (self, flag, name)
 \begin{DoxyCompactList}\small\item\em Initializer method for the Interpolator class. Sets the type of interpolator and name of the algorithm this Interpolator will call. \end{DoxyCompactList}\item 

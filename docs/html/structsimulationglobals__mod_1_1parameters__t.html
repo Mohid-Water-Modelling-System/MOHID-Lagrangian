@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('structsimulationglobals__mod_1_1parame
 Collaboration diagram for simulationglobals_mod::parameters_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulationglobals__mod_1_1parameters__t__coll__graph.png" border="0" usemap="#simulationglobals__mod_1_1parameters__t_coll__map" alt="Collaboration graph"/></div>
+<!-- MAP 0 -->
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -137,9 +138,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a196b29045b2a76de4a1a0efd8c587838"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#a196b29045b2a76de4a1a0efd8c587838">timemax</a> = MV</td></tr>
 <tr class="memdesc:a196b29045b2a76de4a1a0efd8c587838"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation duration (s)  <a href="#a196b29045b2a76de4a1a0efd8c587838">More...</a><br /></td></tr>
 <tr class="separator:a196b29045b2a76de4a1a0efd8c587838"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2be629afbb5291d0e8933c35dfb1f021"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#a2be629afbb5291d0e8933c35dfb1f021">timeout</a> = MV</td></tr>
-<tr class="memdesc:a2be629afbb5291d0e8933c35dfb1f021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time out data (1/Hz)  <a href="#a2be629afbb5291d0e8933c35dfb1f021">More...</a><br /></td></tr>
-<tr class="separator:a2be629afbb5291d0e8933c35dfb1f021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a283fe10ad9daf8ffe2ca526ee990daa9"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#a283fe10ad9daf8ffe2ca526ee990daa9">outputwritetime</a> = MV</td></tr>
+<tr class="memdesc:a283fe10ad9daf8ffe2ca526ee990daa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output write time (1/Hz)  <a href="#a283fe10ad9daf8ffe2ca526ee990daa9">More...</a><br /></td></tr>
+<tr class="separator:a283fe10ad9daf8ffe2ca526ee990daa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a204cdccb6f9cd2fa137210a7f28f676d"><td class="memItemLeft" align="right" valign="top">type(datetime)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#a204cdccb6f9cd2fa137210a7f28f676d">starttime</a></td></tr>
 <tr class="memdesc:a204cdccb6f9cd2fa137210a7f28f676d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start date of the simulation.  <a href="#a204cdccb6f9cd2fa137210a7f28f676d">More...</a><br /></td></tr>
 <tr class="separator:a204cdccb6f9cd2fa137210a7f28f676d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,12 +150,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a1bededd2546224cb5b4ebb290105a078"><td class="memItemLeft" align="right" valign="top">type(datetime)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#a1bededd2546224cb5b4ebb290105a078">basedatetime</a></td></tr>
 <tr class="memdesc:a1bededd2546224cb5b4ebb290105a078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base date for time stamping results.  <a href="#a1bededd2546224cb5b4ebb290105a078">More...</a><br /></td></tr>
 <tr class="separator:a1bededd2546224cb5b4ebb290105a078"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a897b2f6d34ecad28a7ceb45c1dcb8dfd"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#a897b2f6d34ecad28a7ceb45c1dcb8dfd">buffersize</a></td></tr>
+<tr class="memdesc:a897b2f6d34ecad28a7ceb45c1dcb8dfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls the frequency of consumption and ammout of input data kept in memory.  <a href="#a897b2f6d34ecad28a7ceb45c1dcb8dfd">More...</a><br /></td></tr>
+<tr class="separator:a897b2f6d34ecad28a7ceb45c1dcb8dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a455601cb209772820789bdfd696628d2"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#a455601cb209772820789bdfd696628d2">outputformat</a> = 2</td></tr>
 <tr class="memdesc:a455601cb209772820789bdfd696628d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format of the output files (default=2) NetCDF=1, VTK=2.  <a href="#a455601cb209772820789bdfd696628d2">More...</a><br /></td></tr>
 <tr class="separator:a455601cb209772820789bdfd696628d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0d2d59bffc7e5b03b30c6a3ff038a83"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#af0d2d59bffc7e5b03b30c6a3ff038a83">inputformat</a> = 1</td></tr>
-<tr class="memdesc:af0d2d59bffc7e5b03b30c6a3ff038a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format of the Input files (default=1) NetCDF=1, VTK=2.  <a href="#af0d2d59bffc7e5b03b30c6a3ff038a83">More...</a><br /></td></tr>
-<tr class="separator:af0d2d59bffc7e5b03b30c6a3ff038a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4e90208e4fb5c5fc0a673b03fc908d7"><td class="memItemLeft" align="right" valign="top">integer, dimension(2)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1parameters__t.html#ac4e90208e4fb5c5fc0a673b03fc908d7">outputformatindexes</a></td></tr>
 <tr class="memdesc:ac4e90208e4fb5c5fc0a673b03fc908d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index list for the output file format selector.  <a href="#ac4e90208e4fb5c5fc0a673b03fc908d7">More...</a><br /></td></tr>
 <tr class="separator:ac4e90208e4fb5c5fc0a673b03fc908d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -274,6 +275,32 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">type</span>(datetime)  :: BaseDateTime</div></div><!-- fragment -->
 </div>
 </div>
+<a id="a897b2f6d34ecad28a7ceb45c1dcb8dfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a897b2f6d34ecad28a7ceb45c1dcb8dfd">&#9670;&nbsp;</a></span>buffersize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) simulationglobals_mod::parameters_t::buffersize</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Controls the frequency of consumption and ammout of input data kept in memory. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00057">57</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">real(prec)</span>      :: BufferSize</div></div><!-- fragment -->
+</div>
+</div>
 <a id="a2fcf43eac4c8f57debf9f35d90a121f6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2fcf43eac4c8f57debf9f35d90a121f6">&#9670;&nbsp;</a></span>endtime</h2>
 
@@ -298,32 +325,6 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00055">55</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">type</span>(datetime)  :: EndTime</div></div><!-- fragment -->
-</div>
-</div>
-<a id="af0d2d59bffc7e5b03b30c6a3ff038a83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0d2d59bffc7e5b03b30c6a3ff038a83">&#9670;&nbsp;</a></span>inputformat</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">integer simulationglobals_mod::parameters_t::inputformat = 1</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Format of the Input files (default=1) NetCDF=1, VTK=2. </p>
-
-<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">integer</span>         :: InputFormat = 1</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a1489379b1bb839280c0715470250c9f5"></a>
@@ -452,8 +453,8 @@ Private Attributes</h2></td></tr>
 
 <p>Format of the output files (default=2) NetCDF=1, VTK=2. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00057">57</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">integer</span>         :: OutputFormat = 2</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">integer</span>         :: OutputFormat = 2</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ac4e90208e4fb5c5fc0a673b03fc908d7"></a>
@@ -508,6 +509,32 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">type</span>(string)    :: OutputFormatNames(2)</div></div><!-- fragment -->
 </div>
 </div>
+<a id="a283fe10ad9daf8ffe2ca526ee990daa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a283fe10ad9daf8ffe2ca526ee990daa9">&#9670;&nbsp;</a></span>outputwritetime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) simulationglobals_mod::parameters_t::outputwritetime = MV</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Output write time (1/Hz) </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">real(prec)</span>      :: OutputWriteTime = mv              </div></div><!-- fragment -->
+</div>
+</div>
 <a id="a204cdccb6f9cd2fa137210a7f28f676d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a204cdccb6f9cd2fa137210a7f28f676d">&#9670;&nbsp;</a></span>starttime</h2>
 
@@ -558,32 +585,6 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00052">52</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">real(prec)</span>      :: TimeMax = mv              </div></div><!-- fragment -->
-</div>
-</div>
-<a id="a2be629afbb5291d0e8933c35dfb1f021"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2be629afbb5291d0e8933c35dfb1f021">&#9670;&nbsp;</a></span>timeout</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">real(prec) simulationglobals_mod::parameters_t::timeout = MV</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Time out data (1/Hz) </p>
-
-<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">real(prec)</span>      :: TimeOut = mv              </div></div><!-- fragment -->
 </div>
 </div>
 <a id="acab4746165c72ab2947c178c95c1c577"></a>

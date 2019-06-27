@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/vtkwritter.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/vtkwritter.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.4</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -97,8 +97,7 @@ $(document).ready(function(){initNavTree('vtkwritter_8f90.html','');});
   <div class="summary">
 <a href="#nested-classes">Data Types</a> &#124;
 <a href="#namespaces">Modules</a> &#124;
-<a href="#func-members">Functions/Subroutines</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions/Subroutines</a>  </div>
   <div class="headertitle">
 <div class="title">vtkwritter.f90 File Reference</div>  </div>
 </div><!--header-->
@@ -122,24 +121,31 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:abd35d591c8e15730a277b2d26deb83e8"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#abd35d591c8e15730a277b2d26deb83e8">vtkwritter_mod::initvtkwritter</a> (self)</td></tr>
 <tr class="memdesc:abd35d591c8e15730a277b2d26deb83e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a VTK writer object.  <a href="namespacevtkwritter__mod.html#abd35d591c8e15730a277b2d26deb83e8">More...</a><br /></td></tr>
 <tr class="separator:abd35d591c8e15730a277b2d26deb83e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13f1b870d2367704bcd4143a80b552f9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#a13f1b870d2367704bcd4143a80b552f9">vtkwritter_mod::closevtkwriter</a> (self)</td></tr>
+<tr class="memdesc:a13f1b870d2367704bcd4143a80b552f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes a VTK writer object.  <a href="namespacevtkwritter__mod.html#a13f1b870d2367704bcd4143a80b552f9">More...</a><br /></td></tr>
+<tr class="separator:a13f1b870d2367704bcd4143a80b552f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac11e4d1d71141e6de89ba67508212ce0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#ac11e4d1d71141e6de89ba67508212ce0">vtkwritter_mod::tracerserial</a> (self, filename, blocks)</td></tr>
 <tr class="memdesc:ac11e4d1d71141e6de89ba67508212ce0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public Tracer writting routine. Writes Tracer data in binary XML VTK format using an unstructured grid. Serial writer for serial files.  <a href="namespacevtkwritter__mod.html#ac11e4d1d71141e6de89ba67508212ce0">More...</a><br /></td></tr>
 <tr class="separator:ac11e4d1d71141e6de89ba67508212ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c50b52b496bad6b053ffd5749da1582"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#a4c50b52b496bad6b053ffd5749da1582">vtkwritter_mod::indexvtkfile</a> (self, filename, timestamp)</td></tr>
+<tr class="memdesc:a4c50b52b496bad6b053ffd5749da1582"><td class="mdescLeft">&#160;</td><td class="mdescRight">indexes a given file with a correct time stamp in a paraview readable xml format.  <a href="namespacevtkwritter__mod.html#a4c50b52b496bad6b053ffd5749da1582">More...</a><br /></td></tr>
+<tr class="separator:a4c50b52b496bad6b053ffd5749da1582"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c26bb22a8b7dd9f9da69309ad65d669"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#a0c26bb22a8b7dd9f9da69309ad65d669">vtkwritter_mod::openindexvtkfile</a> (self)</td></tr>
+<tr class="memdesc:a0c26bb22a8b7dd9f9da69309ad65d669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open vtu file indexer.  <a href="namespacevtkwritter__mod.html#a0c26bb22a8b7dd9f9da69309ad65d669">More...</a><br /></td></tr>
+<tr class="separator:a0c26bb22a8b7dd9f9da69309ad65d669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f9a731d9dee5651f85d4aeed3f3ea5d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#a6f9a731d9dee5651f85d4aeed3f3ea5d">vtkwritter_mod::closeindexvtkfile</a> (self)</td></tr>
+<tr class="memdesc:a6f9a731d9dee5651f85d4aeed3f3ea5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close vtu file indexer.  <a href="namespacevtkwritter__mod.html#a6f9a731d9dee5651f85d4aeed3f3ea5d">More...</a><br /></td></tr>
+<tr class="separator:a6f9a731d9dee5651f85d4aeed3f3ea5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f44d9fd1c5da759c4f2d721d12a8181"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#a9f44d9fd1c5da759c4f2d721d12a8181">vtkwritter_mod::domain</a> (self, filename, bbox, npbbox, blocks)</td></tr>
 <tr class="memdesc:a9f44d9fd1c5da759c4f2d721d12a8181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public simulation domain writting routine. Writes binary XML VTK format using an unstructured grid.  <a href="namespacevtkwritter__mod.html#a9f44d9fd1c5da759c4f2d721d12a8181">More...</a><br /></td></tr>
 <tr class="separator:a9f44d9fd1c5da759c4f2d721d12a8181"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a80eabc5e7153822e7ddd54b662294c81"><td class="memItemLeft" align="right" valign="top">type(vtkwritter_class), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacevtkwritter__mod.html#a80eabc5e7153822e7ddd54b662294c81">vtkwritter_mod::vtkwritter</a></td></tr>
-<tr class="separator:a80eabc5e7153822e7ddd54b662294c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="vtkwritter_8f90.html">vtkwritter.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="vtkwritter_8f90.html">vtkwritter.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

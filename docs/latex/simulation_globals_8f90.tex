@@ -19,6 +19,10 @@ type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{simulationglobals\
 \begin{DoxyCompactList}\small\item\em Simulation related counters and others. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1var__names__t}{simulationglobals\+\_\+mod\+::var\+\_\+names\+\_\+t}}
 \item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1maskvals__t}{simulationglobals\+\_\+mod\+::maskvals\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1tracertypes__t}{simulationglobals\+\_\+mod\+::tracertypes\+\_\+t}}
+\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{simulationglobals\+\_\+mod\+::sim\+\_\+time\+\_\+t}}
 \item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{simulationglobals\+\_\+mod\+::globals\+\_\+class}}
@@ -39,6 +43,8 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_afd372c5764a180f9029
 \begin{DoxyCompactList}\small\item\em adding variables to variable pool of a simulation \end{DoxyCompactList}\item 
 type(string) function \mbox{\hyperlink{namespacesimulationglobals__mod_ac83c53dd4e998e653981c7b1fa5dacbd}{simulationglobals\+\_\+mod\+::getvarsimname}} (self, var)
 \begin{DoxyCompactList}\small\item\em returns the simulation name of a given variabe name, by brute force searching trough the naming variable lists... \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a422e3d203aad010489f541f645f63517}{simulationglobals\+\_\+mod\+::setinputfilenames}} (self, filenames)
+\begin{DoxyCompactList}\small\item\em set the name of the input data files \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_affd52c4c7b1c3f7ce282eeb7e4b4a359}{simulationglobals\+\_\+mod\+::setnamingconventions}} (self, filename)
 \begin{DoxyCompactList}\small\item\em set the naming conventions. Imports names from given .xml naming files \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a2c6fa0a9123d06b2110258ea200f4f52}{simulationglobals\+\_\+mod\+::setvarnames}} (self, var\+Node)
@@ -63,6 +69,10 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ad983ee8885b275c6fa1
 \begin{DoxyCompactList}\small\item\em incrementing time step count. \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespacesimulationglobals__mod_af313959d6cbfc4cb0ab330aa094511c5}{simulationglobals\+\_\+mod\+::getnumdt}} (self)
 \begin{DoxyCompactList}\small\item\em Returns the number of time steps. \end{DoxyCompactList}\item 
+integer function \mbox{\hyperlink{namespacesimulationglobals__mod_ac643661b27d17726e0305e34370de5c3}{simulationglobals\+\_\+mod\+::getlastoutnumdt}} (self)
+\begin{DoxyCompactList}\small\item\em Returns the number of time steps from last ouptut. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ab760ab6064743ff54237166301346616}{simulationglobals\+\_\+mod\+::setlastoutnumdt}} (self, num)
+\begin{DoxyCompactList}\small\item\em Sets the number of time steps from last ouptut. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a77d7175bc03e472ee9a00ee9f6ff1b0e}{simulationglobals\+\_\+mod\+::increment\+\_\+numoutfile}} (self)
 \begin{DoxyCompactList}\small\item\em incrementing output file count. \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}{simulationglobals\+\_\+mod\+::getnumoutfile}} (self)
@@ -81,6 +91,10 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a36c2833caae37674341
 \begin{DoxyCompactList}\small\item\em Z0 setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}{simulationglobals\+\_\+mod\+::setrho}} (self, read\+\_\+rho)
 \begin{DoxyCompactList}\small\item\em Rho\+\_\+\+Ref setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3b24d0338ee34782c8e2ab57bba7b5f6}{simulationglobals\+\_\+mod\+::setbeachinglevel}} (self, read\+\_\+\+Beaching\+Level)
+\begin{DoxyCompactList}\small\item\em Beaching Level setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}{simulationglobals\+\_\+mod\+::setsmalldt}} (self, dt)
+\begin{DoxyCompactList}\small\item\em small\+Dt setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}{simulationglobals\+\_\+mod\+::printconstants}} (self)
 \begin{DoxyCompactList}\small\item\em Public constants printing routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_afda1e73e6e0cd075875c70aded99d425}{simulationglobals\+\_\+mod\+::setdp}} (self, read\+\_\+dp)

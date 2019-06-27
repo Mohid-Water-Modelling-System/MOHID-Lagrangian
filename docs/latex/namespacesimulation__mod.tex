@@ -23,16 +23,20 @@ subroutine \mbox{\hyperlink{namespacesimulation__mod_a13aa0745f4601e3f418143dab2
 \begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to emitt tracers at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a058892630af07fc0fe8a4bffec531c6a}{blocksdistribute}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to distribute Tracers at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_ac838d4afe33303dc49a5790ca957baa1}{blocksconsolidatearrays}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to consolidate the Tracer array at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_a624d5b402a8d359219839841862ab307}{blockstracerstoaot}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to build their Array of Tracers (AoT) from the Tracer list at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a8390f0a56ff2678d144af1dd09517a5e}{blocksconsolidate}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to consolidate the Tracer array at current Time and optimize background memory useage. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a2fbc294996a615647983ec637b83cfc0}{blockstracerstosv}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to build their State Vector (SV) from the Tracer list at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_ab2e7a1b0f131ab6fe40454d32cb3e24f}{blocksrunsolver}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to run the Solver at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_a03afd8682d3239c0ce8eb1637e4da806}{blocksaottotracers}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to print their Array of Tracers (AoT) back to the Tracer objects on the list at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_a9c7e093e5cf65d3414f9a8cf8beab611}{blockscleanaot}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to clean their Array of Tracers (AoT) at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a5eeea0cb6e0e94c5fd0336a13d635866}{blockssvtotracers}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to decode their State Vector (SV) back to the Tracer objects on the list at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a4cec8fb4baf1b2f69cd2699b0c5b9a55}{blockscleansv}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to clean their State Vector (SV) at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a844f0fae91502f3fc79cc1223f55a86c}{updatesimdatetime}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to update the date and time variables. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a629f51ee8ca4d2ece7f039a0114b1ef4}{inputdata}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the input streamer reading methods at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a5735e9ecb39f15061f3d766b0de7809d}{outputstepdata}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to call the output streamer writting methods at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a447c6d709de6aa360a65d39d660e627b}{setinitialstate}} (self)
@@ -58,101 +62,68 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespacesimulation__mod_a03afd8682d3239c0ce8eb1637e4da806}\label{namespacesimulation__mod_a03afd8682d3239c0ce8eb1637e4da806}} 
-\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksaottotracers@{blocksaottotracers}}
-\index{blocksaottotracers@{blocksaottotracers}!simulation\+\_\+mod@{simulation\+\_\+mod}}
-\subsubsection{\texorpdfstring{blocksaottotracers()}{blocksaottotracers()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blocksaottotracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{namespacesimulation__mod_a4cec8fb4baf1b2f69cd2699b0c5b9a55}\label{namespacesimulation__mod_a4cec8fb4baf1b2f69cd2699b0c5b9a55}} 
+\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blockscleansv@{blockscleansv}}
+\index{blockscleansv@{blockscleansv}!simulation\+\_\+mod@{simulation\+\_\+mod}}
+\subsubsection{\texorpdfstring{blockscleansv()}{blockscleansv()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blockscleansv (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Simulation method to call the Blocks to print their Array of Tracers (AoT) back to the Tracer objects on the list at current Time. 
+Simulation method to call the Blocks to clean their State Vector (SV) at current Time. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 
-Definition at line 337 of file simulation.\+f90.
+Definition at line 347 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-337     \textcolor{keywordtype}{implicit none}
-338     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-339     \textcolor{keywordtype}{integer} :: i
-340     \textcolor{keyword}{call }self%timerAoTOps%Toc()
-341     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
-342     \textcolor{comment}{!$OMP DO}
-343     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-344         \textcolor{keyword}{call }dblock(i)%AoTtoTracers()
-345 \textcolor{keywordflow}{    enddo}
-346     \textcolor{comment}{!$OMP END DO}
-347     \textcolor{comment}{!$OMP END PARALLEL}
-348     \textcolor{keyword}{call }self%timerAoTOps%Toc()
+347     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+348     \textcolor{keywordtype}{integer} :: i
+349     \textcolor{keyword}{call }self%timerSVOps%Tic()
+350     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
+351     \textcolor{comment}{!$OMP DO}
+352     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+353         \textcolor{keyword}{call }sblock(i)%CleanSV()
+354 \textcolor{keywordflow}{    enddo}
+355     \textcolor{comment}{!$OMP END DO}
+356     \textcolor{comment}{!$OMP END PARALLEL}
+357     \textcolor{keyword}{call }self%timerSVOps%Toc()
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacesimulation__mod_a9c7e093e5cf65d3414f9a8cf8beab611}\label{namespacesimulation__mod_a9c7e093e5cf65d3414f9a8cf8beab611}} 
-\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blockscleanaot@{blockscleanaot}}
-\index{blockscleanaot@{blockscleanaot}!simulation\+\_\+mod@{simulation\+\_\+mod}}
-\subsubsection{\texorpdfstring{blockscleanaot()}{blockscleanaot()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blockscleanaot (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{namespacesimulation__mod_a8390f0a56ff2678d144af1dd09517a5e}\label{namespacesimulation__mod_a8390f0a56ff2678d144af1dd09517a5e}} 
+\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksconsolidate@{blocksconsolidate}}
+\index{blocksconsolidate@{blocksconsolidate}!simulation\+\_\+mod@{simulation\+\_\+mod}}
+\subsubsection{\texorpdfstring{blocksconsolidate()}{blocksconsolidate()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blocksconsolidate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Simulation method to call the Blocks to clean their Array of Tracers (AoT) at current Time. 
-
-\begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-\end{DoxyAuthor}
-
-
-Definition at line 358 of file simulation.\+f90.
-
-
-\begin{DoxyCode}
-358     \textcolor{keywordtype}{implicit none}
-359     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-360     \textcolor{keywordtype}{integer} :: i
-361     \textcolor{keyword}{call }self%timerAoTOps%Tic()
-362     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
-363     \textcolor{comment}{!$OMP DO}
-364     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-365         \textcolor{keyword}{call }dblock(i)%CleanAoT()
-366 \textcolor{keywordflow}{    enddo}
-367     \textcolor{comment}{!$OMP END DO}
-368     \textcolor{comment}{!$OMP END PARALLEL}
-369     \textcolor{keyword}{call }self%timerAoTOps%Toc()
-\end{DoxyCode}
-\mbox{\Hypertarget{namespacesimulation__mod_ac838d4afe33303dc49a5790ca957baa1}\label{namespacesimulation__mod_ac838d4afe33303dc49a5790ca957baa1}} 
-\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksconsolidatearrays@{blocksconsolidatearrays}}
-\index{blocksconsolidatearrays@{blocksconsolidatearrays}!simulation\+\_\+mod@{simulation\+\_\+mod}}
-\subsubsection{\texorpdfstring{blocksconsolidatearrays()}{blocksconsolidatearrays()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blocksconsolidatearrays (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Simulation method to call the Blocks to consolidate the Tracer array at current Time. 
+Simulation method to call the Blocks to consolidate the Tracer array at current Time and optimize background memory useage. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 
-Definition at line 274 of file simulation.\+f90.
+Definition at line 264 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-274     \textcolor{keywordtype}{implicit none}
-275     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-276     \textcolor{keywordtype}{integer} :: i
-277     \textcolor{keyword}{call }self%timerPrep%Tic()
-278     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
-279     \textcolor{comment}{!$OMP DO}
-280     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-281         \textcolor{keyword}{call }dblock(i)%ConsolidateArrays()
-282 \textcolor{keywordflow}{    enddo}
-283     \textcolor{comment}{!$OMP END DO}
-284     \textcolor{comment}{!$OMP END PARALLEL}
-285     \textcolor{keyword}{call }self%timerPrep%Toc()
+264     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+265     \textcolor{keywordtype}{integer} :: i
+266     \textcolor{keyword}{call }self%timerPrep%Tic()
+267     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
+268     \textcolor{comment}{!$OMP DO}
+269     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+270         \textcolor{keyword}{call }sblock(i)%ConsolidateArrays()
+271         \textcolor{keyword}{call }sblock(i)%ShedMemory()
+272 \textcolor{keywordflow}{    enddo}
+273     \textcolor{comment}{!$OMP END DO}
+274     \textcolor{comment}{!$OMP END PARALLEL}
+275     \textcolor{keyword}{call }self%timerPrep%Toc()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a058892630af07fc0fe8a4bffec531c6a}\label{namespacesimulation__mod_a058892630af07fc0fe8a4bffec531c6a}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksdistribute@{blocksdistribute}}
@@ -169,19 +140,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 256 of file simulation.\+f90.
+Definition at line 247 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-256     \textcolor{keywordtype}{implicit none}
-257     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-258     \textcolor{keywordtype}{integer} :: i
-259     \textcolor{keyword}{call }self%timerPrep%Tic()
-260     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-261         \textcolor{keyword}{call }dblock(i)%DistributeTracers()
-262 \textcolor{keywordflow}{    enddo}
-263     \textcolor{keyword}{call }self%timerPrep%Toc()
-264     \textcolor{comment}{!need to distribute Sources also! TODO}
+247     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+248     \textcolor{keywordtype}{integer} :: i
+249     \textcolor{keyword}{call }self%timerPrep%Tic()
+250     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+251         \textcolor{keyword}{call }sblock(i)%DistributeTracers()
+252 \textcolor{keywordflow}{    enddo}
+253     \textcolor{keyword}{call }self%timerPrep%Toc()
+254     \textcolor{comment}{!need to distribute Sources also! TODO}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a13aa0745f4601e3f418143dab2f18276}\label{namespacesimulation__mod_a13aa0745f4601e3f418143dab2f18276}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksemitt@{blocksemitt}}
@@ -198,18 +168,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 239 of file simulation.\+f90.
+Definition at line 231 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-239     \textcolor{keywordtype}{implicit none}
-240     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-241     \textcolor{keywordtype}{integer} :: i
-242     \textcolor{keyword}{call }self%timerPrep%Tic()
-243     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-244         \textcolor{keyword}{call }dblock(i)%CallEmitter()
-245 \textcolor{keywordflow}{    enddo}
-246     \textcolor{keyword}{call }self%timerPrep%Toc()
+231     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+232     \textcolor{keywordtype}{integer} :: i
+233     \textcolor{keyword}{call }self%timerPrep%Tic()
+234     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+235         \textcolor{keyword}{call }sblock(i)%CallEmitter()
+236 \textcolor{keywordflow}{    enddo}
+237     \textcolor{keyword}{call }self%timerPrep%Toc()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_ab2e7a1b0f131ab6fe40454d32cb3e24f}\label{namespacesimulation__mod_ab2e7a1b0f131ab6fe40454d32cb3e24f}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!blocksrunsolver@{blocksrunsolver}}
@@ -226,54 +195,85 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 316 of file simulation.\+f90.
+Definition at line 305 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-316     \textcolor{keywordtype}{implicit none}
-317     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-318     \textcolor{keywordtype}{integer} :: i
-319     \textcolor{keyword}{call }self%timerSolver%Tic()
-320     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
-321     \textcolor{comment}{!$OMP DO}
-322     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-323         \textcolor{keyword}{call }dblock(i)%RunSolver()
-324 \textcolor{keywordflow}{    enddo}
-325     \textcolor{comment}{!$OMP END DO}
-326     \textcolor{comment}{!$OMP END PARALLEL}
-327     \textcolor{keyword}{call }self%timerSolver%Toc()
+305     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+306     \textcolor{keywordtype}{integer} :: i
+307     \textcolor{keywordflow}{if} (globals%Sim%getnumdt() /= 1 ) \textcolor{keywordflow}{then}
+308         \textcolor{keyword}{call }self%timerSolver%Tic()
+309         \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
+310         \textcolor{comment}{!$OMP DO}
+311         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+312             \textcolor{keyword}{call }sblock(i)%RunSolver()
+313 \textcolor{keywordflow}{        enddo}
+314         \textcolor{comment}{!$OMP END DO}
+315         \textcolor{comment}{!$OMP END PARALLEL}
+316         \textcolor{keyword}{call }self%timerSolver%Toc()
+317 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacesimulation__mod_a624d5b402a8d359219839841862ab307}\label{namespacesimulation__mod_a624d5b402a8d359219839841862ab307}} 
-\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blockstracerstoaot@{blockstracerstoaot}}
-\index{blockstracerstoaot@{blockstracerstoaot}!simulation\+\_\+mod@{simulation\+\_\+mod}}
-\subsubsection{\texorpdfstring{blockstracerstoaot()}{blockstracerstoaot()}}
-{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blockstracerstoaot (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{namespacesimulation__mod_a5eeea0cb6e0e94c5fd0336a13d635866}\label{namespacesimulation__mod_a5eeea0cb6e0e94c5fd0336a13d635866}} 
+\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blockssvtotracers@{blockssvtotracers}}
+\index{blockssvtotracers@{blockssvtotracers}!simulation\+\_\+mod@{simulation\+\_\+mod}}
+\subsubsection{\texorpdfstring{blockssvtotracers()}{blockssvtotracers()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blockssvtotracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Simulation method to call the Blocks to build their Array of Tracers (AoT) from the Tracer list at current Time. 
+Simulation method to call the Blocks to decode their State Vector (SV) back to the Tracer objects on the list at current Time. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 
-Definition at line 295 of file simulation.\+f90.
+Definition at line 327 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-295     \textcolor{keywordtype}{implicit none}
-296     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-297     \textcolor{keywordtype}{integer} :: i
-298     \textcolor{keyword}{call }self%timerAoTOps%Tic()
-299     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
-300     \textcolor{comment}{!$OMP DO}
-301     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-302         \textcolor{keyword}{call }dblock(i)%TracersToAoT()
-303 \textcolor{keywordflow}{    enddo}
-304     \textcolor{comment}{!$OMP END DO}
-305     \textcolor{comment}{!$OMP END PARALLEL}
-306     \textcolor{keyword}{call }self%timerAoTOps%Toc()
+327     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+328     \textcolor{keywordtype}{integer} :: i
+329     \textcolor{keyword}{call }self%timerSVOps%Toc()
+330     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
+331     \textcolor{comment}{!$OMP DO}
+332     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+333         \textcolor{keyword}{call }sblock(i)%SVtoTracers()
+334 \textcolor{keywordflow}{    enddo}
+335     \textcolor{comment}{!$OMP END DO}
+336     \textcolor{comment}{!$OMP END PARALLEL}
+337     \textcolor{keyword}{call }self%timerSVOps%Toc()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulation__mod_a2fbc294996a615647983ec637b83cfc0}\label{namespacesimulation__mod_a2fbc294996a615647983ec637b83cfc0}} 
+\index{simulation\+\_\+mod@{simulation\+\_\+mod}!blockstracerstosv@{blockstracerstosv}}
+\index{blockstracerstosv@{blockstracerstosv}!simulation\+\_\+mod@{simulation\+\_\+mod}}
+\subsubsection{\texorpdfstring{blockstracerstosv()}{blockstracerstosv()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::blockstracerstosv (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Simulation method to call the Blocks to build their State Vector (SV) from the Tracer list at current Time. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 285 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+285     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+286     \textcolor{keywordtype}{integer} :: i
+287     \textcolor{keyword}{call }self%timerSVOps%Tic()
+288     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
+289     \textcolor{comment}{!$OMP DO}
+290     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+291         \textcolor{keyword}{call }sblock(i)%TracersToSV()
+292 \textcolor{keywordflow}{    enddo}
+293     \textcolor{comment}{!$OMP END DO}
+294     \textcolor{comment}{!$OMP END PARALLEL}
+295     \textcolor{keyword}{call }self%timerSVOps%Toc()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}\label{namespacesimulation__mod_a4285722eaa589fa671233554b54c74f8}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!closesimulation@{closesimulation}}
@@ -290,17 +290,16 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 492 of file simulation.\+f90.
+Definition at line 498 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-492     \textcolor{keywordtype}{implicit none}
-493     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-494     \textcolor{keywordtype}{type}(string) :: outext
-495     outext=\textcolor{stringliteral}{'Simulation ended, freeing resources. See you next time'}
-496     \textcolor{keyword}{call }log%put(outext)
-497     \textcolor{keyword}{call }log%finalize()
-498     \textcolor{keyword}{call }self%OutputStreamer%finalize()
+498     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+499     \textcolor{keywordtype}{type}(string) :: outext
+500     outext=\textcolor{stringliteral}{'Simulation ended, freeing resources. See you next time'}
+501     \textcolor{keyword}{call }log%put(outext)
+502     \textcolor{keyword}{call }log%finalize()
+503     \textcolor{keyword}{call }self%OutputStreamer%finalize()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}\label{namespacesimulation__mod_a2b8198a9fb3f7671c6b45192a0b9740c}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!decomposedomain@{decomposedomain}}
@@ -317,22 +316,21 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 472 of file simulation.\+f90.
+Definition at line 479 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-472     \textcolor{keywordtype}{implicit none}
-473     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-474     \textcolor{keywordtype}{type}(string) :: outext
-475     \textcolor{keywordflow}{if} (globals%SimDefs%autoblocksize) \textcolor{keywordflow}{then}
-476         \textcolor{keyword}{call }allocblocks(globals%SimDefs%numblocks)
-477     \textcolor{keywordflow}{else}
-478         outext=\textcolor{stringliteral}{'[DecomposeDomain]: Only automatic Block sizing at the moment, stoping'}
-479         \textcolor{keyword}{call }log%put(outext)
-480         stop
-481 \textcolor{keywordflow}{    end if}
-482     \textcolor{comment}{! Initializing the Blocks}
-483     \textcolor{keyword}{call }setblocks(globals%SimDefs%autoblocksize,globals%SimDefs%numblocks,globals%SimDefs%numblocksx,
+479     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+480     \textcolor{keywordtype}{type}(string) :: outext
+481     \textcolor{keywordflow}{if} (globals%SimDefs%autoblocksize) \textcolor{keywordflow}{then}
+482         \textcolor{keyword}{call }allocblocks(globals%SimDefs%numblocks)
+483     \textcolor{keywordflow}{else}
+484         outext=\textcolor{stringliteral}{'[DecomposeDomain]: Only automatic Block sizing at the moment, stoping'}
+485         \textcolor{keyword}{call }log%put(outext)
+486         stop
+487 \textcolor{keywordflow}{    end if}
+488     \textcolor{comment}{! Initializing the Blocks}
+489     \textcolor{keyword}{call }setblocks(globals%SimDefs%autoblocksize,globals%SimDefs%numblocks,globals%SimDefs%numblocksx,
       globals%SimDefs%numblocksy)
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
@@ -357,18 +355,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 419 of file simulation.\+f90.
+Definition at line 429 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-419     \textcolor{keywordtype}{implicit none}
-420     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
-421     \textcolor{keywordtype}{integer} :: i, total
-422     total = 0
-423     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-424         total = total + dblock(i)%numAllocTracers()
-425 \textcolor{keywordflow}{    enddo}
-426     gettracertotals = total
+429     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+430     \textcolor{keywordtype}{integer} :: i, total
+431     total = 0
+432     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+433         total = total + sblock(i)%numAllocTracers()
+434 \textcolor{keywordflow}{    enddo}
+435     gettracertotals = total
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}\label{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!initsimulation@{initsimulation}}
@@ -394,69 +391,73 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 151 of file simulation.\+f90.
+Definition at line 140 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-151     \textcolor{keywordtype}{implicit none}
-152     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-153     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: casefilename
-154     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: outpath
-155     \textcolor{keywordtype}{type}(string) :: outext, aux
-156 
-157     aux = \textcolor{stringliteral}{'Simulation::initialization'}
-158     \textcolor{keyword}{call }self%timerInit%initialize(aux)
-159     \textcolor{keyword}{call }self%timerInit%Tic()
-160 
-161     aux = \textcolor{stringliteral}{'Simulation::Total'}
-162     \textcolor{keyword}{call }self%timerTotalRun%initialize(aux)
-163     aux = \textcolor{stringliteral}{'Simulation::Output'}
-164     \textcolor{keyword}{call }self%timerOutput%initialize(aux)
-165     aux = \textcolor{stringliteral}{'Simulation::Preparation'}
-166     \textcolor{keyword}{call }self%timerPrep%initialize(aux)
-167     aux = \textcolor{stringliteral}{'Simulation::AoT encoding/decoding'}
-168     \textcolor{keyword}{call }self%timerAoTOps%initialize(aux)
-169     aux = \textcolor{stringliteral}{'Simulation::Solver'}
-170     \textcolor{keyword}{call }self%timerSolver%initialize(aux)
-171 
-172     \textcolor{comment}{! Initialize logger}
-173     \textcolor{keyword}{call }log%initialize(outpath)
-174     \textcolor{comment}{!Print licences and build info}
-175     \textcolor{keyword}{call }printlicpreamble
-176     \textcolor{comment}{!initialize parallel services manager}
-177     \textcolor{keyword}{call }ompmanager%initialize()
-178     \textcolor{comment}{!initializing memory log}
-179     \textcolor{keyword}{call }simmemory%initialize()
-180     \textcolor{comment}{!setting every global variable and input parameter to their default}
-181     \textcolor{keyword}{call }globals%initialize(outpath = outpath)
-182     \textcolor{comment}{!initializing geometry class}
-183     \textcolor{keyword}{call }geometry%initialize()
-184     \textcolor{comment}{!Check if case file has .xml extension}
-185     \textcolor{keywordflow}{if} (casefilename%extension() == \textcolor{stringliteral}{'.xml'}) \textcolor{keywordflow}{then}
-186         \textcolor{comment}{! Initialization routines to build the simulation from the input case file}
-187         \textcolor{keyword}{call }initfromxml(casefilename)
-188     \textcolor{keywordflow}{else}
-189         outext=\textcolor{stringliteral}{'[initSimulation]: only .xml input files are supported at the time. Stopping'}
-190         \textcolor{keyword}{call }log%put(outext)
-191         stop
-192 \textcolor{keywordflow}{    endif}
-193     \textcolor{comment}{!Case was read and now we can build/initialize our simulation objects that are case-dependent}
-194     \textcolor{comment}{!initilize simulation bounding box}
-195     \textcolor{keyword}{call }bbox%initialize()
-196     \textcolor{comment}{!decomposing the domain and initializing the Simulation Blocks}
-197     \textcolor{keyword}{call }self%decompose()
-198     \textcolor{comment}{!Distributing Sources}
-199     \textcolor{keyword}{call }self%setInitialState()
-200     \textcolor{comment}{!printing memory occupation at the time}
-201     \textcolor{keyword}{call }simmemory%detailedprint()
-202     \textcolor{comment}{!Initializing output file streamer}
-203     \textcolor{keyword}{call }self%OutputStreamer%initialize()
-204     \textcolor{comment}{!Writing the domain to file}
-205     \textcolor{keyword}{call }self%OutputStreamer%WriteDomain(globals%Names%casename, bbox, geometry%getnumPoints(bbox), dblock)
-206 
-207     \textcolor{keyword}{call }self%timerInit%Toc()
-208     \textcolor{keyword}{call }self%timerInit%print()
-209 
+140     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+141     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: casefilename
+142     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: outpath
+143     \textcolor{keywordtype}{type}(string) :: outext, aux
+144 
+145     aux = \textcolor{stringliteral}{'Simulation::initialization'}
+146     \textcolor{keyword}{call }self%timerInit%initialize(aux)
+147     \textcolor{keyword}{call }self%timerInit%Tic()
+148 
+149     aux = \textcolor{stringliteral}{'Simulation::Total'}
+150     \textcolor{keyword}{call }self%timerTotalRun%initialize(aux)
+151     aux = \textcolor{stringliteral}{'Simulation::Input'}
+152     \textcolor{keyword}{call }self%timerInput%initialize(aux)
+153     aux = \textcolor{stringliteral}{'Simulation::Output'}
+154     \textcolor{keyword}{call }self%timerOutput%initialize(aux)
+155     aux = \textcolor{stringliteral}{'Simulation::Preparation'}
+156     \textcolor{keyword}{call }self%timerPrep%initialize(aux)
+157     aux = \textcolor{stringliteral}{'Simulation::SV encoding/decoding'}
+158     \textcolor{keyword}{call }self%timerSVOps%initialize(aux)
+159     aux = \textcolor{stringliteral}{'Simulation::Solver'}
+160     \textcolor{keyword}{call }self%timerSolver%initialize(aux)
+161 
+162     \textcolor{comment}{! Initialize logger}
+163     \textcolor{keyword}{call }log%initialize(outpath)
+164     \textcolor{comment}{!Print licences and build info}
+165     \textcolor{keyword}{call }printlicpreamble
+166     \textcolor{comment}{!initialize parallel services manager}
+167     \textcolor{keyword}{call }ompmanager%initialize()
+168     \textcolor{comment}{!initializing memory log}
+169     \textcolor{keyword}{call }simmemory%initialize()
+170     \textcolor{comment}{!setting every global variable and input parameter to their default}
+171     \textcolor{keyword}{call }globals%initialize(outpath = outpath)
+172     \textcolor{comment}{!initializing geometry class}
+173     \textcolor{keyword}{call }geometry%initialize()
+174     \textcolor{comment}{!Check if case file has .xml extension}
+175     \textcolor{keywordflow}{if} (casefilename%extension() == \textcolor{stringliteral}{'.xml'}) \textcolor{keywordflow}{then}
+176         \textcolor{comment}{! Initialization routines to build the simulation from the input case file}
+177         \textcolor{keyword}{call }initfromxml(casefilename)
+178     \textcolor{keywordflow}{else}
+179         outext=\textcolor{stringliteral}{'[initSimulation]: only .xml input files are supported at the time. Stopping'}
+180         \textcolor{keyword}{call }log%put(outext)
+181         stop
+182 \textcolor{keywordflow}{    endif}
+183     \textcolor{comment}{!Initializing input file streamer}
+184     \textcolor{keyword}{call }self%InputStreamer%initialize()
+185     \textcolor{keyword}{call }self%InputStreamer%print()
+186     \textcolor{comment}{!Case was read and now we can build/initialize our simulation objects that are case-dependent}
+187     \textcolor{comment}{!initilize simulation bounding box}
+188     \textcolor{keyword}{call }bbox%initialize()
+189     \textcolor{comment}{!decomposing the domain and initializing the Simulation Blocks}
+190     \textcolor{keyword}{call }self%decompose()
+191     \textcolor{comment}{!Distributing Sources}
+192     \textcolor{keyword}{call }self%setInitialState()
+193     \textcolor{comment}{!printing memory occupation at the time}
+194     \textcolor{keyword}{call }simmemory%detailedprint()
+195     \textcolor{comment}{!Initializing output file streamer}
+196     \textcolor{keyword}{call }self%OutputStreamer%initialize()
+197     \textcolor{comment}{!Writing the domain to file}
+198     \textcolor{keyword}{call }self%OutputStreamer%WriteDomain(globals%Names%casename, bbox, geometry%getnumPoints(bbox), sblock)
+199 
+200     \textcolor{keyword}{call }self%timerInit%Toc()
+201     \textcolor{keyword}{call }self%timerInit%print()
+202 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -465,6 +466,30 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{namespacesimulation__mod_aedbba2bb458cbcd7eb93938a5f7b5940_cgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{namespacesimulation__mod_a629f51ee8ca4d2ece7f039a0114b1ef4}\label{namespacesimulation__mod_a629f51ee8ca4d2ece7f039a0114b1ef4}} 
+\index{simulation\+\_\+mod@{simulation\+\_\+mod}!inputdata@{inputdata}}
+\index{inputdata@{inputdata}!simulation\+\_\+mod@{simulation\+\_\+mod}}
+\subsubsection{\texorpdfstring{inputdata()}{inputdata()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::inputdata (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Simulation method to call the input streamer reading methods at current Time. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 378 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+378     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+379     \textcolor{keyword}{call }self%timerInput%Tic()
+380     \textcolor{keyword}{call }self%InputStreamer%loadDataFromStack(bbox, sblock)
+381     \textcolor{keyword}{call }self%timerInput%Toc()
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a5735e9ecb39f15061f3d766b0de7809d}\label{namespacesimulation__mod_a5735e9ecb39f15061f3d766b0de7809d}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!outputstepdata@{outputstepdata}}
 \index{outputstepdata@{outputstepdata}!simulation\+\_\+mod@{simulation\+\_\+mod}}
@@ -480,15 +505,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 379 of file simulation.\+f90.
+Definition at line 391 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-379     \textcolor{keywordtype}{implicit none}
-380     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-381     \textcolor{keyword}{call }self%timerOutput%Tic()
-382     \textcolor{keyword}{call }self%OutputStreamer%WriteStepSerial(dblock)
-383     \textcolor{keyword}{call }self%timerOutput%Toc()
+391     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+392     \textcolor{keyword}{call }self%timerOutput%Tic()
+393     \textcolor{keyword}{call }self%OutputStreamer%WriteStep(sblock, self%getTracerTotals(), self%timerTotalRun)
+394     \textcolor{keyword}{call }self%timerOutput%Toc()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_aba126a8e0575cabb3bef6ab395002b3c}\label{namespacesimulation__mod_aba126a8e0575cabb3bef6ab395002b3c}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!printtracertotals@{printtracertotals}}
@@ -505,16 +529,15 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 435 of file simulation.\+f90.
+Definition at line 444 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-435     \textcolor{keywordtype}{implicit none}
-436     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
-437     \textcolor{keywordtype}{type}(string) :: outext, temp
-438     temp = self%getTracerTotals()
-439     outext=\textcolor{stringliteral}{'-->'}//temp //\textcolor{stringliteral}{' Tracers allocated'}
-440     \textcolor{keyword}{call }log%put(outext,.false.)
+444     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+445     \textcolor{keywordtype}{type}(string) :: outext, temp
+446     temp = self%getTracerTotals()
+447     outext=\textcolor{stringliteral}{'-->'}//temp //\textcolor{stringliteral}{' Tracers allocated'}
+448     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a73bd78c4ac76c51f1e10f5847c25c4df}\label{namespacesimulation__mod_a73bd78c4ac76c51f1e10f5847c25c4df}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!run@{run}}
@@ -531,69 +554,55 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 82 of file simulation.\+f90.
+Definition at line 85 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-82     \textcolor{keywordtype}{implicit none}
-83     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-84     \textcolor{keywordtype}{type}(string) :: outext, aux
-85 
-86     \textcolor{comment}{!integer :: testmat(10,12)}
-87 
-88     outext = \textcolor{stringliteral}{'====================================================================='}
-89     \textcolor{keyword}{call }log%put(outext,.false.)
-90     outext = \textcolor{stringliteral}{'->Simulation starting'}
-91     \textcolor{keyword}{call }log%put(outext)
-92     outext = \textcolor{stringliteral}{'====================================================================='}
-93     \textcolor{keyword}{call }log%put(outext,.false.)
-94 
-95     \textcolor{comment}{!call writeTestmatrix(testmat)}
-96 
-97     \textcolor{comment}{!main time cycle}
-98     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while} (globals%SimTime%CurrTime .lt. globals%Parameters%TimeMax)
-99         \textcolor{keyword}{call }globals%Sim%increment\_numdt()
-100         \textcolor{keyword}{call }self%timerTotalRun%Tic()
-101         \textcolor{comment}{!activate suitable Sources}
-102         \textcolor{keyword}{call }self%ToggleSources()
-103         \textcolor{comment}{!emitt Tracers from active Sources}
-104         \textcolor{keyword}{call }self%BlocksEmitt()
-105         \textcolor{comment}{!Distribute Tracers and Sources by Blocks}
-106         \textcolor{keyword}{call }self%BlocksDistribute()
-107         \textcolor{comment}{!Optimize Block Tracer lists}
-108         \textcolor{keyword}{call }self%BlocksConsolidateArrays()
-109         \textcolor{comment}{!Build AoT}
-110         \textcolor{keyword}{call }self%BlocksTracersToAoT()
-111         \textcolor{comment}{!load hydrodynamic fields from files (curents, wind, waves, ...)}
-112 
-113         \textcolor{comment}{!Update all tracers with base behavior (AoT) - Integration step}
-114         \textcolor{keywordflow}{if} (globals%Sim%getnumdt() /= 1 ) \textcolor{keyword}{call }self%BlocksRunSolver()
-115         \textcolor{comment}{!AoT to Tracers}
-116         \textcolor{keyword}{call }self%BlocksAoTtoTracers()
-117         \textcolor{comment}{!Update Tracers with type-specific behavior}
-118 
-119         \textcolor{comment}{!Write results if time to do so}
-120         \textcolor{keyword}{call }self%OutputStepData()
-121         \textcolor{comment}{!Print some stats from the time step}
-122         \textcolor{keyword}{call }self%printTracerTotals()
-123         \textcolor{comment}{!Clean AoT}
-124         \textcolor{keyword}{call }self%BlocksCleanAoT()
-125         \textcolor{comment}{!update Simulation time}
-126         \textcolor{keywordflow}{if} (globals%Sim%getnumdt() /= 1 ) \textcolor{keyword}{call }globals%SimTime%setCurrDateTime(globals%SimDefs%dt)
-127         \textcolor{comment}{!print*, 'Global time is ', Globals%SimTime%CurrTime}
-128         \textcolor{comment}{!print*, 'Can we continue?'}
-129         \textcolor{comment}{!read (*,*)}
-130         \textcolor{keyword}{call }self%timerTotalRun%Toc()
-131 \textcolor{keywordflow}{    enddo}
-132     \textcolor{keyword}{call }self%setTracerMemory()
-133     \textcolor{keyword}{call }simmemory%detailedprint()
-134 
-135     \textcolor{keyword}{call }self%timerTotalRun%print()
-136     \textcolor{keyword}{call }self%timerPrep%print()
-137     \textcolor{keyword}{call }self%timerAoTOps%print()
-138     \textcolor{keyword}{call }self%timerSolver%print()
-139     \textcolor{keyword}{call }self%timerOutput%print()
-140 
+85     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+86 
+87     \textcolor{keyword}{call }self%OutputStreamer%writeOutputHeader()
+88 
+89     \textcolor{comment}{!main time cycle}
+90     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while} (globals%SimTime%CurrTime .lt. globals%Parameters%TimeMax)
+91         \textcolor{keyword}{call }globals%Sim%increment\_numdt()
+92         \textcolor{keyword}{call }self%timerTotalRun%Tic()
+93         \textcolor{comment}{!activate suitable Sources}
+94         \textcolor{keyword}{call }self%ToggleSources()
+95         \textcolor{comment}{!emitt Tracers from active Sources}
+96         \textcolor{keyword}{call }self%BlocksEmitt()
+97         \textcolor{comment}{!Optimize Block Tracer lists and memory use}
+98         \textcolor{keyword}{call }self%BlocksConsolidate()
+99         \textcolor{comment}{!Distribute Tracers and Sources by Blocks}
+100         \textcolor{keyword}{call }self%BlocksDistribute()
+101         \textcolor{comment}{!Build SV}
+102         \textcolor{keyword}{call }self%BlocksTracersToSV()
+103         \textcolor{comment}{!load hydrodynamic fields from files (curents, wind, waves, ...)}
+104         \textcolor{keyword}{call }self%InputData()
+105         \textcolor{comment}{!Update all tracers - Integration step}
+106         \textcolor{keyword}{call }self%BlocksRunSolver()
+107         \textcolor{comment}{!SV to Tracers}
+108         \textcolor{keyword}{call }self%BlocksSVtoTracers()
+109         \textcolor{comment}{!Write results if time to do so}
+110         \textcolor{keyword}{call }self%OutputStepData()
+111         \textcolor{comment}{!Clean SV}
+112         \textcolor{keyword}{call }self%BlocksCleanSV()
+113         \textcolor{comment}{!update Simulation time}
+114         \textcolor{keyword}{call }self%updateSimDateTime()
+115         \textcolor{comment}{!print*, 'Global time is ', Globals%SimTime%CurrTime}
+116         \textcolor{comment}{!print*, 'Can we continue?'}
+117         \textcolor{comment}{!read (*,*)}
+118         \textcolor{keyword}{call }self%timerTotalRun%Toc()
+119 \textcolor{keywordflow}{    enddo}
+120 
+121     \textcolor{keyword}{call }self%setTracerMemory()
+122     \textcolor{keyword}{call }simmemory%detailedprint()
+123     \textcolor{keyword}{call }self%timerTotalRun%print()
+124     \textcolor{keyword}{call }self%timerPrep%print()
+125     \textcolor{keyword}{call }self%timerSVOps%print()
+126     \textcolor{keyword}{call }self%timerSolver%print()
+127     \textcolor{keyword}{call }self%timerInput%print()
+128     \textcolor{keyword}{call }self%timerOutput%print()
+129 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a447c6d709de6aa360a65d39d660e627b}\label{namespacesimulation__mod_a447c6d709de6aa360a65d39d660e627b}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!setinitialstate@{setinitialstate}}
@@ -610,36 +619,30 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 393 of file simulation.\+f90.
+Definition at line 404 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-393     \textcolor{keywordtype}{implicit none}
-394     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-395     \textcolor{keywordtype}{type}(string) :: outext
-396     \textcolor{keywordtype}{integer} :: i, blk, ntrc
-397     \textcolor{comment}{!iterate every Source to distribute}
-398     ntrc = 0
-399     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(tempsources%src)
-400         blk = getblockindex(geometry%getCenter(tempsources%src(i)%par%geometry))
-401         \textcolor{keyword}{call }dblock(blk)%putSource(tempsources%src(i))
-402         ntrc = ntrc + tempsources%src(i)%stencil%total\_np
-403 \textcolor{keywordflow}{    end do}
-404     \textcolor{keyword}{call }tempsources%finalize() \textcolor{comment}{!destroying the temporary Sources now they are shipped to the Blocks}
-405     outext=\textcolor{stringliteral}{'-->Sources allocated to their current Blocks'}
-406     \textcolor{keyword}{call }log%put(outext,.false.)
-407     outext = ntrc
-408     outext=\textcolor{stringliteral}{'-->'}//outext//\textcolor{stringliteral}{' Tracers on the emission stack'}
-409     \textcolor{keyword}{call }log%put(outext,.false.)
-410     \textcolor{keyword}{call }self%setTracerMemory(ntrc)
+404     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+405     \textcolor{keywordtype}{type}(string) :: outext
+406     \textcolor{keywordtype}{integer} :: i, blk, ntrc
+407     \textcolor{comment}{!iterate every Source to distribute}
+408     ntrc = 0
+409     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(tempsources%src)
+410         blk = getblockindex(geometry%getCenter(tempsources%src(i)%par%geometry))
+411         \textcolor{keyword}{call }sblock(blk)%putSource(tempsources%src(i))
+412         ntrc = ntrc + tempsources%src(i)%stencil%total\_np
+413 \textcolor{keywordflow}{    end do}
+414     \textcolor{keyword}{call }tempsources%finalize() \textcolor{comment}{!destroying the temporary Sources now they are shipped to the Blocks}
+415     outext=\textcolor{stringliteral}{'-->Sources allocated to their current Blocks'}
+416     \textcolor{keyword}{call }log%put(outext,.false.)
+417     outext = ntrc
+418     outext=\textcolor{stringliteral}{'-->'}//outext//\textcolor{stringliteral}{' Tracers on the emission stack'}
+419     \textcolor{keyword}{call }log%put(outext,.false.)
+420     \textcolor{keyword}{call }self%setTracerMemory(ntrc)
 \end{DoxyCode}
-Here is the call graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacesimulation__mod_a447c6d709de6aa360a65d39d660e627b_cgraph}
-\end{center}
-\end{figure}
+Here is the call graph for this function\+:
+% FIG 0
 \mbox{\Hypertarget{namespacesimulation__mod_acc5fa823c8dd599de8feda8988c224f2}\label{namespacesimulation__mod_acc5fa823c8dd599de8feda8988c224f2}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!settracermemory@{settracermemory}}
 \index{settracermemory@{settracermemory}!simulation\+\_\+mod@{simulation\+\_\+mod}}
@@ -655,25 +658,24 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 449 of file simulation.\+f90.
+Definition at line 457 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-449     \textcolor{keywordtype}{implicit none}
-450     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
-451     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: ntrc
-452     \textcolor{keywordtype}{integer} :: sizem, i
-453     \textcolor{keywordtype}{type}(tracer\_class) :: dummyTracer
-454     sizem = 0
-455     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-456         sizem = sizem + sizeof(dblock(i)%LTracer) \textcolor{comment}{!this accounts for the array structure}
-457         sizem = sizem + sizeof(dummytracer)*dblock(i)%LTracer%getSize() \textcolor{comment}{!this accounts for the contents}
-458 \textcolor{keywordflow}{    enddo}
-459     \textcolor{keyword}{call }simmemory%setracer(sizem)
-460     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(ntrc)) \textcolor{keywordflow}{then}
-461         \textcolor{keyword}{call }simmemory%setNtrc(ntrc)
-462         \textcolor{keyword}{call }simmemory%setsizeTrc(sizeof(dummytracer))
-463 \textcolor{keywordflow}{    end if}
+457     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(in)} :: self
+458     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: ntrc
+459     \textcolor{keywordtype}{integer} :: sizem, i
+460     \textcolor{keywordtype}{type}(tracer\_class) :: dummyTracer
+461     sizem = 0
+462     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+463         sizem = sizem + sizeof(sblock(i)%LTracer) \textcolor{comment}{!this accounts for the array structure}
+464         sizem = sizem + sizeof(dummytracer)*sblock(i)%LTracer%getSize() \textcolor{comment}{!this accounts for the contents}
+465 \textcolor{keywordflow}{    enddo}
+466     \textcolor{keyword}{call }simmemory%setracer(sizem)
+467     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(ntrc)) \textcolor{keywordflow}{then}
+468         \textcolor{keyword}{call }simmemory%setNtrc(ntrc)
+469         \textcolor{keyword}{call }simmemory%setsizeTrc(sizeof(dummytracer))
+470 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulation__mod_a87a5141e4516b9610a6e4f0d2ff2d719}\label{namespacesimulation__mod_a87a5141e4516b9610a6e4f0d2ff2d719}} 
 \index{simulation\+\_\+mod@{simulation\+\_\+mod}!togglesources@{togglesources}}
@@ -690,20 +692,42 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 219 of file simulation.\+f90.
+Definition at line 212 of file simulation.\+f90.
 
 
 \begin{DoxyCode}
-219     \textcolor{keywordtype}{implicit none}
-220     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
-221     \textcolor{keywordtype}{integer} :: i
-222     \textcolor{keyword}{call }self%timerPrep%Tic()
-223     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
-224     \textcolor{comment}{!$OMP DO}
-225     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dblock)
-226         \textcolor{keyword}{call }dblock(i)%ToogleBlockSources()
-227 \textcolor{keywordflow}{    end do}
-228     \textcolor{comment}{!$OMP END DO}
-229     \textcolor{comment}{!$OMP END PARALLEL}
-230     \textcolor{keyword}{call }self%timerPrep%Toc()
+212     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+213     \textcolor{keywordtype}{integer} :: i
+214     \textcolor{keyword}{call }self%timerPrep%Tic()
+215     \textcolor{comment}{!$OMP PARALLEL PRIVATE(i)}
+216     \textcolor{comment}{!$OMP DO}
+217     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sblock)
+218         \textcolor{keyword}{call }sblock(i)%ToogleBlockSources()
+219 \textcolor{keywordflow}{    end do}
+220     \textcolor{comment}{!$OMP END DO}
+221     \textcolor{comment}{!$OMP END PARALLEL}
+222     \textcolor{keyword}{call }self%timerPrep%Toc()
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulation__mod_a844f0fae91502f3fc79cc1223f55a86c}\label{namespacesimulation__mod_a844f0fae91502f3fc79cc1223f55a86c}} 
+\index{simulation\+\_\+mod@{simulation\+\_\+mod}!updatesimdatetime@{updatesimdatetime}}
+\index{updatesimdatetime@{updatesimdatetime}!simulation\+\_\+mod@{simulation\+\_\+mod}}
+\subsubsection{\texorpdfstring{updatesimdatetime()}{updatesimdatetime()}}
+{\footnotesize\ttfamily subroutine simulation\+\_\+mod\+::updatesimdatetime (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulation__mod_1_1simulation__class}{simulation\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Simulation method to update the date and time variables. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 366 of file simulation.\+f90.
+
+
+\begin{DoxyCode}
+366     \textcolor{keywordtype}{class}(simulation\_class), \textcolor{keywordtype}{intent(inout)} :: self
+367     \textcolor{keywordtype}{integer} :: i
+368     \textcolor{keywordflow}{if} (globals%Sim%getnumdt() /= 1 ) \textcolor{keyword}{call }globals%SimTime%setCurrDateTime(globals%SimDefs%dt)
 \end{DoxyCode}

@@ -7,26 +7,20 @@ a 1D scalar field class
 
 
 
-Inheritance diagram for fieldtypes\+\_\+mod\+:\+:scalar1d\+\_\+field\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=205pt]{structfieldtypes__mod_1_1scalar1d__field__class__inherit__graph}
-\end{center}
-\end{figure}
+Inheritance diagram for fieldtypes\+\_\+mod\+:\+:scalar1d\+\_\+field\+\_\+class\+:
+% FIG 0
 
 
-Collaboration diagram for fieldtypes\+\_\+mod\+:\+:scalar1d\+\_\+field\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=205pt]{structfieldtypes__mod_1_1scalar1d__field__class__coll__graph}
-\end{center}
-\end{figure}
+Collaboration diagram for fieldtypes\+\_\+mod\+:\+:scalar1d\+\_\+field\+\_\+class\+:
+% FIG 1
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 procedure \mbox{\hyperlink{structfieldtypes__mod_1_1scalar1d__field__class_aa5e83bedb5d56d7e666fde274435a04f}{initialize}} =$>$ init\+Scalar1d\+Field
+\item 
+procedure \mbox{\hyperlink{structfieldtypes__mod_1_1scalar1d__field__class_a006ddd4810ef1ddccef091a4600b9925}{getfieldnearestindex}}
+\item 
+procedure \mbox{\hyperlink{structfieldtypes__mod_1_1scalar1d__field__class_a6e7993e87fad9d6b56af43ae1bb0a36a}{finalize}} =$>$ clean\+Scalar1d\+Field
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -38,11 +32,31 @@ real(prec), dimension(\+:), allocatable \mbox{\hyperlink{structfieldtypes__mod_1
 \subsection{Detailed Description}
 a 1D scalar field class 
 
-Definition at line 53 of file fields\+Types.\+f90.
+Definition at line 55 of file fields\+Types.\+f90.
 
 
 
 \subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structfieldtypes__mod_1_1scalar1d__field__class_a6e7993e87fad9d6b56af43ae1bb0a36a}\label{structfieldtypes__mod_1_1scalar1d__field__class_a6e7993e87fad9d6b56af43ae1bb0a36a}} 
+\index{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class}!finalize@{finalize}}
+\index{finalize@{finalize}!fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily procedure fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 60 of file fields\+Types.\+f90.
+
+\mbox{\Hypertarget{structfieldtypes__mod_1_1scalar1d__field__class_a006ddd4810ef1ddccef091a4600b9925}\label{structfieldtypes__mod_1_1scalar1d__field__class_a006ddd4810ef1ddccef091a4600b9925}} 
+\index{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class}!getfieldnearestindex@{getfieldnearestindex}}
+\index{getfieldnearestindex@{getfieldnearestindex}!fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class}}
+\subsubsection{\texorpdfstring{getfieldnearestindex()}{getfieldnearestindex()}}
+{\footnotesize\ttfamily procedure fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class\+::getfieldnearestindex (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 59 of file fields\+Types.\+f90.
+
 \mbox{\Hypertarget{structfieldtypes__mod_1_1scalar1d__field__class_aa5e83bedb5d56d7e666fde274435a04f}\label{structfieldtypes__mod_1_1scalar1d__field__class_aa5e83bedb5d56d7e666fde274435a04f}} 
 \index{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class}!initialize@{initialize}}
 \index{initialize@{initialize}!fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar1d\+\_\+field\+\_\+class}}
@@ -51,7 +65,7 @@ Definition at line 53 of file fields\+Types.\+f90.
 
 
 
-Definition at line 56 of file fields\+Types.\+f90.
+Definition at line 58 of file fields\+Types.\+f90.
 
 
 
@@ -68,11 +82,11 @@ the data on the scalar data field
 
 
 
-Definition at line 54 of file fields\+Types.\+f90.
+Definition at line 56 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-54         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field
+56         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field
 \end{DoxyCode}
 
 

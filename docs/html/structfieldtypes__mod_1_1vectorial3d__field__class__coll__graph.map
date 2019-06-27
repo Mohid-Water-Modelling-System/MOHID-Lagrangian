@@ -1,4 +1,4 @@
 <map id="fieldtypes_mod::vectorial3d_field_class" name="fieldtypes_mod::vectorial3d_field_class">
-<area shape="rect" id="node2" href="$structfieldtypes__mod_1_1vectorial__field__class.html" title="a vectorial field class " alt="" coords="13,233,177,325"/>
-<area shape="rect" id="node3" href="$structfieldtypes__mod_1_1field__class.html" title="{fieldtypes_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l&#45; getfieldminbound()\l&#45; getfieldmaxbound()\l}" alt="" coords="25,5,165,185"/>
+<area shape="rect" id="node2" href="$structfieldtypes__mod_1_1vectorial__field__class.html" title="a vectorial field class " alt="" coords="13,263,177,355"/>
+<area shape="rect" id="node3" href="$structfieldtypes__mod_1_1field__class.html" title="{fieldtypes_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l&#45; getfieldslice()\l&#45; getfieldminbound()\l&#45; getfieldmaxbound()\l&#45; getfieldshape()\l}" alt="" coords="25,5,165,215"/>
 </map>

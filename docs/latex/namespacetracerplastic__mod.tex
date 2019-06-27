@@ -19,6 +19,12 @@ interface \mbox{\hyperlink{interfacetracerplastic__mod_1_1plastictracer}{plastic
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+integer function \mbox{\hyperlink{namespacetracerplastic__mod_aa5367c2562d10b5393f263394f07fa49}{getnumvars}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the number of variables used by this tracer. \end{DoxyCompactList}\item 
+real(prec) function, dimension(\+:), allocatable \mbox{\hyperlink{namespacetracerplastic__mod_aa8cdd2196261b216dd6cdd5b7ef2fe90}{getstatearray}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the state array of this tracer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacetracerplastic__mod_a5e5bd350455400938950d2129c1f4980}{setstatearray}} (self, state\+Array)
+\begin{DoxyCompactList}\small\item\em Method that sets the state array of this tracer. \end{DoxyCompactList}\item 
 type(\mbox{\hyperlink{structtracerplastic__mod_1_1plastic__class}{plastic\+\_\+class}}) function \mbox{\hyperlink{namespacetracerplastic__mod_ae68444b860b6e7abf3940b0ee1bfe57a}{constructor}} (id, src, time, p)
 \begin{DoxyCompactList}\small\item\em Plastic Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -52,37 +58,38 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 68 of file tracer\+Plastic.\+f90.
+Definition at line 123 of file tracer\+Plastic.\+f90.
 
 
 \begin{DoxyCode}
-68     \textcolor{keywordtype}{type}(plastic\_class) :: constructor
-69     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-70     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
-71     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
-72     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
-73 
-74     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
-75     constructor%tracer\_class = tracer(id, src, time, p)
-76     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
-77     constructor%par%id = id \textcolor{comment}{!forcing}
-78     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
-79     \textcolor{comment}{!now initialize the specific components of this derived type}
-80     \textcolor{comment}{!material parameters}
-81     constructor%mpar%degradation\_rate = src%prop%degrd\_rate
-82     constructor%mpar%particulate = src%prop%particulate
-83     constructor%mpar%size = src%prop%radius
-84     \textcolor{comment}{!material state}
-85     constructor%mnow%density = src%prop%density
-86     constructor%mnow%condition = src%prop%condition
-87     constructor%mnow%radius = src%prop%radius
-88     constructor%mnow%concentration = mv
-89     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
-90         constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not tracer
+123     \textcolor{keywordtype}{type}(plastic\_class) :: constructor
+124     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+125     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+126     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+127     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+128 
+129     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
+130     constructor%tracer\_class = tracer(id, src, time, p)
+131     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
+132     constructor%par%id = id \textcolor{comment}{!forcing}
+133     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
+134     \textcolor{comment}{!now initialize the specific components of this derived type}
+135     constructor%par%ttype = globals%Types%plastic
+136     \textcolor{comment}{!material parameters}
+137     constructor%mpar%degradation\_rate = src%prop%degrd\_rate
+138     constructor%mpar%particulate = src%prop%particulate
+139     constructor%mpar%size = src%prop%radius
+140     \textcolor{comment}{!material state}
+141     constructor%mnow%density = src%prop%density
+142     constructor%mnow%condition = src%prop%condition
+143     constructor%mnow%radius = src%prop%radius
+144     constructor%mnow%concentration = mv
+145     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
+146         constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not tracer
        size}
-91         constructor%mnow%concentration = src%prop%ini\_concentration
-92 \textcolor{keywordflow}{    end if}
-93 
+147         constructor%mnow%concentration = src%prop%ini\_concentration
+148 \textcolor{keywordflow}{    end if}
+149 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -91,3 +98,95 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{namespacetracerplastic__mod_ae68444b860b6e7abf3940b0ee1bfe57a_cgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{namespacetracerplastic__mod_aa5367c2562d10b5393f263394f07fa49}\label{namespacetracerplastic__mod_aa5367c2562d10b5393f263394f07fa49}} 
+\index{tracerplastic\+\_\+mod@{tracerplastic\+\_\+mod}!getnumvars@{getnumvars}}
+\index{getnumvars@{getnumvars}!tracerplastic\+\_\+mod@{tracerplastic\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnumvars()}{getnumvars()}}
+{\footnotesize\ttfamily integer function tracerplastic\+\_\+mod\+::getnumvars (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracerplastic__mod_1_1plastic__class}{plastic\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the number of variables used by this tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 70 of file tracer\+Plastic.\+f90.
+
+
+\begin{DoxyCode}
+70     \textcolor{keywordtype}{class}(plastic\_class), \textcolor{keywordtype}{intent(in)} :: self
+71     getnumvars = 10
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{namespacetracerplastic__mod_aa8cdd2196261b216dd6cdd5b7ef2fe90}\label{namespacetracerplastic__mod_aa8cdd2196261b216dd6cdd5b7ef2fe90}} 
+\index{tracerplastic\+\_\+mod@{tracerplastic\+\_\+mod}!getstatearray@{getstatearray}}
+\index{getstatearray@{getstatearray}!tracerplastic\+\_\+mod@{tracerplastic\+\_\+mod}}
+\subsubsection{\texorpdfstring{getstatearray()}{getstatearray()}}
+{\footnotesize\ttfamily real(prec) function, dimension(\+:), allocatable tracerplastic\+\_\+mod\+::getstatearray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracerplastic__mod_1_1plastic__class}{plastic\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the state array of this tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 80 of file tracer\+Plastic.\+f90.
+
+
+\begin{DoxyCode}
+80     \textcolor{keywordtype}{class}(plastic\_class), \textcolor{keywordtype}{intent(in)} :: self
+81     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getStateArray
+82     \textcolor{keyword}{allocate}(getstatearray(self%getNumVars()))
+83     getstatearray(1) = self%now%pos%x
+84     getstatearray(2) = self%now%pos%y
+85     getstatearray(3) = self%now%pos%z
+86     getstatearray(4) = self%now%vel%x
+87     getstatearray(5) = self%now%vel%y
+88     getstatearray(6) = self%now%vel%z
+89     getstatearray(7) = self%mnow%density
+90     getstatearray(8) = self%mnow%radius
+91     getstatearray(9) = self%mnow%condition
+92     getstatearray(10) = self%mnow%concentration
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{namespacetracerplastic__mod_a5e5bd350455400938950d2129c1f4980}\label{namespacetracerplastic__mod_a5e5bd350455400938950d2129c1f4980}} 
+\index{tracerplastic\+\_\+mod@{tracerplastic\+\_\+mod}!setstatearray@{setstatearray}}
+\index{setstatearray@{setstatearray}!tracerplastic\+\_\+mod@{tracerplastic\+\_\+mod}}
+\subsubsection{\texorpdfstring{setstatearray()}{setstatearray()}}
+{\footnotesize\ttfamily subroutine tracerplastic\+\_\+mod\+::setstatearray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracerplastic__mod_1_1plastic__class}{plastic\+\_\+class}}), intent(inout)}]{self,  }\item[{real(prec), dimension(\+:), intent(in)}]{state\+Array }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that sets the state array of this tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 101 of file tracer\+Plastic.\+f90.
+
+
+\begin{DoxyCode}
+101     \textcolor{keywordtype}{class}(plastic\_class), \textcolor{keywordtype}{intent(inout)} :: self
+102     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: stateArray
+103     \textcolor{comment}{!if(size(stateArray)<self%getNumVars())}
+104     self%now%pos%x = statearray(1)
+105     self%now%pos%y = statearray(2)
+106     self%now%pos%z = statearray(3)
+107     self%now%vel%x = statearray(4)
+108     self%now%vel%y = statearray(5)
+109     self%now%vel%z = statearray(6)
+110     self%mnow%density = statearray(7)
+111     self%mnow%radius = statearray(8)
+112     self%mnow%condition = statearray(9)
+113     self%mnow%concentration = statearray(10)    
+\end{DoxyCode}

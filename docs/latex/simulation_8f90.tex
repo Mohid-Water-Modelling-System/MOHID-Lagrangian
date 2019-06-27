@@ -23,16 +23,20 @@ subroutine \mbox{\hyperlink{namespacesimulation__mod_a13aa0745f4601e3f418143dab2
 \begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to emitt tracers at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a058892630af07fc0fe8a4bffec531c6a}{simulation\+\_\+mod\+::blocksdistribute}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to distribute Tracers at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_ac838d4afe33303dc49a5790ca957baa1}{simulation\+\_\+mod\+::blocksconsolidatearrays}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to consolidate the Tracer array at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_a624d5b402a8d359219839841862ab307}{simulation\+\_\+mod\+::blockstracerstoaot}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to build their Array of Tracers (AoT) from the Tracer list at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a8390f0a56ff2678d144af1dd09517a5e}{simulation\+\_\+mod\+::blocksconsolidate}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to consolidate the Tracer array at current Time and optimize background memory useage. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a2fbc294996a615647983ec637b83cfc0}{simulation\+\_\+mod\+::blockstracerstosv}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to build their State Vector (SV) from the Tracer list at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_ab2e7a1b0f131ab6fe40454d32cb3e24f}{simulation\+\_\+mod\+::blocksrunsolver}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to run the Solver at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_a03afd8682d3239c0ce8eb1637e4da806}{simulation\+\_\+mod\+::blocksaottotracers}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to print their Array of Tracers (AoT) back to the Tracer objects on the list at current Time. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulation__mod_a9c7e093e5cf65d3414f9a8cf8beab611}{simulation\+\_\+mod\+::blockscleanaot}} (self)
-\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to clean their Array of Tracers (AoT) at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a5eeea0cb6e0e94c5fd0336a13d635866}{simulation\+\_\+mod\+::blockssvtotracers}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to decode their State Vector (SV) back to the Tracer objects on the list at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a4cec8fb4baf1b2f69cd2699b0c5b9a55}{simulation\+\_\+mod\+::blockscleansv}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the Blocks to clean their State Vector (SV) at current Time. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a844f0fae91502f3fc79cc1223f55a86c}{simulation\+\_\+mod\+::updatesimdatetime}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to update the date and time variables. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulation__mod_a629f51ee8ca4d2ece7f039a0114b1ef4}{simulation\+\_\+mod\+::inputdata}} (self)
+\begin{DoxyCompactList}\small\item\em Simulation method to call the input streamer reading methods at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a5735e9ecb39f15061f3d766b0de7809d}{simulation\+\_\+mod\+::outputstepdata}} (self)
 \begin{DoxyCompactList}\small\item\em Simulation method to call the output streamer writting methods at current Time. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulation__mod_a447c6d709de6aa360a65d39d660e627b}{simulation\+\_\+mod\+::setinitialstate}} (self)

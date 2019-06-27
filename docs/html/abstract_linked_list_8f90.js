@@ -2,6 +2,7 @@ var abstract_linked_list_8f90 =
 [
     [ "linkedlist", "structabstract__linkedlist__mod_1_1linkedlist.html", "structabstract__linkedlist__mod_1_1linkedlist" ],
     [ "addvalue", "abstract_linked_list_8f90.html#a1075e2f234dacc9daf8407e14fac0929", null ],
+    [ "cleanlist", "abstract_linked_list_8f90.html#a09300e2f8301965a7137cdd60a3b7ac7", null ],
     [ "currentvalue", "abstract_linked_list_8f90.html#a87a81a4be29c8d4e8d2fb0d02247033b", null ],
     [ "getfirst", "abstract_linked_list_8f90.html#ad7b7ffee891627ae2b0548001650f72b", null ],
     [ "getlast", "abstract_linked_list_8f90.html#a7c0a2e5b554e8859fc9b4d8fb52b124f", null ],

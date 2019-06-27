@@ -21,5 +21,6 @@ var searchData=
   ['sourcelist_5fclass',['sourcelist_class',['../structsourceslist__mod_1_1sourcelist__class.html',1,'sourceslist_mod']]],
   ['sphere',['sphere',['../structgeometry__mod_1_1sphere.html',1,'geometry_mod']]],
   ['src_5fparm_5ft',['src_parm_t',['../structsimulationglobals__mod_1_1src__parm__t.html',1,'simulationglobals_mod']]],
+  ['statevector_5fclass',['statevector_class',['../structstatevector__mod_1_1statevector__class.html',1,'statevector_mod']]],
   ['stringlist_5fclass',['stringlist_class',['../structsimulationglobals__mod_1_1stringlist__class.html',1,'simulationglobals_mod']]]
 ];

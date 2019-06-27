@@ -17,6 +17,8 @@ subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a3e4c0de31b2db7da6c0c7
 \begin{DoxyCompactList}\small\item\em Method that initializes a timer object. Optionaly receives a time to start the timer at a specified elapsed time. \end{DoxyCompactList}\item 
 real(prec) function \mbox{\hyperlink{namespacesimulationtimer__mod_a54fa7688c279c747bd76554fb8adb819}{getelapsed}} (this)
 \begin{DoxyCompactList}\small\item\em Method that returns the total elapsed time on this timer. \end{DoxyCompactList}\item 
+real(prec) function \mbox{\hyperlink{namespacesimulationtimer__mod_a70cb936bfcb2754fa6f1fbe3e7a715a5}{getelapsedlast}} (this)
+\begin{DoxyCompactList}\small\item\em Method that returns the last time on this timer. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_a0924f340c4f5785a5981bdc99226e576}{tic}} (this)
 \begin{DoxyCompactList}\small\item\em Method that starts the timmer in the current cycle. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationtimer__mod_ae5c4ca42de2cd1f446eee79112cedd14}{toc}} (this)
@@ -55,12 +57,34 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 78 of file simulation\+Timer.\+f90.
+Definition at line 79 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-78     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
-79     getelapsed = this%elapsed
+79     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+80     getelapsed = this%elapsed
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationtimer__mod_a70cb936bfcb2754fa6f1fbe3e7a715a5}\label{namespacesimulationtimer__mod_a70cb936bfcb2754fa6f1fbe3e7a715a5}} 
+\index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!getelapsedlast@{getelapsedlast}}
+\index{getelapsedlast@{getelapsedlast}!simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}}
+\subsubsection{\texorpdfstring{getelapsedlast()}{getelapsedlast()}}
+{\footnotesize\ttfamily real(prec) function simulationtimer\+\_\+mod\+::getelapsedlast (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtimer__mod_1_1timer__class}{timer\+\_\+class}}), intent(in)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the last time on this timer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 89 of file simulation\+Timer.\+f90.
+
+
+\begin{DoxyCode}
+89     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+90     getelapsedlast = this%last
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtimer__mod_a3e4c0de31b2db7da6c0c781c047a3743}\label{namespacesimulationtimer__mod_a3e4c0de31b2db7da6c0c781c047a3743}} 
 \index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!inittimer@{inittimer}}
@@ -82,22 +106,22 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 58 of file simulation\+Timer.\+f90.
+Definition at line 59 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-58     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
-59     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-60     \textcolor{keywordtype}{real}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: restartime
-61     this%initialized = .true.
-62     this%name = name
-63     this%elapsed = 0.0
-64     this%last = 0.0
-65     this%start = 0.0
-66     this%stop = 0.0
-67     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(restartime)) \textcolor{keywordflow}{then}
-68         this%elapsed = restartime
-69 \textcolor{keywordflow}{    end if}
+59     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
+60     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+61     \textcolor{keywordtype}{real}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: restartime
+62     this%initialized = .true.
+63     this%name = name
+64     this%elapsed = 0.0
+65     this%last = 0.0
+66     this%start = 0.0
+67     this%stop = 0.0
+68     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(restartime)) \textcolor{keywordflow}{then}
+69         this%elapsed = restartime
+70 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtimer__mod_abf4d4c3f383597e975e7c9d12dab6f13}\label{namespacesimulationtimer__mod_abf4d4c3f383597e975e7c9d12dab6f13}} 
 \index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printcurrent@{printcurrent}}
@@ -119,12 +143,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 142 of file simulation\+Timer.\+f90.
+Definition at line 153 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-142     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
-143     print*, \textcolor{stringliteral}{"[timer\_class::printCurrent]: current elapsed time is "}, omp\_get\_wtime() - this%start
+153     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+154     print*, \textcolor{stringliteral}{"[timer\_class::printCurrent]: current elapsed time is "}, omp\_get\_wtime() - this%start
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtimer__mod_a9df6f995616d7fa53094178c3aff1fad}\label{namespacesimulationtimer__mod_a9df6f995616d7fa53094178c3aff1fad}} 
 \index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printelapsed@{printelapsed}}
@@ -146,19 +170,19 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 113 of file simulation\+Timer.\+f90.
+Definition at line 124 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-113     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
-114     \textcolor{keywordtype}{type}(string) :: outext, temp
-115     \textcolor{keywordflow}{if} (this%initialized) \textcolor{keywordflow}{then}
-116         temp = this%elapsed
-117         outext = \textcolor{stringliteral}{'Total elapsed time for '}// this%name //\textcolor{stringliteral}{' is '}// temp//\textcolor{stringliteral}{' s'}
-118         \textcolor{keyword}{call }log%put(outext)
-119     \textcolor{keywordflow}{else}
-120         \textcolor{keyword}{call }this%printNotInitialized()
-121 \textcolor{keywordflow}{    end if}    
+124     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+125     \textcolor{keywordtype}{type}(string) :: outext, temp
+126     \textcolor{keywordflow}{if} (this%initialized) \textcolor{keywordflow}{then}
+127         temp = this%elapsed
+128         outext = \textcolor{stringliteral}{'Total elapsed time for '}// this%name //\textcolor{stringliteral}{' is '}// temp//\textcolor{stringliteral}{' s'}
+129         \textcolor{keyword}{call }log%put(outext)
+130     \textcolor{keywordflow}{else}
+131         \textcolor{keyword}{call }this%printNotInitialized()
+132 \textcolor{keywordflow}{    end if}    
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtimer__mod_ae6e0d8f98a24587daf93cedb4e93ad79}\label{namespacesimulationtimer__mod_ae6e0d8f98a24587daf93cedb4e93ad79}} 
 \index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printlast@{printlast}}
@@ -180,12 +204,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 131 of file simulation\+Timer.\+f90.
+Definition at line 142 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-131     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
-132     print*, \textcolor{stringliteral}{"[timer\_class::printLast]: elapsed time from last cycle is "}, this%last
+142     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+143     print*, \textcolor{stringliteral}{"[timer\_class::printLast]: elapsed time from last cycle is "}, this%last
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtimer__mod_a1c7581b4e12efde67021c8d94e0ef696}\label{namespacesimulationtimer__mod_a1c7581b4e12efde67021c8d94e0ef696}} 
 \index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!printnotinitialized@{printnotinitialized}}
@@ -207,14 +231,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 153 of file simulation\+Timer.\+f90.
+Definition at line 164 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-153     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
-154     \textcolor{keywordtype}{type}(string) :: outext
-155     outext = \textcolor{stringliteral}{'Requested timer not initialized, you might have a bug...'}
-156     \textcolor{keyword}{call }log%put(outext,.false.)
+164     \textcolor{keywordtype}{class}(timer\_class), \textcolor{keywordtype}{intent(in)} :: this
+165     \textcolor{keywordtype}{type}(string) :: outext
+166     outext = \textcolor{stringliteral}{'Requested timer not initialized, you might have a bug...'}
+167     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtimer__mod_a0924f340c4f5785a5981bdc99226e576}\label{namespacesimulationtimer__mod_a0924f340c4f5785a5981bdc99226e576}} 
 \index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!tic@{tic}}
@@ -236,12 +260,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 89 of file simulation\+Timer.\+f90.
+Definition at line 100 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-89     class(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
-90     this%start = omp\_get\_wtime()
+100     class(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
+101     this%start = omp\_get\_wtime()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtimer__mod_ae5c4ca42de2cd1f446eee79112cedd14}\label{namespacesimulationtimer__mod_ae5c4ca42de2cd1f446eee79112cedd14}} 
 \index{simulationtimer\+\_\+mod@{simulationtimer\+\_\+mod}!toc@{toc}}
@@ -263,12 +287,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 100 of file simulation\+Timer.\+f90.
+Definition at line 111 of file simulation\+Timer.\+f90.
 
 
 \begin{DoxyCode}
-100     class(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
-101     this%stop = omp\_get\_wtime()
-102     this%last = this%stop - this%start
-103     this%elapsed = this%elapsed + this%last
+111     class(timer\_class), \textcolor{keywordtype}{intent(inout)} :: this
+112     this%stop = omp\_get\_wtime()
+113     this%last = this%stop - this%start
+114     this%elapsed = this%elapsed + this%last
 \end{DoxyCode}

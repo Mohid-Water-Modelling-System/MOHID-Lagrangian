@@ -5,6 +5,8 @@ var structsimulationglobals__mod_1_1var__names__t =
     [ "getvarsimname", "structsimulationglobals__mod_1_1var__names__t.html#a6c6e9ecef4ab851c104348393a5ba9ec", null ],
     [ "density", "structsimulationglobals__mod_1_1var__names__t.html#a8ece0e46cb7873a7b7f2a5ded27a93c8", null ],
     [ "densityvariants", "structsimulationglobals__mod_1_1var__names__t.html#a59a508facd79ad90be42fe83ca5e646e", null ],
+    [ "landintmask", "structsimulationglobals__mod_1_1var__names__t.html#a200a4d2d418449d20df4d5d61eaef041", null ],
+    [ "landmask", "structsimulationglobals__mod_1_1var__names__t.html#a7f6f2e084fda25ccc0fe911e3a46fafe", null ],
     [ "lat", "structsimulationglobals__mod_1_1var__names__t.html#aab90536922d15a1684cb7d0cfce99e95", null ],
     [ "latvariants", "structsimulationglobals__mod_1_1var__names__t.html#a7cd8cf017ecfa616f6700b86361b9b1f", null ],
     [ "level", "structsimulationglobals__mod_1_1var__names__t.html#a1dc8ae36a22bfd43a9f1fd7e2d13548a", null ],

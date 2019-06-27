@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['utilities_5fmod',['utilities_mod',['../namespaceutilities__mod.html',1,'']]]
+  ['os_5fdir',['os_dir',['../namespaceos__dir.html',1,'']]]
 ];

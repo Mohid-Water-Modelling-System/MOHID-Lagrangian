@@ -1,7 +1,5 @@
 var hierarchy =
 [
-    [ "aot_mod::aot", "interfaceaot__mod_1_1aot.html", null ],
-    [ "aot_mod::aot_class", "structaot__mod_1_1aot__class.html", null ],
     [ "background_mod::background", "interfacebackground__mod_1_1background.html", null ],
     [ "background_mod::background_class", "structbackground__mod_1_1background__class.html", null ],
     [ "blocks_mod::block_class", "structblocks__mod_1_1block__class.html", null ],
@@ -30,17 +28,23 @@ var hierarchy =
     [ "geometry_mod::geometry_class", "structgeometry__mod_1_1geometry__class.html", null ],
     [ "simulationglobals_mod::globals_class", "structsimulationglobals__mod_1_1globals__class.html", null ],
     [ "simulationinputstreamer_mod::input_streamer_class", "structsimulationinputstreamer__mod_1_1input__streamer__class.html", null ],
+    [ "simulationinputstreamer_mod::inputfilemodel_class", "structsimulationinputstreamer__mod_1_1inputfilemodel__class.html", null ],
     [ "interpolator_mod::interpolator_class", "structinterpolator__mod_1_1interpolator__class.html", null ],
+    [ "kernel_mod::kernel_class", "structkernel__mod_1_1kernel__class.html", null ],
+    [ "about.Licence", "classabout_1_1_licence.html", null ],
+    [ "abstract_linkedlist_mod::linkedlist", "structabstract__linkedlist__mod_1_1linkedlist.html", null ],
     [ "linkedlist", null, [
       [ "background_mod::fieldslist_class", "structbackground__mod_1_1fieldslist__class.html", null ],
       [ "simulationglobals_mod::stringlist_class", "structsimulationglobals__mod_1_1stringlist__class.html", null ],
       [ "sourceslist_mod::sourcelist_class", "structsourceslist__mod_1_1sourcelist__class.html", null ],
       [ "tracerlist_mod::tracerlist_class", "structtracerlist__mod_1_1tracerlist__class.html", null ]
     ] ],
-    [ "abstract_linkedlist_mod::linkedlist", "structabstract__linkedlist__mod_1_1linkedlist.html", null ],
     [ "simulationlogger_mod::logger_class", "structsimulationlogger__mod_1_1logger__class.html", null ],
+    [ "simulationglobals_mod::maskvals_t", "structsimulationglobals__mod_1_1maskvals__t.html", null ],
     [ "simulationmemory_mod::memory_t", "structsimulationmemory__mod_1_1memory__t.html", null ],
+    [ "MHDF5_reader.MHDF5Reader", "class_m_h_d_f5__reader_1_1_m_h_d_f5_reader.html", null ],
     [ "netcdfparser_mod::ncfile_class", "structnetcdfparser__mod_1_1ncfile__class.html", null ],
+    [ "ncMetaParser.ncMetadata", "classnc_meta_parser_1_1nc_metadata.html", null ],
     [ "simulationoutputstreamer_mod::output_streamer_class", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html", null ],
     [ "tracerpaper_mod::paper_par_class", "structtracerpaper__mod_1_1paper__par__class.html", null ],
     [ "tracerpaper_mod::paper_state_class", "structtracerpaper__mod_1_1paper__state__class.html", null ],
@@ -71,6 +75,7 @@ var hierarchy =
     [ "sources_mod::source_stats", "structsources__mod_1_1source__stats.html", null ],
     [ "sources_mod::source_stencil", "structsources__mod_1_1source__stencil.html", null ],
     [ "simulationglobals_mod::src_parm_t", "structsimulationglobals__mod_1_1src__parm__t.html", null ],
+    [ "statevector_mod::statevector_class", "structstatevector__mod_1_1statevector__class.html", null ],
     [ "simulationtestmaker_mod::testmaker_class", "structsimulationtestmaker__mod_1_1testmaker__class.html", null ],
     [ "simulationtimer_mod::timer_class", "structsimulationtimer__mod_1_1timer__class.html", null ],
     [ "tracerbase_mod::tracer", "interfacetracerbase__mod_1_1tracer.html", null ],
@@ -82,8 +87,8 @@ var hierarchy =
     ] ],
     [ "tracerbase_mod::tracer_par_class", "structtracerbase__mod_1_1tracer__par__class.html", null ],
     [ "tracerbase_mod::tracer_state_class", "structtracerbase__mod_1_1tracer__state__class.html", null ],
-    [ "tracerbase_mod::tracer_stats_class", "structtracerbase__mod_1_1tracer__stats__class.html", null ],
-    [ "aot_mod::trc_ptr_class", "structaot__mod_1_1trc__ptr__class.html", null ],
+    [ "simulationglobals_mod::tracertypes_t", "structsimulationglobals__mod_1_1tracertypes__t.html", null ],
+    [ "statevector_mod::trcptr_class", "structstatevector__mod_1_1trcptr__class.html", null ],
     [ "traceruser_mod::user_par_class", "structtraceruser__mod_1_1user__par__class.html", null ],
     [ "traceruser_mod::user_state_class", "structtraceruser__mod_1_1user__state__class.html", null ],
     [ "traceruser_mod::usertracer", "interfacetraceruser__mod_1_1usertracer.html", null ],
@@ -91,5 +96,6 @@ var hierarchy =
     [ "simulationglobals_mod::var_names_t", "structsimulationglobals__mod_1_1var__names__t.html", null ],
     [ "netcdfparser_mod::var_t", "structnetcdfparser__mod_1_1var__t.html", null ],
     [ "vtkwritter_mod::vtkwritter_class", "structvtkwritter__mod_1_1vtkwritter__class.html", null ],
-    [ "xmlparser_mod::xmlparser_class", "structxmlparser__mod_1_1xmlparser__class.html", null ]
+    [ "xmlparser_mod::xmlparser_class", "structxmlparser__mod_1_1xmlparser__class.html", null ],
+    [ "xmlWriter.xmlWriter", "classxml_writer_1_1xml_writer.html", null ]
 ];

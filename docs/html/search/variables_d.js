@@ -1,13 +1,16 @@
 var searchData=
 [
+  ['paper',['paper',['../structsimulationglobals__mod_1_1tracertypes__t.html#a2f1cf14744f82ea11344cfc7ec1daa7d',1,'simulationglobals_mod::tracertypes_t']]],
   ['par',['par',['../structsources__mod_1_1source__class.html#a7dcca40df4b520fa207dbe93d7e49b2e',1,'sources_mod::source_class::par()'],['../structtracerbase__mod_1_1tracer__class.html#aca04297200aad39fd04e31b630d9ca50',1,'tracerbase_mod::tracer_class::par()']]],
   ['parameters',['parameters',['../structsimulationglobals__mod_1_1globals__class.html#a6cf7f7fdf4c9f17c57bed07fea62be6a',1,'simulationglobals_mod::globals_class']]],
   ['particles_5femitted',['particles_emitted',['../structsources__mod_1_1source__stats.html#a2253ced036ad1a9fee933b6b08135189',1,'sources_mod::source_stats']]],
   ['particulate',['particulate',['../structsources__mod_1_1source__prop.html#af02d964cfaa712c12127327719794fde',1,'sources_mod::source_prop::particulate()'],['../structtracerpaper__mod_1_1paper__par__class.html#a3b237f726cdf3f35fa122047d0175351',1,'tracerpaper_mod::paper_par_class::particulate()'],['../structtracerplastic__mod_1_1plastic__par__class.html#a013591d7351786219189b294fae263b9',1,'tracerplastic_mod::plastic_par_class::particulate()'],['../structtraceruser__mod_1_1user__par__class.html#ae217ac0567b650151963309dc107a33f',1,'traceruser_mod::user_par_class::particulate()']]],
   ['particulatelist',['particulatelist',['../structsimulationglobals__mod_1_1src__parm__t.html#acc2c392a2031552a1f44336a4ca96873',1,'simulationglobals_mod::src_parm_t']]],
+  ['plastic',['plastic',['../structsimulationglobals__mod_1_1tracertypes__t.html#a7996bd824036f8a4f4febde191b46afc',1,'simulationglobals_mod::tracertypes_t']]],
   ['pointmax',['pointmax',['../structsimulationglobals__mod_1_1simdefs__t.html#ac6f91911424ae7c225e583c546283d2d',1,'simulationglobals_mod::simdefs_t']]],
   ['pointmin',['pointmin',['../structsimulationglobals__mod_1_1simdefs__t.html#ac4fc53f104e7620ef7f0384382dcc1a2',1,'simulationglobals_mod::simdefs_t']]],
   ['pos',['pos',['../structsources__mod_1_1source__state.html#a8dacf7040158bb5214f66476bf1a1c3d',1,'sources_mod::source_state::pos()'],['../structtracerbase__mod_1_1tracer__state__class.html#a184b3ecbe519a6cc7468fa3060131ce0',1,'tracerbase_mod::tracer_state_class::pos()']]],
+  ['possiblefiletypes',['possibleFileTypes',['../class_m_h_d_f5__reader_1_1_m_h_d_f5_reader.html#a0e8a8ab15e9fff5f77171f3245b62519',1,'MHDF5_reader::MHDF5Reader']]],
   ['prec',['prec',['../namespacesimulationprecision__mod.html#a361ca48174e0dc2228c07f25fa5396ec',1,'simulationprecision_mod']]],
   ['prec_5fwrt',['prec_wrt',['../namespacesimulationprecision__mod.html#a2afc058035b6678d4ba773117f7c5202',1,'simulationprecision_mod']]],
   ['previous',['previous',['../structlink__mod_1_1link.html#ae85bee976bd1eff62006c9a89732da13',1,'link_mod::link']]],
@@ -19,5 +22,5 @@ var searchData=
   ['pt',['pt',['../structgeometry__mod_1_1shape.html#a4c7824c0af103efbef53cbcacb9a5de0',1,'geometry_mod::shape']]],
   ['pt_5fradius',['pt_radius',['../structsources__mod_1_1source__prop.html#a66219c6ba24db75abf401de5c5fa875d',1,'sources_mod::source_prop']]],
   ['ptlist',['ptlist',['../structsources__mod_1_1source__stencil.html#a154e50e2872650da574d0a1148e3065a',1,'sources_mod::source_stencil']]],
-  ['ptr',['ptr',['../structaot__mod_1_1trc__ptr__class.html#a4cbb6cce7f206152dddb514337040125',1,'aot_mod::trc_ptr_class']]]
+  ['ptr',['ptr',['../structstatevector__mod_1_1trcptr__class.html#a1d7a04c6843655cbf92923320b3f2c37',1,'statevector_mod::trcptr_class']]]
 ];

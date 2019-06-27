@@ -17,7 +17,9 @@ integer function, dimension(6) \mbox{\hyperlink{namespaceutilities__mod_ab5b97f2
 \begin{DoxyCompactList}\small\item\em Function that returns an integer array of type (year, month, day, hour, minute, second) from an I\+SO date string. \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespaceutilities__mod_ad446cce78a6509db0e839439a0e84564}{utilities\+\_\+mod\+::find\+\_\+str}} (self, str\+\_\+array, str, mandatory)
 \begin{DoxyCompactList}\small\item\em returns the index of a given string in an array of strings. Has optional mandatory flag. \end{DoxyCompactList}\item 
-type(vector) function \mbox{\hyperlink{namespaceutilities__mod_ad6e463f7e5fc49fe4fcd5464326ade01}{utilities\+\_\+mod\+::geo2m}} (self, geovec, lat)
+type(vector) function \mbox{\hyperlink{namespaceutilities__mod_a3d3d0e1568b178cd3e0bb8013642946c}{utilities\+\_\+mod\+::geo2m\+\_\+vec}} (self, geovec, lat)
+\begin{DoxyCompactList}\small\item\em Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(geovec)) \mbox{\hyperlink{namespaceutilities__mod_aff2244d9152396064656f20f4936a18c}{utilities\+\_\+mod\+::geo2m\+\_\+comp}} (self, geovec, lat, component)
 \begin{DoxyCompactList}\small\item\em Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
 type(vector) function \mbox{\hyperlink{namespaceutilities__mod_a70b21b18c8633b7fd4c3057530d3f16f}{utilities\+\_\+mod\+::m2geo\+\_\+vec}} (self, mvec, lat)
 \begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
@@ -25,8 +27,16 @@ real(prec) function, dimension(size(mvec)) \mbox{\hyperlink{namespaceutilities__
 \begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
 character(\+:) function, allocatable \mbox{\hyperlink{namespaceutilities__mod_a6ba00b0a503f26c7e755d1efbbe83c5b}{utilities\+\_\+mod\+::int2str}} (self, fmt, i)
 \begin{DoxyCompactList}\small\item\em Returns a zero paded string from an integer number and a format descriptor. \end{DoxyCompactList}\item 
+character(\+:) function, allocatable \mbox{\hyperlink{namespaceutilities__mod_a2c8481f2b9f4cddf8391bd1e8b624335}{utilities\+\_\+mod\+::real2str}} (self, fmt, i)
+\begin{DoxyCompactList}\small\item\em Returns a string from an real number and a format descriptor. \end{DoxyCompactList}\item 
 real(prec) function \mbox{\hyperlink{namespaceutilities__mod_a164054d89c012d95f63c12a6cc0ac8d7}{utilities\+\_\+mod\+::get\+\_\+closest\+\_\+twopow}} (self, num)
-\begin{DoxyCompactList}\small\item\em Returns the closest power of 2 or a given real number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Returns the closest power of 2 or a given real number. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespaceutilities__mod_a258d85bcc477041275bd954667168ea3}{utilities\+\_\+mod\+::isboundedsingle}} (self, nums, min\+Bound, max\+Bound, eta)
+\begin{DoxyCompactList}\small\item\em Logical function that checks if a number is bounded between 2 values. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespaceutilities__mod_a1d16eada2f4cb344ad1500b3edba43fa}{utilities\+\_\+mod\+::isboundedarray}} (self, nums, min\+Bound, max\+Bound, eta)
+\begin{DoxyCompactList}\small\item\em Logical function that checks if a set of numbers are bounded between 2 values. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceutilities__mod_abffd01c3faf22f44e260c42c6f95d5c4}{utilities\+\_\+mod\+::appendarraysuniquereal}} (self, base\+Array, new\+Array, used\+Array)
+\begin{DoxyCompactList}\small\item\em receives 2 real arrays and appends the new values of the second to the first. also returns an optional logical array with the used values of the second array \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 

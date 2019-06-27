@@ -1,0 +1,23 @@
+\hypertarget{kernel_8f90}{}\section{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/kernel.f90 File Reference}
+\label{kernel_8f90}\index{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/kernel.\+f90@{C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/kernel.\+f90}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Modules}
+\begin{DoxyCompactItemize}
+\item 
+module \mbox{\hyperlink{namespacekernel__mod}{kernel\+\_\+mod}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ae17673ed6d32a4e7f6e54276e6430cc9}{kernel\+\_\+mod\+::runkernel}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Adaptation from run\+Solver (Ricardo) method that evaluates the specific kernel, according to the selected kernel. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_aec47ab247a9afc2a7fdc272620b3c5e8}{kernel\+\_\+mod\+::lagrangiankinematic}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Lagrangian Kernel, evaluate the velocities at given points using the interpolants and split the evaluation part from the solver module. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a92805ef71e30527b27de4efd7561f8f7}{kernel\+\_\+mod\+::diffusionisotropic}} (self, sv, dt)
+\begin{DoxyCompactList}\small\item\em Diffusion Kernel, computes the anisotropic diffusion assuming a constant diffusion coefficient. D = 1 m/s. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}{kernel\+\_\+mod\+::initkernel}} (self)
+\begin{DoxyCompactList}\small\item\em Initializer method adpated from for solver kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}

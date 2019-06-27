@@ -1,0 +1,101 @@
+\hypertarget{namespacestatevector__mod}{}\section{statevector\+\_\+mod Module Reference}
+\label{namespacestatevector__mod}\index{statevector\+\_\+mod@{statevector\+\_\+mod}}
+
+
+Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported beck into the objects from this class.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structstatevector__mod_1_1statevector__class}{statevector\+\_\+class}}
+\item 
+type \mbox{\hyperlink{structstatevector__mod_1_1trcptr__class}{trcptr\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacestatevector__mod_af0831dbae02e8ec94c576224cae673e5}{totracers}} (self)
+\begin{DoxyCompactList}\small\item\em Sends the data on the State Vector to the Tracer objects. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacestatevector__mod_acb2d2a7c4c5ee5d86a601be7db58c1df}{cleanstate}} (self)
+\begin{DoxyCompactList}\small\item\em Cleans the State Vector object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported beck into the objects from this class. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacestatevector__mod_acb2d2a7c4c5ee5d86a601be7db58c1df}\label{namespacestatevector__mod_acb2d2a7c4c5ee5d86a601be7db58c1df}} 
+\index{statevector\+\_\+mod@{statevector\+\_\+mod}!cleanstate@{cleanstate}}
+\index{cleanstate@{cleanstate}!statevector\+\_\+mod@{statevector\+\_\+mod}}
+\subsubsection{\texorpdfstring{cleanstate()}{cleanstate()}}
+{\footnotesize\ttfamily subroutine statevector\+\_\+mod\+::cleanstate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structstatevector__mod_1_1statevector__class}{statevector\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Cleans the State Vector object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 84 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+84     \textcolor{keywordtype}{class}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: self
+85     self%ttype = mv
+86     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%trc)) \textcolor{keyword}{deallocate}(self%trc)
+87     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%state)) \textcolor{keyword}{deallocate}(self%state)
+88     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%landMask)) \textcolor{keyword}{deallocate}(self%landMask)
+89     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%landIntMask)) \textcolor{keyword}{deallocate}(self%landIntMask)
+90     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%active)) \textcolor{keyword}{deallocate}(self%active)
+91     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%source)) \textcolor{keyword}{deallocate}(self%source)
+92     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keyword}{deallocate}(self%id)
+93     self%idx = 1
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacestatevector__mod_af0831dbae02e8ec94c576224cae673e5}\label{namespacestatevector__mod_af0831dbae02e8ec94c576224cae673e5}} 
+\index{statevector\+\_\+mod@{statevector\+\_\+mod}!totracers@{totracers}}
+\index{totracers@{totracers}!statevector\+\_\+mod@{statevector\+\_\+mod}}
+\subsubsection{\texorpdfstring{totracers()}{totracers()}}
+{\footnotesize\ttfamily subroutine statevector\+\_\+mod\+::totracers (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structstatevector__mod_1_1statevector__class}{statevector\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Sends the data on the State Vector to the Tracer objects. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 57 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+57     \textcolor{keywordtype}{class}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: self
+58     \textcolor{keywordtype}{integer} :: i
+59     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{pointer} :: aTracer
+60     \textcolor{keywordtype}{type}(string) :: outext
+61     \textcolor{keywordflow}{if}(\textcolor{keyword}{allocated}(self%active)) \textcolor{keywordflow}{then}
+62         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%active)
+63             \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(self%trc(i)%ptr)) \textcolor{keywordflow}{then}
+64                 atracer => self%trc(i)%ptr
+65                 \textcolor{keywordflow}{if} (self%active(i)) \textcolor{keywordflow}{then}
+66                     atracer%now%active = .true.
+67                     \textcolor{keyword}{call }atracer%setStateArray(self%state(i,:))
+68 \textcolor{keywordflow}{                end if}
+69             \textcolor{keywordflow}{else}
+70                 outext = \textcolor{stringliteral}{'[stateVector::toTracers]: pointer to Tracer not associated, stoping'}
+71                 \textcolor{keyword}{call }log%put(outext)
+72                 stop
+73 \textcolor{keywordflow}{            end if}
+74 \textcolor{keywordflow}{        end do}
+75 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}

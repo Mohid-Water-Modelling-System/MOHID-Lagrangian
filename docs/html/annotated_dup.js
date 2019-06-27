@@ -1,7 +1,7 @@
 var annotated_dup =
 [
+    [ "about", "namespaceabout.html", "namespaceabout" ],
     [ "abstract_linkedlist_mod", "namespaceabstract__linkedlist__mod.html", "namespaceabstract__linkedlist__mod" ],
-    [ "aot_mod", "namespaceaot__mod.html", "namespaceaot__mod" ],
     [ "background_mod", "namespacebackground__mod.html", "namespacebackground__mod" ],
     [ "blocks_mod", "namespaceblocks__mod.html", "namespaceblocks__mod" ],
     [ "boundingbox_mod", "namespaceboundingbox__mod.html", "namespaceboundingbox__mod" ],
@@ -11,7 +11,10 @@ var annotated_dup =
     [ "fieldtypes_mod", "namespacefieldtypes__mod.html", "namespacefieldtypes__mod" ],
     [ "geometry_mod", "namespacegeometry__mod.html", "namespacegeometry__mod" ],
     [ "interpolator_mod", "namespaceinterpolator__mod.html", "namespaceinterpolator__mod" ],
+    [ "kernel_mod", "namespacekernel__mod.html", "namespacekernel__mod" ],
     [ "link_mod", "namespacelink__mod.html", "namespacelink__mod" ],
+    [ "MHDF5_reader", "namespace_m_h_d_f5__reader.html", "namespace_m_h_d_f5__reader" ],
+    [ "ncMetaParser", "namespacenc_meta_parser.html", "namespacenc_meta_parser" ],
     [ "netcdfparser_mod", "namespacenetcdfparser__mod.html", "namespacenetcdfparser__mod" ],
     [ "simulation_mod", "namespacesimulation__mod.html", "namespacesimulation__mod" ],
     [ "simulationglobals_mod", "namespacesimulationglobals__mod.html", "namespacesimulationglobals__mod" ],
@@ -25,6 +28,7 @@ var annotated_dup =
     [ "solver_mod", "namespacesolver__mod.html", "namespacesolver__mod" ],
     [ "sources_mod", "namespacesources__mod.html", "namespacesources__mod" ],
     [ "sourceslist_mod", "namespacesourceslist__mod.html", "namespacesourceslist__mod" ],
+    [ "statevector_mod", "namespacestatevector__mod.html", "namespacestatevector__mod" ],
     [ "tracerbase_mod", "namespacetracerbase__mod.html", "namespacetracerbase__mod" ],
     [ "tracerlist_mod", "namespacetracerlist__mod.html", "namespacetracerlist__mod" ],
     [ "tracerpaper_mod", "namespacetracerpaper__mod.html", "namespacetracerpaper__mod" ],
@@ -32,5 +36,6 @@ var annotated_dup =
     [ "traceruser_mod", "namespacetraceruser__mod.html", "namespacetraceruser__mod" ],
     [ "utilities_mod", "namespaceutilities__mod.html", "namespaceutilities__mod" ],
     [ "vtkwritter_mod", "namespacevtkwritter__mod.html", "namespacevtkwritter__mod" ],
-    [ "xmlparser_mod", "namespacexmlparser__mod.html", "namespacexmlparser__mod" ]
+    [ "xmlparser_mod", "namespacexmlparser__mod.html", "namespacexmlparser__mod" ],
+    [ "xmlWriter", "namespacexml_writer.html", "namespacexml_writer" ]
 ];

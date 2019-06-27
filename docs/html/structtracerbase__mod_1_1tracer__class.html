@@ -109,15 +109,17 @@ $(document).ready(function(){initNavTree('structtracerbase__mod_1_1tracer__class
 Collaboration diagram for tracerbase_mod::tracer_class:</div>
 <div class="dyncontent">
 <div class="center"><img src="structtracerbase__mod_1_1tracer__class__coll__graph.png" border="0" usemap="#tracerbase__mod_1_1tracer__class_coll__map" alt="Collaboration graph"/></div>
-<map name="tracerbase__mod_1_1tracer__class_coll__map" id="tracerbase__mod_1_1tracer__class_coll__map">
-<area shape="rect" id="node2" href="structtracerbase__mod_1_1tracer__par__class.html" title="{tracerbase_mod::tracer\l_par_class\n|&#45; id\l&#45; idsource\l&#45; velmax\l|}" alt="" coords="5,27,161,149"/>
-<area shape="rect" id="node3" href="structtracerbase__mod_1_1tracer__state__class.html" title="Type &#45; state variables of a pure Lagrangian tracer object. " alt="" coords="185,5,341,171"/>
-<area shape="rect" id="node4" href="structtracerbase__mod_1_1tracer__stats__class.html" title="Type &#45; statistical variables of a pure Lagrangian tracer object. " alt="" coords="365,20,521,156"/>
-</map>
+<!-- MAP 0 -->
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
+<tr class="memitem:a5458a1e53360bfcdf51c9a677caab112"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerbase__mod_1_1tracer__class.html#a5458a1e53360bfcdf51c9a677caab112">getnumvars</a></td></tr>
+<tr class="separator:a5458a1e53360bfcdf51c9a677caab112"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada976e2f5180866e2d5999c087b38fdc"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerbase__mod_1_1tracer__class.html#ada976e2f5180866e2d5999c087b38fdc">getstatearray</a></td></tr>
+<tr class="separator:ada976e2f5180866e2d5999c087b38fdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8e61a82082c401bff8c726e0089a5e7"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerbase__mod_1_1tracer__class.html#ac8e61a82082c401bff8c726e0089a5e7">setstatearray</a></td></tr>
+<tr class="separator:ac8e61a82082c401bff8c726e0089a5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1142993acbb67b4fe43c52b554165e71"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerbase__mod_1_1tracer__class.html#a1142993acbb67b4fe43c52b554165e71">print</a> =&gt; printTracer</td></tr>
 <tr class="separator:a1142993acbb67b4fe43c52b554165e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -129,15 +131,66 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ad1a1e2f727ad281e2562952d6ba94526"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structtracerbase__mod_1_1tracer__state__class.html">tracer_state_class</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerbase__mod_1_1tracer__class.html#ad1a1e2f727ad281e2562952d6ba94526">now</a></td></tr>
 <tr class="memdesc:ad1a1e2f727ad281e2562952d6ba94526"><td class="mdescLeft">&#160;</td><td class="mdescRight">To access state variables.  <a href="#ad1a1e2f727ad281e2562952d6ba94526">More...</a><br /></td></tr>
 <tr class="separator:ad1a1e2f727ad281e2562952d6ba94526"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a161370f3c716daedca72414a3751c56a"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structtracerbase__mod_1_1tracer__stats__class.html">tracer_stats_class</a>)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerbase__mod_1_1tracer__class.html#a161370f3c716daedca72414a3751c56a">stats</a></td></tr>
-<tr class="memdesc:a161370f3c716daedca72414a3751c56a"><td class="mdescLeft">&#160;</td><td class="mdescRight">To access statistics.  <a href="#a161370f3c716daedca72414a3751c56a">More...</a><br /></td></tr>
-<tr class="separator:a161370f3c716daedca72414a3751c56a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Type - The pure Lagrangian tracer class. </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00049">49</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00040">40</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a id="a5458a1e53360bfcdf51c9a677caab112"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5458a1e53360bfcdf51c9a677caab112">&#9670;&nbsp;</a></span>getnumvars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure tracerbase_mod::tracer_class::getnumvars </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00044">44</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
+
+</div>
+</div>
+<a id="ada976e2f5180866e2d5999c087b38fdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada976e2f5180866e2d5999c087b38fdc">&#9670;&nbsp;</a></span>getstatearray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure tracerbase_mod::tracer_class::getstatearray </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00045">45</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
+
+</div>
+</div>
 <a id="a1142993acbb67b4fe43c52b554165e71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1142993acbb67b4fe43c52b554165e71">&#9670;&nbsp;</a></span>print()</h2>
 
@@ -161,7 +214,34 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00054">54</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00047">47</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
+
+</div>
+</div>
+<a id="ac8e61a82082c401bff8c726e0089a5e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8e61a82082c401bff8c726e0089a5e7">&#9670;&nbsp;</a></span>setstatearray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure tracerbase_mod::tracer_class::setstatearray </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00046">46</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
 
 </div>
 </div>
@@ -188,8 +268,8 @@ Private Attributes</h2></td></tr>
 
 <p>To access state variables. </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00051">51</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">type</span>(tracer_state_class) :: now</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00042">42</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordtype">type</span>(tracer_state_class) :: now</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aca04297200aad39fd04e31b630d9ca50"></a>
@@ -214,34 +294,8 @@ Private Attributes</h2></td></tr>
 
 <p>To access parameters. </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00050">50</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">type</span>(tracer_par_class)   :: par</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a161370f3c716daedca72414a3751c56a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a161370f3c716daedca72414a3751c56a">&#9670;&nbsp;</a></span>stats</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">type(<a class="el" href="structtracerbase__mod_1_1tracer__stats__class.html">tracer_stats_class</a>) tracerbase_mod::tracer_class::stats</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>To access statistics. </p>
-
-<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00052">52</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">type</span>(tracer_stats_class) :: stats</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer_base_8f90_source.html#l00041">41</a> of file <a class="el" href="tracer_base_8f90_source.html">tracerBase.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordtype">type</span>(tracer_par_class)   :: par</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

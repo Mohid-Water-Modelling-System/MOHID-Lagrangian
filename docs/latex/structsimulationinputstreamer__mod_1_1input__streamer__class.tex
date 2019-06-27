@@ -2,33 +2,61 @@
 \label{structsimulationinputstreamer__mod_1_1input__streamer__class}\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
 
 
-Collaboration diagram for simulationinputstreamer\+\_\+mod\+:\+:input\+\_\+streamer\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=220pt]{structsimulationinputstreamer__mod_1_1input__streamer__class__coll__graph}
-\end{center}
-\end{figure}
+Input Streamer class.  
+
+
+
+
+Collaboration diagram for simulationinputstreamer\+\_\+mod\+:\+:input\+\_\+streamer\+\_\+class\+:
+% FIG 0
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 procedure \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_a52470b6d47f3ce270f9fdc14ccfa25d5}{initialize}} =$>$ init\+Input\+Streamer
+\item 
+procedure \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_a76d4d67d354652f319fd93a340049cfb}{loaddatafromstack}}
+\item 
+procedure \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_a8fb8a5031b4f6aaf7adb725089f9fd2d}{getfullfile}}
+\item 
+procedure, private \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_aa1582178235a956bb2aae6c98d25fa7a}{resetreadstatus}}
+\item 
+procedure \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_af3faf35d98fba46362d3771ab1dac9ba}{print}} =$>$ print\+Input\+Streamer
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-integer \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_ad033c61e1678bef91313cdccddde15ad}{inputformat}} = -\/1
-\begin{DoxyCompactList}\small\item\em Switch for input format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+logical \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_ae5370d8623318a5fc15db31e99cfd148}{useinputfiles}}
+\item 
+type(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{inputfilemodel\+\_\+class}}), dimension(\+:), allocatable \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_aa12635920288984ada44e425ea05bf10}{currentsinputfile}}
+\begin{DoxyCompactList}\small\item\em array of input file metadata for currents \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{inputfilemodel\+\_\+class}}), dimension(\+:), allocatable \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_aff314be52a74d7bfb4db1e3b56c8b539}{windsinputfile}}
+\begin{DoxyCompactList}\small\item\em array of input file metadata for currents \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{inputfilemodel\+\_\+class}}), dimension(\+:), allocatable \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_afaf4ae68e00fdca31e5c59dadd94e05d}{wavesinputfile}}
+\begin{DoxyCompactList}\small\item\em array of input file metadata for currents \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_a840b26872bc3a8ddb8bab387590860d6}{buffersize}}
+\begin{DoxyCompactList}\small\item\em half of the biggest tail of data behind current time \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class_a827d38efa4fcc80677907577c173eb14}{lastreadtime}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
+Input Streamer class. 
 
-
-Definition at line 28 of file simulation\+Input\+Streamer.\+f90.
+Definition at line 44 of file simulation\+Input\+Streamer.\+f90.
 
 
 
 \subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_a8fb8a5031b4f6aaf7adb725089f9fd2d}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_a8fb8a5031b4f6aaf7adb725089f9fd2d}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!getfullfile@{getfullfile}}
+\index{getfullfile@{getfullfile}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{getfullfile()}{getfullfile()}}
+{\footnotesize\ttfamily procedure simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::getfullfile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 54 of file simulation\+Input\+Streamer.\+f90.
+
 \mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_a52470b6d47f3ce270f9fdc14ccfa25d5}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_a52470b6d47f3ce270f9fdc14ccfa25d5}} 
 \index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!initialize@{initialize}}
 \index{initialize@{initialize}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
@@ -37,28 +65,140 @@ Definition at line 28 of file simulation\+Input\+Streamer.\+f90.
 
 
 
-Definition at line 31 of file simulation\+Input\+Streamer.\+f90.
+Definition at line 52 of file simulation\+Input\+Streamer.\+f90.
+
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_a76d4d67d354652f319fd93a340049cfb}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_a76d4d67d354652f319fd93a340049cfb}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!loaddatafromstack@{loaddatafromstack}}
+\index{loaddatafromstack@{loaddatafromstack}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{loaddatafromstack()}{loaddatafromstack()}}
+{\footnotesize\ttfamily procedure simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::loaddatafromstack (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 53 of file simulation\+Input\+Streamer.\+f90.
+
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_af3faf35d98fba46362d3771ab1dac9ba}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_af3faf35d98fba46362d3771ab1dac9ba}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!print@{print}}
+\index{print@{print}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily procedure simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::print (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 56 of file simulation\+Input\+Streamer.\+f90.
+
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_aa1582178235a956bb2aae6c98d25fa7a}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_aa1582178235a956bb2aae6c98d25fa7a}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!resetreadstatus@{resetreadstatus}}
+\index{resetreadstatus@{resetreadstatus}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{resetreadstatus()}{resetreadstatus()}}
+{\footnotesize\ttfamily procedure, private simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::resetreadstatus (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 55 of file simulation\+Input\+Streamer.\+f90.
 
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_ad033c61e1678bef91313cdccddde15ad}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_ad033c61e1678bef91313cdccddde15ad}} 
-\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!inputformat@{inputformat}}
-\index{inputformat@{inputformat}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
-\subsubsection{\texorpdfstring{inputformat}{inputformat}}
-{\footnotesize\ttfamily integer simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::inputformat = -\/1\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_a840b26872bc3a8ddb8bab387590860d6}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_a840b26872bc3a8ddb8bab387590860d6}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!buffersize@{buffersize}}
+\index{buffersize@{buffersize}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{buffersize}{buffersize}}
+{\footnotesize\ttfamily real(prec) simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::buffersize\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Switch for input format. 
+half of the biggest tail of data behind current time 
 
 
 
-Definition at line 29 of file simulation\+Input\+Streamer.\+f90.
+Definition at line 49 of file simulation\+Input\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-29         \textcolor{keywordtype}{integer} :: InputFormat = -1
+49         \textcolor{keywordtype}{real(prec)} :: bufferSize
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_aa12635920288984ada44e425ea05bf10}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_aa12635920288984ada44e425ea05bf10}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!currentsinputfile@{currentsinputfile}}
+\index{currentsinputfile@{currentsinputfile}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{currentsinputfile}{currentsinputfile}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{inputfilemodel\+\_\+class}}), dimension(\+:), allocatable simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::currentsinputfile\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+array of input file metadata for currents 
+
+
+
+Definition at line 46 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+46         \textcolor{keywordtype}{type}(inputFileModel\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: currentsInputFile
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_a827d38efa4fcc80677907577c173eb14}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_a827d38efa4fcc80677907577c173eb14}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!lastreadtime@{lastreadtime}}
+\index{lastreadtime@{lastreadtime}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{lastreadtime}{lastreadtime}}
+{\footnotesize\ttfamily real(prec) simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::lastreadtime\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 50 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+50         \textcolor{keywordtype}{real(prec)} :: lastReadTime
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_ae5370d8623318a5fc15db31e99cfd148}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_ae5370d8623318a5fc15db31e99cfd148}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!useinputfiles@{useinputfiles}}
+\index{useinputfiles@{useinputfiles}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{useinputfiles}{useinputfiles}}
+{\footnotesize\ttfamily logical simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::useinputfiles\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 45 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+45         \textcolor{keywordtype}{logical} :: useInputFiles
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_afaf4ae68e00fdca31e5c59dadd94e05d}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_afaf4ae68e00fdca31e5c59dadd94e05d}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!wavesinputfile@{wavesinputfile}}
+\index{wavesinputfile@{wavesinputfile}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{wavesinputfile}{wavesinputfile}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{inputfilemodel\+\_\+class}}), dimension(\+:), allocatable simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::wavesinputfile\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+array of input file metadata for currents 
+
+
+
+Definition at line 48 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+48         \textcolor{keywordtype}{type}(inputFileModel\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: wavesInputFile
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationinputstreamer__mod_1_1input__streamer__class_aff314be52a74d7bfb4db1e3b56c8b539}\label{structsimulationinputstreamer__mod_1_1input__streamer__class_aff314be52a74d7bfb4db1e3b56c8b539}} 
+\index{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}!windsinputfile@{windsinputfile}}
+\index{windsinputfile@{windsinputfile}!simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class@{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{windsinputfile}{windsinputfile}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{inputfilemodel\+\_\+class}}), dimension(\+:), allocatable simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class\+::windsinputfile\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+array of input file metadata for currents 
+
+
+
+Definition at line 47 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+47         \textcolor{keywordtype}{type}(inputFileModel\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: windsInputFile
 \end{DoxyCode}
 
 

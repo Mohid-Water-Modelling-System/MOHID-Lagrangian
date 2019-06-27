@@ -19,6 +19,12 @@ interface \mbox{\hyperlink{interfacetracerpaper__mod_1_1papertracer}{papertracer
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+integer function \mbox{\hyperlink{namespacetracerpaper__mod_a62f88159b0746351f3b3a09a6a9dfff4}{getnumvars}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the number of variables used by this tracer. \end{DoxyCompactList}\item 
+real(prec) function, dimension(\+:), allocatable \mbox{\hyperlink{namespacetracerpaper__mod_a703693333469e5091ec8de0a62171294}{getstatearray}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the state array of this tracer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacetracerpaper__mod_abda951b1d3a953fc25f24ee3ce8e2025}{setstatearray}} (self, state\+Array)
+\begin{DoxyCompactList}\small\item\em Method that sets the state array of this tracer. \end{DoxyCompactList}\item 
 type(\mbox{\hyperlink{structtracerpaper__mod_1_1paper__class}{paper\+\_\+class}}) function \mbox{\hyperlink{namespacetracerpaper__mod_ad1bbc9d4e889b6aab71f0333cf6a5365}{constructor}} (id, src, time, p)
 \begin{DoxyCompactList}\small\item\em Paper Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -52,37 +58,38 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 68 of file tracer\+Paper.\+f90.
+Definition at line 123 of file tracer\+Paper.\+f90.
 
 
 \begin{DoxyCode}
-68     \textcolor{keywordtype}{type}(paper\_class) :: constructor
-69     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-70     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
-71     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
-72     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
-73 
-74     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
-75     constructor%tracer\_class = tracer(id, src, time, p)
-76     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
-77     constructor%par%id = id \textcolor{comment}{!forcing}
-78     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
-79     \textcolor{comment}{!now initialize the specific components of this derived type}
-80     \textcolor{comment}{!material parameters}
-81     constructor%mpar%degradation\_rate = src%prop%degrd\_rate
-82     constructor%mpar%particulate = src%prop%particulate
-83     constructor%mpar%size = src%prop%radius
-84     \textcolor{comment}{!material state}
-85     constructor%mnow%density = src%prop%density
-86     constructor%mnow%condition = src%prop%condition
-87     constructor%mnow%radius = src%prop%radius
-88     constructor%mnow%concentration = mv
-89     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
-90         constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not tracer
+123     \textcolor{keywordtype}{type}(paper\_class) :: constructor
+124     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+125     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+126     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+127     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+128 
+129     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
+130     constructor%tracer\_class = tracer(id, src, time, p)
+131     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
+132     constructor%par%id = id \textcolor{comment}{!forcing}
+133     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
+134     \textcolor{comment}{!now initialize the specific components of this derived type}
+135     constructor%par%ttype = globals%Types%paper
+136     \textcolor{comment}{!material parameters}
+137     constructor%mpar%degradation\_rate = src%prop%degrd\_rate
+138     constructor%mpar%particulate = src%prop%particulate
+139     constructor%mpar%size = src%prop%radius
+140     \textcolor{comment}{!material state}
+141     constructor%mnow%density = src%prop%density
+142     constructor%mnow%condition = src%prop%condition
+143     constructor%mnow%radius = src%prop%radius
+144     constructor%mnow%concentration = mv
+145     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
+146         constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not tracer
        size}
-91         constructor%mnow%concentration = src%prop%ini\_concentration
-92 \textcolor{keywordflow}{    end if}
-93 
+147         constructor%mnow%concentration = src%prop%ini\_concentration
+148 \textcolor{keywordflow}{    end if}
+149 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -91,3 +98,95 @@ Here is the call graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{namespacetracerpaper__mod_ad1bbc9d4e889b6aab71f0333cf6a5365_cgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{namespacetracerpaper__mod_a62f88159b0746351f3b3a09a6a9dfff4}\label{namespacetracerpaper__mod_a62f88159b0746351f3b3a09a6a9dfff4}} 
+\index{tracerpaper\+\_\+mod@{tracerpaper\+\_\+mod}!getnumvars@{getnumvars}}
+\index{getnumvars@{getnumvars}!tracerpaper\+\_\+mod@{tracerpaper\+\_\+mod}}
+\subsubsection{\texorpdfstring{getnumvars()}{getnumvars()}}
+{\footnotesize\ttfamily integer function tracerpaper\+\_\+mod\+::getnumvars (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracerpaper__mod_1_1paper__class}{paper\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the number of variables used by this tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 70 of file tracer\+Paper.\+f90.
+
+
+\begin{DoxyCode}
+70     \textcolor{keywordtype}{class}(paper\_class), \textcolor{keywordtype}{intent(in)} :: self
+71     getnumvars = 10
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{namespacetracerpaper__mod_a703693333469e5091ec8de0a62171294}\label{namespacetracerpaper__mod_a703693333469e5091ec8de0a62171294}} 
+\index{tracerpaper\+\_\+mod@{tracerpaper\+\_\+mod}!getstatearray@{getstatearray}}
+\index{getstatearray@{getstatearray}!tracerpaper\+\_\+mod@{tracerpaper\+\_\+mod}}
+\subsubsection{\texorpdfstring{getstatearray()}{getstatearray()}}
+{\footnotesize\ttfamily real(prec) function, dimension(\+:), allocatable tracerpaper\+\_\+mod\+::getstatearray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracerpaper__mod_1_1paper__class}{paper\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that returns the state array of this tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 80 of file tracer\+Paper.\+f90.
+
+
+\begin{DoxyCode}
+80     \textcolor{keywordtype}{class}(paper\_class), \textcolor{keywordtype}{intent(in)} :: self
+81     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getStateArray
+82     \textcolor{keyword}{allocate}(getstatearray(self%getNumVars()))
+83     getstatearray(1) = self%now%pos%x
+84     getstatearray(2) = self%now%pos%y
+85     getstatearray(3) = self%now%pos%z
+86     getstatearray(4) = self%now%vel%x
+87     getstatearray(5) = self%now%vel%y
+88     getstatearray(6) = self%now%vel%z
+89     getstatearray(7) = self%mnow%density
+90     getstatearray(8) = self%mnow%radius
+91     getstatearray(9) = self%mnow%condition
+92     getstatearray(10) = self%mnow%concentration
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{namespacetracerpaper__mod_abda951b1d3a953fc25f24ee3ce8e2025}\label{namespacetracerpaper__mod_abda951b1d3a953fc25f24ee3ce8e2025}} 
+\index{tracerpaper\+\_\+mod@{tracerpaper\+\_\+mod}!setstatearray@{setstatearray}}
+\index{setstatearray@{setstatearray}!tracerpaper\+\_\+mod@{tracerpaper\+\_\+mod}}
+\subsubsection{\texorpdfstring{setstatearray()}{setstatearray()}}
+{\footnotesize\ttfamily subroutine tracerpaper\+\_\+mod\+::setstatearray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structtracerpaper__mod_1_1paper__class}{paper\+\_\+class}}), intent(inout)}]{self,  }\item[{real(prec), dimension(\+:), intent(in)}]{state\+Array }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that sets the state array of this tracer. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 101 of file tracer\+Paper.\+f90.
+
+
+\begin{DoxyCode}
+101     \textcolor{keywordtype}{class}(paper\_class), \textcolor{keywordtype}{intent(inout)} :: self
+102     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: stateArray
+103     \textcolor{comment}{!if(size(stateArray)<self%getNumVars())}
+104     self%now%pos%x = statearray(1)
+105     self%now%pos%y = statearray(2)
+106     self%now%pos%z = statearray(3)
+107     self%now%vel%x = statearray(4)
+108     self%now%vel%y = statearray(5)
+109     self%now%vel%z = statearray(6)
+110     self%mnow%density = statearray(7)
+111     self%mnow%radius = statearray(8)
+112     self%mnow%condition = statearray(9)
+113     self%mnow%concentration = statearray(10)    
+\end{DoxyCode}

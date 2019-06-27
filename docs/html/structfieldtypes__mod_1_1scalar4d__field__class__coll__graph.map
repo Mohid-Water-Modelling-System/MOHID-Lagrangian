@@ -1,4 +1,4 @@
 <map id="fieldtypes_mod::scalar4d_field_class" name="fieldtypes_mod::scalar4d_field_class">
-<area shape="rect" id="node2" href="$structfieldtypes__mod_1_1scalar__field__class.html" title="a scalar field class " alt="" coords="13,233,165,325"/>
-<area shape="rect" id="node3" href="$structfieldtypes__mod_1_1field__class.html" title="{fieldtypes_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l&#45; getfieldminbound()\l&#45; getfieldmaxbound()\l}" alt="" coords="19,5,159,185"/>
+<area shape="rect" id="node2" href="$structfieldtypes__mod_1_1scalar__field__class.html" title="a scalar field class " alt="" coords="13,263,165,355"/>
+<area shape="rect" id="node3" href="$structfieldtypes__mod_1_1field__class.html" title="{fieldtypes_mod::field\l_class\n|&#45; name\l&#45; units\l&#45; dim\l|&#45; setfieldmetadata()\l&#45; print()\l&#45; getfieldtype()\l&#45; getfieldslice()\l&#45; getfieldminbound()\l&#45; getfieldmaxbound()\l&#45; getfieldshape()\l}" alt="" coords="19,5,159,215"/>
 </map>

@@ -1,0 +1,492 @@
+\hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader}{}\section{M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader Class Reference}
+\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader}\index{M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader}}
+
+
+Collaboration diagram for M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a11826c8a3513ad304efedf7a63ceb992}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_acfb0f212ab6190056926277fbc215ff4}{file\+Name}}, \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_abb791fb16427504bfe7dfa73204747e9}{directory}}, mandatory\+Mesh=True)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a6f95078ac94bea3283223688091854d5}{is\+Valid\+File}} (self)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_af878d42810452ebceffe648bd04970d1}{get\+File\+Type}} (self)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a5ba881e026e00f66ea31d212dd0be87b}{get\+Numb\+Time\+Steps}} (self)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a81ca43bbc8a077b4daf07e07bba3e31d}{get\+Date\+Str}} (self, time\+Index)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a0c16ad2e43bb3171cfec1b227e042218}{get\+Date}} (self, time\+Index)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_aa433954c98bbb5384bbd25e523ca1925}{get\+Geo\+Dims}} (self)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_aa80431c3897dbff8479ebcdde1676e26}{get\+Mesh\+Dims}} (self, time\+Index)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_ac1ab22571dbffbce200aec34fd658dc5}{get\+All\+Attributes\+Path}} (self, time\+Index)
+\item 
+def \mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a7e1fc985528e18756f46dd9d31bc6530}{has\+Bathymetry}} (self)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_acfb0f212ab6190056926277fbc215ff4}{file\+Name}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_abb791fb16427504bfe7dfa73204747e9}{directory}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a60187e1fcb12621bc2b2ea884e94bcdf}{f}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a3851a933c4dd5d4d33f38dfe120e134e}{valid\+File}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a4466a0d3c951c592c63e01ef5650bdc6}{file\+Type}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a0e8a8ab15e9fff5f77171f3245b62519}{possible\+File\+Types}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_af670ddb7c8ff35188fe942d691e1da70}{file\+Keys}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a9868373583eab6032aecdca5858b4ed7}{file\+Time\+Steps}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a760486fbdbec4b97176169efd053c764}{M\+O\+H\+I\+Dkeys}}
+\item 
+\mbox{\hyperlink{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a1e4ad7077adcc63c9b60ce626b84711f}{f\+Vars}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 46 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a11826c8a3513ad304efedf7a63ceb992}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a11826c8a3513ad304efedf7a63ceb992}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{file\+Name,  }\item[{}]{directory,  }\item[{}]{mandatory\+Mesh = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+Definition at line 54 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+54     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_a0b43f6115153b244e10d1933ee33500a}{\_\_init\_\_}}(self, fileName, directory, mandatoryMesh = True):
+55         self.fileName = fileName
+56         self.directory = directory
+57         self.f = h5py.File(self.directory +\textcolor{stringliteral}{'/'}+ self.fileName, \textcolor{stringliteral}{'r')}
+58 \textcolor{stringliteral}{        self.validFile = 0}
+59 \textcolor{stringliteral}{        self.fileType = []}
+60 \textcolor{stringliteral}{        self.possibleFileTypes = ['Hydrodynamic'}, \textcolor{stringliteral}{'Hydrodynamic2D'}, \textcolor{stringliteral}{'Lagrangian'}, \textcolor{stringliteral}{'WaterProperties'}, \textcolor{stringliteral}{'
+      WaterProperties2D'}, \textcolor{stringliteral}{'InterfaceSedimentWater'}, \textcolor{stringliteral}{'InterfaceWaterAir'}, \textcolor{stringliteral}{'Turbulence'}, \textcolor{stringliteral}{'Generic'}, \textcolor{stringliteral}{'Generic2D'}]
+61         self.fileKeys = self.f.keys()
+62         self.fileTimeSteps = list(self.f[\textcolor{stringliteral}{'Time'}].keys())        
+63         
+64         self.MOHIDkeys = [\textcolor{stringliteral}{'Grid'}, \textcolor{stringliteral}{'Results'}, \textcolor{stringliteral}{'Time'}]
+65         
+66         \textcolor{comment}{#check if file is a valid MOHID output}
+67         \textcolor{keywordflow}{if} all(i \textcolor{keywordflow}{in} self.fileKeys \textcolor{keywordflow}{for} i \textcolor{keywordflow}{in} self.MOHIDkeys):
+68             self.validFile = 1
+69         \textcolor{keywordflow}{else}:
+70             \textcolor{keywordflow}{for} key \textcolor{keywordflow}{in} self.MOHIDkeys:
+71                 \textcolor{keywordflow}{if} key \textcolor{keywordflow}{not} \textcolor{keywordflow}{in} self.fileKeys:
+72                     print(\textcolor{stringliteral}{'- [MHDF5Reader::init]: file does not have'}, key, \textcolor{stringliteral}{'group, not a MOHID output,
+       ignoring'})
+73         \textcolor{comment}{#check for file type}
+74         \textcolor{keywordflow}{if} self.validFile == 1:
+75             \textcolor{comment}{#checking for Hydrodynamic files}
+76             \textcolor{keywordflow}{if} \textcolor{stringliteral}{'water level'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Results'}].keys()):
+77                 self.fileType = \textcolor{stringliteral}{'Hydrodynamic'}
+78                 \textcolor{comment}{#Because 2D fiels are mixed with 3D fields}
+79                 exclusions = [\textcolor{stringliteral}{'Error'},\textcolor{stringliteral}{'TidePotential'},\textcolor{stringliteral}{'water column'},\textcolor{stringliteral}{'water level'}]                
+80                 \textcolor{keywordflow}{if} self.getGeoDims() == 2:
+81                     self.fileType = \textcolor{stringliteral}{'Hydrodynamic2D'}
+82                     exclusions = [] 
+83                 \textcolor{keywordflow}{if} mandatoryMesh \textcolor{keywordflow}{and} self.fileType == \textcolor{stringliteral}{'Hydrodynamic'}:
+84                     \textcolor{keywordflow}{if} \textcolor{stringliteral}{'Corners3D'} \textcolor{keywordflow}{not} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Grid'}].keys()):
+85                         print(\textcolor{stringliteral}{'- [MHDF5Reader::init]: old hydrodynamic file, without mesh information,
+       ignoring'})
+86                         self.validFile = 0
+87                 self.fVars = list(self.f[\textcolor{stringliteral}{'Results'}].keys())                
+88                 \textcolor{keywordflow}{for} exc \textcolor{keywordflow}{in} exclusions:
+89                     \textcolor{keywordflow}{if} exc \textcolor{keywordflow}{in} self.fVars:
+90                         self.fVars.\mbox{\hyperlink{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}{remove}}(exc)
+91             \textcolor{comment}{#checking for WaterProperies files}
+92             \textcolor{keywordflow}{if} \textcolor{stringliteral}{'temperature'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Results'}].keys()):
+93                 self.fileType = \textcolor{stringliteral}{'WaterProperties'}
+94                 \textcolor{comment}{#weird props}
+95                 exclusions = [\textcolor{stringliteral}{'Assimila'}]
+96                 \textcolor{keywordflow}{if} self.getGeoDims() == 2:
+97                     self.fileType = \textcolor{stringliteral}{'WaterProperties2D'}
+98                     exclusions = []
+99                 \textcolor{keywordflow}{if} mandatoryMesh \textcolor{keywordflow}{and} self.fileType == \textcolor{stringliteral}{'WaterProperties'}:
+100                     \textcolor{keywordflow}{if} \textcolor{stringliteral}{'Corners3D'} \textcolor{keywordflow}{not} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Grid'}].keys()):
+101                         print(\textcolor{stringliteral}{'- [MHDF5Reader::init]: old WaterProperties file, without mesh information,
+       ignoring'})
+102                         self.validFile = 0
+103                 self.fVars = list(self.f[\textcolor{stringliteral}{'Results'}].keys())                
+104                 \textcolor{keywordflow}{for} exc \textcolor{keywordflow}{in} exclusions:
+105                     \textcolor{keywordflow}{if} exc \textcolor{keywordflow}{in} self.fVars:
+106                         self.fVars.\mbox{\hyperlink{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}{remove}}(exc)
+107             \textcolor{comment}{#cheking for Lagrangian files }
+108             \textcolor{keywordflow}{if} \textcolor{stringliteral}{'Group\_1'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Results'}].keys()):
+109                 self.fileType = \textcolor{stringliteral}{'Lagrangian'}
+110                 \textcolor{comment}{#storing all variables in }
+111                 self.fVars = list(self.f[\textcolor{stringliteral}{'Results'}][\textcolor{stringliteral}{'Group\_1'}][\textcolor{stringliteral}{'Data\_1D'}].keys())
+112                 \textcolor{comment}{#Because conventions are not followed (name of the variable }
+113                 \textcolor{comment}{#is not the name of the field, mixing diferent dimenisionalities on the same group,...)}
+114                 exclusions = [\textcolor{stringliteral}{'X Pos'},\textcolor{stringliteral}{'Y Pos'},\textcolor{stringliteral}{'Z Pos'},\textcolor{stringliteral}{'Latitude average'},\textcolor{stringliteral}{'Longitude average'}, \textcolor{stringliteral}{'
+      googlemaps\_x\_average'}, \textcolor{stringliteral}{'googlemaps\_y\_average'}]
+115                 \textcolor{keywordflow}{for} exc \textcolor{keywordflow}{in} exclusions:
+116                     \textcolor{keywordflow}{if} exc \textcolor{keywordflow}{in} self.fVars:
+117                         self.fVars.\mbox{\hyperlink{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}{remove}}(exc)
+118             \textcolor{comment}{#checking for interface files}
+119             \textcolor{keywordflow}{if} \textcolor{stringliteral}{'Deposition'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Results'}].keys()):
+120                 self.fileType = \textcolor{stringliteral}{'InterfaceSedimentWater'}
+121                 self.validFile = 0
+122             \textcolor{keywordflow}{if} \textcolor{stringliteral}{'evaporation'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Results'}].keys()):
+123                 self.fileType = \textcolor{stringliteral}{'InterfaceWaterAir'}
+124                 self.validFile = 0
+125             \textcolor{comment}{#checking for turbulence files}
+126             \textcolor{keywordflow}{if} \textcolor{stringliteral}{'Diffusivity'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Results'}].keys()):
+127                 self.fileType = \textcolor{stringliteral}{'Turbulence'}
+128                 self.validFile = 0
+129             \textcolor{comment}{#maybe it can be a generic file...}
+130             \textcolor{keywordflow}{if} self.fileType == []:
+131                 self.fileType = \textcolor{stringliteral}{'Generic'}
+132                 exclusions = []                
+133                 \textcolor{keywordflow}{if} self.getGeoDims() == 2:
+134                     self.fileType = \textcolor{stringliteral}{'Generic2D'}
+135                     exclusions = []
+136                 self.fVars = list(self.f[\textcolor{stringliteral}{'Results'}].keys())                
+137                 \textcolor{keywordflow}{for} exc \textcolor{keywordflow}{in} exclusions:
+138                     \textcolor{keywordflow}{if} exc \textcolor{keywordflow}{in} self.fVars:
+139                         self.fVars.\mbox{\hyperlink{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}{remove}}(exc)
+140                 
+141                 
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_ac1ab22571dbffbce200aec34fd658dc5}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_ac1ab22571dbffbce200aec34fd658dc5}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!get\+All\+Attributes\+Path@{get\+All\+Attributes\+Path}}
+\index{get\+All\+Attributes\+Path@{get\+All\+Attributes\+Path}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{get\+All\+Attributes\+Path()}{getAllAttributesPath()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+get\+All\+Attributes\+Path (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time\+Index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 208 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+208     \textcolor{keyword}{def }getAllAttributesPath(self, timeIndex):
+209         \textcolor{keywordflow}{if} self.validFile == 1:
+210             Attr = []
+211             \textcolor{keywordflow}{if} self.fileType != \textcolor{stringliteral}{'Lagrangian'}:
+212                 \textcolor{keywordflow}{for} var \textcolor{keywordflow}{in} self.fVars:
+213                     timeVar = var + \textcolor{stringliteral}{'\_'} + str(timeIndex).zfill(5)
+214                     pathVar = \textcolor{stringliteral}{'/Results/'}+var+\textcolor{stringliteral}{'/'}+timeVar
+215                     Attr.append([var, pathVar])
+216             \textcolor{keywordflow}{if} self.fileType == \textcolor{stringliteral}{'Lagrangian'}:
+217                 \textcolor{keywordflow}{for} var \textcolor{keywordflow}{in} self.fVars:
+218                     timeVar = var + \textcolor{stringliteral}{'\_'} + str(timeIndex).zfill(5)
+219                     pathVar = \textcolor{stringliteral}{'/Results/Group\_1/Data\_1D/'}+var+\textcolor{stringliteral}{'/'}+timeVar
+220                     Attr.append([var, pathVar])
+221             \textcolor{keywordflow}{return} Attr
+222         \textcolor{keywordflow}{else}:
+223             print(\textcolor{stringliteral}{'- [MHDF5Reader::getAllAttributesPath]: invalid file ignoring'})        
+224     
+\end{DoxyCode}
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a0c16ad2e43bb3171cfec1b227e042218}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a0c16ad2e43bb3171cfec1b227e042218}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!get\+Date@{get\+Date}}
+\index{get\+Date@{get\+Date}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{get\+Date()}{getDate()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+get\+Date (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time\+Index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 167 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+167     \textcolor{keyword}{def }getDate(self, timeIndex):
+168         \textcolor{keywordflow}{if} self.validFile == 1:
+169             date = list(self.f[\textcolor{stringliteral}{'Time'}][self.fileTimeSteps[timeIndex-1]][:].transpose())
+170             \textcolor{keywordflow}{return} date
+171         \textcolor{keywordflow}{else}:
+172             print(\textcolor{stringliteral}{'- [MHDF5Reader::getDate]: invalid file, ignoring'})
+173                 
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a81ca43bbc8a077b4daf07e07bba3e31d}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a81ca43bbc8a077b4daf07e07bba3e31d}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!get\+Date\+Str@{get\+Date\+Str}}
+\index{get\+Date\+Str@{get\+Date\+Str}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{get\+Date\+Str()}{getDateStr()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+get\+Date\+Str (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time\+Index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 160 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+160     \textcolor{keyword}{def }getDateStr(self, timeIndex):
+161         \textcolor{keywordflow}{if} self.validFile == 1:            
+162             \textcolor{keywordflow}{return} \mbox{\hyperlink{namespace_m_date_time_a57cf43e4864af605636039c5a06672c8}{MDateTime.getDateStringFromMOHIDDate}}(self.getDate(
+      timeIndex))
+163         \textcolor{keywordflow}{else}:
+164             print(\textcolor{stringliteral}{'- [MHDF5Reader::getDate]: invalid file, ignoring'})
+165             
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_af878d42810452ebceffe648bd04970d1}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_af878d42810452ebceffe648bd04970d1}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!get\+File\+Type@{get\+File\+Type}}
+\index{get\+File\+Type@{get\+File\+Type}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{get\+File\+Type()}{getFileType()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+get\+File\+Type (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 146 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+146     \textcolor{keyword}{def }getFileType(self):
+147         \textcolor{keywordflow}{if} self.validFile == 1:
+148             \textcolor{keywordflow}{return} self.fileType
+149         \textcolor{keywordflow}{else}:
+150             print(\textcolor{stringliteral}{'- [MHDF5Reader::getfileType]: invalid file, no type, ignoring'})
+151      
+\end{DoxyCode}
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_aa433954c98bbb5384bbd25e523ca1925}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_aa433954c98bbb5384bbd25e523ca1925}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!get\+Geo\+Dims@{get\+Geo\+Dims}}
+\index{get\+Geo\+Dims@{get\+Geo\+Dims}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{get\+Geo\+Dims()}{getGeoDims()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+get\+Geo\+Dims (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 175 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+175     \textcolor{keyword}{def }getGeoDims(self):
+176         \textcolor{keywordflow}{if} self.validFile == 1:
+177             \textcolor{keywordflow}{if} self.fileType != \textcolor{stringliteral}{'Lagrangian'}:
+178                 \textcolor{keywordflow}{if} \textcolor{stringliteral}{'WaterPoints3D'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Grid'}].keys()):
+179                     dims = self.f[\textcolor{stringliteral}{'Grid'}][\textcolor{stringliteral}{'WaterPoints3D'}].shape
+180                     \textcolor{keywordflow}{if} dims[0] == 1: \textcolor{comment}{#first layer, it's a 2D file}
+181                         \textcolor{keywordflow}{return} 2
+182                     \textcolor{keywordflow}{else}:
+183                         \textcolor{keywordflow}{return} 3
+184                 \textcolor{keywordflow}{elif} \textcolor{stringliteral}{'WaterPoints2D'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Grid'}].keys()):
+185                     \textcolor{keywordflow}{return} 2
+186                 \textcolor{keywordflow}{else}: 
+187                     self.validFile = 0
+188                     \textcolor{keywordflow}{return} 0
+189             \textcolor{keywordflow}{if} self.fileType == \textcolor{stringliteral}{'Lagrangian'}:
+190                 \textcolor{keywordflow}{return} 3
+191         \textcolor{keywordflow}{else}:
+192             print(\textcolor{stringliteral}{'- [MHDF5Reader::getGeoDims]: invalid file, no geometry, ignoring'})
+193             
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_aa80431c3897dbff8479ebcdde1676e26}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_aa80431c3897dbff8479ebcdde1676e26}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!get\+Mesh\+Dims@{get\+Mesh\+Dims}}
+\index{get\+Mesh\+Dims@{get\+Mesh\+Dims}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{get\+Mesh\+Dims()}{getMeshDims()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+get\+Mesh\+Dims (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{time\+Index }\end{DoxyParamCaption})}
+
+
+
+Definition at line 195 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+195     \textcolor{keyword}{def }getMeshDims(self, timeIndex):
+196         \textcolor{keywordflow}{if} self.validFile == 1:
+197             \textcolor{keywordflow}{if} self.fileType != \textcolor{stringliteral}{'Lagrangian'} \textcolor{keywordflow}{and} self.getGeoDims() == 3:
+198                 \textcolor{keywordflow}{return} self.f[\textcolor{stringliteral}{'Grid'}][\textcolor{stringliteral}{'Corners3D'}][\textcolor{stringliteral}{'Latitude'}].shape
+199             \textcolor{keywordflow}{if} self.fileType != \textcolor{stringliteral}{'Lagrangian'} \textcolor{keywordflow}{and} self.getGeoDims() == 2:
+200                 \textcolor{keywordflow}{return} self.f[\textcolor{stringliteral}{'Grid'}][\textcolor{stringliteral}{'Latitude'}].shape
+201             \textcolor{keywordflow}{if} self.fileType == \textcolor{stringliteral}{'Lagrangian'}:
+202                 timeVar = \textcolor{stringliteral}{'Latitude\_'} + str(timeIndex).zfill(5)
+203                 \textcolor{keywordflow}{return} self.f[\textcolor{stringliteral}{'Results'}][\textcolor{stringliteral}{'Group\_1'}][\textcolor{stringliteral}{'Data\_1D'}][\textcolor{stringliteral}{'Latitude'}][timeVar].size
+204         \textcolor{keywordflow}{else}:
+205             print(\textcolor{stringliteral}{'- [MHDF5Reader::getMeshDims]: invalid file, no mesh geometry, ignoring'})
+206             
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 4
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a5ba881e026e00f66ea31d212dd0be87b}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a5ba881e026e00f66ea31d212dd0be87b}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!get\+Numb\+Time\+Steps@{get\+Numb\+Time\+Steps}}
+\index{get\+Numb\+Time\+Steps@{get\+Numb\+Time\+Steps}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{get\+Numb\+Time\+Steps()}{getNumbTimeSteps()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+get\+Numb\+Time\+Steps (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 153 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+153     \textcolor{keyword}{def }getNumbTimeSteps(self):
+154         \textcolor{keywordflow}{if} self.validFile == 1:
+155             \textcolor{keywordflow}{return} len(self.fileTimeSteps)
+156         \textcolor{keywordflow}{else}:
+157             print(\textcolor{stringliteral}{'- [MHDF5Reader::getNumbTimeSteps]: invalid file, ignoring'})
+158     
+\end{DoxyCode}
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a7e1fc985528e18756f46dd9d31bc6530}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a7e1fc985528e18756f46dd9d31bc6530}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!has\+Bathymetry@{has\+Bathymetry}}
+\index{has\+Bathymetry@{has\+Bathymetry}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{has\+Bathymetry()}{hasBathymetry()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+has\+Bathymetry (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 226 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+226     \textcolor{keyword}{def }hasBathymetry(self):
+227         \textcolor{keywordflow}{if} self.validFile == 1:            
+228             \textcolor{keywordflow}{if} self.fileType != \textcolor{stringliteral}{'Lagrangian'}:
+229                 \textcolor{keywordflow}{if} \textcolor{stringliteral}{'Bathymetry'} \textcolor{keywordflow}{in} list(self.f[\textcolor{stringliteral}{'Grid'}].keys()):
+230                     \textcolor{keywordflow}{return} 1
+231                 \textcolor{keywordflow}{else}:
+232                     \textcolor{keywordflow}{return} 0
+233             \textcolor{keywordflow}{if} self.fileType == \textcolor{stringliteral}{'Lagrangian'}:
+234                 \textcolor{keywordflow}{return} 0
+235         \textcolor{keywordflow}{else}:
+236             print(\textcolor{stringliteral}{'- [MHDF5Reader::hasBathymetry]: invalid file ignoring'})
+\end{DoxyCode}
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a6f95078ac94bea3283223688091854d5}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a6f95078ac94bea3283223688091854d5}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!is\+Valid\+File@{is\+Valid\+File}}
+\index{is\+Valid\+File@{is\+Valid\+File}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{is\+Valid\+File()}{isValidFile()}}
+{\footnotesize\ttfamily def M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+is\+Valid\+File (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 142 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+\begin{DoxyCode}
+142     \textcolor{keyword}{def }isValidFile(self):
+143         \textcolor{keywordflow}{return} self.validFile
+144                 
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_abb791fb16427504bfe7dfa73204747e9}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_abb791fb16427504bfe7dfa73204747e9}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!directory@{directory}}
+\index{directory@{directory}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{directory}{directory}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+directory}
+
+
+
+Definition at line 56 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a60187e1fcb12621bc2b2ea884e94bcdf}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a60187e1fcb12621bc2b2ea884e94bcdf}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!f@{f}}
+\index{f@{f}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+f}
+
+
+
+Definition at line 57 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_af670ddb7c8ff35188fe942d691e1da70}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_af670ddb7c8ff35188fe942d691e1da70}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!file\+Keys@{file\+Keys}}
+\index{file\+Keys@{file\+Keys}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{file\+Keys}{fileKeys}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+file\+Keys}
+
+
+
+Definition at line 61 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_acfb0f212ab6190056926277fbc215ff4}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_acfb0f212ab6190056926277fbc215ff4}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!file\+Name@{file\+Name}}
+\index{file\+Name@{file\+Name}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{file\+Name}{fileName}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+file\+Name}
+
+
+
+Definition at line 55 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a9868373583eab6032aecdca5858b4ed7}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a9868373583eab6032aecdca5858b4ed7}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!file\+Time\+Steps@{file\+Time\+Steps}}
+\index{file\+Time\+Steps@{file\+Time\+Steps}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{file\+Time\+Steps}{fileTimeSteps}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+file\+Time\+Steps}
+
+
+
+Definition at line 62 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a4466a0d3c951c592c63e01ef5650bdc6}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a4466a0d3c951c592c63e01ef5650bdc6}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!file\+Type@{file\+Type}}
+\index{file\+Type@{file\+Type}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{file\+Type}{fileType}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+file\+Type}
+
+
+
+Definition at line 59 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a1e4ad7077adcc63c9b60ce626b84711f}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a1e4ad7077adcc63c9b60ce626b84711f}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!f\+Vars@{f\+Vars}}
+\index{f\+Vars@{f\+Vars}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{f\+Vars}{fVars}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+f\+Vars}
+
+
+
+Definition at line 87 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a760486fbdbec4b97176169efd053c764}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a760486fbdbec4b97176169efd053c764}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!M\+O\+H\+I\+Dkeys@{M\+O\+H\+I\+Dkeys}}
+\index{M\+O\+H\+I\+Dkeys@{M\+O\+H\+I\+Dkeys}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{M\+O\+H\+I\+Dkeys}{MOHIDkeys}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+M\+O\+H\+I\+Dkeys}
+
+
+
+Definition at line 64 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a0e8a8ab15e9fff5f77171f3245b62519}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a0e8a8ab15e9fff5f77171f3245b62519}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!possible\+File\+Types@{possible\+File\+Types}}
+\index{possible\+File\+Types@{possible\+File\+Types}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{possible\+File\+Types}{possibleFileTypes}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+possible\+File\+Types}
+
+
+
+Definition at line 60 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+\mbox{\Hypertarget{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a3851a933c4dd5d4d33f38dfe120e134e}\label{class_m_h_d_f5__reader_1_1_m_h_d_f5_reader_a3851a933c4dd5d4d33f38dfe120e134e}} 
+\index{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}!valid\+File@{valid\+File}}
+\index{valid\+File@{valid\+File}!M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader@{M\+H\+D\+F5\+\_\+reader\+::\+M\+H\+D\+F5\+Reader}}
+\subsubsection{\texorpdfstring{valid\+File}{validFile}}
+{\footnotesize\ttfamily M\+H\+D\+F5\+\_\+reader.\+M\+H\+D\+F5\+Reader.\+valid\+File}
+
+
+
+Definition at line 58 of file M\+H\+D\+F5\+\_\+reader.\+py.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor/\+Common/\mbox{\hyperlink{_m_h_d_f5__reader_8py}{M\+H\+D\+F5\+\_\+reader.\+py}}\end{DoxyCompactItemize}

@@ -19,7 +19,7 @@ subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_a45bbd32a561c88c18
 \begin{DoxyCompactList}\small\item\em Fills a domain\textquotesingle{}s Background with taylor green vortices. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_a59ecca693ee5dfe472e2694c9399f0f0}{makeconstantvel}} (self, res, testbox, testbackground)
 \begin{DoxyCompactList}\small\item\em Fills a domain\textquotesingle{}s Background with a constant velocity field. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_a99df61e4a45020aa1e2d30d33a4e2fa0}{makerealvel}} (self, res, testbox, testbackground)
+subroutine \mbox{\hyperlink{namespacesimulationtestmaker__mod_aefae35a08583d3983b922b33b8c74225}{makerealvel}} (self, testbox, testbackground)
 \begin{DoxyCompactList}\small\item\em Fills a domain\textquotesingle{}s with sfc velocity field. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -78,7 +78,7 @@ Definition at line 51 of file simulation\+Test\+Maker.\+f90.
 70         \textcolor{comment}{!make real (from file) velocity test}
 71         outext = \textcolor{stringliteral}{'Reading fields from a netcdf file, stand by...'}
 72         \textcolor{keyword}{call }log%put(outext)
-73         \textcolor{keyword}{call }self%makeRealVel(resolution, testbox, testbackground)
+73         \textcolor{keyword}{call }self%makeRealVel(testbox, testbackground)
 74 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtestmaker__mod_a59ecca693ee5dfe472e2694c9399f0f0}\label{namespacesimulationtestmaker__mod_a59ecca693ee5dfe472e2694c9399f0f0}} 
@@ -155,11 +155,11 @@ Definition at line 152 of file simulation\+Test\+Maker.\+f90.
 204     \textcolor{keyword}{call }testbackground%add(gfield3)
 205 
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacesimulationtestmaker__mod_a99df61e4a45020aa1e2d30d33a4e2fa0}\label{namespacesimulationtestmaker__mod_a99df61e4a45020aa1e2d30d33a4e2fa0}} 
+\mbox{\Hypertarget{namespacesimulationtestmaker__mod_aefae35a08583d3983b922b33b8c74225}\label{namespacesimulationtestmaker__mod_aefae35a08583d3983b922b33b8c74225}} 
 \index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!makerealvel@{makerealvel}}
 \index{makerealvel@{makerealvel}!simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}}
 \subsubsection{\texorpdfstring{makerealvel()}{makerealvel()}}
-{\footnotesize\ttfamily subroutine simulationtestmaker\+\_\+mod\+::makerealvel (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{res,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{testbox,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(inout)}]{testbackground }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulationtestmaker\+\_\+mod\+::makerealvel (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationtestmaker__mod_1_1testmaker__class}{testmaker\+\_\+class}}), intent(inout)}]{self,  }\item[{type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}), intent(in)}]{testbox,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(inout)}]{testbackground }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -175,39 +175,31 @@ Definition at line 214 of file simulation\+Test\+Maker.\+f90.
 
 \begin{DoxyCode}
 214     \textcolor{keywordtype}{class}(testmaker\_class), \textcolor{keywordtype}{intent(inout)} :: self
-215     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: res
-216     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: testbox
-217     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(inout)} :: testbackground
-218     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: testbackgroundims
-219     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2,gfield3
-220     \textcolor{comment}{!type(nc\_class),dimension(3) :: nc\_input\_file}
-221     \textcolor{keywordtype}{type}(string) :: name, units
+215     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: testbox
+216     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(inout)} :: testbackground
+217     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: testbackgroundims
+218     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2,gfield3
+219     \textcolor{keywordtype}{type}(ncfile\_class) :: ncFile
+220     \textcolor{keywordtype}{type}(string) :: ncFileName
+221     \textcolor{keywordtype}{integer} :: i
 222     
-223     
-224     \textcolor{keywordtype}{type}(ncfile\_class) :: ncFile
-225     \textcolor{keywordtype}{type}(string) :: ncFileName
-226     \textcolor{keywordtype}{integer} :: i
-227     
-228     ncfilename = \textcolor{stringliteral}{'MOHID\_Vigo\_20180904\_0000.nc4'}
-229     \textcolor{keyword}{call }ncfile%initialize(ncfilename)    
-230     \textcolor{keyword}{call }ncfile%getVarDimensions(globals%Var%u, testbackgroundims)
-231     \textcolor{keyword}{call }ncfile%getVar(globals%Var%u, gfield1)
-232     \textcolor{keyword}{call }ncfile%getVar(globals%Var%v, gfield2)
-233     \textcolor{keyword}{call }ncfile%getVar(globals%Var%w, gfield3)
-234     \textcolor{keyword}{call }ncfile%finalize()
-235     \textcolor{comment}{!do i=1, size(testbackgroundims\_alt)}
-236     \textcolor{comment}{!    call testbackgroundims\_alt(i)%print()}
-237     \textcolor{comment}{!end do}
-238     \textcolor{comment}{!call gfield1%print()}
-239    
-240     name = \textcolor{stringliteral}{'Real surface velocity field'}
-241     testbackground = background(1, name, testbox, testbackgroundims)
-242     \textcolor{keyword}{call }testbackground%add(gfield1)
-243     \textcolor{keyword}{call }testbackground%add(gfield2)
-244     \textcolor{keyword}{call }testbackground%add(gfield3)
-245     
-246     \textcolor{comment}{!call testbackground%print()}
-247 
+223     \textcolor{comment}{!testMaker class has no acess to input stream objects, so we hack it}
+224     ncfilename = globals%Names%inputFile(1)
+225     \textcolor{keyword}{call }ncfile%initialize(ncfilename)    
+226     \textcolor{keyword}{call }ncfile%getVarDimensions(globals%Var%u, testbackgroundims)
+227     \textcolor{keyword}{call }ncfile%getVar(globals%Var%u, gfield1)
+228     \textcolor{keyword}{call }ncfile%getVar(globals%Var%v, gfield2)
+229     \textcolor{keyword}{call }ncfile%getVar(globals%Var%w, gfield3)
+230     \textcolor{keyword}{call }ncfile%finalize()
+231    
+232     testbackground = background(1, ncfilename, testbox, testbackgroundims)
+233     \textcolor{keyword}{call }testbackground%add(gfield1)
+234     \textcolor{keyword}{call }testbackground%add(gfield2)
+235     \textcolor{keyword}{call }testbackground%add(gfield3)
+236     
+237     \textcolor{comment}{!call testbackground%print()}
+238     \textcolor{comment}{!print*, testbackground%getDimExtents(Globals%Var%time)}
+239 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtestmaker__mod_a45bbd32a561c88c18498d88f2d540cc4}\label{namespacesimulationtestmaker__mod_a45bbd32a561c88c18498d88f2d540cc4}} 
 \index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!maketaylorgreen@{maketaylorgreen}}

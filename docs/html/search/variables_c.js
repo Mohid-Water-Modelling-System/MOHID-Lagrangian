@@ -6,6 +6,7 @@ var searchData=
   ['outputformat',['outputformat',['../structsimulationglobals__mod_1_1parameters__t.html#a455601cb209772820789bdfd696628d2',1,'simulationglobals_mod::parameters_t::outputformat()'],['../structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a53a4af6464bb24e7191a7632fb3b4f38',1,'simulationoutputstreamer_mod::output_streamer_class::outputformat()']]],
   ['outputformatindexes',['outputformatindexes',['../structsimulationglobals__mod_1_1parameters__t.html#ac4e90208e4fb5c5fc0a673b03fc908d7',1,'simulationglobals_mod::parameters_t']]],
   ['outputformatnames',['outputformatnames',['../structsimulationglobals__mod_1_1parameters__t.html#a75f99aae482ed1092b84b5bbff494d99',1,'simulationglobals_mod::parameters_t']]],
-  ['outputfrequency',['outputfrequency',['../structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a920e9e77fa191ab17e85c82d3816d913',1,'simulationoutputstreamer_mod::output_streamer_class']]],
-  ['outputstreamer',['outputstreamer',['../structsimulation__mod_1_1simulation__class.html#a75e838871eedd2fd66dc7d9bfce015ad',1,'simulation_mod::simulation_class']]]
+  ['outputintervaltime',['outputintervaltime',['../structsimulationoutputstreamer__mod_1_1output__streamer__class.html#aacf7688bfe4a91af5a8db9e7003a041b',1,'simulationoutputstreamer_mod::output_streamer_class']]],
+  ['outputstreamer',['outputstreamer',['../structsimulation__mod_1_1simulation__class.html#a75e838871eedd2fd66dc7d9bfce015ad',1,'simulation_mod::simulation_class']]],
+  ['outputwritetime',['outputwritetime',['../structsimulationglobals__mod_1_1parameters__t.html#a283fe10ad9daf8ffe2ca526ee990daa9',1,'simulationglobals_mod::parameters_t']]]
 ];

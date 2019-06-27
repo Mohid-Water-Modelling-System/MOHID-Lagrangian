@@ -13,7 +13,7 @@ type \mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+c
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespacexmlparser__mod_aa1f6c9620a625b407c80c9053492a21c}{getfile}} (self, xmldoc, xmlfilename)
+subroutine \mbox{\hyperlink{namespacexmlparser__mod_af7265285af04ac926f946c2989ed85b4}{getfile}} (self, xmldoc, xmlfilename, mandatory)
 \begin{DoxyCompactList}\small\item\em Method that parses a xml file and returns a pointer to the master node. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacexmlparser__mod_a9eed98475e0d55a3c7b2eeb88925a48c}{closefile}} (self, xmldoc)
 \begin{DoxyCompactList}\small\item\em Method that closes a parsed xml file or node. \end{DoxyCompactList}\item 
@@ -63,19 +63,19 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 82 of file xml\+Parser.\+f90.
+Definition at line 97 of file xml\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-82     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-83     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: xmldoc
-84     \textcolor{keyword}{call }destroy(xmldoc) \textcolor{comment}{!using FOX function}
+97     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+98     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: xmldoc
+99     \textcolor{keyword}{call }destroy(xmldoc) \textcolor{comment}{!using FOX function}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacexmlparser__mod_aa1f6c9620a625b407c80c9053492a21c}\label{namespacexmlparser__mod_aa1f6c9620a625b407c80c9053492a21c}} 
+\mbox{\Hypertarget{namespacexmlparser__mod_af7265285af04ac926f946c2989ed85b4}\label{namespacexmlparser__mod_af7265285af04ac926f946c2989ed85b4}} 
 \index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getfile@{getfile}}
 \index{getfile@{getfile}!xmlparser\+\_\+mod@{xmlparser\+\_\+mod}}
 \subsubsection{\texorpdfstring{getfile()}{getfile()}}
-{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::getfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(out), pointer}]{xmldoc,  }\item[{type(string), intent(in)}]{xmlfilename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine xmlparser\+\_\+mod\+::getfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structxmlparser__mod_1_1xmlparser__class}{xmlparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(node), intent(out), pointer}]{xmldoc,  }\item[{type(string), intent(in)}]{xmlfilename,  }\item[{logical, intent(in), optional}]{mandatory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -86,11 +86,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,xmldoc,xmlfilename} & \\
+\mbox{\tt in}  & {\em self,xmldoc,xmlfilename,mandatory} & \\
 \hline
 \mbox{\tt out}  & {\em xmldoc} & Node that contains the parsed file\\
 \hline
-\mbox{\tt in}  & {\em xmlfilename} & File name \\
+\mbox{\tt in}  & {\em xmlfilename} & File name\\
+\hline
+\mbox{\tt in}  & {\em mandatory} & Swich for optional or mandatory tags \\
 \hline
 \end{DoxyParams}
 
@@ -102,17 +104,32 @@ Definition at line 59 of file xml\+Parser.\+f90.
 59     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
 60     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: xmldoc
 61     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: xmlfilename
-62     \textcolor{keywordtype}{integer} :: err
-63     \textcolor{keywordtype}{type}(string) :: outext
-64     xmldoc => parsefile(xmlfilename%chars(), iostat=err) \textcolor{comment}{!using FOX function}
-65     \textcolor{keywordflow}{if} (err==0) \textcolor{keywordflow}{then}
-66         outext=\textcolor{stringliteral}{'->Reading .xml file '}//xmlfilename
-67         \textcolor{keyword}{call }log%put(outext)
-68     \textcolor{keywordflow}{else}
-69         outext=\textcolor{stringliteral}{'[XMLReader::getFile]: no '}//xmlfilename//\textcolor{stringliteral}{' file, or file is invalid. Stoping'}
-70         \textcolor{keyword}{call }log%put(outext)
-71         stop
-72 \textcolor{keywordflow}{    endif}
+62     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
+63     \textcolor{keywordtype}{logical} :: mand
+64     \textcolor{keywordtype}{integer} :: err
+65     \textcolor{keywordtype}{type}(string) :: outext
+66     
+67     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+68         mand = mandatory
+69     \textcolor{keywordflow}{else}
+70         mand = .true.
+71 \textcolor{keywordflow}{    end if}    
+72     
+73     xmldoc => parsefile(xmlfilename%chars(), iostat=err) \textcolor{comment}{!using FOX function}
+74     \textcolor{keywordflow}{if} (err==0) \textcolor{keywordflow}{then}
+75         outext=\textcolor{stringliteral}{'->Reading .xml file '}//xmlfilename
+76         \textcolor{keyword}{call }log%put(outext)
+77     \textcolor{keywordflow}{else}
+78         \textcolor{keyword}{nullify}(xmldoc)
+79         \textcolor{keywordflow}{if} (.not.mand) \textcolor{keywordflow}{then}            
+80             outext=\textcolor{stringliteral}{'[XMLReader::getFile]: no '}//xmlfilename//\textcolor{stringliteral}{' file, or file is invalid. Ignoring'}
+81             \textcolor{keyword}{call }log%put(outext)
+82         \textcolor{keywordflow}{else}
+83             outext=\textcolor{stringliteral}{'[XMLReader::getFile]: no '}//xmlfilename//\textcolor{stringliteral}{' file, or file is invalid. Stoping'}
+84             \textcolor{keyword}{call }log%put(outext)
+85             stop
+86 \textcolor{keywordflow}{        end if}
+87 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacexmlparser__mod_a3e977c7792b08b009a09cc1f7fb4f80a}\label{namespacexmlparser__mod_a3e977c7792b08b009a09cc1f7fb4f80a}} 
 \index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getleafattribute@{getleafattribute}}
@@ -140,17 +157,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 95 of file xml\+Parser.\+f90.
+Definition at line 110 of file xml\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-95     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-96     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
-97     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: att\_name
-98     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: att\_value
-99     \textcolor{keywordtype}{character(CHAR\_LEN)} :: att\_value\_chars
-100     \textcolor{keyword}{call }extractdataattribute(xmlnode, att\_name%chars(), att\_value\_chars) \textcolor{comment}{!using FOX function}
-101     att\_value=trim(att\_value\_chars)
+110     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+111     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
+112     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: att\_name
+113     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: att\_value
+114     \textcolor{keywordtype}{character(CHAR\_LEN)} :: att\_value\_chars
+115     \textcolor{keyword}{call }extractdataattribute(xmlnode, att\_name%chars(), att\_value\_chars) \textcolor{comment}{!using FOX function}
+116     att\_value=trim(att\_value\_chars)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacexmlparser__mod_ade14a3d90326f84cfa52844aa4a16b75}\label{namespacexmlparser__mod_ade14a3d90326f84cfa52844aa4a16b75}} 
 \index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getnodeattribute@{getnodeattribute}}
@@ -184,58 +201,62 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 112 of file xml\+Parser.\+f90.
+Definition at line 127 of file xml\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-112     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-113     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
-114     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
-115     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: att\_name
-116     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: att\_value
-117     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
-118     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
-119 
-120     \textcolor{keywordtype}{type}(string) :: outext, nodename
-121     \textcolor{keywordtype}{character(CHAR\_LEN)} :: att\_value\_chars
-122     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list, nodeChildren
-123     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: nodedetail
-124     \textcolor{keywordtype}{logical} :: validtag
-125     \textcolor{keywordtype}{integer} :: i
-126 
-127     validtag = .false.
-128     nodechildren => getchildnodes(xmlnode) \textcolor{comment}{!getting all of the nodes bellow the main source node (all of
+127     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+128     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
+129     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
+130     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: att\_name
+131     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: att\_value
+132     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
+133     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
+134     \textcolor{keywordtype}{logical} :: mand
+135     \textcolor{keywordtype}{type}(string) :: outext, nodename
+136     \textcolor{keywordtype}{character(CHAR\_LEN)} :: att\_value\_chars
+137     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list, nodeChildren
+138     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: nodedetail
+139     \textcolor{keywordtype}{logical} :: validtag
+140     \textcolor{keywordtype}{integer} :: i
+141 
+142     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+143         mand = mandatory
+144     \textcolor{keywordflow}{else}
+145         mand = .true.
+146 \textcolor{keywordflow}{    end if}
+147     
+148     validtag = .false.
+149     nodechildren => getchildnodes(xmlnode) \textcolor{comment}{!getting all of the nodes bellow the main source node (all of
        it's private info) !using FOX function}
-129     \textcolor{keywordflow}{do} i=0, getlength(nodechildren)-1
-130         nodedetail => item(nodechildren,i) \textcolor{comment}{!grabing a node !using FOX function}
-131         nodename = getlocalname(nodedetail)  \textcolor{comment}{!finding its name !using FOX function}
-132         \textcolor{keywordflow}{if} (nodename == tag) \textcolor{keywordflow}{then}
-133             validtag=.true.
-134             \textcolor{keywordflow}{exit}
-135 \textcolor{keywordflow}{        endif}
-136 \textcolor{keywordflow}{    enddo}
-137     \textcolor{keywordflow}{if} (validtag) \textcolor{keywordflow}{then}
-138         target\_node\_list => getelementsbytagname(xmlnode, tag%chars())   \textcolor{comment}{!searching for tags with the given
+150     \textcolor{keywordflow}{do} i=0, getlength(nodechildren)-1
+151         nodedetail => item(nodechildren,i) \textcolor{comment}{!grabing a node !using FOX function}
+152         nodename = getlocalname(nodedetail)  \textcolor{comment}{!finding its name !using FOX function}
+153         \textcolor{keywordflow}{if} (nodename == tag) \textcolor{keywordflow}{then}
+154             validtag=.true.
+155             \textcolor{keywordflow}{exit}
+156 \textcolor{keywordflow}{        end if}
+157 \textcolor{keywordflow}{    end do}
+158     \textcolor{keywordflow}{if} (validtag) \textcolor{keywordflow}{then}
+159         target\_node\_list => getelementsbytagname(xmlnode, tag%chars())   \textcolor{comment}{!searching for tags with the given
        name !using FOX function}
-139         nodedetail => item(target\_node\_list, 0) \textcolor{comment}{!using FOX function}
-140         \textcolor{keyword}{call }extractdataattribute(nodedetail, att\_name%chars(), att\_value\_chars) \textcolor{comment}{!using FOX function}
-141         att\_value=trim(att\_value\_chars)
-142         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
-143             read\_flag =.true.
-144 \textcolor{keywordflow}{        endif}
-145     \textcolor{keywordflow}{else}
-146         \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
-147             \textcolor{keywordflow}{if}(mandatory.eqv..false.) \textcolor{keywordflow}{then}
-148                 \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
-149                     read\_flag =.false.
-150 \textcolor{keywordflow}{                endif}
-151 \textcolor{keywordflow}{            endif}
-152         \textcolor{keywordflow}{else}
-153             outext=\textcolor{stringliteral}{'Could not find any "'}//tag//\textcolor{stringliteral}{'" tag for xml node "'}//getnodename(xmlnode)//\textcolor{stringliteral}{'", stoping'}
-154             \textcolor{keyword}{call }log%put(outext)
-155             stop
-156 \textcolor{keywordflow}{        endif}
-157 \textcolor{keywordflow}{    endif}
+160         nodedetail => item(target\_node\_list, 0) \textcolor{comment}{!using FOX function}
+161         \textcolor{keyword}{call }extractdataattribute(nodedetail, att\_name%chars(), att\_value\_chars) \textcolor{comment}{!using FOX function}
+162         att\_value=trim(att\_value\_chars)
+163         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+164             read\_flag =.true.
+165 \textcolor{keywordflow}{        end if}
+166     \textcolor{keywordflow}{else}
+167         \textcolor{keywordflow}{if}(.not.mand) \textcolor{keywordflow}{then}
+168             \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+169                 read\_flag =.false.
+170 \textcolor{keywordflow}{            end if}                
+171         \textcolor{keywordflow}{else}
+172             outext=\textcolor{stringliteral}{'Could not find any "'}//tag//\textcolor{stringliteral}{'" tag for xml node "'}//getnodename(xmlnode)//\textcolor{stringliteral}{'", stoping'}
+173             \textcolor{keyword}{call }log%put(outext)
+174             stop
+175 \textcolor{keywordflow}{        end if}
+176 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacexmlparser__mod_a0c2ac0513cee4e660e07cb083a790a53}\label{namespacexmlparser__mod_a0c2ac0513cee4e660e07cb083a790a53}} 
 \index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!getnodevector@{getnodevector}}
@@ -267,58 +288,62 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 168 of file xml\+Parser.\+f90.
+Definition at line 187 of file xml\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-168     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-169     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
-170     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
-171     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: vec
-172     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
-173     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
-174 
-175     \textcolor{keywordtype}{type}(string) :: outext, nodename
-176     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list, nodeChildren
-177     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: nodedetail
-178     \textcolor{keywordtype}{logical} :: validtag
-179     \textcolor{keywordtype}{integer} :: i
-180 
-181     vec%x=mv \textcolor{comment}{!marking the array as not read}
-182     validtag = .false.
-183     nodechildren => getchildnodes(xmlnode) \textcolor{comment}{!getting all of the nodes bellow the main source node (all of
+187     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+188     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: xmlnode
+189     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
+190     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(out)} :: vec
+191     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
+192     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
+193     \textcolor{keywordtype}{logical} :: mand
+194     \textcolor{keywordtype}{type}(string) :: outext, nodename
+195     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list, nodeChildren
+196     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: nodedetail
+197     \textcolor{keywordtype}{logical} :: validtag
+198     \textcolor{keywordtype}{integer} :: i
+199 
+200     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+201         mand = mandatory
+202     \textcolor{keywordflow}{else}
+203         mand = .true.
+204 \textcolor{keywordflow}{    end if}
+205     
+206     vec%x=mv \textcolor{comment}{!marking the array as not read}
+207     validtag = .false.
+208     nodechildren => getchildnodes(xmlnode) \textcolor{comment}{!getting all of the nodes bellow the main source node (all of
        it's private info) !using FOX function}
-184     \textcolor{keywordflow}{do} i=0, getlength(nodechildren)-1
-185         nodedetail => item(nodechildren,i) \textcolor{comment}{!grabing a node !using FOX function}
-186         nodename = getlocalname(nodedetail)  \textcolor{comment}{!finding its name !using FOX function}
-187         \textcolor{keywordflow}{if} (nodename == tag) \textcolor{keywordflow}{then}
-188             validtag =.true.
-189             \textcolor{keywordflow}{exit}
-190 \textcolor{keywordflow}{        endif}
-191 \textcolor{keywordflow}{    enddo}
-192     \textcolor{keywordflow}{if} (validtag) \textcolor{keywordflow}{then}
-193         target\_node\_list => getelementsbytagname(xmlnode, tag%chars())   \textcolor{comment}{!searching for tags with the given
+209     \textcolor{keywordflow}{do} i=0, getlength(nodechildren)-1
+210         nodedetail => item(nodechildren,i) \textcolor{comment}{!grabing a node !using FOX function}
+211         nodename = getlocalname(nodedetail)  \textcolor{comment}{!finding its name !using FOX function}
+212         \textcolor{keywordflow}{if} (nodename == tag) \textcolor{keywordflow}{then}
+213             validtag =.true.
+214             \textcolor{keywordflow}{exit}
+215 \textcolor{keywordflow}{        end if}
+216 \textcolor{keywordflow}{    end do}
+217     \textcolor{keywordflow}{if} (validtag) \textcolor{keywordflow}{then}
+218         target\_node\_list => getelementsbytagname(xmlnode, tag%chars())   \textcolor{comment}{!searching for tags with the given
        name !using FOX function}
-194         nodedetail => item(target\_node\_list, 0) \textcolor{comment}{!using FOX function}
-195         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"x"}, vec%x) \textcolor{comment}{!using FOX function}
-196         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"y"}, vec%y)
-197         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"z"}, vec%z)
-198         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
-199             read\_flag =.true.
-200 \textcolor{keywordflow}{        endif}
-201     \textcolor{keywordflow}{else}
-202         \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
-203             \textcolor{keywordflow}{if}(mandatory.eqv..false.) \textcolor{keywordflow}{then}
-204                 \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
-205                     read\_flag =.false.
-206 \textcolor{keywordflow}{                endif}
-207 \textcolor{keywordflow}{            endif}
-208         \textcolor{keywordflow}{else}
-209             outext=\textcolor{stringliteral}{'Could not find any "'}//tag//\textcolor{stringliteral}{'" tag for xml node "'}//getnodename(xmlnode)//\textcolor{stringliteral}{'", stoping'}
-210             \textcolor{keyword}{call }log%put(outext)
-211             stop
-212 \textcolor{keywordflow}{        endif}
-213 \textcolor{keywordflow}{    endif}
+219         nodedetail => item(target\_node\_list, 0) \textcolor{comment}{!using FOX function}
+220         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"x"}, vec%x) \textcolor{comment}{!using FOX function}
+221         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"y"}, vec%y)
+222         \textcolor{keyword}{call }extractdataattribute(nodedetail, \textcolor{stringliteral}{"z"}, vec%z)
+223         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+224             read\_flag =.true.
+225 \textcolor{keywordflow}{        end if}
+226     \textcolor{keywordflow}{else}
+227         \textcolor{keywordflow}{if}(.not.mand) \textcolor{keywordflow}{then}
+228             \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+229                 read\_flag =.false.
+230 \textcolor{keywordflow}{            end if}
+231         \textcolor{keywordflow}{else}
+232             outext=\textcolor{stringliteral}{'Could not find any "'}//tag//\textcolor{stringliteral}{'" tag for xml node "'}//getnodename(xmlnode)//\textcolor{stringliteral}{'", stoping'}
+233             \textcolor{keyword}{call }log%put(outext)
+234             stop
+235 \textcolor{keywordflow}{        end if}
+236 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacexmlparser__mod_acd860c3d06a25fc422edbcc3d356d976}\label{namespacexmlparser__mod_acd860c3d06a25fc422edbcc3d356d976}} 
 \index{xmlparser\+\_\+mod@{xmlparser\+\_\+mod}!gotonode@{gotonode}}
@@ -344,55 +369,55 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 224 of file xml\+Parser.\+f90.
+Definition at line 247 of file xml\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-224     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-225     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: currentNode
-226     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: targetNode
-227     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: targetNodeName
-228     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
-229     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
-230 
-231     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list
-232     \textcolor{keywordtype}{type}(string) :: outext, nodename
-233     \textcolor{keywordtype}{integer} :: i
-234     \textcolor{keywordtype}{logical} :: target\_node\_exists
-235 
-236     target\_node\_exists = .false.
-237     target\_node\_list => getchildnodes(currentnode) \textcolor{comment}{!using FOX function}
-238     \textcolor{keywordflow}{do} i=0, getlength(target\_node\_list)-1
-239         targetnode => item(target\_node\_list,i) \textcolor{comment}{!grabing a node !using FOX function}
-240         nodename = getlocalname(targetnode)  \textcolor{comment}{!finding its name !using FOX function}
-241         \textcolor{keywordflow}{if} (nodename == targetnodename) \textcolor{keywordflow}{then} \textcolor{comment}{!found our target node}
-242             target\_node\_exists = .true.
-243             \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
-244                 read\_flag =.true.
-245 \textcolor{keywordflow}{            endif}
-246             \textcolor{keywordflow}{exit}
-247 \textcolor{keywordflow}{        endif}
-248 \textcolor{keywordflow}{    enddo}
-249     \textcolor{keywordflow}{if} (target\_node\_exists .eqv. .false.) \textcolor{keywordflow}{then}
-250         \textcolor{keyword}{nullify}(targetnode)
-251         \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
-252             \textcolor{keywordflow}{if} (mandatory.eqv..false.) \textcolor{keywordflow}{then}
-253                 \textcolor{comment}{!outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'}
-254                 \textcolor{comment}{!call Log%put(outext)}
-255                 \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
-256                     read\_flag =.false.
-257 \textcolor{keywordflow}{                endif}
-258             \textcolor{keywordflow}{else}
-259                 outext=\textcolor{stringliteral}{'Could not find any node called "'}//targetnodename//\textcolor{stringliteral}{'" in the xml file, stoping'}
-260                 \textcolor{keyword}{call }log%put(outext)
-261                 stop
-262 \textcolor{keywordflow}{            endif}
-263         \textcolor{keywordflow}{else}
-264             outext=\textcolor{stringliteral}{'Could not find any node called "'}//targetnodename//\textcolor{stringliteral}{'" in the xml file, stoping'}
-265             \textcolor{keyword}{call }log%put(outext)
-266             stop
-267 \textcolor{keywordflow}{        endif}
-268 \textcolor{keywordflow}{    endif}
+247     \textcolor{keywordtype}{class}(xmlparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+248     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: currentNode
+249     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{pointer} :: targetNode
+250     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: targetNodeName
+251     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{optional} :: read\_flag
+252     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: mandatory
+253     \textcolor{keywordtype}{logical} :: mand
+254     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: target\_node\_list
+255     \textcolor{keywordtype}{type}(string) :: outext, nodename
+256     \textcolor{keywordtype}{integer} :: i
+257     \textcolor{keywordtype}{logical} :: target\_node\_exists
+258 
+259     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+260         mand = mandatory
+261     \textcolor{keywordflow}{else}
+262         mand = .true.
+263 \textcolor{keywordflow}{    end if}
+264     
+265     target\_node\_exists = .false.
+266     target\_node\_list => getchildnodes(currentnode) \textcolor{comment}{!using FOX function}
+267     \textcolor{keywordflow}{do} i=0, getlength(target\_node\_list)-1
+268         targetnode => item(target\_node\_list,i) \textcolor{comment}{!grabing a node !using FOX function}
+269         nodename = getlocalname(targetnode)  \textcolor{comment}{!finding its name !using FOX function}
+270         \textcolor{keywordflow}{if} (nodename == targetnodename) \textcolor{keywordflow}{then} \textcolor{comment}{!found our target node}
+271             target\_node\_exists = .true.
+272             \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+273                 read\_flag =.true.
+274 \textcolor{keywordflow}{            end if}
+275             \textcolor{keywordflow}{exit}
+276 \textcolor{keywordflow}{        end if}
+277 \textcolor{keywordflow}{    end do}
+278     \textcolor{keywordflow}{if} (.not.target\_node\_exists) \textcolor{keywordflow}{then}
+279         \textcolor{keyword}{nullify}(targetnode)
+280         \textcolor{keywordflow}{if}(.not.mand) \textcolor{keywordflow}{then}
+281             \textcolor{comment}{!outext='Could not find any node called "'//targetNodeName//'" in the xml file, ignoring'}
+282             \textcolor{comment}{!call Log%put(outext)}
+283             \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(read\_flag)) \textcolor{keywordflow}{then}
+284                 read\_flag =.false.
+285 \textcolor{keywordflow}{            end if}
+286         \textcolor{keywordflow}{else}
+287             outext=\textcolor{stringliteral}{'Could not find any node called "'}//targetnodename//\textcolor{stringliteral}{'" in the xml file, stoping'}
+288             \textcolor{keyword}{call }log%put(outext)
+289             stop
+290 \textcolor{keywordflow}{        end if}
+291 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 
 

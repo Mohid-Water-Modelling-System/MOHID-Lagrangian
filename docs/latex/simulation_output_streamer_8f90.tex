@@ -13,12 +13,18 @@ module \mbox{\hyperlink{namespacesimulationoutputstreamer__mod}{simulationoutput
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_ac619e3f6f7ebc099c1e8298460f4f183}{simulationoutputstreamer\+\_\+mod\+::writestepserial}} (self, blocks)
-\begin{DoxyCompactList}\small\item\em Streamer method to call a simulation step writer. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a689f65c821b78d46b142653214338b85}{simulationoutputstreamer\+\_\+mod\+::writestep}} (self, blocks, num\+Tracers, sim\+Timer)
+\begin{DoxyCompactList}\small\item\em output streamer method to check if it is writ time, and call a step writer. Assembles output file name and updates streamer data. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_af116b4ea9abff9117b9b1b9b5e6ab690}{simulationoutputstreamer\+\_\+mod\+::writestepserial}} (self, filename, blocks)
+\begin{DoxyCompactList}\small\item\em Streamer method to call an appropriate writer. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}{simulationoutputstreamer\+\_\+mod\+::writedomain}} (self, filename, bbox, npbbox, blocks)
-\begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. Writes binary X\+ML V\+TK format using an unstructured grid. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. \end{DoxyCompactList}\item 
 logical function \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a81b788c12b0520901e6fc9b113a10dec}{simulationoutputstreamer\+\_\+mod\+::checkwritetime}} (self)
 \begin{DoxyCompactList}\small\item\em Streamer method to check if this timestep is appropriate to write an output file. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a6f01bdc663fe5f4a842150a6aac90f67}{simulationoutputstreamer\+\_\+mod\+::writeoutputheader}} (self)
+\begin{DoxyCompactList}\small\item\em Writes simulation log header. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a8b34c75e869c6409de7d6e5ceca5cca7}{simulationoutputstreamer\+\_\+mod\+::writeoutputsummary}} (self, num\+Tracers, sim\+Timer, file\+Name)
+\begin{DoxyCompactList}\small\item\em writes log entry with data regarding current output \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a9ab3e2101fbed18ea896729f7201e1aa}{simulationoutputstreamer\+\_\+mod\+::initoutputstreamer}} (self)
 \begin{DoxyCompactList}\small\item\em Initializes the Output writer object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_adc0f21d337c283eee1f5f13b2eb51d52}{simulationoutputstreamer\+\_\+mod\+::closeoutputstreamer}} (self)

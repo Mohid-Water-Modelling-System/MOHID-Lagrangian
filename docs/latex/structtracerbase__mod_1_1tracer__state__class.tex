@@ -7,13 +7,8 @@ Type -\/ state variables of a pure Lagrangian tracer object.
 
 
 
-Collaboration diagram for tracerbase\+\_\+mod\+:\+:tracer\+\_\+state\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=197pt]{structtracerbase__mod_1_1tracer__state__class__coll__graph}
-\end{center}
-\end{figure}
+Collaboration diagram for tracerbase\+\_\+mod\+:\+:tracer\+\_\+state\+\_\+class\+:
+% FIG 0
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -24,11 +19,7 @@ logical \mbox{\hyperlink{structtracerbase__mod_1_1tracer__state__class_a40841af5
 type(vector) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__state__class_a184b3ecbe519a6cc7468fa3060131ce0}{pos}}
 \begin{DoxyCompactList}\small\item\em Position of the tracer (m) \end{DoxyCompactList}\item 
 type(vector) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__state__class_ae94928588f703077bae9de12c8e9d14b}{vel}}
-\begin{DoxyCompactList}\small\item\em Velocity of the tracer (m s-\/1) \end{DoxyCompactList}\item 
-type(vector) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__state__class_a056eb4f0a99aebbbae7ca7ebf15dbdf2}{acc}}
-\begin{DoxyCompactList}\small\item\em Acceleration of the tracer (m s-\/2) \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__state__class_aab144782751a09c5798e03e5eb4133d7}{level}} = MV
-\begin{DoxyCompactList}\small\item\em Depth of the tracer (m) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Velocity of the tracer (m s-\/1) \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -39,24 +30,6 @@ Definition at line 33 of file tracer\+Base.\+f90.
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__state__class_a056eb4f0a99aebbbae7ca7ebf15dbdf2}\label{structtracerbase__mod_1_1tracer__state__class_a056eb4f0a99aebbbae7ca7ebf15dbdf2}} 
-\index{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}!acc@{acc}}
-\index{acc@{acc}!tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}}
-\subsubsection{\texorpdfstring{acc}{acc}}
-{\footnotesize\ttfamily type(vector) tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class\+::acc\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Acceleration of the tracer (m s-\/2) 
-
-
-
-Definition at line 38 of file tracer\+Base.\+f90.
-
-
-\begin{DoxyCode}
-38         \textcolor{keywordtype}{type}(vector) :: acc
-\end{DoxyCode}
 \mbox{\Hypertarget{structtracerbase__mod_1_1tracer__state__class_a40841af58b7434716bc8d87bf1b3b694}\label{structtracerbase__mod_1_1tracer__state__class_a40841af58b7434716bc8d87bf1b3b694}} 
 \index{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}!active@{active}}
 \index{active@{active}!tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}}
@@ -88,24 +61,6 @@ Definition at line 34 of file tracer\+Base.\+f90.
 
 \begin{DoxyCode}
 34         \textcolor{keywordtype}{real(prec)} :: age = mv             \textcolor{comment}{! time variables}
-\end{DoxyCode}
-\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__state__class_aab144782751a09c5798e03e5eb4133d7}\label{structtracerbase__mod_1_1tracer__state__class_aab144782751a09c5798e03e5eb4133d7}} 
-\index{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}!level@{level}}
-\index{level@{level}!tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}}
-\subsubsection{\texorpdfstring{level}{level}}
-{\footnotesize\ttfamily real(prec) tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class\+::level = MV\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Depth of the tracer (m) 
-
-
-
-Definition at line 39 of file tracer\+Base.\+f90.
-
-
-\begin{DoxyCode}
-39         \textcolor{keywordtype}{real(prec)} :: level = mv                
 \end{DoxyCode}
 \mbox{\Hypertarget{structtracerbase__mod_1_1tracer__state__class_a184b3ecbe519a6cc7468fa3060131ce0}\label{structtracerbase__mod_1_1tracer__state__class_a184b3ecbe519a6cc7468fa3060131ce0}} 
 \index{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}!pos@{pos}}
