@@ -1,0 +1,200 @@
+\hypertarget{namespace_m_date_time}{}\section{M\+Date\+Time Namespace Reference}
+\label{namespace_m_date_time}\index{M\+Date\+Time@{M\+Date\+Time}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespace_m_date_time_a038322da9ec8ee2770a307c6a63187dd}{get\+Time\+Stamp\+From\+M\+O\+H\+I\+D\+Date}} (Mohid\+Date)
+\item 
+def \mbox{\hyperlink{namespace_m_date_time_a0bb2bb194a0935f8ffee0022899d73a5}{get\+M\+O\+H\+I\+D\+Date\+From\+Time\+Stamp}} (time\+Stamp)
+\item 
+def \mbox{\hyperlink{namespace_m_date_time_ae8319a7fc92ebd8f2702efb32f234ebf}{get\+Date\+String\+From\+Time\+Stamp}} (time\+Stamp)
+\item 
+def \mbox{\hyperlink{namespace_m_date_time_a57cf43e4864af605636039c5a06672c8}{get\+Date\+String\+From\+M\+O\+H\+I\+D\+Date}} (Mohid\+Date)
+\item 
+def \mbox{\hyperlink{namespace_m_date_time_a475b426d30876102774a93f17a71d1af}{get\+Time\+Stamp\+From\+Date\+String}} (Date\+String)
+\item 
+def \mbox{\hyperlink{namespace_m_date_time_a3e8d38d306730c6707a17503e2d21d6c}{Base\+Date\+Time}} ()
+\begin{DoxyCompactList}\small\item\em private functions \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{namespace_m_date_time_abecc2e4333a1a4191e5b1243cf98131d}{get\+Date\+Time\+From\+Time\+Stamp}} (time\+Stamp)
+\item 
+def \mbox{\hyperlink{namespace_m_date_time_a577bd538a3fcb0bbddf8900288324eb5}{get\+Time\+Stamp\+From\+Date\+Time}} (Date)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespace_m_date_time_a3e8d38d306730c6707a17503e2d21d6c}\label{namespace_m_date_time_a3e8d38d306730c6707a17503e2d21d6c}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!Base\+Date\+Time@{Base\+Date\+Time}}
+\index{Base\+Date\+Time@{Base\+Date\+Time}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{Base\+Date\+Time()}{BaseDateTime()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+Base\+Date\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+private functions 
+
+
+
+Definition at line 73 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+73 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_a3e8d38d306730c6707a17503e2d21d6c}{BaseDateTime}}():
+74     \textcolor{keywordflow}{return} datetime(1950, 1, 1, 0, 0, 0)
+75 
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{namespace_m_date_time_a57cf43e4864af605636039c5a06672c8}\label{namespace_m_date_time_a57cf43e4864af605636039c5a06672c8}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!get\+Date\+String\+From\+M\+O\+H\+I\+D\+Date@{get\+Date\+String\+From\+M\+O\+H\+I\+D\+Date}}
+\index{get\+Date\+String\+From\+M\+O\+H\+I\+D\+Date@{get\+Date\+String\+From\+M\+O\+H\+I\+D\+Date}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{get\+Date\+String\+From\+M\+O\+H\+I\+D\+Date()}{getDateStringFromMOHIDDate()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+get\+Date\+String\+From\+M\+O\+H\+I\+D\+Date (\begin{DoxyParamCaption}\item[{}]{Mohid\+Date }\end{DoxyParamCaption})}
+
+
+
+Definition at line 60 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+60 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_a57cf43e4864af605636039c5a06672c8}{getDateStringFromMOHIDDate}}(MohidDate):
+61     timeStamp = \mbox{\hyperlink{namespace_m_date_time_a038322da9ec8ee2770a307c6a63187dd}{getTimeStampFromMOHIDDate}}(MohidDate)
+62     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespace_m_date_time_abecc2e4333a1a4191e5b1243cf98131d}{getDateTimeFromTimeStamp}}(timeStamp).strftime(\textcolor{stringliteral}{"%Y-%m-%d %H:%M:%S"})
+63 
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 1
+Here is the caller graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{namespace_m_date_time_ae8319a7fc92ebd8f2702efb32f234ebf}\label{namespace_m_date_time_ae8319a7fc92ebd8f2702efb32f234ebf}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!get\+Date\+String\+From\+Time\+Stamp@{get\+Date\+String\+From\+Time\+Stamp}}
+\index{get\+Date\+String\+From\+Time\+Stamp@{get\+Date\+String\+From\+Time\+Stamp}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{get\+Date\+String\+From\+Time\+Stamp()}{getDateStringFromTimeStamp()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+get\+Date\+String\+From\+Time\+Stamp (\begin{DoxyParamCaption}\item[{}]{time\+Stamp }\end{DoxyParamCaption})}
+
+
+
+Definition at line 57 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+57 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_ae8319a7fc92ebd8f2702efb32f234ebf}{getDateStringFromTimeStamp}}(timeStamp):
+58     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespace_m_date_time_abecc2e4333a1a4191e5b1243cf98131d}{getDateTimeFromTimeStamp}}(timeStamp).strftime(\textcolor{stringliteral}{"%Y-%m-%d %H:%M:%S"})
+59 
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 3
+\mbox{\Hypertarget{namespace_m_date_time_abecc2e4333a1a4191e5b1243cf98131d}\label{namespace_m_date_time_abecc2e4333a1a4191e5b1243cf98131d}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!get\+Date\+Time\+From\+Time\+Stamp@{get\+Date\+Time\+From\+Time\+Stamp}}
+\index{get\+Date\+Time\+From\+Time\+Stamp@{get\+Date\+Time\+From\+Time\+Stamp}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{get\+Date\+Time\+From\+Time\+Stamp()}{getDateTimeFromTimeStamp()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+get\+Date\+Time\+From\+Time\+Stamp (\begin{DoxyParamCaption}\item[{}]{time\+Stamp }\end{DoxyParamCaption})}
+
+
+
+Definition at line 76 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+76 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_abecc2e4333a1a4191e5b1243cf98131d}{getDateTimeFromTimeStamp}}(timeStamp):
+77     delta = timedelta(seconds=timeStamp*timedelta (days=1).total\_seconds())
+78     \textcolor{keywordflow}{return} \mbox{\hyperlink{namespace_m_date_time_a3e8d38d306730c6707a17503e2d21d6c}{BaseDateTime}}() + delta
+79 
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 4
+Here is the caller graph for this function\+:
+% FIG 5
+\mbox{\Hypertarget{namespace_m_date_time_a0bb2bb194a0935f8ffee0022899d73a5}\label{namespace_m_date_time_a0bb2bb194a0935f8ffee0022899d73a5}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!get\+M\+O\+H\+I\+D\+Date\+From\+Time\+Stamp@{get\+M\+O\+H\+I\+D\+Date\+From\+Time\+Stamp}}
+\index{get\+M\+O\+H\+I\+D\+Date\+From\+Time\+Stamp@{get\+M\+O\+H\+I\+D\+Date\+From\+Time\+Stamp}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{get\+M\+O\+H\+I\+D\+Date\+From\+Time\+Stamp()}{getMOHIDDateFromTimeStamp()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+get\+M\+O\+H\+I\+D\+Date\+From\+Time\+Stamp (\begin{DoxyParamCaption}\item[{}]{time\+Stamp }\end{DoxyParamCaption})}
+
+
+
+Definition at line 52 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+52 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_a0bb2bb194a0935f8ffee0022899d73a5}{getMOHIDDateFromTimeStamp}}(timeStamp):
+53     MD = \mbox{\hyperlink{namespace_m_date_time_abecc2e4333a1a4191e5b1243cf98131d}{getDateTimeFromTimeStamp}}(timeStamp)
+54     MohidDate = [MD.year, MD.month, MD.day, MD.hour, MD.minute, MD.second]
+55     \textcolor{keywordflow}{return} MohidDate
+56 
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 6
+\mbox{\Hypertarget{namespace_m_date_time_a475b426d30876102774a93f17a71d1af}\label{namespace_m_date_time_a475b426d30876102774a93f17a71d1af}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!get\+Time\+Stamp\+From\+Date\+String@{get\+Time\+Stamp\+From\+Date\+String}}
+\index{get\+Time\+Stamp\+From\+Date\+String@{get\+Time\+Stamp\+From\+Date\+String}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{get\+Time\+Stamp\+From\+Date\+String()}{getTimeStampFromDateString()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+get\+Time\+Stamp\+From\+Date\+String (\begin{DoxyParamCaption}\item[{}]{Date\+String }\end{DoxyParamCaption})}
+
+
+
+Definition at line 64 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+64 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_a475b426d30876102774a93f17a71d1af}{getTimeStampFromDateString}}(DateString):
+65     \textcolor{comment}{#string of the type '2000-08-19 01:01:37'}
+66     date = datetime.strptime(DateString, \textcolor{stringliteral}{"%Y-%m-%d %H:%M:%S"})
+67     timeStamp = \mbox{\hyperlink{namespace_m_date_time_a577bd538a3fcb0bbddf8900288324eb5}{getTimeStampFromDateTime}}(date)
+68     \textcolor{keywordflow}{return} timeStamp
+69 
+70 
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 7
+\mbox{\Hypertarget{namespace_m_date_time_a577bd538a3fcb0bbddf8900288324eb5}\label{namespace_m_date_time_a577bd538a3fcb0bbddf8900288324eb5}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!get\+Time\+Stamp\+From\+Date\+Time@{get\+Time\+Stamp\+From\+Date\+Time}}
+\index{get\+Time\+Stamp\+From\+Date\+Time@{get\+Time\+Stamp\+From\+Date\+Time}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{get\+Time\+Stamp\+From\+Date\+Time()}{getTimeStampFromDateTime()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+get\+Time\+Stamp\+From\+Date\+Time (\begin{DoxyParamCaption}\item[{}]{Date }\end{DoxyParamCaption})}
+
+
+
+Definition at line 80 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+80 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_a577bd538a3fcb0bbddf8900288324eb5}{getTimeStampFromDateTime}}(Date):
+81     delta = Date - \mbox{\hyperlink{namespace_m_date_time_a3e8d38d306730c6707a17503e2d21d6c}{BaseDateTime}}()
+82     timeStamp = delta.total\_seconds()/timedelta(days=1).total\_seconds()
+83     \textcolor{keywordflow}{return} timeStamp
+84 
+85 \textcolor{comment}{#API examples}
+86 \textcolor{comment}{#MOHIDate = [2000, 8, 19, 1, 1, 37]}
+87 \textcolor{comment}{#print(getTimeStampFromMOHIDDate(MOHIDate))}
+88 \textcolor{comment}{#print(getMOHIDDateFromTimeStamp(getTimeStampFromMOHIDDate(MOHIDate)))}
+89 \textcolor{comment}{#print(getDateStringFromTimeStamp(getTimeStampFromMOHIDDate(MOHIDate)))}
+90 \textcolor{comment}{#print(getDateStringFromMOHIDDate(MOHIDate))}
+91 \textcolor{comment}{#print(getTimeStampFromDateString(getDateStringFromMOHIDDate(MOHIDate)))}
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 8
+Here is the caller graph for this function\+:
+% FIG 9
+\mbox{\Hypertarget{namespace_m_date_time_a038322da9ec8ee2770a307c6a63187dd}\label{namespace_m_date_time_a038322da9ec8ee2770a307c6a63187dd}} 
+\index{M\+Date\+Time@{M\+Date\+Time}!get\+Time\+Stamp\+From\+M\+O\+H\+I\+D\+Date@{get\+Time\+Stamp\+From\+M\+O\+H\+I\+D\+Date}}
+\index{get\+Time\+Stamp\+From\+M\+O\+H\+I\+D\+Date@{get\+Time\+Stamp\+From\+M\+O\+H\+I\+D\+Date}!M\+Date\+Time@{M\+Date\+Time}}
+\subsubsection{\texorpdfstring{get\+Time\+Stamp\+From\+M\+O\+H\+I\+D\+Date()}{getTimeStampFromMOHIDDate()}}
+{\footnotesize\ttfamily def M\+Date\+Time.\+get\+Time\+Stamp\+From\+M\+O\+H\+I\+D\+Date (\begin{DoxyParamCaption}\item[{}]{Mohid\+Date }\end{DoxyParamCaption})}
+
+
+
+Definition at line 47 of file M\+Date\+Time.\+py.
+
+
+\begin{DoxyCode}
+47 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_date_time_a038322da9ec8ee2770a307c6a63187dd}{getTimeStampFromMOHIDDate}}(MohidDate):
+48     date = datetime(int(MohidDate[0]), int(MohidDate[1]), int(MohidDate[2]), int(MohidDate[3]), int(
+      MohidDate[4]), int(MohidDate[5]))
+49     timeStamp = \mbox{\hyperlink{namespace_m_date_time_a577bd538a3fcb0bbddf8900288324eb5}{getTimeStampFromDateTime}}(date)
+50     \textcolor{keywordflow}{return} timeStamp
+51 
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 10
+Here is the caller graph for this function\+:
+% FIG 11

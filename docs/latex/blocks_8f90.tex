@@ -26,15 +26,27 @@ subroutine \mbox{\hyperlink{namespaceblocks__mod_a2c3cf5113e1422d812c2c869afde27
 subroutine \mbox{\hyperlink{namespaceblocks__mod_aa178415bcc40cf169744d356e1a09c6b}{blocks\+\_\+mod\+::distributetracers}} (self)
 \begin{DoxyCompactList}\small\item\em Method to distribute the Tracers to their correct Blocks. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a25ff530b5125e4cee5b1f474b2491883}{blocks\+\_\+mod\+::consolidatearrays}} (self)
-\begin{DoxyCompactList}\small\item\em Method to clean the Tracer list from inactive Tracers. This includes tracers that escaped from the Simulation Bounding Box. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceblocks__mod_ae7afa742f8f89a6a8afdefb7f8c87efd}{blocks\+\_\+mod\+::tracerstoaot}} (self)
-\begin{DoxyCompactList}\small\item\em Method to build the AoT object at this timestep for actual numerical work. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method to clean the Tracer list from inactive Tracers. This includes tracers that escaped from the Simulation Bounding Box. Also builds the counter of types and tracers per type. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a04a9fab577b0d1fb6cabefcde2b2180d}{blocks\+\_\+mod\+::shedmemory}} (self)
+\begin{DoxyCompactList}\small\item\em Method that calls background functions to clean data no longer needed. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_aa9c438503e619aa4352081ff46b15430}{blocks\+\_\+mod\+::tracerstosv}} (self)
+\begin{DoxyCompactList}\small\item\em Method to build the State Vector at this timestep for actual numerical work. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a3245bdadbec6bb123c517921d1503b48}{blocks\+\_\+mod\+::runsolver}} (self)
 \begin{DoxyCompactList}\small\item\em Method to run the solver on the data on this Block for the current timestep. Time for some actual numerical work! \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceblocks__mod_a27c7e788c5f3979bfe9d43aad138286a}{blocks\+\_\+mod\+::aottotracers}} (self)
-\begin{DoxyCompactList}\small\item\em Method to write the data in the AoT back to the Tracer objects in the list. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespaceblocks__mod_a6cc313e046daa2720cbca810d083faa0}{blocks\+\_\+mod\+::cleanaot}} (self)
-\begin{DoxyCompactList}\small\item\em Method to clean out the AoT object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a306a753acc9b8bb9107ebda481162180}{blocks\+\_\+mod\+::svtotracers}} (self)
+\begin{DoxyCompactList}\small\item\em Method to write the data in the SV back to the Tracer objects in the list. \end{DoxyCompactList}\item 
+real(prec) function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_a569c8a4a94791d4c0c24697b351ca8f2}{blocks\+\_\+mod\+::getsvvar}} (self, idx)
+\begin{DoxyCompactList}\small\item\em returns a given variable for all the tracers on the block \end{DoxyCompactList}\item 
+logical function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_a2fdac72f343c10f38d1acb3f5779de18}{blocks\+\_\+mod\+::getsvactive}} (self)
+\begin{DoxyCompactList}\small\item\em returns the active tracers array on the block \end{DoxyCompactList}\item 
+integer function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_af9cfa830fff1b8986efba72fa4c82473}{blocks\+\_\+mod\+::getsvid}} (self)
+\begin{DoxyCompactList}\small\item\em returns the tracers id array on the block \end{DoxyCompactList}\item 
+integer function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_abd5099df59aeafdc3b318719dd4c8d20}{blocks\+\_\+mod\+::getsvsource}} (self)
+\begin{DoxyCompactList}\small\item\em returns the tracers land\+Int\+Mask array on the block \end{DoxyCompactList}\item 
+integer function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_a046c07d2d955655055d78e37b6e622ef}{blocks\+\_\+mod\+::getsvlandintmask}} (self)
+\begin{DoxyCompactList}\small\item\em returns the tracers land\+Int\+Mask array on the block \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_ab70bfe5cdce5a717115cfbac04f606a0}{blocks\+\_\+mod\+::cleansv}} (self)
+\begin{DoxyCompactList}\small\item\em Method to clean out the State Vector object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}{blocks\+\_\+mod\+::sendtracer}} (blk, trc)
 \begin{DoxyCompactList}\small\item\em Method to send a Tracer from the current Block to another Block. Checks if Block index exists, if not, Tracer is not added to any Block Tracer list. \end{DoxyCompactList}\item 
 integer function, public \mbox{\hyperlink{namespaceblocks__mod_a62e8fb0d6b2535b4499c7a4d848c24ba}{blocks\+\_\+mod\+::getblockindex}} (pt)
@@ -52,5 +64,5 @@ subroutine, public \mbox{\hyperlink{namespaceblocks__mod_a639beb0fee2290d46353f4
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(block\+\_\+class), dimension(\+:), allocatable, public \mbox{\hyperlink{namespaceblocks__mod_ac8ad6e3cf7a812f95dadb592336aca50}{blocks\+\_\+mod\+::dblock}}
+type(block\+\_\+class), dimension(\+:), allocatable, public \mbox{\hyperlink{namespaceblocks__mod_a13b3fc755dfbf3e333490a3f931b28aa}{blocks\+\_\+mod\+::sblock}}
 \end{DoxyCompactItemize}

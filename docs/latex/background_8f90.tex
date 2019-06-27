@@ -21,8 +21,26 @@ subroutine \mbox{\hyperlink{namespacebackground__mod_aa6ddc308698724f00ce1177ded
 \begin{DoxyCompactList}\small\item\em Method that adds a field to the Background object\textquotesingle{}s field list. \end{DoxyCompactList}\item 
 type(background\+\_\+class) function \mbox{\hyperlink{namespacebackground__mod_ad0096fb6a5a11854fd70a7ce58dc3000}{background\+\_\+mod\+::constructor}} (id, name, extents, dims)
 \begin{DoxyCompactList}\small\item\em Constructor for Background object. \end{DoxyCompactList}\item 
-integer function \mbox{\hyperlink{namespacebackground__mod_a4e05d8be917e0143fe5889f2b19b750d}{background\+\_\+mod\+::getdimindex}} (self, name)
+integer function \mbox{\hyperlink{namespacebackground__mod_a8a4c5fdcda63376bc3a984e9612dfb63}{background\+\_\+mod\+::getdimindex}} (self, name, mandatory)
 \begin{DoxyCompactList}\small\item\em Method that returns the index of a given dimension by it\textquotesingle{}s name. \end{DoxyCompactList}\item 
+real(prec) function, dimension(2) \mbox{\hyperlink{namespacebackground__mod_a64c3966a113bc0f3b603c591bc345ca1}{background\+\_\+mod\+::getdimextents}} (self, name, mandatory)
+\begin{DoxyCompactList}\small\item\em Method that returns two reals, min and max of a given dimension. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a02fa44cb4575159362bfa3b55520d387}{background\+\_\+mod\+::appendbackgroundbytime}} (self, bkg, done)
+\begin{DoxyCompactList}\small\item\em appends a given field to a matching field in the Background object\textquotesingle{}s field list, if possible \end{DoxyCompactList}\item 
+type(background\+\_\+class) function \mbox{\hyperlink{namespacebackground__mod_ae26fda3baab915148ec5749d1eda2ea6}{background\+\_\+mod\+::gethyperslab}} (self, domain, time)
+\begin{DoxyCompactList}\small\item\em returns a background as a subset of another \end{DoxyCompactList}\item 
+integer function, dimension(\+:), allocatable \mbox{\hyperlink{namespacebackground__mod_ac799224ce7ad219bf1fb4f1f42508f45}{background\+\_\+mod\+::getpointdimindexes}} (self, pt, time)
+\begin{DoxyCompactList}\small\item\em returns the indexes of the dims for a given point \end{DoxyCompactList}\item 
+real(prec) function, dimension(\+:), allocatable \mbox{\hyperlink{namespacebackground__mod_a09d61976c4545e8753eb4594044b109d}{background\+\_\+mod\+::getslabdim}} (self, num\+Dim, llbound, uubound)
+\begin{DoxyCompactList}\small\item\em returns an array witn a sliced dimension \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a2c75c9011305adad2f19fc2233df700d}{background\+\_\+mod\+::shedmemory}} (self)
+\begin{DoxyCompactList}\small\item\em Method that cleans data in the Background object not needed any longer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_ad6c54d2cf1d1981fb928cd14d387aa8b}{background\+\_\+mod\+::makelandmask}} (self)
+\begin{DoxyCompactList}\small\item\em Method to use a stored binary field to make a land mask used for land interaction\+: bed settling, beaching, ... \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a1610fcc9ce260beb3c35418e92a63391}{background\+\_\+mod\+::cleanbackground}} (self)
+\begin{DoxyCompactList}\small\item\em Method that cleans all data in the Background object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacebackground__mod_a843a471a68ce83809e3ed0a40886a4e7}{background\+\_\+mod\+::cleanfields}} (self)
+\begin{DoxyCompactList}\small\item\em Method that cleans all data in the Background object fields. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_a06d96d4627391d74feb105a842a87dc0}{background\+\_\+mod\+::setdims}} (self, dims)
 \begin{DoxyCompactList}\small\item\em Method that allocates and sets the dimensions of the Background object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_ae8871564866fdd657a25f6a5a2256c33}{background\+\_\+mod\+::setextents}} (self, bbox)
@@ -36,4 +54,6 @@ subroutine \mbox{\hyperlink{namespacebackground__mod_a8a8f225cffcddb742f22a40215
 subroutine \mbox{\hyperlink{namespacebackground__mod_acdcc52b4fb298bc145a121f9e8a4b929}{background\+\_\+mod\+::print\+\_\+fieldlist}} (this)
 \begin{DoxyCompactList}\small\item\em Method that prints all the links of the list. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_a2bd18f3830c0667741efd086d36753db}{background\+\_\+mod\+::print\+\_\+fieldlistcurrent}} (this)
-\begin{DoxyCompactList}\small\item\em Method that prints the current link of the list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Method that prints the current link of the list. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacebackground__mod_af2f517e4aa946491744e012153045bd4}{background\+\_\+mod\+::check}} (self)
+\begin{DoxyCompactList}\small\item\em Method that checks the internal consistency of the fields within the background. \end{DoxyCompactList}\end{DoxyCompactItemize}

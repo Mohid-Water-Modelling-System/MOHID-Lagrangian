@@ -7,13 +7,8 @@ File names class.
 
 
 
-Collaboration diagram for simulationglobals\+\_\+mod\+:\+:filenames\+\_\+t\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=196pt]{structsimulationglobals__mod_1_1filenames__t__coll__graph}
-\end{center}
-\end{figure}
+Collaboration diagram for simulationglobals\+\_\+mod\+:\+:filenames\+\_\+t\+:
+% FIG 0
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -21,6 +16,10 @@ type(string) \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t_a5af6
 \begin{DoxyCompactList}\small\item\em Input .xml file name. \end{DoxyCompactList}\item 
 type(string) \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t_aa68e6aa970dcc2fb6ef62f5c20373948}{propsxmlfilename}}
 \begin{DoxyCompactList}\small\item\em Properties .xml file name. \end{DoxyCompactList}\item 
+type(string) \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t_aef0d56123bd40e7f6a485680bad46345}{inputsxmlfilename}}
+\begin{DoxyCompactList}\small\item\em .xml file name with metadata on input files \end{DoxyCompactList}\item 
+type(string), dimension(\+:), allocatable \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t_a28b7d9c5da2394c7a3ec6252bd95d9e4}{inputfile}}
+\begin{DoxyCompactList}\small\item\em File names of input data. \end{DoxyCompactList}\item 
 type(string), dimension(\+:), allocatable \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t_ab9bfe3490032ac0fe0ff585f4ccf81ba}{namingfilename}}
 \begin{DoxyCompactList}\small\item\em File names of the naming convention .xml files. \end{DoxyCompactList}\item 
 type(string) \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t_a65117f3cf40366162812c184decc8298}{tempfilename}}
@@ -34,7 +33,7 @@ type(string) \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t_a5a53
 \subsection{Detailed Description}
 File names class. 
 
-Definition at line 95 of file simulation\+Globals.\+f90.
+Definition at line 99 of file simulation\+Globals.\+f90.
 
 
 
@@ -51,11 +50,47 @@ Name of the running case.
 
 
 
-Definition at line 101 of file simulation\+Globals.\+f90.
+Definition at line 107 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-101         \textcolor{keywordtype}{type}(string) :: casename
+107         \textcolor{keywordtype}{type}(string) :: casename
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationglobals__mod_1_1filenames__t_a28b7d9c5da2394c7a3ec6252bd95d9e4}\label{structsimulationglobals__mod_1_1filenames__t_a28b7d9c5da2394c7a3ec6252bd95d9e4}} 
+\index{simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}!inputfile@{inputfile}}
+\index{inputfile@{inputfile}!simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}}
+\subsubsection{\texorpdfstring{inputfile}{inputfile}}
+{\footnotesize\ttfamily type(string), dimension(\+:), allocatable simulationglobals\+\_\+mod\+::filenames\+\_\+t\+::inputfile\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+File names of input data. 
+
+
+
+Definition at line 103 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+103         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: inputFile
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationglobals__mod_1_1filenames__t_aef0d56123bd40e7f6a485680bad46345}\label{structsimulationglobals__mod_1_1filenames__t_aef0d56123bd40e7f6a485680bad46345}} 
+\index{simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}!inputsxmlfilename@{inputsxmlfilename}}
+\index{inputsxmlfilename@{inputsxmlfilename}!simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}}
+\subsubsection{\texorpdfstring{inputsxmlfilename}{inputsxmlfilename}}
+{\footnotesize\ttfamily type(string) simulationglobals\+\_\+mod\+::filenames\+\_\+t\+::inputsxmlfilename\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+.xml file name with metadata on input files 
+
+
+
+Definition at line 102 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+102         \textcolor{keywordtype}{type}(string) :: inputsXmlFilename
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1filenames__t_a5af6fa9ef520239ea544e0241a03259d}\label{structsimulationglobals__mod_1_1filenames__t_a5af6fa9ef520239ea544e0241a03259d}} 
 \index{simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}!mainxmlfilename@{mainxmlfilename}}
@@ -69,11 +104,11 @@ Input .xml file name.
 
 
 
-Definition at line 96 of file simulation\+Globals.\+f90.
+Definition at line 100 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-96         \textcolor{keywordtype}{type}(string) :: mainxmlfilename
+100         \textcolor{keywordtype}{type}(string) :: mainxmlfilename
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1filenames__t_ab9bfe3490032ac0fe0ff585f4ccf81ba}\label{structsimulationglobals__mod_1_1filenames__t_ab9bfe3490032ac0fe0ff585f4ccf81ba}} 
 \index{simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}!namingfilename@{namingfilename}}
@@ -87,11 +122,11 @@ File names of the naming convention .xml files.
 
 
 
-Definition at line 98 of file simulation\+Globals.\+f90.
+Definition at line 104 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-98         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: namingfilename
+104         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: namingfilename
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1filenames__t_aa8af9fb10dcd5d2f5dfc0fe299a16755}\label{structsimulationglobals__mod_1_1filenames__t_aa8af9fb10dcd5d2f5dfc0fe299a16755}} 
 \index{simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}!outpath@{outpath}}
@@ -105,11 +140,11 @@ General output directory.
 
 
 
-Definition at line 100 of file simulation\+Globals.\+f90.
+Definition at line 106 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-100         \textcolor{keywordtype}{type}(string) :: outpath
+106         \textcolor{keywordtype}{type}(string) :: outpath
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1filenames__t_aa68e6aa970dcc2fb6ef62f5c20373948}\label{structsimulationglobals__mod_1_1filenames__t_aa68e6aa970dcc2fb6ef62f5c20373948}} 
 \index{simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}!propsxmlfilename@{propsxmlfilename}}
@@ -123,11 +158,11 @@ Properties .xml file name.
 
 
 
-Definition at line 97 of file simulation\+Globals.\+f90.
+Definition at line 101 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-97         \textcolor{keywordtype}{type}(string) :: propsxmlfilename
+101         \textcolor{keywordtype}{type}(string) :: propsxmlfilename
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1filenames__t_a65117f3cf40366162812c184decc8298}\label{structsimulationglobals__mod_1_1filenames__t_a65117f3cf40366162812c184decc8298}} 
 \index{simulationglobals\+\_\+mod\+::filenames\+\_\+t@{simulationglobals\+\_\+mod\+::filenames\+\_\+t}!tempfilename@{tempfilename}}
@@ -141,11 +176,11 @@ Generic temporary file name.
 
 
 
-Definition at line 99 of file simulation\+Globals.\+f90.
+Definition at line 105 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-99         \textcolor{keywordtype}{type}(string) :: tempfilename
+105         \textcolor{keywordtype}{type}(string) :: tempfilename
 \end{DoxyCode}
 
 

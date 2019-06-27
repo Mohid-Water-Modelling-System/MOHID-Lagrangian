@@ -1,6 +1,7 @@
 var structsimulationtimer__mod_1_1timer__class =
 [
     [ "getelapsed", "structsimulationtimer__mod_1_1timer__class.html#a8d93e7223e1bbd78bc38c72e88fd2e41", null ],
+    [ "getelapsedlast", "structsimulationtimer__mod_1_1timer__class.html#afdc04887277d28174b69cfa00ede5f38", null ],
     [ "initialize", "structsimulationtimer__mod_1_1timer__class.html#a5ff00a291d05b6135e421e4b5718c810", null ],
     [ "print", "structsimulationtimer__mod_1_1timer__class.html#a34a700b5bb4f2a401a582caf995e4cae", null ],
     [ "printcurrent", "structsimulationtimer__mod_1_1timer__class.html#ae7896d93f60b31af526f91adc324a641", null ],

@@ -9,12 +9,22 @@ Defines an input file reader class with an object exposable to the Simulation Th
 \begin{DoxyCompactItemize}
 \item 
 type \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{input\+\_\+streamer\+\_\+class}}
+\begin{DoxyCompactList}\small\item\em Input Streamer class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{inputfilemodel\+\_\+class}}
 \end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a3d4540f8e04cc0215895cad65c5be952}{loaddatafromstack}} (self, b\+Box, blocks)
+\begin{DoxyCompactList}\small\item\em loads data from files and populates the backgrounds accordingly \end{DoxyCompactList}\item 
+type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}) function \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a532b4022fdb6db20d41ca8082d4e7423}{getfullfile}} (self, file\+Name)
+\begin{DoxyCompactList}\small\item\em instantiates and returns a background object with the data from a NC file \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}{initinputstreamer}} (self)
-\begin{DoxyCompactList}\small\item\em Initializes the Input writer object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initializes the input writer object, imports metadata on input files. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a9465e29f527366e5f6d9a1195de6ddee}{resetreadstatus}} (self)
+\begin{DoxyCompactList}\small\item\em resets input files read status \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a1b906bc5ba1fac8d846b30237216aca4}{printinputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Prints the input writer object and metadata on input files. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -26,6 +36,89 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationinputstreamer__mod_a532b4022fdb6db20d41ca8082d4e7423}\label{namespacesimulationinputstreamer__mod_a532b4022fdb6db20d41ca8082d4e7423}} 
+\index{simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}!getfullfile@{getfullfile}}
+\index{getfullfile@{getfullfile}!simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{getfullfile()}{getfullfile()}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}) function simulationinputstreamer\+\_\+mod\+::getfullfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{input\+\_\+streamer\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), intent(in)}]{file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+instantiates and returns a background object with the data from a NC file 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,nfile} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 128 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+128     \textcolor{keywordtype}{class}(input\_streamer\_class), \textcolor{keywordtype}{intent(in)} :: self
+129     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: fileName
+130     \textcolor{keywordtype}{type}(ncfile\_class) :: ncFile
+131     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: backgrounDims
+132     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: gfield
+133     \textcolor{keywordtype}{type}(string) :: name, units
+134     \textcolor{keywordtype}{type}(box) :: extents
+135     \textcolor{keywordtype}{type}(vector) :: pt
+136     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(3,2)} :: dimExtents
+137     \textcolor{keywordtype}{integer} :: i
+138     \textcolor{keywordtype}{type}(string) :: outext
+139 
+140     \textcolor{keyword}{allocate}(gfield(5))
+141 
+142     outext = \textcolor{stringliteral}{'->Reading '}//filename
+143     \textcolor{keyword}{call }log%put(outext,.false.)
+144 
+145     \textcolor{keyword}{call }ncfile%initialize(filename)
+146     \textcolor{keyword}{call }ncfile%getVarDimensions(globals%Var%u, backgroundims)
+147     \textcolor{keyword}{call }ncfile%getVar(globals%Var%u, gfield(1))
+148     \textcolor{keyword}{call }ncfile%getVar(globals%Var%v, gfield(2))
+149     \textcolor{keyword}{call }ncfile%getVar(globals%Var%w, gfield(3))
+150     \textcolor{comment}{!reading a field to use later as land mask}
+151     units = \textcolor{stringliteral}{'-'}
+152     \textcolor{keyword}{call }ncfile%getVar(globals%Var%u, gfield(4), .true., globals%Var%landMask, units)
+153     \textcolor{keyword}{call }ncfile%getVar(globals%Var%u, gfield(5), .true., globals%Var%landIntMask, units)
+154     \textcolor{comment}{!finalizing reader}
+155     \textcolor{keyword}{call }ncfile%finalize()
+156 
+157     dimextents = 0.0
+158     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(backgroundims)
+159         \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%lon) \textcolor{keywordflow}{then}
+160             dimextents(1,1) = backgroundims(i)%getFieldMinBound()
+161             dimextents(1,2) = backgroundims(i)%getFieldMaxBound()
+162         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%lat) \textcolor{keywordflow}{then}
+163             dimextents(2,1) = backgroundims(i)%getFieldMinBound()
+164             dimextents(2,2) = backgroundims(i)%getFieldMaxBound()
+165         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%level) \textcolor{keywordflow}{then}
+166             dimextents(3,1) = backgroundims(i)%getFieldMinBound()
+167             dimextents(3,2) = backgroundims(i)%getFieldMaxBound()
+168 \textcolor{keywordflow}{        end if}
+169 \textcolor{keywordflow}{    end do}
+170     extents%pt = dimextents(1,1)*ex + dimextents(2,1)*ey + dimextents(3,1)*ez
+171     pt = dimextents(1,2)*ex + dimextents(2,2)*ey + dimextents(3,2)*ez
+172     extents%size = pt - extents%pt
+173 
+174     name = filename%basename(strip\_last\_extension=.true.)
+175     getfullfile = background(1, name, extents, backgroundims)
+176     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(gfield)
+177         \textcolor{keyword}{call }getfullfile%add(gfield(i))
+178         \textcolor{comment}{!call gfield(i)%print()}
+179         \textcolor{keyword}{call }gfield(i)%finalize()
+180 \textcolor{keywordflow}{    end do}
+181     
+182     \textcolor{keyword}{call }getfullfile%makeLandMask()
+183     
+184     \textcolor{comment}{!call getFullFile%print()}
+185 
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}\label{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}} 
 \index{simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}!initinputstreamer@{initinputstreamer}}
 \index{initinputstreamer@{initinputstreamer}!simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}}
@@ -34,21 +127,199 @@ Ricardo Birjukovs Canelas
 
 
 
-Initializes the Input writer object. 
+Initializes the input writer object, imports metadata on input files. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 
-Definition at line 45 of file simulation\+Input\+Streamer.\+f90.
+Definition at line 194 of file simulation\+Input\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-45     \textcolor{keywordtype}{class}(input\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-46     self%InputFormat = globals%Parameters%InputFormat
-47     \textcolor{keywordflow}{if} (self%InputFormat == 1) \textcolor{keywordflow}{then}
-48         \textcolor{comment}{!initialize netcdf reader class}
-49 
-50 \textcolor{keywordflow}{    end if}
+194     \textcolor{keywordtype}{class}(input\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+195     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmlInputs
+196     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: fileNode
+197     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: fileList
+198     \textcolor{keywordtype}{type}(string) :: tag, att\_name, att\_val
+199     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: fileNames
+200     \textcolor{keywordtype}{integer} :: i
+201 
+202     self%bufferSize = globals%Parameters%BufferSize
+203     self%lastReadTime = -1.0
+204 
+205     \textcolor{keyword}{call }xmlreader%getFile(xmlinputs,globals%Names%inputsXmlFilename, mandatory = .false.)
+206     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(xmlinputs)) \textcolor{keywordflow}{then}
+207         self%useInputFiles = .true.
+208         \textcolor{comment}{!Go to the file\_collection node}
+209         tag = \textcolor{stringliteral}{"file\_collection"}
+210         \textcolor{keyword}{call }xmlreader%gotoNode(xmlinputs,xmlinputs,tag)
+211         tag = \textcolor{stringliteral}{"currents"}
+212         \textcolor{keyword}{call }xmlreader%gotoNode(xmlinputs,xmlinputs,tag)
+213         filelist => getelementsbytagname(xmlinputs, \textcolor{stringliteral}{"file"})       \textcolor{comment}{!searching for tags with the 'namingfile'
+       name}
+214         \textcolor{keyword}{allocate}(filenames(getlength(filelist)))
+215         \textcolor{keyword}{allocate}(self%currentsInputFile(getlength(filelist)))
+216         \textcolor{keywordflow}{do} i = 0, getlength(filelist) - 1
+217             filenode => item(filelist, i)
+218             tag=\textcolor{stringliteral}{"name"}
+219             att\_name=\textcolor{stringliteral}{"value"}
+220             \textcolor{keyword}{call }xmlreader%getNodeAttribute(filenode, tag, att\_name, filenames(i+1))
+221             self%currentsInputFile(i+1)%name = filenames(i+1)
+222             tag=\textcolor{stringliteral}{"startTime"}
+223             att\_name=\textcolor{stringliteral}{"value"}
+224             \textcolor{keyword}{call }xmlreader%getNodeAttribute(filenode, tag, att\_name, att\_val)
+225             self%currentsInputFile(i+1)%startTime = att\_val%to\_number(kind=1.\_r4p)
+226             tag=\textcolor{stringliteral}{"endTime"}
+227             att\_name=\textcolor{stringliteral}{"value"}
+228             \textcolor{keyword}{call }xmlreader%getNodeAttribute(filenode, tag, att\_name, att\_val)
+229             self%currentsInputFile(i+1)%endTime = att\_val%to\_number(kind=1.\_r4p)
+230             self%currentsInputFile(i+1)%used = .false.
+231 \textcolor{keywordflow}{        end do}
+232         \textcolor{keyword}{call }globals%setInputFileNames(filenames)
+233     \textcolor{keywordflow}{else}
+234         self%useInputFiles = .false.
+235 \textcolor{keywordflow}{    end if}
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationinputstreamer__mod_a3d4540f8e04cc0215895cad65c5be952}\label{namespacesimulationinputstreamer__mod_a3d4540f8e04cc0215895cad65c5be952}} 
+\index{simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}!loaddatafromstack@{loaddatafromstack}}
+\index{loaddatafromstack@{loaddatafromstack}!simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{loaddatafromstack()}{loaddatafromstack()}}
+{\footnotesize\ttfamily subroutine simulationinputstreamer\+\_\+mod\+::loaddatafromstack (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{input\+\_\+streamer\+\_\+class}}), intent(inout)}]{self,  }\item[{type(\mbox{\hyperlink{structboundingbox__mod_1_1boundingbox__class}{boundingbox\+\_\+class}}), intent(in)}]{b\+Box,  }\item[{type(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(inout)}]{blocks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+loads data from files and populates the backgrounds accordingly 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,bbox,blocks} & \\
+\hline
+\mbox{\tt in}  & {\em bbox} & Case bounding box\\
+\hline
+\mbox{\tt in,out}  & {\em blocks} & Case Blocks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 71 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+71     \textcolor{keywordtype}{class}(input\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+72     \textcolor{keywordtype}{type}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bBox
+73     \textcolor{keywordtype}{type}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: blocks
+74     \textcolor{keywordtype}{type}(background\_class) :: tempBkgd
+75     \textcolor{keywordtype}{integer} :: i, j
+76     \textcolor{keywordtype}{integer} :: fNumber
+77     \textcolor{keywordtype}{real(prec)} :: tempTime(2)
+78     \textcolor{keywordtype}{logical} :: needToRead, appended
+79 
+80     needtoread = .false.
+81     \textcolor{keywordflow}{if} (self%useInputFiles) \textcolor{keywordflow}{then}
+82         \textcolor{comment}{!check if we need to import data (current time and buffer size)}
+83         \textcolor{keywordflow}{if} (self%lastReadTime <= globals%SimTime%CurrTime + self%BufferSize/4.0) needtoread = .true.
+84         \textcolor{keywordflow}{if} (self%lastReadTime >= globals%SimTime%TimeMax) needtoread = .false.
+85         \textcolor{keywordflow}{if} (needtoread) \textcolor{keywordflow}{then}
+86             \textcolor{keyword}{call }self%resetReadStatus()
+87             \textcolor{comment}{!check what files on the stack are to read to backgrounds}
+88             \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%currentsInputFile)
+89                 \textcolor{keywordflow}{if} (self%currentsInputFile(i)%endTime >= globals%SimTime%CurrTime) \textcolor{keywordflow}{then}
+90                     \textcolor{keywordflow}{if} (self%currentsInputFile(i)%startTime <= globals%SimTime%CurrTime + self%BufferSize) \textcolor{keywordflow}{
+      then}
+91                         \textcolor{keywordflow}{if} (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+92 \textcolor{keywordflow}{                    end if}
+93 \textcolor{keywordflow}{                end if}
+94 \textcolor{keywordflow}{            end do}
+95             \textcolor{comment}{!read selected files}
+96             \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%currentsInputFile)
+97                 \textcolor{keywordflow}{if} (self%currentsInputFile(i)%toRead) \textcolor{keywordflow}{then}
+98                     \textcolor{comment}{!import data to temporary background}
+99                     tempbkgd = self%getFullFile(self%currentsInputFile(i)%name)
+100                     self%currentsInputFile(i)%used = .true.
+101                     \textcolor{keywordflow}{do} j=1, \textcolor{keyword}{size}(blocks)
+102                         \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(blocks(j)%Background)) \textcolor{keyword}{allocate}(blocks(j)%Background(1))
+103                         \textcolor{comment}{!slice data by block and either join to existing background or add a new one}
+104                         \textcolor{keywordflow}{if} (blocks(j)%Background(1)%initialized) \textcolor{keyword}{call }blocks(j)%Background(1)%append(
+      tempbkgd%getHyperSlab(blocks(j)%extents), appended)
+105                         \textcolor{keywordflow}{if} (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempbkgd
+      %getHyperSlab(blocks(j)%extents)
+106 
+107                         \textcolor{comment}{!save last time already loaded}
+108                         temptime = blocks(j)%Background(1)%getDimExtents(globals%Var%time)
+109                         self%lastReadTime = temptime(2)
+110 
+111 \textcolor{keywordflow}{                    end do}
+112                     \textcolor{comment}{!clean out the temporary background data (this structure, even tough it is a local
+       variable, has pointers inside)}
+113                     \textcolor{keyword}{call }tempbkgd%finalize()
+114 \textcolor{keywordflow}{                end if}
+115 \textcolor{keywordflow}{            end do}
+116 \textcolor{keywordflow}{        end if}
+117 \textcolor{keywordflow}{    end if}
+118 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationinputstreamer__mod_a1b906bc5ba1fac8d846b30237216aca4}\label{namespacesimulationinputstreamer__mod_a1b906bc5ba1fac8d846b30237216aca4}} 
+\index{simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}!printinputstreamer@{printinputstreamer}}
+\index{printinputstreamer@{printinputstreamer}!simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{printinputstreamer()}{printinputstreamer()}}
+{\footnotesize\ttfamily subroutine simulationinputstreamer\+\_\+mod\+::printinputstreamer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{input\+\_\+streamer\+\_\+class}}), intent(in)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Prints the input writer object and metadata on input files. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 257 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+257     \textcolor{keywordtype}{class}(input\_streamer\_class), \textcolor{keywordtype}{intent(in)} :: self
+258     \textcolor{keywordtype}{type}(string) :: outext, temp\_str
+259     \textcolor{keywordtype}{integer} :: i
+260     outext = \textcolor{stringliteral}{'-->Input streamer stack:'}//new\_line(\textcolor{stringliteral}{'a'})
+261     outext = outext//\textcolor{stringliteral}{'--->Currents data '}
+262     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%currentsInputFile)
+263         outext = outext//new\_line(\textcolor{stringliteral}{'a'})
+264         outext = outext//\textcolor{stringliteral}{'---->File '}//self%currentsInputFile(i)%name\textcolor{comment}{!//new\_line('a')}
+265         \textcolor{comment}{!temp\_str=self%currentsInputFile(i)%startTime}
+266         \textcolor{comment}{!outext = outext//'      Starting time is '//temp\_str//' s'//new\_line('a')}
+267         \textcolor{comment}{!temp\_str=self%currentsInputFile(i)%endTime}
+268         \textcolor{comment}{!outext = outext//'      Ending time is   '//temp\_str//' s'}
+269 \textcolor{keywordflow}{    end do}
+270     \textcolor{keywordflow}{if} (.not.self%useInputFiles) outext = \textcolor{stringliteral}{'-->Input streamer stack is empty, no input data'}
+271     \textcolor{keyword}{call }log%put(outext,.false.)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationinputstreamer__mod_a9465e29f527366e5f6d9a1195de6ddee}\label{namespacesimulationinputstreamer__mod_a9465e29f527366e5f6d9a1195de6ddee}} 
+\index{simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}!resetreadstatus@{resetreadstatus}}
+\index{resetreadstatus@{resetreadstatus}!simulationinputstreamer\+\_\+mod@{simulationinputstreamer\+\_\+mod}}
+\subsubsection{\texorpdfstring{resetreadstatus()}{resetreadstatus()}}
+{\footnotesize\ttfamily subroutine simulationinputstreamer\+\_\+mod\+::resetreadstatus (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{input\+\_\+streamer\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+resets input files read status 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 244 of file simulation\+Input\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+244     \textcolor{keywordtype}{class}(input\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+245     \textcolor{keywordtype}{integer} :: i
+246     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%currentsInputFile)
+247         self%currentsInputFile(i)%toRead = .false.
+248 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}

@@ -109,6 +109,7 @@ $(document).ready(function(){initNavTree('structsimulationglobals__mod_1_1consta
 Collaboration diagram for simulationglobals_mod::constants_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulationglobals__mod_1_1constants__t__coll__graph.png" border="0" usemap="#simulationglobals__mod_1_1constants__t_coll__map" alt="Collaboration graph"/></div>
+<!-- MAP 0 -->
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -119,6 +120,10 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a6517422a0987640f0574bcce3c6566f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c3a9d4776bce5b6e7ae475bd7711f0b"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#a8c3a9d4776bce5b6e7ae475bd7711f0b">setrho</a></td></tr>
 <tr class="separator:a8c3a9d4776bce5b6e7ae475bd7711f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29fa4fda8d4382821d48942ea8232c15"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#a29fa4fda8d4382821d48942ea8232c15">setbeachinglevel</a></td></tr>
+<tr class="separator:a29fa4fda8d4382821d48942ea8232c15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abae3cbfbc8ed893c747a8088da5372e6"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#abae3cbfbc8ed893c747a8088da5372e6">setsmalldt</a></td></tr>
+<tr class="separator:abae3cbfbc8ed893c747a8088da5372e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a287a252cb5c736b4da24d79cf9c59897"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#a287a252cb5c736b4da24d79cf9c59897">print</a> =&gt; <a class="el" href="namespacesimulationglobals__mod.html#a139cb36f8366e6aec875c7977235fd68">printconstants</a></td></tr>
 <tr class="separator:a287a252cb5c736b4da24d79cf9c59897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -133,6 +138,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ac466093200262cde2551525b04809d3a"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#ac466093200262cde2551525b04809d3a">rho_ref</a> = 1000.0</td></tr>
 <tr class="memdesc:ac466093200262cde2551525b04809d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference density of the medium (default=1000.0) (kg m-3)  <a href="#ac466093200262cde2551525b04809d3a">More...</a><br /></td></tr>
 <tr class="separator:ac466093200262cde2551525b04809d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e417855b60f5eb0f45d3094495f532b"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#a4e417855b60f5eb0f45d3094495f532b">smalldt</a></td></tr>
+<tr class="memdesc:a4e417855b60f5eb0f45d3094495f532b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Small dt scale, for numeric precision purposes.  <a href="#a4e417855b60f5eb0f45d3094495f532b">More...</a><br /></td></tr>
+<tr class="separator:a4e417855b60f5eb0f45d3094495f532b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a735a778cb615271495fe8d5dc2b964b7"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#a735a778cb615271495fe8d5dc2b964b7">beachinglevel</a> = -3.0</td></tr>
+<tr class="memdesc:a735a778cb615271495fe8d5dc2b964b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Level above which beaching can occur (m)  <a href="#a735a778cb615271495fe8d5dc2b964b7">More...</a><br /></td></tr>
+<tr class="separator:a735a778cb615271495fe8d5dc2b964b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Case Constants class. </p>
@@ -162,7 +173,34 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00092">92</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00096">96</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+
+</div>
+</div>
+<a id="a29fa4fda8d4382821d48942ea8232c15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29fa4fda8d4382821d48942ea8232c15">&#9670;&nbsp;</a></span>setbeachinglevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure simulationglobals_mod::constants_t::setbeachinglevel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00094">94</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
 
 </div>
 </div>
@@ -189,7 +227,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00089">89</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00091">91</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
 
 </div>
 </div>
@@ -216,7 +254,34 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00091">91</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00093">93</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+
+</div>
+</div>
+<a id="abae3cbfbc8ed893c747a8088da5372e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abae3cbfbc8ed893c747a8088da5372e6">&#9670;&nbsp;</a></span>setsmalldt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure simulationglobals_mod::constants_t::setsmalldt </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00095">95</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
 
 </div>
 </div>
@@ -243,11 +308,37 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00090">90</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00092">92</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a735a778cb615271495fe8d5dc2b964b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a735a778cb615271495fe8d5dc2b964b7">&#9670;&nbsp;</a></span>beachinglevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) simulationglobals_mod::constants_t::beachinglevel = -3.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Level above which beaching can occur (m) </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00089">89</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">real(prec)</span>   :: BeachingLevel = -3.0</div></div><!-- fragment -->
+</div>
+</div>
 <a id="abe210fea4268af42f1cb950a1e3b3cfd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abe210fea4268af42f1cb950a1e3b3cfd">&#9670;&nbsp;</a></span>gravity</h2>
 
@@ -298,6 +389,32 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00087">87</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
 <div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordtype">real(prec)</span>   :: Rho_ref = 1000.0</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a4e417855b60f5eb0f45d3094495f532b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e417855b60f5eb0f45d3094495f532b">&#9670;&nbsp;</a></span>smalldt</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) simulationglobals_mod::constants_t::smalldt</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Small dt scale, for numeric precision purposes. </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00088">88</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">real(prec)</span>   :: smallDt</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a9dab4143c1d5fd54c8337d78ea9b7d82"></a>

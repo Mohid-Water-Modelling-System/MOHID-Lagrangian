@@ -1,4 +1,4 @@
 <map id="netcdfparser_mod::ncfile_class" name="netcdfparser_mod::ncfile_class">
-<area shape="rect" id="node2" href="$structnetcdfparser__mod_1_1dim__t.html" title="{netcdfparser_mod::dim_t\n|&#45; name\l&#45; simname\l&#45; dimid\l&#45; varid\l&#45; units\l&#45; length\l&#45; reverse\l|&#45; print()\l}" alt="" coords="5,27,171,193"/>
+<area shape="rect" id="node2" href="$structnetcdfparser__mod_1_1dim__t.html" title="{netcdfparser_mod::dim_t\n|&#45; name\l&#45; simname\l&#45; dimid\l&#45; varid\l&#45; units\l&#45; length\l&#45; reverse_axis\l&#45; negate\l&#45; reverse_data\l|&#45; print()\l}" alt="" coords="5,13,171,207"/>
 <area shape="rect" id="node3" href="$structnetcdfparser__mod_1_1var__t.html" title="{netcdfparser_mod::var_t\n|&#45; name\l&#45; simname\l&#45; varid\l&#45; units\l&#45; ndims\l&#45; dimids\l&#45; natts\l&#45; offset\l&#45; scale\l&#45; fillvalue\l|&#45; print()\l}" alt="" coords="195,5,355,215"/>
 </map>

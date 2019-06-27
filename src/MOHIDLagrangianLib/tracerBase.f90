@@ -27,34 +27,26 @@
     type :: tracer_par_class               !<Type - parameters of a pure Lagrangian tracer object
         integer :: id = MV                       !< unique tracer identification
         integer :: idsource = MV                 !< Source to which the tracer belongs
-        real(prec) :: velmax = MV                !< Maximum velocity of tracer to track (m/s)
+        integer :: ttype
     end type tracer_par_class
 
     type :: tracer_state_class             !<Type - state variables of a pure Lagrangian tracer object
         real(prec) :: age = MV             ! time variables
         logical :: active = .false.             !< active switch
         type(vector) :: pos                     !< Position of the tracer (m)
-        type(vector) :: vel                     !< Velocity of the tracer (m s-1)
-        type(vector) :: acc                     !< Acceleration of the tracer (m s-2)
-        real(prec) :: level = MV                !< Depth of the tracer (m)
-        integer :: landMask
+        type(vector) :: vel                     !< Velocity of the tracer (m s-1)        
     end type tracer_state_class
-
-    type :: tracer_stats_class             !<Type - statistical variables of a pure Lagrangian tracer object
-        type(vector) :: acc_pos                 !< Accumulated position of the tracer (m)
-        type(vector) :: acc_vel                 !< Accumulated velocity of the tracer (m s-1)
-        real(prec_wrt) :: acc_level = MV        !< Accumulated depth of the tracer (m)
-        integer :: ns = MV                      !< Number of sampling steps
-    end type tracer_stats_class
 
     type :: tracer_class                   !<Type - The pure Lagrangian tracer class
         type(tracer_par_class)   :: par         !<To access parameters
         type(tracer_state_class) :: now         !<To access state variables
-        type(tracer_stats_class) :: stats       !<To access statistics
     contains
+    procedure :: getNumVars
+    procedure :: getStateArray
+    procedure :: setStateArray
     procedure :: print => printTracer
     end type tracer_class
-        
+
     !Public access vars
     public :: tracer_class
 
@@ -70,11 +62,53 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method that returns the number of variables used by this tracer
+    !---------------------------------------------------------------------------
+    integer function getNumVars(self)
+    class(tracer_class), intent(in) :: self
+    getNumVars = 6
+    end function getNumVars
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the state array of this tracer
+    !---------------------------------------------------------------------------
+    function getStateArray(self)
+    class(tracer_class), intent(in) :: self
+    real(prec), allocatable, dimension(:) :: getStateArray
+    allocate(getStateArray(self%getNumVars()))
+    getStateArray(1) = self%now%pos%x
+    getStateArray(2) = self%now%pos%y
+    getStateArray(3) = self%now%pos%z
+    getStateArray(4) = self%now%vel%x
+    getStateArray(5) = self%now%vel%y
+    getStateArray(6) = self%now%vel%z
+    end function getStateArray
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that sets the state array of this tracer
+    !---------------------------------------------------------------------------
+    subroutine setStateArray(self, stateArray)
+    class(tracer_class), intent(inout) :: self
+    real(prec), dimension(:), intent(in) :: stateArray
+    !if(size(stateArray)<self%getNumVars())
+    self%now%pos%x = StateArray(1)
+    self%now%pos%y = StateArray(2)
+    self%now%pos%z = StateArray(3)
+    self%now%vel%x = StateArray(4)
+    self%now%vel%y = StateArray(5)
+    self%now%vel%z = StateArray(6)
+    end subroutine setStateArray
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Method to print basic info about the Tracer
-    !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine printTracer(self)
-    implicit none
     class(tracer_class), intent(inout) :: self
     type(string) :: outext, t(6)
     if (self%now%active .eqv. .false.) then
@@ -97,35 +131,20 @@
     !> @param[in] id, src, time, p
     !---------------------------------------------------------------------------
     function constructor(id, src, time, p)
-    implicit none
     type(tracer_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
     integer, intent(in) :: p
-
     ! initialize parameters
     constructor%par%id = id
     constructor%par%idsource = src%par%id
-    constructor%par%velmax = 15.0 !(m/s, just a placeholder)
+    constructor%par%ttype = Globals%Types%base
     ! initialize tracer state
     constructor%now%age=0.0
     constructor%now%active = .true.
-    !print*, 'Source at'
-    !print*, src%now%pos
-    !print*, 'New tracer at'
-    !print*, src%stencil%ptlist(p) + src%now%pos
     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
     constructor%now%vel = 0.0
-    constructor%now%acc = 0.0
-    constructor%now%level = 0.0
-    constructor%now%landMask = 0
-    ! Initialize statistical accumulator variables
-    constructor%stats%acc_pos = 0.0
-    constructor%stats%acc_vel = 0.0
-    constructor%stats%acc_level = 0.0
-    constructor%stats%ns = 0
-
     end function constructor
 
     end module tracerBase_mod

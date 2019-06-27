@@ -13,14 +13,10 @@ type \mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespacesolver__mod_ab87d71c6c8aa1709901ec14f9bf12505}{runstep}} (self, aot, bdata, time, dt)
-\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, according to the selected integration algorithm. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesolver__mod_a1c6bb2899a5ce28d6b63f1d0e67d2b92}{runstepeuler}} (self, aot, bdata, time, dt)
-\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Velocity Euler integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesolver__mod_a799bf8b0b57a431b29c8dbeef9be6e48}{runstepmseuler}} (self, aot, bdata, time, dt)
-\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Multi-\/\+Step Euler integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesolver__mod_ae59da54f053ae369d76f130b3790f3b7}{runsteprk4}} (self, aot, bdata, time, dt)
-\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6af}{runstep}} (self, state, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer State Vector in one time-\/step, according to the selected integration algorithm. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_a21533e195501ebb46c1814aeaede4c55}{runstepeuler}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Velocity Euler integration algorithm. This is a one-\/shot type explicit scheme with low computational cost. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a326292ff19880a914317109520b200b2}{initsolver}} (self, flag, name)
 \begin{DoxyCompactList}\small\item\em Initializer method for the Solver class. Sets the type of integrator and name of the algorithm this Solver will call. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}{printsolver}} (self)
@@ -56,18 +52,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 304 of file solver.\+f90.
+Definition at line 282 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-304     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-305     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
-306     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-307     \textcolor{keywordtype}{type}(string) :: interpName
-308     self%solverType = flag
-309     self%name = name
-310     interpname = \textcolor{stringliteral}{'linear'}
-311     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
+282     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+283     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
+284     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+285     \textcolor{keywordtype}{type}(string) :: interpName
+286     self%solverType = flag
+287     self%name = name   
+288     \textcolor{keyword}{call }self%Kernel%initialize()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}\label{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!printsolver@{printsolver}}
@@ -84,314 +79,82 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 320 of file solver.\+f90.
+Definition at line 297 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-320     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-321     \textcolor{keywordtype}{type}(string) :: outext, t
-322     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
-323     \textcolor{keyword}{call }log%put(outext,.false.)
+297     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+298     \textcolor{keywordtype}{type}(string) :: outext, t
+299     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
+300     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacesolver__mod_ab87d71c6c8aa1709901ec14f9bf12505}\label{namespacesolver__mod_ab87d71c6c8aa1709901ec14f9bf12505}} 
+\mbox{\Hypertarget{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6af}\label{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6af}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!runstep@{runstep}}
 \index{runstep@{runstep}!solver\+\_\+mod@{solver\+\_\+mod}}
 \subsubsection{\texorpdfstring{runstep()}{runstep()}}
-{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runstep (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runstep (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), dimension(\+:), intent(inout)}]{state,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Method that integrates the Tracer state array in one time-\/step, according to the selected integration algorithm. 
+Method that integrates the Tracer State Vector in one time-\/step, according to the selected integration algorithm. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
+\mbox{\tt in}  & {\em self,state,bdata,time,dt} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 56 of file solver.\+f90.
+Definition at line 58 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-56     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-57     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
-58     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-59     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-60     \textcolor{keywordflow}{if} (self%solverType == 1) \textcolor{keyword}{call }self%runStepEuler(aot, bdata, time, dt)
-61     \textcolor{keywordflow}{if} (self%solverType == 2) \textcolor{keyword}{call }self%runStepMSEuler(aot, bdata, time, dt)
-62     \textcolor{keywordflow}{if} (self%solverType == 3) \textcolor{keyword}{call }self%runStepRK4(aot, bdata, time, dt)
+58     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+59     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: state
+60     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+61     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+62     \textcolor{comment}{!so the forward integrators don't overextend beyond calendar time}
+63     \textcolor{keywordflow}{if} (time+dt < globals%Parameters%TimeMax) \textcolor{keywordflow}{then}
+64         \textcolor{keywordflow}{if} (self%solverType == 1) \textcolor{keyword}{call }self%runStepEuler(state, bdata, time, dt)
+65         \textcolor{comment}{!if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)}
+66         \textcolor{comment}{!if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)}
+67 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacesolver__mod_a1c6bb2899a5ce28d6b63f1d0e67d2b92}\label{namespacesolver__mod_a1c6bb2899a5ce28d6b63f1d0e67d2b92}} 
+\mbox{\Hypertarget{namespacesolver__mod_a21533e195501ebb46c1814aeaede4c55}\label{namespacesolver__mod_a21533e195501ebb46c1814aeaede4c55}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!runstepeuler@{runstepeuler}}
 \index{runstepeuler@{runstepeuler}!solver\+\_\+mod@{solver\+\_\+mod}}
 \subsubsection{\texorpdfstring{runstepeuler()}{runstepeuler()}}
-{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runstepeuler (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runstepeuler (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), dimension(\+:), intent(inout)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Method that integrates the Tracer state array in one time-\/step, using a Velocity Euler integration algorithm. This is a one-\/shot type explicit scheme with low computational cost, mostly for quick tests and debug. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. 
-
-\begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-\end{DoxyAuthor}
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line 77 of file solver.\+f90.
-
-
-\begin{DoxyCode}
-77     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-78     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
-79     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-80     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-81     \textcolor{keywordtype}{integer} :: np, nf, bkg
-82     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
-83     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
-84     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: rand\_vel\_u, rand\_vel\_v
-85 
-86     \textcolor{comment}{! print*, 'got here!'}
-87     \textcolor{comment}{! np = size(aot%id) !number of particles}
-88     \textcolor{comment}{! allocate(rand\_vel\_u(np))}
-89     \textcolor{comment}{! allocate(rand\_vel\_v(np))}
-90     \textcolor{comment}{! call random\_number(rand\_vel\_u)}
-91     \textcolor{comment}{! call random\_number(rand\_vel\_v)}
-92     \textcolor{comment}{! rand\_vel\_u = 0.001*(2*rand\_vel\_u - 1)}
-93     \textcolor{comment}{! rand\_vel\_v = 0.001*(2*rand\_vel\_v - 1)}
-94     \textcolor{comment}{! aot%u = rand\_vel\_u}
-95     \textcolor{comment}{! aot%v = rand\_vel\_v}
-96     \textcolor{comment}{! !aot%w = rand\_vel}
-97     \textcolor{comment}{! !print*, aot%u}
-98     \textcolor{comment}{! !update positions}
-99     \textcolor{comment}{! aot%x = aot%x + aot%u*dt}
-100     \textcolor{comment}{! aot%y = aot%y + aot%v*dt}
-101     \textcolor{comment}{! !!aot%z = aot%z + aot%w*dt}
-102 
-103     \textcolor{comment}{!interpolate each background}
-104     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
-105         np = \textcolor{keyword}{size}(aot%id) \textcolor{comment}{!number of particles}
-106         nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
-107         \textcolor{keyword}{allocate}(var\_dt(np,nf))
-108         \textcolor{keyword}{allocate}(var\_name(nf))
-109         \textcolor{keyword}{call }self%Interpolator%run(aot, bdata(bkg), time, var\_dt, var\_name)
-110         \textcolor{comment}{!update velocities}
-111         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-112         aot%u = var\_dt(:,nf)
-113         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-114         aot%v = var\_dt(:,nf)
-115         nf = utils%find\_str(var\_name, globals%Var%w, .true.)
-116         aot%w = var\_dt(:,nf)
-117         \textcolor{comment}{!update positions}
-118         aot%x = aot%x + utils%m2geo(aot%u, aot%y, .false.)*dt
-119         aot%y = aot%y + utils%m2geo(aot%v, aot%y, .true.)*dt
-120         aot%z = aot%z + aot%w*dt
-121         \textcolor{comment}{!update other vars...}
-122 \textcolor{keywordflow}{    end do}
-123 
-\end{DoxyCode}
-\mbox{\Hypertarget{namespacesolver__mod_a799bf8b0b57a431b29c8dbeef9be6e48}\label{namespacesolver__mod_a799bf8b0b57a431b29c8dbeef9be6e48}} 
-\index{solver\+\_\+mod@{solver\+\_\+mod}!runstepmseuler@{runstepmseuler}}
-\index{runstepmseuler@{runstepmseuler}!solver\+\_\+mod@{solver\+\_\+mod}}
-\subsubsection{\texorpdfstring{runstepmseuler()}{runstepmseuler()}}
-{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runstepmseuler (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Method that integrates the Tracer state array in one time-\/step, using a Multi-\/\+Step Euler integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. 
+Method that integrates the Tracer state array in one time-\/step, using a Velocity Euler integration algorithm. This is a one-\/shot type explicit scheme with low computational cost. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
+\mbox{\tt in}  & {\em self,state,bdata,time,dt} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 135 of file solver.\+f90.
+Definition at line 81 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-135     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-136     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
-137     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-138     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-139     \textcolor{keywordtype}{real(prec)} :: mstime
-140     \textcolor{keywordtype}{integer} :: np, nf, bkg
-141     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
-142     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
-143 
-144     \textcolor{comment}{! interpolate each background}
-145     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
-146         np = \textcolor{keyword}{size}(aot%id) \textcolor{comment}{!number of particles}
-147         nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
-148         \textcolor{keyword}{allocate}(var\_dt(np,nf))
-149         \textcolor{keyword}{allocate}(var\_name(nf))
-150         \textcolor{comment}{!Predictor step}
-151         \textcolor{comment}{!run the interpolator}
-152         \textcolor{keyword}{call }self%Interpolator%run(aot, bdata(bkg), time, var\_dt, var\_name)
-153         \textcolor{comment}{!update velocities for the predictor step}
-154         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-155         aot%u = var\_dt(:,nf)
-156         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-157         aot%v = var\_dt(:,nf)
-158         nf = utils%find\_str(var\_name, globals%Var%w, .true.)
-159         aot%w = var\_dt(:,nf)
-160         \textcolor{comment}{!update positions for the predictor step}
-161         aot%x = aot%x + utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
-162         aot%y = aot%y + utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
-163         aot%z = aot%z + aot%w*dt*0.5
-164         \textcolor{comment}{!Corrector step}
-165         \textcolor{comment}{!run the interpolator}
-166         mstime = time+0.5*dt
-167         \textcolor{keyword}{call }self%Interpolator%run(aot, bdata(bkg), mstime, var\_dt, var\_name)
-168         \textcolor{comment}{!update velocities for the corrector step}
-169         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-170         aot%u = var\_dt(:,nf)
-171         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-172         aot%v = var\_dt(:,nf)
-173         nf = utils%find\_str(var\_name, globals%Var%w, .true.)
-174         aot%w = var\_dt(:,nf)
-175         \textcolor{comment}{!update positions for the corrector step}
-176         aot%x = aot%x + utils%m2geo(aot%u, aot%y, .false.)*0.5*dt
-177         aot%y = aot%y + utils%m2geo(aot%v, aot%y, .true.)*0.5*dt
-178         aot%z = aot%z + aot%w*dt*0.5
-179         \textcolor{comment}{!update other vars...}
-180 \textcolor{keywordflow}{    end do}
-181 
-\end{DoxyCode}
-\mbox{\Hypertarget{namespacesolver__mod_ae59da54f053ae369d76f130b3790f3b7}\label{namespacesolver__mod_ae59da54f053ae369d76f130b3790f3b7}} 
-\index{solver\+\_\+mod@{solver\+\_\+mod}!runsteprk4@{runsteprk4}}
-\index{runsteprk4@{runsteprk4}!solver\+\_\+mod@{solver\+\_\+mod}}
-\subsubsection{\texorpdfstring{runsteprk4()}{runsteprk4()}}
-{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runsteprk4 (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(aot\+\_\+class), intent(inout)}]{aot,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. 
-
-\begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-\end{DoxyAuthor}
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,aot,bdata,time,dt} & \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line 193 of file solver.\+f90.
-
-
-\begin{DoxyCode}
-193     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-194     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{intent(inout)} :: aot
-195     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-196     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-197     \textcolor{keywordtype}{type}(aot\_class), \textcolor{keywordtype}{dimension(4)} :: k
-198     \textcolor{keywordtype}{real(prec)} :: mstime
-199     \textcolor{keywordtype}{integer} :: np, nf, bkg
-200     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
-201     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
-202 
-203 
-204     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
-205         np = \textcolor{keyword}{size}(aot%id) \textcolor{comment}{!number of particles}
-206         nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
-207         \textcolor{keyword}{allocate}(var\_dt(np,nf))
-208         \textcolor{keyword}{allocate}(var\_name(nf))
-209 
-210         \textcolor{comment}{!copying the aot for the several intermediate steps}
-211         k(1) = aot
-212         k(2) = aot
-213         k(3) = aot
-214         k(4) = aot
-215 
-216         \textcolor{comment}{!-----k1 step: k1 = f(x\_n,t\_n)-----}
-217         \textcolor{keyword}{call }self%Interpolator%run(aot, bdata(bkg), time, var\_dt, var\_name)
-218 
-219         \textcolor{comment}{!update velocities for the predictor step}
-220         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-221         k(1)%u = var\_dt(:,nf)
-222         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-223         k(1)%v = var\_dt(:,nf)
-224         nf = utils%find\_str(var\_name, globals%Var%w, .true.)
-225         k(1)%w = var\_dt(:,nf)
-226         \textcolor{comment}{!-----k1 step: k1 = f(x\_n,t\_n)-----}
-227 
-228         \textcolor{comment}{!---- k2 step: k2 = f(x\_n + k1/2,t\_n + dt/2)------}
-229         \textcolor{comment}{!update positions:  x\_n + k1./2*dt}
-230         k(2)%x = k(1)%x + utils%m2geo(k(1)%u, k(1)%y, .false.)*0.5*dt
-231         k(2)%y = k(1)%y + utils%m2geo(k(1)%v, k(1)%y, .true.)*0.5*dt
-232         k(2)%z = k(1)%z + k(1)%w*dt*0.5
-233         \textcolor{comment}{!update the time: t + dt/2}
-234         mstime = time+0.5*dt
-235         \textcolor{comment}{!run the interpolator: f(x\_n + k1/2,t + dt/2)}
-236         \textcolor{keyword}{call }self%Interpolator%run(k(2), bdata(bkg), mstime, var\_dt, var\_name)
-237         \textcolor{comment}{!update velocities}
-238         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-239         k(2)%u = var\_dt(:,nf)
-240         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-241         k(2)%v = var\_dt(:,nf)
-242         nf = utils%find\_str(var\_name, globals%Var%w, .true.)
-243         k(2)%w = var\_dt(:,nf)
-244         \textcolor{comment}{!---- k2 step: k2 = f(x\_n + k1/2,t + dt/2)------}
-245 
-246         \textcolor{comment}{!---- k3 step: k3 = f(x\_n+k2*1/2*dt,t\_n+1/2*dt)}
-247         \textcolor{comment}{!update positions: x\_n + k2*dt/2}
-248         k(3)%x = k(2)%x + utils%m2geo(k(2)%u, k(2)%y, .false.)*0.5*dt
-249         k(3)%y = k(2)%y + utils%m2geo(k(2)%v, k(2)%y, .true.)*0.5*dt
-250         k(3)%z = k(2)%z + k(2)%w*dt*0.5
-251         \textcolor{comment}{!update the time: t + dt/2}
-252         mstime = time+0.5*dt
-253         \textcolor{comment}{!Corrector step}
-254         \textcolor{comment}{!run the interpolator: f(x\_n + k2*dt/2,t + dt/2)}
-255         \textcolor{keyword}{call }self%Interpolator%run(k(3), bdata(bkg), mstime, var\_dt, var\_name)
-256         \textcolor{comment}{!update velocities}
-257         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-258         k(3)%u = var\_dt(:,nf)
-259         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-260         k(3)%v = var\_dt(:,nf)
-261         nf = utils%find\_str(var\_name, globals%Var%w, .true.)
-262         k(3)%w = var\_dt(:,nf)
-263         \textcolor{comment}{!---- k3 step: k3 = f(x\_n+k2*1/2*dt,t\_n+1/2*dt)}
-264 
-265         \textcolor{comment}{!---- k4 step: k4 = f(x\_n + k3,t + dt)------}
-266         \textcolor{comment}{!update positions: x\_n + k3*dt}
-267         k(4)%x = k(3)%x + utils%m2geo(k(3)%u, k(3)%y, .false.)*dt
-268         k(4)%y = k(3)%y + utils%m2geo(k(3)%v, k(3)%y, .true.)*dt
-269         k(4)%z = k(3)%z + k(3)%w*dt
-270         \textcolor{comment}{!update the time: t + dt2}
-271         mstime = time+dt
-272         \textcolor{keyword}{call }self%Interpolator%run(k(4), bdata(bkg), mstime, var\_dt, var\_name)
-273         \textcolor{comment}{!update velocities}
-274         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-275         k(4)%u = var\_dt(:,nf)
-276         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-277         k(4)%v = var\_dt(:,nf)
-278         nf = utils%find\_str(var\_name, globals%Var%w, .true.)
-279         k(4)%w = var\_dt(:,nf)
-280         \textcolor{comment}{!---- k4 step: k4 = f(x\_n + k3,t + dt)------}
-281 
-282         aot%u = (k(1)%u + 2.*k(2)%u + 2.*k(3)%u + k(4)%u)/6.0
-283         aot%v = (k(1)%v + 2.*k(2)%v + 2.*k(3)%v + k(4)%v)/6.0
-284         aot%w = (k(1)%w + 2.*k(2)%w + 2.*k(3)%w + k(4)%w)/6.0
-285 
-286         aot%x = aot%x + utils%m2geo(aot%u, aot%y, .false.)*dt
-287         aot%y = aot%y + utils%m2geo(aot%v, aot%y, .true.)*dt
-288         aot%z = aot%z + aot%w*dt
-289 
-290 
-291 
-292 \textcolor{keywordflow}{    end do}
-293 
+81     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+82     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: sv
+83     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+84     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+85     \textcolor{keywordtype}{integer} :: i
+86 
+87     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sv)
+88         sv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt
+89 \textcolor{keywordflow}{    end do}
+90     
 \end{DoxyCode}

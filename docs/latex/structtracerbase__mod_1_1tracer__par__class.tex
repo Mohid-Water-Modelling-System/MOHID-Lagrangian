@@ -2,13 +2,8 @@
 \label{structtracerbase__mod_1_1tracer__par__class}\index{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
 
 
-Collaboration diagram for tracerbase\+\_\+mod\+:\+:tracer\+\_\+par\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=197pt]{structtracerbase__mod_1_1tracer__par__class__coll__graph}
-\end{center}
-\end{figure}
+Collaboration diagram for tracerbase\+\_\+mod\+:\+:tracer\+\_\+par\+\_\+class\+:
+% FIG 0
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -16,8 +11,8 @@ integer \mbox{\hyperlink{structtracerbase__mod_1_1tracer__par__class_adcbab7942d
 \begin{DoxyCompactList}\small\item\em unique tracer identification \end{DoxyCompactList}\item 
 integer \mbox{\hyperlink{structtracerbase__mod_1_1tracer__par__class_a3f68dcc16fb53779c2fd28cfa2b8393d}{idsource}} = MV
 \begin{DoxyCompactList}\small\item\em Source to which the tracer belongs. \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__par__class_aed66c62e3a6b58b622db19c61665efbf}{velmax}} = MV
-\begin{DoxyCompactList}\small\item\em Maximum velocity of tracer to track (m/s) \end{DoxyCompactList}\end{DoxyCompactItemize}
+integer \mbox{\hyperlink{structtracerbase__mod_1_1tracer__par__class_a4a5c162c0630aeda90c18e0641894dcc}{ttype}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -64,15 +59,11 @@ Definition at line 29 of file tracer\+Base.\+f90.
 \begin{DoxyCode}
 29         \textcolor{keywordtype}{integer} :: idsource = mv                 
 \end{DoxyCode}
-\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__par__class_aed66c62e3a6b58b622db19c61665efbf}\label{structtracerbase__mod_1_1tracer__par__class_aed66c62e3a6b58b622db19c61665efbf}} 
-\index{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class}!velmax@{velmax}}
-\index{velmax@{velmax}!tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
-\subsubsection{\texorpdfstring{velmax}{velmax}}
-{\footnotesize\ttfamily real(prec) tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class\+::velmax = MV\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Maximum velocity of tracer to track (m/s) 
+\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__par__class_a4a5c162c0630aeda90c18e0641894dcc}\label{structtracerbase__mod_1_1tracer__par__class_a4a5c162c0630aeda90c18e0641894dcc}} 
+\index{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class}!ttype@{ttype}}
+\index{ttype@{ttype}!tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class}}
+\subsubsection{\texorpdfstring{ttype}{ttype}}
+{\footnotesize\ttfamily integer tracerbase\+\_\+mod\+::tracer\+\_\+par\+\_\+class\+::ttype\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -80,7 +71,7 @@ Definition at line 30 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-30         \textcolor{keywordtype}{real(prec)} :: velmax = mv                
+30         \textcolor{keywordtype}{integer} :: ttype
 \end{DoxyCode}
 
 

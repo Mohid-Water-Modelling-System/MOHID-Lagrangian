@@ -52,13 +52,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 72 of file simulation\+Logger.\+f90.
+Definition at line 74 of file simulation\+Logger.\+f90.
 
 
 \begin{DoxyCode}
-72     \textcolor{keywordtype}{implicit none}
-73     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(inout)} :: self
-74     \textcolor{keyword}{close}(self%log\_unit)
+74     \textcolor{keywordtype}{implicit none}
+75     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(inout)} :: self
+76     \textcolor{keyword}{close}(self%log\_unit)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationlogger__mod_abff1db7e1655cb59097146d78e650672}\label{namespacesimulationlogger__mod_abff1db7e1655cb59097146d78e650672}} 
 \index{simulationlogger\+\_\+mod@{simulationlogger\+\_\+mod}!gettimestamp@{gettimestamp}}
@@ -80,21 +80,15 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 109 of file simulation\+Logger.\+f90.
+Definition at line 111 of file simulation\+Logger.\+f90.
 
 
 \begin{DoxyCode}
-109     \textcolor{keywordtype}{implicit none}
-110     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: timestamp
-111     \textcolor{keywordtype}{character(80)} :: temp(8)
-112     \textcolor{keywordtype}{integer} :: values(8),i
-113 
-114     \textcolor{keyword}{call }date\_and\_time(values=values)
-115     \textcolor{keywordflow}{do} i=1,8
-116         \textcolor{keyword}{write}(temp(i),*) values(i)
-117 \textcolor{keywordflow}{    enddo}
-118     timestamp=trim(adjustl(temp(1)))//\textcolor{stringliteral}{'-'}//trim(adjustl(temp(2)))//\textcolor{stringliteral}{'-'}//trim(adjustl(temp(3)))//\textcolor{stringliteral}{' @'}//trim(
-      adjustl(temp(5)))//\textcolor{stringliteral}{':'}//trim(adjustl(temp(6)))//\textcolor{stringliteral}{':'}//trim(adjustl(temp(7)))
+111     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)} :: timestamp
+112     \textcolor{keywordtype}{type}(datetime) :: date   
+113     date = date%now()
+114     timestamp = date%isoformat(\textcolor{stringliteral}{' '})
+115     timestamp = timestamp%basename(strip\_last\_extension=.true.) \textcolor{comment}{!getting rid of miliseconds}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -125,19 +119,19 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 55 of file simulation\+Logger.\+f90.
+Definition at line 57 of file simulation\+Logger.\+f90.
 
 
 \begin{DoxyCode}
-55     \textcolor{keywordtype}{implicit none}
-56     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(inout)} :: self
-57     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: outpath
-58     \textcolor{keywordtype}{type}(string) :: logfile
-59 
-60     logfile = outpath//\textcolor{stringliteral}{'MOHIDLagrangianRun.out'}
-61     self%log\_unit = 0
-62     \textcolor{keyword}{open} (unit=self%log\_unit,file=logfile%chars(),action=\textcolor{stringliteral}{"write"},status=\textcolor{stringliteral}{"replace"})
-63 
+57     \textcolor{keywordtype}{implicit none}
+58     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(inout)} :: self
+59     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: outpath
+60     \textcolor{keywordtype}{type}(string) :: logfile
+61 
+62     logfile = outpath//\textcolor{stringliteral}{'MOHIDLagrangianRun.out'}
+63     self%log\_unit = 0
+64     \textcolor{keyword}{open} (unit=self%log\_unit,file=logfile%chars(),action=\textcolor{stringliteral}{"write"},status=\textcolor{stringliteral}{"replace"})
+65 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationlogger__mod_a3bf437b875b454ef326a3bc660542539}\label{namespacesimulationlogger__mod_a3bf437b875b454ef326a3bc660542539}} 
 \index{simulationlogger\+\_\+mod@{simulationlogger\+\_\+mod}!put\+\_\+inlog@{put\+\_\+inlog}}
@@ -159,26 +153,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 84 of file simulation\+Logger.\+f90.
+Definition at line 86 of file simulation\+Logger.\+f90.
 
 
 \begin{DoxyCode}
-84     \textcolor{keywordtype}{implicit none}
-85     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(in)} :: self
-86     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(inout)} :: tologstr
-87     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: timeoption
-88     \textcolor{keywordtype}{type}(string) :: timestamp
-89 
-90     \textcolor{keyword}{call }gettimestamp(timestamp)
-91     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(timeoption)) \textcolor{keywordflow}{then}
-92         \textcolor{keywordflow}{if} (.not.timeoption) \textcolor{keywordflow}{then}
-93             timestamp=\textcolor{stringliteral}{''}
-94 \textcolor{keywordflow}{        endif}
-95 \textcolor{keywordflow}{    endif}
-96     tologstr=timestamp//\textcolor{stringliteral}{' '}//tologstr
-97     \textcolor{keyword}{write}(self%log\_unit,\textcolor{stringliteral}{"(A)"}) tologstr%chars()
-98     print\textcolor{stringliteral}{'(A)'}, tologstr%chars()
-99 
+86     \textcolor{keywordtype}{implicit none}
+87     \textcolor{keywordtype}{class}(logger\_class), \textcolor{keywordtype}{intent(in)} :: self
+88     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(inout)} :: tologstr
+89     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: timeoption
+90     \textcolor{keywordtype}{type}(string) :: timestamp
+91 
+92     \textcolor{keyword}{call }gettimestamp(timestamp)
+93     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(timeoption)) \textcolor{keywordflow}{then}
+94         \textcolor{keywordflow}{if} (.not.timeoption) \textcolor{keywordflow}{then}
+95             timestamp=\textcolor{stringliteral}{''}
+96 \textcolor{keywordflow}{        endif}
+97 \textcolor{keywordflow}{    endif}
+98     tologstr=timestamp//\textcolor{stringliteral}{' '}//tologstr
+99     \textcolor{keyword}{write}(self%log\_unit,\textcolor{stringliteral}{"(A)"}) tologstr%chars()
+100     print\textcolor{stringliteral}{'(A)'}, tologstr%chars()
+101 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -198,9 +192,9 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 38 of file simulation\+Logger.\+f90.
+Definition at line 40 of file simulation\+Logger.\+f90.
 
 
 \begin{DoxyCode}
-38     \textcolor{keywordtype}{type}(logger\_class) :: Log
+40     \textcolor{keywordtype}{type}(logger\_class) :: Log
 \end{DoxyCode}

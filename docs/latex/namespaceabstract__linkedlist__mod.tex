@@ -19,6 +19,8 @@ subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ae725ed63dd3b08d2
 \begin{DoxyCompactList}\small\item\em Method that removes a link from the list. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}{remove}} (this, n)
 \begin{DoxyCompactList}\small\item\em Method that removes the nth link from a list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a09300e2f8301965a7137cdd60a3b7ac7}{cleanlist}} (this)
+\begin{DoxyCompactList}\small\item\em Method that removes the contents from a list. \end{DoxyCompactList}\item 
 class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_ad7b7ffee891627ae2b0548001650f72b}{getfirst}} (this)
 \begin{DoxyCompactList}\small\item\em Method that returns the first link of the list. \end{DoxyCompactList}\item 
 class(\mbox{\hyperlink{structlink__mod_1_1link}{link}}) function, pointer \mbox{\hyperlink{namespaceabstract__linkedlist__mod_a7c0a2e5b554e8859fc9b4d8fb52b124f}{getlast}} (this)
@@ -68,31 +70,57 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 74 of file abstract\+Linked\+List.\+f90.
+Definition at line 75 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-74     \textcolor{keywordtype}{class}(linkedlist) :: this
-75     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: value
-76     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: key
-77     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: newLink
-78     \textcolor{keywordflow}{if} (.not. \textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
-79         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(key)) \textcolor{keywordflow}{then}
-80             this%firstLink => link(\textcolor{keywordtype}{value}, this%firstLink, this%firstLink, key)
-81         \textcolor{keywordflow}{else}
-82             this%firstLink => link(\textcolor{keywordtype}{value}, this%firstLink, this%firstLink)
-83 \textcolor{keywordflow}{        end if}
-84         this%lastLink => this%firstLink
-85     \textcolor{keywordflow}{else}
-86         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(key)) \textcolor{keywordflow}{then}
-87             newlink => link(\textcolor{keywordtype}{value}, this%lastLink, this%lastLink%nextLink(), key)
-88         \textcolor{keywordflow}{else}
-89             newlink => link(\textcolor{keywordtype}{value}, this%lastLink, this%lastLink%nextLink())
-90 \textcolor{keywordflow}{        end if}
-91         \textcolor{keyword}{call }this%lastLink%setNextLink(newlink)
-92         this%lastLink => newlink
-93 \textcolor{keywordflow}{    end if}
-94     this%numLinks = this%numLinks + 1
+75     \textcolor{keywordtype}{class}(linkedlist) :: this
+76     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: value
+77     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: key
+78     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: newLink
+79     \textcolor{keywordflow}{if} (.not. \textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
+80         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(key)) \textcolor{keywordflow}{then}
+81             this%firstLink => link(\textcolor{keywordtype}{value}, this%firstLink, this%firstLink, key)
+82         \textcolor{keywordflow}{else}
+83             this%firstLink => link(\textcolor{keywordtype}{value}, this%firstLink, this%firstLink)
+84 \textcolor{keywordflow}{        end if}
+85         this%lastLink => this%firstLink
+86     \textcolor{keywordflow}{else}
+87         \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(key)) \textcolor{keywordflow}{then}
+88             newlink => link(\textcolor{keywordtype}{value}, this%lastLink, this%lastLink%nextLink(), key)
+89         \textcolor{keywordflow}{else}
+90             newlink => link(\textcolor{keywordtype}{value}, this%lastLink, this%lastLink%nextLink())
+91 \textcolor{keywordflow}{        end if}
+92         \textcolor{keyword}{call }this%lastLink%setNextLink(newlink)
+93         this%lastLink => newlink
+94 \textcolor{keywordflow}{    end if}
+95     this%numLinks = this%numLinks + 1
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a09300e2f8301965a7137cdd60a3b7ac7}\label{namespaceabstract__linkedlist__mod_a09300e2f8301965a7137cdd60a3b7ac7}} 
+\index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!cleanlist@{cleanlist}}
+\index{cleanlist@{cleanlist}!abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}}
+\subsubsection{\texorpdfstring{cleanlist()}{cleanlist()}}
+{\footnotesize\ttfamily subroutine abstract\+\_\+linkedlist\+\_\+mod\+::cleanlist (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structabstract__linkedlist__mod_1_1linkedlist}{linkedlist}}), intent(inout)}]{this }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that removes the contents from a list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 179 of file abstract\+Linked\+List.\+f90.
+
+
+\begin{DoxyCode}
+179     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(inout)} :: this
+180     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+181     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
+182         \textcolor{keyword}{call }this%removeCurrent()
+183 \textcolor{keywordflow}{    end do}
+184     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a87a81a4be29c8d4e8d2fb0d02247033b}\label{namespaceabstract__linkedlist__mod_a87a81a4be29c8d4e8d2fb0d02247033b}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!currentvalue@{currentvalue}}
@@ -109,13 +137,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 235 of file abstract\+Linked\+List.\+f90.
+Definition at line 256 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-235     \textcolor{keywordtype}{class}(linkedlist) :: this
-236     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: currentValue
-237     currentvalue => this%currLink%get()
+256     \textcolor{keywordtype}{class}(linkedlist) :: this
+257     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: currentValue
+258     currentvalue => this%currLink%get()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_ad7b7ffee891627ae2b0548001650f72b}\label{namespaceabstract__linkedlist__mod_ad7b7ffee891627ae2b0548001650f72b}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getfirst@{getfirst}}
@@ -132,13 +160,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 172 of file abstract\+Linked\+List.\+f90.
+Definition at line 193 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-172     \textcolor{keywordtype}{class}(linkedlist) :: this
-173     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: firstlink
-174     firstlink => this%firstLink
+193     \textcolor{keywordtype}{class}(linkedlist) :: this
+194     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: firstlink
+195     firstlink => this%firstLink
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a7c0a2e5b554e8859fc9b4d8fb52b124f}\label{namespaceabstract__linkedlist__mod_a7c0a2e5b554e8859fc9b4d8fb52b124f}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getlast@{getlast}}
@@ -155,13 +183,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 183 of file abstract\+Linked\+List.\+f90.
+Definition at line 204 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-183     \textcolor{keywordtype}{class}(linkedlist) :: this
-184     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: lastLink
-185     lastlink => this%lastLink
+204     \textcolor{keywordtype}{class}(linkedlist) :: this
+205     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: lastLink
+206     lastlink => this%lastLink
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_ab4e548906863da517d7fedb02931b79f}\label{namespaceabstract__linkedlist__mod_ab4e548906863da517d7fedb02931b79f}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getsize@{getsize}}
@@ -178,12 +206,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 194 of file abstract\+Linked\+List.\+f90.
+Definition at line 215 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-194     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
-195     getsize = this%numLinks
+215     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
+216     getsize = this%numLinks
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a3c3ad627fd9f87da9831c53802975104}\label{namespaceabstract__linkedlist__mod_a3c3ad627fd9f87da9831c53802975104}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!getvalue@{getvalue}}
@@ -200,33 +228,33 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 204 of file abstract\+Linked\+List.\+f90.
+Definition at line 225 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-204     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
-205     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n
-206     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: res
-207     \textcolor{keywordtype}{integer} :: i
-208     \textcolor{keywordtype}{type}(link),\textcolor{keywordtype}{pointer} :: alink
-209     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
-210         \textcolor{keywordflow}{if} (this%numLinks>=n) \textcolor{keywordflow}{then}
-211             \textcolor{keyword}{call }this%reset()
-212             \textcolor{keywordflow}{do} i=1, n-1    \textcolor{comment}{!iterating trough the list until the desired position            }
-213                 \textcolor{keyword}{call }this%next()
-214 \textcolor{keywordflow}{            end do}
-215             \textcolor{keywordflow}{if} (this%moreValues()) \textcolor{keywordflow}{then}
-216             res => this%currLink%get()
-217             \textcolor{keywordflow}{else}
-218                 stop \textcolor{stringliteral}{'[LinkedList::getValue]: link non-existant, something went wrong!'}
-219 \textcolor{keywordflow}{            end if}
-220             \textcolor{keyword}{call }this%reset()
-221         \textcolor{keywordflow}{else}
-222             stop \textcolor{stringliteral}{'[LinkedList::getValue]: index out of bounds'}
-223 \textcolor{keywordflow}{        end if}
-224     \textcolor{keywordflow}{else}
-225         stop \textcolor{stringliteral}{'[LinkedList::getValue]: list is empty'}
-226 \textcolor{keywordflow}{    end if}
+225     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
+226     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n
+227     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: res
+228     \textcolor{keywordtype}{integer} :: i
+229     \textcolor{keywordtype}{type}(link),\textcolor{keywordtype}{pointer} :: alink
+230     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
+231         \textcolor{keywordflow}{if} (this%numLinks>=n) \textcolor{keywordflow}{then}
+232             \textcolor{keyword}{call }this%reset()
+233             \textcolor{keywordflow}{do} i=1, n-1    \textcolor{comment}{!iterating trough the list until the desired position            }
+234                 \textcolor{keyword}{call }this%next()
+235 \textcolor{keywordflow}{            end do}
+236             \textcolor{keywordflow}{if} (this%moreValues()) \textcolor{keywordflow}{then}
+237             res => this%currLink%get()
+238             \textcolor{keywordflow}{else}
+239                 stop \textcolor{stringliteral}{'[LinkedList::getValue]: link non-existant, something went wrong!'}
+240 \textcolor{keywordflow}{            end if}
+241             \textcolor{keyword}{call }this%reset()
+242         \textcolor{keywordflow}{else}
+243             stop \textcolor{stringliteral}{'[LinkedList::getValue]: index out of bounds'}
+244 \textcolor{keywordflow}{        end if}
+245     \textcolor{keywordflow}{else}
+246         stop \textcolor{stringliteral}{'[LinkedList::getValue]: list is empty'}
+247 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a91ec7f6e570a87769ebb3d11b33f577e}\label{namespaceabstract__linkedlist__mod_a91ec7f6e570a87769ebb3d11b33f577e}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!morevalues@{morevalues}}
@@ -243,12 +271,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 266 of file abstract\+Linked\+List.\+f90.
+Definition at line 287 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-266     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
-267     morevalues = \textcolor{keyword}{associated}(this%currLink)
+287     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(in)} :: this
+288     morevalues = \textcolor{keyword}{associated}(this%currLink)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a576f148096561712d6ddd8c848bc7c4b}\label{namespaceabstract__linkedlist__mod_a576f148096561712d6ddd8c848bc7c4b}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!next@{next}}
@@ -265,12 +293,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 246 of file abstract\+Linked\+List.\+f90.
+Definition at line 267 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-246     \textcolor{keywordtype}{class}(linkedlist) :: this
-247     this%currLink => this%currLink%nextLink()
+267     \textcolor{keywordtype}{class}(linkedlist) :: this
+268     this%currLink => this%currLink%nextLink()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a0b36d862899c5a40cb98bef4ffd5e2f4}\label{namespaceabstract__linkedlist__mod_a0b36d862899c5a40cb98bef4ffd5e2f4}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!previous@{previous}}
@@ -287,12 +315,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 256 of file abstract\+Linked\+List.\+f90.
+Definition at line 277 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-256     \textcolor{keywordtype}{class}(linkedlist) :: this
-257     this%currLink => this%currLink%previousLink()
+277     \textcolor{keywordtype}{class}(linkedlist) :: this
+278     this%currLink => this%currLink%previousLink()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}\label{namespaceabstract__linkedlist__mod_a9f4028744d1ca6536e28c76d2795ace3}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!remove@{remove}}
@@ -309,28 +337,28 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 146 of file abstract\+Linked\+List.\+f90.
+Definition at line 153 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-146     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(inout)} :: this
-147     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n
-148     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: previouslink
-149     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: nextlink
-150     \textcolor{keywordtype}{integer} :: i
-151     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
-152         \textcolor{keywordflow}{if} (this%numLinks>=n) \textcolor{keywordflow}{then}
-153             \textcolor{keyword}{call }this%reset()
-154             \textcolor{keywordflow}{do} i=1, n-1    \textcolor{comment}{!iterating trough the list until the desired position}
-155                 \textcolor{keyword}{call }this%next()
-156 \textcolor{keywordflow}{            end do}
-157             \textcolor{keywordflow}{if} (this%moreValues()) \textcolor{keywordflow}{then}
-158                 \textcolor{keyword}{call }this%removeCurrent()
-159 \textcolor{keywordflow}{            end if}
-160         \textcolor{keywordflow}{else}
-161             stop \textcolor{stringliteral}{'[LinkedList::remove]: index out of bounds'}
-162 \textcolor{keywordflow}{        end if}
-163 \textcolor{keywordflow}{    end if}
+153     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(inout)} :: this
+154     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: n
+155     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: previouslink
+156     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: nextlink
+157     \textcolor{keywordtype}{integer} :: i
+158     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%firstLink)) \textcolor{keywordflow}{then}
+159         \textcolor{keywordflow}{if} (this%numLinks>=n) \textcolor{keywordflow}{then}
+160             \textcolor{keyword}{call }this%reset()
+161             \textcolor{keywordflow}{do} i=1, n-1    \textcolor{comment}{!iterating trough the list until the desired position}
+162                 \textcolor{keyword}{call }this%next()
+163 \textcolor{keywordflow}{            end do}
+164             \textcolor{keywordflow}{if} (this%moreValues()) \textcolor{keywordflow}{then}
+165                 \textcolor{keyword}{call }this%removeCurrent()
+166 \textcolor{keywordflow}{            end if}
+167         \textcolor{keywordflow}{else}
+168             stop \textcolor{stringliteral}{'[LinkedList::remove]: index out of bounds'}
+169 \textcolor{keywordflow}{        end if}
+170 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_ae725ed63dd3b08d29e1c4ff824e05589}\label{namespaceabstract__linkedlist__mod_ae725ed63dd3b08d29e1c4ff824e05589}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!removecurrent@{removecurrent}}
@@ -347,45 +375,51 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 103 of file abstract\+Linked\+List.\+f90.
+Definition at line 104 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-103     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(inout)} :: this    
-104     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: previouslink
-105     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: nextlink 
-106     
-107     previouslink => this%currLink%previousLink()
-108     nextlink => this%currLink%nextLink()
-109     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%currLink,this%firstLink)) \textcolor{keywordflow}{then} \textcolor{comment}{!This is the first link}
-110         \textcolor{keyword}{call }this%currLink%removeLink()
-111         \textcolor{keyword}{deallocate}(this%currLink)    
-112         \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(nextlink)) \textcolor{keywordflow}{then}
-113             this%firstLink => nextlink
-114             this%currLink  => nextlink
-115 \textcolor{keywordflow}{        end if}
-116     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%currLink,this%lastLink)) \textcolor{keywordflow}{then} \textcolor{comment}{!This is the last link}
-117         \textcolor{keyword}{call }this%currLink%removeLink()
-118         \textcolor{keyword}{deallocate}(this%currLink)
-119         \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(previouslink)) \textcolor{keywordflow}{then}
-120             \textcolor{keyword}{call }previouslink%setNextLink(null())
-121             this%lastLink => previouslink
-122             this%currLink  => previouslink
-123 \textcolor{keywordflow}{        end if}
-124     \textcolor{keywordflow}{else} \textcolor{comment}{!middle link}
-125         \textcolor{keyword}{call }previouslink%setNextLink(nextlink)
-126         \textcolor{keyword}{call }nextlink%setPreviousLink(previouslink)
-127         \textcolor{keyword}{call }this%currLink%removeLink()
-128         \textcolor{keyword}{deallocate}(this%currLink)    
-129         this%currLink => nextlink
-130 \textcolor{keywordflow}{    end if}
-131     this%numLinks = this%numLinks - 1
-132     \textcolor{keywordflow}{if} (this%numLinks == 0) \textcolor{keywordflow}{then}
-133         this%firstLink => null()
-134         this%lastLink => null()
-135         this%currLink => null()
-136 \textcolor{keywordflow}{    end if}
-137     
+104     \textcolor{keywordtype}{class}(linkedlist), \textcolor{keywordtype}{intent(inout)} :: this    
+105     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: previouslink
+106     \textcolor{keywordtype}{class}(link), \textcolor{keywordtype}{pointer} :: nextlink 
+107     
+108     previouslink => this%currLink%previousLink()
+109     nextlink => this%currLink%nextLink()
+110     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%currLink,this%firstLink)) \textcolor{keywordflow}{then} \textcolor{comment}{!This is the first link}
+111         \textcolor{keyword}{call }this%currLink%removeLink()
+112         \textcolor{keyword}{deallocate}(this%currLink)
+113         \textcolor{keyword}{nullify}(this%currLink)
+114         \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(nextlink)) \textcolor{keywordflow}{then}
+115             this%firstLink => nextlink
+116             this%currLink  => nextlink
+117         \textcolor{keywordflow}{else}
+118             this%firstLink => null()
+119             this%currLink  => null()
+120             this%lastLink => null()
+121 \textcolor{keywordflow}{        end if}
+122     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%currLink,this%lastLink)) \textcolor{keywordflow}{then} \textcolor{comment}{!This is the last link}
+123         \textcolor{keyword}{call }this%currLink%removeLink()
+124         \textcolor{keyword}{deallocate}(this%currLink)
+125         \textcolor{keyword}{nullify}(this%currLink)
+126         \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(previouslink)) \textcolor{keywordflow}{then}
+127             \textcolor{keyword}{call }previouslink%setNextLink(null())
+128             this%lastLink => previouslink
+129             this%currLink  => previouslink
+130         \textcolor{keywordflow}{else}
+131             this%firstLink => null()
+132             this%currLink  => null()
+133             this%lastLink => null()
+134 \textcolor{keywordflow}{        end if}
+135     \textcolor{keywordflow}{else} \textcolor{comment}{!middle link}
+136         \textcolor{keyword}{call }previouslink%setNextLink(nextlink)
+137         \textcolor{keyword}{call }nextlink%setPreviousLink(previouslink)
+138         \textcolor{keyword}{call }this%currLink%removeLink()
+139         \textcolor{keyword}{deallocate}(this%currLink) 
+140         \textcolor{keyword}{nullify}(this%currLink)
+141         this%currLink => nextlink
+142 \textcolor{keywordflow}{    end if}
+143     this%numLinks = this%numLinks - 1
+144     
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceabstract__linkedlist__mod_a46ff8b8a3ab81610eb47d72d742778c3}\label{namespaceabstract__linkedlist__mod_a46ff8b8a3ab81610eb47d72d742778c3}} 
 \index{abstract\+\_\+linkedlist\+\_\+mod@{abstract\+\_\+linkedlist\+\_\+mod}!reset@{reset}}
@@ -402,10 +436,10 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 276 of file abstract\+Linked\+List.\+f90.
+Definition at line 297 of file abstract\+Linked\+List.\+f90.
 
 
 \begin{DoxyCode}
-276     \textcolor{keywordtype}{class}(linkedlist) :: this
-277     this%currLink => this%firstLink
+297     \textcolor{keywordtype}{class}(linkedlist) :: this
+298     this%currLink => this%firstLink
 \end{DoxyCode}

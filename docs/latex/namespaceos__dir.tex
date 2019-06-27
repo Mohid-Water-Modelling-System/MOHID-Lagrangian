@@ -1,0 +1,84 @@
+\hypertarget{namespaceos__dir}{}\section{os\+\_\+dir Namespace Reference}
+\label{namespaceos__dir}\index{os\+\_\+dir@{os\+\_\+dir}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceos__dir_a7734a1131db0cd10af8ee0a4d9c5241d}{get\+\_\+immediate\+\_\+subdirectories}} (a\+\_\+dir)
+\item 
+def \mbox{\hyperlink{namespaceos__dir_adfd8c337f0778c2c6fe21892478f5357}{get\+\_\+contained\+\_\+files}} (a\+\_\+dir, extension)
+\item 
+def \mbox{\hyperlink{namespaceos__dir_ad1414a4868a8da9c6cd962203048d22c}{mkdir\+\_\+safe}} (a\+\_\+dir)
+\item 
+def \mbox{\hyperlink{namespaceos__dir_a504bf6aacc096b5c5a86495a7485007e}{filename\+\_\+without\+\_\+ext}} (path\+\_\+to\+\_\+file)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespaceos__dir_a504bf6aacc096b5c5a86495a7485007e}\label{namespaceos__dir_a504bf6aacc096b5c5a86495a7485007e}} 
+\index{os\+\_\+dir@{os\+\_\+dir}!filename\+\_\+without\+\_\+ext@{filename\+\_\+without\+\_\+ext}}
+\index{filename\+\_\+without\+\_\+ext@{filename\+\_\+without\+\_\+ext}!os\+\_\+dir@{os\+\_\+dir}}
+\subsubsection{\texorpdfstring{filename\+\_\+without\+\_\+ext()}{filename\_without\_ext()}}
+{\footnotesize\ttfamily def os\+\_\+dir.\+filename\+\_\+without\+\_\+ext (\begin{DoxyParamCaption}\item[{}]{path\+\_\+to\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Definition at line 17 of file os\+\_\+dir.\+py.
+
+
+\begin{DoxyCode}
+17 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceos__dir_a504bf6aacc096b5c5a86495a7485007e}{filename\_without\_ext}}(path\_to\_file): 
+18     \textcolor{keywordflow}{return} os.path.splitext(path\_to\_file)[0]
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+% FIG 0
+\mbox{\Hypertarget{namespaceos__dir_adfd8c337f0778c2c6fe21892478f5357}\label{namespaceos__dir_adfd8c337f0778c2c6fe21892478f5357}} 
+\index{os\+\_\+dir@{os\+\_\+dir}!get\+\_\+contained\+\_\+files@{get\+\_\+contained\+\_\+files}}
+\index{get\+\_\+contained\+\_\+files@{get\+\_\+contained\+\_\+files}!os\+\_\+dir@{os\+\_\+dir}}
+\subsubsection{\texorpdfstring{get\+\_\+contained\+\_\+files()}{get\_contained\_files()}}
+{\footnotesize\ttfamily def os\+\_\+dir.\+get\+\_\+contained\+\_\+files (\begin{DoxyParamCaption}\item[{}]{a\+\_\+dir,  }\item[{}]{extension }\end{DoxyParamCaption})}
+
+
+
+Definition at line 9 of file os\+\_\+dir.\+py.
+
+
+\begin{DoxyCode}
+9 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceos__dir_adfd8c337f0778c2c6fe21892478f5357}{get\_contained\_files}}(a\_dir,extension):
+10     \textcolor{keywordflow}{return} [file \textcolor{keywordflow}{for} file \textcolor{keywordflow}{in} os.listdir(a\_dir)
+11             \textcolor{keywordflow}{if} file.endswith(extension)]
+12 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceos__dir_a7734a1131db0cd10af8ee0a4d9c5241d}\label{namespaceos__dir_a7734a1131db0cd10af8ee0a4d9c5241d}} 
+\index{os\+\_\+dir@{os\+\_\+dir}!get\+\_\+immediate\+\_\+subdirectories@{get\+\_\+immediate\+\_\+subdirectories}}
+\index{get\+\_\+immediate\+\_\+subdirectories@{get\+\_\+immediate\+\_\+subdirectories}!os\+\_\+dir@{os\+\_\+dir}}
+\subsubsection{\texorpdfstring{get\+\_\+immediate\+\_\+subdirectories()}{get\_immediate\_subdirectories()}}
+{\footnotesize\ttfamily def os\+\_\+dir.\+get\+\_\+immediate\+\_\+subdirectories (\begin{DoxyParamCaption}\item[{}]{a\+\_\+dir }\end{DoxyParamCaption})}
+
+
+
+Definition at line 5 of file os\+\_\+dir.\+py.
+
+
+\begin{DoxyCode}
+5 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceos__dir_a7734a1131db0cd10af8ee0a4d9c5241d}{get\_immediate\_subdirectories}}(a\_dir):
+6     \textcolor{keywordflow}{return} [name \textcolor{keywordflow}{for} name \textcolor{keywordflow}{in} os.listdir(a\_dir)
+7             \textcolor{keywordflow}{if} os.path.isdir(os.path.join(a\_dir, name))]
+8     
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceos__dir_ad1414a4868a8da9c6cd962203048d22c}\label{namespaceos__dir_ad1414a4868a8da9c6cd962203048d22c}} 
+\index{os\+\_\+dir@{os\+\_\+dir}!mkdir\+\_\+safe@{mkdir\+\_\+safe}}
+\index{mkdir\+\_\+safe@{mkdir\+\_\+safe}!os\+\_\+dir@{os\+\_\+dir}}
+\subsubsection{\texorpdfstring{mkdir\+\_\+safe()}{mkdir\_safe()}}
+{\footnotesize\ttfamily def os\+\_\+dir.\+mkdir\+\_\+safe (\begin{DoxyParamCaption}\item[{}]{a\+\_\+dir }\end{DoxyParamCaption})}
+
+
+
+Definition at line 13 of file os\+\_\+dir.\+py.
+
+
+\begin{DoxyCode}
+13 \textcolor{keyword}{def }\mbox{\hyperlink{namespaceos__dir_ad1414a4868a8da9c6cd962203048d22c}{mkdir\_safe}}(a\_dir):
+14     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} os.path.exists(a\_dir):
+15         os.makedirs(a\_dir)
+16         
+\end{DoxyCode}

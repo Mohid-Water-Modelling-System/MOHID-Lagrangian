@@ -1,0 +1,133 @@
+\hypertarget{namespace_m_o_h_i_d_lagrangian_pre_processor}{}\section{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor Namespace Reference}
+\label{namespace_m_o_h_i_d_lagrangian_pre_processor}\index{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor@{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespace_m_o_h_i_d_lagrangian_pre_processor_a0e4b5abe6bc6cf76f0ed898743e538f3}{run}} ()
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_m_o_h_i_d_lagrangian_pre_processor_ac4a3b30ba4c365ff9860cd0a3fef33f9}{base\+Path}} = os.\+path.\+dirname(os.\+path.\+realpath(\+\_\+\+\_\+file\+\_\+\+\_\+))
+\item 
+\mbox{\hyperlink{namespace_m_o_h_i_d_lagrangian_pre_processor_a376fac9ba04258bdbbe80e19173a7244}{common\+Path}} = os.\+path.\+abspath(os.\+path.\+join(\mbox{\hyperlink{namespace_m_o_h_i_d_lagrangian_pre_processor_ac4a3b30ba4c365ff9860cd0a3fef33f9}{base\+Path}}, \char`\"{}Common\char`\"{}))
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespace_m_o_h_i_d_lagrangian_pre_processor_a0e4b5abe6bc6cf76f0ed898743e538f3}\label{namespace_m_o_h_i_d_lagrangian_pre_processor_a0e4b5abe6bc6cf76f0ed898743e538f3}} 
+\index{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor@{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor}!run@{run}}
+\index{run@{run}!M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor@{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor}}
+\subsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily def M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor.\+run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 59 of file M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor.\+py.
+
+
+\begin{DoxyCode}
+59 \textcolor{keyword}{def }\mbox{\hyperlink{namespace_m_o_h_i_d_lagrangian_pre_processor_a0e4b5abe6bc6cf76f0ed898743e538f3}{run}}():
+60     
+61     lic = \mbox{\hyperlink{classabout_1_1_licence}{about.Licence}}()
+62     lic.print()
+63     
+64     \textcolor{comment}{#cmd line argument parsing---------------------------}
+65     argParser = argparse.ArgumentParser(description=\textcolor{stringliteral}{'Indexes input files for MOHID Lagrangian to parse. Use
+       -h for help.'})
+66     argParser.add\_argument(\textcolor{stringliteral}{"-i"}, \textcolor{stringliteral}{"--input"}, dest=\textcolor{stringliteral}{"caseXML"},
+67                     help=\textcolor{stringliteral}{".xml file with the case definition for the MOHID Lagrangian run"}, metavar=\textcolor{stringliteral}{".xml"})
+68     argParser.add\_argument(\textcolor{stringliteral}{"-o"}, \textcolor{stringliteral}{"--outputDir"}, dest=\textcolor{stringliteral}{"outDir"},
+69                     help=\textcolor{stringliteral}{"output directory"}, metavar=\textcolor{stringliteral}{".xml"})
+70     args = argParser.parse\_args()
+71     
+72     caseXML = getattr(args,\textcolor{stringliteral}{'caseXML'})
+73     outDir = getattr(args,\textcolor{stringliteral}{'outDir'})
+74     print(\textcolor{stringliteral}{'-> Case definition file is '}, caseXML)
+75     \textcolor{comment}{#---------------------------------------------------}
+76     
+77     \textcolor{comment}{#parsing case definition file}
+78     root = ET.parse(caseXML).getroot()
+79     
+80     dataDir = []
+81     \textcolor{keywordflow}{for} type\_tag \textcolor{keywordflow}{in} root.findall(\textcolor{stringliteral}{'casedef/inputData/inputDataDir'}):
+82         dataDir.append(type\_tag.get(\textcolor{stringliteral}{'name'}))
+83     
+84     \textcolor{keywordflow}{for} type\_tag \textcolor{keywordflow}{in} root.findall(\textcolor{stringliteral}{'execution/parameters/parameter'}):
+85         \textcolor{keywordflow}{if} type\_tag.get(\textcolor{stringliteral}{'key'}) == \textcolor{stringliteral}{'StartTime'}:
+86             StartTime = datetime.strptime(type\_tag.get(\textcolor{stringliteral}{'value'}), \textcolor{stringliteral}{"%Y %m %d %H %M %S"})            
+87         \textcolor{keywordflow}{if} type\_tag.get(\textcolor{stringliteral}{'key'}) == \textcolor{stringliteral}{'EndTime'}:
+88             EndTime = datetime.strptime(type\_tag.get(\textcolor{stringliteral}{'value'}), \textcolor{stringliteral}{"%Y %m %d %H %M %S"})            
+89         
+90     \textcolor{comment}{#dataDir="C:\(\backslash\)Users\(\backslash\)RBC\_workhorse\(\backslash\)Documents\(\backslash\)GitHub\(\backslash\)MOHID\_python\_tools\(\backslash\)ConvertCSV2HDF5\(\backslash\)testFiles"}
+91     
+92     \textcolor{keywordflow}{if} len(dataDir) > 1:
+93         print(\textcolor{stringliteral}{'-> Input data directories are'}, dataDir)
+94     \textcolor{keywordflow}{else}:
+95         print(\textcolor{stringliteral}{'-> Input data directory is'}, dataDir)
+96     \textcolor{comment}{#------------------------------------------------------}
+97     fileExtensions = [\textcolor{stringliteral}{'.nc'}, \textcolor{stringliteral}{'.nc4'}]  
+98     
+99     \textcolor{comment}{#going for each input directory and indexing its files}
+100     inputFiles = []
+101     \textcolor{keywordflow}{for} idir \textcolor{keywordflow}{in} dataDir:
+102         \textcolor{keywordflow}{for} ext \textcolor{keywordflow}{in} fileExtensions:
+103             inputFiles.append(glob.glob(idir+ \textcolor{stringliteral}{'/**/*'}+ext, recursive=\textcolor{keyword}{True}))
+104     \textcolor{comment}{#cleaning list of empty values}
+105     inputFiles = list(filter(\textcolor{keywordtype}{None}, inputFiles))
+106     
+107     \textcolor{keywordflow}{if} \textcolor{keywordflow}{not} inputFiles:
+108 
+109         print(\textcolor{stringliteral}{'No input files found. Supported files are '}, fileExtensions)
+110     
+111     \textcolor{keywordflow}{else}:
+112     
+113         indexerFileName = \mbox{\hyperlink{namespaceos__dir_a504bf6aacc096b5c5a86495a7485007e}{os\_dir.filename\_without\_ext}}(caseXML)+\textcolor{stringliteral}{'\_inputs'}
+114         indexer = \mbox{\hyperlink{classxml_writer_1_1xml_writer}{xmlWriter.xmlWriter}}(indexerFileName)
+115         
+116         \textcolor{comment}{#going trough every file, extracting some metadata and writting in the indexer file}
+117         ncMeta = []
+118         \textcolor{keywordflow}{for} idir \textcolor{keywordflow}{in} inputFiles:
+119             \textcolor{keywordflow}{for} ifile \textcolor{keywordflow}{in} idir:
+120                 print(\textcolor{stringliteral}{'--> reading file'}, ifile)
+121                 ncMeta.append(\mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata}{ncMetaParser.ncMetadata}}(ifile, StartTime))
+122         
+123         ncMeta.sort(key=\textcolor{keyword}{lambda} x: x.startTime)
+124         
+125         indexer.openCurrentsCollection()
+126         
+127         print(\textcolor{stringliteral}{'--> indexing currents data'})
+128         \textcolor{keywordflow}{for} ncfile \textcolor{keywordflow}{in} ncMeta:
+129             indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), 
+      ncfile.getstartDate().strftime(\textcolor{stringliteral}{"%Y/%m/%d, %H:%M:%S"}), ncfile.getendDate().strftime(\textcolor{stringliteral}{"%Y/%m/%d, %H:%M:%S"}))
+130         
+131         indexer.closeCurrentsCollection()
+132         indexer.closeFile()
+133             
+134 \mbox{\hyperlink{namespace_m_o_h_i_d_lagrangian_pre_processor_a0e4b5abe6bc6cf76f0ed898743e538f3}{run}}()
+\end{DoxyCode}
+Here is the call graph for this function\+:
+% FIG 0
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespace_m_o_h_i_d_lagrangian_pre_processor_ac4a3b30ba4c365ff9860cd0a3fef33f9}\label{namespace_m_o_h_i_d_lagrangian_pre_processor_ac4a3b30ba4c365ff9860cd0a3fef33f9}} 
+\index{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor@{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor}!base\+Path@{base\+Path}}
+\index{base\+Path@{base\+Path}!M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor@{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor}}
+\subsubsection{\texorpdfstring{base\+Path}{basePath}}
+{\footnotesize\ttfamily M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor.\+base\+Path = os.\+path.\+dirname(os.\+path.\+realpath(\+\_\+\+\_\+file\+\_\+\+\_\+))}
+
+
+
+Definition at line 50 of file M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor.\+py.
+
+\mbox{\Hypertarget{namespace_m_o_h_i_d_lagrangian_pre_processor_a376fac9ba04258bdbbe80e19173a7244}\label{namespace_m_o_h_i_d_lagrangian_pre_processor_a376fac9ba04258bdbbe80e19173a7244}} 
+\index{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor@{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor}!common\+Path@{common\+Path}}
+\index{common\+Path@{common\+Path}!M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor@{M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor}}
+\subsubsection{\texorpdfstring{common\+Path}{commonPath}}
+{\footnotesize\ttfamily M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor.\+common\+Path = os.\+path.\+abspath(os.\+path.\+join(\mbox{\hyperlink{namespace_m_o_h_i_d_lagrangian_pre_processor_ac4a3b30ba4c365ff9860cd0a3fef33f9}{base\+Path}}, \char`\"{}Common\char`\"{}))}
+
+
+
+Definition at line 51 of file M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor.\+py.
+

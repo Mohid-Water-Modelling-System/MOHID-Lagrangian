@@ -3,8 +3,10 @@
 \subsection*{Data Types}
 \begin{DoxyCompactItemize}
 \item 
+type \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1inputfilemodel__class}{simulationinputstreamer\+\_\+mod\+::inputfilemodel\+\_\+class}}
+\item 
 type \mbox{\hyperlink{structsimulationinputstreamer__mod_1_1input__streamer__class}{simulationinputstreamer\+\_\+mod\+::input\+\_\+streamer\+\_\+class}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Input Streamer class. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
 \item 
@@ -13,5 +15,13 @@ module \mbox{\hyperlink{namespacesimulationinputstreamer__mod}{simulationinputst
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a3d4540f8e04cc0215895cad65c5be952}{simulationinputstreamer\+\_\+mod\+::loaddatafromstack}} (self, b\+Box, blocks)
+\begin{DoxyCompactList}\small\item\em loads data from files and populates the backgrounds accordingly \end{DoxyCompactList}\item 
+type(background\+\_\+class) function \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a532b4022fdb6db20d41ca8082d4e7423}{simulationinputstreamer\+\_\+mod\+::getfullfile}} (self, file\+Name)
+\begin{DoxyCompactList}\small\item\em instantiates and returns a background object with the data from a NC file \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}{simulationinputstreamer\+\_\+mod\+::initinputstreamer}} (self)
-\begin{DoxyCompactList}\small\item\em Initializes the Input writer object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initializes the input writer object, imports metadata on input files. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a9465e29f527366e5f6d9a1195de6ddee}{simulationinputstreamer\+\_\+mod\+::resetreadstatus}} (self)
+\begin{DoxyCompactList}\small\item\em resets input files read status \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a1b906bc5ba1fac8d846b30237216aca4}{simulationinputstreamer\+\_\+mod\+::printinputstreamer}} (self)
+\begin{DoxyCompactList}\small\item\em Prints the input writer object and metadata on input files. \end{DoxyCompactList}\end{DoxyCompactItemize}

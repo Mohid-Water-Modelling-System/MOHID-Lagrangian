@@ -44,6 +44,9 @@
         type(paper_par_class)   :: mpar     !<To access material parameters
         type(paper_state_class) :: mnow     !<To access material state variables
     contains
+    procedure :: getNumVars
+    procedure :: getStateArray
+    procedure :: setStateArray
     end type paper_class
 
     !Public access vars
@@ -57,7 +60,59 @@
     end interface
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the number of variables used by this tracer
+    !---------------------------------------------------------------------------
+    integer function getNumVars(self)
+    class(paper_class), intent(in) :: self
+    getNumVars = 10
+    end function getNumVars
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that returns the state array of this tracer
+    !---------------------------------------------------------------------------
+    function getStateArray(self)
+    class(paper_class), intent(in) :: self
+    real(prec), allocatable, dimension(:) :: getStateArray
+    allocate(getStateArray(self%getNumVars()))
+    getStateArray(1) = self%now%pos%x
+    getStateArray(2) = self%now%pos%y
+    getStateArray(3) = self%now%pos%z
+    getStateArray(4) = self%now%vel%x
+    getStateArray(5) = self%now%vel%y
+    getStateArray(6) = self%now%vel%z
+    getStateArray(7) = self%mnow%density
+    getStateArray(8) = self%mnow%radius
+    getStateArray(9) = self%mnow%condition
+    getStateArray(10) = self%mnow%concentration
+    end function getStateArray
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that sets the state array of this tracer
+    !---------------------------------------------------------------------------
+    subroutine setStateArray(self, stateArray)
+    class(paper_class), intent(inout) :: self
+    real(prec), dimension(:), intent(in) :: stateArray
+    !if(size(stateArray)<self%getNumVars())
+    self%now%pos%x = StateArray(1)
+    self%now%pos%y = StateArray(2)
+    self%now%pos%z = StateArray(3)
+    self%now%vel%x = StateArray(4)
+    self%now%vel%y = StateArray(5)
+    self%now%vel%z = StateArray(6)
+    self%mnow%density = StateArray(7)
+    self%mnow%radius = StateArray(8)
+    self%mnow%condition = StateArray(9)
+    self%mnow%concentration = StateArray(10)    
+    end subroutine setStateArray
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -77,6 +132,7 @@
     constructor%par%id = id !forcing
     constructor%par%idsource = src%par%id !forcing
     !now initialize the specific components of this derived type
+    constructor%par%ttype = Globals%Types%paper
     !material parameters
     constructor%mpar%degradation_rate = src%prop%degrd_rate
     constructor%mpar%particulate = src%prop%particulate

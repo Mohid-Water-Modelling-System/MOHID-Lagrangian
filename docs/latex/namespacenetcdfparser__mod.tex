@@ -29,7 +29,7 @@ subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a6354ee8b3c773cc7a5ad247a
 \begin{DoxyCompactList}\small\item\em Inquires the nc file for dimension metadata. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec}{getvardimensions}} (self, var\+Name, dims\+Arrays)
 \begin{DoxyCompactList}\small\item\em Reads the dimension fields from the nc file for a given variable. returns an array of scalar 1D fields, each with a name, units and data. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_a1f59a93ed593b1f4670d2c62fa9d5949}{getvar}} (self, var\+Name, var\+Field)
+subroutine \mbox{\hyperlink{namespacenetcdfparser__mod_aba877869db6bea7262d659133253cff7}{getvar}} (self, var\+Name, var\+Field, binary\+Var, alt\+Name, alt\+Units)
 \begin{DoxyCompactList}\small\item\em Reads the fields from the nc file for a given variable. returns a generic field, with a name, units and data. \end{DoxyCompactList}\item 
 type(\mbox{\hyperlink{structnetcdfparser__mod_1_1dim__t}{dim\+\_\+t}}) function \mbox{\hyperlink{namespacenetcdfparser__mod_a5fcd4b7fb27dbc9befd0a6fcfb9929a1}{getdimbydimid}} (self, dim\+ID)
 \begin{DoxyCompactList}\small\item\em returns a dimension field metadata structure, given a dim\+ID \end{DoxyCompactList}\item 
@@ -76,17 +76,17 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyParams}
 
 
-Definition at line 355 of file netcdf\+Parser.\+f90.
+Definition at line 444 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-355     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-356     \textcolor{keywordtype}{type}(string) :: outext
-357     \textcolor{keywordflow}{if}(self%status /= nf90\_noerr) \textcolor{keywordflow}{then}
-358         outext = \textcolor{stringliteral}{'[NetCDFparser::check]: '}//trim(nf90\_strerror(self%status))//\textcolor{stringliteral}{', stoping'}
-359         \textcolor{keyword}{call }log%put(outext)
-360         stop
-361 \textcolor{keywordflow}{    end if}
+444     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+445     \textcolor{keywordtype}{type}(string) :: outext
+446     \textcolor{keywordflow}{if}(self%status /= nf90\_noerr) \textcolor{keywordflow}{then}
+447         outext = \textcolor{stringliteral}{'[NetCDFparser::check]: '}//trim(nf90\_strerror(self%status))//\textcolor{stringliteral}{', stoping'}
+448         \textcolor{keyword}{call }log%put(outext)
+449         stop
+450 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a518627511cac4bf3dbc338bf3bfd5e24}\label{namespacenetcdfparser__mod_a518627511cac4bf3dbc338bf3bfd5e24}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!closefile@{closefile}}
@@ -108,19 +108,19 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyParams}
 
 
-Definition at line 343 of file netcdf\+Parser.\+f90.
+Definition at line 432 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-343     \textcolor{keywordtype}{class}(ncfile\_class),\textcolor{keywordtype}{intent(inout)} :: self
-344     self%status = nf90\_close(self%ncID)
-345     \textcolor{keyword}{call }self%check()
+432     \textcolor{keywordtype}{class}(ncfile\_class),\textcolor{keywordtype}{intent(inout)} :: self
+433     self%status = nf90\_close(self%ncID)
+434     \textcolor{keyword}{call }self%check()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_af93319fde6cf6baedb7fe27bf3396e7b}\label{namespacenetcdfparser__mod_af93319fde6cf6baedb7fe27bf3396e7b}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!correctnctime@{correctnctime}}
 \index{correctnctime@{correctnctime}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
 \subsubsection{\texorpdfstring{correctnctime()}{correctnctime()}}
-{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::correctnctime (\begin{DoxyParamCaption}\item[{type(string), intent(in)}]{time\+Comments,  }\item[{real(prec), dimension(\+:), intent(inout)}]{time\+Array }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::correctnctime (\begin{DoxyParamCaption}\item[{type(string), intent(inout)}]{time\+Comments,  }\item[{real(prec), dimension(\+:), intent(inout)}]{time\+Array }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -136,46 +136,66 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 434 of file netcdf\+Parser.\+f90.
+Definition at line 523 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-434     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: timeComments
-435     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: timeArray
-436     \textcolor{keywordtype}{integer} :: i
-437     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable} :: dc(:), dates(:), hours(:)
-438     \textcolor{keywordtype}{type}(string) :: isoDateStr
-439     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(6)} :: date
-440     \textcolor{keywordtype}{type}(datetime) :: NCDate
-441     \textcolor{keywordtype}{type}(timedelta) :: dateOffset
-442     \textcolor{keywordtype}{type}(string) :: outext
-443     \textcolor{keywordtype}{real(prec)} :: scale, offset
-444     
-445     \textcolor{keyword}{call }timecomments%split(tokens=dc, sep=\textcolor{stringliteral}{' '})
-446     \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(dc) == 4) \textcolor{keywordflow}{then}
-447         scale = 1.0
-448         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'seconds'}) scale = 1.0
-449         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'hours'})   scale = 3600.0
-450         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'days'})    scale = 3600.0*24.0
-451         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'months'})  scale = 3600.0*24.0*30.0 \textcolor{comment}{!really hope no one gets such a brilliant idea as
+523     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(inout)} :: timeComments
+524     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: timeArray
+525     \textcolor{keywordtype}{integer} :: i
+526     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable} :: dc(:), dates(:), hours(:)
+527     \textcolor{keywordtype}{type}(string) :: isoDateStr
+528     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(6)} :: date
+529     \textcolor{keywordtype}{type}(datetime) :: NCDate
+530     \textcolor{keywordtype}{type}(timedelta) :: dateOffset
+531     \textcolor{keywordtype}{type}(string) :: outext
+532     \textcolor{keywordtype}{real(prec)} :: scale, offset
+533 
+534     \textcolor{keyword}{call }timecomments%split(tokens=dc, sep=\textcolor{stringliteral}{' '})
+535     \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(dc) == 4) \textcolor{keywordflow}{then}
+536         scale = 1.0
+537         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'seconds'}) scale = 1.0
+538         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'hours'})   scale = 3600.0
+539         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'days'})    scale = 3600.0*24.0
+540         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'months'})  scale = 3600.0*24.0*30.0 \textcolor{comment}{!really hope no one gets such a brilliant idea as
        to use this as a time unit}
-452         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'years'})   scale = 3600.0*24.0*30.0*12.0 \textcolor{comment}{!or this}
-453         \textcolor{keyword}{call }dc(3)%split(tokens=dates, sep=\textcolor{stringliteral}{'-'})
-454         \textcolor{keyword}{call }dc(4)%split(tokens=hours, sep=\textcolor{stringliteral}{':'})
-455         isodatestr = dates(1)//\textcolor{stringliteral}{' '}//dates(2)//\textcolor{stringliteral}{' '}//dates(3)//\textcolor{stringliteral}{' '}//hours(1)//\textcolor{stringliteral}{' '}//hours(2)//\textcolor{stringliteral}{' '}//hours(3)
-456         date = utils%getDateFromISOString(isodatestr)
-457         ncdate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-458         dateoffset = globals%SimTime%StartDate - ncdate
-459         offset = -dateoffset%total\_seconds()
-460         
-461         timearray = timearray*scale + offset
-462         
-463     \textcolor{keywordflow}{else}
-464         outext = \textcolor{stringliteral}{'[NetCDF parser::correctNCTime]:WARNING - Time units is not in the format *seconds since
-       1981-01-01 00:00:00*, you might have some problems in a few moments...'}
-465         \textcolor{keyword}{call }log%put(outext)
-466 \textcolor{keywordflow}{    end if}  
-467     
+541         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'years'})   scale = 3600.0*24.0*30.0*12.0 \textcolor{comment}{!or this}
+542         \textcolor{keyword}{call }dc(3)%split(tokens=dates, sep=\textcolor{stringliteral}{'-'})
+543         \textcolor{keyword}{call }dc(4)%split(tokens=hours, sep=\textcolor{stringliteral}{':'})
+544         isodatestr = dates(1)//\textcolor{stringliteral}{' '}//dates(2)//\textcolor{stringliteral}{' '}//dates(3)//\textcolor{stringliteral}{' '}//hours(1)//\textcolor{stringliteral}{' '}//hours(2)//\textcolor{stringliteral}{' '}//hours(3)
+545         date = utils%getDateFromISOString(isodatestr)
+546         ncdate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+547         dateoffset = globals%SimTime%StartDate - ncdate
+548         offset = -dateoffset%total\_seconds()
+549 
+550         timearray = timearray*scale + offset
+551         timecomments = \textcolor{stringliteral}{'seconds since '}//globals%SimTime%StartDate%isoformat(\textcolor{stringliteral}{' '})        
+552     
+553     \textcolor{keywordflow}{elseif} (\textcolor{keyword}{size}(dc) == 3) \textcolor{keywordflow}{then}
+554         scale = 1.0
+555         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'seconds'}) scale = 1.0
+556         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'hours'})   scale = 3600.0
+557         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'days'})    scale = 3600.0*24.0
+558         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'months'})  scale = 3600.0*24.0*30.0 \textcolor{comment}{!really hope no one gets such a brilliant idea as
+       to use this as a time unit}
+559         \textcolor{keywordflow}{if} (dc(1) == \textcolor{stringliteral}{'years'})   scale = 3600.0*24.0*30.0*12.0 \textcolor{comment}{!or this}
+560         \textcolor{keyword}{call }dc(3)%split(tokens=dates, sep=\textcolor{stringliteral}{'-'})
+561         isodatestr = dates(1)//\textcolor{stringliteral}{' '}//dates(2)//\textcolor{stringliteral}{' '}//dates(3)//\textcolor{stringliteral}{' '}//\textcolor{stringliteral}{'00'}//\textcolor{stringliteral}{' '}//\textcolor{stringliteral}{'00'}//\textcolor{stringliteral}{' '}//\textcolor{stringliteral}{'00'}
+562         date = utils%getDateFromISOString(isodatestr)
+563         ncdate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+564         dateoffset = globals%SimTime%StartDate - ncdate
+565         offset = -dateoffset%total\_seconds()
+566         
+567         timearray = timearray*scale + offset
+568         timecomments = \textcolor{stringliteral}{'seconds since '}//globals%SimTime%StartDate%isoformat(\textcolor{stringliteral}{' '})
+569         
+570     \textcolor{keywordflow}{else}       
+571 
+572         outext = \textcolor{stringliteral}{'[NetCDF parser::correctNCTime]:WARNING - Time units may not be in the format *seconds
+       since 1981-01-01 00:00:00*, you might have some problems in a few moments...'}
+573         \textcolor{keyword}{call }log%put(outext)
+574 \textcolor{keywordflow}{    end if}
+575 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -204,31 +224,31 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 313 of file netcdf\+Parser.\+f90.
+Definition at line 402 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-313     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-314     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dimID
-315     \textcolor{keywordtype}{integer} :: i
-316     \textcolor{keywordtype}{logical} :: found
-317     \textcolor{keywordtype}{type}(string) :: outext
-318 
-319     found = .false.
-320     \textcolor{keywordflow}{do} i=1, self%nDims
-321         \textcolor{keywordflow}{if} (dimid == self%dimData(i)%dimid) \textcolor{keywordflow}{then}
-322             found = .true.
-323             getdimbydimid = self%dimData(i)
-324             \textcolor{keywordflow}{return}
-325 \textcolor{keywordflow}{        end if}
-326 \textcolor{keywordflow}{    end do}
-327     \textcolor{keywordflow}{if} (.not.found) \textcolor{keywordflow}{then}
-328         outext = dimid
-329         outext = \textcolor{stringliteral}{'[NetCDFparser::getDimByDimID]: dimension with ID='}//outext//\textcolor{stringliteral}{' not found. Stopping'}
-330         \textcolor{keyword}{call }log%put(outext)
-331         stop
-332 \textcolor{keywordflow}{    end if}
-333 
+402     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+403     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dimID
+404     \textcolor{keywordtype}{integer} :: i
+405     \textcolor{keywordtype}{logical} :: found
+406     \textcolor{keywordtype}{type}(string) :: outext
+407 
+408     found = .false.
+409     \textcolor{keywordflow}{do} i=1, self%nDims
+410         \textcolor{keywordflow}{if} (dimid == self%dimData(i)%dimid) \textcolor{keywordflow}{then}
+411             found = .true.
+412             getdimbydimid = self%dimData(i)
+413             \textcolor{keywordflow}{return}
+414 \textcolor{keywordflow}{        end if}
+415 \textcolor{keywordflow}{    end do}
+416     \textcolor{keywordflow}{if} (.not.found) \textcolor{keywordflow}{then}
+417         outext = dimid
+418         outext = \textcolor{stringliteral}{'[NetCDFparser::getDimByDimID]: dimension with ID='}//outext//\textcolor{stringliteral}{' not found. Stopping'}
+419         \textcolor{keyword}{call }log%put(outext)
+420         stop
+421 \textcolor{keywordflow}{    end if}
+422 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a57c39a4003778a6bf90cfd36b69380bc}\label{namespacenetcdfparser__mod_a57c39a4003778a6bf90cfd36b69380bc}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getfile@{getfile}}
@@ -250,18 +270,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 100 of file netcdf\+Parser.\+f90.
+Definition at line 101 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-100     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-101     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
-102     \textcolor{keywordtype}{integer} :: i
-103     self%filename = filename
-104     \textcolor{keyword}{call }self%getNCid()
-105     \textcolor{keyword}{call }self%getNCglobalMetadata()
-106     \textcolor{keyword}{call }self%getNCVarMetadata()
-107     \textcolor{keyword}{call }self%getNCDimMetadata()
+101     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+102     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+103     \textcolor{keywordtype}{integer} :: i
+104     self%filename = filename
+105     \textcolor{keyword}{call }self%getNCid()
+106     \textcolor{keyword}{call }self%getNCglobalMetadata()
+107     \textcolor{keyword}{call }self%getNCVarMetadata()
+108     \textcolor{keyword}{call }self%getNCDimMetadata()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a6354ee8b3c773cc7a5ad247ad1e34eeb}\label{namespacenetcdfparser__mod_a6354ee8b3c773cc7a5ad247ad1e34eeb}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncdimmetadata@{getncdimmetadata}}
@@ -283,30 +303,30 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 177 of file netcdf\+Parser.\+f90.
+Definition at line 178 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-177     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-178     \textcolor{keywordtype}{integer} :: i, j, dimLength
-179     \textcolor{keywordtype}{character(CHAR\_LEN)} :: dimName
-180     \textcolor{keyword}{allocate}(self%dimData(self%nDims))
-181     \textcolor{keywordflow}{do} i=1, self%nDims
-182         self%status = nf90\_inquire\_dimension(self%ncID, i, dimname, dimlength)
-183         \textcolor{keyword}{call }self%check()
-184         self%dimData(i)%name = trim(dimname)
-185         self%dimData(i)%simName = globals%Var%getVarSimName(self%dimData(i)%name)
-186         self%dimData(i)%length = dimlength
-187         self%status = nf90\_inq\_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
-188         \textcolor{keyword}{call }self%check()
-189         \textcolor{keywordflow}{do} j=1, self%nVars
-190             \textcolor{keywordflow}{if} (self%dimData(i)%name == self%varData(j)%name) \textcolor{keywordflow}{then}
-191                 self%dimData(i)%units = self%varData(j)%units
-192                 self%dimData(i)%varid = self%varData(j)%varid
-193                 \textcolor{keywordflow}{exit}
-194 \textcolor{keywordflow}{            end if}
-195 \textcolor{keywordflow}{        end do}
-196 \textcolor{keywordflow}{    end do}
+178     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+179     \textcolor{keywordtype}{integer} :: i, j, dimLength
+180     \textcolor{keywordtype}{character(CHAR\_LEN)} :: dimName
+181     \textcolor{keyword}{allocate}(self%dimData(self%nDims))
+182     \textcolor{keywordflow}{do} i=1, self%nDims
+183         self%status = nf90\_inquire\_dimension(self%ncID, i, dimname, dimlength)
+184         \textcolor{keyword}{call }self%check()
+185         self%dimData(i)%name = trim(dimname)
+186         self%dimData(i)%simName = globals%Var%getVarSimName(self%dimData(i)%name)
+187         self%dimData(i)%length = dimlength
+188         self%status = nf90\_inq\_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
+189         \textcolor{keyword}{call }self%check()
+190         \textcolor{keywordflow}{do} j=1, self%nVars
+191             \textcolor{keywordflow}{if} (self%dimData(i)%name == self%varData(j)%name) \textcolor{keywordflow}{then}
+192                 self%dimData(i)%units = self%varData(j)%units
+193                 self%dimData(i)%varid = self%varData(j)%varid
+194                 \textcolor{keywordflow}{exit}
+195 \textcolor{keywordflow}{            end if}
+196 \textcolor{keywordflow}{        end do}
+197 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a409f59662d71fb63e5fb5e057fdfd6ee}\label{namespacenetcdfparser__mod_a409f59662d71fb63e5fb5e057fdfd6ee}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncglobalmetadata@{getncglobalmetadata}}
@@ -328,13 +348,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 130 of file netcdf\+Parser.\+f90.
+Definition at line 131 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-130     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-131     self%status = nf90\_inquire(self%ncID, self%nDims, self%nVars, self%nAtt, self%uDimID)
-132     \textcolor{keyword}{call }self%check()
+131     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+132     self%status = nf90\_inquire(self%ncID, self%nDims, self%nVars, self%nAtt, self%uDimID)
+133     \textcolor{keyword}{call }self%check()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a741dd5b5985255e73aa9d3cf08755e91}\label{namespacenetcdfparser__mod_a741dd5b5985255e73aa9d3cf08755e91}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncid@{getncid}}
@@ -356,13 +376,13 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyParams}
 
 
-Definition at line 117 of file netcdf\+Parser.\+f90.
+Definition at line 118 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-117     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-118     self%status = nf90\_open(trim(self%filename%chars()), nf90\_nowrite, self%ncID)
-119     \textcolor{keyword}{call }self%check()
+118     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+119     self%status = nf90\_open(trim(self%filename%chars()), nf90\_nowrite, self%ncID)
+120     \textcolor{keyword}{call }self%check()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a46989199271acb6205cc61ac413d5a56}\label{namespacenetcdfparser__mod_a46989199271acb6205cc61ac413d5a56}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getncvarmetadata@{getncvarmetadata}}
@@ -384,42 +404,42 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 142 of file netcdf\+Parser.\+f90.
+Definition at line 143 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-142     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-143     \textcolor{keywordtype}{integer} :: i, j, ndims, nAtts
-144     \textcolor{keywordtype}{integer} :: dimids(self%nDims)
-145     \textcolor{keywordtype}{integer} :: tempStatus
-146     \textcolor{keywordtype}{character(CHAR\_LEN)} :: varName, units
-147     \textcolor{keyword}{allocate}(self%varData(self%nVars))
-148     \textcolor{keywordflow}{do} i=1, self%nVars
-149         self%status = nf90\_inquire\_variable(self%ncID, i, varname, ndims=ndims, dimids=dimids, natts=natts)
-150         \textcolor{keyword}{call }self%check()
-151         self%varData(i)%name = trim(varname)
-152         self%varData(i)%simName = globals%Var%getVarSimName(self%varData(i)%name)
-153         self%varData(i)%varid = i
-154         self%varData(i)%ndims = ndims
-155         \textcolor{keyword}{allocate}(self%varData(i)%dimids(ndims))
-156         self%varData(i)%dimids = dimids(1:ndims)
-157         self%varData(i)%nAtts = natts
-158         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{'units'}, units)
-159         \textcolor{keywordflow}{if} (tempstatus == -43) units = \textcolor{stringliteral}{"not set"}
-160         self%varData(i)%units = trim(units)
-161         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"scale\_factor"}, self%varData(i)%scale)
-162         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%scale = 1.0
-163         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"add\_offset"}, self%varData(i)%offset)
-164         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%offset = 0.0
-165         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"\_FillValue"}, self%varData(i)%fillvalue)
-166         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%fillvalue = 0.0
-167 \textcolor{keywordflow}{    end do}
+143     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+144     \textcolor{keywordtype}{integer} :: i, j, ndims, nAtts
+145     \textcolor{keywordtype}{integer} :: dimids(self%nDims)
+146     \textcolor{keywordtype}{integer} :: tempStatus
+147     \textcolor{keywordtype}{character(CHAR\_LEN)} :: varName, units
+148     \textcolor{keyword}{allocate}(self%varData(self%nVars))
+149     \textcolor{keywordflow}{do} i=1, self%nVars
+150         self%status = nf90\_inquire\_variable(self%ncID, i, varname, ndims=ndims, dimids=dimids, natts=natts)
+151         \textcolor{keyword}{call }self%check()
+152         self%varData(i)%name = trim(varname)
+153         self%varData(i)%simName = globals%Var%getVarSimName(self%varData(i)%name)
+154         self%varData(i)%varid = i
+155         self%varData(i)%ndims = ndims
+156         \textcolor{keyword}{allocate}(self%varData(i)%dimids(ndims))
+157         self%varData(i)%dimids = dimids(1:ndims)
+158         self%varData(i)%nAtts = natts
+159         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{'units'}, units)
+160         \textcolor{keywordflow}{if} (tempstatus == -43) units = \textcolor{stringliteral}{"not set"}
+161         self%varData(i)%units = trim(units)
+162         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"scale\_factor"}, self%varData(i)%scale)
+163         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%scale = 1.0
+164         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"add\_offset"}, self%varData(i)%offset)
+165         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%offset = 0.0
+166         tempstatus = nf90\_get\_att(self%ncID, i, \textcolor{stringliteral}{"\_FillValue"}, self%varData(i)%fillvalue)
+167         \textcolor{keywordflow}{if} (tempstatus == -43) self%varData(i)%fillvalue = mv
+168 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacenetcdfparser__mod_a1f59a93ed593b1f4670d2c62fa9d5949}\label{namespacenetcdfparser__mod_a1f59a93ed593b1f4670d2c62fa9d5949}} 
+\mbox{\Hypertarget{namespacenetcdfparser__mod_aba877869db6bea7262d659133253cff7}\label{namespacenetcdfparser__mod_aba877869db6bea7262d659133253cff7}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getvar@{getvar}}
 \index{getvar@{getvar}!netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}}
 \subsubsection{\texorpdfstring{getvar()}{getvar()}}
-{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getvar (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var\+Name,  }\item[{type(generic\+\_\+field\+\_\+class), intent(out)}]{var\+Field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine netcdfparser\+\_\+mod\+::getvar (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structnetcdfparser__mod_1_1ncfile__class}{ncfile\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var\+Name,  }\item[{type(generic\+\_\+field\+\_\+class), intent(out)}]{var\+Field,  }\item[{logical, intent(in), optional}]{binary\+Var,  }\item[{type(string), intent(in), optional}]{alt\+Name,  }\item[{type(string), intent(in), optional}]{alt\+Units }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -430,62 +450,129 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,var\+Name,var\+Field} & \\
+\mbox{\tt in}  & {\em self,var\+Name,var\+Field,binary\+Var,alt\+Name,alt\+Units} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 259 of file netcdf\+Parser.\+f90.
+Definition at line 288 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-259     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-260     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: varName
-261     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(out)} :: varField
-262     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: tempRealField1D
-263     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: tempRealField3D
-264     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: tempRealField4D
-265     \textcolor{keywordtype}{type}(string) :: dimName, varUnits
-266     \textcolor{keywordtype}{integer} :: i, j, k
-267     \textcolor{keywordtype}{type}(dim\_t) :: tempDim
-268     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: varShape
-269     \textcolor{keywordtype}{type}(string) :: outext
-270 
-271     \textcolor{keywordflow}{do} i=1, self%nVars \textcolor{comment}{!going trough all variables}
-272         \textcolor{keywordflow}{if} (self%varData(i)%simName == varname ) \textcolor{keywordflow}{then}   \textcolor{comment}{!found the requested var}
-273             \textcolor{keyword}{allocate}(varshape(self%varData(i)%ndims))
-274             \textcolor{keywordflow}{do} j=1, self%varData(i)%ndims   \textcolor{comment}{!going trough all of the variable dimensions}
-275                 tempdim = self%getDimByDimID(self%varData(i)%dimids(j))
-276                 varshape(j) = tempdim%length
-277 \textcolor{keywordflow}{            end do}
-278             \textcolor{keywordflow}{if}(self%varData(i)%ndims == 3) \textcolor{keywordflow}{then} \textcolor{comment}{!3D variable}
-279                 \textcolor{keyword}{allocate}(temprealfield3d(varshape(1),varshape(2),varshape(3)))
-280                 self%status = nf90\_get\_var(self%ncID, self%varData(i)%varid, temprealfield3d)
-281                 \textcolor{keyword}{call }self%check()
-282                 temprealfield3d = temprealfield3d*self%varData(i)%scale + self%varData(i)%offset \textcolor{comment}{! scale +
-       offset transform}
-283                 \textcolor{keywordflow}{where} (temprealfield3d == self%varData(i)%fillvalue)
-284                     temprealfield3d = 0.0
-285 \textcolor{keywordflow}{                end where}
-286                 \textcolor{keyword}{call }varfield%initialize(varname, self%varData(i)%units, temprealfield3d)
-287             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(self%varData(i)%ndims == 4) \textcolor{keywordflow}{then} \textcolor{comment}{!4D variable}
-288                 \textcolor{keyword}{allocate}(temprealfield4d(varshape(1),varshape(2),varshape(3),varshape(4)))
-289                 self%status = nf90\_get\_var(self%ncID, self%varData(i)%varid, temprealfield4d)
-290                 \textcolor{keyword}{call }self%check()
-291                 temprealfield4d = temprealfield4d*self%varData(i)%scale + self%varData(i)%offset
-292                 \textcolor{keywordflow}{where} (temprealfield4d == self%varData(i)%fillvalue)
-293                     temprealfield4d = 0.0
-294 \textcolor{keywordflow}{                end where}
-295                 \textcolor{keyword}{call }varfield%initialize(varname, self%varData(i)%units, temprealfield4d)
-296             \textcolor{keywordflow}{else}
-297                 outext = \textcolor{stringliteral}{'[NetCDFparser::getVar]: Variable '}//varname//\textcolor{stringliteral}{' has a non-supported
+288     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+289     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: varName
+290     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(out)} :: varField
+291     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: binaryVar
+292     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: altName, altUnits
+293     \textcolor{keywordtype}{logical} :: bVar
+294     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: tempRealField1D
+295     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: tempRealField3D
+296     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: tempRealField4D
+297     \textcolor{keywordtype}{type}(string) :: dimName, varUnits
+298     \textcolor{keywordtype}{integer} :: i, j, k, id\_dim, first,last
+299     \textcolor{keywordtype}{type}(dim\_t) :: tempDim
+300     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: varShape
+301     \textcolor{keywordtype}{type}(string) :: outext
+302 
+303     bvar= .false.
+304     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(binaryvar)) bvar = binaryvar
+305 
+306     \textcolor{keywordflow}{do} i=1, self%nVars \textcolor{comment}{!going trough all variables}
+307         \textcolor{keywordflow}{if} (self%varData(i)%simName == varname ) \textcolor{keywordflow}{then}   \textcolor{comment}{!found the requested var}
+308             \textcolor{keyword}{allocate}(varshape(self%varData(i)%ndims))
+309             \textcolor{keywordflow}{do} j=1, self%varData(i)%ndims   \textcolor{comment}{!going trough all of the variable dimensions}
+310                 tempdim = self%getDimByDimID(self%varData(i)%dimids(j))
+311                 varshape(j) = tempdim%length
+312 \textcolor{keywordflow}{            end do}
+313             \textcolor{keywordflow}{if}(self%varData(i)%ndims == 3) \textcolor{keywordflow}{then} \textcolor{comment}{!3D variable}
+314                 \textcolor{keyword}{allocate}(temprealfield3d(varshape(1),varshape(2),varshape(3)))
+315                 self%status = nf90\_get\_var(self%ncID, self%varData(i)%varid, temprealfield3d)
+316                 \textcolor{keyword}{call }self%check()
+317                 \textcolor{keywordflow}{if} (.not.bvar) \textcolor{keywordflow}{then}
+318                     \textcolor{keywordflow}{where} (temprealfield3d == self%varData(i)%fillvalue) temprealfield3d = 0.0
+319                     temprealfield3d = temprealfield3d*self%varData(i)%scale + self%varData(i)%offset \textcolor{comment}{!
+       scale + offset transform}
+320                 \textcolor{keywordflow}{else}
+321                     \textcolor{keywordflow}{if} (self%varData(i)%fillvalue == mv) \textcolor{keywordflow}{then}
+322                         outext = \textcolor{stringliteral}{'[NetCDFParser::getVar]:WARNING - variables without \_fillvalue, you might
+       have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'}
+323                     \textcolor{keyword}{call }log%put(outext)
+324 \textcolor{keywordflow}{                    end if}
+325                     \textcolor{keywordflow}{where} (temprealfield3d /= self%varData(i)%fillvalue) temprealfield3d = globals%Mask
+      %waterVal
+326                     \textcolor{keywordflow}{where} (temprealfield3d == self%varData(i)%fillvalue) temprealfield3d = globals%Mask
+      %landVal
+327 \textcolor{keywordflow}{                end if}
+328                 \textcolor{keywordflow}{do} id\_dim=1,3 \textcolor{comment}{!reverting fields to have 'natural' coordinate-field storage}
+329                     \textcolor{keywordflow}{if} (self%dimData(id\_dim)%reverse\_data) \textcolor{keywordflow}{then}
+330                         \textcolor{keywordflow}{if} (self%dimData(id\_dim)%simName == globals%Var%lon) \textcolor{keywordflow}{then}
+331                             temprealfield3d = temprealfield3d(varshape(1):1:-1,:,:)
+332                         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (self%dimData(id\_dim)%simName == globals%Var%lat) \textcolor{keywordflow}{then}
+333                             temprealfield3d = temprealfield3d(:,varshape(2):1:-1,:)
+334                         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (self%dimData(id\_dim)%simName == globals%Var%level) \textcolor{keywordflow}{then}
+335                             temprealfield3d = temprealfield3d(:,:,varshape(3):1:-1)
+336 \textcolor{keywordflow}{                        end if}
+337 \textcolor{keywordflow}{                    end if}
+338 \textcolor{keywordflow}{                end do}
+339                 \textcolor{keywordflow}{if} (.not.bvar) \textcolor{keywordflow}{then}
+340                     \textcolor{keyword}{call }varfield%initialize(varname, self%varData(i)%units, temprealfield3d)
+341                 \textcolor{keywordflow}{else}
+342                     dimname = varname
+343                     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(altname)) dimname = altname
+344                     varunits = self%varData(i)%units
+345                     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(altunits)) varunits = altunits
+346                     \textcolor{keyword}{call }varfield%initialize(dimname, varunits, temprealfield3d)
+347 \textcolor{keywordflow}{                end if}
+348             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(self%varData(i)%ndims == 4) \textcolor{keywordflow}{then} \textcolor{comment}{!4D variable}
+349                 \textcolor{keyword}{allocate}(temprealfield4d(varshape(1),varshape(2),varshape(3),varshape(4)))
+350                 self%status = nf90\_get\_var(self%ncID, self%varData(i)%varid, temprealfield4d)
+351                 \textcolor{keyword}{call }self%check()
+352                 \textcolor{keywordflow}{if} (.not.bvar) \textcolor{keywordflow}{then}
+353                     \textcolor{keywordflow}{where} (temprealfield4d == self%varData(i)%fillvalue) temprealfield4d = 0.0
+354                     temprealfield4d = temprealfield4d*self%varData(i)%scale + self%varData(i)%offset    \textcolor{comment}{!
+       scale + offset transform}
+355                 \textcolor{keywordflow}{else}
+356                     \textcolor{keywordflow}{if} (self%varData(i)%fillvalue == mv) \textcolor{keywordflow}{then}
+357                         outext = \textcolor{stringliteral}{'[NetCDFParser::getVar]:WARNING - variables without \_fillvalue, you might
+       have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'}
+358                     \textcolor{keyword}{call }log%put(outext)
+359 \textcolor{keywordflow}{                    end if}
+360                     \textcolor{keywordflow}{where} (temprealfield4d /= self%varData(i)%fillvalue) temprealfield4d = globals%Mask
+      %waterVal
+361                     \textcolor{keywordflow}{where} (temprealfield4d == self%varData(i)%fillvalue) temprealfield4d = globals%Mask
+      %landVal
+362 \textcolor{keywordflow}{                end if}
+363                 \textcolor{keywordflow}{do} id\_dim=1,4 \textcolor{comment}{!reverting fields to have 'natural' coordinate-field storage}
+364                     \textcolor{keywordflow}{if} (self%dimData(id\_dim)%reverse\_data) \textcolor{keywordflow}{then}
+365                         \textcolor{keywordflow}{if} (self%dimData(id\_dim)%simName == globals%Var%lon) \textcolor{keywordflow}{then}
+366                             temprealfield4d = temprealfield4d(varshape(1):1:-1,:,:,:)
+367                         \textcolor{keywordflow}{elseif} (self%dimData(id\_dim)%simName == globals%Var%lat) \textcolor{keywordflow}{then}
+368                             temprealfield4d = temprealfield4d(:,varshape(2):1:-1,:,:)
+369                         \textcolor{keywordflow}{elseif} (self%dimData(id\_dim)%simName == globals%Var%level) \textcolor{keywordflow}{then}
+370                             temprealfield4d = temprealfield4d(:,:,varshape(3):1:-1,:)
+371                         \textcolor{keywordflow}{elseif} (self%dimData(id\_dim)%simName == globals%Var%time) \textcolor{keywordflow}{then}
+372                             temprealfield4d = temprealfield4d(:,:,:,varshape(4):1:-1)
+373 \textcolor{keywordflow}{                        end if}
+374 \textcolor{keywordflow}{                    end if}
+375 \textcolor{keywordflow}{                end do}
+376                 \textcolor{keywordflow}{if} (.not.bvar) \textcolor{keywordflow}{then}
+377                     \textcolor{keyword}{call }varfield%initialize(varname, self%varData(i)%units, temprealfield4d)
+378                 \textcolor{keywordflow}{else}
+379                     dimname = varname
+380                     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(altname)) dimname = altname
+381                     varunits = self%varData(i)%units
+382                     \textcolor{keywordflow}{if}(\textcolor{keyword}{present}(altunits)) varunits = altunits
+383                     \textcolor{keyword}{call }varfield%initialize(dimname, varunits, temprealfield4d)
+384 \textcolor{keywordflow}{                end if}
+385             \textcolor{keywordflow}{else}
+386                 outext = \textcolor{stringliteral}{'[NetCDFparser::getVar]: Variable '}//varname//\textcolor{stringliteral}{' has a non-supported
        dimensionality. Stopping'}
-298                 \textcolor{keyword}{call }log%put(outext)
-299                 stop
-300 \textcolor{keywordflow}{            end if}
-301 \textcolor{keywordflow}{        end if}
-302 \textcolor{keywordflow}{    end do}
-303 
+387                 \textcolor{keyword}{call }log%put(outext)
+388                 stop
+389 \textcolor{keywordflow}{            end if}
+390 \textcolor{keywordflow}{        end if}
+391 \textcolor{keywordflow}{    end do}
+392 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec}\label{namespacenetcdfparser__mod_a0aea819b8a474ce2f4840d0bc44e95ec}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!getvardimensions@{getvardimensions}}
@@ -507,57 +594,89 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 207 of file netcdf\+Parser.\+f90.
+Definition at line 208 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-207     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-208     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: varName
-209     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(out)} :: dimsArrays
-210     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: tempRealArray, tempRealArrayDelta
-211     \textcolor{keywordtype}{type}(string) :: dimName, dimUnits
-212     \textcolor{keywordtype}{integer} :: i, j, k, l
-213 
-214     \textcolor{keywordflow}{do} i=1, self%nVars \textcolor{comment}{!going trough all variables}
-215         \textcolor{keywordflow}{if} (self%varData(i)%simName == varname) \textcolor{keywordflow}{then}   \textcolor{comment}{!found the requested var}
-216             \textcolor{keyword}{allocate}(dimsarrays(self%varData(i)%ndims)) \textcolor{comment}{!allocating output fields}
-217             \textcolor{keywordflow}{do} j=1, self%varData(i)%ndims   \textcolor{comment}{!going trough all of the variable dimensions}
-218                 \textcolor{keywordflow}{do} k=1, self%nDims  \textcolor{comment}{!going trough all available dimensions of the file}
-219                     \textcolor{keywordflow}{if} (self%varData(i)%dimids(j) == self%dimData(k)%dimid) \textcolor{keywordflow}{then}    \textcolor{comment}{!found a corresponding
+208     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+209     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: varName
+210     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(out)} :: dimsArrays
+211     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: tempRealArray, tempRealArrayDelta
+212     \textcolor{keywordtype}{type}(string) :: dimName, dimUnits
+213     \textcolor{keywordtype}{integer} :: i, j, k, l
+214 
+215     \textcolor{keywordflow}{do} i=1, self%nVars \textcolor{comment}{!going trough all variables}
+216         \textcolor{keywordflow}{if} (self%varData(i)%simName == varname) \textcolor{keywordflow}{then}   \textcolor{comment}{!found the requested var}
+217             \textcolor{keyword}{allocate}(dimsarrays(self%varData(i)%ndims)) \textcolor{comment}{!allocating output fields}
+218             \textcolor{keywordflow}{do} j=1, self%varData(i)%ndims   \textcolor{comment}{!going trough all of the variable dimensions}
+219                 \textcolor{keywordflow}{do} k=1, self%nDims  \textcolor{comment}{!going trough all available dimensions of the file}
+220                     \textcolor{keywordflow}{if} (self%varData(i)%dimids(j) == self%dimData(k)%dimid) \textcolor{keywordflow}{then}    \textcolor{comment}{!found a corresponding
        dimension between the variable and the file}
-220                         \textcolor{keyword}{allocate}(temprealarray(self%dimData(k)%length)) \textcolor{comment}{!allocating a place to read the
+221                         \textcolor{keyword}{allocate}(temprealarray(self%dimData(k)%length)) \textcolor{comment}{!allocating a place to read the
        field data to}
-221                         dimname = self%dimData(k)%simName
-222                         dimunits = self%dimData(k)%units
-223                         self%status = nf90\_get\_var(self%ncID, self%dimData(k)%varid, temprealarray)
-224                         \textcolor{keyword}{call }self%check()
-225                         \textcolor{comment}{!need to check for 'level' variable specific issues}
-226                         \textcolor{keywordflow}{if} (dimname == globals%Var%level) \textcolor{keywordflow}{then}
-227                             \textcolor{keyword}{allocate}(temprealarraydelta(self%dimData(k)%length - 1))
-228                             \textcolor{keywordflow}{do} l=1, self%dimData(k)%length - 1
-229                                 temprealarraydelta(l) = temprealarray(l+1)-temprealarray(l)
-230 \textcolor{keywordflow}{                            end do}
-231                             self%dimData(k)%reverse = all(temprealarraydelta < 0) \textcolor{comment}{! 1st Tricky solution:
-       needs explanation [@Daniel]}
-232                             \textcolor{keywordflow}{if} ((self%dimData(k)%reverse .eqv. .true.) .or. all(temprealarray >=0) ) \textcolor{keywordflow}{then} \textcolor{comment}{
-      !Second condition make an atmospheric field look like ocean data. we can't consume files like this, but for
-       now it stays}
-233                                 temprealarray = - temprealarray
-234 \textcolor{keywordflow}{                            end if}
-235 \textcolor{keywordflow}{                        end if}
-236                         \textcolor{comment}{!need to check for 'time' variable specific issues}
-237                         \textcolor{keywordflow}{if} (dimname == globals%Var%time) \textcolor{keywordflow}{then}
-238                             \textcolor{keyword}{call }correctnctime(dimunits, temprealarray)
-239 \textcolor{keywordflow}{                        end if}
-240                         \textcolor{keyword}{call }dimsarrays(j)%initialize(dimname, dimunits, 1, temprealarray)
-241                         \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(temprealarray)) \textcolor{keyword}{deallocate}(temprealarray)
-242                         \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(temprealarraydelta)) \textcolor{keyword}{deallocate}(temprealarraydelta)
-243 \textcolor{keywordflow}{                    end if}
-244 \textcolor{keywordflow}{                end do}
-245 \textcolor{keywordflow}{            end do}
-246 \textcolor{keywordflow}{        end if}
-247 \textcolor{keywordflow}{    end do}
-248 
+222                         dimname = self%dimData(k)%simName
+223                         dimunits = self%dimData(k)%units
+224                         self%status = nf90\_get\_var(self%ncID, self%dimData(k)%varid, temprealarray)
+225                         \textcolor{keyword}{call }self%check()
+226                         \textcolor{comment}{!need to check for 'level' variable specific issues}
+227 
+228                         \textcolor{comment}{!@Daniel}
+229                         \textcolor{comment}{! We seek for: 0) index=(0, ...n), axis=(+surface=0 .... -bottom)}
+230                         \textcolor{comment}{! Three situations:}
+231                         \textcolor{comment}{!     index=(0,1,2,    ...  n-1,n)}
+232                         \textcolor{comment}{! 1)  axis=(-bottom, ... ,-surface)   --> Transform: reverse}
+233                         \textcolor{comment}{! 2)  axis=(+bottom, ... , +bottom)  --> Transform: reverse and negate}
+234                         \textcolor{comment}{! 3)  axis=(+surface, ... , +bottom)  --> Transform: negate}
+235 
+236                         \textcolor{keywordflow}{if} (dimname == globals%Var%level) \textcolor{keywordflow}{then}
+237                             \textcolor{keywordflow}{if} ((temprealarray(1) <= 0) .and. (temprealarray(1)) > temprealarray(\textcolor{keyword}{size}(
+      temprealarray))) \textcolor{keywordflow}{then}
+238                                 self%dimData(k)%reverse\_axis = .false.
+239                                 self%dimData(k)%negate = .false.
+240                             \textcolor{keywordflow}{elseif} ((temprealarray(1) <= 0) .and. (temprealarray(1)) < temprealarray(\textcolor{keyword}{size}(
+      temprealarray))) \textcolor{keywordflow}{then}
+241                                 self%dimData(k)%reverse\_axis = .true.
+242                                 self%dimData(k)%negate = .false.
+243                                 self%dimData(k)%reverse\_axis = .true.
+244                                 \textcolor{comment}{!print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong directon.
+       Correcting...'}
+245                             \textcolor{keywordflow}{elseif} ((temprealarray(1) >= 0) .and. (temprealarray(1) > temprealarray(\textcolor{keyword}{size}(
+      temprealarray)))) \textcolor{keywordflow}{then}
+246                                 self%dimData(k)%reverse\_axis = .false.
+247                                 self%dimData(k)%negate = .true.
+248                                 self%dimData(k)%reverse\_data = .false.
+249                                 \textcolor{comment}{!print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong
+       sing/direction. Correcting...'}
+250                             \textcolor{keywordflow}{elseif} ((temprealarray(1) >= 0) .and. (temprealarray(1) < temprealarray(\textcolor{keyword}{size}(
+      temprealarray)))) \textcolor{keywordflow}{then}
+251                                 self%dimData(k)%reverse\_axis = .true.
+252                                 self%dimData(k)%negate = .true.
+253                                 self%dimData(k)%reverse\_data = .true.
+254                                 \textcolor{comment}{!print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign.
+       Correcting...'}
+255 \textcolor{keywordflow}{                            end if}
+256 
+257                             \textcolor{keywordflow}{if} (self%dimData(k)%reverse\_axis .eqv. .true.) \textcolor{keywordflow}{then}
+258                                 temprealarray = temprealarray(\textcolor{keyword}{size}(temprealarray):1:-1)
+259 \textcolor{keywordflow}{                            end if}
+260 
+261                             \textcolor{keywordflow}{if} (self%dimData(k)%negate .eqv. .true.) \textcolor{keywordflow}{then}
+262                                 temprealarray = -temprealarray
+263 \textcolor{keywordflow}{                            end if}
+264 \textcolor{keywordflow}{                        end if}
+265                         \textcolor{comment}{!need to check for 'time' variable specific issues}
+266                         \textcolor{keywordflow}{if} (dimname == globals%Var%time) \textcolor{keywordflow}{then}
+267                             \textcolor{keyword}{call }correctnctime(dimunits, temprealarray)
+268 \textcolor{keywordflow}{                        end if}
+269                         \textcolor{keyword}{call }dimsarrays(j)%initialize(dimname, dimunits, 1, temprealarray)
+270                         \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(temprealarray)) \textcolor{keyword}{deallocate}(temprealarray)
+271                         \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(temprealarraydelta)) \textcolor{keyword}{deallocate}(temprealarraydelta)
+272 \textcolor{keywordflow}{                    end if}
+273 \textcolor{keywordflow}{                end do}
+274 \textcolor{keywordflow}{            end do}
+275 \textcolor{keywordflow}{        end if}
+276 \textcolor{keywordflow}{    end do}
+277 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -586,21 +705,21 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 413 of file netcdf\+Parser.\+f90.
+Definition at line 502 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-413     \textcolor{keywordtype}{class}(dim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-414     \textcolor{keywordtype}{type}(string) :: outext, temp
-415     outext = \textcolor{stringliteral}{'--->Dimension: '}// self%name //new\_line(\textcolor{stringliteral}{'a'})
-416     temp = self%dimid
-417     outext = outext//\textcolor{stringliteral}{'       dimid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
-418     temp = self%varid
-419     outext = outext//\textcolor{stringliteral}{'       varid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
-420     outext = outext//\textcolor{stringliteral}{'       units = '}//self%units//new\_line(\textcolor{stringliteral}{'a'})
-421     temp = self%length
-422     outext = outext//\textcolor{stringliteral}{'       lenght = '}//temp
-423     \textcolor{keyword}{call }log%put(outext,.false.)
+502     \textcolor{keywordtype}{class}(dim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+503     \textcolor{keywordtype}{type}(string) :: outext, temp
+504     outext = \textcolor{stringliteral}{'--->Dimension: '}// self%name //new\_line(\textcolor{stringliteral}{'a'})
+505     temp = self%dimid
+506     outext = outext//\textcolor{stringliteral}{'       dimid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+507     temp = self%varid
+508     outext = outext//\textcolor{stringliteral}{'       varid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+509     outext = outext//\textcolor{stringliteral}{'       units = '}//self%units//new\_line(\textcolor{stringliteral}{'a'})
+510     temp = self%length
+511     outext = outext//\textcolor{stringliteral}{'       lenght = '}//temp
+512     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_aeb48d33c014bae21b2fceaaa70cbdc67}\label{namespacenetcdfparser__mod_aeb48d33c014bae21b2fceaaa70cbdc67}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!printncinfo@{printncinfo}}
@@ -622,20 +741,20 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyParams}
 
 
-Definition at line 371 of file netcdf\+Parser.\+f90.
+Definition at line 460 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-371     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
-372     \textcolor{keywordtype}{type}(string) :: outext, temp
-373     outext = \textcolor{stringliteral}{'-->Reading NetCDF file '}//self%filename%chars()//new\_line(\textcolor{stringliteral}{'a'})
-374     temp = self%ncid
-375     outext = outext//\textcolor{stringliteral}{'       file ID = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
-376     temp = self%nDims
-377     outext = outext//\textcolor{stringliteral}{'       Number of dimensions = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
-378     temp = self%nVars
-379     outext = outext//\textcolor{stringliteral}{'       Number of variable fields = '}//temp
-380     \textcolor{keyword}{call }log%put(outext,.false.)
+460     \textcolor{keywordtype}{class}(ncfile\_class), \textcolor{keywordtype}{intent(inout)} :: self
+461     \textcolor{keywordtype}{type}(string) :: outext, temp
+462     outext = \textcolor{stringliteral}{'-->Reading NetCDF file '}//self%filename%chars()//new\_line(\textcolor{stringliteral}{'a'})
+463     temp = self%ncid
+464     outext = outext//\textcolor{stringliteral}{'       file ID = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+465     temp = self%nDims
+466     outext = outext//\textcolor{stringliteral}{'       Number of dimensions = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+467     temp = self%nVars
+468     outext = outext//\textcolor{stringliteral}{'       Number of variable fields = '}//temp
+469     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacenetcdfparser__mod_a6b57fa47d7bd796c75483216a51e5e04}\label{namespacenetcdfparser__mod_a6b57fa47d7bd796c75483216a51e5e04}} 
 \index{netcdfparser\+\_\+mod@{netcdfparser\+\_\+mod}!printvarsnc@{printvarsnc}}
@@ -657,22 +776,22 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 390 of file netcdf\+Parser.\+f90.
+Definition at line 479 of file Net\+C\+D\+Fparser.\+f90.
 
 
 \begin{DoxyCode}
-390     \textcolor{keywordtype}{class}(var\_t), \textcolor{keywordtype}{intent(inout)} :: self
-391     \textcolor{keywordtype}{type}(string) :: outext, temp
-392     \textcolor{keywordtype}{integer} :: i
-393     outext = \textcolor{stringliteral}{'--->Variable: '}// self%name //new\_line(\textcolor{stringliteral}{'a'})
-394     temp = self%varid
-395     outext = outext//\textcolor{stringliteral}{'       varid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
-396     outext = outext//\textcolor{stringliteral}{'       units = '}//self%units//new\_line(\textcolor{stringliteral}{'a'})
-397     temp = self%dimids(1)
-398     outext = outext//\textcolor{stringliteral}{'       dimids = '}//temp
-399     \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(self%dimids)
-400         temp = self%dimids(i)
-401         outext = outext//\textcolor{stringliteral}{', '}//temp
-402 \textcolor{keywordflow}{    end do}
-403     \textcolor{keyword}{call }log%put(outext,.false.)
+479     \textcolor{keywordtype}{class}(var\_t), \textcolor{keywordtype}{intent(inout)} :: self
+480     \textcolor{keywordtype}{type}(string) :: outext, temp
+481     \textcolor{keywordtype}{integer} :: i
+482     outext = \textcolor{stringliteral}{'--->Variable: '}// self%name //new\_line(\textcolor{stringliteral}{'a'})
+483     temp = self%varid
+484     outext = outext//\textcolor{stringliteral}{'       varid = '}//temp//new\_line(\textcolor{stringliteral}{'a'})
+485     outext = outext//\textcolor{stringliteral}{'       units = '}//self%units//new\_line(\textcolor{stringliteral}{'a'})
+486     temp = self%dimids(1)
+487     outext = outext//\textcolor{stringliteral}{'       dimids = '}//temp
+488     \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(self%dimids)
+489         temp = self%dimids(i)
+490         outext = outext//\textcolor{stringliteral}{', '}//temp
+491 \textcolor{keywordflow}{    end do}
+492     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}

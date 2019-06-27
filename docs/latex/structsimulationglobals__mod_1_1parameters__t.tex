@@ -2,13 +2,8 @@
 \label{structsimulationglobals__mod_1_1parameters__t}\index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
 
 
-Collaboration diagram for simulationglobals\+\_\+mod\+:\+:parameters\+\_\+t\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=196pt]{structsimulationglobals__mod_1_1parameters__t__coll__graph}
-\end{center}
-\end{figure}
+Collaboration diagram for simulationglobals\+\_\+mod\+:\+:parameters\+\_\+t\+:
+% FIG 0
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -33,18 +28,18 @@ real(prec) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_acab47
 \begin{DoxyCompactList}\small\item\em Time to freeze the tracers at simulation start (warmup) (s) (default=0.\+0) \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a196b29045b2a76de4a1a0efd8c587838}{timemax}} = MV
 \begin{DoxyCompactList}\small\item\em Simulation duration (s) \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a2be629afbb5291d0e8933c35dfb1f021}{timeout}} = MV
-\begin{DoxyCompactList}\small\item\em Time out data (1/\+Hz) \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a283fe10ad9daf8ffe2ca526ee990daa9}{outputwritetime}} = MV
+\begin{DoxyCompactList}\small\item\em Output write time (1/\+Hz) \end{DoxyCompactList}\item 
 type(datetime) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a204cdccb6f9cd2fa137210a7f28f676d}{starttime}}
 \begin{DoxyCompactList}\small\item\em Start date of the simulation. \end{DoxyCompactList}\item 
 type(datetime) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a2fcf43eac4c8f57debf9f35d90a121f6}{endtime}}
 \begin{DoxyCompactList}\small\item\em End date of the simulation. \end{DoxyCompactList}\item 
 type(datetime) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a1bededd2546224cb5b4ebb290105a078}{basedatetime}}
 \begin{DoxyCompactList}\small\item\em Base date for time stamping results. \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a897b2f6d34ecad28a7ceb45c1dcb8dfd}{buffersize}}
+\begin{DoxyCompactList}\small\item\em Controls the frequency of consumption and ammout of input data kept in memory. \end{DoxyCompactList}\item 
 integer \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a455601cb209772820789bdfd696628d2}{outputformat}} = 2
 \begin{DoxyCompactList}\small\item\em Format of the output files (default=2) Net\+C\+DF=1, V\+TK=2. \end{DoxyCompactList}\item 
-integer \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_af0d2d59bffc7e5b03b30c6a3ff038a83}{inputformat}} = 1
-\begin{DoxyCompactList}\small\item\em Format of the Input files (default=1) Net\+C\+DF=1, V\+TK=2. \end{DoxyCompactList}\item 
 integer, dimension(2) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_ac4e90208e4fb5c5fc0a673b03fc908d7}{outputformatindexes}}
 \begin{DoxyCompactList}\small\item\em Index list for the output file format selector. \end{DoxyCompactList}\item 
 type(string), dimension(2) \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t_a75f99aae482ed1092b84b5bbff494d99}{outputformatnames}}
@@ -110,6 +105,24 @@ Definition at line 56 of file simulation\+Globals.\+f90.
 \begin{DoxyCode}
 56         \textcolor{keywordtype}{type}(datetime)  :: BaseDateTime
 \end{DoxyCode}
+\mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_a897b2f6d34ecad28a7ceb45c1dcb8dfd}\label{structsimulationglobals__mod_1_1parameters__t_a897b2f6d34ecad28a7ceb45c1dcb8dfd}} 
+\index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!buffersize@{buffersize}}
+\index{buffersize@{buffersize}!simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
+\subsubsection{\texorpdfstring{buffersize}{buffersize}}
+{\footnotesize\ttfamily real(prec) simulationglobals\+\_\+mod\+::parameters\+\_\+t\+::buffersize\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Controls the frequency of consumption and ammout of input data kept in memory. 
+
+
+
+Definition at line 57 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+57         \textcolor{keywordtype}{real(prec)}      :: BufferSize
+\end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_a2fcf43eac4c8f57debf9f35d90a121f6}\label{structsimulationglobals__mod_1_1parameters__t_a2fcf43eac4c8f57debf9f35d90a121f6}} 
 \index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!endtime@{endtime}}
 \index{endtime@{endtime}!simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
@@ -127,24 +140,6 @@ Definition at line 55 of file simulation\+Globals.\+f90.
 
 \begin{DoxyCode}
 55         \textcolor{keywordtype}{type}(datetime)  :: EndTime
-\end{DoxyCode}
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_af0d2d59bffc7e5b03b30c6a3ff038a83}\label{structsimulationglobals__mod_1_1parameters__t_af0d2d59bffc7e5b03b30c6a3ff038a83}} 
-\index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!inputformat@{inputformat}}
-\index{inputformat@{inputformat}!simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
-\subsubsection{\texorpdfstring{inputformat}{inputformat}}
-{\footnotesize\ttfamily integer simulationglobals\+\_\+mod\+::parameters\+\_\+t\+::inputformat = 1\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Format of the Input files (default=1) Net\+C\+DF=1, V\+TK=2. 
-
-
-
-Definition at line 58 of file simulation\+Globals.\+f90.
-
-
-\begin{DoxyCode}
-58         \textcolor{keywordtype}{integer}         :: InputFormat = 1
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_a1489379b1bb839280c0715470250c9f5}\label{structsimulationglobals__mod_1_1parameters__t_a1489379b1bb839280c0715470250c9f5}} 
 \index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!integrator@{integrator}}
@@ -230,11 +225,11 @@ Format of the output files (default=2) Net\+C\+DF=1, V\+TK=2.
 
 
 
-Definition at line 57 of file simulation\+Globals.\+f90.
+Definition at line 58 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-57         \textcolor{keywordtype}{integer}         :: OutputFormat = 2
+58         \textcolor{keywordtype}{integer}         :: OutputFormat = 2
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_ac4e90208e4fb5c5fc0a673b03fc908d7}\label{structsimulationglobals__mod_1_1parameters__t_ac4e90208e4fb5c5fc0a673b03fc908d7}} 
 \index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!outputformatindexes@{outputformatindexes}}
@@ -272,6 +267,24 @@ Definition at line 60 of file simulation\+Globals.\+f90.
 \begin{DoxyCode}
 60         \textcolor{keywordtype}{type}(string)    :: OutputFormatNames(2)
 \end{DoxyCode}
+\mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_a283fe10ad9daf8ffe2ca526ee990daa9}\label{structsimulationglobals__mod_1_1parameters__t_a283fe10ad9daf8ffe2ca526ee990daa9}} 
+\index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!outputwritetime@{outputwritetime}}
+\index{outputwritetime@{outputwritetime}!simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
+\subsubsection{\texorpdfstring{outputwritetime}{outputwritetime}}
+{\footnotesize\ttfamily real(prec) simulationglobals\+\_\+mod\+::parameters\+\_\+t\+::outputwritetime = MV\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Output write time (1/\+Hz) 
+
+
+
+Definition at line 53 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+53         \textcolor{keywordtype}{real(prec)}      :: OutputWriteTime = mv              
+\end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_a204cdccb6f9cd2fa137210a7f28f676d}\label{structsimulationglobals__mod_1_1parameters__t_a204cdccb6f9cd2fa137210a7f28f676d}} 
 \index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!starttime@{starttime}}
 \index{starttime@{starttime}!simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
@@ -307,24 +320,6 @@ Definition at line 52 of file simulation\+Globals.\+f90.
 
 \begin{DoxyCode}
 52         \textcolor{keywordtype}{real(prec)}      :: TimeMax = mv              
-\end{DoxyCode}
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_a2be629afbb5291d0e8933c35dfb1f021}\label{structsimulationglobals__mod_1_1parameters__t_a2be629afbb5291d0e8933c35dfb1f021}} 
-\index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!timeout@{timeout}}
-\index{timeout@{timeout}!simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}}
-\subsubsection{\texorpdfstring{timeout}{timeout}}
-{\footnotesize\ttfamily real(prec) simulationglobals\+\_\+mod\+::parameters\+\_\+t\+::timeout = MV\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Time out data (1/\+Hz) 
-
-
-
-Definition at line 53 of file simulation\+Globals.\+f90.
-
-
-\begin{DoxyCode}
-53         \textcolor{keywordtype}{real(prec)}      :: TimeOut = mv              
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1parameters__t_acab4746165c72ab2947c178c95c1c577}\label{structsimulationglobals__mod_1_1parameters__t_acab4746165c72ab2947c178c95c1c577}} 
 \index{simulationglobals\+\_\+mod\+::parameters\+\_\+t@{simulationglobals\+\_\+mod\+::parameters\+\_\+t}!warmuptime@{warmuptime}}

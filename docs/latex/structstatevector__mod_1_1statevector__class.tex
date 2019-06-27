@@ -1,0 +1,190 @@
+\hypertarget{structstatevector__mod_1_1statevector__class}{}\section{statevector\+\_\+mod\+:\+:statevector\+\_\+class Type Reference}
+\label{structstatevector__mod_1_1statevector__class}\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+
+
+Collaboration diagram for statevector\+\_\+mod\+:\+:statevector\+\_\+class\+:
+% FIG 0
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a2e50a7dc4a09d1319aef60d94dec4a25}{totracers}}
+\item 
+procedure \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_ae4fb91ef1a88cb853f28fc6fcc2eba6f}{finalize}} =$>$ clean\+State
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+integer \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a01e7628eb9959749a93b74a5bb21754c}{ttype}}
+\item 
+type(\mbox{\hyperlink{structstatevector__mod_1_1trcptr__class}{trcptr\+\_\+class}}), dimension(\+:), allocatable \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a510497a5645951832de30b8fd89a1d33}{trc}}
+\begin{DoxyCompactList}\small\item\em pointer to the Tracer \end{DoxyCompactList}\item 
+real(prec), dimension(\+:,\+:), allocatable \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a2934e9cc937ca318cbbe490dd391cf88}{state}}
+\item 
+integer, dimension(\+:), allocatable \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a1f66ab3f23eaa6cc8b4fd182d557fef8}{landmask}}
+\item 
+integer, dimension(\+:), allocatable \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_ab6552971ecfec71ee3729c6e172c9bb8}{landintmask}}
+\item 
+integer, dimension(\+:), allocatable \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a26d6d27fd085846016d83c6e38781416}{source}}
+\item 
+integer, dimension(\+:), allocatable \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_ae5b035e5a520de4f55c4b5ba6017f82c}{id}}
+\item 
+logical, dimension(\+:), allocatable \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a78ff040c3a087975ea448f9d1f7d7e1f}{active}}
+\item 
+integer \mbox{\hyperlink{structstatevector__mod_1_1statevector__class_a7cdf76beffd46644d2ebe4fff6b50b2e}{idx}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 35 of file state\+Vector.\+f90.
+
+
+
+\subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_ae4fb91ef1a88cb853f28fc6fcc2eba6f}\label{structstatevector__mod_1_1statevector__class_ae4fb91ef1a88cb853f28fc6fcc2eba6f}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!finalize@{finalize}}
+\index{finalize@{finalize}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily procedure statevector\+\_\+mod\+::statevector\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 44 of file state\+Vector.\+f90.
+
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a2e50a7dc4a09d1319aef60d94dec4a25}\label{structstatevector__mod_1_1statevector__class_a2e50a7dc4a09d1319aef60d94dec4a25}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!totracers@{totracers}}
+\index{totracers@{totracers}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{totracers()}{totracers()}}
+{\footnotesize\ttfamily procedure statevector\+\_\+mod\+::statevector\+\_\+class\+::totracers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 43 of file state\+Vector.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a78ff040c3a087975ea448f9d1f7d7e1f}\label{structstatevector__mod_1_1statevector__class_a78ff040c3a087975ea448f9d1f7d7e1f}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!active@{active}}
+\index{active@{active}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{active}{active}}
+{\footnotesize\ttfamily logical, dimension(\+:), allocatable statevector\+\_\+mod\+::statevector\+\_\+class\+::active\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 40 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+40         \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: active
+\end{DoxyCode}
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_ae5b035e5a520de4f55c4b5ba6017f82c}\label{structstatevector__mod_1_1statevector__class_ae5b035e5a520de4f55c4b5ba6017f82c}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!id@{id}}
+\index{id@{id}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily integer, dimension(\+:), allocatable statevector\+\_\+mod\+::statevector\+\_\+class\+::id\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file state\+Vector.\+f90.
+
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a7cdf76beffd46644d2ebe4fff6b50b2e}\label{structstatevector__mod_1_1statevector__class_a7cdf76beffd46644d2ebe4fff6b50b2e}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!idx@{idx}}
+\index{idx@{idx}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{idx}{idx}}
+{\footnotesize\ttfamily integer statevector\+\_\+mod\+::statevector\+\_\+class\+::idx\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+41         \textcolor{keywordtype}{integer} :: idx
+\end{DoxyCode}
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_ab6552971ecfec71ee3729c6e172c9bb8}\label{structstatevector__mod_1_1statevector__class_ab6552971ecfec71ee3729c6e172c9bb8}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!landintmask@{landintmask}}
+\index{landintmask@{landintmask}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{landintmask}{landintmask}}
+{\footnotesize\ttfamily integer, dimension(\+:), allocatable statevector\+\_\+mod\+::statevector\+\_\+class\+::landintmask\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file state\+Vector.\+f90.
+
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a1f66ab3f23eaa6cc8b4fd182d557fef8}\label{structstatevector__mod_1_1statevector__class_a1f66ab3f23eaa6cc8b4fd182d557fef8}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!landmask@{landmask}}
+\index{landmask@{landmask}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{landmask}{landmask}}
+{\footnotesize\ttfamily integer, dimension(\+:), allocatable statevector\+\_\+mod\+::statevector\+\_\+class\+::landmask\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+39         \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: landMask, landIntMask, source, id
+\end{DoxyCode}
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a26d6d27fd085846016d83c6e38781416}\label{structstatevector__mod_1_1statevector__class_a26d6d27fd085846016d83c6e38781416}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!source@{source}}
+\index{source@{source}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{source}{source}}
+{\footnotesize\ttfamily integer, dimension(\+:), allocatable statevector\+\_\+mod\+::statevector\+\_\+class\+::source\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file state\+Vector.\+f90.
+
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a2934e9cc937ca318cbbe490dd391cf88}\label{structstatevector__mod_1_1statevector__class_a2934e9cc937ca318cbbe490dd391cf88}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!state@{state}}
+\index{state@{state}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily real(prec), dimension(\+:,\+:), allocatable statevector\+\_\+mod\+::statevector\+\_\+class\+::state\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 38 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+38         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: state
+\end{DoxyCode}
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a510497a5645951832de30b8fd89a1d33}\label{structstatevector__mod_1_1statevector__class_a510497a5645951832de30b8fd89a1d33}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!trc@{trc}}
+\index{trc@{trc}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{trc}{trc}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structstatevector__mod_1_1trcptr__class}{trcptr\+\_\+class}}), dimension(\+:), allocatable statevector\+\_\+mod\+::statevector\+\_\+class\+::trc\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+pointer to the Tracer 
+
+
+
+Definition at line 37 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+37         \textcolor{keywordtype}{type}(trcPtr\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: trc
+\end{DoxyCode}
+\mbox{\Hypertarget{structstatevector__mod_1_1statevector__class_a01e7628eb9959749a93b74a5bb21754c}\label{structstatevector__mod_1_1statevector__class_a01e7628eb9959749a93b74a5bb21754c}} 
+\index{statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}!ttype@{ttype}}
+\index{ttype@{ttype}!statevector\+\_\+mod\+::statevector\+\_\+class@{statevector\+\_\+mod\+::statevector\+\_\+class}}
+\subsubsection{\texorpdfstring{ttype}{ttype}}
+{\footnotesize\ttfamily integer statevector\+\_\+mod\+::statevector\+\_\+class\+::ttype\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 36 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+36         \textcolor{keywordtype}{integer} :: ttype
+\end{DoxyCode}
+
+
+The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Lib/\mbox{\hyperlink{state_vector_8f90}{state\+Vector.\+f90}}\end{DoxyCompactItemize}

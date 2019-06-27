@@ -1,0 +1,218 @@
+\hypertarget{classnc_meta_parser_1_1nc_metadata}{}\section{nc\+Meta\+Parser.\+nc\+Metadata Class Reference}
+\label{classnc_meta_parser_1_1nc_metadata}\index{nc\+Meta\+Parser.\+nc\+Metadata@{nc\+Meta\+Parser.\+nc\+Metadata}}
+
+
+Collaboration diagram for nc\+Meta\+Parser.\+nc\+Metadata\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_aa36a1deb53cfbaee8976287877fa20fb}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_a119acc5dbb77f035d27533b6fbe4a8c1}{file\+Name}}, base\+Time)
+\item 
+def \mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_ac262e3bca9dc97d7d55056a1931e6d1e}{get\+Name}} (self)
+\item 
+def \mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_afe2e767476347158c9359cc8c5afef21}{getstart\+Time}} (self)
+\item 
+def \mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_ad41081000ceb1f7aa122d5e4a1b674e4}{getend\+Time}} (self)
+\item 
+def \mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_a79b7ca324dcadb2f56066db1c663794a}{getstart\+Date}} (self)
+\item 
+def \mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_aea9c594ebe892b650ef724bdb73820e4}{getend\+Date}} (self)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_a119acc5dbb77f035d27533b6fbe4a8c1}{file\+Name}}
+\item 
+\mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_a52732ba284ca71b97931e928235fd36d}{start\+Time}}
+\item 
+\mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_ad84ec881e775ad4d096d41bd02847200}{end\+Time}}
+\item 
+\mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_abd8cbd92387417d12f948203e93c0946}{start\+Date}}
+\item 
+\mbox{\hyperlink{classnc_meta_parser_1_1nc_metadata_a846e0f0facf648d895d69b869a6e1fb0}{end\+Date}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 28 of file nc\+Meta\+Parser.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_aa36a1deb53cfbaee8976287877fa20fb}\label{classnc_meta_parser_1_1nc_metadata_aa36a1deb53cfbaee8976287877fa20fb}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def nc\+Meta\+Parser.\+nc\+Metadata.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{file\+Name,  }\item[{}]{base\+Time }\end{DoxyParamCaption})}
+
+
+
+Definition at line 29 of file nc\+Meta\+Parser.\+py.
+
+
+\begin{DoxyCode}
+29     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_a0b43f6115153b244e10d1933ee33500a}{\_\_init\_\_}}(self, fileName, baseTime):
+30         self.fileName = []
+31         self.startTime = []
+32         self.endTime = []
+33         self.startDate = []
+34         self.endDate = []
+35         
+36         self.fileName = fileName        
+37         ds = xr.open\_dataset(self.fileName)
+38         tMin = ds.time.min()
+39         tMax = ds.time.max()
+40         self.startDate = datetime(tMin.dt.year, tMin.dt.month, tMin.dt.day, tMin.dt.hour, tMin.dt.minute, 
+      tMin.dt.second)
+41         self.endDate = datetime(tMax.dt.year, tMax.dt.month, tMax.dt.day, tMax.dt.hour, tMax.dt.minute, 
+      tMax.dt.second)
+42         self.startTime = (self.startDate - baseTime).total\_seconds()
+43         self.endTime = (self.endDate - baseTime).total\_seconds()
+44         
+45         ds.close
+46         
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_aea9c594ebe892b650ef724bdb73820e4}\label{classnc_meta_parser_1_1nc_metadata_aea9c594ebe892b650ef724bdb73820e4}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!getend\+Date@{getend\+Date}}
+\index{getend\+Date@{getend\+Date}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{getend\+Date()}{getendDate()}}
+{\footnotesize\ttfamily def nc\+Meta\+Parser.\+nc\+Metadata.\+getend\+Date (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 59 of file nc\+Meta\+Parser.\+py.
+
+
+\begin{DoxyCode}
+59     \textcolor{keyword}{def }getendDate(self):
+60         \textcolor{keywordflow}{return} self.endDate
+61         
+\end{DoxyCode}
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_ad41081000ceb1f7aa122d5e4a1b674e4}\label{classnc_meta_parser_1_1nc_metadata_ad41081000ceb1f7aa122d5e4a1b674e4}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!getend\+Time@{getend\+Time}}
+\index{getend\+Time@{getend\+Time}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{getend\+Time()}{getendTime()}}
+{\footnotesize\ttfamily def nc\+Meta\+Parser.\+nc\+Metadata.\+getend\+Time (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 53 of file nc\+Meta\+Parser.\+py.
+
+
+\begin{DoxyCode}
+53     \textcolor{keyword}{def }getendTime(self):
+54         \textcolor{keywordflow}{return} self.endTime
+55         
+\end{DoxyCode}
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_ac262e3bca9dc97d7d55056a1931e6d1e}\label{classnc_meta_parser_1_1nc_metadata_ac262e3bca9dc97d7d55056a1931e6d1e}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily def nc\+Meta\+Parser.\+nc\+Metadata.\+get\+Name (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 47 of file nc\+Meta\+Parser.\+py.
+
+
+\begin{DoxyCode}
+47     \textcolor{keyword}{def }getName(self):
+48         \textcolor{keywordflow}{return} self.fileName
+49     
+\end{DoxyCode}
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_a79b7ca324dcadb2f56066db1c663794a}\label{classnc_meta_parser_1_1nc_metadata_a79b7ca324dcadb2f56066db1c663794a}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!getstart\+Date@{getstart\+Date}}
+\index{getstart\+Date@{getstart\+Date}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{getstart\+Date()}{getstartDate()}}
+{\footnotesize\ttfamily def nc\+Meta\+Parser.\+nc\+Metadata.\+getstart\+Date (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 56 of file nc\+Meta\+Parser.\+py.
+
+
+\begin{DoxyCode}
+56     \textcolor{keyword}{def }getstartDate(self):
+57         \textcolor{keywordflow}{return} self.startDate
+58     
+\end{DoxyCode}
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_afe2e767476347158c9359cc8c5afef21}\label{classnc_meta_parser_1_1nc_metadata_afe2e767476347158c9359cc8c5afef21}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!getstart\+Time@{getstart\+Time}}
+\index{getstart\+Time@{getstart\+Time}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{getstart\+Time()}{getstartTime()}}
+{\footnotesize\ttfamily def nc\+Meta\+Parser.\+nc\+Metadata.\+getstart\+Time (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 50 of file nc\+Meta\+Parser.\+py.
+
+
+\begin{DoxyCode}
+50     \textcolor{keyword}{def }getstartTime(self):
+51         \textcolor{keywordflow}{return} self.startTime
+52     
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_a846e0f0facf648d895d69b869a6e1fb0}\label{classnc_meta_parser_1_1nc_metadata_a846e0f0facf648d895d69b869a6e1fb0}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!end\+Date@{end\+Date}}
+\index{end\+Date@{end\+Date}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{end\+Date}{endDate}}
+{\footnotesize\ttfamily nc\+Meta\+Parser.\+nc\+Metadata.\+end\+Date}
+
+
+
+Definition at line 34 of file nc\+Meta\+Parser.\+py.
+
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_ad84ec881e775ad4d096d41bd02847200}\label{classnc_meta_parser_1_1nc_metadata_ad84ec881e775ad4d096d41bd02847200}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!end\+Time@{end\+Time}}
+\index{end\+Time@{end\+Time}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{end\+Time}{endTime}}
+{\footnotesize\ttfamily nc\+Meta\+Parser.\+nc\+Metadata.\+end\+Time}
+
+
+
+Definition at line 32 of file nc\+Meta\+Parser.\+py.
+
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_a119acc5dbb77f035d27533b6fbe4a8c1}\label{classnc_meta_parser_1_1nc_metadata_a119acc5dbb77f035d27533b6fbe4a8c1}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!file\+Name@{file\+Name}}
+\index{file\+Name@{file\+Name}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{file\+Name}{fileName}}
+{\footnotesize\ttfamily nc\+Meta\+Parser.\+nc\+Metadata.\+file\+Name}
+
+
+
+Definition at line 30 of file nc\+Meta\+Parser.\+py.
+
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_abd8cbd92387417d12f948203e93c0946}\label{classnc_meta_parser_1_1nc_metadata_abd8cbd92387417d12f948203e93c0946}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!start\+Date@{start\+Date}}
+\index{start\+Date@{start\+Date}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{start\+Date}{startDate}}
+{\footnotesize\ttfamily nc\+Meta\+Parser.\+nc\+Metadata.\+start\+Date}
+
+
+
+Definition at line 33 of file nc\+Meta\+Parser.\+py.
+
+\mbox{\Hypertarget{classnc_meta_parser_1_1nc_metadata_a52732ba284ca71b97931e928235fd36d}\label{classnc_meta_parser_1_1nc_metadata_a52732ba284ca71b97931e928235fd36d}} 
+\index{nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}!start\+Time@{start\+Time}}
+\index{start\+Time@{start\+Time}!nc\+Meta\+Parser\+::nc\+Metadata@{nc\+Meta\+Parser\+::nc\+Metadata}}
+\subsubsection{\texorpdfstring{start\+Time}{startTime}}
+{\footnotesize\ttfamily nc\+Meta\+Parser.\+nc\+Metadata.\+start\+Time}
+
+
+
+Definition at line 31 of file nc\+Meta\+Parser.\+py.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor/\mbox{\hyperlink{nc_meta_parser_8py}{nc\+Meta\+Parser.\+py}}\end{DoxyCompactItemize}

@@ -2,13 +2,8 @@
 \label{structutilities__mod_1_1utils__class}\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
 
 
-Collaboration diagram for utilities\+\_\+mod\+:\+:utils\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=196pt]{structutilities__mod_1_1utils__class__coll__graph}
-\end{center}
-\end{figure}
+Collaboration diagram for utilities\+\_\+mod\+:\+:utils\+\_\+class\+:
+% FIG 0
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -16,7 +11,11 @@ procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_af2c6e40cca9f6f6
 \item 
 procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_a70fcd702c2e81aaf574c3e031b7b0fef}{find\+\_\+str}}
 \item 
-procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_a5a63468b29d7fbd5f0549b5ef4cc5577}{geo2m}}
+procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_a37ba4d9fc1c6ef99561627f05c82cf7e}{geo2m\+\_\+vec}}
+\item 
+\mbox{\hyperlink{structutilities__mod_1_1utils__class_ab41bb5a8810e938810f0d08c42c312c9}{geo2m\+\_\+comp}}
+\item 
+generic \mbox{\hyperlink{structutilities__mod_1_1utils__class_abe6b57e722392dec127bb426c9b0e41f}{geo2m}} =$>$ \mbox{\hyperlink{structutilities__mod_1_1utils__class_a37ba4d9fc1c6ef99561627f05c82cf7e}{geo2m\+\_\+vec}}, \mbox{\hyperlink{structutilities__mod_1_1utils__class_ab41bb5a8810e938810f0d08c42c312c9}{geo2m\+\_\+comp}}
 \item 
 procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_a8319bf9d14dd225be0f30f5e0c1f04e3}{m2geo\+\_\+vec}}
 \item 
@@ -26,7 +25,17 @@ generic \mbox{\hyperlink{structutilities__mod_1_1utils__class_a345230eb5aac79b78
 \item 
 procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_ae3a7fea394d64f5f4592504841b07777}{int2str}}
 \item 
+procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_a150e3763affd525139f135d6cbbca026}{real2str}}
+\item 
 procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_a2fa5e32b744821f0c74e30aeb99e1e2b}{get\+\_\+closest\+\_\+twopow}}
+\item 
+procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_aac36fc53d19b8bd8c37a2dfcf74f1fcc}{isboundedsingle}}
+\item 
+\mbox{\hyperlink{structutilities__mod_1_1utils__class_ae513529301733a624bcb1e984131edcd}{isboundedarray}}
+\item 
+generic \mbox{\hyperlink{structutilities__mod_1_1utils__class_acd0be828aa3a873c635cb9742ef06b13}{isbounded}} =$>$ is\+Bounded\+Single, is\+Bounded\+Array
+\item 
+procedure \mbox{\hyperlink{structutilities__mod_1_1utils__class_aeb0f0bfbea1b5a1d1dc5ed88abd272fb}{appendarraysuniquereal}}
 \end{DoxyCompactItemize}
 
 
@@ -38,6 +47,16 @@ Definition at line 30 of file utilities.\+f90.
 
 
 \subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_aeb0f0bfbea1b5a1d1dc5ed88abd272fb}\label{structutilities__mod_1_1utils__class_aeb0f0bfbea1b5a1d1dc5ed88abd272fb}} 
+\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!appendarraysuniquereal@{appendarraysuniquereal}}
+\index{appendarraysuniquereal@{appendarraysuniquereal}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
+\subsubsection{\texorpdfstring{appendarraysuniquereal()}{appendarraysuniquereal()}}
+{\footnotesize\ttfamily procedure utilities\+\_\+mod\+::utils\+\_\+class\+::appendarraysuniquereal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 43 of file utilities.\+f90.
+
 \mbox{\Hypertarget{structutilities__mod_1_1utils__class_a70fcd702c2e81aaf574c3e031b7b0fef}\label{structutilities__mod_1_1utils__class_a70fcd702c2e81aaf574c3e031b7b0fef}} 
 \index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!find\+\_\+str@{find\+\_\+str}}
 \index{find\+\_\+str@{find\+\_\+str}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
@@ -48,11 +67,33 @@ Definition at line 30 of file utilities.\+f90.
 
 Definition at line 33 of file utilities.\+f90.
 
-\mbox{\Hypertarget{structutilities__mod_1_1utils__class_a5a63468b29d7fbd5f0549b5ef4cc5577}\label{structutilities__mod_1_1utils__class_a5a63468b29d7fbd5f0549b5ef4cc5577}} 
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_abe6b57e722392dec127bb426c9b0e41f}\label{structutilities__mod_1_1utils__class_abe6b57e722392dec127bb426c9b0e41f}} 
 \index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!geo2m@{geo2m}}
 \index{geo2m@{geo2m}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
 \subsubsection{\texorpdfstring{geo2m()}{geo2m()}}
-{\footnotesize\ttfamily procedure utilities\+\_\+mod\+::utils\+\_\+class\+::geo2m (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily generic utilities\+\_\+mod\+::utils\+\_\+class\+::geo2m (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 35 of file utilities.\+f90.
+
+Here is the call graph for this function\+:
+% FIG 1
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_ab41bb5a8810e938810f0d08c42c312c9}\label{structutilities__mod_1_1utils__class_ab41bb5a8810e938810f0d08c42c312c9}} 
+\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!geo2m\+\_\+comp@{geo2m\+\_\+comp}}
+\index{geo2m\+\_\+comp@{geo2m\+\_\+comp}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
+\subsubsection{\texorpdfstring{geo2m\+\_\+comp()}{geo2m\_comp()}}
+{\footnotesize\ttfamily utilities\+\_\+mod\+::utils\+\_\+class\+::geo2m\+\_\+comp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 34 of file utilities.\+f90.
+
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_a37ba4d9fc1c6ef99561627f05c82cf7e}\label{structutilities__mod_1_1utils__class_a37ba4d9fc1c6ef99561627f05c82cf7e}} 
+\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!geo2m\+\_\+vec@{geo2m\+\_\+vec}}
+\index{geo2m\+\_\+vec@{geo2m\+\_\+vec}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
+\subsubsection{\texorpdfstring{geo2m\+\_\+vec()}{geo2m\_vec()}}
+{\footnotesize\ttfamily procedure utilities\+\_\+mod\+::utils\+\_\+class\+::geo2m\+\_\+vec (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -66,7 +107,7 @@ Definition at line 34 of file utilities.\+f90.
 
 
 
-Definition at line 38 of file utilities.\+f90.
+Definition at line 40 of file utilities.\+f90.
 
 \mbox{\Hypertarget{structutilities__mod_1_1utils__class_af2c6e40cca9f6f643105eef0c16f09aa}\label{structutilities__mod_1_1utils__class_af2c6e40cca9f6f643105eef0c16f09aa}} 
 \index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!getdatefromisostring@{getdatefromisostring}}
@@ -86,7 +127,39 @@ Definition at line 32 of file utilities.\+f90.
 
 
 
-Definition at line 37 of file utilities.\+f90.
+Definition at line 38 of file utilities.\+f90.
+
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_acd0be828aa3a873c635cb9742ef06b13}\label{structutilities__mod_1_1utils__class_acd0be828aa3a873c635cb9742ef06b13}} 
+\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!isbounded@{isbounded}}
+\index{isbounded@{isbounded}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
+\subsubsection{\texorpdfstring{isbounded()}{isbounded()}}
+{\footnotesize\ttfamily generic utilities\+\_\+mod\+::utils\+\_\+class\+::isbounded (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 42 of file utilities.\+f90.
+
+Here is the call graph for this function\+:
+% FIG 2
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_ae513529301733a624bcb1e984131edcd}\label{structutilities__mod_1_1utils__class_ae513529301733a624bcb1e984131edcd}} 
+\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!isboundedarray@{isboundedarray}}
+\index{isboundedarray@{isboundedarray}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
+\subsubsection{\texorpdfstring{isboundedarray()}{isboundedarray()}}
+{\footnotesize\ttfamily utilities\+\_\+mod\+::utils\+\_\+class\+::isboundedarray (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file utilities.\+f90.
+
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_aac36fc53d19b8bd8c37a2dfcf74f1fcc}\label{structutilities__mod_1_1utils__class_aac36fc53d19b8bd8c37a2dfcf74f1fcc}} 
+\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!isboundedsingle@{isboundedsingle}}
+\index{isboundedsingle@{isboundedsingle}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
+\subsubsection{\texorpdfstring{isboundedsingle()}{isboundedsingle()}}
+{\footnotesize\ttfamily procedure utilities\+\_\+mod\+::utils\+\_\+class\+::isboundedsingle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file utilities.\+f90.
 
 \mbox{\Hypertarget{structutilities__mod_1_1utils__class_a345230eb5aac79b78603538f0fd0e36e}\label{structutilities__mod_1_1utils__class_a345230eb5aac79b78603538f0fd0e36e}} 
 \index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!m2geo@{m2geo}}
@@ -96,15 +169,10 @@ Definition at line 37 of file utilities.\+f90.
 
 
 
-Definition at line 36 of file utilities.\+f90.
+Definition at line 37 of file utilities.\+f90.
 
-Here is the call graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=347pt]{structutilities__mod_1_1utils__class_a345230eb5aac79b78603538f0fd0e36e_cgraph}
-\end{center}
-\end{figure}
+Here is the call graph for this function\+:
+% FIG 3
 \mbox{\Hypertarget{structutilities__mod_1_1utils__class_a8cceeee65240f821428cd4dc65fd5fa0}\label{structutilities__mod_1_1utils__class_a8cceeee65240f821428cd4dc65fd5fa0}} 
 \index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!m2geo\+\_\+comp@{m2geo\+\_\+comp}}
 \index{m2geo\+\_\+comp@{m2geo\+\_\+comp}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
@@ -113,7 +181,7 @@ Here is the call graph for this function\+:\nopagebreak
 
 
 
-Definition at line 35 of file utilities.\+f90.
+Definition at line 36 of file utilities.\+f90.
 
 \mbox{\Hypertarget{structutilities__mod_1_1utils__class_a8319bf9d14dd225be0f30f5e0c1f04e3}\label{structutilities__mod_1_1utils__class_a8319bf9d14dd225be0f30f5e0c1f04e3}} 
 \index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!m2geo\+\_\+vec@{m2geo\+\_\+vec}}
@@ -123,7 +191,17 @@ Definition at line 35 of file utilities.\+f90.
 
 
 
-Definition at line 35 of file utilities.\+f90.
+Definition at line 36 of file utilities.\+f90.
+
+\mbox{\Hypertarget{structutilities__mod_1_1utils__class_a150e3763affd525139f135d6cbbca026}\label{structutilities__mod_1_1utils__class_a150e3763affd525139f135d6cbbca026}} 
+\index{utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}!real2str@{real2str}}
+\index{real2str@{real2str}!utilities\+\_\+mod\+::utils\+\_\+class@{utilities\+\_\+mod\+::utils\+\_\+class}}
+\subsubsection{\texorpdfstring{real2str()}{real2str()}}
+{\footnotesize\ttfamily procedure utilities\+\_\+mod\+::utils\+\_\+class\+::real2str (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file utilities.\+f90.
 
 
 

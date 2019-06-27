@@ -54,14 +54,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 120 of file container.\+f90.
+Definition at line 121 of file container.\+f90.
 
 
 \begin{DoxyCode}
-120     \textcolor{keywordtype}{class}(container), \textcolor{keywordtype}{pointer} :: constructor
-121     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: to\_store
-122     \textcolor{keyword}{allocate}(constructor)
-123     \textcolor{keyword}{allocate}(constructor%value, source=to\_store)
+121     \textcolor{keywordtype}{class}(container), \textcolor{keywordtype}{pointer} :: constructor
+122     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: to\_store
+123     \textcolor{keyword}{allocate}(constructor)
+124     \textcolor{keyword}{allocate}(constructor%value, source=to\_store)
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -90,7 +90,8 @@ Definition at line 74 of file container.\+f90.
 
 \begin{DoxyCode}
 74     \textcolor{keywordtype}{class}(container), \textcolor{keywordtype}{intent(inout)} :: this    
-75     \textcolor{keyword}{deallocate}(this%value)
+75     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(this%value)) \textcolor{keyword}{deallocate}(this%value)
+76     \textcolor{keyword}{nullify}(this%value)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacecontainer__mod_a23a016e747d896622127c0c21dca9836}\label{namespacecontainer__mod_a23a016e747d896622127c0c21dca9836}} 
 \index{container\+\_\+mod@{container\+\_\+mod}!getcontent@{getcontent}}
@@ -140,21 +141,21 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 99 of file container.\+f90.
+Definition at line 100 of file container.\+f90.
 
 
 \begin{DoxyCode}
-99     \textcolor{keywordtype}{class}(container), \textcolor{keywordtype}{intent(in)} :: this
-100     \textcolor{keywordflow}{select type}(v => this%value)
-101 \textcolor{keywordflow}{    type is} (integer)
-102         print *, v
-103 \textcolor{keywordflow}{    type is} (\textcolor{keywordtype}{character}(*))
-104         print *, v(1:1)
-105 \textcolor{keywordflow}{    type is} (real)
-106         print *, v
-107 \textcolor{keywordflow}{        class default}
-108         print*, \textcolor{stringliteral}{"[printContainer]: don't know how to print this value, ignoring"}
-109 \textcolor{keywordflow}{    end select}
+100     \textcolor{keywordtype}{class}(container), \textcolor{keywordtype}{intent(in)} :: this
+101     \textcolor{keywordflow}{select type}(v => this%value)
+102 \textcolor{keywordflow}{    type is} (integer)
+103         print *, v
+104 \textcolor{keywordflow}{    type is} (\textcolor{keywordtype}{character}(*))
+105         print *, v(1:1)
+106 \textcolor{keywordflow}{    type is} (real)
+107         print *, v
+108 \textcolor{keywordflow}{        class default}
+109         print*, \textcolor{stringliteral}{"[printContainer]: don't know how to print this value, ignoring"}
+110 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacecontainer__mod_ace49cee012b6cd3c41c03556ab0dd884}\label{namespacecontainer__mod_ace49cee012b6cd3c41c03556ab0dd884}} 
 \index{container\+\_\+mod@{container\+\_\+mod}!storecontent@{storecontent}}
@@ -176,11 +177,11 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 86 of file container.\+f90.
+Definition at line 87 of file container.\+f90.
 
 
 \begin{DoxyCode}
-86     \textcolor{keywordtype}{class}(container), \textcolor{keywordtype}{intent(inout)} :: this
-87     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: to\_store
-88     \textcolor{keyword}{allocate}(this%value, source=to\_store)
+87     \textcolor{keywordtype}{class}(container), \textcolor{keywordtype}{intent(inout)} :: this
+88     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{intent(in)} :: to\_store
+89     \textcolor{keyword}{allocate}(this%value, source=to\_store)
 \end{DoxyCode}

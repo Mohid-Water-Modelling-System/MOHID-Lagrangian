@@ -31,7 +31,8 @@
     contains
     procedure :: getDateFromISOString
     procedure :: find_str
-    procedure :: geo2m
+    procedure :: geo2m_vec, geo2m_comp
+    generic   :: geo2m => geo2m_vec, geo2m_comp
     procedure :: m2geo_vec, m2geo_comp
     generic   :: m2geo => m2geo_vec, m2geo_comp
     procedure :: int2str
@@ -108,7 +109,7 @@
     !> geographical coordinates (lon, lat, z) and a lattitude
     !> @param[in] self, geovec, lat
     !---------------------------------------------------------------------------
-    type(vector) function geo2m(self, geovec, lat) result(res)
+    type(vector) function geo2m_vec(self, geovec, lat) result(res)
     class(utils_class), intent(in) :: self
     type(vector), intent(in) :: geovec
     real(prec), intent(in) :: lat
@@ -117,9 +118,33 @@
     R = 6378137 !earth radius in meters
     !pi = 3.1415926
     res = geovec
-    res%x = res%x*R*cos(pi*lat/180.0)
-    res%y = res%y*R
-    end function geo2m
+    res%x = res%x*(R*pi/180.0)*cos(pi*lat/180.0)
+    res%y = res%y*(R*pi/180.0)
+    end function geo2m_vec
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in meters given an array in
+    !> geographical coordinates (lon, lat, z) and a lattitude
+    !> @param[in] self, geovec, lat
+    !---------------------------------------------------------------------------
+    function geo2m_comp(self, geovec, lat, component)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: geovec
+    real(prec), dimension(:), intent(in) :: lat
+    logical, intent(in) :: component
+    real(prec), dimension(size(geovec)) :: geo2m_comp
+    integer :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378137 !earth radius in meters    
+    geo2m_comp = geovec
+    if (component) then
+        geo2m_comp = geo2m_comp*(R*pi/180.0)
+    else
+        geo2m_comp = geo2m_comp*((R*pi/180.0)*cos(pi*lat/180.0))
+    end if
+    end function geo2m_comp
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

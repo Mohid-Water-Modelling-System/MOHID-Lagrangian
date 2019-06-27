@@ -7,8 +7,6 @@ type \mbox{\hyperlink{structtracerbase__mod_1_1tracer__par__class}{tracerbase\+\
 \item 
 type \mbox{\hyperlink{structtracerbase__mod_1_1tracer__state__class}{tracerbase\+\_\+mod\+::tracer\+\_\+state\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ state variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structtracerbase__mod_1_1tracer__stats__class}{tracerbase\+\_\+mod\+::tracer\+\_\+stats\+\_\+class}}
-\begin{DoxyCompactList}\small\item\em Type -\/ statistical variables of a pure Lagrangian tracer object. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structtracerbase__mod_1_1tracer__class}{tracerbase\+\_\+mod\+::tracer\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ The pure Lagrangian tracer class. \end{DoxyCompactList}\item 
 interface \mbox{\hyperlink{interfacetracerbase__mod_1_1tracer}{tracerbase\+\_\+mod\+::tracer}}
@@ -21,6 +19,12 @@ module \mbox{\hyperlink{namespacetracerbase__mod}{tracerbase\+\_\+mod}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+integer function \mbox{\hyperlink{namespacetracerbase__mod_a0be55b393be0846cbbe6be9feb3bb539}{tracerbase\+\_\+mod\+::getnumvars}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the number of variables used by this tracer. \end{DoxyCompactList}\item 
+real(prec) function, dimension(\+:), allocatable \mbox{\hyperlink{namespacetracerbase__mod_adbdd85bd57f1a9debbe7b682099afb1d}{tracerbase\+\_\+mod\+::getstatearray}} (self)
+\begin{DoxyCompactList}\small\item\em Method that returns the state array of this tracer. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacetracerbase__mod_af85802e927b07e777b94375550246c16}{tracerbase\+\_\+mod\+::setstatearray}} (self, state\+Array)
+\begin{DoxyCompactList}\small\item\em Method that sets the state array of this tracer. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacetracerbase__mod_ae320123e374df674769dbd48ba5ef46f}{tracerbase\+\_\+mod\+::printtracer}} (self)
 \begin{DoxyCompactList}\small\item\em Method to print basic info about the Tracer. \end{DoxyCompactList}\item 
 type(tracer\+\_\+class) function \mbox{\hyperlink{namespacetracerbase__mod_aefc12c2007d7598ff9b35733b430a3a2}{tracerbase\+\_\+mod\+::constructor}} (id, src, time, p)

@@ -1,0 +1,198 @@
+\hypertarget{classxml_writer_1_1xml_writer}{}\section{xml\+Writer.\+xml\+Writer Class Reference}
+\label{classxml_writer_1_1xml_writer}\index{xml\+Writer.\+xml\+Writer@{xml\+Writer.\+xml\+Writer}}
+
+
+Collaboration diagram for xml\+Writer.\+xml\+Writer\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classxml_writer_1_1xml_writer_a0b43f6115153b244e10d1933ee33500a}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, file\+Name)
+\item 
+def \mbox{\hyperlink{classxml_writer_1_1xml_writer_a9697485604ee2a4be4fff52911fea34f}{open\+File}} (self)
+\item 
+def \mbox{\hyperlink{classxml_writer_1_1xml_writer_ad0738ca597cf9a517e13e50bb3be5c96}{close\+File}} (self)
+\item 
+def \mbox{\hyperlink{classxml_writer_1_1xml_writer_aa05ece2d045f4be023b005b42e892736}{write\+Header}} (self)
+\item 
+def \mbox{\hyperlink{classxml_writer_1_1xml_writer_a69b2a24925be449bc0e416e4cd2d3816}{open\+Currents\+Collection}} (self)
+\item 
+def \mbox{\hyperlink{classxml_writer_1_1xml_writer_adfbe5387ec461435f294e98767cff534}{close\+Currents\+Collection}} (self)
+\item 
+def \mbox{\hyperlink{classxml_writer_1_1xml_writer_ab686ea3fea2fc1122eb2878aaa61e6b7}{write\+File}} (self, file\+Name, start\+Time, end\+Time, start\+Date\+Str, end\+Date\+Str)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classxml_writer_1_1xml_writer_a4842af70f50831bd8981fc2be0a9fe01}{filename}}
+\item 
+\mbox{\hyperlink{classxml_writer_1_1xml_writer_a1ecd576801e94caa6dcc033ceb534111}{f}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 25 of file xml\+Writer.\+py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_a0b43f6115153b244e10d1933ee33500a}\label{classxml_writer_1_1xml_writer_a0b43f6115153b244e10d1933ee33500a}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def xml\+Writer.\+xml\+Writer.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{file\+Name }\end{DoxyParamCaption})}
+
+
+
+Definition at line 26 of file xml\+Writer.\+py.
+
+
+\begin{DoxyCode}
+26     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_a0b43f6115153b244e10d1933ee33500a}{\_\_init\_\_}}(self, fileName):
+27         self.filename = fileName
+28         
+29         self.openFile()
+30         
+\end{DoxyCode}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_adfbe5387ec461435f294e98767cff534}\label{classxml_writer_1_1xml_writer_adfbe5387ec461435f294e98767cff534}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!close\+Currents\+Collection@{close\+Currents\+Collection}}
+\index{close\+Currents\+Collection@{close\+Currents\+Collection}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{close\+Currents\+Collection()}{closeCurrentsCollection()}}
+{\footnotesize\ttfamily def xml\+Writer.\+xml\+Writer.\+close\+Currents\+Collection (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 48 of file xml\+Writer.\+py.
+
+
+\begin{DoxyCode}
+48     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_adfbe5387ec461435f294e98767cff534}{closeCurrentsCollection}}(self):
+49         self.f.write(\textcolor{stringliteral}{'''    </currents>}
+50 \textcolor{stringliteral}{'''})
+51 
+\end{DoxyCode}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_ad0738ca597cf9a517e13e50bb3be5c96}\label{classxml_writer_1_1xml_writer_ad0738ca597cf9a517e13e50bb3be5c96}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!close\+File@{close\+File}}
+\index{close\+File@{close\+File}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{close\+File()}{closeFile()}}
+{\footnotesize\ttfamily def xml\+Writer.\+xml\+Writer.\+close\+File (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 35 of file xml\+Writer.\+py.
+
+
+\begin{DoxyCode}
+35     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_ad0738ca597cf9a517e13e50bb3be5c96}{closeFile}}(self):
+36         self.f.write(\textcolor{stringliteral}{'''</file\_collection>'''})
+37         self.f.close()
+38         
+\end{DoxyCode}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_a69b2a24925be449bc0e416e4cd2d3816}\label{classxml_writer_1_1xml_writer_a69b2a24925be449bc0e416e4cd2d3816}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!open\+Currents\+Collection@{open\+Currents\+Collection}}
+\index{open\+Currents\+Collection@{open\+Currents\+Collection}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{open\+Currents\+Collection()}{openCurrentsCollection()}}
+{\footnotesize\ttfamily def xml\+Writer.\+xml\+Writer.\+open\+Currents\+Collection (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 44 of file xml\+Writer.\+py.
+
+
+\begin{DoxyCode}
+44     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_a69b2a24925be449bc0e416e4cd2d3816}{openCurrentsCollection}}(self):
+45         self.f.write(\textcolor{stringliteral}{'''    <currents>}
+46 \textcolor{stringliteral}{'''})
+47         
+\end{DoxyCode}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_a9697485604ee2a4be4fff52911fea34f}\label{classxml_writer_1_1xml_writer_a9697485604ee2a4be4fff52911fea34f}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!open\+File@{open\+File}}
+\index{open\+File@{open\+File}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{open\+File()}{openFile()}}
+{\footnotesize\ttfamily def xml\+Writer.\+xml\+Writer.\+open\+File (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 31 of file xml\+Writer.\+py.
+
+
+\begin{DoxyCode}
+31     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_a9697485604ee2a4be4fff52911fea34f}{openFile}}(self):
+32         self.f = open(self.filename + \textcolor{stringliteral}{'.xml'}, \textcolor{stringliteral}{'w'})
+33         self.writeHeader()
+34     
+\end{DoxyCode}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_ab686ea3fea2fc1122eb2878aaa61e6b7}\label{classxml_writer_1_1xml_writer_ab686ea3fea2fc1122eb2878aaa61e6b7}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!write\+File@{write\+File}}
+\index{write\+File@{write\+File}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{write\+File()}{writeFile()}}
+{\footnotesize\ttfamily def xml\+Writer.\+xml\+Writer.\+write\+File (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{file\+Name,  }\item[{}]{start\+Time,  }\item[{}]{end\+Time,  }\item[{}]{start\+Date\+Str,  }\item[{}]{end\+Date\+Str }\end{DoxyParamCaption})}
+
+
+
+Definition at line 52 of file xml\+Writer.\+py.
+
+
+\begin{DoxyCode}
+52     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_ab686ea3fea2fc1122eb2878aaa61e6b7}{writeFile}}(self,fileName,startTime,endTime,startDateStr,endDateStr):                       
+       
+53         toWrite = \textcolor{stringliteral}{'''       <file>}
+54 \textcolor{stringliteral}{            <name value="'''}+fileName+\textcolor{stringliteral}{'''" />}
+55 \textcolor{stringliteral}{            <startTime value="'''}+str(startTime)+\textcolor{stringliteral}{'''" />    <!-- '''}+startDateStr+\textcolor{stringliteral}{'''-->}
+56 \textcolor{stringliteral}{            <endTime value="'''}+str(endTime)+\textcolor{stringliteral}{'''" />    <!-- '''}+endDateStr+\textcolor{stringliteral}{'''-->}
+57 \textcolor{stringliteral}{        </file>}
+58 \textcolor{stringliteral}{'''}
+59         self.f.write(toWrite)
+60         
+61 \end{DoxyCode}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_aa05ece2d045f4be023b005b42e892736}\label{classxml_writer_1_1xml_writer_aa05ece2d045f4be023b005b42e892736}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!write\+Header@{write\+Header}}
+\index{write\+Header@{write\+Header}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{write\+Header()}{writeHeader()}}
+{\footnotesize\ttfamily def xml\+Writer.\+xml\+Writer.\+write\+Header (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line 39 of file xml\+Writer.\+py.
+
+
+\begin{DoxyCode}
+39     \textcolor{keyword}{def }\mbox{\hyperlink{classxml_writer_1_1xml_writer_aa05ece2d045f4be023b005b42e892736}{writeHeader}}(self):
+40         self.f.write(\textcolor{stringliteral}{'''<?xml version="1.0" encoding="UTF-8" ?>}
+41 \textcolor{stringliteral}{<file\_collection>}
+42 \textcolor{stringliteral}{'''})
+43 
+\end{DoxyCode}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_a1ecd576801e94caa6dcc033ceb534111}\label{classxml_writer_1_1xml_writer_a1ecd576801e94caa6dcc033ceb534111}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!f@{f}}
+\index{f@{f}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{f}{f}}
+{\footnotesize\ttfamily xml\+Writer.\+xml\+Writer.\+f}
+
+
+
+Definition at line 32 of file xml\+Writer.\+py.
+
+\mbox{\Hypertarget{classxml_writer_1_1xml_writer_a4842af70f50831bd8981fc2be0a9fe01}\label{classxml_writer_1_1xml_writer_a4842af70f50831bd8981fc2be0a9fe01}} 
+\index{xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}!filename@{filename}}
+\index{filename@{filename}!xml\+Writer\+::xml\+Writer@{xml\+Writer\+::xml\+Writer}}
+\subsubsection{\texorpdfstring{filename}{filename}}
+{\footnotesize\ttfamily xml\+Writer.\+xml\+Writer.\+filename}
+
+
+
+Definition at line 27 of file xml\+Writer.\+py.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+R\+B\+C\+\_\+workhorse/\+Documents/\+Git\+Hub/\+M\+O\+H\+I\+D-\/\+Lagrangian/src/\+M\+O\+H\+I\+D\+Lagrangian\+Pre\+Processor/\mbox{\hyperlink{xml_writer_8py}{xml\+Writer.\+py}}\end{DoxyCompactItemize}

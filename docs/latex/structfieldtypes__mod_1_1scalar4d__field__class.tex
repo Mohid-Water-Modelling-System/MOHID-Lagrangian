@@ -7,26 +7,18 @@ a 4D scalar field class
 
 
 
-Inheritance diagram for fieldtypes\+\_\+mod\+:\+:scalar4d\+\_\+field\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=205pt]{structfieldtypes__mod_1_1scalar4d__field__class__inherit__graph}
-\end{center}
-\end{figure}
+Inheritance diagram for fieldtypes\+\_\+mod\+:\+:scalar4d\+\_\+field\+\_\+class\+:
+% FIG 0
 
 
-Collaboration diagram for fieldtypes\+\_\+mod\+:\+:scalar4d\+\_\+field\+\_\+class\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=205pt]{structfieldtypes__mod_1_1scalar4d__field__class__coll__graph}
-\end{center}
-\end{figure}
+Collaboration diagram for fieldtypes\+\_\+mod\+:\+:scalar4d\+\_\+field\+\_\+class\+:
+% FIG 1
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 procedure \mbox{\hyperlink{structfieldtypes__mod_1_1scalar4d__field__class_a0ce4946e3ff5282539ae851e451e3b9c}{initialize}} =$>$ init\+Scalar4d\+Field
+\item 
+procedure \mbox{\hyperlink{structfieldtypes__mod_1_1scalar4d__field__class_ab244331eb650625ca1b6b45a62e3643b}{finalize}} =$>$ clean\+Scalar4d\+Field
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -38,11 +30,21 @@ real(prec), dimension(\+:,\+:,\+:,\+:), allocatable \mbox{\hyperlink{structfield
 \subsection{Detailed Description}
 a 4D scalar field class 
 
-Definition at line 71 of file fields\+Types.\+f90.
+Definition at line 77 of file fields\+Types.\+f90.
 
 
 
 \subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structfieldtypes__mod_1_1scalar4d__field__class_ab244331eb650625ca1b6b45a62e3643b}\label{structfieldtypes__mod_1_1scalar4d__field__class_ab244331eb650625ca1b6b45a62e3643b}} 
+\index{fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class}!finalize@{finalize}}
+\index{finalize@{finalize}!fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class}}
+\subsubsection{\texorpdfstring{finalize()}{finalize()}}
+{\footnotesize\ttfamily procedure fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class\+::finalize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 81 of file fields\+Types.\+f90.
+
 \mbox{\Hypertarget{structfieldtypes__mod_1_1scalar4d__field__class_a0ce4946e3ff5282539ae851e451e3b9c}\label{structfieldtypes__mod_1_1scalar4d__field__class_a0ce4946e3ff5282539ae851e451e3b9c}} 
 \index{fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class}!initialize@{initialize}}
 \index{initialize@{initialize}!fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class@{fieldtypes\+\_\+mod\+::scalar4d\+\_\+field\+\_\+class}}
@@ -51,7 +53,7 @@ Definition at line 71 of file fields\+Types.\+f90.
 
 
 
-Definition at line 74 of file fields\+Types.\+f90.
+Definition at line 80 of file fields\+Types.\+f90.
 
 
 
@@ -68,11 +70,11 @@ the data on the scalar data field
 
 
 
-Definition at line 72 of file fields\+Types.\+f90.
+Definition at line 78 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-72         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+78         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
 \end{DoxyCode}
 
 

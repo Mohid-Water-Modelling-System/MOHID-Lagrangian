@@ -2,6 +2,7 @@ var structabstract__linkedlist__mod_1_1linkedlist =
 [
     [ "add", "structabstract__linkedlist__mod_1_1linkedlist.html#a691374958da432e733453e6feb895bb1", null ],
     [ "currentvalue", "structabstract__linkedlist__mod_1_1linkedlist.html#a01dda56c3e79f6e9f5b12df9a9ec192b", null ],
+    [ "finalize", "structabstract__linkedlist__mod_1_1linkedlist.html#af4fe24b10e4bdf057d3ed4a2fe2ff03c", null ],
     [ "getfirst", "structabstract__linkedlist__mod_1_1linkedlist.html#ae96f8c00f41925064249e443ce31f44a", null ],
     [ "getlast", "structabstract__linkedlist__mod_1_1linkedlist.html#a17366518d094a62e8e68fa4c5681810c", null ],
     [ "getsize", "structabstract__linkedlist__mod_1_1linkedlist.html#a18806ecb0fb5dea1e754de35d3700ab7", null ],
