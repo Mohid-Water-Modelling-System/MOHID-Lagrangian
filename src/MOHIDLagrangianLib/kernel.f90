@@ -56,9 +56,9 @@
     if (sv%ttype == Globals%Types%base) then
         runKernel = self%Lagrangian(sv, bdata, time, dt)! + self%Diffusion(sv, bdata, time, dt)
     else if (sv%ttype == Globals%Types%paper) then
-
+        runKernel = self%Lagrangian(sv, bdata, time, dt)
     else if (sv%ttype == Globals%Types%plastic) then
-
+        runKernel = self%Lagrangian(sv, bdata, time, dt)
     end if
 
 

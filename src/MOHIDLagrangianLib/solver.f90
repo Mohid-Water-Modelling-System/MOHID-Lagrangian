@@ -84,7 +84,7 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: i
-    
+
     do i=1, size(sv)
         sv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt
     end do

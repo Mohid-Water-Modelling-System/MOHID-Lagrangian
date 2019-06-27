@@ -341,9 +341,9 @@
         call self%LTracer%next()    ! increment the list iterator
     end do
     call self%LTracer%reset()                       ! reset list iterator
-        
-    if (size(self%trcType,1)/= 0) then
-        allocate(self%BlockState(size(self%trcType,1)))        
+
+    if (allocated(self%trcType)) then
+        allocate(self%BlockState(size(self%trcType,1)))
         do i=1, size(self%BlockState)
             self%BlockState(i)%idx = 1
             self%BlockState(i)%ttype = self%trcType(i,1)
@@ -362,7 +362,6 @@
             select type(aTracer)
             class is (tracer_class)
                 tType = aTracer%par%ttype
-                aTracer%now%active = .false.
                 do i = 1, size(self%BlockState)
                     if (tType == self%BlockState(i)%ttype) then
                         !print*, 'tracer state array ', aTracer%getStateArray()
@@ -370,12 +369,14 @@
                         self%BlockState(i)%state(self%BlockState(i)%idx,:) = aTracer%getStateArray()
                         self%BlockState(i)%source(self%BlockState(i)%idx) = aTracer%par%idsource
                         self%BlockState(i)%id(self%BlockState(i)%idx) = aTracer%par%id
+                        self%BlockState(i)%active(self%BlockState(i)%idx) = aTracer%now%active
                         self%BlockState(i)%trc(self%BlockState(i)%idx)%ptr => aTracer
                         self%BlockState(i)%idx = self%BlockState(i)%idx + 1
                         builtstate = .true.
                         exit
                     end if
                 end do
+                aTracer%now%active = .false. !only gets flaged as active if the state vector says so when copying back to the Tracers
                 if (.not.builtState) then
                     outext = '[Block::TracersToSV]: Tracer did not find correspoding State Vector, stoping'
                     call Log%put(outext)
@@ -401,7 +402,7 @@
     subroutine RunSolver(self)
     implicit none
     class(block_class), intent(inout) :: self
-    if (size(self%AoT%id) > 0) then             !There are Tracers in this Block
+    if (allocated(self%BlockState)) then             !There are Tracers in this Block
         if (allocated(self%Background)) then    !There are Backgrounds in this Block
             !print*, 'From Block ', self%id
             call self%Solver%runStep(self%BlockState, self%Background, Globals%SimTime%CurrTime, Globals%SimDefs%dt)
@@ -417,9 +418,11 @@
     subroutine SVtoTracers(self)
     class(block_class), intent(inout) :: self
     integer :: i
-    do i=1, size(self%BlockState)
-        call self%BlockState(i)%toTracers()
-    end do
+    if (allocated(self%BlockState)) then
+        do i=1, size(self%BlockState)
+            call self%BlockState(i)%toTracers()
+        end do
+    end if
     end subroutine SVtoTracers
     
     !---------------------------------------------------------------------------
@@ -454,10 +457,10 @@
     integer, intent(in) :: idx
     integer :: i, j
     real(prec), dimension(self%LTracer%getSize()) :: getSVvar
-    j=0
+    j=1
     do i=1, size(self%BlockState)
-        getSVvar(j+1: j+size(self%BlockState(i)%active)) = self%BlockState(i)%state(:,idx)
-        j= size(self%BlockState(i)%active)
+        getSVvar(j: j + size(self%BlockState(i)%active)) = self%BlockState(i)%state(:,idx)
+        j= j+ size(self%BlockState(i)%active)
     end do
     end function
     
@@ -470,10 +473,10 @@
     class(block_class), intent(in) :: self
     integer :: i, j
     logical, dimension(self%LTracer%getSize()) :: getActive
-    j=0
+    j=1
     do i=1, size(self%BlockState)
-        getActive(j+1: j+size(self%BlockState(i)%active)) = self%BlockState(i)%active
-        j= size(self%BlockState(i)%active)
+        getActive(j: j + size(self%BlockState(i)%active)) = self%BlockState(i)%active
+        j= j+ size(self%BlockState(i)%active)
     end do
     end function
     
@@ -485,10 +488,12 @@
     subroutine CleanSV(self)
     class(block_class), intent(inout) :: self
     integer :: i
-    do i=1, size(self%BlockState)
-        call self%BlockState(i)%finalize()
-    end do
-    if (allocated(self%BlockState)) deallocate(self%BlockState)
+    if (allocated(self%BlockState)) then
+        do i=1, size(self%BlockState)
+            call self%BlockState(i)%finalize()
+        end do
+        deallocate(self%BlockState)
+    end if
     end subroutine CleanSV
 
     !---------------------------------------------------------------------------
