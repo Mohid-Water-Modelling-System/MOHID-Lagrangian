@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : AoT
+    ! MODULE        : stateVector_mod
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : August 2018
@@ -13,10 +13,10 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module to hold the Arrays of Tracers class and its methods. This class
-    !> defines a collection of id, xyz, uvw, .. arrays that allow for easy and
-    !> efficient manipulation of the Tracer objects. These must be exported
-    !> into the objects from this class
+    !> Module to hold the State Vector class and its methods. This class
+    !> defines a state vector that encodes the state of a type of Tracers, 
+    !> allowing for trivial application of kernels and subsequent integration. 
+    !> These must be exported beck into the objects from this class
     !------------------------------------------------------------------------------
 
     module stateVector_mod
@@ -31,8 +31,8 @@
     type :: trcPtr_class                   !< tracer pointer class, because foooooortraaaaaaan
         class(tracer_class), pointer :: ptr => null() !< the actual pointer
     end type trcPtr_class
-        
-    type :: stateVector_class        
+
+    type :: stateVector_class
         integer :: ttype
         type(trcPtr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:,:) :: state
@@ -47,7 +47,7 @@
     public :: stateVector_class
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -71,10 +71,10 @@
                 call Log%put(outext)
                 stop
             end if
-        end do    
+        end do
     end if
     end subroutine toTracers
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -90,7 +90,7 @@
     if (allocated(self%active)) deallocate(self%active)
     if (allocated(self%source)) deallocate(self%source)
     if (allocated(self%id)) deallocate(self%id)
-    self%idx = 1    
+    self%idx = 1
     end subroutine cleanState
-    
+
     end module stateVector_mod

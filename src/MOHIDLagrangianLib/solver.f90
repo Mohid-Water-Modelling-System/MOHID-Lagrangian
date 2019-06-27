@@ -21,7 +21,6 @@
 
 
     use common_modules
-    use AoT_mod
     use stateVector_mod
     use background_mod
     use interpolator_mod
@@ -53,7 +52,7 @@
     !> @brief
     !> Method that integrates the Tracer State Vector in one time-step, according to
     !> the selected integration algorithm
-    !> @param[in] self, aot, bdata, time, dt
+    !> @param[in] self, state, bdata, time, dt
     !---------------------------------------------------------------------------
     subroutine runStep(self, state, bdata, time, dt)
     class(solver_class), intent(inout) :: self

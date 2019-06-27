@@ -40,10 +40,10 @@
         !Timers
         type(timer_class) :: timerInit          !< timer for the initialization routines
         type(timer_class) :: timerTotalRun      !< timer for the total wall time spent on the simulation
-        type(timer_class) :: timerInput        !< timer for the output writting routines
+        type(timer_class) :: timerInput         !< timer for the output writting routines
         type(timer_class) :: timerOutput        !< timer for the output writting routines
         type(timer_class) :: timerPrep          !< timer for the toggling, emission and consolidation phase of every time-step
-        type(timer_class) :: timerAoTOps        !< timer for the AoT operations (encoding and decoding)
+        type(timer_class) :: timerSVOps         !< timer for the SV operations (encoding and decoding)
         type(timer_class) :: timerSolver        !< timer for the solver runs
         !Output objects
         type(output_streamer_class) :: OutputStreamer !< Writter that streams simulation data out
@@ -58,10 +58,10 @@
     procedure, private :: BlocksEmitt
     procedure, private :: BlocksDistribute
     procedure, private :: BlocksConsolidate
-    procedure, private :: BlocksTracersToAoT
+    procedure, private :: BlocksTracersToSV
     procedure, private :: BlocksRunSolver
-    procedure, private :: BlocksAoTtoTracers
-    procedure, private :: BlocksCleanAoT
+    procedure, private :: BlocksSVtoTracers
+    procedure, private :: BlocksCleanSV
     procedure, private :: InputData
     procedure, private :: OutputStepData
     procedure, private :: setInitialState
@@ -98,18 +98,18 @@
         call self%BlocksConsolidate()
         !Distribute Tracers and Sources by Blocks
         call self%BlocksDistribute()
-        !Build AoT
-        call self%BlocksTracersToAoT()
+        !Build SV
+        call self%BlocksTracersToSV()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
         call self%InputData()
-        !Update all tracers with base behavior (AoT) - Integration step
+        !Update all tracers - Integration step
         call self%BlocksRunSolver()
-        !AoT to Tracers
-        call self%BlocksAoTtoTracers()
+        !SV to Tracers
+        call self%BlocksSVtoTracers()
         !Write results if time to do so
         call self%OutputStepData()
-        !Clean AoT
-        call self%BlocksCleanAoT()
+        !Clean SV
+        call self%BlocksCleanSV()
         !update Simulation time
         call self%updateSimDateTime()
         !print*, 'Global time is ', Globals%SimTime%CurrTime
@@ -117,12 +117,12 @@
         !read (*,*)
         call self%timerTotalRun%Toc()
     enddo
-    
+
     call self%setTracerMemory()
     call SimMemory%detailedprint()
     call self%timerTotalRun%print()
     call self%timerPrep%print()
-    call self%timerAoTOps%print()
+    call self%timerSVOps%print()
     call self%timerSolver%print()
     call self%timerInput%print()
     call self%timerOutput%print()
@@ -154,8 +154,8 @@
     call self%timerOutput%initialize(aux)
     aux = 'Simulation::Preparation'
     call self%timerPrep%initialize(aux)
-    aux = 'Simulation::AoT encoding/decoding'
-    call self%timerAoTOps%initialize(aux)
+    aux = 'Simulation::SV encoding/decoding'
+    call self%timerSVOps%initialize(aux)
     aux = 'Simulation::Solver'
     call self%timerSolver%initialize(aux)
 
@@ -278,23 +278,22 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to build their Array of
-    !> Tracers (AoT) from the Tracer list at current Time
+    !> Simulation method to call the Blocks to build their State Vector
+    !> (SV) from the Tracer list at current Time
     !---------------------------------------------------------------------------
-    subroutine BlocksTracersToAoT(self)
+    subroutine BlocksTracersToSV(self)
     class(simulation_class), intent(inout) :: self
     integer :: i
-    call self%timerAoTOps%Tic()
+    call self%timerSVOps%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%TracersToSV()
-        !call sBlock(i)%TracersToAoT()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
-    call self%timerAoTOps%Toc()
-    end subroutine BlocksTracersToAoT
+    call self%timerSVOps%Toc()
+    end subroutine BlocksTracersToSV
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -321,45 +320,43 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to print their Array of
-    !> Tracers (AoT) back to the Tracer objects on the list at current Time
+    !> Simulation method to call the Blocks to decode their State Vector (SV)
+    !> back to the Tracer objects on the list at current Time
     !---------------------------------------------------------------------------
-    subroutine BlocksAoTtoTracers(self)
+    subroutine BlocksSVtoTracers(self)
     class(simulation_class), intent(inout) :: self
     integer :: i
-    call self%timerAoTOps%Toc()
+    call self%timerSVOps%Toc()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%SVtoTracers()
-        !call sBlock(i)%AoTtoTracers()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
-    call self%timerAoTOps%Toc()
-    end subroutine BlocksAoTtoTracers
+    call self%timerSVOps%Toc()
+    end subroutine BlocksSVtoTracers
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Simulation method to call the Blocks to clean their Array of
-    !> Tracers (AoT) at current Time
+    !> Simulation method to call the Blocks to clean their State Vector (SV)
+    !> at current Time
     !---------------------------------------------------------------------------
-    subroutine BlocksCleanAoT(self)
+    subroutine BlocksCleanSV(self)
     class(simulation_class), intent(inout) :: self
     integer :: i
-    call self%timerAoTOps%Tic()
+    call self%timerSVOps%Tic()
     !$OMP PARALLEL PRIVATE(i)
     !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%CleanSV()
-        !call sBlock(i)%CleanAoT()
     enddo
     !$OMP END DO
     !$OMP END PARALLEL
-    call self%timerAoTOps%Toc()
-    end subroutine BlocksCleanAoT
-    
+    call self%timerSVOps%Toc()
+    end subroutine BlocksCleanSV
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -370,7 +367,7 @@
     integer :: i
     if (Globals%Sim%getnumdt() /= 1 ) call Globals%SimTime%setCurrDateTime(Globals%SimDefs%dt)
     end subroutine updateSimDateTime
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

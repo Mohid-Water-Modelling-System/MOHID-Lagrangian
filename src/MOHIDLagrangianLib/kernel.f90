@@ -41,8 +41,7 @@
     !> @brief
     !> Adaptation from runSolver (Ricardo) method that evaluates the specific
     !> kernel, according to the selected kernel
-    !> @param[in] self, aot, bdata, time, dt
-    !> @param[out] daot_dt
+    !> @param[in] self, sv, bdata, time, dt
     !---------------------------------------------------------------------------
     function runKernel(self, sv, bdata, time, dt)
     class(kernel_class), intent(inout) :: self
@@ -127,8 +126,7 @@
     !> @brief
     !> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
     !> diffusion coefficient. D = 1 m/s
-    !> @param[in] self, aot, bdata, time, dt
-    !> @param[out] daot_dt
+    !> @param[in] self, sv, dt
     !---------------------------------------------------------------------------
     function DiffusionIsotropic(self, sv, dt)
     class(kernel_class), intent(inout) :: self

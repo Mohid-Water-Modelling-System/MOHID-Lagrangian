@@ -19,7 +19,6 @@
     module interpolator_mod
 
     use common_modules
-    use AoT_mod
     use stateVector_mod
     use background_mod
     use fieldTypes_mod
@@ -52,7 +51,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that runs the chosen interpolator method on the given data.
-    !> @param[in] self, aot, bdata, time, var_dt, var_name
+    !> @param[in] self, state, bdata, time, var_dt, var_name
     !---------------------------------------------------------------------------
     subroutine run(self, state, bdata, time, var_dt, var_name)
     class(interpolator_class), intent(in) :: self

@@ -29,7 +29,6 @@
     use sources_mod
     use tracers_mod
     use emitter_mod
-    use AoT_mod
     use solver_mod
     use background_mod
     use stateVector_mod
@@ -45,7 +44,6 @@
         type(sourceList_class) :: LSource     !< List of Sources currently on this block
         type(emitter_class)    :: Emitter     !< Block Emitter
         type(tracerList_class) :: LTracer     !< List of Tracers currently on this block
-        type(aot_class)        :: AoT         !< Block Array of Tracers for actual numerical work
         type(solver_class)     :: Solver      !< Block Solver
         type(stateVector_class), allocatable, dimension(:) :: BlockState     !< State vector of the Tracers in the Block, per type
         type(background_class), allocatable, dimension(:) :: Background !< Solution Backgrounds for the Block
@@ -59,10 +57,7 @@
     procedure, public :: ToogleBlockSources
     procedure, public :: ConsolidateArrays
     procedure, public :: ShedMemory
-    procedure, public :: TracersToAoT
     procedure, public :: RunSolver
-    procedure, public :: AoTtoTracers
-    procedure, public :: CleanAoT
     procedure, public :: numAllocTracers
     procedure, public :: TracersToSV
     procedure, public :: SVtoTracers
@@ -277,17 +272,6 @@
         end do
     end if
     end subroutine ShedMemory
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method to build the AoT object at this timestep for actual numerical work
-    !---------------------------------------------------------------------------
-    subroutine TracersToAoT(self)
-    implicit none
-    class(block_class), intent(inout) :: self
-    self%AoT = AoT(self%LTracer)
-    end subroutine TracersToAoT
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -418,7 +402,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to write the data in the AoT back to the Tracer objects in the list
+    !> Method to write the data in the SV back to the Tracer objects in the list
     !---------------------------------------------------------------------------
     subroutine SVtoTracers(self)
     class(block_class), intent(inout) :: self
@@ -429,28 +413,6 @@
         end do
     end if
     end subroutine SVtoTracers
-    
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method to write the data in the AoT back to the Tracer objects in the list
-    !---------------------------------------------------------------------------
-    subroutine AoTtoTracers(self)
-    implicit none
-    class(block_class), intent(inout) :: self
-    call self%AoT%toTracers()
-    end subroutine AoTtoTracers
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method to clean out the AoT object
-    !---------------------------------------------------------------------------
-    subroutine CleanAoT(self)
-    implicit none
-    class(block_class), intent(inout) :: self
-    call self%AoT%finalize()
-    end subroutine CleanAoT
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
