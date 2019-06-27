@@ -341,7 +341,7 @@
         call self%LTracer%next()    ! increment the list iterator
     end do
     call self%LTracer%reset()                       ! reset list iterator
-
+    
     if (allocated(self%trcType)) then
         allocate(self%BlockState(size(self%trcType,1)))
         do i=1, size(self%BlockState)
@@ -459,7 +459,7 @@
     real(prec), dimension(self%LTracer%getSize()) :: getSVvar
     j=1
     do i=1, size(self%BlockState)
-        getSVvar(j: j + size(self%BlockState(i)%active)) = self%BlockState(i)%state(:,idx)
+        getSVvar(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%state(:,idx)
         j= j+ size(self%BlockState(i)%active)
     end do
     end function
@@ -475,7 +475,7 @@
     logical, dimension(self%LTracer%getSize()) :: getActive
     j=1
     do i=1, size(self%BlockState)
-        getActive(j: j + size(self%BlockState(i)%active)) = self%BlockState(i)%active
+        getActive(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%active
         j= j+ size(self%BlockState(i)%active)
     end do
     end function
