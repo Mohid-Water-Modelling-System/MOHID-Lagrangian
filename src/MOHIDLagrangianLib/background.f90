@@ -619,6 +619,7 @@
     real(prec), allocatable, dimension(:) :: rest
     integer :: i
     real(prec) ::fmin, fmax, eta
+    integer :: f_1,f_N
     allocate(self%dim, source = dims)
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
