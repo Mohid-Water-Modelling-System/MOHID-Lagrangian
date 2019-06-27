@@ -67,7 +67,10 @@
     procedure, public :: TracersToSV
     procedure, public :: SVtoTracers
     procedure, public :: getSVvar
-    procedure, public :: getActive
+    procedure, public :: getSVActive
+    procedure, public :: getSVId
+    procedure, public :: getSVSource
+    procedure, public :: getSVlandIntMask
     procedure, public :: CleanSV
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
@@ -341,7 +344,7 @@
         call self%LTracer%next()    ! increment the list iterator
     end do
     call self%LTracer%reset()                       ! reset list iterator
-
+    
     if (allocated(self%trcType)) then
         allocate(self%BlockState(size(self%trcType,1)))
         do i=1, size(self%BlockState)
@@ -353,7 +356,9 @@
             allocate(self%BlockState(i)%source(self%trcType(i,2)))
             allocate(self%BlockState(i)%id(self%trcType(i,2)))
             allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
-            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))        
+            self%BlockState(i)%landMask = Globals%Mask%waterVal
+            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))
+            self%BlockState(i)%landIntMask = Globals%Mask%waterVal
         end do
         call self%LTracer%reset()                   ! reset list iterator
         do while(self%LTracer%moreValues())         ! loop while there are values
@@ -459,26 +464,74 @@
     real(prec), dimension(self%LTracer%getSize()) :: getSVvar
     j=1
     do i=1, size(self%BlockState)
-        getSVvar(j: j + size(self%BlockState(i)%active)) = self%BlockState(i)%state(:,idx)
+        getSVvar(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%state(:,idx)
         j= j+ size(self%BlockState(i)%active)
     end do
-    end function
+    end function getSVvar
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> returns the active tracers array on the block
     !---------------------------------------------------------------------------
-    function getActive(self)
+    function getSVActive(self)
     class(block_class), intent(in) :: self
     integer :: i, j
-    logical, dimension(self%LTracer%getSize()) :: getActive
+    logical, dimension(self%LTracer%getSize()) :: getSVActive
     j=1
     do i=1, size(self%BlockState)
-        getActive(j: j + size(self%BlockState(i)%active)) = self%BlockState(i)%active
+        getSVActive(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%active
         j= j+ size(self%BlockState(i)%active)
     end do
-    end function
+    end function getSVActive
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the tracers id array on the block
+    !---------------------------------------------------------------------------
+    function getSVId(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    integer, dimension(self%LTracer%getSize()) :: getSVId
+    j=1
+    do i=1, size(self%BlockState)
+        getSVId(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%id
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVId
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the tracers landIntMask array on the block
+    !---------------------------------------------------------------------------
+    function getSVSource(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    integer, dimension(self%LTracer%getSize()) :: getSVSource
+    j=1
+    do i=1, size(self%BlockState)
+        getSVSource(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%source
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVSource
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the tracers landIntMask array on the block
+    !---------------------------------------------------------------------------
+    function getSVlandIntMask(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    integer, dimension(self%LTracer%getSize()) :: getSVlandIntMask
+    j=1
+    do i=1, size(self%BlockState)
+        getSVlandIntMask(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%landIntMask
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVlandIntMask
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
