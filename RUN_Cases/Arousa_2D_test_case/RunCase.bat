@@ -3,7 +3,7 @@ cls
 
 rem "name" and "dirout" are named according to the case
 
-set name=RealVelTest
+set name=Arousa2D
 set dirout=%name%_out
 
 rem "executables" are renamed and called from their directory

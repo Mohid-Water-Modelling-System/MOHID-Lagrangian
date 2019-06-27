@@ -3,7 +3,7 @@
 clear
 
 # "name" and "dirout" are named according to the testcase
-name=RealVelTest
+name=Vigo3D
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
