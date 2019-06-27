@@ -54,9 +54,9 @@
     if (sv%ttype == Globals%Types%base) then
         runKernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
     end if
 
     end function runKernel
