@@ -1,4 +1,4 @@
-## MOHIDLagrangian - Heavy development phase - Work in progress!
+## MOHIDLagrangian - V0.1 - Work in progress!
 
 [![Build Status](https://travis-ci.org/RBCanelas/MOHID-Lagrangian.svg?branch=master)](https://travis-ci.org/RBCanelas/MOHID-Lagrangian)
 
