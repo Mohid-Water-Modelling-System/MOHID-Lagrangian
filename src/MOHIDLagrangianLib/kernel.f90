@@ -20,7 +20,6 @@
     !> to be evaluated.
     !------------------------------------------------------------------------------
     use common_modules
-    use AoT_mod
     use stateVector_mod
     use background_mod
     use interpolator_mod
@@ -30,8 +29,8 @@
     contains
     procedure :: initialize => initKernel
     procedure :: run => runKernel
-    procedure, private :: Lagrangian
-    !procedure, private :: Diffusion
+    procedure, private :: LagrangianKinematic
+    procedure, private :: DiffusionIsotropic
     end type kernel_class
 
     public :: kernel_class
@@ -54,13 +53,12 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
 
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%Lagrangian(sv, bdata, time, dt)! + self%Diffusion(sv, bdata, time, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%Lagrangian(sv, bdata, time, dt)
+        runKernel = self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%Lagrangian(sv, bdata, time, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, dt)
     end if
-
 
     end function runKernel
 
@@ -71,36 +69,44 @@
     !> using the interpolants and split the evaluation part from the solver module.
     !> @param[in] self, sv, bdata, time, dt
     !---------------------------------------------------------------------------
-    function Lagrangian(self, sv, bdata, time, dt)
+    function LagrangianKinematic(self, sv, bdata, time, dt)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: np, nf, bkg, i
+    real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
-    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Lagrangian
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: LagrangianKinematic
 
-    Lagrangian = 0.0    
+    LagrangianKinematic = 0.0
     !interpolate each background
     do bkg = 1, size(bdata)
-        np = size(sv%active) !number of particles
+        np = size(sv%active) !number of Tracers
         nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
         allocate(var_dt(np,nf))
         allocate(var_name(nf))
+        !correcting for maximum admissible level in the background
+        maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+        if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+        !interpolating all of the data
         call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
         !write dx/dt
         nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        Lagrangian(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+        LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+        sv%state(:,4) = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        Lagrangian(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+        LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+        sv%state(:,5) = var_dt(:,nf)
         nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-        if (nf /= MV_INT) Lagrangian(:,3) = var_dt(:,nf)
-        if (nf == MV_INT) Lagrangian(:,3) = 0.0
-        !write vel
-        do i=1,3
-            sv%state(:,i+3) = Lagrangian(:,i)
-        end do
+        if (nf /= MV_INT) then
+            LagrangianKinematic(:,3) = var_dt(:,nf)
+            sv%state(:,6) = var_dt(:,nf)
+        else if (nf == MV_INT) then
+            LagrangianKinematic(:,3) = 0.0
+            sv%state(:,6) = 0.0
+        end if        
         !update land mask status
         nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
         if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
@@ -114,46 +120,40 @@
         !update other vars...
     end do
 
-    end function Lagrangian
+    end function LagrangianKinematic
 
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
+    !> diffusion coefficient. D = 1 m/s
+    !> @param[in] self, aot, bdata, time, dt
+    !> @param[out] daot_dt
+    !---------------------------------------------------------------------------
+    function DiffusionIsotropic(self, sv, dt)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    real(prec), intent(in) :: dt
+    integer :: np, i
+    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
+    real(prec) :: D = 1.
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionIsotropic
 
-    !!---------------------------------------------------------------------------
-    !!> @author Daniel Garaboa Paz - USC
-    !!> @brief
-    !!> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
-    !!> diffusion coefficient. D = 1 m/s
-    !!> @param[in] self, aot, bdata, time, dt
-    !!> @param[out] daot_dt
-    !!---------------------------------------------------------------------------
-    !subroutine Diffusion(self, aot, bdata, time, dt, daot_dt)
-    !class(kernel_class), intent(inout) :: self
-    !type(aot_class), intent(in) :: aot
-    !type(aot_class),intent(out) :: daot_dt
-    !type(background_class), dimension(:), intent(in) :: bdata
-    !real(prec), intent(in) :: time, dt
-    !integer :: np, nf, bkg
-    !real(prec), dimension(:,:), allocatable :: var_dt
-    !type(string), dimension(:), allocatable :: var_name
-    !real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
-    !real(prec) :: D = 1.
-    !
-    !np = size(aot%id)
-    !allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
-    !call random_number(rand_vel_u)
-    !call random_number(rand_vel_v)
-    !call random_number(rand_vel_w)
-    !!update velocities
-    !! For the moment we set D = 1 m/s, then the D parameter
-    !! should be part of the array of tracers parameter
-    !daot_dt%u = (2.*rand_vel_u-1.)*sqrt(2.*D/dt)
-    !daot_dt%v = (2.*rand_vel_v-1.)*sqrt(2.*D/dt)
-    !daot_dt%w = (2.*rand_vel_w-1.)*sqrt(2.*D/dt)
-    !
-    !
-    !end subroutine Diffusion
+    DiffusionIsotropic = 0.0
+    np = size(sv%active) !number of Tracers
+    allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
+    call random_number(rand_vel_u)
+    call random_number(rand_vel_v)
+    call random_number(rand_vel_w)
+    !update velocities
+    ! For the moment we set D = 1 m/s, then the D parameter
+    ! should be part of the array of tracers parameter
+    DiffusionIsotropic(:,1) = Utils%m2geo((2.*rand_vel_u-1.)*sqrt(2.*D/dt), sv%state(:,2), .false.)
+    DiffusionIsotropic(:,2) = Utils%m2geo((2.*rand_vel_v-1.)*sqrt(2.*D/dt), sv%state(:,2), .true.)
+    !DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
+    where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
-
-
+    end function DiffusionIsotropic
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
