@@ -44,9 +44,9 @@
     implicit none
     type(string) :: outext
 
-    version  ="v0.4"
+    version  ="v0.1"
     author   ="R. Birjukovs Canelas"
-    date     ="24-04-2019"
+    date     ="28-06-2019"
 
     outext = ' __  __  ___  _   _ ___ ____  _                                      _              '//new_line('a')//&
         ' |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  '//new_line('a')//&
