@@ -36,9 +36,9 @@
     contains
     procedure :: initialize => initSolver
     procedure :: runStep
-    !procedure, private :: runStepMSEuler
+    procedure, private :: runStepMSEuler
     procedure, private :: runStepEuler
-    !procedure, private :: runStepRK4
+    procedure, private :: runStepRK4
     procedure :: print => printSolver
     end type solver_class
 
@@ -62,8 +62,8 @@
     !so the forward integrators don't overextend beyond calendar time
     if (time+dt < Globals%Parameters%TimeMax) then
         if (self%solverType == 1) call self%runStepEuler(state, bdata, time, dt)
-        !if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)
-        !if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)
+        if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)
+        if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)
     end if
     end subroutine runStep
 
@@ -90,24 +90,31 @@
     
     end subroutine runStepEuler
 
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> Method that integrates the Tracer state array in one time-step, using a
-    !!> Multi-Step Euler integration algorithm. This is a predictor-corrector type
-    !!> explicit scheme with excelent conservation properties and average cost
-    !!> @param[in] self, aot, bdata, time, dt
-    !!---------------------------------------------------------------------------
-    !subroutine runStepMSEuler(self, aot, bdata, time, dt)
-    !class(solver_class), intent(inout) :: self
-    !type(aot_class), intent(inout) :: aot
-    !type(aot_class) :: predAot
-    !type(background_class), dimension(:), intent(in) :: bdata
-    !real(prec), intent(in) :: time, dt
-    !real(prec) :: mstime
-    !integer :: np, nf, bkg
-    !real(prec), dimension(:,:), allocatable :: var_dt
-    !type(string), dimension(:), allocatable :: var_name
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that integrates the Tracer state array in one time-step, using a
+    !> Multi-Step Euler integration algorithm. This is a predictor-corrector type
+    !> explicit scheme with excelent conservation properties and average cost
+    !> @param[in] self, aot, bdata, time, dt
+    !---------------------------------------------------------------------------
+    subroutine runStepMSEuler(self, sv, bdata, time, dt)
+    class(solver_class), intent(inout) :: self
+    type(stateVector_class), dimension(:), intent(inout) :: sv 
+    type(stateVector_class), dimension(size(sv)) :: predsv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time, dt
+    real(prec):: mstime
+    integer :: i
+
+    mstime = time + dt
+    predsv = sv
+    do i=1, size(sv)
+        predsv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt
+        sv(i)%state = sv(i)%state + (self%Kernel%run(sv(i), bdata, time, dt) +  self%Kernel%run(predsv(i), bdata, mstime, dt))*(dt*0.5)
+    end do
+
+    end subroutine runStepMSEuler
     !
     !call predAot%initialize(size(aot%id))
     !! interpolate each background
@@ -165,25 +172,50 @@
     !
     !end subroutine runStepMSEuler
     !
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> Method that integrates the Tracer state array in one time-step, using a
-    !!> Runge-Kuta 4th order integration algorithm. This is an explicit scheme
-    !!> with medium to high computational cost
-    !!> @param[in] self, aot, bdata, time, dt
-    !!---------------------------------------------------------------------------
-    !subroutine runStepRK4(self, aot, bdata, time, dt)
-    !class(solver_class), intent(inout) :: self
-    !type(aot_class), intent(inout) :: aot
-    !type(background_class), dimension(:), intent(in) :: bdata
-    !real(prec), intent(in) :: time, dt
-    !type(aot_class), dimension(4) :: k
-    !real(prec) :: mstime
-    !integer :: np, nf, bkg
-    !real(prec), dimension(:,:), allocatable :: var_dt
-    !type(string), dimension(:), allocatable :: var_name
-    !
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that integrates the Tracer state array in one time-step, using a
+    !> Runge-Kuta 4th order integration algorithm. This is an explicit scheme
+    !> with medium to high computational cost
+    !> @param[in] self, aot, bdata, time, dt
+    !---------------------------------------------------------------------------
+    subroutine runStepRK4(self, sv, bdata, time, dt)
+    class(solver_class), intent(inout) :: self
+    type(stateVector_class), dimension(:), intent(inout) :: sv 
+    type(stateVector_class), dimension(size(sv)) :: k1,k2,k3,k4
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time, dt
+    real(prec):: mstime
+    integer :: i
+    
+    k1 = sv
+    k2 = sv
+    k3 = sv
+    k4 = sv
+
+    do i=1, size(sv)
+        k1(i)%state = self%Kernel%run(k1(i), bdata, time, dt)*dt
+        
+        k2(i)%state = sv(i)%state + k1(i)%state*0.5
+        mstime = time+0.5*dt
+        k2(i)%state = self%Kernel%run(k2(i), bdata, mstime, dt)*dt
+
+        k3(i)%state = sv(i)%state + k2(i)%state*0.5
+        mstime = time+0.5*dt
+        k3(i)%state = self%Kernel%run(k3(i), bdata, mstime, dt)*dt
+
+        k4(i)%state = sv(i)%state + k3(i)%state
+        mstime = time+dt
+        k4(i)%state = self%Kernel%run(k4(i), bdata, mstime, dt)*dt
+
+        sv(i)%state = sv(i)%state + (k1(i)%state + 2.*k2(i)%state + 2.*k3(i)%state + k4(i)%state)/6.0
+        !print*,minval(sv(i)%state(:,1)),maxval(sv(i)%state(:,1))
+        !print*,minval(sv(i)%state(:,2)),maxval(sv(i)%state(:,2))
+        !print*,minval(sv(i)%state(:,3)),maxval(sv(i)%state(:,3))
+        !print*,minval(sv(i)%state(:,4)),maxval(sv(i)%state(:,4))
+    enddo
+    end subroutine runStepRK4
     !!update velocities for the predictor step
     !nf = Utils%find_str(var_name, Globals%Var%u, .true.)
     !k(1)%u = var_dt(:,nf)
