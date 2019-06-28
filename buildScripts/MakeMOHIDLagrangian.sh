@@ -2,6 +2,8 @@
 
 dirout=build
 
+cd ..
+
 # "dirout" is created to store results or it is cleaned if it already exists
 if [ -e $dirout ]; then
   rm -f -r $dirout
