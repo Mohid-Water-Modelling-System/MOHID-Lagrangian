@@ -3,6 +3,8 @@ cls
 
 set build_dir=build
 
+cd ..
+
 echo ----------------------------------------------------------------------
 echo       Generating build solution for MOHID Lagrangian
 echo ----------------------------------------------------------------------
