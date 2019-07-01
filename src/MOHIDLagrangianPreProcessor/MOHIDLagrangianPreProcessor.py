@@ -73,26 +73,27 @@ def run():
     outDir = getattr(args,'outDir')
     print('-> Case definition file is ', caseXML)
     #---------------------------------------------------
-    
     #parsing case definition file
     root = ET.parse(caseXML).getroot()
     
     dataDir = []
+    dataType = []
     for type_tag in root.findall('casedef/inputData/inputDataDir'):
         dataDir.append(type_tag.get('name'))
+        dataType.append(type_tag.get('type'))
     
     for type_tag in root.findall('execution/parameters/parameter'):
         if type_tag.get('key') == 'StartTime':
             StartTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
         if type_tag.get('key') == 'EndTime':
-            EndTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
-        
-    #dataDir="C:\Users\RBC_workhorse\Documents\GitHub\MOHID_python_tools\ConvertCSV2HDF5\testFiles"
+            EndTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")
     
+    #------------------------------------------------------
     if len(dataDir) > 1:
         print('-> Input data directories are', dataDir)
     else:
         print('-> Input data directory is', dataDir)
+        
     #------------------------------------------------------
     fileExtensions = ['.nc', '.nc4']  
     
@@ -126,7 +127,7 @@ def run():
 		
         print('--> indexing currents data')
         for ncfile in ncMeta:
-            indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y/%m/%d, %H:%M:%S"), ncfile.getendDate().strftime("%Y/%m/%d, %H:%M:%S"))
+            indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))
 		
         indexer.closeCurrentsCollection()
         indexer.closeFile()
