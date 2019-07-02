@@ -729,12 +729,12 @@
     elseif(parmkey%chars()=="OutputWriteTime") then
         self%OutputWriteTime=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%OutputWriteTime)
-    elseif(parmkey%chars()=="StartTime") then
+    elseif(parmkey%chars()=="Start") then
         date = Utils%getDateFromISOString(parmvalue)
         self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%StartTime%isValid()) self%StartTime = datetime()
         sizem=sizeof(self%StartTime)
-    elseif(parmkey%chars()=="EndTime") then
+    elseif(parmkey%chars()=="End") then
         date = Utils%getDateFromISOString(parmvalue)
         self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%EndTime%isValid()) self%EndTime = datetime()
@@ -791,11 +791,11 @@
         call Log%put(outext)
         stop
     elseif (self%StartTime==temp) then
-        outext = '[Globals::parameters::check]: start time parameter (StartTime) is not set or invalid, stoping'
+        outext = '[Globals::parameters::check]: start time parameter (Start) is not set or invalid, stoping'
         call Log%put(outext)
         stop
     elseif (self%EndTime==temp) then
-        outext = '[Globals::parameters::check]: end time parameter (EndTime) is not set or invalid, stoping'
+        outext = '[Globals::parameters::check]: end time parameter (End) is not set or invalid, stoping'
         call Log%put(outext)
         stop
     end if
@@ -1013,9 +1013,9 @@
     type(string), intent(in) :: point_
     type(vector) :: coords
     integer :: sizem
-    if (point_%chars() == "pointmin") then
+    if (point_%chars() == "BoundingBoxMin") then
         self%Pointmin= coords
-    elseif (point_%chars() == "pointmax") then
+    elseif (point_%chars() == "BoundingBoxMax") then
         self%Pointmax= coords
     endif
     sizem=sizeof(coords)

@@ -78,13 +78,13 @@ def run():
     root = ET.parse(caseXML).getroot()
     
     dataDir = []
-    for type_tag in root.findall('casedef/inputData/inputDataDir'):
+    for type_tag in root.findall('caseDefinitions/inputData/inputDataDir'):
         dataDir.append(type_tag.get('name'))
     
     for type_tag in root.findall('execution/parameters/parameter'):
-        if type_tag.get('key') == 'StartTime':
+        if type_tag.get('key') == 'Start':
             StartTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
-        if type_tag.get('key') == 'EndTime':
+        if type_tag.get('key') == 'End':
             EndTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
         
     #dataDir="C:\Users\RBC_workhorse\Documents\GitHub\MOHID_python_tools\ConvertCSV2HDF5\testFiles"
