@@ -4,6 +4,10 @@
 
 [![License](https://img.shields.io/badge/license-GNU%20GeneraL%20Public%20License%20v3,%20GPLv3-blue.svg)]()
 
+![Vigo3D](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Vigo3D_noDiffusion.gif)
+
+*3D passive tracers on a MOHID operational currents solution in Vigo region, Galiza, Spain.*
+
 ![Atlantic1](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Atlantic_2016_2017_density.gif)
 
 *Floating passive tracers on a CMEMS Atlantic currents solution.*
