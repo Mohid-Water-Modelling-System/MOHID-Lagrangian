@@ -15,9 +15,14 @@
     !> Daniel Garaboa Paz
     !
     ! DESCRIPTION:
-    !> Defines an abstraction kernel class adpated from solver class.
-    !> This class split the solver and evaluation proces to allow other functions
-    !> to be evaluated.
+    !> Defines an abstract physics kernel class.
+    !> This class has several methods, that should be designed on a one method - one
+    !> process approach. Different types of state vectors (corresponding to different
+    !> types of tracers, with different quantities attached), will be affected by 
+    !> different processes (some suffer beaching, others don't have diffusion, etc)
+    !> The output of every kernel should be a 2D matrix, where a row represents the
+    !> derivative of the state vector of a given tracer. n columns - n variables.
+    !> This is the step were interpolation and physics actually happen.
     !------------------------------------------------------------------------------
     use common_modules
     use stateVector_mod
@@ -45,18 +50,17 @@
     !---------------------------------------------------------------------------
     function runKernel(self, sv, bdata, time, dt)
     class(kernel_class), intent(inout) :: self
-
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
 
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
     end if
 
     end function runKernel
@@ -105,7 +109,7 @@
         else if (nf == MV_INT) then
             LagrangianKinematic(:,3) = 0.0
             sv%state(:,6) = 0.0
-        end if        
+        end if
         !update land mask status
         nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
         if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))

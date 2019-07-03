@@ -31,7 +31,6 @@ var hierarchy =
     [ "simulationinputstreamer_mod::inputfilemodel_class", "structsimulationinputstreamer__mod_1_1inputfilemodel__class.html", null ],
     [ "interpolator_mod::interpolator_class", "structinterpolator__mod_1_1interpolator__class.html", null ],
     [ "kernel_mod::kernel_class", "structkernel__mod_1_1kernel__class.html", null ],
-    [ "about.Licence", "classabout_1_1_licence.html", null ],
     [ "abstract_linkedlist_mod::linkedlist", "structabstract__linkedlist__mod_1_1linkedlist.html", null ],
     [ "linkedlist", null, [
       [ "background_mod::fieldslist_class", "structbackground__mod_1_1fieldslist__class.html", null ],
@@ -42,9 +41,7 @@ var hierarchy =
     [ "simulationlogger_mod::logger_class", "structsimulationlogger__mod_1_1logger__class.html", null ],
     [ "simulationglobals_mod::maskvals_t", "structsimulationglobals__mod_1_1maskvals__t.html", null ],
     [ "simulationmemory_mod::memory_t", "structsimulationmemory__mod_1_1memory__t.html", null ],
-    [ "MHDF5_reader.MHDF5Reader", "class_m_h_d_f5__reader_1_1_m_h_d_f5_reader.html", null ],
     [ "netcdfparser_mod::ncfile_class", "structnetcdfparser__mod_1_1ncfile__class.html", null ],
-    [ "ncMetaParser.ncMetadata", "classnc_meta_parser_1_1nc_metadata.html", null ],
     [ "simulationoutputstreamer_mod::output_streamer_class", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html", null ],
     [ "tracerpaper_mod::paper_par_class", "structtracerpaper__mod_1_1paper__par__class.html", null ],
     [ "tracerpaper_mod::paper_state_class", "structtracerpaper__mod_1_1paper__state__class.html", null ],
@@ -96,6 +93,5 @@ var hierarchy =
     [ "simulationglobals_mod::var_names_t", "structsimulationglobals__mod_1_1var__names__t.html", null ],
     [ "netcdfparser_mod::var_t", "structnetcdfparser__mod_1_1var__t.html", null ],
     [ "vtkwritter_mod::vtkwritter_class", "structvtkwritter__mod_1_1vtkwritter__class.html", null ],
-    [ "xmlparser_mod::xmlparser_class", "structxmlparser__mod_1_1xmlparser__class.html", null ],
-    [ "xmlWriter.xmlWriter", "classxml_writer_1_1xml_writer.html", null ]
+    [ "xmlparser_mod::xmlparser_class", "structxmlparser__mod_1_1xmlparser__class.html", null ]
 ];

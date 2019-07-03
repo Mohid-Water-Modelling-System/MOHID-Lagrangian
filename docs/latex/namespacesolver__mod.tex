@@ -2,7 +2,7 @@
 \label{namespacesolver__mod}\index{solver\+\_\+mod@{solver\+\_\+mod}}
 
 
-Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary interpolation objects.  
+Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary kernel functions.  
 
 
 \subsection*{Data Types}
@@ -17,6 +17,10 @@ subroutine \mbox{\hyperlink{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6
 \begin{DoxyCompactList}\small\item\em Method that integrates the Tracer State Vector in one time-\/step, according to the selected integration algorithm. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a21533e195501ebb46c1814aeaede4c55}{runstepeuler}} (self, sv, bdata, time, dt)
 \begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Velocity Euler integration algorithm. This is a one-\/shot type explicit scheme with low computational cost. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_ae574f8d772b89d5c3c602db278c05325}{runstepmseuler}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state vector in one time-\/step, using a Multi-\/\+Step Euler integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_a11436fc89bf6c713930a83b5cc52a0cd}{runsteprk4}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a326292ff19880a914317109520b200b2}{initsolver}} (self, flag, name)
 \begin{DoxyCompactList}\small\item\em Initializer method for the Solver class. Sets the type of integrator and name of the algorithm this Solver will call. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}{printsolver}} (self)
@@ -24,7 +28,7 @@ subroutine \mbox{\hyperlink{namespacesolver__mod_a54ea6899cce026a7a5da2dd0592262
 
 
 \subsection{Detailed Description}
-Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary interpolation objects. 
+Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary kernel functions. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas 
@@ -52,17 +56,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 282 of file solver.\+f90.
+Definition at line 184 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-282     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-283     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
-284     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-285     \textcolor{keywordtype}{type}(string) :: interpName
-286     self%solverType = flag
-287     self%name = name   
-288     \textcolor{keyword}{call }self%Kernel%initialize()
+184     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+185     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
+186     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+187     \textcolor{keywordtype}{type}(string) :: interpName
+188     self%solverType = flag
+189     self%name = name
+190     \textcolor{keyword}{call }self%Kernel%initialize()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}\label{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!printsolver@{printsolver}}
@@ -79,14 +83,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 297 of file solver.\+f90.
+Definition at line 199 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-297     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-298     \textcolor{keywordtype}{type}(string) :: outext, t
-299     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
-300     \textcolor{keyword}{call }log%put(outext,.false.)
+199     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+200     \textcolor{keywordtype}{type}(string) :: outext, t
+201     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
+202     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6af}\label{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6af}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!runstep@{runstep}}
@@ -119,8 +123,8 @@ Definition at line 58 of file solver.\+f90.
 62     \textcolor{comment}{!so the forward integrators don't overextend beyond calendar time}
 63     \textcolor{keywordflow}{if} (time+dt < globals%Parameters%TimeMax) \textcolor{keywordflow}{then}
 64         \textcolor{keywordflow}{if} (self%solverType == 1) \textcolor{keyword}{call }self%runStepEuler(state, bdata, time, dt)
-65         \textcolor{comment}{!if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)}
-66         \textcolor{comment}{!if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)}
+65         \textcolor{keywordflow}{if} (self%solverType == 2) \textcolor{keyword}{call }self%runStepMSEuler(state, bdata, time, dt)
+66         \textcolor{keywordflow}{if} (self%solverType == 3) \textcolor{keyword}{call }self%runStepRK4(state, bdata, time, dt)
 67 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a21533e195501ebb46c1814aeaede4c55}\label{namespacesolver__mod_a21533e195501ebb46c1814aeaede4c55}} 
@@ -156,5 +160,116 @@ Definition at line 81 of file solver.\+f90.
 87     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sv)
 88         sv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt
 89 \textcolor{keywordflow}{    end do}
-90     
+90 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesolver__mod_ae574f8d772b89d5c3c602db278c05325}\label{namespacesolver__mod_ae574f8d772b89d5c3c602db278c05325}} 
+\index{solver\+\_\+mod@{solver\+\_\+mod}!runstepmseuler@{runstepmseuler}}
+\index{runstepmseuler@{runstepmseuler}!solver\+\_\+mod@{solver\+\_\+mod}}
+\subsubsection{\texorpdfstring{runstepmseuler()}{runstepmseuler()}}
+{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runstepmseuler (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), dimension(\+:), intent(inout)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that integrates the Tracer state vector in one time-\/step, using a Multi-\/\+Step Euler integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,bdata,time,dt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 102 of file solver.\+f90.
+
+
+\begin{DoxyCode}
+102     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+103     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: sv
+104     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+105     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+106     \textcolor{keywordtype}{type}(stateVector\_class) :: predSv
+107     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: predKernel
+108     \textcolor{keywordtype}{real(prec)}:: mstime
+109     \textcolor{keywordtype}{integer} :: i
+110 
+111     mstime = time + 0.5*dt
+112 
+113     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sv)
+114         \textcolor{comment}{!creating predictor step state vector}
+115         \textcolor{keyword}{call }sv(i)%copyState(predsv)
+116         \textcolor{keyword}{allocate}(predkernel(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+117         \textcolor{comment}{!computing predictor step}
+118         predkernel = self%Kernel%run(sv(i), bdata, time, dt)
+119         predsv%state = sv(i)%state + predkernel*dt
+120         \textcolor{comment}{!computing corrector step}
+121         sv(i)%state = sv(i)%state + (predkernel +  self%Kernel%run(predsv, bdata, mstime, dt))*(dt*0.5)
+122         \textcolor{comment}{!deallocating}
+123         \textcolor{keyword}{call }predsv%finalize()
+124         \textcolor{keyword}{deallocate}(predkernel)
+125 \textcolor{keywordflow}{    end do}
+126 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesolver__mod_a11436fc89bf6c713930a83b5cc52a0cd}\label{namespacesolver__mod_a11436fc89bf6c713930a83b5cc52a0cd}} 
+\index{solver\+\_\+mod@{solver\+\_\+mod}!runsteprk4@{runsteprk4}}
+\index{runsteprk4@{runsteprk4}!solver\+\_\+mod@{solver\+\_\+mod}}
+\subsubsection{\texorpdfstring{runsteprk4()}{runsteprk4()}}
+{\footnotesize\ttfamily subroutine solver\+\_\+mod\+::runsteprk4 (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), dimension(\+:), intent(inout)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,bdata,time,dt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 138 of file solver.\+f90.
+
+
+\begin{DoxyCode}
+138     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+139     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: sv
+140     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+141     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+142     \textcolor{keywordtype}{type}(stateVector\_class) :: intSv
+143     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: k1, k2, k3, k4
+144     \textcolor{keywordtype}{integer} :: i
+145 
+146     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sv)
+147         \textcolor{comment}{!creating intermediate step state vectors}
+148         \textcolor{keyword}{call }sv(i)%copyState(intsv)
+149         \textcolor{keyword}{allocate}(k1(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+150         \textcolor{keyword}{allocate}(k2(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+151         \textcolor{keyword}{allocate}(k3(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+152         \textcolor{keyword}{allocate}(k4(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+153         \textcolor{comment}{!1st step}
+154         k1 = self%Kernel%run(sv(i), bdata, time, dt)*dt
+155         intsv%state = sv(i)%state + k1*0.5
+156         \textcolor{comment}{!2nd step}
+157         k2 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt
+158         intsv%state = sv(i)%state + k2*0.5
+159         \textcolor{comment}{!3rd step}
+160         k3 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt
+161         intsv%state = sv(i)%state + k3
+162         \textcolor{comment}{!4th step}
+163         k4 = self%Kernel%run(intsv, bdata, time + dt, dt)*dt
+164         \textcolor{comment}{!computing the new state}
+165         sv(i)%state = sv(i)%state + (k1 + 2.0*k2 + 2.0*k3 + k4)/6.0
+166         \textcolor{comment}{!deallocating}
+167         \textcolor{keyword}{call }intsv%finalize()
+168         \textcolor{keyword}{deallocate}(k1)
+169         \textcolor{keyword}{deallocate}(k2)
+170         \textcolor{keyword}{deallocate}(k3)
+171         \textcolor{keyword}{deallocate}(k4)
+172 \textcolor{keywordflow}{    end do}
+173 
 \end{DoxyCode}

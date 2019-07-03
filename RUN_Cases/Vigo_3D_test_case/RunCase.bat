@@ -3,7 +3,7 @@ cls
 
 rem "name" and "dirout" are named according to the case
 
-set name=Vigo3D
+set name=Vigo3D_Def
 set dirout=%name%_out
 
 rem "executables" are renamed and called from their directory
@@ -18,8 +18,7 @@ rem "dirout" is created to store results or it is cleaned if it already exists
 if exist %dirout% del /Q %dirout%\*.*
 if not exist %dirout% mkdir %dirout%
 
-copy %name%_Def.xml %dirout% 
-ren %dirout%\%name%_Def.xml %name%.xml
+copy %name%.xml %dirout% 
 
 rem CODES are executed according the selected parameters of execution in this case
 

@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.4</span>
+   &#160;<span id="projectnumber">0.1</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('namespacesolver__mod.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary interpolation objects.  
+<p>Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary kernel functions.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -118,6 +118,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a21533e195501ebb46c1814aeaede4c55"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#a21533e195501ebb46c1814aeaede4c55">runstepeuler</a> (self, sv, bdata, time, dt)</td></tr>
 <tr class="memdesc:a21533e195501ebb46c1814aeaede4c55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, using a Velocity Euler integration algorithm. This is a one-shot type explicit scheme with low computational cost. Implements \( {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}\) \( {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t\).  <a href="#a21533e195501ebb46c1814aeaede4c55">More...</a><br /></td></tr>
 <tr class="separator:a21533e195501ebb46c1814aeaede4c55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae574f8d772b89d5c3c602db278c05325"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#ae574f8d772b89d5c3c602db278c05325">runstepmseuler</a> (self, sv, bdata, time, dt)</td></tr>
+<tr class="memdesc:ae574f8d772b89d5c3c602db278c05325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state vector in one time-step, using a Multi-Step Euler integration algorithm. This is a predictor-corrector type explicit scheme with excelent conservation properties and average cost.  <a href="#ae574f8d772b89d5c3c602db278c05325">More...</a><br /></td></tr>
+<tr class="separator:ae574f8d772b89d5c3c602db278c05325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11436fc89bf6c713930a83b5cc52a0cd"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#a11436fc89bf6c713930a83b5cc52a0cd">runsteprk4</a> (self, sv, bdata, time, dt)</td></tr>
+<tr class="memdesc:a11436fc89bf6c713930a83b5cc52a0cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that integrates the Tracer state array in one time-step, using a Runge-Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost.  <a href="#a11436fc89bf6c713930a83b5cc52a0cd">More...</a><br /></td></tr>
+<tr class="separator:a11436fc89bf6c713930a83b5cc52a0cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a326292ff19880a914317109520b200b2"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesolver__mod.html#a326292ff19880a914317109520b200b2">initsolver</a> (self, flag, name)</td></tr>
 <tr class="memdesc:a326292ff19880a914317109520b200b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializer method for the Solver class. Sets the type of integrator and name of the algorithm this Solver will call.  <a href="#a326292ff19880a914317109520b200b2">More...</a><br /></td></tr>
 <tr class="separator:a326292ff19880a914317109520b200b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +132,7 @@ Functions/Subroutines</h2></td></tr>
 <tr class="separator:a54ea6899cce026a7a5da2dd05922628f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary interpolation objects. </p>
+<div class="textblock"><p>Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary kernel functions. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
 <a id="a326292ff19880a914317109520b200b2"></a>
@@ -178,8 +184,8 @@ Functions/Subroutines</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00282">282</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: flag</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="keywordtype">type</span>(string), <span class="keywordtype">intent(in)</span> :: name</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;    <span class="keywordtype">type</span>(string) :: interpName</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    self%solverType = flag</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    self%name = name   </div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keyword">call </span>self%Kernel%initialize()</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00184">184</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">intent(in)</span> :: flag</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">type</span>(string), <span class="keywordtype">intent(in)</span> :: name</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordtype">type</span>(string) :: interpName</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    self%solverType = flag</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    self%name = name</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">call </span>self%Kernel%initialize()</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a54ea6899cce026a7a5da2dd05922628f"></a>
@@ -209,8 +215,8 @@ Functions/Subroutines</h2></td></tr>
 <p>Method that prints the Solver information. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00297">297</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="keywordtype">type</span>(string) :: outext, t</div><div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    outext = <span class="stringliteral">&#39;Solver algorithm is &#39;</span>//self%name</div><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="keyword">call </span>log%put(outext,.false.)</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00199">199</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordtype">type</span>(string) :: outext, t</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    outext = <span class="stringliteral">&#39;Solver algorithm is &#39;</span>//self%name</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">call </span>log%put(outext,.false.)</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a75c5c8b01ae4ae193ff03dbe7e5fc6af"></a>
@@ -275,7 +281,7 @@ Functions/Subroutines</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00058">58</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">type</span>(stateVector_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(inout)</span> :: state</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">type</span>(background_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(in)</span> :: bdata</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">intent(in)</span> :: time, dt</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">!so the forward integrators don&#39;t overextend beyond calendar time</span></div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (time+dt &lt; globals%Parameters%TimeMax) <span class="keywordflow">then</span></div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> (self%solverType == 1) <span class="keyword">call </span>self%runStepEuler(state, bdata, time, dt)</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment">!if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)</span></div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">!if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)</span></div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordflow">    end if</span></div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">type</span>(stateVector_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(inout)</span> :: state</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">type</span>(background_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(in)</span> :: bdata</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">intent(in)</span> :: time, dt</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">!so the forward integrators don&#39;t overextend beyond calendar time</span></div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (time+dt &lt; globals%Parameters%TimeMax) <span class="keywordflow">then</span></div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> (self%solverType == 1) <span class="keyword">call </span>self%runStepEuler(state, bdata, time, dt)</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (self%solverType == 2) <span class="keyword">call </span>self%runStepMSEuler(state, bdata, time, dt)</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (self%solverType == 3) <span class="keyword">call </span>self%runStepRK4(state, bdata, time, dt)</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordflow">    end if</span></div></div><!-- fragment -->
 </div>
 </div>
 <a id="a21533e195501ebb46c1814aeaede4c55"></a>
@@ -340,7 +346,137 @@ Functions/Subroutines</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00081">81</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">type</span>(stateVector_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(inout)</span> :: sv</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">type</span>(background_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(in)</span> :: bdata</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">intent(in)</span> :: time, dt</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">integer</span> :: i</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">do</span> i=1, <span class="keyword">size</span>(sv)</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        sv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    </div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">type</span>(stateVector_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(inout)</span> :: sv</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">type</span>(background_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(in)</span> :: bdata</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">intent(in)</span> :: time, dt</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">integer</span> :: i</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">do</span> i=1, <span class="keyword">size</span>(sv)</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        sv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ae574f8d772b89d5c3c602db278c05325"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae574f8d772b89d5c3c602db278c05325">&#9670;&nbsp;</a></span>runstepmseuler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine solver_mod::runstepmseuler </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structsolver__mod_1_1solver__class.html">solver_class</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(statevector_class), dimension(:), intent(inout)&#160;</td>
+          <td class="paramname"><em>sv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(<a class="el" href="structbackground__mod_1_1background__class.html">background_class</a>), dimension(:), intent(in)&#160;</td>
+          <td class="paramname"><em>bdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Method that integrates the Tracer state vector in one time-step, using a Multi-Step Euler integration algorithm. This is a predictor-corrector type explicit scheme with excelent conservation properties and average cost. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,sv,bdata,time,dt</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00102">102</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">type</span>(stateVector_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(inout)</span> :: sv</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">type</span>(background_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(in)</span> :: bdata</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">intent(in)</span> :: time, dt</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">type</span>(stateVector_class) :: predSv</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:,:)</span> :: predKernel</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">real(prec)</span>:: mstime</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">integer</span> :: i</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    mstime = time + 0.5*dt</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">do</span> i=1, <span class="keyword">size</span>(sv)</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment">!creating predictor step state vector</span></div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keyword">call </span>sv(i)%copyState(predsv)</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keyword">allocate</span>(predkernel(<span class="keyword">size</span>(sv(i)%state, 1), <span class="keyword">size</span>(sv(i)%state, 2)))</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment">!computing predictor step</span></div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        predkernel = self%Kernel%run(sv(i), bdata, time, dt)</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        predsv%state = sv(i)%state + predkernel*dt</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment">!computing corrector step</span></div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        sv(i)%state = sv(i)%state + (predkernel +  self%Kernel%run(predsv, bdata, mstime, dt))*(dt*0.5)</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="comment">!deallocating</span></div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keyword">call </span>predsv%finalize()</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keyword">deallocate</span>(predkernel)</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a11436fc89bf6c713930a83b5cc52a0cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11436fc89bf6c713930a83b5cc52a0cd">&#9670;&nbsp;</a></span>runsteprk4()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine solver_mod::runsteprk4 </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structsolver__mod_1_1solver__class.html">solver_class</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(statevector_class), dimension(:), intent(inout)&#160;</td>
+          <td class="paramname"><em>sv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(<a class="el" href="structbackground__mod_1_1background__class.html">background_class</a>), dimension(:), intent(in)&#160;</td>
+          <td class="paramname"><em>bdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(prec), intent(in)&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Method that integrates the Tracer state array in one time-step, using a Runge-Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,sv,bdata,time,dt</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="solver_8f90_source.html#l00138">138</a> of file <a class="el" href="solver_8f90_source.html">solver.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">class</span>(solver_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">type</span>(stateVector_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(inout)</span> :: sv</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">type</span>(background_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(in)</span> :: bdata</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">intent(in)</span> :: time, dt</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordtype">type</span>(stateVector_class) :: intSv</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">real(prec)</span>, <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:,:)</span> :: k1, k2, k3, k4</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">integer</span> :: i</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">do</span> i=1, <span class="keyword">size</span>(sv)</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="comment">!creating intermediate step state vectors</span></div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keyword">call </span>sv(i)%copyState(intsv)</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keyword">allocate</span>(k1(<span class="keyword">size</span>(sv(i)%state, 1), <span class="keyword">size</span>(sv(i)%state, 2)))</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keyword">allocate</span>(k2(<span class="keyword">size</span>(sv(i)%state, 1), <span class="keyword">size</span>(sv(i)%state, 2)))</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keyword">allocate</span>(k3(<span class="keyword">size</span>(sv(i)%state, 1), <span class="keyword">size</span>(sv(i)%state, 2)))</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keyword">allocate</span>(k4(<span class="keyword">size</span>(sv(i)%state, 1), <span class="keyword">size</span>(sv(i)%state, 2)))</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="comment">!1st step</span></div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        k1 = self%Kernel%run(sv(i), bdata, time, dt)*dt</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        intsv%state = sv(i)%state + k1*0.5</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="comment">!2nd step</span></div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        k2 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        intsv%state = sv(i)%state + k2*0.5</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="comment">!3rd step</span></div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        k3 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        intsv%state = sv(i)%state + k3</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="comment">!4th step</span></div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        k4 = self%Kernel%run(intsv, bdata, time + dt, dt)*dt</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="comment">!computing the new state</span></div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        sv(i)%state = sv(i)%state + (k1 + 2.0*k2 + 2.0*k3 + k4)/6.0</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="comment">!deallocating</span></div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keyword">call </span>intsv%finalize()</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keyword">deallocate</span>(k1)</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keyword">deallocate</span>(k2)</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keyword">deallocate</span>(k3)</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keyword">deallocate</span>(k4)</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keywordflow">    end do</span></div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

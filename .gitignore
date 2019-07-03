@@ -1,9 +1,7 @@
 build/
 anim/
 Anim/
-RUN_Cases/Atlantic/
-RUN_Cases/Real_vel_test_Cefas/
-
+run_local_cases/
 ExternalLibs/
 
 .vscode

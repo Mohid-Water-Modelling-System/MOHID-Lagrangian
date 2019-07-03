@@ -1,6 +1,5 @@
 var annotated_dup =
 [
-    [ "about", "namespaceabout.html", "namespaceabout" ],
     [ "abstract_linkedlist_mod", "namespaceabstract__linkedlist__mod.html", "namespaceabstract__linkedlist__mod" ],
     [ "background_mod", "namespacebackground__mod.html", "namespacebackground__mod" ],
     [ "blocks_mod", "namespaceblocks__mod.html", "namespaceblocks__mod" ],
@@ -13,8 +12,6 @@ var annotated_dup =
     [ "interpolator_mod", "namespaceinterpolator__mod.html", "namespaceinterpolator__mod" ],
     [ "kernel_mod", "namespacekernel__mod.html", "namespacekernel__mod" ],
     [ "link_mod", "namespacelink__mod.html", "namespacelink__mod" ],
-    [ "MHDF5_reader", "namespace_m_h_d_f5__reader.html", "namespace_m_h_d_f5__reader" ],
-    [ "ncMetaParser", "namespacenc_meta_parser.html", "namespacenc_meta_parser" ],
     [ "netcdfparser_mod", "namespacenetcdfparser__mod.html", "namespacenetcdfparser__mod" ],
     [ "simulation_mod", "namespacesimulation__mod.html", "namespacesimulation__mod" ],
     [ "simulationglobals_mod", "namespacesimulationglobals__mod.html", "namespacesimulationglobals__mod" ],
@@ -36,6 +33,5 @@ var annotated_dup =
     [ "traceruser_mod", "namespacetraceruser__mod.html", "namespacetraceruser__mod" ],
     [ "utilities_mod", "namespaceutilities__mod.html", "namespaceutilities__mod" ],
     [ "vtkwritter_mod", "namespacevtkwritter__mod.html", "namespacevtkwritter__mod" ],
-    [ "xmlparser_mod", "namespacexmlparser__mod.html", "namespacexmlparser__mod" ],
-    [ "xmlWriter", "namespacexml_writer.html", "namespacexml_writer" ]
+    [ "xmlparser_mod", "namespacexmlparser__mod.html", "namespacexmlparser__mod" ]
 ];
