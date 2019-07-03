@@ -36,8 +36,8 @@
     contains
     procedure :: initialize => initSolver
     procedure :: runStep
-    !procedure, private :: runStepMSEuler
     procedure, private :: runStepEuler
+    procedure, private :: runStepMSEuler    
     !procedure, private :: runStepRK4
     procedure :: print => printSolver
     end type solver_class
@@ -62,7 +62,7 @@
     !so the forward integrators don't overextend beyond calendar time
     if (time+dt < Globals%Parameters%TimeMax) then
         if (self%solverType == 1) call self%runStepEuler(state, bdata, time, dt)
-        !if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)
+        if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)
         !if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)
     end if
     end subroutine runStep
@@ -90,80 +90,41 @@
     
     end subroutine runStepEuler
 
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> Method that integrates the Tracer state array in one time-step, using a
-    !!> Multi-Step Euler integration algorithm. This is a predictor-corrector type
-    !!> explicit scheme with excelent conservation properties and average cost
-    !!> @param[in] self, aot, bdata, time, dt
-    !!---------------------------------------------------------------------------
-    !subroutine runStepMSEuler(self, aot, bdata, time, dt)
-    !class(solver_class), intent(inout) :: self
-    !type(aot_class), intent(inout) :: aot
-    !type(aot_class) :: predAot
-    !type(background_class), dimension(:), intent(in) :: bdata
-    !real(prec), intent(in) :: time, dt
-    !real(prec) :: mstime
-    !integer :: np, nf, bkg
-    !real(prec), dimension(:,:), allocatable :: var_dt
-    !type(string), dimension(:), allocatable :: var_name
-    !
-    !call predAot%initialize(size(aot%id))
-    !! interpolate each background
-    !do bkg = 1, size(bdata)
-    !    np = size(aot%id) !number of particles
-    !    nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-    !    allocate(var_dt(np,nf))
-    !    allocate(var_name(nf))
-    !    !Predictor step
-    !    !run the interpolator
-    !    call self%Interpolator%run(aot, bdata(bkg), time, var_dt, var_name)
-    !    !update velocities for the predictor step
-    !    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    !    predAot%u = var_dt(:,nf)
-    !    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !    predAot%v = var_dt(:,nf)
-    !    nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    !    if (nf /= MV_INT) predAot%w = var_dt(:,nf)
-    !    if (nf == MV_INT) predAot%w = 0.0
-    !
-    !    !update positions for the predictor step
-    !    predAot%x = aot%x + Utils%m2geo(predAot%u, aot%y, .false.)*0.5*dt
-    !    predAot%y = aot%y + Utils%m2geo(predAot%v, aot%y, .true.)*0.5*dt
-    !    predAot%z = aot%z + aot%w*0.5*dt
-    !    !Corrector step
-    !    !run the interpolator
-    !    mstime = time+0.5*dt
-    !
-    !    call self%Interpolator%run(predAot, bdata(bkg), mstime, var_dt, var_name)
-    !    !update velocities for the corrector step
-    !    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    !    aot%u = var_dt(:,nf)
-    !    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !    aot%v = var_dt(:,nf)
-    !    nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    !    if (nf /= MV_INT) aot%w = var_dt(:,nf)
-    !    if (nf == MV_INT) aot%w = 0.0
-    !    !update positions for the corrector step
-    !    aot%x = aot%x + Utils%m2geo(aot%u+predAot%u, aot%y, .false.)*0.5*dt
-    !    aot%y = aot%y + Utils%m2geo(aot%v+predAot%v, aot%y, .true.)*0.5*dt
-    !    aot%z = aot%z + (aot%w+predAot%w)*dt*0.5
-    !    !update land mask status
-    !    nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
-    !    if (nf /= MV_INT) aot%landMask = nint(var_dt(:,nf))
-    !    if (nf == MV_INT) aot%landMask = Globals%Mask%waterVal
-    !    !marking tracers for deletion because they are in land
-    !    where(aot%landMask == 2) aot%active = .false.
-    !    !update land interaction status
-    !    nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-    !    if (nf /= MV_INT) aot%landIntMask = nint(var_dt(:,nf))
-    !    if (nf == MV_INT) aot%landIntMask = Globals%Mask%waterVal
-    !    !update other vars...
-    !end do
-    !call predAot%finalize()
-    !
-    !end subroutine runStepMSEuler
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that integrates the Tracer state vector in one time-step, using a
+    !> Multi-Step Euler integration algorithm. This is a predictor-corrector type
+    !> explicit scheme with excelent conservation properties and average cost
+    !> @param[in] self, sv, bdata, time, dt
+    !---------------------------------------------------------------------------
+    subroutine runStepMSEuler(self, sv, bdata, time, dt)
+    class(solver_class), intent(inout) :: self
+    type(stateVector_class), dimension(:), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time, dt
+    type(stateVector_class) :: predSv
+    real(prec), allocatable, dimension(:,:) :: predKernel
+    real(prec):: mstime
+    integer :: i
+
+    mstime = time + 0.5*dt
+    
+    do i=1, size(sv)
+        !creating predictor step state vector
+        call sv(i)%copyState(predSv)
+        allocate(predKernel(size(sv(i)%state, 1), size(sv(i)%state, 2)))
+        !computing predictor step
+        predKernel = self%Kernel%run(sv(i), bdata, time, dt)
+        predSv%state = sv(i)%state + predKernel*dt
+        !computing corrector step
+        sv(i)%state = sv(i)%state + (predKernel +  self%Kernel%run(predSv, bdata, mstime, dt))*(dt*0.5)
+        !deallocating
+        call predSv%finalize()
+        deallocate(predKernel)
+    end do
+    
+    end subroutine runStepMSEuler
     !
     !!---------------------------------------------------------------------------
     !!> @author Ricardo Birjukovs Canelas - MARETEC
