@@ -1,4 +1,4 @@
-## MOHIDLagrangian - V0.1 - Work in progress!
+## MOHID Lagrangian - V0.1 - Work in progress!
 
 ![Vigo3D](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
 
