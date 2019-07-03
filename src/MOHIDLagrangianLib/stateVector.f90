@@ -16,7 +16,7 @@
     !> Module to hold the State Vector class and its methods. This class
     !> defines a state vector that encodes the state of a type of Tracers, 
     !> allowing for trivial application of kernels and subsequent integration. 
-    !> These must be exported beck into the objects from this class
+    !> These must be exported back into the objects from this class.
     !------------------------------------------------------------------------------
 
     module stateVector_mod
