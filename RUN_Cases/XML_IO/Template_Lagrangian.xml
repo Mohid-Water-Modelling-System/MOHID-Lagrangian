@@ -74,7 +74,7 @@
 				<type source="2" type='plastic' property="bag_1" comment="" />
 				<type source="3" type='paper' property="cardboard_1" comment="" />
 			</types>
-			<file name="materialTypes_example.xml"/>
+			<file name="data/materialTypes_example.xml"/>
 		</sourceTypes>
 		<variableNaming>
 			<file name="ncNamesLibrary_case1.xml"/>
