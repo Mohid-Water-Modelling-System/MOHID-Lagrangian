@@ -1,6 +1,6 @@
 ## MOHIDLagrangian - V0.1 - Work in progress!
 
-![Vigo3D](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Vigo3D_noDiffusion.gif)
+![Vigo3D](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
 
 *3D passive tracers on a [MOHID](http://www.mohid.com) operational currents solution in Vigo region, Galiza, Spain.*
 
