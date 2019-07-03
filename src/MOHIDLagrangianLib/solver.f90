@@ -38,7 +38,7 @@
     procedure :: runStep
     procedure, private :: runStepEuler
     procedure, private :: runStepMSEuler    
-    !procedure, private :: runStepRK4
+    procedure, private :: runStepRK4
     procedure :: print => printSolver
     end type solver_class
 
@@ -63,7 +63,7 @@
     if (time+dt < Globals%Parameters%TimeMax) then
         if (self%solverType == 1) call self%runStepEuler(state, bdata, time, dt)
         if (self%solverType == 2) call self%runStepMSEuler(state, bdata, time, dt)
-        !if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)
+        if (self%solverType == 3) call self%runStepRK4(state, bdata, time, dt)
     end if
     end subroutine runStep
 
@@ -125,112 +125,57 @@
     end do
     
     end subroutine runStepMSEuler
-    !
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> Method that integrates the Tracer state array in one time-step, using a
-    !!> Runge-Kuta 4th order integration algorithm. This is an explicit scheme
-    !!> with medium to high computational cost
-    !!> @param[in] self, aot, bdata, time, dt
-    !!---------------------------------------------------------------------------
-    !subroutine runStepRK4(self, aot, bdata, time, dt)
-    !class(solver_class), intent(inout) :: self
-    !type(aot_class), intent(inout) :: aot
-    !type(background_class), dimension(:), intent(in) :: bdata
-    !real(prec), intent(in) :: time, dt
-    !type(aot_class), dimension(4) :: k
-    !real(prec) :: mstime
-    !integer :: np, nf, bkg
-    !real(prec), dimension(:,:), allocatable :: var_dt
-    !type(string), dimension(:), allocatable :: var_name
-    !
-    !!update velocities for the predictor step
-    !nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    !k(1)%u = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !k(1)%v = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    !if (nf /= MV_INT) k(1)%w = var_dt(:,nf)
-    !if (nf == MV_INT) k(1)%w = 0.0
-    !!-----k1 step: k1 = f(x_n,t_n)-----
-    !
-    !!---- k2 step: k2 = f(x_n + k1/2,t_n + dt/2)------
-    !!update positions:  x_n + k1./2*dt
-    !k(2)%x = k(1)%x + Utils%m2geo(k(1)%u, k(1)%y, .false.)*0.5*dt
-    !k(2)%y = K(1)%y + Utils%m2geo(k(1)%v, k(1)%y, .true.)*0.5*dt
-    !k(2)%z = k(1)%z + k(1)%w*dt*0.5
-    !!update the time: t + dt/2
-    !mstime = time+0.5*dt
-    !!run the interpolator: f(x_n + k1/2,t + dt/2)
-    !call self%Interpolator%run(k(2), bdata(bkg), mstime, var_dt, var_name)
-    !!update velocities
-    !nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    !k(2)%u = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !k(2)%v = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    !if (nf /= MV_INT) k(2)%w = var_dt(:,nf)
-    !if (nf == MV_INT) k(2)%w = 0.0
-    !!---- k2 step: k2 = f(x_n + k1/2,t + dt/2)------
-    !
-    !!---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
-    !!update positions: x_n + k2*dt/2
-    !k(3)%x = k(2)%x + Utils%m2geo(k(2)%u, k(2)%y, .false.)*0.5*dt
-    !k(3)%y = k(2)%y + Utils%m2geo(k(2)%v, k(2)%y, .true.)*0.5*dt
-    !k(3)%z = k(2)%z + k(2)%w*dt*0.5
-    !!update the time: t + dt/2
-    !mstime = time+0.5*dt
-    !!Corrector step
-    !!run the interpolator: f(x_n + k2*dt/2,t + dt/2)
-    !call self%Interpolator%run(k(3), bdata(bkg), mstime, var_dt, var_name)
-    !!update velocities
-    !nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    !k(3)%u = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !k(3)%v = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    !if (nf /= MV_INT) k(3)%w = var_dt(:,nf)
-    !if (nf == MV_INT) k(3)%w = 0.0
-    !!---- k3 step: k3 = f(x_n+k2*1/2*dt,t_n+1/2*dt)
-    !
-    !!---- k4 step: k4 = f(x_n + k3,t + dt)------
-    !!update positions: x_n + k3*dt
-    !k(4)%x = k(3)%x + Utils%m2geo(k(3)%u, k(3)%y, .false.)*dt
-    !k(4)%y = k(3)%y + Utils%m2geo(k(3)%v, k(3)%y, .true.)*dt
-    !k(4)%z = k(3)%z + k(3)%w*dt
-    !!update the time: t + dt2
-    !mstime = time+dt
-    !call self%Interpolator%run(k(4), bdata(bkg), mstime, var_dt, var_name)
-    !!update velocities
-    !nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    !k(4)%u = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !k(4)%v = var_dt(:,nf)
-    !nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    !if (nf /= MV_INT) k(4)%w = var_dt(:,nf)
-    !if (nf == MV_INT) k(4)%w = 0.0
-    !!---- k4 step: k4 = f(x_n + k3,t + dt)------
-    !
-    !aot%u = (k(1)%u + 2.*k(2)%u + 2.*k(3)%u + k(4)%u)/6.0
-    !aot%v = (k(1)%v + 2.*k(2)%v + 2.*k(3)%v + k(4)%v)/6.0
-    !aot%w = (k(1)%w + 2.*k(2)%w + 2.*k(3)%w + k(4)%w)/6.0
-    !
-    !aot%x = aot%x + aot%u*dt
-    !aot%y = aot%y + aot%v*dt
-    !aot%z = aot%z + aot%w*dt
-    !!update land mask status
-    !nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
-    !if (nf /= MV_INT) aot%landMask = nint(var_dt(:,nf))
-    !if (nf == MV_INT) aot%landMask = Globals%Mask%waterVal
-    !!marking tracers for deletion because they are in land
-    !where(aot%landMask == 2) aot%active = .false.
-    !!update land interaction status
-    !nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-    !if (nf /= MV_INT) aot%landIntMask = nint(var_dt(:,nf))
-    !if (nf == MV_INT) aot%landIntMask = Globals%Mask%waterVal
-    !
-    !end subroutine runStepRK4
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that integrates the Tracer state array in one time-step, using a
+    !> Runge-Kuta 4th order integration algorithm. This is an explicit scheme
+    !> with medium to high computational cost
+    !> @param[in] self, sv, bdata, time, dt
+    !---------------------------------------------------------------------------
+    subroutine runStepRK4(self, sv, bdata, time, dt)
+    class(solver_class), intent(inout) :: self
+    type(stateVector_class), dimension(:), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time, dt
+    type(stateVector_class) :: intSv
+    real(prec), allocatable, dimension(:,:) :: k1, k2, k3, k4
+    integer :: i
+
+    do i=1, size(sv)
+        !creating intermediate step state vectors
+        call sv(i)%copyState(intSv)
+        allocate(k1(size(sv(i)%state, 1), size(sv(i)%state, 2)))
+        allocate(k2(size(sv(i)%state, 1), size(sv(i)%state, 2)))
+        allocate(k3(size(sv(i)%state, 1), size(sv(i)%state, 2)))
+        allocate(k4(size(sv(i)%state, 1), size(sv(i)%state, 2)))
+        !1st step
+        k1 = self%Kernel%run(sv(i), bdata, time, dt)*dt
+        intSv%state = sv(i)%state + k1*0.5
+        !print*, 'k1 - ', minval(k1), maxval(k1) 
+        !2nd step
+        k2 = self%Kernel%run(intSv, bdata, time + 0.5*dt, dt)*dt
+        intSv%state = sv(i)%state + k2*0.5
+        !print*, 'k2 - ', minval(k2), maxval(k2)
+        !3rd step
+        k3 = self%Kernel%run(intSv, bdata, time + 0.5*dt, dt)*dt
+        intSv%state = sv(i)%state + k3
+        !print*, 'k3 - ', minval(k3), maxval(k3)
+        !4th step
+        k4 = self%Kernel%run(intSv, bdata, time + dt, dt)*dt
+        !print*, 'k4 - ', minval(k4), maxval(k4)
+        !computing the new state
+        sv(i)%state = sv(i)%state + (k1 + 2.0*k2 + 2.0*k3 + k4)/6.0
+        !deallocating
+        call intSv%finalize()
+        deallocate(k1)
+        deallocate(k2)
+        deallocate(k3)
+        deallocate(k4)
+    end do
+    
+    end subroutine runStepRK4
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
