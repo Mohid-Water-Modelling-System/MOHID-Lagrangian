@@ -6,13 +6,13 @@
 
 ![Vigo3D](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Vigo3D_noDiffusion.gif)
 
-*3D passive tracers on a MOHID operational currents solution in Vigo region, Galiza, Spain.*
+*3D passive tracers on a [MOHID](http://www.mohid.com) operational currents solution in Vigo region, Galiza, Spain.*
 
 ![Atlantic1](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Atlantic_2016_2017_density.gif)
 
-*Floating passive tracers on a CMEMS Atlantic currents solution.*
+*Floating passive tracers on a [CMEMS](http://marine.copernicus.eu/) Atlantic currents solution.*
 
-MOHIDLagragian is a both a library for the [MOHID Water Modelling System](http://www.mohid.com) and a standalone program. The library implements all the necessary tools to generate a comprehensive Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
+MOHIDLagragian is a both a library for the [MOHID Water Modelling System](http://www.mohid.com) and a standalone program. The library implements the necessary tools to generate a comprehensive Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
 
 The MOHIDLagrangian program is a specific implementation of the library, designed as a post-processing or online tool, ready to be forced with other models.
 
