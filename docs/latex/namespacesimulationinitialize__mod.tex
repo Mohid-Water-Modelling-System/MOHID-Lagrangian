@@ -87,7 +87,7 @@ Definition at line 360 of file simulation\+Initialize.\+f90.
 383         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
 384             \textcolor{keyword}{call }globals%Constants%setz0(att\_val)
 385 \textcolor{keywordflow}{        endif}
-386         tag=\textcolor{stringliteral}{"Rho\_ref"}
+386         tag=\textcolor{stringliteral}{"RhoRef"}
 387         att\_name=\textcolor{stringliteral}{"value"}
 388         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
 389         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
@@ -144,11 +144,11 @@ Definition at line 148 of file simulation\+Initialize.\+f90.
 155     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: namingFilename
 156     \textcolor{keywordtype}{integer} :: i
 157 
-158     tag=\textcolor{stringliteral}{"naming"}    \textcolor{comment}{!the node we want}
+158     tag=\textcolor{stringliteral}{"variableNaming"}    \textcolor{comment}{!the node we want}
 159     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,naming\_node,tag,mandatory =.false.)
 160     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(naming\_node)) \textcolor{keywordflow}{then}
-161         namingfilelist => getelementsbytagname(naming\_node, \textcolor{stringliteral}{"namingfile"})       \textcolor{comment}{!searching for tags with
-       the 'namingfile' name}
+161         namingfilelist => getelementsbytagname(naming\_node, \textcolor{stringliteral}{"file"})       \textcolor{comment}{!searching for tags with the
+       'namingfile' name}
 162         \textcolor{keyword}{allocate}(namingfilename(getlength(namingfilelist)))
 163         \textcolor{keywordflow}{do} i = 0, getlength(namingfilelist) - 1
 164             temp => item(namingfilelist, i)
@@ -261,16 +261,16 @@ Definition at line 116 of file simulation\+Initialize.\+f90.
 119     \textcolor{keywordtype}{type}(string) :: outext
 120     \textcolor{keywordtype}{type}(string) :: tag, att\_name
 121 
-122     tag=\textcolor{stringliteral}{"properties"}    \textcolor{comment}{!the node we want}
+122     tag=\textcolor{stringliteral}{"sourceTypes"}    \textcolor{comment}{!the node we want}
 123     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,props\_node,tag,mandatory =.false.)
 124     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(props\_node)) \textcolor{keywordflow}{then}
-125         tag=\textcolor{stringliteral}{"propertyfile"}
+125         tag=\textcolor{stringliteral}{"file"}
 126         att\_name=\textcolor{stringliteral}{"name"}
 127         \textcolor{keyword}{call }xmlreader%getNodeAttribute(props\_node, tag, att\_name, globals%Names%propsxmlfilename) \textcolor{comment}{!getting
        the file name from that tag}
 128         outext=\textcolor{stringliteral}{'-->Properties to link to Sources found at '}//globals%Names%propsxmlfilename
 129         \textcolor{keyword}{call }log%put(outext,.false.)
-130         tag=\textcolor{stringliteral}{"links"}
+130         tag=\textcolor{stringliteral}{"types"}
 131         \textcolor{keyword}{call }xmlreader%gotoNode(props\_node,props\_node,tag) \textcolor{comment}{!getting the links node}
 132         \textcolor{keyword}{call }linkpropertysources(props\_node)          \textcolor{comment}{!calling the property linker}
 133     \textcolor{keywordflow}{else}
@@ -330,7 +330,7 @@ Definition at line 320 of file simulation\+Initialize.\+f90.
 330     outext=\textcolor{stringliteral}{'-->Reading case simulation definitions'}
 331     \textcolor{keyword}{call }log%put(outext,.false.)
 332 
-333     tag=\textcolor{stringliteral}{"simulationdefs"}    \textcolor{comment}{!the node we want}
+333     tag=\textcolor{stringliteral}{"simulation"}    \textcolor{comment}{!the node we want}
 334     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,simdefs\_node,tag)
 335     tag=\textcolor{stringliteral}{"resolution"}
 336     att\_name=\textcolor{stringliteral}{"dp"}
@@ -341,7 +341,7 @@ Definition at line 320 of file simulation\+Initialize.\+f90.
 341     \textcolor{keyword}{call }xmlreader%getNodeAttribute(simdefs\_node, tag, att\_name, att\_val)
 342     \textcolor{keyword}{call }globals%SimDefs%setdt(att\_val)
 343     \textcolor{keyword}{call }globals%Constants%setSmallDt(globals%SimDefs%dt)
-344     pts=(/ \textcolor{stringliteral}{'pointmin'}, \textcolor{stringliteral}{'pointmax'}/) \textcolor{comment}{!strings to search for}
+344     pts=(/ \textcolor{stringliteral}{'BoundingBoxMin'}, \textcolor{stringliteral}{'BoundingBoxMax'}/) \textcolor{comment}{!strings to search for}
 345     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(pts)
 346         \textcolor{keyword}{call }xmlreader%getNodeVector(simdefs\_node, pts(i), coords)
 347         \textcolor{keyword}{call }globals%SimDefs%setboundingbox(pts(i), coords)
@@ -400,7 +400,7 @@ Definition at line 223 of file simulation\+Initialize.\+f90.
 240     readflag = .false.
 241     outext=\textcolor{stringliteral}{'-->Reading case Sources'}
 242     \textcolor{keyword}{call }log%put(outext,.false.)
-243     tag=\textcolor{stringliteral}{"sourcedef"}    \textcolor{comment}{!the node we want}
+243     tag=\textcolor{stringliteral}{"sourceDefinitions"}    \textcolor{comment}{!the node we want}
 244     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,sourcedef,tag)
 245     sourcelist => getelementsbytagname(sourcedef, \textcolor{stringliteral}{"source"})
 246     \textcolor{comment}{!allocating the temporary source objects}
@@ -534,7 +534,7 @@ Definition at line 448 of file simulation\+Initialize.\+f90.
 467     \textcolor{keyword}{call }xmlreader%gotoNode(execution\_node,execution\_node,tag)
 468     tag=\textcolor{stringliteral}{"case"}          \textcolor{comment}{!base document node}
 469     \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,case\_node,tag)
-470     tag=\textcolor{stringliteral}{"casedef"}     \textcolor{comment}{!finding execution node}
+470     tag=\textcolor{stringliteral}{"caseDefinitions"}     \textcolor{comment}{!finding execution node}
 471     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,case\_node,tag)
 472 
 473     \textcolor{comment}{! building the simulation basic structures according to the case definition file}
@@ -600,7 +600,7 @@ Definition at line 47 of file simulation\+Initialize.\+f90.
 54     \textcolor{keywordtype}{type}(string) :: att\_name, att\_val, tag
 55     \textcolor{keywordtype}{type}(string) :: sourceid, sourcetype, sourceprop
 56 
-57     linklist => getelementsbytagname(linksnode, \textcolor{stringliteral}{"link"})
+57     linklist => getelementsbytagname(linksnode, \textcolor{stringliteral}{"type"})
 58     \textcolor{keywordflow}{do} i = 0, getlength(linklist) - 1
 59         anode => item(linklist,i)
 60         att\_name=\textcolor{stringliteral}{"source"}

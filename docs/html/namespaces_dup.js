@@ -1,6 +1,5 @@
 var namespaces_dup =
 [
-    [ "about", "namespaceabout.html", null ],
     [ "abstract_linkedlist_mod", "namespaceabstract__linkedlist__mod.html", null ],
     [ "background_mod", "namespacebackground__mod.html", null ],
     [ "blocks_mod", "namespaceblocks__mod.html", null ],
@@ -15,12 +14,7 @@ var namespaces_dup =
     [ "interpolator_mod", "namespaceinterpolator__mod.html", null ],
     [ "kernel_mod", "namespacekernel__mod.html", null ],
     [ "link_mod", "namespacelink__mod.html", null ],
-    [ "MDateTime", "namespace_m_date_time.html", null ],
-    [ "MHDF5_reader", "namespace_m_h_d_f5__reader.html", null ],
-    [ "MOHIDLagrangianPreProcessor", "namespace_m_o_h_i_d_lagrangian_pre_processor.html", null ],
-    [ "ncMetaParser", "namespacenc_meta_parser.html", null ],
     [ "netcdfparser_mod", "namespacenetcdfparser__mod.html", null ],
-    [ "os_dir", "namespaceos__dir.html", null ],
     [ "simulation_mod", "namespacesimulation__mod.html", null ],
     [ "simulationabout_mod", "namespacesimulationabout__mod.html", null ],
     [ "simulationglobals_mod", "namespacesimulationglobals__mod.html", null ],
@@ -45,6 +39,5 @@ var namespaces_dup =
     [ "traceruser_mod", "namespacetraceruser__mod.html", null ],
     [ "utilities_mod", "namespaceutilities__mod.html", null ],
     [ "vtkwritter_mod", "namespacevtkwritter__mod.html", null ],
-    [ "xmlparser_mod", "namespacexmlparser__mod.html", null ],
-    [ "xmlWriter", "namespacexml_writer.html", null ]
+    [ "xmlparser_mod", "namespacexmlparser__mod.html", null ]
 ];

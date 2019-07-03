@@ -1,9 +1,4 @@
 var searchData=
 [
-  ['xmlparser_2ef90',['xmlParser.f90',['../xml_parser_8f90.html',1,'']]],
-  ['xmlparser_5fclass',['xmlparser_class',['../structxmlparser__mod_1_1xmlparser__class.html',1,'xmlparser_mod']]],
-  ['xmlparser_5fmod',['xmlparser_mod',['../namespacexmlparser__mod.html',1,'']]],
-  ['xmlreader',['xmlreader',['../namespacexmlparser__mod.html#a482bd93d0a4ba8c9c2000713a4b14799',1,'xmlparser_mod']]],
-  ['xmlwriter',['xmlWriter',['../classxml_writer_1_1xml_writer.html',1,'xmlWriter.xmlWriter'],['../namespacexml_writer.html',1,'xmlWriter']]],
-  ['xmlwriter_2epy',['xmlWriter.py',['../xml_writer_8py.html',1,'']]]
+  ['z0',['z0',['../structsimulationglobals__mod_1_1constants__t.html#a9dab4143c1d5fd54c8337d78ea9b7d82',1,'simulationglobals_mod::constants_t']]]
 ];

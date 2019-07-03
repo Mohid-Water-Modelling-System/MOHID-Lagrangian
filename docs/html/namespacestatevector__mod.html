@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.4</span>
+   &#160;<span id="projectnumber">0.1</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -102,7 +102,7 @@ $(document).ready(function(){initNavTree('namespacestatevector__mod.html','');})
 </div><!--header-->
 <div class="contents">
 
-<p>Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported beck into the objects from this class.  
+<p>Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported back into the objects from this class.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -114,6 +114,9 @@ Data Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
+<tr class="memitem:afb7f6650aedee27644d33416d3a49fc0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestatevector__mod.html#afb7f6650aedee27644d33416d3a49fc0">copystate</a> (self, newsv)</td></tr>
+<tr class="memdesc:afb7f6650aedee27644d33416d3a49fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copies a State Vector to another.  <a href="#afb7f6650aedee27644d33416d3a49fc0">More...</a><br /></td></tr>
+<tr class="separator:afb7f6650aedee27644d33416d3a49fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0831dbae02e8ec94c576224cae673e5"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestatevector__mod.html#af0831dbae02e8ec94c576224cae673e5">totracers</a> (self)</td></tr>
 <tr class="memdesc:af0831dbae02e8ec94c576224cae673e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends the data on the State Vector to the Tracer objects.  <a href="#af0831dbae02e8ec94c576224cae673e5">More...</a><br /></td></tr>
 <tr class="separator:af0831dbae02e8ec94c576224cae673e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,7 +125,7 @@ Functions/Subroutines</h2></td></tr>
 <tr class="separator:acb2d2a7c4c5ee5d86a601be7db58c1df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported beck into the objects from this class. </p>
+<div class="textblock"><p>Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported back into the objects from this class. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
 <a id="acb2d2a7c4c5ee5d86a601be7db58c1df"></a>
@@ -152,8 +155,49 @@ Functions/Subroutines</h2></td></tr>
 <p>Cleans the State Vector object. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state_vector_8f90_source.html#l00084">84</a> of file <a class="el" href="state_vector_8f90_source.html">stateVector.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">class</span>(stateVector_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    self%ttype = mv</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%trc)) <span class="keyword">deallocate</span>(self%trc)</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%state)) <span class="keyword">deallocate</span>(self%state)</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%landMask)) <span class="keyword">deallocate</span>(self%landMask)</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%landIntMask)) <span class="keyword">deallocate</span>(self%landIntMask)</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%active)) <span class="keyword">deallocate</span>(self%active)</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%source)) <span class="keyword">deallocate</span>(self%source)</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%id)) <span class="keyword">deallocate</span>(self%id)</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    self%idx = 1</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="state_vector_8f90_source.html#l00107">107</a> of file <a class="el" href="state_vector_8f90_source.html">stateVector.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">class</span>(stateVector_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    self%ttype = mv</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%trc)) <span class="keyword">deallocate</span>(self%trc)</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%state)) <span class="keyword">deallocate</span>(self%state)</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%landMask)) <span class="keyword">deallocate</span>(self%landMask)</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%landIntMask)) <span class="keyword">deallocate</span>(self%landIntMask)</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%active)) <span class="keyword">deallocate</span>(self%active)</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%source)) <span class="keyword">deallocate</span>(self%source)</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">allocated</span>(self%id)) <span class="keyword">deallocate</span>(self%id)</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    self%idx = 1</div></div><!-- fragment -->
+</div>
+</div>
+<a id="afb7f6650aedee27644d33416d3a49fc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb7f6650aedee27644d33416d3a49fc0">&#9670;&nbsp;</a></span>copystate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine statevector_mod::copystate </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structstatevector__mod_1_1statevector__class.html">statevector_class</a>), intent(in)&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(<a class="el" href="structstatevector__mod_1_1statevector__class.html">statevector_class</a>), intent(out)&#160;</td>
+          <td class="paramname"><em>newsv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copies a State Vector to another. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="state_vector_8f90_source.html#l00058">58</a> of file <a class="el" href="state_vector_8f90_source.html">stateVector.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">class</span>(stateVector_class), <span class="keywordtype">intent(in)</span> :: self</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">type</span>(stateVector_class), <span class="keywordtype">intent(out)</span> :: newsv</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    </div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    newsv%ttype = self%ttype</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">allocate</span>(newsv%state(<span class="keyword">size</span>(self%state,1), <span class="keyword">size</span>(self%state,2)))</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    newsv%state = self%state</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">allocate</span>(newsv%landMask(<span class="keyword">size</span>(self%landMask)))</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    newsv%landMask = self%landMask</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">allocate</span>(newsv%landIntMask(<span class="keyword">size</span>(self%landIntMask)))</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    newsv%landIntMask = self%landIntMask</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">allocate</span>(newsv%active(<span class="keyword">size</span>(self%active)))</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    newsv%active = self%active</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">!maybe no need to copy source, id and tracer pointer</span></div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    </div></div><!-- fragment -->
 </div>
 </div>
 <a id="af0831dbae02e8ec94c576224cae673e5"></a>
@@ -183,8 +227,8 @@ Functions/Subroutines</h2></td></tr>
 <p>Sends the data on the State Vector to the Tracer objects. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="state_vector_8f90_source.html#l00057">57</a> of file <a class="el" href="state_vector_8f90_source.html">stateVector.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">class</span>(stateVector_class), <span class="keywordtype">intent(in)</span> :: self</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">integer</span> :: i</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">class</span>(tracer_class), <span class="keywordtype">pointer</span> :: aTracer</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">type</span>(string) :: outext</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span>(<span class="keyword">allocated</span>(self%active)) <span class="keywordflow">then</span></div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">do</span> i=1, <span class="keyword">size</span>(self%active)</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">if</span> (<span class="keyword">associated</span>(self%trc(i)%ptr)) <span class="keywordflow">then</span></div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                atracer =&gt; self%trc(i)%ptr</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">if</span> (self%active(i)) <span class="keywordflow">then</span></div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    atracer%now%active = .true.</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="keyword">call </span>atracer%setStateArray(self%state(i,:))</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordflow">                end if</span></div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                outext = <span class="stringliteral">&#39;[stateVector::toTracers]: pointer to Tracer not associated, stoping&#39;</span></div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                stop</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keywordflow">            end if</span></div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordflow">        end do</span></div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordflow">    end if</span></div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="state_vector_8f90_source.html#l00080">80</a> of file <a class="el" href="state_vector_8f90_source.html">stateVector.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">class</span>(stateVector_class), <span class="keywordtype">intent(in)</span> :: self</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">integer</span> :: i</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">class</span>(tracer_class), <span class="keywordtype">pointer</span> :: aTracer</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">type</span>(string) :: outext</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span>(<span class="keyword">allocated</span>(self%active)) <span class="keywordflow">then</span></div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">do</span> i=1, <span class="keyword">size</span>(self%active)</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">if</span> (<span class="keyword">associated</span>(self%trc(i)%ptr)) <span class="keywordflow">then</span></div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                atracer =&gt; self%trc(i)%ptr</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="keywordflow">if</span> (self%active(i)) <span class="keywordflow">then</span></div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                    atracer%now%active = .true.</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                    <span class="keyword">call </span>atracer%setStateArray(self%state(i,:))</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordflow">                end if</span></div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                outext = <span class="stringliteral">&#39;[stateVector::toTracers]: pointer to Tracer not associated, stoping&#39;</span></div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                stop</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keywordflow">            end if</span></div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordflow">        end do</span></div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keywordflow">    end if</span></div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

@@ -90,7 +90,7 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ae6b88d15ddc389aedd7
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a36c2833caae3767434115cc966fe2c5d}{setz0}} (self, read\+\_\+z0)
 \begin{DoxyCompactList}\small\item\em Z0 setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}{setrho}} (self, read\+\_\+rho)
-\begin{DoxyCompactList}\small\item\em Rho\+\_\+\+Ref setting routine. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Rho\+Ref setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3b24d0338ee34782c8e2ab57bba7b5f6}{setbeachinglevel}} (self, read\+\_\+\+Beaching\+Level)
 \begin{DoxyCompactList}\small\item\em Beaching Level setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}{setsmalldt}} (self, dt)
@@ -278,13 +278,12 @@ Definition at line 764 of file simulation\+Globals.\+f90.
 791         \textcolor{keyword}{call }log%put(outext)
 792         stop
 793     \textcolor{keywordflow}{elseif} (self%StartTime==temp) \textcolor{keywordflow}{then}
-794         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: start time parameter (StartTime) is not set or invalid,
+794         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: start time parameter (Start) is not set or invalid,
        stoping'}
 795         \textcolor{keyword}{call }log%put(outext)
 796         stop
 797     \textcolor{keywordflow}{elseif} (self%EndTime==temp) \textcolor{keywordflow}{then}
-798         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: end time parameter (EndTime) is not set or invalid,
-       stoping'}
+798         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: end time parameter (End) is not set or invalid, stoping'}
 799         \textcolor{keyword}{call }log%put(outext)
 800         stop
 801 \textcolor{keywordflow}{    end if}
@@ -694,8 +693,8 @@ Definition at line 940 of file simulation\+Globals.\+f90.
 951     outext = outext//\textcolor{stringliteral}{'       Z0 = '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
 952     temp\_str(1)=self%BeachingLevel
 953     outext = outext//\textcolor{stringliteral}{'       BeachingLevel = '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
-954     temp\_str(1)=self%Rho\_ref
-955     outext = outext//\textcolor{stringliteral}{'       Rho\_ref = '}//temp\_str(1)//\textcolor{stringliteral}{' kg/m^3'}
+954     temp\_str(1)=self%RhoRef
+955     outext = outext//\textcolor{stringliteral}{'       RhoRef = '}//temp\_str(1)//\textcolor{stringliteral}{' kg/m^3'}
 956 
 957     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
@@ -919,9 +918,9 @@ Definition at line 1011 of file simulation\+Globals.\+f90.
 1013     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: point\_
 1014     \textcolor{keywordtype}{type}(vector) :: coords
 1015     \textcolor{keywordtype}{integer} :: sizem
-1016     \textcolor{keywordflow}{if} (point\_%chars() == \textcolor{stringliteral}{"pointmin"}) \textcolor{keywordflow}{then}
+1016     \textcolor{keywordflow}{if} (point\_%chars() == \textcolor{stringliteral}{"BoundingBoxMin"}) \textcolor{keywordflow}{then}
 1017         self%Pointmin= coords
-1018     \textcolor{keywordflow}{elseif} (point\_%chars() == \textcolor{stringliteral}{"pointmax"}) \textcolor{keywordflow}{then}
+1018     \textcolor{keywordflow}{elseif} (point\_%chars() == \textcolor{stringliteral}{"BoundingBoxMax"}) \textcolor{keywordflow}{then}
 1019         self%Pointmax= coords
 1020 \textcolor{keywordflow}{    endif}
 1021     sizem=sizeof(coords)
@@ -1060,7 +1059,7 @@ Definition at line 228 of file simulation\+Globals.\+f90.
 265     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
 266     self%Constants%Z0 = 0.0
 267     self%Constants%BeachingLevel = -3.0
-268     self%Constants%Rho\_ref = 1000.0
+268     self%Constants%RhoRef = 1000.0
 269     self%Constants%smallDt = 0.0
 270     \textcolor{comment}{!filenames}
 271     self%Names%mainxmlfilename = \textcolor{stringliteral}{'not\_set'}
@@ -1371,12 +1370,12 @@ Definition at line 708 of file simulation\+Globals.\+f90.
 729     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"OutputWriteTime"}) \textcolor{keywordflow}{then}
 730         self%OutputWriteTime=parmvalue%to\_number(kind=1.\_r4p)
 731         sizem=sizeof(self%OutputWriteTime)
-732     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"StartTime"}) \textcolor{keywordflow}{then}
+732     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"Start"}) \textcolor{keywordflow}{then}
 733         date = utils%getDateFromISOString(parmvalue)
 734         self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
 735         \textcolor{keywordflow}{if} (.not. self%StartTime%isValid()) self%StartTime = datetime()
 736         sizem=sizeof(self%StartTime)
-737     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"EndTime"}) \textcolor{keywordflow}{then}
+737     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"End"}) \textcolor{keywordflow}{then}
 738         date = utils%getDateFromISOString(parmvalue)
 739         self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
 740         \textcolor{keywordflow}{if} (.not. self%EndTime%isValid()) self%EndTime = datetime()
@@ -1404,7 +1403,7 @@ Definition at line 708 of file simulation\+Globals.\+f90.
 
 
 
-Rho\+\_\+\+Ref setting routine. 
+Rho\+Ref setting routine. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
@@ -1425,13 +1424,13 @@ Definition at line 877 of file simulation\+Globals.\+f90.
 879     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_rho
 880     \textcolor{keywordtype}{type}(string) :: outext
 881     \textcolor{keywordtype}{integer} :: sizem
-882     self%Rho\_ref=read\_rho%to\_number(kind=1.\_r4p)
-883     \textcolor{keywordflow}{if} (self%Rho\_ref.le.0.0) \textcolor{keywordflow}{then}
-884         outext=\textcolor{stringliteral}{'Rho\_ref must be positive and non-zero, stopping'}
+882     self%RhoRef=read\_rho%to\_number(kind=1.\_r4p)
+883     \textcolor{keywordflow}{if} (self%RhoRef.le.0.0) \textcolor{keywordflow}{then}
+884         outext=\textcolor{stringliteral}{'RhoRef must be positive and non-zero, stopping'}
 885         \textcolor{keyword}{call }log%put(outext)
 886         stop
 887 \textcolor{keywordflow}{    endif}
-888     sizem = sizeof(self%Rho\_ref)
+888     sizem = sizeof(self%RhoRef)
 889     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}\label{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}} 

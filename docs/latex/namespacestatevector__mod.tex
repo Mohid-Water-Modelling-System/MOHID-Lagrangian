@@ -2,7 +2,7 @@
 \label{namespacestatevector__mod}\index{statevector\+\_\+mod@{statevector\+\_\+mod}}
 
 
-Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported beck into the objects from this class.  
+Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported back into the objects from this class.  
 
 
 \subsection*{Data Types}
@@ -15,6 +15,8 @@ type \mbox{\hyperlink{structstatevector__mod_1_1trcptr__class}{trcptr\+\_\+class
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+subroutine \mbox{\hyperlink{namespacestatevector__mod_afb7f6650aedee27644d33416d3a49fc0}{copystate}} (self, newsv)
+\begin{DoxyCompactList}\small\item\em Copies a State Vector to another. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacestatevector__mod_af0831dbae02e8ec94c576224cae673e5}{totracers}} (self)
 \begin{DoxyCompactList}\small\item\em Sends the data on the State Vector to the Tracer objects. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacestatevector__mod_acb2d2a7c4c5ee5d86a601be7db58c1df}{cleanstate}} (self)
@@ -22,7 +24,7 @@ subroutine \mbox{\hyperlink{namespacestatevector__mod_acb2d2a7c4c5ee5d86a601be7d
 
 
 \subsection{Detailed Description}
-Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported beck into the objects from this class. 
+Module to hold the State Vector class and its methods. This class defines a state vector that encodes the state of a type of Tracers, allowing for trivial application of kernels and subsequent integration. These must be exported back into the objects from this class. 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas 
@@ -45,20 +47,54 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 84 of file state\+Vector.\+f90.
+Definition at line 107 of file state\+Vector.\+f90.
 
 
 \begin{DoxyCode}
-84     \textcolor{keywordtype}{class}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: self
-85     self%ttype = mv
-86     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%trc)) \textcolor{keyword}{deallocate}(self%trc)
-87     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%state)) \textcolor{keyword}{deallocate}(self%state)
-88     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%landMask)) \textcolor{keyword}{deallocate}(self%landMask)
-89     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%landIntMask)) \textcolor{keyword}{deallocate}(self%landIntMask)
-90     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%active)) \textcolor{keyword}{deallocate}(self%active)
-91     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%source)) \textcolor{keyword}{deallocate}(self%source)
-92     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keyword}{deallocate}(self%id)
-93     self%idx = 1
+107     \textcolor{keywordtype}{class}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: self
+108     self%ttype = mv
+109     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%trc)) \textcolor{keyword}{deallocate}(self%trc)
+110     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%state)) \textcolor{keyword}{deallocate}(self%state)
+111     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%landMask)) \textcolor{keyword}{deallocate}(self%landMask)
+112     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%landIntMask)) \textcolor{keyword}{deallocate}(self%landIntMask)
+113     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%active)) \textcolor{keyword}{deallocate}(self%active)
+114     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%source)) \textcolor{keyword}{deallocate}(self%source)
+115     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%id)) \textcolor{keyword}{deallocate}(self%id)
+116     self%idx = 1
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacestatevector__mod_afb7f6650aedee27644d33416d3a49fc0}\label{namespacestatevector__mod_afb7f6650aedee27644d33416d3a49fc0}} 
+\index{statevector\+\_\+mod@{statevector\+\_\+mod}!copystate@{copystate}}
+\index{copystate@{copystate}!statevector\+\_\+mod@{statevector\+\_\+mod}}
+\subsubsection{\texorpdfstring{copystate()}{copystate()}}
+{\footnotesize\ttfamily subroutine statevector\+\_\+mod\+::copystate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structstatevector__mod_1_1statevector__class}{statevector\+\_\+class}}), intent(in)}]{self,  }\item[{type(\mbox{\hyperlink{structstatevector__mod_1_1statevector__class}{statevector\+\_\+class}}), intent(out)}]{newsv }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Copies a State Vector to another. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 58 of file state\+Vector.\+f90.
+
+
+\begin{DoxyCode}
+58     \textcolor{keywordtype}{class}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: self
+59     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(out)} :: newsv
+60     
+61     newsv%ttype = self%ttype
+62     \textcolor{keyword}{allocate}(newsv%state(\textcolor{keyword}{size}(self%state,1), \textcolor{keyword}{size}(self%state,2)))
+63     newsv%state = self%state
+64     \textcolor{keyword}{allocate}(newsv%landMask(\textcolor{keyword}{size}(self%landMask)))
+65     newsv%landMask = self%landMask
+66     \textcolor{keyword}{allocate}(newsv%landIntMask(\textcolor{keyword}{size}(self%landIntMask)))
+67     newsv%landIntMask = self%landIntMask
+68     \textcolor{keyword}{allocate}(newsv%active(\textcolor{keyword}{size}(self%active)))
+69     newsv%active = self%active
+70     \textcolor{comment}{!maybe no need to copy source, id and tracer pointer}
+71     
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacestatevector__mod_af0831dbae02e8ec94c576224cae673e5}\label{namespacestatevector__mod_af0831dbae02e8ec94c576224cae673e5}} 
 \index{statevector\+\_\+mod@{statevector\+\_\+mod}!totracers@{totracers}}
@@ -75,27 +111,27 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 57 of file state\+Vector.\+f90.
+Definition at line 80 of file state\+Vector.\+f90.
 
 
 \begin{DoxyCode}
-57     \textcolor{keywordtype}{class}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: self
-58     \textcolor{keywordtype}{integer} :: i
-59     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{pointer} :: aTracer
-60     \textcolor{keywordtype}{type}(string) :: outext
-61     \textcolor{keywordflow}{if}(\textcolor{keyword}{allocated}(self%active)) \textcolor{keywordflow}{then}
-62         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%active)
-63             \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(self%trc(i)%ptr)) \textcolor{keywordflow}{then}
-64                 atracer => self%trc(i)%ptr
-65                 \textcolor{keywordflow}{if} (self%active(i)) \textcolor{keywordflow}{then}
-66                     atracer%now%active = .true.
-67                     \textcolor{keyword}{call }atracer%setStateArray(self%state(i,:))
-68 \textcolor{keywordflow}{                end if}
-69             \textcolor{keywordflow}{else}
-70                 outext = \textcolor{stringliteral}{'[stateVector::toTracers]: pointer to Tracer not associated, stoping'}
-71                 \textcolor{keyword}{call }log%put(outext)
-72                 stop
-73 \textcolor{keywordflow}{            end if}
-74 \textcolor{keywordflow}{        end do}
-75 \textcolor{keywordflow}{    end if}
+80     \textcolor{keywordtype}{class}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: self
+81     \textcolor{keywordtype}{integer} :: i
+82     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{pointer} :: aTracer
+83     \textcolor{keywordtype}{type}(string) :: outext
+84     \textcolor{keywordflow}{if}(\textcolor{keyword}{allocated}(self%active)) \textcolor{keywordflow}{then}
+85         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%active)
+86             \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(self%trc(i)%ptr)) \textcolor{keywordflow}{then}
+87                 atracer => self%trc(i)%ptr
+88                 \textcolor{keywordflow}{if} (self%active(i)) \textcolor{keywordflow}{then}
+89                     atracer%now%active = .true.
+90                     \textcolor{keyword}{call }atracer%setStateArray(self%state(i,:))
+91 \textcolor{keywordflow}{                end if}
+92             \textcolor{keywordflow}{else}
+93                 outext = \textcolor{stringliteral}{'[stateVector::toTracers]: pointer to Tracer not associated, stoping'}
+94                 \textcolor{keyword}{call }log%put(outext)
+95                 stop
+96 \textcolor{keywordflow}{            end if}
+97 \textcolor{keywordflow}{        end do}
+98 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}

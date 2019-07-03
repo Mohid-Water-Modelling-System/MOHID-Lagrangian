@@ -10,7 +10,6 @@ var searchData=
   ['pointmax',['pointmax',['../structsimulationglobals__mod_1_1simdefs__t.html#ac6f91911424ae7c225e583c546283d2d',1,'simulationglobals_mod::simdefs_t']]],
   ['pointmin',['pointmin',['../structsimulationglobals__mod_1_1simdefs__t.html#ac4fc53f104e7620ef7f0384382dcc1a2',1,'simulationglobals_mod::simdefs_t']]],
   ['pos',['pos',['../structsources__mod_1_1source__state.html#a8dacf7040158bb5214f66476bf1a1c3d',1,'sources_mod::source_state::pos()'],['../structtracerbase__mod_1_1tracer__state__class.html#a184b3ecbe519a6cc7468fa3060131ce0',1,'tracerbase_mod::tracer_state_class::pos()']]],
-  ['possiblefiletypes',['possibleFileTypes',['../class_m_h_d_f5__reader_1_1_m_h_d_f5_reader.html#a0e8a8ab15e9fff5f77171f3245b62519',1,'MHDF5_reader::MHDF5Reader']]],
   ['prec',['prec',['../namespacesimulationprecision__mod.html#a361ca48174e0dc2228c07f25fa5396ec',1,'simulationprecision_mod']]],
   ['prec_5fwrt',['prec_wrt',['../namespacesimulationprecision__mod.html#a2afc058035b6678d4ba773117f7c5202',1,'simulationprecision_mod']]],
   ['previous',['previous',['../structlink__mod_1_1link.html#ae85bee976bd1eff62006c9a89732da13',1,'link_mod::link']]],

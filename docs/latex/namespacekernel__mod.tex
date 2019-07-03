@@ -39,32 +39,32 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyParams}
 
 
-Definition at line 132 of file kernel.\+f90.
+Definition at line 136 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-132     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-133     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
-134     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
-135     \textcolor{keywordtype}{integer} :: np, i
-136     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: rand\_vel\_u, rand\_vel\_v,rand\_vel\_w
-137     \textcolor{keywordtype}{real(prec)} :: D = 1.
-138     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: DiffusionIsotropic
-139 
-140     diffusionisotropic = 0.0
-141     np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
-142     \textcolor{keyword}{allocate}(rand\_vel\_u(np), rand\_vel\_v(np), rand\_vel\_w(np))
-143     \textcolor{keyword}{call }random\_number(rand\_vel\_u)
-144     \textcolor{keyword}{call }random\_number(rand\_vel\_v)
-145     \textcolor{keyword}{call }random\_number(rand\_vel\_w)
-146     \textcolor{comment}{!update velocities}
-147     \textcolor{comment}{! For the moment we set D = 1 m/s, then the D parameter}
-148     \textcolor{comment}{! should be part of the array of tracers parameter}
-149     diffusionisotropic(:,1) = utils%m2geo((2.*rand\_vel\_u-1.)*sqrt(2.*d/dt), sv%state(:,2), .false.)
-150     diffusionisotropic(:,2) = utils%m2geo((2.*rand\_vel\_v-1.)*sqrt(2.*d/dt), sv%state(:,2), .true.)
-151     \textcolor{comment}{!DiffusionIsotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*D*0.0005/dt)}
-152     \textcolor{keywordflow}{where} (sv%state(:,6) /= 0.0) diffusionisotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*d*0.0005/dt)
-153 
+136     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+137     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
+138     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
+139     \textcolor{keywordtype}{integer} :: np, i
+140     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: rand\_vel\_u, rand\_vel\_v,rand\_vel\_w
+141     \textcolor{keywordtype}{real(prec)} :: D = 1.
+142     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: DiffusionIsotropic
+143 
+144     diffusionisotropic = 0.0
+145     np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+146     \textcolor{keyword}{allocate}(rand\_vel\_u(np), rand\_vel\_v(np), rand\_vel\_w(np))
+147     \textcolor{keyword}{call }random\_number(rand\_vel\_u)
+148     \textcolor{keyword}{call }random\_number(rand\_vel\_v)
+149     \textcolor{keyword}{call }random\_number(rand\_vel\_w)
+150     \textcolor{comment}{!update velocities}
+151     \textcolor{comment}{! For the moment we set D = 1 m/s, then the D parameter}
+152     \textcolor{comment}{! should be part of the array of tracers parameter}
+153     diffusionisotropic(:,1) = utils%m2geo((2.*rand\_vel\_u-1.)*sqrt(2.*d/dt), sv%state(:,2), .false.)
+154     diffusionisotropic(:,2) = utils%m2geo((2.*rand\_vel\_v-1.)*sqrt(2.*d/dt), sv%state(:,2), .true.)
+155     \textcolor{comment}{!DiffusionIsotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*D*0.0005/dt)}
+156     \textcolor{keywordflow}{where} (sv%state(:,6) /= 0.0) diffusionisotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*d*0.0005/dt)
+157 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}\label{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}} 
 \index{kernel\+\_\+mod@{kernel\+\_\+mod}!initkernel@{initkernel}}
@@ -81,14 +81,14 @@ Daniel Garaboa Paz -\/ G\+F\+NL
 \end{DoxyAuthor}
 
 
-Definition at line 163 of file kernel.\+f90.
+Definition at line 167 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-163     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-164     \textcolor{keywordtype}{type}(string) :: interpName
-165     interpname = \textcolor{stringliteral}{'linear'}
-166     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
+167     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+168     \textcolor{keywordtype}{type}(string) :: interpName
+169     interpname = \textcolor{stringliteral}{'linear'}
+170     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacekernel__mod_aec47ab247a9afc2a7fdc272620b3c5e8}\label{namespacekernel__mod_aec47ab247a9afc2a7fdc272620b3c5e8}} 
 \index{kernel\+\_\+mod@{kernel\+\_\+mod}!lagrangiankinematic@{lagrangiankinematic}}
@@ -110,60 +110,60 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyParams}
 
 
-Definition at line 72 of file kernel.\+f90.
+Definition at line 76 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-72     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-73     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
-74     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-75     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-76     \textcolor{keywordtype}{integer} :: np, nf, bkg, i
-77     \textcolor{keywordtype}{real(prec)} :: maxLevel(2)
-78     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
-79     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
-80     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: LagrangianKinematic
-81 
-82     lagrangiankinematic = 0.0
-83     \textcolor{comment}{!interpolate each background}
-84     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
-85         np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
-86         nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
-87         \textcolor{keyword}{allocate}(var\_dt(np,nf))
-88         \textcolor{keyword}{allocate}(var\_name(nf))
-89         \textcolor{comment}{!correcting for maximum admissible level in the background}
-90         maxlevel = bdata(bkg)%getDimExtents(globals%Var%level, .false.)
-91         \textcolor{keywordflow}{if} (maxlevel(2) /= mv) \textcolor{keywordflow}{where} (sv%state(:,3) > maxlevel(2)) sv%state(:,3) = maxlevel(2)-0.00001
-92         \textcolor{comment}{!interpolating all of the data}
-93         \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name)
-94         \textcolor{comment}{!write dx/dt}
-95         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-96         lagrangiankinematic(:,1) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .false.)
-97         sv%state(:,4) = var\_dt(:,nf)
-98         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-99         lagrangiankinematic(:,2) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .true.)
-100         sv%state(:,5) = var\_dt(:,nf)
-101         nf = utils%find\_str(var\_name, globals%Var%w, .false.)
-102         \textcolor{keywordflow}{if} (nf /= mv\_int) \textcolor{keywordflow}{then}
-103             lagrangiankinematic(:,3) = var\_dt(:,nf)
-104             sv%state(:,6) = var\_dt(:,nf)
-105         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (nf == mv\_int) \textcolor{keywordflow}{then}
-106             lagrangiankinematic(:,3) = 0.0
-107             sv%state(:,6) = 0.0
-108 \textcolor{keywordflow}{        end if}        
-109         \textcolor{comment}{!update land mask status}
-110         nf = utils%find\_str(var\_name, globals%Var%landMask, .false.)
-111         \textcolor{keywordflow}{if} (nf /= mv\_int) sv%landMask = nint(var\_dt(:,nf))
-112         \textcolor{keywordflow}{if} (nf == mv\_int) sv%landMask = globals%Mask%waterVal
-113         \textcolor{comment}{!marking tracers for deletion because they are in land}
-114         \textcolor{keywordflow}{where}(sv%landMask == 2) sv%active = .false.
-115         \textcolor{comment}{!update land interaction status}
-116         nf = utils%find\_str(var\_name, globals%Var%landIntMask, .false.)
-117         \textcolor{keywordflow}{if} (nf /= mv\_int) sv%landIntMask = nint(var\_dt(:,nf))
-118         \textcolor{keywordflow}{if} (nf == mv\_int) sv%landIntMask = globals%Mask%waterVal
-119         \textcolor{comment}{!update other vars...}
-120 \textcolor{keywordflow}{    end do}
-121 
+76     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+77     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+78     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+79     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+80     \textcolor{keywordtype}{integer} :: np, nf, bkg, i
+81     \textcolor{keywordtype}{real(prec)} :: maxLevel(2)
+82     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+83     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
+84     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: LagrangianKinematic
+85 
+86     lagrangiankinematic = 0.0
+87     \textcolor{comment}{!interpolate each background}
+88     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+89         np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+90         nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
+91         \textcolor{keyword}{allocate}(var\_dt(np,nf))
+92         \textcolor{keyword}{allocate}(var\_name(nf))
+93         \textcolor{comment}{!correcting for maximum admissible level in the background}
+94         maxlevel = bdata(bkg)%getDimExtents(globals%Var%level, .false.)
+95         \textcolor{keywordflow}{if} (maxlevel(2) /= mv) \textcolor{keywordflow}{where} (sv%state(:,3) > maxlevel(2)) sv%state(:,3) = maxlevel(2)-0.00001
+96         \textcolor{comment}{!interpolating all of the data}
+97         \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name)
+98         \textcolor{comment}{!write dx/dt}
+99         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
+100         lagrangiankinematic(:,1) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .false.)
+101         sv%state(:,4) = var\_dt(:,nf)
+102         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
+103         lagrangiankinematic(:,2) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .true.)
+104         sv%state(:,5) = var\_dt(:,nf)
+105         nf = utils%find\_str(var\_name, globals%Var%w, .false.)
+106         \textcolor{keywordflow}{if} (nf /= mv\_int) \textcolor{keywordflow}{then}
+107             lagrangiankinematic(:,3) = var\_dt(:,nf)
+108             sv%state(:,6) = var\_dt(:,nf)
+109         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (nf == mv\_int) \textcolor{keywordflow}{then}
+110             lagrangiankinematic(:,3) = 0.0
+111             sv%state(:,6) = 0.0
+112 \textcolor{keywordflow}{        end if}
+113         \textcolor{comment}{!update land mask status}
+114         nf = utils%find\_str(var\_name, globals%Var%landMask, .false.)
+115         \textcolor{keywordflow}{if} (nf /= mv\_int) sv%landMask = nint(var\_dt(:,nf))
+116         \textcolor{keywordflow}{if} (nf == mv\_int) sv%landMask = globals%Mask%waterVal
+117         \textcolor{comment}{!marking tracers for deletion because they are in land}
+118         \textcolor{keywordflow}{where}(sv%landMask == 2) sv%active = .false.
+119         \textcolor{comment}{!update land interaction status}
+120         nf = utils%find\_str(var\_name, globals%Var%landIntMask, .false.)
+121         \textcolor{keywordflow}{if} (nf /= mv\_int) sv%landIntMask = nint(var\_dt(:,nf))
+122         \textcolor{keywordflow}{if} (nf == mv\_int) sv%landIntMask = globals%Mask%waterVal
+123         \textcolor{comment}{!update other vars...}
+124 \textcolor{keywordflow}{    end do}
+125 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacekernel__mod_ae17673ed6d32a4e7f6e54276e6430cc9}\label{namespacekernel__mod_ae17673ed6d32a4e7f6e54276e6430cc9}} 
 \index{kernel\+\_\+mod@{kernel\+\_\+mod}!runkernel@{runkernel}}
@@ -185,23 +185,22 @@ Daniel Garaboa Paz -\/ G\+F\+NL
 \end{DoxyParams}
 
 
-Definition at line 47 of file kernel.\+f90.
+Definition at line 52 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-47     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-48 
-49     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
-50     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-51     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-52     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: runKernel
-53 
-54     \textcolor{keywordflow}{if} (sv%ttype == globals%Types%base) \textcolor{keywordflow}{then}
-55         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
-56     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%paper) \textcolor{keywordflow}{then}
-57         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
-58     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%plastic) \textcolor{keywordflow}{then}
-59         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) + self%DiffusionIsotropic(sv, dt)
-60 \textcolor{keywordflow}{    end if}
-61 
+52     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+53     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+54     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+55     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+56     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: runKernel
+57 
+58     \textcolor{keywordflow}{if} (sv%ttype == globals%Types%base) \textcolor{keywordflow}{then}
+59         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) \textcolor{comment}{!+ self%DiffusionIsotropic(sv, dt)}
+60     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%paper) \textcolor{keywordflow}{then}
+61         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) \textcolor{comment}{!+ self%DiffusionIsotropic(sv, dt)}
+62     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%plastic) \textcolor{keywordflow}{then}
+63         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) \textcolor{comment}{!+ self%DiffusionIsotropic(sv, dt)}
+64 \textcolor{keywordflow}{    end if}
+65 
 \end{DoxyCode}

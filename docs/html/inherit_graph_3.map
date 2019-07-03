@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structbackground__mod_1_1background__class.html" title="background_mod::background\l_class" alt="" coords="5,5,201,47"/>
+<area shape="rect" id="node2" href="$structbackground__mod_1_1fieldslist__class.html" title="background_mod::fieldslist\l_class" alt="" coords="129,5,305,47"/>
+<area shape="rect" id="node3" href="$structsimulationglobals__mod_1_1stringlist__class.html" title="simulationglobals_mod\l::stringlist_class" alt="" coords="140,71,295,112"/>
+<area shape="rect" id="node4" href="$structsourceslist__mod_1_1sourcelist__class.html" title="sourceslist_mod::sourcelist\l_class" alt="" coords="127,136,308,177"/>
+<area shape="rect" id="node5" href="$structtracerlist__mod_1_1tracerlist__class.html" title="tracerlist_mod::tracerlist\l_class" alt="" coords="136,201,299,243"/>
 </map>
