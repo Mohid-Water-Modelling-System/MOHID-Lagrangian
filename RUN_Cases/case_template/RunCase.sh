@@ -3,7 +3,7 @@
 clear
 
 # "name" and "dirout" are named according to the testcase
-name=Vigo3D_Def
+name=Template_Lagrangian
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
