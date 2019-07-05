@@ -160,7 +160,7 @@
     call self%timerSolver%initialize(aux)
 
     ! Initialize logger
-    call Log%initialize(outpath)
+    call Log%initialize(outpath, casefilename%basename(strip_last_extension=.true.))
     !Print licences and build info
     call PrintLicPreamble
     !initialize parallel services manager

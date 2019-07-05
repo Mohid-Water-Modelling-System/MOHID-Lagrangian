@@ -90,13 +90,12 @@
     integer, parameter :: nc = 0           !< Number of cells
     integer(I1P), dimension(1:nc) :: cell_type  !< Cells type
     integer(I4P), dimension(1:nc) :: offset     !< Cells offset
-    integer(I4P), dimension(:), allocatable :: connect    !< Connectivity
+    integer(I4P), dimension(1:nc) :: connect    !< Connectivity
     logical, allocatable, dimension(:) :: active
 
     extfilename = filename%chars()//'.vtu'
-    !outext = '->Writting output file '//extfilename
-    !call Log%put(outext)
     fullfilename = Globals%Names%outpath//'/'//extfilename
+
 
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     !Write the data of each block
@@ -105,7 +104,6 @@
             allocate(active(blocks(i)%LTracer%getSize()))
             active = blocks(i)%getSVActive()
             np = count(active)
-            allocate(connect(np))
             error = vtkfile%xml_writer%write_piece(np=np, nc=nc)
             error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=pack(blocks(i)%getSVvar(1), active), y=pack(blocks(i)%getSVvar(2), active), z=pack(blocks(i)%getSVvar(3), active))
             error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
@@ -117,7 +115,6 @@
             error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%getSVvar(4), active), y=pack(blocks(i)%getSVvar(5), active), z=pack(blocks(i)%getSVvar(6), active))
             error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
             error = vtkfile%xml_writer%write_piece()
-            deallocate(connect)
             deallocate(active)
         end if
     end do

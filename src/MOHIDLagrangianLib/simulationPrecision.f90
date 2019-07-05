@@ -35,7 +35,7 @@
     integer,  parameter :: prec_wrt  = sps
 
     ! Missing value aliases
-    real(prec), parameter :: MISSING_VALUE_DEFAULT = -9999.0_dps
+    real(prec), parameter :: MISSING_VALUE_DEFAULT = -9998.0_dps
     real(prec), parameter :: MV     = MISSING_VALUE_DEFAULT
     real(prec), parameter :: MV_INT = int(MISSING_VALUE_DEFAULT)
 

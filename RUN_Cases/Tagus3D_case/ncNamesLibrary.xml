@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<naming>
+	<variables>
+		<eastward_sea_water_velocity name="u">
+			<variant name="u" comment="used in MOHID" />
+			<variant name="uu" />
+			<variant name="U" />
+			<variant name="uo" comment="used in CMEMS" />
+		</eastward_sea_water_velocity>
+		<northward_sea_water_velocity name="v">
+			<variant name="v" comment="used in MOHID" />
+			<variant name="vv" />
+			<variant name="V" />
+			<variant name="vo" comment="used in CMEMS" />
+		</northward_sea_water_velocity>
+		<upward_sea_water_velocity name="w">
+			<variant name="w" comment="used in MOHID and CMEMS" />
+			<variant name="W" />
+			<variant name="velocity_W" />
+		</upward_sea_water_velocity>
+		<sea_water_temperature name="temp">
+			<variant name="temp" comment="used in MOHID and CMEMS" />
+			<variant name="Temp" />
+			<variant name="temperature" />
+			<variant name="Temperature" />
+		</sea_water_temperature>
+		<sea_water_salinity name="salt">
+			<variant name="salt" comment="used in MOHID and CMEMS" />
+			<variant name="salinity" />
+			<variant name="Salt" />
+			<variant name="Salinity" />
+		</sea_water_salinity>
+	</variables>
+	<dimensions>
+		<longitude name="lon">
+			<variant name="lon" />
+			<variant name="Lon" />
+			<variant name="LON" />
+			<variant name="longitude" />
+			<variant name="Longitude" />
+			<variant name="LONGITUDE" />
+		</longitude>
+		<latitude name="lat">
+			<variant name="lat" />
+			<variant name="Lat" />
+			<variant name="LAT" />
+			<variant name="latitude" />
+			<variant name="Latitude" />
+			<variant name="LATITUDE" />
+		</latitude>
+		<vertical name="level">
+			<variant name="depth" />
+			<variant name="Depth" />
+			<variant name="DEPTH" />
+			<variant name="level" />
+			<variant name="Level" />
+		</vertical>
+		<time name="time">
+			<variant name="time" />
+			<variant name="Time" />
+			<variant name="TIME" />		
+		</time>
+	</dimensions>
+</naming>
