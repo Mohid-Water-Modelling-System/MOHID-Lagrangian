@@ -78,25 +78,45 @@ def run():
     
     dataDir = []
     dataType = []
+    dataList = []
     for type_tag in root.findall('caseDefinitions/inputData/inputDataDir'):
         dataDir.append(type_tag.get('name'))
         dataType.append(type_tag.get('type'))
+        dataList.append((type_tag.get('name'), type_tag.get('type')))
     
     for type_tag in root.findall('execution/parameters/parameter'):
         if type_tag.get('key') == 'Start':
             StartTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
         if type_tag.get('key') == 'End':
             EndTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")
-    
+            
     #------------------------------------------------------
-    if len(dataDir) > 1:
-        print('-> Input data directories are', dataDir)
+    if len(dataList) > 1:
+        print('-> Input data directories are', [row[0] for row in dataList])
     else:
-        print('-> Input data directory is', dataDir)
+        print('-> Input data directory is', dataList)
+
         
     #------------------------------------------------------
-    fileExtensions = ['.nc', '.nc4']  
+    fileExtensions = ['.nc', '.nc4']
     
+    #going for each input directory and indexing its files
+    inputFileCurrents = []
+    inputFileWinds = []
+    inputFileWaves = []
+    for idir in dataList:
+        for ext in fileExtensions:
+            if idir[1] == 'currents':
+                inputFileCurrents.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+            if idir[1] == 'waves':
+                inputFileWaves.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+            if idir[1] == 'meteorology':
+                inputFileWinds.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+    #cleaning list of empty values
+    inputFileCurrents = list(filter(None, inputFileCurrents))
+    inputFileWinds = list(filter(None, inputFileWinds))
+    inputFileWaves = list(filter(None, inputFileWaves))
+
     #going for each input directory and indexing its files
     inputFiles = []
     for idir in dataDir:
@@ -104,32 +124,56 @@ def run():
             inputFiles.append(glob.glob(idir+ '/**/*'+ext, recursive=True))
     #cleaning list of empty values
     inputFiles = list(filter(None, inputFiles))
-	
-    if not inputFiles:
-
-        print('No input files found. Supported files are ', fileExtensions)
     
+    nInputs = len(inputFileCurrents) + len(inputFileWinds) + len(inputFileWaves)
+    if nInputs == 0:
+        print('No input files found. Supported files are ', fileExtensions)
     else:
     
         indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
         indexer = xmlWriter.xmlWriter(indexerFileName)
 		
-		#going trough every file, extracting some metadata and writting in the indexer file
-        ncMeta = []
-        for idir in inputFiles:
-            for ifile in idir:
-                print('--> reading file', ifile)
-                ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
-		
-        ncMeta.sort(key=lambda x: x.startTime)
-		
-        indexer.openCurrentsCollection()
-		
-        print('--> indexing currents data')
-        for ncfile in ncMeta:
-            indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))
-		
-        indexer.closeCurrentsCollection()
+		#going trough every file, extracting some metadata and writting in the indexer file, for each file type
+        if len(inputFileCurrents) > 0:
+            ncMetaCurrents = []
+            for idir in inputFileCurrents:
+                for ifile in idir:
+                    print('--> reading file', ifile)
+                    ncMetaCurrents.append(ncMetaParser.ncMetadata(ifile, StartTime))
+            ncMetaCurrents.sort(key=lambda x: x.startTime)
+            indexer.openCurrentsCollection()
+            print('--> indexing currents data')
+            for ncfile in ncMetaCurrents:
+                indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
+            indexer.closeCurrentsCollection()
+        
+        if len(inputFileWaves) > 0:
+            ncMetaWaves = []
+            for idir in inputFileWaves:
+                for ifile in idir:
+                    print('--> reading file', ifile)
+                    ncMetaWaves.append(ncMetaParser.ncMetadata(ifile, StartTime))
+            ncMetaWaves.sort(key=lambda x: x.startTime)
+            indexer.openWavesCollection()
+            print('--> indexing waves data')
+            for ncfile in ncMetaWaves:
+                indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
+            indexer.closeWavesCollection()
+        
+        if len(inputFileWinds) > 0:
+            ncMetaWinds = []
+            for idir in inputFileWinds:
+                for ifile in idir:
+                    print('--> reading file', ifile)
+                    ncMetaWinds.append(ncMetaParser.ncMetadata(ifile, StartTime))
+            ncMetaWinds.sort(key=lambda x: x.startTime)
+            indexer.openWindsCollection()
+            print('--> indexing waves data')
+            for ncfile in ncMetaWinds:
+                indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
+            indexer.closeWindsCollection()
+        
+        
         indexer.closeFile()
             
 run()

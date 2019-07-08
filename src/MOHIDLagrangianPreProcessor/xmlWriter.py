@@ -48,6 +48,22 @@ class xmlWriter:
     def closeCurrentsCollection(self):
         self.f.write('''	</currents>
 ''')
+        
+    def openWavesCollection(self):
+        self.f.write('''	<waves>
+''')
+		
+    def closeWavesCollection(self):
+        self.f.write('''	</waves>
+''')
+        
+    def openWindsCollection(self):
+        self.f.write('''	<winds>
+''')
+		
+    def closeWindsCollection(self):
+        self.f.write('''	</winds>
+''')
 
     def writeFile(self,fileName,startTime,endTime,startDateStr,endDateStr):                        
         toWrite = '''    	<file>
