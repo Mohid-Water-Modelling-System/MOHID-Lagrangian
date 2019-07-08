@@ -132,48 +132,27 @@ def run():
     
         indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
         indexer = xmlWriter.xmlWriter(indexerFileName)
+        inputFile = [inputFileCurrents, inputFileWinds, inputFileWaves]
+        inputType = ['currents', 'waves', 'meteorology']
 		
 		#going trough every file, extracting some metadata and writting in the indexer file, for each file type
-        if len(inputFileCurrents) > 0:
-            ncMetaCurrents = []
-            for idir in inputFileCurrents:
-                for ifile in idir:
-                    print('--> reading file', ifile)
-                    ncMetaCurrents.append(ncMetaParser.ncMetadata(ifile, StartTime))
-            ncMetaCurrents.sort(key=lambda x: x.startTime)
-            indexer.openCurrentsCollection()
-            print('--> indexing currents data')
-            for ncfile in ncMetaCurrents:
-                indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
-            indexer.closeCurrentsCollection()
-        
-        if len(inputFileWaves) > 0:
-            ncMetaWaves = []
-            for idir in inputFileWaves:
-                for ifile in idir:
-                    print('--> reading file', ifile)
-                    ncMetaWaves.append(ncMetaParser.ncMetadata(ifile, StartTime))
-            ncMetaWaves.sort(key=lambda x: x.startTime)
-            indexer.openWavesCollection()
-            print('--> indexing waves data')
-            for ncfile in ncMetaWaves:
-                indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
-            indexer.closeWavesCollection()
-        
-        if len(inputFileWinds) > 0:
-            ncMetaWinds = []
-            for idir in inputFileWinds:
-                for ifile in idir:
-                    print('--> reading file', ifile)
-                    ncMetaWinds.append(ncMetaParser.ncMetadata(ifile, StartTime))
-            ncMetaWinds.sort(key=lambda x: x.startTime)
-            indexer.openWindsCollection()
-            print('--> indexing waves data')
-            for ncfile in ncMetaWinds:
-                indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
-            indexer.closeWindsCollection()
-        
+        i=0
+        for inputList in inputFile:
+            if len(inputList) > 0:
+                ncMeta = []
+                for idir in inputList:
+                    for ifile in idir:
+                        print('--> reading file', ifile)
+                        ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
+                ncMeta.sort(key=lambda x: x.startTime)
+                indexer.openCollection(inputType[i])
+                print('--> indexing',inputType[i],'data')
+                for ncfile in ncMeta:
+                    indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
+                indexer.closeCollection(inputType[i])
+                i = i+1
         
         indexer.closeFile()
+        print('-> All done, wrote', indexerFileName+'.xml', 'indexing file')
             
 run()

@@ -40,29 +40,13 @@ class xmlWriter:
         self.f.write('''<?xml version="1.0" encoding="UTF-8" ?>
 <file_collection>
 ''')
-
-    def openCurrentsCollection(self):
-        self.f.write('''	<currents>
+    
+    def openCollection(self, collectionName):
+        self.f.write('''	<'''+ collectionName +'''>
 ''')
 		
-    def closeCurrentsCollection(self):
-        self.f.write('''	</currents>
-''')
-        
-    def openWavesCollection(self):
-        self.f.write('''	<waves>
-''')
-		
-    def closeWavesCollection(self):
-        self.f.write('''	</waves>
-''')
-        
-    def openWindsCollection(self):
-        self.f.write('''	<winds>
-''')
-		
-    def closeWindsCollection(self):
-        self.f.write('''	</winds>
+    def closeCollection(self, collectionName):
+        self.f.write('''	</'''+ collectionName +'''>
 ''')
 
     def writeFile(self,fileName,startTime,endTime,startDateStr,endDateStr):                        
