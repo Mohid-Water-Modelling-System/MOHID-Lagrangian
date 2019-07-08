@@ -178,9 +178,9 @@
         !call gfield(i)%print()
         call gfield(i)%finalize()
     end do
-    
+
     call getFullFile%makeLandMask()
-    
+
     !call getFullFile%print()
 
     end function getFullFile
@@ -193,6 +193,7 @@
     subroutine initInputStreamer(self)
     class(input_streamer_class), intent(inout) :: self
     type(Node), pointer :: xmlInputs           !< .xml file handle
+    type(Node), pointer :: typeNode
     type(Node), pointer :: fileNode
     type(NodeList), pointer :: fileList
     type(string) :: tag, att_name, att_val
@@ -208,9 +209,11 @@
         !Go to the file_collection node
         tag = "file_collection"
         call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
+
+        !For currents data
         tag = "currents"
-        call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
-        fileList => getElementsByTagname(xmlInputs, "file")       !searching for tags with the 'namingfile' name
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag)
+        fileList => getElementsByTagname(typeNode, "file")
         allocate(fileNames(getLength(fileList)))
         allocate(self%currentsInputFile(getLength(fileList)))
         do i = 0, getLength(fileList) - 1
@@ -229,7 +232,55 @@
             self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
             self%currentsInputFile(i+1)%used = .false.
         end do
-        call Globals%setInputFileNames(fileNames)
+        deallocate(fileNames)
+        
+        !For wind data
+        tag = "meteorology"
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag)
+        fileList => getElementsByTagname(typeNode, "file")
+        allocate(fileNames(getLength(fileList)))
+        allocate(self%windsInputFile(getLength(fileList)))
+        do i = 0, getLength(fileList) - 1
+            fileNode => item(fileList, i)
+            tag="name"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+            self%windsInputFile(i+1)%name = fileNames(i+1)
+            tag="startTime"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+            self%windsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+            tag="endTime"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+            self%windsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+            self%windsInputFile(i+1)%used = .false.
+        end do
+        deallocate(fileNames)
+        
+        !For wave data
+        tag = "waves"
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag)
+        fileList => getElementsByTagname(typeNode, "file")
+        allocate(fileNames(getLength(fileList)))
+        allocate(self%wavesInputFile(getLength(fileList)))
+        do i = 0, getLength(fileList) - 1
+            fileNode => item(fileList, i)
+            tag="name"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+            self%wavesInputFile(i+1)%name = fileNames(i+1)
+            tag="startTime"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+            self%wavesInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+            tag="endTime"
+            att_name="value"
+            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+            self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+            self%wavesInputFile(i+1)%used = .false.
+        end do
+        !call Globals%setInputFileNames(fileNames)
     else
         self%useInputFiles = .false.
     end if
@@ -257,16 +308,34 @@
     class(input_streamer_class), intent(in) :: self
     type(string) :: outext, temp_str
     integer :: i
+    logical :: written
+    written = .false.
     outext = '-->Input streamer stack:'//new_line('a')
-    outext = outext//'--->Currents data '
-    do i=1, size(self%currentsInputFile)
-        outext = outext//new_line('a')
-        outext = outext//'---->File '//self%currentsInputFile(i)%name!//new_line('a')
-        !temp_str=self%currentsInputFile(i)%startTime
-        !outext = outext//'      Starting time is '//temp_str//' s'//new_line('a')
-        !temp_str=self%currentsInputFile(i)%endTime
-        !outext = outext//'      Ending time is   '//temp_str//' s'
-    end do
+    if (size(self%currentsInputFile) /= 0) then
+        outext = outext//'--->Currents data'
+        do i=1, size(self%currentsInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%currentsInputFile(i)%name
+        end do
+        written = .true.
+    end if
+    if (size(self%windsInputFile) /= 0) then
+        if (written) outext = outext//new_line('a')
+        outext = outext//'--->Winds data'
+        do i=1, size(self%windsInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%windsInputFile(i)%name
+        end do
+        written = .true.
+    end if
+    if (size(self%wavesInputFile) /= 0) then
+        if (written) outext = outext//new_line('a')
+        outext = outext//'--->Waves data'
+        do i=1, size(self%wavesInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%wavesInputFile(i)%name
+        end do
+    end if
     if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'
     call Log%put(outext,.false.)
     end subroutine printInputStreamer
