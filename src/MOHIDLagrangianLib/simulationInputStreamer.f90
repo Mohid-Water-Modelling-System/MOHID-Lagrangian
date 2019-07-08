@@ -46,6 +46,7 @@
         type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
+        integer :: nFileTypes
         real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
         real(prec) :: lastReadTime
     contains
@@ -89,6 +90,20 @@
                 if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
                     if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
                         if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+                    end if
+                end if
+            end do
+            do i=1, size(self%windsInputFile)
+                if (self%windsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                    if (self%windsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                        if (.not.self%windsInputFile(i)%used) self%windsInputFile(i)%toRead = .true.
+                    end if
+                end if
+            end do
+            do i=1, size(self%wavesInputFile)
+                if (self%wavesInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                    if (self%wavesInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                        if (.not.self%wavesInputFile(i)%used) self%wavesInputFile(i)%toRead = .true.
                     end if
                 end if
             end do
@@ -202,6 +217,7 @@
 
     self%bufferSize = Globals%Parameters%BufferSize
     self%lastReadTime = -1.0
+    self%nFileTypes = 0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
     if (associated(xmlInputs)) then
