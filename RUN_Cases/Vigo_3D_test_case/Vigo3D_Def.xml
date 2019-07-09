@@ -13,7 +13,7 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="nc_fields"/>
+			<inputDataDir name="nc_fields" type="currents"/>
 		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
