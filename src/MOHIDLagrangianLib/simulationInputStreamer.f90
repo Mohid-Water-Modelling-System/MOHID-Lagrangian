@@ -86,27 +86,33 @@
         if (needToRead) then
             call self%resetReadStatus()
             !check what files on the stack are to read to backgrounds
-            do i=1, size(self%currentsInputFile)
-                if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
-                        if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+            if (allocated(self%currentsInputFile)) then
+                do i=1, size(self%currentsInputFile)
+                    if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                        if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                            if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+                        end if
                     end if
-                end if
-            end do
-            do i=1, size(self%windsInputFile)
-                if (self%windsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                    if (self%windsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
-                        if (.not.self%windsInputFile(i)%used) self%windsInputFile(i)%toRead = .true.
+                end do
+            end if
+            if (allocated(self%windsInputFile)) then
+                do i=1, size(self%windsInputFile)
+                    if (self%windsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                        if (self%windsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                            if (.not.self%windsInputFile(i)%used) self%windsInputFile(i)%toRead = .true.
+                        end if
                     end if
-                end if
-            end do
-            do i=1, size(self%wavesInputFile)
-                if (self%wavesInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                    if (self%wavesInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
-                        if (.not.self%wavesInputFile(i)%used) self%wavesInputFile(i)%toRead = .true.
+                end do
+            end if
+            if (allocated(self%wavesInputFile)) then
+                do i=1, size(self%wavesInputFile)
+                    if (self%wavesInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                        if (self%wavesInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                            if (.not.self%wavesInputFile(i)%used) self%wavesInputFile(i)%toRead = .true.
+                        end if
                     end if
-                end if
-            end do
+                end do
+            end if
             !read selected files
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%toRead) then
@@ -228,74 +234,80 @@
 
         !For currents data
         tag = "currents"
-        call XMLReader%gotoNode(xmlInputs,typeNode,tag)
-        fileList => getElementsByTagname(typeNode, "file")
-        allocate(fileNames(getLength(fileList)))
-        allocate(self%currentsInputFile(getLength(fileList)))
-        do i = 0, getLength(fileList) - 1
-            fileNode => item(fileList, i)
-            tag="name"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
-            self%currentsInputFile(i+1)%name = fileNames(i+1)
-            tag="startTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%currentsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
-            tag="endTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
-            self%currentsInputFile(i+1)%used = .false.
-        end do
-        deallocate(fileNames)
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        if (associated(typeNode)) then
+            fileList => getElementsByTagname(typeNode, "file")
+            allocate(fileNames(getLength(fileList)))
+            allocate(self%currentsInputFile(getLength(fileList)))
+            do i = 0, getLength(fileList) - 1
+                fileNode => item(fileList, i)
+                tag="name"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+                self%currentsInputFile(i+1)%name = fileNames(i+1)
+                tag="startTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%currentsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                tag="endTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%currentsInputFile(i+1)%used = .false.
+            end do
+            deallocate(fileNames)
+        end if
         
         !For wind data
         tag = "meteorology"
-        call XMLReader%gotoNode(xmlInputs,typeNode,tag)
-        fileList => getElementsByTagname(typeNode, "file")
-        allocate(fileNames(getLength(fileList)))
-        allocate(self%windsInputFile(getLength(fileList)))
-        do i = 0, getLength(fileList) - 1
-            fileNode => item(fileList, i)
-            tag="name"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
-            self%windsInputFile(i+1)%name = fileNames(i+1)
-            tag="startTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%windsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
-            tag="endTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%windsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
-            self%windsInputFile(i+1)%used = .false.
-        end do
-        deallocate(fileNames)
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        if (associated(typeNode)) then
+            fileList => getElementsByTagname(typeNode, "file")
+            allocate(fileNames(getLength(fileList)))
+            allocate(self%windsInputFile(getLength(fileList)))
+            do i = 0, getLength(fileList) - 1
+                fileNode => item(fileList, i)
+                tag="name"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+                self%windsInputFile(i+1)%name = fileNames(i+1)
+                tag="startTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%windsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                tag="endTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%windsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%windsInputFile(i+1)%used = .false.
+            end do
+            deallocate(fileNames)
+        end if
         
         !For wave data
         tag = "waves"
-        call XMLReader%gotoNode(xmlInputs,typeNode,tag)
-        fileList => getElementsByTagname(typeNode, "file")
-        allocate(fileNames(getLength(fileList)))
-        allocate(self%wavesInputFile(getLength(fileList)))
-        do i = 0, getLength(fileList) - 1
-            fileNode => item(fileList, i)
-            tag="name"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
-            self%wavesInputFile(i+1)%name = fileNames(i+1)
-            tag="startTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%wavesInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
-            tag="endTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
-            self%wavesInputFile(i+1)%used = .false.
-        end do
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        if (associated(typeNode)) then
+            fileList => getElementsByTagname(typeNode, "file")
+            allocate(fileNames(getLength(fileList)))
+            allocate(self%wavesInputFile(getLength(fileList)))
+            do i = 0, getLength(fileList) - 1
+                fileNode => item(fileList, i)
+                tag="name"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+                self%wavesInputFile(i+1)%name = fileNames(i+1)
+                tag="startTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%wavesInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                tag="endTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%wavesInputFile(i+1)%used = .false.
+            end do
+        end if
         !call Globals%setInputFileNames(fileNames)
     else
         self%useInputFiles = .false.
