@@ -179,10 +179,7 @@
         outext='[initSimulation]: only .xml input files are supported at the time. Stopping'
         call Log%put(outext)
         stop
-    endif
-    !Initializing input file streamer
-    call self%InputStreamer%initialize()
-    call self%InputStreamer%print()
+    endif    
     !Case was read and now we can build/initialize our simulation objects that are case-dependent
     !initilize simulation bounding box
     call BBox%initialize()
@@ -191,7 +188,10 @@
     !Distributing Sources
     call self%setInitialState()
     !printing memory occupation at the time
-    call SimMemory%detailedprint()
+    !call SimMemory%detailedprint()
+    !Initializing input file streamer
+    call self%InputStreamer%initialize(sBlock)
+    call self%InputStreamer%print()
     !Initializing output file streamer
     call self%OutputStreamer%initialize()
     !Writing the domain to file

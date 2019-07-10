@@ -49,6 +49,7 @@
         integer :: nFileTypes
         real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
         real(prec) :: lastReadTime
+        integer :: currentsBkgIndex, windsBkgIndex, wavesBkgIndex
     contains
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
@@ -120,13 +121,13 @@
                     tempBkgd = self%getFullFile(self%currentsInputFile(i)%name)
                     self%currentsInputFile(i)%used = .true.
                     do j=1, size(blocks)
-                        if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
+                        !if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
                         !slice data by block and either join to existing background or add a new one
-                        if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                        if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                        if (blocks(j)%Background(self%currentsBkgIndex)%initialized) call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
 
                         !save last time already loaded
-                        tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
+                        tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
 
                     end do
@@ -211,19 +212,24 @@
     !> @brief
     !> Initializes the input writer object, imports metadata on input files
     !---------------------------------------------------------------------------
-    subroutine initInputStreamer(self)
+    subroutine initInputStreamer(self, blocks)
     class(input_streamer_class), intent(inout) :: self
+    type(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
     type(Node), pointer :: xmlInputs           !< .xml file handle
     type(Node), pointer :: typeNode
     type(Node), pointer :: fileNode
     type(NodeList), pointer :: fileList
     type(string) :: tag, att_name, att_val
     type(string), allocatable, dimension(:) :: fileNames
-    integer :: i
+    integer :: i, nBkg
 
     self%bufferSize = Globals%Parameters%BufferSize
     self%lastReadTime = -1.0
     self%nFileTypes = 0
+    self%currentsBkgIndex = 0
+    self%windsBkgIndex = 0
+    self%wavesBkgIndex = 0
+    nBkg = 0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
     if (associated(xmlInputs)) then
@@ -256,6 +262,8 @@
                 self%currentsInputFile(i+1)%used = .false.
             end do
             deallocate(fileNames)
+            nBkg = nBkg + 1
+            self%currentsBkgIndex = nBkg
         end if
         
         !For wind data
@@ -282,6 +290,8 @@
                 self%windsInputFile(i+1)%used = .false.
             end do
             deallocate(fileNames)
+            nBkg = nBkg + 1
+            self%windsBkgIndex = nBkg
         end if
         
         !For wave data
@@ -307,11 +317,17 @@
                 self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
                 self%wavesInputFile(i+1)%used = .false.
             end do
+            nBkg = nBkg + 1
+            self%wavesBkgIndex = nBkg
         end if
         !call Globals%setInputFileNames(fileNames)
     else
         self%useInputFiles = .false.
     end if
+    !allocating the necessary background array in every block
+    do i=1, size(blocks)
+        allocate(blocks(i)%Background(nBkg))
+    end do    
     end subroutine initInputStreamer
 
     !---------------------------------------------------------------------------
