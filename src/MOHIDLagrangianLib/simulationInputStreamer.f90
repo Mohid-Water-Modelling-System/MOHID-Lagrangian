@@ -389,7 +389,7 @@
     logical :: written
     written = .false.
     outext = '-->Input streamer stack:'//new_line('a')
-    if (size(self%currentsInputFile) /= 0) then
+    if (allocated(self%currentsInputFile)) then
         outext = outext//'--->'//Globals%DataTypes%currents%startcase()//' data '
         do i=1, size(self%currentsInputFile)
             outext = outext//new_line('a')
@@ -397,7 +397,7 @@
         end do
         written = .true.
     end if
-    if (size(self%windsInputFile) /= 0) then
+    if (allocated(self%windsInputFile)) then
         if (written) outext = outext//new_line('a')
         outext = outext//'--->'//Globals%DataTypes%winds%startcase()//' data '
         do i=1, size(self%windsInputFile)
@@ -406,7 +406,7 @@
         end do
         written = .true.
     end if
-    if (size(self%wavesInputFile) /= 0) then
+    if (allocated(self%wavesInputFile)) then
         if (written) outext = outext//new_line('a')
         outext = outext//'--->'//Globals%DataTypes%waves%startcase()//' data '
         do i=1, size(self%wavesInputFile)
