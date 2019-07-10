@@ -53,7 +53,7 @@
     contains
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
-    procedure :: getFullFile
+    procedure, private :: getCurrentsFile
     procedure, private :: resetReadStatus
     procedure :: print => printInputStreamer
     end type input_streamer_class
@@ -62,6 +62,39 @@
     public :: input_streamer_class
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a 
+    !> currents input file
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getCurrentsFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+    
+    allocate(varList(5))
+    allocate(syntecticVar(5))
+    varList(1) = Globals%Var%u
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%v
+    syntecticVar(2) = .false.
+    varList(3) = Globals%Var%w
+    syntecticVar(3) = .false.
+    varList(4) = Globals%Var%landMask
+    syntecticVar(4) = .true.
+    varList(5) = Globals%Var%landIntMask
+    syntecticVar(5) = .true.
+    
+    !need to send to different readers here if different file formats    
+    getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    call getCurrentsFile%makeLandMask()
+    
+    end function
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -118,18 +151,15 @@
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%toRead) then
                     !import data to temporary background
-                    tempBkgd = self%getFullFile(self%currentsInputFile(i)%name)
+                    tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
                     self%currentsInputFile(i)%used = .true.
                     do j=1, size(blocks)
-                        !if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
                         !slice data by block and either join to existing background or add a new one
                         if (blocks(j)%Background(self%currentsBkgIndex)%initialized) call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
                         if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
-
                         !save last time already loaded
                         tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
-
                     end do
                     !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
                     call tempBkgd%finalize()
@@ -139,73 +169,6 @@
     end if
 
     end subroutine loadDataFromStack
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> instantiates and returns a background object with the data from a NC file
-    !> @param[in] self, nfile
-    !---------------------------------------------------------------------------
-    type(background_class) function getFullFile(self, fileName)
-    class(input_streamer_class), intent(in) :: self
-    type(string), intent(in) :: fileName
-    type(ncfile_class) :: ncFile
-    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
-    type(generic_field_class), allocatable, dimension(:) :: gfield
-    type(string) :: name, units
-    type(box) :: extents
-    type(vector) :: pt
-    real(prec), dimension(3,2) :: dimExtents
-    integer :: i
-    type(string) :: outext
-
-    allocate(gfield(5))
-
-    outext = '->Reading '//fileName
-    call Log%put(outext,.false.)
-
-    call ncFile%initialize(fileName)
-    call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
-    call ncFile%getVar(Globals%Var%u, gfield(1))
-    call ncFile%getVar(Globals%Var%v, gfield(2))
-    call ncFile%getVar(Globals%Var%w, gfield(3))
-    !reading a field to use later as land mask
-    units = '-'
-    call ncFile%getVar(Globals%Var%u, gfield(4), .true., Globals%Var%landMask, units)
-    call ncFile%getVar(Globals%Var%u, gfield(5), .true., Globals%Var%landIntMask, units)
-    !finalizing reader
-    call ncFile%finalize()
-
-    dimExtents = 0.0
-    do i = 1, size(backgrounDims)
-        if (backgrounDims(i)%name == Globals%Var%lon) then
-            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
-            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-        else if (backgrounDims(i)%name == Globals%Var%lat) then
-            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
-            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
-        else if (backgrounDims(i)%name == Globals%Var%level) then
-            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
-            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
-        end if
-    end do
-    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
-    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
-    extents%size = pt - extents%pt
-
-    name = fileName%basename(strip_last_extension=.true.)
-    getFullFile = Background(1, name, extents, backgrounDims)
-    do i = 1, size(gfield)
-        call getFullFile%add(gfield(i))
-        !call gfield(i)%print()
-        call gfield(i)%finalize()
-    end do
-
-    call getFullFile%makeLandMask()
-
-    !call getFullFile%print()
-
-    end function getFullFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -265,7 +228,7 @@
             nBkg = nBkg + 1
             self%currentsBkgIndex = nBkg
         end if
-        
+
         !For wind data
         tag = Globals%DataTypes%winds
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
@@ -293,7 +256,7 @@
             nBkg = nBkg + 1
             self%windsBkgIndex = nBkg
         end if
-        
+
         !For wave data
         tag = Globals%DataTypes%waves
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
@@ -327,7 +290,7 @@
     !allocating the necessary background array in every block
     do i=1, size(blocks)
         allocate(blocks(i)%Background(nBkg))
-    end do    
+    end do
     end subroutine initInputStreamer
 
     !---------------------------------------------------------------------------

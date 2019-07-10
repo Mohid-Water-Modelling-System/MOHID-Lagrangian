@@ -86,10 +86,89 @@
     procedure, private :: getDimByDimID
     procedure :: print => printNcInfo
     end type ncfile_class
+    
+    type :: ncReader_class
+    contains
+    procedure :: getFullFile
+    end type ncReader_class
 
-    public :: ncfile_class
+    public :: ncfile_class, ncReader_class
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a NC file
+    !> @param[in] self, fileName, varList, syntecticVar
+    !---------------------------------------------------------------------------
+    type(background_class) function getFullFile(self, fileName, varList, syntecticVar)
+    class(ncReader_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), dimension(:), intent(in) :: varList
+    logical, dimension(:), intent(in) :: syntecticVar    
+    type(ncfile_class) :: ncFile
+    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
+    type(generic_field_class), allocatable, dimension(:) :: gfield
+    type(string) :: name, units
+    type(box) :: extents
+    type(vector) :: pt
+    real(prec), dimension(3,2) :: dimExtents
+    integer :: i, realVarIdx
+    type(string) :: outext
+
+    allocate(gfield(size(syntecticVar)))
+    realVarIdx = 0
+    units = '-'
+    
+    outext = '->Reading '//fileName
+    call Log%put(outext,.false.)
+
+    call ncFile%initialize(fileName)
+    do i=1, size(syntecticVar)
+        if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
+            call ncFile%getVarDimensions(varList(i), backgrounDims)
+            realVarIdx = i
+            exit
+        end if
+    end do
+    if (realVarIdx /= 0) then
+        do i=1, size(syntecticVar)
+            if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
+                call ncFile%getVar(varList(i), gfield(i))
+            else                          !synthetic variable to be constructed based on the field of a normal variable
+                call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
+            end if
+        end do
+    end if
+    call ncFile%finalize()
+
+    dimExtents = 0.0
+    do i = 1, size(backgrounDims)
+        if (backgrounDims(i)%name == Globals%Var%lon) then
+            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%lat) then
+            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
+        else if (backgrounDims(i)%name == Globals%Var%level) then
+            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
+            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
+        end if
+    end do
+    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
+    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
+    extents%size = pt - extents%pt
+
+    name = fileName%basename(strip_last_extension=.true.)
+    getFullFile = Background(1, name, extents, backgrounDims)
+    do i = 1, size(gfield)
+        call getFullFile%add(gfield(i))
+        !call gfield(i)%print()
+        call gfield(i)%finalize()
+    end do
+    !call getFullFile%print()
+    end function getFullFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
