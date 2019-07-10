@@ -233,7 +233,7 @@
         call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
 
         !For currents data
-        tag = "currents"
+        tag = Globals%DataTypes%currents
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
         if (associated(typeNode)) then
             fileList => getElementsByTagname(typeNode, "file")
@@ -259,7 +259,7 @@
         end if
         
         !For wind data
-        tag = "meteorology"
+        tag = Globals%DataTypes%winds
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
         if (associated(typeNode)) then
             fileList => getElementsByTagname(typeNode, "file")
@@ -285,7 +285,7 @@
         end if
         
         !For wave data
-        tag = "waves"
+        tag = Globals%DataTypes%waves
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
         if (associated(typeNode)) then
             fileList => getElementsByTagname(typeNode, "file")
@@ -340,7 +340,7 @@
     written = .false.
     outext = '-->Input streamer stack:'//new_line('a')
     if (size(self%currentsInputFile) /= 0) then
-        outext = outext//'--->Currents data'
+        outext = outext//'--->'//Globals%DataTypes%currents%startcase()//' data '
         do i=1, size(self%currentsInputFile)
             outext = outext//new_line('a')
             outext = outext//'---->File '//self%currentsInputFile(i)%name
@@ -349,7 +349,7 @@
     end if
     if (size(self%windsInputFile) /= 0) then
         if (written) outext = outext//new_line('a')
-        outext = outext//'--->Winds data'
+        outext = outext//'--->'//Globals%DataTypes%winds%startcase()//' data '
         do i=1, size(self%windsInputFile)
             outext = outext//new_line('a')
             outext = outext//'---->File '//self%windsInputFile(i)%name
@@ -358,7 +358,7 @@
     end if
     if (size(self%wavesInputFile) /= 0) then
         if (written) outext = outext//new_line('a')
-        outext = outext//'--->Waves data'
+        outext = outext//'--->'//Globals%DataTypes%waves%startcase()//' data '
         do i=1, size(self%wavesInputFile)
             outext = outext//new_line('a')
             outext = outext//'---->File '//self%wavesInputFile(i)%name
