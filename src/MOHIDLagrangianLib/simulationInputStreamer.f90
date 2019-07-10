@@ -54,6 +54,8 @@
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
     procedure, private :: getCurrentsFile
+    procedure, private :: getWindsFile
+    procedure, private :: getWavesFile
     procedure, private :: resetReadStatus
     procedure :: print => printInputStreamer
     end type input_streamer_class
@@ -94,7 +96,59 @@
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMask()
     
-    end function
+    end function getCurrentsFile
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a 
+    !> meteorology input file (winds)
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getWindsFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+    
+    allocate(varList(2))
+    allocate(syntecticVar(2))
+    varList(1) = Globals%Var%u10
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%v10
+    syntecticVar(2) = .false.    
+    
+    !need to send to different readers here if different file formats    
+    getWindsFile = ncReader%getFullFile(fileName, varList, syntecticVar)    
+    
+    end function getWindsFile
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a 
+    !> waves input file (stokes drift velocity)
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getWavesFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+    
+    allocate(varList(2))
+    allocate(syntecticVar(2))
+    varList(1) = Globals%Var%vsdx
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%vsdy
+    syntecticVar(2) = .false.    
+    
+    !need to send to different readers here if different file formats    
+    getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)    
+    
+    end function getWavesFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -161,8 +215,25 @@
                         tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
                     end do
-                    !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
+                    !clean out the temporary background data
                     call tempBkgd%finalize()
+                end if
+            end do
+            do i=1, size(self%windsInputFile)
+                if (self%windsInputFile(i)%toRead) then
+                    !!import data to temporary background
+                    !tempBkgd = self%getWindsFile(self%windsInputFile(i)%name)
+                    !self%windsInputFile(i)%used = .true.
+                    !do j=1, size(blocks)
+                    !    !slice data by block and either join to existing background or add a new one
+                    !    if (blocks(j)%Background(self%windsBkgIndex)%initialized) call blocks(j)%Background(self%windsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                    !    if (.not.blocks(j)%Background(self%windsBkgIndex)%initialized) blocks(j)%Background(self%windsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                    !    !save last time already loaded
+                    !    tempTime = blocks(j)%Background(self%windsBkgIndex)%getDimExtents(Globals%Var%time)
+                    !    self%lastReadTime = tempTime(2)
+                    !end do
+                    !!clean out the temporary background data
+                    !call tempBkgd%finalize()
                 end if
             end do
         end if
