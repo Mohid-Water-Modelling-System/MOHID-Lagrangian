@@ -24,7 +24,7 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "MOHID Lagrangian", "index.html", [
-    [ "MOHIDLagrangian - Heavy development phase - Work in progress!", "index.html", null ],
+    [ "MOHID Lagrangian - V0.1 - Work in progress!", "index.html", null ],
     [ "Modules", "namespaces.html", [
       [ "Modules List", "namespaces.html", "namespaces_dup" ],
       [ "Module Members", "namespacemembers.html", [
@@ -55,12 +55,12 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_m_date_time_8py.html",
-"functions_func_s.html",
-"simulation_8f90.html#a844f0fae91502f3fc79cc1223f55a86c",
-"structcontainer__mod_1_1container.html",
-"structsimulationglobals__mod_1_1parameters__t.html#a247d15eba9f019e79c02b2be9a22ad86",
-"structstatevector__mod_1_1trcptr__class.html"
+"_m_o_h_i_d_lagrangian_8f90.html",
+"interpolator_8f90.html#ac27ad06522b34071302dc09d10b0ec7e",
+"simulation_output_streamer_8f90.html#a6f01bdc663fe5f4a842150a6aac90f67",
+"structgeometry__mod_1_1line.html#a1f7c879c60698c2f903f5258ad6f446c",
+"structsimulationinputstreamer__mod_1_1input__streamer__class.html#a827d38efa4fcc80677907577c173eb14",
+"structxmlparser__mod_1_1xmlparser__class.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

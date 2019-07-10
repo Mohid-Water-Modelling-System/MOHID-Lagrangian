@@ -266,6 +266,10 @@
     integer, intent(in) :: dim
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
     real(prec) :: minBound, maxBound, res
+    if(size(bdata%dim(dim)%field) == 1) then
+        getArrayCoordRegular = 1
+        return
+    end if
     res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
@@ -288,6 +292,10 @@
     integer :: i                                                !< corresponding background dimension
     integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
+    if(size(bdata%dim(dim)%field) == 1) then
+        getArrayCoordNonRegular = 1
+        return
+    end if
     n_idx = size(bdata%dim(dim)%field)
     do id = 1,size(xdata)
         do i = 2, n_idx

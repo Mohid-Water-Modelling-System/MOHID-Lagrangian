@@ -1,5 +1,6 @@
 var structstatevector__mod_1_1statevector__class =
 [
+    [ "copystate", "structstatevector__mod_1_1statevector__class.html#a4cce0e53e87b8fd70b0dc5e05c930b48", null ],
     [ "finalize", "structstatevector__mod_1_1statevector__class.html#ae4fb91ef1a88cb853f28fc6fcc2eba6f", null ],
     [ "totracers", "structstatevector__mod_1_1statevector__class.html#a2e50a7dc4a09d1319aef60d94dec4a25", null ],
     [ "active", "structstatevector__mod_1_1statevector__class.html#a78ff040c3a087975ea448f9d1f7d7e1f", null ],

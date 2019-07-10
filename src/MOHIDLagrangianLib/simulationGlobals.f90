@@ -84,7 +84,7 @@
     type :: constants_t    !< Case Constants class
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
-        real(prec)   :: Rho_ref = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
+        real(prec)   :: RhoRef = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
     contains
@@ -265,7 +265,7 @@
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
     self%Constants%BeachingLevel = -3.0
-    self%Constants%Rho_ref = 1000.0
+    self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
     self%Names%mainxmlfilename = 'not_set'
@@ -729,12 +729,12 @@
     elseif(parmkey%chars()=="OutputWriteTime") then
         self%OutputWriteTime=parmvalue%to_number(kind=1._R4P)
         sizem=sizeof(self%OutputWriteTime)
-    elseif(parmkey%chars()=="StartTime") then
+    elseif(parmkey%chars()=="Start") then
         date = Utils%getDateFromISOString(parmvalue)
         self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%StartTime%isValid()) self%StartTime = datetime()
         sizem=sizeof(self%StartTime)
-    elseif(parmkey%chars()=="EndTime") then
+    elseif(parmkey%chars()=="End") then
         date = Utils%getDateFromISOString(parmvalue)
         self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%EndTime%isValid()) self%EndTime = datetime()
@@ -791,11 +791,11 @@
         call Log%put(outext)
         stop
     elseif (self%StartTime==temp) then
-        outext = '[Globals::parameters::check]: start time parameter (StartTime) is not set or invalid, stoping'
+        outext = '[Globals::parameters::check]: start time parameter (Start) is not set or invalid, stoping'
         call Log%put(outext)
         stop
     elseif (self%EndTime==temp) then
-        outext = '[Globals::parameters::check]: end time parameter (EndTime) is not set or invalid, stoping'
+        outext = '[Globals::parameters::check]: end time parameter (End) is not set or invalid, stoping'
         call Log%put(outext)
         stop
     end if
@@ -870,7 +870,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Rho_Ref setting routine.
+    !> RhoRef setting routine.
     !> @param[in] self, read_rho
     !---------------------------------------------------------------------------
     subroutine setrho(self,read_rho)
@@ -879,13 +879,13 @@
     type(string), intent(in) :: read_rho
     type(string) :: outext
     integer :: sizem
-    self%Rho_ref=read_rho%to_number(kind=1._R4P)
-    if (self%Rho_ref.le.0.0) then
-        outext='Rho_ref must be positive and non-zero, stopping'
+    self%RhoRef=read_rho%to_number(kind=1._R4P)
+    if (self%RhoRef.le.0.0) then
+        outext='RhoRef must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
     endif
-    sizem = sizeof(self%Rho_ref)
+    sizem = sizeof(self%RhoRef)
     call SimMemory%adddef(sizem)
     end subroutine
     
@@ -951,8 +951,8 @@
     outext = outext//'       Z0 = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingLevel
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
-    temp_str(1)=self%Rho_ref
-    outext = outext//'       Rho_ref = '//temp_str(1)//' kg/m^3'
+    temp_str(1)=self%RhoRef
+    outext = outext//'       RhoRef = '//temp_str(1)//' kg/m^3'
 
     call Log%put(outext,.false.)
     end subroutine printconstants
@@ -1013,9 +1013,9 @@
     type(string), intent(in) :: point_
     type(vector) :: coords
     integer :: sizem
-    if (point_%chars() == "pointmin") then
+    if (point_%chars() == "BoundingBoxMin") then
         self%Pointmin= coords
-    elseif (point_%chars() == "pointmax") then
+    elseif (point_%chars() == "BoundingBoxMax") then
         self%Pointmax= coords
     endif
     sizem=sizeof(coords)

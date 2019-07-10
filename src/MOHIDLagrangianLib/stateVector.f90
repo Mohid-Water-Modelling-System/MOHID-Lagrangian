@@ -16,7 +16,7 @@
     !> Module to hold the State Vector class and its methods. This class
     !> defines a state vector that encodes the state of a type of Tracers, 
     !> allowing for trivial application of kernels and subsequent integration. 
-    !> These must be exported beck into the objects from this class
+    !> These must be exported back into the objects from this class.
     !------------------------------------------------------------------------------
 
     module stateVector_mod
@@ -41,12 +41,35 @@
         integer :: idx
     contains
     procedure :: toTracers
+    procedure :: copyState
     procedure :: finalize => cleanState
     end type stateVector_class
 
     public :: stateVector_class
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Copies a State Vector to another.
+    !---------------------------------------------------------------------------
+    subroutine copyState(self, newsv)
+    class(stateVector_class), intent(in) :: self
+    type(stateVector_class), intent(out) :: newsv
+    
+    newsv%ttype = self%ttype
+    allocate(newsv%state(size(self%state,1), size(self%state,2)))
+    newsv%state = self%state
+    allocate(newsv%landMask(size(self%landMask)))
+    newsv%landMask = self%landMask
+    allocate(newsv%landIntMask(size(self%landIntMask)))
+    newsv%landIntMask = self%landIntMask
+    allocate(newsv%active(size(self%active)))
+    newsv%active = self%active
+    !maybe no need to copy source, id and tracer pointer
+    
+    end subroutine copyState
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

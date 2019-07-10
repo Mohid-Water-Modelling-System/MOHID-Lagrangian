@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.4</span>
+   &#160;<span id="projectnumber">0.1</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -109,7 +109,6 @@ $(document).ready(function(){initNavTree('structsimulationglobals__mod_1_1consta
 Collaboration diagram for simulationglobals_mod::constants_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structsimulationglobals__mod_1_1constants__t__coll__graph.png" border="0" usemap="#simulationglobals__mod_1_1constants__t_coll__map" alt="Collaboration graph"/></div>
-<!-- MAP 0 -->
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
@@ -135,9 +134,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a9dab4143c1d5fd54c8337d78ea9b7d82"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#a9dab4143c1d5fd54c8337d78ea9b7d82">z0</a> = 0.0</td></tr>
 <tr class="memdesc:a9dab4143c1d5fd54c8337d78ea9b7d82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference local sea level.  <a href="#a9dab4143c1d5fd54c8337d78ea9b7d82">More...</a><br /></td></tr>
 <tr class="separator:a9dab4143c1d5fd54c8337d78ea9b7d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac466093200262cde2551525b04809d3a"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#ac466093200262cde2551525b04809d3a">rho_ref</a> = 1000.0</td></tr>
-<tr class="memdesc:ac466093200262cde2551525b04809d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference density of the medium (default=1000.0) (kg m-3)  <a href="#ac466093200262cde2551525b04809d3a">More...</a><br /></td></tr>
-<tr class="separator:ac466093200262cde2551525b04809d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac95f74b07cc46e86d443d4dd666235c3"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#ac95f74b07cc46e86d443d4dd666235c3">rhoref</a> = 1000.0</td></tr>
+<tr class="memdesc:ac95f74b07cc46e86d443d4dd666235c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference density of the medium (default=1000.0) (kg m-3)  <a href="#ac95f74b07cc46e86d443d4dd666235c3">More...</a><br /></td></tr>
+<tr class="separator:ac95f74b07cc46e86d443d4dd666235c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e417855b60f5eb0f45d3094495f532b"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1constants__t.html#a4e417855b60f5eb0f45d3094495f532b">smalldt</a></td></tr>
 <tr class="memdesc:a4e417855b60f5eb0f45d3094495f532b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Small dt scale, for numeric precision purposes.  <a href="#a4e417855b60f5eb0f45d3094495f532b">More...</a><br /></td></tr>
 <tr class="separator:a4e417855b60f5eb0f45d3094495f532b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -365,8 +364,8 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">type</span>(vector) :: Gravity</div></div><!-- fragment -->
 </div>
 </div>
-<a id="ac466093200262cde2551525b04809d3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac466093200262cde2551525b04809d3a">&#9670;&nbsp;</a></span>rho_ref</h2>
+<a id="ac95f74b07cc46e86d443d4dd666235c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac95f74b07cc46e86d443d4dd666235c3">&#9670;&nbsp;</a></span>rhoref</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -375,7 +374,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec) simulationglobals_mod::constants_t::rho_ref = 1000.0</td>
+          <td class="memname">real(prec) simulationglobals_mod::constants_t::rhoref = 1000.0</td>
         </tr>
       </table>
   </td>
@@ -388,7 +387,7 @@ Private Attributes</h2></td></tr>
 <p>Reference density of the medium (default=1000.0) (kg m-3) </p>
 
 <p class="definition">Definition at line <a class="el" href="simulation_globals_8f90_source.html#l00087">87</a> of file <a class="el" href="simulation_globals_8f90_source.html">simulationGlobals.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordtype">real(prec)</span>   :: Rho_ref = 1000.0</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordtype">real(prec)</span>   :: RhoRef = 1000.0</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a4e417855b60f5eb0f45d3094495f532b"></a>

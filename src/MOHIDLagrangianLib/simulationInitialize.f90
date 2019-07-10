@@ -54,7 +54,7 @@
     type(string) :: att_name, att_val, tag
     type(string) :: sourceid, sourcetype, sourceprop
 
-    linkList => getElementsByTagname(linksNode, "link")
+    linkList => getElementsByTagname(linksNode, "type")
     do i = 0, getLength(linkList) - 1
         anode => item(linkList,i)
         att_name="source"
@@ -119,15 +119,15 @@
     type(string) :: outext
     type(string) :: tag, att_name
 
-    tag="properties"    !the node we want
+    tag="sourceTypes"    !the node we want
     call XMLReader%gotoNode(case_node,props_node,tag,mandatory =.false.)
     if (associated(props_node)) then
-        tag="propertyfile"
+        tag="file"
         att_name="name"
         call XMLReader%getNodeAttribute(props_node, tag, att_name, Globals%Names%propsxmlfilename) !getting the file name from that tag
         outext='-->Properties to link to Sources found at '//Globals%Names%propsxmlfilename
         call Log%put(outext,.false.)
-        tag="links"
+        tag="types"
         call XMLReader%gotoNode(props_node,props_node,tag) !getting the links node
         call linkPropertySources(props_node)          !calling the property linker
     else
@@ -155,10 +155,10 @@
     type(string), allocatable, dimension(:) :: namingFilename
     integer :: i
 
-    tag="naming"    !the node we want
+    tag="variableNaming"    !the node we want
     call XMLReader%gotoNode(case_node,naming_node,tag,mandatory =.false.)
     if (associated(naming_node)) then
-        namingfileList => getElementsByTagname(naming_node, "namingfile")       !searching for tags with the 'namingfile' name
+        namingfileList => getElementsByTagname(naming_node, "file")       !searching for tags with the 'namingfile' name
         allocate(namingFilename(getLength(namingfileList)))
         do i = 0, getLength(namingfileList) - 1
             temp => item(namingfileList, i)
@@ -240,7 +240,7 @@
     readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
-    tag="sourcedef"    !the node we want
+    tag="sourceDefinitions"    !the node we want
     call XMLReader%gotoNode(case_node,sourcedef,tag)
     sourceList => getElementsByTagname(sourcedef, "source")
     !allocating the temporary source objects
@@ -330,7 +330,7 @@
     outext='-->Reading case simulation definitions'
     call Log%put(outext,.false.)
 
-    tag="simulationdefs"    !the node we want
+    tag="simulation"    !the node we want
     call XMLReader%gotoNode(case_node,simdefs_node,tag)
     tag="resolution"
     att_name="dp"
@@ -341,7 +341,7 @@
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
     call Globals%SimDefs%setdt(att_val)
     call Globals%Constants%setSmallDt(Globals%SimDefs%dt)
-    pts=(/ 'pointmin', 'pointmax'/) !strings to search for
+    pts=(/ 'BoundingBoxMin', 'BoundingBoxMax'/) !strings to search for
     do i=1, size(pts)
         call XMLReader%getNodeVector(simdefs_node, pts(i), coords)
         call Globals%SimDefs%setboundingbox(pts(i), coords)
@@ -383,7 +383,7 @@
         if (readflag) then
             call Globals%Constants%setz0(att_val)
         endif
-        tag="Rho_ref"
+        tag="RhoRef"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
@@ -467,7 +467,7 @@
     call XMLReader%gotoNode(execution_node,execution_node,tag)
     tag="case"          !base document node
     call XMLReader%gotoNode(xmldoc,case_node,tag)
-    tag="casedef"     !finding execution node
+    tag="caseDefinitions"     !finding execution node
     call XMLReader%gotoNode(case_node,case_node,tag)
 
     ! building the simulation basic structures according to the case definition file

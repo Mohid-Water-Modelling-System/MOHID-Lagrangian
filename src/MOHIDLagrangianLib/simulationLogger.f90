@@ -51,15 +51,16 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Log file initizalization routine.
-    !> @param[in] self,outpath
+    !> @param[in] self, outpath, filename
     !---------------------------------------------------------------------------
-    subroutine initLog(self,outpath)
+    subroutine initLog(self,outpath, filename)
     implicit none
     class(logger_class), intent(inout) :: self
     type(string), intent(in) :: outpath !< output path were to point the logger
+    type(string), intent(in) :: filename
     type(string) :: logfile
 
-    logfile = outpath//'MOHIDLagrangianRun.out'
+    logfile = outpath//filename//'_run.log'
     self%log_unit = 0
     open (unit=self%log_unit,file=logfile%chars(),action="write",status="replace")
 

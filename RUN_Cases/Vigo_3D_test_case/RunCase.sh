@@ -3,7 +3,7 @@
 clear
 
 # "name" and "dirout" are named according to the testcase
-name=Vigo3D
+name=Vigo3D_Def
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
@@ -19,8 +19,7 @@ if [ -e $dirout ]; then
 fi
 mkdir $dirout
 
-cp ${name}_Def.xml $dirout/
-mv $dirout/${name}_Def.xml $dirout/${name}.xml
+cp ${name}.xml $dirout/
 
 # CODES are executed according the selected parameters of execution in this testcase
 

@@ -9,7 +9,7 @@ type \mbox{\hyperlink{structsolver__mod_1_1solver__class}{solver\+\_\+mod\+::sol
 \begin{DoxyCompactItemize}
 \item 
 module \mbox{\hyperlink{namespacesolver__mod}{solver\+\_\+mod}}
-\begin{DoxyCompactList}\small\item\em Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary interpolation objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Defines an Solver class. This class invokes the different available integration algorithms as methods, and these invoke the necessary kernel functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
@@ -17,6 +17,10 @@ subroutine \mbox{\hyperlink{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6
 \begin{DoxyCompactList}\small\item\em Method that integrates the Tracer State Vector in one time-\/step, according to the selected integration algorithm. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a21533e195501ebb46c1814aeaede4c55}{solver\+\_\+mod\+::runstepeuler}} (self, sv, bdata, time, dt)
 \begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Velocity Euler integration algorithm. This is a one-\/shot type explicit scheme with low computational cost. Implements $ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}$ $ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t$. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_ae574f8d772b89d5c3c602db278c05325}{solver\+\_\+mod\+::runstepmseuler}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state vector in one time-\/step, using a Multi-\/\+Step Euler integration algorithm. This is a predictor-\/corrector type explicit scheme with excelent conservation properties and average cost. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesolver__mod_a11436fc89bf6c713930a83b5cc52a0cd}{solver\+\_\+mod\+::runsteprk4}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em Method that integrates the Tracer state array in one time-\/step, using a Runge-\/\+Kuta 4th order integration algorithm. This is an explicit scheme with medium to high computational cost. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a326292ff19880a914317109520b200b2}{solver\+\_\+mod\+::initsolver}} (self, flag, name)
 \begin{DoxyCompactList}\small\item\em Initializer method for the Solver class. Sets the type of integrator and name of the algorithm this Solver will call. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}{solver\+\_\+mod\+::printsolver}} (self)
