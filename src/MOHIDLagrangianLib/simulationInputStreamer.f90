@@ -46,12 +46,14 @@
         type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
+        integer :: nFileTypes
         real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
         real(prec) :: lastReadTime
+        integer :: currentsBkgIndex, windsBkgIndex, wavesBkgIndex
     contains
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
-    procedure :: getFullFile
+    procedure, private :: getCurrentsFile
     procedure, private :: resetReadStatus
     procedure :: print => printInputStreamer
     end type input_streamer_class
@@ -60,6 +62,39 @@
     public :: input_streamer_class
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a 
+    !> currents input file
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getCurrentsFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+    
+    allocate(varList(5))
+    allocate(syntecticVar(5))
+    varList(1) = Globals%Var%u
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%v
+    syntecticVar(2) = .false.
+    varList(3) = Globals%Var%w
+    syntecticVar(3) = .false.
+    varList(4) = Globals%Var%landMask
+    syntecticVar(4) = .true.
+    varList(5) = Globals%Var%landIntMask
+    syntecticVar(5) = .true.
+    
+    !need to send to different readers here if different file formats    
+    getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    call getCurrentsFile%makeLandMask()
+    
+    end function
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -85,29 +120,46 @@
         if (needToRead) then
             call self%resetReadStatus()
             !check what files on the stack are to read to backgrounds
-            do i=1, size(self%currentsInputFile)
-                if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                    if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
-                        if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+            if (allocated(self%currentsInputFile)) then
+                do i=1, size(self%currentsInputFile)
+                    if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                        if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                            if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
+                        end if
                     end if
-                end if
-            end do
+                end do
+            end if
+            if (allocated(self%windsInputFile)) then
+                do i=1, size(self%windsInputFile)
+                    if (self%windsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                        if (self%windsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                            if (.not.self%windsInputFile(i)%used) self%windsInputFile(i)%toRead = .true.
+                        end if
+                    end if
+                end do
+            end if
+            if (allocated(self%wavesInputFile)) then
+                do i=1, size(self%wavesInputFile)
+                    if (self%wavesInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
+                        if (self%wavesInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
+                            if (.not.self%wavesInputFile(i)%used) self%wavesInputFile(i)%toRead = .true.
+                        end if
+                    end if
+                end do
+            end if
             !read selected files
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%toRead) then
                     !import data to temporary background
-                    tempBkgd = self%getFullFile(self%currentsInputFile(i)%name)
+                    tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
                     self%currentsInputFile(i)%used = .true.
                     do j=1, size(blocks)
-                        if (.not.allocated(blocks(j)%Background)) allocate(blocks(j)%Background(1))
                         !slice data by block and either join to existing background or add a new one
-                        if (blocks(j)%Background(1)%initialized) call blocks(j)%Background(1)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                        if (.not.blocks(j)%Background(1)%initialized) blocks(j)%Background(1) = tempBkgd%getHyperSlab(blocks(j)%extents)
-
+                        if (blocks(j)%Background(self%currentsBkgIndex)%initialized) call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
                         !save last time already loaded
-                        tempTime = blocks(j)%Background(1)%getDimExtents(Globals%Var%time)
+                        tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
                         self%lastReadTime = tempTime(2)
-
                     end do
                     !clean out the temporary background data (this structure, even tough it is a local variable, has pointers inside)
                     call tempBkgd%finalize()
@@ -121,86 +173,26 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> instantiates and returns a background object with the data from a NC file
-    !> @param[in] self, nfile
-    !---------------------------------------------------------------------------
-    type(background_class) function getFullFile(self, fileName)
-    class(input_streamer_class), intent(in) :: self
-    type(string), intent(in) :: fileName
-    type(ncfile_class) :: ncFile
-    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
-    type(generic_field_class), allocatable, dimension(:) :: gfield
-    type(string) :: name, units
-    type(box) :: extents
-    type(vector) :: pt
-    real(prec), dimension(3,2) :: dimExtents
-    integer :: i
-    type(string) :: outext
-
-    allocate(gfield(5))
-
-    outext = '->Reading '//fileName
-    call Log%put(outext,.false.)
-
-    call ncFile%initialize(fileName)
-    call ncFile%getVarDimensions(Globals%Var%u, backgrounDims)
-    call ncFile%getVar(Globals%Var%u, gfield(1))
-    call ncFile%getVar(Globals%Var%v, gfield(2))
-    call ncFile%getVar(Globals%Var%w, gfield(3))
-    !reading a field to use later as land mask
-    units = '-'
-    call ncFile%getVar(Globals%Var%u, gfield(4), .true., Globals%Var%landMask, units)
-    call ncFile%getVar(Globals%Var%u, gfield(5), .true., Globals%Var%landIntMask, units)
-    !finalizing reader
-    call ncFile%finalize()
-
-    dimExtents = 0.0
-    do i = 1, size(backgrounDims)
-        if (backgrounDims(i)%name == Globals%Var%lon) then
-            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
-            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-        else if (backgrounDims(i)%name == Globals%Var%lat) then
-            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
-            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
-        else if (backgrounDims(i)%name == Globals%Var%level) then
-            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
-            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
-        end if
-    end do
-    extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
-    pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
-    extents%size = pt - extents%pt
-
-    name = fileName%basename(strip_last_extension=.true.)
-    getFullFile = Background(1, name, extents, backgrounDims)
-    do i = 1, size(gfield)
-        call getFullFile%add(gfield(i))
-        !call gfield(i)%print()
-        call gfield(i)%finalize()
-    end do
-    
-    call getFullFile%makeLandMask()
-    
-    !call getFullFile%print()
-
-    end function getFullFile
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
     !> Initializes the input writer object, imports metadata on input files
     !---------------------------------------------------------------------------
-    subroutine initInputStreamer(self)
+    subroutine initInputStreamer(self, blocks)
     class(input_streamer_class), intent(inout) :: self
+    type(block_class), dimension(:), intent(inout) :: blocks  !< Case Blocks
     type(Node), pointer :: xmlInputs           !< .xml file handle
+    type(Node), pointer :: typeNode
     type(Node), pointer :: fileNode
     type(NodeList), pointer :: fileList
     type(string) :: tag, att_name, att_val
     type(string), allocatable, dimension(:) :: fileNames
-    integer :: i
+    integer :: i, nBkg
 
     self%bufferSize = Globals%Parameters%BufferSize
     self%lastReadTime = -1.0
+    self%nFileTypes = 0
+    self%currentsBkgIndex = 0
+    self%windsBkgIndex = 0
+    self%wavesBkgIndex = 0
+    nBkg = 0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
     if (associated(xmlInputs)) then
@@ -208,31 +200,97 @@
         !Go to the file_collection node
         tag = "file_collection"
         call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
-        tag = "currents"
-        call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
-        fileList => getElementsByTagname(xmlInputs, "file")       !searching for tags with the 'namingfile' name
-        allocate(fileNames(getLength(fileList)))
-        allocate(self%currentsInputFile(getLength(fileList)))
-        do i = 0, getLength(fileList) - 1
-            fileNode => item(fileList, i)
-            tag="name"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
-            self%currentsInputFile(i+1)%name = fileNames(i+1)
-            tag="startTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%currentsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
-            tag="endTime"
-            att_name="value"
-            call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-            self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
-            self%currentsInputFile(i+1)%used = .false.
-        end do
-        call Globals%setInputFileNames(fileNames)
+
+        !For currents data
+        tag = Globals%DataTypes%currents
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        if (associated(typeNode)) then
+            fileList => getElementsByTagname(typeNode, "file")
+            allocate(fileNames(getLength(fileList)))
+            allocate(self%currentsInputFile(getLength(fileList)))
+            do i = 0, getLength(fileList) - 1
+                fileNode => item(fileList, i)
+                tag="name"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+                self%currentsInputFile(i+1)%name = fileNames(i+1)
+                tag="startTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%currentsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                tag="endTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%currentsInputFile(i+1)%used = .false.
+            end do
+            deallocate(fileNames)
+            nBkg = nBkg + 1
+            self%currentsBkgIndex = nBkg
+        end if
+
+        !For wind data
+        tag = Globals%DataTypes%winds
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        if (associated(typeNode)) then
+            fileList => getElementsByTagname(typeNode, "file")
+            allocate(fileNames(getLength(fileList)))
+            allocate(self%windsInputFile(getLength(fileList)))
+            do i = 0, getLength(fileList) - 1
+                fileNode => item(fileList, i)
+                tag="name"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+                self%windsInputFile(i+1)%name = fileNames(i+1)
+                tag="startTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%windsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                tag="endTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%windsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%windsInputFile(i+1)%used = .false.
+            end do
+            deallocate(fileNames)
+            nBkg = nBkg + 1
+            self%windsBkgIndex = nBkg
+        end if
+
+        !For wave data
+        tag = Globals%DataTypes%waves
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        if (associated(typeNode)) then
+            fileList => getElementsByTagname(typeNode, "file")
+            allocate(fileNames(getLength(fileList)))
+            allocate(self%wavesInputFile(getLength(fileList)))
+            do i = 0, getLength(fileList) - 1
+                fileNode => item(fileList, i)
+                tag="name"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+                self%wavesInputFile(i+1)%name = fileNames(i+1)
+                tag="startTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%wavesInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                tag="endTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%wavesInputFile(i+1)%used = .false.
+            end do
+            nBkg = nBkg + 1
+            self%wavesBkgIndex = nBkg
+        end if
+        !call Globals%setInputFileNames(fileNames)
     else
         self%useInputFiles = .false.
     end if
+    !allocating the necessary background array in every block
+    do i=1, size(blocks)
+        allocate(blocks(i)%Background(nBkg))
+    end do
     end subroutine initInputStreamer
 
     !---------------------------------------------------------------------------
@@ -257,16 +315,34 @@
     class(input_streamer_class), intent(in) :: self
     type(string) :: outext, temp_str
     integer :: i
+    logical :: written
+    written = .false.
     outext = '-->Input streamer stack:'//new_line('a')
-    outext = outext//'--->Currents data '
-    do i=1, size(self%currentsInputFile)
-        outext = outext//new_line('a')
-        outext = outext//'---->File '//self%currentsInputFile(i)%name!//new_line('a')
-        !temp_str=self%currentsInputFile(i)%startTime
-        !outext = outext//'      Starting time is '//temp_str//' s'//new_line('a')
-        !temp_str=self%currentsInputFile(i)%endTime
-        !outext = outext//'      Ending time is   '//temp_str//' s'
-    end do
+    if (size(self%currentsInputFile) /= 0) then
+        outext = outext//'--->'//Globals%DataTypes%currents%startcase()//' data '
+        do i=1, size(self%currentsInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%currentsInputFile(i)%name
+        end do
+        written = .true.
+    end if
+    if (size(self%windsInputFile) /= 0) then
+        if (written) outext = outext//new_line('a')
+        outext = outext//'--->'//Globals%DataTypes%winds%startcase()//' data '
+        do i=1, size(self%windsInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%windsInputFile(i)%name
+        end do
+        written = .true.
+    end if
+    if (size(self%wavesInputFile) /= 0) then
+        if (written) outext = outext//new_line('a')
+        outext = outext//'--->'//Globals%DataTypes%waves%startcase()//' data '
+        do i=1, size(self%wavesInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%wavesInputFile(i)%name
+        end do
+    end if
     if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'
     call Log%put(outext,.false.)
     end subroutine printInputStreamer

@@ -86,41 +86,42 @@
     LagrangianKinematic = 0.0
     !interpolate each background
     do bkg = 1, size(bdata)
-        np = size(sv%active) !number of Tracers
-        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        allocate(var_dt(np,nf))
-        allocate(var_name(nf))
-        !correcting for maximum admissible level in the background
-        maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-        if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-        !interpolating all of the data
-        call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-        !write dx/dt
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
-        sv%state(:,4) = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
-        sv%state(:,5) = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-        if (nf /= MV_INT) then
-            LagrangianKinematic(:,3) = var_dt(:,nf)
-            sv%state(:,6) = var_dt(:,nf)
-        else if (nf == MV_INT) then
-            LagrangianKinematic(:,3) = 0.0
-            sv%state(:,6) = 0.0
+        if (bdata(bkg)%initialized) then
+            np = size(sv%active) !number of Tracers
+            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+            allocate(var_dt(np,nf))
+            allocate(var_name(nf))
+            !correcting for maximum admissible level in the background
+            maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+            if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+            !interpolating all of the data
+            call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+            !write dx/dt
+            nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+            LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+            sv%state(:,4) = var_dt(:,nf)
+            nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+            LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+            sv%state(:,5) = var_dt(:,nf)
+            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+            if (nf /= MV_INT) then
+                LagrangianKinematic(:,3) = var_dt(:,nf)
+                sv%state(:,6) = var_dt(:,nf)
+            else if (nf == MV_INT) then
+                LagrangianKinematic(:,3) = 0.0
+                sv%state(:,6) = 0.0
+            end if
+            !update land mask status
+            nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
+            if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
+            if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
+            !marking tracers for deletion because they are in land
+            where(sv%landMask == 2) sv%active = .false.
+            !update land interaction status
+            nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
+            if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
+            if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
         end if
-        !update land mask status
-        nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
-        if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
-        if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
-        !marking tracers for deletion because they are in land
-        where(sv%landMask == 2) sv%active = .false.
-        !update land interaction status
-        nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-        if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
-        if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
-        !update other vars...
     end do
 
     end function LagrangianKinematic

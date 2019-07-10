@@ -160,21 +160,28 @@
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
     end type var_names_t
-    
+
     type :: maskVals_t
         real(prec) :: landVal  = 2.0
         real(prec) :: bedVal   = -1.0
         real(prec) :: waterVal = 0.0
         real(prec) :: beachVal = 1.0
-        contains
+    contains
     end type maskVals_t
-        
+
     type :: tracerTypes_t
         integer :: base  = 0
         integer :: paper   = 1
         integer :: plastic = 2
-        contains
+    contains
     end type tracerTypes_t
+
+    type :: dataTypes_t
+        type(string) :: currents
+        type(string) :: winds
+        type(string) :: waves
+    contains
+    end type dataTypes_t
 
     type :: sim_time_t
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
@@ -200,6 +207,7 @@
         type(sim_time_t)    :: SimTime
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
+        type(dataTypes_t)   :: DataTypes
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
@@ -284,6 +292,10 @@
     self%Sim%lastOutNumDt = 0
     self%Sim%numoutfile = 0
     self%Sim%numTracer = 0
+    !data types
+    self%DataTypes%currents = 'currents'
+    self%DataTypes%winds = 'meteorology'
+    self%DataTypes%waves = 'waves'
     !Source parameters list
     call self%SrcProp%buildlists()
     !Variable names
@@ -634,7 +646,7 @@
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -655,7 +667,7 @@
     integer, intent(in) :: num
     self%lastOutNumDt = num
     end subroutine setlastOutNumDt
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -888,7 +900,7 @@
     sizem = sizeof(self%RhoRef)
     call SimMemory%adddef(sizem)
     end subroutine
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -899,17 +911,17 @@
     class(constants_t), intent(inout) :: self
     type(string), intent(in) :: read_BeachingLevel
     type(string) :: outext
-    integer :: sizem    
+    integer :: sizem
     if (read_BeachingLevel%to_number(kind=1._R4P).gt.0.0) then
         outext='Beaching level must be negative, assuming default value'
         call Log%put(outext)
-    else        
+    else
         self%BeachingLevel=read_BeachingLevel%to_number(kind=1._R4P)
     endif
     sizem = sizeof(self%BeachingLevel)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingLevel
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
