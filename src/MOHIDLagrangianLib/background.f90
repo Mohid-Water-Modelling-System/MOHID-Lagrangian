@@ -199,10 +199,10 @@
                 !done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
                 allocate(newTime, source = self%dim(j)%field)
                 call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
-                
+
                 !check if new time dimension is consistent (monotonic and not repeating)
                 done = all(newTime(2:)-newTime(1:size(newTime)-1) > 0)
-                
+
                 name = self%dim(j)%name
                 units = self%dim(j)%units
                 call self%dim(j)%finalize()
@@ -476,8 +476,8 @@
     end if
 
     end subroutine ShedMemory
-    
-    
+
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -493,71 +493,71 @@
     integer :: dimIndx
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
-        curr => self%fields%currentValue() ! get current value        
-            select type(curr)            
-            class is (scalar3d_field_class)
-                if (curr%name == Globals%Var%landIntMask) then
-                    allocate(shiftleftlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(shiftuplat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(shiftrigthlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    shiftleftlon3d = .false.
-                    shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    shiftrigthlon3d = .false.
-                    shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    shiftuplat3d = .false.
-                    shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    shiftdownlat3d = .false.
-                    shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    beach3d = .false.
-                    beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d !colapsing all the shifts
-                    beach3d = beach3d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
-                    where(beach3d) curr%field = Globals%Mask%beachVal
-                end if
-            class is (scalar4d_field_class)
-                if (curr%name == Globals%Var%landIntMask) then
-                    allocate(shiftleftlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftdownlat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftDownLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(beach4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(bed4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    shiftleftlon4d = .false.
-                    shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) /= 0.0
-                    shiftrigthlon4d = .false.
-                    shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) /= 0.0
-                    shiftdownlat4d = .false.
-                    shiftdownlat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) /= 0.0
-                    shiftuplat4d = .false.
-                    shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) /= 0.0
-                    shiftUpLevel = .false.
-                    shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
-                    shiftDownLevel = .false.
-                    shiftDownLevel(:,:,:size(curr%field,3)-1,:) = abs(curr%field(:,:,:size(curr%field,3)-1,:) - curr%field(:,:,2:,:)) /= 0.0
-                    beach4d = .false.
-                    beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. shiftDownLevel .or. shiftUpLevel !colapsing all the shifts                    
-                    !beach4d = beach4d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
-                    bed4d = beach4d
-                    dimIndx = self%getDimIndex(Globals%Var%level)
-                    dimIndx = minloc(abs(self%dim(dimIndx)%field - Globals%Constants%BeachingLevel),1)
-                    beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
-                    bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
-                    where(beach4d) curr%field = Globals%Mask%beachVal
-                    where(bed4d) curr%field = Globals%Mask%bedVal
-                end if                
-                class default
-                outext = '[background_class::makeLandMask] Unexepected type of content, not a 3D or 4D scalar Field'
-                call Log%put(outext)
-                stop
-            end select       
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == Globals%Var%landIntMask) then
+                allocate(shiftleftlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(shiftuplat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(shiftrigthlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                shiftleftlon3d = .false.
+                shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                shiftrigthlon3d = .false.
+                shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                shiftuplat3d = .false.
+                shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                shiftdownlat3d = .false.
+                shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                beach3d = .false.
+                beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d !colapsing all the shifts
+                beach3d = beach3d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
+                where(beach3d) curr%field = Globals%Mask%beachVal
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == Globals%Var%landIntMask) then
+                allocate(shiftleftlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftdownlat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftDownLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(beach4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(bed4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                shiftleftlon4d = .false.
+                shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) /= 0.0
+                shiftrigthlon4d = .false.
+                shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) /= 0.0
+                shiftdownlat4d = .false.
+                shiftdownlat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) /= 0.0
+                shiftuplat4d = .false.
+                shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) /= 0.0
+                shiftUpLevel = .false.
+                shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
+                shiftDownLevel = .false.
+                shiftDownLevel(:,:,:size(curr%field,3)-1,:) = abs(curr%field(:,:,:size(curr%field,3)-1,:) - curr%field(:,:,2:,:)) /= 0.0
+                beach4d = .false.
+                beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. shiftDownLevel .or. shiftUpLevel !colapsing all the shifts
+                !beach4d = beach4d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
+                bed4d = beach4d
+                dimIndx = self%getDimIndex(Globals%Var%level)
+                dimIndx = minloc(abs(self%dim(dimIndx)%field - Globals%Constants%BeachingLevel),1)
+                beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
+                bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
+                where(beach4d) curr%field = Globals%Mask%beachVal
+                where(bed4d) curr%field = Globals%Mask%bedVal
+            end if
+            class default
+            outext = '[background_class::makeLandMask] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
         call self%fields%next()            ! increment the list iterator
         nullify(curr)
     end do
     call self%fields%reset()               ! reset list iterator
-    
+
     end subroutine makeLandMask
 
     !---------------------------------------------------------------------------
