@@ -121,6 +121,8 @@
             nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
             if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
             if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
+            deallocate(var_dt)
+            deallocate(var_name)
         end if
     end do
 
