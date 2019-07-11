@@ -42,6 +42,7 @@
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
         logical, allocatable, dimension(:) :: regularDim                        !< Logical that points
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
+        type(stringList_class) :: variables
     contains
     procedure :: add => addField
     procedure :: getDimIndex
@@ -87,6 +88,7 @@
     if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)
     if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)
     if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)
+    if(self%variables%notRepeated(gfield%name)) call self%variables%add(gfield%name)
     end subroutine addField
 
     !---------------------------------------------------------------------------
@@ -573,6 +575,7 @@
     if (allocated(self%dim)) deallocate(self%dim)
     call self%cleanFields()
     call self%fields%finalize()
+    call self%variables%finalize()
     end subroutine cleanBackground
 
     !---------------------------------------------------------------------------
