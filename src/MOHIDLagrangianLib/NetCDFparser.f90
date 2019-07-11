@@ -128,6 +128,11 @@
     do i=1, size(syntecticVar)
         if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
             call ncFile%getVarDimensions(varList(i), backgrounDims)
+            if (.not.allocated(backgrounDims)) then
+                outext = '[ncReader_class::getFullFile]: dimensions in file are not well set, stopping'
+                call Log%put(outext)
+                stop
+            end if
             realVarIdx = i
             exit
         end if
