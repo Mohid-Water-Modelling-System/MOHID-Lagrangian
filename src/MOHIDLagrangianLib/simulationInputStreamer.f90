@@ -202,40 +202,66 @@
                 end do
             end if
             !read selected files
-            do i=1, size(self%currentsInputFile)
-                if (self%currentsInputFile(i)%toRead) then
-                    !import data to temporary background
-                    tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
-                    self%currentsInputFile(i)%used = .true.
-                    do j=1, size(blocks)
-                        !slice data by block and either join to existing background or add a new one
-                        if (blocks(j)%Background(self%currentsBkgIndex)%initialized) call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                        if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
-                        !save last time already loaded
-                        tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
-                        self%lastReadTime = tempTime(2)
-                    end do
-                    !clean out the temporary background data
-                    call tempBkgd%finalize()
-                end if
-            end do
-            do i=1, size(self%windsInputFile)
-                if (self%windsInputFile(i)%toRead) then
-                    !!import data to temporary background
-                    !tempBkgd = self%getWindsFile(self%windsInputFile(i)%name)
-                    !self%windsInputFile(i)%used = .true.
-                    !do j=1, size(blocks)
-                    !    !slice data by block and either join to existing background or add a new one
-                    !    if (blocks(j)%Background(self%windsBkgIndex)%initialized) call blocks(j)%Background(self%windsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                    !    if (.not.blocks(j)%Background(self%windsBkgIndex)%initialized) blocks(j)%Background(self%windsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
-                    !    !save last time already loaded
-                    !    tempTime = blocks(j)%Background(self%windsBkgIndex)%getDimExtents(Globals%Var%time)
-                    !    self%lastReadTime = tempTime(2)
-                    !end do
-                    !!clean out the temporary background data
-                    !call tempBkgd%finalize()
-                end if
-            end do
+            if (allocated(self%currentsInputFile)) then
+                do i=1, size(self%currentsInputFile)
+                    if (self%currentsInputFile(i)%toRead) then
+                        !import data to temporary background
+                        tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
+                        self%currentsInputFile(i)%used = .true.
+                        do j=1, size(blocks)
+                            !slice data by block and either join to existing background or add a new one
+                            if (blocks(j)%Background(self%currentsBkgIndex)%initialized) call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                            if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                            !save last time already loaded
+                            tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
+                            if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
+                            self%lastReadTime = min(tempTime(2), self%lastReadTime)
+                        end do
+                        !clean out the temporary background data
+                        call tempBkgd%finalize()
+                    end if
+                end do
+            end if
+            if (allocated(self%windsInputFile)) then
+                do i=1, size(self%windsInputFile)
+                    if (self%windsInputFile(i)%toRead) then
+                        !import data to temporary background
+                        tempBkgd = self%getWindsFile(self%windsInputFile(i)%name)
+                        self%windsInputFile(i)%used = .true.
+                        do j=1, size(blocks)
+                            !slice data by block and either join to existing background or add a new one
+                            if (blocks(j)%Background(self%windsBkgIndex)%initialized) call blocks(j)%Background(self%windsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                            if (.not.blocks(j)%Background(self%windsBkgIndex)%initialized) blocks(j)%Background(self%windsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                            !save last time already loaded
+                            tempTime = blocks(j)%Background(self%windsBkgIndex)%getDimExtents(Globals%Var%time)
+                            if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
+                            self%lastReadTime = min(tempTime(2), self%lastReadTime)
+                        end do
+                        !clean out the temporary background data
+                        call tempBkgd%finalize()
+                    end if
+                end do
+            end if
+            if (allocated(self%wavesInputFile)) then
+                do i=1, size(self%wavesInputFile)
+                    if (self%wavesInputFile(i)%toRead) then
+                        !import data to temporary background
+                        tempBkgd = self%getWavesFile(self%wavesInputFile(i)%name)
+                        self%wavesInputFile(i)%used = .true.
+                        do j=1, size(blocks)
+                            !slice data by block and either join to existing background or add a new one
+                            if (blocks(j)%Background(self%wavesBkgIndex)%initialized) call blocks(j)%Background(self%wavesBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                            if (.not.blocks(j)%Background(self%wavesBkgIndex)%initialized) blocks(j)%Background(self%wavesBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                            !save last time already loaded
+                            tempTime = blocks(j)%Background(self%wavesBkgIndex)%getDimExtents(Globals%Var%time)
+                            if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
+                            self%lastReadTime = min(tempTime(2), self%lastReadTime)
+                        end do
+                        !clean out the temporary background data
+                        call tempBkgd%finalize()
+                    end if
+                end do
+            end if
         end if
     end if
 
