@@ -36,6 +36,7 @@
     procedure :: run => runKernel
     procedure, private :: LagrangianKinematic
     procedure, private :: DiffusionIsotropic
+    procedure, private :: StokesDrift    
     procedure, private :: hasRequiredVars
     end type kernel_class
 
@@ -57,11 +58,11 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
 
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     end if
 
     end function runKernel
@@ -71,13 +72,13 @@
     !> @brief
     !> Lagrangian Kernel, evaluate the velocities at given points
     !> using the interpolants and split the evaluation part from the solver module.
-    !> @param[in] self, sv, bdata, time, dt
+    !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function LagrangianKinematic(self, sv, bdata, time, dt)
+    function LagrangianKinematic(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec), intent(in) :: time
     integer :: np, nf, bkg, i
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
@@ -135,6 +136,55 @@
     end do
 
     end function LagrangianKinematic
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Computes the influence of wave velocity in tracer kinematics
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function StokesDrift(self, sv, bdata, time)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    integer :: np, nf, bkg, i
+    real(prec) :: maxLevel(2)
+    real(prec) :: waveCoeff
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
+
+    allocate(requiredVars(2))
+    requiredVars(1) = Globals%Var%vsdx
+    requiredVars(2) = Globals%Var%vsdy
+
+    waveCoeff = 0.01
+
+    StokesDrift = 0.0
+    !interpolate each background
+    do bkg = 1, size(bdata)
+        if (bdata(bkg)%initialized) then
+            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+                np = size(sv%active) !number of Tracers
+                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                allocate(var_dt(np,nf))
+                allocate(var_name(nf))
+                !interpolating all of the data
+                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+                !write dx/dt
+                nf = Utils%find_str(var_name, Globals%Var%vsdx, .true.)
+                StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff
+                nf = Utils%find_str(var_name, Globals%Var%vsdy, .true.)
+                StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff
+                deallocate(var_dt)
+                deallocate(var_name)
+            end if
+        end if
+    end do
+
+    end function StokesDrift
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
