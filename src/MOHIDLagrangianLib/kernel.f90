@@ -18,7 +18,7 @@
     !> Defines an abstract physics kernel class.
     !> This class has several methods, that should be designed on a one method - one
     !> process approach. Different types of state vectors (corresponding to different
-    !> types of tracers, with different quantities attached), will be affected by 
+    !> types of tracers, with different quantities attached), will be affected by
     !> different processes (some suffer beaching, others don't have diffusion, etc)
     !> The output of every kernel should be a 2D matrix, where a row represents the
     !> derivative of the state vector of a given tracer. n columns - n variables.
@@ -36,6 +36,7 @@
     procedure :: run => runKernel
     procedure, private :: LagrangianKinematic
     procedure, private :: DiffusionIsotropic
+    procedure, private :: hasRequiredVars
     end type kernel_class
 
     public :: kernel_class
@@ -81,48 +82,55 @@
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: LagrangianKinematic
+
+    allocate(requiredVars(2))
+    requiredVars(1) = Globals%Var%u
+    requiredVars(2) = Globals%Var%v
 
     LagrangianKinematic = 0.0
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
-            np = size(sv%active) !number of Tracers
-            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-            allocate(var_dt(np,nf))
-            allocate(var_name(nf))
-            !correcting for maximum admissible level in the background
-            maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-            if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-            !interpolating all of the data
-            call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-            !write dx/dt
-            nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-            LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
-            sv%state(:,4) = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-            LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
-            sv%state(:,5) = var_dt(:,nf)
-            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-            if (nf /= MV_INT) then
-                LagrangianKinematic(:,3) = var_dt(:,nf)
-                sv%state(:,6) = var_dt(:,nf)
-            else if (nf == MV_INT) then
-                LagrangianKinematic(:,3) = 0.0
-                sv%state(:,6) = 0.0
+            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+                np = size(sv%active) !number of Tracers
+                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                allocate(var_dt(np,nf))
+                allocate(var_name(nf))
+                !correcting for maximum admissible level in the background
+                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+                !interpolating all of the data
+                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+                !write dx/dt
+                nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+                sv%state(:,4) = var_dt(:,nf)
+                nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+                sv%state(:,5) = var_dt(:,nf)
+                nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+                if (nf /= MV_INT) then
+                    LagrangianKinematic(:,3) = var_dt(:,nf)
+                    sv%state(:,6) = var_dt(:,nf)
+                else if (nf == MV_INT) then
+                    LagrangianKinematic(:,3) = 0.0
+                    sv%state(:,6) = 0.0
+                end if
+                !update land mask status
+                nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
+                if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
+                if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
+                !marking tracers for deletion because they are in land
+                where(sv%landMask == 2) sv%active = .false.
+                !update land interaction status
+                nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
+                if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
+                if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
+                deallocate(var_dt)
+                deallocate(var_name)
             end if
-            !update land mask status
-            nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
-            if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
-            if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
-            !marking tracers for deletion because they are in land
-            where(sv%landMask == 2) sv%active = .false.
-            !update land interaction status
-            nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-            if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
-            if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
-            deallocate(var_dt)
-            deallocate(var_name)
         end if
     end do
 
@@ -159,6 +167,26 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
     end function DiffusionIsotropic
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns true if a given set of strings (array) is contained in a list of strings
+    !> @param[in] self, varList, reqVars
+    !---------------------------------------------------------------------------
+    logical function hasRequiredVars(self, varList, reqVars)
+    class(kernel_class), intent(in) :: self
+    type(stringList_class) :: varList
+    type(string), dimension(:), intent(in) :: reqVars
+    integer :: i
+    hasRequiredVars = .true.
+    do i=1, size(reqVars)
+        if (varList%notRepeated(reqVars(i))) then
+            hasRequiredVars = .false.
+            return
+        end if
+    end do
+    end function hasRequiredVars
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
