@@ -59,11 +59,11 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
 
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, beaching = .true.) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, beaching = .true.) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time, beaching = .true.) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     end if
 
     end function runKernel
@@ -75,21 +75,34 @@
     !> using the interpolants and split the evaluation part from the solver module.
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function LagrangianKinematic(self, sv, bdata, time)
+    function LagrangianKinematic(self, sv, bdata, time, beaching)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
+    logical, intent(in), optional :: beaching
+    logical :: beach
     integer :: np, nf, bkg, i
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: LagrangianKinematic
+    real(prec), dimension(size(sv%state,1)) :: beachCoeff
+    real(prec), dimension(size(sv%state,1)) :: beachCoeffRand
 
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
+
+    beach = .false.
+    if(present(beaching)) beach = beaching
+
+    beachCoeff = 1.0
+    if (beach) then
+        call random_number(beachCoeffRand)
+        beachCoeffRand = min(0.0, beachCoeffRand-0.15)
+    end if
 
     LagrangianKinematic = 0.0
     !interpolate each background
@@ -105,21 +118,7 @@
                 if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-                !write dx/dt
-                nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
-                sv%state(:,4) = var_dt(:,nf)
-                nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
-                sv%state(:,5) = var_dt(:,nf)
-                nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-                if (nf /= MV_INT) then
-                    LagrangianKinematic(:,3) = var_dt(:,nf)
-                    sv%state(:,6) = var_dt(:,nf)
-                else if (nf == MV_INT) then
-                    LagrangianKinematic(:,3) = 0.0
-                    sv%state(:,6) = 0.0
-                end if
+
                 !update land mask status
                 nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
                 if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
@@ -128,8 +127,30 @@
                 where(sv%landMask == 2) sv%active = .false.
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-                if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
+                if (nf /= MV_INT) then
+                    sv%landIntMask = nint(var_dt(:,nf))
+                    if (beach) then
+                        where(sv%landIntMask == Globals%Mask%beachVal) beachCoeff = beachCoeffRand
+                    end if
+                end if
                 if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
+
+                !write dx/dt
+                nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*beachCoeff
+                sv%state(:,4) = var_dt(:,nf)*beachCoeff
+                nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*beachCoeff
+                sv%state(:,5) = var_dt(:,nf)*beachCoeff
+                nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+                if (nf /= MV_INT) then
+                    LagrangianKinematic(:,3) = var_dt(:,nf)*beachCoeff
+                    sv%state(:,6) = var_dt(:,nf)*beachCoeff
+                else if (nf == MV_INT) then
+                    LagrangianKinematic(:,3) = 0.0
+                    sv%state(:,6) = 0.0
+                end if
+
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
@@ -149,8 +170,7 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i
-    real(prec) :: maxLevel(2)
+    integer :: np, nf, bkg
     real(prec) :: waveCoeff
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -203,8 +223,7 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i
-    real(prec) :: maxLevel(2)
+    integer :: np, nf, bkg
     real(prec) :: windCoeff
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
