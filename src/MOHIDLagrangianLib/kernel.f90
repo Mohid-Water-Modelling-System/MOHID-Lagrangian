@@ -36,7 +36,8 @@
     procedure :: run => runKernel
     procedure, private :: LagrangianKinematic
     procedure, private :: DiffusionIsotropic
-    procedure, private :: StokesDrift    
+    procedure, private :: StokesDrift
+    procedure, private :: Windage
     procedure, private :: hasRequiredVars
     end type kernel_class
 
@@ -58,11 +59,11 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
 
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
     end if
 
     end function runKernel
@@ -155,6 +156,7 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
+    real(prec), dimension(size(sv%state,1)) :: depth
 
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%vsdx
@@ -173,11 +175,15 @@
                 allocate(var_name(nf))
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+                !computing the depth weight
+                depth = sv%state(:,3)
+                where (depth>=0.0) depth = 0.0
+                depth = exp(depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%vsdx, .true.)
-                StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff
+                StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
                 nf = Utils%find_str(var_name, Globals%Var%vsdy, .true.)
-                StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff
+                StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
@@ -185,6 +191,60 @@
     end do
 
     end function StokesDrift
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Computes the influence of wind velocity in tracer kinematics
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function Windage(self, sv, bdata, time)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    integer :: np, nf, bkg, i
+    real(prec) :: maxLevel(2)
+    real(prec) :: windCoeff
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
+    real(prec), dimension(size(sv%state,1)) :: depth
+
+    allocate(requiredVars(2))
+    requiredVars(1) = Globals%Var%u10
+    requiredVars(2) = Globals%Var%v10
+
+    windCoeff = 0.03
+
+    Windage = 0.0
+    !interpolate each background
+    do bkg = 1, size(bdata)
+        if (bdata(bkg)%initialized) then
+            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+                np = size(sv%active) !number of Tracers
+                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                allocate(var_dt(np,nf))
+                allocate(var_name(nf))
+                !interpolating all of the data
+                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+                !computing the depth weight
+                depth = sv%state(:,3)
+                where (depth>=0.0) depth = 0.0
+                depth = exp(10.0*depth)
+                !write dx/dt
+                nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
+                Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
+                nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
+                Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
+                deallocate(var_dt)
+                deallocate(var_name)
+            end if
+        end if
+    end do
+
+    end function Windage
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
