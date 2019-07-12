@@ -15,6 +15,9 @@
 	<caseDefinitions>
 		<inputData>
 			<inputDataDir name="nc_fields/currents/case1" type="currents"/>
+			<inputDataDir name="nc_fields/currents/case12" type="currents"/>
+			<inputDataDir name="nc_fields/currents/case13" type="waves"/>
+			<inputDataDir name="nc_fields/currents/case14" type="meteorology"/>
 		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
