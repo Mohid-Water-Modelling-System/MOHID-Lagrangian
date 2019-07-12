@@ -53,44 +53,61 @@
     !> Method that runs the chosen interpolator method on the given data.
     !> @param[in] self, state, bdata, time, var_dt, var_name
     !---------------------------------------------------------------------------
-    subroutine run(self, state, bdata, time, var_dt, var_name)
+    subroutine run(self, state, bdata, time, var_dt, var_name, toInterp)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:,:), intent(in) :: state
     type(background_class), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), dimension(:,:), intent(out) :: var_dt
     type(string), dimension(:), intent(out) :: var_name
+    type(string), dimension(:), intent(in), optional :: toInterp
+    logical :: interp
     real(prec) :: newtime
     class(*), pointer :: aField
     integer :: i
     type(string) :: outext
 
     real(prec), dimension(size(state,1)) :: xx, yy, zz
-    real(prec) :: tt
+    real(prec) :: tt    
 
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
     i = 1
     call bdata%fields%reset()                   ! reset list iterator
     do while(bdata%fields%moreValues())         ! loop while there are values
+        interp = .true.
         aField => bdata%fields%currentValue()   ! get current value
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
-                var_name(i) = aField%name
-                xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
-                yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
-                zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level)
-                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
-                var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                if (present(toInterp)) then
+                    if (.not.(any(toInterp == aField%name))) then
+                        interp = .false.
+                    end if
+                end if
+                if (interp) then
+                    var_name(i) = aField%name
+                    xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
+                    yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
+                    zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level)
+                    tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
+                    var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                end if
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
-                var_name(i) = aField%name
-                xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
-                yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
-                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
-                var_dt(:,i) = self%interp3D(xx, yy, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(state,1))
+                if (present(toInterp)) then
+                    if (.not.(any(toInterp == aField%name))) then
+                        interp = .false.
+                    end if
+                end if
+                if (interp) then
+                    var_name(i) = aField%name
+                    xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
+                    yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
+                    tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
+                    var_dt(:,i) = self%interp3D(xx, yy, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(state,1))
+                end if
             end if !add more interpolation types here
             !add more field types here
             class default
