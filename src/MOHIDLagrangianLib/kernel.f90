@@ -38,6 +38,7 @@
     procedure, private :: DiffusionIsotropic
     procedure, private :: StokesDrift
     procedure, private :: Windage
+    procedure, private :: Beaching
     procedure, private :: hasRequiredVars
     end type kernel_class
 
@@ -59,11 +60,14 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
 
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, beaching = .true.) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, beaching = .true.) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, beaching = .true.) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%Beaching(sv, runKernel)
     end if
 
     end function runKernel
@@ -264,6 +268,37 @@
     end do
 
     end function Windage
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Beaching Kernel, uses the already updated state vector and determines if
+    !> and how beaching occurs. Affects the state vector and state vector derivative.
+    !> @param[in] self, sv, svDt
+    !---------------------------------------------------------------------------
+    function Beaching(self, sv, svDt)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)), intent(in) :: svDt
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Beaching
+    real(prec), dimension(size(sv%state,1)) :: beachCoeff
+    real(prec), dimension(size(sv%state,1)) :: beachCoeffRand
+
+    beachCoeff = 1.0
+    call random_number(beachCoeffRand)
+    beachCoeffRand = min(0.0, beachCoeffRand-0.15)
+
+    Beaching = svDt
+
+    where(sv%landIntMask == Globals%Mask%beachVal) beachCoeff = beachCoeffRand
+    Beaching(:,1) = svDt(:,1)*beachCoeff !position derivative is affected
+    Beaching(:,2) = svDt(:,2)*beachCoeff
+    Beaching(:,3) = svDt(:,3)*beachCoeff
+    sv%state(:,4) = sv%state(:,4)*beachCoeff !so are the velocities
+    sv%state(:,5) = sv%state(:,5)*beachCoeff
+    sv%state(:,6) = sv%state(:,6)*beachCoeff
+
+    end function Beaching
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
