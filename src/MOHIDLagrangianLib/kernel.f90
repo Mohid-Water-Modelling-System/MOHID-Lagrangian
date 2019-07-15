@@ -79,12 +79,11 @@
     !> using the interpolants and split the evaluation part from the solver module.
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function LagrangianKinematic(self, sv, bdata, time, beaching)
+    function LagrangianKinematic(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    logical, intent(in), optional :: beaching
     logical :: beach
     integer :: np, nf, bkg, i
     real(prec) :: maxLevel(2)
@@ -92,21 +91,10 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: LagrangianKinematic
-    real(prec), dimension(size(sv%state,1)) :: beachCoeff
-    real(prec), dimension(size(sv%state,1)) :: beachCoeffRand
 
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
-
-    beach = .false.
-    if(present(beaching)) beach = beaching
-
-    beachCoeff = 1.0
-    if (beach) then
-        call random_number(beachCoeffRand)
-        beachCoeffRand = min(0.0, beachCoeffRand-0.15)
-    end if
 
     LagrangianKinematic = 0.0
     !interpolate each background
@@ -131,25 +119,20 @@
                 where(sv%landMask == 2) sv%active = .false.
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-                if (nf /= MV_INT) then
-                    sv%landIntMask = nint(var_dt(:,nf))
-                    if (beach) then
-                        where(sv%landIntMask == Globals%Mask%beachVal) beachCoeff = beachCoeffRand
-                    end if
-                end if
+                if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))                    
                 if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
 
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*beachCoeff
-                sv%state(:,4) = var_dt(:,nf)*beachCoeff
+                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+                sv%state(:,4) = var_dt(:,nf)
                 nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*beachCoeff
-                sv%state(:,5) = var_dt(:,nf)*beachCoeff
+                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+                sv%state(:,5) = var_dt(:,nf)
                 nf = Utils%find_str(var_name, Globals%Var%w, .false.)
                 if (nf /= MV_INT) then
-                    LagrangianKinematic(:,3) = var_dt(:,nf)*beachCoeff
-                    sv%state(:,6) = var_dt(:,nf)*beachCoeff
+                    LagrangianKinematic(:,3) = var_dt(:,nf)
+                    sv%state(:,6) = var_dt(:,nf)
                 else if (nf == MV_INT) then
                     LagrangianKinematic(:,3) = 0.0
                     sv%state(:,6) = 0.0
@@ -285,8 +268,9 @@
     real(prec), dimension(size(sv%state,1)) :: beachCoeffRand
 
     beachCoeff = 1.0
-    call random_number(beachCoeffRand)
-    beachCoeffRand = min(0.0, beachCoeffRand-0.15)
+    call random_number(beachCoeffRand) !this is a uniform distribution generator
+    beachCoeffRand = min(0.0, Globals%Constants%BeachingStopProb - beachCoeffRand)  !clipping the last % to zero
+    beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
 
     Beaching = svDt
 

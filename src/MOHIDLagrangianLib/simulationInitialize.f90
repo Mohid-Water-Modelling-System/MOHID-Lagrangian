@@ -369,7 +369,7 @@
     outext='-->Reading case constants'
     call Log%put(outext,.false.)
 
-    tag="constantsdef"    !the node we want
+    tag="constants"    !the node we want
     call XMLReader%gotoNode(case_node,constants_node,tag,readflag,.false.)
     if (readflag) then !if the node exists, since his one is not mandatory
         tag="Gravity"
@@ -394,6 +394,12 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setBeachingLevel(att_val)
+        endif
+        tag="BeachingStopProb"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBeachingStopProb(att_val)
         endif
     endif
     call Globals%Constants%print()

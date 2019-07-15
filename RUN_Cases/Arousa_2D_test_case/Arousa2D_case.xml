@@ -57,7 +57,8 @@
 			<file name="data/ncNamesLibrary.xml"/>
 		</variableNaming>
 		<constants>
-			<BeachingLevel value="-3.5" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />			
+			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />			
 		</constants>
 	</caseDefinitions>
 </case>

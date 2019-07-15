@@ -87,11 +87,13 @@
         real(prec)   :: RhoRef = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
+        real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
     procedure :: setBeachingLevel
+    procedure :: setBeachingStopProb
     procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
@@ -281,6 +283,7 @@
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
     self%Constants%BeachingLevel = -3.0
+    self%Constants%BeachingStopProb = 0.50
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
@@ -963,7 +966,28 @@
     sizem = sizeof(self%BeachingLevel)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingLevel
-
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Beaching stop probability setting routine.
+    !> @param[in] self, read_BeachingStopProb
+    !---------------------------------------------------------------------------
+    subroutine setBeachingStopProb(self, read_BeachingStopProb)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BeachingStopProb
+    type(string) :: outext
+    integer :: sizem
+    if (read_BeachingStopProb%to_number(kind=1._R4P) < 0.0) then
+        outext='Beaching stopping probability must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BeachingStopProb =read_BeachingStopProb%to_number(kind=1._R4P)*0.01 !user input is in %
+    endif
+    sizem = sizeof(self%BeachingStopProb)
+    call SimMemory%adddef(sizem)
+    end subroutine setBeachingStopProb
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -1005,6 +1029,8 @@
     outext = outext//'       Z0 = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingLevel
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
+    temp_str(1)=self%BeachingStopProb
+    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
     temp_str(1)=self%RhoRef
     outext = outext//'       RhoRef = '//temp_str(1)//' kg/m^3'
 
