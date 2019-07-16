@@ -412,6 +412,7 @@
     logical :: done
     integer :: i, j
 
+    if (self%initialized) then
     done = .false.
     allocate(llbound(size(self%dim)))
     allocate(uubound(size(self%dim)))
@@ -475,6 +476,7 @@
             stop
         end if
 
+    end if
     end if
 
     end subroutine ShedMemory
