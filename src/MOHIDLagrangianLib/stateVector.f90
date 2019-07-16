@@ -36,7 +36,8 @@
         integer :: ttype
         type(trcPtr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:,:) :: state
-        integer, allocatable, dimension(:) :: landMask, landIntMask, source, id
+        integer, allocatable, dimension(:) :: landMask, source, id
+        real(prec) , allocatable, dimension(:) :: landIntMask
         logical, allocatable, dimension(:) :: active
         integer :: idx
     contains

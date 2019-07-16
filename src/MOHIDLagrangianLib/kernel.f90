@@ -119,7 +119,7 @@
                 where(sv%landMask == 2) sv%active = .false.
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-                if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))                    
+                if (nf /= MV_INT) sv%landIntMask = var_dt(:,nf)
                 if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
 
                 !write dx/dt
@@ -266,21 +266,29 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Beaching
     real(prec), dimension(size(sv%state,1)) :: beachCoeff
     real(prec), dimension(size(sv%state,1)) :: beachCoeffRand
+    real(prec), dimension(size(sv%state,1)) :: beachCoeffRand2
+    real(prec) :: lbound, ubound
+    integer :: i
 
     beachCoeff = 1.0
     call random_number(beachCoeffRand) !this is a uniform distribution generator
-    beachCoeffRand = min(0.0, Globals%Constants%BeachingStopProb - beachCoeffRand)  !clipping the last % to zero
+    beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
     beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
+    
+    beachCoeffRand2 = beachCoeffRand
 
     Beaching = svDt
+    
+    lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
+    ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
 
-    where(sv%landIntMask == Globals%Mask%beachVal) beachCoeff = beachCoeffRand
-    Beaching(:,1) = svDt(:,1)*beachCoeff !position derivative is affected
-    Beaching(:,2) = svDt(:,2)*beachCoeff
-    Beaching(:,3) = svDt(:,3)*beachCoeff
-    sv%state(:,4) = sv%state(:,4)*beachCoeff !so are the velocities
-    sv%state(:,5) = sv%state(:,5)*beachCoeff
-    sv%state(:,6) = sv%state(:,6)*beachCoeff
+    !replacing 1.0 with a coefficient from beaching where needed
+    where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand
+    !where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand2
+    do i=1,3
+        Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
+        sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
+    end do
 
     end function Beaching
 

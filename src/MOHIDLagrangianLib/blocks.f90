@@ -487,7 +487,7 @@
     function getSVlandIntMask(self)
     class(block_class), intent(in) :: self
     integer :: i, j
-    integer, dimension(self%LTracer%getSize()) :: getSVlandIntMask
+    real(prec), dimension(self%LTracer%getSize()) :: getSVlandIntMask
     j=1
     do i=1, size(self%BlockState)
         getSVlandIntMask(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%landIntMask
