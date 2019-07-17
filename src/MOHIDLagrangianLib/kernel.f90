@@ -266,7 +266,7 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Beaching
     real(prec), dimension(size(sv%state,1)) :: beachCoeff
     real(prec), dimension(size(sv%state,1)) :: beachCoeffRand
-    real(prec), dimension(size(sv%state,1)) :: beachCoeffRand2
+    real(prec), dimension(size(sv%state,1)) :: beachWeight
     real(prec) :: lbound, ubound
     integer :: i
 
@@ -274,17 +274,16 @@
     call random_number(beachCoeffRand) !this is a uniform distribution generator
     beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
     beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
-    
-    beachCoeffRand2 = beachCoeffRand
 
     Beaching = svDt
     
     lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
     ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
 
+    beachWeight = 1 - (sv%landIntMask - lbound)/(ubound-lbound)
+
     !replacing 1.0 with a coefficient from beaching where needed
-    where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand
-    !where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand2
+    where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand*beachWeight
     do i=1,3
         Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
         sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
