@@ -277,10 +277,12 @@
 
     Beaching = svDt
     
+    !getting the bounds for the interpolation of the land interaction field that correspond to beaching
     lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
     ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
 
-    beachWeight = 1 - (sv%landIntMask - lbound)/(ubound-lbound)
+    !beachWeight = 1 - 0.5*(sv%landIntMask - lbound)/(ubound-lbound) !linear distance weight for beaching
+    beachWeight = 1 - 0.9*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
 
     !replacing 1.0 with a coefficient from beaching where needed
     where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand*beachWeight
