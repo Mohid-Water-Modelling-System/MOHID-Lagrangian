@@ -39,6 +39,8 @@
         real(prec) :: endTime       !< ending time of the data on the file
         logical :: used             !< flag that indicates the file is no longer to be read
         logical :: toRead
+    contains
+    procedure, private :: setReadStatus
     end type inputFileModel_class
 
     type :: input_streamer_class        !< Input Streamer class
@@ -46,6 +48,9 @@
         type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
         type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
+        real(prec) :: lastCurrentsReadTime
+        real(prec) :: lastWindsReadTime
+        real(prec) :: lastWavesReadTime
         integer :: nFileTypes
         real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
         real(prec) :: lastReadTime
@@ -64,11 +69,29 @@
     public :: input_streamer_class
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> instantiates and returns a background object with the data from a 
+    !> Checks if file should be read and sets appropriate flag
+    !> @param[in] self, bufferSize
+    !---------------------------------------------------------------------------
+    subroutine setReadStatus(self, lastReadTime, bufferSize)
+    class(inputFileModel_class), intent(inout) :: self
+    real(prec), intent(in) :: lastReadTime
+    real(prec), intent(in) :: bufferSize
+    if (self%endTime >= Globals%SimTime%CurrTime) then
+        if (self%startTime <= Globals%SimTime%CurrTime + bufferSize) then
+            if (.not.self%used) self%toRead = .true.
+            if (lastReadTime >= self%endTime) self%toRead = .false.
+        end if
+    end if
+    end subroutine setReadStatus
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a
     !> currents input file
     !> @param[in] self, fileName
     !---------------------------------------------------------------------------
@@ -78,7 +101,7 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-    
+
     allocate(varList(5))
     allocate(syntecticVar(5))
     varList(1) = Globals%Var%u
@@ -91,17 +114,17 @@
     syntecticVar(4) = .true.
     varList(5) = Globals%Var%landIntMask
     syntecticVar(5) = .true.
-    
-    !need to send to different readers here if different file formats    
+
+    !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMask()
-    
+
     end function getCurrentsFile
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> instantiates and returns a background object with the data from a 
+    !> instantiates and returns a background object with the data from a
     !> meteorology input file (winds)
     !> @param[in] self, fileName
     !---------------------------------------------------------------------------
@@ -111,23 +134,23 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-    
+
     allocate(varList(2))
     allocate(syntecticVar(2))
     varList(1) = Globals%Var%u10
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v10
-    syntecticVar(2) = .false.    
-    
-    !need to send to different readers here if different file formats    
-    getWindsFile = ncReader%getFullFile(fileName, varList, syntecticVar)    
-    
+    syntecticVar(2) = .false.
+
+    !need to send to different readers here if different file formats
+    getWindsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+
     end function getWindsFile
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> instantiates and returns a background object with the data from a 
+    !> instantiates and returns a background object with the data from a
     !> waves input file (stokes drift velocity)
     !> @param[in] self, fileName
     !---------------------------------------------------------------------------
@@ -137,17 +160,17 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-    
+
     allocate(varList(2))
     allocate(syntecticVar(2))
     varList(1) = Globals%Var%vsdx
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%vsdy
-    syntecticVar(2) = .false.    
-    
-    !need to send to different readers here if different file formats    
-    getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)    
-    
+    syntecticVar(2) = .false.
+
+    !need to send to different readers here if different file formats
+    getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+
     end function getWavesFile
 
     !---------------------------------------------------------------------------
@@ -164,104 +187,98 @@
     integer :: i, j
     integer :: fNumber
     real(prec) :: tempTime(2)
-    logical :: needToRead, appended
+    logical :: appended
 
-    needToRead = .false.
     if (self%useInputFiles) then
-        !check if we need to import data (current time and buffer size)
-        if (self%lastReadTime <= Globals%SimTime%CurrTime + self%BufferSize/4.0) needToRead = .true.
-        if (self%lastReadTime >= Globals%SimTime%TimeMax) needToRead = .false.
-        if (needToRead) then
-            call self%resetReadStatus()
-            !check what files on the stack are to read to backgrounds
-            if (allocated(self%currentsInputFile)) then
-                do i=1, size(self%currentsInputFile)
-                    if (self%currentsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                        if (self%currentsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
-                            if (.not.self%currentsInputFile(i)%used) self%currentsInputFile(i)%toRead = .true.
-                        end if
-                    end if
-                end do
-            end if
-            if (allocated(self%windsInputFile)) then
-                do i=1, size(self%windsInputFile)
-                    if (self%windsInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                        if (self%windsInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
-                            if (.not.self%windsInputFile(i)%used) self%windsInputFile(i)%toRead = .true.
-                        end if
-                    end if
-                end do
-            end if
-            if (allocated(self%wavesInputFile)) then
-                do i=1, size(self%wavesInputFile)
-                    if (self%wavesInputFile(i)%endTime >= Globals%SimTime%CurrTime) then
-                        if (self%wavesInputFile(i)%startTime <= Globals%SimTime%CurrTime + self%BufferSize) then
-                            if (.not.self%wavesInputFile(i)%used) self%wavesInputFile(i)%toRead = .true.
-                        end if
-                    end if
-                end do
-            end if
-            !read selected files
-            if (allocated(self%currentsInputFile)) then
-                do i=1, size(self%currentsInputFile)
-                    if (self%currentsInputFile(i)%toRead) then
-                        !import data to temporary background
-                        tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
-                        self%currentsInputFile(i)%used = .true.
-                        do j=1, size(blocks)
-                            !slice data by block and either join to existing background or add a new one
-                            if (blocks(j)%Background(self%currentsBkgIndex)%initialized) call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                            if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
-                            !save last time already loaded
-                            tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
-                            if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
-                            self%lastReadTime = min(tempTime(2), self%lastReadTime)
-                        end do
-                        !clean out the temporary background data
-                        call tempBkgd%finalize()
-                    end if
-                end do
-            end if
-            if (allocated(self%windsInputFile)) then
-                do i=1, size(self%windsInputFile)
-                    if (self%windsInputFile(i)%toRead) then
-                        !import data to temporary background
-                        tempBkgd = self%getWindsFile(self%windsInputFile(i)%name)
-                        self%windsInputFile(i)%used = .true.
-                        do j=1, size(blocks)
-                            !slice data by block and either join to existing background or add a new one
-                            if (blocks(j)%Background(self%windsBkgIndex)%initialized) call blocks(j)%Background(self%windsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                            if (.not.blocks(j)%Background(self%windsBkgIndex)%initialized) blocks(j)%Background(self%windsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
-                            !save last time already loaded
-                            tempTime = blocks(j)%Background(self%windsBkgIndex)%getDimExtents(Globals%Var%time)
-                            if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
-                            self%lastReadTime = min(tempTime(2), self%lastReadTime)
-                        end do
-                        !clean out the temporary background data
-                        call tempBkgd%finalize()
-                    end if
-                end do
-            end if
-            if (allocated(self%wavesInputFile)) then
-                do i=1, size(self%wavesInputFile)
-                    if (self%wavesInputFile(i)%toRead) then
-                        !import data to temporary background
-                        tempBkgd = self%getWavesFile(self%wavesInputFile(i)%name)
-                        self%wavesInputFile(i)%used = .true.
-                        do j=1, size(blocks)
-                            !slice data by block and either join to existing background or add a new one
-                            if (blocks(j)%Background(self%wavesBkgIndex)%initialized) call blocks(j)%Background(self%wavesBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
-                            if (.not.blocks(j)%Background(self%wavesBkgIndex)%initialized) blocks(j)%Background(self%wavesBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
-                            !save last time already loaded
-                            tempTime = blocks(j)%Background(self%wavesBkgIndex)%getDimExtents(Globals%Var%time)
-                            if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
-                            self%lastReadTime = min(tempTime(2), self%lastReadTime)
-                        end do
-                        !clean out the temporary background data
-                        call tempBkgd%finalize()
-                    end if
-                end do
-            end if
+        call self%resetReadStatus()
+        !check what files on the stack are to read to backgrounds
+        if (allocated(self%currentsInputFile)) then
+            do i=1, size(self%currentsInputFile)
+                call self%currentsInputFile(i)%setReadStatus(self%lastCurrentsReadTime, self%BufferSize)
+            end do
+        end if
+        if (allocated(self%windsInputFile)) then
+            do i=1, size(self%windsInputFile)
+                call self%windsInputFile(i)%setReadStatus(self%lastWindsReadTime, self%BufferSize)
+            end do
+        end if
+        if (allocated(self%wavesInputFile)) then
+            do i=1, size(self%wavesInputFile)
+                call self%wavesInputFile(i)%setReadStatus(self%lastWavesReadTime, self%BufferSize)
+            end do
+        end if
+        !read selected files
+        if (allocated(self%currentsInputFile)) then
+            do i=1, size(self%currentsInputFile)
+                if (self%currentsInputFile(i)%toRead) then
+                    !import data to temporary background
+                    tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
+                    self%currentsInputFile(i)%used = .true.
+                    do j=1, size(blocks)
+                        !slice data by block and either join to existing background or add a new one
+                        if (blocks(j)%Background(self%currentsBkgIndex)%initialized) call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                        !save last time already loaded
+                        tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
+                        if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
+                        self%lastReadTime = min(tempTime(2), self%lastReadTime)
+
+                        if (self%lastCurrentsReadTime == -1.0) self%lastCurrentsReadTime = tempTime(2)
+                        self%lastCurrentsReadTime = min(tempTime(2), self%lastCurrentsReadTime)
+
+                    end do
+                    !clean out the temporary background data
+                    call tempBkgd%finalize()
+                end if
+            end do
+        end if
+        if (allocated(self%windsInputFile)) then
+            do i=1, size(self%windsInputFile)
+                if (self%windsInputFile(i)%toRead) then
+                    !import data to temporary background
+                    tempBkgd = self%getWindsFile(self%windsInputFile(i)%name)
+                    self%windsInputFile(i)%used = .true.
+                    do j=1, size(blocks)
+                        !slice data by block and either join to existing background or add a new one
+                        if (blocks(j)%Background(self%windsBkgIndex)%initialized) call blocks(j)%Background(self%windsBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (.not.blocks(j)%Background(self%windsBkgIndex)%initialized) blocks(j)%Background(self%windsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                        !save last time already loaded
+                        tempTime = blocks(j)%Background(self%windsBkgIndex)%getDimExtents(Globals%Var%time)
+                        if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
+                        self%lastReadTime = min(tempTime(2), self%lastReadTime)
+
+                        if (self%lastWindsReadTime == -1.0) self%lastWindsReadTime = tempTime(2)
+                        self%lastWindsReadTime = min(tempTime(2), self%lastWindsReadTime)
+
+                    end do
+                    !clean out the temporary background data
+                    call tempBkgd%finalize()
+                end if
+            end do
+        end if
+        if (allocated(self%wavesInputFile)) then
+            do i=1, size(self%wavesInputFile)
+                if (self%wavesInputFile(i)%toRead) then
+                    !import data to temporary background
+                    tempBkgd = self%getWavesFile(self%wavesInputFile(i)%name)
+                    self%wavesInputFile(i)%used = .true.
+                    do j=1, size(blocks)
+                        !slice data by block and either join to existing background or add a new one
+                        if (blocks(j)%Background(self%wavesBkgIndex)%initialized) call blocks(j)%Background(self%wavesBkgIndex)%append(tempBkgd%getHyperSlab(blocks(j)%extents), appended)
+                        if (.not.blocks(j)%Background(self%wavesBkgIndex)%initialized) blocks(j)%Background(self%wavesBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                        !save last time already loaded
+                        tempTime = blocks(j)%Background(self%wavesBkgIndex)%getDimExtents(Globals%Var%time)
+                        if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
+                        self%lastReadTime = min(tempTime(2), self%lastReadTime)
+
+                        if (self%lastWavesReadTime == -1.0) self%lastWavesReadTime = tempTime(2)
+                        self%lastWavesReadTime = min(tempTime(2), self%lastWavesReadTime)
+
+                    end do
+                    !clean out the temporary background data
+                    call tempBkgd%finalize()
+                end if
+            end do
         end if
     end if
 
@@ -285,6 +302,9 @@
 
     self%bufferSize = Globals%Parameters%BufferSize
     self%lastReadTime = -1.0
+    self%lastCurrentsReadTime = -1.0
+    self%lastWindsReadTime = -1.0
+    self%lastWavesReadTime = -1.0
     self%nFileTypes = 0
     self%currentsBkgIndex = 0
     self%windsBkgIndex = 0
@@ -400,6 +420,12 @@
     integer :: i
     do i=1, size(self%currentsInputFile)
         self%currentsInputFile(i)%toRead = .false.
+    end do
+    do i=1, size(self%windsInputFile)
+        self%windsInputFile(i)%toRead = .false.
+    end do
+    do i=1, size(self%wavesInputFile)
+        self%wavesInputFile(i)%toRead = .false.
     end do
     end subroutine resetReadStatus
 
