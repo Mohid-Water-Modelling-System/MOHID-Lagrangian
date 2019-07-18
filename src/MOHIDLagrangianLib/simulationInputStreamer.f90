@@ -418,15 +418,21 @@
     subroutine resetReadStatus(self)
     class(input_streamer_class), intent(inout) :: self
     integer :: i
-    do i=1, size(self%currentsInputFile)
-        self%currentsInputFile(i)%toRead = .false.
-    end do
-    do i=1, size(self%windsInputFile)
-        self%windsInputFile(i)%toRead = .false.
-    end do
-    do i=1, size(self%wavesInputFile)
-        self%wavesInputFile(i)%toRead = .false.
-    end do
+    if (allocated(self%currentsInputFile)) then
+        do i=1, size(self%currentsInputFile)
+            self%currentsInputFile(i)%toRead = .false.
+        end do
+    end if
+    if (allocated(self%windsInputFile)) then
+        do i=1, size(self%windsInputFile)
+            self%windsInputFile(i)%toRead = .false.
+        end do
+    end if
+    if (allocated(self%wavesInputFile)) then
+        do i=1, size(self%wavesInputFile)
+            self%wavesInputFile(i)%toRead = .false.
+        end do
+    end if
     end subroutine resetReadStatus
 
     !---------------------------------------------------------------------------
