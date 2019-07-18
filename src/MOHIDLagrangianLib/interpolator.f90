@@ -361,12 +361,13 @@
             exit
         end if
     end do
-    getPointCoordNonRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
     if (.not.found) then
         outext = '[Interpolator::getPointCoordNonRegular] Point not contained in "'//dimName//'" dimension, stoping'
         call Log%put(outext)
         stop
     end if
+    getPointCoordNonRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+    
     end function getPointCoordNonRegular
 
     !---------------------------------------------------------------------------
