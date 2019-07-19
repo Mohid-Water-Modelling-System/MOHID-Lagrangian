@@ -85,17 +85,16 @@
     type(vtk_file) :: vtkfile
     type(string) :: fullfilename, extfilename
     type(string) :: outext
-    integer :: error, i
+    integer :: error, i, j
     integer :: np
-    integer, parameter :: nc = 0           !< Number of cells
-    integer(I1P), dimension(1:nc) :: cell_type  !< Cells type
-    integer(I4P), dimension(1:nc) :: offset     !< Cells offset
-    integer(I4P), dimension(1:nc) :: connect    !< Connectivity
+    integer :: nc                                         !< Number of cells
+    integer(I1P), allocatable, dimension(:) :: cell_type  !< Cells type
+    integer(I4P), allocatable, dimension(:) :: offset     !< Cells offset
+    integer(I4P), allocatable, dimension(:) :: connect    !< Connectivity
     logical, allocatable, dimension(:) :: active
 
     extfilename = filename%chars()//'.vtu'
     fullfilename = Globals%Names%outpath//'/'//extfilename
-
 
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
     !Write the data of each block
@@ -104,18 +103,29 @@
             allocate(active(blocks(i)%LTracer%getSize()))
             active = blocks(i)%getSVActive()
             np = count(active)
+            nc = np
+            allocate(connect(nc))
+            allocate(offset(nc))
+            allocate(cell_type(nc))
+            cell_type = 1
+            do j = 1, nc
+                connect(j) = j-1
+                offset(j) = j-1
+            end do
             error = vtkfile%xml_writer%write_piece(np=np, nc=nc)
             error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=pack(blocks(i)%getSVvar(1), active), y=pack(blocks(i)%getSVvar(2), active), z=pack(blocks(i)%getSVvar(3), active))
             error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
             error = vtkfile%xml_writer%write_dataarray(location='node', action='open')            
             error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%getSVId(), active))
             error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%getSVSource(), active))
-            !error = vtkfile%xml_writer%write_dataarray(data_name='landMask', x=pack(blocks(i)%AoT%landMask, blocks(i)%AoT%active))
             error = vtkfile%xml_writer%write_dataarray(data_name='landIntMask', x=pack(blocks(i)%getSVlandIntMask(), active))
             error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%getSVvar(4), active), y=pack(blocks(i)%getSVvar(5), active), z=pack(blocks(i)%getSVvar(6), active))
             error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
             error = vtkfile%xml_writer%write_piece()
             deallocate(active)
+            deallocate(connect)
+            deallocate(offset)
+            deallocate(cell_type)
         end if
     end do
     error = vtkfile%finalize()
