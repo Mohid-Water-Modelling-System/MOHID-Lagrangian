@@ -53,7 +53,6 @@
         real(prec) :: lastWavesReadTime
         integer :: nFileTypes
         real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
-        real(prec) :: lastReadTime
         integer :: currentsBkgIndex, windsBkgIndex, wavesBkgIndex
     contains
     procedure :: initialize => initInputStreamer
@@ -220,12 +219,8 @@
                         if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
                         !save last time already loaded
                         tempTime = blocks(j)%Background(self%currentsBkgIndex)%getDimExtents(Globals%Var%time)
-                        if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
-                        self%lastReadTime = min(tempTime(2), self%lastReadTime)
-
                         if (self%lastCurrentsReadTime == -1.0) self%lastCurrentsReadTime = tempTime(2)
                         self%lastCurrentsReadTime = min(tempTime(2), self%lastCurrentsReadTime)
-
                     end do
                     !clean out the temporary background data
                     call tempBkgd%finalize()
@@ -244,12 +239,8 @@
                         if (.not.blocks(j)%Background(self%windsBkgIndex)%initialized) blocks(j)%Background(self%windsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
                         !save last time already loaded
                         tempTime = blocks(j)%Background(self%windsBkgIndex)%getDimExtents(Globals%Var%time)
-                        if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
-                        self%lastReadTime = min(tempTime(2), self%lastReadTime)
-
                         if (self%lastWindsReadTime == -1.0) self%lastWindsReadTime = tempTime(2)
                         self%lastWindsReadTime = min(tempTime(2), self%lastWindsReadTime)
-
                     end do
                     !clean out the temporary background data
                     call tempBkgd%finalize()
@@ -268,12 +259,8 @@
                         if (.not.blocks(j)%Background(self%wavesBkgIndex)%initialized) blocks(j)%Background(self%wavesBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
                         !save last time already loaded
                         tempTime = blocks(j)%Background(self%wavesBkgIndex)%getDimExtents(Globals%Var%time)
-                        if (self%lastReadTime == -1.0) self%lastReadTime = tempTime(2)
-                        self%lastReadTime = min(tempTime(2), self%lastReadTime)
-
                         if (self%lastWavesReadTime == -1.0) self%lastWavesReadTime = tempTime(2)
                         self%lastWavesReadTime = min(tempTime(2), self%lastWavesReadTime)
-
                     end do
                     !clean out the temporary background data
                     call tempBkgd%finalize()
@@ -301,7 +288,6 @@
     integer :: i, nBkg
 
     self%bufferSize = Globals%Parameters%BufferSize
-    self%lastReadTime = -1.0
     self%lastCurrentsReadTime = -1.0
     self%lastWindsReadTime = -1.0
     self%lastWavesReadTime = -1.0
