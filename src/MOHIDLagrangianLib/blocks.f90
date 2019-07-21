@@ -348,14 +348,16 @@
                 tType = aTracer%par%ttype
                 do i = 1, size(self%BlockState)
                     if (tType == self%BlockState(i)%ttype) then
-                        !print*, 'tracer state array ', aTracer%getStateArray()
-                        !print*, 'needs to fit in ', size(self%BlockState(i)%state,2)
                         self%BlockState(i)%state(self%BlockState(i)%idx,:) = aTracer%getStateArray()
                         self%BlockState(i)%source(self%BlockState(i)%idx) = aTracer%par%idsource
                         self%BlockState(i)%id(self%BlockState(i)%idx) = aTracer%par%id
                         self%BlockState(i)%active(self%BlockState(i)%idx) = aTracer%now%active
                         self%BlockState(i)%trc(self%BlockState(i)%idx)%ptr => aTracer
                         self%BlockState(i)%idx = self%BlockState(i)%idx + 1
+                        if(.not.allocated(self%BlockState(i)%varName)) then
+                            allocate(self%BlockState(i)%varName(aTracer%getNumVars()))
+                            self%BlockState(i)%varName = aTracer%varName
+                        end if
                         builtstate = .true.
                         exit
                     end if

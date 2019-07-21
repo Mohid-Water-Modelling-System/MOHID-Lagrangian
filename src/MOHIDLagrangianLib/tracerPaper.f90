@@ -68,7 +68,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(paper_class), intent(in) :: self
-    getNumVars = 10
+    getNumVars = 11
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -86,10 +86,11 @@
     getStateArray(4) = self%now%vel%x
     getStateArray(5) = self%now%vel%y
     getStateArray(6) = self%now%vel%z
-    getStateArray(7) = self%mnow%density
-    getStateArray(8) = self%mnow%radius
-    getStateArray(9) = self%mnow%condition
-    getStateArray(10) = self%mnow%concentration
+    getStateArray(7) = self%now%age
+    getStateArray(8) = self%mnow%density
+    getStateArray(9) = self%mnow%radius
+    getStateArray(10) = self%mnow%condition
+    getStateArray(11) = self%mnow%concentration
     end function getStateArray
     
     !---------------------------------------------------------------------------
@@ -107,10 +108,11 @@
     self%now%vel%x = StateArray(4)
     self%now%vel%y = StateArray(5)
     self%now%vel%z = StateArray(6)
-    self%mnow%density = StateArray(7)
-    self%mnow%radius = StateArray(8)
-    self%mnow%condition = StateArray(9)
-    self%mnow%concentration = StateArray(10)    
+    self%now%age = StateArray(7)
+    self%mnow%density = StateArray(8)
+    self%mnow%radius = StateArray(9)
+    self%mnow%condition = StateArray(10)
+    self%mnow%concentration = StateArray(11)    
     end subroutine setStateArray
     
     !---------------------------------------------------------------------------
@@ -127,7 +129,7 @@
     integer, intent(in) :: p
 
     !use the base class constructor to build the base of our new derived type
-    constructor%tracer_class = Tracer(id, src, time, p)
+    constructor%tracer_class = Tracer(id, src, time, p, constructor%getNumVars())
     !VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...
     constructor%par%id = id !forcing
     constructor%par%idsource = src%par%id !forcing
@@ -146,7 +148,11 @@
         constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         constructor%mnow%concentration = src%prop%ini_concentration
     end if
-
+    !filling the rest of the varName list
+    constructor%varName(8) = Globals%Var%density
+    constructor%varName(9) = 'radius'
+    constructor%varName(10) = 'condition'
+    constructor%varName(11) = 'concentration'
     end function constructor
 
     end module tracerPaper_mod

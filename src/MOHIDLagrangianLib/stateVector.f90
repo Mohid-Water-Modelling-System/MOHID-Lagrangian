@@ -39,6 +39,7 @@
         integer, allocatable, dimension(:) :: landMask, source, id
         real(prec) , allocatable, dimension(:) :: landIntMask
         logical, allocatable, dimension(:) :: active
+        type(string), allocatable, dimension(:) :: varName
         integer :: idx
     contains
     procedure :: toTracers
@@ -68,6 +69,8 @@
     newsv%landIntMask = self%landIntMask
     allocate(newsv%active(size(self%active)))
     newsv%active = self%active
+    allocate(newsv%varName(size(self%varName)))
+    newsv%varName = self%varName
     !maybe no need to copy source, id and tracer pointer
     
     end subroutine copyState
@@ -114,6 +117,7 @@
     if (allocated(self%active)) deallocate(self%active)
     if (allocated(self%source)) deallocate(self%source)
     if (allocated(self%id)) deallocate(self%id)
+    if (allocated(self%varName)) deallocate(self%varName)
     self%idx = 1
     end subroutine cleanState
 
