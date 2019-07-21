@@ -58,7 +58,7 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
-
+    !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
         runKernel = self%Beaching(sv, runKernel)
@@ -69,7 +69,8 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
         runKernel = self%Beaching(sv, runKernel)
     end if
-
+    !setting the age variable to be updated by dt by the solver for all tracers
+    runKernel(:,7) = 1.0
     end function runKernel
 
     !---------------------------------------------------------------------------
