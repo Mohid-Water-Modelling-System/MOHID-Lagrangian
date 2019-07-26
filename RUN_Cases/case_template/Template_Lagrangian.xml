@@ -20,7 +20,7 @@
 			<inputDataDir name="nc_fields/currents/case14" type="meteorology"/>
 		</inputData>
 		<simulation>
-			<resolution dp="50" units_comment="metres (m)"/>
+			<resolution x="50" y="200" z="10" units_comment="metres (m)"/>
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-9.1" y="42.39" z="-1" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.72" y="42.68" z="1" units_comment="(deg,deg,m)"/>
@@ -28,6 +28,7 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="18" name="Spill_007" />
+				<resolution dp="50" units_comment="metres (m)"/>
 				<rate_dt value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="15" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
@@ -51,6 +52,7 @@
 			</source>
 			<source>
 				<setsource id="3" name="Mistery_discharge_0" />
+				<resolution x="500" y="100" z="1" units_comment="metres (m)"/>
 				<rate_dt value="3" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<sphere radius="2.65" units_comment="metres (m)">
