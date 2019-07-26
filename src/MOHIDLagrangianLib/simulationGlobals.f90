@@ -65,7 +65,7 @@
     end type parameters_t
 
     type :: simdefs_t  !< Simulation definitions class
-        real(prec)      ::  Dp              !< Initial particle spacing at emission
+        type(vector)    ::  Dp              !< Initial particle spacing at emission
         real(prec)      ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
@@ -275,7 +275,7 @@
     self%SimDefs%numblocksx = MV
     self%SimDefs%numblocksy = MV
     self%SimDefs%numblocks = OMPManager%getThreads()
-    self%SimDefs%Dp = MV
+    self%SimDefs%Dp = 0.0
     self%SimDefs%dt = MV
     self%SimDefs%Pointmin = 0.0
     self%SimDefs%Pointmax = 0.0
@@ -1046,15 +1046,9 @@
     subroutine setdp(self,read_dp)
     implicit none
     class(simdefs_t), intent(inout) :: self
-    type(string), intent(in) :: read_dp
-    type(string) :: outext
+    type(vector), intent(in) :: read_dp
     integer :: sizem
-    self%Dp=read_dp%to_number(kind=1._R4P)
-    if (self%Dp.le.0.0) then
-        outext='Dp must be positive and non-zero, stopping'
-        call Log%put(outext)
-        stop
-    endif
+    self%Dp=read_dp
     sizem = sizeof(self%Dp)
     call SimMemory%adddef(sizem)
     end subroutine
@@ -1124,12 +1118,11 @@
     !> Public simulation definitions printing routine.
     !---------------------------------------------------------------------------
     subroutine printsimdefs(self)
-    implicit none
     class(simdefs_t), intent(in) :: self
     type(string) :: outext
     type(string) :: temp_str(3)
 
-    temp_str(1)=self%Dp
+    temp_str(1)=self%Dp%normL2()
     outext = '      Initial resolution is '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%dt
     outext = '      Timestep is '//temp_str(1)//' s'//new_line('a')
