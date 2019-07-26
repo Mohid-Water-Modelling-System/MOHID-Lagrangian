@@ -161,7 +161,8 @@
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars) !using FOX function
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
-            read_flag =.true.
+            read_flag = .true.
+            if (att_value%to_number(kind=1._R4P) <= 1.0/100000.0) read_flag = .false.
         end if
     else
         if(.not.mand) then
@@ -222,6 +223,7 @@
         call extractDataAttribute(nodedetail, "z", vec%z)
         if (present(read_flag)) then
             read_flag =.true.
+            if (vec%normL2() <= 1.0/100000.0) read_flag = .false.
         end if
     else
         if(.not.mand) then
