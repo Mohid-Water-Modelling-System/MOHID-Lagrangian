@@ -22,6 +22,7 @@
 
     use common_modules
     use vtkWritter_mod
+    use hdf5Writter_mod
     use boundingbox_mod
     use blocks_mod
 
@@ -33,6 +34,7 @@
         real(prec) :: LastWriteTime = MV        !< Time stamp of the last output write
         integer :: OutputFormat = -1            !< Switch for output format
         type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
+        !type(hdf5writter_class) :: hdf5Writter    !< The vtk writter object
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: writeOutputHeader
@@ -87,6 +89,7 @@
 
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%TracerSerial(filename, blocks)
+        !call self%hdf5Writter%TracerSerial(filename, blocks)
     end if
 
     end subroutine WriteStepSerial
@@ -185,6 +188,7 @@
     self%LastWriteTime = Globals%SimTime%CurrTime
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
+        !call self%hdf5Writter%initialize()
     end if
     end subroutine initOutputStreamer
 
