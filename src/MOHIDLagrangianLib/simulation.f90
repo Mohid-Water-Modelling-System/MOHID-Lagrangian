@@ -131,7 +131,7 @@
     enddo
 
     call self%setTracerMemory()
-    call SimMemory%detailedprint()
+    !call SimMemory%detailedprint()
     call self%timerTotalRun%print()
     call self%timerPrep%print()
     call self%timerSVOps%print()
