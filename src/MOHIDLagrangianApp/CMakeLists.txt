@@ -101,6 +101,7 @@ if(WINDOWS)
   file(GLOB HDF5_LIBS "${hdf5_PATH}/Lib/*.lib")
   file(GLOB HDF5_DLL_LIBS "${hdf5_DLL_PATH}/*.dll")
   file(GLOB NETCDF_LIBS "${netcdf_PATH}/*.lib")
+  file(GLOB NETCDF_DLL_LIBS "${netcdf_PATH}/*.dll")
 elseif(LINUX)
   file(GLOB base_LIBS "${base_LIBS_PATH}/lib/*.a")
   file(GLOB datetime_LIBS "${datetime_LIBS_PATH}/lib/*.a")
@@ -123,7 +124,7 @@ if(WINDOWS)
   target_link_libraries (${BIN_NAME} ${csv_LIBS})
   target_link_libraries (${BIN_NAME} ${FOX_LIBS})
   target_link_libraries (${BIN_NAME} ${MOHID_LIBS})
-  target_link_libraries (${BIN_NAME} ${HDF5_LIBS})
+  #target_link_libraries (${BIN_NAME} ${HDF5_LIBS})
   target_link_libraries (${BIN_NAME} ${NETCDF_LIBS})
 elseif(OSX)
   target_link_libraries (${BIN_NAME} ${base_LIBS})
@@ -156,3 +157,12 @@ set_property(TARGET ${BIN_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
 # Properties->General->Output Directory
 set_target_properties(${BIN_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+
+if(WINDOWS)
+	FOREACH(item ${NETCDF_DLL_LIBS})
+	  add_custom_command(TARGET ${BIN_NAME} POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"${item}"
+			$<TARGET_FILE_DIR:${BIN_NAME}>)
+	ENDFOREACH(item)	
+endif()
