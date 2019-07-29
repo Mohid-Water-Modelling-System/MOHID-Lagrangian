@@ -127,6 +127,7 @@
     procedure :: compare
     procedure :: concatenate
     procedure :: getGFieldType
+    procedure :: getGField
     procedure :: finalize => cleanField
     final :: delGfield
     procedure :: print => printGenericField
@@ -137,20 +138,17 @@
     public :: scalar_field_class, scalar1d_field_class, scalar2d_field_class, scalar3d_field_class, scalar4d_field_class
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
 
-    !public acess functions
-    public :: getGField
-
     contains
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method concatenates two fields by their last dimension
-    !> @param[in] self, gfield
+    !> @param[in] self, gfield, usedPosi
     !---------------------------------------------------------------------------
     subroutine concatenate(self, gfield, usedPosi)
     class(generic_field_class), intent(inout) :: self
-    class(generic_field_class), intent(in) :: gfield
+    type(generic_field_class), intent(in) :: gfield
     logical, dimension(:), optional, intent(in) :: usedPosi 
     logical, allocatable, dimension(:) :: usedPos
     integer :: fDim, nUsedPos, i, j
@@ -187,10 +185,8 @@
                 end if
             end do
             deallocate(self%scalar1d%field)
-            allocate(self%scalar1d%field, source = field1d)
-            !allocate(self%scalar1d%field(size(field1d)))
-            !self%scalar1d%field = field1d
-            !self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]
+            allocate(self%scalar1d%field(size(field1d)))
+            self%scalar1d%field = field1d
         end if
         if (fDim == 2) then
             if (.not.allocated(usedPos)) then
@@ -206,12 +202,10 @@
                     field2d(:, i) = gfield%scalar2d%field(:, j)
                     i= i+1
                 end if
-            end do
-            !field2d(:,size(self%scalar2d%field,2)+1:size(field2d,2)) = gfield%scalar2d%field
-            deallocate(self%scalar2d%field)
-            allocate(self%scalar2d%field, source = field2d)
-            !allocate(self%scalar2d%field(size(field2d,1), size(field2d,2)))
-            !self%scalar2d%field = field2d
+            end do            
+            deallocate(self%scalar2d%field)            
+            allocate(self%scalar2d%field(size(field2d,1), size(field2d,2)))
+            self%scalar2d%field = field2d
         end if
         if (fDim == 3) then
             if (.not.allocated(usedPos)) then
@@ -228,11 +222,9 @@
                     i= i+1
                 end if
             end do
-            !field3d(:,:,size(self%scalar3d%field,3)+1:size(field3d,3)) = gfield%scalar3d%field
             deallocate(self%scalar3d%field)
-            allocate(self%scalar3d%field, source = field3d)
-            !allocate(self%scalar3d%field(size(field3d,1), size(field3d,2), size(field3d,3)))
-            !self%scalar3d%field = field3d
+            allocate(self%scalar3d%field(size(field3d,1), size(field3d,2), size(field3d,3)))
+            self%scalar3d%field = field3d
         end if
         if (fDim == 4) then
             if (.not.allocated(usedPos)) then
@@ -249,11 +241,9 @@
                     i= i+1
                 end if
             end do
-            !field4d(:,:,:,size(self%scalar4d%field,4)+1:size(field4d,4)) = gfield%scalar4d%field
             deallocate(self%scalar4d%field)
-            allocate(self%scalar4d%field, source = field4d)
-            !allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
-            !self%scalar4d%field = field4d
+            allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3), size(field4d,4)))
+            self%scalar4d%field = field4d
         end if
     else if (fType == 'Vectorial') then
         return
@@ -744,12 +734,13 @@
     !---------------------------------------------------------------------------
     subroutine printField(self)
     class(field_class), intent(in) :: self
-    type(string) :: outext, t(4)
+    type(string) :: outext, t(5)
     t(1) = self%dim
     t(2) = self%getFieldType()
     t(3) = self%getFieldMinBound()
     t(4) = self%getFieldMaxBound()
-    outext = t(2)//' field['//self%name//'] has dimensionality '//t(1)//' and is in '//self%units//' - ['//t(3)//';'//t(4)//']'
+    !t(5) = self%getFieldShape()
+    outext = t(2)//' field['//self%name//'] has dimensionality '//t(1)//' and is in '//self%units//' - ['//t(3)//';'//t(4)//']'!, ('//t(5)//')'
     call Log%put(outext,.false.)
     end subroutine printField
 
@@ -914,39 +905,39 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Function that returns a generic field object given a field object
-    !> @param[in] aField
+    !> method that initializes a generic field object given a field object
+    !> @param[in] self, aField
     !---------------------------------------------------------------------------
-    function getGField(aField)
+    subroutine getGField(self, aField)
+    class(generic_field_class), intent(inout) :: self
     class(field_class), intent(in) :: aField
-    type(generic_field_class) :: getGField
     logical :: done
     type(string) :: outext
     done = .false.
     select type(aField)
     class is (scalar1d_field_class)
-        call getGField%initialize(aField%name, aField%units, aField%field)
+        call self%initialize(aField%name, aField%units, aField%field)
         done = .true.
         return
     class is (scalar2d_field_class)
-        call getGField%initialize(aField%name, aField%units, aField%field)
+        call self%initialize(aField%name, aField%units, aField%field)
         done = .true.
         return
     class is (scalar3d_field_class)
-        call getGField%initialize(aField%name, aField%units, aField%field)
+        call self%initialize(aField%name, aField%units, aField%field)
         done = .true.
         return
     class is (scalar4d_field_class)
-        call getGField%initialize(aField%name, aField%units, aField%field)
+        call self%initialize(aField%name, aField%units, aField%field)
         done = .true.
         return
     end select
     if (.not.done) then
-        outext = '[fieldTypes::getGField] Unexepected type of content, not a scalar Field'
+        outext = '[generic_field_class::getGField] Unexepected type of content, not a scalar Field'
         call Log%put(outext)
         stop
     end if
-    end function getGField
+    end subroutine getGField
 
 
     end module fieldTypes_mod
