@@ -34,11 +34,13 @@
     contains
     procedure :: initialize => initKernel
     procedure :: run => runKernel
+    procedure, private :: setCommonProcesses
     procedure, private :: LagrangianKinematic
     procedure, private :: DiffusionIsotropic
     procedure, private :: StokesDrift
     procedure, private :: Windage
     procedure, private :: Beaching
+    procedure, private :: Aging
     procedure, private :: hasRequiredVars
     end type kernel_class
 
@@ -58,20 +60,80 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
+
+    !running preparations for kernel lanch
+    call self%setCommonProcesses(sv, bdata, time)
+
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
-        runKernel = self%Beaching(sv, runKernel)
+        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
     else if (sv%ttype == Globals%Types%paper) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
-        runKernel = self%Beaching(sv, runKernel)
+        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
-        runKernel = self%Beaching(sv, runKernel)
+        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
     end if
-    !setting the age variable to be updated by dt by the solver for all tracers
-    runKernel(:,7) = 1.0
+
     end function runKernel
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Sets the state vector land interaction mask values and corrects for
+    !> maximum level of tracers
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    subroutine setCommonProcesses(self, sv, bdata, time)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    integer :: np, nf, bkg
+    real(prec) :: maxLevel(2)
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+
+    allocate(requiredVars(2))
+    requiredVars(1) = Globals%Var%landMask
+    requiredVars(2) = Globals%Var%landIntMask
+
+    !interpolate each background
+    do bkg = 1, size(bdata)
+        if (bdata(bkg)%initialized) then
+            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+                np = size(sv%active) !number of Tracers
+                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                allocate(var_dt(np,nf))
+                allocate(var_name(nf))
+
+                !correcting for maximum admissible level in the background
+                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+
+                !interpolating all of the data
+                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+
+                !update land mask status
+                nf = Utils%find_str(var_name, Globals%Var%landMask)
+                if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
+                if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
+                !marking tracers for deletion because they are in land
+                where(sv%landMask == 2) sv%active = .false.
+                !update land interaction status
+                nf = Utils%find_str(var_name, Globals%Var%landIntMask)
+                if (nf /= MV_INT) sv%landIntMask = var_dt(:,nf)
+                if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
+
+                deallocate(var_dt)
+                deallocate(var_name)
+            end if
+        end if
+    end do
+
+    end subroutine setCommonProcesses
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -85,9 +147,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    logical :: beach
     integer :: np, nf, bkg, i
-    real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
@@ -106,22 +166,9 @@
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-                !correcting for maximum admissible level in the background
-                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-                if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-
-                !update land mask status
-                nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
-                if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
-                if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
-                !marking tracers for deletion because they are in land
-                where(sv%landMask == 2) sv%active = .false.
-                !update land interaction status
-                nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-                if (nf /= MV_INT) sv%landIntMask = var_dt(:,nf)
-                if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
 
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u, .true.)
@@ -171,7 +218,6 @@
     requiredVars(2) = Globals%Var%vsdy
 
     waveCoeff = 0.01
-
     StokesDrift = 0.0
     !interpolate each background
     do bkg = 1, size(bdata)
@@ -224,7 +270,6 @@
     requiredVars(2) = Globals%Var%v10
 
     windCoeff = 0.03
-
     Windage = 0.0
     !interpolate each background
     do bkg = 1, size(bdata)
@@ -277,7 +322,7 @@
     beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
 
     Beaching = svDt
-    
+
     !getting the bounds for the interpolation of the land interaction field that correspond to beaching
     lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
     ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
@@ -293,6 +338,27 @@
     end do
 
     end function Beaching
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Aging kernel. Sets the age variable to be updated by dt by the solver
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    function Aging(self, sv)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Aging
+    integer :: nf
+    type(string) :: tag
+
+    Aging = 0.0
+    tag = 'age'
+    nf = Utils%find_str(sv%varName, tag, .true.)
+    !setting the age variable to be updated by dt by the solver for all tracers
+    Aging(:,nf) = 1.0
+
+    end function Aging
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
