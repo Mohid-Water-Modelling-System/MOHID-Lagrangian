@@ -24,59 +24,15 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Box1" />
+				<resolution x="200" y="200" z="10" units_comment="metres (m)"/>
 				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
 					<point x="-10.0133" y="38.1686" z="-50" units_comment="(deg,deg,m)"/>
-					<size x="200000" y="100000" z="1.0" units_comment="metres (m)"/>
+					<size x="200000" y="100000" z="50" units_comment="metres (m)"/>
 				</box>
 			</source>
-			<source>
-				<setsource id="2" name="Box2" />
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-10.0133" y="38.1686" z="-40" units_comment="(deg,deg,m)"/>
-					<size x="200000" y="100000" z="1.0" units_comment="metres (m)"/>
-				</box>
-			</source>
-			<source>
-				<setsource id="3" name="Box3" />
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-10.0133" y="38.1686" z="-30" units_comment="(deg,deg,m)"/>
-					<size x="200000" y="100000" z="1.0" units_comment="metres (m)"/>
-				</box>
-			</source>
-			<source>
-				<setsource id="4" name="Box4" />
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-10.0133" y="38.1686" z="-20" units_comment="(deg,deg,m)"/>
-					<size x="200000" y="100000" z="1.0" units_comment="metres (m)"/>
-				</box>
-			</source>
-			<source>
-				<setsource id="5" name="Box5" />
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-10.0133" y="38.1686" z="-10" units_comment="(deg,deg,m)"/>
-					<size x="200000" y="100000" z="1.0" units_comment="metres (m)"/>
-				</box>
-			</source>
-			<source>
-				<setsource id="6" name="Box6" />
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-10.0133" y="38.1686" z="0" units_comment="(deg,deg,m)"/>
-					<size x="200000" y="100000" z="1.0" units_comment="metres (m)"/>
-				</box>
-			</source>
-		</sourceDefinitions>		
+		</sourceDefinitions>
 		<variableNaming>
 			<file name="ncNamesLibrary.xml"/>
 		</variableNaming>
