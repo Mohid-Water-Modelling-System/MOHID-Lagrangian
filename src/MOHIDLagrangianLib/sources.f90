@@ -27,40 +27,34 @@
     private
 
     type :: source_par                          !<Type - parameters of a source object
+        type(string) :: name                    !< source name
         integer :: id                           !< unique source identification (integer)
         real(prec) :: emitting_rate             !< Emitting rate of the Source (Hz)
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
         type(string) :: rate_file               !< File name of the emission rate data (csv)
         real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
-        real(prec) :: startime             !< time to start emitting tracers
-        real(prec) :: stoptime             !< time to stop emitting tracers
-        type(string) :: name                    !< source name
+        real(prec) :: startime                  !< time to start emitting tracers
+        real(prec) :: stoptime                  !< time to stop emitting tracers        
         type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
     end type source_par
 
     type :: source_prop                         !<Type - material properties of a source object
-        type(string) :: property_type           !< source property type (plastic, paper, fish, etc)
-        type(string) :: property_name           !< source property name
+        type(string) :: propertyType            !< source property type (plastic, paper, fish, etc)
+        type(string) :: propertySubType         !< source property name
         logical :: particulate                  !< true for a Source that emitts particulate tracers (a concentration of particles)
         real(prec) :: radius                    !< radius of the emitted Tracers (size of the particle if not particulate, volume of the Tracer if particulate)
-        real(prec) :: pt_radius                 !< radius of the emitted particles (Tracers if not particulate)
-        real(prec) :: density                   !< density of the Tracers
-        real(prec) :: condition                 !< condition of the Tracers
-        real(prec) :: degrd_rate                !< degradation rate of the Tracers
-        real(prec) :: ini_concentration         !< initial concentration of particles if particulate
+        real(prec) :: density                   !< density of the Tracers        
         type(string), dimension(:), allocatable :: propName !< name of a given property
         real(prec), dimension(:), allocatable :: propValue  !< value of a given property
     end type source_prop
 
     type :: source_state             !<Type - state variables of a source object
-        real(prec) :: age              ! time variables
+        real(prec) :: age                   ! time variables
         logical :: active                   !< active switch
         real(prec) :: emission_stack        !< number of emissions on the stack for the current time step
         type(vector) :: pos                 !< Position of the source baricenter (m)
         type(vector) :: vel                 !< Velocity of the source (m s-1)
-        real(prec) :: level                 !< Depth of the source baricenter (m)
-        real(prec) :: T                     !< Temperature of the source (Celcius)
     end type source_state
 
     type :: source_stats             !<Type - statistical variables of a source object
@@ -84,10 +78,12 @@
     contains
     procedure :: initialize => initializeSource
     procedure :: isParticulate
-    procedure :: setPropertyAtributes
+    procedure :: setPropertyNumber
+    procedure :: setPropertyBaseAtribute
+    procedure :: setPropertyAtribute
     procedure :: check
-    procedure, private :: setVariableRate
     procedure :: getVariableRate
+    procedure, private :: setVariableRate    
     procedure, private :: setotalnp
     procedure, private :: linkProperty
     procedure :: print => printSource
@@ -162,8 +158,8 @@
     class(source_class), intent(inout) :: src
     type(string), intent(in) :: ptype
     type(string), intent(in) :: pname
-    src%prop%property_type = ptype
-    src%prop%property_name = pname
+    src%prop%propertyType = ptype
+    src%prop%propertySubType = pname
     end subroutine linkProperty
 
     !---------------------------------------------------------------------------
@@ -188,7 +184,7 @@
         if (self%src(i)%par%id == srcid) then ! found the correct source to link to
             call self%src(i)%linkProperty(ptype,pname) ! calling Source method to link property
             temp = self%src(i)%par%id
-            outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%prop%property_type //', with property name ' // self%src(i)%prop%property_name
+            outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%prop%propertyType //', with property name ' // self%src(i)%prop%propertySubType
             call Log%put(outext,.false.)
             notlinked = .false. ! we linked it
             exit
@@ -200,6 +196,37 @@
         call Log%put(outext,.false.)
     endif
     end subroutine setPropertyNames
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Allocates the space for the properties
+    !> @param[in] src, nProps
+    !---------------------------------------------------------------------------
+    subroutine setPropertyNumber(src, nProps)
+    class(source_class), intent(inout) :: src
+    integer, intent(in) :: nProps
+    if(allocated(src%prop%propName)) deallocate(src%prop%propName)
+    if(allocated(src%prop%propValue)) deallocate(src%prop%propValue)    
+    allocate(src%prop%propName(nProps))
+    allocate(src%prop%propValue(nProps))    
+    end subroutine setPropertyNumber
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> source property atribute setting proceadure - initializes Source variables
+    !> @param[in] src, pname, pvalue
+    !---------------------------------------------------------------------------
+    subroutine setPropertyAtribute(src, i, pName, pValue)
+    class(source_class), intent(inout) :: src
+    type(string), intent(in) :: pName
+    type(string), intent(in) :: pValue
+    integer, intent(in) :: i
+    type(string) :: outext
+    src%prop%propName(i) = pName
+    src%prop%propValue(i) = pValue%to_number(kind=1._R4P)
+    end subroutine setPropertyAtribute
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -207,8 +234,7 @@
     !> source property atribute setting proceadure - initializes Source variables
     !> @param[in] src, pname, pvalue
     !---------------------------------------------------------------------------
-    subroutine setPropertyAtributes(src, pname, pvalue)
-    implicit none
+    subroutine setPropertyBaseAtribute(src, pname, pvalue)
     class(source_class), intent(inout) :: src
     type(string), intent(in) :: pname
     type(string), intent(in) :: pvalue
@@ -219,22 +245,14 @@
             src%prop%particulate = .true.
         end if
     case ('radius')
-        src%prop%radius = pvalue%to_number(kind=1._R4P)
-    case ('particle_radius')
-        src%prop%pt_radius = pvalue%to_number(kind=1._R4P)
+        src%prop%radius = pvalue%to_number(kind=1._R4P)    
     case ('density')
-        src%prop%density = pvalue%to_number(kind=1._R4P)
-    case ('condition')
-        src%prop%condition = pvalue%to_number(kind=1._R4P)
-    case ('degradation_rate')
-        src%prop%degrd_rate = pvalue%to_number(kind=1._R4P)
-    case ('intitial_concentration')
-        src%prop%ini_concentration = pvalue%to_number(kind=1._R4P)
+        src%prop%density = pvalue%to_number(kind=1._R4P)    
         case default
-        outext='[Sources::setPropertyAtributes]: unexpected atribute '//pname//' for property '//src%prop%property_name//', ignoring'
+        outext='[Sources::setPropertyBaseAtribute]: unexpected atribute '//pname//' for property '//src%prop%propertySubType//', ignoring'
         call Log%put(outext)
     end select
-    end subroutine setPropertyAtributes
+    end subroutine setPropertyBaseAtribute
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -252,21 +270,7 @@
         temp(2) = 'radius'
     elseif (self%prop%density == MV) then
         failed = .true.
-        temp(2) = 'density'
-    elseif (self%prop%condition == MV) then
-        failed = .true.
-        temp(2) = 'condition'
-    elseif (self%prop%degrd_rate == MV) then
-        failed = .true.
-        temp(2) = 'degradation rate'
-    elseif (self%prop%particulate) then
-        if (self%prop%pt_radius == MV) then
-            failed = .true.
-            temp(2) = 'particle radius'
-        elseif (self%prop%ini_concentration == MV) then
-            failed = .true.
-            temp(2) = 'initial concentration'
-        end if
+        temp(2) = 'density'    
     end if
     if (failed) then
         outext = 'Property '//temp(2)//' from Source id = '//temp(1)//' is not set, stoping'
@@ -370,15 +374,11 @@
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=shapetype)
     !Setting properties
-    src%prop%property_type = "base" ! pure Lagrangian trackers by default
-    src%prop%property_name = "base"
+    src%prop%propertyType = "base" ! pure Lagrangian trackers by default
+    src%prop%propertySubType = "base"
     src%prop%particulate = .false.
     src%prop%radius = MV
-    src%prop%density = MV
-    src%prop%condition = MV
-    src%prop%degrd_rate = MV
-    src%prop%pt_radius = MV
-    src%prop%ini_concentration = MV
+    src%prop%density = MV    
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
