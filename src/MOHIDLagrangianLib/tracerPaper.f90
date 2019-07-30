@@ -136,17 +136,17 @@
     !now initialize the specific components of this derived type
     constructor%par%ttype = Globals%Types%paper
     !material parameters
-    constructor%mpar%degradation_rate = src%prop%degrd_rate
+    !constructor%mpar%degradation_rate = src%prop%degrd_rate
     constructor%mpar%particulate = src%prop%particulate
-    constructor%mpar%size = src%prop%radius
+    !constructor%mpar%size = src%prop%radius
     !material state
     constructor%mnow%density = src%prop%density
-    constructor%mnow%condition = src%prop%condition
+    !constructor%mnow%condition = src%prop%condition
     constructor%mnow%radius = src%prop%radius
     constructor%mnow%concentration = MV
     if (constructor%mpar%particulate) then
-        constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
-        constructor%mnow%concentration = src%prop%ini_concentration
+        !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
+        !constructor%mnow%concentration = src%prop%ini_concentration
     end if
     !filling the rest of the varName list
     constructor%varName(8) = Globals%Var%density
