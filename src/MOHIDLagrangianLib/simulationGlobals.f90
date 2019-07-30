@@ -108,14 +108,7 @@
         type(string) :: outpath             !< General output directory
         type(string) :: casename            !< Name of the running case
     end type filenames_t
-
-    type src_parm_t   !<Lists for Source parameters
-        type(string), allocatable, dimension(:) :: baselist !<Lists for base tracer parameters
-        type(string), allocatable, dimension(:) :: particulatelist  !<List for parameters of particulate type tracers
-    contains
-    procedure :: buildlists
-    end type
-
+    
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
@@ -211,7 +204,6 @@
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
-        type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
@@ -306,9 +298,7 @@
     !data types
     self%DataTypes%currents = 'currents'
     self%DataTypes%winds = 'meteorology'
-    self%DataTypes%waves = 'waves'
-    !Source parameters list
-    call self%SrcProp%buildlists()
+    self%DataTypes%waves = 'waves'    
     !Variable names
     call self%Var%buildvars()
 
@@ -734,25 +724,6 @@
     class(sim_t), intent(inout) :: self
     getnumoutfile = self%numoutfile
     end function getnumoutfile
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method to build the parameters list of the Sources
-    !---------------------------------------------------------------------------
-    subroutine buildlists(self)
-    implicit none
-    class(src_parm_t), intent(inout) :: self
-    allocate(self%baselist(5))
-    self%baselist(1) = 'particulate'
-    self%baselist(2) = 'density'
-    self%baselist(3) = 'radius'
-    self%baselist(4) = 'condition'
-    self%baselist(5) = 'degradation_rate'
-    allocate(self%particulatelist(2))
-    self%particulatelist(1) = 'intitial_concentration'
-    self%particulatelist(2) = 'particle_radius'
-    end subroutine buildlists
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
