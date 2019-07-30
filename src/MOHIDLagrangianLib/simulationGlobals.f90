@@ -65,7 +65,7 @@
     end type parameters_t
 
     type :: simdefs_t  !< Simulation definitions class
-        real(prec)      ::  Dp              !< Initial particle spacing at emission
+        type(vector)    ::  Dp              !< Initial particle spacing at emission
         real(prec)      ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
@@ -87,11 +87,13 @@
         real(prec)   :: RhoRef = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
+        real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
     procedure :: setBeachingLevel
+    procedure :: setBeachingStopProb
     procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
@@ -138,6 +140,10 @@
         type(string) :: temp
         type(string) :: sal
         type(string) :: density
+        type(string) :: vsdx
+        type(string) :: vsdy
+        type(string) :: u10
+        type(string) :: v10
         type(string) :: lon
         type(string) :: lat
         type(string) :: level
@@ -150,6 +156,10 @@
         type(stringList_class) :: tempVariants
         type(stringList_class) :: salVariants
         type(stringList_class) :: densityVariants
+        type(stringList_class) :: vsdxVariants
+        type(stringList_class) :: vsdyVariants
+        type(stringList_class) :: u10Variants
+        type(stringList_class) :: v10Variants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
@@ -265,7 +275,7 @@
     self%SimDefs%numblocksx = MV
     self%SimDefs%numblocksy = MV
     self%SimDefs%numblocks = OMPManager%getThreads()
-    self%SimDefs%Dp = MV
+    self%SimDefs%Dp = 0.0
     self%SimDefs%dt = MV
     self%SimDefs%Pointmin = 0.0
     self%SimDefs%Pointmax = 0.0
@@ -273,6 +283,7 @@
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
     self%Constants%BeachingLevel = -3.0
+    self%Constants%BeachingStopProb = 0.50
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
@@ -319,6 +330,10 @@
     self%temp    = 'temp'
     self%sal     = 'sal'
     self%density = 'density'
+    self%vsdx    = 'vsdx'
+    self%vsdy    = 'vsdy'
+    self%u10     = 'u10'
+    self%v10     = 'v10'
     self%lon     = 'lon'
     self%lat     = 'lat'
     self%level   = 'level'
@@ -390,6 +405,26 @@
         getVarSimName = self%density
         return
     end if
+    !searching for vsdx
+    if (var == self%vsdx .or. .not.self%vsdxVariants%notRepeated(var)) then
+        getVarSimName = self%vsdx
+        return
+    end if
+    !searching for vsdy
+    if (var == self%vsdy .or. .not.self%vsdyVariants%notRepeated(var)) then
+        getVarSimName = self%vsdy
+        return
+    end if
+    !searching for u10
+    if (var == self%u10 .or. .not.self%u10Variants%notRepeated(var)) then
+        getVarSimName = self%u10
+        return
+    end if
+    !searching for v10
+    if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
+        getVarSimName = self%v10
+        return
+    end if    
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         getVarSimName = self%lon
@@ -475,6 +510,16 @@
     call self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varNode)
     tag="sea_water_salinity"
     call self%setCurrVar(tag, self%Var%sal, self%Var%salVariants, varNode)
+    tag="sea_water_density"
+    call self%setCurrVar(tag, self%Var%density, self%Var%densityVariants, varNode)
+    tag="sea_surface_wave_stokes_drift_x_velocity"
+    call self%setCurrVar(tag, self%Var%vsdx, self%Var%vsdxVariants, varNode)
+    tag="sea_surface_wave_stokes_drift_y_velocity"
+    call self%setCurrVar(tag, self%Var%vsdy, self%Var%vsdyVariants, varNode)
+    tag="eastward_wind"
+    call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
+    tag="northward_wind"
+    call self%setCurrVar(tag, self%Var%v10, self%Var%v10Variants, varNode)
 
     end subroutine setVarNames
 
@@ -921,7 +966,28 @@
     sizem = sizeof(self%BeachingLevel)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingLevel
-
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Beaching stop probability setting routine.
+    !> @param[in] self, read_BeachingStopProb
+    !---------------------------------------------------------------------------
+    subroutine setBeachingStopProb(self, read_BeachingStopProb)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BeachingStopProb
+    type(string) :: outext
+    integer :: sizem
+    if (read_BeachingStopProb%to_number(kind=1._R4P) < 0.0) then
+        outext='Beaching stopping probability must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BeachingStopProb =read_BeachingStopProb%to_number(kind=1._R4P)*0.01 !user input is in %
+    endif
+    sizem = sizeof(self%BeachingStopProb)
+    call SimMemory%adddef(sizem)
+    end subroutine setBeachingStopProb
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -963,6 +1029,8 @@
     outext = outext//'       Z0 = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingLevel
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
+    temp_str(1)=self%BeachingStopProb
+    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
     temp_str(1)=self%RhoRef
     outext = outext//'       RhoRef = '//temp_str(1)//' kg/m^3'
 
@@ -978,15 +1046,9 @@
     subroutine setdp(self,read_dp)
     implicit none
     class(simdefs_t), intent(inout) :: self
-    type(string), intent(in) :: read_dp
-    type(string) :: outext
+    type(vector), intent(in) :: read_dp
     integer :: sizem
-    self%Dp=read_dp%to_number(kind=1._R4P)
-    if (self%Dp.le.0.0) then
-        outext='Dp must be positive and non-zero, stopping'
-        call Log%put(outext)
-        stop
-    endif
+    self%Dp=read_dp
     sizem = sizeof(self%Dp)
     call SimMemory%adddef(sizem)
     end subroutine
@@ -1056,12 +1118,11 @@
     !> Public simulation definitions printing routine.
     !---------------------------------------------------------------------------
     subroutine printsimdefs(self)
-    implicit none
     class(simdefs_t), intent(in) :: self
     type(string) :: outext
     type(string) :: temp_str(3)
 
-    temp_str(1)=self%Dp
+    temp_str(1)=self%Dp%normL2()
     outext = '      Initial resolution is '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%dt
     outext = '      Timestep is '//temp_str(1)//' s'//new_line('a')

@@ -40,6 +40,7 @@
     type :: tracer_class                   !<Type - The pure Lagrangian tracer class
         type(tracer_par_class)   :: par         !<To access parameters
         type(tracer_state_class) :: now         !<To access state variables
+        type(string), allocatable, dimension(:) :: varName  !< a list of variable names that this tracer has
     contains
     procedure :: getNumVars
     procedure :: getStateArray
@@ -66,7 +67,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(tracer_class), intent(in) :: self
-    getNumVars = 6
+    getNumVars = 7
     end function getNumVars
     
     !---------------------------------------------------------------------------
@@ -84,6 +85,7 @@
     getStateArray(4) = self%now%vel%x
     getStateArray(5) = self%now%vel%y
     getStateArray(6) = self%now%vel%z
+    getStateArray(7) = self%now%age
     end function getStateArray
     
     !---------------------------------------------------------------------------
@@ -94,13 +96,13 @@
     subroutine setStateArray(self, stateArray)
     class(tracer_class), intent(inout) :: self
     real(prec), dimension(:), intent(in) :: stateArray
-    !if(size(stateArray)<self%getNumVars())
     self%now%pos%x = StateArray(1)
     self%now%pos%y = StateArray(2)
     self%now%pos%z = StateArray(3)
     self%now%vel%x = StateArray(4)
     self%now%vel%y = StateArray(5)
     self%now%vel%z = StateArray(6)
+    self%now%age   = StateArray(7)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -130,12 +132,16 @@
     !> Base Tracer constructor
     !> @param[in] id, src, time, p
     !---------------------------------------------------------------------------
-    function constructor(id, src, time, p)
+    function constructor(id, src, time, p, varNum)
     type(tracer_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
     integer, intent(in) :: p
+    integer, intent(in), optional :: varNum
+    integer :: varN
+    varN = constructor%getNumVars()
+    if (present(varNum)) varN = varNum
     ! initialize parameters
     constructor%par%id = id
     constructor%par%idsource = src%par%id
@@ -145,6 +151,15 @@
     constructor%now%active = .true.
     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
     constructor%now%vel = 0.0
+    ! initialize var name list
+    allocate(constructor%varName(varN))
+    constructor%varName(1) = 'x'
+    constructor%varName(2) = 'y'
+    constructor%varName(3) = 'z'
+    constructor%varName(4) = Globals%Var%u
+    constructor%varName(5) = Globals%Var%v
+    constructor%varName(6) = Globals%Var%w
+    constructor%varName(7) = 'age'
     end function constructor
 
     end module tracerBase_mod

@@ -23,6 +23,7 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Box1" />
+				<resolution x="50" y="200" z="10" units_comment="metres (m)"/>
 				<rate_dt value="10000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
@@ -57,7 +58,8 @@
 			<file name="data/ncNamesLibrary.xml"/>
 		</variableNaming>
 		<constants>
-			<BeachingLevel value="-3.5" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />			
+			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />			
 		</constants>
 	</caseDefinitions>
 </case>

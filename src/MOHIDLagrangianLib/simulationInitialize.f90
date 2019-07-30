@@ -235,7 +235,9 @@
     real(prec) :: emitting_rate, start, finish
     logical :: emitting_fixed
     class(shape), allocatable :: source_shape
+    type(vector) :: res
 
+    res = 0.0
     rate_file = 'not_set'
     readflag = .false.
     outext='-->Reading case Sources'
@@ -254,6 +256,16 @@
         id=att_val%to_number(kind=1_I1P)
         att_name="name"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, name)
+        !reading possible custom resolution
+        tag="resolution"
+        att_name="dp"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            res = att_val%to_number(kind=1._R4P)
+        else
+            call XMLReader%getNodeVector(source_node, tag, res, readflag, .false.)
+            if (.not.readflag) res = 0.0
+        end if
         !reading emission rate, need to check for options
         tag="rate_dt"
         att_name="value"
@@ -303,7 +315,7 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape)
+        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape, res)
 
         deallocate(source_shape)
     enddo
@@ -317,16 +329,17 @@
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_simdefs(case_node)
-    implicit none
     type(Node), intent(in), pointer :: case_node
-
     type(NodeList), pointer :: defsList       !< Node list for simdefs
     type(Node), pointer :: simdefs_node       !< Single simdefs block to process
     type(string) :: outext
     integer :: i
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
+    logical :: read_flag
 
+    read_flag = .false.
+    coords = 0.0
     outext='-->Reading case simulation definitions'
     call Log%put(outext,.false.)
 
@@ -334,8 +347,13 @@
     call XMLReader%gotoNode(case_node,simdefs_node,tag)
     tag="resolution"
     att_name="dp"
-    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
-    call Globals%SimDefs%setdp(att_val)
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        coords = att_val%to_number(kind=1._R4P)
+    else
+        call XMLReader%getNodeVector(simdefs_node, tag, coords)
+    end if
+    call Globals%SimDefs%setdp(coords)
     tag="timestep"
     att_name="dt"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
@@ -369,7 +387,7 @@
     outext='-->Reading case constants'
     call Log%put(outext,.false.)
 
-    tag="constantsdef"    !the node we want
+    tag="constants"    !the node we want
     call XMLReader%gotoNode(case_node,constants_node,tag,readflag,.false.)
     if (readflag) then !if the node exists, since his one is not mandatory
         tag="Gravity"
@@ -394,6 +412,12 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setBeachingLevel(att_val)
+        endif
+        tag="BeachingStopProb"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBeachingStopProb(att_val)
         endif
     endif
     call Globals%Constants%print()

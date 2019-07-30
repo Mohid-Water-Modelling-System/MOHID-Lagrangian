@@ -49,6 +49,8 @@
         real(prec) :: condition                 !< condition of the Tracers
         real(prec) :: degrd_rate                !< degradation rate of the Tracers
         real(prec) :: ini_concentration         !< initial concentration of particles if particulate
+        type(string), dimension(:), allocatable :: propName !< name of a given property
+        real(prec), dimension(:), allocatable :: propValue  !< value of a given property
     end type source_prop
 
     type :: source_state             !<Type - state variables of a source object
@@ -62,13 +64,12 @@
     end type source_state
 
     type :: source_stats             !<Type - statistical variables of a source object
-        ! All stats variables at writing precision (prec_wrt)
-        ! Avegarge variable is computed by Accumulated_var / ns
         integer :: particles_emitted        !< Number of emitted particles by this source
         integer :: ns                       !< Number of sampling steps
     end type source_stats
 
     type :: source_stencil         !<Type - holder for the tracer creation stencil of the source
+        type(vector) :: dp                  !< resolution in x, y and z directions
         integer :: np                       !< Number of tracers by emission
         integer :: total_np                 !< Total number of tracers that this source will generate
         type(vector), allocatable, dimension(:) :: ptlist !<list of points (coordinates), relative to the source geometry point, to be generated at every emission.
@@ -88,23 +89,23 @@
     procedure, private :: setVariableRate
     procedure :: getVariableRate
     procedure, private :: setotalnp
-    procedure, private :: linkproperty
+    procedure, private :: linkProperty
     procedure :: print => printSource
     end type source_class
 
-    type :: source_group_class
+    type :: sourceArray_class
         type(source_class), allocatable, dimension(:) :: src
     contains
     procedure :: initialize => initSources
     procedure :: finalize => killSources
     procedure :: setPropertyNames
-    end type source_group_class
+    end type sourceArray_class
 
     !Simulation variables
-    type(source_group_class) :: tempSources !< Temporary Source array, used exclusively for building the case from a description file
+    type(sourceArray_class) :: tempSources !< Temporary Source array, used exclusively for building the case from a description file
 
     !Public access vars
-    public :: tempSources, source_group_class, source_class
+    public :: tempSources, sourceArray_class, source_class
 
     contains
 
@@ -116,7 +117,7 @@
     !---------------------------------------------------------------------------
     subroutine initSources(self,nsources)
     implicit none
-    class(source_group_class), intent(inout) :: self
+    class(sourceArray_class), intent(inout) :: self
     integer, intent(in) :: nsources
     integer err
     type(string) :: outext, temp
@@ -139,7 +140,7 @@
     !---------------------------------------------------------------------------
     subroutine killSources(self)
     implicit none
-    class(source_group_class), intent(inout) :: self
+    class(sourceArray_class), intent(inout) :: self
     integer err
     type(string) :: outext
     if (allocated(self%src)) deallocate(self%src, stat=err)
@@ -153,17 +154,17 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> source property setting proceadure - initializes Source variables
-    !> @param[in] src,ptype,pname
+    !> source property setting procedure - initializes Source variables
+    !> @param[in] src, ptype, pname
     !---------------------------------------------------------------------------
-    subroutine linkproperty(src,ptype,pname)
+    subroutine linkProperty(src, ptype, pname)
     implicit none
     class(source_class), intent(inout) :: src
     type(string), intent(in) :: ptype
     type(string), intent(in) :: pname
     src%prop%property_type = ptype
     src%prop%property_name = pname
-    end subroutine linkproperty
+    end subroutine linkProperty
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -171,9 +172,9 @@
     !> source property setting routine, calls source by id to set its properties
     !> @param[in] self,srcid_str,ptype,pname
     !---------------------------------------------------------------------------
-    subroutine setPropertyNames(self,srcid_str,ptype,pname)
+    subroutine setPropertyNames(self, srcid_str, ptype, pname)
     implicit none
-    class(source_group_class), intent(inout) :: self
+    class(sourceArray_class), intent(inout) :: self
     type(string), intent(in) :: srcid_str      !<Source id tag
     type(string), intent(in) :: ptype          !<Property type to set
     type(string), intent(in) :: pname          !<Property name to set
@@ -185,7 +186,7 @@
     notlinked = .true.  !assuming not linked
     do i=1, size(self%src)
         if (self%src(i)%par%id == srcid) then ! found the correct source to link to
-            call self%src(i)%linkproperty(ptype,pname) ! calling Source method to link property
+            call self%src(i)%linkProperty(ptype,pname) ! calling Source method to link property
             temp = self%src(i)%par%id
             outext='      Source id = '// temp // ', '// self%src(i)%par%name //' is of type '// self%src(i)%prop%property_type //', with property name ' // self%src(i)%prop%property_name
             call Log%put(outext,.false.)
@@ -314,7 +315,8 @@
             end do
         end if
     end do
-    allocate(self%par%variable_rate(size(srate)), source=srate)
+    allocate(self%par%variable_rate(size(srate)))
+    self%par%variable_rate = srate
     end subroutine setVariableRate
 
     !---------------------------------------------------------------------------
@@ -337,7 +339,7 @@
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype, res)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
@@ -348,6 +350,7 @@
     real(prec), intent(in) :: finish
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: shapetype
+    type(vector), intent(in) :: res
     integer :: sizem, i
     type(string) :: outext
     integer :: err
@@ -385,7 +388,9 @@
     src%stats%particles_emitted=0
     src%stats%ns=0
     !setting stencil variables
-    src%stencil%np = Geometry%fillsize(src%par%geometry, Globals%SimDefs%Dp)
+    src%stencil%dp = Globals%SimDefs%Dp
+    if (res%x > 0.0) src%stencil%dp = res !the source has a custom resolution
+    src%stencil%np = Geometry%fillSize(src%par%geometry, src%stencil%dp)
     call src%setotalnp()
     allocate(src%stencil%ptlist(src%stencil%np), stat=err)
     if(err/=0)then
@@ -393,7 +398,7 @@
         call Log%put(outext)
         stop
     endif
-    call Geometry%fill(src%par%geometry, Globals%SimDefs%Dp, src%stencil%np, src%stencil%ptlist)
+    call Geometry%fill(src%par%geometry, src%stencil%dp, src%stencil%np, src%stencil%ptlist)
     do i=1, src%stencil%np
         src%stencil%ptlist(i) = Utils%m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
     end do

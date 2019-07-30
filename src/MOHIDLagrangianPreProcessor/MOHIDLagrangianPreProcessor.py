@@ -76,12 +76,8 @@ def run():
     #parsing case definition file
     root = ET.parse(caseXML).getroot()
     
-    dataDir = []
-    dataType = []
     dataList = []
-    for type_tag in root.findall('caseDefinitions/inputData/inputDataDir'):
-        dataDir.append(type_tag.get('name'))
-        dataType.append(type_tag.get('type'))
+    for type_tag in root.findall('caseDefinitions/inputData/inputDataDir'):        
         dataList.append((type_tag.get('name'), type_tag.get('type')))
     
     for type_tag in root.findall('execution/parameters/parameter'):
@@ -116,23 +112,22 @@ def run():
     inputFileCurrents = list(filter(None, inputFileCurrents))
     inputFileWinds = list(filter(None, inputFileWinds))
     inputFileWaves = list(filter(None, inputFileWaves))
-
+    
     #going for each input directory and indexing its files
     inputFiles = []
-    for idir in dataDir:
+    for idir in dataList:
         for ext in fileExtensions:
-            inputFiles.append(glob.glob(idir+ '/**/*'+ext, recursive=True))
+            inputFiles.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
     #cleaning list of empty values
     inputFiles = list(filter(None, inputFiles))
     
     nInputs = len(inputFileCurrents) + len(inputFileWinds) + len(inputFileWaves)
     if nInputs == 0:
         print('No input files found. Supported files are ', fileExtensions)
-    else:
-    
+    else:    
         indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
         indexer = xmlWriter.xmlWriter(indexerFileName)
-        inputFile = [inputFileCurrents, inputFileWinds, inputFileWaves]
+        inputFile = [inputFileCurrents, inputFileWaves, inputFileWinds]
         inputType = ['currents', 'waves', 'meteorology']
 		
 		#going trough every file, extracting some metadata and writting in the indexer file, for each file type

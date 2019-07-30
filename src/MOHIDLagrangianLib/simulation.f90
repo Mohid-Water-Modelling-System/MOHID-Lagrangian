@@ -83,6 +83,7 @@
     !---------------------------------------------------------------------------
     subroutine run(self)
     class(simulation_class), intent(inout) :: self
+    logical :: dbg = .false.
 
     call self%OutputStreamer%writeOutputHeader()
 
@@ -91,26 +92,37 @@
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
+        if (dbg) print*, 'self%ToggleSources'
         call self%ToggleSources()
         !emitt Tracers from active Sources
+        if (dbg) print*, 'self%BlocksEmitt'
         call self%BlocksEmitt()
         !Optimize Block Tracer lists and memory use
+        if (dbg) print*, 'self%BlocksConsolidate'
         call self%BlocksConsolidate()
         !Distribute Tracers and Sources by Blocks
+        if (dbg) print*, 'self%BlocksDistribute'
         call self%BlocksDistribute()
         !Build SV
+        if (dbg) print*, 'self%BlocksTracersToSV'
         call self%BlocksTracersToSV()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
+        if (dbg) print*, 'self%InputData'
         call self%InputData()
         !Update all tracers - Integration step
+        if (dbg) print*, 'self%BlocksRunSolver'
         call self%BlocksRunSolver()
         !SV to Tracers
+        if (dbg) print*, 'self%BlocksSVtoTracers'
         call self%BlocksSVtoTracers()
         !Write results if time to do so
+        if (dbg) print*, 'self%OutputStepData'
         call self%OutputStepData()
         !Clean SV
+        if (dbg) print*, 'self%BlocksCleanSV'
         call self%BlocksCleanSV()
         !update Simulation time
+        if (dbg) print*, 'self%updateSimDateTime'
         call self%updateSimDateTime()
         !print*, 'Global time is ', Globals%SimTime%CurrTime
         !print*, 'Can we continue?'
@@ -119,7 +131,7 @@
     enddo
 
     call self%setTracerMemory()
-    call SimMemory%detailedprint()
+    !call SimMemory%detailedprint()
     call self%timerTotalRun%print()
     call self%timerPrep%print()
     call self%timerSVOps%print()

@@ -36,7 +36,7 @@
     procedure :: initialize => allocatelist !<Builds the geometry list, possible geometry types (new types must be manually added)
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
     procedure :: allocateShape              !< Returns allocated Shape with a specific shape given a name
-    procedure :: fillsize                   !<Gets the number of points that fill a geometry (based on GLOBALS::dp)
+    procedure :: fillSize                   !<Gets the number of points that fill a geometry (based on GLOBALS::dp)
     procedure :: fill                       !<Gets the list of points that fill a geometry (based on GLOBALS::dp)
     procedure :: getCenter                  !<Function that retuns the shape baricenter
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
@@ -103,7 +103,6 @@
     !> Public routine to allocate the possible geometry name list
     !---------------------------------------------------------------------------
     subroutine allocatelist(self)
-    implicit none
     class(geometry_class), intent(inout) :: self
     allocate(self%list(4))
     self%list(1) ='point'
@@ -137,58 +136,56 @@
     !> method to get the number of points that fill a given geometry
     !> @param[in] self, shapetype, dp
     !---------------------------------------------------------------------------
-    function fillsize(self, shapetype, dp)
-    implicit none
+    function fillSize(self, shapetype, dp)
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
-    real(prec), intent(in) :: dp
-    integer :: fillsize
+    type(vector), intent(in) :: dp
+    integer :: fillSize
     type(vector) :: temp
     type(string) :: outext
     select type (shapetype)
     type is (shape)
     class is (box)
-        fillsize = max((int(shapetype%size%x/dp)+1)*(int(shapetype%size%y/dp)+1)*(int(shapetype%size%z/dp)+1),1)
+        fillSize = max((int(shapetype%size%x/dp%x)+1)*(int(shapetype%size%y/dp%y)+1)*(int(shapetype%size%z/dp%z)+1),1)
     class is (point)
-        fillsize = 1
+        fillSize = 1
     class is (line)
         temp = shapetype%pt - shapetype%last
         temp = Utils%geo2m(temp, shapetype%pt%y)
-        fillsize = max(int(temp%normL2()/dp),1)
+        fillSize = max(int(temp%normL2()/dp%normL2()),1)
     class is (sphere)
-        fillsize = sphere_np_count(dp, shapetype%radius)
+        fillSize = sphere_np_count(dp, shapetype%radius)
         class default
-        outext='[geometry::fillsize] : unexpected type for geometry object, stoping'
+        outext='[geometry::fillSize] : unexpected type for geometry object, stoping'
         call Log%put(outext)
         stop
     end select
-    end function fillsize
+    end function fillSize
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to get the list of points that fill a given geometry
-    !> @param[in] self, shapetype, dp, fillsize, ptlist
+    !> @param[in] self, shapetype, dp, fillSize, ptlist
     !---------------------------------------------------------------------------
-    subroutine fill(self, shapetype, dp, fillsize, ptlist)
-    implicit none
+    subroutine fill(self, shapetype, dp, fillSize, ptlist)
     class(geometry_class), intent(in) :: self
     class(shape) :: shapetype
-    real(prec), intent(in) :: dp
-    integer, intent(in) :: fillsize
-    type(vector), intent(out) :: ptlist(fillsize)
+    type(vector), intent(in) :: dp
+    integer, intent(in) :: fillSize
+    type(vector), intent(out) :: ptlist(fillSize)
     type(vector) :: temp
     type(string) :: outext
     select type (shapetype)
     type is (shape)
     class is (box)
-        call box_grid(dp, shapetype%size, fillsize, ptlist)
+        call box_grid(dp, shapetype%size, fillSize, ptlist)
     class is (point)
-        ptlist(1)=0
+        ptlist(1)=0.0
     class is (line)
-        call line_grid(dp, Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillsize, ptlist)
+        call line_grid(Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillSize, ptlist)
     class is (sphere)
-        call sphere_grid(dp, shapetype%radius, fillsize, ptlist)
+        call sphere_grid(dp, shapetype%radius, fillSize, ptlist)
         class default
         outext='[geometry::fill] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -203,7 +200,6 @@
     !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
     function getCenter(self, shapetype) result(center)
-    implicit none
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
     type(vector) :: center
@@ -307,7 +303,6 @@
     !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
     subroutine printGeometry(self, shapetype)
-    implicit none
     class(geometry_class), intent(in) :: self
     class(shape) :: shapetype
 
@@ -355,18 +350,19 @@
     !> @param[in] dp, r
     !---------------------------------------------------------------------------
     function sphere_np_count(dp, r) result(np)
-    implicit none
-    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: dp
     real(prec), intent(in) :: r
     integer :: np
-    integer :: i, j, k, n
+    integer :: i, j, k, nx, ny, nz
     type(vector) :: pts
     np=0
-    n=int(3*r/dp)
-    do i=1, n
-        do j=1, n
-            do k=1, n
-                pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+    nx=int(3*r/dp%x)
+    ny=int(3*r/dp%y)
+    nz=int(3*r/dp%z)
+    do i=1, nx
+        do j=1, ny
+            do k=1, nz
+                pts = (ex*(i-1)*dp%x +ey*(j-1)*dp%y +ez*(k-1)*dp%z) - r*(ex+ey+ez)
                 if (pts%normL2() .le. r) then
                     np=np+1
                 end if
@@ -376,7 +372,7 @@
     if (np == 0) then !Just the center point
         np=1
     end if
-    end function
+    end function sphere_np_count
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -386,19 +382,20 @@
     !> @param[in] dp, r, np, ptlist
     !---------------------------------------------------------------------------
     subroutine sphere_grid(dp, r, np, ptlist)
-    implicit none
-    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: dp
     real(prec), intent(in) :: r
     integer, intent(in)::  np
     type(vector), intent(out) :: ptlist(np)
-    integer :: i, j, k, p, n
+    integer :: i, j, k, p, nx, ny, nz
     type(vector) :: pts
-    n=int(3*r/dp)
+    nx=int(3*r/dp%x)
+    ny=int(3*r/dp%y)
+    nz=int(3*r/dp%z)
     p=0
-    do i=1, n
-        do j=1, n
-            do k=1, n
-                pts = dp*(ex*(i-1)+ey*(j-1)+ez*(k-1)) - r*(ex+ey+ez)
+    do i=1, nx
+        do j=1, ny
+            do k=1, nz
+                pts = (ex*(i-1)*dp%x +ey*(j-1)*dp%y +ez*(k-1)*dp%z) - r*(ex+ey+ez)
                 if (pts%normL2() .le. r) then
                     p=p+1
                     ptlist(p)=pts
@@ -409,8 +406,7 @@
     if (np == 1) then !Just the center point
         ptlist(1)= 0*ex + 0*ey +0*ez
     end if
-
-    end subroutine
+    end subroutine sphere_grid
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -420,47 +416,43 @@
     !> @param[in] dp, size, np, ptlist
     !---------------------------------------------------------------------------
     subroutine box_grid(dp, size, np, ptlist)
-    implicit none
-    real(prec), intent(in) :: dp
+    type(vector), intent(in) :: dp
     type(vector), intent(in) :: size
     integer, intent(in)::  np
     type(vector), intent(out) :: ptlist(np)
     integer :: i, j, k, p
     p=0
-    do i=1, int(size%x/dp)+1
-        do j=1, int(size%y/dp)+1
-            do k=1, int(size%z/dp)+1
+    do i=1, int(size%x/dp%x)+1
+        do j=1, int(size%y/dp%y)+1
+            do k=1, int(size%z/dp%z)+1
                 p=p+1
-                ptlist(p) = dp*(ex*(i-1) + ey*(j-1) + ez*(k-1))
+                ptlist(p) = (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)
             end do
         end do
     end do
     if (np == 1) then !Just the origin
         ptlist(1)= 0*ex + 0*ey +0*ez
     end if
-    end subroutine
+    end subroutine box_grid
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> private routine that returns the points distributed on a grid
     !> with spacing dp along a line
-    !> @param[in] dp, dist, np, ptlist
+    !> @param[in] dist, np, ptlist
     !---------------------------------------------------------------------------
-    subroutine line_grid(dp, dist, np, ptlist)
-    implicit none
-    real(prec), intent(in) :: dp
+    subroutine line_grid(dist, np, ptlist)
     type(vector), intent(in) :: dist
     integer, intent(in)::  np
     type(vector), intent(out) :: ptlist(np)
     integer :: i, j, k, p
-
     do p=1, np
         ptlist(p) = dist*(p-1)/np
     end do
     if (np == 1) then !Just the origin
         ptlist(1)= 0*ex + 0*ey +0*ez
     end if
-    end subroutine
+    end subroutine line_grid
 
     end module geometry_mod
