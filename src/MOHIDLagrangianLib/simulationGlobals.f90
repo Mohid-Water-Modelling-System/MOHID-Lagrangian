@@ -108,7 +108,7 @@
         type(string) :: outpath             !< General output directory
         type(string) :: casename            !< Name of the running case
     end type filenames_t
-    
+
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
@@ -183,6 +183,7 @@
         type(string) :: currents
         type(string) :: winds
         type(string) :: waves
+        type(string) :: waterProps
     contains
     end type dataTypes_t
 
@@ -296,9 +297,10 @@
     self%Sim%numoutfile = 0
     self%Sim%numTracer = 0
     !data types
-    self%DataTypes%currents = 'currents'
+    self%DataTypes%currents = 'hydrodynamic'
     self%DataTypes%winds = 'meteorology'
-    self%DataTypes%waves = 'waves'    
+    self%DataTypes%waves = 'waves'
+    self%DataTypes%waterProps = 'waterProperties'
     !Variable names
     call self%Var%buildvars()
 
@@ -414,7 +416,7 @@
     if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
         getVarSimName = self%v10
         return
-    end if    
+    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         getVarSimName = self%lon
@@ -937,7 +939,7 @@
     sizem = sizeof(self%BeachingLevel)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingLevel
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -958,7 +960,7 @@
     sizem = sizeof(self%BeachingStopProb)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingStopProb
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

@@ -13,7 +13,7 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="3DTagusWQ" type="currents"/>
+			<inputDataDir name="3DTagusWQ" type="hydrodynamic"/>
 		</inputData>
 		<simulation>
 			<resolution dp="150" units_comment="metres (m)"/>

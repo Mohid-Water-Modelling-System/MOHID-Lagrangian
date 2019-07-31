@@ -12,7 +12,7 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="hydrodynamic_input_data" type="currents"/>
+			<inputDataDir name="hydrodynamic_input_data" type="hydrodynamic"/>
 		</inputData>
 		<simulation>
 			<resolution dp="1500" units_comment="metres (m)"/>
