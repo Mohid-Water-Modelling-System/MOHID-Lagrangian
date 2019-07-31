@@ -45,12 +45,14 @@
 
     type :: input_streamer_class        !< Input Streamer class
         logical :: useInputFiles
-        type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile !< array of input file metadata for currents
-        type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile !< array of input file metadata for currents
-        type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile !< array of input file metadata for currents
+        type(inputFileModel_class), allocatable, dimension(:) :: currentsInputFile      !< array of input file metadata for currents
+        type(inputFileModel_class), allocatable, dimension(:) :: windsInputFile         !< array of input file metadata for winds
+        type(inputFileModel_class), allocatable, dimension(:) :: wavesInputFile         !< array of input file metadata for waves
+        type(inputFileModel_class), allocatable, dimension(:) :: waterPropsInputFile    !< array of input file metadata for water properties
         real(prec) :: lastCurrentsReadTime
         real(prec) :: lastWindsReadTime
         real(prec) :: lastWavesReadTime
+        real(prec) :: lastWaterPropsReadTime
         integer :: nFileTypes
         real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
         integer :: currentsBkgIndex, windsBkgIndex, wavesBkgIndex
@@ -60,6 +62,7 @@
     procedure, private :: getCurrentsFile
     procedure, private :: getWindsFile
     procedure, private :: getWavesFile
+    procedure, private :: getWaterPropsFile
     procedure, private :: resetReadStatus
     procedure :: print => printInputStreamer
     end type input_streamer_class
@@ -171,6 +174,34 @@
     getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)
 
     end function getWavesFile
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a
+    !> water properties input file (temperature, density, salinity)
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getWaterPropsFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+
+    allocate(varList(3))
+    allocate(syntecticVar(3))
+    varList(1) = Globals%Var%temp
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%sal
+    syntecticVar(2) = .false.
+    varList(3) = Globals%Var%density
+    syntecticVar(3) = .false.
+
+    !need to send to different readers here if different file formats
+    getWaterPropsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+
+    end function getWaterPropsFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
