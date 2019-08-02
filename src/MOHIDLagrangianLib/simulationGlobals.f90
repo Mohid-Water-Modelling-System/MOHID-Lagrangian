@@ -761,17 +761,17 @@
         sizem=sizeof(self%OutputWriteTime)
     elseif(parmkey%chars()=="Start") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        self%StartTime = Utils%getDateTimeFromDate(date)
         if (.not. self%StartTime%isValid()) self%StartTime = datetime()
         sizem=sizeof(self%StartTime)
     elseif(parmkey%chars()=="End") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        self%EndTime = Utils%getDateTimeFromDate(date)
         if (.not. self%EndTime%isValid()) self%EndTime = datetime()
         sizem=sizeof(self%EndTime)
     elseif(parmkey%chars()=="BaseDateTime") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        self%BaseDateTime = Utils%getDateTimeFromDate(date)
         if (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
         sizem=sizeof(self%BaseDateTime)
     elseif(parmkey%chars()=="BufferSize") then

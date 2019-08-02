@@ -624,7 +624,7 @@
         call dc(4)%split(tokens=hours, sep=':')
         isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//hours(1)//' '//hours(2)//' '//hours(3)
         date = Utils%getDateFromISOString(isoDateStr)
-        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        NCDate = Utils%getDateTimeFromDate(date)
         dateOffset = Globals%SimTime%StartDate - NCDate
         offset = -dateOffset%total_seconds()
 
@@ -641,7 +641,7 @@
         call dc(3)%split(tokens=dates, sep='-')
         isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//'00'//' '//'00'//' '//'00'
         date = Utils%getDateFromISOString(isoDateStr)
-        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        NCDate = Utils%getDateTimeFromDate(date)
         dateOffset = Globals%SimTime%StartDate - NCDate
         offset = -dateOffset%total_seconds()
         
