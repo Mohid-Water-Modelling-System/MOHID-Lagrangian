@@ -99,14 +99,6 @@ class GridBasedMeasures:
     def get_pvd(self):
         self.pvd_data.get_vtu_file_info()
     
-    def netcdf_header(self):
-        coords = {'time':('time',self.time),
-                  'depth': ('depth',self.centers[0]),
-                  'latitude' : ('latitude', self.centers[1]),
-                  'longitude': ('longitude',self.centers[2]),
-                  }
-                  
-        self.ds = xr.Dataset(None,coords=coords)
         
     def get_time_axis(self):
         tree = ET.parse(self.xml_output_file)
@@ -137,9 +129,19 @@ class GridBasedMeasures:
                    np.arange(x_min,x_max,self.grid_steps[2])]
         
         self.centers = [(array[:-1] + array[1:])/2. for array in self.grid]
+        
+    
+    def netcdf_header(self):
+        coords = {'time':('time',self.time),
+                  'depth': ('depth',self.centers[0]),
+                  'latitude' : ('latitude', self.centers[1]),
+                  'longitude': ('longitude',self.centers[2]),
+                  }
+                  
+        self.ds = xr.Dataset(None,coords=coords)
     
     
-    def concentrations2D(self):
+    def concentrations_2d(self):
         nz,ny,nx = list(map(np.size,self.centers))
         nt = len(self.pvd_data.vtu_data)
         self.counts_t = np.zeros((nt,ny,nx))
@@ -158,7 +160,7 @@ class GridBasedMeasures:
         self.ds['residence_time_2d'] = (self.dims_2d[1:], self.residence_time)
     
     
-    def concentrations3D(self):
+    def concentrations_3d(self):
         nz,ny,nx = list(map(np.size,self.centers))
         nt = len(self.pvd_data.vtu_data)
         self.counts_t = np.zeros((nt,nz,ny,nx))
@@ -224,18 +226,17 @@ class GridBasedMeasures:
     
     def run_postprocessing(self):
         self.get_pvd()
-        self.get_netcdf_header()
         self.get_time_axis()
         self.get_domain_grid()
+        self.netcdf_header()
         self.concentrations_2d()
         self.to_netcdf()
         
 
-
-            
-
-def main():
-    post = GridBasedMeasures(sys.argv[0])
+def main(pvd_file):
+    post = GridBasedMeasures(pvd_file)
     post.run_postprocessing()
+
+main(sys.argv[0])
     
 
