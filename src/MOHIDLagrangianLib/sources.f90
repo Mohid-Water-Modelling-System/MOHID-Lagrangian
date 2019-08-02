@@ -33,8 +33,7 @@
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
         type(string) :: rate_file               !< File name of the emission rate data (csv)
         real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
-        real(prec) :: startime                  !< time to start emitting tracers
-        real(prec) :: stoptime                  !< time to stop emitting tracers        
+        logical, dimension(:), allocatable :: activeTime      !< array of logicals that maps active state for every dt
         type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
     end type source_par
@@ -44,7 +43,7 @@
         type(string) :: propertySubType         !< source property name
         logical :: particulate                  !< true for a Source that emitts particulate tracers (a concentration of particles)
         real(prec) :: radius                    !< radius of the emitted Tracers (size of the particle if not particulate, volume of the Tracer if particulate)
-        real(prec) :: density                   !< density of the Tracers        
+        real(prec) :: density                   !< density of the Tracers
         type(string), dimension(:), allocatable :: propName !< name of a given property
         real(prec), dimension(:), allocatable :: propValue  !< value of a given property
     end type source_prop
@@ -83,7 +82,8 @@
     procedure :: setPropertyAtribute
     procedure :: check
     procedure :: getVariableRate
-    procedure, private :: setVariableRate    
+    procedure, private :: setVariableRate
+    procedure, private :: setActiveTimes
     procedure, private :: setotalnp
     procedure, private :: linkProperty
     procedure :: print => printSource
@@ -196,7 +196,7 @@
         call Log%put(outext,.false.)
     endif
     end subroutine setPropertyNames
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -207,11 +207,11 @@
     class(source_class), intent(inout) :: src
     integer, intent(in) :: nProps
     if(allocated(src%prop%propName)) deallocate(src%prop%propName)
-    if(allocated(src%prop%propValue)) deallocate(src%prop%propValue)    
+    if(allocated(src%prop%propValue)) deallocate(src%prop%propValue)
     allocate(src%prop%propName(nProps))
-    allocate(src%prop%propValue(nProps))    
+    allocate(src%prop%propValue(nProps))
     end subroutine setPropertyNumber
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -245,9 +245,9 @@
             src%prop%particulate = .true.
         end if
     case ('radius')
-        src%prop%radius = pvalue%to_number(kind=1._R4P)    
+        src%prop%radius = pvalue%to_number(kind=1._R4P)
     case ('density')
-        src%prop%density = pvalue%to_number(kind=1._R4P)    
+        src%prop%density = pvalue%to_number(kind=1._R4P)
         case default
         outext='[Sources::setPropertyBaseAtribute]: unexpected atribute '//pname//' for property '//src%prop%propertySubType//', ignoring'
         call Log%put(outext)
@@ -270,7 +270,7 @@
         temp(2) = 'radius'
     elseif (self%prop%density == MV) then
         failed = .true.
-        temp(2) = 'density'    
+        temp(2) = 'density'
     end if
     if (failed) then
         outext = 'Property '//temp(2)//' from Source id = '//temp(1)//' is not set, stoping'
@@ -282,7 +282,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that reads a csv file with variable emission rate data, allocates 
+    !> Method that reads a csv file with variable emission rate data, allocates
     !> the space, and stores the data in the Source.
     !> @param[in] self, filename
     !---------------------------------------------------------------------------
@@ -308,7 +308,7 @@
         stime(i)=Globals%SimDefs%dt*(i-1)
     end do
     do i=1, size(stime)
-        if (stime(i)<time(1)) then 
+        if (stime(i)<time(1)) then
             srate(i) = 0.0
         else
             do index=1, size(time)-1
@@ -326,12 +326,12 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that sets the rate for the current time step, in case of a variable 
+    !> Method that sets the rate for the current time step, in case of a variable
     !> rate.
     !> @param[in] self, index
     !---------------------------------------------------------------------------
     subroutine getVariableRate(self, index)
-    class(source_class), intent(inout) :: self        
+    class(source_class), intent(inout) :: self
     integer :: index
     type(string) :: outext
     self%par%emitting_rate = self%par%variable_rate(min(index,size(self%par%variable_rate)))
@@ -340,18 +340,42 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Method that sets active times logical array of the Source.
+    !> @param[in] self, activeTimes
+    !---------------------------------------------------------------------------
+    subroutine setActiveTimes(self, activeTimes)
+    class(source_class), intent(inout) :: self
+    real(prec), dimension(:,:), intent(in) :: activeTimes
+    integer :: i, j
+    real(prec) :: time
+    allocate(self%par%activeTime(int(Globals%Parameters%TimeMax/Globals%SimDefs%dt)+1))
+    self%par%activeTime = .false.
+    do i=1, size(self%par%activeTime)
+        time = i*Globals%SimDefs%dt
+        do j=1, size(activeTimes, 1)
+            if (time >= activeTimes(j,1)) then
+                if (time <= activeTimes(j,2)) then
+                    self%par%activeTime(i) = .true.
+                end if
+            end if
+        end do
+    end do
+    end subroutine setActiveTimes
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype, res)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, activeTimes, source_geometry, shapetype, res)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
     real(prec), intent(in) :: emitting_rate
     logical, intent(in) :: emitting_fixed_rate
     type(string), intent(in) :: rate_file
-    real(prec), intent(in) :: start
-    real(prec), intent(in) :: finish
+    real(prec), dimension(:,:), intent(in) :: activeTimes
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: shapetype
     type(vector), intent(in) :: res
@@ -369,8 +393,7 @@
         call src%setVariableRate(src%par%rate_file)
         call src%getVariableRate(Globals%Sim%getnumdt())
     end if
-    src%par%startime=start
-    src%par%stoptime=finish
+    if (size(activeTimes,1)>0) call src%setActiveTimes(activeTimes)
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=shapetype)
     !Setting properties
@@ -378,7 +401,7 @@
     src%prop%propertySubType = "base"
     src%prop%particulate = .false.
     src%prop%radius = MV
-    src%prop%density = MV    
+    src%prop%density = MV
     !Setting state variables
     src%now%age=0.0
     src%now%active=.false. !disabled by default
@@ -430,7 +453,7 @@
     subroutine setotalnp(self)
     implicit none
     class(source_class), intent(inout) :: self
-    self%stencil%total_np=int((self%par%stoptime-self%par%startime)*self%par%emitting_rate*self%stencil%np)
+    self%stencil%total_np=int(count(self%par%activeTime)*Globals%SimDefs%dt*self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 
     !---------------------------------------------------------------------------
@@ -455,14 +478,11 @@
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
     temp_str(1)=src%stencil%np
     if (src%par%emitting_fixed_rate) then
-        temp_str(2)=src%par%emitting_rate        
-        outext = outext//'       Emitting '//temp_str(1)//' tracers at '//temp_str(2)//' Hz'//new_line('a')
+        temp_str(2)=src%par%emitting_rate
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at '//temp_str(2)//' Hz'
     else
-        outext = outext//'       Emitting '//temp_str(1)//' tracers at a rate defined in '//src%par%rate_file//new_line('a')
-    end if
-    temp_str(1)=src%par%startime
-    temp_str(2)=src%par%stoptime
-    outext = outext//'       Active from '//temp_str(1)//' to '//temp_str(2)//' seconds'
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at a rate defined in '//src%par%rate_file
+    end if    
     call Log%put(outext,.false.)
     end subroutine printSource
 
