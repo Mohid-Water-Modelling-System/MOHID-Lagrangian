@@ -70,7 +70,7 @@
             getDateFromISOString(i) = dc(i)%to_number(kind=1._R4P)
         end do
     else
-        outext = '[Utils::getDateFromISOString] Date '// dateStr //' not in correct format. Eg. "2009 3 1 0 0 0"'
+        outext = '[Utils::getDateFromISOString] Date '// dateStr //' not in correct format. Eg. "2009 03 01 00 00 00"'
         call Log%put(outext)
         stop
     end if
