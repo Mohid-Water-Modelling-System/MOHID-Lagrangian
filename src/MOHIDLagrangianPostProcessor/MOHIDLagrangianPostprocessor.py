@@ -55,6 +55,7 @@ import xarray as xr
 class VTUParser:
     def __init__(self,vtu_file):
         self.vtu_file = vtu_file
+        self.part_vars = ['age','id','landIntMask','source','velocity']
         
     def points(self):
         reader = vtk.vtkXMLUnstructuredGridReader()
@@ -62,6 +63,19 @@ class VTUParser:
         reader.Update()
         my_vtk_array = reader.GetOutput().GetPoints().GetData()
         return vtk_to_numpy(my_vtk_array)
+    
+    def variables(self):
+        reader = vtk.vtkXMLUnstructuredGridReader()
+        reader.SetFileName(self.vtu_file)
+        reader.Update()
+       
+        vtu_vars = {}
+        for var in self.part_vars.keys():
+            vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
+        
+        return vtu_vars
+        
+        
     
         
 class PVDParser:
@@ -79,7 +93,7 @@ class PVDParser:
         for vtu_file in self.vtu_list:
             self.files.append(vtu_file.attrib['file'])
             self.timesteps.append(vtu_file.attrib['timestep'])
-            self.vtu_data.append(VTUParser(vtu_file.attrib['file']))             
+            self.vtu_data.append(VTUParser(vtu_file.attrib['file'])) 
     
 
 class GridBasedMeasures:
