@@ -96,9 +96,10 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
 
-    allocate(requiredVars(2))
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%landMask
     requiredVars(2) = Globals%Var%landIntMask
+    requiredVars(3) = Globals%Var%resolution
 
     !interpolate each background
     do bkg = 1, size(bdata)
@@ -118,14 +119,15 @@
 
                 !update land mask status
                 nf = Utils%find_str(var_name, Globals%Var%landMask)
-                if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
-                if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
+                sv%landMask = nint(var_dt(:,nf))
                 !marking tracers for deletion because they are in land
                 where(sv%landMask == 2) sv%active = .false.
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
-                if (nf /= MV_INT) sv%landIntMask = var_dt(:,nf)
-                if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
+                sv%landIntMask = var_dt(:,nf)                
+                !update resolution proxy
+                nf = Utils%find_str(var_name, Globals%Var%resolution)
+                sv%resolution = var_dt(:,nf)
 
                 deallocate(var_dt)
                 deallocate(var_name)
