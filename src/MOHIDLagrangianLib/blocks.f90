@@ -335,8 +335,9 @@
             allocate(self%BlockState(i)%id(self%trcType(i,2)))
             allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
             self%BlockState(i)%landMask = Globals%Mask%waterVal
-            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))
+            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))            
             self%BlockState(i)%landIntMask = Globals%Mask%waterVal
+            allocate(self%BlockState(i)%resolution(self%trcType(i,2)))
         end do
         call self%LTracer%reset()                   ! reset list iterator
         do while(self%LTracer%moreValues())         ! loop while there are values
