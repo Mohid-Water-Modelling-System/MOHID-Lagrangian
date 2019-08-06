@@ -167,7 +167,6 @@
     do i = 1, size(gfield)
         call getFullFile%add(gfield(i))
         !call gfield(i)%print()
-        call gfield(i)%finalize()
     end do
     !call getFullFile%print()
     end function getFullFile
