@@ -12,7 +12,7 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="nc_fields" type="currents"/>
+			<inputDataDir name="nc_fields" type="hydrodynamic"/>
 		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
@@ -34,16 +34,18 @@
 			<source>
 				<setsource id="2" name="ReleaseLine10" />
 				<rate value="0.001" comment="emission rate (Hz)" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="0" end="5000" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="10000" end="20000" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="2018 01 12 00 00 00" end="2018 02 25 00 00 00" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="2018 02 02 00 00 00" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<line>
 					<pointa x="-8.88" y="42.5" z="0" units_comment="(deg,deg,m)"/>
 					<pointb x="-8.87" y="42.525" z="0" units_comment="(deg,deg,m)"/>
 				</line>        
 			</source>
 			<source>
-				<setsource id="3" name="ReleaseBox17" />
+				<setsource id="3" name="ReleasePoint17" />
 				<rate_file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>        
 			</source>
 		</sourceDefinitions>

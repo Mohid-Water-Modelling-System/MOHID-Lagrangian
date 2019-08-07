@@ -137,7 +137,7 @@
     type(string) :: outext, temp
 
     !PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id
-    select case (src%prop%property_type%chars())
+    select case (src%prop%propertyType%chars())
     case ('base')
         allocate(trc, source = Tracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p)) !Beacause ifort 2017 is not F2008 compliant...
         !trc = Tracer(1, src, Globals%Time%CurrTime, p) !Otherwise instinsic allocation would be enough and more readable, like this. Compiles fine in GFortran
@@ -146,7 +146,7 @@
     case ('plastic')
         allocate(trc, source = plasticTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
         case default
-        outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%property_type
+        outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%propertyType
         call Log%put(outext)
         stop
     end select

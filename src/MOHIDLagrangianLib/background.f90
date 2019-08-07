@@ -82,14 +82,30 @@
     subroutine addField(self, gfield)
     class(background_class), intent(inout) :: self
     type(generic_field_class), intent(in) :: gfield
-    if (allocated(gfield%scalar1d%field)) call self%fields%add(gfield%scalar1d)
-    if (allocated(gfield%scalar2d%field)) call self%fields%add(gfield%scalar2d)
-    if (allocated(gfield%scalar3d%field)) call self%fields%add(gfield%scalar3d)
-    if (allocated(gfield%scalar4d%field)) call self%fields%add(gfield%scalar4d)
-    if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)
-    if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)
-    if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)
-    if(self%variables%notRepeated(gfield%name)) call self%variables%add(gfield%name)
+    logical :: added
+    added = .false.
+    if (allocated(gfield%scalar1d%field)) then
+        call self%fields%add(gfield%scalar1d)
+        added = .true.
+    end if
+    if (allocated(gfield%scalar2d%field)) then
+        call self%fields%add(gfield%scalar2d)
+        added = .true.
+    end if
+    if (allocated(gfield%scalar3d%field)) then
+        call self%fields%add(gfield%scalar3d)
+        added = .true.
+    end if
+    if (allocated(gfield%scalar4d%field)) then
+        call self%fields%add(gfield%scalar4d)
+        added = .true.
+    end if
+    !if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)
+    !if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)
+    !if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)
+    if (added) then
+        if(self%variables%notRepeated(gfield%name)) call self%variables%add(gfield%name)
+    end if
     end subroutine addField
 
     !---------------------------------------------------------------------------

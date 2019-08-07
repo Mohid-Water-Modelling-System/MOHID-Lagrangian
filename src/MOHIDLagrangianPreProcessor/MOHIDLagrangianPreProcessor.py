@@ -100,18 +100,22 @@ def run():
     inputFileCurrents = []
     inputFileWinds = []
     inputFileWaves = []
+    inputFileWaterProps = []
     for idir in dataList:
         for ext in fileExtensions:
-            if idir[1] == 'currents':
+            if idir[1] == 'hydrodynamic':
                 inputFileCurrents.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
             if idir[1] == 'waves':
                 inputFileWaves.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
             if idir[1] == 'meteorology':
                 inputFileWinds.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+            if idir[1] == 'waterProperties':
+                inputFileWaterProps.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
     #cleaning list of empty values
     inputFileCurrents = list(filter(None, inputFileCurrents))
     inputFileWinds = list(filter(None, inputFileWinds))
     inputFileWaves = list(filter(None, inputFileWaves))
+    inputFileWaterProps = list(filter(None, inputFileWaterProps))
     
     #going for each input directory and indexing its files
     inputFiles = []
@@ -121,14 +125,14 @@ def run():
     #cleaning list of empty values
     inputFiles = list(filter(None, inputFiles))
     
-    nInputs = len(inputFileCurrents) + len(inputFileWinds) + len(inputFileWaves)
+    nInputs = len(inputFileCurrents) + len(inputFileWinds) + len(inputFileWaves) + len(inputFileWaterProps)
     if nInputs == 0:
         print('No input files found. Supported files are ', fileExtensions)
     else:    
         indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
         indexer = xmlWriter.xmlWriter(indexerFileName)
-        inputFile = [inputFileCurrents, inputFileWaves, inputFileWinds]
-        inputType = ['currents', 'waves', 'meteorology']
+        inputFile = [inputFileCurrents, inputFileWaves, inputFileWinds, inputFileWaterProps]
+        inputType = ['hydrodynamic', 'waves', 'meteorology', 'waterProperties']
 		
 		#going trough every file, extracting some metadata and writting in the indexer file, for each file type
         i=0

@@ -21,6 +21,7 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
+    use datetime_module
     use simulationPrecision_mod
     use simulationLogger_mod
 
@@ -30,6 +31,8 @@
     type :: utils_class
     contains
     procedure :: getDateFromISOString
+    procedure :: getRelativeTimeFromString
+    procedure :: getDateTimeFromDate
     procedure :: find_str
     procedure :: geo2m_vec, geo2m_comp
     generic   :: geo2m => geo2m_vec, geo2m_comp
@@ -49,6 +52,54 @@
     public :: Utils
 
     contains
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Function that returns a real with a time in seconds of a given date 
+    !> string, counting from a given date.
+    !> @param[in] self, dateStr
+    !---------------------------------------------------------------------------
+    real(prec) function getRelativeTimeFromString(self, dateStr, RefDate)
+    class(utils_class), intent(in) :: self
+    type(string), intent(in) :: dateStr
+    type(datetime), intent(in) :: RefDate
+    type(string), allocatable :: dc(:)
+    integer, dimension(6) :: AbsoluteDateStr
+    type(datetime) :: AbsoluteDate
+    type(timedelta) :: delta
+    
+    call dateStr%split(tokens=dc, sep=' ')
+    if (size(dc) > 1) then
+        AbsoluteDateStr = self%getDateFromISOString(dateStr)
+        AbsoluteDate = self%getDateTimeFromDate(AbsoluteDateStr)
+        delta = AbsoluteDate - RefDate
+        getRelativeTimeFromString = delta%total_seconds()
+    else
+        getRelativeTimeFromString = dateStr%to_number(kind=1._R4P)
+    end if
+    
+    end function getRelativeTimeFromString
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Function that returns a real with a time in seconds of a given date 
+    !> string, counting from a given date.
+    !> @param[in] self, dateArray
+    !---------------------------------------------------------------------------
+    type(datetime) function getDateTimeFromDate(self, dateArray)
+    class(utils_class), intent(in) :: self
+    integer, dimension(6), intent(in) :: dateArray
+    type(string) :: outext
+    if (size(dateArray) == 6) then
+        getDateTimeFromDate = datetime(dateArray(1), dateArray(2), dateArray(3), dateArray(4), dateArray(5), dateArray(6))
+    else
+        outext = '[Utils::getDateTimeFromDate] Array is not the correct size, check iso date specs. Stopping'
+        call Log%put(outext)
+        stop
+    end if
+    end function getDateTimeFromDate
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -70,7 +121,7 @@
             getDateFromISOString(i) = dc(i)%to_number(kind=1._R4P)
         end do
     else
-        outext = '[Utils::getDateFromISOString] Date '// dateStr //' not in correct format. Eg. "2009 3 1 0 0 0"'
+        outext = '[Utils::getDateFromISOString] Date '// dateStr //' not in correct format. Eg. "2009 03 01 00 00 00"'
         call Log%put(outext)
         stop
     end if

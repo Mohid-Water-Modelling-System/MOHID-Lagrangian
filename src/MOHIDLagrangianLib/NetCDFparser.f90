@@ -128,13 +128,10 @@
     do i=1, size(syntecticVar)
         if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
             call ncFile%getVarDimensions(varList(i), backgrounDims)
-            if (.not.allocated(backgrounDims)) then
-                outext = '[ncReader_class::getFullFile]: dimensions in file are not well set, stopping'
-                call Log%put(outext)
-                stop
-            end if
-            realVarIdx = i
-            exit
+            if (allocated(backgrounDims)) then
+                realVarIdx = i
+                exit
+            end if            
         end if
     end do
     if (realVarIdx /= 0) then
@@ -627,7 +624,7 @@
         call dc(4)%split(tokens=hours, sep=':')
         isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//hours(1)//' '//hours(2)//' '//hours(3)
         date = Utils%getDateFromISOString(isoDateStr)
-        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        NCDate = Utils%getDateTimeFromDate(date)
         dateOffset = Globals%SimTime%StartDate - NCDate
         offset = -dateOffset%total_seconds()
 
@@ -644,7 +641,7 @@
         call dc(3)%split(tokens=dates, sep='-')
         isoDateStr = dates(1)//' '//dates(2)//' '//dates(3)//' '//'00'//' '//'00'//' '//'00'
         date = Utils%getDateFromISOString(isoDateStr)
-        NCDate = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        NCDate = Utils%getDateTimeFromDate(date)
         dateOffset = Globals%SimTime%StartDate - NCDate
         offset = -dateOffset%total_seconds()
         

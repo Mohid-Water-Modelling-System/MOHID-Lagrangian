@@ -109,13 +109,6 @@
         type(string) :: casename            !< Name of the running case
     end type filenames_t
 
-    type src_parm_t   !<Lists for Source parameters
-        type(string), allocatable, dimension(:) :: baselist !<Lists for base tracer parameters
-        type(string), allocatable, dimension(:) :: particulatelist  !<List for parameters of particulate type tracers
-    contains
-    procedure :: buildlists
-    end type
-
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
@@ -190,6 +183,7 @@
         type(string) :: currents
         type(string) :: winds
         type(string) :: waves
+        type(string) :: waterProps
     contains
     end type dataTypes_t
 
@@ -211,7 +205,6 @@
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
-        type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
@@ -304,11 +297,10 @@
     self%Sim%numoutfile = 0
     self%Sim%numTracer = 0
     !data types
-    self%DataTypes%currents = 'currents'
+    self%DataTypes%currents = 'hydrodynamic'
     self%DataTypes%winds = 'meteorology'
     self%DataTypes%waves = 'waves'
-    !Source parameters list
-    call self%SrcProp%buildlists()
+    self%DataTypes%waterProps = 'waterProperties'
     !Variable names
     call self%Var%buildvars()
 
@@ -424,7 +416,7 @@
     if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
         getVarSimName = self%v10
         return
-    end if    
+    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         getVarSimName = self%lon
@@ -738,25 +730,6 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to build the parameters list of the Sources
-    !---------------------------------------------------------------------------
-    subroutine buildlists(self)
-    implicit none
-    class(src_parm_t), intent(inout) :: self
-    allocate(self%baselist(5))
-    self%baselist(1) = 'particulate'
-    self%baselist(2) = 'density'
-    self%baselist(3) = 'radius'
-    self%baselist(4) = 'condition'
-    self%baselist(5) = 'degradation_rate'
-    allocate(self%particulatelist(2))
-    self%particulatelist(1) = 'intitial_concentration'
-    self%particulatelist(2) = 'particle_radius'
-    end subroutine buildlists
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
     !> Private parameter setting method. Builds the simulation parametric space
     !> from the input case file.
     !> @param[in] self, parmkey, parmvalue
@@ -788,17 +761,17 @@
         sizem=sizeof(self%OutputWriteTime)
     elseif(parmkey%chars()=="Start") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        self%StartTime = Utils%getDateTimeFromDate(date)
         if (.not. self%StartTime%isValid()) self%StartTime = datetime()
         sizem=sizeof(self%StartTime)
     elseif(parmkey%chars()=="End") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        self%EndTime = Utils%getDateTimeFromDate(date)
         if (.not. self%EndTime%isValid()) self%EndTime = datetime()
         sizem=sizeof(self%EndTime)
     elseif(parmkey%chars()=="BaseDateTime") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
+        self%BaseDateTime = Utils%getDateTimeFromDate(date)
         if (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
         sizem=sizeof(self%BaseDateTime)
     elseif(parmkey%chars()=="BufferSize") then
@@ -966,7 +939,7 @@
     sizem = sizeof(self%BeachingLevel)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingLevel
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -987,7 +960,7 @@
     sizem = sizeof(self%BeachingStopProb)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingStopProb
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

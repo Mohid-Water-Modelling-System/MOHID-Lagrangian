@@ -45,13 +45,14 @@
     !---------------------------------------------------------------------------
     subroutine linkPropertySources(linksNode)
     type(Node), intent(in), pointer :: linksNode
-
     type(NodeList), pointer :: linkList
     type(Node), pointer :: anode
+    type(Node), pointer :: aProp
     type(Node), pointer :: xmlProps                   !< .xml file handle
+    type(NodeList), pointer :: propertyList        !< Node list for parameters
     type(string) :: xmlfilename, outext
-    integer :: i, p
-    type(string) :: att_name, att_val, tag
+    integer :: i, p, j
+    type(string) :: att_name, att_val, tag, propKey, propValue
     type(string) :: sourceid, sourcetype, sourceprop
 
     linkList => getElementsByTagname(linksNode, "type")
@@ -78,23 +79,31 @@
     !find and set the actual atributes of the properties
     att_name="value"
     do i = 1, size(tempSources%src)
-        tag = tempSources%src(i)%prop%property_type
+        tag = tempSources%src(i)%prop%propertyType
         if (tag .ne. 'base') then
             call XMLReader%gotoNode(xmlProps,anode,tag) !finding the material type node
-            tag = tempSources%src(i)%prop%property_name
+            tag = tempSources%src(i)%prop%propertySubType
             call XMLReader%gotoNode(anode,anode,tag)     !finding the actual material node
-            do p = 1, size(Globals%SrcProp%baselist)
-                call XMLReader%getNodeAttribute(anode, Globals%SrcProp%baselist(p), att_name, att_val)
-                call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%baselist(p), att_val)
+            propertyList => getElementsByTagname(anode, "property")        !searching for tags with the 'property' name
+            call tempSources%src(i)%setPropertyNumber(getLength(propertyList))
+            do j = 0, getLength(propertyList) - 1                          !extracting property tags one by one
+                aProp => item(propertyList, j)
+                att_name="key"
+                call XMLReader%getLeafAttribute(aProp,att_name,propKey)
+                att_name="value"
+                call XMLReader%getLeafAttribute(aProp,att_name,propValue)
+                call tempSources%src(i)%setPropertyAtribute(j+1, propKey, propValue)
             end do
-            if (tempSources%src(i)%isParticulate()) then
-                do p = 1, size(Globals%SrcProp%particulatelist)
-                    call XMLReader%getNodeAttribute(anode, Globals%SrcProp%particulatelist(p), att_name, att_val)
-                    call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%particulatelist(p), att_val)
-                end do
-            end if
-            !Run integrety check on the properties to see if Source is well defined
-            call tempSources%src(i)%check()
+            tag = 'particulate'
+            att_name="value"
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'density'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'radius'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)           
         end if
     end do
     outext='-->Sources properties are set'
@@ -225,17 +234,20 @@
     type(string) :: outext
     type(NodeList), pointer :: sourceList           !< Node list for sources
     type(NodeList), pointer :: sourceChildren       !< Node list for source node children nodes
+    type(NodeList), pointer :: activeList
+    type(Node), pointer :: activeIntervalNode
     type(Node), pointer :: sourcedef
     type(Node), pointer :: source_node              !< Single source block to process
     type(Node), pointer :: source_detail
-    integer :: i, j
+    integer :: i, j, k
     logical :: readflag
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
-    real(prec) :: emitting_rate, start, finish
+    real(prec) :: emitting_rate, start, finish, temp
     logical :: emitting_fixed
     class(shape), allocatable :: source_shape
     type(vector) :: res
+    real(prec), dimension(:,:), allocatable :: activeTimes
 
     res = 0.0
     rate_file = 'not_set'
@@ -287,22 +299,25 @@
         if (readflag) then
             rate_file = att_val
             emitting_fixed = .false.
-        end if
-        tag="active"
-        att_name="start"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag) then
-            start = att_val%to_number(kind=1._R4P)
-        else
-            start = 0.0
-        end if
-        att_name="end"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag.and.att_val%is_number()) then
-            finish = att_val%to_number(kind=1._R4P)
-        else
-            finish = Globals%Parameters%TimeMax
-        end if
+        end if        
+        !Possible list of active intervals, and these might be in absolute dates or relative to sim time
+        activeList => getElementsByTagname(source_node, "active")
+        allocate(activeTimes(getLength(activeList),2))
+        do k = 0, getLength(activeList) - 1
+            activeIntervalNode => item(activeList, k)
+            att_name="start"
+            call XMLReader%getLeafAttribute(activeIntervalNode,att_name,att_val)
+            temp = Utils%getRelativeTimeFromString(att_val, Globals%SimTime%StartDate)
+            activeTimes(k+1,1) = temp
+            att_name="end"
+            call XMLReader%getLeafAttribute(activeIntervalNode,att_name,att_val)
+            if (att_val == 'end') then
+                temp = Globals%Parameters%TimeMax
+            else
+                temp = Utils%getRelativeTimeFromString(att_val, Globals%SimTime%StartDate)
+            end if
+            activeTimes(k+1,2) = temp
+        end do
         !now we need to find out the geometry of the source and read accordingly
         sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
         do i=0, getLength(sourceChildren)-1
@@ -315,9 +330,10 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape, res)
+        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,activeTimes,source_geometry,source_shape, res)
 
         deallocate(source_shape)
+        deallocate(activeTimes)
     enddo
 
     end subroutine init_sources
@@ -431,9 +447,7 @@
     !> @param[in] execution_node
     !---------------------------------------------------------------------------
     subroutine init_parameters(execution_node)
-    implicit none
     type(Node), intent(in), pointer :: execution_node
-
     type(string) :: outext
     type(NodeList), pointer :: parameterList        !< Node list for parameters
     type(Node), pointer :: parmt, parameters_node
