@@ -779,7 +779,7 @@
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
     real(prec), allocatable, dimension(:) :: rest
     integer :: i
-    real(prec) ::fmin, fmax, eta
+    real(prec) ::fmin, fmax, eta,dreg
     integer :: f_1,f_N
     allocate(self%dim, source = dims)
     allocate(self%regularDim(size(dims)))
@@ -788,9 +788,9 @@
         fmin = minval(self%dim(i)%field)
         fmax = maxval(self%dim(i)%field)
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
+        dreg = (fmax-fmin)/(size(self%dim(i)%field))
         allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
-        self%regularDim(i) = all(rest(1)+eta > rest)
-        self%regularDim(i) = all(rest(1)-eta < rest)
+        self%regularDim(i) = all(abs(rest - dreg) > abs(eta))
         deallocate(rest)
     end do
     end subroutine setDims
