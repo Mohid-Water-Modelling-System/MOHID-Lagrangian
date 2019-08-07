@@ -307,15 +307,15 @@
                         !need to check for 'level' variable specific issues
 
                         !@Daniel
-                        ! The search cell method to interpolate uses the lower bound data and the 1 index
-                        ! as a reference to locate the right cell in time, longitude and latitude axis.
-                        ! To be consistent, the cell search in depth dimension must be done in the same way.
-                        ! That means:
-                        ! The lower bound (maximum depth) must be in the 1 index and growing up till the surface (minimum depth).
+                        ! To interpolate on regular meshes, the search cell method uses the lower bound data and the 1 index
+                        ! as a reference to locate the point inside the data cell in time, longitude and latitude axis.
+                        ! To be consistent, the cell search in depth dimension must be done in the same way. It means:
+                        ! The lower bound in depth axis (maximum depth) must be in the 1 index (lower bound) and growing 
+                        ! up till the surface (minimum depth, upper bound) .
                         ! SO:
                         ! 0) index = (1,2,3,.....n),
-                        !    axis = (-bottom,..., +surface=0 )
-                        ! This translates into the two following conditions
+                        !    axis = (-bottom,..., +surface)
+                        ! To check this and adjust the data to this criteria, we need to check the two following conditions
 
                         if (dimName == Globals%Var%level) then
                             !1) The depth must decrease in absolute value. If it does not decrease, must be reversed.
