@@ -36,6 +36,7 @@
     procedure :: run => runKernel
     procedure, private :: setCommonProcesses
     procedure, private :: LagrangianKinematic
+    procedure, private :: DiffusionMixingLength
     procedure, private :: DiffusionIsotropic
     procedure, private :: StokesDrift
     procedure, private :: Windage
@@ -66,13 +67,13 @@
 
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
     end if
 
@@ -301,7 +302,7 @@
     end function Windage
 
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Beaching Kernel, uses the already updated state vector and determines if
     !> and how beaching occurs. Affects the state vector and state vector derivative.
@@ -342,7 +343,7 @@
     end function Beaching
 
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Aging kernel. Sets the age variable to be updated by dt by the solver
     !> @param[in] self
@@ -361,6 +362,84 @@
     Aging(:,nf) = 1.0
 
     end function Aging
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> mixing length diffusion kernel, computes random velocities at given 
+    !> instants to model diffusion processes. These are valid while the tracer
+    !> travels a given mixing length, propotional to the resolution of the 
+    !> background (and its ability to resove motion scales)
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function DiffusionMixingLength(self, sv, bdata, time, dt)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    real(prec), intent(in) :: dt
+    integer :: np, nf, bkg
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
+    real(prec), dimension(:), allocatable :: resolution
+    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v,rand_vel_w
+    real(prec) :: D = 0.5
+
+    allocate(requiredVars(1))
+    requiredVars(1) = Globals%Var%resolution
+
+    DiffusionMixingLength = 0.0
+    !interpolate each background
+    do bkg = 1, size(bdata)
+        if (bdata(bkg)%initialized) then
+            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+                np = size(sv%active) !number of Tracers
+                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                allocate(var_dt(np,nf))
+                allocate(var_name(nf))
+                
+                allocate(resolution(np))
+                allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
+                call random_number(rand_vel_u)
+                call random_number(rand_vel_v)
+                call random_number(rand_vel_w)
+                !interpolating all of the data
+                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+                !update resolution estimate
+                nf = Utils%find_str(var_name, Globals%Var%resolution, .true.)
+                resolution = var_dt(:,nf)
+                !if we are still in the same path, use the same random velocity, do nothing                
+                !if we ran the path, new random velocities are generated and placed
+                where (sv%state(:,10) > 2.0*resolution)
+                    DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*D*sv%state(:,4)/dt
+                    DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*D*sv%state(:,5)/dt
+                    DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*D*sv%state(:,6)/dt*0.01
+                    sv%state(:,10) = 0.0
+                elsewhere
+                    DiffusionMixingLength(:,7) = sv%state(:,7)/dt
+                    DiffusionMixingLength(:,8) = sv%state(:,8)/dt
+                    DiffusionMixingLength(:,9) = sv%state(:,9)/dt
+                end where
+                !update system velocities
+                !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
+                !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
+                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
+                !update system positions
+                DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7)*dt, sv%state(:,2), .false.)
+                DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8)*dt, sv%state(:,2), .true.)
+                DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
+                !update used mixing length
+                DiffusionMixingLength(:,9) = DiffusionMixingLength(:,7)*DiffusionMixingLength(:,7) + DiffusionMixingLength(:,8)*DiffusionMixingLength(:,8) + DiffusionMixingLength(:,9)*DiffusionMixingLength(:,9)
+                DiffusionMixingLength(:,9) = sqrt(DiffusionMixingLength(:,9))*dt               
+                deallocate(var_dt)
+                deallocate(var_name)
+            end if
+        end if
+    end do
+
+    end function DiffusionMixingLength
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
