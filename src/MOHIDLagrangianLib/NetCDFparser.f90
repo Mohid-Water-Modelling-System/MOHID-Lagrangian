@@ -306,41 +306,64 @@
                         !need to check for 'level' variable specific issues
 
                         !@Daniel
-                        ! We seek for: 0) index=(0, ...n), axis=(+surface=0 .... -bottom)
-                        ! Three situations:
-                        !     index=(0,1,2,    ...  n-1,n)
-                        ! 1)  axis=(-bottom, ... ,-surface)   --> Transform: reverse
-                        ! 2)  axis=(+bottom, ... , +bottom)  --> Transform: reverse and negate
-                        ! 3)  axis=(+surface, ... , +bottom)  --> Transform: negate
+                        ! To interpolate on regular meshes, the search cell method uses the lower bound data and the 1 index
+                        ! as a reference to locate the point inside the data cell in time, longitude and latitude axis.
+                        ! To be consistent, the cell search in depth dimension must be done in the same way. It means:
+                        ! The lower bound in depth axis (maximum depth) must be in the 1 index (lower bound) and growing 
+                        ! up till the surface (minimum depth, upper bound) .
+                        ! SO:
+                        ! 0) index = (1,2,3,.....n),
+                        !    axis = (-bottom,..., +surface)
+                        ! To check this and adjust the data to this criteria, we need to check the two following conditions
 
                         if (dimName == Globals%Var%level) then
-                            if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
-                                self%dimData(k)%reverse_axis = .false.
-                                self%dimData(k)%negate = .false.
-                            elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) < tempRealArray(size(tempRealArray))) then
-                                self%dimData(k)%reverse_axis = .true.
-                                self%dimData(k)%negate = .false.
-                                self%dimData(k)%reverse_axis = .true.
-                                !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong directon. Correcting...'
-                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) > tempRealArray(size(tempRealArray)))) then
-                                self%dimData(k)%reverse_axis = .false.
-                                self%dimData(k)%negate = .true.
-                                self%dimData(k)%reverse_data = .false.
-                                !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing/direction. Correcting...'
-                            elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
-                                self%dimData(k)%reverse_axis = .true.
-                                self%dimData(k)%negate = .true.
+                            !1) The depth must decrease in absolute value. If it does not decrease, must be reversed.
+                            ! |axis_i - axis_i+1| => 0
+
+                            if (all(abs(tempRealArray(:size(tempRealArray)-1) - tempRealArray(2:)) >= 0) .eqv. .false.)  then
                                 self%dimData(k)%reverse_data = .true.
-                                !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign. Correcting...'
+                                self%dimData(k)%reverse_axis = .true.
                             end if
 
                             if (self%dimData(k)%reverse_axis .eqv. .true.) then
                                 tempRealArray = tempRealArray(size(tempRealArray):1:-1)
                             end if
 
+                            !2) The axis must be negative and It grows to surface. If it does not grow, it must be negated.
+                            ! axis_i+1 > axis_i
+                            if (all(tempRealArray(2:) >= tempRealArray(:size(tempRealArray)-1)) .eqv. .false.) then
+                                self%dimData(k)%negate = .true.
+                            end if
+
                             if (self%dimData(k)%negate .eqv. .true.) then
                                 tempRealArray = -tempRealArray
                             end if
+
+
+                            ! if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) < tempRealArray(size(tempRealArray))) then
+                            !     self%dimData(k)%reverse_axis = .false.
+                            !     self%dimData(k)%negate = .false.
+                            !     self%dimData(k)%reverse_data = .false.
+                            ! elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
+                            !     self%dimData(k)%reverse_axis = .true.
+                            !     self%dimData(k)%negate = .false.
+                            !     self%dimData(k)%reverse_data = .true.
+                            !     !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong directon. Correcting...'
+                            ! elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) > tempRealArray(size(tempRealArray)))) then
+                            !     self%dimData(k)%reverse_axis = .false.
+                            !     self%dimData(k)%negate = .true.
+                            !     self%dimData(k)%reverse_data = .false.
+                            !     !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing/direction. Correcting...'
+                            ! elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
+                            !     self%dimData(k)%reverse_axis = .true.
+                            !     self%dimData(k)%negate = .true.
+                            !     self%dimData(k)%reverse_data = .true.
+                            !     !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign. Correcting...'
+                            ! end if
+
+
+
+
                         end if
                         !need to check for 'time' variable specific issues
                         if (dimName == Globals%Var%time) then
