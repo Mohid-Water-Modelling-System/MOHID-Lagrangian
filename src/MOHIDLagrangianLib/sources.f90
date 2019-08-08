@@ -334,7 +334,7 @@
     class(source_class), intent(inout) :: self
     integer :: index
     type(string) :: outext
-    self%par%emitting_rate = self%par%variable_rate(min(index,size(self%par%variable_rate)))
+    self%par%emitting_rate = self%par%variable_rate(max(1,min(index,size(self%par%variable_rate))))
     end subroutine getVariableRate
 
     !---------------------------------------------------------------------------
