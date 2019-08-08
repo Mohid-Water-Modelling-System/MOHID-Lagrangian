@@ -775,24 +775,24 @@
     !> @param[in] self, dims
     !---------------------------------------------------------------------------
     subroutine setDims(self, dims)
-    class(background_class), intent(inout) :: self
-    type(scalar1d_field_class), dimension(:), intent(in) :: dims
-    real(prec), allocatable, dimension(:) :: rest
-    integer :: i
-    real(prec) ::fmin, fmax, eta,dreg
-    integer :: f_1,f_N
-    allocate(self%dim, source = dims)
-    allocate(self%regularDim(size(dims)))
-    self%regularDim = .false.
-    do i=1, size(dims)
-        fmin = minval(self%dim(i)%field)
-        fmax = maxval(self%dim(i)%field)
-        eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
-        dreg = (fmax-fmin)/(size(self%dim(i)%field))
-        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
-        self%regularDim(i) = all(abs(rest - dreg) > abs(eta))
-        deallocate(rest)
-    end do
+        class(background_class), intent(inout) :: self
+        type(scalar1d_field_class), dimension(:), intent(in) :: dims
+        real(prec), allocatable, dimension(:) :: rest
+        integer :: i
+        real(prec) ::fmin, fmax, eta,dreg
+        integer :: f_1,f_N
+        allocate(self%dim, source = dims)
+        allocate(self%regularDim(size(dims)))
+        self%regularDim = .false.
+        do i=1, size(dims)
+            fmin = minval(self%dim(i)%field)
+            fmax = maxval(self%dim(i)%field)
+            eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
+            dreg = (fmax-fmin)/(size(self%dim(i)%field))
+            allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
+            self%regularDim(i) = all(abs(rest - dreg) > abs(eta))
+            deallocate(rest)
+        end do
     end subroutine setDims
 
     !---------------------------------------------------------------------------
