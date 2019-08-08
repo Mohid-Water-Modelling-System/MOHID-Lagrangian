@@ -60,7 +60,7 @@
     end interface
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -68,9 +68,9 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(plastic_class), intent(in) :: self
-    getNumVars = 11
+    getNumVars = 15
     end function getNumVars
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -86,13 +86,17 @@
     getStateArray(4) = self%now%vel%x
     getStateArray(5) = self%now%vel%y
     getStateArray(6) = self%now%vel%z
-    getStateArray(7) = self%now%age
-    getStateArray(8) = self%mnow%density
-    getStateArray(9) = self%mnow%radius
-    getStateArray(10) = self%mnow%condition
-    getStateArray(11) = self%mnow%concentration
+    getStateArray(7) = self%now%diffusionVel%x
+    getStateArray(8) = self%now%diffusionVel%y
+    getStateArray(9) = self%now%diffusionVel%z
+    getStateArray(10) = self%now%usedMixingLenght
+    getStateArray(11) = self%now%age
+    getStateArray(12) = self%mnow%density
+    getStateArray(13) = self%mnow%radius
+    getStateArray(14) = self%mnow%condition
+    getStateArray(15) = self%mnow%concentration
     end function getStateArray
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -108,11 +112,15 @@
     self%now%vel%x = StateArray(4)
     self%now%vel%y = StateArray(5)
     self%now%vel%z = StateArray(6)
-    self%now%age = StateArray(7)
-    self%mnow%density = StateArray(8)
-    self%mnow%radius = StateArray(9)
-    self%mnow%condition = StateArray(10)
-    self%mnow%concentration = StateArray(11)   
+    self%now%diffusionVel%z = StateArray(7)
+    self%now%diffusionVel%z = StateArray(8)
+    self%now%diffusionVel%z = StateArray(9)
+    self%now%usedMixingLenght = StateArray(10)
+    self%now%age   = StateArray(11)
+    self%mnow%density = StateArray(12)
+    self%mnow%radius = StateArray(13)
+    self%mnow%condition = StateArray(14)
+    self%mnow%concentration = StateArray(15)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -149,10 +157,10 @@
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
     !filling the rest of the varName list
-    constructor%varName(8) = Globals%Var%density
-    constructor%varName(9) = 'radius'
-    constructor%varName(10) = 'condition'
-    constructor%varName(11) = 'concentration'
+    constructor%varName(12) = Globals%Var%density
+    constructor%varName(13) = 'radius'
+    constructor%varName(14) = 'condition'
+    constructor%varName(15) = 'concentration'
     end function constructor
 
     end module tracerPlastic_mod
