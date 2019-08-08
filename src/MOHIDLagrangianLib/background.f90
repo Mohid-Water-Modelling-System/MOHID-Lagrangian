@@ -793,7 +793,7 @@
             self%regularDim(i) = all(abs(rest - dreg) > abs(eta))
             deallocate(rest)
         end do
-    end subroutine setDims
+        end subroutine setDims
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
