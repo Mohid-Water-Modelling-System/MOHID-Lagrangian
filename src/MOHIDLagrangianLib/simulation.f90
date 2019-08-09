@@ -426,8 +426,8 @@
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     outext='-->Sources allocated to their current Blocks'
     call Log%put(outext,.false.)
-    outext = ntrc
-    outext='-->'//outext//' Tracers on the emission stack'
+    !outext = ntrc
+    !outext='-->'//outext//' Tracers on the emission stack'
     call Log%put(outext,.false.)
     call self%setTracerMemory(ntrc)
     end subroutine setInitialState
