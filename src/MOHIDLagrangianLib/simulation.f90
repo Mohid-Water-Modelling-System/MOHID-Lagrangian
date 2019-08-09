@@ -428,7 +428,7 @@
     call Log%put(outext,.false.)
     !outext = ntrc
     !outext='-->'//outext//' Tracers on the emission stack'
-    call Log%put(outext,.false.)
+    !call Log%put(outext,.false.)
     call self%setTracerMemory(ntrc)
     end subroutine setInitialState
 
