@@ -319,8 +319,8 @@
             llbound(i) = uubound(i)
             uubound(i) = temp_int
         end if
-        llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
-        uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
+        llbound(i) = max(1, llbound(i)-2) !adding safety net to index bounds
+        uubound(i) = min(uubound(i)+2, size(self%dim(i)%field))
         call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
     end do
     !slicing variables
@@ -785,12 +785,13 @@
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
     do i=1, size(dims)
-        fmin = minval(self%dim(i)%field)
-        fmax = maxval(self%dim(i)%field)
+        fmin = self%dim(i)%getFieldMinBound() 
+        fmax = self%dim(i)%getFieldMaxBound()
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
         dreg = (fmax-fmin)/(size(self%dim(i)%field))
-        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
-        self%regularDim(i) = all(abs(rest - dreg) > abs(eta))
+        allocate(rest(size(self%dim(i)%field)-1))
+        rest = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1)
+        self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
         deallocate(rest)
     end do
     end subroutine setDims
