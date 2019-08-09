@@ -149,12 +149,7 @@
         aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
-            if (allocated(aSource%par%activeTime)) then
-                aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
-            else
-                aSource%now%active  = .true.
-            end if
-            
+            aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
             class default
             outext = '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
             call Log%put(outext)
