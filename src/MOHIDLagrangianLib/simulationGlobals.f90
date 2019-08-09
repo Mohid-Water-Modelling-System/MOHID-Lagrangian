@@ -88,12 +88,14 @@
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
+        real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
+    procedure :: setDiffusionCoeff
     procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
@@ -278,6 +280,7 @@
     self%Constants%Z0 = 0.0
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
+    self%Constants%DiffusionCoeff = 1.0
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
@@ -962,6 +965,27 @@
     sizem = sizeof(self%BeachingStopProb)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingStopProb
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Horizontal Diffusion coefficient setting routine.
+    !> @param[in] self, read_DiffusionCoeff
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionCoeff(self, read_DiffusionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionCoeff
+    type(string) :: outext
+    integer :: sizem
+    if (read_DiffusionCoeff%to_number(kind=1._R4P) < 0.0) then
+        outext='Diffusion coefficient must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%DiffusionCoeff =read_DiffusionCoeff%to_number(kind=1._R4P)
+    endif
+    sizem = sizeof(self%DiffusionCoeff)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionCoeff
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
