@@ -24,7 +24,7 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Box1" />
-				<resolution x="250" y="250" z="10" units_comment="metres (m)"/>
+				<resolution x="300" y="300" z="10" units_comment="metres (m)"/>
 				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
