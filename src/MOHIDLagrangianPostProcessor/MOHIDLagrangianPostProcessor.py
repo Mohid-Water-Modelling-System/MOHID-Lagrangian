@@ -8,10 +8,10 @@
 #    ! PROJECT       : MOHIDLagrangian
 #    ! URL           : http://www.mohid.com
 #    ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
-#    ! DATE          : April 2019
-#    ! REVISION      : Canelas 0.1
+#    ! DATE          : June 2019
+#    ! REVISION      : Garaboa 0.1
 #    !> @author
-#    !> Angel Daniel Garaboa Paz Canelas
+#    !> Angel Daniel Garaboa Paz
 #    !
 #    ! DESCRIPTION:
 #    ! Preprocessing script for MOHID Lagrangian. Lists input files, composes config 
@@ -20,7 +20,7 @@
 #    
 #    MIT License
 #    
-#    Copyright (c) 2018 RBCanelas
+#    Copyright (c) 2018 DGaraboa
 #    
 #    Permission is hereby granted, free of charge, to any person obtaining a copy
 #    of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,7 @@ import numpy as np
 import xarray as xr
 import os
 import sys
+from scipy.interpolate import griddata
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
 
@@ -58,7 +59,6 @@ class VTUParser:
         self.part_vars = ['coords','age','id','landIntMask','source','velocity']
         
     def points(self):
-        print('Reading vtu_file',self.vtu_file)
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.vtu_file)
         reader.Update()
@@ -299,6 +299,7 @@ class GridBasedMeasures:
     def concentrations(self):
         ds = xr.open_dataset(self.netcdf_output_file)
         
+        # Compute concentrations: total number of particles
         counts_t = self.counts()        
         conc_area = counts_t.sum(axis=1)/self.area
         conc_volume = counts_t/self.volume
@@ -306,7 +307,8 @@ class GridBasedMeasures:
         ds['concentration_area'] = (['time','latitude','longitude'], conc_area)
         ds['concentration_volume'] = (self.dims, conc_volume)
         
-                
+        
+        # Compute concentrations: particles of each source        
         for source in self.sources['id'].keys():
            
             counts_t = self.counts(source=source)
@@ -326,8 +328,51 @@ class GridBasedMeasures:
         return
 
         
+    def age(self):
+        
+        ds = xr.open_dataset(self.netcdf_output_file)
+        
+        # Compute concentrations: total number of particles
+        nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
+        nt = len(self.pvd_data.vtu_data)
+        age_t = np.zeros((nt,nz,ny,nx))
+        
+        grid = (self.grid['depth'],self.grid['latitude'],self.grid['longitude'])
+        
+        k=0
+        for vtu_step in self.pvd_data.vtu_data:
+                position = vtu_step.points()
+                r = np.c_[position['depth'], position['latitude'], position['longitude']]
+                age = position['age']
+                age_t[k] = griddata(r, age, grid, method='linear')
+                k = k + 1
+        
+        var_name = 'age_global'
+        ds[var_name] = (self.dims, age_t)
+        ds[var_name].attrs = {'long_name':'age', 'units':'s'}
+        ds.to_netcdf(self.netcdf_output_file,'a')
+        
+        
+        # COMPUTE AGE PER SOURCE
+        for source in self.sources['id'].keys():
             
- 
+            k=0
+            for vtu_step in self.pvd_data.vtu_data:
+                    position = vtu_step.points()
+                    source_mask = vtu_step.points()['source'] == int(source)
+                    r = np.c_[position['depth'], position['latitude'], position['longitude']]
+                    r = r[source_mask]
+                    age = position['age'][source_mask]
+                    age_t[k] = griddata(r, age, grid, method='linear')
+                    k = k + 1
+          
+            var_name ='age_source_' + source.zfill(3)
+            ds[var_name] = (self.dims[1:],age_t)
+            ds[var_name].attrs = {'long_name':'age', 'units':'s'}
+            ds.to_netcdf(self.netcdf_output_file,'a')
+            
+        
+
     def run_postprocessing(self,measures):
         self.get_pvd()
         self.get_time_axis()
@@ -339,6 +384,8 @@ class GridBasedMeasures:
             self.concentrations()
         if 'residence_time' in measures:
             self.residence_time()
+        if 'age' in measures:
+            self.age()
 
         
 

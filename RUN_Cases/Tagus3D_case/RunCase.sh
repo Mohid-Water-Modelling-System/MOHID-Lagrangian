@@ -33,6 +33,12 @@ if [ $errcode -eq 0 ]; then
 fi
 
 
+cd $dirout
+postprocessorDir=../../../src/MOHIDLagrangianPostProcessor
+mohidPostprocessor=${postprocessorDir}/MOHIDLagrangianPostProcessor.py
+python $mohidPostprocessor ${name}.xml concentrations residence_time age
+
+
 if [ $errcode -eq 0 ]; then
   echo All done
 else
@@ -40,8 +46,3 @@ else
 fi
 read -n1 -r -p "Press any key to continue..." key
 echo
-
-cd $dirout
-postprocessorDir=../../../src/MOHIDLagrangianPostProcessor
-mohidPostprocessor=${postprocessorDir}/MOHIDLagrangianPostProcessor.py
-python $mohidPostprocessor ${name}.xml concentrations residence_time
