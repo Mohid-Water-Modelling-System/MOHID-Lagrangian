@@ -48,6 +48,8 @@ import xarray as xr
 import os
 import sys
 from scipy.interpolate import griddata
+
+# This environment variable avoids error on locking file when writing.
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
 
@@ -186,7 +188,7 @@ class GridBasedMeasures:
                   'longitude': ('longitude',self.centers['longitude']),
                   }
         
-        self.ds = xr.Dataset(None,coords=coords)
+        ds = xr.Dataset(None,coords=coords)
         
         lon_attributtes = {'long_name': 'longitude',
         'standard_name': 'longitude',\
@@ -213,13 +215,13 @@ class GridBasedMeasures:
              'units':'seconds since 1950-01-01 00:00:00'}
         
 
-        self.ds.longitude.attrs = lon_attributtes
-        self.ds.latitude.attrs = lat_attributtes
-        self.ds.depth.attrs = depth_attributtes
-        self.ds.time.attrs = time_atts
+        ds.longitude.attrs = lon_attributtes
+        ds.latitude.attrs = lat_attributtes
+        ds.depth.attrs = depth_attributtes
+        ds.time.attrs = time_atts
         
-        self.ds.to_netcdf(self.netcdf_output_file)
-        
+        ds.to_netcdf(self.netcdf_output_file)
+        ds.close()
         
         return
 
@@ -250,7 +252,6 @@ class GridBasedMeasures:
                     source_mask = vtu_step.points()['source'] == int(source)
                     r = r[source_mask]
                 bins = [self.grid['latitude'],self.grid['longitude']]
-                print('Processing',r.shape)
                 counts_t[i], _ = np.histogramdd(r,bins=bins) 
                 i=i+1
         
@@ -263,9 +264,13 @@ class GridBasedMeasures:
     def residence_time(self):
         
         
+        
+        print('--> Computing residence time on grid')
+        
         # Read netcdf, compute concentrations, compute residence tiem
         # compute global 
         ds = xr.open_dataset(self.netcdf_output_file)
+        
         
         counts_t = self.counts()
         self.residence_time = np.zeros(counts_t.shape[1:])
@@ -289,14 +294,17 @@ class GridBasedMeasures:
             ds[var_name].attrs = {'long_name':'residence_time',
               'units':'s'}
             
-        
+        ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
+        
         return
 
         
             
     
     def concentrations(self):
+        
+        print('--> Computing concentrations on grid')
         ds = xr.open_dataset(self.netcdf_output_file)
         
         # Compute concentrations: total number of particles
@@ -315,22 +323,28 @@ class GridBasedMeasures:
             conc_area = counts_t.sum(axis=1)/self.area
             conc_volume = counts_t/self.volume
             
-            var_name = 'concentration_area_source_' + source.zfill(3)
-            ds[var_name] = (['time','latitude','longitude'], conc_area)
-            ds[var_name].attrs = {'long_name':'concentration',
+            var_name_as = 'concentration_area_source_' + source.zfill(3)
+            ds[var_name_as] = (['time','latitude','longitude'], conc_area)
+            ds[var_name_as].attrs = {'long_name':'concentration',
                                       'units':'ppm*m'}
-            var_name = 'concentration_volume_source_' + source.zfill(3)
-            ds[var_name] = (self.dims, conc_volume)
-            ds[var_name].attrs = {'long_name':'concentration',
+            
+            var_name_vs = 'concentration_volume_source_' + source.zfill(3)
+            ds[var_name_vs] = (self.dims, conc_volume)
+            ds[var_name_vs].attrs = {'long_name':'concentration',
                           'units':'ppm*m*m'}
         
+        ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
+        
         return
 
         
     def age(self):
         
+        print('--> Computing age on grid')
+        
         ds = xr.open_dataset(self.netcdf_output_file)
+
         
         # Compute concentrations: total number of particles
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
@@ -350,9 +364,7 @@ class GridBasedMeasures:
         var_name = 'age_global'
         ds[var_name] = (self.dims, age_t)
         ds[var_name].attrs = {'long_name':'age', 'units':'s'}
-        ds.to_netcdf(self.netcdf_output_file,'a')
-        
-        
+
         # COMPUTE AGE PER SOURCE
         for source in self.sources['id'].keys():
             
@@ -369,8 +381,11 @@ class GridBasedMeasures:
             var_name ='age_source_' + source.zfill(3)
             ds[var_name] = (self.dims[1:],age_t)
             ds[var_name].attrs = {'long_name':'age', 'units':'s'}
-            ds.to_netcdf(self.netcdf_output_file,'a')
-            
+        
+        ds.close()
+        ds.to_netcdf(self.netcdf_output_file,'a')
+       
+        return
         
 
     def run_postprocessing(self,measures):
