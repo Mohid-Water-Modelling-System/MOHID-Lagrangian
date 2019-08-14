@@ -406,6 +406,8 @@ class GridBasedMeasures:
         
 
 def main(xml_file, measures):
+    lic = License()
+    lic.print()
     post = GridBasedMeasures(xml_file)
     post.run_postprocessing(measures)
 
@@ -414,7 +416,8 @@ def main(xml_file, measures):
 #post = GridBasedMeasures(xml_file)
 #post.run_postprocessing(measures)
     
-License.print()    
+
+    
 xml = sys.argv[1]
 measures = [measure for measure in sys.argv[2:]]
 print('XML_FILE:',xml, 'MEASURES',measures)
