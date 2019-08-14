@@ -84,14 +84,15 @@
 
     type(vtk_file) :: vtkfile
     type(string) :: fullfilename, extfilename
-    type(string) :: outext
-    integer :: error, i, j, b
+    type(string) :: outext, tag
+    integer :: error, i, j, b, nf
     integer :: np
     integer :: nc                                         !< Number of cells
     integer(I1P), allocatable, dimension(:) :: cell_type  !< Cells type
     integer(I4P), allocatable, dimension(:) :: offset     !< Cells offset
     integer(I4P), allocatable, dimension(:) :: connect    !< Connectivity
     logical, allocatable, dimension(:) :: active
+    real(prec), allocatable, dimension(:) :: fillValue
 
     extfilename = filename%chars()//'.vtu'
     fullfilename = Globals%Names%outpath//'/'//extfilename
@@ -102,7 +103,9 @@
         if (allocated(blocks(i)%BlockState)) then
             do b = 1, size(blocks(i)%BlockState)
                 allocate(active(size(blocks(i)%BlockState(b)%active)))
+                allocate(fillValue(size(blocks(i)%BlockState(b)%active)))
                 active = blocks(i)%BlockState(b)%active
+                fillValue = MV
                 np = count(active)
                 nc = np
                 allocate(connect(nc))
@@ -116,16 +119,25 @@
                 error = vtkfile%xml_writer%write_piece(np=np, nc=nc)
                 error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=pack(blocks(i)%BlockState(b)%state(:,1), active), y=pack(blocks(i)%BlockState(b)%state(:,2), active), z=pack(blocks(i)%BlockState(b)%state(:,3), active))
                 error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
-                error = vtkfile%xml_writer%write_dataarray(location='node', action='open')            
-                error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%BlockState(b)%id, active))
-                error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%BlockState(b)%source, active))
-                !error = vtkfile%xml_writer%write_dataarray(data_name='landIntMask', x=pack(blocks(i)%BlockState(b)%landIntMask, active))
-                !error = vtkfile%xml_writer%write_dataarray(data_name='resolution', x=pack(blocks(i)%BlockState(b)%resolution, active))
-                error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%BlockState(b)%state(:,4), active), y=pack(blocks(i)%BlockState(b)%state(:,5), active), z=pack(blocks(i)%BlockState(b)%state(:,6), active))
-                error = vtkfile%xml_writer%write_dataarray(data_name='age', x=pack(blocks(i)%BlockState(b)%state(:,11), active))
+                error = vtkfile%xml_writer%write_dataarray(location='node', action='open')
+                    !mandatory variables to output
+                    error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%BlockState(b)%id, active))
+                    error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%BlockState(b)%source, active))                
+                    error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%BlockState(b)%state(:,4), active), y=pack(blocks(i)%BlockState(b)%state(:,5), active), z=pack(blocks(i)%BlockState(b)%state(:,6), active))
+                    error = vtkfile%xml_writer%write_dataarray(data_name='age', x=pack(blocks(i)%BlockState(b)%state(:,11), active))
+                
+                    !optional variables to output
+                    !error = vtkfile%xml_writer%write_dataarray(data_name='landIntMask', x=pack(blocks(i)%BlockState(b)%landIntMask, active))
+                    !error = vtkfile%xml_writer%write_dataarray(data_name='resolution', x=pack(blocks(i)%BlockState(b)%resolution, active))
+                    tag = 'condition'
+                    nf = Utils%find_str(blocks(i)%BlockState(b)%varName, tag, .false.)
+                    if (nf /= MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(blocks(i)%BlockState(b)%state(:,nf), active))
+                    if (nf == MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(fillValue, active))                        
+                
                 error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
                 error = vtkfile%xml_writer%write_piece()
                 deallocate(active)
+                deallocate(fillValue)
                 deallocate(connect)
                 deallocate(offset)
                 deallocate(cell_type)

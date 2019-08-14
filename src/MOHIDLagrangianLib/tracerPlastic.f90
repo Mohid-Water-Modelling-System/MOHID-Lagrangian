@@ -135,6 +135,8 @@
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
     integer, intent(in) :: p
+    integer :: idx
+    type(string) :: tag
 
     !use the base class constructor to build the base of our new derived type
     constructor%tracer_class = Tracer(id, src, time, p, constructor%getNumVars())
@@ -149,7 +151,9 @@
     !constructor%mpar%size = src%prop%radius
     !material state
     constructor%mnow%density = src%prop%density
-    !constructor%mnow%condition = src%prop%condition
+    tag = 'condition'
+    idx = Utils%find_str(src%prop%propName, tag, .true.)
+    constructor%mnow%condition = src%prop%propValue(idx)
     constructor%mnow%radius = src%prop%radius
     !constructor%mnow%concentration = MV
     if (constructor%mpar%particulate) then

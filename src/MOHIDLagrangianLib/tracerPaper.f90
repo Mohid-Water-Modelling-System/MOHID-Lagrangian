@@ -119,7 +119,7 @@
     self%now%age   = StateArray(11)
     self%mnow%density = StateArray(12)
     self%mnow%radius = StateArray(13)
-    self%mnow%condition = StateArray(14)
+    self%mnow%condition = StateArray(14)   
     self%mnow%concentration = StateArray(15)
     end subroutine setStateArray
 
@@ -135,6 +135,8 @@
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
     integer, intent(in) :: p
+    integer :: idx
+    type(string) :: tag
 
     !use the base class constructor to build the base of our new derived type
     constructor%tracer_class = Tracer(id, src, time, p, constructor%getNumVars())
@@ -149,9 +151,11 @@
     !constructor%mpar%size = src%prop%radius
     !material state
     constructor%mnow%density = src%prop%density
-    !constructor%mnow%condition = src%prop%condition
+    tag = 'condition'
+    idx = Utils%find_str(src%prop%propName, tag, .true.)
+    constructor%mnow%condition = src%prop%propValue(idx)
     constructor%mnow%radius = src%prop%radius
-    constructor%mnow%concentration = MV
+    !constructor%mnow%concentration = MV
     if (constructor%mpar%particulate) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
