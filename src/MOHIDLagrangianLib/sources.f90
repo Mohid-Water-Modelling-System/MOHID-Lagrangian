@@ -349,6 +349,10 @@
     integer :: i, j
     real(prec) :: time
     allocate(self%par%activeTime(int(Globals%Parameters%TimeMax/Globals%SimDefs%dt)+1))
+    if (size(activeTimes, 1) < 1) then
+        self%par%activeTime = .true.
+        return
+    end if
     self%par%activeTime = .false.
     do i=1, size(self%par%activeTime)
         time = i*Globals%SimDefs%dt
@@ -382,7 +386,6 @@
     integer :: sizem, i
     type(string) :: outext
     integer :: err
-
     !Setting parameters
     src%par%id=id
     src%par%name=name
@@ -393,7 +396,7 @@
         call src%setVariableRate(src%par%rate_file)
         call src%getVariableRate(Globals%Sim%getnumdt())
     end if
-    if (size(activeTimes,1)>0) call src%setActiveTimes(activeTimes)
+    call src%setActiveTimes(activeTimes)
     src%par%source_geometry=source_geometry
     allocate(src%par%geometry, source=shapetype)
     !Setting properties

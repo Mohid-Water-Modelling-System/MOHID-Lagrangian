@@ -88,12 +88,14 @@
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
+        real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
+    procedure :: setDiffusionCoeff
     procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
@@ -143,6 +145,7 @@
         type(string) :: time
         type(string) :: landIntMask
         type(string) :: landMask
+        type(string) :: resolution
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -277,6 +280,7 @@
     self%Constants%Z0 = 0.0
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
+    self%Constants%DiffusionCoeff = 1.0
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
@@ -332,6 +336,7 @@
     self%time    = 'time'
     self%landMask    = 'landMask'
     self%landIntMask = 'landIntMask'
+    self%resolution = 'resolution'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -910,7 +915,7 @@
     type(string) :: outext
     integer :: sizem
     self%RhoRef=read_rho%to_number(kind=1._R4P)
-    if (self%RhoRef.le.0.0) then
+    if (self%RhoRef <= 0.0) then
         outext='RhoRef must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -930,7 +935,7 @@
     type(string), intent(in) :: read_BeachingLevel
     type(string) :: outext
     integer :: sizem
-    if (read_BeachingLevel%to_number(kind=1._R4P).gt.0.0) then
+    if (read_BeachingLevel%to_number(kind=1._R4P) > 0.0) then
         outext='Beaching level must be negative, assuming default value'
         call Log%put(outext)
     else
@@ -960,6 +965,27 @@
     sizem = sizeof(self%BeachingStopProb)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingStopProb
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Horizontal Diffusion coefficient setting routine.
+    !> @param[in] self, read_DiffusionCoeff
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionCoeff(self, read_DiffusionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionCoeff
+    type(string) :: outext
+    integer :: sizem
+    if (read_DiffusionCoeff%to_number(kind=1._R4P) < 0.0) then
+        outext='Diffusion coefficient must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%DiffusionCoeff =read_DiffusionCoeff%to_number(kind=1._R4P)
+    endif
+    sizem = sizeof(self%DiffusionCoeff)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionCoeff
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -973,7 +999,7 @@
     type(string) :: outext
     integer :: sizem
     self%smallDt=dt/3.0
-    if (self%smallDt.le.0.0) then
+    if (self%smallDt <= 0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -1039,7 +1065,7 @@
     type(string) :: outext
     integer :: sizem
     self%dt=read_dt%to_number(kind=1._R4P)
-    if (self%dt.le.0.0) then
+    if (self%dt <= 0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop

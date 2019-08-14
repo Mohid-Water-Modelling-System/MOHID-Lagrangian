@@ -288,11 +288,13 @@
         getArrayCoordRegular = 1
         return
     end if
-    res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
-    res = abs(maxBound - minBound)/res
-    getArrayCoordRegular = (xdata - minBound)/res + 1
+    res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field)-1.0)
+    getArrayCoordRegular = (xdata - minBound)/res + 1.0
+    !because of high-order intergrators - multiple steps might bump tracers out of the current block
+    !where (getArrayCoordRegular < 1.0) getArrayCoordRegular = 1.0
+    !where (getArrayCoordRegular > size(bdata%dim(dim)%field)) getArrayCoordRegular = size(bdata%dim(dim)%field)-1.0
     end function getArrayCoordRegular
 
 
@@ -307,23 +309,29 @@
     real(prec), dimension(:), intent(in):: xdata                    !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                     !< Background to use
     integer, intent(in) :: dim
-    integer :: i                                                !< corresponding background dimension
-    integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
+    integer :: i                                                
+    integer :: id, idx_1, idx_2                                 
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
+    real(prec), dimension(size(xdata)) :: corrxdata                 !< copy of Tracer coordinate component
+    real(prec) :: minBound, maxBound
     if(size(bdata%dim(dim)%field) == 1) then
         getArrayCoordNonRegular = 1
         return
     end if
-    n_idx = size(bdata%dim(dim)%field)
-    do id = 1,size(xdata)
-        do i = 2, n_idx
-            if (bdata%dim(dim)%field(i) > xdata(id)) then
+    corrxdata = xdata
+    minBound = bdata%dim(dim)%getFieldMinBound()
+    maxBound = bdata%dim(dim)%getFieldMaxBound()
+    where (corrxdata < minBound) corrxdata = minBound
+    where (corrxdata > maxBound) corrxdata = maxBound
+    do id = 1,size(corrxdata)
+        do i = 2, size(bdata%dim(dim)%field)
+            if (bdata%dim(dim)%field(i) > corrxdata(id)) then
                 idx_1 = i-1
                 idx_2 = i
                 exit
             end if
         end do
-        getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+        getArrayCoordNonRegular(id) = idx_1 + abs((corrxdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
     end do
     end function getArrayCoordNonRegular
 
