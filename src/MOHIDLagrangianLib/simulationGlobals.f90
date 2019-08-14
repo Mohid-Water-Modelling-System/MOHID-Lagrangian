@@ -915,7 +915,7 @@
     type(string) :: outext
     integer :: sizem
     self%RhoRef=read_rho%to_number(kind=1._R4P)
-    if (self%RhoRef.le.0.0) then
+    if (self%RhoRef <= 0.0) then
         outext='RhoRef must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -935,7 +935,7 @@
     type(string), intent(in) :: read_BeachingLevel
     type(string) :: outext
     integer :: sizem
-    if (read_BeachingLevel%to_number(kind=1._R4P).gt.0.0) then
+    if (read_BeachingLevel%to_number(kind=1._R4P) > 0.0) then
         outext='Beaching level must be negative, assuming default value'
         call Log%put(outext)
     else
@@ -999,7 +999,7 @@
     type(string) :: outext
     integer :: sizem
     self%smallDt=dt/3.0
-    if (self%smallDt.le.0.0) then
+    if (self%smallDt <= 0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -1065,7 +1065,7 @@
     type(string) :: outext
     integer :: sizem
     self%dt=read_dt%to_number(kind=1._R4P)
-    if (self%dt.le.0.0) then
+    if (self%dt <= 0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop

@@ -88,7 +88,7 @@
     call self%OutputStreamer%writeOutputHeader()
 
     !main time cycle
-    do while (Globals%SimTime%CurrTime .lt. Globals%Parameters%TimeMax)
+    do while (Globals%SimTime%CurrTime < Globals%Parameters%TimeMax)
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
