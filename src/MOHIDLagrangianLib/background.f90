@@ -584,7 +584,6 @@
     class(*), pointer :: curr
     real(prec), allocatable, dimension(:,:,:) :: xx3d, yy3d
     real(prec), allocatable, dimension(:,:,:,:) :: xx4d, yy4d, zz4d
-    real(prec), allocatable, dimension(:) :: latDim
     type(string) :: outext
     integer :: xIndx, yIndx, zIndx, i, j, k, t
     call self%fields%reset()               ! reset list iterator
@@ -597,14 +596,10 @@
                 allocate(yy3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
-                allocate(latDim(size(curr%field,2)))
                 do j=1, size(xx3d,2)
-                    do i=1, size(self%dim(yIndx)%field)
-                        latDim(i) = self%dim(yIndx)%field(j)
-                    end do
-                    xx3d(:,j,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), latDim, .false.)
+                    xx3d(:,j,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), self%dim(yIndx)%field(j), .false.)
                 end do
-                yy3d(1,:,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), latDim, .true.)
+                yy3d(1,:,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), self%dim(yIndx)%field(1), .true.)
                 do i=2, size(yy3d,1)
                     yy3d(i,:,1) = yy3d(1,:,1)
                 end do
@@ -619,17 +614,14 @@
                 allocate(xx4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(yy4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(zz4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                xx4d = -99999.0
                 xIndx = self%getDimIndex(Globals%Var%lon)
                 yIndx = self%getDimIndex(Globals%Var%lat)
                 zIndx = self%getDimIndex(Globals%Var%level)
-                allocate(latDim(size(curr%field,2)))
                 do j=1, size(xx4d,2)
-                    do i=1, size(self%dim(yIndx)%field)
-                        latDim(i) = self%dim(yIndx)%field(j)
-                    end do
-                    xx4d(:,j,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), latDim, .false.)
+                    xx4d(:,j,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), self%dim(yIndx)%field(j), .false.)
                 end do
-                yy4d(1,:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), latDim, .true.)
+                yy4d(1,:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), self%dim(yIndx)%field(1), .true.)
                 do i=2, size(yy4d,1)
                     yy4d(i,:,1,1) = yy4d(1,:,1,1)
                 end do
@@ -649,7 +641,7 @@
                     yy4d(:,:,:,t) = yy4d(:,:,:,1)
                     zz4d(:,:,:,t) = zz4d(:,:,:,1)
                 end do
-                curr%field = (xx4d + yy4d + zz4d)/3.0
+                curr%field = xx4d!(xx4d + yy4d + zz4d)/3.0
             end if
             class default
             outext = '[background_class::makeResolutionField] Unexepected type of content, not a 3D or 4D scalar Field'

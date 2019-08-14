@@ -34,8 +34,8 @@
     procedure :: getRelativeTimeFromString
     procedure :: getDateTimeFromDate
     procedure :: find_str
-    procedure :: geo2m_vec, geo2m_comp
-    generic   :: geo2m => geo2m_vec, geo2m_comp
+    procedure :: geo2m_vec, geo2m_comp, geo2m_compSingle
+    generic   :: geo2m => geo2m_vec, geo2m_comp, geo2m_compSingle
     procedure :: m2geo_vec, m2geo_comp
     generic   :: m2geo => m2geo_vec, m2geo_comp
     procedure :: int2str
@@ -52,11 +52,11 @@
     public :: Utils
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Function that returns a real with a time in seconds of a given date 
+    !> Function that returns a real with a time in seconds of a given date
     !> string, counting from a given date.
     !> @param[in] self, dateStr
     !---------------------------------------------------------------------------
@@ -68,7 +68,7 @@
     integer, dimension(6) :: AbsoluteDateStr
     type(datetime) :: AbsoluteDate
     type(timedelta) :: delta
-    
+
     call dateStr%split(tokens=dc, sep=' ')
     if (size(dc) > 1) then
         AbsoluteDateStr = self%getDateFromISOString(dateStr)
@@ -78,13 +78,13 @@
     else
         getRelativeTimeFromString = dateStr%to_number(kind=1._R4P)
     end if
-    
+
     end function getRelativeTimeFromString
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Function that returns a real with a time in seconds of a given date 
+    !> Function that returns a real with a time in seconds of a given date
     !> string, counting from a given date.
     !> @param[in] self, dateArray
     !---------------------------------------------------------------------------
@@ -172,30 +172,50 @@
     res%x = res%x*(R*pi/180.0)*cos(pi*lat/180.0)
     res%y = res%y*(R*pi/180.0)
     end function geo2m_vec
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns an array of coordinates converted to degrees. 
+    !> @param[in] self, geovec, lat, component
+    !---------------------------------------------------------------------------
+    function geo2m_comp(self, geovec, lat, isLat)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: geovec
+    real(prec), dimension(:), intent(in) :: lat
+    logical, intent(in) :: isLat
+    real(prec), dimension(size(geovec)) :: geo2m_comp
+    integer :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378137 !earth radius in meters
+    if (isLat) then
+        geo2m_comp = geovec*(R*pi/180.0)
+    else
+        geo2m_comp = geovec*((R*pi/180.0)*cos(pi*lat/180.0))
+    end if
+    end function geo2m_comp
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns a vector in meters given an array in
-    !> geographical coordinates (lon, lat, z) and a lattitude
-    !> @param[in] self, geovec, lat
+    !> Returns an array of coordinates converted to degrees. 
+    !> @param[in] self, geovec, lat, component
     !---------------------------------------------------------------------------
-    function geo2m_comp(self, geovec, lat, component)
+    function geo2m_compSingle(self, geovec, lat, isLat)
     class(utils_class), intent(in) :: self
     real(prec), dimension(:), intent(in) :: geovec
-    real(prec), dimension(:), intent(in) :: lat
-    logical, intent(in) :: component
-    real(prec), dimension(size(geovec)) :: geo2m_comp
+    real(prec), intent(in) :: lat
+    logical, intent(in) :: isLat
+    real(prec), dimension(size(geovec)) :: geo2m_compSingle
     integer :: R
     real(prec) :: pi = 4*atan(1.0)
-    R = 6378137 !earth radius in meters    
-    geo2m_comp = geovec
-    if (component) then
-        geo2m_comp = geo2m_comp*(R*pi/180.0)
+    R = 6378137 !earth radius in meters
+    if (isLat) then
+        geo2m_compSingle = geovec*(R*pi/180.0)
     else
-        geo2m_comp = geo2m_comp*((R*pi/180.0)*cos(pi*lat/180.0))
+        geo2m_compSingle = geovec*((R*pi/180.0)*cos(pi*lat/180.0))
     end if
-    end function geo2m_comp
+    end function geo2m_compSingle
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -336,7 +356,7 @@
     if (present(eta)) ieta = eta
     isBoundedArray = all(nums >= minBound).and.all(nums <= maxBound+ieta)
     end function isBoundedArray
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -352,7 +372,7 @@
     logical, dimension(:), allocatable :: usedTemp
     real(prec), dimension(:), allocatable :: newBaseArray
     integer :: i, j, k
-    
+
     allocate(usedTemp(size(newArray)))
     usedTemp = .false.
     do i=1, size(newArray)
@@ -369,14 +389,14 @@
                 newBaseArray(i) =  newArray(j)
                 k = k+1
                 exit
-            end if 
+            end if
             k = k+1
-        end do        
-    end do    
+        end do
+    end do
     deallocate(baseArray)
     allocate(baseArray, source=newBaseArray)
-    
-    if (present(usedArray)) allocate(usedArray, source = usedTemp)    
+
+    if (present(usedArray)) allocate(usedArray, source = usedTemp)
     end subroutine appendArraysUniqueReal
 
     end module utilities_mod
