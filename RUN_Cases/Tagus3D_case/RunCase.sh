@@ -13,11 +13,12 @@ mohidlagrangian=${tools}/MOHIDLagrangian
 preprocessorDir=../../src/MOHIDLagrangianPreProcessor
 mohidPreprocessor=${preprocessorDir}/MOHIDLagrangianPreProcessor.py
 
+
 # "dirout" is created to store results or it is cleaned if it already exists
-if [ -e $dirout ]; then
-  rm -f -r $dirout
-fi
-mkdir $dirout
+#if [ -e $dirout ]; then
+#  rm -f -r $dirout
+#fi
+#mkdir $dirout
 
 cp ${name}.xml $dirout/
 
@@ -26,10 +27,10 @@ cp ${name}.xml $dirout/
 python $mohidPreprocessor -i $dirout/${name}.xml -o $dirout
 
 errcode=0
-if [ $errcode -eq 0 ]; then
-  $mohidlagrangian -i $dirout/${name}.xml -o $dirout
-  errcode=$?
-fi
+#if [ $errcode -eq 0 ]; then
+#  $mohidlagrangian -i $dirout/${name}.xml -o $dirout
+#  errcode=$?
+#fi
 
 
 if [ $errcode -eq 0 ]; then
@@ -39,3 +40,8 @@ else
 fi
 read -n1 -r -p "Press any key to continue..." key
 echo
+
+cd $dirout
+postprocessorDir=../../../src/MOHIDLagrangianPostProcessor
+mohidPostprocessor=${postprocessorDir}/MOHIDLagrangianPostProcessor.py
+python $mohidPostprocessor ${name}.xml concentrations residence_time
