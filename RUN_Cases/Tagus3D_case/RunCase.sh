@@ -36,7 +36,7 @@ fi
 cd $dirout
 postprocessorDir=../../../src/MOHIDLagrangianPostProcessor
 mohidPostprocessor=${postprocessorDir}/MOHIDLagrangianPostProcessor.py
-python $mohidPostprocessor ${name}.xml concentrations residence_time age
+python $mohidPostprocessor ${name}.xml concentrations residence_time
 
 
 if [ $errcode -eq 0 ]; then
