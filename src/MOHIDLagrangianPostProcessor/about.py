@@ -41,7 +41,7 @@
 #    SOFTWARE.
 
 
-class Licence:
+class License:
     def __init__(self):
         self.art = '''
   __  __  ____  _    _ _____ _____    _                                       _             
