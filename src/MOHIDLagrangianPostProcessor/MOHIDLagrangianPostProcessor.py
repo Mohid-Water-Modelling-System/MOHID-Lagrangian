@@ -40,6 +40,7 @@
 #    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #    SOFTWARE.
 
+from about import License
 import vtk
 from vtk.util.numpy_support import vtk_to_numpy
 import xml.etree.ElementTree as ET
@@ -412,6 +413,8 @@ def main(xml_file, measures):
 #measures = ['residence_time','concentrations']
 #post = GridBasedMeasures(xml_file)
 #post.run_postprocessing(measures)
+    
+License.print()    
 xml = sys.argv[1]
 measures = [measure for measure in sys.argv[2:]]
 print('XML_FILE:',xml, 'MEASURES',measures)

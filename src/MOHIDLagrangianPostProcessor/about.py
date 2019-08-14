@@ -5,17 +5,17 @@
 #    !------------------------------------------------------------------------------
 #    !
 #    ! TITLE         : MOHIDLagrangianPreProcessor
-#    ! PROJECT       : MOHIDLagrangian
+#    ! PROJECT    : MOHIDLagrangian
 #    ! URL           : http://www.mohid.com
 #    ! AFFILIATION   : USC/GFNL, Group of Non Linear Physics
 #    ! DATE          : August 2019
-#    ! REVISION      : Garaboa 0.1
+#    ! REVISION   : Garaboa 0.1
 #    !> @author
 #    !> Daniel Garaboa Paz, Ricardo Birjukovs Canelas
 #    !
 #    ! DESCRIPTION:
-#    !Preprocessing script for MOHID Lagrangian. Lists input files, composes config 
-#    !files, etc 
+#    !PostProcessing script for MOHID Lagrangian. Computes concentrations,
+#    !residence times, etc 
 #    !------------------------------------------------------------------------------
 #    
 #    MIT License
