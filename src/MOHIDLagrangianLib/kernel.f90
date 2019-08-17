@@ -42,6 +42,7 @@
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
+    procedure, private :: DegradationLinear
     procedure, private :: hasRequiredVars
     end type kernel_class
 
@@ -67,14 +68,14 @@
 
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
+        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv, 0.00000001)
+        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt)
-        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv, 0.000000001)
+        runKernel = self%Beaching(sv, runKernel)
     end if
 
     end function runKernel
@@ -349,7 +350,7 @@
     !> @param[in] self
     !---------------------------------------------------------------------------
     function Aging(self, sv)
-    class(kernel_class), intent(inout) :: self
+    class(kernel_class), intent(in) :: self
     type(stateVector_class), intent(in) :: sv
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Aging
     integer :: nf
@@ -469,6 +470,30 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
     end function DiffusionIsotropic
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Linear degradation kernel.
+    !> @param[in] self, sv, degRate
+    !---------------------------------------------------------------------------
+    function DegradationLinear(self, sv, degRate)
+    class(kernel_class), intent(in) :: self
+    type(stateVector_class), intent(inout) :: sv
+    real(prec), intent(in) :: degRate
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DegradationLinear
+    integer :: nf
+    type(string) :: tag
+
+    DegradationLinear = 0.0
+    tag = 'condition'
+    nf = Utils%find_str(sv%varName, tag, .true.)
+    !setting the age variable to be updated by dt by the solver for all tracers
+    DegradationLinear(:,nf) = -degRate
+
+    where(sv%state(:,nf) < 0.0) sv%active = .false.
+
+    end function DegradationLinear
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

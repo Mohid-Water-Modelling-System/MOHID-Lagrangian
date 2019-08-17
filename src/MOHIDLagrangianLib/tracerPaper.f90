@@ -119,7 +119,7 @@
     self%now%age   = StateArray(11)
     self%mnow%density = StateArray(12)
     self%mnow%radius = StateArray(13)
-    self%mnow%condition = StateArray(14)
+    self%mnow%condition = StateArray(14)   
     self%mnow%concentration = StateArray(15)
     end subroutine setStateArray
 
@@ -135,27 +135,45 @@
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
     integer, intent(in) :: p
+    integer :: idx
+    type(string) :: tag
 
     !use the base class constructor to build the base of our new derived type
     constructor%tracer_class = Tracer(id, src, time, p, constructor%getNumVars())
     !VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...
     constructor%par%id = id !forcing
     constructor%par%idsource = src%par%id !forcing
+
     !now initialize the specific components of this derived type
     constructor%par%ttype = Globals%Types%paper
     !material parameters
     !constructor%mpar%degradation_rate = src%prop%degrd_rate
     constructor%mpar%particulate = src%prop%particulate
-    !constructor%mpar%size = src%prop%radius
+    constructor%mpar%size = src%prop%radius
+    constructor%mnow%radius = src%prop%radius
+    !constructor%mnow%concentration = MV
     !material state
     constructor%mnow%density = src%prop%density
-    !constructor%mnow%condition = src%prop%condition
-    constructor%mnow%radius = src%prop%radius
-    constructor%mnow%concentration = MV
+    !default values
+    constructor%mnow%condition = 1.0
+    constructor%mpar%degradation_rate = 1/(5*365*24*3600)
+    !try to find value from material types files
+    tag = 'condition'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%condition = src%prop%propValue(idx)
+    end if
+    tag = 'degradation_rate'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mpar%degradation_rate = src%prop%propValue(idx)
+    end if
+
     if (constructor%mpar%particulate) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
+    
     !filling the rest of the varName list
     constructor%varName(12) = Globals%Var%density
     constructor%varName(13) = 'radius'
