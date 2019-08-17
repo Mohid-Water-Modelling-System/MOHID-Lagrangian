@@ -143,12 +143,15 @@
     !VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...
     constructor%par%id = id !forcing
     constructor%par%idsource = src%par%id !forcing
+
     !now initialize the specific components of this derived type
     constructor%par%ttype = Globals%Types%paper
     !material parameters
     !constructor%mpar%degradation_rate = src%prop%degrd_rate
     constructor%mpar%particulate = src%prop%particulate
-    !constructor%mpar%size = src%prop%radius
+    constructor%mpar%size = src%prop%radius
+    constructor%mnow%radius = src%prop%radius
+    !constructor%mnow%concentration = MV
     !material state
     constructor%mnow%density = src%prop%density
     !default values
@@ -166,12 +169,11 @@
         constructor%mpar%degradation_rate = src%prop%propValue(idx)
     end if
 
-    constructor%mnow%radius = src%prop%radius
-    !constructor%mnow%concentration = MV
     if (constructor%mpar%particulate) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
+    
     !filling the rest of the varName list
     constructor%varName(12) = Globals%Var%density
     constructor%varName(13) = 'radius'

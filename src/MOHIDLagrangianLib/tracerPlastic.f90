@@ -147,9 +147,11 @@
     !now initialize the specific components of this derived type
     constructor%par%ttype = Globals%Types%plastic
     constructor%mpar%particulate = src%prop%particulate
-    !constructor%mpar%size = src%prop%radius
+    constructor%mpar%size = src%prop%radius
     !material state
     constructor%mnow%density = src%prop%density
+    constructor%mnow%radius = src%prop%radius
+    !constructor%mnow%concentration = MV
     !default values
     constructor%mnow%condition = 1.0
     constructor%mpar%degradation_rate = 1/(100*365*24*3600)
@@ -165,12 +167,11 @@
         constructor%mpar%degradation_rate = src%prop%propValue(idx)
     end if
 
-    constructor%mnow%radius = src%prop%radius
-    !constructor%mnow%concentration = MV
     if (constructor%mpar%particulate) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
+    
     !filling the rest of the varName list
     constructor%varName(12) = Globals%Var%density
     constructor%varName(13) = 'radius'
