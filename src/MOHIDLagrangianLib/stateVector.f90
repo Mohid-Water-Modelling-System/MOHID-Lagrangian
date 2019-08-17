@@ -36,11 +36,11 @@
         integer :: ttype
         type(trcPtr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:,:) :: state
+        type(string), allocatable, dimension(:) :: varName
         integer, allocatable, dimension(:) :: landMask, source, id
         real(prec) , allocatable, dimension(:) :: landIntMask
         real(prec) , allocatable, dimension(:) :: resolution
         logical, allocatable, dimension(:) :: active
-        type(string), allocatable, dimension(:) :: varName
         integer :: idx
     contains
     procedure :: toTracers

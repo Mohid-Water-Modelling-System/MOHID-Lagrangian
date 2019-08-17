@@ -28,7 +28,6 @@
     private
 
     type :: plastic_par_class               !<Type - parameters of a Lagrangian tracer object representing a plastic material
-        real(prec) :: degradation_rate              !< degradation rate of the material
         logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type plastic_par_class
@@ -37,6 +36,7 @@
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: condition                     !< Material condition (1-0)
+        real(prec) :: degradation_rate              !< degradation rate of the material
         real(prec) :: concentration                 !< Particle concentration
     end type plastic_state_class
 
@@ -68,7 +68,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(plastic_class), intent(in) :: self
-    getNumVars = 15
+    getNumVars = 16
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -94,7 +94,8 @@
     getStateArray(12) = self%mnow%density
     getStateArray(13) = self%mnow%radius
     getStateArray(14) = self%mnow%condition
-    getStateArray(15) = self%mnow%concentration
+    getStateArray(15) = self%mnow%degradation_rate
+    getStateArray(16) = self%mnow%concentration
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -120,7 +121,8 @@
     self%mnow%density = StateArray(12)
     self%mnow%radius = StateArray(13)
     self%mnow%condition = StateArray(14)
-    self%mnow%concentration = StateArray(15)
+    self%mnow%degradation_rate = StateArray(15)
+    self%mnow%concentration = StateArray(16)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -154,7 +156,7 @@
     !constructor%mnow%concentration = MV
     !default values
     constructor%mnow%condition = 1.0
-    constructor%mpar%degradation_rate = 1/(100*365*24*3600)
+    constructor%mnow%degradation_rate = 1/(100*365*24*3600)
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
@@ -164,7 +166,7 @@
     tag = 'degradation_rate'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
     if (idx /= MV_INT) then
-        constructor%mpar%degradation_rate = src%prop%propValue(idx)
+        constructor%mnow%degradation_rate = src%prop%propValue(idx)
     end if
 
     if (constructor%mpar%particulate) then
@@ -176,7 +178,8 @@
     constructor%varName(12) = Globals%Var%density
     constructor%varName(13) = 'radius'
     constructor%varName(14) = 'condition'
-    constructor%varName(15) = 'concentration'
+    constructor%varName(15) = 'degradation_rate'
+    constructor%varName(16) = 'concentration'
     end function constructor
 
     end module tracerPlastic_mod
