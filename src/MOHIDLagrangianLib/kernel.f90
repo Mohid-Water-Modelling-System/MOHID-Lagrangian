@@ -71,10 +71,10 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv, 0.00000001)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv, 0.000000001)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv)
         runKernel = self%Beaching(sv, runKernel)
     end if
 
@@ -477,19 +477,20 @@
     !> Linear degradation kernel.
     !> @param[in] self, sv, degRate
     !---------------------------------------------------------------------------
-    function DegradationLinear(self, sv, degRate)
+    function DegradationLinear(self, sv)
     class(kernel_class), intent(in) :: self
     type(stateVector_class), intent(inout) :: sv
-    real(prec), intent(in) :: degRate
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DegradationLinear
-    integer :: nf
+    integer :: nf, idx
     type(string) :: tag
 
     DegradationLinear = 0.0
     tag = 'condition'
     nf = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'degradation_rate'
+    idx = Utils%find_str(sv%varName, tag, .true.)
     !setting the age variable to be updated by dt by the solver for all tracers
-    DegradationLinear(:,nf) = -degRate
+    DegradationLinear(:,nf) = -sv%state(:,idx)
 
     where(sv%state(:,nf) < 0.0) sv%active = .false.
 
