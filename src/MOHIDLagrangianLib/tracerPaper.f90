@@ -151,9 +151,21 @@
     !constructor%mpar%size = src%prop%radius
     !material state
     constructor%mnow%density = src%prop%density
+    !default values
+    constructor%mnow%condition = 1.0
+    constructor%mpar%degradation_rate = 1/(5*365*24*3600)
+    !try to find value from material types files
     tag = 'condition'
-    idx = Utils%find_str(src%prop%propName, tag, .true.)
-    constructor%mnow%condition = src%prop%propValue(idx)
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%condition = src%prop%propValue(idx)
+    end if
+    tag = 'degradation_rate'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mpar%degradation_rate = src%prop%propValue(idx)
+    end if
+
     constructor%mnow%radius = src%prop%radius
     !constructor%mnow%concentration = MV
     if (constructor%mpar%particulate) then
