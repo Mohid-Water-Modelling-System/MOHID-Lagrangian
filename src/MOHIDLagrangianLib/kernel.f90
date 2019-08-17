@@ -489,9 +489,8 @@
     nf = Utils%find_str(sv%varName, tag, .true.)
     tag = 'degradation_rate'
     idx = Utils%find_str(sv%varName, tag, .true.)
-    !setting the age variable to be updated by dt by the solver for all tracers
+    
     DegradationLinear(:,nf) = -sv%state(:,idx)
-
     where(sv%state(:,nf) < 0.0) sv%active = .false.
 
     end function DegradationLinear
