@@ -59,7 +59,7 @@
     self%numVtkFiles = 0
     self%formatType = 'raw'
     end subroutine initVTKwritter
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -120,20 +120,20 @@
                 error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=pack(blocks(i)%BlockState(b)%state(:,1), active), y=pack(blocks(i)%BlockState(b)%state(:,2), active), z=pack(blocks(i)%BlockState(b)%state(:,3), active))
                 error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
                 error = vtkfile%xml_writer%write_dataarray(location='node', action='open')
-                    !mandatory variables to output
-                    error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%BlockState(b)%id, active))
-                    error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%BlockState(b)%source, active))                
-                    error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%BlockState(b)%state(:,4), active), y=pack(blocks(i)%BlockState(b)%state(:,5), active), z=pack(blocks(i)%BlockState(b)%state(:,6), active))
-                    error = vtkfile%xml_writer%write_dataarray(data_name='age', x=pack(blocks(i)%BlockState(b)%state(:,11), active))
-                
-                    !optional variables to output
-                    !error = vtkfile%xml_writer%write_dataarray(data_name='landIntMask', x=pack(blocks(i)%BlockState(b)%landIntMask, active))
-                    !error = vtkfile%xml_writer%write_dataarray(data_name='resolution', x=pack(blocks(i)%BlockState(b)%resolution, active))
-                    tag = 'condition'
-                    nf = Utils%find_str(blocks(i)%BlockState(b)%varName, tag, .false.)
-                    if (nf /= MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(blocks(i)%BlockState(b)%state(:,nf), active))
-                    if (nf == MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(fillValue, active))                        
-                
+                !mandatory variables to output
+                error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%BlockState(b)%id, active))
+                error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%BlockState(b)%source, active))
+                error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%BlockState(b)%state(:,4), active), y=pack(blocks(i)%BlockState(b)%state(:,5), active), z=pack(blocks(i)%BlockState(b)%state(:,6), active))
+                error = vtkfile%xml_writer%write_dataarray(data_name='age', x=pack(blocks(i)%BlockState(b)%state(:,11), active))
+
+                !optional variables to output
+                !error = vtkfile%xml_writer%write_dataarray(data_name='landIntMask', x=pack(blocks(i)%BlockState(b)%landIntMask, active))
+                !error = vtkfile%xml_writer%write_dataarray(data_name='resolution', x=pack(blocks(i)%BlockState(b)%resolution, active))
+                tag = 'condition'
+                nf = Utils%find_str(blocks(i)%BlockState(b)%varName, tag, .false.)
+                if (nf /= MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(blocks(i)%BlockState(b)%state(:,nf), active))
+                if (nf == MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(fillValue, active))
+
                 error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
                 error = vtkfile%xml_writer%write_piece()
                 deallocate(active)
@@ -142,16 +142,15 @@
                 deallocate(offset)
                 deallocate(cell_type)
             end do
-        end if        
+        end if
     end do
     error = vtkfile%finalize()
     self%numVtkFiles = self%numVtkFiles + 1
-    
+
     if (self%numVtkFiles /= 1) call self%IndexVTKFile(extfilename, Globals%SimTime%getDateTimeStamp())
 
     end subroutine TracerSerial
-    
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -163,16 +162,16 @@
     type(string), intent(in) :: filename
     real(prec), intent(in) :: timestamp
     type(string) :: outext, temp
-    
+
     if (.not. self%indexerOpen) then
         call self%OpenIndexVTKFile()
     end if
     temp = timestamp
     outext = '<DataSet timestep="'//temp//'" file="'//filename//'"/>'
     write(self%indexerUnit,"(A)") outext%chars()
-    
+
     end subroutine IndexVTKFile
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -182,16 +181,16 @@
     subroutine OpenIndexVTKFile(self)
     class(vtkwritter_class), intent(inout) :: self
     type(string) :: outext, indexerFilename
-    
+
     indexerFilename = Globals%Names%outpath//Globals%Names%casename//'.pvd'
-    open(unit=self%indexerUnit,file=indexerFilename%chars(),action="write",status="replace")    
+    open(unit=self%indexerUnit,file=indexerFilename%chars(),action="write",status="replace")
     outext = '<VTKFile type="Collection" version="0.1" byte_order="LittleEndian">'//new_line('a')
-    outext = outext//'  <Collection>'    
-    write(self%indexerUnit,"(A)") outext%chars()    
+    outext = outext//'  <Collection>'
+    write(self%indexerUnit,"(A)") outext%chars()
     self%indexerOpen = .true.
-    
+
     end subroutine OpenIndexVTKFile
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -206,7 +205,7 @@
         outext = outext//'</VTKFile>'
         write(self%indexerUnit,"(A)") outext%chars()
         close(self%indexerUnit)
-    end if    
+    end if
     end subroutine CloseIndexVTKFile
 
     !---------------------------------------------------------------------------
@@ -244,7 +243,6 @@
     fullfilename = Globals%Names%outpath//'/'//fullfilename
 
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
-
     !Writting bounding box geometry
     pts = Geometry%getPoints(bbox)
     do i=1, npbbox
@@ -257,10 +255,8 @@
     error = vtkfile%xml_writer%write_geo(np=npbbox, nc=nc, x=xx, y=yy, z=zz)
     error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
     error = vtkfile%xml_writer%write_piece()
-
     !Closing file
     error = vtkfile%finalize()
-
     !preparing file
     fullfilename = filename%chars()//'_Blocks.vtu'
     outext = '->Writting Blocks file '//fullfilename
@@ -268,7 +264,6 @@
     fullfilename = Globals%Names%outpath//'/'//fullfilename
 
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
-
     !Writting block geometries
     do b=1, size(blocks)
         pts = Geometry%getPoints(blocks(b)%extents)
@@ -287,7 +282,6 @@
         error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
         error = vtkfile%xml_writer%write_piece()
     end do
-
     !Closing file
     error = vtkfile%finalize()
 
