@@ -115,22 +115,25 @@
         private
         integer :: numdt        !<number of the current iteration
         integer :: numTracer    !<Global Tracer number holder. Incremented at tracer construction or first activation time
-    contains        
-    procedure, public :: getnumdt    
+    contains
+    procedure, public :: getnumdt
     procedure, public :: increment_numdt
     procedure, public :: getnumTracer
     procedure, private :: increment_numTracer
     end type sim_t
-    
+
     type :: output_t  !<Simulation related counters and others
-        private        
-        integer :: lastOutNumDt    !<number of the last outputed iteration
-        integer :: numOutFile   !<number of the current output file        
+        private
+        integer :: lastOutNumDt     !<number of the last outputed iteration
+        integer :: numOutFile       !<number of the current output file
+        type(stringList_class) :: varToOutput
     contains
     procedure, public :: increment_numOutFile
     procedure, public :: getnumOutFile
     procedure, public :: getlastOutNumDt
-    procedure, public :: setlastOutNumDt    
+    procedure, public :: setlastOutNumDt
+    procedure, public :: addToOutputPool
+    procedure, public :: getOutputPoolArray
     end type output_t
 
     type :: var_names_t
@@ -225,6 +228,7 @@
     procedure :: setTimeDate
     procedure, public :: setNamingConventions
     procedure, public :: setInputFileNames
+    procedure, public :: setOutputVariables
     procedure :: setVarNames
     procedure :: setDimNames
     procedure :: setCurrVar
@@ -302,11 +306,12 @@
     !global time
     self%SimTime%CurrTime = 0.0
     !global counters
-    self%Sim%numdt = 0    
+    self%Sim%numdt = 0
     self%Sim%numTracer = 0
     !output control variables
     self%Output%lastOutNumDt = 0
     self%Output%numoutfile = 0
+    call self%setOutputVariables()
     !data types
     self%DataTypes%currents = 'hydrodynamic'
     self%DataTypes%winds = 'meteorology'
@@ -318,7 +323,22 @@
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)
 
-    end subroutine
+    end subroutine setdefaults
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Builds the list of the required output variables.
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine setOutputVariables(self)
+    class(globals_class), intent(inout) :: self
+    type(string) :: temp
+    temp = 'age'
+    call self%Output%addToOutputPool(temp)
+    temp = 'condition'
+    call self%Output%addToOutputPool(temp)
+    end subroutine setOutputVariables
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -656,7 +676,6 @@
     !> Increments Tracer count. This routine MUST be ATOMIC.
     !---------------------------------------------------------------------------
     subroutine increment_numTracer(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     !ATOMIC pragma here please
     self%numTracer = self%numTracer + 1
@@ -668,7 +687,6 @@
     !> Returns a new ID for a Tracer.
     !---------------------------------------------------------------------------
     integer function getnumTracer(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     call self%increment_numTracer()
     getnumTracer = self%numTracer
@@ -680,7 +698,6 @@
     !> incrementing time step count.
     !---------------------------------------------------------------------------
     subroutine increment_numdt(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     self%numdt = self%numdt + 1
     end subroutine increment_numdt
@@ -691,7 +708,6 @@
     !> Returns the number of time steps.
     !---------------------------------------------------------------------------
     integer function getnumdt(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
@@ -723,7 +739,6 @@
     !> incrementing output file count.
     !---------------------------------------------------------------------------
     subroutine increment_numOutFile(self)
-    implicit none
     class(output_t), intent(inout) :: self
     self%numOutFile = self%numOutFile + 1
     end subroutine increment_numOutFile
@@ -734,10 +749,61 @@
     !> Returns the number of output files written.
     !---------------------------------------------------------------------------
     integer function getnumOutFile(self)
-    implicit none
     class(output_t), intent(inout) :: self
     getnumOutFile = self%numOutFile
     end function getnumOutFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds a variable name to the output pool.
+    !---------------------------------------------------------------------------
+    subroutine addToOutputPool(self, var)
+    class(output_t), intent(inout) :: self
+    type(string), intent(in) :: var
+    if (self%varToOutput%notRepeated(var)) call self%varToOutput%add(var)
+    end subroutine addToOutputPool
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds a variable name to the output pool.
+    !---------------------------------------------------------------------------
+    subroutine getOutputPoolArray(self, array)
+    class(output_t), intent(inout) :: self
+    type(string), intent(out), allocatable, dimension(:) :: array
+    class(*), pointer :: curr
+    integer :: i
+    type(string) :: outext
+    i=1
+    allocate(array(self%varToOutput%getSize()))
+    call self%varToOutput%reset()               ! reset list iterator
+    do while(self%varToOutput%moreValues())     ! loop while there are values to print
+        curr => self%varToOutput%currentValue() ! get current value
+        select type(curr)
+        class is (string)
+            array(i) = curr
+            class default
+            outext = '[Globals::getOutputPoolArray] Unexepected type of content, not a string'
+            call Log%put(outext)
+            stop
+        end select
+        call self%varToOutput%next()            ! increment the list iterator
+        i = i + 1
+    end do
+    call self%varToOutput%reset()               ! reset list iterator
+    end subroutine getOutputPoolArray
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns true if a given var is in the output pool.
+    !---------------------------------------------------------------------------
+    logical function inOutputPool(self, var)
+    class(output_t), intent(inout) :: self
+    type(string), intent(in) :: var
+    inOutputPool = .not.self%varToOutput%notRepeated(var)
+    end function inOutputPool
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -747,7 +813,6 @@
     !> @param[in] self, parmkey, parmvalue
     !---------------------------------------------------------------------------
     subroutine setParam(self,parmkey,parmvalue)
-    implicit none
     class(parameters_t), intent(inout) :: self
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
@@ -803,7 +868,6 @@
     !> Parameter checking method. Checks if mandatory parameters were set
     !---------------------------------------------------------------------------
     subroutine check(self)
-    implicit none
     class(parameters_t), intent(inout) :: self
     type(string) :: outext
     type(datetime) :: temp
@@ -972,7 +1036,7 @@
     sizem = sizeof(self%BeachingStopProb)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingStopProb
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

@@ -75,12 +75,13 @@
     !> @brief
     !> Public Tracer writting routine. Writes Tracer data in binary XML VTK
     !> format using an unstructured grid. Serial writer for serial files.
-    !> @param[in] self, filename, blocks
+    !> @param[in] self, filename, blocks, outputVars
     !---------------------------------------------------------------------------
-    subroutine TracerSerial(self, filename, blocks)
+    subroutine TracerSerial(self, filename, blocks, outputVars)
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
+    type(string), dimension(:), intent(in) :: outputVars
 
     type(vtk_file) :: vtkfile
     type(string) :: fullfilename, extfilename
@@ -120,19 +121,21 @@
                 error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=pack(blocks(i)%BlockState(b)%state(:,1), active), y=pack(blocks(i)%BlockState(b)%state(:,2), active), z=pack(blocks(i)%BlockState(b)%state(:,3), active))
                 error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
                 error = vtkfile%xml_writer%write_dataarray(location='node', action='open')
+                
                 !mandatory variables to output
                 error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%BlockState(b)%id, active))
                 error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%BlockState(b)%source, active))
                 error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%BlockState(b)%state(:,4), active), y=pack(blocks(i)%BlockState(b)%state(:,5), active), z=pack(blocks(i)%BlockState(b)%state(:,6), active))
-                error = vtkfile%xml_writer%write_dataarray(data_name='age', x=pack(blocks(i)%BlockState(b)%state(:,11), active))
-
-                !optional variables to output
                 !error = vtkfile%xml_writer%write_dataarray(data_name='landIntMask', x=pack(blocks(i)%BlockState(b)%landIntMask, active))
                 !error = vtkfile%xml_writer%write_dataarray(data_name='resolution', x=pack(blocks(i)%BlockState(b)%resolution, active))
-                tag = 'condition'
-                nf = Utils%find_str(blocks(i)%BlockState(b)%varName, tag, .false.)
-                if (nf /= MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(blocks(i)%BlockState(b)%state(:,nf), active))
-                if (nf == MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name='condition', x=pack(fillValue, active))
+
+                !optional variables to output
+                do j = 1, size(outputVars)
+                    tag = outputVars(j)
+                    nf = Utils%find_str(blocks(i)%BlockState(b)%varName, tag, .false.)
+                    if (nf /= MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name=tag%chars(), x=pack(blocks(i)%BlockState(b)%state(:,nf), active))
+                    if (nf == MV_INT) error = vtkfile%xml_writer%write_dataarray(data_name=tag%chars(), x=pack(fillValue, active))
+                end do
 
                 error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
                 error = vtkfile%xml_writer%write_piece()
