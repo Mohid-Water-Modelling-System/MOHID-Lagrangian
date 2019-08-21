@@ -66,11 +66,11 @@
     type(string) :: fileName
     
     if (self%CheckWriteTime()) then
-        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
+        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Output%getnumOutFile())
         call self%WriteStepSerial(fileName, blocks)
         call self%writeOutputSummary(numTracers, simTimer, fileName)
-        call Globals%Sim%setlastOutNumDt(Globals%Sim%getnumdt())
-        call Globals%Sim%increment_numoutfile()
+        call Globals%Output%setlastOutNumDt(Globals%Sim%getnumdt())
+        call Globals%Output%increment_numOutFile()
         self%LastWriteTime = Globals%SimTime%CurrTime
     end if
 

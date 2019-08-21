@@ -114,19 +114,24 @@
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
-        integer :: lastOutNumDt    !<number of the last outputed iteration
-        integer :: numoutfile   !<number of the current output file
         integer :: numTracer    !<Global Tracer number holder. Incremented at tracer construction or first activation time
-    contains
+    contains        
+    procedure, public :: getnumdt    
     procedure, public :: increment_numdt
-    procedure, public :: increment_numoutfile
-    procedure, public :: getnumdt
-    procedure, public :: getlastOutNumDt
-    procedure, public :: setlastOutNumDt
-    procedure, public :: getnumoutfile
     procedure, public :: getnumTracer
     procedure, private :: increment_numTracer
     end type sim_t
+    
+    type :: output_t  !<Simulation related counters and others
+        private        
+        integer :: lastOutNumDt    !<number of the last outputed iteration
+        integer :: numOutFile   !<number of the current output file        
+    contains
+    procedure, public :: increment_numOutFile
+    procedure, public :: getnumOutFile
+    procedure, public :: getlastOutNumDt
+    procedure, public :: setlastOutNumDt    
+    end type output_t
 
     type :: var_names_t
         type(string) :: u !< Name of the 'u' variable in the model
@@ -209,6 +214,7 @@
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
         type(sim_t)         :: Sim
+        type(output_t)      :: Output
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
         type(maskVals_t)    :: Mask
@@ -296,10 +302,11 @@
     !global time
     self%SimTime%CurrTime = 0.0
     !global counters
-    self%Sim%numdt = 0
-    self%Sim%lastOutNumDt = 0
-    self%Sim%numoutfile = 0
+    self%Sim%numdt = 0    
     self%Sim%numTracer = 0
+    !output control variables
+    self%Output%lastOutNumDt = 0
+    self%Output%numoutfile = 0
     !data types
     self%DataTypes%currents = 'hydrodynamic'
     self%DataTypes%winds = 'meteorology'
@@ -695,7 +702,7 @@
     !> Returns the number of time steps from last ouptut.
     !---------------------------------------------------------------------------
     integer function getlastOutNumDt(self)
-    class(sim_t), intent(inout) :: self
+    class(output_t), intent(inout) :: self
     getlastOutNumDt = self%lastOutNumDt
     end function getlastOutNumDt
 
@@ -705,7 +712,7 @@
     !> Sets the number of time steps from last ouptut.
     !---------------------------------------------------------------------------
     subroutine setlastOutNumDt(self, num)
-    class(sim_t), intent(inout) :: self
+    class(output_t), intent(inout) :: self
     integer, intent(in) :: num
     self%lastOutNumDt = num
     end subroutine setlastOutNumDt
@@ -715,22 +722,22 @@
     !> @brief
     !> incrementing output file count.
     !---------------------------------------------------------------------------
-    subroutine increment_numoutfile(self)
+    subroutine increment_numOutFile(self)
     implicit none
-    class(sim_t), intent(inout) :: self
-    self%numoutfile = self%numoutfile + 1
-    end subroutine increment_numoutfile
+    class(output_t), intent(inout) :: self
+    self%numOutFile = self%numOutFile + 1
+    end subroutine increment_numOutFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns the number of output files written.
     !---------------------------------------------------------------------------
-    integer function getnumoutfile(self)
+    integer function getnumOutFile(self)
     implicit none
-    class(sim_t), intent(inout) :: self
-    getnumoutfile = self%numoutfile
-    end function getnumoutfile
+    class(output_t), intent(inout) :: self
+    getnumOutFile = self%numOutFile
+    end function getnumOutFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
