@@ -149,6 +149,65 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Sets the global variables responsible for controling field outputs.
+    !> reads options from a xml file and adds a variable field to the print poll
+    !> accordingly
+    !> @param[in] case_node
+    !---------------------------------------------------------------------------
+    subroutine setOutputFields(aNode)
+    type(Node), intent(in), pointer :: aNode
+    type(Node), pointer :: fileNode
+    type(Node), pointer :: fieldNode
+    type(Node), pointer :: outputFieldsFile
+    type(NodeList), pointer :: outputFieldsList
+    type(string) :: outext
+    type(string) :: tag, att_name
+    type(string) :: outputFieldsFilename
+    type(string) :: fieldName, fieldOption
+    type(string), dimension(:), allocatable :: fieldNameArray
+    logical, dimension(:), allocatable :: toOutput, autoOutput
+    integer :: i
+    
+    tag="outputFields" 
+    call XMLReader%gotoNode(aNode, fileNode, tag, mandatory =.false.)
+    if (associated(fileNode)) then
+        call XMLReader%gotoNode(fileNode, fileNode, tag)
+        att_name="name"
+        call XMLReader%getLeafAttribute(fileNode, att_name, outputFieldsFilename)
+        !reading the file and building print/noprint array
+        call XMLReader%getFile(outputFieldsFile,outputFieldsFilename)
+        tag = "output"
+        call XMLReader%gotoNode(outputFieldsFile ,outputFieldsFile, tag)
+        outputFieldsList => getElementsByTagname(outputFieldsFile, "field")
+        allocate(fieldNameArray(getLength(outputFieldsList)))
+        allocate(toOutput(getLength(outputFieldsList)))
+        allocate(autoOutput(getLength(outputFieldsList)))
+        toOutput = .false.
+        autoOutput = .false.
+        do i = 0, getLength(outputFieldsList) - 1
+            fieldNode => item(outputFieldsList, i)
+            att_name="name"
+            call XMLReader%getLeafAttribute(fieldNode, att_name, fieldName)
+            att_name="output"
+            call XMLReader%getLeafAttribute(fieldNode, att_name, fieldOption)
+            fieldNameArray(i+1) = fieldName
+            if (fieldOption == 'yes') toOutput(i+1) = .true.
+            if (fieldOption == 'auto') then
+                toOutput(i+1) = .true.
+                autoOutput(i+1) = .true.
+            end if
+        end do
+    else
+        outext='-->No output fields user override file, assuming auto settings for field output'
+        call Log%put(outext,.false.)
+    endif
+    !calling the globals method to set the output variable field list
+
+    end subroutine setOutputFields
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> naming xml parser routine. Reads the naming file(s), opens the file(s) and
     !> stores the naming conventions for input files
     !> @param[in] case_node
@@ -522,6 +581,7 @@
     call init_sources(case_node)
     call init_properties(case_node)
     call init_naming(execution_node)
+    call setOutputFields(execution_node)
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads
