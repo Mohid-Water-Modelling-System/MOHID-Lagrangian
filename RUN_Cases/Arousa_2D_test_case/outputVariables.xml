@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!-- This is a list of output variables. "auto" - variable is written if used; "yes" - variable is written, even if it doesn't exist; "no" - variable is not written -->
+<!-- If a variable is not on this list, it is assumed "auto" -->
 <output>
-	<variable name="age" output="yes" />
-	<variable name="condition" output="no" />	
+	<variable name="age" output="auto" />
+	<variable name="condition" output="no" />
 </output>
