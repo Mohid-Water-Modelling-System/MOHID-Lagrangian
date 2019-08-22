@@ -9,11 +9,17 @@
 			<parameter key="OutputWriteTime" value="900" comment="Time out data (1/Hz)" units_comment="seconds" />
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
+		<outputFields>
+			<file name="outputFields.xml"/>
+		</outputFields>
+		<variableNaming>
+			<file name="data/ncNamesLibrary.xml"/>
+		</variableNaming>
 	</execution>
 	<caseDefinitions>
 		<inputData>
 			<inputDataDir name="nc_fields" type="hydrodynamic"/>
-		</inputData>
+		</inputData>		
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
@@ -55,10 +61,7 @@
 				<type source="3" type='paper' property="cardboard_1" comment="" />
 			</types>
 			<file name="data/materialTypes.xml"/>
-		</sourceTypes>
-		<variableNaming>
-			<file name="data/ncNamesLibrary.xml"/>
-		</variableNaming>
+		</sourceTypes>		
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />			

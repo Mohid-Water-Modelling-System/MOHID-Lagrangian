@@ -521,7 +521,7 @@
     call init_simdefs(case_node)
     call init_sources(case_node)
     call init_properties(case_node)
-    call init_naming(case_node)
+    call init_naming(execution_node)
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads

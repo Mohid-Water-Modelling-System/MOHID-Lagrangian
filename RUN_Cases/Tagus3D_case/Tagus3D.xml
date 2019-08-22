@@ -10,6 +10,9 @@
 			<parameter key="OutputWriteTime" value="1200" comment="Time out data (1/Hz)" units_comment="seconds" />
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
+		<variableNaming>
+			<file name="ncNamesLibrary.xml"/>
+		</variableNaming>
 	</execution>
 	<caseDefinitions>
 		<inputData>
@@ -33,9 +36,6 @@
 				</box>
 			</source>
 		</sourceDefinitions>
-		<variableNaming>
-			<file name="ncNamesLibrary.xml"/>
-		</variableNaming>
 		<constants>
 			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />
