@@ -154,8 +154,8 @@
     !> accordingly
     !> @param[in] case_node
     !---------------------------------------------------------------------------
-    subroutine setOutputFields(aNode)
-    type(Node), intent(in), pointer :: aNode
+    subroutine setOutputFields(exeNode)
+    type(Node), intent(in), pointer :: exeNode
     type(Node), pointer :: fileNode
     type(Node), pointer :: fieldNode
     type(Node), pointer :: outputFieldsFile
@@ -165,25 +165,24 @@
     type(string) :: outputFieldsFilename
     type(string) :: fieldName, fieldOption
     type(string), dimension(:), allocatable :: fieldNameArray
-    logical, dimension(:), allocatable :: toOutput, autoOutput
+    logical, dimension(:), allocatable :: toOutput
     integer :: i
     
     tag="outputFields" 
-    call XMLReader%gotoNode(aNode, fileNode, tag, mandatory =.false.)
+    call XMLReader%gotoNode(exeNode, fileNode, tag, mandatory =.false.)
     if (associated(fileNode)) then
+        tag = "file"
         call XMLReader%gotoNode(fileNode, fileNode, tag)
         att_name="name"
         call XMLReader%getLeafAttribute(fileNode, att_name, outputFieldsFilename)
         !reading the file and building print/noprint array
-        call XMLReader%getFile(outputFieldsFile,outputFieldsFilename)
+        call XMLReader%getFile(outputFieldsFile, outputFieldsFilename)
         tag = "output"
         call XMLReader%gotoNode(outputFieldsFile ,outputFieldsFile, tag)
         outputFieldsList => getElementsByTagname(outputFieldsFile, "field")
         allocate(fieldNameArray(getLength(outputFieldsList)))
         allocate(toOutput(getLength(outputFieldsList)))
-        allocate(autoOutput(getLength(outputFieldsList)))
         toOutput = .false.
-        autoOutput = .false.
         do i = 0, getLength(outputFieldsList) - 1
             fieldNode => item(outputFieldsList, i)
             att_name="name"
@@ -192,16 +191,13 @@
             call XMLReader%getLeafAttribute(fieldNode, att_name, fieldOption)
             fieldNameArray(i+1) = fieldName
             if (fieldOption == 'yes') toOutput(i+1) = .true.
-            if (fieldOption == 'auto') then
-                toOutput(i+1) = .true.
-                autoOutput(i+1) = .true.
-            end if
         end do
     else
-        outext='-->No output fields user override file, assuming auto settings for field output'
+        outext='-->No output fields user override file, assuming basic settings for field output'
         call Log%put(outext,.false.)
     endif
     !calling the globals method to set the output variable field list
+    call Globals%Output%setOutputFields(fieldNameArray, toOutput)
 
     end subroutine setOutputFields
     

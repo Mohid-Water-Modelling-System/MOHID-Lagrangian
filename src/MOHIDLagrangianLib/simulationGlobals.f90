@@ -132,8 +132,9 @@
     procedure, public :: getnumOutFile
     procedure, public :: getlastOutNumDt
     procedure, public :: setlastOutNumDt
-    procedure, public :: addToOutputPool
+    procedure, private :: addToOutputPool
     procedure, public :: getOutputPoolArray
+    procedure, public :: setOutputFields
     end type output_t
 
     type :: var_names_t
@@ -228,7 +229,6 @@
     procedure :: setTimeDate
     procedure, public :: setNamingConventions
     procedure, public :: setInputFileNames
-    procedure, public :: setOutputVariables
     procedure :: setVarNames
     procedure :: setDimNames
     procedure :: setCurrVar
@@ -311,7 +311,6 @@
     !output control variables
     self%Output%lastOutNumDt = 0
     self%Output%numoutfile = 0
-    call self%setOutputVariables()
     !data types
     self%DataTypes%currents = 'hydrodynamic'
     self%DataTypes%winds = 'meteorology'
@@ -324,21 +323,6 @@
     call SimMemory%adddef(sizem)
 
     end subroutine setdefaults
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Builds the list of the required output variables.
-    !> @param[in] self
-    !---------------------------------------------------------------------------
-    subroutine setOutputVariables(self)
-    class(globals_class), intent(inout) :: self
-    type(string) :: temp
-    temp = 'age'
-    call self%Output%addToOutputPool(temp)
-    temp = 'condition'
-    call self%Output%addToOutputPool(temp)
-    end subroutine setOutputVariables
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -763,6 +747,22 @@
     type(string), intent(in) :: var
     if (self%varToOutput%notRepeated(var)) call self%varToOutput%add(var)
     end subroutine addToOutputPool
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds variable fields one by one to the output pool, given a string and 
+    !> boolean list.
+    !---------------------------------------------------------------------------
+    subroutine setOutputFields(self, fields, toOutput)
+    class(output_t), intent(inout) :: self
+    type(string), dimension(:), intent(in) :: fields
+    logical, dimension(:), intent(in) :: toOutput
+    integer :: i
+    do i= 1, size(fields)
+        if (toOutput(i)) call self%addToOutputPool(fields(i))
+    end do
+    end subroutine setOutputFields
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
