@@ -35,7 +35,7 @@
         integer :: OutputFormat = -1            !< Switch for output format
         type(string), allocatable, dimension(:) :: outputVariables  !< list of optional variables to output
         type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
-        !type(hdf5writter_class) :: hdf5Writter    !< The vtk writter object
+        type(hdf5writter_class) :: hdf5Writter    !< The vtk writter object
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: writeOutputHeader
@@ -192,7 +192,7 @@
     call Globals%Output%getOutputPoolArray(self%outputVariables)
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
-        !call self%hdf5Writter%initialize()
+        call self%hdf5Writter%initialize()
     end if
     end subroutine initOutputStreamer
 
