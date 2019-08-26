@@ -84,34 +84,33 @@
     integer :: np
     logical, allocatable, dimension(:) :: active
     
-    integer, dimension(:,:), pointer :: mat
+    real(8), dimension(:,:), pointer :: mat
 
     extfilename = filename%chars()//'.hdf5'
     fullfilename = Globals%Names%outpath//'/'//extfilename
-
-    ID = 0
-    
+        
     mat = blocks(1)%BlockState(1)%state
-
+    
     !Gets File Access Code
     call GetHDF5FileAccess(HDF5_CREATE = HDF5_CREATE)
     !Opens HDF File
+    ID = 0
     call ConstructHDF5(ID, fullfilename%chars(), HDF5_CREATE, STAT = STAT_CALL)
     if (STAT_CALL /= SUCCESS_) then
         outext = '[HDF5Writter::TracerSerial]: unnable to create '//fullfilename//' file, stoping'
         call Log%put(outext)
         stop
     end if
-    !writting data    
-
-    call HDF5WriteData(ID, "/Data", "TestMatrix", "-",         &
-        Array2D = mat,            &
-        STAT = STAT_CALL)
-    if (STAT_CALL /= SUCCESS_) then
-        outext = '[HDF5Writter::TracerSerial]: unnable to write to '//fullfilename//' file, stoping'
-        call Log%put(outext)
-        stop
-    end if
+    
+    !writting data
+    !print*,'data to be writen'
+    !call HDF5WriteData(ID, "/Data", "TestMatrix", "-", Array2D = mat, STAT = STAT_CALL)
+    !print*,'data writen'
+    !if (STAT_CALL /= SUCCESS_) then
+    !    outext = '[HDF5Writter::TracerSerial]: unnable to write to '//fullfilename//' file, stoping'
+    !    call Log%put(outext)
+    !    stop
+    !end if
 
     self%numHdf5Files = self%numHdf5Files + 1
 
