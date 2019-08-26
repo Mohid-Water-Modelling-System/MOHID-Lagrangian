@@ -83,9 +83,13 @@
     !---------------------------------------------------------------------------
     subroutine run(self)
     class(simulation_class), intent(inout) :: self
+    type(string) :: outext
     logical :: dbg = .false.
 
     call self%OutputStreamer%writeOutputHeader()
+    
+    outext='->Building initial state'
+    call Log%put(outext)
 
     !main time cycle
     do while (Globals%SimTime%CurrTime < Globals%Parameters%TimeMax)
