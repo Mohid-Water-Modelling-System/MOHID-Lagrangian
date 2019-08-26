@@ -88,12 +88,14 @@
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
+        real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
+    procedure :: setDiffusionCoeff
     procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
@@ -112,19 +114,27 @@
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
-        integer :: lastOutNumDt    !<number of the last outputed iteration
-        integer :: numoutfile   !<number of the current output file
         integer :: numTracer    !<Global Tracer number holder. Incremented at tracer construction or first activation time
     contains
-    procedure, public :: increment_numdt
-    procedure, public :: increment_numoutfile
     procedure, public :: getnumdt
-    procedure, public :: getlastOutNumDt
-    procedure, public :: setlastOutNumDt
-    procedure, public :: getnumoutfile
+    procedure, public :: increment_numdt
     procedure, public :: getnumTracer
     procedure, private :: increment_numTracer
     end type sim_t
+
+    type :: output_t  !<Simulation related counters and others
+        private
+        integer :: lastOutNumDt     !<number of the last outputed iteration
+        integer :: numOutFile       !<number of the current output file
+        type(stringList_class) :: varToOutput
+    contains
+    procedure, public :: increment_numOutFile
+    procedure, public :: getnumOutFile
+    procedure, public :: getlastOutNumDt
+    procedure, public :: setlastOutNumDt
+    procedure, public :: addToOutputPool
+    procedure, public :: getOutputPoolArray
+    end type output_t
 
     type :: var_names_t
         type(string) :: u !< Name of the 'u' variable in the model
@@ -143,6 +153,7 @@
         type(string) :: time
         type(string) :: landIntMask
         type(string) :: landMask
+        type(string) :: resolution
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -206,6 +217,7 @@
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
         type(sim_t)         :: Sim
+        type(output_t)      :: Output
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
         type(maskVals_t)    :: Mask
@@ -216,6 +228,7 @@
     procedure :: setTimeDate
     procedure, public :: setNamingConventions
     procedure, public :: setInputFileNames
+    procedure, public :: setOutputVariables
     procedure :: setVarNames
     procedure :: setDimNames
     procedure :: setCurrVar
@@ -277,6 +290,7 @@
     self%Constants%Z0 = 0.0
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
+    self%Constants%DiffusionCoeff = 1.0
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
@@ -293,9 +307,11 @@
     self%SimTime%CurrTime = 0.0
     !global counters
     self%Sim%numdt = 0
-    self%Sim%lastOutNumDt = 0
-    self%Sim%numoutfile = 0
     self%Sim%numTracer = 0
+    !output control variables
+    self%Output%lastOutNumDt = 0
+    self%Output%numoutfile = 0
+    call self%setOutputVariables()
     !data types
     self%DataTypes%currents = 'hydrodynamic'
     self%DataTypes%winds = 'meteorology'
@@ -307,7 +323,22 @@
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)
 
-    end subroutine
+    end subroutine setdefaults
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Builds the list of the required output variables.
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine setOutputVariables(self)
+    class(globals_class), intent(inout) :: self
+    type(string) :: temp
+    temp = 'age'
+    call self%Output%addToOutputPool(temp)
+    temp = 'condition'
+    call self%Output%addToOutputPool(temp)
+    end subroutine setOutputVariables
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -332,6 +363,7 @@
     self%time    = 'time'
     self%landMask    = 'landMask'
     self%landIntMask = 'landIntMask'
+    self%resolution = 'resolution'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -644,7 +676,6 @@
     !> Increments Tracer count. This routine MUST be ATOMIC.
     !---------------------------------------------------------------------------
     subroutine increment_numTracer(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     !ATOMIC pragma here please
     self%numTracer = self%numTracer + 1
@@ -656,7 +687,6 @@
     !> Returns a new ID for a Tracer.
     !---------------------------------------------------------------------------
     integer function getnumTracer(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     call self%increment_numTracer()
     getnumTracer = self%numTracer
@@ -668,7 +698,6 @@
     !> incrementing time step count.
     !---------------------------------------------------------------------------
     subroutine increment_numdt(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     self%numdt = self%numdt + 1
     end subroutine increment_numdt
@@ -679,7 +708,6 @@
     !> Returns the number of time steps.
     !---------------------------------------------------------------------------
     integer function getnumdt(self)
-    implicit none
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
@@ -690,7 +718,7 @@
     !> Returns the number of time steps from last ouptut.
     !---------------------------------------------------------------------------
     integer function getlastOutNumDt(self)
-    class(sim_t), intent(inout) :: self
+    class(output_t), intent(inout) :: self
     getlastOutNumDt = self%lastOutNumDt
     end function getlastOutNumDt
 
@@ -700,7 +728,7 @@
     !> Sets the number of time steps from last ouptut.
     !---------------------------------------------------------------------------
     subroutine setlastOutNumDt(self, num)
-    class(sim_t), intent(inout) :: self
+    class(output_t), intent(inout) :: self
     integer, intent(in) :: num
     self%lastOutNumDt = num
     end subroutine setlastOutNumDt
@@ -710,22 +738,72 @@
     !> @brief
     !> incrementing output file count.
     !---------------------------------------------------------------------------
-    subroutine increment_numoutfile(self)
-    implicit none
-    class(sim_t), intent(inout) :: self
-    self%numoutfile = self%numoutfile + 1
-    end subroutine increment_numoutfile
+    subroutine increment_numOutFile(self)
+    class(output_t), intent(inout) :: self
+    self%numOutFile = self%numOutFile + 1
+    end subroutine increment_numOutFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns the number of output files written.
     !---------------------------------------------------------------------------
-    integer function getnumoutfile(self)
-    implicit none
-    class(sim_t), intent(inout) :: self
-    getnumoutfile = self%numoutfile
-    end function getnumoutfile
+    integer function getnumOutFile(self)
+    class(output_t), intent(inout) :: self
+    getnumOutFile = self%numOutFile
+    end function getnumOutFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds a variable name to the output pool.
+    !---------------------------------------------------------------------------
+    subroutine addToOutputPool(self, var)
+    class(output_t), intent(inout) :: self
+    type(string), intent(in) :: var
+    if (self%varToOutput%notRepeated(var)) call self%varToOutput%add(var)
+    end subroutine addToOutputPool
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds a variable name to the output pool.
+    !---------------------------------------------------------------------------
+    subroutine getOutputPoolArray(self, array)
+    class(output_t), intent(inout) :: self
+    type(string), intent(out), allocatable, dimension(:) :: array
+    class(*), pointer :: curr
+    integer :: i
+    type(string) :: outext
+    i=1
+    allocate(array(self%varToOutput%getSize()))
+    call self%varToOutput%reset()               ! reset list iterator
+    do while(self%varToOutput%moreValues())     ! loop while there are values to print
+        curr => self%varToOutput%currentValue() ! get current value
+        select type(curr)
+        class is (string)
+            array(i) = curr
+            class default
+            outext = '[Globals::getOutputPoolArray] Unexepected type of content, not a string'
+            call Log%put(outext)
+            stop
+        end select
+        call self%varToOutput%next()            ! increment the list iterator
+        i = i + 1
+    end do
+    call self%varToOutput%reset()               ! reset list iterator
+    end subroutine getOutputPoolArray
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns true if a given var is in the output pool.
+    !---------------------------------------------------------------------------
+    logical function inOutputPool(self, var)
+    class(output_t), intent(inout) :: self
+    type(string), intent(in) :: var
+    inOutputPool = .not.self%varToOutput%notRepeated(var)
+    end function inOutputPool
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -735,7 +813,6 @@
     !> @param[in] self, parmkey, parmvalue
     !---------------------------------------------------------------------------
     subroutine setParam(self,parmkey,parmvalue)
-    implicit none
     class(parameters_t), intent(inout) :: self
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
@@ -791,7 +868,6 @@
     !> Parameter checking method. Checks if mandatory parameters were set
     !---------------------------------------------------------------------------
     subroutine check(self)
-    implicit none
     class(parameters_t), intent(inout) :: self
     type(string) :: outext
     type(datetime) :: temp
@@ -910,7 +986,7 @@
     type(string) :: outext
     integer :: sizem
     self%RhoRef=read_rho%to_number(kind=1._R4P)
-    if (self%RhoRef.le.0.0) then
+    if (self%RhoRef <= 0.0) then
         outext='RhoRef must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -930,7 +1006,7 @@
     type(string), intent(in) :: read_BeachingLevel
     type(string) :: outext
     integer :: sizem
-    if (read_BeachingLevel%to_number(kind=1._R4P).gt.0.0) then
+    if (read_BeachingLevel%to_number(kind=1._R4P) > 0.0) then
         outext='Beaching level must be negative, assuming default value'
         call Log%put(outext)
     else
@@ -964,6 +1040,27 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Horizontal Diffusion coefficient setting routine.
+    !> @param[in] self, read_DiffusionCoeff
+    !---------------------------------------------------------------------------
+    subroutine setDiffusionCoeff(self, read_DiffusionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_DiffusionCoeff
+    type(string) :: outext
+    integer :: sizem
+    if (read_DiffusionCoeff%to_number(kind=1._R4P) < 0.0) then
+        outext='Diffusion coefficient must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%DiffusionCoeff =read_DiffusionCoeff%to_number(kind=1._R4P)
+    endif
+    sizem = sizeof(self%DiffusionCoeff)
+    call SimMemory%adddef(sizem)
+    end subroutine setDiffusionCoeff
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> smallDt setting routine.
     !> @param[in] self, dt
     !---------------------------------------------------------------------------
@@ -973,7 +1070,7 @@
     type(string) :: outext
     integer :: sizem
     self%smallDt=dt/3.0
-    if (self%smallDt.le.0.0) then
+    if (self%smallDt <= 0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -1039,7 +1136,7 @@
     type(string) :: outext
     integer :: sizem
     self%dt=read_dt%to_number(kind=1._R4P)
-    if (self%dt.le.0.0) then
+    if (self%dt <= 0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop

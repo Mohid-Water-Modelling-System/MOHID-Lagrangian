@@ -36,10 +36,11 @@
         integer :: ttype
         type(trcPtr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:,:) :: state
+        type(string), allocatable, dimension(:) :: varName
         integer, allocatable, dimension(:) :: landMask, source, id
         real(prec) , allocatable, dimension(:) :: landIntMask
+        real(prec) , allocatable, dimension(:) :: resolution
         logical, allocatable, dimension(:) :: active
-        type(string), allocatable, dimension(:) :: varName
         integer :: idx
     contains
     procedure :: toTracers
@@ -67,6 +68,8 @@
     newsv%landMask = self%landMask
     allocate(newsv%landIntMask(size(self%landIntMask)))
     newsv%landIntMask = self%landIntMask
+    allocate(newsv%resolution(size(self%resolution)))
+    newsv%resolution = self%resolution
     allocate(newsv%active(size(self%active)))
     newsv%active = self%active
     allocate(newsv%varName(size(self%varName)))
@@ -114,6 +117,7 @@
     if (allocated(self%state)) deallocate(self%state)
     if (allocated(self%landMask)) deallocate(self%landMask)
     if (allocated(self%landIntMask)) deallocate(self%landIntMask)
+    if (allocated(self%resolution)) deallocate(self%resolution)
     if (allocated(self%active)) deallocate(self%active)
     if (allocated(self%source)) deallocate(self%source)
     if (allocated(self%id)) deallocate(self%id)

@@ -149,12 +149,7 @@
         aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
-            if (allocated(aSource%par%activeTime)) then
-                aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
-            else
-                aSource%now%active  = .true.
-            end if
-            
+            aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
             class default
             outext = '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
             call Log%put(outext)
@@ -335,8 +330,9 @@
             allocate(self%BlockState(i)%id(self%trcType(i,2)))
             allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
             self%BlockState(i)%landMask = Globals%Mask%waterVal
-            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))
+            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))            
             self%BlockState(i)%landIntMask = Globals%Mask%waterVal
+            allocate(self%BlockState(i)%resolution(self%trcType(i,2)))
         end do
         call self%LTracer%reset()                   ! reset list iterator
         do while(self%LTracer%moreValues())         ! loop while there are values

@@ -36,11 +36,13 @@
     procedure :: run => runKernel
     procedure, private :: setCommonProcesses
     procedure, private :: LagrangianKinematic
+    procedure, private :: DiffusionMixingLength
     procedure, private :: DiffusionIsotropic
     procedure, private :: StokesDrift
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
+    procedure, private :: DegradationLinear
     procedure, private :: hasRequiredVars
     end type kernel_class
 
@@ -66,14 +68,14 @@
 
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
-        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
+        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
-        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv)
+        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) !+ self%DiffusionIsotropic(sv, dt)
-        runKernel = self%Beaching(sv, runKernel) + self%Aging(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv)
+        runKernel = self%Beaching(sv, runKernel)
     end if
 
     end function runKernel
@@ -96,9 +98,10 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
 
-    allocate(requiredVars(2))
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%landMask
     requiredVars(2) = Globals%Var%landIntMask
+    requiredVars(3) = Globals%Var%resolution
 
     !interpolate each background
     do bkg = 1, size(bdata)
@@ -118,14 +121,15 @@
 
                 !update land mask status
                 nf = Utils%find_str(var_name, Globals%Var%landMask)
-                if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
-                if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
+                sv%landMask = nint(var_dt(:,nf))
                 !marking tracers for deletion because they are in land
                 where(sv%landMask == 2) sv%active = .false.
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
-                if (nf /= MV_INT) sv%landIntMask = var_dt(:,nf)
-                if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
+                sv%landIntMask = var_dt(:,nf)
+                !update resolution proxy
+                nf = Utils%find_str(var_name, Globals%Var%resolution)
+                sv%resolution = var_dt(:,nf)
 
                 deallocate(var_dt)
                 deallocate(var_name)
@@ -299,7 +303,7 @@
     end function Windage
 
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Beaching Kernel, uses the already updated state vector and determines if
     !> and how beaching occurs. Affects the state vector and state vector derivative.
@@ -340,13 +344,13 @@
     end function Beaching
 
     !---------------------------------------------------------------------------
-    !> @author Daniel Garaboa Paz - USC
+    !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Aging kernel. Sets the age variable to be updated by dt by the solver
     !> @param[in] self
     !---------------------------------------------------------------------------
     function Aging(self, sv)
-    class(kernel_class), intent(inout) :: self
+    class(kernel_class), intent(in) :: self
     type(stateVector_class), intent(in) :: sv
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Aging
     integer :: nf
@@ -359,6 +363,81 @@
     Aging(:,nf) = 1.0
 
     end function Aging
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> mixing length diffusion kernel, computes random velocities at given
+    !> instants to model diffusion processes. These are valid while the tracer
+    !> travels a given mixing length, propotional to the resolution of the
+    !> background (and its ability to resove motion scales)
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function DiffusionMixingLength(self, sv, bdata, time, dt)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    real(prec), intent(in) :: dt
+    integer :: np, nf, bkg
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
+    real(prec), dimension(:), allocatable :: resolution
+    real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
+
+    allocate(requiredVars(1))
+    requiredVars(1) = Globals%Var%resolution
+
+    DiffusionMixingLength = 0.0
+    !interpolate each background
+    do bkg = 1, size(bdata)
+        if (bdata(bkg)%initialized) then
+            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+                np = size(sv%active) !number of Tracers
+                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                allocate(var_dt(np,nf))
+                allocate(var_name(nf))
+
+                allocate(resolution(np))
+                allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
+                call random_number(rand_vel_u)
+                call random_number(rand_vel_v)
+                call random_number(rand_vel_w)
+                !interpolating all of the data
+                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+                !update resolution estimate
+                nf = Utils%find_str(var_name, Globals%Var%resolution, .true.)
+                resolution = var_dt(:,nf)
+                !if we are still in the same path, use the same random velocity, do nothing
+                !if we ran the path, new random velocities are generated and placed
+                where (sv%state(:,10) > 2.0*resolution)
+                    DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*Globals%Constants%DiffusionCoeff*sv%state(:,4)/dt
+                    DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*Globals%Constants%DiffusionCoeff*sv%state(:,5)/dt
+                    DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*Globals%Constants%DiffusionCoeff*0.01*sv%state(:,6)/dt
+                    sv%state(:,10) = 0.0
+                elsewhere
+                    DiffusionMixingLength(:,7) = sv%state(:,7)/dt
+                    DiffusionMixingLength(:,8) = sv%state(:,8)/dt
+                    DiffusionMixingLength(:,9) = sv%state(:,9)/dt
+                end where
+                !update system velocities
+                !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
+                !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
+                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
+                !update system positions
+                DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
+                DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
+                !DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
+                !update used mixing length
+                DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
+                deallocate(var_dt)
+                deallocate(var_name)
+            end if
+        end if
+    end do
+    end function DiffusionMixingLength
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -391,6 +470,30 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
     end function DiffusionIsotropic
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Linear degradation kernel.
+    !> @param[in] self, sv, degRate
+    !---------------------------------------------------------------------------
+    function DegradationLinear(self, sv)
+    class(kernel_class), intent(in) :: self
+    type(stateVector_class), intent(inout) :: sv
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DegradationLinear
+    integer :: nf, idx
+    type(string) :: tag
+
+    DegradationLinear = 0.0
+    tag = 'condition'
+    nf = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'degradation_rate'
+    idx = Utils%find_str(sv%varName, tag, .true.)
+    
+    DegradationLinear(:,nf) = -sv%state(:,idx)
+    where(sv%state(:,nf) < 0.0) sv%active = .false.
+
+    end function DegradationLinear
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

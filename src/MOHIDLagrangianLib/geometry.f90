@@ -363,7 +363,7 @@
         do j=1, ny
             do k=1, nz
                 pts = (ex*(i-1)*dp%x +ey*(j-1)*dp%y +ez*(k-1)*dp%z) - r*(ex+ey+ez)
-                if (pts%normL2() .le. r) then
+                if (pts%normL2() <= r) then
                     np=np+1
                 end if
             end do
@@ -396,7 +396,7 @@
         do j=1, ny
             do k=1, nz
                 pts = (ex*(i-1)*dp%x +ey*(j-1)*dp%y +ez*(k-1)*dp%z) - r*(ex+ey+ez)
-                if (pts%normL2() .le. r) then
+                if (pts%normL2() <= r) then
                     p=p+1
                     ptlist(p)=pts
                 end if

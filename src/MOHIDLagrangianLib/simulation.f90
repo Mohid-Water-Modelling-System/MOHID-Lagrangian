@@ -88,7 +88,7 @@
     call self%OutputStreamer%writeOutputHeader()
 
     !main time cycle
-    do while (Globals%SimTime%CurrTime .lt. Globals%Parameters%TimeMax)
+    do while (Globals%SimTime%CurrTime < Globals%Parameters%TimeMax)
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
@@ -426,9 +426,9 @@
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     outext='-->Sources allocated to their current Blocks'
     call Log%put(outext,.false.)
-    outext = ntrc
-    outext='-->'//outext//' Tracers on the emission stack'
-    call Log%put(outext,.false.)
+    !outext = ntrc
+    !outext='-->'//outext//' Tracers on the emission stack'
+    !call Log%put(outext,.false.)
     call self%setTracerMemory(ntrc)
     end subroutine setInitialState
 

@@ -435,6 +435,12 @@
         if (readflag) then
             call Globals%Constants%setBeachingStopProb(att_val)
         endif
+        tag="DiffusionCoeff"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setDiffusionCoeff(att_val)
+        endif
     endif
     call Globals%Constants%print()
 
@@ -515,7 +521,7 @@
     call init_simdefs(case_node)
     call init_sources(case_node)
     call init_properties(case_node)
-    call init_naming(case_node)
+    call init_naming(execution_node)
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads

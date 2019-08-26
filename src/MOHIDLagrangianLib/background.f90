@@ -50,7 +50,8 @@
     procedure :: append => appendBackgroundByTime
     procedure :: getHyperSlab
     procedure :: ShedMemory
-    procedure :: makeLandMask
+    procedure :: makeLandMaskField
+    procedure :: makeResolutionField
     procedure :: copy
     procedure, private :: getSlabDim
     procedure, private :: getPointDimIndexes
@@ -217,7 +218,7 @@
             else
                 !done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
                 allocate(newTime, source = self%dim(j)%field)
-                call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)                
+                call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
                 !check if new time dimension is consistent (monotonic and not repeating)
                 done = all(newTime(2:)-newTime(1:size(newTime)-1) > 0)
                 name = self%dim(j)%name
@@ -228,7 +229,7 @@
         end do
     end if
     if (.not.done) return
-    
+
     allocate(gField(self%fields%getSize()))
     i=1
     call self%fields%reset()               ! reset list iterator
@@ -267,11 +268,11 @@
 
     call self%cleanFields()
     call self%fields%finalize()
-    
+
     do i=1, size(gField)
         call self%add(gField(i))
     end do
-    
+
     if(.not.self%check()) then
         outext = '[Background::appendBackgroundByTime]: non-conformant Background, stoping '
         call Log%put(outext)
@@ -318,8 +319,8 @@
             llbound(i) = uubound(i)
             uubound(i) = temp_int
         end if
-        llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
-        uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
+        llbound(i) = max(1, llbound(i)-2) !adding safety net to index bounds
+        uubound(i) = min(uubound(i)+2, size(self%dim(i)%field))
         call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
     end do
     !slicing variables
@@ -475,7 +476,7 @@
 
             call self%cleanFields()
             call self%fields%finalize()
-            
+
             do i=1, size(gField)
                 call self%add(gField(i))
             end do
@@ -496,7 +497,7 @@
     !> Method to use a stored binary field to make a land mask used for land
     !> interaction: bed settling, beaching, ...
     !---------------------------------------------------------------------------
-    subroutine makeLandMask(self)
+    subroutine makeLandMaskField(self)
     class(background_class), intent(inout) :: self
     class(*), pointer :: curr
     logical, allocatable, dimension(:,:,:) :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d, beach3d
@@ -561,7 +562,7 @@
                 where(bed4d) curr%field = Globals%Mask%bedVal
             end if
             class default
-            outext = '[background_class::makeLandMask] Unexepected type of content, not a 3D or 4D scalar Field'
+            outext = '[background_class::makeLandMaskField] Unexepected type of content, not a 3D or 4D scalar Field'
             call Log%put(outext)
             stop
         end select
@@ -570,7 +571,89 @@
     end do
     call self%fields%reset()               ! reset list iterator
 
-    end subroutine makeLandMask
+    end subroutine makeLandMaskField
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to use a stored binary field to make a resolution proxy for the
+    !> underlying mesh
+    !---------------------------------------------------------------------------
+    subroutine makeResolutionField(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    real(prec), allocatable, dimension(:,:,:) :: xx3d, yy3d
+    real(prec), allocatable, dimension(:,:,:,:) :: xx4d, yy4d, zz4d
+    type(string) :: outext
+    integer :: xIndx, yIndx, zIndx, i, j, k, t
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == Globals%Var%resolution) then
+                allocate(xx3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(yy3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                xIndx = self%getDimIndex(Globals%Var%lon)
+                yIndx = self%getDimIndex(Globals%Var%lat)
+                do j=1, size(xx3d,2)
+                    xx3d(:,j,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), self%dim(yIndx)%field(j), .false.)
+                end do
+                yy3d(1,:,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), self%dim(yIndx)%field(1), .true.)
+                do i=2, size(yy3d,1)
+                    yy3d(i,:,1) = yy3d(1,:,1)
+                end do
+                do k=2, size(curr%field,3)
+                    yy3d(:,:,k) = yy3d(:,:,1)
+                    xx3d(:,:,k) = xx3d(:,:,1)
+                end do
+                curr%field = (xx3d + yy3d)/2.0
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == Globals%Var%resolution) then
+                allocate(xx4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(yy4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(zz4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                xx4d = -99999.0
+                xIndx = self%getDimIndex(Globals%Var%lon)
+                yIndx = self%getDimIndex(Globals%Var%lat)
+                zIndx = self%getDimIndex(Globals%Var%level)
+                do j=1, size(xx4d,2)
+                    xx4d(:,j,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), self%dim(yIndx)%field(j), .false.)
+                end do
+                yy4d(1,:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), self%dim(yIndx)%field(1), .true.)
+                do i=2, size(yy4d,1)
+                    yy4d(i,:,1,1) = yy4d(1,:,1,1)
+                end do
+                do k=2, size(curr%field,3)
+                    xx4d(:,:,k,1) = xx4d(:,:,1,1)
+                    yy4d(:,:,k,1) = yy4d(:,:,1,1)
+                end do
+                zz4d(1,1,:,1) = abs(self%dim(zIndx)%field(:size(curr%field,2)-1) - self%dim(zIndx)%field(2:))
+                do i=2, size(zz4d,1)
+                    zz4d(i,1,:,1) = zz4d(1,1,:,1)
+                end do
+                do j=2, size(zz4d,2)
+                    zz4d(:,j,:,1) = zz4d(:,1,:,1)
+                end do
+                do t=2, size(curr%field,4)
+                    xx4d(:,:,:,t) = xx4d(:,:,:,1)
+                    yy4d(:,:,:,t) = yy4d(:,:,:,1)
+                    zz4d(:,:,:,t) = zz4d(:,:,:,1)
+                end do
+                curr%field = xx4d!(xx4d + yy4d + zz4d)/3.0
+            end if
+            class default
+            outext = '[background_class::makeResolutionField] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    call self%fields%reset()               ! reset list iterator
+
+    end subroutine makeResolutionField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -688,18 +771,19 @@
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
     real(prec), allocatable, dimension(:) :: rest
     integer :: i
-    real(prec) ::fmin, fmax, eta
+    real(prec) ::fmin, fmax, eta,dreg
     integer :: f_1,f_N
     allocate(self%dim, source = dims)
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
     do i=1, size(dims)
-        fmin = minval(self%dim(i)%field)
-        fmax = maxval(self%dim(i)%field)
+        fmin = self%dim(i)%getFieldMinBound() 
+        fmax = self%dim(i)%getFieldMaxBound()
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
-        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
-        self%regularDim(i) = all(rest(1)+eta > rest)
-        self%regularDim(i) = all(rest(1)-eta < rest)
+        dreg = (fmax-fmin)/(size(self%dim(i)%field))
+        allocate(rest(size(self%dim(i)%field)-1))
+        rest = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1)
+        self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
         deallocate(rest)
     end do
     end subroutine setDims
