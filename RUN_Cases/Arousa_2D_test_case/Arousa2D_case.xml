@@ -10,7 +10,7 @@
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
 		<outputFields>
-			<file name="outputFields.xml"/>
+			<file name="data/outputFields.xml"/>
 		</outputFields>
 		<variableNaming>
 			<file name="data/ncNamesLibrary.xml"/>
