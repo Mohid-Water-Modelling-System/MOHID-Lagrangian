@@ -42,8 +42,6 @@
     !Public access vars
     public :: hdf5writter_class
 
-    public :: writeTestmatrix
-
     contains
 
     !---------------------------------------------------------------------------
@@ -84,12 +82,18 @@
     integer :: np
     logical, allocatable, dimension(:) :: active
     
-    real(8), dimension(:,:), pointer :: mat
+    real, dimension(:,:), pointer :: mat
+    integer, dimension(:,:), pointer :: matInt
 
     extfilename = filename%chars()//'.hdf5'
     fullfilename = Globals%Names%outpath//'/'//extfilename
         
-    mat = blocks(1)%BlockState(1)%state
+    allocate(mat, source = real(blocks(1)%BlockState(1)%state))
+    !allocate(matInt(10,20))
+    !matInt = 12
+    
+    !call writeTestmatrix(matInt)
+    
     
     !Gets File Access Code
     call GetHDF5FileAccess(HDF5_CREATE = HDF5_CREATE)
@@ -103,23 +107,25 @@
     end if
     
     !writting data
-    !print*,'data to be writen'
-    !call HDF5WriteData(ID, "/Data", "TestMatrix", "-", Array2D = mat, STAT = STAT_CALL)
-    !print*,'data writen'
-    !if (STAT_CALL /= SUCCESS_) then
-    !    outext = '[HDF5Writter::TracerSerial]: unnable to write to '//fullfilename//' file, stoping'
-    !    call Log%put(outext)
-    !    stop
-    !end if
+    call HDF5WriteData(ID, "/Data", "TestMatrix", "-", Array2D = mat, STAT = STAT_CALL)
+    if (STAT_CALL /= SUCCESS_) then
+        outext = '[HDF5Writter::TracerSerial]: unnable to write to '//fullfilename//' file, stoping'
+        call Log%put(outext)
+        stop
+    end if
+    
+     call HDF5FlushMemory (ID, ErrorMessage = '[HDF5Writter::TracerSerial]: unnable to flush HDF5 writter memory', STAT = STAT_CALL)
+     if (STAT_CALL /= SUCCESS_) then
+        outext = '[HDF5Writter::TracerSerial]: unnable to flush HDF5 writter memory, stoping'
+        call Log%put(outext)
+        stop
+    end if
 
     self%numHdf5Files = self%numHdf5Files + 1
 
     end subroutine TracerSerial
 
     
-    
-    
-
     subroutine writeTestmatrix(mat)
     integer, dimension(:, :), pointer, intent(in) :: mat
     integer :: ID, HDF5_CREATE, STAT_CALL
@@ -136,7 +142,10 @@
     call HDF5WriteData(ID, "/Data", "TestMatrix", "-",         &
         Array2D = mat,            &
         STAT = STAT_CALL)
-    if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5Writter_mod - ERR07'
+    if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5Writter_mod - ERR02'
+    
+    call HDF5FlushMemory (ID, ErrorMessage = 'writeTestmatrix - module hdf5Writter_mod - ERR03', STAT = STAT_CALL)
+     if (STAT_CALL /= SUCCESS_) stop 'writeTestmatrix - module hdf5Writter_mod - ERR03'
 
     end subroutine writeTestmatrix
 
