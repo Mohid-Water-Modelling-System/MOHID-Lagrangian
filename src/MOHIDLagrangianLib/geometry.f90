@@ -65,8 +65,11 @@
 
     type, extends(shape) :: polygon     !<Type - polygon class
         type(vector), dimension(:), allocatable :: vertex            !< vertex array
+        type(vector) :: bbMin, bbMax
+    contains
+    procedure, public :: setBoundingBox 
     end type
-    
+
     type(geometry_class) :: Geometry
 
     public :: shape, point, line, sphere, box, polygon
@@ -96,7 +99,7 @@
         allocate(line::shape_obj)
     case ('polygon')
         allocate(polygon::shape_obj)
-    case default
+        case default
         outext='[Geometry::allocateShape]: unexpected type for geometry object "'//name//'", stoping'
         call Log%put(outext)
         stop
@@ -192,7 +195,7 @@
     class is (line)
         call line_grid(Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillSize, ptlist)
     class is (sphere)
-        call sphere_grid(dp, shapetype%radius, fillSize, ptlist)
+        call sphere_grid(dp, shapetype%pt, shapetype%radius, fillSize, ptlist)
         class default
         outext='[geometry::fill] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -302,6 +305,27 @@
         stop
     end select
     end function getnumPoints
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> method to set the bounding box of a polygon
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine setBoundingBox(self)
+    class(polygon), intent(inout) :: self
+    integer :: i
+    self%bbMin = self%vertex(1)
+    self%bbMax = self%vertex(1)    
+    do i= 2, size(self%vertex)
+        self%bbMin%x = min(self%bbMin%x, self%vertex(i)%x)
+        self%bbMin%y = min(self%bbMin%y, self%vertex(i)%y)
+        self%bbMin%z = min(self%bbMin%z, self%vertex(i)%z)
+        self%bbMax%x = max(self%bbMax%x, self%vertex(i)%x)
+        self%bbMax%y = max(self%bbMax%y, self%vertex(i)%y)
+        self%bbMax%z = max(self%bbMax%z, self%vertex(i)%z)
+    end do
+    end subroutine setBoundingBox    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -380,21 +404,96 @@
         np=1
     end if
     end function sphere_np_count
-
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private function that returns the number of points distributed on a grid
+    !> with spacing dp inside a polygon
+    !> @param[in] dp, poly
+    !---------------------------------------------------------------------------
+    integer function polygonNpCount(dp, poly)
+    type(vector), intent(in) :: dp
+    type(polygon), intent(in) :: poly
+    integer :: i, j, k, nx, ny, nz
+    type(vector) :: pts
+    
+    polygonNpCount = 0
+    nx=int(abs(poly%bbMax%x - poly%bbMin%x)/dp%x)
+    ny=int(abs(poly%bbMax%y - poly%bbMin%y)/dp%y)
+    nz=int(abs(poly%bbMax%z - poly%bbMin%z)/dp%z)
+    do i=1, nx
+        do j=1, ny
+            do k=1, nz
+                pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)
+                if (pointInPolygon(pts, poly%vertex)) then
+                    polygonNpCount = polygonNpCount+1
+                end if
+            end do
+        end do
+    end do
+    if (polygonNpCount == 0) then !Just the center point
+        polygonNpCount=1
+    end if
+    
+    end function polygonNpCount
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private routine that returns the points distributed on a grid
+    !> with spacing dp inside a polygon
+    !> @param[in] dp, poly
+    !---------------------------------------------------------------------------
+    subroutine polygonGrid(dp, poly, ptlist)
+    type(vector), intent(in) :: dp
+    type(polygon), intent(in) :: poly
+    type(vector), dimension(:), intent(out) :: ptlist
+    integer :: i, j, k, nx, ny, nz, p
+    type(vector) :: pts
+    
+    if (size(ptlist) == 1) then !Just the first point
+        ptlist(1) = poly%vertex(1)
+        return
+    end if
+    nx=int(abs(poly%bbMax%x - poly%bbMin%x)/dp%x)
+    ny=int(abs(poly%bbMax%y - poly%bbMin%y)/dp%y)
+    nz=int(abs(poly%bbMax%z - poly%bbMin%z)/dp%z)
+    p=0
+    do i=1, nx
+        do j=1, ny
+            do k=1, nz
+                pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)
+                if (pointInPolygon(pts, poly%vertex)) then                    
+                    p=p+1
+                    ptlist(p)=pts
+                end if
+            end do
+        end do
+    end do
+    
+    end subroutine polygonGrid
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> private routine that returns the points distributed on a grid
     !> with spacing dp inside a sphere
-    !> @param[in] dp, r, np, ptlist
+    !> @param[in] dp, centerPt, r, np, ptlist)
     !---------------------------------------------------------------------------
-    subroutine sphere_grid(dp, r, np, ptlist)
+    subroutine sphere_grid(dp, centerPt, r, np, ptlist)
     type(vector), intent(in) :: dp
+    type(vector), intent(in) :: centerPt
     real(prec), intent(in) :: r
     integer, intent(in)::  np
     type(vector), intent(out) :: ptlist(np)
     integer :: i, j, k, p, nx, ny, nz
     type(vector) :: pts
+    
+    if (np == 1) then !Just the center point
+        ptlist(1)= centerPt
+        return
+    end if    
     nx=int(3*r/dp%x)
     ny=int(3*r/dp%y)
     nz=int(3*r/dp%z)
@@ -410,9 +509,7 @@
             end do
         end do
     end do
-    if (np == 1) then !Just the center point
-        ptlist(1)= 0*ex + 0*ey +0*ez
-    end if
+    
     end subroutine sphere_grid
 
     !---------------------------------------------------------------------------
@@ -461,5 +558,33 @@
         ptlist(1)= 0*ex + 0*ey +0*ez
     end if
     end subroutine line_grid
+
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private function that returns true for a point in a polygon - 2D for now
+    !> @param[in] pt, poly
+    !---------------------------------------------------------------------------
+    logical function pointInPolygon(pt, poly)
+    type(vector), intent(in) :: pt
+    type(vector), dimension(:), intent(in) :: poly
+    integer :: i
+    integer :: ip1
+    real(prec) :: t
+    
+    pointInPolygon = .false.
+    
+    do i = 1, size(poly)
+        ip1 = mod ( i, size(poly) ) + 1
+        if ( poly(ip1)%y < pt%y .eqv. pt%y <= poly(i)%y ) then
+            t = pt%x - poly(i)%x - ( pt%y - poly(i)%y ) * ( poly(ip1)%x - poly(i)%x ) / ( poly(ip1)%y - poly(i)%y )
+            if ( t < 0.0D+00 ) then
+                pointInPolygon = .not. pointInPolygon
+            end if
+        end if
+    end do
+
+    end function pointInPolygon
 
     end module geometry_mod
