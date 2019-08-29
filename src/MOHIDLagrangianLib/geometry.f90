@@ -59,13 +59,17 @@
         real(prec) :: radius            !< Sphere radius (m)
     end type
 
-    type, extends(shape) :: box     !<Type - point class
+    type, extends(shape) :: box     !<Type - box class
         type(vector) :: size            !< Box size (m)
     end type
 
+    type, extends(shape) :: polygon     !<Type - polygon class
+        type(vector), dimension(:), allocatable :: vertex            !< vertex array
+    end type
+    
     type(geometry_class) :: Geometry
 
-    public :: shape, point, line, sphere, box
+    public :: shape, point, line, sphere, box, polygon
     public :: Geometry
 
     contains
@@ -90,6 +94,8 @@
         allocate(box::shape_obj)
     case ('line')
         allocate(line::shape_obj)
+    case ('polygon')
+        allocate(polygon::shape_obj)
     case default
         outext='[Geometry::allocateShape]: unexpected type for geometry object "'//name//'", stoping'
         call Log%put(outext)
@@ -104,11 +110,12 @@
     !---------------------------------------------------------------------------
     subroutine allocatelist(self)
     class(geometry_class), intent(inout) :: self
-    allocate(self%list(4))
+    allocate(self%list(5))
     self%list(1) ='point'
     self%list(2) ='line'
     self%list(3) ='box'
     self%list(4) ='sphere'
+    self%list(5) ='polygon'
     end subroutine allocatelist
 
     !---------------------------------------------------------------------------
