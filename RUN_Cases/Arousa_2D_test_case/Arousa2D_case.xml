@@ -43,7 +43,8 @@
 				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
-					<file name="data/polygon1.kmz"/>
+					<file name="data/polygon1.xy"/>
+					<verticalBoundingBox min="0.0" max="10.0"/>
 				</polygon>
 			</source>
 			<source>
