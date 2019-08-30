@@ -36,8 +36,7 @@
     procedure :: initialize => allocatelist !<Builds the geometry list, possible geometry types (new types must be manually added)
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
     procedure :: allocateShape              !< Returns allocated Shape with a specific shape given a name
-    procedure :: fillSize                   !<Gets the number of points that fill a geometry
-    procedure :: fill                       !<Gets the list of points that fill a geometry
+    procedure :: fillSize                   !<Gets the number of points that fill a geometry    
     procedure, public :: getFillPoints      !< returns a list of points that fill a given shape
     procedure :: getCenter                  !<Function that retuns the shape baricenter
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
@@ -171,38 +170,7 @@
         call Log%put(outext)
         stop
     end select
-    end function fillSize
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> method to get the list of points that fill a given geometry
-    !> @param[in] self, shapetype, dp, fillSize, ptlist
-    !---------------------------------------------------------------------------
-    subroutine fill(self, shapetype, dp, fillSize, ptlist)
-    class(geometry_class), intent(in) :: self
-    class(shape) :: shapetype
-    type(vector), intent(in) :: dp
-    integer, intent(in) :: fillSize
-    type(vector), intent(out) :: ptlist(fillSize)
-    type(vector) :: temp
-    type(string) :: outext
-    select type (shapetype)
-    type is (shape)
-    class is (box)
-        call box_grid(dp, shapetype%size, fillSize, ptlist)
-    class is (point)
-        ptlist(1)=0.0
-    class is (line)
-        call line_grid(Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillSize, ptlist)
-    class is (sphere)
-        call sphere_grid(dp, shapetype%pt, shapetype%radius, fillSize, ptlist)
-        class default
-        outext='[geometry::fill] : unexpected type for geometry object, stoping'
-        call Log%put(outext)
-        stop
-    end select
-    end subroutine fill
+    end function fillSize    
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -219,8 +187,7 @@
     type(string) :: outext
     
     fillSize = self%fillSize(shapetype, dp)
-    allocate(getFillPoints(fillSize))
-    
+    allocate(getFillPoints(fillSize))    
     select type (shapetype)
     type is (shape)
     class is (box)
@@ -235,8 +202,7 @@
         outext='[geometry::getFillPoints] : unexpected type for geometry object, stoping'
         call Log%put(outext)
         stop
-    end select
-    
+    end select    
     end function getFillPoints
 
     !---------------------------------------------------------------------------
@@ -462,7 +428,7 @@
         do j=1, ny
             do k=1, nz
                 pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)
-                if (pointInPolygon(pts, poly%vertex)) then
+                if (pointInPolygon(pts, poly%vertex, poly%bbMin%z, poly%bbMax%z)) then
                     polygonNpCount = polygonNpCount+1
                 end if
             end do
@@ -500,7 +466,7 @@
         do j=1, ny
             do k=1, nz
                 pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)
-                if (pointInPolygon(pts, poly%vertex)) then                    
+                if (pointInPolygon(pts, poly%vertex, poly%bbMin%z, poly%bbMax%z)) then
                     p=p+1
                     ptlist(p)=pts
                 end if
@@ -599,12 +565,15 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> private function that returns true for a point in a polygon - 2D for now
+    !> private function that returns true for a point in a polygon, assumed 
+    !> regular on the vertical coordinate
     !> @param[in] pt, poly
     !---------------------------------------------------------------------------
-    logical function pointInPolygon(pt, poly)
+    logical function pointInPolygon(pt, poly, zmin, zmax)
     type(vector), intent(in) :: pt
     type(vector), dimension(:), intent(in) :: poly
+    real(prec), intent(in) :: zmin
+    real(prec), intent(in) :: zmax
     integer :: i
     integer :: ip1
     real(prec) :: t
