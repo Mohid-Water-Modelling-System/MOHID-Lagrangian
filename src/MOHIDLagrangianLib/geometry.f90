@@ -21,10 +21,15 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
+    use ModuleEnterData
+    use ModuleGlobalData
+
     use simulationPrecision_mod
     use simulationLogger_mod
     use simulationGlobals_mod
     use utilities_mod
+    use xmlParser_mod
+    use csvParser_mod
 
     implicit none
     private
@@ -36,11 +41,12 @@
     procedure :: initialize => allocatelist !<Builds the geometry list, possible geometry types (new types must be manually added)
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
     procedure :: allocateShape              !< Returns allocated Shape with a specific shape given a name
-    procedure :: fillSize                   !<Gets the number of points that fill a geometry    
+    procedure :: fillSize                   !<Gets the number of points that fill a geometry
     procedure, public :: getFillPoints      !< returns a list of points that fill a given shape
     procedure :: getCenter                  !<Function that retuns the shape baricenter
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
     procedure :: getnumPoints               !<Function that returns the number of points (vertexes) that define the geometrical shape
+    procedure, public :: setPolygon         !<assembles a polygon from a file
     procedure :: print => printGeometry     !<prints the geometry type and contents
     end type geometry_class
 
@@ -67,7 +73,7 @@
         type(vector), dimension(:), allocatable :: vertex            !< vertex array
         type(vector) :: bbMin, bbMax
     contains
-    procedure, public :: setBoundingBox 
+    procedure, public :: setBoundingBox
     end type
 
     type(geometry_class) :: Geometry
@@ -172,8 +178,8 @@
         call Log%put(outext)
         stop
     end select
-    end function fillSize    
-    
+    end function fillSize
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -187,9 +193,9 @@
     type(vector), dimension(:), allocatable :: getFillPoints
     integer :: fillSize
     type(string) :: outext
-    
+
     fillSize = self%fillSize(shapetype, dp)
-    allocate(getFillPoints(fillSize))    
+    allocate(getFillPoints(fillSize))
     select type (shapetype)
     type is (shape)
     class is (box)
@@ -206,7 +212,7 @@
         outext='[geometry::getFillPoints] : unexpected type for geometry object, stoping'
         call Log%put(outext)
         stop
-    end select    
+    end select
     end function getFillPoints
 
     !---------------------------------------------------------------------------
@@ -279,7 +285,7 @@
         n = self%getnumPoints(shapetype)
         allocate(pts(n))
         pts(1) = shapetype%pt
-     class is (polygon)
+    class is (polygon)
         n = self%getnumPoints(shapetype)
         allocate(pts(n))
         pts = shapetype%vertex
@@ -318,7 +324,7 @@
         stop
     end select
     end function getnumPoints
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -331,7 +337,7 @@
     real(prec), intent(in), optional :: zMax
     integer :: i
     self%bbMin = self%vertex(1)
-    self%bbMax = self%vertex(1)    
+    self%bbMax = self%vertex(1)
     do i= 2, size(self%vertex)
         self%bbMin%x = min(self%bbMin%x, self%vertex(i)%x)
         self%bbMin%y = min(self%bbMin%y, self%vertex(i)%y)
@@ -345,8 +351,8 @@
             self%bbMin%z = zMin
             self%bbMax%z = zMax
         end if
-    end if            
-    end subroutine setBoundingBox    
+    end if
+    end subroutine setBoundingBox
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -406,6 +412,81 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Sets a polygon from a given file
+    !> @param[in] self, poly, fileName, zMin_str, zMax_str
+    !---------------------------------------------------------------------------
+    subroutine setPolygon(self, poly, fileName, zMin_str, zMax_str)
+    class(geometry_class), intent(in) :: self
+    class(polygon), intent(inout) :: poly
+    type(string), intent(in) :: fileName, zMin_str, zMax_str
+    integer :: PolygonsFile, STAT_CALL, ClientNumber, FromBlock, iflag
+    integer :: StartLine, EndLine
+    integer :: i
+    logical :: found
+    character(len = line_length) :: FullBufferLine
+    type(string) :: outext
+    real, dimension(:), pointer :: PointCoordinates
+    real(prec) :: zMin, zMax
+    
+    zMin = zMin_str%to_number(kind=1._R4P)
+    zMax = zMax_str%to_number(kind=1._R4P)
+    if (fileName%extension() == '.xy') then
+        print*, 'file is ', fileName
+        print*, 'file extension is correct'
+        call ConstructEnterData(PolygonsFile, fileName%chars(), STAT = STAT_CALL)
+        print*, 'ConstructEnterData done'
+        if(STAT_CALL .ne. SUCCESS_) then
+            outext='[geometry::setPolygon] : error reading polygon file '//fileName//', stoping'
+            call Log%put(outext)
+            stop
+        end if
+        call ExtractBlockFromBuffer(PolygonsFile, ClientNumber, '<beginpolygon>', '<endpolygon>', found, STAT = STAT_CALL)
+        print*, 'ExtractBlockFromBuffer done'
+        if (STAT_CALL .EQ. SUCCESS_) then
+            if (found) then
+                call GetExtractType(FromBlock = FromBlock)
+                call GetBlockSize(PolygonsFile, ClientNumber, StartLine, EndLine, FromBlock, STAT = STAT_CALL)
+                allocate(poly%vertex(EndLine - StartLine))
+                allocate(PointCoordinates (1:2))
+                do i=1, size(poly%vertex)
+                    call GetFullBufferLine(PolygonsFile, i, FullBufferLine, STAT = STAT_CALL)
+                    call GetExtractType(FromBlock = FromBlock)
+                    call GetData(PointCoordinates, PolygonsFile, flag = iflag, SearchType = FromBlock, Buffer_Line = i, STAT = STAT_CALL)
+                    poly%vertex(i)%x = PointCoordinates(1)
+                    poly%vertex(i)%y = PointCoordinates(2)                    
+                end do
+                deallocate(PointCoordinates)
+            else
+                call Block_Unlock(PolygonsFile, ClientNumber, STAT = STAT_CALL) 
+                if(STAT_CALL .ne. SUCCESS_) then
+                    outext='[geometry::setPolygon] : error reading block from polygon file '//fileName//', stoping'
+                    call Log%put(outext)
+                    stop
+                end if
+            end if
+        else if (STAT_CALL .EQ. BLOCK_END_ERR_) then
+            if(STAT_CALL .ne. SUCCESS_) then
+                outext='[geometry::setPolygon] : error extracting block from polygon file '//fileName//', stoping'
+                call Log%put(outext)
+                stop
+            end if
+        end if
+        call KillEnterData(PolygonsFile, STAT = STAT_CALL)
+        if(STAT_CALL .ne. SUCCESS_) then
+            outext='[geometry::setPolygon] : error destroying reader for polygon file '//fileName//', stoping'
+            call Log%put(outext)
+            stop
+        end if
+        call poly%setBoundingBox(zMin, zMax)
+    end if
+
+    end subroutine setPolygon
+
+    !orphan routines from now on
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> private function that returns the number of points distributed on a grid
     !> with spacing dp inside a sphere
     !> @param[in] dp, r
@@ -434,7 +515,7 @@
         np=1
     end if
     end function sphere_np_count
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -447,7 +528,7 @@
     type(polygon), intent(in) :: poly
     integer :: i, j, k, nx, ny, nz
     type(vector) :: pts
-    
+
     polygonNpCount = 0
     nx=int(abs(poly%bbMax%x - poly%bbMin%x)/dp%x)
     ny=int(abs(poly%bbMax%y - poly%bbMin%y)/dp%y)
@@ -465,9 +546,9 @@
     if (polygonNpCount == 0) then !Just the center point
         polygonNpCount=1
     end if
-    
+
     end function polygonNpCount
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -481,7 +562,7 @@
     type(vector), dimension(:), intent(out) :: ptlist
     integer :: i, j, k, nx, ny, nz, p
     type(vector) :: pts
-    
+
     if (size(ptlist) == 1) then !Just the first point
         ptlist(1) = poly%vertex(1)
         return
@@ -501,9 +582,9 @@
             end do
         end do
     end do
-    
+
     end subroutine polygonGrid
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -519,11 +600,11 @@
     type(vector), intent(out) :: ptlist(np)
     integer :: i, j, k, p, nx, ny, nz
     type(vector) :: pts
-    
+
     if (np == 1) then !Just the center point
         ptlist(1)= centerPt
         return
-    end if    
+    end if
     nx=int(3*r/dp%x)
     ny=int(3*r/dp%y)
     nz=int(3*r/dp%z)
@@ -539,7 +620,7 @@
             end do
         end do
     end do
-    
+
     end subroutine sphere_grid
 
     !---------------------------------------------------------------------------
@@ -593,7 +674,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> private function that returns true for a point in a polygon, assumed 
+    !> private function that returns true for a point in a polygon, assumed
     !> regular on the vertical coordinate
     !> @param[in] pt, poly
     !---------------------------------------------------------------------------
@@ -605,8 +686,8 @@
     integer :: i
     integer :: ip1
     real(prec) :: t
-    
-    pointInPolygon = .false.    
+
+    pointInPolygon = .false.
     if (pt%z <= zmax ) then
         if (pt%z >= zmin ) then
             do i = 1, size(poly)
