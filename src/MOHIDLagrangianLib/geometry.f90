@@ -325,8 +325,10 @@
     !> method to set the bounding box of a polygon
     !> @param[in] self
     !---------------------------------------------------------------------------
-    subroutine setBoundingBox(self)
+    subroutine setBoundingBox(self, zMin, zMax)
     class(polygon), intent(inout) :: self
+    real(prec), intent(in), optional :: zMin
+    real(prec), intent(in), optional :: zMax
     integer :: i
     self%bbMin = self%vertex(1)
     self%bbMax = self%vertex(1)    
@@ -338,6 +340,12 @@
         self%bbMax%y = max(self%bbMax%y, self%vertex(i)%y)
         self%bbMax%z = max(self%bbMax%z, self%vertex(i)%z)
     end do
+    if (present(zMin)) then
+        if (present(zMax)) then
+            self%bbMin%z = zMin
+            self%bbMax%z = zMax
+        end if
+    end if            
     end subroutine setBoundingBox    
 
     !---------------------------------------------------------------------------
