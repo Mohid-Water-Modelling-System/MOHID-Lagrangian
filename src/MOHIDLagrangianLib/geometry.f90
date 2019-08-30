@@ -165,6 +165,8 @@
         fillSize = max(int(temp%normL2()/dp%normL2()),1)
     class is (sphere)
         fillSize = sphere_np_count(dp, shapetype%radius)
+    class is (polygon)
+        fillSize = polygonNpCount(dp, shapetype)
         class default
         outext='[geometry::fillSize] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -198,6 +200,8 @@
         call line_grid(Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillSize, getFillPoints)
     class is (sphere)
         call sphere_grid(dp, shapetype%pt, shapetype%radius, fillSize, getFillPoints)
+    class is (polygon)
+        call polygonGrid(dp, shapetype, getFillPoints)
         class default
         outext='[geometry::getFillPoints] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -226,6 +230,8 @@
         center = shapetype%pt + (shapetype%last-shapetype%pt)/2.0
     class is (sphere)
         center = shapetype%pt
+    class is (polygon)
+        center = (shapetype%bbMin + shapetype%bbMax)/2.0
         class default
         outext='[geometry::getCenter] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -242,14 +248,14 @@
     function getPoints(self, shapetype) result(pts)
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
-    type(vector), allocatable :: pts(:)
+    type(vector), dimension(:), allocatable :: pts
     type(string) :: outext
     integer :: n
     type(vector) :: temp
     select type (shapetype)
     type is (shape)
     class is (box)
-        n=8
+        n = self%getnumPoints(shapetype)
         allocate(pts(n))
         temp = shapetype%size
         pts(1) = shapetype%pt
@@ -261,18 +267,22 @@
         pts(7) = shapetype%pt + temp
         pts(8) = pts(5) + temp%z*ez
     class is (point)
-        n=1
+        n = self%getnumPoints(shapetype)
         allocate(pts(n))
         pts(1) = shapetype%pt
     class is (line)
-        n=2
+        n = self%getnumPoints(shapetype)
         allocate(pts(n))
         pts(1) = shapetype%pt
         pts(2) = shapetype%last
     class is (sphere)
-        n=1
+        n = self%getnumPoints(shapetype)
         allocate(pts(n))
         pts(1) = shapetype%pt
+     class is (polygon)
+        n = self%getnumPoints(shapetype)
+        allocate(pts(n))
+        pts = shapetype%vertex
         class default
         outext='[geometry::getPoints] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -286,21 +296,22 @@
     !> method the points defining a given geometry
     !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
-    function getnumPoints(self, shapetype) result(n)
+    integer function getnumPoints(self, shapetype)
     class(geometry_class), intent(in) :: self
     class(shape), intent(in) :: shapetype
-    integer :: n
     type(string) :: outext
     select type (shapetype)
     type is (shape)
     class is (box)
-        n=8
+        getnumPoints = 8
     class is (point)
-        n=1
+        getnumPoints = 1
     class is (line)
-        n=2
+        getnumPoints = 2
     class is (sphere)
-        n=1
+        getnumPoints = 1
+    class is (polygon)
+        getnumPoints  = size(shapetype%vertex)
         class default
         outext='[geometry::getnumPoints] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -366,6 +377,15 @@
         temp_str(4) = shapetype%radius
         outext='      Sphere at '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')//&
             '       with radius '//temp_str(4)
+    class is (polygon)
+        temp_str(1) = shapetype%bbMin%x
+        temp_str(2) = shapetype%bbMin%y
+        temp_str(3) = shapetype%bbMin%z
+        temp_str(4) = shapetype%bbMax%x
+        temp_str(5) = shapetype%bbMax%y
+        temp_str(6) = shapetype%bbMax%z
+        outext='      polygon contained in min['//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//']'//new_line('a')//&
+            '       max['//temp_str(4)//' X '//temp_str(5)//' X '//temp_str(6)//']'
         class default
         outext='[geometry::print] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -578,17 +598,20 @@
     integer :: ip1
     real(prec) :: t
     
-    pointInPolygon = .false.
-    
-    do i = 1, size(poly)
-        ip1 = mod ( i, size(poly) ) + 1
-        if ( poly(ip1)%y < pt%y .eqv. pt%y <= poly(i)%y ) then
-            t = pt%x - poly(i)%x - ( pt%y - poly(i)%y ) * ( poly(ip1)%x - poly(i)%x ) / ( poly(ip1)%y - poly(i)%y )
-            if ( t < 0.0D+00 ) then
-                pointInPolygon = .not. pointInPolygon
-            end if
+    pointInPolygon = .false.    
+    if (pt%z <= zmax ) then
+        if (pt%z >= zmin ) then
+            do i = 1, size(poly)
+                ip1 = mod ( i, size(poly) ) + 1
+                if ( poly(ip1)%y < pt%y .eqv. pt%y <= poly(i)%y ) then
+                    t = pt%x - poly(i)%x - ( pt%y - poly(i)%y ) * ( poly(ip1)%x - poly(i)%x ) / ( poly(ip1)%y - poly(i)%y )
+                    if ( t < 0.0D+00 ) then
+                        pointInPolygon = .true.
+                    end if
+                end if
+            end do
         end if
-    end do
+    end if
 
     end function pointInPolygon
 
