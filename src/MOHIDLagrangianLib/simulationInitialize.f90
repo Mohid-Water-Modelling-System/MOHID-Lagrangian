@@ -250,7 +250,7 @@
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
     class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
     type(string) :: outext
-    type(string) :: tag
+    type(string) :: tag, att_name, geoFileName, zMin, zMax 
     select type (source_shape)
     type is (shape)
     class is (box)
@@ -270,6 +270,16 @@
         tag='point'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
         call extractDataAttribute(source_detail, "radius", source_shape%radius)
+    class is (polygon)
+        tag='file'
+        att_name = 'name'
+        call XMLReader%getNodeAttribute(source_detail, tag, att_name, geoFileName)
+        tag='verticalBoundingBox'
+        att_name = 'min'
+        call XMLReader%getNodeAttribute(source_detail, tag, att_name, zMin, mandatory = .false.)
+        att_name = 'max'
+        call XMLReader%getNodeAttribute(source_detail, tag, att_name, zMax, mandatory = .false.)
+        call Geometry%setPolygon(source_shape, geoFileName, zMin, zMax)
         class default
         outext='[read_xml_geometry]: unexpected type for geometry object!'
         call Log%put(outext)
