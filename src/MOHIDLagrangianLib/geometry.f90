@@ -36,8 +36,9 @@
     procedure :: initialize => allocatelist !<Builds the geometry list, possible geometry types (new types must be manually added)
     procedure :: inlist                     !<checks if a given geometry is defined as a derived type (new types must be manually added)
     procedure :: allocateShape              !< Returns allocated Shape with a specific shape given a name
-    procedure :: fillSize                   !<Gets the number of points that fill a geometry (based on GLOBALS::dp)
-    procedure :: fill                       !<Gets the list of points that fill a geometry (based on GLOBALS::dp)
+    procedure :: fillSize                   !<Gets the number of points that fill a geometry
+    procedure :: fill                       !<Gets the list of points that fill a geometry
+    procedure, public :: getFillPoints      !< returns a list of points that fill a given shape
     procedure :: getCenter                  !<Function that retuns the shape baricenter
     procedure :: getPoints                  !<Function that retuns the points (vertexes) that define the geometrical shape
     procedure :: getnumPoints               !<Function that returns the number of points (vertexes) that define the geometrical shape
@@ -202,6 +203,41 @@
         stop
     end select
     end subroutine fill
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns an array of points that fill a given shape
+    !> @param[in] self, shapetype, dp
+    !---------------------------------------------------------------------------
+    function getFillPoints(self, shapetype, dp)
+    class(geometry_class), intent(in) :: self
+    class(shape) :: shapetype
+    type(vector), intent(in) :: dp
+    type(vector), dimension(:), allocatable :: getFillPoints
+    integer :: fillSize
+    type(string) :: outext
+    
+    fillSize = self%fillSize(shapetype, dp)
+    allocate(getFillPoints(fillSize))
+    
+    select type (shapetype)
+    type is (shape)
+    class is (box)
+        call box_grid(dp, shapetype%size, fillSize, getFillPoints)
+    class is (point)
+        getFillPoints(1)=0.0
+    class is (line)
+        call line_grid(Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillSize, getFillPoints)
+    class is (sphere)
+        call sphere_grid(dp, shapetype%pt, shapetype%radius, fillSize, getFillPoints)
+        class default
+        outext='[geometry::getFillPoints] : unexpected type for geometry object, stoping'
+        call Log%put(outext)
+        stop
+    end select
+    
+    end function getFillPoints
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
