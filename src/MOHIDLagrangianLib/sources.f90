@@ -419,9 +419,7 @@
     allocate(src%stencil%ptlist, source = Geometry%getFillPoints(src%par%geometry, src%stencil%dp))
     src%stencil%np = size(src%stencil%ptlist)
     call src%setotalnp()
-    do i=1, src%stencil%np
-        src%stencil%ptlist(i) = Utils%m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
-    end do
+    src%stencil%ptlist = Utils%m2geo(src%stencil%ptlist)
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
