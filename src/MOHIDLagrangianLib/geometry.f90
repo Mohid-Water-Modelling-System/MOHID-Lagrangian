@@ -74,6 +74,7 @@
         type(vector) :: bbMin, bbMax
     contains
     procedure, public :: setBoundingBox
+    procedure, public :: getMetricPolygon
     end type
 
     type(geometry_class) :: Geometry
@@ -352,7 +353,23 @@
             self%bbMax%z = zMax
         end if
     end if
+    self%pt = Geometry%getCenter(self)
     end subroutine setBoundingBox
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns a polygon in metric units, centered at the origin
+    !> @param[in] self, shapetype
+    !---------------------------------------------------------------------------
+    type(polygon) function getMetricPolygon(self)
+    class(polygon), intent(in) :: self
+
+    allocate(getMetricPolygon%vertex(size(self%vertex)))
+    getMetricPolygon%vertex = Utils%geo2m(self%vertex - self%pt)
+    call getMetricPolygon%setBoundingBox(self%bbMin%z, self%bbMax%z)
+    getMetricPolygon%pt = self%pt
+    end function getMetricPolygon
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -427,37 +444,36 @@
     type(string) :: outext
     real, dimension(:), pointer :: PointCoordinates
     real(prec) :: zMin, zMax
-    
+
     zMin = zMin_str%to_number(kind=1._R4P)
     zMax = zMax_str%to_number(kind=1._R4P)
+    PolygonsFile = 0
     if (fileName%extension() == '.xy') then
-        print*, 'file is ', fileName
-        print*, 'file extension is correct'
+        outext='-> Reading polygon file '//fileName
+        call Log%put(outext)
         call ConstructEnterData(PolygonsFile, fileName%chars(), STAT = STAT_CALL)
-        print*, 'ConstructEnterData done'
         if(STAT_CALL .ne. SUCCESS_) then
             outext='[geometry::setPolygon] : error reading polygon file '//fileName//', stoping'
             call Log%put(outext)
             stop
         end if
         call ExtractBlockFromBuffer(PolygonsFile, ClientNumber, '<beginpolygon>', '<endpolygon>', found, STAT = STAT_CALL)
-        print*, 'ExtractBlockFromBuffer done'
         if (STAT_CALL .EQ. SUCCESS_) then
             if (found) then
                 call GetExtractType(FromBlock = FromBlock)
                 call GetBlockSize(PolygonsFile, ClientNumber, StartLine, EndLine, FromBlock, STAT = STAT_CALL)
-                allocate(poly%vertex(EndLine - StartLine))
+                allocate(poly%vertex(EndLine - StartLine - 1))
                 allocate(PointCoordinates (1:2))
                 do i=1, size(poly%vertex)
-                    call GetFullBufferLine(PolygonsFile, i, FullBufferLine, STAT = STAT_CALL)
+                    call GetFullBufferLine(PolygonsFile, i+1, FullBufferLine, STAT = STAT_CALL)
                     call GetExtractType(FromBlock = FromBlock)
-                    call GetData(PointCoordinates, PolygonsFile, flag = iflag, SearchType = FromBlock, Buffer_Line = i, STAT = STAT_CALL)
+                    call GetData(PointCoordinates, PolygonsFile, flag = iflag, SearchType = FromBlock, Buffer_Line = i+1, STAT = STAT_CALL)
                     poly%vertex(i)%x = PointCoordinates(1)
-                    poly%vertex(i)%y = PointCoordinates(2)                    
+                    poly%vertex(i)%y = PointCoordinates(2)
                 end do
                 deallocate(PointCoordinates)
             else
-                call Block_Unlock(PolygonsFile, ClientNumber, STAT = STAT_CALL) 
+                call Block_Unlock(PolygonsFile, ClientNumber, STAT = STAT_CALL)
                 if(STAT_CALL .ne. SUCCESS_) then
                     outext='[geometry::setPolygon] : error reading block from polygon file '//fileName//', stoping'
                     call Log%put(outext)
@@ -521,18 +537,20 @@
     !> @brief
     !> private function that returns the number of points distributed on a grid
     !> with spacing dp inside a polygon
-    !> @param[in] dp, poly
+    !> @param[in] dp, polyIn
     !---------------------------------------------------------------------------
-    integer function polygonNpCount(dp, poly)
+    integer function polygonNpCount(dp, polyIn)
     type(vector), intent(in) :: dp
-    type(polygon), intent(in) :: poly
+    type(polygon), intent(in) :: polyIn
+    type(polygon) :: poly
     integer :: i, j, k, nx, ny, nz
     type(vector) :: pts
 
+    poly = getMetricPolygon(polyIn)
     polygonNpCount = 0
-    nx=int(abs(poly%bbMax%x - poly%bbMin%x)/dp%x)
-    ny=int(abs(poly%bbMax%y - poly%bbMin%y)/dp%y)
-    nz=int(abs(poly%bbMax%z - poly%bbMin%z)/dp%z)
+    nx=max(int(abs(poly%bbMax%x - poly%bbMin%x)/dp%x+1),1)
+    ny=max(int(abs(poly%bbMax%y - poly%bbMin%y)/dp%y+1),1)
+    nz=max(int(abs(poly%bbMax%z - poly%bbMin%z)/dp%z),1)
     do i=1, nx
         do j=1, ny
             do k=1, nz
@@ -554,30 +572,32 @@
     !> @brief
     !> private routine that returns the points distributed on a grid
     !> with spacing dp inside a polygon
-    !> @param[in] dp, poly
+    !> @param[in] dp, polyIn, ptlist
     !---------------------------------------------------------------------------
-    subroutine polygonGrid(dp, poly, ptlist)
+    subroutine polygonGrid(dp, polyIn, ptlist)
     type(vector), intent(in) :: dp
-    type(polygon), intent(in) :: poly
+    type(polygon), intent(in) :: polyIn
     type(vector), dimension(:), intent(out) :: ptlist
+    type(polygon) :: poly
     integer :: i, j, k, nx, ny, nz, p
     type(vector) :: pts
 
-    if (size(ptlist) == 1) then !Just the first point
-        ptlist(1) = poly%vertex(1)
+    poly = getMetricPolygon(polyIn)
+    if (size(ptlist) == 1) then
+        ptlist(1) = poly%pt
         return
     end if
-    nx=int(abs(poly%bbMax%x - poly%bbMin%x)/dp%x)
-    ny=int(abs(poly%bbMax%y - poly%bbMin%y)/dp%y)
-    nz=int(abs(poly%bbMax%z - poly%bbMin%z)/dp%z)
+    nx=max(int(abs(poly%bbMax%x - poly%bbMin%x)/dp%x+1),1)
+    ny=max(int(abs(poly%bbMax%y - poly%bbMin%y)/dp%y+1),1)
+    nz=max(int(abs(poly%bbMax%z - poly%bbMin%z)/dp%z),1)
     p=0
     do i=1, nx
         do j=1, ny
             do k=1, nz
-                pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)
+                pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)                
                 if (pointInPolygon(pts, poly%vertex, poly%bbMin%z, poly%bbMax%z)) then
                     p=p+1
-                    ptlist(p)=pts
+                    ptlist(p)=pts                    
                 end if
             end do
         end do
@@ -670,7 +690,6 @@
     end if
     end subroutine line_grid
 
-
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -683,8 +702,7 @@
     type(vector), dimension(:), intent(in) :: poly
     real(prec), intent(in) :: zmin
     real(prec), intent(in) :: zmax
-    integer :: i
-    integer :: ip1
+    integer :: i, ip1
     real(prec) :: t
 
     pointInPolygon = .false.
@@ -695,7 +713,7 @@
                 if ( poly(ip1)%y < pt%y .eqv. pt%y <= poly(i)%y ) then
                     t = pt%x - poly(i)%x - ( pt%y - poly(i)%y ) * ( poly(ip1)%x - poly(i)%x ) / ( poly(ip1)%y - poly(i)%y )
                     if ( t < 0.0D+00 ) then
-                        pointInPolygon = .true.
+                        pointInPolygon = .not.pointInPolygon
                     end if
                 end if
             end do
