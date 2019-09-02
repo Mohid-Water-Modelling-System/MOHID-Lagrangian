@@ -45,7 +45,7 @@
     type(xmlparser_class) :: XMLReader
 
     !Public access vars
-    public :: XMLReader
+    public :: XMLReader, xmlparser_class
 
     contains
 

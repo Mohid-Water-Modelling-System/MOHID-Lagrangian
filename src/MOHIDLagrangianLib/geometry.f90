@@ -21,6 +21,7 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
+    !use FoX_dom
     use ModuleEnterData
     use ModuleGlobalData
 
@@ -28,8 +29,8 @@
     use simulationLogger_mod
     use simulationGlobals_mod
     use utilities_mod
-    use xmlParser_mod
-    use csvParser_mod
+    !use xmlParser_mod
+    !use csvParser_mod
 
     implicit none
     private
@@ -441,16 +442,20 @@
     integer :: i
     logical :: found
     character(len = line_length) :: FullBufferLine
-    type(string) :: outext
+    type(string) :: outext!, tag
     real, dimension(:), pointer :: PointCoordinates
     real(prec) :: zMin, zMax
+    ! type(xmlparser_class) :: xmlReader
+    ! type(Node), pointer :: xmlDoc, xmlNode
+    ! real(prec) :: temp(6)
 
     zMin = zMin_str%to_number(kind=1._R4P)
     zMax = zMax_str%to_number(kind=1._R4P)
-    PolygonsFile = 0
+    
+    outext='-> Reading polygon file '//fileName
+    call Log%put(outext)
     if (fileName%extension() == '.xy') then
-        outext='-> Reading polygon file '//fileName
-        call Log%put(outext)
+        PolygonsFile = 0
         call ConstructEnterData(PolygonsFile, fileName%chars(), STAT = STAT_CALL)
         if(STAT_CALL .ne. SUCCESS_) then
             outext='[geometry::setPolygon] : error reading polygon file '//fileName//', stoping'
@@ -494,6 +499,28 @@
             stop
         end if
         call poly%setBoundingBox(zMin, zMax)
+    ! else if (fileName%extension() == '.kmz') then
+    !     call XMLReader%getFile(xmlDoc,fileName)
+    !     tag="kml"
+    !     call XMLReader%gotoNode(xmlDoc,xmlNode,tag)
+    !     tag="Document"
+    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
+    !     tag="Placemark"
+    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
+    !     tag="Polygon"
+    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
+    !     tag="outerBoundaryIs"
+    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
+    !     tag="LinearRing"
+    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
+    !     tag="coordinates"
+    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
+    !     call extractDataContent(xmlNode,temp)
+    !     print*, temp
+    else
+        outext='-> Format '//fileName%extension()//' not suported, stoping'
+        call Log%put(outext)
+        stop
     end if
 
     end subroutine setPolygon
