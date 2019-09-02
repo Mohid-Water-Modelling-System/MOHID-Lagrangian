@@ -21,7 +21,10 @@
     module csvParser_mod
 
     use csv_module
-    use common_modules
+    use stringifor
+    
+    use simulationLogger_mod
+    use simulationPrecision_mod
 
     implicit none
     private

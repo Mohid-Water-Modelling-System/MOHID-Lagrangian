@@ -34,10 +34,10 @@
     procedure :: getRelativeTimeFromString
     procedure :: getDateTimeFromDate
     procedure :: find_str
-    procedure :: geo2m_vec, geo2m_comp, geo2m_compSingle
-    generic   :: geo2m => geo2m_vec, geo2m_comp, geo2m_compSingle
-    procedure :: m2geo_vec, m2geo_comp
-    generic   :: m2geo => m2geo_vec, m2geo_comp
+    procedure :: geo2m_vec, geo2m_comp, geo2m_compSingle, geo2m_vecFull
+    generic   :: geo2m => geo2m_vec, geo2m_comp, geo2m_compSingle, geo2m_vecFull
+    procedure :: m2geo_vec, m2geo_comp, m2geo_vecFull
+    generic   :: m2geo => m2geo_vec, m2geo_comp, m2geo_vecFull
     procedure :: int2str
     procedure :: real2str
     procedure :: get_closest_twopow
@@ -172,6 +172,26 @@
     res%x = res%x*(R*pi/180.0)*cos(pi*lat/180.0)
     res%y = res%y*(R*pi/180.0)
     end function geo2m_vec
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in meters given an array in
+    !> geographical coordinates (lon, lat, z) and a lattitude
+    !> @param[in] self, geovec, lat
+    !---------------------------------------------------------------------------
+    elemental type(vector) function geo2m_vecFull(self, geovec)
+    class(utils_class), intent(in) :: self
+    type(vector), intent(in) :: geovec
+    integer :: R
+    real(prec) :: pi
+    pi = 4*atan(1.0)
+    R = 6378137 !earth radius in meters
+    !pi = 3.1415926
+    geo2m_vecFull = geovec
+    geo2m_vecFull%x = geo2m_vecFull%x*(R*pi/180.0)*cos(pi*geo2m_vecFull%y/180.0)
+    geo2m_vecFull%y = geo2m_vecFull%y*(R*pi/180.0)
+    end function geo2m_vecFull
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -231,12 +251,29 @@
     real(prec) :: R
     real(prec) :: pi = 4*atan(1.0)
     R = 6378137.0 !earth radius in meters
-    !pi = 3.1415926
     res = mvec
     res%y = res%y/(R*pi/180.0)
-    res%x = res%x/((R*pi/180.0)*cos(pi*res%y/180.0))
+    res%x = res%x/((R*pi/180.0)*cos(pi*lat/180.0))
     end function m2geo_vec
 
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in geographical coordinates
+    !> (lon, lat, z) given an array in meters and a lattitude
+    !> @param[in] self, mvec, lat
+    !---------------------------------------------------------------------------
+    elemental type(vector) function m2geo_vecFull(self, mvec)
+    class(utils_class), intent(in) :: self
+    type(vector), intent(in) :: mvec
+    real(prec) :: R
+    real(prec) :: pi
+    pi = 4*atan(1.0)
+    R = 6378137.0 !earth radius in meters
+    m2geo_vecFull%y = mvec%y/(R*pi/180.0)
+    m2geo_vecFull%x = mvec%x/((R*pi/180.0)*cos(pi*m2geo_vecFull%y/180.0))
+    end function m2geo_vecFull
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

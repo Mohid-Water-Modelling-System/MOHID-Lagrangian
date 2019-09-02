@@ -10,7 +10,7 @@
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
 		<outputFields>
-			<file name="outputFields.xml"/>
+			<file name="data/outputFields.xml"/>
 		</outputFields>
 		<variableNaming>
 			<file name="data/ncNamesLibrary.xml"/>
@@ -36,6 +36,16 @@
 					<point x="-9.06" y="42.42" z="0" units_comment="(deg,deg,m)"/>
 					<size x="10000" y="10000" z="1.0" units_comment="metres (m)"/>
 				</box>
+			</source>
+			<source>
+				<setsource id="4" name="PolygonTest" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.xy"/>
+					<verticalBoundingBox min="0.0" max="0.0"/>
+				</polygon>
 			</source>
 			<source>
 				<setsource id="2" name="ReleaseLine10" />
