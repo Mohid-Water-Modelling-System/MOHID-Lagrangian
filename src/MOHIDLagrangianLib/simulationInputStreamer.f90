@@ -55,7 +55,7 @@
         real(prec) :: lastWaterPropsReadTime
         integer :: nFileTypes
         real(prec) :: bufferSize                                               !< half of the biggest tail of data behind current time
-        integer :: currentsBkgIndex, windsBkgIndex, wavesBkgIndex
+        integer :: currentsBkgIndex, windsBkgIndex, wavesBkgIndex, waterPropsBkgIndex
     contains
     procedure :: initialize => initInputStreamer
     procedure :: loadDataFromStack
@@ -313,6 +313,30 @@
                 end if
             end do
         end if
+        if (allocated(self%waterPropsInputFile)) then
+            do i=1, size(self%waterPropsInputFile)
+                if (self%waterPropsInputFile(i)%toRead) then
+                    !import data to temporary background
+                    tempBkgd = self%getWaterPropsFile(self%waterPropsInputFile(i)%name)
+                    self%waterPropsInputFile(i)%used = .true.
+                    do j=1, size(blocks)
+                        !slice data by block and either join to existing background or add a new one
+                        if (blocks(j)%Background(self%waterPropsBkgIndex)%initialized) then
+                            tempBkgd2 = tempBkgd%getHyperSlab(blocks(j)%extents)
+                            call blocks(j)%Background(self%waterPropsBkgIndex)%append(tempBkgd2, appended)
+                            call tempBkgd2%finalize()
+                        end if
+                        if (.not.blocks(j)%Background(self%waterPropsBkgIndex)%initialized) blocks(j)%Background(self%waterPropsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
+                        !save last time already loaded
+                        tempTime = blocks(j)%Background(self%waterPropsBkgIndex)%getDimExtents(Globals%Var%time)
+                        if (self%lastWaterPropsReadTime == -1.0) self%lastWaterPropsReadTime = tempTime(2)
+                        self%lastWaterPropsReadTime = min(tempTime(2), self%lastWaterPropsReadTime)
+                    end do
+                    !clean out the temporary background data
+                    call tempBkgd%finalize()
+                end if
+            end do
+        end if
     end if
 
     end subroutine loadDataFromStack
@@ -432,7 +456,34 @@
             nBkg = nBkg + 1
             self%wavesBkgIndex = nBkg
         end if
-        !call Globals%setInputFileNames(fileNames)
+        
+        !For water properties data
+        tag = Globals%DataTypes%waterProps
+        call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
+        if (associated(typeNode)) then
+            fileList => getElementsByTagname(typeNode, "file")
+            allocate(fileNames(getLength(fileList)))
+            allocate(self%waterPropsInputFile(getLength(fileList)))
+            do i = 0, getLength(fileList) - 1
+                fileNode => item(fileList, i)
+                tag="name"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, fileNames(i+1))
+                self%waterPropsInputFile(i+1)%name = fileNames(i+1)
+                tag="startTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%waterPropsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                tag="endTime"
+                att_name="value"
+                call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
+                self%waterPropsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%waterPropsInputFile(i+1)%used = .false.
+            end do
+            nBkg = nBkg + 1
+            self%waterPropsBkgIndex = nBkg
+        end if
+        
     else
         self%useInputFiles = .false.
     end if

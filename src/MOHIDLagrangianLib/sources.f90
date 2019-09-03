@@ -415,19 +415,11 @@
     src%stats%ns=0
     !setting stencil variables
     src%stencil%dp = Globals%SimDefs%Dp
-    if (res%x > 0.0) src%stencil%dp = res !the source has a custom resolution
-    src%stencil%np = Geometry%fillSize(src%par%geometry, src%stencil%dp)
+    if (res%x > 0.0) src%stencil%dp = res !the source has a custom resolution    
+    allocate(src%stencil%ptlist, source = Geometry%getFillPoints(src%par%geometry, src%stencil%dp))
+    src%stencil%np = size(src%stencil%ptlist)
     call src%setotalnp()
-    allocate(src%stencil%ptlist(src%stencil%np), stat=err)
-    if(err/=0)then
-        outext='[Sources::initialize]:Cannot allocate point list for Source '// src%par%name //', stoping'
-        call Log%put(outext)
-        stop
-    endif
-    call Geometry%fill(src%par%geometry, src%stencil%dp, src%stencil%np, src%stencil%ptlist)
-    do i=1, src%stencil%np
-        src%stencil%ptlist(i) = Utils%m2geo(src%stencil%ptlist(i), src%stencil%ptlist(i)%y)
-    end do
+    src%stencil%ptlist = Utils%m2geo(src%stencil%ptlist)
 
     sizem = sizeof(src)
     call SimMemory%addsource(sizem)
