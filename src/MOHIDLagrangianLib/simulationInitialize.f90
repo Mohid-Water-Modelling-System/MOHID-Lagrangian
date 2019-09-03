@@ -274,6 +274,8 @@
         tag='file'
         att_name = 'name'
         call XMLReader%getNodeAttribute(source_detail, tag, att_name, geoFileName)
+        zMin = notRead
+        zMax = notRead
         tag='verticalBoundingBox'
         att_name = 'min'
         call XMLReader%getNodeAttribute(source_detail, tag, att_name, zMin, mandatory = .false.)
