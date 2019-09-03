@@ -366,7 +366,7 @@
 
     allocate(getMetricPolygon%vertex(size(self%vertex)))
     getMetricPolygon%vertex = Utils%geo2m(self%vertex - self%pt)
-    call getMetricPolygon%setBoundingBox(self%bbMin%z, self%bbMax%z)
+    call getMetricPolygon%setBoundingBox(self%bbMin%z-self%bbMin%z/2.0, self%bbMax%z-self%bbMin%z/2.0)
     getMetricPolygon%pt = self%pt
     end function getMetricPolygon
 
@@ -621,7 +621,8 @@
                 pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)                
                 if (pointInPolygon(pts, poly%vertex, poly%bbMin%z, poly%bbMax%z)) then
                     p=p+1
-                    ptlist(p)=pts                    
+                    ptlist(p)=pts
+                    print*, pts
                 end if
             end do
         end do
