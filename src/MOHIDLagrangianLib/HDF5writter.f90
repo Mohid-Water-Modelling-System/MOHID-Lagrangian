@@ -84,21 +84,31 @@
     logical, allocatable, dimension(:) :: active
 
     real, dimension(:,:), pointer :: mat
+    real, dimension(:,:), allocatable, target :: matReal
     integer, dimension(:,:), pointer :: matInt
-
+    
     extfilename = filename%chars()//'.hdf5'
     fullfilename = Globals%Names%outpath//'/'//extfilename
-
-    allocate(mat(size(blocks(1)%BlockState(1)%state,1), size(blocks(1)%BlockState(1)%state,2)))
-    mat = real(blocks(1)%BlockState(1)%state)
+        
     !allocate(mat, source = real(blocks(1)%BlockState(1)%state))
+    !allocate(mat(size(blocks(1)%BlockState(1)%state,1), size(blocks(1)%BlockState(1)%state,2)))
+    !mat = real(blocks(1)%BlockState(1)%state)
+    allocate(matReal(size(blocks(1)%BlockState(1)%state,1), size(blocks(1)%BlockState(1)%state,2)))
+    matReal = real(blocks(1)%BlockState(1)%state)
+    mat => matReal
+    
     
     !allocate(matInt(10,20))
     !matInt = 12
     !call writeTestmatrix(matInt)
 
+    print*, 'got here'
+    
     !Gets File Access Code
     call GetHDF5FileAccess(HDF5_CREATE = HDF5_CREATE)
+    
+    print*, 'got here'
+    
     !Opens HDF File
     ID = 0
     call ConstructHDF5(ID, fullfilename%chars(), HDF5_CREATE, STAT = STAT_CALL)
@@ -107,6 +117,8 @@
         call Log%put(outext)
         stop
     end if
+    
+    print*, 'got here'
     
     !writting data
     call HDF5WriteData(ID, "/Data", "TestMatrix", "-", Array2D = mat, STAT = STAT_CALL)
