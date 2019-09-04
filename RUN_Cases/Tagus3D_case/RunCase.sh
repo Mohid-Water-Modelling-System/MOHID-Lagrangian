@@ -13,6 +13,7 @@ mohidlagrangian=${tools}/MOHIDLagrangian
 preprocessorDir=../../src/MOHIDLagrangianPreProcessor
 mohidPreprocessor=${preprocessorDir}/MOHIDLagrangianPreProcessor.py
 
+
 # "dirout" is created to store results or it is cleaned if it already exists
 if [ -e $dirout ]; then
   rm -f -r $dirout
@@ -30,6 +31,12 @@ if [ $errcode -eq 0 ]; then
   $mohidlagrangian -i $dirout/${name}.xml -o $dirout
   errcode=$?
 fi
+
+
+cd $dirout
+postprocessorDir=../../../src/MOHIDLagrangianPostProcessor
+mohidPostprocessor=${postprocessorDir}/MOHIDLagrangianPostProcessor.py
+python $mohidPostprocessor ${name}.xml concentrations residence_time
 
 
 if [ $errcode -eq 0 ]; then
