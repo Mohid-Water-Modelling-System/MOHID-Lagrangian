@@ -622,7 +622,6 @@
                 if (pointInPolygon(pts, poly%vertex, poly%bbMin%z, poly%bbMax%z)) then
                     p=p+1
                     ptlist(p)=pts
-                    print*, pts
                 end if
             end do
         end do
