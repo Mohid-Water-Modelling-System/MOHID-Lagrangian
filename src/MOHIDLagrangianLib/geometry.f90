@@ -21,7 +21,6 @@
     use vecfor_r8p
     !use vecfor_r4p
     use stringifor
-    !use FoX_dom
     use ModuleEnterData
     use ModuleGlobalData
 
@@ -29,8 +28,7 @@
     use simulationLogger_mod
     use simulationGlobals_mod
     use utilities_mod
-    !use xmlParser_mod
-    !use csvParser_mod
+    use xmlParser_mod
 
     implicit none
     private
@@ -368,7 +366,7 @@
 
     allocate(getMetricPolygon%vertex(size(self%vertex)))
     getMetricPolygon%vertex = Utils%geo2m(self%vertex - self%pt)
-    call getMetricPolygon%setBoundingBox(self%bbMin%z, self%bbMax%z)
+    call getMetricPolygon%setBoundingBox(self%bbMin%z-self%bbMin%z/2.0, self%bbMax%z-self%bbMin%z/2.0)
     getMetricPolygon%pt = self%pt
     end function getMetricPolygon
 
@@ -440,17 +438,21 @@
     integer :: PolygonsFile, STAT_CALL, ClientNumber, FromBlock, iflag
     integer :: StartLine, EndLine
     integer :: i
-    logical :: found
+    logical :: found, vertBounds
     character(len = line_length) :: FullBufferLine
     type(string) :: outext!, tag
     real, dimension(:), pointer :: PointCoordinates
     real(prec) :: zMin, zMax
-    ! type(xmlparser_class) :: xmlReader
-    ! type(Node), pointer :: xmlDoc, xmlNode
-    ! real(prec) :: temp(6)
+    type(xmlparser_class) :: xmlReader
 
-    zMin = zMin_str%to_number(kind=1._R4P)
-    zMax = zMax_str%to_number(kind=1._R4P)
+    vertBounds = .false.
+    if (zMin_str /= notRead) then
+        if(zMax_str /= notRead) then
+            zMin = zMin_str%to_number(kind=1._R4P)
+            zMax = zMax_str%to_number(kind=1._R4P)
+            vertBounds = .true.
+        end if
+    end if
     
     outext='-> Reading polygon file '//fileName
     call Log%put(outext)
@@ -498,25 +500,20 @@
             call Log%put(outext)
             stop
         end if
-        call poly%setBoundingBox(zMin, zMax)
-    ! else if (fileName%extension() == '.kmz') then
-    !     call XMLReader%getFile(xmlDoc,fileName)
-    !     tag="kml"
-    !     call XMLReader%gotoNode(xmlDoc,xmlNode,tag)
-    !     tag="Document"
-    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
-    !     tag="Placemark"
-    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
-    !     tag="Polygon"
-    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
-    !     tag="outerBoundaryIs"
-    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
-    !     tag="LinearRing"
-    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
-    !     tag="coordinates"
-    !     call XMLReader%gotoNode(xmlNode,xmlNode,tag)
-    !     call extractDataContent(xmlNode,temp)
-    !     print*, temp
+        if (vertBounds) then
+            call poly%setBoundingBox(zMin, zMax)
+        else
+            outext='[geometry::setPolygon] : .xy polygon files demand "verticalBoundingBox" field on setup file, stoping'
+            call Log%put(outext)
+            stop
+        end if
+     else if (fileName%extension() == '.kmz') then
+         call xmlReader%getPolygonFromKMZFile(fileName,poly%vertex)
+         if (vertBounds) then
+            call poly%setBoundingBox(zMin, zMax)
+        else
+            call poly%setBoundingBox()
+        end if
     else
         outext='-> Format '//fileName%extension()//' not suported, stoping'
         call Log%put(outext)
@@ -624,7 +621,7 @@
                 pts = poly%bbMin + (ex*(i-1)*dp%x + ey*(j-1)*dp%y + ez*(k-1)*dp%z)                
                 if (pointInPolygon(pts, poly%vertex, poly%bbMin%z, poly%bbMax%z)) then
                     p=p+1
-                    ptlist(p)=pts                    
+                    ptlist(p)=pts
                 end if
             end do
         end do

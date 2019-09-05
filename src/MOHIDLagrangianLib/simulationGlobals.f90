@@ -233,12 +233,14 @@
     procedure :: setDimNames
     procedure :: setCurrVar
     end type globals_class
+    
+    type(string) :: notRead
 
     !Simulation variables
     type(globals_class) :: Globals
 
     !Public access vars
-    public :: Globals, stringList_class
+    public :: Globals, stringList_class, notRead
 
     contains
 
@@ -318,6 +320,8 @@
     self%DataTypes%waterProps = 'waterProperties'
     !Variable names
     call self%Var%buildvars()
+    
+    notRead = 'notRead'
 
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)

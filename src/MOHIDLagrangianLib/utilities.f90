@@ -270,6 +270,7 @@
     real(prec) :: pi
     pi = 4*atan(1.0)
     R = 6378137.0 !earth radius in meters
+    m2geo_vecFull=mvec
     m2geo_vecFull%y = mvec%y/(R*pi/180.0)
     m2geo_vecFull%x = mvec%x/((R*pi/180.0)*cos(pi*m2geo_vecFull%y/180.0))
     end function m2geo_vecFull
