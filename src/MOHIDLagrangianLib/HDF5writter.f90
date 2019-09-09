@@ -80,12 +80,14 @@
     integer :: error, i, j, b
     integer :: HDF5_CREATE, STAT_CALL
     integer, pointer :: ID => null()
+    integer, target :: id_target
     integer :: np
     logical, allocatable, dimension(:) :: active
 
-    real, dimension(:,:), pointer :: mat
+    real(4), dimension(:,:), pointer :: mat
     real, dimension(:,:), allocatable, target :: matReal
     integer, dimension(:,:), pointer :: matInt
+    integer, dimension(:,:), allocatable, target :: matIntTarget
     
     extfilename = filename%chars()//'.hdf5'
     fullfilename = Globals%Names%outpath//'/'//extfilename
@@ -95,13 +97,20 @@
     !mat = real(blocks(1)%BlockState(1)%state)
     allocate(matReal(size(blocks(1)%BlockState(1)%state,1), size(blocks(1)%BlockState(1)%state,2)))
     matReal = real(blocks(1)%BlockState(1)%state)
-    mat => matReal
+    !mat => matReal
     
+    allocate(mat(size(blocks(1)%BlockState(1)%state,1), size(blocks(1)%BlockState(1)%state,2)))
+    mat => matReal
     
     !allocate(matInt(10,20))
     !matInt = 12
     !call writeTestmatrix(matInt)
-
+    
+    allocate(matIntTarget(10,20))
+    matIntTarget = 12
+    allocate(matInt(10,20))
+    matInt = matIntTarget
+    
     print*, 'got here'
     
     !Gets File Access Code
@@ -110,6 +119,9 @@
     print*, 'got here'
     
     !Opens HDF File
+    !id_target = 0
+    !ID => id_target
+    allocate(ID)
     ID = 0
     call ConstructHDF5(ID, fullfilename%chars(), HDF5_CREATE, STAT = STAT_CALL)
     if (STAT_CALL /= SUCCESS_) then
@@ -121,7 +133,7 @@
     print*, 'got here'
     
     !writting data
-    call HDF5WriteData(ID, "/Data", "TestMatrix", "-", Array2D = mat, STAT = STAT_CALL)
+    call HDF5WriteData(ID, "/Data", "TestMatrix", "-", Array2D = matInt, STAT = STAT_CALL)
     if (STAT_CALL /= SUCCESS_) then
         outext = '[HDF5Writter::TracerSerial]: unnable to write to '//fullfilename//' file, stoping'
         call Log%put(outext)
