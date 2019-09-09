@@ -306,18 +306,18 @@
     type(Node), pointer :: sourcedef
     type(Node), pointer :: source_node              !< Single source block to process
     type(Node), pointer :: source_detail
+    type(Node), pointer :: source_ratefile
     integer :: i, j, k
     logical :: readflag
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
     real(prec) :: emitting_rate, start, finish, temp
-    logical :: emitting_fixed
+    logical :: emitting_fixed, rateRead
     class(shape), allocatable :: source_shape
     type(vector) :: res
     real(prec), dimension(:,:), allocatable :: activeTimes
 
-    res = 0.0
-    rate_file = 'not_set'
+    res = 0.0    
     readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
@@ -328,6 +328,8 @@
     call tempSources%initialize(getLength(sourceList))
 
     do j = 0, getLength(sourceList) - 1
+        rate_file = notSet
+        rateRead = .false.
         source_node => item(sourceList,j)
         tag="setsource"
         att_name="id"
@@ -346,27 +348,39 @@
             if (.not.readflag) res = 0.0
         end if
         !reading emission rate, need to check for options
+        readflag = .false.
         tag="rate_dt"
         att_name="value"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
+            rateRead = .true.
             emitting_rate = 1.0/(att_val%to_number(kind=1._R4P)*Globals%SimDefs%dt)
             emitting_fixed = .true.
         end if
         tag="rate"
         att_name="value"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
+            rateRead = .true.
             emitting_rate = att_val%to_number(kind=1._R4P)
             emitting_fixed = .true.
         end if
-        tag="rate_file"
-        att_name="name"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag) then
+        tag="rateTimeSeries"
+        call XMLReader%gotoNode(source_node, source_ratefile, tag, mandatory =.false.)
+        if (associated(source_ratefile)) then
+            tag = "file"
+            call XMLReader%gotoNode(source_ratefile, source_ratefile, tag)
+            att_name="name"
+            call XMLReader%getLeafAttribute(source_ratefile, att_name, att_val)
+            rateRead = .true.
             rate_file = att_val
             emitting_fixed = .false.
-        end if        
+        end if
+        if (.not.rateRead) then
+            outext='-->Source '//name//' (id = '//id// ') doesnt have emission rate information. Possible options are [rate_dt, rate, rate_file]. Stoping'
+            call Log%put(outext)
+            stop
+        end if
         !Possible list of active intervals, and these might be in absolute dates or relative to sim time
         activeList => getElementsByTagname(source_node, "active")
         allocate(activeTimes(getLength(activeList),2))

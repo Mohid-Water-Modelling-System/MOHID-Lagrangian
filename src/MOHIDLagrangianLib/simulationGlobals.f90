@@ -235,12 +235,13 @@
     end type globals_class
     
     type(string) :: notRead
+    type(string) :: notSet
 
     !Simulation variables
     type(globals_class) :: Globals
 
     !Public access vars
-    public :: Globals, stringList_class, notRead
+    public :: Globals, stringList_class, notRead, notSet
 
     contains
 
@@ -254,6 +255,10 @@
     class(globals_class), intent(inout) :: self
     integer :: sizem
     type(string), optional, intent(in) :: outpath
+    
+    notRead = 'notRead'
+    notSet = 'notSet'
+    
     !parameters
     self%Parameters%Integrator = 1
     self%Parameters%IntegratorIndexes = [1,2,3]
@@ -296,15 +301,15 @@
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
-    self%Names%mainxmlfilename = 'not_set'
-    self%Names%propsxmlfilename = 'not_set'
-    self%Names%tempfilename = 'not_set'
+    self%Names%mainxmlfilename = notSet
+    self%Names%propsxmlfilename = notSet
+    self%Names%tempfilename = notSet
     if (present(outpath)) then
         self%Names%outpath = outpath
     else
-        self%Names%outpath = 'not_set'
+        self%Names%outpath = notSet
     end if
-    self%Names%casename = 'not_set'
+    self%Names%casename = notSet
     !global time
     self%SimTime%CurrTime = 0.0
     !global counters
@@ -320,8 +325,6 @@
     self%DataTypes%waterProps = 'waterProperties'
     !Variable names
     call self%Var%buildvars()
-    
-    notRead = 'notRead'
 
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)

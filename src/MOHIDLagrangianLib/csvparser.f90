@@ -36,11 +36,8 @@
     procedure :: closeFile
     end type csvparser_class
 
-    !Simulation variables
-    type(csvparser_class) :: CSVReader
-
     !Public access vars
-    public :: CSVReader
+    public :: csvparser_class
 
     contains
 
@@ -59,9 +56,11 @@
     character(len=30), dimension(:), allocatable :: header
     logical :: status
     type(string) :: outext
+    outext = '-> Reading .csv file '// csvfilename
+    call Log%put(outext)
     call csvdoc%read(csvfilename%chars(), header_row=header_row, status_ok=status)
     if (status .eqv. .false.) then
-        outext = '[CSVReader::getFile]: Cannot open .csv file, supposedly at '// csvfilename //', stoping'
+        outext = '[csvparser_class::getFile]: Cannot open .csv file, supposedly at '// csvfilename //', stoping'
         call Log%put(outext)
         stop
     end if
@@ -86,7 +85,7 @@
     call csvdoc%get(column, data_out, status)
     if (status .eqv. .false.) then
         outext = column
-        outext = '[CSVReader::getFile]: Cannot get data from column'// outext //' .csv file '// csvfilename //', stoping'
+        outext = '[csvparser_class::getFile]: Cannot get data from column'// outext //' .csv file '// csvfilename //', stoping'
         call Log%put(outext)
         stop
     end if

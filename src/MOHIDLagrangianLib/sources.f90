@@ -295,6 +295,7 @@
     integer :: i, index
     real(prec) :: weight
     logical :: status
+    type(csvparser_class) :: CSVReader
     type(string) :: outext
 
     call CSVReader%getFile(rateFile, filename, 1)

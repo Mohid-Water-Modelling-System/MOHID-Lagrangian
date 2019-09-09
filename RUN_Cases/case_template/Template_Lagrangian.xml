@@ -47,7 +47,9 @@
 			</source>
 			<source>
 				<setsource id="2" name="Emissary_2" />
-				<rate_file name="data/discharge_2.csv" comment="name of csv file with discharge information (time and rate columns)" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
+				</rateTimeSeries>
 				<line>
 					<pointa x="1" y="2" z="-10" units_comment="(deg,deg,m)"/>
 					<pointb x="1.001" y="2.00001" z="7" units_comment="(deg,deg,m)"/>

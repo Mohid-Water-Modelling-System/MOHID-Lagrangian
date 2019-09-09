@@ -61,7 +61,9 @@
 			</source>
 			<source>
 				<setsource id="3" name="ReleasePoint17" />
-				<rate_file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
+				</rateTimeSeries>
 				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>        
 			</source>
 		</sourceDefinitions>
