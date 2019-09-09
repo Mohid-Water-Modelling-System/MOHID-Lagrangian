@@ -32,6 +32,7 @@
     use common_modules
 
     use hdf5Writter_mod
+    use MTimeSeriesParser_mod
 
     implicit none
     private
@@ -85,8 +86,13 @@
     class(simulation_class), intent(inout) :: self
     type(string) :: outext
     logical :: dbg = .false.
+    
+    type(mTimeSeriesParser_class) :: MTimeSeriesParser
 
     call self%OutputStreamer%writeOutputHeader()
+    
+    outext = 'data/ficheiro_atmosfera.dat'
+    call MTimeSeriesParser%getFile(outext)
     
     outext='->Building initial state'
     call Log%put(outext)
