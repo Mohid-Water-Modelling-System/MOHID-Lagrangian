@@ -379,8 +379,7 @@
     !> Simulation method to update the date and time variables
     !---------------------------------------------------------------------------
     subroutine updateSimDateTime(self)
-    class(simulation_class), intent(inout) :: self
-    integer :: i
+    class(simulation_class), intent(in) :: self
     if (Globals%Sim%getnumdt() /= 1 ) call Globals%SimTime%setCurrDateTime(Globals%SimDefs%dt)
     end subroutine updateSimDateTime
 
@@ -492,7 +491,7 @@
     !> Simulation method to do domain decomposition and define the Blocks
     !---------------------------------------------------------------------------
     subroutine DecomposeDomain(self)
-    class(simulation_class), intent(inout) :: self
+    class(simulation_class), intent(in) :: self
     type(string) :: outext
     if (Globals%SimDefs%autoblocksize) then
         call allocBlocks(Globals%SimDefs%numblocks)
