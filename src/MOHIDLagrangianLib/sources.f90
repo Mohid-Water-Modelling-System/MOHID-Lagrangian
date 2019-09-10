@@ -22,6 +22,7 @@
     use simulationGlobals_mod
     use csv_module
     use csvParser_mod
+    use MTimeSeriesParser_mod
 
     implicit none
     private
@@ -296,13 +297,25 @@
     real(prec) :: weight
     logical :: status
     type(csvparser_class) :: CSVReader
+    type(mTimeSeriesParser_class) :: MTSReader
+    type(string), dimension(:), allocatable :: varList
     type(string) :: outext
 
-    call CSVReader%getFile(rateFile, filename, 1)
-    call CSVReader%getColumn(rateFile, filename, 1, time)
-    call CSVReader%getColumn(rateFile, filename, 2, rate)
-    call CSVReader%closeFile(rateFile)
-    !interpolating the csv data to a regular dt spaced array and storing the data in the Source
+    if (filename%extension() == '.csv') then
+        call CSVReader%getFile(rateFile, filename, 1)
+        call CSVReader%getColumn(rateFile, filename, 1, time)
+        call CSVReader%getColumn(rateFile, filename, 2, rate)
+        call CSVReader%closeFile(rateFile)
+    else if (filename%extension() == '.dat') then
+        allocate(varList(2))
+        varList(1) = Globals%Var%time
+        varList(2) = Globals%Var%rate
+        call MTSReader%getFile(filename, varList)
+        call MTSReader%getDataByLabel(Globals%Var%time, time)
+        call MTSReader%getDataByLabel(Globals%Var%rate, rate)
+    end if
+    
+    !interpolating the data to a regular dt spaced array and storing the data in the Source
     allocate(stime(int(min(Globals%Parameters%TimeMax,maxval(time))/Globals%SimDefs%dt)+1))
     allocate(srate(size(stime)))
     do i=1, size(stime)
