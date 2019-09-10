@@ -127,9 +127,9 @@
     !destroying the MOHID Time Series module instance
     call KillTimeSerie(id, STAT = STAT_CALL)
     
-    print*, self%filename
-    print*, self%varName
-    print*, self%dataMatrix
+    !print*, self%filename
+    !print*, self%varName
+    !print*, self%dataMatrix
 
     end subroutine getFile
 
