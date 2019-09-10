@@ -377,7 +377,7 @@
             emitting_fixed = .false.
         end if
         if (.not.rateRead) then
-            outext='-->Source '//name//' (id = '//id// ') doesnt have emission rate information. Possible options are [rate_dt, rate, rate_file]. Stoping'
+            outext='-->Source '//name//' (id = '//id// ') doesn''t have emission rate information. Possible options are [rate_dt, rate, rate_file]. Stoping'
             call Log%put(outext)
             stop
         end if
@@ -598,12 +598,12 @@
     ! building the simulation basic structures according to the case definition file
     ! every other structure in the simulation is built from these, i.e., not defined by the user directly
     call init_parameters(execution_node)
+    call init_naming(execution_node)
+    call setOutputFields(execution_node)
     call init_caseconstants(case_node)
     call init_simdefs(case_node)
     call init_sources(case_node)
-    call init_properties(case_node)
-    call init_naming(execution_node)
-    call setOutputFields(execution_node)
+    call init_properties(case_node)    
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads
