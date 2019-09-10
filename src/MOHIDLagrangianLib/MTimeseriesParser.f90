@@ -116,7 +116,7 @@
                 end if
             end do
             if (.not.found) then
-                outext = '[MTimeSeriesParser::getFile]: File '//filename//' doesnt list variable representing '//varList(i)//', stoping'
+                outext = '[MTimeSeriesParser::getFile]: File '//filename//' doesn''t list variable representing '//varList(i)//', stoping'
                 call Log%put(outext)
                 stop
             end if
@@ -145,11 +145,11 @@
 
     idx = Utils%find_str(self%varName, dataName)
     if (idx == MV_INT) then
-        outext = '[MTimeSeriesParser::getColumn]: File '//self%filename//' doesnt list variable representing '//dataName//', stoping'
+        outext = '[MTimeSeriesParser::getColumn]: File '//self%filename//' doesn''t list variable representing '//dataName//', stoping'
         call Log%put(outext)
         stop
     end if
-    allocate(data_out(size(self%dataMatrix,2)))
+    allocate(data_out(size(self%dataMatrix,1)))
     data_out = self%dataMatrix(:,idx)
 
     end subroutine getDataByLabel
