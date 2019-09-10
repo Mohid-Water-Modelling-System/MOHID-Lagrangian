@@ -155,6 +155,7 @@
         type(string) :: landIntMask
         type(string) :: landMask
         type(string) :: resolution
+        type(string) :: rate
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -169,6 +170,7 @@
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
         type(stringList_class) :: timeVariants
+        type(stringList_class) :: rateVariants
         type(stringList_class) :: varToUse !< list of variables used in a simulation
     contains
     procedure, private :: buildvars
@@ -355,6 +357,7 @@
     self%landMask    = 'landMask'
     self%landIntMask = 'landIntMask'
     self%resolution = 'resolution'
+    self%rate = 'rate'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -458,6 +461,11 @@
     !searching for time
     if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
         getVarSimName = self%time
+        return
+    end if
+    !searching for rate
+    if (var == self%rate .or. .not.self%rateVariants%notRepeated(var)) then
+        getVarSimName = self%rate
         return
     end if
 
