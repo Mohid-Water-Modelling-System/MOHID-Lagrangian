@@ -306,17 +306,18 @@
     type(Node), pointer :: sourcedef
     type(Node), pointer :: source_node              !< Single source block to process
     type(Node), pointer :: source_detail
-    type(Node), pointer :: source_ratefile
+    type(Node), pointer :: source_ratefile, ratefileLeaf
     integer :: i, j, k
     logical :: readflag
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
-    real(prec) :: emitting_rate, start, finish, temp
+    real(prec) :: emitting_rate, rateScale, start, finish, temp
     logical :: emitting_fixed, rateRead
     class(shape), allocatable :: source_shape
     type(vector) :: res
     real(prec), dimension(:,:), allocatable :: activeTimes
 
+    rateScale = 1.0
     res = 0.0    
     readflag = .false.
     outext='-->Reading case Sources'
@@ -369,15 +370,21 @@
         call XMLReader%gotoNode(source_node, source_ratefile, tag, mandatory =.false.)
         if (associated(source_ratefile)) then
             tag = "file"
-            call XMLReader%gotoNode(source_ratefile, source_ratefile, tag)
+            call XMLReader%gotoNode(source_ratefile, ratefileLeaf, tag)
             att_name="name"
-            call XMLReader%getLeafAttribute(source_ratefile, att_name, att_val)
+            call XMLReader%getLeafAttribute(ratefileLeaf, att_name, att_val)
             rateRead = .true.
             rate_file = att_val
             emitting_fixed = .false.
+            tag = "scale"
+            att_name="value"
+            call XMLReader%getNodeAttribute(source_ratefile, tag, att_name, att_val, readflag, mandatory = .false.)            
+            if (readflag) then
+                rateScale = att_val%to_number(kind=1._R4P)
+            end if
         end if
         if (.not.rateRead) then
-            outext='-->Source '//name//' (id = '//id// ') doesnt have emission rate information. Possible options are [rate_dt, rate, rate_file]. Stoping'
+            outext='-->Source '//name//' (id = '//id// ') doesn''t have emission rate information. Possible options are [rate_dt, rate, rate_file]. Stoping'
             call Log%put(outext)
             stop
         end if
@@ -411,7 +418,7 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,activeTimes,source_geometry,source_shape, res)
+        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, activeTimes, source_geometry, source_shape, res)
 
         deallocate(source_shape)
         deallocate(activeTimes)
@@ -598,12 +605,12 @@
     ! building the simulation basic structures according to the case definition file
     ! every other structure in the simulation is built from these, i.e., not defined by the user directly
     call init_parameters(execution_node)
+    call init_naming(execution_node)
+    call setOutputFields(execution_node)
     call init_caseconstants(case_node)
     call init_simdefs(case_node)
     call init_sources(case_node)
-    call init_properties(case_node)
-    call init_naming(execution_node)
-    call setOutputFields(execution_node)
+    call init_properties(case_node)    
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads

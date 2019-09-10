@@ -31,8 +31,6 @@
     use simulationInputStreamer_mod
     use common_modules
 
-    use hdf5Writter_mod
-
     implicit none
     private
 

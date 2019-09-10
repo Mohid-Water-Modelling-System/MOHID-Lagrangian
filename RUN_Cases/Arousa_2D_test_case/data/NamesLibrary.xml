@@ -29,6 +29,11 @@
 			<variant name="Salt" />
 			<variant name="Salinity" />
 		</sea_water_salinity>
+		<emission_rate name="rate">
+			<variant name="rate" />
+			<variant name="Rate" />
+			<variant name="RATE" />
+		</emission_rate>
 	</variables>
 	<dimensions>
 		<longitude name="lon">
@@ -57,7 +62,7 @@
 		<time name="time">
 			<variant name="time" />
 			<variant name="Time" />
-			<variant name="TIME" />		
+			<variant name="TIME" />
 		</time>
 	</dimensions>
 </naming>
