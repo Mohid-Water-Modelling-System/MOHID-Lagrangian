@@ -31,9 +31,7 @@
 		</sea_water_salinity>
 		<emission_rate name="rate">
 			<variant name="rate" />
-			<variant name="rate(hz)" />
 			<variant name="Rate" />
-			<variant name="Rate(hz)" />
 			<variant name="RATE" />
 		</emission_rate>
 	</variables>
@@ -63,9 +61,7 @@
 		</vertical>
 		<time name="time">
 			<variant name="time" />
-			<variant name="time(s)" />
 			<variant name="Time" />
-			<variant name="Time(s)" />
 			<variant name="TIME" />
 		</time>
 	</dimensions>

@@ -13,13 +13,13 @@
 			<file name="data/outputFields.xml"/>
 		</outputFields>
 		<variableNaming>
-			<file name="data/ncNamesLibrary.xml"/>
+			<file name="data/NamesLibrary.xml"/>
 		</variableNaming>
 	</execution>
 	<caseDefinitions>
 		<inputData>
 			<inputDataDir name="nc_fields" type="hydrodynamic"/>
-		</inputData>		
+		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
@@ -57,14 +57,21 @@
 				<line>
 					<pointa x="-8.88" y="42.5" z="0" units_comment="(deg,deg,m)"/>
 					<pointb x="-8.87" y="42.525" z="0" units_comment="(deg,deg,m)"/>
-				</line>        
+				</line>
 			</source>
 			<source>
 				<setsource id="3" name="ReleasePoint17" />
 				<rateTimeSeries> 
 					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
 				</rateTimeSeries>
-				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>        
+				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+			</source>
+			<source>
+				<setsource id="5" name="ReleasePoint5" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example2.dat" />
+				</rateTimeSeries>
+				<point x="-8.94" y="42.56" z="0" units_comment="(deg,deg,m)"/>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
@@ -73,11 +80,11 @@
 				<type source="3" type='paper' property="cardboard_1" comment="" />
 			</types>
 			<file name="data/materialTypes.xml"/>
-		</sourceTypes>		
+		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
-			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />			
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />			
+			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />
 		</constants>
 	</caseDefinitions>
 </case>

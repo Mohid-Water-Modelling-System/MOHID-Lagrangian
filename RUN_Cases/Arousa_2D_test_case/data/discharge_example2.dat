@@ -1,0 +1,12 @@
+TIME_CYCLE                : 0
+TIME_UNITS                : SECONDS
+SERIE_INITIAL_DATA        : 2018 01 02 00 00 00
+
+!time          rate
+<BeginTimeSerie>
+1              0.001
+30             0.002
+100            0.03
+300            0.003
+1500           0.005
+<EndTimeSerie>
