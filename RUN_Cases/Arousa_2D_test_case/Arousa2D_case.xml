@@ -70,6 +70,7 @@
 				<setsource id="5" name="ReleasePoint5" />
 				<rateTimeSeries> 
 					<file name="data/discharge_example2.dat" />
+					<scale value="0.1" comment="scales the data on the file by this factor (not time)" />
 				</rateTimeSeries>
 				<point x="-8.94" y="42.56" z="0" units_comment="(deg,deg,m)"/>
 			</source>

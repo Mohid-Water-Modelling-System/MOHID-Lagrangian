@@ -287,9 +287,10 @@
     !> the space, and stores the data in the Source.
     !> @param[in] self, filename
     !---------------------------------------------------------------------------
-    subroutine setVariableRate(self, filename)
+    subroutine setVariableRate(self, filename, rateScale)
     class(source_class), intent(inout) :: self
     type(string), intent(in) :: filename
+    real(prec), intent(in) :: rateScale
     type(csv_file) :: rateFile
     character(len=30), dimension(:), allocatable :: header
     real(prec), dimension(:), allocatable :: time, rate, stime, srate
@@ -314,6 +315,8 @@
         call MTSReader%getDataByLabel(Globals%Var%time, time)
         call MTSReader%getDataByLabel(Globals%Var%rate, rate)
     end if
+    
+    rate = rate*rateScale
     
     !interpolating the data to a regular dt spaced array and storing the data in the Source
     allocate(stime(int(min(Globals%Parameters%TimeMax,maxval(time))/Globals%SimDefs%dt)+1))
@@ -386,13 +389,14 @@
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, activeTimes, source_geometry, shapetype, res)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, activeTimes, source_geometry, shapetype, res)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
     real(prec), intent(in) :: emitting_rate
     logical, intent(in) :: emitting_fixed_rate
     type(string), intent(in) :: rate_file
+    real(prec), intent(in) :: rateScale
     real(prec), dimension(:,:), intent(in) :: activeTimes
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: shapetype
@@ -407,7 +411,7 @@
     src%par%emitting_fixed_rate = emitting_fixed_rate
     src%par%rate_file = rate_file
     if (emitting_fixed_rate .eqv. .false.) then
-        call src%setVariableRate(src%par%rate_file)
+        call src%setVariableRate(src%par%rate_file, rateScale)
         call src%getVariableRate(Globals%Sim%getnumdt())
     end if
     call src%setActiveTimes(activeTimes)
