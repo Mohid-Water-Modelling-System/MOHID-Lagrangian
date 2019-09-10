@@ -23,7 +23,7 @@
     use ModuleTimeSerie
     use ModuleGlobalData
     use ModuleTime
-        
+
     use common_modules
 
     implicit none
@@ -66,7 +66,7 @@
     real, dimension(:,:), pointer :: mDataMatrix
     type(T_Time) :: mInitialDate
     real :: mDate(6)
-    
+
     outext = '-> Reading MOHID Time Series file '// filename
     call Log%put(outext)
     id = 0
@@ -76,9 +76,9 @@
         call Log%put(outext)
         stop
     end if
-    
+
     !getting data limits and header
-    call GetTimeSerieDataColumns(id, nColumns, STAT = STAT_CALL)    
+    call GetTimeSerieDataColumns(id, nColumns, STAT = STAT_CALL)
     call GetTimeSerieDataValues(id, nVals, STAT = STAT_CALL)
     call GetTimeSerieHeader(id, mHeader, STAT = STAT_CALL)
     !getting actual data matrix, already with time in seconds from date in file
@@ -95,7 +95,7 @@
     allocate(self%dataMatrix(nVals, nColumns))
     self%dataMatrix = mDataMatrix
     !cleaning up the header and getting individual data labels
-    header = mHeader    
+    header = mHeader
     temp = header%replace(old='!', new='')
     temp = temp%replace(old='  ', new=' ')
     do while (temp/= header)
@@ -123,16 +123,16 @@
         end do
     end if
     self%filename = filename
-    
+
     !destroying the MOHID Time Series module instance
     call KillTimeSerie(id, STAT = STAT_CALL)
-    
+
     end subroutine getFile
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that gets data from a column of a MOHID time series file, given 
+    !> Method that gets data from a column of a MOHID time series file, given
     !> a string with a variable name
     !> @param[in] self, dataName, data_out
     !---------------------------------------------------------------------------
@@ -142,7 +142,7 @@
     real(prec), dimension(:), allocatable :: data_out
     integer :: idx
     type(string) :: outext
-    
+
     idx = Utils%find_str(self%varName, dataName)
     if (idx == MV_INT) then
         outext = '[MTimeSeriesParser::getColumn]: File '//self%filename//' doesnt list variable representing '//dataName//', stoping'
@@ -151,8 +151,8 @@
     end if
     allocate(data_out(size(self%dataMatrix,2)))
     data_out = self%dataMatrix(:,idx)
-    
+
     end subroutine getDataByLabel
-    
+
 
     end module MTimeSeriesParser_mod
