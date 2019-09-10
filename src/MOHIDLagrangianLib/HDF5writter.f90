@@ -84,7 +84,7 @@
     integer :: np
     logical, allocatable, dimension(:) :: active
 
-    real(4), dimension(:,:), pointer :: mat
+    real, dimension(:,:), pointer :: mat
     real, dimension(:,:), allocatable, target :: matReal
     integer, dimension(:,:), pointer :: matInt
     integer, dimension(:,:), allocatable, target :: matIntTarget
