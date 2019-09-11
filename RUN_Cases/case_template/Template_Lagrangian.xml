@@ -81,6 +81,35 @@
 				<active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="9.025" y="5.0" z="0.75" units_comment="(deg,deg,m)"/>
 			</source>
+			<source>
+				<setsource id="4" name="PolygonKMZ" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.kmz"/>
+					<verticalBoundingBox min="0.0" max="0.0"/>
+				</polygon>
+			</source>
+			<source>
+				<setsource id="5" name="PolygonKMZ2" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.kmz"/>
+				</polygon>
+			</source>
+			<source>
+				<setsource id="8" name="PolygonXY" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.xy"/>
+					<verticalBoundingBox min="0.0" max="0.0"/>
+				</polygon>
+			</source>
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
