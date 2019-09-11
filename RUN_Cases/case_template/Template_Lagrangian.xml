@@ -49,6 +49,7 @@
 				<setsource id="2" name="Emissary_2" />
 				<rateTimeSeries> 
 					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
+					<scale value="1.01" comment="scales the data on the file by this factor (not time)" />
 				</rateTimeSeries>
 				<line>
 					<pointa x="1" y="2" z="-10" units_comment="(deg,deg,m)"/>
@@ -74,7 +75,9 @@
 			</source>
 			<source>
 				<setsource id="7" name="Mistery_discharge_2" />
-				<rate_dt value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example2.dat" />					
+				</rateTimeSeries>
 				<active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="9.025" y="5.0" z="0.75" units_comment="(deg,deg,m)"/>
 			</source>
