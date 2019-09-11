@@ -73,6 +73,9 @@
 					<scale value="0.1" comment="scales the data on the file by this factor (not time)" />
 				</rateTimeSeries>
 				<point x="-8.94" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.dat" />
+				</positionTimeSeries>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>

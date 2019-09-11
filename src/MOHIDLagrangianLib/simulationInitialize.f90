@@ -307,12 +307,13 @@
     type(Node), pointer :: source_node              !< Single source block to process
     type(Node), pointer :: source_detail
     type(Node), pointer :: source_ratefile, ratefileLeaf
+    type(Node), pointer :: source_posifile, posifileLeaf
     integer :: i, j, k
     logical :: readflag
     integer :: id
-    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
+    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file, posi_file
     real(prec) :: emitting_rate, rateScale, start, finish, temp
-    logical :: emitting_fixed, rateRead
+    logical :: emitting_fixed, posi_fixed, rateRead
     class(shape), allocatable :: source_shape
     type(vector) :: res
     real(prec), dimension(:,:), allocatable :: activeTimes
@@ -331,6 +332,8 @@
     do j = 0, getLength(sourceList) - 1
         rate_file = notSet
         rateRead = .false.
+        posi_file = notSet
+        posi_fixed = .true.
         source_node => item(sourceList,j)
         tag="setsource"
         att_name="id"
@@ -388,6 +391,17 @@
             call Log%put(outext)
             stop
         end if
+        !reading variable position tags, if any
+        tag="positionTimeSeries"
+        call XMLReader%gotoNode(source_node, source_posifile, tag, mandatory =.false.)
+        if (associated(source_posifile)) then
+            tag = "file"
+            call XMLReader%gotoNode(source_posifile, posifileLeaf, tag)
+            att_name="name"
+            call XMLReader%getLeafAttribute(posifileLeaf, att_name, att_val)
+            posi_file = att_val
+            posi_fixed = .false.
+        end if
         !Possible list of active intervals, and these might be in absolute dates or relative to sim time
         activeList => getElementsByTagname(source_node, "active")
         allocate(activeTimes(getLength(activeList),2))
@@ -418,7 +432,7 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, activeTimes, source_geometry, source_shape, res)
+        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, source_shape, res)
 
         deallocate(source_shape)
         deallocate(activeTimes)

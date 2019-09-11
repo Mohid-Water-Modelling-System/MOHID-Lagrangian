@@ -140,22 +140,37 @@
     subroutine ToogleBlockSources(self)
     implicit none
     class(block_class), intent(inout) :: self
-    integer :: i
+    integer :: i, blk
     class(*), pointer :: aSource
     type(string) :: outext
+    logical :: notremoved
 
     call self%LSource%reset()                   ! reset list iterator
     do while(self%LSource%moreValues())         ! loop while there are values
+        notremoved = .true.
         aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
             aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
+            if (aSource%now%active) then
+                !check if in the domain
+                aSource%now%active = TrcInBBox(aSource%now%pos, BBox)
+                if (aSource%now%active) then
+                    !check if in this block
+                    blk = getBlockIndex(aSource%now%pos)
+                    if (blk /= self%id) then        !Source is on a different block than the current one                        
+                        call sendSource(blk,aSource)
+                        call self%LSource%removeCurrent() !this also advances the iterator to the next position
+                        notremoved = .false.
+                    end if
+                end if
+            end if
             class default
             outext = '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
             call Log%put(outext)
             stop
         end select
-        call self%LSource%next()            ! increment the list iterator
+        if (notremoved) call self%LSource%next()            ! increment the list iterator
     end do
     call self%LSource%reset()               ! reset list iterator
 
@@ -231,7 +246,7 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
-            if (aTracer%now%active) aTracer%now%active = TrcInBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
+            if (aTracer%now%active) aTracer%now%active = TrcInBBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
             if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
                 notremoved = .false.            
@@ -425,9 +440,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to send a Tracer from the current Block to another Block. Checks
-    !> if Block index exists, if not, Tracer is not added to any Block Tracer 
-    !> list
+    !> Method to send a Tracer from the current Block to another Block.
     !> @param[in] blk, trc
     !---------------------------------------------------------------------------
     subroutine sendTracer(blk, trc)
@@ -438,6 +451,19 @@
     !index attribution at the new block
     call sBlock(blk)%LTracer%add(trc)
     end subroutine sendTracer
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to send a Source from the current Block to another Block.
+    !> @param[in] blk, src
+    !---------------------------------------------------------------------------
+    subroutine sendSource(blk, src)
+    implicit none
+    integer, intent(in) :: blk
+    class(source_class), intent(inout) :: src
+    call sBlock(blk)%LSource%add(src)
+    end subroutine sendSource
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -449,36 +475,44 @@
     implicit none
     type(vector), intent(in) :: pt
     integer :: ix, iy
+    type(string) :: outext
     ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
     iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
     getBlockIndex = Globals%SimDefs%numblocksy*(ix-1) + iy
+    if (getBlockIndex < 0) then
+        if (getBlockIndex > Globals%SimDefs%numblocks) then
+            outext='[getBlockIndex]: point coordinates out of simulation bound, stoping'
+            call Log%put(outext)
+            stop
+        end if
+    end if
     end function getBlockIndex
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns true if the point is inside the requested box.
+    !> Returns true if the point is inside the requested bounding box.
     !> @param[in] trc, testbox
     !---------------------------------------------------------------------------
-    logical function TrcInBox(trc, testbox)
+    logical function TrcInBBox(trc, testbox)
     implicit none
     type(vector), intent(in) :: trc
     type(boundingbox_class), intent(inout) :: testbox
-    TrcInBox = .false.
+    TrcInBBox = .false.
     if (trc%x >= testbox%pt%x) then
         if (trc%x <= testbox%pt%x + testbox%size%x) then
             if (trc%y >= testbox%pt%y) then
                 if (trc%y <= testbox%pt%y + testbox%size%y) then
                     if (trc%z >= testbox%pt%z) then
                         if (trc%z <= testbox%pt%z + testbox%size%z) then
-                            TrcInBox = .true.
+                            TrcInBBox = .true.
                         end if
                     end if
                 end if
             end if
         end if
     end if
-    end function TrcInBox
+    end function TrcInBBox
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

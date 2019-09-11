@@ -72,6 +72,9 @@
 				<sphere radius="0.95" units_comment="metres (m)">
 					<point x="9.05" y="2.0" z="0" units_comment="(deg,deg,m)"/>
 				</sphere>
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.dat" />
+				</positionTimeSeries>
 			</source>
 			<source>
 				<setsource id="7" name="Mistery_discharge_2" />
@@ -80,6 +83,9 @@
 				</rateTimeSeries>
 				<active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="9.025" y="5.0" z="0.75" units_comment="(deg,deg,m)"/>
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.csv" />
+				</positionTimeSeries>
 			</source>
 			<source>
 				<setsource id="4" name="PolygonKMZ" />
