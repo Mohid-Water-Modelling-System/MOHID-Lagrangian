@@ -226,13 +226,9 @@
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
-    !$OMP PARALLEL PRIVATE(i)
-    !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%ToogleBlockSources()
     end do
-    !$OMP END DO
-    !$OMP END PARALLEL
     call self%timerPrep%Toc()
     end subroutine ToggleSources
 
@@ -265,7 +261,6 @@
         call sBlock(i)%DistributeTracers()
     enddo
     call self%timerPrep%Toc()
-    !need to distribute Sources also! TODO
     end subroutine BlocksDistribute
 
     !---------------------------------------------------------------------------
