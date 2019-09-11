@@ -475,9 +475,17 @@
     implicit none
     type(vector), intent(in) :: pt
     integer :: ix, iy
+    type(string) :: outext
     ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
     iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
     getBlockIndex = Globals%SimDefs%numblocksy*(ix-1) + iy
+    if (getBlockIndex < 0) then
+        if (getBlockIndex > Globals%SimDefs%numblocks) then
+            outext='[getBlockIndex]: point coordinates out of simulation bound, stoping'
+            call Log%put(outext)
+            stop
+        end if
+    end if
     end function getBlockIndex
 
     !---------------------------------------------------------------------------
