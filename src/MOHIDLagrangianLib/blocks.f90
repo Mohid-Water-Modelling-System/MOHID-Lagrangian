@@ -231,7 +231,7 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
-            if (aTracer%now%active) aTracer%now%active = TrcInBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
+            if (aTracer%now%active) aTracer%now%active = TrcInBBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
             if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
                 notremoved = .false.            
@@ -457,28 +457,28 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns true if the point is inside the requested box.
+    !> Returns true if the point is inside the requested bounding box.
     !> @param[in] trc, testbox
     !---------------------------------------------------------------------------
-    logical function TrcInBox(trc, testbox)
+    logical function TrcInBBox(trc, testbox)
     implicit none
     type(vector), intent(in) :: trc
     type(boundingbox_class), intent(inout) :: testbox
-    TrcInBox = .false.
+    TrcInBBox = .false.
     if (trc%x >= testbox%pt%x) then
         if (trc%x <= testbox%pt%x + testbox%size%x) then
             if (trc%y >= testbox%pt%y) then
                 if (trc%y <= testbox%pt%y + testbox%size%y) then
                     if (trc%z >= testbox%pt%z) then
                         if (trc%z <= testbox%pt%z + testbox%size%z) then
-                            TrcInBox = .true.
+                            TrcInBBox = .true.
                         end if
                     end if
                 end if
             end if
         end if
     end if
-    end function TrcInBox
+    end function TrcInBBox
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
