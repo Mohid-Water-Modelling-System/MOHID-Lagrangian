@@ -140,22 +140,37 @@
     subroutine ToogleBlockSources(self)
     implicit none
     class(block_class), intent(inout) :: self
-    integer :: i
+    integer :: i, blk
     class(*), pointer :: aSource
     type(string) :: outext
+    logical :: notremoved
 
     call self%LSource%reset()                   ! reset list iterator
     do while(self%LSource%moreValues())         ! loop while there are values
+        notremoved = .true.
         aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
             aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
+            if (aSource%now%active) then
+                !check if in the domain
+                aSource%now%active = TrcInBBox(aSource%now%pos, BBox)
+                if (aSource%now%active) then
+                    !check if in this block
+                    blk = getBlockIndex(aSource%now%pos)
+                    if (blk /= self%id) then        !Source is on a different block than the current one                        
+                        call sendSource(blk,aSource)
+                        call self%LSource%removeCurrent() !this also advances the iterator to the next position
+                        notremoved = .false.
+                    end if
+                end if
+            end if
             class default
             outext = '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
             call Log%put(outext)
             stop
         end select
-        call self%LSource%next()            ! increment the list iterator
+        if (notremoved) call self%LSource%next()            ! increment the list iterator
     end do
     call self%LSource%reset()               ! reset list iterator
 
@@ -425,9 +440,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to send a Tracer from the current Block to another Block. Checks
-    !> if Block index exists, if not, Tracer is not added to any Block Tracer 
-    !> list
+    !> Method to send a Tracer from the current Block to another Block.
     !> @param[in] blk, trc
     !---------------------------------------------------------------------------
     subroutine sendTracer(blk, trc)
@@ -438,6 +451,19 @@
     !index attribution at the new block
     call sBlock(blk)%LTracer%add(trc)
     end subroutine sendTracer
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to send a Source from the current Block to another Block.
+    !> @param[in] blk, src
+    !---------------------------------------------------------------------------
+    subroutine sendSource(blk, src)
+    implicit none
+    integer, intent(in) :: blk
+    class(source_class), intent(inout) :: src
+    call sBlock(blk)%LSource%add(src)
+    end subroutine sendSource
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
