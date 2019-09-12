@@ -33,7 +33,6 @@
     use background_mod
     use fieldTypes_mod
     use xmlParser_mod
-    use background_mod
 
     use FoX_dom
 
