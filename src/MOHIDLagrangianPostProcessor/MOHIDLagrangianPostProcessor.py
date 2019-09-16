@@ -48,22 +48,31 @@ import numpy as np
 import xarray as xr
 import os
 import sys
+import argparse
+import glob
 from scipy.interpolate import griddata
 
 # This environment variable avoids error on locking file when writing.
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
+basePath = os.path.dirname(os.path.realpath(__file__))
+commonPath = os.path.abspath(os.path.join(basePath, "../Common"))
+sys.path.append(commonPath)
+
+import os_dir
+import MDateTime
 
 
 class VTUParser:
     def __init__(self,vtu_file):
         self.vtu_file = vtu_file
         self.part_coords = ['longitude','latitude','depth']
-        self.part_vars = ['coords','age','id','landIntMask','source','velocity']
+        self.part_vars = ['coords','id','source','velocity']
         
     def points(self):
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.vtu_file)
+        print(self.vtu_file)
         reader.Update()
        
         vtu_vars = {}
@@ -89,9 +98,10 @@ class PVDParser:
         self.timesteps = []
         self.vtu_data = []
     
-    def get_vtu_files(self):
+    def get_vtu_files(self, outDir):
         tree = ET.parse(self.pvd_file)
-        self.vtu_list = tree.find('Collection')[:]
+        #self.vtu_list = tree.find('Collection')[:]
+        self.vtu_list = glob.glob(outDir+'/.vtu')[1:]
         for vtu_file in self.vtu_list:
             self.files.append(vtu_file.attrib['file'])
             self.timesteps.append(float(vtu_file.attrib['timestep']))
@@ -101,13 +111,14 @@ class PVDParser:
 
 
 class GridBasedMeasures:
-    def __init__(self,xml_file):
+    def __init__(self,xml_file, outdir, outdirLocal):
         self.xml_file = xml_file
-        self.pvd_file = self.xml_file.replace('.xml','.pvd')
+        self.pvd_file = outdir +'/'+self.xml_file.replace('.xml','.pvd')
         self.pvd_data = PVDParser(self.pvd_file)
+        self.nFiles = len(os_dir.get_contained_files(outdir, '.vtu'))
         self.sources = {'id':{}}
         self.grid_steps = [50.,0.005,0.005]
-        self.ISO_time_origin = '1950-01-01 00:00:00'
+        self.ISO_time_origin = MDateTime.getDateStringFromDateTime(MDateTime.BaseDateTime())
         self.grid  = {}
         self.centers = {}
         self.ds = []
@@ -115,20 +126,29 @@ class GridBasedMeasures:
         self.volume = []
         self.variables = {}
         self.dims = ['time','depth','latitude','longitude']
-        self.netcdf_output_file = self.pvd_file.replace('.pvd','.nc')
+        self.netcdf_output_file = outdirLocal+'/'+os.path.basename(self.pvd_file.replace('.pvd','.nc'))
+        if os.path.exists(outdirLocal):
+            os_dir.deleteDirForce(outdirLocal)
+        os.mkdir(outdirLocal)
         
-    def get_pvd(self):
-        self.pvd_data.get_vtu_files()
+    def get_pvd(self, outDir):
+        self.pvd_data.get_vtu_files(outDir)
             
     
     def get_time_axis(self):
         tree = ET.parse(self.xml_file)
         root = tree.getroot()
-        self.start_time = root.find('execution').find('parameters')[0].attrib['value']
-        self.end_time = root.find('execution').find('parameters')[1].attrib['value']
-        self.time = np.array(list(map(float,self.pvd_data.timesteps)))
-        self.dt = np.float(root.find('caseDefinitions').find('simulation').find('timestep').attrib['dt'])
-    
+        for parameter in root.findall('execution/parameters/parameter'):
+            if parameter.get('key') == 'Start':
+                self.start_time = parameter.get('value')
+            if parameter.get('key') == 'End':
+                self.end_time = parameter.get('value')
+            if parameter.get('key') == 'OutputWriteTime':
+                self.dt = np.float(parameter.get('value'))
+
+        startTimeStamp = MDateTime.getTimeStampFromISODateString(self.start_time)
+        self.time = np.array([startTimeStamp + i*self.dt/(3600.0*24.0) for i in range(0,self.nFiles-1)])
+
     
     def get_sources(self):
         tree = ET.parse(self.xml_file)
@@ -140,8 +160,6 @@ class GridBasedMeasures:
             # In a future releases if we are going to compute measures using 
             # integration time, we will 
             
-            
-        
         
     def get_grid(self):
         tree = ET.parse(self.xml_file)
@@ -221,6 +239,7 @@ class GridBasedMeasures:
         ds.depth.attrs = depth_attributtes
         ds.time.attrs = time_atts
         
+
         ds.to_netcdf(self.netcdf_output_file)
         ds.close()
         
@@ -230,10 +249,10 @@ class GridBasedMeasures:
     def counts(self,source = None):
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
-        nt = len(self.pvd_data.vtu_data)
-        counts_t = np.zeros((nt,nz,ny,nx))
+        nt = self.nFiles - 1
         
         if nz > 1:
+            counts_t = np.zeros((nt,nz,ny,nx))
             i = 0
             for vtu_step in self.pvd_data.vtu_data:
                 position = vtu_step.points()
@@ -245,10 +264,11 @@ class GridBasedMeasures:
                 counts_t[i], _ = np.histogramdd(r,bins=bins) 
                 i=i+1
         else:
+            counts_t = np.zeros((nt,ny,nx))
             i = 0 
             for vtu_step in self.pvd_data.vtu_data:
                 position = vtu_step.points()
-                r = np.c_[position['latitude'],['longitude']]
+                r = np.c_[position['latitude'],position['longitude']]
                 if source:
                     source_mask = vtu_step.points()['source'] == int(source)
                     r = r[source_mask]
@@ -312,7 +332,6 @@ class GridBasedMeasures:
         counts_t = self.counts()        
         conc_area = counts_t.sum(axis=1)/self.area
         conc_volume = counts_t/self.volume
-        
         ds['concentration_area'] = (['time','latitude','longitude'], conc_area)
         ds['concentration_volume'] = (self.dims, conc_volume)
         
@@ -389,8 +408,8 @@ class GridBasedMeasures:
         return
         
 
-    def run_postprocessing(self,measures):
-        self.get_pvd()
+    def run_postprocessing(self, outDir, measures):
+        self.get_pvd(outDir)
         self.get_time_axis()
         self.get_grid()
         self.get_sources()
@@ -404,21 +423,58 @@ class GridBasedMeasures:
             self.age()
 
         
+def getRecipeListFromCase(xmlFile):
+    recipeList =[]        
+    #parsing case definition file
+    root = ET.parse(xmlFile).getroot()
+                
+    for fileName in root.findall('execution/postProcessing/file'):
+        recipeList.append(fileName.get('name'))
+    
+    return recipeList
 
-def main(xml_file, measures):
+
+def getFieldsFromRecipe(xmlFile):
+    fieldList = []
+    root = ET.parse(xmlFile).getroot()
+    
+    for fieldName in root.findall('measures/field'):
+        fieldList.append(fieldName.get('key'))
+    
+    return fieldList
+
+
+def main():
     lic = License()
     lic.print()
-    post = GridBasedMeasures(xml_file)
-    post.run_postprocessing(measures)
-
-#xml_file = 'Tagus3D.xml'
-#measures = ['residence_time','concentrations']
-#post = GridBasedMeasures(xml_file)
-#post.run_postprocessing(measures)
     
-
+    #cmd line argument parsing
+    argParser = argparse.ArgumentParser(description='Post processes MOHID Lagrangian outputs. Use -h for help.')
+    argParser.add_argument("-i", "--input", dest="caseXML",
+                    help=".xml file with the case definition for the MOHID Lagrangian run", metavar=".xml")
+    argParser.add_argument("-f", "--force", dest="recipeXML",
+                    help=".xml file with the recipe for a post process run - optional", metavar=".xml")
+    argParser.add_argument("-o", "--outputDir", dest="outDir",
+                    help="output directory", metavar="dir")
+    args = argParser.parse_args()
     
-xml = sys.argv[1]
-measures = [measure for measure in sys.argv[2:]]
-print('XML_FILE:',xml, 'MEASURES',measures)
-main(xml, measures)
+    caseXML = getattr(args,'caseXML')
+    recipeXML = []
+    recipeXML.append(getattr(args,'recipeXML'))
+    outDir = getattr(args,'outDir')
+    
+    print('-> Case definition file is ', caseXML)
+    print('-> Main output directory is ', outDir)
+    
+    #get list of post cicles to run
+    if recipeXML == [None]:
+        #open caseXML and extract recipeXML names
+        recipeXML = getRecipeListFromCase(caseXML)
+        
+    for recipe in recipeXML:
+        outDirLocal = outDir + '/postProcess_' +os_dir.filename_without_ext(recipe)
+        post = GridBasedMeasures(caseXML, outDir, outDirLocal)
+        measures = getFieldsFromRecipe(recipe)
+        post.run_postprocessing(outDir, measures)
+
+main()
