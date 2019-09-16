@@ -99,7 +99,7 @@ class PVDParser:
         self.vtu_data = []
     
     def get_vtu_files(self, outDir):
-        tree = ET.parse(self.pvd_file)
+        #tree = ET.parse(self.pvd_file)
         #self.vtu_list = tree.find('Collection')[:]
         self.vtu_list = glob.glob(outDir+'/.vtu')[1:]
         for vtu_file in self.vtu_list:
@@ -126,7 +126,7 @@ class GridBasedMeasures:
         self.volume = []
         self.variables = {}
         self.dims = ['time','depth','latitude','longitude']
-        self.netcdf_output_file = outdirLocal+'/'+os.path.basename(self.pvd_file.replace('.pvd','.nc'))
+        self.netcdf_output_file = outdirLocal+'/'+os.path.basename(self.xml_file.replace('.xml','.nc'))
         if os.path.exists(outdirLocal):
             os_dir.deleteDirForce(outdirLocal)
         os.mkdir(outdirLocal)
@@ -472,7 +472,7 @@ def main():
         recipeXML = getRecipeListFromCase(caseXML)
         
     for recipe in recipeXML:
-        outDirLocal = outDir + '/postProcess_' +os_dir.filename_without_ext(recipe)
+        outDirLocal = outDir + '/postProcess_' +os.path.basename(os_dir.filename_without_ext(recipe))
         post = GridBasedMeasures(caseXML, outDir, outDirLocal)
         measures = getFieldsFromRecipe(recipe)
         post.run_postprocessing(outDir, measures)
