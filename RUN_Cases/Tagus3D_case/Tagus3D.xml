@@ -13,6 +13,10 @@
 		<variableNaming>
 			<file name="ncNamesLibrary.xml"/>
 		</variableNaming>
+		<postProcessing>
+			<file name="PostRecipe1.xml"/>
+			<file name="PostRecipe2.xml"/>
+		</postProcessing>
 	</execution>
 	<caseDefinitions>
 		<inputData>
@@ -27,11 +31,11 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Box1" />
-				<resolution x="300" y="300" z="10" units_comment="metres (m)"/>
+				<resolution x="350" y="350" z="20" units_comment="metres (m)"/>
 				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
-					<point x="-10.0133" y="38.1686" z="-50" units_comment="(deg,deg,m)"/>
+					<point x="-10.0" y="38.26" z="-50" units_comment="(deg,deg,m)"/>
 					<size x="200000" y="100000" z="50" units_comment="metres (m)"/>
 				</box>
 			</source>
