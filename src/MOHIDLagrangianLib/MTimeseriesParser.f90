@@ -143,13 +143,13 @@
     subroutine getDataByLabel(self, dataName, data_out)
     class(mTimeSeriesParser_class), intent(in) :: self
     type(string), intent(in) :: dataName
-    real(prec), dimension(:), allocatable :: data_out
+    real(prec), dimension(:), allocatable, intent(out) :: data_out
     integer :: idx
     type(string) :: outext
 
     idx = Utils%find_str(self%varName, dataName)
     if (idx == MV_INT) then
-        outext = '[MTimeSeriesParser::getColumn]: File '//self%filename//' doesn''t list variable representing '//dataName//', stoping'
+        outext = '[MTimeSeriesParser::getDataByLabel]: File '//self%filename//' doesn''t list variable representing '//dataName//', stoping'
         call Log%put(outext)
         stop
     end if
