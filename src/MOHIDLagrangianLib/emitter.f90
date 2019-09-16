@@ -77,9 +77,9 @@
         aSource => srclist%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
+            if (.not.aSource%par%fixed_position) call aSource%setVariablePosition(Globals%Sim%getnumdt())
             if (aSource%now%active) then
-                if (.not.aSource%par%emitting_fixed_rate) call aSource%setVariableRate(Globals%Sim%getnumdt())
-                if (.not.aSource%par%fixed_position) call aSource%setVariablePosition(Globals%Sim%getnumdt())
+                if (.not.aSource%par%emitting_fixed_rate) call aSource%setVariableRate(Globals%Sim%getnumdt())                
                 aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack
                 do i=1, floor(aSource%now%emission_stack)
                     call self%emitt_src(aSource, trclist)
