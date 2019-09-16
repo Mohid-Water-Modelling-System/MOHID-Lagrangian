@@ -14,8 +14,8 @@
 			<file name="ncNamesLibrary.xml"/>
 		</variableNaming>
 		<postProcessing>
-			<file name="PostRecipe1.xml"/>
-			<file name="PostRecipe2.xml"/>
+			<file name="Post_scripts/PostRecipe1.xml"/>
+			<file name="Post_scripts/PostRecipe2.xml"/>
 		</postProcessing>
 	</execution>
 	<caseDefinitions>
