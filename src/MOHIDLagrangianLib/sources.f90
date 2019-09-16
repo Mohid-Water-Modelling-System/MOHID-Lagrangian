@@ -307,10 +307,9 @@
     type(string) :: outext
 
     if (filename%extension() == '.csv') then
-        call CSVReader%getFile(rateFile, filename, 1)
-        call CSVReader%getColumn(rateFile, filename, 1, time)
-        call CSVReader%getColumn(rateFile, filename, 2, rate)
-        call CSVReader%closeFile(rateFile)
+        call CSVReader%getFile(filename, 1)
+        call CSVReader%getDataByLabel(Globals%Var%time, time)
+        call CSVReader%getDataByLabel(Globals%Var%rate, rate)
     else if (filename%extension() == '.dat') then
         allocate(varList(2))
         varList(1) = Globals%Var%time
@@ -380,12 +379,11 @@
     type(string) :: outext
 
     if (filename%extension() == '.csv') then
-        call CSVReader%getFile(csvFile, filename, 1)
-        call CSVReader%getColumn(csvFile, filename, 1, time)
-        call CSVReader%getColumn(csvFile, filename, 2, xx)
-        call CSVReader%getColumn(csvFile, filename, 3, yy)
-        call CSVReader%getColumn(csvFile, filename, 4, zz)
-        call CSVReader%closeFile(csvFile)
+        call CSVReader%getFile(filename, 1)
+        call CSVReader%getDataByLabel(Globals%Var%time, time)
+        call CSVReader%getDataByLabel(Globals%Var%lon, xx)
+        call CSVReader%getDataByLabel(Globals%Var%lat, yy)
+        call CSVReader%getDataByLabel(Globals%Var%level, zz)
     else if (filename%extension() == '.dat') then
         allocate(varList(4))
         varList(1) = Globals%Var%time
