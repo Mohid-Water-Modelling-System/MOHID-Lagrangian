@@ -61,9 +61,18 @@ def getDateStringFromMOHIDDate(MohidDate):
     timeStamp = getTimeStampFromMOHIDDate(MohidDate)
     return getDateTimeFromTimeStamp(timeStamp).strftime("%Y-%m-%d %H:%M:%S")
 
+def getDateStringFromDateTime(dateTime):    
+    return dateTime.strftime("%Y-%m-%d %H:%M:%S")
+
 def getTimeStampFromDateString(DateString):
     #string of the type '2000-08-19 01:01:37'
     date = datetime.strptime(DateString, "%Y-%m-%d %H:%M:%S")
+    timeStamp = getTimeStampFromDateTime(date)
+    return timeStamp
+
+def getTimeStampFromISODateString(DateString):
+    #string of the type '2000 08 19 01 01 37'
+    date = datetime.strptime(DateString, "%Y %m %d %H %M %S")
     timeStamp = getTimeStampFromDateTime(date)
     return timeStamp
 
