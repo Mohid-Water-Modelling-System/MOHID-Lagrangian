@@ -87,7 +87,11 @@ class VTUParser:
         return vtu_vars
         
         
-    
+
+def validVtuFilesList(directory):
+    vtu_list = glob.glob(directory+'/*_?????.vtu')[1:]            
+    return vtu_list
+
         
 class PVDParser:
     
@@ -101,11 +105,11 @@ class PVDParser:
     def get_vtu_files(self, outDir):
         #tree = ET.parse(self.pvd_file)
         #self.vtu_list = tree.find('Collection')[:]
-        self.vtu_list = glob.glob(outDir+'/.vtu')[1:]
+        self.vtu_list = validVtuFilesList(outDir)
         for vtu_file in self.vtu_list:
-            self.files.append(vtu_file.attrib['file'])
-            self.timesteps.append(float(vtu_file.attrib['timestep']))
-            self.vtu_data.append(VTUParser(vtu_file.attrib['file'])) 
+            self.files.append(vtu_file)
+            #self.timesteps.append(float(vtu_file.attrib['timestep']))
+            self.vtu_data.append(VTUParser(vtu_file))
     
 
 
@@ -115,7 +119,7 @@ class GridBasedMeasures:
         self.xml_file = xml_file
         self.pvd_file = outdir +'/'+self.xml_file.replace('.xml','.pvd')
         self.pvd_data = PVDParser(self.pvd_file)
-        self.nFiles = len(os_dir.get_contained_files(outdir, '.vtu'))
+        self.nFiles = len(validVtuFilesList(outdir))
         self.sources = {'id':{}}
         self.grid_steps = [50.,0.005,0.005]
         self.ISO_time_origin = MDateTime.getDateStringFromDateTime(MDateTime.BaseDateTime())
@@ -147,7 +151,7 @@ class GridBasedMeasures:
                 self.dt = np.float(parameter.get('value'))
 
         startTimeStamp = MDateTime.getTimeStampFromISODateString(self.start_time)
-        self.time = np.array([startTimeStamp + i*self.dt/(3600.0*24.0) for i in range(0,self.nFiles-1)])
+        self.time = np.array([startTimeStamp + i*self.dt/(3600.0*24.0) for i in range(0,self.nFiles)])
 
     
     def get_sources(self):
@@ -249,7 +253,7 @@ class GridBasedMeasures:
     def counts(self,source = None):
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
-        nt = self.nFiles - 1
+        nt = self.nFiles
         
         if nz > 1:
             counts_t = np.zeros((nt,nz,ny,nx))
