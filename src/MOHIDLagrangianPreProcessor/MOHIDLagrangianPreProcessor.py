@@ -48,7 +48,7 @@ from datetime import datetime, timedelta
 import glob
 
 basePath = os.path.dirname(os.path.realpath(__file__))
-commonPath = os.path.abspath(os.path.join(basePath, "Common"))
+commonPath = os.path.abspath(os.path.join(basePath, "../Common"))
 sys.path.append(commonPath)
 import os_dir
 import about
@@ -66,7 +66,7 @@ def run():
     argParser.add_argument("-i", "--input", dest="caseXML",
                     help=".xml file with the case definition for the MOHID Lagrangian run", metavar=".xml")
     argParser.add_argument("-o", "--outputDir", dest="outDir",
-                    help="output directory", metavar=".xml")
+                    help="output directory", metavar="dir")
     args = argParser.parse_args()
     
     caseXML = getattr(args,'caseXML')
