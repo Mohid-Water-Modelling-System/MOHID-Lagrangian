@@ -115,8 +115,9 @@ class PVDParser:
 
 
 class GridBasedMeasures:
-    def __init__(self,xml_file, outdir, outdirLocal):
+    def __init__(self,xml_file, xml_recipe, outdir, outdirLocal):
         self.xml_file = xml_file
+        self.xml_recipe = xml_recipe
         self.pvd_file = outdir +'/'+self.xml_file.replace('.xml','.pvd')
         self.pvd_data = PVDParser(self.pvd_file)
         self.nFiles = len(validVtuFilesList(outdir))
@@ -166,21 +167,55 @@ class GridBasedMeasures:
             
         
     def get_grid(self):
-        tree = ET.parse(self.xml_file)
-        root = tree.getroot()
-        min_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMin').attrib
-        max_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMax').attrib
-        
-        x_min, x_max = np.float(min_dict['x']),np.float(max_dict['x'])
-        y_min, y_max = np.float(min_dict['y']),np.float(max_dict['y'])
-        z_min, z_max = np.float(min_dict['z']),np.float(max_dict['z'])
+        root = ET.parse(self.xml_recipe).getroot()
+        for parameter in root.findall('gridDefinition/'):
+            print(parameter)
+            if parameter.tag == 'BoundingBoxMin':
+                x_min = np.float(parameter.get('x'))
+                y_min = np.float(parameter.get('y'))
+                z_min = np.float(parameter.get('z'))
+            if parameter.tag == 'BoundingBoxMax':
+                x_max = np.float(parameter.get('x'))
+                y_max = np.float(parameter.get('y'))
+                z_max = np.float(parameter.get('z'))
+            if parameter.tag == 'resolution':
+                x_step = np.float(parameter.get('x'))
+                y_step = np.float(parameter.get('y'))
+                z_step = np.float(parameter.get('z'))
+            if parameter.tag == 'units_value:
+                units_value = parameter.get('units_value')
+                
         
         print('Domain limits:',x_min,x_max,y_min,y_max,z_min,z_max)
+
         
-        self.grid ={'longitude': np.arange(x_min,x_max,self.grid_steps[2]),
-                    'latitude': np.arange(y_min,y_max,self.grid_steps[1]),
-                    'depth': np.arange(z_min,z_max,self.grid_steps[0])                   
-                    }
+        
+        #tree = ET.parse(self.xml_file)
+        #root = tree.getroot()
+        
+        #min_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMin').attrib
+        #max_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMax').attrib
+        
+        #min_dict = root.find('gridDefinitions/BoundingBoxMin').attrib
+        #max_dict = root.find('gridDefinitions/BoundingBoxMax').attrib
+        
+#        x_min, x_max = np.float(min_dict['x']),np.float(max_dict['x'])
+#        y_min, y_max = np.float(min_dict['y']),np.float(max_dict['y'])
+#        z_min, z_max = np.float(min_dict['z']),np.float(max_dict['z'])
+        
+        if units_value == 'degrees':
+        
+            self.grid ={'longitude': np.arange(x_min,x_max,x_step),
+            'latitude': np.arange(y_min,y_max,y_step),
+            'depth': np.arange(z_min,z_max,z_step)                   
+            }
+        
+        elif units_value == 'relative':
+            self.grid ={'longitude': np.linspace(x_min,x_max,x_step),
+            'latitude': np.linspace(y_min,y_max,y_step),
+            'depth': np.linspace(z_min,z_max,z_step)                   
+            }
+            
                     
         for key,value in self.grid.items():
             self.centers[key] = (value[:-1] + value[1:])/2.
@@ -477,7 +512,7 @@ def main():
         
     for recipe in recipeXML:
         outDirLocal = outDir + '/postProcess_' +os.path.basename(os_dir.filename_without_ext(recipe))
-        post = GridBasedMeasures(caseXML, outDir, outDirLocal)
+        post = GridBasedMeasures(caseXML, recipe, outDir, outDirLocal)
         measures = getFieldsFromRecipe(recipe)
         post.run_postprocessing(outDir, measures)
 
