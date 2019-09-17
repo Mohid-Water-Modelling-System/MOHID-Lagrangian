@@ -72,7 +72,7 @@ class VTUParser:
     def points(self):
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.vtu_file)
-        print(self.vtu_file)
+
         reader.Update()
        
         vtu_vars = {}
@@ -89,8 +89,9 @@ class VTUParser:
         
 
 def validVtuFilesList(directory):
-    vtu_list = glob.glob(directory+'/*_?????.vtu')[1:]
-    vtu_list.sort()            
+    vtu_list = glob.glob(directory+'/*_?????.vtu')
+    vtu_list.sort()
+    vtu_list = vtu_list[1:]            
     return vtu_list
 
         
