@@ -143,8 +143,8 @@ class GridBasedMeasures:
             
     
     def get_time_axis(self):
-        tree = ET.parse(self.xml_file)
-        root = tree.getroot()
+        root= ET.parse(self.xml_file).getroot()
+
         for parameter in root.findall('execution/parameters/parameter'):
             if parameter.get('key') == 'Start':
                 self.start_time = parameter.get('value')
@@ -155,12 +155,23 @@ class GridBasedMeasures:
 
         startTimeStamp = MDateTime.getTimeStampFromISODateString(self.start_time)
         self.time = np.array([startTimeStamp + i*self.dt/(3600.0*24.0) for i in range(0,self.nFiles)])
-
+        
+    
+    def get_time_xml_recipe(self):
+         root= ET.parse(self.xml_recipe).getroot()
+         for parameter in root.findall('time/'):
+            if parameter.tag == 'start':
+                time_start = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
+            if parameter.tag == 'end':
+                time_end = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
+         
+        
+    
     
     def get_sources(self):
         tree = ET.parse(self.xml_file)
         self.sources['id'] = {}
-        for source in tree.find('caseDefinitions').find('sourceDefinitions')[:]:
+        for source in tree.find('caseDefinitions/sourceDefinitions')[:]:
             id_source = source.find('setsource').attrib['id']
             self.sources['id'] = {id_source: None}
             # at the moment we don't require specific information just the ids.
@@ -176,11 +187,10 @@ class GridBasedMeasures:
     
     def get_grid_xml_global(self):
         
-        tree = ET.parse(self.xml_file)
-        root = tree.getroot()
-        
-        min_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMin').attrib
-        max_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMax').attrib
+        root = ET.parse(self.xml_file).getroot()
+
+        min_dict = root.find('caseDefinitions/simulation/BoundingBoxMin').attrib
+        max_dict = root.find('caseDefinitions/simulation/BoundingBoxMax').attrib
         
         min_dict = root.find('gridDefinitions/BoundingBoxMin').attrib
         max_dict = root.find('gridDefinitions/BoundingBoxMax').attrib
@@ -358,14 +368,11 @@ class GridBasedMeasures:
         
     def residence_time(self):
         
-        
-        
         print('--> Computing residence time on grid')
         
         # Read netcdf, compute concentrations, compute residence tiem
         # compute global 
         ds = xr.open_dataset(self.netcdf_output_file)
-        
         
         counts_t = self.counts()
         self.residence_time = np.zeros(counts_t.shape[1:])
@@ -378,10 +385,9 @@ class GridBasedMeasures:
         # compute per source
         for source in self.sources['id'].keys():
             
-            
             counts_t = self.counts(source=source)
             self.residence_time = np.zeros(counts_t.shape[1:])
-            for t_s in range(0,counts_t.shape[0]): 
+            for t_s in range(0,counts_t.shape[0]):
                 self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time   
                 
             var_name ='residence_time_source_' + source.zfill(3)
@@ -439,7 +445,6 @@ class GridBasedMeasures:
         
         ds = xr.open_dataset(self.netcdf_output_file)
 
-        
         # Compute concentrations: total number of particles
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = len(self.pvd_data.vtu_data)
