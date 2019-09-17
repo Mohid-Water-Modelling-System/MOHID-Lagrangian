@@ -29,11 +29,6 @@
 			<variant name="Salt" />
 			<variant name="Salinity" />
 		</sea_water_salinity>
-		<emission_rate name="rate">
-			<variant name="rate" />
-			<variant name="Rate" />
-			<variant name="RATE" />
-		</emission_rate>
 	</variables>
 	<dimensions>
 		<longitude name="lon">

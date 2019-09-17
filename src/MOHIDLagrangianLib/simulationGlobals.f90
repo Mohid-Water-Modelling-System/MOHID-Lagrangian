@@ -65,7 +65,7 @@
     end type parameters_t
 
     type :: simdefs_t  !< Simulation definitions class
-        type(vector)    ::  Dp              !< Initial particle spacing at emission
+        real(prec)      ::  Dp              !< Initial particle spacing at emission
         real(prec)      ::  dt = MV         !< Timestep for fixed step integrators (s)
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
@@ -87,15 +87,11 @@
         real(prec)   :: RhoRef = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
-        real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
-        real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
     contains
     procedure :: setgravity
     procedure :: setz0
     procedure :: setrho
     procedure :: setBeachingLevel
-    procedure :: setBeachingStopProb
-    procedure :: setDiffusionCoeff
     procedure :: setSmallDt
     procedure :: print => printconstants
     end type constants_t
@@ -111,31 +107,29 @@
         type(string) :: casename            !< Name of the running case
     end type filenames_t
 
+    type src_parm_t   !<Lists for Source parameters
+        type(string), allocatable, dimension(:) :: baselist !<Lists for base tracer parameters
+        type(string), allocatable, dimension(:) :: particulatelist  !<List for parameters of particulate type tracers
+    contains
+    procedure :: buildlists
+    end type
+
     type :: sim_t  !<Simulation related counters and others
         private
         integer :: numdt        !<number of the current iteration
+        integer :: lastOutNumDt    !<number of the last outputed iteration
+        integer :: numoutfile   !<number of the current output file
         integer :: numTracer    !<Global Tracer number holder. Incremented at tracer construction or first activation time
     contains
-    procedure, public :: getnumdt
     procedure, public :: increment_numdt
+    procedure, public :: increment_numoutfile
+    procedure, public :: getnumdt
+    procedure, public :: getlastOutNumDt
+    procedure, public :: setlastOutNumDt
+    procedure, public :: getnumoutfile
     procedure, public :: getnumTracer
     procedure, private :: increment_numTracer
     end type sim_t
-
-    type :: output_t  !<Simulation related counters and others
-        private
-        integer :: lastOutNumDt     !<number of the last outputed iteration
-        integer :: numOutFile       !<number of the current output file
-        type(stringList_class) :: varToOutput
-    contains
-    procedure, public :: increment_numOutFile
-    procedure, public :: getnumOutFile
-    procedure, public :: getlastOutNumDt
-    procedure, public :: setlastOutNumDt
-    procedure, private :: addToOutputPool
-    procedure, public :: getOutputPoolArray
-    procedure, public :: setOutputFields
-    end type output_t
 
     type :: var_names_t
         type(string) :: u !< Name of the 'u' variable in the model
@@ -144,62 +138,43 @@
         type(string) :: temp
         type(string) :: sal
         type(string) :: density
-        type(string) :: vsdx
-        type(string) :: vsdy
-        type(string) :: u10
-        type(string) :: v10
         type(string) :: lon
         type(string) :: lat
         type(string) :: level
         type(string) :: time
         type(string) :: landIntMask
         type(string) :: landMask
-        type(string) :: resolution
-        type(string) :: rate
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
         type(stringList_class) :: tempVariants
         type(stringList_class) :: salVariants
         type(stringList_class) :: densityVariants
-        type(stringList_class) :: vsdxVariants
-        type(stringList_class) :: vsdyVariants
-        type(stringList_class) :: u10Variants
-        type(stringList_class) :: v10Variants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
         type(stringList_class) :: timeVariants
-        type(stringList_class) :: rateVariants
         type(stringList_class) :: varToUse !< list of variables used in a simulation
     contains
     procedure, private :: buildvars
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
     end type var_names_t
-
+    
     type :: maskVals_t
         real(prec) :: landVal  = 2.0
         real(prec) :: bedVal   = -1.0
         real(prec) :: waterVal = 0.0
         real(prec) :: beachVal = 1.0
-    contains
+        contains
     end type maskVals_t
-
+        
     type :: tracerTypes_t
         integer :: base  = 0
         integer :: paper   = 1
         integer :: plastic = 2
-    contains
+        contains
     end type tracerTypes_t
-
-    type :: dataTypes_t
-        type(string) :: currents
-        type(string) :: winds
-        type(string) :: waves
-        type(string) :: waterProps
-    contains
-    end type dataTypes_t
 
     type :: sim_time_t
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
@@ -219,13 +194,12 @@
         type(simdefs_t)     :: SimDefs
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
+        type(src_parm_t)    :: SrcProp
         type(sim_t)         :: Sim
-        type(output_t)      :: Output
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
-        type(dataTypes_t)   :: DataTypes
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
@@ -235,15 +209,12 @@
     procedure :: setDimNames
     procedure :: setCurrVar
     end type globals_class
-    
-    type(string) :: notRead
-    type(string) :: notSet
 
     !Simulation variables
     type(globals_class) :: Globals
 
     !Public access vars
-    public :: Globals, stringList_class, notRead, notSet
+    public :: Globals, stringList_class
 
     contains
 
@@ -257,10 +228,6 @@
     class(globals_class), intent(inout) :: self
     integer :: sizem
     type(string), optional, intent(in) :: outpath
-    
-    notRead = 'notRead'
-    notSet = 'notSet'
-    
     !parameters
     self%Parameters%Integrator = 1
     self%Parameters%IntegratorIndexes = [1,2,3]
@@ -290,7 +257,7 @@
     self%SimDefs%numblocksx = MV
     self%SimDefs%numblocksy = MV
     self%SimDefs%numblocks = OMPManager%getThreads()
-    self%SimDefs%Dp = 0.0
+    self%SimDefs%Dp = MV
     self%SimDefs%dt = MV
     self%SimDefs%Pointmin = 0.0
     self%SimDefs%Pointmax = 0.0
@@ -298,40 +265,34 @@
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
     self%Constants%BeachingLevel = -3.0
-    self%Constants%BeachingStopProb = 0.50
-    self%Constants%DiffusionCoeff = 1.0
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
-    self%Names%mainxmlfilename = notSet
-    self%Names%propsxmlfilename = notSet
-    self%Names%tempfilename = notSet
+    self%Names%mainxmlfilename = 'not_set'
+    self%Names%propsxmlfilename = 'not_set'
+    self%Names%tempfilename = 'not_set'
     if (present(outpath)) then
         self%Names%outpath = outpath
     else
-        self%Names%outpath = notSet
+        self%Names%outpath = 'not_set'
     end if
-    self%Names%casename = notSet
+    self%Names%casename = 'not_set'
     !global time
     self%SimTime%CurrTime = 0.0
     !global counters
     self%Sim%numdt = 0
+    self%Sim%lastOutNumDt = 0
+    self%Sim%numoutfile = 0
     self%Sim%numTracer = 0
-    !output control variables
-    self%Output%lastOutNumDt = 0
-    self%Output%numoutfile = 0
-    !data types
-    self%DataTypes%currents = 'hydrodynamic'
-    self%DataTypes%winds = 'meteorology'
-    self%DataTypes%waves = 'waves'
-    self%DataTypes%waterProps = 'waterProperties'
+    !Source parameters list
+    call self%SrcProp%buildlists()
     !Variable names
     call self%Var%buildvars()
 
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)
 
-    end subroutine setdefaults
+    end subroutine
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -346,18 +307,12 @@
     self%temp    = 'temp'
     self%sal     = 'sal'
     self%density = 'density'
-    self%vsdx    = 'vsdx'
-    self%vsdy    = 'vsdy'
-    self%u10     = 'u10'
-    self%v10     = 'v10'
     self%lon     = 'lon'
     self%lat     = 'lat'
     self%level   = 'level'
     self%time    = 'time'
     self%landMask    = 'landMask'
     self%landIntMask = 'landIntMask'
-    self%resolution = 'resolution'
-    self%rate = 'rate'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -423,26 +378,6 @@
         getVarSimName = self%density
         return
     end if
-    !searching for vsdx
-    if (var == self%vsdx .or. .not.self%vsdxVariants%notRepeated(var)) then
-        getVarSimName = self%vsdx
-        return
-    end if
-    !searching for vsdy
-    if (var == self%vsdy .or. .not.self%vsdyVariants%notRepeated(var)) then
-        getVarSimName = self%vsdy
-        return
-    end if
-    !searching for u10
-    if (var == self%u10 .or. .not.self%u10Variants%notRepeated(var)) then
-        getVarSimName = self%u10
-        return
-    end if
-    !searching for v10
-    if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
-        getVarSimName = self%v10
-        return
-    end if
     !searching for lon
     if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
         getVarSimName = self%lon
@@ -461,11 +396,6 @@
     !searching for time
     if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
         getVarSimName = self%time
-        return
-    end if
-    !searching for rate
-    if (var == self%rate .or. .not.self%rateVariants%notRepeated(var)) then
-        getVarSimName = self%rate
         return
     end if
 
@@ -533,16 +463,6 @@
     call self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varNode)
     tag="sea_water_salinity"
     call self%setCurrVar(tag, self%Var%sal, self%Var%salVariants, varNode)
-    tag="sea_water_density"
-    call self%setCurrVar(tag, self%Var%density, self%Var%densityVariants, varNode)
-    tag="sea_surface_wave_stokes_drift_x_velocity"
-    call self%setCurrVar(tag, self%Var%vsdx, self%Var%vsdxVariants, varNode)
-    tag="sea_surface_wave_stokes_drift_y_velocity"
-    call self%setCurrVar(tag, self%Var%vsdy, self%Var%vsdyVariants, varNode)
-    tag="eastward_wind"
-    call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
-    tag="northward_wind"
-    call self%setCurrVar(tag, self%Var%v10, self%Var%v10Variants, varNode)
 
     end subroutine setVarNames
 
@@ -675,6 +595,7 @@
     !> Increments Tracer count. This routine MUST be ATOMIC.
     !---------------------------------------------------------------------------
     subroutine increment_numTracer(self)
+    implicit none
     class(sim_t), intent(inout) :: self
     !ATOMIC pragma here please
     self%numTracer = self%numTracer + 1
@@ -686,6 +607,7 @@
     !> Returns a new ID for a Tracer.
     !---------------------------------------------------------------------------
     integer function getnumTracer(self)
+    implicit none
     class(sim_t), intent(inout) :: self
     call self%increment_numTracer()
     getnumTracer = self%numTracer
@@ -697,6 +619,7 @@
     !> incrementing time step count.
     !---------------------------------------------------------------------------
     subroutine increment_numdt(self)
+    implicit none
     class(sim_t), intent(inout) :: self
     self%numdt = self%numdt + 1
     end subroutine increment_numdt
@@ -707,17 +630,18 @@
     !> Returns the number of time steps.
     !---------------------------------------------------------------------------
     integer function getnumdt(self)
+    implicit none
     class(sim_t), intent(inout) :: self
     getnumdt = self%numdt
     end function getnumdt
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns the number of time steps from last ouptut.
     !---------------------------------------------------------------------------
     integer function getlastOutNumDt(self)
-    class(output_t), intent(inout) :: self
+    class(sim_t), intent(inout) :: self
     getlastOutNumDt = self%lastOutNumDt
     end function getlastOutNumDt
 
@@ -727,98 +651,51 @@
     !> Sets the number of time steps from last ouptut.
     !---------------------------------------------------------------------------
     subroutine setlastOutNumDt(self, num)
-    class(output_t), intent(inout) :: self
+    class(sim_t), intent(inout) :: self
     integer, intent(in) :: num
     self%lastOutNumDt = num
     end subroutine setlastOutNumDt
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> incrementing output file count.
     !---------------------------------------------------------------------------
-    subroutine increment_numOutFile(self)
-    class(output_t), intent(inout) :: self
-    self%numOutFile = self%numOutFile + 1
-    end subroutine increment_numOutFile
+    subroutine increment_numoutfile(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    self%numoutfile = self%numoutfile + 1
+    end subroutine increment_numoutfile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns the number of output files written.
     !---------------------------------------------------------------------------
-    integer function getnumOutFile(self)
-    class(output_t), intent(inout) :: self
-    getnumOutFile = self%numOutFile
-    end function getnumOutFile
+    integer function getnumoutfile(self)
+    implicit none
+    class(sim_t), intent(inout) :: self
+    getnumoutfile = self%numoutfile
+    end function getnumoutfile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> adds a variable name to the output pool.
+    !> Method to build the parameters list of the Sources
     !---------------------------------------------------------------------------
-    subroutine addToOutputPool(self, var)
-    class(output_t), intent(inout) :: self
-    type(string), intent(in) :: var
-    if (self%varToOutput%notRepeated(var)) call self%varToOutput%add(var)
-    end subroutine addToOutputPool
-    
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> adds variable fields one by one to the output pool, given a string and 
-    !> boolean list.
-    !---------------------------------------------------------------------------
-    subroutine setOutputFields(self, fields, toOutput)
-    class(output_t), intent(inout) :: self
-    type(string), dimension(:), intent(in) :: fields
-    logical, dimension(:), intent(in) :: toOutput
-    integer :: i
-    do i= 1, size(fields)
-        if (toOutput(i)) call self%addToOutputPool(fields(i))
-    end do
-    end subroutine setOutputFields
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> adds a variable name to the output pool.
-    !---------------------------------------------------------------------------
-    subroutine getOutputPoolArray(self, array)
-    class(output_t), intent(inout) :: self
-    type(string), intent(out), allocatable, dimension(:) :: array
-    class(*), pointer :: curr
-    integer :: i
-    type(string) :: outext
-    i=1
-    allocate(array(self%varToOutput%getSize()))
-    call self%varToOutput%reset()               ! reset list iterator
-    do while(self%varToOutput%moreValues())     ! loop while there are values to print
-        curr => self%varToOutput%currentValue() ! get current value
-        select type(curr)
-        class is (string)
-            array(i) = curr
-            class default
-            outext = '[Globals::getOutputPoolArray] Unexepected type of content, not a string'
-            call Log%put(outext)
-            stop
-        end select
-        call self%varToOutput%next()            ! increment the list iterator
-        i = i + 1
-    end do
-    call self%varToOutput%reset()               ! reset list iterator
-    end subroutine getOutputPoolArray
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Returns true if a given var is in the output pool.
-    !---------------------------------------------------------------------------
-    logical function inOutputPool(self, var)
-    class(output_t), intent(inout) :: self
-    type(string), intent(in) :: var
-    inOutputPool = .not.self%varToOutput%notRepeated(var)
-    end function inOutputPool
+    subroutine buildlists(self)
+    implicit none
+    class(src_parm_t), intent(inout) :: self
+    allocate(self%baselist(5))
+    self%baselist(1) = 'particulate'
+    self%baselist(2) = 'density'
+    self%baselist(3) = 'radius'
+    self%baselist(4) = 'condition'
+    self%baselist(5) = 'degradation_rate'
+    allocate(self%particulatelist(2))
+    self%particulatelist(1) = 'intitial_concentration'
+    self%particulatelist(2) = 'particle_radius'
+    end subroutine buildlists
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -828,6 +705,7 @@
     !> @param[in] self, parmkey, parmvalue
     !---------------------------------------------------------------------------
     subroutine setParam(self,parmkey,parmvalue)
+    implicit none
     class(parameters_t), intent(inout) :: self
     type(string), intent(in) :: parmkey
     type(string), intent(in) :: parmvalue
@@ -853,17 +731,17 @@
         sizem=sizeof(self%OutputWriteTime)
     elseif(parmkey%chars()=="Start") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%StartTime = Utils%getDateTimeFromDate(date)
+        self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%StartTime%isValid()) self%StartTime = datetime()
         sizem=sizeof(self%StartTime)
     elseif(parmkey%chars()=="End") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%EndTime = Utils%getDateTimeFromDate(date)
+        self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%EndTime%isValid()) self%EndTime = datetime()
         sizem=sizeof(self%EndTime)
     elseif(parmkey%chars()=="BaseDateTime") then
         date = Utils%getDateFromISOString(parmvalue)
-        self%BaseDateTime = Utils%getDateTimeFromDate(date)
+        self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
         if (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
         sizem=sizeof(self%BaseDateTime)
     elseif(parmkey%chars()=="BufferSize") then
@@ -883,6 +761,7 @@
     !> Parameter checking method. Checks if mandatory parameters were set
     !---------------------------------------------------------------------------
     subroutine check(self)
+    implicit none
     class(parameters_t), intent(inout) :: self
     type(string) :: outext
     type(datetime) :: temp
@@ -1001,7 +880,7 @@
     type(string) :: outext
     integer :: sizem
     self%RhoRef=read_rho%to_number(kind=1._R4P)
-    if (self%RhoRef <= 0.0) then
+    if (self%RhoRef.le.0.0) then
         outext='RhoRef must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -1009,7 +888,7 @@
     sizem = sizeof(self%RhoRef)
     call SimMemory%adddef(sizem)
     end subroutine
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -1020,59 +899,17 @@
     class(constants_t), intent(inout) :: self
     type(string), intent(in) :: read_BeachingLevel
     type(string) :: outext
-    integer :: sizem
-    if (read_BeachingLevel%to_number(kind=1._R4P) > 0.0) then
+    integer :: sizem    
+    if (read_BeachingLevel%to_number(kind=1._R4P).gt.0.0) then
         outext='Beaching level must be negative, assuming default value'
         call Log%put(outext)
-    else
+    else        
         self%BeachingLevel=read_BeachingLevel%to_number(kind=1._R4P)
     endif
     sizem = sizeof(self%BeachingLevel)
     call SimMemory%adddef(sizem)
     end subroutine setBeachingLevel
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Beaching stop probability setting routine.
-    !> @param[in] self, read_BeachingStopProb
-    !---------------------------------------------------------------------------
-    subroutine setBeachingStopProb(self, read_BeachingStopProb)
-    class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_BeachingStopProb
-    type(string) :: outext
-    integer :: sizem
-    if (read_BeachingStopProb%to_number(kind=1._R4P) < 0.0) then
-        outext='Beaching stopping probability must be zero or positive, assuming default value'
-        call Log%put(outext)
-    else
-        self%BeachingStopProb =read_BeachingStopProb%to_number(kind=1._R4P)*0.01 !user input is in %
-    endif
-    sizem = sizeof(self%BeachingStopProb)
-    call SimMemory%adddef(sizem)
-    end subroutine setBeachingStopProb
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Horizontal Diffusion coefficient setting routine.
-    !> @param[in] self, read_DiffusionCoeff
-    !---------------------------------------------------------------------------
-    subroutine setDiffusionCoeff(self, read_DiffusionCoeff)
-    class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_DiffusionCoeff
-    type(string) :: outext
-    integer :: sizem
-    if (read_DiffusionCoeff%to_number(kind=1._R4P) < 0.0) then
-        outext='Diffusion coefficient must be zero or positive, assuming default value'
-        call Log%put(outext)
-    else
-        self%DiffusionCoeff =read_DiffusionCoeff%to_number(kind=1._R4P)
-    endif
-    sizem = sizeof(self%DiffusionCoeff)
-    call SimMemory%adddef(sizem)
-    end subroutine setDiffusionCoeff
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -1085,7 +922,7 @@
     type(string) :: outext
     integer :: sizem
     self%smallDt=dt/3.0
-    if (self%smallDt <= 0.0) then
+    if (self%smallDt.le.0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -1114,8 +951,6 @@
     outext = outext//'       Z0 = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingLevel
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
-    temp_str(1)=self%BeachingStopProb
-    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
     temp_str(1)=self%RhoRef
     outext = outext//'       RhoRef = '//temp_str(1)//' kg/m^3'
 
@@ -1131,9 +966,15 @@
     subroutine setdp(self,read_dp)
     implicit none
     class(simdefs_t), intent(inout) :: self
-    type(vector), intent(in) :: read_dp
+    type(string), intent(in) :: read_dp
+    type(string) :: outext
     integer :: sizem
-    self%Dp=read_dp
+    self%Dp=read_dp%to_number(kind=1._R4P)
+    if (self%Dp.le.0.0) then
+        outext='Dp must be positive and non-zero, stopping'
+        call Log%put(outext)
+        stop
+    endif
     sizem = sizeof(self%Dp)
     call SimMemory%adddef(sizem)
     end subroutine
@@ -1151,7 +992,7 @@
     type(string) :: outext
     integer :: sizem
     self%dt=read_dt%to_number(kind=1._R4P)
-    if (self%dt <= 0.0) then
+    if (self%dt.le.0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
         stop
@@ -1203,11 +1044,12 @@
     !> Public simulation definitions printing routine.
     !---------------------------------------------------------------------------
     subroutine printsimdefs(self)
+    implicit none
     class(simdefs_t), intent(in) :: self
     type(string) :: outext
     type(string) :: temp_str(3)
 
-    temp_str(1)=self%Dp%normL2()
+    temp_str(1)=self%Dp
     outext = '      Initial resolution is '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%dt
     outext = '      Timestep is '//temp_str(1)//' s'//new_line('a')

@@ -214,32 +214,29 @@
     class(testmaker_class), intent(inout) :: self
     type(box), intent(in) :: testbox
     type(background_class), intent(inout) :: testbackground
-    !type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
-    !type(generic_field_class) :: gfield1, gfield2,gfield3
-    !type(ncfile_class) :: ncFile
-    !type(string) :: ncFileName
-    !integer :: i
-    !
-    !!testMaker class has no acess to input stream objects, so we hack it
-    !ncFileName = Globals%Names%inputFile(1)
-    !call ncFile%initialize(ncFileName)    
-    !call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)
-    !call ncFile%getVar(Globals%Var%u, gfield1)
-    !call ncFile%getVar(Globals%Var%v, gfield2)
-    !call ncFile%getVar(Globals%Var%w, gfield3)
-    !call ncFile%finalize()
-    !
-    !testbackground = Background(1, ncFileName, testbox, testbackgroundims)
-    !call testbackground%add(gfield1)
-    !call testbackground%add(gfield2)
-    !call testbackground%add(gfield3)
+    type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
+    type(generic_field_class) :: gfield1, gfield2,gfield3
+    type(ncfile_class) :: ncFile
+    type(string) :: ncFileName
+    integer :: i
+    
+    !testMaker class has no acess to input stream objects, so we hack it
+    ncFileName = Globals%Names%inputFile(1)
+    call ncFile%initialize(ncFileName)    
+    call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)
+    call ncFile%getVar(Globals%Var%u, gfield1)
+    call ncFile%getVar(Globals%Var%v, gfield2)
+    call ncFile%getVar(Globals%Var%w, gfield3)
+    call ncFile%finalize()
+   
+    testbackground = Background(1, ncFileName, testbox, testbackgroundims)
+    call testbackground%add(gfield1)
+    call testbackground%add(gfield2)
+    call testbackground%add(gfield3)
     
     !call testbackground%print()
     !print*, testbackground%getDimExtents(Globals%Var%time)
-    
-    print*, 'Deprecated test, stoping'
-    stop
-    
+
     end subroutine makeRealVel
 
 

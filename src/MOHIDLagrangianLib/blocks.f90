@@ -60,7 +60,12 @@
     procedure, public :: RunSolver
     procedure, public :: numAllocTracers
     procedure, public :: TracersToSV
-    procedure, public :: SVtoTracers    
+    procedure, public :: SVtoTracers
+    procedure, public :: getSVvar
+    procedure, public :: getSVActive
+    procedure, public :: getSVId
+    procedure, public :: getSVSource
+    procedure, public :: getSVlandIntMask
     procedure, public :: CleanSV
     procedure, public :: print => printBlock
     procedure, public :: detailedprint => printdetailBlock
@@ -140,37 +145,28 @@
     subroutine ToogleBlockSources(self)
     implicit none
     class(block_class), intent(inout) :: self
-    integer :: i, blk
+    integer :: i
     class(*), pointer :: aSource
     type(string) :: outext
-    logical :: notremoved
 
     call self%LSource%reset()                   ! reset list iterator
     do while(self%LSource%moreValues())         ! loop while there are values
-        notremoved = .true.
         aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
-            aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
-            if (aSource%now%active) then
-                !check if in the domain
-                aSource%now%active = TrcInBBox(aSource%now%pos, BBox)
-                if (aSource%now%active) then
-                    !check if in this block
-                    blk = getBlockIndex(aSource%now%pos)
-                    if (blk /= self%id) then        !Source is on a different block than the current one                        
-                        call sendSource(blk,aSource)
-                        call self%LSource%removeCurrent() !this also advances the iterator to the next position
-                        notremoved = .false.
-                    end if
+            if (Globals%SimTime%CurrTime <= aSource%par%stoptime) then       !CurrTime smaller than Source end time
+                if (Globals%SimTime%CurrTime >= aSource%par%startime) then   !CurrTime larger than source start time
+                    aSource%now%active = .true.
                 end if
+            else            !CurrTime larger than Source end time
+                aSource%now%active = .false.
             end if
             class default
             outext = '[Block::ToogleBlockSources] Unexepected type of content, not a Source'
             call Log%put(outext)
             stop
         end select
-        if (notremoved) call self%LSource%next()            ! increment the list iterator
+        call self%LSource%next()            ! increment the list iterator
     end do
     call self%LSource%reset()               ! reset list iterator
 
@@ -246,7 +242,7 @@
         aTracer => self%LTracer%currentValue()  ! get current value
         select type(aTracer)
         class is (tracer_class)
-            if (aTracer%now%active) aTracer%now%active = TrcInBBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
+            if (aTracer%now%active) aTracer%now%active = TrcInBox(aTracer%now%pos, BBox) !check that the Tracer is inside the Simulation domain
             if (aTracer%now%active .eqv. .false.) then
                 call self%LTracer%removeCurrent() !this advances the iterator to the next position
                 notremoved = .false.            
@@ -345,9 +341,8 @@
             allocate(self%BlockState(i)%id(self%trcType(i,2)))
             allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
             self%BlockState(i)%landMask = Globals%Mask%waterVal
-            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))            
+            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))
             self%BlockState(i)%landIntMask = Globals%Mask%waterVal
-            allocate(self%BlockState(i)%resolution(self%trcType(i,2)))
         end do
         call self%LTracer%reset()                   ! reset list iterator
         do while(self%LTracer%moreValues())         ! loop while there are values
@@ -358,16 +353,14 @@
                 tType = aTracer%par%ttype
                 do i = 1, size(self%BlockState)
                     if (tType == self%BlockState(i)%ttype) then
+                        !print*, 'tracer state array ', aTracer%getStateArray()
+                        !print*, 'needs to fit in ', size(self%BlockState(i)%state,2)
                         self%BlockState(i)%state(self%BlockState(i)%idx,:) = aTracer%getStateArray()
                         self%BlockState(i)%source(self%BlockState(i)%idx) = aTracer%par%idsource
                         self%BlockState(i)%id(self%BlockState(i)%idx) = aTracer%par%id
                         self%BlockState(i)%active(self%BlockState(i)%idx) = aTracer%now%active
                         self%BlockState(i)%trc(self%BlockState(i)%idx)%ptr => aTracer
                         self%BlockState(i)%idx = self%BlockState(i)%idx + 1
-                        if(.not.allocated(self%BlockState(i)%varName)) then
-                            allocate(self%BlockState(i)%varName(aTracer%getNumVars()))
-                            self%BlockState(i)%varName = aTracer%varName
-                        end if
                         builtstate = .true.
                         exit
                     end if
@@ -424,6 +417,87 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> returns a given variable for all the tracers on the block
+    !---------------------------------------------------------------------------
+    function getSVvar(self, idx)
+    class(block_class), intent(in) :: self
+    integer, intent(in) :: idx
+    integer :: i, j
+    real(prec), dimension(self%LTracer%getSize()) :: getSVvar
+    j=1
+    do i=1, size(self%BlockState)
+        getSVvar(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%state(:,idx)
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVvar
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the active tracers array on the block
+    !---------------------------------------------------------------------------
+    function getSVActive(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    logical, dimension(self%LTracer%getSize()) :: getSVActive
+    j=1
+    do i=1, size(self%BlockState)
+        getSVActive(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%active
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVActive
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the tracers id array on the block
+    !---------------------------------------------------------------------------
+    function getSVId(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    integer, dimension(self%LTracer%getSize()) :: getSVId
+    j=1
+    do i=1, size(self%BlockState)
+        getSVId(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%id
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVId
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the tracers landIntMask array on the block
+    !---------------------------------------------------------------------------
+    function getSVSource(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    integer, dimension(self%LTracer%getSize()) :: getSVSource
+    j=1
+    do i=1, size(self%BlockState)
+        getSVSource(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%source
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVSource
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns the tracers landIntMask array on the block
+    !---------------------------------------------------------------------------
+    function getSVlandIntMask(self)
+    class(block_class), intent(in) :: self
+    integer :: i, j
+    integer, dimension(self%LTracer%getSize()) :: getSVlandIntMask
+    j=1
+    do i=1, size(self%BlockState)
+        getSVlandIntMask(j: j + size(self%BlockState(i)%active) - 1) = self%BlockState(i)%landIntMask
+        j= j+ size(self%BlockState(i)%active)
+    end do
+    end function getSVlandIntMask
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> Method to clean out the State Vector object
     !---------------------------------------------------------------------------
     subroutine CleanSV(self)
@@ -440,7 +514,9 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method to send a Tracer from the current Block to another Block.
+    !> Method to send a Tracer from the current Block to another Block. Checks
+    !> if Block index exists, if not, Tracer is not added to any Block Tracer 
+    !> list
     !> @param[in] blk, trc
     !---------------------------------------------------------------------------
     subroutine sendTracer(blk, trc)
@@ -451,19 +527,6 @@
     !index attribution at the new block
     call sBlock(blk)%LTracer%add(trc)
     end subroutine sendTracer
-    
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Method to send a Source from the current Block to another Block.
-    !> @param[in] blk, src
-    !---------------------------------------------------------------------------
-    subroutine sendSource(blk, src)
-    implicit none
-    integer, intent(in) :: blk
-    class(source_class), intent(inout) :: src
-    call sBlock(blk)%LSource%add(src)
-    end subroutine sendSource
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -475,44 +538,36 @@
     implicit none
     type(vector), intent(in) :: pt
     integer :: ix, iy
-    type(string) :: outext
     ix = min(int((pt%x + BBox%offset%x)/Globals%SimDefs%blocksize%x) + 1, Globals%SimDefs%numblocksx)
     iy = min(int((pt%y + BBox%offset%y)/Globals%SimDefs%blocksize%y) + 1, Globals%SimDefs%numblocksy)
     getBlockIndex = Globals%SimDefs%numblocksy*(ix-1) + iy
-    if (getBlockIndex < 0) then
-        if (getBlockIndex > Globals%SimDefs%numblocks) then
-            outext='[getBlockIndex]: point coordinates out of simulation bound, stoping'
-            call Log%put(outext)
-            stop
-        end if
-    end if
     end function getBlockIndex
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Returns true if the point is inside the requested bounding box.
+    !> Returns true if the point is inside the requested box.
     !> @param[in] trc, testbox
     !---------------------------------------------------------------------------
-    logical function TrcInBBox(trc, testbox)
+    logical function TrcInBox(trc, testbox)
     implicit none
     type(vector), intent(in) :: trc
     type(boundingbox_class), intent(inout) :: testbox
-    TrcInBBox = .false.
+    TrcInBox = .false.
     if (trc%x >= testbox%pt%x) then
         if (trc%x <= testbox%pt%x + testbox%size%x) then
             if (trc%y >= testbox%pt%y) then
                 if (trc%y <= testbox%pt%y + testbox%size%y) then
                     if (trc%z >= testbox%pt%z) then
                         if (trc%z <= testbox%pt%z + testbox%size%z) then
-                            TrcInBBox = .true.
+                            TrcInBox = .true.
                         end if
                     end if
                 end if
             end if
         end if
     end if
-    end function TrcInBBox
+    end function TrcInBox
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

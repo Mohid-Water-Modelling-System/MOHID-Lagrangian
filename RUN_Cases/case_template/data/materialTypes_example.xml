@@ -5,42 +5,33 @@
 			<particulate value="false" />
 			<density value="0.7" />
 			<radius value="0.2" />
-			<property key="condition" value="0.95" />
-			<property key="degradation_rate" value="0.00000000158" />
+			<condition value="0.95" />
+			<degradation_rate value="1" />
 		</bag_1>
 		<expanded_polysryrene_1>
 			<particulate value="false" />
 			<density value="0.2" />
 			<radius value="0.5" />
-			<property key="condition" value="0.91" />
-			<property key="degradation_rate" value="0.000000000317" />
+			<condition value="0.91" />
+			<degradation_rate value="0.9" />
 		</expanded_polysryrene_1>
 		<expanded_polysryrene_10>
 			<particulate value="true" />
 			<density value="0.2" />
 			<radius value="2.4" />
-			<property key="condition" value="0.97" />
-			<property key="degradation_rate" value="0.000000000317" />
-			<property key="intitial_concentration" value="0.05" />
-			<property key="particle_radius" value="0.005" />
+			<condition value="0.91" />
+			<degradation_rate value="0.9" />
+			<intitial_concentration value="0.05" />
+			<particle_radius value="0.005" />
 		</expanded_polysryrene_10>
-		<expanded_polysryrene_12>
-			<particulate value="true" />
-			<density value="0.24" />
-			<radius value="2.4" />
-			<property key="condition" value="0.90" />
-			<property key="degradation_rate" value="0.000000000317" />
-			<property key="intitial_concentration" value="0.005" />
-			<property key="particle_radius" value="0.0025" />
-		</expanded_polysryrene_12>
 	</plastic>
 	<paper>
 		<cardboard_1>
 			<particulate value="false" />
 			<density value="0.98" />
 			<radius value="0.5" />
-			<property key="condition" value="0.75" />
-			<property key="degradation_rate" value="0.00000000634" />
+			<condition value="0.75" />
+			<degradation_rate value="3.55" />
 		</cardboard_1>
 	</paper>
 </materials>
