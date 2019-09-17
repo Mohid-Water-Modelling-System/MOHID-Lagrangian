@@ -20,14 +20,15 @@
 
     module xmlParser_mod
 
+    use FoX_common, only : rts, countrts
     use FoX_dom
     use penf
     use vecfor_r8p
     use stringifor
-    
+
     use simulationPrecision_mod
     use simulationLogger_mod
-    
+
     implicit none
     private
 
@@ -39,13 +40,14 @@
     procedure :: getNodeAttribute
     procedure :: getNodeVector
     procedure :: gotoNode
+    procedure :: getPolygonFromKMZFile
     end type xmlparser_class
 
     !Simulation variables
     type(xmlparser_class) :: XMLReader
 
     !Public access vars
-    public :: XMLReader
+    public :: XMLReader, xmlparser_class
 
     contains
 
@@ -63,20 +65,20 @@
     logical :: mand
     integer :: err
     type(string) :: outext
-    
+
     if (present(mandatory)) then
         mand = mandatory
     else
         mand = .true.
-    end if    
-    
+    end if
+
     xmldoc => parseFile(xmlfilename%chars(), iostat=err) !using FOX function
     if (err==0) then
         outext='->Reading .xml file '//xmlfilename
         call Log%put(outext)
     else
         nullify(xmldoc)
-        if (.not.mand) then            
+        if (.not.mand) then
             outext='[XMLReader::getFile]: no '//xmlfilename//' file, or file is invalid. Ignoring'
             call Log%put(outext)
         else
@@ -110,7 +112,7 @@
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
-    type(string), intent(out) :: att_value      !<Attribute value
+    type(string), intent(inout) :: att_value      !<Attribute value
     character(CHAR_LEN) :: att_value_chars
     call extractDataAttribute(xmlnode, att_name%chars(), att_value_chars) !using FOX function
     att_value=trim(att_value_chars)
@@ -128,7 +130,7 @@
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
     type(string), intent(in) :: att_name        !<Atribute name to collect from tag
-    type(string), intent(out) :: att_value      !<Attribute value
+    type(string), intent(inout) :: att_value      !<Attribute value
     logical, intent(out), optional :: read_flag !< Optional flag to capture read/non-read status
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
     logical :: mand
@@ -144,7 +146,7 @@
     else
         mand = .true.
     end if
-    
+
     validtag = .false.
     nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info) !using FOX function
     do i=0, getLength(nodeChildren)-1
@@ -161,13 +163,14 @@
         call extractDataAttribute(nodedetail, att_name%chars(), att_value_chars) !using FOX function
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
-            read_flag =.true.
+            read_flag = .true.
+            if (att_value%to_number(kind=1._R4P) <= 1.0/100000.0) read_flag = .false.
         end if
     else
         if(.not.mand) then
             if (present(read_flag)) then
                 read_flag =.false.
-            end if                
+            end if
         else
             outext='Could not find any "'//tag//'" tag for xml node "'//getNodeName(xmlnode)//'", stoping'
             call Log%put(outext)
@@ -187,7 +190,7 @@
     class(xmlparser_class), intent(in) :: self
     type(Node), intent(in), pointer :: xmlnode  !<Working xml node
     type(string), intent(in) :: tag             !<Tag to search in xml node
-    type(vector), intent(out) :: vec            !<Vector to fill with read contents
+    type(vector), intent(inout) :: vec            !<Vector to fill with read contents
     logical, intent(out), optional :: read_flag  !< Optional flag to capture read/non-read status
     logical, intent(in), optional :: mandatory  !<Swich for optional or mandatory tags
     logical :: mand
@@ -202,7 +205,7 @@
     else
         mand = .true.
     end if
-    
+
     vec%x=MV !marking the array as not read
     validtag = .false.
     nodeChildren => getChildNodes(xmlnode) !getting all of the nodes bellow the main source node (all of it's private info) !using FOX function
@@ -222,6 +225,7 @@
         call extractDataAttribute(nodedetail, "z", vec%z)
         if (present(read_flag)) then
             read_flag =.true.
+            if (vec%normL2() <= 1.0/100000.0) read_flag = .false.
         end if
     else
         if(.not.mand) then
@@ -261,7 +265,7 @@
     else
         mand = .true.
     end if
-    
+
     target_node_exists = .false.
     target_node_list => getChildNodes(currentNode) !using FOX function
     do i=0, getLength(target_node_list)-1
@@ -290,5 +294,38 @@
         end if
     end if
     end subroutine gotoNode
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that retrieves a node from within a node.
+    !> Returns a nullifyed pointer if not found, stops if mandatory.
+    !> @param[in] self, currentNode, targetNode, targetNodeName, read_flag, mandatory
+    !---------------------------------------------------------------------------
+    subroutine getPolygonFromKMZFile(self, filename, vertex)
+    class(xmlparser_class), intent(in) :: self
+    type(string), intent(in) :: filename
+    type(vector), dimension(:), allocatable, intent(out) :: vertex
+    type(Node), pointer :: xmlDoc, xmlNode
+    type(string) :: outext, tag
+    real(prec), dimension(:), allocatable :: temp
+    integer :: i
+
+    call self%getFile(xmlDoc,fileName)
+    xmlNode => item(getElementsByTagName(xmlDoc, "coordinates"), 0)
+    allocate(temp(countrts(getTextContent(xmlNode), 0.0d0)))
+    call extractDataContent(xmlNode,temp)
+    if (mod(size(temp),3) /= 0) then
+        outext='[xmlParser::getPolygonFromKMZFile]: 3D Polygon is not well defined, stoping'
+        call Log%put(outext)
+        stop
+    else
+        allocate(vertex(size(temp)/3))
+        do i=1, size(vertex)
+            vertex(i) = temp(1+(i-1)*3)*ex + temp(2+(i-1)*3)*ey + temp(3+(i-1)*3)*ez
+        end do
+    end if    
+
+    end subroutine getPolygonFromKMZFile
 
     end module xmlParser_mod

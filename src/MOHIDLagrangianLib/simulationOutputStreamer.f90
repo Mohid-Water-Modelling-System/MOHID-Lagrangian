@@ -22,6 +22,7 @@
 
     use common_modules
     use vtkWritter_mod
+    use hdf5Writter_mod
     use boundingbox_mod
     use blocks_mod
 
@@ -32,7 +33,9 @@
         real(prec) :: OutputIntervalTime = MV      !< Output interval to write simulation outputs
         real(prec) :: LastWriteTime = MV        !< Time stamp of the last output write
         integer :: OutputFormat = -1            !< Switch for output format
+        type(string), allocatable, dimension(:) :: outputVariables  !< list of optional variables to output
         type(vtkwritter_class) :: vtkWritter    !< The vtk writter object
+        type(hdf5writter_class) :: hdf5Writter    !< The vtk writter object
     contains
     procedure :: initialize => initOutputStreamer
     procedure :: writeOutputHeader
@@ -64,11 +67,11 @@
     type(string) :: fileName
     
     if (self%CheckWriteTime()) then
-        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
-        call self%WriteStepSerial(fileName, blocks)
+        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Output%getnumOutFile())
+        call self%WriteStepSerial(fileName, blocks, self%outputVariables)
         call self%writeOutputSummary(numTracers, simTimer, fileName)
-        call Globals%Sim%setlastOutNumDt(Globals%Sim%getnumdt())
-        call Globals%Sim%increment_numoutfile()
+        call Globals%Output%setlastOutNumDt(Globals%Sim%getnumdt())
+        call Globals%Output%increment_numOutFile()
         self%LastWriteTime = Globals%SimTime%CurrTime
     end if
 
@@ -80,13 +83,16 @@
     !> Streamer method to call an appropriate writer.
     !> @param[in] self, filename, blocks
     !---------------------------------------------------------------------------
-    subroutine WriteStepSerial(self, filename, blocks)
+    subroutine WriteStepSerial(self, filename, blocks, outputVars)
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     type(string), intent(in) :: filename                    !< name of the case to add
+    type(string), dimension(:), intent(in) :: outputVars    !< names of the output variables to print
+    
 
     if (self%OutputFormat == 2) then !VTK file selected
-        call self%vtkWritter%TracerSerial(filename, blocks)
+        call self%vtkWritter%TracerSerial(filename, blocks, outputVars)
+        !call self%hdf5Writter%TracerSerial(filename, blocks)
     end if
 
     end subroutine WriteStepSerial
@@ -183,8 +189,10 @@
     self%OutputFormat = Globals%Parameters%OutputFormat
     self%OutputIntervalTime = Globals%Parameters%OutputWriteTime
     self%LastWriteTime = Globals%SimTime%CurrTime
+    call Globals%Output%getOutputPoolArray(self%outputVariables)
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
+        call self%hdf5Writter%initialize()
     end if
     end subroutine initOutputStreamer
 

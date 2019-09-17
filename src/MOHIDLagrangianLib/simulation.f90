@@ -31,8 +31,6 @@
     use simulationInputStreamer_mod
     use common_modules
 
-    use hdf5Writter_mod
-
     implicit none
     private
 
@@ -83,34 +81,50 @@
     !---------------------------------------------------------------------------
     subroutine run(self)
     class(simulation_class), intent(inout) :: self
+    type(string) :: outext
+    logical :: dbg = .false.
 
     call self%OutputStreamer%writeOutputHeader()
+    
+    outext='->Building initial state'
+    call Log%put(outext)
 
     !main time cycle
-    do while (Globals%SimTime%CurrTime .lt. Globals%Parameters%TimeMax)
+    do while (Globals%SimTime%CurrTime < Globals%Parameters%TimeMax)
         call Globals%Sim%increment_numdt()
         call self%timerTotalRun%Tic()
         !activate suitable Sources
+        if (dbg) print*, 'self%ToggleSources'
         call self%ToggleSources()
         !emitt Tracers from active Sources
+        if (dbg) print*, 'self%BlocksEmitt'
         call self%BlocksEmitt()
         !Optimize Block Tracer lists and memory use
+        if (dbg) print*, 'self%BlocksConsolidate'
         call self%BlocksConsolidate()
         !Distribute Tracers and Sources by Blocks
+        if (dbg) print*, 'self%BlocksDistribute'
         call self%BlocksDistribute()
         !Build SV
+        if (dbg) print*, 'self%BlocksTracersToSV'
         call self%BlocksTracersToSV()
         !load hydrodynamic fields from files (curents, wind, waves, ...)
+        if (dbg) print*, 'self%InputData'
         call self%InputData()
         !Update all tracers - Integration step
+        if (dbg) print*, 'self%BlocksRunSolver'
         call self%BlocksRunSolver()
         !SV to Tracers
+        if (dbg) print*, 'self%BlocksSVtoTracers'
         call self%BlocksSVtoTracers()
         !Write results if time to do so
+        if (dbg) print*, 'self%OutputStepData'
         call self%OutputStepData()
         !Clean SV
+        if (dbg) print*, 'self%BlocksCleanSV'
         call self%BlocksCleanSV()
         !update Simulation time
+        if (dbg) print*, 'self%updateSimDateTime'
         call self%updateSimDateTime()
         !print*, 'Global time is ', Globals%SimTime%CurrTime
         !print*, 'Can we continue?'
@@ -119,7 +133,7 @@
     enddo
 
     call self%setTracerMemory()
-    call SimMemory%detailedprint()
+    !call SimMemory%detailedprint()
     call self%timerTotalRun%print()
     call self%timerPrep%print()
     call self%timerSVOps%print()
@@ -179,10 +193,7 @@
         outext='[initSimulation]: only .xml input files are supported at the time. Stopping'
         call Log%put(outext)
         stop
-    endif
-    !Initializing input file streamer
-    call self%InputStreamer%initialize()
-    call self%InputStreamer%print()
+    endif    
     !Case was read and now we can build/initialize our simulation objects that are case-dependent
     !initilize simulation bounding box
     call BBox%initialize()
@@ -191,7 +202,10 @@
     !Distributing Sources
     call self%setInitialState()
     !printing memory occupation at the time
-    call SimMemory%detailedprint()
+    !call SimMemory%detailedprint()
+    !Initializing input file streamer
+    call self%InputStreamer%initialize(sBlock)
+    call self%InputStreamer%print()
     !Initializing output file streamer
     call self%OutputStreamer%initialize()
     !Writing the domain to file
@@ -212,13 +226,9 @@
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
-    !$OMP PARALLEL PRIVATE(i)
-    !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%ToogleBlockSources()
     end do
-    !$OMP END DO
-    !$OMP END PARALLEL
     call self%timerPrep%Toc()
     end subroutine ToggleSources
 
@@ -251,7 +261,6 @@
         call sBlock(i)%DistributeTracers()
     enddo
     call self%timerPrep%Toc()
-    !need to distribute Sources also! TODO
     end subroutine BlocksDistribute
 
     !---------------------------------------------------------------------------
@@ -363,8 +372,7 @@
     !> Simulation method to update the date and time variables
     !---------------------------------------------------------------------------
     subroutine updateSimDateTime(self)
-    class(simulation_class), intent(inout) :: self
-    integer :: i
+    class(simulation_class), intent(in) :: self
     if (Globals%Sim%getnumdt() /= 1 ) call Globals%SimTime%setCurrDateTime(Globals%SimDefs%dt)
     end subroutine updateSimDateTime
 
@@ -414,9 +422,9 @@
     call tempSources%finalize() !destroying the temporary Sources now they are shipped to the Blocks
     outext='-->Sources allocated to their current Blocks'
     call Log%put(outext,.false.)
-    outext = ntrc
-    outext='-->'//outext//' Tracers on the emission stack'
-    call Log%put(outext,.false.)
+    !outext = ntrc
+    !outext='-->'//outext//' Tracers on the emission stack'
+    !call Log%put(outext,.false.)
     call self%setTracerMemory(ntrc)
     end subroutine setInitialState
 
@@ -476,7 +484,7 @@
     !> Simulation method to do domain decomposition and define the Blocks
     !---------------------------------------------------------------------------
     subroutine DecomposeDomain(self)
-    class(simulation_class), intent(inout) :: self
+    class(simulation_class), intent(in) :: self
     type(string) :: outext
     if (Globals%SimDefs%autoblocksize) then
         call allocBlocks(Globals%SimDefs%numblocks)

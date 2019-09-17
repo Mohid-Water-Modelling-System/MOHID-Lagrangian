@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<case>
+	<execution>
+		<parameters>
+			<parameter key="Start" value="2018 01 02 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
+			<parameter key="End"   value="2018 02 04 00 00 00" comment="Date of final instant" units_comment="ISO format" />
+			<parameter key="Integrator" value="3" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
+			<parameter key="Threads" value="auto" comment="Computation threads for shared memory computation (default=auto)" />			
+			<parameter key="OutputWriteTime" value="1800" comment="Time out data (1/Hz)" units_comment="seconds" />
+			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
+		</parameters>
+		<outputFields>
+			<file name="data/outputFields.xml"/>
+		</outputFields>
+		<variableNaming>
+			<file name="data/NamesLibrary.xml"/>
+		</variableNaming>
+	</execution>
+	<caseDefinitions>
+		<inputData>
+			<inputDataDir name="../Arousa_2D_test_case/nc_fields" type="hydrodynamic"/>
+		</inputData>
+		<simulation>
+			<resolution dp="50" units_comment="metres (m)"/>
+			<timestep dt="900.0" units_comment="seconds (s)"/>
+			<BoundingBoxMin x="-9.15" y="42.40" z="-1" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.75" y="42.66" z="1" units_comment="(deg,deg,m)"/>
+		</simulation>
+		<sourceDefinitions>
+			<source>
+				<setsource id="1" name="FishingVessel1" />
+				<rate value="0.001" comment="emission rate (Hz)" />
+				<point x="-8.94" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+				<positionTimeSeries>
+					<file name="data/FishingVessel1_trajectory.dat" />
+				</positionTimeSeries>
+			</source>
+		</sourceDefinitions>
+		<constants>
+			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />
+		</constants>
+	</caseDefinitions>
+</case>

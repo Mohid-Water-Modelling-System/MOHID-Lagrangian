@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<postProcessing>
+	<measures>
+		<field key = "concentrations"/>
+	</measures>
+	<gridDefinition>
+		<units value= "relative"/>
+		<resolution x="50" y="70" z="5"/>
+	</gridDefinition>
+</postProcessing>

@@ -28,7 +28,6 @@
     private
 
     type :: paper_par_class               !<Type - parameters of a Lagrangian tracer object representing a paper material
-        real(prec) :: degradation_rate              !< degradation rate of the material
         logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type paper_par_class
@@ -37,6 +36,7 @@
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: condition                     !< Material condition (1-0)
+        real(prec) :: degradation_rate              !< degradation rate of the material
         real(prec) :: concentration                 !< Particle concentration
     end type paper_state_class
 
@@ -60,7 +60,7 @@
     end interface
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -68,7 +68,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(paper_class), intent(in) :: self
-    getNumVars = 10
+    getNumVars = 16
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -86,12 +86,18 @@
     getStateArray(4) = self%now%vel%x
     getStateArray(5) = self%now%vel%y
     getStateArray(6) = self%now%vel%z
-    getStateArray(7) = self%mnow%density
-    getStateArray(8) = self%mnow%radius
-    getStateArray(9) = self%mnow%condition
-    getStateArray(10) = self%mnow%concentration
+    getStateArray(7) = self%now%diffusionVel%x
+    getStateArray(8) = self%now%diffusionVel%y
+    getStateArray(9) = self%now%diffusionVel%z
+    getStateArray(10) = self%now%usedMixingLenght
+    getStateArray(11) = self%now%age
+    getStateArray(12) = self%mnow%density
+    getStateArray(13) = self%mnow%radius
+    getStateArray(14) = self%mnow%condition
+    getStateArray(15) = self%mnow%degradation_rate
+    getStateArray(16) = self%mnow%concentration
     end function getStateArray
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -107,12 +113,18 @@
     self%now%vel%x = StateArray(4)
     self%now%vel%y = StateArray(5)
     self%now%vel%z = StateArray(6)
-    self%mnow%density = StateArray(7)
-    self%mnow%radius = StateArray(8)
-    self%mnow%condition = StateArray(9)
-    self%mnow%concentration = StateArray(10)    
+    self%now%diffusionVel%z = StateArray(7)
+    self%now%diffusionVel%z = StateArray(8)
+    self%now%diffusionVel%z = StateArray(9)
+    self%now%usedMixingLenght = StateArray(10)
+    self%now%age   = StateArray(11)
+    self%mnow%density = StateArray(12)
+    self%mnow%radius = StateArray(13)
+    self%mnow%condition = StateArray(14)
+    self%mnow%degradation_rate = StateArray(15)
+    self%mnow%concentration = StateArray(16)
     end subroutine setStateArray
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -125,28 +137,51 @@
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
     integer, intent(in) :: p
+    integer :: idx
+    type(string) :: tag
 
     !use the base class constructor to build the base of our new derived type
-    constructor%tracer_class = Tracer(id, src, time, p)
+    constructor%tracer_class = Tracer(id, src, time, p, constructor%getNumVars())
     !VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...
     constructor%par%id = id !forcing
     constructor%par%idsource = src%par%id !forcing
+
     !now initialize the specific components of this derived type
     constructor%par%ttype = Globals%Types%paper
     !material parameters
-    constructor%mpar%degradation_rate = src%prop%degrd_rate
+    !constructor%mpar%degradation_rate = src%prop%degrd_rate
     constructor%mpar%particulate = src%prop%particulate
     constructor%mpar%size = src%prop%radius
+    constructor%mnow%radius = src%prop%radius
+    !constructor%mnow%concentration = MV
     !material state
     constructor%mnow%density = src%prop%density
-    constructor%mnow%condition = src%prop%condition
-    constructor%mnow%radius = src%prop%radius
-    constructor%mnow%concentration = MV
-    if (constructor%mpar%particulate) then
-        constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
-        constructor%mnow%concentration = src%prop%ini_concentration
+    !default values
+    constructor%mnow%condition = 1.0
+    constructor%mnow%degradation_rate = 1/(5*365*24*3600)
+    !try to find value from material types files
+    tag = 'condition'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%condition = src%prop%propValue(idx)
+    end if
+    tag = 'degradation_rate'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%degradation_rate = src%prop%propValue(idx)
     end if
 
+    if (constructor%mpar%particulate) then
+        !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
+        !constructor%mnow%concentration = src%prop%ini_concentration
+    end if
+
+    !filling the rest of the varName list
+    constructor%varName(12) = Globals%Var%density
+    constructor%varName(13) = 'radius'
+    constructor%varName(14) = 'condition'
+    constructor%varName(15) = 'degradation_rate'
+    constructor%varName(16) = 'concentration'
     end function constructor
 
     end module tracerPaper_mod

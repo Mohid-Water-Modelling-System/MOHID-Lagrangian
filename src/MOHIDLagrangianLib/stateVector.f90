@@ -36,7 +36,10 @@
         integer :: ttype
         type(trcPtr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:,:) :: state
-        integer, allocatable, dimension(:) :: landMask, landIntMask, source, id
+        type(string), allocatable, dimension(:) :: varName
+        integer, allocatable, dimension(:) :: landMask, source, id
+        real(prec) , allocatable, dimension(:) :: landIntMask
+        real(prec) , allocatable, dimension(:) :: resolution
         logical, allocatable, dimension(:) :: active
         integer :: idx
     contains
@@ -65,8 +68,12 @@
     newsv%landMask = self%landMask
     allocate(newsv%landIntMask(size(self%landIntMask)))
     newsv%landIntMask = self%landIntMask
+    allocate(newsv%resolution(size(self%resolution)))
+    newsv%resolution = self%resolution
     allocate(newsv%active(size(self%active)))
     newsv%active = self%active
+    allocate(newsv%varName(size(self%varName)))
+    newsv%varName = self%varName
     !maybe no need to copy source, id and tracer pointer
     
     end subroutine copyState
@@ -110,9 +117,11 @@
     if (allocated(self%state)) deallocate(self%state)
     if (allocated(self%landMask)) deallocate(self%landMask)
     if (allocated(self%landIntMask)) deallocate(self%landIntMask)
+    if (allocated(self%resolution)) deallocate(self%resolution)
     if (allocated(self%active)) deallocate(self%active)
     if (allocated(self%source)) deallocate(self%source)
     if (allocated(self%id)) deallocate(self%id)
+    if (allocated(self%varName)) deallocate(self%varName)
     self%idx = 1
     end subroutine cleanState
 
