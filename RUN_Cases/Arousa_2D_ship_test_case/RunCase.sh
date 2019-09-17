@@ -3,7 +3,7 @@
 clear
 
 # "name" and "dirout" are named according to the testcase
-name=Tagus3D
+name=Arousa2D_ship_case
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
@@ -12,7 +12,6 @@ mohidlagrangian=${tools}/MOHIDLagrangian
 
 preprocessorDir=../../src/MOHIDLagrangianPreProcessor
 mohidPreprocessor=${preprocessorDir}/MOHIDLagrangianPreProcessor.py
-
 
 # "dirout" is created to store results or it is cleaned if it already exists
 if [ -e $dirout ]; then
@@ -31,6 +30,7 @@ if [ $errcode -eq 0 ]; then
   $mohidlagrangian -i $dirout/${name}.xml -o $dirout
   errcode=$?
 fi
+
 
 if [ $errcode -eq 0 ]; then
   echo All done

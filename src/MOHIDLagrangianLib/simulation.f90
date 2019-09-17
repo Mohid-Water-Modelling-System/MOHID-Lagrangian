@@ -31,8 +31,6 @@
     use simulationInputStreamer_mod
     use common_modules
 
-    use hdf5Writter_mod
-
     implicit none
     private
 
@@ -228,13 +226,9 @@
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
-    !$OMP PARALLEL PRIVATE(i)
-    !$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%ToogleBlockSources()
     end do
-    !$OMP END DO
-    !$OMP END PARALLEL
     call self%timerPrep%Toc()
     end subroutine ToggleSources
 
@@ -267,7 +261,6 @@
         call sBlock(i)%DistributeTracers()
     enddo
     call self%timerPrep%Toc()
-    !need to distribute Sources also! TODO
     end subroutine BlocksDistribute
 
     !---------------------------------------------------------------------------
@@ -379,8 +372,7 @@
     !> Simulation method to update the date and time variables
     !---------------------------------------------------------------------------
     subroutine updateSimDateTime(self)
-    class(simulation_class), intent(inout) :: self
-    integer :: i
+    class(simulation_class), intent(in) :: self
     if (Globals%Sim%getnumdt() /= 1 ) call Globals%SimTime%setCurrDateTime(Globals%SimDefs%dt)
     end subroutine updateSimDateTime
 
@@ -492,7 +484,7 @@
     !> Simulation method to do domain decomposition and define the Blocks
     !---------------------------------------------------------------------------
     subroutine DecomposeDomain(self)
-    class(simulation_class), intent(inout) :: self
+    class(simulation_class), intent(in) :: self
     type(string) :: outext
     if (Globals%SimDefs%autoblocksize) then
         call allocBlocks(Globals%SimDefs%numblocks)

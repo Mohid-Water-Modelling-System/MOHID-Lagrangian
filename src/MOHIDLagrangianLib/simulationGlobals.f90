@@ -155,6 +155,7 @@
         type(string) :: landIntMask
         type(string) :: landMask
         type(string) :: resolution
+        type(string) :: rate
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -169,6 +170,7 @@
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
         type(stringList_class) :: timeVariants
+        type(stringList_class) :: rateVariants
         type(stringList_class) :: varToUse !< list of variables used in a simulation
     contains
     procedure, private :: buildvars
@@ -235,12 +237,13 @@
     end type globals_class
     
     type(string) :: notRead
+    type(string) :: notSet
 
     !Simulation variables
     type(globals_class) :: Globals
 
     !Public access vars
-    public :: Globals, stringList_class, notRead
+    public :: Globals, stringList_class, notRead, notSet
 
     contains
 
@@ -254,6 +257,10 @@
     class(globals_class), intent(inout) :: self
     integer :: sizem
     type(string), optional, intent(in) :: outpath
+    
+    notRead = 'notRead'
+    notSet = 'notSet'
+    
     !parameters
     self%Parameters%Integrator = 1
     self%Parameters%IntegratorIndexes = [1,2,3]
@@ -296,15 +303,15 @@
     self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
     !filenames
-    self%Names%mainxmlfilename = 'not_set'
-    self%Names%propsxmlfilename = 'not_set'
-    self%Names%tempfilename = 'not_set'
+    self%Names%mainxmlfilename = notSet
+    self%Names%propsxmlfilename = notSet
+    self%Names%tempfilename = notSet
     if (present(outpath)) then
         self%Names%outpath = outpath
     else
-        self%Names%outpath = 'not_set'
+        self%Names%outpath = notSet
     end if
-    self%Names%casename = 'not_set'
+    self%Names%casename = notSet
     !global time
     self%SimTime%CurrTime = 0.0
     !global counters
@@ -320,8 +327,6 @@
     self%DataTypes%waterProps = 'waterProperties'
     !Variable names
     call self%Var%buildvars()
-    
-    notRead = 'notRead'
 
     sizem=sizeof(self)
     call SimMemory%adddef(sizem)
@@ -352,6 +357,7 @@
     self%landMask    = 'landMask'
     self%landIntMask = 'landIntMask'
     self%resolution = 'resolution'
+    self%rate = 'rate'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -455,6 +461,11 @@
     !searching for time
     if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
         getVarSimName = self%time
+        return
+    end if
+    !searching for rate
+    if (var == self%rate .or. .not.self%rateVariants%notRepeated(var)) then
+        getVarSimName = self%rate
         return
     end if
 

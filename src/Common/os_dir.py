@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import glob
 
 def get_immediate_subdirectories(a_dir):
     return [name for name in os.listdir(a_dir)
@@ -16,3 +17,9 @@ def mkdir_safe(a_dir):
         
 def filename_without_ext(path_to_file): 
     return os.path.splitext(path_to_file)[0]
+
+def deleteDirForce(directory):
+    contents = glob.glob(directory+'/*')
+    for file in contents:
+        os.remove(file)    
+    os.rmdir(directory)

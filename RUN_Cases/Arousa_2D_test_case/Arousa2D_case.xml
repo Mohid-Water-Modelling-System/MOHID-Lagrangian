@@ -5,7 +5,7 @@
 			<parameter key="Start" value="2018 01 02 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
 			<parameter key="End"   value="2018 02 04 00 00 00" comment="Date of final instant" units_comment="ISO format" />
 			<parameter key="Integrator" value="3" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
-			<parameter key="Threads" value="auto" comment="Computation threads for shared memory computation (default=auto)" />			
+			<parameter key="Threads" value="4" comment="Computation threads for shared memory computation (default=auto)" />			
 			<parameter key="OutputWriteTime" value="900" comment="Time out data (1/Hz)" units_comment="seconds" />
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
@@ -13,13 +13,13 @@
 			<file name="data/outputFields.xml"/>
 		</outputFields>
 		<variableNaming>
-			<file name="data/ncNamesLibrary.xml"/>
+			<file name="data/NamesLibrary.xml"/>
 		</variableNaming>
 	</execution>
 	<caseDefinitions>
 		<inputData>
 			<inputDataDir name="nc_fields" type="hydrodynamic"/>
-		</inputData>		
+		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
@@ -57,12 +57,25 @@
 				<line>
 					<pointa x="-8.88" y="42.5" z="0" units_comment="(deg,deg,m)"/>
 					<pointb x="-8.87" y="42.525" z="0" units_comment="(deg,deg,m)"/>
-				</line>        
+				</line>
 			</source>
 			<source>
 				<setsource id="3" name="ReleasePoint17" />
-				<rate_file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)" />
-				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>        
+				<rateTimeSeries> 
+					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
+				</rateTimeSeries>
+				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+			</source>
+			<source>
+				<setsource id="5" name="ReleasePoint5" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example2.dat" />
+					<scale value="0.1" comment="scales the data on the file by this factor (not time)" />
+				</rateTimeSeries>
+				<point x="-8.94" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.dat" />
+				</positionTimeSeries>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
@@ -71,11 +84,11 @@
 				<type source="3" type='paper' property="cardboard_1" comment="" />
 			</types>
 			<file name="data/materialTypes.xml"/>
-		</sourceTypes>		
+		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
-			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />			
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />			
+			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />
 		</constants>
 	</caseDefinitions>
 </case>

@@ -22,6 +22,7 @@
     use simulationGlobals_mod
     use csv_module
     use csvParser_mod
+    use MTimeSeriesParser_mod
 
     implicit none
     private
@@ -31,8 +32,11 @@
         integer :: id                           !< unique source identification (integer)
         real(prec) :: emitting_rate             !< Emitting rate of the Source (Hz)
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
-        type(string) :: rate_file               !< File name of the emission rate data (csv)
+        type(string) :: rate_file               !< File name of the emission rate data (csv, .dat)
         real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
+        logical :: fixed_position               !< Type of position mode: true-fixed position; false-variable position(from file)
+        type(string) :: position_file           !< File name of the position data (csv, .dat)
+        type(vector), dimension(:), allocatable :: variable_position !< Position read from the position_file of the Source - interpolated on a regular time series spaced dt
         logical, dimension(:), allocatable :: activeTime      !< array of logicals that maps active state for every dt
         type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
@@ -81,8 +85,10 @@
     procedure :: setPropertyBaseAtribute
     procedure :: setPropertyAtribute
     procedure :: check
-    procedure :: getVariableRate
-    procedure, private :: setVariableRate
+    procedure :: setVariableRate
+    procedure :: setVariablePosition
+    procedure, private :: getVariableRate
+    procedure, private :: getVariablePosition
     procedure, private :: setActiveTimes
     procedure, private :: setotalnp
     procedure, private :: linkProperty
@@ -282,26 +288,40 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that reads a csv file with variable emission rate data, allocates
+    !> Method that reads a file with variable emission rate data, allocates
     !> the space, and stores the data in the Source.
     !> @param[in] self, filename
     !---------------------------------------------------------------------------
-    subroutine setVariableRate(self, filename)
+    subroutine getVariableRate(self, filename, rateScale)
     class(source_class), intent(inout) :: self
     type(string), intent(in) :: filename
+    real(prec), intent(in) :: rateScale
     type(csv_file) :: rateFile
     character(len=30), dimension(:), allocatable :: header
     real(prec), dimension(:), allocatable :: time, rate, stime, srate
     integer :: i, index
     real(prec) :: weight
-    logical :: status
+    type(csvparser_class) :: CSVReader
+    type(mTimeSeriesParser_class) :: MTSReader
+    type(string), dimension(:), allocatable :: varList
     type(string) :: outext
 
-    call CSVReader%getFile(rateFile, filename, 1)
-    call CSVReader%getColumn(rateFile, filename, 1, time)
-    call CSVReader%getColumn(rateFile, filename, 2, rate)
-    call CSVReader%closeFile(rateFile)
-    !interpolating the csv data to a regular dt spaced array and storing the data in the Source
+    if (filename%extension() == '.csv') then
+        call CSVReader%getFile(filename, 1)
+        call CSVReader%getDataByLabel(Globals%Var%time, time)
+        call CSVReader%getDataByLabel(Globals%Var%rate, rate)
+    else if (filename%extension() == '.dat') then
+        allocate(varList(2))
+        varList(1) = Globals%Var%time
+        varList(2) = Globals%Var%rate
+        call MTSReader%getFile(filename, varList)
+        call MTSReader%getDataByLabel(Globals%Var%time, time)
+        call MTSReader%getDataByLabel(Globals%Var%rate, rate)
+    end if
+    
+    rate = rate*rateScale
+    
+    !interpolating the data to a regular dt spaced array and storing the data in the Source
     allocate(stime(int(min(Globals%Parameters%TimeMax,maxval(time))/Globals%SimDefs%dt)+1))
     allocate(srate(size(stime)))
     do i=1, size(stime)
@@ -313,15 +333,15 @@
         else
             do index=1, size(time)-1
                 if (stime(i)>=time(index)) then
-                    weight = (stime(i)-time(index))/(time(index+1)-time(index));
-                    srate(i) = (1.0-weight)*rate(index) + weight*rate(index+1);
+                    weight = (stime(i)-time(index))/(time(index+1)-time(index))
+                    srate(i) = (1.0-weight)*rate(index) + weight*rate(index+1)
                 end if
             end do
         end if
     end do
     allocate(self%par%variable_rate(size(srate)))
     self%par%variable_rate = srate
-    end subroutine setVariableRate
+    end subroutine getVariableRate
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -330,12 +350,98 @@
     !> rate.
     !> @param[in] self, index
     !---------------------------------------------------------------------------
-    subroutine getVariableRate(self, index)
+    subroutine setVariableRate(self, index)
     class(source_class), intent(inout) :: self
     integer :: index
-    type(string) :: outext
     self%par%emitting_rate = self%par%variable_rate(max(1,min(index,size(self%par%variable_rate))))
-    end subroutine getVariableRate
+    end subroutine setVariableRate
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that reads a file with variable position data, allocates
+    !> the space, and stores the data in the Source.
+    !> @param[in] self, filename
+    !---------------------------------------------------------------------------
+    subroutine getVariablePosition(self, filename)
+    class(source_class), intent(inout) :: self
+    type(string), intent(in) :: filename
+    type(csv_file) :: csvFile
+    character(len=30), dimension(:), allocatable :: header
+    real(prec), dimension(:), allocatable :: time, stime
+    real(prec), dimension(:), allocatable :: xx, yy, zz
+    real(prec), dimension(:,:), allocatable :: posi, sposi
+    integer :: i, index
+    real(prec) :: weight
+    type(csvparser_class) :: CSVReader
+    type(mTimeSeriesParser_class) :: MTSReader
+    type(string), dimension(:), allocatable :: varList
+    type(string) :: outext
+
+    if (filename%extension() == '.csv') then
+        call CSVReader%getFile(filename, 1)
+        call CSVReader%getDataByLabel(Globals%Var%time, time)
+        call CSVReader%getDataByLabel(Globals%Var%lon, xx)
+        call CSVReader%getDataByLabel(Globals%Var%lat, yy)
+        call CSVReader%getDataByLabel(Globals%Var%level, zz)
+    else if (filename%extension() == '.dat') then
+        allocate(varList(4))
+        varList(1) = Globals%Var%time
+        varList(2) = Globals%Var%lon
+        varList(3) = Globals%Var%lat
+        varList(4) = Globals%Var%level
+        call MTSReader%getFile(filename, varList)
+        call MTSReader%getDataByLabel(Globals%Var%time, time)
+        call MTSReader%getDataByLabel(Globals%Var%lon, xx)
+        call MTSReader%getDataByLabel(Globals%Var%lat, yy)
+        call MTSReader%getDataByLabel(Globals%Var%level, zz)
+    end if
+    
+    allocate(posi(size(time),3))
+    posi(:,1) = xx
+    posi(:,2) = yy
+    posi(:,3) = zz
+    
+    !interpolating the data to a regular dt spaced array and storing the data in the Source
+    allocate(stime(int(min(Globals%Parameters%TimeMax,maxval(time))/Globals%SimDefs%dt)+1))
+    do i=1, size(stime)
+        stime(i)=Globals%SimDefs%dt*(i-1)
+    end do
+    allocate(sposi(size(stime),3))
+    do i=1, size(stime)
+        if (stime(i)<time(1)) then
+            sposi(i,1) = self%par%geometry%pt%x
+            sposi(i,2) = self%par%geometry%pt%y
+            sposi(i,3) = self%par%geometry%pt%z
+        else
+            do index=1, size(time)-1
+                if (stime(i)>=time(index)) then
+                    weight = (stime(i)-time(index))/(time(index+1)-time(index))
+                    sposi(i,1) = (1.0-weight)*posi(index,1) + weight*posi(index+1,1)
+                    sposi(i,2) = (1.0-weight)*posi(index,2) + weight*posi(index+1,2)
+                    sposi(i,3) = (1.0-weight)*posi(index,3) + weight*posi(index+1,3)
+                end if
+            end do
+        end if
+    end do
+    allocate(self%par%variable_position(size(stime)))
+    do i=1, size(stime)
+        self%par%variable_position(i) = sposi(i,1)*ex + sposi(i,2)*ey + sposi(i,3)*ez
+    end do
+    end subroutine getVariablePosition
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that sets the position for the current time step, in case of a variable
+    !> position.
+    !> @param[in] self, index
+    !---------------------------------------------------------------------------
+    subroutine setVariablePosition(self, index)
+    class(source_class), intent(inout) :: self
+    integer :: index
+    self%now%pos = self%par%variable_position(max(1,min(index,size(self%par%variable_position))))
+    end subroutine setVariablePosition
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -372,13 +478,16 @@
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, activeTimes, source_geometry, shapetype, res)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, shapetype, res)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
     real(prec), intent(in) :: emitting_rate
     logical, intent(in) :: emitting_fixed_rate
     type(string), intent(in) :: rate_file
+    real(prec), intent(in) :: rateScale
+    logical, intent(in) :: posi_fixed
+    type(string), intent(in) :: posi_file
     real(prec), dimension(:,:), intent(in) :: activeTimes
     type(string), intent(in) :: source_geometry
     class(shape), intent(in) :: shapetype
@@ -392,9 +501,14 @@
     src%par%emitting_rate=emitting_rate
     src%par%emitting_fixed_rate = emitting_fixed_rate
     src%par%rate_file = rate_file
-    if (emitting_fixed_rate .eqv. .false.) then
-        call src%setVariableRate(src%par%rate_file)
-        call src%getVariableRate(Globals%Sim%getnumdt())
+    if (.not.emitting_fixed_rate) then
+        call src%getVariableRate(src%par%rate_file, rateScale)
+    end if
+    !Setting possible variable position
+    src%par%fixed_position = posi_fixed
+    src%par%position_file = posi_file
+    if (.not.posi_fixed) then
+        call src%getVariablePosition(posi_file)
     end if
     call src%setActiveTimes(activeTimes)
     src%par%source_geometry=source_geometry
@@ -415,7 +529,7 @@
     src%stats%ns=0
     !setting stencil variables
     src%stencil%dp = Globals%SimDefs%Dp
-    if (res%x > 0.0) src%stencil%dp = res !the source has a custom resolution    
+    if (res%x > 0.0) src%stencil%dp = res !the source has a custom resolution
     allocate(src%stencil%ptlist, source = Geometry%getFillPoints(src%par%geometry, src%stencil%dp))
     src%stencil%np = size(src%stencil%ptlist)
     call src%setotalnp()

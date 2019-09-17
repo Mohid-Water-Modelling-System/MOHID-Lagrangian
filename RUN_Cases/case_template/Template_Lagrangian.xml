@@ -47,7 +47,10 @@
 			</source>
 			<source>
 				<setsource id="2" name="Emissary_2" />
-				<rate_file name="data/discharge_2.csv" comment="name of csv file with discharge information (time and rate columns)" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
+					<scale value="1.01" comment="scales the data on the file by this factor (not time)" />
+				</rateTimeSeries>
 				<line>
 					<pointa x="1" y="2" z="-10" units_comment="(deg,deg,m)"/>
 					<pointb x="1.001" y="2.00001" z="7" units_comment="(deg,deg,m)"/>
@@ -69,12 +72,49 @@
 				<sphere radius="0.95" units_comment="metres (m)">
 					<point x="9.05" y="2.0" z="0" units_comment="(deg,deg,m)"/>
 				</sphere>
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.dat" />
+				</positionTimeSeries>
 			</source>
 			<source>
 				<setsource id="7" name="Mistery_discharge_2" />
-				<rate_dt value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example2.dat" />					
+				</rateTimeSeries>
 				<active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="9.025" y="5.0" z="0.75" units_comment="(deg,deg,m)"/>
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.csv" />
+				</positionTimeSeries>
+			</source>
+			<source>
+				<setsource id="4" name="PolygonKMZ" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.kmz"/>
+					<verticalBoundingBox min="0.0" max="0.0"/>
+				</polygon>
+			</source>
+			<source>
+				<setsource id="5" name="PolygonKMZ2" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.kmz"/>
+				</polygon>
+			</source>
+			<source>
+				<setsource id="8" name="PolygonXY" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.xy"/>
+					<verticalBoundingBox min="0.0" max="0.0"/>
+				</polygon>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
