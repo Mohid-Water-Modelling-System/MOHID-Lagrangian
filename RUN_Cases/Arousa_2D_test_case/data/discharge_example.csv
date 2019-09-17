@@ -1,4 +1,4 @@
-time,rate
+time(s),rate(hz)
 1,0.001
 30,0.002
 100,0.03

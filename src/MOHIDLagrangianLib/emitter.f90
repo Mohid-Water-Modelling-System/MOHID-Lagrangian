@@ -77,10 +77,9 @@
         aSource => srclist%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
-            if (.not.aSource%par%fixed_position) call aSource%setVariablePosition(Globals%Sim%getnumdt())
             if (aSource%now%active) then
-                if (.not.aSource%par%emitting_fixed_rate) call aSource%setVariableRate(Globals%Sim%getnumdt())                
-                aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack
+                if (aSource%par%emitting_fixed_rate .eqv. .false.) call aSource%getVariableRate(Globals%Sim%getnumdt())
+                aSource%now%emission_stack = aSource%now%emission_stack + aSource%par%emitting_rate*Globals%SimDefs%dt  !adding to the emission stack               
                 do i=1, floor(aSource%now%emission_stack)
                     call self%emitt_src(aSource, trclist)
                     reset_stack = .true.                    
@@ -138,7 +137,7 @@
     type(string) :: outext, temp
 
     !PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id
-    select case (src%prop%propertyType%chars())
+    select case (src%prop%property_type%chars())
     case ('base')
         allocate(trc, source = Tracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p)) !Beacause ifort 2017 is not F2008 compliant...
         !trc = Tracer(1, src, Globals%Time%CurrTime, p) !Otherwise instinsic allocation would be enough and more readable, like this. Compiles fine in GFortran
@@ -147,7 +146,7 @@
     case ('plastic')
         allocate(trc, source = plasticTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
         case default
-        outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%propertyType
+        outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%property_type
         call Log%put(outext)
         stop
     end select
