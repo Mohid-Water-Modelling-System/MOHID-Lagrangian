@@ -89,7 +89,8 @@ class VTUParser:
         
 
 def validVtuFilesList(directory):
-    vtu_list = glob.glob(directory+'/*_?????.vtu')[1:]            
+    vtu_list = glob.glob(directory+'/*_?????.vtu')[1:]
+    vtu_list.sort()            
     return vtu_list
 
         
@@ -207,7 +208,7 @@ class GridBasedMeasures:
                 z_min = np.float(parameter.get('z'))
             else:
                 root_global = ET.parse(self.xml_file).getroot()
-                bbox_min = root.find('caseDefinitions/simulation/BoundingBoxMin')
+                bbox_min = root_global.find('caseDefinitions/simulation/BoundingBoxMin')
                 x_min = np.float(bbox_min.get('x'))
                 y_min = np.float(bbox_min.get('y'))
                 z_min = np.float(bbox_min.get('z'))
