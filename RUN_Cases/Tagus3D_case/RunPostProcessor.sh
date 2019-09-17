@@ -9,11 +9,12 @@ dirout=${name}_out
 # "executables" are renamed and called from their directory
 
 postProcessorDir=../../src/MOHIDLagrangianPostProcessor
-postProcessor=${preprocessorDir}/MOHIDLagrangianPostProcessor.py
+postProcessor=${postProcessorDir}/MOHIDLagrangianPostProcessor.py
 
 # CODES are executed according the selected parameters of execution in this testcase
+errcode=0
 
-python $postProcessor -i $dirout/${name}.xml -o $dirout
+python $postProcessor -i ${name}.xml -o $dirout
 
 if [ $errcode -eq 0 ]; then
   echo All done
