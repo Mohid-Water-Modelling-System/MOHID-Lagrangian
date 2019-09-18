@@ -2,9 +2,10 @@
 <postProcessing>
 	<measures>
 		<field key = "residence_time"/>
+		<field key = "concentrations"/>
 	</measures>
 	<gridDefinition>
-		<units value= "meters"/>
-		<resolution x="500" y="1500" z="100"/>
+		<units value= "relative"/>
+		<resolution x="100" y="100" z="1"/>
 	</gridDefinition>
 </postProcessing>
