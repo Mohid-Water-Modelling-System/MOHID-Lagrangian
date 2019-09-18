@@ -17,6 +17,9 @@
 			<file name="Post_scripts/PostRecipe1.xml"/>
 			<file name="Post_scripts/PostRecipe2.xml"/>
 		</postProcessing>
+		<outputFields>
+			<file name="outputFields.xml"/>
+		</outputFields>
 	</execution>
 	<caseDefinitions>
 		<inputData>

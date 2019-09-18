@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<postProcessing>
+	<measures>
+		<field key = "residence_time"/>
+		<field key = "concentrations"/>
+	</measures>
+	<gridDefinition>
+		<units value= "relative"/>
+		<resolution x="100" y="100" z="1"/>
+	</gridDefinition>
+</postProcessing>
