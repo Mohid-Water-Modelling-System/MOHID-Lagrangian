@@ -72,7 +72,7 @@ class VTUParser:
     def points(self):
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.vtu_file)
-        print(self.vtu_file)
+
         reader.Update()
        
         vtu_vars = {}
@@ -89,7 +89,9 @@ class VTUParser:
         
 
 def validVtuFilesList(directory):
-    vtu_list = glob.glob(directory+'/*_?????.vtu')[1:]            
+    vtu_list = glob.glob(directory+'/*_?????.vtu')
+    vtu_list.sort()
+    vtu_list = vtu_list[1:]            
     return vtu_list
 
         
@@ -115,8 +117,9 @@ class PVDParser:
 
 
 class GridBasedMeasures:
-    def __init__(self,xml_file, outdir, outdirLocal):
+    def __init__(self,xml_file, xml_recipe, outdir, outdirLocal):
         self.xml_file = xml_file
+        self.xml_recipe = xml_recipe
         self.pvd_file = outdir +'/'+self.xml_file.replace('.xml','.pvd')
         self.pvd_data = PVDParser(self.pvd_file)
         self.nFiles = len(validVtuFilesList(outdir))
@@ -140,8 +143,8 @@ class GridBasedMeasures:
             
     
     def get_time_axis(self):
-        tree = ET.parse(self.xml_file)
-        root = tree.getroot()
+        root= ET.parse(self.xml_file).getroot()
+
         for parameter in root.findall('execution/parameters/parameter'):
             if parameter.get('key') == 'Start':
                 self.start_time = parameter.get('value')
@@ -152,38 +155,115 @@ class GridBasedMeasures:
 
         startTimeStamp = MDateTime.getTimeStampFromISODateString(self.start_time)
         self.time = np.array([startTimeStamp + i*self.dt/(3600.0*24.0) for i in range(0,self.nFiles)])
-
+        
+    
+    def get_time_xml_recipe(self):
+         root= ET.parse(self.xml_recipe).getroot()
+         for parameter in root.findall('time/'):
+            if parameter.tag == 'start':
+                time_start = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
+            if parameter.tag == 'end':
+                time_end = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
+         
+        
+    
     
     def get_sources(self):
         tree = ET.parse(self.xml_file)
         self.sources['id'] = {}
-        for source in tree.find('caseDefinitions').find('sourceDefinitions')[:]:
+        for source in tree.find('caseDefinitions/sourceDefinitions')[:]:
             id_source = source.find('setsource').attrib['id']
             self.sources['id'] = {id_source: None}
             # at the moment we don't require specific information just the ids.
             # In a future releases if we are going to compute measures using 
             # integration time, we will 
-            
-        
+    
     def get_grid(self):
-        tree = ET.parse(self.xml_file)
-        root = tree.getroot()
-        min_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMin').attrib
-        max_dict = root.find('caseDefinitions').find('simulation').find('BoundingBoxMax').attrib
+        if len(self.xml_recipe) == 0:
+            self.get_grid_xml_global()
+        else: 
+            self.get_grid_xml_recipe()
+    
+    
+    def get_grid_xml_global(self):
+        
+        root = ET.parse(self.xml_file).getroot()
+
+        min_dict = root.find('caseDefinitions/simulation/BoundingBoxMin').attrib
+        max_dict = root.find('caseDefinitions/simulation/BoundingBoxMax').attrib
+        
+        min_dict = root.find('gridDefinitions/BoundingBoxMin').attrib
+        max_dict = root.find('gridDefinitions/BoundingBoxMax').attrib
         
         x_min, x_max = np.float(min_dict['x']),np.float(max_dict['x'])
         y_min, y_max = np.float(min_dict['y']),np.float(max_dict['y'])
         z_min, z_max = np.float(min_dict['z']),np.float(max_dict['z'])
         
-        print('Domain limits:',x_min,x_max,y_min,y_max,z_min,z_max)
-        
-        self.grid ={'longitude': np.arange(x_min,x_max,self.grid_steps[2]),
-                    'latitude': np.arange(y_min,y_max,self.grid_steps[1]),
-                    'depth': np.arange(z_min,z_max,self.grid_steps[0])                   
-                    }
-                    
+        self.grid ={'longitude': np.arange(x_min,x_max,self.step[2]),
+            'latitude': np.arange(y_min,y_max,self.step[1]),
+            'depth': np.arange(z_min,z_max,self.step[0])                   
+            }
         for key,value in self.grid.items():
             self.centers[key] = (value[:-1] + value[1:])/2.
+            
+        return
+        
+        
+        
+    def get_grid_xml_recipe(self):
+        root = ET.parse(self.xml_recipe).getroot()
+        for parameter in root.findall('gridDefinition/'):
+            if parameter.tag == 'BoundingBoxMin':
+                x_min = np.float(parameter.get('x'))
+                y_min = np.float(parameter.get('y'))
+                z_min = np.float(parameter.get('z'))
+            else:
+                root_global = ET.parse(self.xml_file).getroot()
+                bbox_min = root_global.find('caseDefinitions/simulation/BoundingBoxMin')
+                x_min = np.float(bbox_min.get('x'))
+                y_min = np.float(bbox_min.get('y'))
+                z_min = np.float(bbox_min.get('z'))
+                
+            if parameter.tag == 'BoundingBoxMax':
+                x_max = np.float(parameter.get('x'))
+                y_max = np.float(parameter.get('y'))
+                z_max = np.float(parameter.get('z'))
+            else:
+                root_global = ET.parse(self.xml_file).getroot()
+                bbox_max = root_global.find('caseDefinitions/simulation/BoundingBoxMax')
+                x_max = np.float(bbox_max.get('x'))
+                y_max = np.float(bbox_max.get('y'))
+                z_max = np.float(bbox_max.get('z'))
+                
+            if parameter.tag == 'resolution':
+                x_step = np.float(parameter.get('x'))
+                y_step = np.float(parameter.get('y'))
+                z_step = np.float(parameter.get('z'))
+            if parameter.tag == 'units':
+                units_value = parameter.get('value')
+                
+        
+        print('Domain limits:',x_min,x_max,y_min,y_max,z_min,z_max)
+        
+        if units_value == 'degrees':
+            self.grid ={'longitude': np.arange(x_min,x_max,x_step),
+            'latitude': np.arange(y_min,y_max,y_step),
+            'depth': np.arange(z_min,z_max,z_step)                   
+            }
+        
+        elif units_value == 'relative':
+            self.grid ={'longitude': np.linspace(x_min,x_max,x_step),
+            'latitude': np.linspace(y_min,y_max,y_step),
+            'depth': np.linspace(z_min,z_max,z_step)                   
+            }
+        
+        elif units_value == 'meters':
+            dlat_degrees = 6371837.*(np.pi/180.)*(y_max-y_min)
+            
+                                
+        for key,value in self.grid.items():
+            self.centers[key] = (value[:-1] + value[1:])/2.
+            
         return
         
     
@@ -288,14 +368,11 @@ class GridBasedMeasures:
         
     def residence_time(self):
         
-        
-        
         print('--> Computing residence time on grid')
         
         # Read netcdf, compute concentrations, compute residence tiem
         # compute global 
         ds = xr.open_dataset(self.netcdf_output_file)
-        
         
         counts_t = self.counts()
         self.residence_time = np.zeros(counts_t.shape[1:])
@@ -308,10 +385,9 @@ class GridBasedMeasures:
         # compute per source
         for source in self.sources['id'].keys():
             
-            
             counts_t = self.counts(source=source)
             self.residence_time = np.zeros(counts_t.shape[1:])
-            for t_s in range(0,counts_t.shape[0]): 
+            for t_s in range(0,counts_t.shape[0]):
                 self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time   
                 
             var_name ='residence_time_source_' + source.zfill(3)
@@ -369,7 +445,6 @@ class GridBasedMeasures:
         
         ds = xr.open_dataset(self.netcdf_output_file)
 
-        
         # Compute concentrations: total number of particles
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = len(self.pvd_data.vtu_data)
@@ -477,7 +552,7 @@ def main():
         
     for recipe in recipeXML:
         outDirLocal = outDir + '/postProcess_' +os.path.basename(os_dir.filename_without_ext(recipe))
-        post = GridBasedMeasures(caseXML, outDir, outDirLocal)
+        post = GridBasedMeasures(caseXML, recipe, outDir, outDirLocal)
         measures = getFieldsFromRecipe(recipe)
         post.run_postprocessing(outDir, measures)
 
