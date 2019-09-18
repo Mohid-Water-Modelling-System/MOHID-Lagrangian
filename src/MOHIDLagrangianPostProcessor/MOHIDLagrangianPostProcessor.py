@@ -252,14 +252,18 @@ class GridBasedMeasures:
             }
         
         elif units_value == 'relative':
-            self.grid ={'longitude': np.linspace(x_min,x_max,x_step),
-            'latitude': np.linspace(y_min,y_max,y_step),
-            'depth': np.linspace(z_min,z_max,z_step)                   
+            self.grid ={'longitude': np.linspace(x_min,x_max,np.int(x_step)),
+            'latitude': np.linspace(y_min,y_max,np.int(y_step)),
+            'depth': np.linspace(z_min,z_max,np.int(z_step))                   
             }
         
         elif units_value == 'meters':
-            dlat_degrees = 6371837.*(np.pi/180.)*(y_max-y_min)
-            
+            y_c = (y_max+y_min)/2.
+            dlat = y_step/((np.pi/180.)*6371837.)
+            dlon = x_step/((np.pi/180.)*6371837. * np.cos((np.pi/180.)*(y_c)))
+            self.grid['latitude'] = np.arange(y_min,y_max,dlat)
+            self.grid['longitude'] = np.arange(x_min,x_max,dlon)
+            self.grid['depth'] = np.arange(z_min,z_max,z_step)
                                 
         for key,value in self.grid.items():
             self.centers[key] = (value[:-1] + value[1:])/2.
@@ -272,14 +276,14 @@ class GridBasedMeasures:
         #depths, lats, lons = np.meshgrid(self.grid['depth'],self.grid['latitude'],self.grid['longitude'],indexing='ij')
         #dx = (lons[1:]-lons[:-1])*(np.pi/180.)*6371837. * np.cos((np.pi/180.)*((lats[:-1] + lats[1:])/2.))
         
-        dx = (self.grid['longitude'][1:]-self.grid['longitude'][:-1])
-        dy = (self.grid['latitude'][1:]-self.grid['latitude'][:-1])
+        dlon = (self.grid['longitude'][1:]-self.grid['longitude'][:-1])
+        dlat = (self.grid['latitude'][1:]-self.grid['latitude'][:-1])
         y_c = (self.grid['latitude'][1:]+self.grid['latitude'][:-1])/2.
-        dlon = dx[np.newaxis,:]*(np.pi/180.)*6371837. * np.cos((np.pi/180.)*(y_c[:,np.newaxis]))
+        dx = dlon[np.newaxis,:]*(np.pi/180.)*6371837. * np.cos((np.pi/180.)*(y_c[:,np.newaxis]))
 
-        dlat = dy*(np.pi/180.)*6371837.
+        dy = dlat*(np.pi/180.)*6371837.
         dz = self.grid['depth'][1:]-self.grid['depth'][:-1]
-        self.area = dlon*dlat[:,np.newaxis]
+        self.area = dx*dy[:,np.newaxis]
         self.volume = dz[:,np.newaxis,np.newaxis]*self.area[np.newaxis,:,:]
         return
     
