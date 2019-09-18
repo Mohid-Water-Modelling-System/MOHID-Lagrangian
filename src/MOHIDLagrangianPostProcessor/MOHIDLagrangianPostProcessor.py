@@ -133,6 +133,8 @@ class GridBasedMeasures:
         self.volume = []
         self.variables = {}
         self.dims = ['time','depth','latitude','longitude']
+        self.time = []
+        self.timeMask = []
         self.netcdf_output_file = outdirLocal+'/'+os.path.basename(self.xml_file.replace('.xml','.nc'))
         if os.path.exists(outdirLocal):
             os_dir.deleteDirForce(outdirLocal)
@@ -155,6 +157,8 @@ class GridBasedMeasures:
 
         startTimeStamp = MDateTime.getTimeStampFromISODateString(self.start_time)
         self.time = np.array([startTimeStamp + i*self.dt/(3600.0*24.0) for i in range(0,self.nFiles)])
+        self.timeMask = np.ones(self.time.size,dtype=np.bool)
+        self.get_time_xml_recipe()
         
     
     def get_time_xml_recipe(self):
@@ -162,10 +166,10 @@ class GridBasedMeasures:
          for parameter in root.findall('time/'):
             if parameter.tag == 'start':
                 time_start = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
+                self.timeMask = self.timeMask & (self.time > time_start)
             if parameter.tag == 'end':
                 time_end = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
-         
-        
+                self.timeMask = self.timeMask & (self.time < time_end)
     
     
     def get_sources(self):
@@ -178,39 +182,8 @@ class GridBasedMeasures:
             # In a future releases if we are going to compute measures using 
             # integration time, we will 
     
+        
     def get_grid(self):
-        if len(self.xml_recipe) == 0:
-            self.get_grid_xml_global()
-        else: 
-            self.get_grid_xml_recipe()
-    
-    
-    def get_grid_xml_global(self):
-        
-        root = ET.parse(self.xml_file).getroot()
-
-        min_dict = root.find('caseDefinitions/simulation/BoundingBoxMin').attrib
-        max_dict = root.find('caseDefinitions/simulation/BoundingBoxMax').attrib
-        
-        min_dict = root.find('gridDefinitions/BoundingBoxMin').attrib
-        max_dict = root.find('gridDefinitions/BoundingBoxMax').attrib
-        
-        x_min, x_max = np.float(min_dict['x']),np.float(max_dict['x'])
-        y_min, y_max = np.float(min_dict['y']),np.float(max_dict['y'])
-        z_min, z_max = np.float(min_dict['z']),np.float(max_dict['z'])
-        
-        self.grid ={'longitude': np.arange(x_min,x_max,self.step[2]),
-            'latitude': np.arange(y_min,y_max,self.step[1]),
-            'depth': np.arange(z_min,z_max,self.step[0])                   
-            }
-        for key,value in self.grid.items():
-            self.centers[key] = (value[:-1] + value[1:])/2.
-            
-        return
-        
-        
-        
-    def get_grid_xml_recipe(self):
         root = ET.parse(self.xml_recipe).getroot()
         for parameter in root.findall('gridDefinition/'):
             if parameter.tag == 'BoundingBoxMin':
@@ -289,7 +262,7 @@ class GridBasedMeasures:
     
         
     def get_netcdf_header(self):
-        coords = {'time':('time',self.time),
+        coords = {'time':('time',self.time[self.timeMask]),
                   'depth': ('depth',self.centers['depth']),
                   'latitude' : ('latitude', self.centers['latitude']),
                   'longitude': ('longitude',self.centers['longitude']),
@@ -337,32 +310,37 @@ class GridBasedMeasures:
     def counts(self,source = None):
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
-        nt = self.nFiles
-        
+        nt = self.time[self.timeMask].size
         if nz > 1:
             counts_t = np.zeros((nt,nz,ny,nx))
             i = 0
+            t = 0
             for vtu_step in self.pvd_data.vtu_data:
-                position = vtu_step.points()
-                r = np.c_[position['depth'], position['latitude'], position['longitude']]
-                if source:
-                    source_mask = vtu_step.points()['source'] == int(source)
-                    r = r[source_mask]
-                bins = [self.grid['depth'],self.grid['latitude'],self.grid['longitude']]
-                counts_t[i], _ = np.histogramdd(r,bins=bins) 
-                i=i+1
+                if self.timeMask[t] == True:
+                    position = vtu_step.points()
+                    r = np.c_[position['depth'], position['latitude'], position['longitude']]
+                    if source:
+                        source_mask = vtu_step.points()['source'] == int(source)
+                        r = r[source_mask]
+                    bins = [self.grid['depth'],self.grid['latitude'],self.grid['longitude']]
+                    counts_t[i], _ = np.histogramdd(r,bins=bins) 
+                    i=i+1
+                t=t+1
         else:
             counts_t = np.zeros((nt,ny,nx))
-            i = 0 
+            i = 0
+            t = 0
             for vtu_step in self.pvd_data.vtu_data:
-                position = vtu_step.points()
-                r = np.c_[position['latitude'],position['longitude']]
-                if source:
-                    source_mask = vtu_step.points()['source'] == int(source)
-                    r = r[source_mask]
-                bins = [self.grid['latitude'],self.grid['longitude']]
-                counts_t[i], _ = np.histogramdd(r,bins=bins) 
-                i=i+1
+                if self.timeMask[t] == True:
+                    position = vtu_step.points()
+                    r = np.c_[position['latitude'],position['longitude']]
+                    if source:
+                        source_mask = vtu_step.points()['source'] == int(source)
+                        r = r[source_mask]
+                    bins = [self.grid['latitude'],self.grid['longitude']]
+                    counts_t[i], _ = np.histogramdd(r,bins=bins) 
+                    i=i+1
+                t=t+1
         
         return counts_t
         
