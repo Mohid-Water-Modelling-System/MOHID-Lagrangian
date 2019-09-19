@@ -40,18 +40,13 @@
 #    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #    SOFTWARE.
 
-from about import License
-import vtk
-from vtk.util.numpy_support import vtk_to_numpy
 import xml.etree.ElementTree as ET
 import numpy as np
 import xarray as xr
 import os
 import sys
 import argparse
-import glob
-from scipy.interpolate import griddata
-#from fastHistogram import histogramdd
+#from scipy.interpolate import griddata
 
 # This environment variable avoids error on locking file when writing.
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
@@ -63,54 +58,10 @@ sys.path.append(commonPath)
 import os_dir
 import MDateTime
 
-
-#class VTUParser:
-#    def __init__(self,vtu_file):
-#        self.vtu_file = vtu_file
-#        self.part_coords = ['longitude','latitude','depth']
-#        self.part_vars = ['coords','id','source','velocity']
-#        
-#        
-#    def points(self):
-#        reader = vtk.vtkXMLUnstructuredGridReader()
-#        reader.SetFileName(self.vtu_file)
-#        reader.Update()       
-#        vtu_vars = {}
-#        for var in self.part_vars:
-#            if var == 'coords':
-#                dim = 0
-#                for coord in self.part_coords:
-#                    vtu_vars[coord] = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,dim]
-#                    dim = dim +1
-#            else:
-#                vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
-#        return vtu_vars
-
-class VTUParser:
-    def __init__(self,vtu_file):
-        self.vtu_file = vtu_file
-        self.part_coords = ['longitude','latitude','depth']
-        self.part_vars = ['coords','id','source','velocity']
-        
-        
-    def points(self,var):
-        reader = vtk.vtkXMLUnstructuredGridReader()
-        reader.SetFileName(self.vtu_file)
-        reader.Update()
-        if var == 'coords':
-            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
-        else:
-            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
-        return vtu_vars
+from about import License
+import vtuParser
              
-
-def validVtuFilesList(directory):
-    vtu_list = glob.glob(directory+'/*_?????.vtu')
-    vtu_list.sort()
-    vtu_list = vtu_list[1:]            
-    return vtu_list
-
-        
+ 
 class PVDParser:
     
     def __init__(self,pvd_file):
@@ -121,10 +72,10 @@ class PVDParser:
         self.vtu_data = []
     
     def get_vtu_files(self, outDir):
-        self.vtu_list = validVtuFilesList(outDir)
+        self.vtu_list = vtuParser.validVtuFilesList(outDir)
         for vtu_file in self.vtu_list:
             self.files.append(vtu_file)
-            self.vtu_data.append(VTUParser(vtu_file))
+            self.vtu_data.append(vtuParser.VTUParser(vtu_file))
     
 
 class GridBasedMeasures:
@@ -133,7 +84,7 @@ class GridBasedMeasures:
         self.xml_recipe = xml_recipe
         self.pvd_file = outdir +'/'+self.xml_file.replace('.xml','.pvd')
         self.pvd_data = PVDParser(self.pvd_file)
-        self.nFiles = len(validVtuFilesList(outdir))
+        self.nFiles = len(vtuParser.validVtuFilesList(outdir))
         self.sources = {'id':{}}
         self.grid_steps = [50.,0.005,0.005]
         self.ISO_time_origin = MDateTime.getDateStringFromDateTime(MDateTime.BaseDateTime())
@@ -509,8 +460,8 @@ def main():
     recipeXML.append(getattr(args,'recipeXML'))
     outDir = getattr(args,'outDir')
     
-    print('-> Case definition file is ', caseXML)
-    print('-> Main output directory is ', outDir)
+    print('-> Case definition file is', caseXML)
+    print('-> Main output directory is', outDir)
     
     #get list of post cicles to run
     if recipeXML == [None]:
@@ -518,6 +469,7 @@ def main():
         recipeXML = getRecipeListFromCase(caseXML)
         
     for recipe in recipeXML:
+        print('-> Running recipe', recipe)
         outDirLocal = outDir + '/postProcess_' +os.path.basename(os_dir.filename_without_ext(recipe))
         post = GridBasedMeasures(caseXML, recipe, outDir, outDirLocal)
         measures = getFieldsFromRecipe(recipe)
