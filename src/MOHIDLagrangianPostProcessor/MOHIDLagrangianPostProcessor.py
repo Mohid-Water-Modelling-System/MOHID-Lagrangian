@@ -64,6 +64,28 @@ import os_dir
 import MDateTime
 
 
+#class VTUParser:
+#    def __init__(self,vtu_file):
+#        self.vtu_file = vtu_file
+#        self.part_coords = ['longitude','latitude','depth']
+#        self.part_vars = ['coords','id','source','velocity']
+#        
+#        
+#    def points(self):
+#        reader = vtk.vtkXMLUnstructuredGridReader()
+#        reader.SetFileName(self.vtu_file)
+#        reader.Update()       
+#        vtu_vars = {}
+#        for var in self.part_vars:
+#            if var == 'coords':
+#                dim = 0
+#                for coord in self.part_coords:
+#                    vtu_vars[coord] = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,dim]
+#                    dim = dim +1
+#            else:
+#                vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
+#        return vtu_vars
+
 class VTUParser:
     def __init__(self,vtu_file):
         self.vtu_file = vtu_file
@@ -71,19 +93,14 @@ class VTUParser:
         self.part_vars = ['coords','id','source','velocity']
         
         
-    def points(self):
+    def points(self,var):
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.vtu_file)
-        reader.Update()       
-        vtu_vars = {}
-        for var in self.part_vars:
-            if var == 'coords':
-                dim = 0
-                for coord in self.part_coords:
-                    vtu_vars[coord] = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,dim]
-                    dim = dim +1
-            else:
-                vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
+        reader.Update()
+        if var == 'coords':
+            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
+        else:
+            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
         return vtu_vars
              
 
@@ -104,12 +121,9 @@ class PVDParser:
         self.vtu_data = []
     
     def get_vtu_files(self, outDir):
-        #tree = ET.parse(self.pvd_file)
-        #self.vtu_list = tree.find('Collection')[:]
         self.vtu_list = validVtuFilesList(outDir)
         for vtu_file in self.vtu_list:
             self.files.append(vtu_file)
-            #self.timesteps.append(float(vtu_file.attrib['timestep']))
             self.vtu_data.append(VTUParser(vtu_file))
     
 
@@ -175,6 +189,7 @@ class GridBasedMeasures:
         for source in tree.find('caseDefinitions/sourceDefinitions')[:]:
             id_source = source.find('setsource').attrib['id']
             dict_source[id_source] = None
+        dict_source['global'] = None
         self.sources['id'] = dict_source
             # at the moment we don't require specific information just the ids.
             # In a future releases if we are going to compute measures using 
@@ -218,11 +233,13 @@ class GridBasedMeasures:
                         'depth': np.arange(z_min,z_max,z_step)                   
             }        
         elif units_value == 'relative':
-            if z_step < 3: z_step = 3
+            
             self.grid ={'longitude': np.linspace(x_min,x_max,np.int(x_step)),
                         'latitude': np.linspace(y_min,y_max,np.int(y_step)),
-                        'depth': np.linspace(z_min,z_max,np.int(z_step))                   
-            }        
+                        'depth': np.linspace(z_min,z_max,np.int(z_step))}
+            if z_step < 2:
+                self.grid['depth'] = np.array([z_min,z_max])
+    
         elif units_value == 'meters':
             y_c = (y_max+y_min)/2.
             dlat = y_step/((np.pi/180.)*6371837.)
@@ -293,7 +310,7 @@ class GridBasedMeasures:
         return
 
     
-    def counts(self,source = None):
+    def counts(self,source = 'global'):
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
@@ -301,92 +318,84 @@ class GridBasedMeasures:
         counts_t = np.zeros((nt,nz,ny,nx))
         i = 0
         t = 0
+        bins = [self.grid['depth'],self.grid['latitude'],self.grid['longitude']]
         for vtu_step in self.pvd_data.vtu_data:
             if self.timeMask[t] == True:
-                position = vtu_step.points()
-                r = np.c_[position['depth'], position['latitude'], position['longitude']]
-                if source:
-                    source_mask = vtu_step.points()['source'] == int(source)
+                r = vtu_step.points('coords')
+                if source != 'global':
+                    source_mask = vtu_step.points('source') == int(source)
                     r = r[source_mask]
-                bins = [self.grid['depth'],self.grid['latitude'],self.grid['longitude']]
                 counts_t[i], _ = np.histogramdd(r,bins=bins) 
                 i=i+1
             t=t+1
-#        else:
-#            counts_t = np.zeros((nt,ny,nx))
-#            i = 0
-#            t = 0
-#            for vtu_step in self.pvd_data.vtu_data:
-#                if self.timeMask[t] == True:
-#                    position = vtu_step.points()
-#                    r = np.c_[position['latitude'],position['longitude']]
-#                    if source:
-#                        source_mask = vtu_step.points()['source'] == int(source)
-#                        r = r[source_mask]
-#                    bins = [self.grid['latitude'],self.grid['longitude']]
-#                    counts_t[i], _ = np.histogramdd(r,bins=bins) 
-#                    i=i+1
-#                t=t+1        
+       
         return counts_t
     
+    def general_counting(self,measures):
+        for source in self.sources['id'].keys():
+            counts_t = self.counts(source=source)
+        
+            if 'residence_time' in measures: self.writeResidence_time(counts_t, source)
+            if 'concentrations' in measures: self.writeConcentrations(counts_t, source)
                 
-    def writeResidence_time(self):        
-        print('--> Computing residence time on grid')        
+    def writeResidence_time(self,counts_t,source):        
+        print('--> Computing residence time on grid for source:' + source)        
         # Read netcdf, compute concentrations, compute residence tiem
         # compute global 
-        ds = xr.open_dataset(self.netcdf_output_file)        
-        counts_t = self.counts()
-        self.residence_time = np.zeros(counts_t.shape[1:])
-        for t_s in range(0,counts_t.shape[0]):
-            self.residence_time = (counts_t[t_s]>0) * self.dt + self.residence_time            
-        ds['residence_time_global'] = (['depth','latitude','longitude'], self.residence_time)
-        ds.close()
-        ds.to_netcdf(self.netcdf_output_file,'a')           
+#        ds = xr.open_dataset(self.netcdf_output_file)        
+#        counts_t = self.counts()
+#        self.residence_time = np.zeros(counts_t.shape[1:])
+#        for t_s in range(0,counts_t.shape[0]):
+#            self.residence_time = (counts_t[t_s]>0) * self.dt + self.residence_time            
+#        ds['residence_time_global'] = (self.dims[1:], self.residence_time)
+#        ds.close()
+#        ds.to_netcdf(self.netcdf_output_file,'a')           
         
         # compute per source        
-        for source in self.sources['id'].keys():  
-            ds = xr.open_dataset(self.netcdf_output_file) 
-            counts_t = self.counts(source=source)
-            self.residence_time = np.zeros(counts_t.shape[1:])
-            for t_s in range(0,counts_t.shape[0]):
-                self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time                   
-            var_name ='residence_time_source_' + source.zfill(3)
-            ds[var_name] = (self.dims[1:],self.residence_time)
-            ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
-            ds.close()
-            ds.to_netcdf(self.netcdf_output_file,'a')        
+#        for source in self.sources['id'].keys():
+#            counts_t = self.counts(source=source)
+        ds = xr.open_dataset(self.netcdf_output_file) 
+        self.residence_time = np.zeros(counts_t.shape[1:])
+        for t_s in range(0,counts_t.shape[0]):
+            self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time                   
+        var_name ='residence_time_source_' + source.zfill(3)
+        ds[var_name] = (self.dims[1:],self.residence_time)
+        ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
+        ds.close()
+        ds.to_netcdf(self.netcdf_output_file,'a')        
         return
  
     
-    def writeConcentrations(self):        
-        print('--> Computing concentrations on grid')
-        ds = xr.open_dataset(self.netcdf_output_file)        
-        # Compute concentrations: total number of particles
-        counts_t = self.counts()        
-        conc_area = counts_t.sum(axis=1)/self.area
-        conc_volume = counts_t/self.volume
-        ds['concentration_area'] = (['time','latitude','longitude'], conc_area)
-        ds['concentration_volume'] = (self.dims, conc_volume)
-        ds.close()
-        ds.to_netcdf(self.netcdf_output_file,'a')   
+    def writeConcentrations(self,counts_t,source):        
+        print('--> Computing concentrations on grid for source:' + source)
+#        ds = xr.open_dataset(self.netcdf_output_file)        
+#        # Compute concentrations: total number of particles
+#        counts_t = self.counts()        
+#        conc_area = counts_t.sum(axis=1)/self.area
+#        conc_volume = counts_t/self.volume
+#        ds['concentration_area'] = (['time','latitude','longitude'], conc_area)
+#        ds['concentration_volume'] = (self.dims, conc_volume)
+#        ds.close()
+#        ds.to_netcdf(self.netcdf_output_file,'a')   
         # Compute concentrations: particles of each source        
-        for source in self.sources['id'].keys():
-            ds = xr.open_dataset(self.netcdf_output_file)
-            counts_t = self.counts(source=source)
-            conc_area = counts_t.sum(axis=1)/self.area
-            conc_volume = counts_t/self.volume        
-            var_name_as = 'concentration_area_source_' + source.zfill(3)
-            ds[var_name_as] = (['time','latitude','longitude'], conc_area)
-            ds[var_name_as].attrs = {'long_name':'concentration',
-                                      'units':'ppm*m'}            
-            var_name_vs = 'concentration_volume_source_' + source.zfill(3)
-            ds[var_name_vs] = (self.dims, conc_volume)
-            ds[var_name_vs].attrs = {'long_name':'concentration',
-                                      'units':'ppm*m*m'}        
-            ds.close()
-            ds.to_netcdf(self.netcdf_output_file,'a')        
+#        for source in self.sources['id'].keys():
+#        counts_t = self.counts(source=source)
+        ds = xr.open_dataset(self.netcdf_output_file)
+        conc_area = counts_t.sum(axis=1)/self.area
+        conc_volume = counts_t/self.volume        
+        var_name_as = 'concentration_area_source_' + source.zfill(3)
+        ds[var_name_as] = (['time','latitude','longitude'], conc_area)
+        ds[var_name_as].attrs = {'long_name':'concentration',
+                                  'units':'ppm*m'}            
+        var_name_vs = 'concentration_volume_source_' + source.zfill(3)
+        ds[var_name_vs] = (self.dims, conc_volume)
+        ds[var_name_vs].attrs = {'long_name':'concentration',
+                                  'units':'ppm*m*m'}        
+        ds.close()
+        ds.to_netcdf(self.netcdf_output_file,'a')
         return
 
+       
     
     def writeCount(self):         
         print('--> Sampling tracers on grid')
@@ -394,8 +403,7 @@ class GridBasedMeasures:
         ds['number_of_tracers'] = (self.dims, self.counts())
         ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
-        
-    
+            
     def writeVolume(self):         
         print('--> Writing grid cell volumes')
         ds = xr.open_dataset(self.netcdf_output_file)
@@ -457,11 +465,12 @@ class GridBasedMeasures:
         #writting fields
         self.writeCount()
         self.writeVolume()
+        self.general_counting(measures)
         #self.write('volume')
-        if 'concentrations' in measures:
-            self.writeConcentrations()
-        if 'residence_time' in measures:
-            self.writeResidence_time()
+#        if 'concentrations' in measures:
+#            self.writeConcentrations()
+#        if 'residence_time' in measures:
+#            self.writeResidence_time()
 
         
 def getRecipeListFromCase(xmlFile):

@@ -143,7 +143,7 @@
             allocate(data_out(size(self%dataMatrix,1)))
             data_out = self%dataMatrix(:,idx)
         
-            end subroutine getDataByLabel
+        end subroutine getDataByLabel
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
