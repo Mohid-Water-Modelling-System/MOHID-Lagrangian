@@ -189,6 +189,7 @@ class GridBasedMeasures:
         for source in tree.find('caseDefinitions/sourceDefinitions')[:]:
             id_source = source.find('setsource').attrib['id']
             dict_source[id_source] = None
+        dict_source['global'] = None
         self.sources['id'] = dict_source
             # at the moment we don't require specific information just the ids.
             # In a future releases if we are going to compute measures using 
@@ -309,7 +310,7 @@ class GridBasedMeasures:
         return
 
     
-    def counts(self,source = None):
+    def counts(self,source = 'global'):
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
@@ -321,7 +322,7 @@ class GridBasedMeasures:
         for vtu_step in self.pvd_data.vtu_data:
             if self.timeMask[t] == True:
                 r = vtu_step.points('coords')
-                if source:
+                if source != 'global':
                     source_mask = vtu_step.points('source') == int(source)
                     r = r[source_mask]
                 counts_t[i], _ = np.histogramdd(r,bins=bins) 
@@ -330,64 +331,71 @@ class GridBasedMeasures:
        
         return counts_t
     
+    def general_counting(self,measures):
+        for source in self.sources['id'].keys():
+            counts_t = self.counts(source=source)
+        
+            if 'residence_time' in measures: self.writeResidence_time(counts_t, source)
+            if 'concentrations' in measures: self.writeConcentrations(counts_t, source)
                 
-    def writeResidence_time(self):        
-        print('--> Computing residence time on grid')        
+    def writeResidence_time(self,counts_t,source):        
+        print('--> Computing residence time on grid for source:' + source)        
         # Read netcdf, compute concentrations, compute residence tiem
         # compute global 
-        ds = xr.open_dataset(self.netcdf_output_file)        
-        counts_t = self.counts()
-        self.residence_time = np.zeros(counts_t.shape[1:])
-        for t_s in range(0,counts_t.shape[0]):
-            self.residence_time = (counts_t[t_s]>0) * self.dt + self.residence_time            
-        ds['residence_time_global'] = (['depth','latitude','longitude'], self.residence_time)
-        ds.close()
-        ds.to_netcdf(self.netcdf_output_file,'a')           
+#        ds = xr.open_dataset(self.netcdf_output_file)        
+#        counts_t = self.counts()
+#        self.residence_time = np.zeros(counts_t.shape[1:])
+#        for t_s in range(0,counts_t.shape[0]):
+#            self.residence_time = (counts_t[t_s]>0) * self.dt + self.residence_time            
+#        ds['residence_time_global'] = (self.dims[1:], self.residence_time)
+#        ds.close()
+#        ds.to_netcdf(self.netcdf_output_file,'a')           
         
         # compute per source        
-        for source in self.sources['id'].keys():  
-            ds = xr.open_dataset(self.netcdf_output_file) 
-            counts_t = self.counts(source=source)
-            self.residence_time = np.zeros(counts_t.shape[1:])
-            for t_s in range(0,counts_t.shape[0]):
-                self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time                   
-            var_name ='residence_time_source_' + source.zfill(3)
-            ds[var_name] = (self.dims[1:],self.residence_time)
-            ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
-            ds.close()
-            ds.to_netcdf(self.netcdf_output_file,'a')        
+#        for source in self.sources['id'].keys():
+#            counts_t = self.counts(source=source)
+        ds = xr.open_dataset(self.netcdf_output_file) 
+        self.residence_time = np.zeros(counts_t.shape[1:])
+        for t_s in range(0,counts_t.shape[0]):
+            self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time                   
+        var_name ='residence_time_source_' + source.zfill(3)
+        ds[var_name] = (self.dims[1:],self.residence_time)
+        ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
+        ds.close()
+        ds.to_netcdf(self.netcdf_output_file,'a')        
         return
  
     
-    def writeConcentrations(self):        
-        print('--> Computing concentrations on grid')
-        ds = xr.open_dataset(self.netcdf_output_file)        
-        # Compute concentrations: total number of particles
-        counts_t = self.counts()        
-        conc_area = counts_t.sum(axis=1)/self.area
-        conc_volume = counts_t/self.volume
-        ds['concentration_area'] = (['time','latitude','longitude'], conc_area)
-        ds['concentration_volume'] = (self.dims, conc_volume)
-        ds.close()
-        ds.to_netcdf(self.netcdf_output_file,'a')   
+    def writeConcentrations(self,counts_t,source):        
+        print('--> Computing concentrations on grid for source:' + source)
+#        ds = xr.open_dataset(self.netcdf_output_file)        
+#        # Compute concentrations: total number of particles
+#        counts_t = self.counts()        
+#        conc_area = counts_t.sum(axis=1)/self.area
+#        conc_volume = counts_t/self.volume
+#        ds['concentration_area'] = (['time','latitude','longitude'], conc_area)
+#        ds['concentration_volume'] = (self.dims, conc_volume)
+#        ds.close()
+#        ds.to_netcdf(self.netcdf_output_file,'a')   
         # Compute concentrations: particles of each source        
-        for source in self.sources['id'].keys():
-            ds = xr.open_dataset(self.netcdf_output_file)
-            counts_t = self.counts(source=source)
-            conc_area = counts_t.sum(axis=1)/self.area
-            conc_volume = counts_t/self.volume        
-            var_name_as = 'concentration_area_source_' + source.zfill(3)
-            ds[var_name_as] = (['time','latitude','longitude'], conc_area)
-            ds[var_name_as].attrs = {'long_name':'concentration',
-                                      'units':'ppm*m'}            
-            var_name_vs = 'concentration_volume_source_' + source.zfill(3)
-            ds[var_name_vs] = (self.dims, conc_volume)
-            ds[var_name_vs].attrs = {'long_name':'concentration',
-                                      'units':'ppm*m*m'}        
-            ds.close()
-            ds.to_netcdf(self.netcdf_output_file,'a')        
+#        for source in self.sources['id'].keys():
+#        counts_t = self.counts(source=source)
+        ds = xr.open_dataset(self.netcdf_output_file)
+        conc_area = counts_t.sum(axis=1)/self.area
+        conc_volume = counts_t/self.volume        
+        var_name_as = 'concentration_area_source_' + source.zfill(3)
+        ds[var_name_as] = (['time','latitude','longitude'], conc_area)
+        ds[var_name_as].attrs = {'long_name':'concentration',
+                                  'units':'ppm*m'}            
+        var_name_vs = 'concentration_volume_source_' + source.zfill(3)
+        ds[var_name_vs] = (self.dims, conc_volume)
+        ds[var_name_vs].attrs = {'long_name':'concentration',
+                                  'units':'ppm*m*m'}        
+        ds.close()
+        ds.to_netcdf(self.netcdf_output_file,'a')
         return
 
+       
     
     def writeCount(self):         
         print('--> Sampling tracers on grid')
@@ -395,8 +403,7 @@ class GridBasedMeasures:
         ds['number_of_tracers'] = (self.dims, self.counts())
         ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
-        
-    
+            
     def writeVolume(self):         
         print('--> Writing grid cell volumes')
         ds = xr.open_dataset(self.netcdf_output_file)
@@ -458,11 +465,12 @@ class GridBasedMeasures:
         #writting fields
         self.writeCount()
         self.writeVolume()
+        self.general_counting(measures)
         #self.write('volume')
-        if 'concentrations' in measures:
-            self.writeConcentrations()
-        if 'residence_time' in measures:
-            self.writeResidence_time()
+#        if 'concentrations' in measures:
+#            self.writeConcentrations()
+#        if 'residence_time' in measures:
+#            self.writeResidence_time()
 
         
 def getRecipeListFromCase(xmlFile):
