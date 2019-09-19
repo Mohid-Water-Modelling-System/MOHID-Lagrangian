@@ -96,12 +96,11 @@ class VTUParser:
     def points(self,var):
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.vtu_file)
-        reader.Update()       
-        vtu_vars = {}
+        reader.Update()
         if var == 'coords':
-            vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
+            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
         else:
-            vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
+            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
         return vtu_vars
              
 
