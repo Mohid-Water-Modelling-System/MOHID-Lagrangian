@@ -343,8 +343,6 @@
             allocate(self%BlockState(i)%active(self%trcType(i,2)))
             allocate(self%BlockState(i)%source(self%trcType(i,2)))
             allocate(self%BlockState(i)%id(self%trcType(i,2)))
-            allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
-            self%BlockState(i)%landMask = Globals%Mask%waterVal
             allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))            
             self%BlockState(i)%landIntMask = Globals%Mask%waterVal
             allocate(self%BlockState(i)%resolution(self%trcType(i,2)))

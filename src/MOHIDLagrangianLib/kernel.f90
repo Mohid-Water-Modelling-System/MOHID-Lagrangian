@@ -100,7 +100,6 @@
     type(string), dimension(:), allocatable :: requiredVars
 
     allocate(requiredVars(3))
-    requiredVars(1) = Globals%Var%landMask
     requiredVars(2) = Globals%Var%landIntMask
     requiredVars(3) = Globals%Var%resolution
     
@@ -124,16 +123,11 @@
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
 
-                !update land mask status
-                nf = Utils%find_str(var_name, Globals%Var%landMask)
-                sv%landMask = nint(var_dt(:,nf))
-                !marking tracers for deletion because they are in land
-                !where(sv%landMask == Globals%Mask%landVal) sv%active = .false.
-                
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
-                where(int(sv%landIntMask+Globals%Mask%landVal*0.1) == Globals%Mask%landVal) sv%active = .false.
+                !marking tracers for deletion because they are in land
+                where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
                 !update resolution proxy
                 nf = Utils%find_str(var_name, Globals%Var%resolution)
                 sv%resolution = var_dt(:,nf)

@@ -153,7 +153,6 @@
         type(string) :: level
         type(string) :: time
         type(string) :: landIntMask
-        type(string) :: landMask
         type(string) :: resolution
         type(string) :: rate
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
@@ -354,7 +353,6 @@
     self%lat     = 'lat'
     self%level   = 'level'
     self%time    = 'time'
-    self%landMask    = 'landMask'
     self%landIntMask = 'landIntMask'
     self%resolution = 'resolution'
     self%rate = 'rate'
