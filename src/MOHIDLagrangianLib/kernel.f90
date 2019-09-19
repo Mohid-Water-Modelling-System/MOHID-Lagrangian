@@ -84,7 +84,8 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Sets the state vector land interaction mask values and corrects for
-    !> maximum level of tracers
+    !> maximum level of tracers.
+    !> Accounts for global periodicity.
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     subroutine setCommonProcesses(self, sv, bdata, time)
@@ -102,6 +103,10 @@
     requiredVars(1) = Globals%Var%landMask
     requiredVars(2) = Globals%Var%landIntMask
     requiredVars(3) = Globals%Var%resolution
+    
+    ! global periodicity conditions
+    where (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
+    where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
 
     !interpolate each background
     do bkg = 1, size(bdata)
