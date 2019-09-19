@@ -128,10 +128,12 @@
                 nf = Utils%find_str(var_name, Globals%Var%landMask)
                 sv%landMask = nint(var_dt(:,nf))
                 !marking tracers for deletion because they are in land
-                where(sv%landMask == 2) sv%active = .false.
+                !where(sv%landMask == Globals%Mask%landVal) sv%active = .false.
+                
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
+                where(int(sv%landIntMask+Globals%Mask%landVal*0.1) == Globals%Mask%landVal) sv%active = .false.
                 !update resolution proxy
                 nf = Utils%find_str(var_name, Globals%Var%resolution)
                 sv%resolution = var_dt(:,nf)

@@ -503,7 +503,7 @@
     logical, allocatable, dimension(:,:,:) :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d, beach3d
     logical, allocatable, dimension(:,:,:,:) :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, shiftdownlat4d, shiftUpLevel, shiftDownLevel, beach4d, bed4d
     type(string) :: outext
-    integer :: dimIndx
+    integer :: dimIndx, k
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
@@ -516,17 +516,23 @@
                 allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 shiftleftlon3d = .false.
-                shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) /= 0.0
                 shiftrigthlon3d = .false.
-                shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) /= 0.0
                 shiftuplat3d = .false.
-                shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) /= 0.0
                 shiftdownlat3d = .false.
-                shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
+                shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) /= 0.0
                 beach3d = .false.
                 beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d !colapsing all the shifts
-                beach3d = beach3d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
+                beach3d = beach3d .and. (curr%field == Globals%Mask%waterVal) !just points that were already wet
                 where(beach3d) curr%field = Globals%Mask%beachVal
+                !searching for areas that are beach and land and mark them as beach only 
+                do k=1, size(curr%field,3)
+                    beach3d(:,:,1) = beach3d(:,:,1) .or. beach3d(:,:,k)
+                    beach3d(:,:,k) = beach3d(:,:,1)
+                end do
+                where ((curr%field == Globals%Mask%landVal) .and. beach3d) curr%field = Globals%Mask%beachVal
             end if
         class is (scalar4d_field_class)
             if (curr%name == Globals%Var%landIntMask) then
@@ -552,7 +558,7 @@
                 shiftDownLevel(:,:,:size(curr%field,3)-1,:) = abs(curr%field(:,:,:size(curr%field,3)-1,:) - curr%field(:,:,2:,:)) /= 0.0
                 beach4d = .false.
                 beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. shiftDownLevel .or. shiftUpLevel !colapsing all the shifts
-                !beach4d = beach4d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
+                beach4d = beach4d .and. (curr%field == Globals%Mask%waterVal) !just points that were already wet
                 bed4d = beach4d
                 dimIndx = self%getDimIndex(Globals%Var%level)
                 dimIndx = minloc(abs(self%dim(dimIndx)%field - Globals%Constants%BeachingLevel),1)
@@ -560,6 +566,12 @@
                 bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
                 where(beach4d) curr%field = Globals%Mask%beachVal
                 where(bed4d) curr%field = Globals%Mask%bedVal
+                !searching for areas that are beach and land and mark them as beach only 
+                do k=1, size(curr%field,4)
+                    beach4d(:,:,:,1) = beach4d(:,:,:,1) .or. beach4d(:,:,:,k)
+                    beach4d(:,:,:,k) = beach4d(:,:,:,1)
+                end do
+                where ((curr%field == Globals%Mask%landVal) .and. beach4d) curr%field = Globals%Mask%beachVal
             end if
             class default
             outext = '[background_class::makeLandMaskField] Unexepected type of content, not a 3D or 4D scalar Field'
