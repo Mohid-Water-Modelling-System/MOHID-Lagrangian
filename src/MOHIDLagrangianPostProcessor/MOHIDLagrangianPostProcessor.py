@@ -64,6 +64,28 @@ import os_dir
 import MDateTime
 
 
+#class VTUParser:
+#    def __init__(self,vtu_file):
+#        self.vtu_file = vtu_file
+#        self.part_coords = ['longitude','latitude','depth']
+#        self.part_vars = ['coords','id','source','velocity']
+#        
+#        
+#    def points(self):
+#        reader = vtk.vtkXMLUnstructuredGridReader()
+#        reader.SetFileName(self.vtu_file)
+#        reader.Update()       
+#        vtu_vars = {}
+#        for var in self.part_vars:
+#            if var == 'coords':
+#                dim = 0
+#                for coord in self.part_coords:
+#                    vtu_vars[coord] = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,dim]
+#                    dim = dim +1
+#            else:
+#                vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
+#        return vtu_vars
+
 class VTUParser:
     def __init__(self,vtu_file):
         self.vtu_file = vtu_file
@@ -71,19 +93,15 @@ class VTUParser:
         self.part_vars = ['coords','id','source','velocity']
         
         
-    def points(self):
+    def points(self,var):
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.vtu_file)
         reader.Update()       
         vtu_vars = {}
-        for var in self.part_vars:
-            if var == 'coords':
-                dim = 0
-                for coord in self.part_coords:
-                    vtu_vars[coord] = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,dim]
-                    dim = dim +1
-            else:
-                vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
+        if var == 'coords':
+            vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
+        else:
+            vtu_vars[var] = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
         return vtu_vars
              
 
@@ -104,12 +122,9 @@ class PVDParser:
         self.vtu_data = []
     
     def get_vtu_files(self, outDir):
-        #tree = ET.parse(self.pvd_file)
-        #self.vtu_list = tree.find('Collection')[:]
         self.vtu_list = validVtuFilesList(outDir)
         for vtu_file in self.vtu_list:
             self.files.append(vtu_file)
-            #self.timesteps.append(float(vtu_file.attrib['timestep']))
             self.vtu_data.append(VTUParser(vtu_file))
     
 
@@ -218,11 +233,13 @@ class GridBasedMeasures:
                         'depth': np.arange(z_min,z_max,z_step)                   
             }        
         elif units_value == 'relative':
-            if z_step < 3: z_step = 3
+            
             self.grid ={'longitude': np.linspace(x_min,x_max,np.int(x_step)),
                         'latitude': np.linspace(y_min,y_max,np.int(y_step)),
-                        'depth': np.linspace(z_min,z_max,np.int(z_step))                   
-            }        
+                        'depth': np.linspace(z_min,z_max,np.int(z_step))}
+            if z_step < 2:
+                self.grid['depth'] = np.array([z_min,z_max])
+    
         elif units_value == 'meters':
             y_c = (y_max+y_min)/2.
             dlat = y_step/((np.pi/180.)*6371837.)
@@ -301,32 +318,17 @@ class GridBasedMeasures:
         counts_t = np.zeros((nt,nz,ny,nx))
         i = 0
         t = 0
+        bins = [self.grid['depth'],self.grid['latitude'],self.grid['longitude']]
         for vtu_step in self.pvd_data.vtu_data:
             if self.timeMask[t] == True:
-                position = vtu_step.points()
-                r = np.c_[position['depth'], position['latitude'], position['longitude']]
+                r = vtu_step.points('coords')
                 if source:
-                    source_mask = vtu_step.points()['source'] == int(source)
+                    source_mask = vtu_step.points('source') == int(source)
                     r = r[source_mask]
-                bins = [self.grid['depth'],self.grid['latitude'],self.grid['longitude']]
                 counts_t[i], _ = np.histogramdd(r,bins=bins) 
                 i=i+1
             t=t+1
-#        else:
-#            counts_t = np.zeros((nt,ny,nx))
-#            i = 0
-#            t = 0
-#            for vtu_step in self.pvd_data.vtu_data:
-#                if self.timeMask[t] == True:
-#                    position = vtu_step.points()
-#                    r = np.c_[position['latitude'],position['longitude']]
-#                    if source:
-#                        source_mask = vtu_step.points()['source'] == int(source)
-#                        r = r[source_mask]
-#                    bins = [self.grid['latitude'],self.grid['longitude']]
-#                    counts_t[i], _ = np.histogramdd(r,bins=bins) 
-#                    i=i+1
-#                t=t+1        
+       
         return counts_t
     
                 
