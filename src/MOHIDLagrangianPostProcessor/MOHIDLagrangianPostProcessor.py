@@ -234,11 +234,11 @@ class GridBasedMeasures:
             }        
         elif units_value == 'relative':
             
-            self.grid ={'longitude': np.linspace(x_min,x_max,np.int(x_step)),
-                        'latitude': np.linspace(y_min,y_max,np.int(y_step)),
-                        'depth': np.linspace(z_min,z_max,np.int(z_step))}
-            if z_step < 2:
-                self.grid['depth'] = np.array([z_min,z_max])
+            self.grid ={'longitude': np.linspace(x_min,x_max,np.int(x_step+1)),
+                        'latitude': np.linspace(y_min,y_max,np.int(y_step+1)),
+                        'depth': np.linspace(z_min,z_max,np.int(z_step+1))}
+            #if z_step < 2:
+            #    self.grid['depth'] = np.array([z_min,z_max])
     
         elif units_value == 'meters':
             y_c = (y_max+y_min)/2.
