@@ -6,9 +6,6 @@
 	</measures>
 	<gridDefinition>
 		<units value= "relative"/>
-		<resolution x="100" y="100" z="2"/>
+		<resolution x="200" y="200" z="2"/>
 	</gridDefinition>
-	<convertFiles>
-		<format key="hdf5"/>
-	</convertFiles>
 </postProcessing>

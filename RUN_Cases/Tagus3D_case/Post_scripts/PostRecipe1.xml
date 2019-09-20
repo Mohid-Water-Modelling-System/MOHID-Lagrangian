@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<postProcessing>
+<postProcessing>	
 	<measures>
-		<field key = "residence_time"/>
+		<field key="residence_time"/>
 	</measures>
 	<gridDefinition>
-		<units value= "meters"/>
+		<units value="meters"/>
 		<resolution x="500" y="1500" z="100"/>
 	</gridDefinition>
 </postProcessing>
