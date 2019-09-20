@@ -6,14 +6,14 @@ import glob
 
 class VTUParser:
     def __init__(self,vtu_file):
-        self.vtu_file = vtu_file
+        self.fileName = vtu_file
         self.part_coords = ['longitude','latitude','depth']
         self.part_vars = ['coords','id','source','velocity']
         
         
     def points(self,var):
         reader = vtk.vtkXMLUnstructuredGridReader()
-        reader.SetFileName(self.vtu_file)
+        reader.SetFileName(self.fileName)
         reader.Update()
         if var == 'coords':
             vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
