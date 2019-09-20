@@ -212,6 +212,11 @@
     procedure :: setCurrDateTime
     procedure :: getDateTimeStamp
     end type sim_time_t
+    
+    type :: sources_t
+        integer, allocatable, dimension(:) :: sourcesID
+    contains    
+    end type sources_t
 
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
@@ -225,6 +230,7 @@
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
         type(dataTypes_t)   :: DataTypes
+        type(sources_t)     :: Sources
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
