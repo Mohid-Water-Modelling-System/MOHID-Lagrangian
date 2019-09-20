@@ -60,6 +60,7 @@ import MDateTime
 
 from about import License
 import vtuParser
+import MOHIDLagrangianVTUtoHDF5
              
  
 class PVDParser:
@@ -440,6 +441,14 @@ def getFieldsFromRecipe(xmlFile):
         fieldList.append(fieldName.get('key'))    
     return fieldList
 
+def checkHDF5WriteRecipe(xmlFile):
+    convert = False
+    root = ET.parse(xmlFile).getroot()    
+    for formats in root.findall('convertFiles/format'):
+        if formats.get('key') == 'hdf5':
+            convert = True
+    return convert
+
 
 def main():
     lic = License()
@@ -474,5 +483,7 @@ def main():
         post = GridBasedMeasures(caseXML, recipe, outDir, outDirLocal)
         measures = getFieldsFromRecipe(recipe)
         post.run_postprocessing(outDir, measures)
+        if checkHDF5WriteRecipe(recipe):
+            MOHIDLagrangianVTUtoHDF5.run(caseXML, recipe, outDir)
 
 main()
