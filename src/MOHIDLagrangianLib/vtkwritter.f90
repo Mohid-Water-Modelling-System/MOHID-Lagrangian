@@ -130,7 +130,7 @@
                     error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%BlockState(b)%id, active))
                     error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%BlockState(b)%source, active))
                     error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%BlockState(b)%state(:,4), active), y=pack(blocks(i)%BlockState(b)%state(:,5), active), z=pack(blocks(i)%BlockState(b)%state(:,6), active))
-                    error = vtkfile%xml_writer%write_dataarray(data_name='State', x=pack(blocks(i)%BlockState(b)%landIntMask, active))
+                    error = vtkfile%xml_writer%write_dataarray(data_name='state', x=pack(blocks(i)%BlockState(b)%landIntMask, active))
                     !error = vtkfile%xml_writer%write_dataarray(data_name='resolution', x=pack(blocks(i)%BlockState(b)%resolution, active))
 
                     !optional variables to output
