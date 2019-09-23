@@ -150,7 +150,7 @@ class GridBasedMeasures:
         
     def get_grid(self):
         root = ET.parse(self.xml_recipe).getroot()
-        for parameter in root.findall('gridDefinition/'):
+        for parameter in root.findall('EulerianMeasures/gridDefinition/'):
             if parameter.tag == 'BoundingBoxMin':
                 x_min = np.float(parameter.get('x'))
                 y_min = np.float(parameter.get('y'))
@@ -437,7 +437,7 @@ def getRecipeListFromCase(xmlFile):
 def getFieldsFromRecipe(xmlFile):
     fieldList = []
     root = ET.parse(xmlFile).getroot()    
-    for fieldName in root.findall('measures/field'):
+    for fieldName in root.findall('EulerianMeasures/measures/field'):
         fieldList.append(fieldName.get('key'))    
     return fieldList
 
