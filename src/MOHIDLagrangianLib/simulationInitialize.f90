@@ -197,6 +197,7 @@
         call Log%put(outext,.false.)
     endif
     !calling the globals method to set the output variable field list
+    if (.not.allocated(fieldNameArray)) allocate(fieldNameArray(0))
     call Globals%Output%setOutputFields(fieldNameArray, toOutput)
 
     end subroutine setOutputFields

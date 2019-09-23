@@ -778,9 +778,11 @@
     type(string), dimension(:), intent(in) :: fields
     logical, dimension(:), intent(in) :: toOutput
     integer :: i
-    do i= 1, size(fields)
-        if (toOutput(i)) call self%addToOutputPool(fields(i))
-    end do
+    if (size(fields) > 0) then
+        do i= 1, size(fields)
+            if (toOutput(i)) call self%addToOutputPool(fields(i))
+        end do
+    end if
     end subroutine setOutputFields
 
     !---------------------------------------------------------------------------
