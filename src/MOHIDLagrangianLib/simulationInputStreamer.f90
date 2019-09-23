@@ -104,20 +104,18 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
 
-    allocate(varList(6))
-    allocate(syntecticVar(6))
+    allocate(varList(5))
+    allocate(syntecticVar(5))
     varList(1) = Globals%Var%u
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v
     syntecticVar(2) = .false.
     varList(3) = Globals%Var%w
     syntecticVar(3) = .false.
-    varList(4) = Globals%Var%landMask
-    syntecticVar(4) = .true.
-    varList(5) = Globals%Var%landIntMask
-    syntecticVar(5) = .true. 
-    varList(6) = Globals%Var%resolution
-    syntecticVar(6) = .true.
+    varList(4) = Globals%Var%landIntMask
+    syntecticVar(4) = .true. 
+    varList(5) = Globals%Var%resolution
+    syntecticVar(5) = .true.
 
     !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)

@@ -68,7 +68,7 @@
     
     if (self%CheckWriteTime()) then
         fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Output%getnumOutFile())
-        call self%WriteStepSerial(fileName, blocks, self%outputVariables)
+        call self%WriteStepSerial(fileName, numTracers, blocks, self%outputVariables)
         call self%writeOutputSummary(numTracers, simTimer, fileName)
         call Globals%Output%setlastOutNumDt(Globals%Sim%getnumdt())
         call Globals%Output%increment_numOutFile()
@@ -83,15 +83,16 @@
     !> Streamer method to call an appropriate writer.
     !> @param[in] self, filename, blocks
     !---------------------------------------------------------------------------
-    subroutine WriteStepSerial(self, filename, blocks, outputVars)
+    subroutine WriteStepSerial(self, filename, numTracers, blocks, outputVars)
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
+    integer, intent(in) :: numTracers
     type(string), intent(in) :: filename                    !< name of the case to add
     type(string), dimension(:), intent(in) :: outputVars    !< names of the output variables to print
     
 
     if (self%OutputFormat == 2) then !VTK file selected
-        call self%vtkWritter%TracerSerial(filename, blocks, outputVars)
+        call self%vtkWritter%TracerSerial(filename, numTracers, blocks, outputVars)
         !call self%hdf5Writter%TracerSerial(filename, blocks)
     end if
 
