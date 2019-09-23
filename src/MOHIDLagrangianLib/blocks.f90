@@ -153,15 +153,17 @@
         class is (source_class)
             aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
             if (aSource%now%active) then
-                !check if in the domain
-                aSource%now%active = TrcInBBox(aSource%now%pos, BBox)
-                if (aSource%now%active) then
-                    !check if in this block
-                    blk = getBlockIndex(aSource%now%pos)
-                    if (blk /= self%id) then        !Source is on a different block than the current one                        
-                        call sendSource(blk,aSource)
-                        call self%LSource%removeCurrent() !this also advances the iterator to the next position
-                        notremoved = .false.
+                if (.not.aSource%par%fixed_position) then
+                    !check if in the domain
+                    aSource%now%active = TrcInBBox(aSource%now%pos, BBox)
+                    if (aSource%now%active) then
+                        !check if in this block
+                        blk = getBlockIndex(aSource%now%pos)
+                        if (blk /= self%id) then        !Source is on a different block than the current one                        
+                            call sendSource(blk,aSource)
+                            call self%LSource%removeCurrent() !this also advances the iterator to the next position
+                            notremoved = .false.
+                        end if
                     end if
                 end if
             end if
