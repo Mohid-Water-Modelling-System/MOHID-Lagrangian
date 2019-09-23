@@ -99,10 +99,10 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
 
-    allocate(requiredVars(3))
-    requiredVars(2) = Globals%Var%landIntMask
-    requiredVars(3) = Globals%Var%resolution
-    
+    allocate(requiredVars(2))
+    requiredVars(1) = Globals%Var%landIntMask
+    requiredVars(2) = Globals%Var%resolution
+        
     ! global periodicity conditions
     where (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
     where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
@@ -289,6 +289,12 @@
                 !computing the depth weight
                 depth = sv%state(:,3)
                 where (depth>=0.0) depth = 0.0
+                !where (depth == 0.0) 
+                !    nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
+                !    Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
+                !    nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
+                !    Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
+                !end where
                 depth = exp(10.0*depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
@@ -361,6 +367,7 @@
     tag = 'age'
     nf = Utils%find_str(sv%varName, tag, .true.)
     !setting the age variable to be updated by dt by the solver for all tracers
+    !effectively, we're just setting the derivative of 'age' to be 1.0 :)
     Aging(:,nf) = 1.0
 
     end function Aging
@@ -414,23 +421,24 @@
                 !if we are still in the same path, use the same random velocity, do nothing
                 !if we ran the path, new random velocities are generated and placed
                 where (sv%state(:,10) > 2.0*resolution)
-                    DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*Globals%Constants%DiffusionCoeff*sv%state(:,4)/dt
-                    DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*Globals%Constants%DiffusionCoeff*sv%state(:,5)/dt
-                    DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*Globals%Constants%DiffusionCoeff*0.01*sv%state(:,6)/dt
+                    DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
+                    DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
+                    DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
                     sv%state(:,10) = 0.0
+                    !update system positions
+                    DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
+                    DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
+                    DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
                 elsewhere
-                    DiffusionMixingLength(:,7) = sv%state(:,7)/dt
-                    DiffusionMixingLength(:,8) = sv%state(:,8)/dt
-                    DiffusionMixingLength(:,9) = sv%state(:,9)/dt
+                    !update system positions
+                    DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
+                    DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
+                    DiffusionMixingLength(:,3) = sv%state(:,9)
                 end where
                 !update system velocities
                 !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
                 !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
-                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
-                !update system positions
-                DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
-                DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
-                !DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
+                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt                
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
                 deallocate(var_dt)
