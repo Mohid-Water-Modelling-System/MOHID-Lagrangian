@@ -12,6 +12,9 @@
 		<variableNaming>
 			<file name="data/ncNamesLibrary.xml"/>
 		</variableNaming>
+		<postProcessing>
+			<file name="Post_scripts/PostRecipe.xml"/>
+		</postProcessing>
 	</execution>
 	<caseDefinitions>
 		<inputData>

@@ -14,6 +14,13 @@
 		<variableNaming>
 			<file name="ncNamesLibrary_case1.xml"/>
 		</variableNaming>
+		<outputFields>
+			<file name="data/outputFields.xml"/>
+		</outputFields>
+		<postProcessing>
+			<file name="postProcessing/PostRecipe.xml"/>
+			<!-- <file name="postProcessing/PostRecipe2.xml"/> -->
+		</postProcessing>
 	</execution>
 	<caseDefinitions>
 		<inputData>
