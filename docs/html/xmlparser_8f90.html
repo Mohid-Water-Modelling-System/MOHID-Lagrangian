@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MOHID Lagrangian: C:/Users/administrator/Documents/GitHub/MOHID-Lagrangian/src/lib/xmlparser.f90 File Reference</title>
+<title>MOHID Lagrangian: C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/xmlparser.f90 File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -114,14 +114,14 @@ Data Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Modules</h2></td></tr>
 <tr class="memitem:namespacexmlparser__mod"><td class="memItemLeft" align="right" valign="top">module &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacexmlparser__mod.html">xmlparser_mod</a></td></tr>
-<tr class="memdesc:namespacexmlparser__mod"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module with the simulation xml parsing class and methods, Encapsulates the FOX_dom library. <br /></td></tr>
+<tr class="memdesc:namespacexmlparser__mod"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module with xml parsing class and methods, encapsulates the FOX_dom library. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:aa1f6c9620a625b407c80c9053492a21c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacexmlparser__mod.html#aa1f6c9620a625b407c80c9053492a21c">xmlparser_mod::getfile</a> (self, xmldoc, xmlfilename)</td></tr>
-<tr class="memdesc:aa1f6c9620a625b407c80c9053492a21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses an xml file and returns a pointer to the master node.  <a href="namespacexmlparser__mod.html#aa1f6c9620a625b407c80c9053492a21c">More...</a><br /></td></tr>
-<tr class="separator:aa1f6c9620a625b407c80c9053492a21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7265285af04ac926f946c2989ed85b4"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacexmlparser__mod.html#af7265285af04ac926f946c2989ed85b4">xmlparser_mod::getfile</a> (self, xmldoc, xmlfilename, mandatory)</td></tr>
+<tr class="memdesc:af7265285af04ac926f946c2989ed85b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses a xml file and returns a pointer to the master node.  <a href="namespacexmlparser__mod.html#af7265285af04ac926f946c2989ed85b4">More...</a><br /></td></tr>
+<tr class="separator:af7265285af04ac926f946c2989ed85b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9eed98475e0d55a3c7b2eeb88925a48c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacexmlparser__mod.html#a9eed98475e0d55a3c7b2eeb88925a48c">xmlparser_mod::closefile</a> (self, xmldoc)</td></tr>
 <tr class="memdesc:a9eed98475e0d55a3c7b2eeb88925a48c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that closes a parsed xml file or node.  <a href="namespacexmlparser__mod.html#a9eed98475e0d55a3c7b2eeb88925a48c">More...</a><br /></td></tr>
 <tr class="separator:a9eed98475e0d55a3c7b2eeb88925a48c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +137,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:acd860c3d06a25fc422edbcc3d356d976"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacexmlparser__mod.html#acd860c3d06a25fc422edbcc3d356d976">xmlparser_mod::gotonode</a> (self, currentNode, targetNode, targetNodeName, read_flag, mandatory)</td></tr>
 <tr class="memdesc:acd860c3d06a25fc422edbcc3d356d976"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that retrieves a node from within a node. Returns a nullifyed pointer if not found, stops if mandatory.  <a href="namespacexmlparser__mod.html#acd860c3d06a25fc422edbcc3d356d976">More...</a><br /></td></tr>
 <tr class="separator:acd860c3d06a25fc422edbcc3d356d976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa62d7fce2037454ba8fad993c6f1c8fd"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacexmlparser__mod.html#aa62d7fce2037454ba8fad993c6f1c8fd">xmlparser_mod::getpolygonfromkmzfile</a> (self, filename, vertex)</td></tr>
+<tr class="memdesc:aa62d7fce2037454ba8fad993c6f1c8fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that retrieves a node from within a node. Returns a nullifyed pointer if not found, stops if mandatory.  <a href="namespacexmlparser__mod.html#aa62d7fce2037454ba8fad993c6f1c8fd">More...</a><br /></td></tr>
+<tr class="separator:aa62d7fce2037454ba8fad993c6f1c8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -148,7 +151,7 @@ Variables</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_c85d3e3c5052e9ad9ce18c6863244a25.html">lib</a></li><li class="navelem"><a class="el" href="xmlparser_8f90.html">xmlparser.f90</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_8ca0d10690c646904d53ed8937f04793.html">MOHIDLagrangianLib</a></li><li class="navelem"><a class="el" href="xmlparser_8f90.html">xmlparser.f90</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.14 </li>

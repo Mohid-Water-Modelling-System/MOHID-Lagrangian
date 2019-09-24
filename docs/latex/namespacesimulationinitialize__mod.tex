@@ -12,6 +12,8 @@ subroutine \mbox{\hyperlink{namespacesimulationinitialize__mod_aa4c1099b84c9901a
 \begin{DoxyCompactList}\small\item\em Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding Source. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationinitialize__mod_a532cb4960e93dc27cff5dc2e04afe070}{init\+\_\+properties}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em Private property xml parser routine. Reads the properties tab from the xml file and links these to the corresponding source. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationinitialize__mod_a09174fb4527277943700a5509de326dd}{setoutputfields}} (exe\+Node)
+\begin{DoxyCompactList}\small\item\em Sets the global variables responsible for controling field outputs. reads options from a xml file and adds a variable field to the print poll accordingly. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationinitialize__mod_a4909cc4cb57549e6eed3f69d6dfa30b5}{init\+\_\+naming}} (case\+\_\+node)
 \begin{DoxyCompactList}\small\item\em naming xml parser routine. Reads the naming file(s), opens the file(s) and stores the naming conventions for input files \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationinitialize__mod_ab65ac868a57f2cc124ec29f87a239424}{read\+\_\+xml\+\_\+geometry}} (source, source\+\_\+detail, source\+\_\+shape)
@@ -57,51 +59,63 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 360 of file simulation\+Initialize.\+f90.
+Definition at line 496 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-360     \textcolor{keywordtype}{implicit none}
-361     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
-362 
-363     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: constants\_node
-364     \textcolor{keywordtype}{type}(string) :: outext
-365     \textcolor{keywordtype}{type}(string) :: tag, att\_name, att\_val
-366     \textcolor{keywordtype}{type}(vector) :: coords
-367     \textcolor{keywordtype}{logical} :: readflag
-368 
-369     outext=\textcolor{stringliteral}{'-->Reading case constants'}
-370     \textcolor{keyword}{call }log%put(outext,.false.)
-371 
-372     tag=\textcolor{stringliteral}{"constantsdef"}    \textcolor{comment}{!the node we want}
-373     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,constants\_node,tag,readflag,.false.)
-374     \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then} \textcolor{comment}{!if the node exists, since his one is not mandatory}
-375         tag=\textcolor{stringliteral}{"Gravity"}
-376         \textcolor{keyword}{call }xmlreader%getNodeVector(constants\_node,tag,coords,readflag,.false.)
-377         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-378             \textcolor{keyword}{call }globals%Constants%setgravity(coords)
-379 \textcolor{keywordflow}{        endif}
-380         tag=\textcolor{stringliteral}{"Z0"}
-381         att\_name=\textcolor{stringliteral}{"value"}
-382         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
-383         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-384             \textcolor{keyword}{call }globals%Constants%setz0(att\_val)
-385 \textcolor{keywordflow}{        endif}
-386         tag=\textcolor{stringliteral}{"RhoRef"}
-387         att\_name=\textcolor{stringliteral}{"value"}
-388         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
-389         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-390             \textcolor{keyword}{call }globals%Constants%setrho(att\_val)
-391 \textcolor{keywordflow}{        endif}
-392         tag=\textcolor{stringliteral}{"BeachingLevel"}
-393         att\_name=\textcolor{stringliteral}{"value"}
-394         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
-395         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-396             \textcolor{keyword}{call }globals%Constants%setBeachingLevel(att\_val)
-397 \textcolor{keywordflow}{        endif}
-398 \textcolor{keywordflow}{    endif}
-399     \textcolor{keyword}{call }globals%Constants%print()
-400 
+496     \textcolor{keywordtype}{implicit none}
+497     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+498 
+499     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: constants\_node
+500     \textcolor{keywordtype}{type}(string) :: outext
+501     \textcolor{keywordtype}{type}(string) :: tag, att\_name, att\_val
+502     \textcolor{keywordtype}{type}(vector) :: coords
+503     \textcolor{keywordtype}{logical} :: readflag
+504 
+505     outext=\textcolor{stringliteral}{'-->Reading case constants'}
+506     \textcolor{keyword}{call }log%put(outext,.false.)
+507 
+508     tag=\textcolor{stringliteral}{"constants"}    \textcolor{comment}{!the node we want}
+509     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,constants\_node,tag,readflag,.false.)
+510     \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then} \textcolor{comment}{!if the node exists, since his one is not mandatory}
+511         tag=\textcolor{stringliteral}{"Gravity"}
+512         \textcolor{keyword}{call }xmlreader%getNodeVector(constants\_node,tag,coords,readflag,.false.)
+513         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+514             \textcolor{keyword}{call }globals%Constants%setgravity(coords)
+515 \textcolor{keywordflow}{        endif}
+516         tag=\textcolor{stringliteral}{"Z0"}
+517         att\_name=\textcolor{stringliteral}{"value"}
+518         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+519         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+520             \textcolor{keyword}{call }globals%Constants%setz0(att\_val)
+521 \textcolor{keywordflow}{        endif}
+522         tag=\textcolor{stringliteral}{"RhoRef"}
+523         att\_name=\textcolor{stringliteral}{"value"}
+524         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+525         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+526             \textcolor{keyword}{call }globals%Constants%setrho(att\_val)
+527 \textcolor{keywordflow}{        endif}
+528         tag=\textcolor{stringliteral}{"BeachingLevel"}
+529         att\_name=\textcolor{stringliteral}{"value"}
+530         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+531         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+532             \textcolor{keyword}{call }globals%Constants%setBeachingLevel(att\_val)
+533 \textcolor{keywordflow}{        endif}
+534         tag=\textcolor{stringliteral}{"BeachingStopProb"}
+535         att\_name=\textcolor{stringliteral}{"value"}
+536         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+537         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+538             \textcolor{keyword}{call }globals%Constants%setBeachingStopProb(att\_val)
+539 \textcolor{keywordflow}{        endif}
+540         tag=\textcolor{stringliteral}{"DiffusionCoeff"}
+541         att\_name=\textcolor{stringliteral}{"value"}
+542         \textcolor{keyword}{call }xmlreader%getNodeAttribute(constants\_node, tag, att\_name, att\_val,readflag,.false.)
+543         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+544             \textcolor{keyword}{call }globals%Constants%setDiffusionCoeff(att\_val)
+545 \textcolor{keywordflow}{        endif}
+546 \textcolor{keywordflow}{    endif}
+547     \textcolor{keyword}{call }globals%Constants%print()
+548 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -130,37 +144,36 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 148 of file simulation\+Initialize.\+f90.
+Definition at line 213 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-148     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
-149 
-150     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: naming\_node
-151     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: temp
-152     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: namingfileList
-153     \textcolor{keywordtype}{type}(string) :: outext
-154     \textcolor{keywordtype}{type}(string) :: tag, att\_name
-155     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: namingFilename
-156     \textcolor{keywordtype}{integer} :: i
-157 
-158     tag=\textcolor{stringliteral}{"variableNaming"}    \textcolor{comment}{!the node we want}
-159     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,naming\_node,tag,mandatory =.false.)
-160     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(naming\_node)) \textcolor{keywordflow}{then}
-161         namingfilelist => getelementsbytagname(naming\_node, \textcolor{stringliteral}{"file"})       \textcolor{comment}{!searching for tags with the
+213     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+214     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: naming\_node
+215     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: temp
+216     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: namingfileList
+217     \textcolor{keywordtype}{type}(string) :: outext
+218     \textcolor{keywordtype}{type}(string) :: tag, att\_name
+219     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: namingFilename
+220     \textcolor{keywordtype}{integer} :: i
+221 
+222     tag=\textcolor{stringliteral}{"variableNaming"}    \textcolor{comment}{!the node we want}
+223     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,naming\_node,tag,mandatory =.false.)
+224     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(naming\_node)) \textcolor{keywordflow}{then}
+225         namingfilelist => getelementsbytagname(naming\_node, \textcolor{stringliteral}{"file"})       \textcolor{comment}{!searching for tags with the
        'namingfile' name}
-162         \textcolor{keyword}{allocate}(namingfilename(getlength(namingfilelist)))
-163         \textcolor{keywordflow}{do} i = 0, getlength(namingfilelist) - 1
-164             temp => item(namingfilelist, i)
-165             att\_name=\textcolor{stringliteral}{"name"}
-166             \textcolor{keyword}{call }xmlreader%getLeafAttribute(temp,att\_name,namingfilename(i+1))
-167 \textcolor{keywordflow}{        end do}
-168         \textcolor{keyword}{call }globals%setNamingConventions(namingfilename)
-169     \textcolor{keywordflow}{else}
-170         outext=\textcolor{stringliteral}{'-->No naming files, assuming basic naming settings for variables from input files'}
-171         \textcolor{keyword}{call }log%put(outext,.false.)
-172 \textcolor{keywordflow}{    endif}
-173 
+226         \textcolor{keyword}{allocate}(namingfilename(getlength(namingfilelist)))
+227         \textcolor{keywordflow}{do} i = 0, getlength(namingfilelist) - 1
+228             temp => item(namingfilelist, i)
+229             att\_name=\textcolor{stringliteral}{"name"}
+230             \textcolor{keyword}{call }xmlreader%getLeafAttribute(temp,att\_name,namingfilename(i+1))
+231 \textcolor{keywordflow}{        end do}
+232         \textcolor{keyword}{call }globals%setNamingConventions(namingfilename)
+233     \textcolor{keywordflow}{else}
+234         outext=\textcolor{stringliteral}{'-->No naming files, assuming basic naming settings for variables from input files'}
+235         \textcolor{keyword}{call }log%put(outext,.false.)
+236 \textcolor{keywordflow}{    endif}
+237 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -189,40 +202,38 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 410 of file simulation\+Initialize.\+f90.
+Definition at line 558 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-410     \textcolor{keywordtype}{implicit none}
-411     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: execution\_node
-412 
-413     \textcolor{keywordtype}{type}(string) :: outext
-414     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: parameterList
-415     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: parmt, parameters\_node
-416     \textcolor{keywordtype}{integer} :: i
-417     \textcolor{keywordtype}{type}(string) :: parmkey, parmvalue, tag, att\_name
-418 
-419     outext=\textcolor{stringliteral}{'-->Reading case parameters'}
-420     \textcolor{keyword}{call }log%put(outext,.false.)
-421 
-422     tag=\textcolor{stringliteral}{"parameters"}    \textcolor{comment}{!the node we want}
-423     \textcolor{keyword}{call }xmlreader%gotoNode(execution\_node,parameters\_node,tag)
-424     parameterlist => getelementsbytagname(parameters\_node, \textcolor{stringliteral}{"parameter"})       \textcolor{comment}{!searching for tags with the
+558     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: execution\_node
+559     \textcolor{keywordtype}{type}(string) :: outext
+560     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: parameterList
+561     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: parmt, parameters\_node
+562     \textcolor{keywordtype}{integer} :: i
+563     \textcolor{keywordtype}{type}(string) :: parmkey, parmvalue, tag, att\_name
+564 
+565     outext=\textcolor{stringliteral}{'-->Reading case parameters'}
+566     \textcolor{keyword}{call }log%put(outext,.false.)
+567 
+568     tag=\textcolor{stringliteral}{"parameters"}    \textcolor{comment}{!the node we want}
+569     \textcolor{keyword}{call }xmlreader%gotoNode(execution\_node,parameters\_node,tag)
+570     parameterlist => getelementsbytagname(parameters\_node, \textcolor{stringliteral}{"parameter"})       \textcolor{comment}{!searching for tags with the
        'parameter' name}
-425     \textcolor{keywordflow}{do} i = 0, getlength(parameterlist) - 1                          \textcolor{comment}{!extracting parameter tags one by one}
-426         parmt => item(parameterlist, i)
-427         att\_name=\textcolor{stringliteral}{"key"}
-428         \textcolor{keyword}{call }xmlreader%getLeafAttribute(parmt,att\_name,parmkey)
-429         att\_name=\textcolor{stringliteral}{"value"}
-430         \textcolor{keyword}{call }xmlreader%getLeafAttribute(parmt,att\_name,parmvalue)
-431         \textcolor{keyword}{call }globals%Parameters%setParam(parmkey,parmvalue)
-432 \textcolor{keywordflow}{    end do}
-433     \textcolor{keyword}{call }globals%Parameters%check()
-434     \textcolor{keyword}{call }globals%Parameters%print()
-435     
-436     \textcolor{keyword}{call }globals%setTimeDate()
-437     \textcolor{keyword}{call }globals%SimTime%print()
-438 
+571     \textcolor{keywordflow}{do} i = 0, getlength(parameterlist) - 1                          \textcolor{comment}{!extracting parameter tags one by one}
+572         parmt => item(parameterlist, i)
+573         att\_name=\textcolor{stringliteral}{"key"}
+574         \textcolor{keyword}{call }xmlreader%getLeafAttribute(parmt,att\_name,parmkey)
+575         att\_name=\textcolor{stringliteral}{"value"}
+576         \textcolor{keyword}{call }xmlreader%getLeafAttribute(parmt,att\_name,parmvalue)
+577         \textcolor{keyword}{call }globals%Parameters%setParam(parmkey,parmvalue)
+578 \textcolor{keywordflow}{    end do}
+579     \textcolor{keyword}{call }globals%Parameters%check()
+580     \textcolor{keyword}{call }globals%Parameters%print()
+581     
+582     \textcolor{keyword}{call }globals%setTimeDate()
+583     \textcolor{keyword}{call }globals%SimTime%print()
+584 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -251,33 +262,33 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 116 of file simulation\+Initialize.\+f90.
+Definition at line 125 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-116     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
-117 
-118     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: props\_node
-119     \textcolor{keywordtype}{type}(string) :: outext
-120     \textcolor{keywordtype}{type}(string) :: tag, att\_name
-121 
-122     tag=\textcolor{stringliteral}{"sourceTypes"}    \textcolor{comment}{!the node we want}
-123     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,props\_node,tag,mandatory =.false.)
-124     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(props\_node)) \textcolor{keywordflow}{then}
-125         tag=\textcolor{stringliteral}{"file"}
-126         att\_name=\textcolor{stringliteral}{"name"}
-127         \textcolor{keyword}{call }xmlreader%getNodeAttribute(props\_node, tag, att\_name, globals%Names%propsxmlfilename) \textcolor{comment}{!getting
+125     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+126 
+127     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: props\_node
+128     \textcolor{keywordtype}{type}(string) :: outext
+129     \textcolor{keywordtype}{type}(string) :: tag, att\_name
+130 
+131     tag=\textcolor{stringliteral}{"sourceTypes"}    \textcolor{comment}{!the node we want}
+132     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,props\_node,tag,mandatory =.false.)
+133     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(props\_node)) \textcolor{keywordflow}{then}
+134         tag=\textcolor{stringliteral}{"file"}
+135         att\_name=\textcolor{stringliteral}{"name"}
+136         \textcolor{keyword}{call }xmlreader%getNodeAttribute(props\_node, tag, att\_name, globals%Names%propsxmlfilename) \textcolor{comment}{!getting
        the file name from that tag}
-128         outext=\textcolor{stringliteral}{'-->Properties to link to Sources found at '}//globals%Names%propsxmlfilename
-129         \textcolor{keyword}{call }log%put(outext,.false.)
-130         tag=\textcolor{stringliteral}{"types"}
-131         \textcolor{keyword}{call }xmlreader%gotoNode(props\_node,props\_node,tag) \textcolor{comment}{!getting the links node}
-132         \textcolor{keyword}{call }linkpropertysources(props\_node)          \textcolor{comment}{!calling the property linker}
-133     \textcolor{keywordflow}{else}
-134         outext=\textcolor{stringliteral}{'-->No properties to link to Sources, assuming pure Lagrangian tracers'}
-135         \textcolor{keyword}{call }log%put(outext,.false.)
-136 \textcolor{keywordflow}{    endif}
-137 
+137         outext=\textcolor{stringliteral}{'-->Properties to link to Sources found at '}//globals%Names%propsxmlfilename
+138         \textcolor{keyword}{call }log%put(outext,.false.)
+139         tag=\textcolor{stringliteral}{"types"}
+140         \textcolor{keyword}{call }xmlreader%gotoNode(props\_node,props\_node,tag) \textcolor{comment}{!getting the links node}
+141         \textcolor{keyword}{call }linkpropertysources(props\_node)          \textcolor{comment}{!calling the property linker}
+142     \textcolor{keywordflow}{else}
+143         outext=\textcolor{stringliteral}{'-->No properties to link to Sources, assuming pure Lagrangian tracers'}
+144         \textcolor{keyword}{call }log%put(outext,.false.)
+145 \textcolor{keywordflow}{    endif}
+146 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -313,41 +324,47 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 320 of file simulation\+Initialize.\+f90.
+Definition at line 450 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-320     \textcolor{keywordtype}{implicit none}
-321     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
-322 
-323     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: defsList
-324     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: simdefs\_node
-325     \textcolor{keywordtype}{type}(string) :: outext
-326     \textcolor{keywordtype}{integer} :: i
-327     \textcolor{keywordtype}{type}(string) :: pts(2), tag, att\_name, att\_val
-328     \textcolor{keywordtype}{type}(vector) :: coords
-329 
-330     outext=\textcolor{stringliteral}{'-->Reading case simulation definitions'}
-331     \textcolor{keyword}{call }log%put(outext,.false.)
-332 
-333     tag=\textcolor{stringliteral}{"simulation"}    \textcolor{comment}{!the node we want}
-334     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,simdefs\_node,tag)
-335     tag=\textcolor{stringliteral}{"resolution"}
-336     att\_name=\textcolor{stringliteral}{"dp"}
-337     \textcolor{keyword}{call }xmlreader%getNodeAttribute(simdefs\_node, tag, att\_name, att\_val)
-338     \textcolor{keyword}{call }globals%SimDefs%setdp(att\_val)
-339     tag=\textcolor{stringliteral}{"timestep"}
-340     att\_name=\textcolor{stringliteral}{"dt"}
-341     \textcolor{keyword}{call }xmlreader%getNodeAttribute(simdefs\_node, tag, att\_name, att\_val)
-342     \textcolor{keyword}{call }globals%SimDefs%setdt(att\_val)
-343     \textcolor{keyword}{call }globals%Constants%setSmallDt(globals%SimDefs%dt)
-344     pts=(/ \textcolor{stringliteral}{'BoundingBoxMin'}, \textcolor{stringliteral}{'BoundingBoxMax'}/) \textcolor{comment}{!strings to search for}
-345     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(pts)
-346         \textcolor{keyword}{call }xmlreader%getNodeVector(simdefs\_node, pts(i), coords)
-347         \textcolor{keyword}{call }globals%SimDefs%setboundingbox(pts(i), coords)
-348 \textcolor{keywordflow}{    enddo}
-349     \textcolor{keyword}{call }globals%SimDefs%print()
-350 
+450     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+451     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: defsList
+452     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: simdefs\_node
+453     \textcolor{keywordtype}{type}(string) :: outext
+454     \textcolor{keywordtype}{integer} :: i
+455     \textcolor{keywordtype}{type}(string) :: pts(2), tag, att\_name, att\_val
+456     \textcolor{keywordtype}{type}(vector) :: coords
+457     \textcolor{keywordtype}{logical} :: read\_flag
+458 
+459     read\_flag = .false.
+460     coords = 0.0
+461     outext=\textcolor{stringliteral}{'-->Reading case simulation definitions'}
+462     \textcolor{keyword}{call }log%put(outext,.false.)
+463 
+464     tag=\textcolor{stringliteral}{"simulation"}    \textcolor{comment}{!the node we want}
+465     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,simdefs\_node,tag)
+466     tag=\textcolor{stringliteral}{"resolution"}
+467     att\_name=\textcolor{stringliteral}{"dp"}
+468     \textcolor{keyword}{call }xmlreader%getNodeAttribute(simdefs\_node, tag, att\_name, att\_val, read\_flag, .false.)
+469     \textcolor{keywordflow}{if} (read\_flag) \textcolor{keywordflow}{then}
+470         coords = att\_val%to\_number(kind=1.\_r4p)
+471     \textcolor{keywordflow}{else}
+472         \textcolor{keyword}{call }xmlreader%getNodeVector(simdefs\_node, tag, coords)
+473 \textcolor{keywordflow}{    end if}
+474     \textcolor{keyword}{call }globals%SimDefs%setdp(coords)
+475     tag=\textcolor{stringliteral}{"timestep"}
+476     att\_name=\textcolor{stringliteral}{"dt"}
+477     \textcolor{keyword}{call }xmlreader%getNodeAttribute(simdefs\_node, tag, att\_name, att\_val)
+478     \textcolor{keyword}{call }globals%SimDefs%setdt(att\_val)
+479     \textcolor{keyword}{call }globals%Constants%setSmallDt(globals%SimDefs%dt)
+480     pts=(/ \textcolor{stringliteral}{'BoundingBoxMin'}, \textcolor{stringliteral}{'BoundingBoxMax'}/) \textcolor{comment}{!strings to search for}
+481     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(pts)
+482         \textcolor{keyword}{call }xmlreader%getNodeVector(simdefs\_node, pts(i), coords)
+483         \textcolor{keyword}{call }globals%SimDefs%setboundingbox(pts(i), coords)
+484 \textcolor{keywordflow}{    enddo}
+485     \textcolor{keyword}{call }globals%SimDefs%print()
+486 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -376,100 +393,156 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 223 of file simulation\+Initialize.\+f90.
+Definition at line 299 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-223     \textcolor{keywordtype}{implicit none}
-224     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
-225     \textcolor{keywordtype}{type}(string) :: outext
-226     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: sourceList
-227     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: sourceChildren
-228     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: sourcedef
-229     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_node
-230     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_detail
-231     \textcolor{keywordtype}{integer} :: i, j
-232     \textcolor{keywordtype}{logical} :: readflag
-233     \textcolor{keywordtype}{integer} :: id
-234     \textcolor{keywordtype}{type}(string) :: name, source\_geometry, tag, att\_name, att\_val, rate\_file
-235     \textcolor{keywordtype}{real(prec)} :: emitting\_rate, start, finish
-236     \textcolor{keywordtype}{logical} :: emitting\_fixed
-237     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{allocatable} :: source\_shape
-238 
-239     rate\_file = \textcolor{stringliteral}{'not\_set'}
-240     readflag = .false.
-241     outext=\textcolor{stringliteral}{'-->Reading case Sources'}
-242     \textcolor{keyword}{call }log%put(outext,.false.)
-243     tag=\textcolor{stringliteral}{"sourceDefinitions"}    \textcolor{comment}{!the node we want}
-244     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,sourcedef,tag)
-245     sourcelist => getelementsbytagname(sourcedef, \textcolor{stringliteral}{"source"})
-246     \textcolor{comment}{!allocating the temporary source objects}
-247     \textcolor{keyword}{call }tempsources%initialize(getlength(sourcelist))
-248 
-249     \textcolor{keywordflow}{do} j = 0, getlength(sourcelist) - 1
-250         source\_node => item(sourcelist,j)
-251         tag=\textcolor{stringliteral}{"setsource"}
-252         att\_name=\textcolor{stringliteral}{"id"}
-253         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val)
-254         id=att\_val%to\_number(kind=1\_i1p)
-255         att\_name=\textcolor{stringliteral}{"name"}
-256         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, name)
-257         \textcolor{comment}{!reading emission rate, need to check for options}
-258         tag=\textcolor{stringliteral}{"rate\_dt"}
-259         att\_name=\textcolor{stringliteral}{"value"}
-260         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val,readflag,.false.)
-261         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-262             emitting\_rate = 1.0/(att\_val%to\_number(kind=1.\_r4p)*globals%SimDefs%dt)
-263             emitting\_fixed = .true.
-264 \textcolor{keywordflow}{        end if}
-265         tag=\textcolor{stringliteral}{"rate"}
-266         att\_name=\textcolor{stringliteral}{"value"}
-267         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val,readflag,.false.)
-268         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-269             emitting\_rate = att\_val%to\_number(kind=1.\_r4p)
-270             emitting\_fixed = .true.
-271 \textcolor{keywordflow}{        end if}
-272         tag=\textcolor{stringliteral}{"rate\_file"}
-273         att\_name=\textcolor{stringliteral}{"name"}
-274         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val,readflag,.false.)
-275         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-276             rate\_file = att\_val
-277             emitting\_fixed = .false.
-278 \textcolor{keywordflow}{        end if}
-279         tag=\textcolor{stringliteral}{"active"}
-280         att\_name=\textcolor{stringliteral}{"start"}
-281         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val,readflag,.false.)
-282         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
-283             start = att\_val%to\_number(kind=1.\_r4p)
-284         \textcolor{keywordflow}{else}
-285             start = 0.0
-286 \textcolor{keywordflow}{        end if}
-287         att\_name=\textcolor{stringliteral}{"end"}
-288         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val,readflag,.false.)
-289         \textcolor{keywordflow}{if} (readflag.and.att\_val%is\_number()) \textcolor{keywordflow}{then}
-290             finish = att\_val%to\_number(kind=1.\_r4p)
-291         \textcolor{keywordflow}{else}
-292             finish = globals%Parameters%TimeMax
-293 \textcolor{keywordflow}{        end if}
-294         \textcolor{comment}{!now we need to find out the geometry of the source and read accordingly}
-295         sourcechildren => getchildnodes(source\_node) \textcolor{comment}{!getting all of the nodes bellow the main source node
+299     \textcolor{keywordtype}{implicit none}
+300     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: case\_node
+301     \textcolor{keywordtype}{type}(string) :: outext
+302     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: sourceList
+303     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: sourceChildren
+304     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: activeList
+305     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: activeIntervalNode
+306     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: sourcedef
+307     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_node
+308     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_detail
+309     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_ratefile, ratefileLeaf
+310     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: source\_posifile, posifileLeaf
+311     \textcolor{keywordtype}{integer} :: i, j, k
+312     \textcolor{keywordtype}{logical} :: readflag
+313     \textcolor{keywordtype}{integer} :: id
+314     \textcolor{keywordtype}{type}(string) :: name, source\_geometry, tag, att\_name, att\_val, rate\_file, posi\_file
+315     \textcolor{keywordtype}{real(prec)} :: emitting\_rate, rateScale, start, finish, temp
+316     \textcolor{keywordtype}{logical} :: emitting\_fixed, posi\_fixed, rateRead
+317     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{allocatable} :: source\_shape
+318     \textcolor{keywordtype}{type}(vector) :: res
+319     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: activeTimes
+320 
+321     ratescale = 1.0
+322     res = 0.0    
+323     readflag = .false.
+324     outext=\textcolor{stringliteral}{'-->Reading case Sources'}
+325     \textcolor{keyword}{call }log%put(outext,.false.)
+326     tag=\textcolor{stringliteral}{"sourceDefinitions"}    \textcolor{comment}{!the node we want}
+327     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,sourcedef,tag)
+328     sourcelist => getelementsbytagname(sourcedef, \textcolor{stringliteral}{"source"})
+329     \textcolor{comment}{!allocating the temporary source objects}
+330     \textcolor{keyword}{call }tempsources%initialize(getlength(sourcelist))
+331 
+332     \textcolor{keywordflow}{do} j = 0, getlength(sourcelist) - 1
+333         rate\_file = notset
+334         rateread = .false.
+335         posi\_file = notset
+336         posi\_fixed = .true.
+337         source\_node => item(sourcelist,j)
+338         tag=\textcolor{stringliteral}{"setsource"}
+339         att\_name=\textcolor{stringliteral}{"id"}
+340         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val)
+341         id=att\_val%to\_number(kind=1\_i1p)
+342         att\_name=\textcolor{stringliteral}{"name"}
+343         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, name)
+344         \textcolor{comment}{!reading possible custom resolution}
+345         tag=\textcolor{stringliteral}{"resolution"}
+346         att\_name=\textcolor{stringliteral}{"dp"}
+347         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val, readflag, .false.)
+348         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+349             res = att\_val%to\_number(kind=1.\_r4p)
+350         \textcolor{keywordflow}{else}
+351             \textcolor{keyword}{call }xmlreader%getNodeVector(source\_node, tag, res, readflag, .false.)
+352             \textcolor{keywordflow}{if} (.not.readflag) res = 0.0
+353 \textcolor{keywordflow}{        end if}
+354         \textcolor{comment}{!reading emission rate, need to check for options}
+355         readflag = .false.
+356         tag=\textcolor{stringliteral}{"rate\_dt"}
+357         att\_name=\textcolor{stringliteral}{"value"}
+358         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val, readflag, .false.)
+359         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+360             rateread = .true.
+361             emitting\_rate = 1.0/(att\_val%to\_number(kind=1.\_r4p)*globals%SimDefs%dt)
+362             emitting\_fixed = .true.
+363 \textcolor{keywordflow}{        end if}
+364         tag=\textcolor{stringliteral}{"rate"}
+365         att\_name=\textcolor{stringliteral}{"value"}
+366         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_node, tag, att\_name, att\_val, readflag, .false.)
+367         \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+368             rateread = .true.
+369             emitting\_rate = att\_val%to\_number(kind=1.\_r4p)
+370             emitting\_fixed = .true.
+371 \textcolor{keywordflow}{        end if}
+372         tag=\textcolor{stringliteral}{"rateTimeSeries"}
+373         \textcolor{keyword}{call }xmlreader%gotoNode(source\_node, source\_ratefile, tag, mandatory =.false.)
+374         \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(source\_ratefile)) \textcolor{keywordflow}{then}
+375             tag = \textcolor{stringliteral}{"file"}
+376             \textcolor{keyword}{call }xmlreader%gotoNode(source\_ratefile, ratefileleaf, tag)
+377             att\_name=\textcolor{stringliteral}{"name"}
+378             \textcolor{keyword}{call }xmlreader%getLeafAttribute(ratefileleaf, att\_name, att\_val)
+379             rateread = .true.
+380             rate\_file = att\_val
+381             emitting\_fixed = .false.
+382             tag = \textcolor{stringliteral}{"scale"}
+383             att\_name=\textcolor{stringliteral}{"value"}
+384             \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_ratefile, tag, att\_name, att\_val, readflag, mandatory = 
+      .false.)            
+385             \textcolor{keywordflow}{if} (readflag) \textcolor{keywordflow}{then}
+386                 ratescale = att\_val%to\_number(kind=1.\_r4p)
+387 \textcolor{keywordflow}{            end if}
+388 \textcolor{keywordflow}{        end if}
+389         \textcolor{keywordflow}{if} (.not.rateread) \textcolor{keywordflow}{then}
+390             outext=\textcolor{stringliteral}{'-->Source '}//name//\textcolor{stringliteral}{' (id = '}//id// \textcolor{stringliteral}{') doesn'}\textcolor{stringliteral}{'t have emission rate information. Possible
+       options are [rate\_dt, rate, rate\_file]. Stoping'}
+391             \textcolor{keyword}{call }log%put(outext)
+392             stop
+393 \textcolor{keywordflow}{        end if}
+394         \textcolor{comment}{!reading variable position tags, if any}
+395         tag=\textcolor{stringliteral}{"positionTimeSeries"}
+396         \textcolor{keyword}{call }xmlreader%gotoNode(source\_node, source\_posifile, tag, mandatory =.false.)
+397         \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(source\_posifile)) \textcolor{keywordflow}{then}
+398             tag = \textcolor{stringliteral}{"file"}
+399             \textcolor{keyword}{call }xmlreader%gotoNode(source\_posifile, posifileleaf, tag)
+400             att\_name=\textcolor{stringliteral}{"name"}
+401             \textcolor{keyword}{call }xmlreader%getLeafAttribute(posifileleaf, att\_name, att\_val)
+402             posi\_file = att\_val
+403             posi\_fixed = .false.
+404 \textcolor{keywordflow}{        end if}
+405         \textcolor{comment}{!Possible list of active intervals, and these might be in absolute dates or relative to sim time}
+406         activelist => getelementsbytagname(source\_node, \textcolor{stringliteral}{"active"})
+407         \textcolor{keyword}{allocate}(activetimes(getlength(activelist),2))
+408         \textcolor{keywordflow}{do} k = 0, getlength(activelist) - 1
+409             activeintervalnode => item(activelist, k)
+410             att\_name=\textcolor{stringliteral}{"start"}
+411             \textcolor{keyword}{call }xmlreader%getLeafAttribute(activeintervalnode,att\_name,att\_val)
+412             temp = utils%getRelativeTimeFromString(att\_val, globals%SimTime%StartDate)
+413             activetimes(k+1,1) = temp
+414             att\_name=\textcolor{stringliteral}{"end"}
+415             \textcolor{keyword}{call }xmlreader%getLeafAttribute(activeintervalnode,att\_name,att\_val)
+416             \textcolor{keywordflow}{if} (att\_val == \textcolor{stringliteral}{'end'}) \textcolor{keywordflow}{then}
+417                 temp = globals%Parameters%TimeMax
+418             \textcolor{keywordflow}{else}
+419                 temp = utils%getRelativeTimeFromString(att\_val, globals%SimTime%StartDate)
+420 \textcolor{keywordflow}{            end if}
+421             activetimes(k+1,2) = temp
+422 \textcolor{keywordflow}{        end do}
+423         \textcolor{comment}{!now we need to find out the geometry of the source and read accordingly}
+424         sourcechildren => getchildnodes(source\_node) \textcolor{comment}{!getting all of the nodes bellow the main source node
        (all of it's private info)}
-296         \textcolor{keywordflow}{do} i=0, getlength(sourcechildren)-1
-297             source\_detail => item(sourcechildren,i) \textcolor{comment}{!grabing a node}
-298             source\_geometry = getlocalname(source\_detail)  \textcolor{comment}{!finding its name}
-299             \textcolor{keywordflow}{if} (geometry%inlist(source\_geometry)) \textcolor{keywordflow}{then}  \textcolor{comment}{!if the node is a valid geometry name}
-300                 \textcolor{keyword}{call }geometry%allocateShape(source\_geometry,source\_shape)                
-301                 \textcolor{keyword}{call }read\_xml\_geometry(source\_node,source\_detail,source\_shape)
-302                 \textcolor{keywordflow}{exit}
-303 \textcolor{keywordflow}{            end if}
-304 \textcolor{keywordflow}{        end do}
-305         \textcolor{comment}{!initializing Source j}
-306         \textcolor{keyword}{call }tempsources%src(j+1)%initialize(id,name,emitting\_rate,emitting\_fixed,rate\_file,start,finish,
-      source\_geometry,source\_shape)
-307 
-308         \textcolor{keyword}{deallocate}(source\_shape)
-309 \textcolor{keywordflow}{    enddo}
-310 
+425         \textcolor{keywordflow}{do} i=0, getlength(sourcechildren)-1
+426             source\_detail => item(sourcechildren,i) \textcolor{comment}{!grabing a node}
+427             source\_geometry = getlocalname(source\_detail)  \textcolor{comment}{!finding its name}
+428             \textcolor{keywordflow}{if} (geometry%inlist(source\_geometry)) \textcolor{keywordflow}{then}  \textcolor{comment}{!if the node is a valid geometry name}
+429                 \textcolor{keyword}{call }geometry%allocateShape(source\_geometry,source\_shape)                
+430                 \textcolor{keyword}{call }read\_xml\_geometry(source\_node,source\_detail,source\_shape)
+431                 \textcolor{keywordflow}{exit}
+432 \textcolor{keywordflow}{            end if}
+433 \textcolor{keywordflow}{        end do}
+434         \textcolor{comment}{!initializing Source j}
+435         \textcolor{keyword}{call }tempsources%src(j+1)%initialize(id, name, emitting\_rate, emitting\_fixed, rate\_file, ratescale,
+       posi\_fixed, posi\_file, activetimes, source\_geometry, source\_shape, res)
+436 
+437         \textcolor{keyword}{deallocate}(source\_shape)
+438         \textcolor{keyword}{deallocate}(activetimes)
+439 \textcolor{keywordflow}{    enddo}
+440 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -507,50 +580,51 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 448 of file simulation\+Initialize.\+f90.
+Definition at line 594 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-448     \textcolor{keywordtype}{implicit none}
-449     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: xmlfilename
-450     \textcolor{keywordtype}{type}(string) :: outext, tag
-451     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmldoc
-452     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: case\_node
-453     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: execution\_node
-454 
-455     \textcolor{keyword}{call }xmlreader%getFile(xmldoc,xmlfilename)
-456     globals%Names%mainxmlfilename = xmlfilename
-457     globals%Names%casename = xmlfilename%basename(extension=\textcolor{stringliteral}{'.xml'})
-458     outext=\textcolor{stringliteral}{'->Case name is '}//globals%Names%casename
-459     \textcolor{keyword}{call }log%put(outext)
-460     globals%Names%inputsXmlFilename = globals%Names%outpath//xmlfilename%basename(extension=\textcolor{stringliteral}{'.xml'})//\textcolor{stringliteral}{
+594     \textcolor{keywordtype}{implicit none}
+595     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: xmlfilename
+596     \textcolor{keywordtype}{type}(string) :: outext, tag
+597     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmldoc
+598     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: case\_node
+599     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: execution\_node
+600 
+601     \textcolor{keyword}{call }xmlreader%getFile(xmldoc,xmlfilename)
+602     globals%Names%mainxmlfilename = xmlfilename
+603     globals%Names%casename = xmlfilename%basename(extension=\textcolor{stringliteral}{'.xml'})
+604     outext=\textcolor{stringliteral}{'->Case name is '}//globals%Names%casename
+605     \textcolor{keyword}{call }log%put(outext)
+606     globals%Names%inputsXmlFilename = globals%Names%outpath//xmlfilename%basename(extension=\textcolor{stringliteral}{'.xml'})//\textcolor{stringliteral}{
       '\_inputs.xml'}
-461     outext=\textcolor{stringliteral}{'->Input files index file name is '}//globals%Names%inputsXmlFilename
-462     \textcolor{keyword}{call }log%put(outext)
-463 
-464     tag=\textcolor{stringliteral}{"case"}          \textcolor{comment}{!base document node}
-465     \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,execution\_node,tag)
-466     tag=\textcolor{stringliteral}{"execution"}     \textcolor{comment}{!finding execution node}
-467     \textcolor{keyword}{call }xmlreader%gotoNode(execution\_node,execution\_node,tag)
-468     tag=\textcolor{stringliteral}{"case"}          \textcolor{comment}{!base document node}
-469     \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,case\_node,tag)
-470     tag=\textcolor{stringliteral}{"caseDefinitions"}     \textcolor{comment}{!finding execution node}
-471     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,case\_node,tag)
-472 
-473     \textcolor{comment}{! building the simulation basic structures according to the case definition file}
-474     \textcolor{comment}{! every other structure in the simulation is built from these, i.e., not defined by the user directly}
-475     \textcolor{keyword}{call }init\_parameters(execution\_node)
-476     \textcolor{keyword}{call }init\_caseconstants(case\_node)
-477     \textcolor{keyword}{call }init\_simdefs(case\_node)
-478     \textcolor{keyword}{call }init\_sources(case\_node)
-479     \textcolor{keyword}{call }init\_properties(case\_node)
-480     \textcolor{keyword}{call }init\_naming(case\_node)
-481 
-482     \textcolor{comment}{!setting the number of blocks to the correct ammount of selected threads}
-483     globals%SimDefs%numblocks = globals%Parameters%numOPMthreads
-484 
-485     \textcolor{keyword}{call }xmlreader%closeFile(xmldoc)
-486 
+607     outext=\textcolor{stringliteral}{'->Input files index file name is '}//globals%Names%inputsXmlFilename
+608     \textcolor{keyword}{call }log%put(outext)
+609 
+610     tag=\textcolor{stringliteral}{"case"}          \textcolor{comment}{!base document node}
+611     \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,execution\_node,tag)
+612     tag=\textcolor{stringliteral}{"execution"}     \textcolor{comment}{!finding execution node}
+613     \textcolor{keyword}{call }xmlreader%gotoNode(execution\_node,execution\_node,tag)
+614     tag=\textcolor{stringliteral}{"case"}          \textcolor{comment}{!base document node}
+615     \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,case\_node,tag)
+616     tag=\textcolor{stringliteral}{"caseDefinitions"}     \textcolor{comment}{!finding execution node}
+617     \textcolor{keyword}{call }xmlreader%gotoNode(case\_node,case\_node,tag)
+618 
+619     \textcolor{comment}{! building the simulation basic structures according to the case definition file}
+620     \textcolor{comment}{! every other structure in the simulation is built from these, i.e., not defined by the user directly}
+621     \textcolor{keyword}{call }init\_parameters(execution\_node)
+622     \textcolor{keyword}{call }init\_naming(execution\_node)
+623     \textcolor{keyword}{call }setoutputfields(execution\_node)
+624     \textcolor{keyword}{call }init\_caseconstants(case\_node)
+625     \textcolor{keyword}{call }init\_simdefs(case\_node)
+626     \textcolor{keyword}{call }init\_sources(case\_node)
+627     \textcolor{keyword}{call }init\_properties(case\_node)    
+628 
+629     \textcolor{comment}{!setting the number of blocks to the correct ammount of selected threads}
+630     globals%SimDefs%numblocks = globals%Parameters%numOPMthreads
+631 
+632     \textcolor{keyword}{call }xmlreader%closeFile(xmldoc)
+633 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -591,65 +665,74 @@ Definition at line 47 of file simulation\+Initialize.\+f90.
 
 \begin{DoxyCode}
 47     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: linksNode
-48 
-49     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: linkList
-50     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: anode
+48     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: linkList
+49     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: anode
+50     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: aProp
 51     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmlProps
-52     \textcolor{keywordtype}{type}(string) :: xmlfilename, outext
-53     \textcolor{keywordtype}{integer} :: i, p
-54     \textcolor{keywordtype}{type}(string) :: att\_name, att\_val, tag
-55     \textcolor{keywordtype}{type}(string) :: sourceid, sourcetype, sourceprop
-56 
-57     linklist => getelementsbytagname(linksnode, \textcolor{stringliteral}{"type"})
-58     \textcolor{keywordflow}{do} i = 0, getlength(linklist) - 1
-59         anode => item(linklist,i)
-60         att\_name=\textcolor{stringliteral}{"source"}
-61         \textcolor{keyword}{call }xmlreader%getLeafAttribute(anode,att\_name,sourceid)
-62         att\_name=\textcolor{stringliteral}{"type"}
-63         \textcolor{keyword}{call }xmlreader%getLeafAttribute(anode,att\_name,sourcetype)
-64         att\_name=\textcolor{stringliteral}{"property"}
-65         \textcolor{keyword}{call }xmlreader%getLeafAttribute(anode,att\_name,sourceprop)
-66         \textcolor{comment}{!find the source and save the type and property name}
-67         \textcolor{keyword}{call }tempsources%setPropertyNames(sourceid,sourcetype,sourceprop)
-68 \textcolor{keywordflow}{    enddo}
-69 
-70     \textcolor{comment}{!parse the properties file}
-71     xmlfilename = globals%Names%propsxmlfilename
-72     \textcolor{keyword}{call }xmlreader%getFile(xmlprops,xmlfilename)
-73 
-74     \textcolor{comment}{!Go to the materials node}
-75     tag = \textcolor{stringliteral}{"materials"}
-76     \textcolor{keyword}{call }xmlreader%gotoNode(xmlprops,xmlprops,tag)
-77 
-78     \textcolor{comment}{!find and set the actual atributes of the properties}
-79     att\_name=\textcolor{stringliteral}{"value"}
-80     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(tempsources%src)
-81         tag = tempsources%src(i)%prop%property\_type
-82         \textcolor{keywordflow}{if} (tag .ne. \textcolor{stringliteral}{'base'}) \textcolor{keywordflow}{then}
-83             \textcolor{keyword}{call }xmlreader%gotoNode(xmlprops,anode,tag) \textcolor{comment}{!finding the material type node}
-84             tag = tempsources%src(i)%prop%property\_name
-85             \textcolor{keyword}{call }xmlreader%gotoNode(anode,anode,tag)     \textcolor{comment}{!finding the actual material node}
-86             \textcolor{keywordflow}{do} p = 1, \textcolor{keyword}{size}(globals%SrcProp%baselist)
-87                 \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, globals%SrcProp%baselist(p), att\_name, att\_val)
-88                 \textcolor{keyword}{call }tempsources%src(i)%setPropertyAtributes(globals%SrcProp%baselist(p), att\_val)
-89 \textcolor{keywordflow}{            end do}
-90             \textcolor{keywordflow}{if} (tempsources%src(i)%isParticulate()) \textcolor{keywordflow}{then}
-91                 \textcolor{keywordflow}{do} p = 1, \textcolor{keyword}{size}(globals%SrcProp%particulatelist)
-92                     \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, globals%SrcProp%particulatelist(p), att\_name, 
-      att\_val)
-93                     \textcolor{keyword}{call }tempsources%src(i)%setPropertyAtributes(globals%SrcProp%particulatelist(p), 
-      att\_val)
-94 \textcolor{keywordflow}{                end do}
-95 \textcolor{keywordflow}{            end if}
-96             \textcolor{comment}{!Run integrety check on the properties to see if Source is well defined}
-97             \textcolor{keyword}{call }tempsources%src(i)%check()
-98 \textcolor{keywordflow}{        end if}
-99 \textcolor{keywordflow}{    end do}
-100     outext=\textcolor{stringliteral}{'-->Sources properties are set'}
-101     \textcolor{keyword}{call }log%put(outext,.false.)
-102 
-103     \textcolor{keyword}{call }xmlreader%closeFile(xmlprops)
-104 
+52     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: propertyList
+53     \textcolor{keywordtype}{type}(string) :: xmlfilename, outext
+54     \textcolor{keywordtype}{integer} :: i, p, j
+55     \textcolor{keywordtype}{type}(string) :: att\_name, att\_val, tag, propKey, propValue
+56     \textcolor{keywordtype}{type}(string) :: sourceid, sourcetype, sourceprop
+57 
+58     linklist => getelementsbytagname(linksnode, \textcolor{stringliteral}{"type"})
+59     \textcolor{keywordflow}{do} i = 0, getlength(linklist) - 1
+60         anode => item(linklist,i)
+61         att\_name=\textcolor{stringliteral}{"source"}
+62         \textcolor{keyword}{call }xmlreader%getLeafAttribute(anode,att\_name,sourceid)
+63         att\_name=\textcolor{stringliteral}{"type"}
+64         \textcolor{keyword}{call }xmlreader%getLeafAttribute(anode,att\_name,sourcetype)
+65         att\_name=\textcolor{stringliteral}{"property"}
+66         \textcolor{keyword}{call }xmlreader%getLeafAttribute(anode,att\_name,sourceprop)
+67         \textcolor{comment}{!find the source and save the type and property name}
+68         \textcolor{keyword}{call }tempsources%setPropertyNames(sourceid,sourcetype,sourceprop)
+69 \textcolor{keywordflow}{    enddo}
+70 
+71     \textcolor{comment}{!parse the properties file}
+72     xmlfilename = globals%Names%propsxmlfilename
+73     \textcolor{keyword}{call }xmlreader%getFile(xmlprops,xmlfilename)
+74 
+75     \textcolor{comment}{!Go to the materials node}
+76     tag = \textcolor{stringliteral}{"materials"}
+77     \textcolor{keyword}{call }xmlreader%gotoNode(xmlprops,xmlprops,tag)
+78 
+79     \textcolor{comment}{!find and set the actual atributes of the properties}
+80     att\_name=\textcolor{stringliteral}{"value"}
+81     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(tempsources%src)
+82         tag = tempsources%src(i)%prop%propertyType
+83         \textcolor{keywordflow}{if} (tag .ne. \textcolor{stringliteral}{'base'}) \textcolor{keywordflow}{then}
+84             \textcolor{keyword}{call }xmlreader%gotoNode(xmlprops,anode,tag) \textcolor{comment}{!finding the material type node}
+85             tag = tempsources%src(i)%prop%propertySubType
+86             \textcolor{keyword}{call }xmlreader%gotoNode(anode,anode,tag)     \textcolor{comment}{!finding the actual material node}
+87             propertylist => getelementsbytagname(anode, \textcolor{stringliteral}{"property"})        \textcolor{comment}{!searching for tags with the
+       'property' name}
+88             \textcolor{keyword}{call }tempsources%src(i)%setPropertyNumber(getlength(propertylist))
+89             \textcolor{keywordflow}{do} j = 0, getlength(propertylist) - 1                          \textcolor{comment}{!extracting property tags one by
+       one}
+90                 aprop => item(propertylist, j)
+91                 att\_name=\textcolor{stringliteral}{"key"}
+92                 \textcolor{keyword}{call }xmlreader%getLeafAttribute(aprop,att\_name,propkey)
+93                 att\_name=\textcolor{stringliteral}{"value"}
+94                 \textcolor{keyword}{call }xmlreader%getLeafAttribute(aprop,att\_name,propvalue)
+95                 \textcolor{keyword}{call }tempsources%src(i)%setPropertyAtribute(j+1, propkey, propvalue)
+96 \textcolor{keywordflow}{            end do}
+97             tag = \textcolor{stringliteral}{'particulate'}
+98             att\_name=\textcolor{stringliteral}{"value"}
+99             \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, tag, att\_name, att\_val)
+100             \textcolor{keyword}{call }tempsources%src(i)%setPropertyBaseAtribute(tag, att\_val)
+101             tag = \textcolor{stringliteral}{'density'}
+102             \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, tag, att\_name, att\_val)
+103             \textcolor{keyword}{call }tempsources%src(i)%setPropertyBaseAtribute(tag, att\_val)
+104             tag = \textcolor{stringliteral}{'radius'}
+105             \textcolor{keyword}{call }xmlreader%getNodeAttribute(anode, tag, att\_name, att\_val)
+106             \textcolor{keyword}{call }tempsources%src(i)%setPropertyBaseAtribute(tag, att\_val)           
+107 \textcolor{keywordflow}{        end if}
+108 \textcolor{keywordflow}{    end do}
+109     outext=\textcolor{stringliteral}{'-->Sources properties are set'}
+110     \textcolor{keyword}{call }log%put(outext,.false.)
+111 
+112     \textcolor{keyword}{call }xmlreader%closeFile(xmlprops)
+113 
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -684,45 +767,134 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 184 of file simulation\+Initialize.\+f90.
+Definition at line 248 of file simulation\+Initialize.\+f90.
 
 
 \begin{DoxyCode}
-184     \textcolor{keywordtype}{implicit none}
-185     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: source
-186     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: source\_detail
-187     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(inout)} :: source\_shape
-188     \textcolor{keywordtype}{type}(string) :: outext
-189     \textcolor{keywordtype}{type}(string) :: tag
-190     \textcolor{keywordflow}{select type} (source\_shape)
-191 \textcolor{keywordflow}{    type is} (shape)
-192 \textcolor{keywordflow}{    class is} (box)
-193         tag=\textcolor{stringliteral}{'point'}
-194         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)
-195         tag=\textcolor{stringliteral}{'size'}
-196         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%size)
-197 \textcolor{keywordflow}{    class is} (point)
-198         tag=\textcolor{stringliteral}{'point'}
-199         \textcolor{keyword}{call }xmlreader%getNodeVector(source,tag,source\_shape%pt)
-200 \textcolor{keywordflow}{    class is} (line)
-201         tag=\textcolor{stringliteral}{'pointa'}
-202         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)
-203         tag=\textcolor{stringliteral}{'pointb'}
-204         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%last)
-205 \textcolor{keywordflow}{    class is} (sphere)
-206         tag=\textcolor{stringliteral}{'point'}
-207         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)
-208         \textcolor{keyword}{call }extractdataattribute(source\_detail, \textcolor{stringliteral}{"radius"}, source\_shape%radius)
-209 \textcolor{keywordflow}{        class default}
-210         outext=\textcolor{stringliteral}{'[read\_xml\_geometry]: unexpected type for geometry object!'}
-211         \textcolor{keyword}{call }log%put(outext)
-212         stop
-213 \textcolor{keywordflow}{    end select}
+248     \textcolor{keywordtype}{implicit none}
+249     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: source
+250     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: source\_detail
+251     \textcolor{keywordtype}{class}(shape), \textcolor{keywordtype}{intent(inout)} :: source\_shape
+252     \textcolor{keywordtype}{type}(string) :: outext
+253     \textcolor{keywordtype}{type}(string) :: tag, att\_name, geoFileName, zMin, zMax 
+254     \textcolor{keywordflow}{select type} (source\_shape)
+255 \textcolor{keywordflow}{    type is} (shape)
+256 \textcolor{keywordflow}{    class is} (box)
+257         tag=\textcolor{stringliteral}{'point'}
+258         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)
+259         tag=\textcolor{stringliteral}{'size'}
+260         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%size)
+261 \textcolor{keywordflow}{    class is} (point)
+262         tag=\textcolor{stringliteral}{'point'}
+263         \textcolor{keyword}{call }xmlreader%getNodeVector(source,tag,source\_shape%pt)
+264 \textcolor{keywordflow}{    class is} (line)
+265         tag=\textcolor{stringliteral}{'pointa'}
+266         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)
+267         tag=\textcolor{stringliteral}{'pointb'}
+268         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%last)
+269 \textcolor{keywordflow}{    class is} (sphere)
+270         tag=\textcolor{stringliteral}{'point'}
+271         \textcolor{keyword}{call }xmlreader%getNodeVector(source\_detail,tag,source\_shape%pt)
+272         \textcolor{keyword}{call }extractdataattribute(source\_detail, \textcolor{stringliteral}{"radius"}, source\_shape%radius)
+273 \textcolor{keywordflow}{    class is} (polygon)
+274         tag=\textcolor{stringliteral}{'file'}
+275         att\_name = \textcolor{stringliteral}{'name'}
+276         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_detail, tag, att\_name, geofilename)
+277         zmin = notread
+278         zmax = notread
+279         tag=\textcolor{stringliteral}{'verticalBoundingBox'}
+280         att\_name = \textcolor{stringliteral}{'min'}
+281         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_detail, tag, att\_name, zmin, mandatory = .false.)
+282         att\_name = \textcolor{stringliteral}{'max'}
+283         \textcolor{keyword}{call }xmlreader%getNodeAttribute(source\_detail, tag, att\_name, zmax, mandatory = .false.)
+284         \textcolor{keyword}{call }geometry%setPolygon(source\_shape, geofilename, zmin, zmax)
+285 \textcolor{keywordflow}{        class default}
+286         outext=\textcolor{stringliteral}{'[read\_xml\_geometry]: unexpected type for geometry object!'}
+287         \textcolor{keyword}{call }log%put(outext)
+288         stop
+289 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{namespacesimulationinitialize__mod_ab65ac868a57f2cc124ec29f87a239424_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{namespacesimulationinitialize__mod_a09174fb4527277943700a5509de326dd}\label{namespacesimulationinitialize__mod_a09174fb4527277943700a5509de326dd}} 
+\index{simulationinitialize\+\_\+mod@{simulationinitialize\+\_\+mod}!setoutputfields@{setoutputfields}}
+\index{setoutputfields@{setoutputfields}!simulationinitialize\+\_\+mod@{simulationinitialize\+\_\+mod}}
+\subsubsection{\texorpdfstring{setoutputfields()}{setoutputfields()}}
+{\footnotesize\ttfamily subroutine simulationinitialize\+\_\+mod\+::setoutputfields (\begin{DoxyParamCaption}\item[{type(node), intent(in), pointer}]{exe\+Node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Sets the global variables responsible for controling field outputs. reads options from a xml file and adds a variable field to the print poll accordingly. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em exe\+Node} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 158 of file simulation\+Initialize.\+f90.
+
+
+\begin{DoxyCode}
+158     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{pointer} :: exeNode
+159     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: fileNode
+160     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: fieldNode
+161     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: outputFieldsFile
+162     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: outputFieldsList
+163     \textcolor{keywordtype}{type}(string) :: outext
+164     \textcolor{keywordtype}{type}(string) :: tag, att\_name
+165     \textcolor{keywordtype}{type}(string) :: outputFieldsFilename
+166     \textcolor{keywordtype}{type}(string) :: fieldName, fieldOption
+167     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: fieldNameArray
+168     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: toOutput
+169     \textcolor{keywordtype}{integer} :: i
+170     
+171     tag=\textcolor{stringliteral}{"outputFields"} 
+172     \textcolor{keyword}{call }xmlreader%gotoNode(exenode, filenode, tag, mandatory =.false.)
+173     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(filenode)) \textcolor{keywordflow}{then}
+174         tag = \textcolor{stringliteral}{"file"}
+175         \textcolor{keyword}{call }xmlreader%gotoNode(filenode, filenode, tag)
+176         att\_name=\textcolor{stringliteral}{"name"}
+177         \textcolor{keyword}{call }xmlreader%getLeafAttribute(filenode, att\_name, outputfieldsfilename)
+178         \textcolor{comment}{!reading the file and building print/noprint array}
+179         \textcolor{keyword}{call }xmlreader%getFile(outputfieldsfile, outputfieldsfilename)
+180         tag = \textcolor{stringliteral}{"output"}
+181         \textcolor{keyword}{call }xmlreader%gotoNode(outputfieldsfile ,outputfieldsfile, tag)
+182         outputfieldslist => getelementsbytagname(outputfieldsfile, \textcolor{stringliteral}{"field"})
+183         \textcolor{keyword}{allocate}(fieldnamearray(getlength(outputfieldslist)))
+184         \textcolor{keyword}{allocate}(tooutput(getlength(outputfieldslist)))
+185         tooutput = .false.
+186         \textcolor{keywordflow}{do} i = 0, getlength(outputfieldslist) - 1
+187             fieldnode => item(outputfieldslist, i)
+188             att\_name=\textcolor{stringliteral}{"name"}
+189             \textcolor{keyword}{call }xmlreader%getLeafAttribute(fieldnode, att\_name, fieldname)
+190             att\_name=\textcolor{stringliteral}{"output"}
+191             \textcolor{keyword}{call }xmlreader%getLeafAttribute(fieldnode, att\_name, fieldoption)
+192             fieldnamearray(i+1) = fieldname
+193             \textcolor{keywordflow}{if} (fieldoption == \textcolor{stringliteral}{'yes'}) tooutput(i+1) = .true.
+194 \textcolor{keywordflow}{        end do}
+195     \textcolor{keywordflow}{else}
+196         outext=\textcolor{stringliteral}{'-->No output fields user override file, assuming basic settings for field output'}
+197         \textcolor{keyword}{call }log%put(outext,.false.)
+198 \textcolor{keywordflow}{    endif}
+199     \textcolor{comment}{!calling the globals method to set the output variable field list}
+200     \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(fieldnamearray)) \textcolor{keyword}{allocate}(fieldnamearray(0))
+201     \textcolor{keyword}{call }globals%Output%setOutputFields(fieldnamearray, tooutput)
+202 
+\end{DoxyCode}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{namespacesimulationinitialize__mod_a09174fb4527277943700a5509de326dd_icgraph}
 \end{center}
 \end{figure}

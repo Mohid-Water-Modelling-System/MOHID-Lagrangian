@@ -1,0 +1,177 @@
+\hypertarget{namespacemtimeseriesparser__mod}{}\section{mtimeseriesparser\+\_\+mod Module Reference}
+\label{namespacemtimeseriesparser__mod}\index{mtimeseriesparser\+\_\+mod@{mtimeseriesparser\+\_\+mod}}
+
+
+Module defining a M\+O\+H\+ID time series parsing class and methods, encapsulates the M\+O\+H\+ID Module\+Time\+Serie module, from Base 1.  
+
+
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structmtimeseriesparser__mod_1_1mtimeseriesparser__class}{mtimeseriesparser\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+subroutine \mbox{\hyperlink{namespacemtimeseriesparser__mod_abbc158c89dfc5a988984c1e9acd6dc48}{getfile}} (self, filename, var\+List)
+\begin{DoxyCompactList}\small\item\em Method that parses a M\+O\+H\+ID time series file and stores the data internaly. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacemtimeseriesparser__mod_a99a6266d1929abd218dd968d5c27a30d}{getdatabylabel}} (self, data\+Name, data\+\_\+out)
+\begin{DoxyCompactList}\small\item\em Method that gets data from a column of a M\+O\+H\+ID time series file, given a string with a variable name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Module defining a M\+O\+H\+ID time series parsing class and methods, encapsulates the M\+O\+H\+ID Module\+Time\+Serie module, from Base 1. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas 
+\end{DoxyAuthor}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacemtimeseriesparser__mod_a99a6266d1929abd218dd968d5c27a30d}\label{namespacemtimeseriesparser__mod_a99a6266d1929abd218dd968d5c27a30d}} 
+\index{mtimeseriesparser\+\_\+mod@{mtimeseriesparser\+\_\+mod}!getdatabylabel@{getdatabylabel}}
+\index{getdatabylabel@{getdatabylabel}!mtimeseriesparser\+\_\+mod@{mtimeseriesparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getdatabylabel()}{getdatabylabel()}}
+{\footnotesize\ttfamily subroutine mtimeseriesparser\+\_\+mod\+::getdatabylabel (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structmtimeseriesparser__mod_1_1mtimeseriesparser__class}{mtimeseriesparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), intent(in)}]{data\+Name,  }\item[{real(prec), dimension(\+:), intent(out), allocatable}]{data\+\_\+out }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that gets data from a column of a M\+O\+H\+ID time series file, given a string with a variable name. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,data\+Name,data\+\_\+out} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 144 of file M\+Timeseries\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+144     \textcolor{keywordtype}{class}(mTimeSeriesParser\_class), \textcolor{keywordtype}{intent(in)} :: self
+145     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: dataName
+146     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{intent(out)} :: data\_out
+147     \textcolor{keywordtype}{integer} :: idx
+148     \textcolor{keywordtype}{type}(string) :: outext
+149 
+150     idx = utils%find\_str(self%varName, dataname)
+151     \textcolor{keywordflow}{if} (idx == mv\_int) \textcolor{keywordflow}{then}
+152         outext = \textcolor{stringliteral}{'[MTimeSeriesParser::getDataByLabel]: File '}//self%filename//\textcolor{stringliteral}{' doesn'}\textcolor{stringliteral}{'t list variable
+       representing '}//dataname//\textcolor{stringliteral}{', stoping'}
+153         \textcolor{keyword}{call }log%put(outext)
+154         stop
+155 \textcolor{keywordflow}{    end if}
+156     \textcolor{keyword}{allocate}(data\_out(\textcolor{keyword}{size}(self%dataMatrix,1)))
+157     data\_out = self%dataMatrix(:,idx)
+158 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacemtimeseriesparser__mod_abbc158c89dfc5a988984c1e9acd6dc48}\label{namespacemtimeseriesparser__mod_abbc158c89dfc5a988984c1e9acd6dc48}} 
+\index{mtimeseriesparser\+\_\+mod@{mtimeseriesparser\+\_\+mod}!getfile@{getfile}}
+\index{getfile@{getfile}!mtimeseriesparser\+\_\+mod@{mtimeseriesparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getfile()}{getfile()}}
+{\footnotesize\ttfamily subroutine mtimeseriesparser\+\_\+mod\+::getfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structmtimeseriesparser__mod_1_1mtimeseriesparser__class}{mtimeseriesparser\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename,  }\item[{type(string), dimension(\+:), intent(in), optional}]{var\+List }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that parses a M\+O\+H\+ID time series file and stores the data internaly. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,filename,var\+List} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 54 of file M\+Timeseries\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+54     \textcolor{keywordtype}{class}(mTimeSeriesParser\_class), \textcolor{keywordtype}{intent(inout)} :: self
+55     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+56     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: varList
+57     \textcolor{keywordtype}{integer} :: id, STAT\_CALL, i, j
+58     \textcolor{keywordtype}{integer} :: nColumns, nVals
+59     \textcolor{keywordtype}{type}(string) :: outext
+60     \textcolor{keywordtype}{type}(string) :: header, temp
+61     \textcolor{keywordtype}{type}(datetime) :: initialDateTime
+62     \textcolor{keywordtype}{type}(timedelta) :: dateTimeOffset
+63     \textcolor{keywordtype}{real(prec)} :: timeOffset
+64     \textcolor{keywordtype}{logical} :: found
+65     \textcolor{keywordtype}{character(len=line\_length)} :: mHeader
+66     \textcolor{keywordtype}{real}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{pointer} :: mDataMatrix
+67     \textcolor{keywordtype}{type}(T\_Time) :: mInitialDate
+68     \textcolor{keywordtype}{real} :: mDate(6)
+69 
+70     outext = \textcolor{stringliteral}{'-> Reading MOHID Time Series file '}// filename
+71     \textcolor{keyword}{call }log%put(outext)
+72     id = 0
+73     \textcolor{keyword}{call }starttimeserieinput(id, filename%chars(), stat = stat\_call)
+74     \textcolor{keywordflow}{if} (stat\_call /= success\_) \textcolor{keywordflow}{then}
+75         outext = \textcolor{stringliteral}{'[MTimeSeriesParser::getFile]: Cannot open '}//filename//\textcolor{stringliteral}{' file, stoping'}
+76         \textcolor{keyword}{call }log%put(outext)
+77         stop
+78 \textcolor{keywordflow}{    end if}
+79 
+80     \textcolor{comment}{!getting data limits and header}
+81     \textcolor{keyword}{call }gettimeseriedatacolumns(id, ncolumns, stat = stat\_call)
+82     \textcolor{keyword}{call }gettimeseriedatavalues(id, nvals, stat = stat\_call)
+83     \textcolor{keyword}{call }gettimeserieheader(id, mheader, stat = stat\_call)
+84     \textcolor{comment}{!getting actual data matrix, already with time in seconds from date in file}
+85     \textcolor{keyword}{allocate}(mdatamatrix(nvals, ncolumns))
+86     \textcolor{keyword}{call }gettimeseriedatamatrix(id, mdatamatrix, stat = stat\_call)
+87     \textcolor{comment}{!getting initial date and offseting to match simulation time dimension}
+88     \textcolor{keyword}{call }gettimeserieinitialdata(id, minitialdate, stat = stat\_call)
+89     \textcolor{keyword}{call }extractdate(minitialdate, mdate(1), mdate(2), mdate(3), mdate(4), mdate(5), mdate(6))
+90     initialdatetime = utils%getDateTimeFromDate(int(mdate))
+91     datetimeoffset = initialdatetime - globals%SimTime%StartDate
+92     timeoffset = datetimeoffset%total\_seconds()
+93     mdatamatrix(:,1) = mdatamatrix(:,1) + timeoffset \textcolor{comment}{!correcting for current time dimension}
+94     \textcolor{comment}{!storing data in parser object}
+95     \textcolor{keyword}{allocate}(self%dataMatrix(nvals, ncolumns))
+96     self%dataMatrix = mdatamatrix
+97     \textcolor{comment}{!cleaning up the header and getting individual data labels}
+98     header = mheader
+99     temp = header%replace(old=\textcolor{stringliteral}{'!'}, new=\textcolor{stringliteral}{''})
+100     temp = temp%replace(old=\textcolor{stringliteral}{'  '}, new=\textcolor{stringliteral}{' '})
+101     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while} (temp/= header)
+102         header = temp
+103         temp = header%replace(old=\textcolor{stringliteral}{'  '}, new=\textcolor{stringliteral}{' '})
+104 \textcolor{keywordflow}{    end do}
+105     \textcolor{comment}{!spliting and storing in parser object}
+106     \textcolor{keyword}{call }header%split(tokens=self%varName, sep=\textcolor{stringliteral}{' '})
+107     \textcolor{comment}{!searching and replacing the variable names with required simulation names}
+108     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(varlist)) \textcolor{keywordflow}{then}
+109         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(varlist)
+110             found = .false.
+111             \textcolor{keywordflow}{do} j=1,\textcolor{keyword}{size}(self%varName)
+112                 \textcolor{keywordflow}{if} (globals%Var%getVarSimName(self%varName(j)) == varlist(i)) \textcolor{keywordflow}{then}
+113                     self%varName(j) = globals%Var%getVarSimName(self%varName(j))
+114                     found = .true.
+115                     \textcolor{keywordflow}{exit}
+116 \textcolor{keywordflow}{                end if}
+117 \textcolor{keywordflow}{            end do}
+118             \textcolor{keywordflow}{if} (.not.found) \textcolor{keywordflow}{then}
+119                 outext = \textcolor{stringliteral}{'[MTimeSeriesParser::getFile]: File '}//filename//\textcolor{stringliteral}{' doesn'}\textcolor{stringliteral}{'t list variable
+       representing '}//varlist(i)//\textcolor{stringliteral}{', stoping'}
+120                 \textcolor{keyword}{call }log%put(outext)
+121                 stop
+122 \textcolor{keywordflow}{            end if}
+123 \textcolor{keywordflow}{        end do}
+124 \textcolor{keywordflow}{    end if}
+125     self%filename = filename
+126 
+127     \textcolor{comment}{!destroying the MOHID Time Series module instance}
+128     \textcolor{keyword}{call }killtimeserie(id, stat = stat\_call)
+129     
+130     \textcolor{comment}{!print*, self%filename}
+131     \textcolor{comment}{!print*, self%varName}
+132     \textcolor{comment}{!print*, self%dataMatrix}
+133 
+\end{DoxyCode}

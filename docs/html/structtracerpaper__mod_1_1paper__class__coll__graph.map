@@ -1,4 +1,4 @@
 <map id="tracerpaper_mod::paper_class" name="tracerpaper_mod::paper_class">
-<area shape="rect" id="node3" href="$structtracerpaper__mod_1_1paper__state__class.html" title="Type &#45; State variables of a tracer object representing a paper material. " alt="" coords="123,5,282,141"/>
-<area shape="rect" id="node4" href="$structtracerpaper__mod_1_1paper__par__class.html" title="{tracerpaper_mod::paper\l_par_class\n|&#45; degradation_rate\l&#45; particulate\l&#45; size\l|}" alt="" coords="306,13,465,134"/>
+<area shape="rect" id="node3" href="$structtracerpaper__mod_1_1paper__state__class.html" title="Type &#45; State variables of a tracer object representing a paper material. " alt="" coords="123,5,282,156"/>
+<area shape="rect" id="node4" href="$structtracerpaper__mod_1_1paper__par__class.html" title="{tracerpaper_mod::paper\l_par_class\n|&#45; particulate\l&#45; size\l|}" alt="" coords="306,27,465,134"/>
 </map>

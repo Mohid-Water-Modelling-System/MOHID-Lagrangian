@@ -1,4 +1,4 @@
 <map id="tracerbase_mod::tracer_class" name="tracerbase_mod::tracer_class">
-<area shape="rect" id="node2" href="$structtracerbase__mod_1_1tracer__par__class.html" title="{tracerbase_mod::tracer\l_par_class\n|&#45; id\l&#45; idsource\l&#45; ttype\l|}" alt="" coords="5,13,161,134"/>
-<area shape="rect" id="node3" href="$structtracerbase__mod_1_1tracer__state__class.html" title="Type &#45; state variables of a pure Lagrangian tracer object. " alt="" coords="185,5,341,141"/>
+<area shape="rect" id="node2" href="$structtracerbase__mod_1_1tracer__par__class.html" title="{tracerbase_mod::tracer\l_par_class\n|&#45; id\l&#45; idsource\l&#45; ttype\l|}" alt="" coords="5,27,161,149"/>
+<area shape="rect" id="node3" href="$structtracerbase__mod_1_1tracer__state__class.html" title="Type &#45; state variables of a pure Lagrangian tracer object. " alt="" coords="185,5,341,171"/>
 </map>

@@ -13,15 +13,25 @@ module \mbox{\hyperlink{namespaceutilities__mod}{utilities\+\_\+mod}}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+real(prec) function \mbox{\hyperlink{namespaceutilities__mod_a0dea0f7cb05b1a7c7c1da1d85a416b37}{utilities\+\_\+mod\+::getrelativetimefromstring}} (self, date\+Str, Ref\+Date)
+\begin{DoxyCompactList}\small\item\em Function that returns a real with a time in seconds of a given date string, counting from a given date. \end{DoxyCompactList}\item 
+type(datetime) function \mbox{\hyperlink{namespaceutilities__mod_a83ed7b458b5b642544fd59ce7473eb0c}{utilities\+\_\+mod\+::getdatetimefromdate}} (self, date\+Array)
+\begin{DoxyCompactList}\small\item\em Function that returns a real with a time in seconds of a given date string, counting from a given date. \end{DoxyCompactList}\item 
 integer function, dimension(6) \mbox{\hyperlink{namespaceutilities__mod_ab5b97f243f9347a40db76d55509d37ca}{utilities\+\_\+mod\+::getdatefromisostring}} (self, date\+Str)
 \begin{DoxyCompactList}\small\item\em Function that returns an integer array of type (year, month, day, hour, minute, second) from an I\+SO date string. \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespaceutilities__mod_ad446cce78a6509db0e839439a0e84564}{utilities\+\_\+mod\+::find\+\_\+str}} (self, str\+\_\+array, str, mandatory)
 \begin{DoxyCompactList}\small\item\em returns the index of a given string in an array of strings. Has optional mandatory flag. \end{DoxyCompactList}\item 
 type(vector) function \mbox{\hyperlink{namespaceutilities__mod_a3d3d0e1568b178cd3e0bb8013642946c}{utilities\+\_\+mod\+::geo2m\+\_\+vec}} (self, geovec, lat)
 \begin{DoxyCompactList}\small\item\em Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
-real(prec) function, dimension(size(geovec)) \mbox{\hyperlink{namespaceutilities__mod_aff2244d9152396064656f20f4936a18c}{utilities\+\_\+mod\+::geo2m\+\_\+comp}} (self, geovec, lat, component)
+elemental type(vector) function \mbox{\hyperlink{namespaceutilities__mod_ad0d629861220adba81d8622aa16f39ab}{utilities\+\_\+mod\+::geo2m\+\_\+vecfull}} (self, geovec)
 \begin{DoxyCompactList}\small\item\em Returns a vector in meters given an array in geographical coordinates (lon, lat, z) and a lattitude. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(geovec)) \mbox{\hyperlink{namespaceutilities__mod_a063ca10c2c57dc186ad0db0337fef4f9}{utilities\+\_\+mod\+::geo2m\+\_\+comp}} (self, geovec, lat, is\+Lat)
+\begin{DoxyCompactList}\small\item\em Returns an array of coordinates converted to degrees. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(geovec)) \mbox{\hyperlink{namespaceutilities__mod_a58dd5ed30b8ee9b9e1b43af96c119d28}{utilities\+\_\+mod\+::geo2m\+\_\+compsingle}} (self, geovec, lat, is\+Lat)
+\begin{DoxyCompactList}\small\item\em Returns an array of coordinates converted to degrees. \end{DoxyCompactList}\item 
 type(vector) function \mbox{\hyperlink{namespaceutilities__mod_a70b21b18c8633b7fd4c3057530d3f16f}{utilities\+\_\+mod\+::m2geo\+\_\+vec}} (self, mvec, lat)
+\begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
+elemental type(vector) function \mbox{\hyperlink{namespaceutilities__mod_a0b374564c3672b029cc10d238bf77d4b}{utilities\+\_\+mod\+::m2geo\+\_\+vecfull}} (self, mvec)
 \begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 
 real(prec) function, dimension(size(mvec)) \mbox{\hyperlink{namespaceutilities__mod_ae6b8a45b229e3f1f8c2b12dd74e7a2dd}{utilities\+\_\+mod\+::m2geo\+\_\+comp}} (self, mvec, lat, component)
 \begin{DoxyCompactList}\small\item\em Returns a vector in geographical coordinates (lon, lat, z) given an array in meters and a lattitude. \end{DoxyCompactList}\item 

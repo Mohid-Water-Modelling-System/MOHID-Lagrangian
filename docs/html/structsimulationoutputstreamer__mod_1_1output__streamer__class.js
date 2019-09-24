@@ -8,8 +8,10 @@ var structsimulationoutputstreamer__mod_1_1output__streamer__class =
     [ "writeoutputsummary", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#ae54b9ad37209fc6cafb8c80ca70d73c3", null ],
     [ "writestep", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a26f4f2807f3e0d0067db555e1351b04e", null ],
     [ "writestepserial", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a8b9e10001cb0aa3315f94647c59bb941", null ],
+    [ "hdf5writter", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#ac91899fff60f6ddcb234cfc4efb471b2", null ],
     [ "lastwritetime", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a9ea996af0c9a2d9f3930092e83ca71bb", null ],
     [ "outputformat", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a53a4af6464bb24e7191a7632fb3b4f38", null ],
     [ "outputintervaltime", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#aacf7688bfe4a91af5a8db9e7003a041b", null ],
+    [ "outputvariables", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#ac40e7c8fba522050b23a70dc6da590a3", null ],
     [ "vtkwritter", "structsimulationoutputstreamer__mod_1_1output__streamer__class.html#a883916a5ede4ceff754115bd3317649e", null ]
 ];

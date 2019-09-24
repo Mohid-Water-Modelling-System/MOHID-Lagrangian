@@ -11,23 +11,15 @@ Collaboration diagram for simulationglobals\+\_\+mod\+:\+:sim\+\_\+t\+:\nopagebr
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=204pt]{structsimulationglobals__mod_1_1sim__t__coll__graph}
+\includegraphics[width=200pt]{structsimulationglobals__mod_1_1sim__t__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_ade3d2bcc84ed41592b0712a0355be108}{increment\+\_\+numdt}}
-\item 
-procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_af7f7dad94e8a2de058fe88d0d795aac1}{increment\+\_\+numoutfile}}
-\item 
 procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_a4f67d96ae861d1600d365cc86acbc1a7}{getnumdt}}
 \item 
-procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_a2b15fdf4d29bcfbac38da1b14644ff3f}{getlastoutnumdt}}
-\item 
-procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_a4147b0aec912a4a02d56dcffaad2867c}{setlastoutnumdt}}
-\item 
-procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_abdb9a18d07e725c9c99423978f014c4c}{getnumoutfile}}
+procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_ade3d2bcc84ed41592b0712a0355be108}{increment\+\_\+numdt}}
 \item 
 procedure, public \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_af581a3f3854589b767c95bf4b3d3a388}{getnumtracer}}
 \end{DoxyCompactItemize}
@@ -41,10 +33,6 @@ procedure, private \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_afef2
 \item 
 integer \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_acf2dd4822ebd48541ac6d018038b286a}{numdt}}
 \begin{DoxyCompactList}\small\item\em number of the current iteration \end{DoxyCompactList}\item 
-integer \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_a09270b8350c388b420492cd2209bb1dd}{lastoutnumdt}}
-\begin{DoxyCompactList}\small\item\em number of the last outputed iteration \end{DoxyCompactList}\item 
-integer \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_a5ae529652641c13a5471697d84b5db77}{numoutfile}}
-\begin{DoxyCompactList}\small\item\em number of the current output file \end{DoxyCompactList}\item 
 integer \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_a23cc2df1e0cf56990759076ed07b69f1}{numtracer}}
 \begin{DoxyCompactList}\small\item\em Global Tracer number holder. Incremented at tracer construction or first activation time. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -52,21 +40,11 @@ integer \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t_a23cc2df1e0cf569
 \subsection{Detailed Description}
 Simulation related counters and others. 
 
-Definition at line 117 of file simulation\+Globals.\+f90.
+Definition at line 114 of file simulation\+Globals.\+f90.
 
 
 
 \subsection{Member Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_a2b15fdf4d29bcfbac38da1b14644ff3f}\label{structsimulationglobals__mod_1_1sim__t_a2b15fdf4d29bcfbac38da1b14644ff3f}} 
-\index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!getlastoutnumdt@{getlastoutnumdt}}
-\index{getlastoutnumdt@{getlastoutnumdt}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
-\subsubsection{\texorpdfstring{getlastoutnumdt()}{getlastoutnumdt()}}
-{\footnotesize\ttfamily procedure, public simulationglobals\+\_\+mod\+::sim\+\_\+t\+::getlastoutnumdt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Definition at line 127 of file simulation\+Globals.\+f90.
-
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_a4f67d96ae861d1600d365cc86acbc1a7}\label{structsimulationglobals__mod_1_1sim__t_a4f67d96ae861d1600d365cc86acbc1a7}} 
 \index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!getnumdt@{getnumdt}}
 \index{getnumdt@{getnumdt}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
@@ -75,17 +53,7 @@ Definition at line 127 of file simulation\+Globals.\+f90.
 
 
 
-Definition at line 126 of file simulation\+Globals.\+f90.
-
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_abdb9a18d07e725c9c99423978f014c4c}\label{structsimulationglobals__mod_1_1sim__t_abdb9a18d07e725c9c99423978f014c4c}} 
-\index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!getnumoutfile@{getnumoutfile}}
-\index{getnumoutfile@{getnumoutfile}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
-\subsubsection{\texorpdfstring{getnumoutfile()}{getnumoutfile()}}
-{\footnotesize\ttfamily procedure, public simulationglobals\+\_\+mod\+::sim\+\_\+t\+::getnumoutfile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Definition at line 129 of file simulation\+Globals.\+f90.
+Definition at line 119 of file simulation\+Globals.\+f90.
 
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_af581a3f3854589b767c95bf4b3d3a388}\label{structsimulationglobals__mod_1_1sim__t_af581a3f3854589b767c95bf4b3d3a388}} 
 \index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!getnumtracer@{getnumtracer}}
@@ -95,7 +63,7 @@ Definition at line 129 of file simulation\+Globals.\+f90.
 
 
 
-Definition at line 130 of file simulation\+Globals.\+f90.
+Definition at line 121 of file simulation\+Globals.\+f90.
 
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_ade3d2bcc84ed41592b0712a0355be108}\label{structsimulationglobals__mod_1_1sim__t_ade3d2bcc84ed41592b0712a0355be108}} 
 \index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!increment\+\_\+numdt@{increment\+\_\+numdt}}
@@ -105,17 +73,7 @@ Definition at line 130 of file simulation\+Globals.\+f90.
 
 
 
-Definition at line 124 of file simulation\+Globals.\+f90.
-
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_af7f7dad94e8a2de058fe88d0d795aac1}\label{structsimulationglobals__mod_1_1sim__t_af7f7dad94e8a2de058fe88d0d795aac1}} 
-\index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!increment\+\_\+numoutfile@{increment\+\_\+numoutfile}}
-\index{increment\+\_\+numoutfile@{increment\+\_\+numoutfile}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
-\subsubsection{\texorpdfstring{increment\+\_\+numoutfile()}{increment\_numoutfile()}}
-{\footnotesize\ttfamily procedure, public simulationglobals\+\_\+mod\+::sim\+\_\+t\+::increment\+\_\+numoutfile (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Definition at line 125 of file simulation\+Globals.\+f90.
+Definition at line 120 of file simulation\+Globals.\+f90.
 
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_afef25e0feaad4ec1cff7afd93bc53812}\label{structsimulationglobals__mod_1_1sim__t_afef25e0feaad4ec1cff7afd93bc53812}} 
 \index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!increment\+\_\+numtracer@{increment\+\_\+numtracer}}
@@ -125,39 +83,11 @@ Definition at line 125 of file simulation\+Globals.\+f90.
 
 
 
-Definition at line 131 of file simulation\+Globals.\+f90.
-
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_a4147b0aec912a4a02d56dcffaad2867c}\label{structsimulationglobals__mod_1_1sim__t_a4147b0aec912a4a02d56dcffaad2867c}} 
-\index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!setlastoutnumdt@{setlastoutnumdt}}
-\index{setlastoutnumdt@{setlastoutnumdt}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
-\subsubsection{\texorpdfstring{setlastoutnumdt()}{setlastoutnumdt()}}
-{\footnotesize\ttfamily procedure, public simulationglobals\+\_\+mod\+::sim\+\_\+t\+::setlastoutnumdt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Definition at line 128 of file simulation\+Globals.\+f90.
+Definition at line 122 of file simulation\+Globals.\+f90.
 
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_a09270b8350c388b420492cd2209bb1dd}\label{structsimulationglobals__mod_1_1sim__t_a09270b8350c388b420492cd2209bb1dd}} 
-\index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!lastoutnumdt@{lastoutnumdt}}
-\index{lastoutnumdt@{lastoutnumdt}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
-\subsubsection{\texorpdfstring{lastoutnumdt}{lastoutnumdt}}
-{\footnotesize\ttfamily integer simulationglobals\+\_\+mod\+::sim\+\_\+t\+::lastoutnumdt\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-number of the last outputed iteration 
-
-
-
-Definition at line 120 of file simulation\+Globals.\+f90.
-
-
-\begin{DoxyCode}
-120         \textcolor{keywordtype}{integer} :: lastOutNumDt
-\end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_acf2dd4822ebd48541ac6d018038b286a}\label{structsimulationglobals__mod_1_1sim__t_acf2dd4822ebd48541ac6d018038b286a}} 
 \index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!numdt@{numdt}}
 \index{numdt@{numdt}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
@@ -170,29 +100,11 @@ number of the current iteration
 
 
 
-Definition at line 119 of file simulation\+Globals.\+f90.
+Definition at line 116 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-119         \textcolor{keywordtype}{integer} :: numdt
-\end{DoxyCode}
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_a5ae529652641c13a5471697d84b5db77}\label{structsimulationglobals__mod_1_1sim__t_a5ae529652641c13a5471697d84b5db77}} 
-\index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!numoutfile@{numoutfile}}
-\index{numoutfile@{numoutfile}!simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
-\subsubsection{\texorpdfstring{numoutfile}{numoutfile}}
-{\footnotesize\ttfamily integer simulationglobals\+\_\+mod\+::sim\+\_\+t\+::numoutfile\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-number of the current output file 
-
-
-
-Definition at line 121 of file simulation\+Globals.\+f90.
-
-
-\begin{DoxyCode}
-121         \textcolor{keywordtype}{integer} :: numoutfile
+116         \textcolor{keywordtype}{integer} :: numdt
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1sim__t_a23cc2df1e0cf56990759076ed07b69f1}\label{structsimulationglobals__mod_1_1sim__t_a23cc2df1e0cf56990759076ed07b69f1}} 
 \index{simulationglobals\+\_\+mod\+::sim\+\_\+t@{simulationglobals\+\_\+mod\+::sim\+\_\+t}!numtracer@{numtracer}}
@@ -206,11 +118,11 @@ Global Tracer number holder. Incremented at tracer construction or first activat
 
 
 
-Definition at line 122 of file simulation\+Globals.\+f90.
+Definition at line 117 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-122         \textcolor{keywordtype}{integer} :: numTracer
+117         \textcolor{keywordtype}{integer} :: numTracer
 \end{DoxyCode}
 
 

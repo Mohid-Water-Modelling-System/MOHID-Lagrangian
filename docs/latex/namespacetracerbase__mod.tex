@@ -27,7 +27,7 @@ subroutine \mbox{\hyperlink{namespacetracerbase__mod_af85802e927b07e777b94375550
 \begin{DoxyCompactList}\small\item\em Method that sets the state array of this tracer. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacetracerbase__mod_ae320123e374df674769dbd48ba5ef46f}{printtracer}} (self)
 \begin{DoxyCompactList}\small\item\em Method to print basic info about the Tracer. \end{DoxyCompactList}\item 
-type(\mbox{\hyperlink{structtracerbase__mod_1_1tracer__class}{tracer\+\_\+class}}) function \mbox{\hyperlink{namespacetracerbase__mod_aefc12c2007d7598ff9b35733b430a3a2}{constructor}} (id, src, time, p)
+type(\mbox{\hyperlink{structtracerbase__mod_1_1tracer__class}{tracer\+\_\+class}}) function \mbox{\hyperlink{namespacetracerbase__mod_acf861b7ca360dcad1331ca85c50853a6}{constructor}} (id, src, time, p, var\+Num)
 \begin{DoxyCompactList}\small\item\em Base Tracer constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -40,11 +40,11 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespacetracerbase__mod_aefc12c2007d7598ff9b35733b430a3a2}\label{namespacetracerbase__mod_aefc12c2007d7598ff9b35733b430a3a2}} 
+\mbox{\Hypertarget{namespacetracerbase__mod_acf861b7ca360dcad1331ca85c50853a6}\label{namespacetracerbase__mod_acf861b7ca360dcad1331ca85c50853a6}} 
 \index{tracerbase\+\_\+mod@{tracerbase\+\_\+mod}!constructor@{constructor}}
 \index{constructor@{constructor}!tracerbase\+\_\+mod@{tracerbase\+\_\+mod}}
 \subsubsection{\texorpdfstring{constructor()}{constructor()}}
-{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracerbase__mod_1_1tracer__class}{tracer\+\_\+class}}) function tracerbase\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{id,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src,  }\item[{real(prec), intent(in)}]{time,  }\item[{integer, intent(in)}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily type(\mbox{\hyperlink{structtracerbase__mod_1_1tracer__class}{tracer\+\_\+class}}) function tracerbase\+\_\+mod\+::constructor (\begin{DoxyParamCaption}\item[{integer, intent(in)}]{id,  }\item[{class(\mbox{\hyperlink{structsources__mod_1_1source__class}{source\+\_\+class}}), intent(in)}]{src,  }\item[{real(prec), intent(in)}]{time,  }\item[{integer, intent(in)}]{p,  }\item[{integer, intent(in), optional}]{var\+Num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -55,35 +55,54 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em id,src,time,p} & \\
+\mbox{\tt in}  & {\em id,src,time,p,var\+Num} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 134 of file tracer\+Base.\+f90.
+Definition at line 146 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-134     \textcolor{keywordtype}{type}(tracer\_class) :: constructor
-135     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-136     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
-137     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
-138     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
-139     \textcolor{comment}{! initialize parameters}
-140     constructor%par%id = id
-141     constructor%par%idsource = src%par%id
-142     constructor%par%ttype = globals%Types%base
-143     \textcolor{comment}{! initialize tracer state}
-144     constructor%now%age=0.0
-145     constructor%now%active = .true.
-146     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
-147     constructor%now%vel = 0.0
+146     \textcolor{keywordtype}{type}(tracer\_class) :: constructor
+147     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+148     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+149     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+150     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+151     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: varNum
+152     \textcolor{keywordtype}{integer} :: varN
+153     varn = constructor%getNumVars()
+154     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(varnum)) varn = varnum
+155     \textcolor{comment}{! initialize parameters}
+156     constructor%par%id = id
+157     constructor%par%idsource = src%par%id
+158     constructor%par%ttype = globals%Types%base
+159     \textcolor{comment}{! initialize tracer state}
+160     constructor%now%age=0.0
+161     constructor%now%active = .true.
+162     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
+163     constructor%now%vel = 0.0
+164     constructor%now%diffusionVel = 0.0
+165     constructor%now%usedMixingLenght = 0.0
+166     \textcolor{comment}{! initialize var name list}
+167     \textcolor{keyword}{allocate}(constructor%varName(varn))
+168     constructor%varName(1) = \textcolor{stringliteral}{'x'}
+169     constructor%varName(2) = \textcolor{stringliteral}{'y'}
+170     constructor%varName(3) = \textcolor{stringliteral}{'z'}
+171     constructor%varName(4) = globals%Var%u
+172     constructor%varName(5) = globals%Var%v
+173     constructor%varName(6) = globals%Var%w
+174     constructor%varName(7) = \textcolor{stringliteral}{'dVelX'}
+175     constructor%varName(8) = \textcolor{stringliteral}{'dVelY'}
+176     constructor%varName(9) = \textcolor{stringliteral}{'dVelZ'}
+177     constructor%varName(10) = \textcolor{stringliteral}{'mLen'}
+178     constructor%varName(11) = \textcolor{stringliteral}{'age'}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{namespacetracerbase__mod_aefc12c2007d7598ff9b35733b430a3a2_icgraph}
+\includegraphics[width=350pt]{namespacetracerbase__mod_acf861b7ca360dcad1331ca85c50853a6_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{namespacetracerbase__mod_a0be55b393be0846cbbe6be9feb3bb539}\label{namespacetracerbase__mod_a0be55b393be0846cbbe6be9feb3bb539}} 
@@ -101,12 +120,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 68 of file tracer\+Base.\+f90.
+Definition at line 71 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-68     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(in)} :: self
-69     getnumvars = 6
+71     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(in)} :: self
+72     getnumvars = 11
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -130,19 +149,24 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 78 of file tracer\+Base.\+f90.
+Definition at line 81 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-78     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(in)} :: self
-79     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getStateArray
-80     \textcolor{keyword}{allocate}(getstatearray(self%getNumVars()))
-81     getstatearray(1) = self%now%pos%x
-82     getstatearray(2) = self%now%pos%y
-83     getstatearray(3) = self%now%pos%z
-84     getstatearray(4) = self%now%vel%x
-85     getstatearray(5) = self%now%vel%y
-86     getstatearray(6) = self%now%vel%z
+81     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(in)} :: self
+82     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getStateArray
+83     \textcolor{keyword}{allocate}(getstatearray(self%getNumVars()))
+84     getstatearray(1) = self%now%pos%x
+85     getstatearray(2) = self%now%pos%y
+86     getstatearray(3) = self%now%pos%z
+87     getstatearray(4) = self%now%vel%x
+88     getstatearray(5) = self%now%vel%y
+89     getstatearray(6) = self%now%vel%z
+90     getstatearray(7) = self%now%diffusionVel%x
+91     getstatearray(8) = self%now%diffusionVel%y
+92     getstatearray(9) = self%now%diffusionVel%z
+93     getstatearray(10) = self%now%usedMixingLenght
+94     getstatearray(11) = self%now%age
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -166,23 +190,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 112 of file tracer\+Base.\+f90.
+Definition at line 124 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-112     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-113     \textcolor{keywordtype}{type}(string) :: outext, t(6)
-114     \textcolor{keywordflow}{if} (self%now%active .eqv. .false.) \textcolor{keywordflow}{then}
-115         outext = \textcolor{stringliteral}{'-->Tracer is inactive'}
-116         \textcolor{keyword}{call }log%put(outext,.false.)
-117     \textcolor{keywordflow}{else}
-118         t(1) = self%par%id
-119         t(2) = self%now%pos%x
-120         t(3) = self%now%pos%y
-121         t(4) = self%now%pos%z
-122         outext = \textcolor{stringliteral}{'Tracer['}//t(1)//\textcolor{stringliteral}{']::xyz('}//t(2)//\textcolor{stringliteral}{','}//t(3)//\textcolor{stringliteral}{','}//t(4)//\textcolor{stringliteral}{')'}
-123         \textcolor{keyword}{call }log%put(outext,.false.)
-124 \textcolor{keywordflow}{    end if}
+124     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+125     \textcolor{keywordtype}{type}(string) :: outext, t(6)
+126     \textcolor{keywordflow}{if} (self%now%active .eqv. .false.) \textcolor{keywordflow}{then}
+127         outext = \textcolor{stringliteral}{'-->Tracer is inactive'}
+128         \textcolor{keyword}{call }log%put(outext,.false.)
+129     \textcolor{keywordflow}{else}
+130         t(1) = self%par%id
+131         t(2) = self%now%pos%x
+132         t(3) = self%now%pos%y
+133         t(4) = self%now%pos%z
+134         outext = \textcolor{stringliteral}{'Tracer['}//t(1)//\textcolor{stringliteral}{']::xyz('}//t(2)//\textcolor{stringliteral}{','}//t(3)//\textcolor{stringliteral}{','}//t(4)//\textcolor{stringliteral}{')'}
+135         \textcolor{keyword}{call }log%put(outext,.false.)
+136 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacetracerbase__mod_af85802e927b07e777b94375550246c16}\label{namespacetracerbase__mod_af85802e927b07e777b94375550246c16}} 
 \index{tracerbase\+\_\+mod@{tracerbase\+\_\+mod}!setstatearray@{setstatearray}}
@@ -199,17 +223,21 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 95 of file tracer\+Base.\+f90.
+Definition at line 103 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-95     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-96     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: stateArray
-97     \textcolor{comment}{!if(size(stateArray)<self%getNumVars())}
-98     self%now%pos%x = statearray(1)
-99     self%now%pos%y = statearray(2)
-100     self%now%pos%z = statearray(3)
-101     self%now%vel%x = statearray(4)
-102     self%now%vel%y = statearray(5)
-103     self%now%vel%z = statearray(6)
+103     \textcolor{keywordtype}{class}(tracer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+104     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: stateArray
+105     self%now%pos%x = statearray(1)
+106     self%now%pos%y = statearray(2)
+107     self%now%pos%z = statearray(3)
+108     self%now%vel%x = statearray(4)
+109     self%now%vel%y = statearray(5)
+110     self%now%vel%z = statearray(6)
+111     self%now%diffusionVel%z = statearray(7)
+112     self%now%diffusionVel%z = statearray(8)
+113     self%now%diffusionVel%z = statearray(9)
+114     self%now%usedMixingLenght = statearray(10)
+115     self%now%age   = statearray(11)
 \end{DoxyCode}

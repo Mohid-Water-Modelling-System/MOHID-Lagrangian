@@ -10,12 +10,16 @@ Module to hold the simulation global parameter classes and their methods.
 \item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Case Constants class. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1datatypes__t}{datatypes\+\_\+t}}
+\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t}{filenames\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em File names class. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Globals class -\/ This is a container for every global variable on the simulation. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1maskvals__t}{maskvals\+\_\+t}}
 \item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation related counters and others. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1parameters__t}{parameters\+\_\+t}}
 \item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}
@@ -24,8 +28,8 @@ type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{sim\+\_\+tim
 \item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Simulation definitions class. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structsimulationglobals__mod_1_1src__parm__t}{src\+\_\+parm\+\_\+t}}
-\begin{DoxyCompactList}\small\item\em Lists for Source parameters. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1sources__t}{sources\+\_\+t}}
+\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1stringlist__class}{stringlist\+\_\+class}}
 \item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1tracertypes__t}{tracertypes\+\_\+t}}
@@ -77,8 +81,14 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a77d7175bc03e472ee9a
 \begin{DoxyCompactList}\small\item\em incrementing output file count. \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}{getnumoutfile}} (self)
 \begin{DoxyCompactList}\small\item\em Returns the number of output files written. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}{buildlists}} (self)
-\begin{DoxyCompactList}\small\item\em Method to build the parameters list of the Sources. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a1b94fa3858d556fc974a7ac6b18625cb}{addtooutputpool}} (self, var)
+\begin{DoxyCompactList}\small\item\em adds a variable name to the output pool. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a046b75c2e163809ea467da6340f1829c}{setoutputfields}} (self, fields, to\+Output)
+\begin{DoxyCompactList}\small\item\em adds variable fields one by one to the output pool, given a string and boolean list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ac0323793c29be7c79a735ca766fb8a78}{getoutputpoolarray}} (self, array)
+\begin{DoxyCompactList}\small\item\em adds a variable name to the output pool. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacesimulationglobals__mod_a17dc711ec02d5aea0c33006939da8dec}{inoutputpool}} (self, var)
+\begin{DoxyCompactList}\small\item\em Returns true if a given var is in the output pool. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}{setparam}} (self, parmkey, parmvalue)
 \begin{DoxyCompactList}\small\item\em Private parameter setting method. Builds the simulation parametric space from the input case file. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}{check}} (self)
@@ -93,6 +103,10 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7d41fc05216d326ae8c
 \begin{DoxyCompactList}\small\item\em Rho\+Ref setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3b24d0338ee34782c8e2ab57bba7b5f6}{setbeachinglevel}} (self, read\+\_\+\+Beaching\+Level)
 \begin{DoxyCompactList}\small\item\em Beaching Level setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_aacd46eb198a99699d7be61b807363fc6}{setbeachingstopprob}} (self, read\+\_\+\+Beaching\+Stop\+Prob)
+\begin{DoxyCompactList}\small\item\em Beaching stop probability setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a70465a87d621a450f8b100fad0d29bc9}{setdiffusioncoeff}} (self, read\+\_\+\+Diffusion\+Coeff)
+\begin{DoxyCompactList}\small\item\em Horizontal Diffusion coefficient setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}{setsmalldt}} (self, dt)
 \begin{DoxyCompactList}\small\item\em small\+Dt setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}{printconstants}} (self)
@@ -116,6 +130,10 @@ logical function \mbox{\hyperlink{namespacesimulationglobals__mod_a12410ee549ead
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
+type(string), public \mbox{\hyperlink{namespacesimulationglobals__mod_a359d52eab96ddcaba05e0504eff0ef37}{notread}}
+\item 
+type(string), public \mbox{\hyperlink{namespacesimulationglobals__mod_a34d00a17e5931ddf3ab1a361f6299ae3}{notset}}
+\item 
 type(\mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{globals\+\_\+class}}), public \mbox{\hyperlink{namespacesimulationglobals__mod_acf1e2786d81bd0fe337a8458efce8733}{globals}}
 \end{DoxyCompactItemize}
 
@@ -129,6 +147,29 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a1b94fa3858d556fc974a7ac6b18625cb}\label{namespacesimulationglobals__mod_a1b94fa3858d556fc974a7ac6b18625cb}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!addtooutputpool@{addtooutputpool}}
+\index{addtooutputpool@{addtooutputpool}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{addtooutputpool()}{addtooutputpool()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::addtooutputpool (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+adds a variable name to the output pool. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 765 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+765     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+766     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
+767     \textcolor{keywordflow}{if} (self%varToOutput%notRepeated(var)) \textcolor{keyword}{call }self%varToOutput%add(var)
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_afd372c5764a180f9029d4dc3cddce94d}\label{namespacesimulationglobals__mod_afd372c5764a180f9029d4dc3cddce94d}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!addvar@{addvar}}
 \index{addvar@{addvar}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
@@ -144,44 +185,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 335 of file simulation\+Globals.\+f90.
+Definition at line 384 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-335     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
-336     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
-337     \textcolor{keywordflow}{if} (self%varToUse%notRepeated(var)) \textcolor{keyword}{call }self%varToUse%add(var)
-\end{DoxyCode}
-\mbox{\Hypertarget{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}\label{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}} 
-\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!buildlists@{buildlists}}
-\index{buildlists@{buildlists}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
-\subsubsection{\texorpdfstring{buildlists()}{buildlists()}}
-{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::buildlists (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1src__parm__t}{src\+\_\+parm\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Method to build the parameters list of the Sources. 
-
-\begin{DoxyAuthor}{Author}
-Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
-\end{DoxyAuthor}
-
-
-Definition at line 687 of file simulation\+Globals.\+f90.
-
-
-\begin{DoxyCode}
-687     \textcolor{keywordtype}{implicit none}
-688     \textcolor{keywordtype}{class}(src\_parm\_t), \textcolor{keywordtype}{intent(inout)} :: self
-689     \textcolor{keyword}{allocate}(self%baselist(5))
-690     self%baselist(1) = \textcolor{stringliteral}{'particulate'}
-691     self%baselist(2) = \textcolor{stringliteral}{'density'}
-692     self%baselist(3) = \textcolor{stringliteral}{'radius'}
-693     self%baselist(4) = \textcolor{stringliteral}{'condition'}
-694     self%baselist(5) = \textcolor{stringliteral}{'degradation\_rate'}
-695     \textcolor{keyword}{allocate}(self%particulatelist(2))
-696     self%particulatelist(1) = \textcolor{stringliteral}{'intitial\_concentration'}
-697     self%particulatelist(2) = \textcolor{stringliteral}{'particle\_radius'}
+384     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
+385     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
+386     \textcolor{keywordflow}{if} (self%varToUse%notRepeated(var)) \textcolor{keyword}{call }self%varToUse%add(var)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a4aa829af1699c705e46f47bb023ac162}\label{namespacesimulationglobals__mod_a4aa829af1699c705e46f47bb023ac162}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!buildvars@{buildvars}}
@@ -198,34 +208,39 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 303 of file simulation\+Globals.\+f90.
+Definition at line 347 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-303     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
-304     self%u       = \textcolor{stringliteral}{'u'}
-305     self%v       = \textcolor{stringliteral}{'v'}
-306     self%w       = \textcolor{stringliteral}{'w'}
-307     self%temp    = \textcolor{stringliteral}{'temp'}
-308     self%sal     = \textcolor{stringliteral}{'sal'}
-309     self%density = \textcolor{stringliteral}{'density'}
-310     self%lon     = \textcolor{stringliteral}{'lon'}
-311     self%lat     = \textcolor{stringliteral}{'lat'}
-312     self%level   = \textcolor{stringliteral}{'level'}
-313     self%time    = \textcolor{stringliteral}{'time'}
-314     self%landMask    = \textcolor{stringliteral}{'landMask'}
-315     self%landIntMask = \textcolor{stringliteral}{'landIntMask'}
-316     \textcolor{comment}{!adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors}
-317     \textcolor{keyword}{call }self%addVar(self%u)
-318     \textcolor{keyword}{call }self%addVar(self%v)
-319     \textcolor{keyword}{call }self%addVar(self%w)
-320     \textcolor{keyword}{call }self%addVar(self%temp)
-321     \textcolor{keyword}{call }self%addVar(self%sal)
-322     \textcolor{keyword}{call }self%addVar(self%density)
-323     \textcolor{comment}{!call self%addVar(self%lon)}
-324     \textcolor{comment}{!call self%addVar(self%lat)}
-325     \textcolor{comment}{!call self%addVar(self%level)}
-326     \textcolor{comment}{!call self%addVar(self%time)}
+347     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
+348     self%u       = \textcolor{stringliteral}{'u'}
+349     self%v       = \textcolor{stringliteral}{'v'}
+350     self%w       = \textcolor{stringliteral}{'w'}
+351     self%temp    = \textcolor{stringliteral}{'temp'}
+352     self%sal     = \textcolor{stringliteral}{'sal'}
+353     self%density = \textcolor{stringliteral}{'density'}
+354     self%vsdx    = \textcolor{stringliteral}{'vsdx'}
+355     self%vsdy    = \textcolor{stringliteral}{'vsdy'}
+356     self%u10     = \textcolor{stringliteral}{'u10'}
+357     self%v10     = \textcolor{stringliteral}{'v10'}
+358     self%lon     = \textcolor{stringliteral}{'lon'}
+359     self%lat     = \textcolor{stringliteral}{'lat'}
+360     self%level   = \textcolor{stringliteral}{'level'}
+361     self%time    = \textcolor{stringliteral}{'time'}
+362     self%landIntMask = \textcolor{stringliteral}{'landIntMask'}
+363     self%resolution = \textcolor{stringliteral}{'resolution'}
+364     self%rate = \textcolor{stringliteral}{'rate'}
+365     \textcolor{comment}{!adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors}
+366     \textcolor{keyword}{call }self%addVar(self%u)
+367     \textcolor{keyword}{call }self%addVar(self%v)
+368     \textcolor{keyword}{call }self%addVar(self%w)
+369     \textcolor{keyword}{call }self%addVar(self%temp)
+370     \textcolor{keyword}{call }self%addVar(self%sal)
+371     \textcolor{keyword}{call }self%addVar(self%density)
+372     \textcolor{comment}{!call self%addVar(self%lon)}
+373     \textcolor{comment}{!call self%addVar(self%lat)}
+374     \textcolor{comment}{!call self%addVar(self%level)}
+375     \textcolor{comment}{!call self%addVar(self%time)}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}\label{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!check@{check}}
@@ -242,54 +257,53 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 764 of file simulation\+Globals.\+f90.
+Definition at line 892 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-764     \textcolor{keywordtype}{implicit none}
-765     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
-766     \textcolor{keywordtype}{type}(string) :: outext
-767     \textcolor{keywordtype}{type}(datetime) :: temp
-768     \textcolor{keywordtype}{type}(timedelta) :: simtime
-769 
-770     \textcolor{keywordflow}{if} ( any(self%IntegratorIndexes == self%Integrator)) \textcolor{keywordflow}{then}
-771     \textcolor{keywordflow}{else}
-772         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: Integrator not recognized, stoping'}
-773         \textcolor{keyword}{call }log%put(outext)
-774         stop
-775 \textcolor{keywordflow}{    end if}
-776     \textcolor{keywordflow}{if} ( any(self%OutputFormatIndexes == self%OutputFormat)) \textcolor{keywordflow}{then}
-777         \textcolor{keywordflow}{if} (self%OutputFormat == 1) \textcolor{keywordflow}{then}
-778             outext = \textcolor{stringliteral}{'[Globals::parameters::check]: NetCDF is not implemented yet, try something nicer like
+892     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
+893     \textcolor{keywordtype}{type}(string) :: outext
+894     \textcolor{keywordtype}{type}(datetime) :: temp
+895     \textcolor{keywordtype}{type}(timedelta) :: simtime
+896 
+897     \textcolor{keywordflow}{if} ( any(self%IntegratorIndexes == self%Integrator)) \textcolor{keywordflow}{then}
+898     \textcolor{keywordflow}{else}
+899         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: Integrator not recognized, stoping'}
+900         \textcolor{keyword}{call }log%put(outext)
+901         stop
+902 \textcolor{keywordflow}{    end if}
+903     \textcolor{keywordflow}{if} ( any(self%OutputFormatIndexes == self%OutputFormat)) \textcolor{keywordflow}{then}
+904         \textcolor{keywordflow}{if} (self%OutputFormat == 1) \textcolor{keywordflow}{then}
+905             outext = \textcolor{stringliteral}{'[Globals::parameters::check]: NetCDF is not implemented yet, try something nicer like
        VTK, stoping'}
-779             \textcolor{keyword}{call }log%put(outext)
-780             stop
-781 \textcolor{keywordflow}{        end if}
-782     \textcolor{keywordflow}{else}
-783         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: OutputFormat not recognized, stoping'}
-784         \textcolor{keyword}{call }log%put(outext)
-785         stop
-786 \textcolor{keywordflow}{    end if}
-787     temp = datetime() \textcolor{comment}{!default initialization}
-788     \textcolor{comment}{!add new parameters to this search}
-789     \textcolor{keywordflow}{if} (self%OutputWriteTime==mv) \textcolor{keywordflow}{then}
-790         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: Output sampling rate parameter (OutputWriteTime) is not
+906             \textcolor{keyword}{call }log%put(outext)
+907             stop
+908 \textcolor{keywordflow}{        end if}
+909     \textcolor{keywordflow}{else}
+910         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: OutputFormat not recognized, stoping'}
+911         \textcolor{keyword}{call }log%put(outext)
+912         stop
+913 \textcolor{keywordflow}{    end if}
+914     temp = datetime() \textcolor{comment}{!default initialization}
+915     \textcolor{comment}{!add new parameters to this search}
+916     \textcolor{keywordflow}{if} (self%OutputWriteTime==mv) \textcolor{keywordflow}{then}
+917         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: Output sampling rate parameter (OutputWriteTime) is not
        set, stoping'}
-791         \textcolor{keyword}{call }log%put(outext)
-792         stop
-793     \textcolor{keywordflow}{elseif} (self%StartTime==temp) \textcolor{keywordflow}{then}
-794         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: start time parameter (Start) is not set or invalid,
+918         \textcolor{keyword}{call }log%put(outext)
+919         stop
+920     \textcolor{keywordflow}{elseif} (self%StartTime==temp) \textcolor{keywordflow}{then}
+921         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: start time parameter (Start) is not set or invalid,
        stoping'}
-795         \textcolor{keyword}{call }log%put(outext)
-796         stop
-797     \textcolor{keywordflow}{elseif} (self%EndTime==temp) \textcolor{keywordflow}{then}
-798         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: end time parameter (End) is not set or invalid, stoping'}
-799         \textcolor{keyword}{call }log%put(outext)
-800         stop
-801 \textcolor{keywordflow}{    end if}
-802     \textcolor{comment}{!Build timemax from the difference between start and end time}
-803     simtime = self%EndTime - self%StartTime
-804     self%TimeMax = simtime%total\_seconds()
+922         \textcolor{keyword}{call }log%put(outext)
+923         stop
+924     \textcolor{keywordflow}{elseif} (self%EndTime==temp) \textcolor{keywordflow}{then}
+925         outext = \textcolor{stringliteral}{'[Globals::parameters::check]: end time parameter (End) is not set or invalid, stoping'}
+926         \textcolor{keyword}{call }log%put(outext)
+927         stop
+928 \textcolor{keywordflow}{    end if}
+929     \textcolor{comment}{!Build timemax from the difference between start and end time}
+930     simtime = self%EndTime - self%StartTime
+931     self%TimeMax = simtime%total\_seconds()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a1fd33b50ae2216b3b7db074da1672398}\label{namespacesimulationglobals__mod_a1fd33b50ae2216b3b7db074da1672398}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getdatetimestamp@{getdatetimestamp}}
@@ -306,21 +320,21 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 561 of file simulation\+Globals.\+f90.
+Definition at line 645 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-561     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(inout)} :: self
-562     \textcolor{keywordtype}{type}(timedelta) :: step, day
-563     day = timedelta(days=1)
-564     step = self%CurrDate - self%BaseDateTime
-565     getdatetimestamp = step%total\_seconds()/day%total\_seconds()
+645     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(inout)} :: self
+646     \textcolor{keywordtype}{type}(timedelta) :: step, day
+647     day = timedelta(days=1)
+648     step = self%CurrDate - self%BaseDateTime
+649     getdatetimestamp = step%total\_seconds()/day%total\_seconds()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ac643661b27d17726e0305e34370de5c3}\label{namespacesimulationglobals__mod_ac643661b27d17726e0305e34370de5c3}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getlastoutnumdt@{getlastoutnumdt}}
 \index{getlastoutnumdt@{getlastoutnumdt}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
 \subsubsection{\texorpdfstring{getlastoutnumdt()}{getlastoutnumdt()}}
-{\footnotesize\ttfamily integer function simulationglobals\+\_\+mod\+::getlastoutnumdt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily integer function simulationglobals\+\_\+mod\+::getlastoutnumdt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -331,12 +345,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 644 of file simulation\+Globals.\+f90.
+Definition at line 724 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-644     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-645     getlastoutnumdt = self%lastOutNumDt
+724     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+725     getlastoutnumdt = self%lastOutNumDt
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_af313959d6cbfc4cb0ab330aa094511c5}\label{namespacesimulationglobals__mod_af313959d6cbfc4cb0ab330aa094511c5}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getnumdt@{getnumdt}}
@@ -353,19 +367,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 633 of file simulation\+Globals.\+f90.
+Definition at line 714 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-633     \textcolor{keywordtype}{implicit none}
-634     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-635     getnumdt = self%numdt
+714     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+715     getnumdt = self%numdt
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}\label{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getnumoutfile@{getnumoutfile}}
 \index{getnumoutfile@{getnumoutfile}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
 \subsubsection{\texorpdfstring{getnumoutfile()}{getnumoutfile()}}
-{\footnotesize\ttfamily integer function simulationglobals\+\_\+mod\+::getnumoutfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily integer function simulationglobals\+\_\+mod\+::getnumoutfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -376,13 +389,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 676 of file simulation\+Globals.\+f90.
+Definition at line 755 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-676     \textcolor{keywordtype}{implicit none}
-677     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-678     getnumoutfile = self%numoutfile
+755     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+756     getnumoutfile = self%numOutFile
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ac4915156236196940b31ff02d53af295}\label{namespacesimulationglobals__mod_ac4915156236196940b31ff02d53af295}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getnumtracer@{getnumtracer}}
@@ -399,14 +411,55 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 610 of file simulation\+Globals.\+f90.
+Definition at line 693 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-610     \textcolor{keywordtype}{implicit none}
-611     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-612     \textcolor{keyword}{call }self%increment\_numTracer()
-613     getnumtracer = self%numTracer
+693     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+694     \textcolor{keyword}{call }self%increment\_numTracer()
+695     getnumtracer = self%numTracer
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_ac0323793c29be7c79a735ca766fb8a78}\label{namespacesimulationglobals__mod_ac0323793c29be7c79a735ca766fb8a78}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getoutputpoolarray@{getoutputpoolarray}}
+\index{getoutputpoolarray@{getoutputpoolarray}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{getoutputpoolarray()}{getoutputpoolarray()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::getoutputpoolarray (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), dimension(\+:), intent(out), allocatable}]{array }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+adds a variable name to the output pool. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 794 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+794     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+795     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(out)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: array
+796     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+797     \textcolor{keywordtype}{integer} :: i
+798     \textcolor{keywordtype}{type}(string) :: outext
+799     i=1
+800     \textcolor{keyword}{allocate}(array(self%varToOutput%getSize()))
+801     \textcolor{keyword}{call }self%varToOutput%reset()               \textcolor{comment}{! reset list iterator}
+802     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%varToOutput%moreValues())     \textcolor{comment}{! loop while there are values to print}
+803         curr => self%varToOutput%currentValue() \textcolor{comment}{! get current value}
+804         \textcolor{keywordflow}{select type}(curr)
+805 \textcolor{keywordflow}{        class is} (string)
+806             array(i) = curr
+807 \textcolor{keywordflow}{            class default}
+808             outext = \textcolor{stringliteral}{'[Globals::getOutputPoolArray] Unexepected type of content, not a string'}
+809             \textcolor{keyword}{call }log%put(outext)
+810             stop
+811 \textcolor{keywordflow}{        end select}
+812         \textcolor{keyword}{call }self%varToOutput%next()            \textcolor{comment}{! increment the list iterator}
+813         i = i + 1
+814 \textcolor{keywordflow}{    end do}
+815     \textcolor{keyword}{call }self%varToOutput%reset()               \textcolor{comment}{! reset list iterator}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ac83c53dd4e998e653981c7b1fa5dacbd}\label{namespacesimulationglobals__mod_ac83c53dd4e998e653981c7b1fa5dacbd}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!getvarsimname@{getvarsimname}}
@@ -428,64 +481,89 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 348 of file simulation\+Globals.\+f90.
+Definition at line 397 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-348     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
-349     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
-350 
-351     \textcolor{comment}{!searching for u}
-352     \textcolor{keywordflow}{if} (var == self%u .or. .not.self%uVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-353         getvarsimname = self%u
-354         \textcolor{keywordflow}{return}
-355 \textcolor{keywordflow}{    end if}
-356     \textcolor{comment}{!searching for v}
-357     \textcolor{keywordflow}{if} (var == self%v .or. .not.self%vVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-358         getvarsimname = self%v
-359         \textcolor{keywordflow}{return}
-360 \textcolor{keywordflow}{    end if}
-361     \textcolor{comment}{!searching for w}
-362     \textcolor{keywordflow}{if} (var == self%w .or. .not.self%wVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-363         getvarsimname = self%w
-364         \textcolor{keywordflow}{return}
-365 \textcolor{keywordflow}{    end if}
-366     \textcolor{comment}{!searching for temp}
-367     \textcolor{keywordflow}{if} (var == self%temp .or. .not.self%tempVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-368         getvarsimname = self%temp
-369         \textcolor{keywordflow}{return}
-370 \textcolor{keywordflow}{    end if}
-371     \textcolor{comment}{!searching for sal}
-372     \textcolor{keywordflow}{if} (var == self%sal .or. .not.self%salVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-373         getvarsimname = self%sal
-374         \textcolor{keywordflow}{return}
-375 \textcolor{keywordflow}{    end if}
-376     \textcolor{comment}{!searching for density}
-377     \textcolor{keywordflow}{if} (var == self%density .or. .not.self%densityVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-378         getvarsimname = self%density
-379         \textcolor{keywordflow}{return}
-380 \textcolor{keywordflow}{    end if}
-381     \textcolor{comment}{!searching for lon}
-382     \textcolor{keywordflow}{if} (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-383         getvarsimname = self%lon
-384         \textcolor{keywordflow}{return}
-385 \textcolor{keywordflow}{    end if}
-386     \textcolor{comment}{!searching for lat}
-387     \textcolor{keywordflow}{if} (var == self%lat .or. .not.self%latVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-388         getvarsimname = self%lat
-389         \textcolor{keywordflow}{return}
-390 \textcolor{keywordflow}{    end if}
-391     \textcolor{comment}{!searching for level}
-392     \textcolor{keywordflow}{if} (var == self%level .or. .not.self%levelVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-393         getvarsimname = self%level
-394         \textcolor{keywordflow}{return}
-395 \textcolor{keywordflow}{    end if}
-396     \textcolor{comment}{!searching for time}
-397     \textcolor{keywordflow}{if} (var == self%time .or. .not.self%timeVariants%notRepeated(var)) \textcolor{keywordflow}{then}
-398         getvarsimname = self%time
-399         \textcolor{keywordflow}{return}
-400 \textcolor{keywordflow}{    end if}
-401 
+397     \textcolor{keywordtype}{class}(var\_names\_t), \textcolor{keywordtype}{intent(inout)} :: self
+398     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
+399 
+400     \textcolor{comment}{!searching for u}
+401     \textcolor{keywordflow}{if} (var == self%u .or. .not.self%uVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+402         getvarsimname = self%u
+403         \textcolor{keywordflow}{return}
+404 \textcolor{keywordflow}{    end if}
+405     \textcolor{comment}{!searching for v}
+406     \textcolor{keywordflow}{if} (var == self%v .or. .not.self%vVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+407         getvarsimname = self%v
+408         \textcolor{keywordflow}{return}
+409 \textcolor{keywordflow}{    end if}
+410     \textcolor{comment}{!searching for w}
+411     \textcolor{keywordflow}{if} (var == self%w .or. .not.self%wVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+412         getvarsimname = self%w
+413         \textcolor{keywordflow}{return}
+414 \textcolor{keywordflow}{    end if}
+415     \textcolor{comment}{!searching for temp}
+416     \textcolor{keywordflow}{if} (var == self%temp .or. .not.self%tempVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+417         getvarsimname = self%temp
+418         \textcolor{keywordflow}{return}
+419 \textcolor{keywordflow}{    end if}
+420     \textcolor{comment}{!searching for sal}
+421     \textcolor{keywordflow}{if} (var == self%sal .or. .not.self%salVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+422         getvarsimname = self%sal
+423         \textcolor{keywordflow}{return}
+424 \textcolor{keywordflow}{    end if}
+425     \textcolor{comment}{!searching for density}
+426     \textcolor{keywordflow}{if} (var == self%density .or. .not.self%densityVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+427         getvarsimname = self%density
+428         \textcolor{keywordflow}{return}
+429 \textcolor{keywordflow}{    end if}
+430     \textcolor{comment}{!searching for vsdx}
+431     \textcolor{keywordflow}{if} (var == self%vsdx .or. .not.self%vsdxVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+432         getvarsimname = self%vsdx
+433         \textcolor{keywordflow}{return}
+434 \textcolor{keywordflow}{    end if}
+435     \textcolor{comment}{!searching for vsdy}
+436     \textcolor{keywordflow}{if} (var == self%vsdy .or. .not.self%vsdyVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+437         getvarsimname = self%vsdy
+438         \textcolor{keywordflow}{return}
+439 \textcolor{keywordflow}{    end if}
+440     \textcolor{comment}{!searching for u10}
+441     \textcolor{keywordflow}{if} (var == self%u10 .or. .not.self%u10Variants%notRepeated(var)) \textcolor{keywordflow}{then}
+442         getvarsimname = self%u10
+443         \textcolor{keywordflow}{return}
+444 \textcolor{keywordflow}{    end if}
+445     \textcolor{comment}{!searching for v10}
+446     \textcolor{keywordflow}{if} (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) \textcolor{keywordflow}{then}
+447         getvarsimname = self%v10
+448         \textcolor{keywordflow}{return}
+449 \textcolor{keywordflow}{    end if}
+450     \textcolor{comment}{!searching for lon}
+451     \textcolor{keywordflow}{if} (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+452         getvarsimname = self%lon
+453         \textcolor{keywordflow}{return}
+454 \textcolor{keywordflow}{    end if}
+455     \textcolor{comment}{!searching for lat}
+456     \textcolor{keywordflow}{if} (var == self%lat .or. .not.self%latVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+457         getvarsimname = self%lat
+458         \textcolor{keywordflow}{return}
+459 \textcolor{keywordflow}{    end if}
+460     \textcolor{comment}{!searching for level}
+461     \textcolor{keywordflow}{if} (var == self%level .or. .not.self%levelVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+462         getvarsimname = self%level
+463         \textcolor{keywordflow}{return}
+464 \textcolor{keywordflow}{    end if}
+465     \textcolor{comment}{!searching for time}
+466     \textcolor{keywordflow}{if} (var == self%time .or. .not.self%timeVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+467         getvarsimname = self%time
+468         \textcolor{keywordflow}{return}
+469 \textcolor{keywordflow}{    end if}
+470     \textcolor{comment}{!searching for rate}
+471     \textcolor{keywordflow}{if} (var == self%rate .or. .not.self%rateVariants%notRepeated(var)) \textcolor{keywordflow}{then}
+472         getvarsimname = self%rate
+473         \textcolor{keywordflow}{return}
+474 \textcolor{keywordflow}{    end if}
+475 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ad983ee8885b275c6fa1369f1e158e078}\label{namespacesimulationglobals__mod_ad983ee8885b275c6fa1369f1e158e078}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!increment\+\_\+numdt@{increment\+\_\+numdt}}
@@ -502,19 +580,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 622 of file simulation\+Globals.\+f90.
+Definition at line 704 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-622     \textcolor{keywordtype}{implicit none}
-623     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-624     self%numdt = self%numdt + 1
+704     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+705     self%numdt = self%numdt + 1
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a77d7175bc03e472ee9a00ee9f6ff1b0e}\label{namespacesimulationglobals__mod_a77d7175bc03e472ee9a00ee9f6ff1b0e}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!increment\+\_\+numoutfile@{increment\+\_\+numoutfile}}
 \index{increment\+\_\+numoutfile@{increment\+\_\+numoutfile}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
 \subsubsection{\texorpdfstring{increment\+\_\+numoutfile()}{increment\_numoutfile()}}
-{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::increment\+\_\+numoutfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::increment\+\_\+numoutfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -525,13 +602,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 665 of file simulation\+Globals.\+f90.
+Definition at line 745 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-665     \textcolor{keywordtype}{implicit none}
-666     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-667     self%numoutfile = self%numoutfile + 1
+745     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+746     self%numOutFile = self%numOutFile + 1
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a3f11ed9f7735018950e1921ead871269}\label{namespacesimulationglobals__mod_a3f11ed9f7735018950e1921ead871269}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!increment\+\_\+numtracer@{increment\+\_\+numtracer}}
@@ -548,14 +624,36 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 598 of file simulation\+Globals.\+f90.
+Definition at line 682 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-598     \textcolor{keywordtype}{implicit none}
-599     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-600     \textcolor{comment}{!ATOMIC pragma here please}
-601     self%numTracer = self%numTracer + 1
+682     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
+683     \textcolor{comment}{!ATOMIC pragma here please}
+684     self%numTracer = self%numTracer + 1
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a17dc711ec02d5aea0c33006939da8dec}\label{namespacesimulationglobals__mod_a17dc711ec02d5aea0c33006939da8dec}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!inoutputpool@{inoutputpool}}
+\index{inoutputpool@{inoutputpool}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{inoutputpool()}{inoutputpool()}}
+{\footnotesize\ttfamily logical function simulationglobals\+\_\+mod\+::inoutputpool (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{var }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Returns true if a given var is in the output pool. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 824 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+824     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+825     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: var
+826     inoutputpool = .not.self%varToOutput%notRepeated(var)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a12410ee549ead4c6d892dca6ead74d15}\label{namespacesimulationglobals__mod_a12410ee549ead4c6d892dca6ead74d15}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!notrepeated@{notrepeated}}
@@ -572,32 +670,32 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 1121 of file simulation\+Globals.\+f90.
+Definition at line 1285 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-1121     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
-1122     \textcolor{keywordtype}{class}(string), \textcolor{keywordtype}{intent(in)} :: str
-1123     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-1124     \textcolor{keywordtype}{type}(string) :: outext
-1125     notrepeated = .true.
-1126     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
-1127     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
-1128         curr => this%currentValue() \textcolor{comment}{! get current value}
-1129         \textcolor{keywordflow}{select type}(curr)
-1130 \textcolor{keywordflow}{        class is} (string)
-1131             \textcolor{keywordflow}{if} (curr == str) \textcolor{keywordflow}{then}
-1132                 notrepeated = .false.
-1133                 \textcolor{keywordflow}{return}
-1134 \textcolor{keywordflow}{            end if}
-1135 \textcolor{keywordflow}{            class default}
-1136             outext = \textcolor{stringliteral}{'[stringList\_class::notRepeated] Unexepected type of content, not a string'}
-1137             \textcolor{keyword}{call }log%put(outext)
-1138             stop
-1139 \textcolor{keywordflow}{        end select}
-1140         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
-1141 \textcolor{keywordflow}{    end do}
-1142     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+1285     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
+1286     \textcolor{keywordtype}{class}(string), \textcolor{keywordtype}{intent(in)} :: str
+1287     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+1288     \textcolor{keywordtype}{type}(string) :: outext
+1289     notrepeated = .true.
+1290     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+1291     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
+1292         curr => this%currentValue() \textcolor{comment}{! get current value}
+1293         \textcolor{keywordflow}{select type}(curr)
+1294 \textcolor{keywordflow}{        class is} (string)
+1295             \textcolor{keywordflow}{if} (curr == str) \textcolor{keywordflow}{then}
+1296                 notrepeated = .false.
+1297                 \textcolor{keywordflow}{return}
+1298 \textcolor{keywordflow}{            end if}
+1299 \textcolor{keywordflow}{            class default}
+1300             outext = \textcolor{stringliteral}{'[stringList\_class::notRepeated] Unexepected type of content, not a string'}
+1301             \textcolor{keyword}{call }log%put(outext)
+1302             stop
+1303 \textcolor{keywordflow}{        end select}
+1304         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
+1305 \textcolor{keywordflow}{    end do}
+1306     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a7adb33aaa9ea0a94c38789c07ff3e787}\label{namespacesimulationglobals__mod_a7adb33aaa9ea0a94c38789c07ff3e787}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!print\+\_\+stringlist@{print\+\_\+stringlist}}
@@ -614,18 +712,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 1083 of file simulation\+Globals.\+f90.
+Definition at line 1247 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-1083     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
-1084     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-1085     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
-1086     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
-1087         \textcolor{keyword}{call }this%printCurrent()
-1088         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
-1089 \textcolor{keywordflow}{    end do}
-1090     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+1247     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
+1248     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+1249     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+1250     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
+1251         \textcolor{keyword}{call }this%printCurrent()
+1252         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
+1253 \textcolor{keywordflow}{    end do}
+1254     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a405f70548e38f0af65d4cbdb7c7025a4}\label{namespacesimulationglobals__mod_a405f70548e38f0af65d4cbdb7c7025a4}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!print\+\_\+stringlistcurrent@{print\+\_\+stringlistcurrent}}
@@ -642,23 +740,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 1099 of file simulation\+Globals.\+f90.
+Definition at line 1263 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-1099     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
-1100     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-1101     \textcolor{keywordtype}{type}(string) :: outext
-1102     curr => this%currentValue() \textcolor{comment}{! get current value}
-1103     \textcolor{keywordflow}{select type}(curr)
-1104 \textcolor{keywordflow}{    class is} (string)
-1105         outext = curr
-1106         \textcolor{keyword}{call }log%put(outext, .false.)
-1107 \textcolor{keywordflow}{        class default}
-1108         outext = \textcolor{stringliteral}{'[stringList\_class::print] Unexepected type of content, not a string'}
-1109         \textcolor{keyword}{call }log%put(outext)
-1110         stop
-1111 \textcolor{keywordflow}{    end select}
+1263     \textcolor{keywordtype}{class}(stringList\_class), \textcolor{keywordtype}{intent(in)} :: this
+1264     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+1265     \textcolor{keywordtype}{type}(string) :: outext
+1266     curr => this%currentValue() \textcolor{comment}{! get current value}
+1267     \textcolor{keywordflow}{select type}(curr)
+1268 \textcolor{keywordflow}{    class is} (string)
+1269         outext = curr
+1270         \textcolor{keyword}{call }log%put(outext, .false.)
+1271 \textcolor{keywordflow}{        class default}
+1272         outext = \textcolor{stringliteral}{'[stringList\_class::print] Unexepected type of content, not a string'}
+1273         \textcolor{keyword}{call }log%put(outext)
+1274         stop
+1275 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}\label{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printconstants@{printconstants}}
@@ -675,28 +773,30 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 940 of file simulation\+Globals.\+f90.
+Definition at line 1109 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-940     \textcolor{keywordtype}{implicit none}
-941     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(in)} :: self
-942     \textcolor{keywordtype}{type}(string) :: outext
-943     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
-944 
-945     temp\_str(1)=self%Gravity%x
-946     temp\_str(2)=self%Gravity%y
-947     temp\_str(3)=self%Gravity%z
-948     outext = \textcolor{stringliteral}{'      Gravity is '}//new\_line(\textcolor{stringliteral}{'a'})//&
-949         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
-950     temp\_str(1)=self%Z0
-951     outext = outext//\textcolor{stringliteral}{'       Z0 = '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
-952     temp\_str(1)=self%BeachingLevel
-953     outext = outext//\textcolor{stringliteral}{'       BeachingLevel = '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
-954     temp\_str(1)=self%RhoRef
-955     outext = outext//\textcolor{stringliteral}{'       RhoRef = '}//temp\_str(1)//\textcolor{stringliteral}{' kg/m^3'}
-956 
-957     \textcolor{keyword}{call }log%put(outext,.false.)
+1109     \textcolor{keywordtype}{implicit none}
+1110     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(in)} :: self
+1111     \textcolor{keywordtype}{type}(string) :: outext
+1112     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
+1113 
+1114     temp\_str(1)=self%Gravity%x
+1115     temp\_str(2)=self%Gravity%y
+1116     temp\_str(3)=self%Gravity%z
+1117     outext = \textcolor{stringliteral}{'      Gravity is '}//new\_line(\textcolor{stringliteral}{'a'})//&
+1118         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+1119     temp\_str(1)=self%Z0
+1120     outext = outext//\textcolor{stringliteral}{'       Z0 = '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
+1121     temp\_str(1)=self%BeachingLevel
+1122     outext = outext//\textcolor{stringliteral}{'       BeachingLevel = '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
+1123     temp\_str(1)=self%BeachingStopProb
+1124     outext = outext//\textcolor{stringliteral}{'       BeachingStopProb = '}//temp\_str(1)//\textcolor{stringliteral}{' -'}//new\_line(\textcolor{stringliteral}{'a'})
+1125     temp\_str(1)=self%RhoRef
+1126     outext = outext//\textcolor{stringliteral}{'       RhoRef = '}//temp\_str(1)//\textcolor{stringliteral}{' kg/m^3'}
+1127 
+1128     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_abd0e28a5ec7733d0292dd8e631e96577}\label{namespacesimulationglobals__mod_abd0e28a5ec7733d0292dd8e631e96577}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printdatetime@{printdatetime}}
@@ -713,26 +813,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 574 of file simulation\+Globals.\+f90.
+Definition at line 658 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-574     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(in)} :: self
-575     \textcolor{keywordtype}{type}(string) :: outext
-576     \textcolor{keywordtype}{type}(string) :: temp\_str
-577     \textcolor{keywordtype}{character(len=23)} :: temp\_char
-578     temp\_char = self%StartDate%isoformat(\textcolor{stringliteral}{' '})
-579     temp\_str = temp\_char
-580     outext = outext//\textcolor{stringliteral}{'      Start date                = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
-581     temp\_char = self%EndDate%isoformat(\textcolor{stringliteral}{' '})
-582     temp\_str = temp\_char
-583     outext = outext//\textcolor{stringliteral}{'       End date                  = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
-584     temp\_char = self%BaseDateTime%isoformat(\textcolor{stringliteral}{' '})
-585     temp\_str = temp\_char
-586     outext = outext//\textcolor{stringliteral}{'       Base date (time stamping) = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
-587     temp\_str=self%TimeMax
-588     outext = outext//\textcolor{stringliteral}{'       Simulation will run for '}//temp\_str//\textcolor{stringliteral}{' s'}
-589     \textcolor{keyword}{call }log%put(outext,.false.)
+658     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(in)} :: self
+659     \textcolor{keywordtype}{type}(string) :: outext
+660     \textcolor{keywordtype}{type}(string) :: temp\_str
+661     \textcolor{keywordtype}{character(len=23)} :: temp\_char
+662     temp\_char = self%StartDate%isoformat(\textcolor{stringliteral}{' '})
+663     temp\_str = temp\_char
+664     outext = outext//\textcolor{stringliteral}{'      Start date                = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+665     temp\_char = self%EndDate%isoformat(\textcolor{stringliteral}{' '})
+666     temp\_str = temp\_char
+667     outext = outext//\textcolor{stringliteral}{'       End date                  = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+668     temp\_char = self%BaseDateTime%isoformat(\textcolor{stringliteral}{' '})
+669     temp\_str = temp\_char
+670     outext = outext//\textcolor{stringliteral}{'       Base date (time stamping) = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+671     temp\_str=self%TimeMax
+672     outext = outext//\textcolor{stringliteral}{'       Simulation will run for '}//temp\_str//\textcolor{stringliteral}{' s'}
+673     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a54196bff569fc838730ba39a722319ff}\label{namespacesimulationglobals__mod_a54196bff569fc838730ba39a722319ff}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printsimdefs@{printsimdefs}}
@@ -749,38 +849,37 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 1047 of file simulation\+Globals.\+f90.
+Definition at line 1212 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-1047     \textcolor{keywordtype}{implicit none}
-1048     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(in)} :: self
-1049     \textcolor{keywordtype}{type}(string) :: outext
-1050     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
-1051 
-1052     temp\_str(1)=self%Dp
-1053     outext = \textcolor{stringliteral}{'      Initial resolution is '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
-1054     temp\_str(1)=self%dt
-1055     outext = \textcolor{stringliteral}{'      Timestep is '}//temp\_str(1)//\textcolor{stringliteral}{' s'}//new\_line(\textcolor{stringliteral}{'a'})
-1056     temp\_str(1)=self%Pointmin%x
-1057     temp\_str(2)=self%Pointmin%y
-1058     temp\_str(3)=self%Pointmin%z
-1059     outext = outext//\textcolor{stringliteral}{'       Pointmin (BB) is '}//new\_line(\textcolor{stringliteral}{'a'})//&
-1060         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
-1061     temp\_str(1)=self%Pointmax%x
-1062     temp\_str(2)=self%Pointmax%y
-1063     temp\_str(3)=self%Pointmax%z
-1064     outext = outext//\textcolor{stringliteral}{'       Pointmax (BB) is '}//new\_line(\textcolor{stringliteral}{'a'})//&
-1065         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
-1066     \textcolor{keywordflow}{if} (self%autoblocksize) \textcolor{keywordflow}{then}
-1067         outext = outext//\textcolor{stringliteral}{'       Blocks are automatically sized'}
-1068     \textcolor{keywordflow}{else}
-1069         temp\_str(1)=self%blocksize%x
-1070         temp\_str(2)=self%blocksize%y
-1071         outext = outext//\textcolor{stringliteral}{'       Blocks are sized '}//new\_line(\textcolor{stringliteral}{'a'})//&
-1072             \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' X '}//temp\_str(2)
-1073 \textcolor{keywordflow}{    end if}
-1074     \textcolor{keyword}{call }log%put(outext,.false.)
+1212     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(in)} :: self
+1213     \textcolor{keywordtype}{type}(string) :: outext
+1214     \textcolor{keywordtype}{type}(string) :: temp\_str(3)
+1215 
+1216     temp\_str(1)=self%Dp%normL2()
+1217     outext = \textcolor{stringliteral}{'      Initial resolution is '}//temp\_str(1)//\textcolor{stringliteral}{' m'}//new\_line(\textcolor{stringliteral}{'a'})
+1218     temp\_str(1)=self%dt
+1219     outext = \textcolor{stringliteral}{'      Timestep is '}//temp\_str(1)//\textcolor{stringliteral}{' s'}//new\_line(\textcolor{stringliteral}{'a'})
+1220     temp\_str(1)=self%Pointmin%x
+1221     temp\_str(2)=self%Pointmin%y
+1222     temp\_str(3)=self%Pointmin%z
+1223     outext = outext//\textcolor{stringliteral}{'       Pointmin (BB) is '}//new\_line(\textcolor{stringliteral}{'a'})//&
+1224         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+1225     temp\_str(1)=self%Pointmax%x
+1226     temp\_str(2)=self%Pointmax%y
+1227     temp\_str(3)=self%Pointmax%z
+1228     outext = outext//\textcolor{stringliteral}{'       Pointmax (BB) is '}//new\_line(\textcolor{stringliteral}{'a'})//&
+1229         \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' '}//temp\_str(2)//\textcolor{stringliteral}{' '}//temp\_str(3)//new\_line(\textcolor{stringliteral}{'a'})
+1230     \textcolor{keywordflow}{if} (self%autoblocksize) \textcolor{keywordflow}{then}
+1231         outext = outext//\textcolor{stringliteral}{'       Blocks are automatically sized'}
+1232     \textcolor{keywordflow}{else}
+1233         temp\_str(1)=self%blocksize%x
+1234         temp\_str(2)=self%blocksize%y
+1235         outext = outext//\textcolor{stringliteral}{'       Blocks are sized '}//new\_line(\textcolor{stringliteral}{'a'})//&
+1236             \textcolor{stringliteral}{'       '}//temp\_str(1)//\textcolor{stringliteral}{' X '}//temp\_str(2)
+1237 \textcolor{keywordflow}{    end if}
+1238     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ab67964fe7c3fb20a4ce0b4193520aa1d}\label{namespacesimulationglobals__mod_ab67964fe7c3fb20a4ce0b4193520aa1d}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!printsimparameters@{printsimparameters}}
@@ -797,28 +896,28 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 813 of file simulation\+Globals.\+f90.
+Definition at line 940 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-813     \textcolor{keywordtype}{implicit none}
-814     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
-815     \textcolor{keywordtype}{type}(string) :: outext
-816     \textcolor{keywordtype}{type}(string) :: temp\_str
-817     \textcolor{keywordtype}{character(len=23)} :: temp\_char
-818     outext = \textcolor{stringliteral}{'      Integrator scheme is '}//self%IntegratorNames(self%Integrator)//new\_line(\textcolor{stringliteral}{'a'})
-819     temp\_str=self%numOPMthreads
-820     temp\_str=ompmanager%getThreads()
-821     outext = outext//\textcolor{stringliteral}{'       OMP threads = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
-822     temp\_str=self%WarmUpTime
-823     outext = outext//\textcolor{stringliteral}{'       WarmUpTime = '}//temp\_str//\textcolor{stringliteral}{' s'}//new\_line(\textcolor{stringliteral}{'a'})
-824     temp\_str=self%OutputWriteTime
-825     outext = outext//\textcolor{stringliteral}{'       OutputWriteTime = '}//temp\_str//\textcolor{stringliteral}{' Hz'}//new\_line(\textcolor{stringliteral}{'a'})
-826     outext = outext//\textcolor{stringliteral}{'       Output file format is '}//self%OutputFormatNames(self%OutputFormat)//new\_line(\textcolor{stringliteral}{
+940     \textcolor{keywordtype}{implicit none}
+941     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
+942     \textcolor{keywordtype}{type}(string) :: outext
+943     \textcolor{keywordtype}{type}(string) :: temp\_str
+944     \textcolor{keywordtype}{character(len=23)} :: temp\_char
+945     outext = \textcolor{stringliteral}{'      Integrator scheme is '}//self%IntegratorNames(self%Integrator)//new\_line(\textcolor{stringliteral}{'a'})
+946     temp\_str=self%numOPMthreads
+947     temp\_str=ompmanager%getThreads()
+948     outext = outext//\textcolor{stringliteral}{'       OMP threads = '}//temp\_str//new\_line(\textcolor{stringliteral}{'a'})
+949     temp\_str=self%WarmUpTime
+950     outext = outext//\textcolor{stringliteral}{'       WarmUpTime = '}//temp\_str//\textcolor{stringliteral}{' s'}//new\_line(\textcolor{stringliteral}{'a'})
+951     temp\_str=self%OutputWriteTime
+952     outext = outext//\textcolor{stringliteral}{'       OutputWriteTime = '}//temp\_str//\textcolor{stringliteral}{' Hz'}//new\_line(\textcolor{stringliteral}{'a'})
+953     outext = outext//\textcolor{stringliteral}{'       Output file format is '}//self%OutputFormatNames(self%OutputFormat)//new\_line(\textcolor{stringliteral}{
       'a'})
-827     temp\_str=self%BufferSize
-828     outext = outext//\textcolor{stringliteral}{'       Input buffer size is '}//temp\_str//\textcolor{stringliteral}{' s'}
-829     \textcolor{keyword}{call }log%put(outext,.false.)
+954     temp\_str=self%BufferSize
+955     outext = outext//\textcolor{stringliteral}{'       Input buffer size is '}//temp\_str//\textcolor{stringliteral}{' s'}
+956     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a3b24d0338ee34782c8e2ab57bba7b5f6}\label{namespacesimulationglobals__mod_a3b24d0338ee34782c8e2ab57bba7b5f6}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setbeachinglevel@{setbeachinglevel}}
@@ -840,22 +939,59 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 899 of file simulation\+Globals.\+f90.
+Definition at line 1026 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-899     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
-900     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_BeachingLevel
-901     \textcolor{keywordtype}{type}(string) :: outext
-902     \textcolor{keywordtype}{integer} :: sizem    
-903     \textcolor{keywordflow}{if} (read\_beachinglevel%to\_number(kind=1.\_r4p).gt.0.0) \textcolor{keywordflow}{then}
-904         outext=\textcolor{stringliteral}{'Beaching level must be negative, assuming default value'}
-905         \textcolor{keyword}{call }log%put(outext)
-906     \textcolor{keywordflow}{else}        
-907         self%BeachingLevel=read\_beachinglevel%to\_number(kind=1.\_r4p)
-908 \textcolor{keywordflow}{    endif}
-909     sizem = sizeof(self%BeachingLevel)
-910     \textcolor{keyword}{call }simmemory%adddef(sizem)
+1026     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1027     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_BeachingLevel
+1028     \textcolor{keywordtype}{type}(string) :: outext
+1029     \textcolor{keywordtype}{integer} :: sizem
+1030     \textcolor{keywordflow}{if} (read\_beachinglevel%to\_number(kind=1.\_r4p) > 0.0) \textcolor{keywordflow}{then}
+1031         outext=\textcolor{stringliteral}{'Beaching level must be negative, assuming default value'}
+1032         \textcolor{keyword}{call }log%put(outext)
+1033     \textcolor{keywordflow}{else}
+1034         self%BeachingLevel=read\_beachinglevel%to\_number(kind=1.\_r4p)
+1035 \textcolor{keywordflow}{    endif}
+1036     sizem = sizeof(self%BeachingLevel)
+1037     \textcolor{keyword}{call }simmemory%adddef(sizem)
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_aacd46eb198a99699d7be61b807363fc6}\label{namespacesimulationglobals__mod_aacd46eb198a99699d7be61b807363fc6}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setbeachingstopprob@{setbeachingstopprob}}
+\index{setbeachingstopprob@{setbeachingstopprob}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setbeachingstopprob()}{setbeachingstopprob()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setbeachingstopprob (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+\+Beaching\+Stop\+Prob }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Beaching stop probability setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,read\+\_\+\+Beaching\+Stop\+Prob} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 1047 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+1047     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1048     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_BeachingStopProb
+1049     \textcolor{keywordtype}{type}(string) :: outext
+1050     \textcolor{keywordtype}{integer} :: sizem
+1051     \textcolor{keywordflow}{if} (read\_beachingstopprob%to\_number(kind=1.\_r4p) < 0.0) \textcolor{keywordflow}{then}
+1052         outext=\textcolor{stringliteral}{'Beaching stopping probability must be zero or positive, assuming default value'}
+1053         \textcolor{keyword}{call }log%put(outext)
+1054     \textcolor{keywordflow}{else}
+1055         self%BeachingStopProb =read\_beachingstopprob%to\_number(kind=1.\_r4p)*0.01 \textcolor{comment}{!user input is in %}
+1056 \textcolor{keywordflow}{    endif}
+1057     sizem = sizeof(self%BeachingStopProb)
+1058     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_af0bc0b00ee3aa2ba9e47dc50daa72799}\label{namespacesimulationglobals__mod_af0bc0b00ee3aa2ba9e47dc50daa72799}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setblocksize@{setblocksize}}
@@ -877,17 +1013,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 1032 of file simulation\+Globals.\+f90.
+Definition at line 1197 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-1032     \textcolor{keywordtype}{implicit none}
-1033     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
-1034     \textcolor{keywordtype}{type}(vector) :: bsize
-1035     \textcolor{keywordtype}{integer} :: sizem
-1036     self%blocksize = bsize
-1037     sizem = sizeof(bsize)
-1038     \textcolor{keyword}{call }simmemory%adddef(sizem)
+1197     \textcolor{keywordtype}{implicit none}
+1198     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1199     \textcolor{keywordtype}{type}(vector) :: bsize
+1200     \textcolor{keywordtype}{integer} :: sizem
+1201     self%blocksize = bsize
+1202     sizem = sizeof(bsize)
+1203     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_abf5afcc12763caab3a5fc394255ced44}\label{namespacesimulationglobals__mod_abf5afcc12763caab3a5fc394255ced44}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setboundingbox@{setboundingbox}}
@@ -909,22 +1045,22 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 1011 of file simulation\+Globals.\+f90.
+Definition at line 1176 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-1011     \textcolor{keywordtype}{implicit none}
-1012     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
-1013     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: point\_
-1014     \textcolor{keywordtype}{type}(vector) :: coords
-1015     \textcolor{keywordtype}{integer} :: sizem
-1016     \textcolor{keywordflow}{if} (point\_%chars() == \textcolor{stringliteral}{"BoundingBoxMin"}) \textcolor{keywordflow}{then}
-1017         self%Pointmin= coords
-1018     \textcolor{keywordflow}{elseif} (point\_%chars() == \textcolor{stringliteral}{"BoundingBoxMax"}) \textcolor{keywordflow}{then}
-1019         self%Pointmax= coords
-1020 \textcolor{keywordflow}{    endif}
-1021     sizem=sizeof(coords)
-1022     \textcolor{keyword}{call }simmemory%adddef(sizem)
+1176     \textcolor{keywordtype}{implicit none}
+1177     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1178     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: point\_
+1179     \textcolor{keywordtype}{type}(vector) :: coords
+1180     \textcolor{keywordtype}{integer} :: sizem
+1181     \textcolor{keywordflow}{if} (point\_%chars() == \textcolor{stringliteral}{"BoundingBoxMin"}) \textcolor{keywordflow}{then}
+1182         self%Pointmin= coords
+1183     \textcolor{keywordflow}{elseif} (point\_%chars() == \textcolor{stringliteral}{"BoundingBoxMax"}) \textcolor{keywordflow}{then}
+1184         self%Pointmax= coords
+1185 \textcolor{keywordflow}{    endif}
+1186     sizem=sizeof(coords)
+1187     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_acbb28eee5547a03dc28c924d8e23ad9a}\label{namespacesimulationglobals__mod_acbb28eee5547a03dc28c924d8e23ad9a}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setcurrdatetime@{setcurrdatetime}}
@@ -941,16 +1077,16 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 546 of file simulation\+Globals.\+f90.
+Definition at line 630 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-546     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(inout)} :: self
-547     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
-548     \textcolor{keywordtype}{type}(timedelta) :: step
-549     step = timedelta(seconds=floor(dt), milliseconds=floor((dt-floor(dt))*1000))
-550     self%CurrDate = self%CurrDate + step
-551     self%CurrTime = self%CurrTime + dt
+630     \textcolor{keywordtype}{class}(sim\_time\_t), \textcolor{keywordtype}{intent(inout)} :: self
+631     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
+632     \textcolor{keywordtype}{type}(timedelta) :: step
+633     step = timedelta(seconds=floor(dt), milliseconds=floor((dt-floor(dt))*1000))
+634     self%CurrDate = self%CurrDate + step
+635     self%CurrTime = self%CurrTime + dt
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a4dd64cb7a896b62d90e20a7eab65a6bf}\label{namespacesimulationglobals__mod_a4dd64cb7a896b62d90e20a7eab65a6bf}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setcurrvar@{setcurrvar}}
@@ -967,33 +1103,33 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 500 of file simulation\+Globals.\+f90.
+Definition at line 584 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-500     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
-501     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
-502     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(inout)} :: currVar
-503     \textcolor{keywordtype}{type}(stringList\_class), \textcolor{keywordtype}{intent(inout)} :: currVarNameList
-504     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: varNode
-505     \textcolor{keywordtype}{integer} :: i
-506     \textcolor{keywordtype}{type}(string) :: attValue, attName
-507     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: tempNode, variantNode
-508     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: varNameList
-509 
-510     \textcolor{keyword}{call }xmlreader%gotoNode(varnode, tempnode, tag, mandatory = .false.)
-511     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(tempnode)) \textcolor{keywordflow}{then} \textcolor{comment}{!variable description exists in file}
-512         attname=\textcolor{stringliteral}{"name"}
-513         \textcolor{keyword}{call }xmlreader%getNodeAttribute(varnode, tag, attname, attvalue, mandatory = .true.)
-514         currvar = attvalue
-515         varnamelist => getelementsbytagname(tempnode, \textcolor{stringliteral}{"variant"})
-516         \textcolor{keywordflow}{do} i = 0, getlength(varnamelist) - 1
-517             variantnode => item(varnamelist, i)
-518             \textcolor{keyword}{call }xmlreader%getLeafAttribute(variantnode,attname,attvalue)
-519             \textcolor{keywordflow}{if} (currvarnamelist%notRepeated(attvalue)) \textcolor{keyword}{call }currvarnamelist%add(attvalue)
-520 \textcolor{keywordflow}{        end do}
-521 \textcolor{keywordflow}{    end if}
-522 
+584     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+585     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: tag
+586     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(inout)} :: currVar
+587     \textcolor{keywordtype}{type}(stringList\_class), \textcolor{keywordtype}{intent(inout)} :: currVarNameList
+588     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: varNode
+589     \textcolor{keywordtype}{integer} :: i
+590     \textcolor{keywordtype}{type}(string) :: attValue, attName
+591     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: tempNode, variantNode
+592     \textcolor{keywordtype}{type}(NodeList), \textcolor{keywordtype}{pointer} :: varNameList
+593 
+594     \textcolor{keyword}{call }xmlreader%gotoNode(varnode, tempnode, tag, mandatory = .false.)
+595     \textcolor{keywordflow}{if} (\textcolor{keyword}{associated}(tempnode)) \textcolor{keywordflow}{then} \textcolor{comment}{!variable description exists in file}
+596         attname=\textcolor{stringliteral}{"name"}
+597         \textcolor{keyword}{call }xmlreader%getNodeAttribute(varnode, tag, attname, attvalue, mandatory = .true.)
+598         currvar = attvalue
+599         varnamelist => getelementsbytagname(tempnode, \textcolor{stringliteral}{"variant"})
+600         \textcolor{keywordflow}{do} i = 0, getlength(varnamelist) - 1
+601             variantnode => item(varnamelist, i)
+602             \textcolor{keyword}{call }xmlreader%getLeafAttribute(variantnode,attname,attvalue)
+603             \textcolor{keywordflow}{if} (currvarnamelist%notRepeated(attvalue)) \textcolor{keyword}{call }currvarnamelist%add(attvalue)
+604 \textcolor{keywordflow}{        end do}
+605 \textcolor{keywordflow}{    end if}
+606 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_aa01e0a958ef2e94a02991dcfe390bfa0}\label{namespacesimulationglobals__mod_aa01e0a958ef2e94a02991dcfe390bfa0}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdefaults@{setdefaults}}
@@ -1015,77 +1151,124 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 228 of file simulation\+Globals.\+f90.
+Definition at line 262 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-228     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
-229     \textcolor{keywordtype}{integer} :: sizem
-230     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: outpath
-231     \textcolor{comment}{!parameters}
-232     self%Parameters%Integrator = 1
-233     self%Parameters%IntegratorIndexes = [1,2,3]
-234     self%Parameters%IntegratorNames(1) = \textcolor{stringliteral}{'Euler'}
-235     self%Parameters%IntegratorNames(2) = \textcolor{stringliteral}{'Multi-Step Euler'}
-236     self%Parameters%IntegratorNames(3) = \textcolor{stringliteral}{'Runge-Kuta 4'}
-237     self%Parameters%numOPMthreads = ompmanager%getThreads()
-238     self%Parameters%WarmUpTime = 0.0
-239     self%Parameters%OutputWriteTime = mv
-240     self%Parameters%StartTime = datetime()
-241     self%Parameters%EndTime = datetime()
-242     self%Parameters%BaseDateTime = datetime(1950,1,1,0,0,0)
-243     self%Parameters%BufferSize = 3600*24*6 \textcolor{comment}{!seconds/hour*hours*days}
-244     self%Parameters%OutputFormat = 2
-245     self%Parameters%OutputFormatIndexes = [1,2]
-246     \textcolor{comment}{!self%Parameters%OutputFormatNames = ['NetCDF','VTK'] !This is not acceptable because FORTRAN}
-247     self%Parameters%OutputFormatNames(1) = \textcolor{stringliteral}{'NetCDF'}
-248     self%Parameters%OutputFormatNames(2) = \textcolor{stringliteral}{'VTK'}
-249     \textcolor{comment}{!SimTime}
-250     self%SimTime%StartDate = datetime()
-251     self%SimTime%EndDate = datetime()
-252     self%SimTime%CurrDate = datetime()
-253     self%SimTime%BaseDateTime = datetime(1950,1,1,0,0,0)
-254     \textcolor{comment}{!Simulation definitions}
-255     self%SimDefs%autoblocksize =.true.
-256     self%SimDefs%blocksize = 0.0
-257     self%SimDefs%numblocksx = mv
-258     self%SimDefs%numblocksy = mv
-259     self%SimDefs%numblocks = ompmanager%getThreads()
-260     self%SimDefs%Dp = mv
-261     self%SimDefs%dt = mv
-262     self%SimDefs%Pointmin = 0.0
-263     self%SimDefs%Pointmax = 0.0
-264     \textcolor{comment}{!simulation constants}
-265     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
-266     self%Constants%Z0 = 0.0
-267     self%Constants%BeachingLevel = -3.0
-268     self%Constants%RhoRef = 1000.0
-269     self%Constants%smallDt = 0.0
-270     \textcolor{comment}{!filenames}
-271     self%Names%mainxmlfilename = \textcolor{stringliteral}{'not\_set'}
-272     self%Names%propsxmlfilename = \textcolor{stringliteral}{'not\_set'}
-273     self%Names%tempfilename = \textcolor{stringliteral}{'not\_set'}
-274     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(outpath)) \textcolor{keywordflow}{then}
-275         self%Names%outpath = outpath
-276     \textcolor{keywordflow}{else}
-277         self%Names%outpath = \textcolor{stringliteral}{'not\_set'}
-278 \textcolor{keywordflow}{    end if}
-279     self%Names%casename = \textcolor{stringliteral}{'not\_set'}
-280     \textcolor{comment}{!global time}
-281     self%SimTime%CurrTime = 0.0
-282     \textcolor{comment}{!global counters}
-283     self%Sim%numdt = 0
-284     self%Sim%lastOutNumDt = 0
-285     self%Sim%numoutfile = 0
-286     self%Sim%numTracer = 0
-287     \textcolor{comment}{!Source parameters list}
-288     \textcolor{keyword}{call }self%SrcProp%buildlists()
-289     \textcolor{comment}{!Variable names}
-290     \textcolor{keyword}{call }self%Var%buildvars()
-291 
-292     sizem=sizeof(self)
-293     \textcolor{keyword}{call }simmemory%adddef(sizem)
-294 
+262     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+263     \textcolor{keywordtype}{integer} :: sizem
+264     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: outpath
+265     
+266     notread = \textcolor{stringliteral}{'notRead'}
+267     notset = \textcolor{stringliteral}{'notSet'}
+268     
+269     \textcolor{comment}{!parameters}
+270     self%Parameters%Integrator = 1
+271     self%Parameters%IntegratorIndexes = [1,2,3]
+272     self%Parameters%IntegratorNames(1) = \textcolor{stringliteral}{'Euler'}
+273     self%Parameters%IntegratorNames(2) = \textcolor{stringliteral}{'Multi-Step Euler'}
+274     self%Parameters%IntegratorNames(3) = \textcolor{stringliteral}{'Runge-Kuta 4'}
+275     self%Parameters%numOPMthreads = ompmanager%getThreads()
+276     self%Parameters%WarmUpTime = 0.0
+277     self%Parameters%OutputWriteTime = mv
+278     self%Parameters%StartTime = datetime()
+279     self%Parameters%EndTime = datetime()
+280     self%Parameters%BaseDateTime = datetime(1950,1,1,0,0,0)
+281     self%Parameters%BufferSize = 3600*24*6 \textcolor{comment}{!seconds/hour*hours*days}
+282     self%Parameters%OutputFormat = 2
+283     self%Parameters%OutputFormatIndexes = [1,2]
+284     \textcolor{comment}{!self%Parameters%OutputFormatNames = ['NetCDF','VTK'] !This is not acceptable because FORTRAN}
+285     self%Parameters%OutputFormatNames(1) = \textcolor{stringliteral}{'NetCDF'}
+286     self%Parameters%OutputFormatNames(2) = \textcolor{stringliteral}{'VTK'}
+287     \textcolor{comment}{!SimTime}
+288     self%SimTime%StartDate = datetime()
+289     self%SimTime%EndDate = datetime()
+290     self%SimTime%CurrDate = datetime()
+291     self%SimTime%BaseDateTime = datetime(1950,1,1,0,0,0)
+292     \textcolor{comment}{!Simulation definitions}
+293     self%SimDefs%autoblocksize =.true.
+294     self%SimDefs%blocksize = 0.0
+295     self%SimDefs%numblocksx = mv
+296     self%SimDefs%numblocksy = mv
+297     self%SimDefs%numblocks = ompmanager%getThreads()
+298     self%SimDefs%Dp = 0.0
+299     self%SimDefs%dt = mv
+300     self%SimDefs%Pointmin = 0.0
+301     self%SimDefs%Pointmax = 0.0
+302     \textcolor{comment}{!simulation constants}
+303     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
+304     self%Constants%Z0 = 0.0
+305     self%Constants%BeachingLevel = -3.0
+306     self%Constants%BeachingStopProb = 0.50
+307     self%Constants%DiffusionCoeff = 1.0
+308     self%Constants%RhoRef = 1000.0
+309     self%Constants%smallDt = 0.0
+310     \textcolor{comment}{!filenames}
+311     self%Names%mainxmlfilename = notset
+312     self%Names%propsxmlfilename = notset
+313     self%Names%tempfilename = notset
+314     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(outpath)) \textcolor{keywordflow}{then}
+315         self%Names%outpath = outpath
+316     \textcolor{keywordflow}{else}
+317         self%Names%outpath = notset
+318 \textcolor{keywordflow}{    end if}
+319     self%Names%casename = notset
+320     \textcolor{comment}{!global time}
+321     self%SimTime%CurrTime = 0.0
+322     \textcolor{comment}{!global counters}
+323     self%Sim%numdt = 0
+324     self%Sim%numTracer = 0
+325     \textcolor{comment}{!output control variables}
+326     self%Output%lastOutNumDt = 0
+327     self%Output%numoutfile = 0
+328     \textcolor{comment}{!data types}
+329     self%DataTypes%currents = \textcolor{stringliteral}{'hydrodynamic'}
+330     self%DataTypes%winds = \textcolor{stringliteral}{'meteorology'}
+331     self%DataTypes%waves = \textcolor{stringliteral}{'waves'}
+332     self%DataTypes%waterProps = \textcolor{stringliteral}{'waterProperties'}
+333     \textcolor{comment}{!Variable names}
+334     \textcolor{keyword}{call }self%Var%buildvars()
+335 
+336     sizem=sizeof(self)
+337     \textcolor{keyword}{call }simmemory%adddef(sizem)
+338 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a70465a87d621a450f8b100fad0d29bc9}\label{namespacesimulationglobals__mod_a70465a87d621a450f8b100fad0d29bc9}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdiffusioncoeff@{setdiffusioncoeff}}
+\index{setdiffusioncoeff@{setdiffusioncoeff}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setdiffusioncoeff()}{setdiffusioncoeff()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setdiffusioncoeff (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{constants\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+\+Diffusion\+Coeff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Horizontal Diffusion coefficient setting routine. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,read\+\_\+\+Diffusion\+Coeff} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 1068 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+1068     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1069     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_DiffusionCoeff
+1070     \textcolor{keywordtype}{type}(string) :: outext
+1071     \textcolor{keywordtype}{integer} :: sizem
+1072     \textcolor{keywordflow}{if} (read\_diffusioncoeff%to\_number(kind=1.\_r4p) < 0.0) \textcolor{keywordflow}{then}
+1073         outext=\textcolor{stringliteral}{'Diffusion coefficient must be zero or positive, assuming default value'}
+1074         \textcolor{keyword}{call }log%put(outext)
+1075     \textcolor{keywordflow}{else}
+1076         self%DiffusionCoeff =read\_diffusioncoeff%to\_number(kind=1.\_r4p)
+1077 \textcolor{keywordflow}{    endif}
+1078     sizem = sizeof(self%DiffusionCoeff)
+1079     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a878fdcfa67037a1bc8411995394c2bef}\label{namespacesimulationglobals__mod_a878fdcfa67037a1bc8411995394c2bef}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdimnames@{setdimnames}}
@@ -1102,29 +1285,29 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 475 of file simulation\+Globals.\+f90.
+Definition at line 559 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-475     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
-476     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: dimNode
-477     \textcolor{keywordtype}{type}(string) :: tag
-478 
-479     tag=\textcolor{stringliteral}{"longitude"}
-480     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%lon, self%Var%lonVariants, dimnode)
-481     tag=\textcolor{stringliteral}{"latitude"}
-482     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%lat, self%Var%latVariants, dimnode)
-483     tag=\textcolor{stringliteral}{"vertical"}
-484     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%level, self%Var%levelVariants, dimnode)
-485     tag=\textcolor{stringliteral}{"time"}
-486     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%time, self%Var%timeVariants, dimnode)
-487 
+559     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+560     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: dimNode
+561     \textcolor{keywordtype}{type}(string) :: tag
+562 
+563     tag=\textcolor{stringliteral}{"longitude"}
+564     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%lon, self%Var%lonVariants, dimnode)
+565     tag=\textcolor{stringliteral}{"latitude"}
+566     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%lat, self%Var%latVariants, dimnode)
+567     tag=\textcolor{stringliteral}{"vertical"}
+568     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%level, self%Var%levelVariants, dimnode)
+569     tag=\textcolor{stringliteral}{"time"}
+570     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%time, self%Var%timeVariants, dimnode)
+571 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_afda1e73e6e0cd075875c70aded99d425}\label{namespacesimulationglobals__mod_afda1e73e6e0cd075875c70aded99d425}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdp@{setdp}}
 \index{setdp@{setdp}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
 \subsubsection{\texorpdfstring{setdp()}{setdp()}}
-{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setdp (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setdp (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t}{simdefs\+\_\+t}}), intent(inout)}]{self,  }\item[{type(vector), intent(in)}]{read\+\_\+dp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -1140,23 +1323,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 967 of file simulation\+Globals.\+f90.
+Definition at line 1138 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-967     \textcolor{keywordtype}{implicit none}
-968     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
-969     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_dp
-970     \textcolor{keywordtype}{type}(string) :: outext
-971     \textcolor{keywordtype}{integer} :: sizem
-972     self%Dp=read\_dp%to\_number(kind=1.\_r4p)
-973     \textcolor{keywordflow}{if} (self%Dp.le.0.0) \textcolor{keywordflow}{then}
-974         outext=\textcolor{stringliteral}{'Dp must be positive and non-zero, stopping'}
-975         \textcolor{keyword}{call }log%put(outext)
-976         stop
-977 \textcolor{keywordflow}{    endif}
-978     sizem = sizeof(self%Dp)
-979     \textcolor{keyword}{call }simmemory%adddef(sizem)
+1138     \textcolor{keywordtype}{implicit none}
+1139     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1140     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: read\_dp
+1141     \textcolor{keywordtype}{integer} :: sizem
+1142     self%Dp=read\_dp
+1143     sizem = sizeof(self%Dp)
+1144     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a0eced3f4367d08f3d0cb6ef2044bdc56}\label{namespacesimulationglobals__mod_a0eced3f4367d08f3d0cb6ef2044bdc56}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setdt@{setdt}}
@@ -1178,23 +1355,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 989 of file simulation\+Globals.\+f90.
+Definition at line 1154 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-989     \textcolor{keywordtype}{implicit none}
-990     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
-991     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_dt
-992     \textcolor{keywordtype}{type}(string) :: outext
-993     \textcolor{keywordtype}{integer} :: sizem
-994     self%dt=read\_dt%to\_number(kind=1.\_r4p)
-995     \textcolor{keywordflow}{if} (self%dt.le.0.0) \textcolor{keywordflow}{then}
-996         outext=\textcolor{stringliteral}{'dt must be positive and non-zero, stopping'}
-997         \textcolor{keyword}{call }log%put(outext)
-998         stop
-999 \textcolor{keywordflow}{    endif}
-1000     sizem = sizeof(self%dt)
-1001     \textcolor{keyword}{call }simmemory%adddef(sizem)
+1154     \textcolor{keywordtype}{implicit none}
+1155     \textcolor{keywordtype}{class}(simdefs\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1156     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_dt
+1157     \textcolor{keywordtype}{type}(string) :: outext
+1158     \textcolor{keywordtype}{integer} :: sizem
+1159     self%dt=read\_dt%to\_number(kind=1.\_r4p)
+1160     \textcolor{keywordflow}{if} (self%dt <= 0.0) \textcolor{keywordflow}{then}
+1161         outext=\textcolor{stringliteral}{'dt must be positive and non-zero, stopping'}
+1162         \textcolor{keyword}{call }log%put(outext)
+1163         stop
+1164 \textcolor{keywordflow}{    endif}
+1165     sizem = sizeof(self%dt)
+1166     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ae6b88d15ddc389aedd73d600de0337df}\label{namespacesimulationglobals__mod_ae6b88d15ddc389aedd73d600de0337df}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setgravity@{setgravity}}
@@ -1216,23 +1393,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 839 of file simulation\+Globals.\+f90.
+Definition at line 966 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-839     \textcolor{keywordtype}{implicit none}
-840     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
-841     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: grav
-842     \textcolor{keywordtype}{integer} :: sizem
-843     \textcolor{keywordtype}{type}(string) :: outext
-844     self%Gravity= grav
-845     \textcolor{keywordflow}{if} (grav%x==mv) \textcolor{keywordflow}{then} \textcolor{comment}{!Gravity was not read, setting default}
-846         self%Gravity= -9.81*ez
-847         outext = \textcolor{stringliteral}{'       Gravity not specified, setting to default value = (0,0,-9.81)'}
-848         \textcolor{keyword}{call }log%put(outext,.false.)
-849 \textcolor{keywordflow}{    endif}
-850     sizem=sizeof(self%Gravity)
-851     \textcolor{keyword}{call }simmemory%adddef(sizem)
+966     \textcolor{keywordtype}{implicit none}
+967     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+968     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: grav
+969     \textcolor{keywordtype}{integer} :: sizem
+970     \textcolor{keywordtype}{type}(string) :: outext
+971     self%Gravity= grav
+972     \textcolor{keywordflow}{if} (grav%x==mv) \textcolor{keywordflow}{then} \textcolor{comment}{!Gravity was not read, setting default}
+973         self%Gravity= -9.81*ez
+974         outext = \textcolor{stringliteral}{'       Gravity not specified, setting to default value = (0,0,-9.81)'}
+975         \textcolor{keyword}{call }log%put(outext,.false.)
+976 \textcolor{keywordflow}{    endif}
+977     sizem=sizeof(self%Gravity)
+978     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a422e3d203aad010489f541f645f63517}\label{namespacesimulationglobals__mod_a422e3d203aad010489f541f645f63517}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setinputfilenames@{setinputfilenames}}
@@ -1249,19 +1426,19 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 410 of file simulation\+Globals.\+f90.
+Definition at line 484 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-410     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
-411     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: filenames
-412     \textcolor{keyword}{allocate}(self%Names%inputFile, source = filenames)
+484     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+485     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: filenames
+486     \textcolor{keyword}{allocate}(self%Names%inputFile, source = filenames)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ab760ab6064743ff54237166301346616}\label{namespacesimulationglobals__mod_ab760ab6064743ff54237166301346616}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setlastoutnumdt@{setlastoutnumdt}}
 \index{setlastoutnumdt@{setlastoutnumdt}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
 \subsubsection{\texorpdfstring{setlastoutnumdt()}{setlastoutnumdt()}}
-{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setlastoutnumdt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{sim\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setlastoutnumdt (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self,  }\item[{integer, intent(in)}]{num }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -1272,13 +1449,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 654 of file simulation\+Globals.\+f90.
+Definition at line 734 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-654     \textcolor{keywordtype}{class}(sim\_t), \textcolor{keywordtype}{intent(inout)} :: self
-655     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: num
-656     self%lastOutNumDt = num
+734     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+735     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: num
+736     self%lastOutNumDt = num
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_affd52c4c7b1c3f7ce282eeb7e4b4a359}\label{namespacesimulationglobals__mod_affd52c4c7b1c3f7ce282eeb7e4b4a359}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setnamingconventions@{setnamingconventions}}
@@ -1295,32 +1472,61 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 422 of file simulation\+Globals.\+f90.
+Definition at line 496 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-422     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
-423     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: filename
-424     \textcolor{keywordtype}{integer} :: i
-425     \textcolor{keywordtype}{type}(string) :: outext, tag
-426     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmldoc
-427     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: varNode, dimNode
-428 
-429     \textcolor{keyword}{allocate}(self%Names%namingfilename, source = filename)
-430     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%Names%namingfilename)
-431         \textcolor{keyword}{call }xmlreader%getFile(xmldoc,self%Names%namingfilename(i))
-432         outext=\textcolor{stringliteral}{'-->Setting naming conventions from '}//self%Names%namingfilename(i)
-433         \textcolor{keyword}{call }log%put(outext)
-434         tag=\textcolor{stringliteral}{"naming"}          \textcolor{comment}{!base document node}
-435         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,xmldoc,tag)
-436         tag=\textcolor{stringliteral}{"variables"}
-437         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,varnode,tag)
-438         tag=\textcolor{stringliteral}{"dimensions"}
-439         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,dimnode,tag)
-440         \textcolor{keyword}{call }self%setVarNames(varnode)
-441         \textcolor{keyword}{call }self%setDimNames(dimnode)
-442 \textcolor{keywordflow}{    end do}
-443 
+496     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+497     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: filename
+498     \textcolor{keywordtype}{integer} :: i
+499     \textcolor{keywordtype}{type}(string) :: outext, tag
+500     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: xmldoc
+501     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer} :: varNode, dimNode
+502 
+503     \textcolor{keyword}{allocate}(self%Names%namingfilename, source = filename)
+504     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%Names%namingfilename)
+505         \textcolor{keyword}{call }xmlreader%getFile(xmldoc,self%Names%namingfilename(i))
+506         outext=\textcolor{stringliteral}{'-->Setting naming conventions from '}//self%Names%namingfilename(i)
+507         \textcolor{keyword}{call }log%put(outext)
+508         tag=\textcolor{stringliteral}{"naming"}          \textcolor{comment}{!base document node}
+509         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,xmldoc,tag)
+510         tag=\textcolor{stringliteral}{"variables"}
+511         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,varnode,tag)
+512         tag=\textcolor{stringliteral}{"dimensions"}
+513         \textcolor{keyword}{call }xmlreader%gotoNode(xmldoc,dimnode,tag)
+514         \textcolor{keyword}{call }self%setVarNames(varnode)
+515         \textcolor{keyword}{call }self%setDimNames(dimnode)
+516 \textcolor{keywordflow}{    end do}
+517 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a046b75c2e163809ea467da6340f1829c}\label{namespacesimulationglobals__mod_a046b75c2e163809ea467da6340f1829c}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setoutputfields@{setoutputfields}}
+\index{setoutputfields@{setoutputfields}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{setoutputfields()}{setoutputfields()}}
+{\footnotesize\ttfamily subroutine simulationglobals\+\_\+mod\+::setoutputfields (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{output\+\_\+t}}), intent(inout)}]{self,  }\item[{type(string), dimension(\+:), intent(in)}]{fields,  }\item[{logical, dimension(\+:), intent(in)}]{to\+Output }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+adds variable fields one by one to the output pool, given a string and boolean list. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 777 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+777     \textcolor{keywordtype}{class}(output\_t), \textcolor{keywordtype}{intent(inout)} :: self
+778     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: fields
+779     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: toOutput
+780     \textcolor{keywordtype}{integer} :: i
+781     \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(fields) > 0) \textcolor{keywordflow}{then}
+782         \textcolor{keywordflow}{do} i= 1, \textcolor{keyword}{size}(fields)
+783             \textcolor{keywordflow}{if} (tooutput(i)) \textcolor{keyword}{call }self%addToOutputPool(fields(i))
+784 \textcolor{keywordflow}{        end do}
+785 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}\label{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setparam@{setparam}}
@@ -1342,58 +1548,57 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 708 of file simulation\+Globals.\+f90.
+Definition at line 837 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-708     \textcolor{keywordtype}{implicit none}
-709     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
-710     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: parmkey
-711     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: parmvalue
-712     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable} :: dc(:)
-713     \textcolor{keywordtype}{integer} :: i
-714     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(6)} :: date
-715     \textcolor{keywordtype}{integer} :: sizem
-716     \textcolor{comment}{!add new parameters to this search}
-717     \textcolor{keywordflow}{if} (parmkey%chars()==\textcolor{stringliteral}{"Integrator"}) \textcolor{keywordflow}{then}
-718         self%Integrator=parmvalue%to\_number(kind=1\_i1p)
-719         sizem=sizeof(self%Integrator)
-720     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"Threads"}) \textcolor{keywordflow}{then}
-721         \textcolor{keywordflow}{if} (parmvalue /= \textcolor{stringliteral}{'auto'}) \textcolor{keywordflow}{then}
-722             self%numOPMthreads=parmvalue%to\_number(kind=1\_i1p)
-723             \textcolor{keyword}{call }ompmanager%setThreads(self%numOPMthreads)
-724 \textcolor{keywordflow}{        end if}
-725         sizem=sizeof(self%WarmUpTime)
-726     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"WarmUpTime"}) \textcolor{keywordflow}{then}
-727         self%WarmUpTime=parmvalue%to\_number(kind=1.\_r4p)
-728         sizem=sizeof(self%WarmUpTime)
-729     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"OutputWriteTime"}) \textcolor{keywordflow}{then}
-730         self%OutputWriteTime=parmvalue%to\_number(kind=1.\_r4p)
-731         sizem=sizeof(self%OutputWriteTime)
-732     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"Start"}) \textcolor{keywordflow}{then}
-733         date = utils%getDateFromISOString(parmvalue)
-734         self%StartTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-735         \textcolor{keywordflow}{if} (.not. self%StartTime%isValid()) self%StartTime = datetime()
-736         sizem=sizeof(self%StartTime)
-737     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"End"}) \textcolor{keywordflow}{then}
-738         date = utils%getDateFromISOString(parmvalue)
-739         self%EndTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-740         \textcolor{keywordflow}{if} (.not. self%EndTime%isValid()) self%EndTime = datetime()
-741         sizem=sizeof(self%EndTime)
-742     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"BaseDateTime"}) \textcolor{keywordflow}{then}
-743         date = utils%getDateFromISOString(parmvalue)
-744         self%BaseDateTime = datetime(date(1),date(2),date(3),date(4),date(5),date(6))
-745         \textcolor{keywordflow}{if} (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
-746         sizem=sizeof(self%BaseDateTime)
-747     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"BufferSize"}) \textcolor{keywordflow}{then}
-748         self%BufferSize=parmvalue%to\_number(kind=1\_i\_p)
-749         sizem=sizeof(self%BufferSize)
-750     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"OutputFormat"}) \textcolor{keywordflow}{then}
-751         self%OutputFormat=parmvalue%to\_number(kind=1\_i1p)
-752         sizem=sizeof(self%OutputFormat)
-753 \textcolor{keywordflow}{    end if}
-754     \textcolor{keyword}{call }simmemory%adddef(sizem)
-755 
+837     \textcolor{keywordtype}{class}(parameters\_t), \textcolor{keywordtype}{intent(inout)} :: self
+838     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: parmkey
+839     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: parmvalue
+840     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable} :: dc(:)
+841     \textcolor{keywordtype}{integer} :: i
+842     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(6)} :: date
+843     \textcolor{keywordtype}{integer} :: sizem
+844     \textcolor{comment}{!add new parameters to this search}
+845     \textcolor{keywordflow}{if} (parmkey%chars()==\textcolor{stringliteral}{"Integrator"}) \textcolor{keywordflow}{then}
+846         self%Integrator=parmvalue%to\_number(kind=1\_i1p)
+847         sizem=sizeof(self%Integrator)
+848     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"Threads"}) \textcolor{keywordflow}{then}
+849         \textcolor{keywordflow}{if} (parmvalue /= \textcolor{stringliteral}{'auto'}) \textcolor{keywordflow}{then}
+850             self%numOPMthreads=parmvalue%to\_number(kind=1\_i1p)
+851             \textcolor{keyword}{call }ompmanager%setThreads(self%numOPMthreads)
+852 \textcolor{keywordflow}{        end if}
+853         sizem=sizeof(self%WarmUpTime)
+854     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"WarmUpTime"}) \textcolor{keywordflow}{then}
+855         self%WarmUpTime=parmvalue%to\_number(kind=1.\_r4p)
+856         sizem=sizeof(self%WarmUpTime)
+857     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"OutputWriteTime"}) \textcolor{keywordflow}{then}
+858         self%OutputWriteTime=parmvalue%to\_number(kind=1.\_r4p)
+859         sizem=sizeof(self%OutputWriteTime)
+860     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"Start"}) \textcolor{keywordflow}{then}
+861         date = utils%getDateFromISOString(parmvalue)
+862         self%StartTime = utils%getDateTimeFromDate(date)
+863         \textcolor{keywordflow}{if} (.not. self%StartTime%isValid()) self%StartTime = datetime()
+864         sizem=sizeof(self%StartTime)
+865     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"End"}) \textcolor{keywordflow}{then}
+866         date = utils%getDateFromISOString(parmvalue)
+867         self%EndTime = utils%getDateTimeFromDate(date)
+868         \textcolor{keywordflow}{if} (.not. self%EndTime%isValid()) self%EndTime = datetime()
+869         sizem=sizeof(self%EndTime)
+870     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"BaseDateTime"}) \textcolor{keywordflow}{then}
+871         date = utils%getDateFromISOString(parmvalue)
+872         self%BaseDateTime = utils%getDateTimeFromDate(date)
+873         \textcolor{keywordflow}{if} (.not. self%BaseDateTime%isValid()) self%BaseDateTime = datetime()
+874         sizem=sizeof(self%BaseDateTime)
+875     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"BufferSize"}) \textcolor{keywordflow}{then}
+876         self%BufferSize=parmvalue%to\_number(kind=1\_i\_p)
+877         sizem=sizeof(self%BufferSize)
+878     \textcolor{keywordflow}{elseif}(parmkey%chars()==\textcolor{stringliteral}{"OutputFormat"}) \textcolor{keywordflow}{then}
+879         self%OutputFormat=parmvalue%to\_number(kind=1\_i1p)
+880         sizem=sizeof(self%OutputFormat)
+881 \textcolor{keywordflow}{    end if}
+882     \textcolor{keyword}{call }simmemory%adddef(sizem)
+883 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}\label{namespacesimulationglobals__mod_a7d41fc05216d326ae8c0b090362430d3}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setrho@{setrho}}
@@ -1415,23 +1620,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 877 of file simulation\+Globals.\+f90.
+Definition at line 1004 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-877     \textcolor{keywordtype}{implicit none}
-878     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
-879     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_rho
-880     \textcolor{keywordtype}{type}(string) :: outext
-881     \textcolor{keywordtype}{integer} :: sizem
-882     self%RhoRef=read\_rho%to\_number(kind=1.\_r4p)
-883     \textcolor{keywordflow}{if} (self%RhoRef.le.0.0) \textcolor{keywordflow}{then}
-884         outext=\textcolor{stringliteral}{'RhoRef must be positive and non-zero, stopping'}
-885         \textcolor{keyword}{call }log%put(outext)
-886         stop
-887 \textcolor{keywordflow}{    endif}
-888     sizem = sizeof(self%RhoRef)
-889     \textcolor{keyword}{call }simmemory%adddef(sizem)
+1004     \textcolor{keywordtype}{implicit none}
+1005     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1006     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_rho
+1007     \textcolor{keywordtype}{type}(string) :: outext
+1008     \textcolor{keywordtype}{integer} :: sizem
+1009     self%RhoRef=read\_rho%to\_number(kind=1.\_r4p)
+1010     \textcolor{keywordflow}{if} (self%RhoRef <= 0.0) \textcolor{keywordflow}{then}
+1011         outext=\textcolor{stringliteral}{'RhoRef must be positive and non-zero, stopping'}
+1012         \textcolor{keyword}{call }log%put(outext)
+1013         stop
+1014 \textcolor{keywordflow}{    endif}
+1015     sizem = sizeof(self%RhoRef)
+1016     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}\label{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setsmalldt@{setsmalldt}}
@@ -1453,22 +1658,22 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 920 of file simulation\+Globals.\+f90.
+Definition at line 1089 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-920     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
-921     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
-922     \textcolor{keywordtype}{type}(string) :: outext
-923     \textcolor{keywordtype}{integer} :: sizem
-924     self%smallDt=dt/3.0
-925     \textcolor{keywordflow}{if} (self%smallDt.le.0.0) \textcolor{keywordflow}{then}
-926         outext=\textcolor{stringliteral}{'dt must be positive and non-zero, stopping'}
-927         \textcolor{keyword}{call }log%put(outext)
-928         stop
-929 \textcolor{keywordflow}{    endif}
-930     sizem = sizeof(self%smallDt)
-931     \textcolor{keyword}{call }simmemory%adddef(sizem)
+1089     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+1090     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
+1091     \textcolor{keywordtype}{type}(string) :: outext
+1092     \textcolor{keywordtype}{integer} :: sizem
+1093     self%smallDt=dt/3.0
+1094     \textcolor{keywordflow}{if} (self%smallDt <= 0.0) \textcolor{keywordflow}{then}
+1095         outext=\textcolor{stringliteral}{'dt must be positive and non-zero, stopping'}
+1096         \textcolor{keyword}{call }log%put(outext)
+1097         stop
+1098 \textcolor{keywordflow}{    endif}
+1099     sizem = sizeof(self%smallDt)
+1100     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_aefda4344f03a705055ad6cb97cb90c65}\label{namespacesimulationglobals__mod_aefda4344f03a705055ad6cb97cb90c65}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!settimedate@{settimedate}}
@@ -1485,17 +1690,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 531 of file simulation\+Globals.\+f90.
+Definition at line 615 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-531     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
-532     self%SimTime%TimeMax = self%Parameters%TimeMax
-533     self%SimTime%StartDate = self%Parameters%StartTime
-534     self%SimTime%EndDate = self%Parameters%EndTime
-535     self%SimTime%BaseDateTime = self%Parameters%BaseDateTime
-536     self%SimTime%CurrDate = self%SimTime%StartDate
-537     self%SimTime%CurrTime = 0
+615     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+616     self%SimTime%TimeMax = self%Parameters%TimeMax
+617     self%SimTime%StartDate = self%Parameters%StartTime
+618     self%SimTime%EndDate = self%Parameters%EndTime
+619     self%SimTime%BaseDateTime = self%Parameters%BaseDateTime
+620     self%SimTime%CurrDate = self%SimTime%StartDate
+621     self%SimTime%CurrTime = 0
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a2c6fa0a9123d06b2110258ea200f4f52}\label{namespacesimulationglobals__mod_a2c6fa0a9123d06b2110258ea200f4f52}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setvarnames@{setvarnames}}
@@ -1512,25 +1717,35 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 452 of file simulation\+Globals.\+f90.
+Definition at line 526 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-452     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
-453     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: varNode
-454     \textcolor{keywordtype}{type}(string) :: tag
-455 
-456     tag=\textcolor{stringliteral}{"eastward\_sea\_water\_velocity"}
-457     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varnode)
-458     tag=\textcolor{stringliteral}{"northward\_sea\_water\_velocity"}
-459     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%v, self%Var%vVariants, varnode)
-460     tag=\textcolor{stringliteral}{"upward\_sea\_water\_velocity"}
-461     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%w, self%Var%wVariants, varnode)
-462     tag=\textcolor{stringliteral}{"sea\_water\_temperature"}
-463     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varnode)
-464     tag=\textcolor{stringliteral}{"sea\_water\_salinity"}
-465     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%sal, self%Var%salVariants, varnode)
-466 
+526     \textcolor{keywordtype}{class}(globals\_class), \textcolor{keywordtype}{intent(inout)} :: self
+527     \textcolor{keywordtype}{type}(Node), \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: varNode
+528     \textcolor{keywordtype}{type}(string) :: tag
+529 
+530     tag=\textcolor{stringliteral}{"eastward\_sea\_water\_velocity"}
+531     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varnode)
+532     tag=\textcolor{stringliteral}{"northward\_sea\_water\_velocity"}
+533     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%v, self%Var%vVariants, varnode)
+534     tag=\textcolor{stringliteral}{"upward\_sea\_water\_velocity"}
+535     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%w, self%Var%wVariants, varnode)
+536     tag=\textcolor{stringliteral}{"sea\_water\_temperature"}
+537     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varnode)
+538     tag=\textcolor{stringliteral}{"sea\_water\_salinity"}
+539     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%sal, self%Var%salVariants, varnode)
+540     tag=\textcolor{stringliteral}{"sea\_water\_density"}
+541     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%density, self%Var%densityVariants, varnode)
+542     tag=\textcolor{stringliteral}{"sea\_surface\_wave\_stokes\_drift\_x\_velocity"}
+543     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%vsdx, self%Var%vsdxVariants, varnode)
+544     tag=\textcolor{stringliteral}{"sea\_surface\_wave\_stokes\_drift\_y\_velocity"}
+545     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%vsdy, self%Var%vsdyVariants, varnode)
+546     tag=\textcolor{stringliteral}{"eastward\_wind"}
+547     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varnode)
+548     tag=\textcolor{stringliteral}{"northward\_wind"}
+549     \textcolor{keyword}{call }self%setCurrVar(tag, self%Var%v10, self%Var%v10Variants, varnode)
+550 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationglobals__mod_a36c2833caae3767434115cc966fe2c5d}\label{namespacesimulationglobals__mod_a36c2833caae3767434115cc966fe2c5d}} 
 \index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!setz0@{setz0}}
@@ -1552,17 +1767,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 861 of file simulation\+Globals.\+f90.
+Definition at line 988 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-861     \textcolor{keywordtype}{implicit none}
-862     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
-863     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_z0
-864     \textcolor{keywordtype}{integer} :: sizem
-865     self%Z0=read\_z0%to\_number(kind=1.\_r4p)
-866     sizem = sizeof(self%Z0)
-867     \textcolor{keyword}{call }simmemory%adddef(sizem)
+988     \textcolor{keywordtype}{implicit none}
+989     \textcolor{keywordtype}{class}(constants\_t), \textcolor{keywordtype}{intent(inout)} :: self
+990     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: read\_z0
+991     \textcolor{keywordtype}{integer} :: sizem
+992     self%Z0=read\_z0%to\_number(kind=1.\_r4p)
+993     sizem = sizeof(self%Z0)
+994     \textcolor{keyword}{call }simmemory%adddef(sizem)
 \end{DoxyCode}
 
 
@@ -1575,9 +1790,37 @@ Definition at line 861 of file simulation\+Globals.\+f90.
 
 
 
-Definition at line 214 of file simulation\+Globals.\+f90.
+Definition at line 248 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-214     \textcolor{keywordtype}{type}(globals\_class) :: Globals
+248     \textcolor{keywordtype}{type}(globals\_class) :: Globals
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a359d52eab96ddcaba05e0504eff0ef37}\label{namespacesimulationglobals__mod_a359d52eab96ddcaba05e0504eff0ef37}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!notread@{notread}}
+\index{notread@{notread}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{notread}{notread}}
+{\footnotesize\ttfamily type(string), public simulationglobals\+\_\+mod\+::notread}
+
+
+
+Definition at line 244 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+244     \textcolor{keywordtype}{type}(string) :: notRead
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacesimulationglobals__mod_a34d00a17e5931ddf3ab1a361f6299ae3}\label{namespacesimulationglobals__mod_a34d00a17e5931ddf3ab1a361f6299ae3}} 
+\index{simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}!notset@{notset}}
+\index{notset@{notset}!simulationglobals\+\_\+mod@{simulationglobals\+\_\+mod}}
+\subsubsection{\texorpdfstring{notset}{notset}}
+{\footnotesize\ttfamily type(string), public simulationglobals\+\_\+mod\+::notset}
+
+
+
+Definition at line 245 of file simulation\+Globals.\+f90.
+
+
+\begin{DoxyCode}
+245     \textcolor{keywordtype}{type}(string) :: notSet
 \end{DoxyCode}

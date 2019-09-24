@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -95,6 +95,7 @@ $(document).ready(function(){initNavTree('namespacehdf5writter__mod.html','');})
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Types</a> &#124;
 <a href="#func-members">Functions/Subroutines</a>  </div>
   <div class="headertitle">
 <div class="title">hdf5writter_mod Module Reference</div>  </div>
@@ -104,33 +105,171 @@ $(document).ready(function(){initNavTree('namespacehdf5writter__mod.html','');})
 <p>Defines a vtk writer class with an object exposable to the Output streamer. Writes files in .xml vtk, both in serial and parallel model. Uses an unstructured mesh format specifier to store any type of data, both meshes and Tracers. Supports scalar and vectorial data.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Data Types</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhdf5writter__mod_1_1hdf5writter__class.html">hdf5writter_class</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:a365615aa2f72e08015a020475c37a6c8"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5writter__mod.html#a365615aa2f72e08015a020475c37a6c8">writetestmatrix</a> (mat)</td></tr>
-<tr class="separator:a365615aa2f72e08015a020475c37a6c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2409af91a67db06badcb9ae439142f92"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5writter__mod.html#a2409af91a67db06badcb9ae439142f92">inithdf5writter</a> (self)</td></tr>
+<tr class="memdesc:a2409af91a67db06badcb9ae439142f92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a HDF5 writer object.  <a href="#a2409af91a67db06badcb9ae439142f92">More...</a><br /></td></tr>
+<tr class="separator:a2409af91a67db06badcb9ae439142f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0318c234490ab15f480e7f940266ec4f"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5writter__mod.html#a0318c234490ab15f480e7f940266ec4f">closehdf5writer</a> (self)</td></tr>
+<tr class="memdesc:a0318c234490ab15f480e7f940266ec4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes a HDF5 writer object.  <a href="#a0318c234490ab15f480e7f940266ec4f">More...</a><br /></td></tr>
+<tr class="separator:a0318c234490ab15f480e7f940266ec4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f79038dbb067a692a12d171e51b5703"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5writter__mod.html#a5f79038dbb067a692a12d171e51b5703">tracerserial</a> (self, filename, blocks)</td></tr>
+<tr class="memdesc:a5f79038dbb067a692a12d171e51b5703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public Tracer writting routine. Writes Tracer data in MOHID HDF5 format.  <a href="#a5f79038dbb067a692a12d171e51b5703">More...</a><br /></td></tr>
+<tr class="separator:a5f79038dbb067a692a12d171e51b5703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc4cbad9398ee6e9cb5723a30a7c44b1"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5writter__mod.html#adc4cbad9398ee6e9cb5723a30a7c44b1">writetestmatrix</a> (mat)</td></tr>
+<tr class="separator:adc4cbad9398ee6e9cb5723a30a7c44b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines a vtk writer class with an object exposable to the Output streamer. Writes files in .xml vtk, both in serial and parallel model. Uses an unstructured mesh format specifier to store any type of data, both meshes and Tracers. Supports scalar and vectorial data. </p>
 <dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas </dd></dl>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="a365615aa2f72e08015a020475c37a6c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a365615aa2f72e08015a020475c37a6c8">&#9670;&nbsp;</a></span>writetestmatrix()</h2>
+<a id="a0318c234490ab15f480e7f940266ec4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0318c234490ab15f480e7f940266ec4f">&#9670;&nbsp;</a></span>closehdf5writer()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public hdf5writter_mod::writetestmatrix </td>
+          <td class="memname">subroutine hdf5writter_mod::closehdf5writer </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structhdf5writter__mod_1_1hdf5writter__class.html">hdf5writter_class</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Closes a HDF5 writer object. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_h_d_f5writter_8f90_source.html#l00063">63</a> of file <a class="el" href="_h_d_f5writter_8f90_source.html">HDF5writter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">class</span>(hdf5writter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a2409af91a67db06badcb9ae439142f92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2409af91a67db06badcb9ae439142f92">&#9670;&nbsp;</a></span>inithdf5writter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine hdf5writter_mod::inithdf5writter </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structhdf5writter__mod_1_1hdf5writter__class.html">hdf5writter_class</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initializes a HDF5 writer object. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_h_d_f5writter_8f90_source.html#l00053">53</a> of file <a class="el" href="_h_d_f5writter_8f90_source.html">HDF5writter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">class</span>(hdf5writter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    self%numHdf5Files = 0</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a5f79038dbb067a692a12d171e51b5703"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f79038dbb067a692a12d171e51b5703">&#9670;&nbsp;</a></span>tracerserial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine hdf5writter_mod::tracerserial </td>
+          <td>(</td>
+          <td class="paramtype">class(<a class="el" href="structhdf5writter__mod_1_1hdf5writter__class.html">hdf5writter_class</a>), intent(inout)&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(string), intent(in)&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">class(<a class="el" href="structblocks__mod_1_1block__class.html">block_class</a>), dimension(:), intent(in)&#160;</td>
+          <td class="paramname"><em>blocks</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Public Tracer writting routine. Writes Tracer data in MOHID HDF5 format. </p>
+<dl class="section author"><dt>Author</dt><dd>Ricardo Birjukovs Canelas - MARETEC </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">self,filename,blocks</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">blocks</td><td>Case Blocks </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_h_d_f5writter_8f90_source.html#l00074">74</a> of file <a class="el" href="_h_d_f5writter_8f90_source.html">HDF5writter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">class</span>(hdf5writter_class), <span class="keywordtype">intent(inout)</span> :: self</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">type</span>(string), <span class="keywordtype">intent(in)</span> :: filename</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">class</span>(block_class), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">intent(in)</span> :: blocks</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">type</span>(string) :: fullfilename, extfilename</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">type</span>(string) :: outext</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">integer</span> :: error, i, j, b</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">integer</span> :: HDF5_CREATE, STAT_CALL</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">pointer</span> :: ID =&gt; null()</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">target</span> :: id_target</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">integer</span> :: np</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">logical</span>, <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: active</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">real</span>, <span class="keywordtype">dimension(:,:)</span>, <span class="keywordtype">pointer</span> :: mat</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">real</span>, <span class="keywordtype">dimension(:,:)</span>, <span class="keywordtype">allocatable</span>, <span class="keywordtype">target</span> :: matReal</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">dimension(:,:)</span>, <span class="keywordtype">pointer</span> :: matInt</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">dimension(:,:)</span>, <span class="keywordtype">allocatable</span>, <span class="keywordtype">target</span> :: matIntTarget</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    </div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    extfilename = filename%chars()//<span class="stringliteral">&#39;.hdf5&#39;</span></div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    fullfilename = globals%Names%outpath//<span class="stringliteral">&#39;/&#39;</span>//extfilename</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        </div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">!allocate(mat, source = real(blocks(1)%BlockState(1)%state))</span></div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">!allocate(mat(size(blocks(1)%BlockState(1)%state,1), size(blocks(1)%BlockState(1)%state,2)))</span></div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">!mat = real(blocks(1)%BlockState(1)%state)</span></div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">allocate</span>(matreal(<span class="keyword">size</span>(blocks(1)%BlockState(1)%state,1), <span class="keyword">size</span>(blocks(1)%BlockState(1)%state,2)))</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    matreal = <span class="keywordtype">real</span>(blocks(1)%BlockState(1)%state)</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">!mat =&gt; matReal</span></div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    </div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">allocate</span>(mat(<span class="keyword">size</span>(blocks(1)%BlockState(1)%state,1), <span class="keyword">size</span>(blocks(1)%BlockState(1)%state,2)))</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    mat =&gt; matreal</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    </div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="comment">!allocate(matInt(10,20))</span></div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">!matInt = 12</span></div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">!call writeTestmatrix(matInt)</span></div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    </div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keyword">allocate</span>(matinttarget(10,20))</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    matinttarget = 12</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">allocate</span>(matint(10,20))</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    matint = matinttarget</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    </div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    print*, <span class="stringliteral">&#39;got here&#39;</span></div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    </div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">!Gets File Access Code</span></div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">call </span>gethdf5fileaccess(hdf5_create = hdf5_create)</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    </div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    print*, <span class="stringliteral">&#39;got here&#39;</span></div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    </div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">!Opens HDF File</span></div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment">!id_target = 0</span></div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">!ID =&gt; id_target</span></div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">allocate</span>(id)</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    id = 0</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">call </span>constructhdf5(id, fullfilename%chars(), hdf5_create, stat = stat_call)</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">if</span> (stat_call /= success_) <span class="keywordflow">then</span></div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        outext = <span class="stringliteral">&#39;[HDF5Writter::TracerSerial]: unnable to create &#39;</span>//fullfilename//<span class="stringliteral">&#39; file, stoping&#39;</span></div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        stop</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="keywordflow">    end if</span></div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    </div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    print*, <span class="stringliteral">&#39;got here&#39;</span></div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    </div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="comment">!writting data</span></div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keyword">call </span>hdf5writedata(id, <span class="stringliteral">&quot;/Data&quot;</span>, <span class="stringliteral">&quot;TestMatrix&quot;</span>, <span class="stringliteral">&quot;-&quot;</span>, array2d = matint, stat = stat_call)</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordflow">if</span> (stat_call /= success_) <span class="keywordflow">then</span></div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        outext = <span class="stringliteral">&#39;[HDF5Writter::TracerSerial]: unnable to write to &#39;</span>//fullfilename//<span class="stringliteral">&#39; file, stoping&#39;</span></div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        stop</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="keywordflow">    end if</span></div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    </div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">call </span>hdf5flushmemory (id, errormessage = <span class="stringliteral">&#39;[HDF5Writter::TracerSerial]: unnable to flush HDF5 writter memory&#39;</span>, stat = stat_call)</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">if</span> (stat_call /= success_) <span class="keywordflow">then</span></div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        outext = <span class="stringliteral">&#39;[HDF5Writter::TracerSerial]: unnable to flush HDF5 writter memory, stoping&#39;</span></div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keyword">call </span>log%put(outext)</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        stop</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordflow">    end if</span></div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    self%numHdf5Files = self%numHdf5Files + 1</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div></div><!-- fragment -->
+</div>
+</div>
+<a id="adc4cbad9398ee6e9cb5723a30a7c44b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc4cbad9398ee6e9cb5723a30a7c44b1">&#9670;&nbsp;</a></span>writetestmatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">subroutine hdf5writter_mod::writetestmatrix </td>
           <td>(</td>
           <td class="paramtype">integer, dimension(:, :), intent(in), pointer&#160;</td>
           <td class="paramname"><em>mat</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hdf5_writter_8f90_source.html#l00040">40</a> of file <a class="el" href="hdf5_writter_8f90_source.html">hdf5Writter.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">dimension(:, :)</span>, <span class="keywordtype">pointer</span>, <span class="keywordtype">intent(in)</span> :: mat</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">integer</span> :: ID, HDF5_CREATE, STAT_CALL</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    id = 0</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment">!Gets File Access Code</span></div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keyword">call </span>gethdf5fileaccess(hdf5_create = hdf5_create)</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">!Opens HDF File</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keyword">call </span>constructhdf5(id, <span class="stringliteral">&quot;filehdf&quot;</span>, hdf5_create, stat = stat_call)</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> (stat_call /= success_) stop <span class="stringliteral">&#39;writeTestmatrix - module hdf5Writter_mod - ERR01&#39;</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        </div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keyword">call </span>hdf5writedata(id, <span class="stringliteral">&quot;/Data&quot;</span>, <span class="stringliteral">&quot;TestMatrix&quot;</span>, <span class="stringliteral">&quot;-&quot;</span>,         &amp;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                              array2d = mat,            &amp;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                              stat = stat_call)</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (stat_call /= success_) stop <span class="stringliteral">&#39;writeTestmatrix - module hdf5Writter_mod - ERR07&#39;</span></div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        </div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="_h_d_f5writter_8f90_source.html#l00156">156</a> of file <a class="el" href="_h_d_f5writter_8f90_source.html">HDF5writter.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">integer</span>, <span class="keywordtype">dimension(:, :)</span>, <span class="keywordtype">pointer</span>, <span class="keywordtype">intent(in)</span> :: mat</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">integer</span> :: ID, HDF5_CREATE, STAT_CALL</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    id = 0</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="comment">!Gets File Access Code</span></div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">call </span>gethdf5fileaccess(hdf5_create = hdf5_create)</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">!Opens HDF File</span></div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keyword">call </span>constructhdf5(id, <span class="stringliteral">&quot;filehdf&quot;</span>, hdf5_create, stat = stat_call)</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (stat_call /= success_) stop <span class="stringliteral">&#39;writeTestmatrix - module hdf5Writter_mod - ERR01&#39;</span></div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keyword">call </span>hdf5writedata(id, <span class="stringliteral">&quot;/Data&quot;</span>, <span class="stringliteral">&quot;TestMatrix&quot;</span>, <span class="stringliteral">&quot;-&quot;</span>,         &amp;</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        array2d = mat,            &amp;</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        stat = stat_call)</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordflow">if</span> (stat_call /= success_) stop <span class="stringliteral">&#39;writeTestmatrix - module hdf5Writter_mod - ERR02&#39;</span></div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keyword">call </span>hdf5flushmemory (id, errormessage = <span class="stringliteral">&#39;writeTestmatrix - module hdf5Writter_mod - ERR03&#39;</span>, stat = stat_call)</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">if</span> (stat_call /= success_) stop <span class="stringliteral">&#39;writeTestmatrix - module hdf5Writter_mod - ERR03&#39;</span></div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

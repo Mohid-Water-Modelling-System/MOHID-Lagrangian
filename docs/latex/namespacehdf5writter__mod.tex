@@ -5,10 +5,21 @@
 Defines a vtk writer class with an object exposable to the Output streamer. Writes files in .xml vtk, both in serial and parallel model. Uses an unstructured mesh format specifier to store any type of data, both meshes and Tracers. Supports scalar and vectorial data.  
 
 
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structhdf5writter__mod_1_1hdf5writter__class}{hdf5writter\+\_\+class}}
+\end{DoxyCompactItemize}
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine, public \mbox{\hyperlink{namespacehdf5writter__mod_a365615aa2f72e08015a020475c37a6c8}{writetestmatrix}} (mat)
+subroutine \mbox{\hyperlink{namespacehdf5writter__mod_a2409af91a67db06badcb9ae439142f92}{inithdf5writter}} (self)
+\begin{DoxyCompactList}\small\item\em Initializes a H\+D\+F5 writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacehdf5writter__mod_a0318c234490ab15f480e7f940266ec4f}{closehdf5writer}} (self)
+\begin{DoxyCompactList}\small\item\em Closes a H\+D\+F5 writer object. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacehdf5writter__mod_a5f79038dbb067a692a12d171e51b5703}{tracerserial}} (self, filename, blocks)
+\begin{DoxyCompactList}\small\item\em Public Tracer writting routine. Writes Tracer data in M\+O\+H\+ID H\+D\+F5 format. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacehdf5writter__mod_adc4cbad9398ee6e9cb5723a30a7c44b1}{writetestmatrix}} (mat)
 \end{DoxyCompactItemize}
 
 
@@ -21,33 +32,187 @@ Ricardo Birjukovs Canelas
 
 
 \subsection{Function/\+Subroutine Documentation}
-\mbox{\Hypertarget{namespacehdf5writter__mod_a365615aa2f72e08015a020475c37a6c8}\label{namespacehdf5writter__mod_a365615aa2f72e08015a020475c37a6c8}} 
-\index{hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}!writetestmatrix@{writetestmatrix}}
-\index{writetestmatrix@{writetestmatrix}!hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}}
-\subsubsection{\texorpdfstring{writetestmatrix()}{writetestmatrix()}}
-{\footnotesize\ttfamily subroutine, public hdf5writter\+\_\+mod\+::writetestmatrix (\begin{DoxyParamCaption}\item[{integer, dimension(\+:, \+:), intent(in), pointer}]{mat }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{namespacehdf5writter__mod_a0318c234490ab15f480e7f940266ec4f}\label{namespacehdf5writter__mod_a0318c234490ab15f480e7f940266ec4f}} 
+\index{hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}!closehdf5writer@{closehdf5writer}}
+\index{closehdf5writer@{closehdf5writer}!hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}}
+\subsubsection{\texorpdfstring{closehdf5writer()}{closehdf5writer()}}
+{\footnotesize\ttfamily subroutine hdf5writter\+\_\+mod\+::closehdf5writer (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structhdf5writter__mod_1_1hdf5writter__class}{hdf5writter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line 40 of file hdf5\+Writter.\+f90.
+Closes a H\+D\+F5 writer object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 63 of file H\+D\+F5writter.\+f90.
 
 
 \begin{DoxyCode}
-40     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(:, :)}, \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: mat
-41     \textcolor{keywordtype}{integer} :: ID, HDF5\_CREATE, STAT\_CALL
-42     
-43     id = 0
-44     
-45         \textcolor{comment}{!Gets File Access Code}
-46         \textcolor{keyword}{call }gethdf5fileaccess(hdf5\_create = hdf5\_create)
-47 
-48         \textcolor{comment}{!Opens HDF File}
-49         \textcolor{keyword}{call }constructhdf5(id, \textcolor{stringliteral}{"filehdf"}, hdf5\_create, stat = stat\_call)
-50         \textcolor{keywordflow}{if} (stat\_call /= success\_) stop \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR01'}
-51         
-52         \textcolor{keyword}{call }hdf5writedata(id, \textcolor{stringliteral}{"/Data"}, \textcolor{stringliteral}{"TestMatrix"}, \textcolor{stringliteral}{"-"},         &
-53                               array2d = mat,            &
-54                               stat = stat\_call)
-55         \textcolor{keywordflow}{if} (stat\_call /= success\_) stop \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR07'}
-56         
+63     \textcolor{keywordtype}{class}(hdf5writter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+64 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacehdf5writter__mod_a2409af91a67db06badcb9ae439142f92}\label{namespacehdf5writter__mod_a2409af91a67db06badcb9ae439142f92}} 
+\index{hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}!inithdf5writter@{inithdf5writter}}
+\index{inithdf5writter@{inithdf5writter}!hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}}
+\subsubsection{\texorpdfstring{inithdf5writter()}{inithdf5writter()}}
+{\footnotesize\ttfamily subroutine hdf5writter\+\_\+mod\+::inithdf5writter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structhdf5writter__mod_1_1hdf5writter__class}{hdf5writter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Initializes a H\+D\+F5 writer object. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+
+Definition at line 53 of file H\+D\+F5writter.\+f90.
+
+
+\begin{DoxyCode}
+53     \textcolor{keywordtype}{class}(hdf5writter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+54     self%numHdf5Files = 0
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacehdf5writter__mod_a5f79038dbb067a692a12d171e51b5703}\label{namespacehdf5writter__mod_a5f79038dbb067a692a12d171e51b5703}} 
+\index{hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}!tracerserial@{tracerserial}}
+\index{tracerserial@{tracerserial}!hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}}
+\subsubsection{\texorpdfstring{tracerserial()}{tracerserial()}}
+{\footnotesize\ttfamily subroutine hdf5writter\+\_\+mod\+::tracerserial (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structhdf5writter__mod_1_1hdf5writter__class}{hdf5writter\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename,  }\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(in)}]{blocks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Public Tracer writting routine. Writes Tracer data in M\+O\+H\+ID H\+D\+F5 format. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,filename,blocks} & \\
+\hline
+\mbox{\tt in}  & {\em blocks} & Case Blocks \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 74 of file H\+D\+F5writter.\+f90.
+
+
+\begin{DoxyCode}
+74     \textcolor{keywordtype}{class}(hdf5writter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+75     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+76     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+77 
+78     \textcolor{keywordtype}{type}(string) :: fullfilename, extfilename
+79     \textcolor{keywordtype}{type}(string) :: outext
+80     \textcolor{keywordtype}{integer} :: error, i, j, b
+81     \textcolor{keywordtype}{integer} :: HDF5\_CREATE, STAT\_CALL
+82     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{pointer} :: ID => null()
+83     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{target} :: id\_target
+84     \textcolor{keywordtype}{integer} :: np
+85     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: active
+86 
+87     \textcolor{keywordtype}{real}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{pointer} :: mat
+88     \textcolor{keywordtype}{real}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{target} :: matReal
+89     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{pointer} :: matInt
+90     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{target} :: matIntTarget
+91     
+92     extfilename = filename%chars()//\textcolor{stringliteral}{'.hdf5'}
+93     fullfilename = globals%Names%outpath//\textcolor{stringliteral}{'/'}//extfilename
+94         
+95     \textcolor{comment}{!allocate(mat, source = real(blocks(1)%BlockState(1)%state))}
+96     \textcolor{comment}{!allocate(mat(size(blocks(1)%BlockState(1)%state,1), size(blocks(1)%BlockState(1)%state,2)))}
+97     \textcolor{comment}{!mat = real(blocks(1)%BlockState(1)%state)}
+98     \textcolor{keyword}{allocate}(matreal(\textcolor{keyword}{size}(blocks(1)%BlockState(1)%state,1), \textcolor{keyword}{size}(blocks(1)%BlockState(1)%state,2)))
+99     matreal = \textcolor{keywordtype}{real}(blocks(1)%BlockState(1)%state)
+100     \textcolor{comment}{!mat => matReal}
+101     
+102     \textcolor{keyword}{allocate}(mat(\textcolor{keyword}{size}(blocks(1)%BlockState(1)%state,1), \textcolor{keyword}{size}(blocks(1)%BlockState(1)%state,2)))
+103     mat => matreal
+104     
+105     \textcolor{comment}{!allocate(matInt(10,20))}
+106     \textcolor{comment}{!matInt = 12}
+107     \textcolor{comment}{!call writeTestmatrix(matInt)}
+108     
+109     \textcolor{keyword}{allocate}(matinttarget(10,20))
+110     matinttarget = 12
+111     \textcolor{keyword}{allocate}(matint(10,20))
+112     matint = matinttarget
+113     
+114     print*, \textcolor{stringliteral}{'got here'}
+115     
+116     \textcolor{comment}{!Gets File Access Code}
+117     \textcolor{keyword}{call }gethdf5fileaccess(hdf5\_create = hdf5\_create)
+118     
+119     print*, \textcolor{stringliteral}{'got here'}
+120     
+121     \textcolor{comment}{!Opens HDF File}
+122     \textcolor{comment}{!id\_target = 0}
+123     \textcolor{comment}{!ID => id\_target}
+124     \textcolor{keyword}{allocate}(id)
+125     id = 0
+126     \textcolor{keyword}{call }constructhdf5(id, fullfilename%chars(), hdf5\_create, stat = stat\_call)
+127     \textcolor{keywordflow}{if} (stat\_call /= success\_) \textcolor{keywordflow}{then}
+128         outext = \textcolor{stringliteral}{'[HDF5Writter::TracerSerial]: unnable to create '}//fullfilename//\textcolor{stringliteral}{' file, stoping'}
+129         \textcolor{keyword}{call }log%put(outext)
+130         stop
+131 \textcolor{keywordflow}{    end if}
+132     
+133     print*, \textcolor{stringliteral}{'got here'}
+134     
+135     \textcolor{comment}{!writting data}
+136     \textcolor{keyword}{call }hdf5writedata(id, \textcolor{stringliteral}{"/Data"}, \textcolor{stringliteral}{"TestMatrix"}, \textcolor{stringliteral}{"-"}, array2d = matint, stat = stat\_call)
+137     \textcolor{keywordflow}{if} (stat\_call /= success\_) \textcolor{keywordflow}{then}
+138         outext = \textcolor{stringliteral}{'[HDF5Writter::TracerSerial]: unnable to write to '}//fullfilename//\textcolor{stringliteral}{' file, stoping'}
+139         \textcolor{keyword}{call }log%put(outext)
+140         stop
+141 \textcolor{keywordflow}{    end if}
+142     
+143     \textcolor{keyword}{call }hdf5flushmemory (id, errormessage = \textcolor{stringliteral}{'[HDF5Writter::TracerSerial]: unnable to flush HDF5 writter
+       memory'}, stat = stat\_call)
+144     \textcolor{keywordflow}{if} (stat\_call /= success\_) \textcolor{keywordflow}{then}
+145         outext = \textcolor{stringliteral}{'[HDF5Writter::TracerSerial]: unnable to flush HDF5 writter memory, stoping'}
+146         \textcolor{keyword}{call }log%put(outext)
+147         stop
+148 \textcolor{keywordflow}{    end if}
+149 
+150     self%numHdf5Files = self%numHdf5Files + 1
+151 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacehdf5writter__mod_adc4cbad9398ee6e9cb5723a30a7c44b1}\label{namespacehdf5writter__mod_adc4cbad9398ee6e9cb5723a30a7c44b1}} 
+\index{hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}!writetestmatrix@{writetestmatrix}}
+\index{writetestmatrix@{writetestmatrix}!hdf5writter\+\_\+mod@{hdf5writter\+\_\+mod}}
+\subsubsection{\texorpdfstring{writetestmatrix()}{writetestmatrix()}}
+{\footnotesize\ttfamily subroutine hdf5writter\+\_\+mod\+::writetestmatrix (\begin{DoxyParamCaption}\item[{integer, dimension(\+:, \+:), intent(in), pointer}]{mat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 156 of file H\+D\+F5writter.\+f90.
+
+
+\begin{DoxyCode}
+156     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(:, :)}, \textcolor{keywordtype}{pointer}, \textcolor{keywordtype}{intent(in)} :: mat
+157     \textcolor{keywordtype}{integer} :: ID, HDF5\_CREATE, STAT\_CALL
+158 
+159     id = 0
+160 
+161     \textcolor{comment}{!Gets File Access Code}
+162     \textcolor{keyword}{call }gethdf5fileaccess(hdf5\_create = hdf5\_create)
+163 
+164     \textcolor{comment}{!Opens HDF File}
+165     \textcolor{keyword}{call }constructhdf5(id, \textcolor{stringliteral}{"filehdf"}, hdf5\_create, stat = stat\_call)
+166     \textcolor{keywordflow}{if} (stat\_call /= success\_) stop \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR01'}
+167 
+168     \textcolor{keyword}{call }hdf5writedata(id, \textcolor{stringliteral}{"/Data"}, \textcolor{stringliteral}{"TestMatrix"}, \textcolor{stringliteral}{"-"},         &
+169         array2d = mat,            &
+170         stat = stat\_call)
+171     \textcolor{keywordflow}{if} (stat\_call /= success\_) stop \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR02'}
+172 
+173     \textcolor{keyword}{call }hdf5flushmemory (id, errormessage = \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR03'}, stat = 
+      stat\_call)
+174     \textcolor{keywordflow}{if} (stat\_call /= success\_) stop \textcolor{stringliteral}{'writeTestmatrix - module hdf5Writter\_mod - ERR03'}
+175 
 \end{DoxyCode}

@@ -1,0 +1,4 @@
+<map id="blocks_mod::trcinbbox" name="blocks_mod::trcinbbox">
+<area shape="rect" id="node2" href="$namespaceblocks__mod.html#ab9e57cbf0103b632b2b2dfa4e4d4139c" title="Method to activate and deactivate the sources on this block, based on GlobalsSimTimeCurrTime. " alt="" coords="207,5,419,32"/>
+<area shape="rect" id="node3" href="$namespaceblocks__mod.html#a25ff530b5125e4cee5b1f474b2491883" title="Method to clean the Tracer list from inactive Tracers. This includes tracers that escaped from the Si..." alt="" coords="211,56,414,83"/>
+</map>

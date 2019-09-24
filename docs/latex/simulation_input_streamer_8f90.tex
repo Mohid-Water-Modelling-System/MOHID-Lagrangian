@@ -15,11 +15,19 @@ module \mbox{\hyperlink{namespacesimulationinputstreamer__mod}{simulationinputst
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a9ebef1f85eeb213cf69ea18ca012e047}{simulationinputstreamer\+\_\+mod\+::setreadstatus}} (self, last\+Read\+Time, buffer\+Size)
+\begin{DoxyCompactList}\small\item\em Checks if file should be read and sets appropriate flag. \end{DoxyCompactList}\item 
+type(background\+\_\+class) function \mbox{\hyperlink{namespacesimulationinputstreamer__mod_af1f989baa363031aac274694aeacfad5}{simulationinputstreamer\+\_\+mod\+::getcurrentsfile}} (self, file\+Name)
+\begin{DoxyCompactList}\small\item\em instantiates and returns a background object with the data from a currents input file \end{DoxyCompactList}\item 
+type(background\+\_\+class) function \mbox{\hyperlink{namespacesimulationinputstreamer__mod_ac69aeed5ee36930444f6e5389071994e}{simulationinputstreamer\+\_\+mod\+::getwindsfile}} (self, file\+Name)
+\begin{DoxyCompactList}\small\item\em instantiates and returns a background object with the data from a meteorology input file (winds) \end{DoxyCompactList}\item 
+type(background\+\_\+class) function \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a28ca430c32786d6df906f295bedf54df}{simulationinputstreamer\+\_\+mod\+::getwavesfile}} (self, file\+Name)
+\begin{DoxyCompactList}\small\item\em instantiates and returns a background object with the data from a waves input file (stokes drift velocity) \end{DoxyCompactList}\item 
+type(background\+\_\+class) function \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a7e82619f63c76454a4ea97e3a0b4bc48}{simulationinputstreamer\+\_\+mod\+::getwaterpropsfile}} (self, file\+Name)
+\begin{DoxyCompactList}\small\item\em instantiates and returns a background object with the data from a water properties input file (temperature, density, salinity) \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a3d4540f8e04cc0215895cad65c5be952}{simulationinputstreamer\+\_\+mod\+::loaddatafromstack}} (self, b\+Box, blocks)
 \begin{DoxyCompactList}\small\item\em loads data from files and populates the backgrounds accordingly \end{DoxyCompactList}\item 
-type(background\+\_\+class) function \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a532b4022fdb6db20d41ca8082d4e7423}{simulationinputstreamer\+\_\+mod\+::getfullfile}} (self, file\+Name)
-\begin{DoxyCompactList}\small\item\em instantiates and returns a background object with the data from a NC file \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a0e5a1e43fe53f179325858d486a284e5}{simulationinputstreamer\+\_\+mod\+::initinputstreamer}} (self)
+subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a9f81731f839f49c42a281c1334f528da}{simulationinputstreamer\+\_\+mod\+::initinputstreamer}} (self, blocks)
 \begin{DoxyCompactList}\small\item\em Initializes the input writer object, imports metadata on input files. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationinputstreamer__mod_a9465e29f527366e5f6d9a1195de6ddee}{simulationinputstreamer\+\_\+mod\+::resetreadstatus}} (self)
 \begin{DoxyCompactList}\small\item\em resets input files read status \end{DoxyCompactList}\item 
