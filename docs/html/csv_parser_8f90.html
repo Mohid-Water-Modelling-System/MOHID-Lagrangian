@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -97,8 +97,7 @@ $(document).ready(function(){initNavTree('csv_parser_8f90.html','');});
   <div class="summary">
 <a href="#nested-classes">Data Types</a> &#124;
 <a href="#namespaces">Modules</a> &#124;
-<a href="#func-members">Functions/Subroutines</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions/Subroutines</a>  </div>
   <div class="headertitle">
 <div class="title">csvParser.f90 File Reference</div>  </div>
 </div><!--header-->
@@ -119,20 +118,21 @@ Modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions/Subroutines</h2></td></tr>
-<tr class="memitem:aa200ea4f5e06c67f7a627af0a70450a6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecsvparser__mod.html#aa200ea4f5e06c67f7a627af0a70450a6">csvparser_mod::getfile</a> (self, csvdoc, csvfilename, header_row)</td></tr>
-<tr class="memdesc:aa200ea4f5e06c67f7a627af0a70450a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses a csv file and returns the file with the data. Gets and trashes the header.  <a href="namespacecsvparser__mod.html#aa200ea4f5e06c67f7a627af0a70450a6">More...</a><br /></td></tr>
-<tr class="separator:aa200ea4f5e06c67f7a627af0a70450a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb79b5f7cda09a8a89eb9c5cb3fb126c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecsvparser__mod.html#abb79b5f7cda09a8a89eb9c5cb3fb126c">csvparser_mod::getfile</a> (self, csvfilename, header_row)</td></tr>
+<tr class="memdesc:abb79b5f7cda09a8a89eb9c5cb3fb126c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses a csv file and returns the file with the data. Gets and trashes the header.  <a href="namespacecsvparser__mod.html#abb79b5f7cda09a8a89eb9c5cb3fb126c">More...</a><br /></td></tr>
+<tr class="separator:abb79b5f7cda09a8a89eb9c5cb3fb126c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7dbe42af8b97daccf58fc7be9939f60"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecsvparser__mod.html#aa7dbe42af8b97daccf58fc7be9939f60">csvparser_mod::getdatabylabel</a> (self, dataName, data_out)</td></tr>
+<tr class="memdesc:aa7dbe42af8b97daccf58fc7be9939f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that gets data from a column of a csV file, given a string with a variable name.  <a href="namespacecsvparser__mod.html#aa7dbe42af8b97daccf58fc7be9939f60">More...</a><br /></td></tr>
+<tr class="separator:aa7dbe42af8b97daccf58fc7be9939f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29e2d40db736b6ff9fb100ef316e0ebe"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecsvparser__mod.html#a29e2d40db736b6ff9fb100ef316e0ebe">csvparser_mod::getfiletofileobject</a> (self, csvdoc, csvfilename, header_row)</td></tr>
+<tr class="memdesc:a29e2d40db736b6ff9fb100ef316e0ebe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that parses a csv file and returns the file with the data. Gets and trashes the header.  <a href="namespacecsvparser__mod.html#a29e2d40db736b6ff9fb100ef316e0ebe">More...</a><br /></td></tr>
+<tr class="separator:a29e2d40db736b6ff9fb100ef316e0ebe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae966faafebb8c4035e12e0bb24de717c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecsvparser__mod.html#ae966faafebb8c4035e12e0bb24de717c">csvparser_mod::getcolumn</a> (self, csvdoc, csvfilename, column, data_out)</td></tr>
 <tr class="memdesc:ae966faafebb8c4035e12e0bb24de717c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that gets data from a column of a .csv file.  <a href="namespacecsvparser__mod.html#ae966faafebb8c4035e12e0bb24de717c">More...</a><br /></td></tr>
 <tr class="separator:ae966faafebb8c4035e12e0bb24de717c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f56a69c948d139a3e9c88476f25305d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecsvparser__mod.html#a8f56a69c948d139a3e9c88476f25305d">csvparser_mod::closefile</a> (self, csvdoc)</td></tr>
 <tr class="memdesc:a8f56a69c948d139a3e9c88476f25305d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that closes a .csv file.  <a href="namespacecsvparser__mod.html#a8f56a69c948d139a3e9c88476f25305d">More...</a><br /></td></tr>
 <tr class="separator:a8f56a69c948d139a3e9c88476f25305d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ab6217ec53c20650314f678ba29d4c105"><td class="memItemLeft" align="right" valign="top">type(csvparser_class), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecsvparser__mod.html#ab6217ec53c20650314f678ba29d4c105">csvparser_mod::csvreader</a></td></tr>
-<tr class="separator:ab6217ec53c20650314f678ba29d4c105"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

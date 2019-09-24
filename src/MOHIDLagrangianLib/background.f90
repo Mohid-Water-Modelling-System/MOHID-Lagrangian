@@ -40,8 +40,9 @@
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
-        logical, allocatable, dimension(:) :: regularDim                        !< Logical that points
+        logical, allocatable, dimension(:) :: regularDim                        !< Flag that indicates if the respective dimension is regular or irregular
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
+        type(stringList_class) :: variables
     contains
     procedure :: add => addField
     procedure :: getDimIndex
@@ -49,7 +50,9 @@
     procedure :: append => appendBackgroundByTime
     procedure :: getHyperSlab
     procedure :: ShedMemory
-    procedure :: makeLandMask
+    procedure :: makeLandMaskField
+    procedure :: makeResolutionField
+    procedure :: copy
     procedure, private :: getSlabDim
     procedure, private :: getPointDimIndexes
     procedure :: finalize => cleanBackground
@@ -80,13 +83,30 @@
     subroutine addField(self, gfield)
     class(background_class), intent(inout) :: self
     type(generic_field_class), intent(in) :: gfield
-    if (allocated(gfield%scalar1d%field)) call self%fields%add(gfield%scalar1d)
-    if (allocated(gfield%scalar2d%field)) call self%fields%add(gfield%scalar2d)
-    if (allocated(gfield%scalar3d%field)) call self%fields%add(gfield%scalar3d)
-    if (allocated(gfield%scalar4d%field)) call self%fields%add(gfield%scalar4d)
-    if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)
-    if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)
-    if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)
+    logical :: added
+    added = .false.
+    if (allocated(gfield%scalar1d%field)) then
+        call self%fields%add(gfield%scalar1d)
+        added = .true.
+    end if
+    if (allocated(gfield%scalar2d%field)) then
+        call self%fields%add(gfield%scalar2d)
+        added = .true.
+    end if
+    if (allocated(gfield%scalar3d%field)) then
+        call self%fields%add(gfield%scalar3d)
+        added = .true.
+    end if
+    if (allocated(gfield%scalar4d%field)) then
+        call self%fields%add(gfield%scalar4d)
+        added = .true.
+    end if
+    !if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)
+    !if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)
+    !if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)
+    if (added) then
+        if(self%variables%notRepeated(gfield%name)) call self%variables%add(gfield%name)
+    end if
     end subroutine addField
 
     !---------------------------------------------------------------------------
@@ -176,13 +196,13 @@
     subroutine appendBackgroundByTime(self, bkg, done)
     class(background_class), intent(inout) :: self
     type(background_class), intent(in) :: bkg
-    type(generic_field_class) :: tempGField
+    type(generic_field_class) :: tempGField, tempGField2
     type(generic_field_class), allocatable, dimension(:) :: gField
     logical, intent(out) :: done
     real(prec), allocatable, dimension(:) :: newTime
     class(*), pointer :: aField, bField
     type(string) :: outext, name, units
-    integer :: i, j
+    integer :: i, j, k
     logical, allocatable, dimension(:) :: usedTime
 
     done = .false.
@@ -199,10 +219,8 @@
                 !done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or the same
                 allocate(newTime, source = self%dim(j)%field)
                 call Utils%appendArraysUniqueReal(newTime, bkg%dim(i)%field, usedTime)
-                
                 !check if new time dimension is consistent (monotonic and not repeating)
                 done = all(newTime(2:)-newTime(1:size(newTime)-1) > 0)
-                
                 name = self%dim(j)%name
                 units = self%dim(j)%units
                 call self%dim(j)%finalize()
@@ -216,22 +234,20 @@
     i=1
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values to process
-        done = .false.
         aField => self%fields%currentValue()
         select type(aField)
         class is (field_class)
-            gField(i) = getGField(aField)
+            call gField(i)%getGField(aField)
             call bkg%fields%reset()
             do while(bkg%fields%moreValues())
                 bField => bkg%fields%currentValue()
                 select type(bField)
                 class is (field_class)
                     if (bField%name == aField%name) then
-                        tempGField = getGField(bField)
+                        call tempGField%getGField(bField)
                         !append the new time instances of the field
                         call gField(i)%concatenate(tempGField, usedTime)
                         call tempGField%finalize()
-                        done = .true.
                         exit
                     end if
                 end select
@@ -255,7 +271,6 @@
 
     do i=1, size(gField)
         call self%add(gField(i))
-        call gField(i)%finalize()
     end do
 
     if(.not.self%check()) then
@@ -304,8 +319,8 @@
             llbound(i) = uubound(i)
             uubound(i) = temp_int
         end if
-        llbound(i) = max(1, llbound(i)-1) !adding safety net to index bounds
-        uubound(i) = min(uubound(i)+1, size(self%dim(i)%field))
+        llbound(i) = max(1, llbound(i)-2) !adding safety net to index bounds
+        uubound(i) = min(uubound(i)+2, size(self%dim(i)%field))
         call backgrounDims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound(i), uubound(i)))
     end do
     !slicing variables
@@ -348,7 +363,6 @@
     getHyperSlab = constructor(1, self%name, extents, backgrounDims)
     do i=1, size(gfield)
         call getHyperSlab%add(gfield(i))
-        call gField(i)%finalize()
     end do
 
     if(.not.self%check()) then
@@ -384,7 +398,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> returns an array witn a sliced dimension
-    !> @param[in] self, domain, time
+    !> @param[in] self, numDim, llbound, uubound
     !---------------------------------------------------------------------------
     function getSlabDim(self, numDim, llbound, uubound)
     class(background_class), intent(in) :: self
@@ -396,7 +410,8 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Method that cleans data in the Background object not needed any longer
+    !> Method that cleans data in the Background object that is already
+    !> out of scope
     !---------------------------------------------------------------------------
     subroutine ShedMemory(self)
     class(background_class), intent(inout) :: self
@@ -405,160 +420,301 @@
     real(prec), allocatable, dimension(:) :: newTime
     type(string) :: outext, name, units
     type(generic_field_class), allocatable, dimension(:) :: gField
-    type(generic_field_class) :: tempGField
     class(*), pointer :: aField
     logical :: done
     integer :: i, j
 
-    done = .false.
-    allocate(llbound(size(self%dim)))
-    allocate(uubound(size(self%dim)))
-    !select valid time coordinate array elements
-    do i= 1, size(self%dim)
-        llbound(i) = 1
-        uubound(i) = size(self%dim(i)%field)
+    if (self%initialized) then
+        done = .false.
+        allocate(llbound(size(self%dim)))
+        allocate(uubound(size(self%dim)))
+        !select valid time coordinate array elements
+        do i= 1, size(self%dim)
+            llbound(i) = 1
+            uubound(i) = size(self%dim(i)%field)
 
-        if (self%dim(i)%name == Globals%Var%time) then
-            if (self%dim(i)%field(1) < Globals%SimTime%CurrTime - Globals%Parameters%BufferSize) then
-                llbound(i) = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%BufferSize/3.0)
-                if (llbound(i) == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound(i) = llbound(i) - 1
-                if (llbound(i) > 1) then
-                    uubound(i) = size(self%dim(i)%field)
-                    j=size(self%dim(i)%field(llbound(i):uubound(i)))
-                    allocate(newTime(j))
-                    newTime = self%dim(i)%field(llbound(i):uubound(i))
-                    !allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i)))
-                    name = self%dim(i)%name
-                    units = self%dim(i)%units
-                    call self%dim(i)%finalize()
-                    call self%dim(i)%initialize(name, units, 1, newTime)
-                    done  = .true.
+            if (self%dim(i)%name == Globals%Var%time) then
+                if (self%dim(i)%field(1) < Globals%SimTime%CurrTime - Globals%Parameters%BufferSize) then
+                    llbound(i) = self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime - Globals%Parameters%BufferSize/2.0)
+                    if (llbound(i) == self%dim(i)%getFieldNearestIndex(Globals%SimTime%CurrTime)) llbound(i) = llbound(i) - 1
+                    if (llbound(i) > 2) then
+                        uubound(i) = size(self%dim(i)%field)
+                        j=size(self%dim(i)%field(llbound(i):uubound(i)))
+                        allocate(newTime(j))
+                        newTime = self%dim(i)%field(llbound(i):uubound(i))
+                        !allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i))) !gfortran doesn't like this...
+                        name = self%dim(i)%name
+                        units = self%dim(i)%units
+                        call self%dim(i)%finalize()
+                        call self%dim(i)%initialize(name, units, 1, newTime)
+                        done  = .true.
+                    end if
+                    exit
                 end if
-                exit
             end if
-        end if
-    end do
-    !slice variables accordingly
-    if (done) then
-        allocate(gField(self%fields%getSize()))
-        i=1
-        call self%fields%reset()               ! reset list iterator
-        do while(self%fields%moreValues())     ! loop while there are values to process
-            aField => self%fields%currentValue()
-            select type(aField)
-            class is (field_class)
-                gfield(i) = aField%getFieldSlice(llbound, uubound)
-                class default
-                outext = '[Background::ShedMemory] Unexepected type of content, not a Field'
+        end do
+        if (done) then
+            !slice variables accordingly
+            allocate(gField(self%fields%getSize()))
+            i=1
+            call self%fields%reset()               ! reset list iterator
+            do while(self%fields%moreValues())     ! loop while there are values to process
+                aField => self%fields%currentValue()
+                select type(aField)
+                class is (field_class)
+                    gfield(i) = aField%getFieldSlice(llbound, uubound)
+                    class default
+                    outext = '[Background::ShedMemory] Unexepected type of content, not a Field'
+                    call Log%put(outext)
+                    stop
+                end select
+                call self%fields%next()            ! increment the list iterator
+                i = i+1
+                nullify(aField)
+            end do
+            call self%fields%reset()               ! reset list iterator
+
+            call self%cleanFields()
+            call self%fields%finalize()
+
+            do i=1, size(gField)
+                call self%add(gField(i))
+            end do
+
+            if(.not.self%check()) then
+                outext = '[Background::ShedMemory]: non-conformant Background, stoping '
                 call Log%put(outext)
                 stop
-            end select
-            call self%fields%next()            ! increment the list iterator
-            i = i+1
-            nullify(aField)
-        end do
-        call self%fields%reset()               ! reset list iterator
-
-        call self%cleanFields()
-        call self%fields%finalize()
-
-        do i=1, size(gField)
-            call self%add(gField(i))
-            call gField(i)%finalize()
-        end do
-
-        if(.not.self%check()) then
-            outext = '[Background::ShedMemory]: non-conformant Background, stoping '
-            call Log%put(outext)
-            stop
+            end if
         end if
-
     end if
 
     end subroutine ShedMemory
-    
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method to use a stored binary field to make a land mask used for land
     !> interaction: bed settling, beaching, ...
     !---------------------------------------------------------------------------
-    subroutine makeLandMask(self)
+    subroutine makeLandMaskField(self)
     class(background_class), intent(inout) :: self
     class(*), pointer :: curr
     logical, allocatable, dimension(:,:,:) :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d, beach3d
     logical, allocatable, dimension(:,:,:,:) :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, shiftdownlat4d, shiftUpLevel, shiftDownLevel, beach4d, bed4d
     type(string) :: outext
-    integer :: dimIndx
+    integer :: dimIndx, k
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
-        curr => self%fields%currentValue() ! get current value        
-            select type(curr)            
-            class is (scalar3d_field_class)
-                if (curr%name == Globals%Var%landIntMask) then
-                    allocate(shiftleftlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(shiftuplat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(shiftrigthlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                    shiftleftlon3d = .false.
-                    shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    shiftrigthlon3d = .false.
-                    shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    shiftuplat3d = .false.
-                    shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    shiftdownlat3d = .false.
-                    shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) == Globals%Mask%waterVal - Globals%Mask%landVal
-                    beach3d = .false.
-                    beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d !colapsing all the shifts
-                    beach3d = beach3d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
-                    where(beach3d) curr%field = Globals%Mask%beachVal
-                end if
-            class is (scalar4d_field_class)
-                if (curr%name == Globals%Var%landIntMask) then
-                    allocate(shiftleftlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftdownlat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(shiftDownLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(beach4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    allocate(bed4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                    shiftleftlon4d = .false.
-                    shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) /= 0.0
-                    shiftrigthlon4d = .false.
-                    shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) /= 0.0
-                    shiftdownlat4d = .false.
-                    shiftdownlat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) /= 0.0
-                    shiftuplat4d = .false.
-                    shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) /= 0.0
-                    shiftUpLevel = .false.
-                    shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
-                    shiftDownLevel = .false.
-                    shiftDownLevel(:,:,:size(curr%field,3)-1,:) = abs(curr%field(:,:,:size(curr%field,3)-1,:) - curr%field(:,:,2:,:)) /= 0.0
-                    beach4d = .false.
-                    beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. shiftDownLevel .or. shiftUpLevel !colapsing all the shifts                    
-                    !beach4d = beach4d .and. (curr%field == Globals%Mask%landVal) !just points that were already wet
-                    bed4d = beach4d
-                    dimIndx = self%getDimIndex(Globals%Var%level)
-                    dimIndx = minloc(abs(self%dim(dimIndx)%field - Globals%Constants%BeachingLevel),1)
-                    beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
-                    bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
-                    where(beach4d) curr%field = Globals%Mask%beachVal
-                    where(bed4d) curr%field = Globals%Mask%bedVal
-                end if                
-                class default
-                outext = '[background_class::makeLandMask] Unexepected type of content, not a 3D or 4D scalar Field'
-                call Log%put(outext)
-                stop
-            end select       
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == Globals%Var%landIntMask) then
+                allocate(shiftleftlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(shiftuplat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(shiftrigthlon3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(shiftdownlat3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(beach3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                shiftleftlon3d = .false.
+                shiftleftlon3d(:size(curr%field,1)-1,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:) - curr%field(2:,:,:)) /= 0.0
+                shiftrigthlon3d = .false.
+                shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:size(curr%field,1)-1,:,:)) /= 0.0
+                shiftuplat3d = .false.
+                shiftuplat3d(:,:size(curr%field,2)-1,:) = abs(curr%field(:,:size(curr%field,2)-1,:) - curr%field(:,2:,:)) /= 0.0
+                shiftdownlat3d = .false.
+                shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:size(curr%field,2)-1,:)) /= 0.0
+                beach3d = .false.
+                beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d !colapsing all the shifts
+                beach3d = beach3d .and. (curr%field == Globals%Mask%waterVal) !just points that were already wet
+                where(beach3d) curr%field = Globals%Mask%beachVal
+                !searching for areas that are beach and land and mark them as beach only 
+                do k=1, size(curr%field,3)
+                    beach3d(:,:,1) = beach3d(:,:,1) .or. beach3d(:,:,k)
+                    beach3d(:,:,k) = beach3d(:,:,1)
+                end do
+                where ((curr%field == Globals%Mask%landVal) .and. beach3d) curr%field = Globals%Mask%beachVal
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == Globals%Var%landIntMask) then
+                allocate(shiftleftlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftuplat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftrigthlon4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftdownlat4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(shiftDownLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(beach4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(bed4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                shiftleftlon4d = .false.
+                shiftleftlon4d(:size(curr%field,1)-1,:,:,:) = abs(curr%field(:size(curr%field,1)-1,:,:,:) - curr%field(2:,:,:,:)) /= 0.0
+                shiftrigthlon4d = .false.
+                shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:size(curr%field,1)-1,:,:,:)) /= 0.0
+                shiftdownlat4d = .false.
+                shiftdownlat4d(:,:size(curr%field,2)-1,:,:) = abs(curr%field(:,:size(curr%field,2)-1,:,:) - curr%field(:,2:,:,:)) /= 0.0
+                shiftuplat4d = .false.
+                shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:size(curr%field,2)-1,:,:)) /= 0.0
+                shiftUpLevel = .false.
+                shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
+                shiftDownLevel = .false.
+                shiftDownLevel(:,:,:size(curr%field,3)-1,:) = abs(curr%field(:,:,:size(curr%field,3)-1,:) - curr%field(:,:,2:,:)) /= 0.0
+                beach4d = .false.
+                beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. shiftDownLevel .or. shiftUpLevel !colapsing all the shifts
+                beach4d = beach4d .and. (curr%field == Globals%Mask%waterVal) !just points that were already wet
+                bed4d = beach4d
+                dimIndx = self%getDimIndex(Globals%Var%level)
+                dimIndx = minloc(abs(self%dim(dimIndx)%field - Globals%Constants%BeachingLevel),1)
+                beach4d(:,:,:dimIndx,:) = .false. !this must be above a certain level only
+                bed4d(:,:,dimIndx:,:) = .false.   !bellow a certain level
+                where(beach4d) curr%field = Globals%Mask%beachVal
+                where(bed4d) curr%field = Globals%Mask%bedVal
+                !searching for areas that are beach and land and mark them as beach only 
+                do k=1, size(curr%field,4)
+                    beach4d(:,:,:,1) = beach4d(:,:,:,1) .or. beach4d(:,:,:,k)
+                    beach4d(:,:,:,k) = beach4d(:,:,:,1)
+                end do
+                where ((curr%field == Globals%Mask%landVal) .and. beach4d) curr%field = Globals%Mask%beachVal
+            end if
+            class default
+            outext = '[background_class::makeLandMaskField] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
         call self%fields%next()            ! increment the list iterator
         nullify(curr)
     end do
     call self%fields%reset()               ! reset list iterator
-    
-    end subroutine makeLandMask
+
+    end subroutine makeLandMaskField
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to use a stored binary field to make a resolution proxy for the
+    !> underlying mesh
+    !---------------------------------------------------------------------------
+    subroutine makeResolutionField(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    real(prec), allocatable, dimension(:,:,:) :: xx3d, yy3d
+    real(prec), allocatable, dimension(:,:,:,:) :: xx4d, yy4d, zz4d
+    type(string) :: outext
+    integer :: xIndx, yIndx, zIndx, i, j, k, t
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == Globals%Var%resolution) then
+                allocate(xx3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                allocate(yy3d(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                xIndx = self%getDimIndex(Globals%Var%lon)
+                yIndx = self%getDimIndex(Globals%Var%lat)
+                do j=1, size(xx3d,2)
+                    xx3d(:,j,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), self%dim(yIndx)%field(j), .false.)
+                end do
+                yy3d(1,:,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), self%dim(yIndx)%field(1), .true.)
+                do i=2, size(yy3d,1)
+                    yy3d(i,:,1) = yy3d(1,:,1)
+                end do
+                do k=2, size(curr%field,3)
+                    yy3d(:,:,k) = yy3d(:,:,1)
+                    xx3d(:,:,k) = xx3d(:,:,1)
+                end do
+                curr%field = (xx3d + yy3d)/2.0
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == Globals%Var%resolution) then
+                allocate(xx4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(yy4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(zz4d(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                xx4d = -99999.0
+                xIndx = self%getDimIndex(Globals%Var%lon)
+                yIndx = self%getDimIndex(Globals%Var%lat)
+                zIndx = self%getDimIndex(Globals%Var%level)
+                do j=1, size(xx4d,2)
+                    xx4d(:,j,1,1) = Utils%geo2m(abs(self%dim(xIndx)%field(:size(curr%field,1)-1) - self%dim(xIndx)%field(2:)), self%dim(yIndx)%field(j), .false.)
+                end do
+                yy4d(1,:,1,1) = Utils%geo2m(abs(self%dim(yIndx)%field(:size(curr%field,2)-1) - self%dim(yIndx)%field(2:)), self%dim(yIndx)%field(1), .true.)
+                do i=2, size(yy4d,1)
+                    yy4d(i,:,1,1) = yy4d(1,:,1,1)
+                end do
+                do k=2, size(curr%field,3)
+                    xx4d(:,:,k,1) = xx4d(:,:,1,1)
+                    yy4d(:,:,k,1) = yy4d(:,:,1,1)
+                end do
+                zz4d(1,1,:,1) = abs(self%dim(zIndx)%field(:size(curr%field,2)-1) - self%dim(zIndx)%field(2:))
+                do i=2, size(zz4d,1)
+                    zz4d(i,1,:,1) = zz4d(1,1,:,1)
+                end do
+                do j=2, size(zz4d,2)
+                    zz4d(:,j,:,1) = zz4d(:,1,:,1)
+                end do
+                do t=2, size(curr%field,4)
+                    xx4d(:,:,:,t) = xx4d(:,:,:,1)
+                    yy4d(:,:,:,t) = yy4d(:,:,:,1)
+                    zz4d(:,:,:,t) = zz4d(:,:,:,1)
+                end do
+                curr%field = xx4d!(xx4d + yy4d + zz4d)/3.0
+            end if
+            class default
+            outext = '[background_class::makeResolutionField] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    call self%fields%reset()               ! reset list iterator
+
+    end subroutine makeResolutionField
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that copies all data in another Background object
+    !---------------------------------------------------------------------------
+    subroutine copy(self, bkg)
+    class(background_class), intent(inout) :: self
+    type(background_class), intent(in) :: bkg
+    integer :: i
+    class(*), pointer :: aField
+    type(generic_field_class) :: gField
+    type(string) :: outext
+
+    if(self%initialized) call self%finalize()
+    self%initialized = bkg%initialized
+    self%id = bkg%id
+    self%name = bkg%name
+    self%extents%pt = bkg%extents%pt
+    self%extents%size = bkg%extents%size
+    if (allocated(bkg%dim)) then
+        allocate(self%dim(size(bkg%dim)))
+        do i=1, size(bkg%dim)
+            call self%dim(i)%initialize(bkg%dim(i)%name, bkg%dim(i)%units, 1, bkg%dim(i)%field)
+        end do
+    end if
+    if (allocated(bkg%regularDim)) then
+        allocate(self%regularDim(size(bkg%regularDim)))
+        self%regularDim = bkg%regularDim
+    end if
+    call bkg%fields%reset()               ! reset list iterator
+    do while(bkg%fields%moreValues())     ! loop while there are values to process
+        aField => bkg%fields%currentValue()
+        select type(aField)
+        class is (field_class)
+            call gField%getGField(aField)
+            class default
+            outext = '[Background::copy] Unexepected type of content, not a Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%add(gField)
+        call gField%finalize()
+        nullify(aField)
+        call bkg%fields%next()            ! increment the list iterator
+    end do
+    call self%fields%reset()               ! reset list iterator
+
+    end subroutine copy
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -567,12 +723,21 @@
     !---------------------------------------------------------------------------
     subroutine cleanBackground(self)
     class(background_class), intent(inout) :: self
+    integer :: i
     self%initialized = .false.
     self%id = MV_INT
     self%name = ''
-    if (allocated(self%dim)) deallocate(self%dim)
+    self%extents%size = 0.0
+    if (allocated(self%dim)) then
+        do i=1, size(self%dim)
+            call self%dim(i)%finalize()
+        end do
+        deallocate(self%dim)
+    end if
+    if (allocated(self%regularDim)) deallocate(self%regularDim)
     call self%cleanFields()
     call self%fields%finalize()
+    call self%variables%finalize()
     end subroutine cleanBackground
 
     !---------------------------------------------------------------------------
@@ -618,18 +783,19 @@
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
     real(prec), allocatable, dimension(:) :: rest
     integer :: i
-    real(prec) ::fmin, fmax, eta
+    real(prec) ::fmin, fmax, eta,dreg
     integer :: f_1,f_N
     allocate(self%dim, source = dims)
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
     do i=1, size(dims)
-        fmin = minval(self%dim(i)%field)
-        fmax = maxval(self%dim(i)%field)
+        fmin = self%dim(i)%getFieldMinBound() 
+        fmax = self%dim(i)%getFieldMaxBound()
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
-        allocate(rest, source = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1))
-        self%regularDim(i) = all(rest(1)+eta > rest)
-        self%regularDim(i) = all(rest(1)-eta < rest)
+        dreg = (fmax-fmin)/(size(self%dim(i)%field))
+        allocate(rest(size(self%dim(i)%field)-1))
+        rest = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1)
+        self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
         deallocate(rest)
     end do
     end subroutine setDims

@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -126,17 +126,11 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a52c6f025eb262a7a07b2a8b4ec7065ac"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__state.html#a52c6f025eb262a7a07b2a8b4ec7065ac">vel</a></td></tr>
 <tr class="memdesc:a52c6f025eb262a7a07b2a8b4ec7065ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Velocity of the source (m s-1)  <a href="#a52c6f025eb262a7a07b2a8b4ec7065ac">More...</a><br /></td></tr>
 <tr class="separator:a52c6f025eb262a7a07b2a8b4ec7065ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dde0c4e9fd145055b0861168120e4c9"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__state.html#a0dde0c4e9fd145055b0861168120e4c9">level</a></td></tr>
-<tr class="memdesc:a0dde0c4e9fd145055b0861168120e4c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Depth of the source baricenter (m)  <a href="#a0dde0c4e9fd145055b0861168120e4c9">More...</a><br /></td></tr>
-<tr class="separator:a0dde0c4e9fd145055b0861168120e4c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d51970a13f9664bbaf9d09afea0b363"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__state.html#a7d51970a13f9664bbaf9d09afea0b363">t</a></td></tr>
-<tr class="memdesc:a7d51970a13f9664bbaf9d09afea0b363"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temperature of the source (Celcius)  <a href="#a7d51970a13f9664bbaf9d09afea0b363">More...</a><br /></td></tr>
-<tr class="separator:a7d51970a13f9664bbaf9d09afea0b363"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Type - state variables of a source object. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00054">54</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00055">55</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ab31d51c870b76a1e4ca9b03f5847a7c2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab31d51c870b76a1e4ca9b03f5847a7c2">&#9670;&nbsp;</a></span>active</h2>
@@ -160,8 +154,8 @@ Private Attributes</h2></td></tr>
 
 <p>active switch </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00056">56</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">logical</span> :: active</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00057">57</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">logical</span> :: active</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a60a0c06c969401978a8cd13b4682fe1c"></a>
@@ -184,8 +178,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00055">55</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">real(prec)</span> :: age              <span class="comment">! time variables</span></div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00056">56</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">real(prec)</span> :: age                   <span class="comment">! time variables</span></div></div><!-- fragment -->
 </div>
 </div>
 <a id="a8c705a419fbe999e624ac42ae586700a"></a>
@@ -210,34 +204,8 @@ Private Attributes</h2></td></tr>
 
 <p>number of emissions on the stack for the current time step </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00057">57</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">real(prec)</span> :: emission_stack</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a0dde0c4e9fd145055b0861168120e4c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0dde0c4e9fd145055b0861168120e4c9">&#9670;&nbsp;</a></span>level</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">real(prec) sources_mod::source_state::level</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Depth of the source baricenter (m) </p>
-
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00060">60</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">real(prec)</span> :: level</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00058">58</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">real(prec)</span> :: emission_stack</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a8dacf7040158bb5214f66476bf1a1c3d"></a>
@@ -262,34 +230,8 @@ Private Attributes</h2></td></tr>
 
 <p>Position of the source baricenter (m) </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00058">58</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">type</span>(vector) :: pos</div></div><!-- fragment -->
-</div>
-</div>
-<a id="a7d51970a13f9664bbaf9d09afea0b363"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d51970a13f9664bbaf9d09afea0b363">&#9670;&nbsp;</a></span>t</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">real(prec) sources_mod::source_state::t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Temperature of the source (Celcius) </p>
-
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00061">61</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">real(prec)</span> :: T</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00059">59</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">type</span>(vector) :: pos</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a52c6f025eb262a7a07b2a8b4ec7065ac"></a>
@@ -314,8 +256,8 @@ Private Attributes</h2></td></tr>
 
 <p>Velocity of the source (m s-1) </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00059">59</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordtype">type</span>(vector) :: vel</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00060">60</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordtype">type</span>(vector) :: vel</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

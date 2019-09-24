@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -109,9 +109,6 @@ Collaboration diagram for tracerpaper_mod::paper_par_class:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a62cc56ab7188369a98711e6f6c5001de"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerpaper__mod_1_1paper__par__class.html#a62cc56ab7188369a98711e6f6c5001de">degradation_rate</a></td></tr>
-<tr class="memdesc:a62cc56ab7188369a98711e6f6c5001de"><td class="mdescLeft">&#160;</td><td class="mdescRight">degradation rate of the material  <a href="#a62cc56ab7188369a98711e6f6c5001de">More...</a><br /></td></tr>
-<tr class="separator:a62cc56ab7188369a98711e6f6c5001de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b237f726cdf3f35fa122047d0175351"><td class="memItemLeft" align="right" valign="top">logical&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerpaper__mod_1_1paper__par__class.html#a3b237f726cdf3f35fa122047d0175351">particulate</a></td></tr>
 <tr class="memdesc:a3b237f726cdf3f35fa122047d0175351"><td class="mdescLeft">&#160;</td><td class="mdescRight">flag to indicate if the material is a particle (false) or a collection of particles (true)  <a href="#a3b237f726cdf3f35fa122047d0175351">More...</a><br /></td></tr>
 <tr class="separator:a3b237f726cdf3f35fa122047d0175351"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,32 +120,6 @@ Private Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="tracer_paper_8f90_source.html#l00030">30</a> of file <a class="el" href="tracer_paper_8f90_source.html">tracerPaper.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a62cc56ab7188369a98711e6f6c5001de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62cc56ab7188369a98711e6f6c5001de">&#9670;&nbsp;</a></span>degradation_rate</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">real(prec) tracerpaper_mod::paper_par_class::degradation_rate</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>degradation rate of the material </p>
-
-<p class="definition">Definition at line <a class="el" href="tracer_paper_8f90_source.html#l00031">31</a> of file <a class="el" href="tracer_paper_8f90_source.html">tracerPaper.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">real(prec)</span> :: degradation_rate</div></div><!-- fragment -->
-</div>
-</div>
 <a id="a3b237f726cdf3f35fa122047d0175351"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3b237f726cdf3f35fa122047d0175351">&#9670;&nbsp;</a></span>particulate</h2>
 
@@ -171,8 +142,8 @@ Private Attributes</h2></td></tr>
 
 <p>flag to indicate if the material is a particle (false) or a collection of particles (true) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_paper_8f90_source.html#l00032">32</a> of file <a class="el" href="tracer_paper_8f90_source.html">tracerPaper.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">logical</span>    :: particulate</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer_paper_8f90_source.html#l00031">31</a> of file <a class="el" href="tracer_paper_8f90_source.html">tracerPaper.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">logical</span>    :: particulate</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a25325a2f6e0e3a16e1a2abffe5d0f6c8"></a>
@@ -197,8 +168,8 @@ Private Attributes</h2></td></tr>
 
 <p>Size (radius) of the particles (equals to the tracer radius if particulate==false) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_paper_8f90_source.html#l00033">33</a> of file <a class="el" href="tracer_paper_8f90_source.html">tracerPaper.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">real(prec)</span> :: size</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer_paper_8f90_source.html#l00032">32</a> of file <a class="el" href="tracer_paper_8f90_source.html">tracerPaper.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">real(prec)</span> :: size</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

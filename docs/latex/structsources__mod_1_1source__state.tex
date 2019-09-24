@@ -26,17 +26,13 @@ real(prec) \mbox{\hyperlink{structsources__mod_1_1source__state_a8c705a419fbe999
 type(vector) \mbox{\hyperlink{structsources__mod_1_1source__state_a8dacf7040158bb5214f66476bf1a1c3d}{pos}}
 \begin{DoxyCompactList}\small\item\em Position of the source baricenter (m) \end{DoxyCompactList}\item 
 type(vector) \mbox{\hyperlink{structsources__mod_1_1source__state_a52c6f025eb262a7a07b2a8b4ec7065ac}{vel}}
-\begin{DoxyCompactList}\small\item\em Velocity of the source (m s-\/1) \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsources__mod_1_1source__state_a0dde0c4e9fd145055b0861168120e4c9}{level}}
-\begin{DoxyCompactList}\small\item\em Depth of the source baricenter (m) \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsources__mod_1_1source__state_a7d51970a13f9664bbaf9d09afea0b363}{t}}
-\begin{DoxyCompactList}\small\item\em Temperature of the source (Celcius) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Velocity of the source (m s-\/1) \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Type -\/ state variables of a source object. 
 
-Definition at line 54 of file sources.\+f90.
+Definition at line 55 of file sources.\+f90.
 
 
 
@@ -53,11 +49,11 @@ active switch
 
 
 
-Definition at line 56 of file sources.\+f90.
+Definition at line 57 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-56         \textcolor{keywordtype}{logical} :: active
+57         \textcolor{keywordtype}{logical} :: active
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__state_a60a0c06c969401978a8cd13b4682fe1c}\label{structsources__mod_1_1source__state_a60a0c06c969401978a8cd13b4682fe1c}} 
 \index{sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}!age@{age}}
@@ -67,11 +63,11 @@ Definition at line 56 of file sources.\+f90.
 
 
 
-Definition at line 55 of file sources.\+f90.
+Definition at line 56 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-55         \textcolor{keywordtype}{real(prec)} :: age              \textcolor{comment}{! time variables}
+56         \textcolor{keywordtype}{real(prec)} :: age                   \textcolor{comment}{! time variables}
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__state_a8c705a419fbe999e624ac42ae586700a}\label{structsources__mod_1_1source__state_a8c705a419fbe999e624ac42ae586700a}} 
 \index{sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}!emission\+\_\+stack@{emission\+\_\+stack}}
@@ -85,29 +81,11 @@ number of emissions on the stack for the current time step
 
 
 
-Definition at line 57 of file sources.\+f90.
+Definition at line 58 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-57         \textcolor{keywordtype}{real(prec)} :: emission\_stack
-\end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__state_a0dde0c4e9fd145055b0861168120e4c9}\label{structsources__mod_1_1source__state_a0dde0c4e9fd145055b0861168120e4c9}} 
-\index{sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}!level@{level}}
-\index{level@{level}!sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}}
-\subsubsection{\texorpdfstring{level}{level}}
-{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+state\+::level\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Depth of the source baricenter (m) 
-
-
-
-Definition at line 60 of file sources.\+f90.
-
-
-\begin{DoxyCode}
-60         \textcolor{keywordtype}{real(prec)} :: level
+58         \textcolor{keywordtype}{real(prec)} :: emission\_stack
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__state_a8dacf7040158bb5214f66476bf1a1c3d}\label{structsources__mod_1_1source__state_a8dacf7040158bb5214f66476bf1a1c3d}} 
 \index{sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}!pos@{pos}}
@@ -121,29 +99,11 @@ Position of the source baricenter (m)
 
 
 
-Definition at line 58 of file sources.\+f90.
+Definition at line 59 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-58         \textcolor{keywordtype}{type}(vector) :: pos
-\end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__state_a7d51970a13f9664bbaf9d09afea0b363}\label{structsources__mod_1_1source__state_a7d51970a13f9664bbaf9d09afea0b363}} 
-\index{sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}!t@{t}}
-\index{t@{t}!sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}}
-\subsubsection{\texorpdfstring{t}{t}}
-{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+state\+::t\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Temperature of the source (Celcius) 
-
-
-
-Definition at line 61 of file sources.\+f90.
-
-
-\begin{DoxyCode}
-61         \textcolor{keywordtype}{real(prec)} :: T
+59         \textcolor{keywordtype}{type}(vector) :: pos
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__state_a52c6f025eb262a7a07b2a8b4ec7065ac}\label{structsources__mod_1_1source__state_a52c6f025eb262a7a07b2a8b4ec7065ac}} 
 \index{sources\+\_\+mod\+::source\+\_\+state@{sources\+\_\+mod\+::source\+\_\+state}!vel@{vel}}
@@ -157,11 +117,11 @@ Velocity of the source (m s-\/1)
 
 
 
-Definition at line 59 of file sources.\+f90.
+Definition at line 60 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-59         \textcolor{keywordtype}{type}(vector) :: vel
+60         \textcolor{keywordtype}{type}(vector) :: vel
 \end{DoxyCode}
 
 

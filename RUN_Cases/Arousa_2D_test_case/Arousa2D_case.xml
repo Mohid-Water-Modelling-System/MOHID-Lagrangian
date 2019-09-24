@@ -5,24 +5,35 @@
 			<parameter key="Start" value="2018 01 02 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
 			<parameter key="End"   value="2018 02 04 00 00 00" comment="Date of final instant" units_comment="ISO format" />
 			<parameter key="Integrator" value="3" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
-			<parameter key="Threads" value="auto" comment="Computation threads for shared memory computation (default=auto)" />			
-			<parameter key="OutputWriteTime" value="900" comment="Time out data (1/Hz)" units_comment="seconds" />
+			<parameter key="Threads" value="4" comment="Computation threads for shared memory computation (default=auto)" />			
+			<parameter key="OutputWriteTime" value="3600" comment="Time out data (1/Hz)" units_comment="seconds" />
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
+		<outputFields>
+			<file name="data/outputFields.xml"/>
+		</outputFields>
+		<variableNaming>
+			<file name="data/NamesLibrary.xml"/>
+		</variableNaming>
+		<postProcessing>
+			<file name="Post_scripts/PostRecipe_Arousa.xml"/>
+			<!-- <file name="Post_scripts/PostRecipe_Arousa_2.xml"/> -->
+		</postProcessing>
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="nc_fields"/>
+			<inputDataDir name="nc_fields" type="hydrodynamic"/>
 		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
-			<BoundingBoxMin x="-9.1" y="42.39" z="-1" units_comment="(deg,deg,m)"/>
-			<BoundingBoxMax x="-8.72" y="42.68" z="1" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMin x="-9.1" y="42.40" z="-1" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.75" y="42.66" z="1" units_comment="(deg,deg,m)"/>
 		</simulation>
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Box1" />
+				<resolution x="50" y="200" z="10" units_comment="metres (m)"/>
 				<rate_dt value="10000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
@@ -31,19 +42,44 @@
 				</box>
 			</source>
 			<source>
+				<setsource id="4" name="PolygonTest" />
+				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/polygon1.kmz"/>
+					<verticalBoundingBox min="0.0" max="0.0"/>
+				</polygon>
+			</source>
+			<source>
 				<setsource id="2" name="ReleaseLine10" />
 				<rate value="0.001" comment="emission rate (Hz)" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="0" end="5000" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="10000" end="20000" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="2018 01 12 00 00 00" end="2018 02 25 00 00 00" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<active start="2018 02 02 00 00 00" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<line>
 					<pointa x="-8.88" y="42.5" z="0" units_comment="(deg,deg,m)"/>
 					<pointb x="-8.87" y="42.525" z="0" units_comment="(deg,deg,m)"/>
-				</line>        
+				</line>
 			</source>
 			<source>
-				<setsource id="3" name="ReleaseBox17" />
-				<rate_file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>        
+				<setsource id="3" name="ReleasePoint17" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
+				</rateTimeSeries>
+				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+			</source>
+			<source>
+				<setsource id="5" name="ReleasePoint5" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example2.dat" />
+					<scale value="0.1" comment="scales the data on the file by this factor (not time)" />
+				</rateTimeSeries>
+				<point x="-8.94" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.dat" />
+				</positionTimeSeries>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
@@ -53,11 +89,10 @@
 			</types>
 			<file name="data/materialTypes.xml"/>
 		</sourceTypes>
-		<variableNaming>
-			<file name="data/ncNamesLibrary.xml"/>
-		</variableNaming>
 		<constants>
-			<BeachingLevel value="-3.5" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />			
+			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
+			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />
 		</constants>
 	</caseDefinitions>
 </case>

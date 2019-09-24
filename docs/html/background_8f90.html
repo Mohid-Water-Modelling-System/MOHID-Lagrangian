@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -147,11 +147,17 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memdesc:a09d61976c4545e8753eb4594044b109d"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns an array witn a sliced dimension  <a href="namespacebackground__mod.html#a09d61976c4545e8753eb4594044b109d">More...</a><br /></td></tr>
 <tr class="separator:a09d61976c4545e8753eb4594044b109d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c75c9011305adad2f19fc2233df700d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebackground__mod.html#a2c75c9011305adad2f19fc2233df700d">background_mod::shedmemory</a> (self)</td></tr>
-<tr class="memdesc:a2c75c9011305adad2f19fc2233df700d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that cleans data in the Background object not needed any longer.  <a href="namespacebackground__mod.html#a2c75c9011305adad2f19fc2233df700d">More...</a><br /></td></tr>
+<tr class="memdesc:a2c75c9011305adad2f19fc2233df700d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that cleans data in the Background object that is already out of scope.  <a href="namespacebackground__mod.html#a2c75c9011305adad2f19fc2233df700d">More...</a><br /></td></tr>
 <tr class="separator:a2c75c9011305adad2f19fc2233df700d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6c54d2cf1d1981fb928cd14d387aa8b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebackground__mod.html#ad6c54d2cf1d1981fb928cd14d387aa8b">background_mod::makelandmask</a> (self)</td></tr>
-<tr class="memdesc:ad6c54d2cf1d1981fb928cd14d387aa8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to use a stored binary field to make a land mask used for land interaction: bed settling, beaching, ...  <a href="namespacebackground__mod.html#ad6c54d2cf1d1981fb928cd14d387aa8b">More...</a><br /></td></tr>
-<tr class="separator:ad6c54d2cf1d1981fb928cd14d387aa8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26fbde130644e684871804b73de8d51b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebackground__mod.html#a26fbde130644e684871804b73de8d51b">background_mod::makelandmaskfield</a> (self)</td></tr>
+<tr class="memdesc:a26fbde130644e684871804b73de8d51b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to use a stored binary field to make a land mask used for land interaction: bed settling, beaching, ...  <a href="namespacebackground__mod.html#a26fbde130644e684871804b73de8d51b">More...</a><br /></td></tr>
+<tr class="separator:a26fbde130644e684871804b73de8d51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac8ce1ba8edcc9b7669d427318191552"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebackground__mod.html#aac8ce1ba8edcc9b7669d427318191552">background_mod::makeresolutionfield</a> (self)</td></tr>
+<tr class="memdesc:aac8ce1ba8edcc9b7669d427318191552"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to use a stored binary field to make a resolution proxy for the underlying mesh.  <a href="namespacebackground__mod.html#aac8ce1ba8edcc9b7669d427318191552">More...</a><br /></td></tr>
+<tr class="separator:aac8ce1ba8edcc9b7669d427318191552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6241a19bbe0f4b2482f95ed3d84056d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebackground__mod.html#ac6241a19bbe0f4b2482f95ed3d84056d">background_mod::copy</a> (self, bkg)</td></tr>
+<tr class="memdesc:ac6241a19bbe0f4b2482f95ed3d84056d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that copies all data in another Background object.  <a href="namespacebackground__mod.html#ac6241a19bbe0f4b2482f95ed3d84056d">More...</a><br /></td></tr>
+<tr class="separator:ac6241a19bbe0f4b2482f95ed3d84056d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1610fcc9ce260beb3c35418e92a63391"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacebackground__mod.html#a1610fcc9ce260beb3c35418e92a63391">background_mod::cleanbackground</a> (self)</td></tr>
 <tr class="memdesc:a1610fcc9ce260beb3c35418e92a63391"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method that cleans all data in the Background object.  <a href="namespacebackground__mod.html#a1610fcc9ce260beb3c35418e92a63391">More...</a><br /></td></tr>
 <tr class="separator:a1610fcc9ce260beb3c35418e92a63391"><td class="memSeparator" colspan="2">&#160;</td></tr>

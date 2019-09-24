@@ -8,5 +8,6 @@ var simulation_initialize_8f90 =
     [ "init_sources", "simulation_initialize_8f90.html#acaa6b217159e3a10e7db04dd7b0e4058", null ],
     [ "initfromxml", "simulation_initialize_8f90.html#ada0310fe0d45fa2eec30deaf3ad25ba7", null ],
     [ "linkpropertysources", "simulation_initialize_8f90.html#aa4c1099b84c9901ab1286a3796a54f71", null ],
-    [ "read_xml_geometry", "simulation_initialize_8f90.html#ab65ac868a57f2cc124ec29f87a239424", null ]
+    [ "read_xml_geometry", "simulation_initialize_8f90.html#ab65ac868a57f2cc124ec29f87a239424", null ],
+    [ "setoutputfields", "simulation_initialize_8f90.html#a09174fb4527277943700a5509de326dd", null ]
 ];

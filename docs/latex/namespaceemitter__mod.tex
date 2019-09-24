@@ -71,28 +71,29 @@ Definition at line 65 of file emitter.\+f90.
 77         asource => srclist%currentValue()  \textcolor{comment}{! get current value}
 78         \textcolor{keywordflow}{select type}(asource)
 79 \textcolor{keywordflow}{        class is} (source\_class)
-80             \textcolor{keywordflow}{if} (asource%now%active) \textcolor{keywordflow}{then}
-81                 \textcolor{keywordflow}{if} (asource%par%emitting\_fixed\_rate .eqv. .false.) \textcolor{keyword}{call }asource%getVariableRate(globals%Sim
-      %getnumdt())
-82                 asource%now%emission\_stack = asource%now%emission\_stack + asource%par%emitting\_rate*globals
-      %SimDefs%dt  \textcolor{comment}{!adding to the emission stack               }
-83                 \textcolor{keywordflow}{do} i=1, floor(asource%now%emission\_stack)
-84                     \textcolor{keyword}{call }self%emitt\_src(asource, trclist)
-85                     reset\_stack = .true.                    
-86 \textcolor{keywordflow}{                end do} 
-87                 \textcolor{keywordflow}{if} (reset\_stack) \textcolor{keywordflow}{then}
-88                     asource%now%emission\_stack = 0 \textcolor{comment}{!reseting for the next time step              }
-89 \textcolor{keywordflow}{                end if}
-90 \textcolor{keywordflow}{            end if}
-91 \textcolor{keywordflow}{            class default}
-92             outext = \textcolor{stringliteral}{'[Emitter] Unexepected type of content, not a Source'}
-93             \textcolor{keyword}{call }log%put(outext)
-94             stop
-95 \textcolor{keywordflow}{        end select}
-96         \textcolor{keyword}{call }srclist%next()            \textcolor{comment}{! increment the list iterator}
-97 \textcolor{keywordflow}{    end do}
-98     \textcolor{keyword}{call }srclist%reset()               \textcolor{comment}{! reset list iterator}
-99 
+80             \textcolor{keywordflow}{if} (.not.asource%par%fixed\_position) \textcolor{keyword}{call }asource%setVariablePosition(globals%Sim%getnumdt())
+81             \textcolor{keywordflow}{if} (asource%now%active) \textcolor{keywordflow}{then}
+82                 \textcolor{keywordflow}{if} (.not.asource%par%emitting\_fixed\_rate) \textcolor{keyword}{call }asource%setVariableRate(globals%Sim%getnumdt
+      ())                
+83                 asource%now%emission\_stack = asource%now%emission\_stack + asource%par%emitting\_rate*globals
+      %SimDefs%dt  \textcolor{comment}{!adding to the emission stack}
+84                 \textcolor{keywordflow}{do} i=1, floor(asource%now%emission\_stack)
+85                     \textcolor{keyword}{call }self%emitt\_src(asource, trclist)
+86                     reset\_stack = .true.                    
+87 \textcolor{keywordflow}{                end do} 
+88                 \textcolor{keywordflow}{if} (reset\_stack) \textcolor{keywordflow}{then}
+89                     asource%now%emission\_stack = 0 \textcolor{comment}{!reseting for the next time step              }
+90 \textcolor{keywordflow}{                end if}
+91 \textcolor{keywordflow}{            end if}
+92 \textcolor{keywordflow}{            class default}
+93             outext = \textcolor{stringliteral}{'[Emitter] Unexepected type of content, not a Source'}
+94             \textcolor{keyword}{call }log%put(outext)
+95             stop
+96 \textcolor{keywordflow}{        end select}
+97         \textcolor{keyword}{call }srclist%next()            \textcolor{comment}{! increment the list iterator}
+98 \textcolor{keywordflow}{    end do}
+99     \textcolor{keyword}{call }srclist%reset()               \textcolor{comment}{! reset list iterator}
+100 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceemitter__mod_a942679c07927fa594173fdd02da38922}\label{namespaceemitter__mod_a942679c07927fa594173fdd02da38922}} 
 \index{emitter\+\_\+mod@{emitter\+\_\+mod}!emitt\+\_\+src@{emitt\+\_\+src}}
@@ -114,24 +115,24 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 109 of file emitter.\+f90.
+Definition at line 110 of file emitter.\+f90.
 
 
 \begin{DoxyCode}
-109     \textcolor{keywordtype}{implicit none}
-110     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
-111     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)}  :: src
-112     \textcolor{keywordtype}{class}(tracerList\_class), \textcolor{keywordtype}{intent(inout)}   :: trclist
-113     \textcolor{keywordtype}{integer} i
-114     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable} :: newtrc
-115     \textcolor{keywordflow}{do} i=1, src%stencil%np
-116         \textcolor{comment}{!PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial
+110     \textcolor{keywordtype}{implicit none}
+111     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+112     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(inout)}  :: src
+113     \textcolor{keywordtype}{class}(tracerList\_class), \textcolor{keywordtype}{intent(inout)}   :: trclist
+114     \textcolor{keywordtype}{integer} i
+115     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable} :: newtrc
+116     \textcolor{keywordflow}{do} i=1, src%stencil%np
+117         \textcolor{comment}{!PARALLEL The calls inside this routine MUST be atomic in order to get the correct sequencial
        Tracer Id}
-117         \textcolor{keyword}{call }self%tracerMaker(newtrc, src, i)
-118         \textcolor{keyword}{call }trclist%add(newtrc)
-119 \textcolor{keywordflow}{    end do}
-120     self%emitted = self%emitted + src%stencil%np
-121     src%stats%particles\_emitted = src%stats%particles\_emitted + src%stencil%np
+118         \textcolor{keyword}{call }self%tracerMaker(newtrc, src, i)
+119         \textcolor{keyword}{call }trclist%add(newtrc)
+120 \textcolor{keywordflow}{    end do}
+121     self%emitted = self%emitted + src%stencil%np
+122     src%stats%particles\_emitted = src%stats%particles\_emitted + src%stencil%np
 \end{DoxyCode}
 \mbox{\Hypertarget{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}\label{namespaceemitter__mod_a6376ad0f8e1739b29caf672aa0750373}} 
 \index{emitter\+\_\+mod@{emitter\+\_\+mod}!initializeemitter@{initializeemitter}}
@@ -176,32 +177,32 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 132 of file emitter.\+f90.
+Definition at line 133 of file emitter.\+f90.
 
 
 \begin{DoxyCode}
-132     \textcolor{keywordtype}{implicit none}
-133     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(in)} :: self
-134     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{intent(out)} :: trc
-135     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
-136     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
-137     \textcolor{keywordtype}{type}(string) :: outext, temp
-138 
-139     \textcolor{comment}{!PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id}
-140     \textcolor{keywordflow}{select case} (src%prop%property\_type%chars())
-141     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'base'})
-142         \textcolor{keyword}{allocate}(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p)) \textcolor{comment}{
+133     \textcolor{keywordtype}{implicit none}
+134     \textcolor{keywordtype}{class}(emitter\_class), \textcolor{keywordtype}{intent(in)} :: self
+135     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{intent(out)} :: trc
+136     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+137     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+138     \textcolor{keywordtype}{type}(string) :: outext, temp
+139 
+140     \textcolor{comment}{!PARALLEL Globals%Sim%getnumTracer() MUST be atomic in order to get the correct sequencial Tracer Id}
+141     \textcolor{keywordflow}{select case} (src%prop%propertyType%chars())
+142     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'base'})
+143         \textcolor{keyword}{allocate}(trc, source = tracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p)) \textcolor{comment}{
       !Beacause ifort 2017 is not F2008 compliant...}
-143         \textcolor{comment}{!trc = Tracer(1, src, Globals%Time%CurrTime, p) !Otherwise instinsic allocation would be enough and
+144         \textcolor{comment}{!trc = Tracer(1, src, Globals%Time%CurrTime, p) !Otherwise instinsic allocation would be enough and
        more readable, like this. Compiles fine in GFortran}
-144     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'paper'})
-145         \textcolor{keyword}{allocate}(trc, source = papertracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p))
-146     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'plastic'})
-147         \textcolor{keyword}{allocate}(trc, source = plastictracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p))
-148 \textcolor{keywordflow}{        case default}
-149         outext=\textcolor{stringliteral}{'[Emitter::tracerMaker]: unexpected type for Tracer object: '}//src%prop%property\_type
-150         \textcolor{keyword}{call }log%put(outext)
-151         stop
-152 \textcolor{keywordflow}{    end select}
-153 
+145     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'paper'})
+146         \textcolor{keyword}{allocate}(trc, source = papertracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p))
+147     \textcolor{keywordflow}{case} (\textcolor{stringliteral}{'plastic'})
+148         \textcolor{keyword}{allocate}(trc, source = plastictracer(globals%Sim%getnumTracer(), src, globals%SimTime%CurrTime, p))
+149 \textcolor{keywordflow}{        case default}
+150         outext=\textcolor{stringliteral}{'[Emitter::tracerMaker]: unexpected type for Tracer object: '}//src%prop%propertyType
+151         \textcolor{keyword}{call }log%put(outext)
+152         stop
+153 \textcolor{keywordflow}{    end select}
+154 
 \end{DoxyCode}

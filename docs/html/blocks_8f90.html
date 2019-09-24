@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -152,33 +152,21 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a306a753acc9b8bb9107ebda481162180"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a306a753acc9b8bb9107ebda481162180">blocks_mod::svtotracers</a> (self)</td></tr>
 <tr class="memdesc:a306a753acc9b8bb9107ebda481162180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to write the data in the SV back to the Tracer objects in the list.  <a href="namespaceblocks__mod.html#a306a753acc9b8bb9107ebda481162180">More...</a><br /></td></tr>
 <tr class="separator:a306a753acc9b8bb9107ebda481162180"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a569c8a4a94791d4c0c24697b351ca8f2"><td class="memItemLeft" align="right" valign="top">real(prec) function, dimension(self%ltracer%getsize())&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a569c8a4a94791d4c0c24697b351ca8f2">blocks_mod::getsvvar</a> (self, idx)</td></tr>
-<tr class="memdesc:a569c8a4a94791d4c0c24697b351ca8f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns a given variable for all the tracers on the block  <a href="namespaceblocks__mod.html#a569c8a4a94791d4c0c24697b351ca8f2">More...</a><br /></td></tr>
-<tr class="separator:a569c8a4a94791d4c0c24697b351ca8f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fdac72f343c10f38d1acb3f5779de18"><td class="memItemLeft" align="right" valign="top">logical function, dimension(self%ltracer%getsize())&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a2fdac72f343c10f38d1acb3f5779de18">blocks_mod::getsvactive</a> (self)</td></tr>
-<tr class="memdesc:a2fdac72f343c10f38d1acb3f5779de18"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the active tracers array on the block  <a href="namespaceblocks__mod.html#a2fdac72f343c10f38d1acb3f5779de18">More...</a><br /></td></tr>
-<tr class="separator:a2fdac72f343c10f38d1acb3f5779de18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9cfa830fff1b8986efba72fa4c82473"><td class="memItemLeft" align="right" valign="top">integer function, dimension(self%ltracer%getsize())&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#af9cfa830fff1b8986efba72fa4c82473">blocks_mod::getsvid</a> (self)</td></tr>
-<tr class="memdesc:af9cfa830fff1b8986efba72fa4c82473"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the tracers id array on the block  <a href="namespaceblocks__mod.html#af9cfa830fff1b8986efba72fa4c82473">More...</a><br /></td></tr>
-<tr class="separator:af9cfa830fff1b8986efba72fa4c82473"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd5099df59aeafdc3b318719dd4c8d20"><td class="memItemLeft" align="right" valign="top">integer function, dimension(self%ltracer%getsize())&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#abd5099df59aeafdc3b318719dd4c8d20">blocks_mod::getsvsource</a> (self)</td></tr>
-<tr class="memdesc:abd5099df59aeafdc3b318719dd4c8d20"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the tracers landIntMask array on the block  <a href="namespaceblocks__mod.html#abd5099df59aeafdc3b318719dd4c8d20">More...</a><br /></td></tr>
-<tr class="separator:abd5099df59aeafdc3b318719dd4c8d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a046c07d2d955655055d78e37b6e622ef"><td class="memItemLeft" align="right" valign="top">integer function, dimension(self%ltracer%getsize())&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a046c07d2d955655055d78e37b6e622ef">blocks_mod::getsvlandintmask</a> (self)</td></tr>
-<tr class="memdesc:a046c07d2d955655055d78e37b6e622ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the tracers landIntMask array on the block  <a href="namespaceblocks__mod.html#a046c07d2d955655055d78e37b6e622ef">More...</a><br /></td></tr>
-<tr class="separator:a046c07d2d955655055d78e37b6e622ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab70bfe5cdce5a717115cfbac04f606a0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#ab70bfe5cdce5a717115cfbac04f606a0">blocks_mod::cleansv</a> (self)</td></tr>
 <tr class="memdesc:ab70bfe5cdce5a717115cfbac04f606a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to clean out the State Vector object.  <a href="namespaceblocks__mod.html#ab70bfe5cdce5a717115cfbac04f606a0">More...</a><br /></td></tr>
 <tr class="separator:ab70bfe5cdce5a717115cfbac04f606a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a9992de40470e417ec8e40e688f6a0e"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a5a9992de40470e417ec8e40e688f6a0e">blocks_mod::sendtracer</a> (blk, trc)</td></tr>
-<tr class="memdesc:a5a9992de40470e417ec8e40e688f6a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to send a Tracer from the current Block to another Block. Checks if Block index exists, if not, Tracer is not added to any Block Tracer list.  <a href="namespaceblocks__mod.html#a5a9992de40470e417ec8e40e688f6a0e">More...</a><br /></td></tr>
+<tr class="memdesc:a5a9992de40470e417ec8e40e688f6a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to send a Tracer from the current Block to another Block.  <a href="namespaceblocks__mod.html#a5a9992de40470e417ec8e40e688f6a0e">More...</a><br /></td></tr>
 <tr class="separator:a5a9992de40470e417ec8e40e688f6a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e632738786730731a48d9a432f6ab84"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a1e632738786730731a48d9a432f6ab84">blocks_mod::sendsource</a> (blk, src)</td></tr>
+<tr class="memdesc:a1e632738786730731a48d9a432f6ab84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to send a Source from the current Block to another Block.  <a href="namespaceblocks__mod.html#a1e632738786730731a48d9a432f6ab84">More...</a><br /></td></tr>
+<tr class="separator:a1e632738786730731a48d9a432f6ab84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62e8fb0d6b2535b4499c7a4d848c24ba"><td class="memItemLeft" align="right" valign="top">integer function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a62e8fb0d6b2535b4499c7a4d848c24ba">blocks_mod::getblockindex</a> (pt)</td></tr>
 <tr class="memdesc:a62e8fb0d6b2535b4499c7a4d848c24ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of a Block for a given set of coordinates.  <a href="namespaceblocks__mod.html#a62e8fb0d6b2535b4499c7a4d848c24ba">More...</a><br /></td></tr>
 <tr class="separator:a62e8fb0d6b2535b4499c7a4d848c24ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8d92210b3d4ade090d2a19b97f4c88e"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#ad8d92210b3d4ade090d2a19b97f4c88e">blocks_mod::trcinbox</a> (trc, testbox)</td></tr>
-<tr class="memdesc:ad8d92210b3d4ade090d2a19b97f4c88e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the point is inside the requested box.  <a href="namespaceblocks__mod.html#ad8d92210b3d4ade090d2a19b97f4c88e">More...</a><br /></td></tr>
-<tr class="separator:ad8d92210b3d4ade090d2a19b97f4c88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a101d0a23b5b56baf6e5bd35bc7b677b0"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a101d0a23b5b56baf6e5bd35bc7b677b0">blocks_mod::trcinbbox</a> (trc, testbox)</td></tr>
+<tr class="memdesc:a101d0a23b5b56baf6e5bd35bc7b677b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the point is inside the requested bounding box.  <a href="namespaceblocks__mod.html#a101d0a23b5b56baf6e5bd35bc7b677b0">More...</a><br /></td></tr>
+<tr class="separator:a101d0a23b5b56baf6e5bd35bc7b677b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eab8b323cb15dcecb5c6b0c31b4e246"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceblocks__mod.html#a6eab8b323cb15dcecb5c6b0c31b4e246">blocks_mod::printblock</a> (self)</td></tr>
 <tr class="memdesc:a6eab8b323cb15dcecb5c6b0c31b4e246"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to print basic info about the block.  <a href="namespaceblocks__mod.html#a6eab8b323cb15dcecb5c6b0c31b4e246">More...</a><br /></td></tr>
 <tr class="separator:a6eab8b323cb15dcecb5c6b0c31b4e246"><td class="memSeparator" colspan="2">&#160;</td></tr>

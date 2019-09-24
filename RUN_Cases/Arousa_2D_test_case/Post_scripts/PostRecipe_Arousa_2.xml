@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<postProcessing>
+	<EulerianMeasures>
+		<measures>
+			<field key = "residence_time"/>
+			<field key = "concentrations"/>
+		</measures>
+		<gridDefinition>
+			<units value= "relative"/>
+			<resolution x="200" y="200" z="2"/>
+		</gridDefinition>
+	</EulerianMeasures>
+</postProcessing>

@@ -24,9 +24,25 @@ type(\mbox{\hyperlink{structinterpolator__mod_1_1interpolator__class}{interpolat
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_a45e76f467fa1c842416d4daf722d92ae}{setcommonprocesses}}
+\item 
 procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_a955d89ed307afca4483f2ac06c03d8f6}{lagrangiankinematic}}
 \item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_a1ba4a72f6cfb6f6d9462d89714d035d5}{diffusionmixinglength}}
+\item 
 procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_ade7a7d02085be709e7867735294e82a9}{diffusionisotropic}}
+\item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_ae728ca6b395be36077c1d3d51f36cf25}{stokesdrift}}
+\item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_a3505f9e73946acb3d427023cd542f39e}{windage}}
+\item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_a8fb79882cea4947812f75cb3e39c9617}{beaching}}
+\item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_a7366a75fd76c37804607b466cf4f0212}{aging}}
+\item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_a03d66a6a01bf605d9fca2f5636548993}{degradationlinear}}
+\item 
+procedure, private \mbox{\hyperlink{structkernel__mod_1_1kernel__class_ae32f72181313bee935a0ded1885c3602}{hasrequiredvars}}
 \end{DoxyCompactItemize}
 
 
@@ -38,6 +54,36 @@ Definition at line 32 of file kernel.\+f90.
 
 
 \subsection{Member Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_a7366a75fd76c37804607b466cf4f0212}\label{structkernel__mod_1_1kernel__class_a7366a75fd76c37804607b466cf4f0212}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!aging@{aging}}
+\index{aging@{aging}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{aging()}{aging()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::aging (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 44 of file kernel.\+f90.
+
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_a8fb79882cea4947812f75cb3e39c9617}\label{structkernel__mod_1_1kernel__class_a8fb79882cea4947812f75cb3e39c9617}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!beaching@{beaching}}
+\index{beaching@{beaching}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{beaching()}{beaching()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::beaching (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 43 of file kernel.\+f90.
+
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_a03d66a6a01bf605d9fca2f5636548993}\label{structkernel__mod_1_1kernel__class_a03d66a6a01bf605d9fca2f5636548993}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!degradationlinear@{degradationlinear}}
+\index{degradationlinear@{degradationlinear}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{degradationlinear()}{degradationlinear()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::degradationlinear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 45 of file kernel.\+f90.
+
 \mbox{\Hypertarget{structkernel__mod_1_1kernel__class_ade7a7d02085be709e7867735294e82a9}\label{structkernel__mod_1_1kernel__class_ade7a7d02085be709e7867735294e82a9}} 
 \index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!diffusionisotropic@{diffusionisotropic}}
 \index{diffusionisotropic@{diffusionisotropic}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
@@ -46,7 +92,27 @@ Definition at line 32 of file kernel.\+f90.
 
 
 
-Definition at line 38 of file kernel.\+f90.
+Definition at line 40 of file kernel.\+f90.
+
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_a1ba4a72f6cfb6f6d9462d89714d035d5}\label{structkernel__mod_1_1kernel__class_a1ba4a72f6cfb6f6d9462d89714d035d5}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!diffusionmixinglength@{diffusionmixinglength}}
+\index{diffusionmixinglength@{diffusionmixinglength}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{diffusionmixinglength()}{diffusionmixinglength()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::diffusionmixinglength (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file kernel.\+f90.
+
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_ae32f72181313bee935a0ded1885c3602}\label{structkernel__mod_1_1kernel__class_ae32f72181313bee935a0ded1885c3602}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!hasrequiredvars@{hasrequiredvars}}
+\index{hasrequiredvars@{hasrequiredvars}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{hasrequiredvars()}{hasrequiredvars()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::hasrequiredvars (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 46 of file kernel.\+f90.
 
 \mbox{\Hypertarget{structkernel__mod_1_1kernel__class_a86a1de717f53f3276df28443b4495cc7}\label{structkernel__mod_1_1kernel__class_a86a1de717f53f3276df28443b4495cc7}} 
 \index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!initialize@{initialize}}
@@ -66,7 +132,7 @@ Definition at line 35 of file kernel.\+f90.
 
 
 
-Definition at line 37 of file kernel.\+f90.
+Definition at line 38 of file kernel.\+f90.
 
 \mbox{\Hypertarget{structkernel__mod_1_1kernel__class_aa84d6f7ea89eb403e61aed2a0234288c}\label{structkernel__mod_1_1kernel__class_aa84d6f7ea89eb403e61aed2a0234288c}} 
 \index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!run@{run}}
@@ -77,6 +143,36 @@ Definition at line 37 of file kernel.\+f90.
 
 
 Definition at line 36 of file kernel.\+f90.
+
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_a45e76f467fa1c842416d4daf722d92ae}\label{structkernel__mod_1_1kernel__class_a45e76f467fa1c842416d4daf722d92ae}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!setcommonprocesses@{setcommonprocesses}}
+\index{setcommonprocesses@{setcommonprocesses}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{setcommonprocesses()}{setcommonprocesses()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::setcommonprocesses (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file kernel.\+f90.
+
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_ae728ca6b395be36077c1d3d51f36cf25}\label{structkernel__mod_1_1kernel__class_ae728ca6b395be36077c1d3d51f36cf25}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!stokesdrift@{stokesdrift}}
+\index{stokesdrift@{stokesdrift}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{stokesdrift()}{stokesdrift()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::stokesdrift (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file kernel.\+f90.
+
+\mbox{\Hypertarget{structkernel__mod_1_1kernel__class_a3505f9e73946acb3d427023cd542f39e}\label{structkernel__mod_1_1kernel__class_a3505f9e73946acb3d427023cd542f39e}} 
+\index{kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}!windage@{windage}}
+\index{windage@{windage}!kernel\+\_\+mod\+::kernel\+\_\+class@{kernel\+\_\+mod\+::kernel\+\_\+class}}
+\subsubsection{\texorpdfstring{windage()}{windage()}}
+{\footnotesize\ttfamily procedure, private kernel\+\_\+mod\+::kernel\+\_\+class\+::windage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 42 of file kernel.\+f90.
 
 
 

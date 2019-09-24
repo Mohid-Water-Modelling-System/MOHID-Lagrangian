@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<postProcessing>
+	<EulerianMeasures>
+		<measures>
+			<!-- field key = "residence_time" /> -->
+			<!-- field key = "concentrations" /> -->
+			<field key = "age"/>
+		</measures>
+		<gridDefinition>
+			<units value= "relative"/>
+			<resolution x="20" y="20" z="2"/>
+		</gridDefinition>
+	</EulerianMeasures>
+	<convertFiles>
+		<format key="hdf5"/>
+	</convertFiles>
+</postProcessing>

@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -121,6 +121,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ad97fc611c4c04bc78fa396b1bcc4c20a"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerplastic__mod_1_1plastic__state__class.html#ad97fc611c4c04bc78fa396b1bcc4c20a">condition</a></td></tr>
 <tr class="memdesc:ad97fc611c4c04bc78fa396b1bcc4c20a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Material condition (1-0)  <a href="#ad97fc611c4c04bc78fa396b1bcc4c20a">More...</a><br /></td></tr>
 <tr class="separator:ad97fc611c4c04bc78fa396b1bcc4c20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f155448ba50f5f28b289e690de2c8d1"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerplastic__mod_1_1plastic__state__class.html#a2f155448ba50f5f28b289e690de2c8d1">degradation_rate</a></td></tr>
+<tr class="memdesc:a2f155448ba50f5f28b289e690de2c8d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">degradation rate of the material  <a href="#a2f155448ba50f5f28b289e690de2c8d1">More...</a><br /></td></tr>
+<tr class="separator:a2f155448ba50f5f28b289e690de2c8d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90a24749c122f418f54c66f0b5d6a2e7"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtracerplastic__mod_1_1plastic__state__class.html#a90a24749c122f418f54c66f0b5d6a2e7">concentration</a></td></tr>
 <tr class="memdesc:a90a24749c122f418f54c66f0b5d6a2e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Particle concentration.  <a href="#a90a24749c122f418f54c66f0b5d6a2e7">More...</a><br /></td></tr>
 <tr class="separator:a90a24749c122f418f54c66f0b5d6a2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,7 +131,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Type - State variables of a tracer object representing a plastic material. </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00036">36</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00035">35</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a90a24749c122f418f54c66f0b5d6a2e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a90a24749c122f418f54c66f0b5d6a2e7">&#9670;&nbsp;</a></span>concentration</h2>
@@ -178,8 +181,34 @@ Private Attributes</h2></td></tr>
 
 <p>Material condition (1-0) </p>
 
+<p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00038">38</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">real(prec)</span> :: condition</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a2f155448ba50f5f28b289e690de2c8d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f155448ba50f5f28b289e690de2c8d1">&#9670;&nbsp;</a></span>degradation_rate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) tracerplastic_mod::plastic_state_class::degradation_rate</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>degradation rate of the material </p>
+
 <p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00039">39</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">real(prec)</span> :: condition</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordtype">real(prec)</span> :: degradation_rate</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aa3cc141bbe8b1bf06f439e335c5477db"></a>
@@ -204,8 +233,8 @@ Private Attributes</h2></td></tr>
 
 <p>density of the material </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00037">37</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">real(prec)</span> :: density</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00036">36</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">real(prec)</span> :: density</div></div><!-- fragment -->
 </div>
 </div>
 <a id="adcabfc8dd732395f9721677448baf4c0"></a>
@@ -230,8 +259,8 @@ Private Attributes</h2></td></tr>
 
 <p>Tracer radius (m) </p>
 
-<p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00038">38</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordtype">real(prec)</span> :: radius</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="tracer_plastic_8f90_source.html#l00037">37</a> of file <a class="el" href="tracer_plastic_8f90_source.html">tracerPlastic.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">real(prec)</span> :: radius</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

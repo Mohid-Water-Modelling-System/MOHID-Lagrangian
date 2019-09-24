@@ -45,13 +45,14 @@
     !---------------------------------------------------------------------------
     subroutine linkPropertySources(linksNode)
     type(Node), intent(in), pointer :: linksNode
-
     type(NodeList), pointer :: linkList
     type(Node), pointer :: anode
+    type(Node), pointer :: aProp
     type(Node), pointer :: xmlProps                   !< .xml file handle
+    type(NodeList), pointer :: propertyList        !< Node list for parameters
     type(string) :: xmlfilename, outext
-    integer :: i, p
-    type(string) :: att_name, att_val, tag
+    integer :: i, p, j
+    type(string) :: att_name, att_val, tag, propKey, propValue
     type(string) :: sourceid, sourcetype, sourceprop
 
     linkList => getElementsByTagname(linksNode, "type")
@@ -78,23 +79,31 @@
     !find and set the actual atributes of the properties
     att_name="value"
     do i = 1, size(tempSources%src)
-        tag = tempSources%src(i)%prop%property_type
+        tag = tempSources%src(i)%prop%propertyType
         if (tag .ne. 'base') then
             call XMLReader%gotoNode(xmlProps,anode,tag) !finding the material type node
-            tag = tempSources%src(i)%prop%property_name
+            tag = tempSources%src(i)%prop%propertySubType
             call XMLReader%gotoNode(anode,anode,tag)     !finding the actual material node
-            do p = 1, size(Globals%SrcProp%baselist)
-                call XMLReader%getNodeAttribute(anode, Globals%SrcProp%baselist(p), att_name, att_val)
-                call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%baselist(p), att_val)
+            propertyList => getElementsByTagname(anode, "property")        !searching for tags with the 'property' name
+            call tempSources%src(i)%setPropertyNumber(getLength(propertyList))
+            do j = 0, getLength(propertyList) - 1                          !extracting property tags one by one
+                aProp => item(propertyList, j)
+                att_name="key"
+                call XMLReader%getLeafAttribute(aProp,att_name,propKey)
+                att_name="value"
+                call XMLReader%getLeafAttribute(aProp,att_name,propValue)
+                call tempSources%src(i)%setPropertyAtribute(j+1, propKey, propValue)
             end do
-            if (tempSources%src(i)%isParticulate()) then
-                do p = 1, size(Globals%SrcProp%particulatelist)
-                    call XMLReader%getNodeAttribute(anode, Globals%SrcProp%particulatelist(p), att_name, att_val)
-                    call tempSources%src(i)%setPropertyAtributes(Globals%SrcProp%particulatelist(p), att_val)
-                end do
-            end if
-            !Run integrety check on the properties to see if Source is well defined
-            call tempSources%src(i)%check()
+            tag = 'particulate'
+            att_name="value"
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'density'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'radius'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)           
         end if
     end do
     outext='-->Sources properties are set'
@@ -140,13 +149,68 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Sets the global variables responsible for controling field outputs.
+    !> reads options from a xml file and adds a variable field to the print poll
+    !> accordingly
+    !> @param[in] exeNode
+    !---------------------------------------------------------------------------
+    subroutine setOutputFields(exeNode)
+    type(Node), intent(in), pointer :: exeNode
+    type(Node), pointer :: fileNode
+    type(Node), pointer :: fieldNode
+    type(Node), pointer :: outputFieldsFile
+    type(NodeList), pointer :: outputFieldsList
+    type(string) :: outext
+    type(string) :: tag, att_name
+    type(string) :: outputFieldsFilename
+    type(string) :: fieldName, fieldOption
+    type(string), dimension(:), allocatable :: fieldNameArray
+    logical, dimension(:), allocatable :: toOutput
+    integer :: i
+    
+    tag="outputFields" 
+    call XMLReader%gotoNode(exeNode, fileNode, tag, mandatory =.false.)
+    if (associated(fileNode)) then
+        tag = "file"
+        call XMLReader%gotoNode(fileNode, fileNode, tag)
+        att_name="name"
+        call XMLReader%getLeafAttribute(fileNode, att_name, outputFieldsFilename)
+        !reading the file and building print/noprint array
+        call XMLReader%getFile(outputFieldsFile, outputFieldsFilename)
+        tag = "output"
+        call XMLReader%gotoNode(outputFieldsFile ,outputFieldsFile, tag)
+        outputFieldsList => getElementsByTagname(outputFieldsFile, "field")
+        allocate(fieldNameArray(getLength(outputFieldsList)))
+        allocate(toOutput(getLength(outputFieldsList)))
+        toOutput = .false.
+        do i = 0, getLength(outputFieldsList) - 1
+            fieldNode => item(outputFieldsList, i)
+            att_name="name"
+            call XMLReader%getLeafAttribute(fieldNode, att_name, fieldName)
+            att_name="output"
+            call XMLReader%getLeafAttribute(fieldNode, att_name, fieldOption)
+            fieldNameArray(i+1) = fieldName
+            if (fieldOption == 'yes') toOutput(i+1) = .true.
+        end do
+    else
+        outext='-->No output fields user override file, assuming basic settings for field output'
+        call Log%put(outext,.false.)
+    endif
+    !calling the globals method to set the output variable field list
+    if (.not.allocated(fieldNameArray)) allocate(fieldNameArray(0))
+    call Globals%Output%setOutputFields(fieldNameArray, toOutput)
+
+    end subroutine setOutputFields
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
     !> naming xml parser routine. Reads the naming file(s), opens the file(s) and
     !> stores the naming conventions for input files
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_naming(case_node)
     type(Node), intent(in), pointer :: case_node
-
     type(Node), pointer :: naming_node          !< Single naming block to process
     type(Node), pointer :: temp
     type(NodeList), pointer :: namingfileList
@@ -186,7 +250,7 @@
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
     class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
     type(string) :: outext
-    type(string) :: tag
+    type(string) :: tag, att_name, geoFileName, zMin, zMax 
     select type (source_shape)
     type is (shape)
     class is (box)
@@ -206,6 +270,18 @@
         tag='point'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
         call extractDataAttribute(source_detail, "radius", source_shape%radius)
+    class is (polygon)
+        tag='file'
+        att_name = 'name'
+        call XMLReader%getNodeAttribute(source_detail, tag, att_name, geoFileName)
+        zMin = notRead
+        zMax = notRead
+        tag='verticalBoundingBox'
+        att_name = 'min'
+        call XMLReader%getNodeAttribute(source_detail, tag, att_name, zMin, mandatory = .false.)
+        att_name = 'max'
+        call XMLReader%getNodeAttribute(source_detail, tag, att_name, zMax, mandatory = .false.)
+        call Geometry%setPolygon(source_shape, geoFileName, zMin, zMax)
         class default
         outext='[read_xml_geometry]: unexpected type for geometry object!'
         call Log%put(outext)
@@ -225,18 +301,25 @@
     type(string) :: outext
     type(NodeList), pointer :: sourceList           !< Node list for sources
     type(NodeList), pointer :: sourceChildren       !< Node list for source node children nodes
+    type(NodeList), pointer :: activeList
+    type(Node), pointer :: activeIntervalNode
     type(Node), pointer :: sourcedef
     type(Node), pointer :: source_node              !< Single source block to process
     type(Node), pointer :: source_detail
-    integer :: i, j
+    type(Node), pointer :: source_ratefile, ratefileLeaf
+    type(Node), pointer :: source_posifile, posifileLeaf
+    integer :: i, j, k
     logical :: readflag
     integer :: id
-    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file
-    real(prec) :: emitting_rate, start, finish
-    logical :: emitting_fixed
+    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file, posi_file
+    real(prec) :: emitting_rate, rateScale, start, finish, temp
+    logical :: emitting_fixed, posi_fixed, rateRead
     class(shape), allocatable :: source_shape
+    type(vector) :: res
+    real(prec), dimension(:,:), allocatable :: activeTimes
 
-    rate_file = 'not_set'
+    rateScale = 1.0
+    res = 0.0    
     readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
@@ -247,6 +330,10 @@
     call tempSources%initialize(getLength(sourceList))
 
     do j = 0, getLength(sourceList) - 1
+        rate_file = notSet
+        rateRead = .false.
+        posi_file = notSet
+        posi_fixed = .true.
         source_node => item(sourceList,j)
         tag="setsource"
         att_name="id"
@@ -254,43 +341,85 @@
         id=att_val%to_number(kind=1_I1P)
         att_name="name"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, name)
+        !reading possible custom resolution
+        tag="resolution"
+        att_name="dp"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            res = att_val%to_number(kind=1._R4P)
+        else
+            call XMLReader%getNodeVector(source_node, tag, res, readflag, .false.)
+            if (.not.readflag) res = 0.0
+        end if
         !reading emission rate, need to check for options
+        readflag = .false.
         tag="rate_dt"
         att_name="value"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
+            rateRead = .true.
             emitting_rate = 1.0/(att_val%to_number(kind=1._R4P)*Globals%SimDefs%dt)
             emitting_fixed = .true.
         end if
         tag="rate"
         att_name="value"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
+            rateRead = .true.
             emitting_rate = att_val%to_number(kind=1._R4P)
             emitting_fixed = .true.
         end if
-        tag="rate_file"
-        att_name="name"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag) then
+        tag="rateTimeSeries"
+        call XMLReader%gotoNode(source_node, source_ratefile, tag, mandatory =.false.)
+        if (associated(source_ratefile)) then
+            tag = "file"
+            call XMLReader%gotoNode(source_ratefile, ratefileLeaf, tag)
+            att_name="name"
+            call XMLReader%getLeafAttribute(ratefileLeaf, att_name, att_val)
+            rateRead = .true.
             rate_file = att_val
             emitting_fixed = .false.
+            tag = "scale"
+            att_name="value"
+            call XMLReader%getNodeAttribute(source_ratefile, tag, att_name, att_val, readflag, mandatory = .false.)            
+            if (readflag) then
+                rateScale = att_val%to_number(kind=1._R4P)
+            end if
         end if
-        tag="active"
-        att_name="start"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag) then
-            start = att_val%to_number(kind=1._R4P)
-        else
-            start = 0.0
+        if (.not.rateRead) then
+            outext='-->Source '//name//' (id = '//id// ') doesn''t have emission rate information. Possible options are [rate_dt, rate, rate_file]. Stoping'
+            call Log%put(outext)
+            stop
         end if
-        att_name="end"
-        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag.and.att_val%is_number()) then
-            finish = att_val%to_number(kind=1._R4P)
-        else
-            finish = Globals%Parameters%TimeMax
+        !reading variable position tags, if any
+        tag="positionTimeSeries"
+        call XMLReader%gotoNode(source_node, source_posifile, tag, mandatory =.false.)
+        if (associated(source_posifile)) then
+            tag = "file"
+            call XMLReader%gotoNode(source_posifile, posifileLeaf, tag)
+            att_name="name"
+            call XMLReader%getLeafAttribute(posifileLeaf, att_name, att_val)
+            posi_file = att_val
+            posi_fixed = .false.
         end if
+        !Possible list of active intervals, and these might be in absolute dates or relative to sim time
+        activeList => getElementsByTagname(source_node, "active")
+        allocate(activeTimes(getLength(activeList),2))
+        do k = 0, getLength(activeList) - 1
+            activeIntervalNode => item(activeList, k)
+            att_name="start"
+            call XMLReader%getLeafAttribute(activeIntervalNode,att_name,att_val)
+            temp = Utils%getRelativeTimeFromString(att_val, Globals%SimTime%StartDate)
+            activeTimes(k+1,1) = temp
+            att_name="end"
+            call XMLReader%getLeafAttribute(activeIntervalNode,att_name,att_val)
+            if (att_val == 'end') then
+                temp = Globals%Parameters%TimeMax
+            else
+                temp = Utils%getRelativeTimeFromString(att_val, Globals%SimTime%StartDate)
+            end if
+            activeTimes(k+1,2) = temp
+        end do
         !now we need to find out the geometry of the source and read accordingly
         sourceChildren => getChildNodes(source_node) !getting all of the nodes bellow the main source node (all of it's private info)
         do i=0, getLength(sourceChildren)-1
@@ -303,9 +432,10 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id,name,emitting_rate,emitting_fixed,rate_file,start,finish,source_geometry,source_shape)
+        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, source_shape, res)
 
         deallocate(source_shape)
+        deallocate(activeTimes)
     enddo
 
     end subroutine init_sources
@@ -317,16 +447,17 @@
     !> @param[in] case_node
     !---------------------------------------------------------------------------
     subroutine init_simdefs(case_node)
-    implicit none
     type(Node), intent(in), pointer :: case_node
-
     type(NodeList), pointer :: defsList       !< Node list for simdefs
     type(Node), pointer :: simdefs_node       !< Single simdefs block to process
     type(string) :: outext
     integer :: i
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
+    logical :: read_flag
 
+    read_flag = .false.
+    coords = 0.0
     outext='-->Reading case simulation definitions'
     call Log%put(outext,.false.)
 
@@ -334,8 +465,13 @@
     call XMLReader%gotoNode(case_node,simdefs_node,tag)
     tag="resolution"
     att_name="dp"
-    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
-    call Globals%SimDefs%setdp(att_val)
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        coords = att_val%to_number(kind=1._R4P)
+    else
+        call XMLReader%getNodeVector(simdefs_node, tag, coords)
+    end if
+    call Globals%SimDefs%setdp(coords)
     tag="timestep"
     att_name="dt"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val)
@@ -369,7 +505,7 @@
     outext='-->Reading case constants'
     call Log%put(outext,.false.)
 
-    tag="constantsdef"    !the node we want
+    tag="constants"    !the node we want
     call XMLReader%gotoNode(case_node,constants_node,tag,readflag,.false.)
     if (readflag) then !if the node exists, since his one is not mandatory
         tag="Gravity"
@@ -395,6 +531,18 @@
         if (readflag) then
             call Globals%Constants%setBeachingLevel(att_val)
         endif
+        tag="BeachingStopProb"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBeachingStopProb(att_val)
+        endif
+        tag="DiffusionCoeff"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setDiffusionCoeff(att_val)
+        endif
     endif
     call Globals%Constants%print()
 
@@ -407,9 +555,7 @@
     !> @param[in] execution_node
     !---------------------------------------------------------------------------
     subroutine init_parameters(execution_node)
-    implicit none
     type(Node), intent(in), pointer :: execution_node
-
     type(string) :: outext
     type(NodeList), pointer :: parameterList        !< Node list for parameters
     type(Node), pointer :: parmt, parameters_node
@@ -473,11 +619,12 @@
     ! building the simulation basic structures according to the case definition file
     ! every other structure in the simulation is built from these, i.e., not defined by the user directly
     call init_parameters(execution_node)
+    call init_naming(execution_node)
+    call setOutputFields(execution_node)
     call init_caseconstants(case_node)
     call init_simdefs(case_node)
     call init_sources(case_node)
-    call init_properties(case_node)
-    call init_naming(case_node)
+    call init_properties(case_node)    
 
     !setting the number of blocks to the correct ammount of selected threads
     Globals%SimDefs%numblocks = Globals%Parameters%numOPMthreads

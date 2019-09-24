@@ -1,0 +1,6 @@
+<map id="geometry_mod::getmetricpolygon" name="geometry_mod::getmetricpolygon">
+<area shape="rect" id="node2" href="$namespacegeometry__mod.html#aaffceaeb22689f0aaee4568c662f192a" title="private function that returns the number of points distributed on a grid with spacing dp inside a pol..." alt="" coords="268,5,475,32"/>
+<area shape="rect" id="node5" href="$namespacegeometry__mod.html#a4862bb9e5bbc62fd581a34c4249b84d1" title="private routine that returns the points distributed on a grid with spacing dp inside a polygon ..." alt="" coords="523,56,705,83"/>
+<area shape="rect" id="node3" href="$namespacegeometry__mod.html#ad790edd694561b33dad20cfa3a14e8f2" title="method to get the number of points that fill a given geometry " alt="" coords="538,5,690,32"/>
+<area shape="rect" id="node4" href="$namespacegeometry__mod.html#a12f7679eb15f32630680f2b8504827b3" title="returns an array of points that fill a given shape " alt="" coords="753,31,935,57"/>
+</map>

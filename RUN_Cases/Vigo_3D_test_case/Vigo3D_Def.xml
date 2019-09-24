@@ -10,13 +10,16 @@
 			<parameter key="OutputWriteTime" value="1000" comment="Time out data (1/Hz)" units_comment="seconds" />
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
+		<variableNaming>
+			<file name="ncNamesLibrary.xml"/>
+		</variableNaming>
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="nc_fields"/>
+			<inputDataDir name="nc_fields" type="hydrodynamic"/>
 		</inputData>
 		<simulation>
-			<resolution dp="50" units_comment="metres (m)"/>
+			<resolution dp="150" units_comment="metres (m)"/>
 			<timestep dt="360.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>
@@ -24,12 +27,23 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="18" name="ReleaseBox1" />
+				<resolution x="150" y="150" z="15" units_comment="metres (m)"/>
 				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
-					<point x="-8.95" y="42.10" z="-1" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="1.0" units_comment="metres (m)"/>
+					<point x="-8.95" y="42.10" z="-2.0" units_comment="(deg,deg,m)"/>
+					<size x="100000" y="100000" z="2.0" units_comment="metres (m)"/>
 				</box>
+			</source>
+			<source>
+				<setsource id="4" name="PolygonTest" />
+				<resolution x="800" y="800" z="5" units_comment="metres (m)"/>
+				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="source_box2.kmz"/>
+					<verticalBoundingBox min="-30.0" max="0.0"/>
+				</polygon>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
@@ -38,13 +52,11 @@
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
-		<variableNaming>
-			<file name="ncNamesLibrary.xml"/>
-		</variableNaming>
 		<constants>
 			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />
 			<RhoRef value="1000" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />	
 		</constants>
 	</caseDefinitions>
 </case>

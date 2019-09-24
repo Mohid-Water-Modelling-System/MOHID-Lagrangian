@@ -30,7 +30,7 @@ procedure \mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t_abac6acf32
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-real(prec) \mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t_a27deca8939ad1f57e66c138800690505}{dp}}
+type(vector) \mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t_af09254532178c7d37b6502af7ead113c}{dp}}
 \begin{DoxyCompactList}\small\item\em Initial particle spacing at emission. \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structsimulationglobals__mod_1_1simdefs__t_a3893522d33efbdcb47d81ed1963a228c}{dt}} = MV
 \begin{DoxyCompactList}\small\item\em Timestep for fixed step integrators (s) \end{DoxyCompactList}\item 
@@ -147,11 +147,11 @@ Definition at line 73 of file simulation\+Globals.\+f90.
 \begin{DoxyCode}
 73         \textcolor{keywordtype}{type}(vector)    ::  blocksize
 \end{DoxyCode}
-\mbox{\Hypertarget{structsimulationglobals__mod_1_1simdefs__t_a27deca8939ad1f57e66c138800690505}\label{structsimulationglobals__mod_1_1simdefs__t_a27deca8939ad1f57e66c138800690505}} 
+\mbox{\Hypertarget{structsimulationglobals__mod_1_1simdefs__t_af09254532178c7d37b6502af7ead113c}\label{structsimulationglobals__mod_1_1simdefs__t_af09254532178c7d37b6502af7ead113c}} 
 \index{simulationglobals\+\_\+mod\+::simdefs\+\_\+t@{simulationglobals\+\_\+mod\+::simdefs\+\_\+t}!dp@{dp}}
 \index{dp@{dp}!simulationglobals\+\_\+mod\+::simdefs\+\_\+t@{simulationglobals\+\_\+mod\+::simdefs\+\_\+t}}
 \subsubsection{\texorpdfstring{dp}{dp}}
-{\footnotesize\ttfamily real(prec) simulationglobals\+\_\+mod\+::simdefs\+\_\+t\+::dp\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily type(vector) simulationglobals\+\_\+mod\+::simdefs\+\_\+t\+::dp\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -163,7 +163,7 @@ Definition at line 68 of file simulation\+Globals.\+f90.
 
 
 \begin{DoxyCode}
-68         \textcolor{keywordtype}{real(prec)}      ::  Dp
+68         \textcolor{keywordtype}{type}(vector)    ::  Dp
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationglobals__mod_1_1simdefs__t_a3893522d33efbdcb47d81ed1963a228c}\label{structsimulationglobals__mod_1_1simdefs__t_a3893522d33efbdcb47d81ed1963a228c}} 
 \index{simulationglobals\+\_\+mod\+::simdefs\+\_\+t@{simulationglobals\+\_\+mod\+::simdefs\+\_\+t}!dt@{dt}}

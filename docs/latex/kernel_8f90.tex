@@ -15,9 +15,25 @@ module \mbox{\hyperlink{namespacekernel__mod}{kernel\+\_\+mod}}
 \item 
 real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ae17673ed6d32a4e7f6e54276e6430cc9}{kernel\+\_\+mod\+::runkernel}} (self, sv, bdata, time, dt)
 \begin{DoxyCompactList}\small\item\em Adaptation from run\+Solver (Ricardo) method that evaluates the specific kernel, according to the selected kernel. \end{DoxyCompactList}\item 
-real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_aec47ab247a9afc2a7fdc272620b3c5e8}{kernel\+\_\+mod\+::lagrangiankinematic}} (self, sv, bdata, time, dt)
+subroutine \mbox{\hyperlink{namespacekernel__mod_a1032cd0a40cff8301fcf2ca880c81039}{kernel\+\_\+mod\+::setcommonprocesses}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Sets the state vector land interaction mask values and corrects for maximum level of tracers. Accounts for global periodicity. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a7a181eab538ac32b3bddcf4bb34503bd}{kernel\+\_\+mod\+::lagrangiankinematic}} (self, sv, bdata, time)
 \begin{DoxyCompactList}\small\item\em Lagrangian Kernel, evaluate the velocities at given points using the interpolants and split the evaluation part from the solver module. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a69811135e6a881c537873c59451f689e}{kernel\+\_\+mod\+::stokesdrift}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Computes the influence of wave velocity in tracer kinematics. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ae9cf0f11335d49476ce48a37c2fbde83}{kernel\+\_\+mod\+::windage}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Computes the influence of wind velocity in tracer kinematics. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ad243eaeb4e5d667795477e81ce6136c9}{kernel\+\_\+mod\+::beaching}} (self, sv, sv\+Dt)
+\begin{DoxyCompactList}\small\item\em Beaching Kernel, uses the already updated state vector and determines if and how beaching occurs. Affects the state vector and state vector derivative. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ac2352f3964b072607ed042e70a59b9f2}{kernel\+\_\+mod\+::aging}} (self, sv)
+\begin{DoxyCompactList}\small\item\em Aging kernel. Sets the age variable to be updated by dt by the solver. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a065d7965d3a572a524cfd6bdd4729898}{kernel\+\_\+mod\+::diffusionmixinglength}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em mixing length diffusion kernel, computes random velocities at given instants to model diffusion processes. These are valid while the tracer travels a given mixing length, propotional to the resolution of the background (and its ability to resove motion scales) \end{DoxyCompactList}\item 
 real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a92805ef71e30527b27de4efd7561f8f7}{kernel\+\_\+mod\+::diffusionisotropic}} (self, sv, dt)
 \begin{DoxyCompactList}\small\item\em Diffusion Kernel, computes the anisotropic diffusion assuming a constant diffusion coefficient. D = 1 m/s. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a43899c5dd3f82ed3dc4aade9aefd7a44}{kernel\+\_\+mod\+::degradationlinear}} (self, sv)
+\begin{DoxyCompactList}\small\item\em Linear degradation kernel. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacekernel__mod_a4444d73e7295ba4b58add9b726de3135}{kernel\+\_\+mod\+::hasrequiredvars}} (self, var\+List, req\+Vars)
+\begin{DoxyCompactList}\small\item\em returns true if a given set of strings (array) is contained in a list of strings \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}{kernel\+\_\+mod\+::initkernel}} (self)
 \begin{DoxyCompactList}\small\item\em Initializer method adpated from for solver kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -4,13 +4,15 @@ var structbackground__mod_1_1background__class =
     [ "append", "structbackground__mod_1_1background__class.html#a2d01f214966eea8a261c03a39d36743a", null ],
     [ "check", "structbackground__mod_1_1background__class.html#ac6df939097034b1b810ab1e4dca9857a", null ],
     [ "cleanfields", "structbackground__mod_1_1background__class.html#ae4dfe47f7233a9755631095933ed6276", null ],
+    [ "copy", "structbackground__mod_1_1background__class.html#a07f5655551267d4801e1e87a1d188420", null ],
     [ "finalize", "structbackground__mod_1_1background__class.html#aa41872e2623f1fb7da1fd4b930e6b100", null ],
     [ "getdimextents", "structbackground__mod_1_1background__class.html#adecdce1f527c3ccb5f57d8b267023f4f", null ],
     [ "getdimindex", "structbackground__mod_1_1background__class.html#a91992b0ccc0956daecda2f250ba934d6", null ],
     [ "gethyperslab", "structbackground__mod_1_1background__class.html#acb4a97a67f51e509fade50ed4b085f07", null ],
     [ "getpointdimindexes", "structbackground__mod_1_1background__class.html#a12daf122cea65ebd459e8507ae2389fa", null ],
     [ "getslabdim", "structbackground__mod_1_1background__class.html#ac7e39271ba1838a3f1548f10ff658de1", null ],
-    [ "makelandmask", "structbackground__mod_1_1background__class.html#a1995f020f28b9800b39a265dfce1f868", null ],
+    [ "makelandmaskfield", "structbackground__mod_1_1background__class.html#a0ecab872ceea6e2ad4274daa4670459e", null ],
+    [ "makeresolutionfield", "structbackground__mod_1_1background__class.html#a7509bacd43458ebee54bb0092422f26d", null ],
     [ "print", "structbackground__mod_1_1background__class.html#aa1c611fb6813d423cba8f53bdf25465d", null ],
     [ "setdims", "structbackground__mod_1_1background__class.html#a5a4418427175db3e0d549fc328369993", null ],
     [ "setextents", "structbackground__mod_1_1background__class.html#a2265e90a0a0685465a17721576919af5", null ],
@@ -23,5 +25,6 @@ var structbackground__mod_1_1background__class =
     [ "id", "structbackground__mod_1_1background__class.html#a1b3eabdda94ffdb97b6bb0db385edfd8", null ],
     [ "initialized", "structbackground__mod_1_1background__class.html#aeb3f1a195165888bc63066aed03d651b", null ],
     [ "name", "structbackground__mod_1_1background__class.html#a4f812fd2adfe5d1e50db63e75e460022", null ],
-    [ "regulardim", "structbackground__mod_1_1background__class.html#a78b62368ed110d33fd809e8ff101839b", null ]
+    [ "regulardim", "structbackground__mod_1_1background__class.html#a78b62368ed110d33fd809e8ff101839b", null ],
+    [ "variables", "structbackground__mod_1_1background__class.html#af6524c71d9bc6c9b4226fe6e362f04fd", null ]
 ];

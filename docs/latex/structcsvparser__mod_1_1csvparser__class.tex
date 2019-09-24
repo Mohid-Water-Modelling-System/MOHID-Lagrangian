@@ -12,18 +12,31 @@ Collaboration diagram for csvparser\+\_\+mod\+:\+:csvparser\+\_\+class\+:\nopage
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+procedure \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_a9b0867325f70b9683aa558da0e5c6ddd}{getfiletofileobject}}
+\item 
 procedure \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_ac81d9b3ae0e228bc9e0005b0f59246dd}{getfile}}
+\item 
+procedure \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_a78bad130ba3380571a2a19ae419c5668}{getdatabylabel}}
 \item 
 procedure \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_a5181391410574d31ea7ed93091f2d21a}{getcolumn}}
 \item 
 procedure \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_a1daa0b05831e325af862044831d5aade}{closefile}}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+type(string) \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_aa3632225cd36ea1ad9e8c0493a218886}{filename}}
+\item 
+type(string), dimension(\+:), allocatable \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_acad38d37d73d0cb6ca80f98cde3d56b4}{varname}}
+\item 
+real(prec), dimension(\+:,\+:), allocatable \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class_afb06725049484011f39d9183adc9d192}{datamatrix}}
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 
 
-Definition at line 29 of file csv\+Parser.\+f90.
+Definition at line 33 of file csv\+Parser.\+f90.
 
 
 
@@ -36,7 +49,7 @@ Definition at line 29 of file csv\+Parser.\+f90.
 
 
 
-Definition at line 33 of file csv\+Parser.\+f90.
+Definition at line 43 of file csv\+Parser.\+f90.
 
 \mbox{\Hypertarget{structcsvparser__mod_1_1csvparser__class_a5181391410574d31ea7ed93091f2d21a}\label{structcsvparser__mod_1_1csvparser__class_a5181391410574d31ea7ed93091f2d21a}} 
 \index{csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}!getcolumn@{getcolumn}}
@@ -46,7 +59,17 @@ Definition at line 33 of file csv\+Parser.\+f90.
 
 
 
-Definition at line 32 of file csv\+Parser.\+f90.
+Definition at line 42 of file csv\+Parser.\+f90.
+
+\mbox{\Hypertarget{structcsvparser__mod_1_1csvparser__class_a78bad130ba3380571a2a19ae419c5668}\label{structcsvparser__mod_1_1csvparser__class_a78bad130ba3380571a2a19ae419c5668}} 
+\index{csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}!getdatabylabel@{getdatabylabel}}
+\index{getdatabylabel@{getdatabylabel}!csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}}
+\subsubsection{\texorpdfstring{getdatabylabel()}{getdatabylabel()}}
+{\footnotesize\ttfamily procedure csvparser\+\_\+mod\+::csvparser\+\_\+class\+::getdatabylabel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 41 of file csv\+Parser.\+f90.
 
 \mbox{\Hypertarget{structcsvparser__mod_1_1csvparser__class_ac81d9b3ae0e228bc9e0005b0f59246dd}\label{structcsvparser__mod_1_1csvparser__class_ac81d9b3ae0e228bc9e0005b0f59246dd}} 
 \index{csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}!getfile@{getfile}}
@@ -56,8 +79,63 @@ Definition at line 32 of file csv\+Parser.\+f90.
 
 
 
-Definition at line 31 of file csv\+Parser.\+f90.
+Definition at line 40 of file csv\+Parser.\+f90.
 
+\mbox{\Hypertarget{structcsvparser__mod_1_1csvparser__class_a9b0867325f70b9683aa558da0e5c6ddd}\label{structcsvparser__mod_1_1csvparser__class_a9b0867325f70b9683aa558da0e5c6ddd}} 
+\index{csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}!getfiletofileobject@{getfiletofileobject}}
+\index{getfiletofileobject@{getfiletofileobject}!csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}}
+\subsubsection{\texorpdfstring{getfiletofileobject()}{getfiletofileobject()}}
+{\footnotesize\ttfamily procedure csvparser\+\_\+mod\+::csvparser\+\_\+class\+::getfiletofileobject (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 39 of file csv\+Parser.\+f90.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structcsvparser__mod_1_1csvparser__class_afb06725049484011f39d9183adc9d192}\label{structcsvparser__mod_1_1csvparser__class_afb06725049484011f39d9183adc9d192}} 
+\index{csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}!datamatrix@{datamatrix}}
+\index{datamatrix@{datamatrix}!csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}}
+\subsubsection{\texorpdfstring{datamatrix}{datamatrix}}
+{\footnotesize\ttfamily real(prec), dimension(\+:,\+:), allocatable csvparser\+\_\+mod\+::csvparser\+\_\+class\+::datamatrix\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 37 of file csv\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+37         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: dataMatrix
+\end{DoxyCode}
+\mbox{\Hypertarget{structcsvparser__mod_1_1csvparser__class_aa3632225cd36ea1ad9e8c0493a218886}\label{structcsvparser__mod_1_1csvparser__class_aa3632225cd36ea1ad9e8c0493a218886}} 
+\index{csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}!filename@{filename}}
+\index{filename@{filename}!csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}}
+\subsubsection{\texorpdfstring{filename}{filename}}
+{\footnotesize\ttfamily type(string) csvparser\+\_\+mod\+::csvparser\+\_\+class\+::filename\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 35 of file csv\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+35         \textcolor{keywordtype}{type}(string) :: filename
+\end{DoxyCode}
+\mbox{\Hypertarget{structcsvparser__mod_1_1csvparser__class_acad38d37d73d0cb6ca80f98cde3d56b4}\label{structcsvparser__mod_1_1csvparser__class_acad38d37d73d0cb6ca80f98cde3d56b4}} 
+\index{csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}!varname@{varname}}
+\index{varname@{varname}!csvparser\+\_\+mod\+::csvparser\+\_\+class@{csvparser\+\_\+mod\+::csvparser\+\_\+class}}
+\subsubsection{\texorpdfstring{varname}{varname}}
+{\footnotesize\ttfamily type(string), dimension(\+:), allocatable csvparser\+\_\+mod\+::csvparser\+\_\+class\+::varname\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 36 of file csv\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+36         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: varName
+\end{DoxyCode}
 
 
 The documentation for this type was generated from the following file\+:\begin{DoxyCompactItemize}

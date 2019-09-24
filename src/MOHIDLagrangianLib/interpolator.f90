@@ -34,6 +34,7 @@
     procedure, private :: getArrayCoord
     procedure, private :: getArrayCoordRegular
     procedure, private :: getPointCoordRegular
+    procedure, private :: getPointCoordNonRegular
     procedure, private :: getArrayCoordNonRegular
     procedure :: initialize => initInterpolator
     procedure :: print => printInterpolator
@@ -51,21 +52,24 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that runs the chosen interpolator method on the given data.
-    !> @param[in] self, state, bdata, time, var_dt, var_name
+    !> @param[in] self, state, bdata, time, var_dt, var_name, toInterp
     !---------------------------------------------------------------------------
-    subroutine run(self, state, bdata, time, var_dt, var_name)
+    subroutine run(self, state, bdata, time, var_dt, var_name, toInterp)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:,:), intent(in) :: state
     type(background_class), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), dimension(:,:), intent(out) :: var_dt
     type(string), dimension(:), intent(out) :: var_name
+    type(string), dimension(:), intent(in), optional :: toInterp
+    logical :: interp
     real(prec) :: newtime
     class(*), pointer :: aField
     integer :: i
     type(string) :: outext
 
     real(prec), dimension(size(state,1)) :: xx, yy, zz
+    logical, dimension(size(state,1)) :: outOfBounds
     real(prec) :: tt
 
     !Check field extents and what particles will be interpolated
@@ -73,24 +77,41 @@
     i = 1
     call bdata%fields%reset()                   ! reset list iterator
     do while(bdata%fields%moreValues())         ! loop while there are values
+        interp = .true.
         aField => bdata%fields%currentValue()   ! get current value
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
-                var_name(i) = aField%name
-                xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
-                yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
-                zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level)
-                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
-                var_dt(:,i) = self%interp4D(xx, yy, zz, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                if (present(toInterp)) then
+                    if (.not.(any(toInterp == aField%name))) then
+                        interp = .false.
+                    end if
+                end if
+                if (interp) then
+                    var_name(i) = aField%name
+                    outOfBounds = .false.
+                    xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
+                    yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
+                    zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
+                    tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
+                    var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                end if
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
-                var_name(i) = aField%name
-                xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon)
-                yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat)
-                tt = self%getPointCoordRegular(time, bdata, Globals%Var%time, -Globals%SimDefs%dt)
-                var_dt(:,i) = self%interp3D(xx, yy, tt, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(state,1))
+                if (present(toInterp)) then
+                    if (.not.(any(toInterp == aField%name))) then
+                        interp = .false.
+                    end if
+                end if
+                if (interp) then
+                    var_name(i) = aField%name
+                    outOfBounds = .false.
+                    xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
+                    yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
+                    tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
+                    var_dt(:,i) = self%interp3D(xx, yy, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(state,1))
+                end if
             end if !add more interpolation types here
             !add more field types here
             class default
@@ -114,12 +135,13 @@
     !> divided into 16 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !> @param[in] self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
-    function interp4D(self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e)
+    function interp4D(self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions in array coordinates
     real(prec), intent(in) :: t                                      !< time to interpolate to in array coordinates
+    logical, dimension(:), intent(in) :: out
     real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
     integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                         !< field dimensions
     integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
@@ -145,6 +167,15 @@
     yd = (y-y0)/(y1-y0)
     zd = (z-z0)/(z1-z0)
     td = (t-t0)/(t1-t0)
+
+    where (out)
+        x0 = 1.0
+        x1 = 1.0
+        y0 = 1.0
+        y1 = 1.0
+        z0 = 1.0
+        z1 = 1.0
+    end where
 
     ! In case that particle is on a point box, we set it to 0 to avoid inf errors
     where (x1 == x0) xd = 0.
@@ -174,6 +205,8 @@
     c1 = c01*(1.-zd)+c11*zd
     ! Interpolation on the time dimension and get the final result.
     interp4D = c0*(1.-td)+c1*td
+    where (out) interp4D = 0.0
+
     end function interp4D
 
     !---------------------------------------------------------------------------
@@ -185,12 +218,13 @@
     !> divided into 4 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !> @param[in] self, x, y, t, out, field, n_fv, n_cv, n_tv, n_e
     !---------------------------------------------------------------------------
-    function interp3D(self, x, y, t, field, n_fv, n_cv, n_tv, n_e)
+    function interp3D(self, x, y, t, out, field, n_fv, n_cv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(n_e),intent(in):: x, y                        !< 1-d. Array of particle component positions in array coordinates
     real(prec), intent(in) :: t                                         !< time to interpolate to in array coordinates
+    logical, dimension(:), intent(in) :: out
     real(prec), dimension(n_fv, n_cv, n_tv), intent(in) :: field        !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
     integer, intent(in) :: n_fv, n_cv,n_tv                              !< field dimensions
     integer, intent(in) :: n_e                                          !< Number of particles to interpolate to
@@ -213,6 +247,14 @@
     xd = (x-x0)/(x1-x0)
     yd = (y-y0)/(y1-y0)
     td = (t-t0)/(t1-t0)
+
+    where (out)
+        x0 = 1.0
+        x1 = 1.0
+        y0 = 1.0
+        y1 = 1.0
+    end where
+
     ! In case that particle is on a point box, we set it to 0 to avoid inf errors
     where (x1 == x0) xd = 0.
     where (y1 == y0) yd = 0.
@@ -229,26 +271,29 @@
     c1 = c01*(1.-yd)+c11*yd
     ! Interpolation on the time dimension and get the final result.
     interp3D = c0*(1.-td)+c1*td
+    where (out) interp3D = 0.0
+
     end function interp3D
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array.
-    !> @param[in] self, xdata, bdata, dimName
+    !> @param[in] self, xdata, bdata, dimName, out
     !---------------------------------------------------------------------------
-    function getArrayCoord(self, xdata, bdata, dimName)
+    function getArrayCoord(self, xdata, bdata, dimName, out)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                 !< Background to use
     type(string), intent(in) :: dimName
+    logical, dimension(:), intent(inout) :: out
     integer :: dim                                              !< corresponding background dimension
     real(prec), dimension(size(xdata)) :: getArrayCoord         !< coordinates in array index
 
     dim = bdata%getDimIndex(dimName)
-    if (bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim)
-    if (.not.bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim)
+    if (bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
+    if (.not.bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out)
 
     end function getArrayCoord
 
@@ -257,24 +302,26 @@
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array. Works only for regularly spaced data.
-    !> @param[in] self, xdata, bdata, dim
+    !> @param[in] self, xdata, bdata, dim, out
     !---------------------------------------------------------------------------
-    function getArrayCoordRegular(self, xdata, bdata, dim)
+    function getArrayCoordRegular(self, xdata, bdata, dim, out)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:), intent(in):: xdata                !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                 !< Background to use
     integer, intent(in) :: dim
+    logical, dimension(:), intent(inout) :: out
     real(prec), dimension(size(xdata)) :: getArrayCoordRegular  !< coordinates in array index
     real(prec) :: minBound, maxBound, res
     if(size(bdata%dim(dim)%field) == 1) then
         getArrayCoordRegular = 1
         return
     end if
-    res = size(bdata%dim(dim)%field)-1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
-    res = abs(maxBound - minBound)/res
-    getArrayCoordRegular = (xdata - minBound)/res + 1
+    res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field)-1.0)
+    getArrayCoordRegular = (xdata - minBound)/res + 1.0
+    where (xdata < minBound) out = .true.
+    where (xdata > maxBound) out = .true.
     end function getArrayCoordRegular
 
 
@@ -282,30 +329,39 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Returns the array coordinate of a point, along a given dimension.
-    !> @param[in] self, xdata, bdata, dim
+    !> @param[in] self, xdata, bdata, dim, out
     ! !---------------------------------------------------------------------------
-    function getArrayCoordNonRegular(self, xdata, bdata, dim)
+    function getArrayCoordNonRegular(self, xdata, bdata, dim, out)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:), intent(in):: xdata                    !< Tracer coordinate component
     type(background_class), intent(in) :: bdata                     !< Background to use
     integer, intent(in) :: dim
-    integer :: i                                                !< corresponding background dimension
-    integer :: id,idx_1,idx_2,n_idx                                 !< corresponding background dimension
+    logical, dimension(:), intent(inout) :: out
+    integer :: i                                                
+    integer :: id, idx_1, idx_2                                 
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
+    real(prec) :: minBound, maxBound
     if(size(bdata%dim(dim)%field) == 1) then
         getArrayCoordNonRegular = 1
         return
     end if
-    n_idx = size(bdata%dim(dim)%field)
+    minBound = bdata%dim(dim)%getFieldMinBound()
+    maxBound = bdata%dim(dim)%getFieldMaxBound()
+    where (xdata < minBound) out = .true.
+    where (xdata > maxBound) out = .true.
     do id = 1,size(xdata)
-        do i = 2, n_idx
-            if (bdata%dim(dim)%field(i) > xdata(id)) then
-                idx_1 = i-1
-                idx_2 = i
-                exit
-            end if
-        end do
-        getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+        if (.not. out(id)) then
+            do i = 2, size(bdata%dim(dim)%field)
+                if (bdata%dim(dim)%field(i) > xdata(id)) then
+                    idx_1 = i-1
+                    idx_2 = i
+                    exit
+                end if
+            end do
+            getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+        else
+            getArrayCoordNonRegular(id) = 1.0
+        end if
     end do
     end function getArrayCoordNonRegular
 
@@ -315,6 +371,49 @@
     !> Returns the array coordinate of a point, along a given dimension.
     !> Works only for regularly spaced data.
     !> @param[in] self, xdata, bdata, dimName
+    !---------------------------------------------------------------------------
+    function getPointCoordNonRegular(self, xdata, bdata, dimName)
+    class(interpolator_class), intent(in) :: self
+    real(prec), intent(in):: xdata              !< Tracer coordinate component
+    type(background_class), intent(in) :: bdata !< Background to use
+    type(string), intent(in) :: dimName
+    integer :: dim                              !< corresponding background dimension
+    real(prec) :: getPointCoordNonRegular       !< coordinates in array index
+    type(string) :: outext
+    integer :: i
+    integer :: idx_1, idx_2, n_idx
+    logical :: found
+
+    found = .false.
+    dim = bdata%getDimIndex(dimName)
+    if(size(bdata%dim(dim)%field) == 1) then
+        getPointCoordNonRegular = 1
+        return
+    end if
+    n_idx = size(bdata%dim(dim)%field)
+    do i = 2, n_idx
+        if (bdata%dim(dim)%field(i) >= xdata) then
+            idx_1 = i-1
+            idx_2 = i
+            found = .true.
+            exit
+        end if
+    end do
+    if (.not.found) then
+        outext = '[Interpolator::getPointCoordNonRegular] Point not contained in "'//dimName//'" dimension, stoping'
+        call Log%put(outext)
+        stop
+    end if
+    getPointCoordNonRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+    
+    end function getPointCoordNonRegular
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the array coordinate of a point, along a given dimension.
+    !> Works only for regularly spaced data.
+    !> @param[in] self, xdata, bdata, dimName, eta
     !---------------------------------------------------------------------------
     function getPointCoordRegular(self, xdata, bdata, dimName, eta)
     class(interpolator_class), intent(in) :: self
@@ -370,6 +469,7 @@
     class(interpolator_class), intent(inout) :: self
     real(prec), dimension(:,:,:,:), allocatable :: field
     real(prec), dimension(:), allocatable :: xx, yy, zz
+    logical, dimension(:), allocatable :: out
     real(prec) :: time
     integer :: npts, fieldDims
     real(prec) :: fieldVal
@@ -379,12 +479,14 @@
     field = fieldVal
     npts = 1
     allocate(xx(npts), yy(npts), zz(npts))
+    allocate(out(npts))
     xx = 13.45
     yy = xx
     zz = xx
     time = 1
     print*, 'testing 4D interpolation, expected result is ', fieldVal
-    xx = self%interp4D(xx, yy, zz, time, field, fieldDims, fieldDims, fieldDims, fieldDims, npts)
+    out = .false.
+    xx = self%interp4D(xx, yy, zz, time, out, field, fieldDims, fieldDims, fieldDims, fieldDims, npts)
     print*, 'result = ', xx
     if (xx(1) == fieldVal) then
         print*, 'Test: SUCCESS'

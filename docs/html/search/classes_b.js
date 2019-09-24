@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['output_5fstreamer_5fclass',['output_streamer_class',['../structsimulationoutputstreamer__mod_1_1output__streamer__class.html',1,'simulationoutputstreamer_mod']]]
+  ['ncfile_5fclass',['ncfile_class',['../structnetcdfparser__mod_1_1ncfile__class.html',1,'netcdfparser_mod']]],
+  ['ncreader_5fclass',['ncreader_class',['../structnetcdfparser__mod_1_1ncreader__class.html',1,'netcdfparser_mod']]]
 ];

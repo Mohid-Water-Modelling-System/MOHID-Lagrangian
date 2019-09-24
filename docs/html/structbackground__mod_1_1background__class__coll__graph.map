@@ -1,5 +1,5 @@
 <map id="background_mod::background_class" name="background_mod::background_class">
-<area shape="rect" id="node2" href="$structgeometry__mod_1_1box.html" title="Type &#45; point class. " alt="" coords="12,147,149,224"/>
+<area shape="rect" id="node2" href="$structgeometry__mod_1_1box.html" title="Type &#45; box class. " alt="" coords="12,147,149,224"/>
 <area shape="rect" id="node3" href="$structgeometry__mod_1_1shape.html" title="Type &#45; extendable shape class. " alt="" coords="5,5,156,83"/>
 <area shape="rect" id="node4" href="$structbackground__mod_1_1fieldslist__class.html" title="{background_mod::fieldslist\l_class\n||&#45; print()\l&#45; printcurrent()\l}" alt="" coords="174,132,350,239"/>
 </map>

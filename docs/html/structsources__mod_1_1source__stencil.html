@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -112,6 +112,9 @@ Collaboration diagram for sources_mod::source_stencil:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
+<tr class="memitem:af97e78ed335c0a3509cb397ba7ad2f25"><td class="memItemLeft" align="right" valign="top">type(vector)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__stencil.html#af97e78ed335c0a3509cb397ba7ad2f25">dp</a></td></tr>
+<tr class="memdesc:af97e78ed335c0a3509cb397ba7ad2f25"><td class="mdescLeft">&#160;</td><td class="mdescRight">resolution in x, y and z directions  <a href="#af97e78ed335c0a3509cb397ba7ad2f25">More...</a><br /></td></tr>
+<tr class="separator:af97e78ed335c0a3509cb397ba7ad2f25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11ed46a8e923b5902cc02420d88158c5"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsources__mod_1_1source__stencil.html#a11ed46a8e923b5902cc02420d88158c5">np</a></td></tr>
 <tr class="memdesc:a11ed46a8e923b5902cc02420d88158c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of tracers by emission.  <a href="#a11ed46a8e923b5902cc02420d88158c5">More...</a><br /></td></tr>
 <tr class="separator:a11ed46a8e923b5902cc02420d88158c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,8 +128,34 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Type - holder for the tracer creation stencil of the source. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00071">71</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00068">68</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="af97e78ed335c0a3509cb397ba7ad2f25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af97e78ed335c0a3509cb397ba7ad2f25">&#9670;&nbsp;</a></span>dp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(vector) sources_mod::source_stencil::dp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>resolution in x, y and z directions </p>
+
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00069">69</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordtype">type</span>(vector) :: dp</div></div><!-- fragment -->
+</div>
+</div>
 <a id="a11ed46a8e923b5902cc02420d88158c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11ed46a8e923b5902cc02420d88158c5">&#9670;&nbsp;</a></span>np</h2>
 
@@ -149,8 +178,8 @@ Private Attributes</h2></td></tr>
 
 <p>Number of tracers by emission. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00072">72</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">integer</span> :: np</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00070">70</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordtype">integer</span> :: np</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a154e50e2872650da574d0a1148e3065a"></a>
@@ -175,8 +204,8 @@ Private Attributes</h2></td></tr>
 
 <p>list of points (coordinates), relative to the source geometry point, to be generated at every emission. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00074">74</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordtype">type</span>(vector), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: ptlist</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00072">72</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">type</span>(vector), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: ptlist</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ad7373d51bdf50a4595b6c0fa69f7f915"></a>
@@ -201,8 +230,8 @@ Private Attributes</h2></td></tr>
 
 <p>Total number of tracers that this source will generate. </p>
 
-<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00073">73</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">integer</span> :: total_np</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="sources_8f90_source.html#l00071">71</a> of file <a class="el" href="sources_8f90_source.html">sources.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordtype">integer</span> :: total_np</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>
