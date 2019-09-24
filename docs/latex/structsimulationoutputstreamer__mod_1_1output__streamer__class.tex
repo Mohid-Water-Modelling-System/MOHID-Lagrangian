@@ -37,14 +37,18 @@ real(prec) \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__strea
 \begin{DoxyCompactList}\small\item\em Time stamp of the last output write. \end{DoxyCompactList}\item 
 integer \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a53a4af6464bb24e7191a7632fb3b4f38}{outputformat}} = -\/1
 \begin{DoxyCompactList}\small\item\em Switch for output format. \end{DoxyCompactList}\item 
+type(string), dimension(\+:), allocatable \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_ac40e7c8fba522050b23a70dc6da590a3}{outputvariables}}
+\begin{DoxyCompactList}\small\item\em list of optional variables to output \end{DoxyCompactList}\item 
 type(vtkwritter\+\_\+class) \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_a883916a5ede4ceff754115bd3317649e}{vtkwritter}}
+\begin{DoxyCompactList}\small\item\em The vtk writter object. \end{DoxyCompactList}\item 
+type(hdf5writter\+\_\+class) \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class_ac91899fff60f6ddcb234cfc4efb471b2}{hdf5writter}}
 \begin{DoxyCompactList}\small\item\em The vtk writter object. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 
 
-Definition at line 31 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 32 of file simulation\+Output\+Streamer.\+f90.
 
 
 
@@ -57,7 +61,7 @@ Definition at line 31 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 44 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 47 of file simulation\+Output\+Streamer.\+f90.
 
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a3c178b135b90289720d9cb549fa8dce2}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a3c178b135b90289720d9cb549fa8dce2}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!finalize@{finalize}}
@@ -67,7 +71,7 @@ Definition at line 44 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 43 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 46 of file simulation\+Output\+Streamer.\+f90.
 
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_aef05ba910aa8ebe5567fae9d59989dd1}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_aef05ba910aa8ebe5567fae9d59989dd1}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!initialize@{initialize}}
@@ -77,7 +81,7 @@ Definition at line 43 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 37 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 40 of file simulation\+Output\+Streamer.\+f90.
 
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a4013e6853675f44c7df2409114da35d2}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a4013e6853675f44c7df2409114da35d2}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!writedomain@{writedomain}}
@@ -87,7 +91,7 @@ Definition at line 37 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 40 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 43 of file simulation\+Output\+Streamer.\+f90.
 
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a790aab2b95d7f236ae4c66e4456b641e}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a790aab2b95d7f236ae4c66e4456b641e}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!writeoutputheader@{writeoutputheader}}
@@ -97,7 +101,7 @@ Definition at line 40 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 38 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 41 of file simulation\+Output\+Streamer.\+f90.
 
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_ae54b9ad37209fc6cafb8c80ca70d73c3}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_ae54b9ad37209fc6cafb8c80ca70d73c3}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!writeoutputsummary@{writeoutputsummary}}
@@ -107,7 +111,7 @@ Definition at line 38 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 39 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 42 of file simulation\+Output\+Streamer.\+f90.
 
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a26f4f2807f3e0d0067db555e1351b04e}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a26f4f2807f3e0d0067db555e1351b04e}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!writestep@{writestep}}
@@ -117,7 +121,7 @@ Definition at line 39 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 41 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 44 of file simulation\+Output\+Streamer.\+f90.
 
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a8b9e10001cb0aa3315f94647c59bb941}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a8b9e10001cb0aa3315f94647c59bb941}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!writestepserial@{writestepserial}}
@@ -127,11 +131,29 @@ Definition at line 41 of file simulation\+Output\+Streamer.\+f90.
 
 
 
-Definition at line 42 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 45 of file simulation\+Output\+Streamer.\+f90.
 
 
 
 \subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_ac91899fff60f6ddcb234cfc4efb471b2}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_ac91899fff60f6ddcb234cfc4efb471b2}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!hdf5writter@{hdf5writter}}
+\index{hdf5writter@{hdf5writter}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{hdf5writter}{hdf5writter}}
+{\footnotesize\ttfamily type(hdf5writter\+\_\+class) simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::hdf5writter\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The vtk writter object. 
+
+
+
+Definition at line 38 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+38         \textcolor{keywordtype}{type}(hdf5writter\_class) :: hdf5Writter
+\end{DoxyCode}
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a9ea996af0c9a2d9f3930092e83ca71bb}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a9ea996af0c9a2d9f3930092e83ca71bb}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!lastwritetime@{lastwritetime}}
 \index{lastwritetime@{lastwritetime}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
@@ -144,11 +166,11 @@ Time stamp of the last output write.
 
 
 
-Definition at line 33 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 34 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-33         \textcolor{keywordtype}{real(prec)} :: LastWriteTime = mv        
+34         \textcolor{keywordtype}{real(prec)} :: LastWriteTime = mv        
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a53a4af6464bb24e7191a7632fb3b4f38}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a53a4af6464bb24e7191a7632fb3b4f38}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!outputformat@{outputformat}}
@@ -162,11 +184,11 @@ Switch for output format.
 
 
 
-Definition at line 34 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 35 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-34         \textcolor{keywordtype}{integer} :: OutputFormat = -1
+35         \textcolor{keywordtype}{integer} :: OutputFormat = -1
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_aacf7688bfe4a91af5a8db9e7003a041b}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_aacf7688bfe4a91af5a8db9e7003a041b}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!outputintervaltime@{outputintervaltime}}
@@ -180,11 +202,29 @@ Output interval to write simulation outputs.
 
 
 
-Definition at line 32 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 33 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-32         \textcolor{keywordtype}{real(prec)} :: OutputIntervalTime = mv      
+33         \textcolor{keywordtype}{real(prec)} :: OutputIntervalTime = mv      
+\end{DoxyCode}
+\mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_ac40e7c8fba522050b23a70dc6da590a3}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_ac40e7c8fba522050b23a70dc6da590a3}} 
+\index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!outputvariables@{outputvariables}}
+\index{outputvariables@{outputvariables}!simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}}
+\subsubsection{\texorpdfstring{outputvariables}{outputvariables}}
+{\footnotesize\ttfamily type(string), dimension(\+:), allocatable simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class\+::outputvariables\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+list of optional variables to output 
+
+
+
+Definition at line 36 of file simulation\+Output\+Streamer.\+f90.
+
+
+\begin{DoxyCode}
+36         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: outputVariables
 \end{DoxyCode}
 \mbox{\Hypertarget{structsimulationoutputstreamer__mod_1_1output__streamer__class_a883916a5ede4ceff754115bd3317649e}\label{structsimulationoutputstreamer__mod_1_1output__streamer__class_a883916a5ede4ceff754115bd3317649e}} 
 \index{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class@{simulationoutputstreamer\+\_\+mod\+::output\+\_\+streamer\+\_\+class}!vtkwritter@{vtkwritter}}
@@ -198,11 +238,11 @@ The vtk writter object.
 
 
 
-Definition at line 35 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 37 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-35         \textcolor{keywordtype}{type}(vtkwritter\_class) :: vtkWritter
+37         \textcolor{keywordtype}{type}(vtkwritter\_class) :: vtkWritter
 \end{DoxyCode}
 
 

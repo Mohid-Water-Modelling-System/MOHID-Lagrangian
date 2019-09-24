@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -97,12 +97,16 @@ $(document).ready(function(){initNavTree('functions_vars_d.html','');});
 &#160;
 
 <h3><a id="index_d"></a>- d -</h3><ul>
-<li>degradation_rate
-: <a class="el" href="structtracerpaper__mod_1_1paper__par__class.html#a62cc56ab7188369a98711e6f6c5001de">tracerpaper_mod::paper_par_class</a>
-, <a class="el" href="structtracerplastic__mod_1_1plastic__par__class.html#a1d8b43b7ad8d63a61c079dfd0bd9e972">tracerplastic_mod::plastic_par_class</a>
+<li>datamatrix
+: <a class="el" href="structcsvparser__mod_1_1csvparser__class.html#afb06725049484011f39d9183adc9d192">csvparser_mod::csvparser_class</a>
+, <a class="el" href="structmtimeseriesparser__mod_1_1mtimeseriesparser__class.html#a23110a3614b064eeee495cbd8e32af4d">mtimeseriesparser_mod::mtimeseriesparser_class</a>
 </li>
-<li>degrd_rate
-: <a class="el" href="structsources__mod_1_1source__prop.html#a6c302a7a21c554720641b4f377489794">sources_mod::source_prop</a>
+<li>datatypes
+: <a class="el" href="structsimulationglobals__mod_1_1globals__class.html#ac8f7c4b1557a471904ea8746043f5472">simulationglobals_mod::globals_class</a>
+</li>
+<li>degradation_rate
+: <a class="el" href="structtracerpaper__mod_1_1paper__state__class.html#a96002387923c8aa4bc4653e808adca95">tracerpaper_mod::paper_state_class</a>
+, <a class="el" href="structtracerplastic__mod_1_1plastic__state__class.html#a2f155448ba50f5f28b289e690de2c8d1">tracerplastic_mod::plastic_state_class</a>
 </li>
 <li>density
 : <a class="el" href="structsimulationglobals__mod_1_1var__names__t.html#a8ece0e46cb7873a7b7f2a5ded27a93c8">simulationglobals_mod::var_names_t</a>
@@ -113,21 +117,31 @@ $(document).ready(function(){initNavTree('functions_vars_d.html','');});
 <li>densityvariants
 : <a class="el" href="structsimulationglobals__mod_1_1var__names__t.html#a59a508facd79ad90be42fe83ca5e646e">simulationglobals_mod::var_names_t</a>
 </li>
+<li>diffusioncoeff
+: <a class="el" href="structsimulationglobals__mod_1_1constants__t.html#aa6904a27e36c7a47b9ea105741552025">simulationglobals_mod::constants_t</a>
+</li>
+<li>diffusionvel
+: <a class="el" href="structtracerbase__mod_1_1tracer__state__class.html#a4b2ac1e1c805253de08569d9edcc06ab">tracerbase_mod::tracer_state_class</a>
+</li>
 <li>dim
 : <a class="el" href="structbackground__mod_1_1background__class.html#a086f319ce4f039190699578d69927013">background_mod::background_class</a>
 , <a class="el" href="structfieldtypes__mod_1_1field__class.html#a46ac561c9acc61595c7e15d30a56794e">fieldtypes_mod::field_class</a>
 </li>
 <li>dimdata
-: <a class="el" href="structnetcdfparser__mod_1_1ncfile__class.html#a4dd2f6e32f04a63ad8c3303d76dab84f">netcdfparser_mod::ncfile_class</a>
+: <a class="el" href="structhdf5parser__mod_1_1hdf5file__class.html#a3d699b7aea90d058126e7940973aef74">hdf5parser_mod::hdf5file_class</a>
+, <a class="el" href="structnetcdfparser__mod_1_1ncfile__class.html#a4dd2f6e32f04a63ad8c3303d76dab84f">netcdfparser_mod::ncfile_class</a>
 </li>
 <li>dimid
-: <a class="el" href="structnetcdfparser__mod_1_1dim__t.html#ae0eee1b309e61daefc73868795c35cc9">netcdfparser_mod::dim_t</a>
+: <a class="el" href="structhdf5parser__mod_1_1dim__t.html#a402fcbdd52f0392979b83f9f71ac30fd">hdf5parser_mod::dim_t</a>
+, <a class="el" href="structnetcdfparser__mod_1_1dim__t.html#ae0eee1b309e61daefc73868795c35cc9">netcdfparser_mod::dim_t</a>
 </li>
 <li>dimids
-: <a class="el" href="structnetcdfparser__mod_1_1var__t.html#a1bb991339dd3410a02d8e36a70672e61">netcdfparser_mod::var_t</a>
+: <a class="el" href="structhdf5parser__mod_1_1var__t.html#aa8c7bd92cbcd7273f3f9dec415e86772">hdf5parser_mod::var_t</a>
+, <a class="el" href="structnetcdfparser__mod_1_1var__t.html#a1bb991339dd3410a02d8e36a70672e61">netcdfparser_mod::var_t</a>
 </li>
 <li>dp
-: <a class="el" href="structsimulationglobals__mod_1_1simdefs__t.html#a27deca8939ad1f57e66c138800690505">simulationglobals_mod::simdefs_t</a>
+: <a class="el" href="structsimulationglobals__mod_1_1simdefs__t.html#af09254532178c7d37b6502af7ead113c">simulationglobals_mod::simdefs_t</a>
+, <a class="el" href="structsources__mod_1_1source__stencil.html#af97e78ed335c0a3509cb397ba7ad2f25">sources_mod::source_stencil</a>
 </li>
 <li>dt
 : <a class="el" href="structsimulationglobals__mod_1_1simdefs__t.html#a3893522d33efbdcb47d81ed1963a228c">simulationglobals_mod::simdefs_t</a>

@@ -35,24 +35,16 @@ subroutine \mbox{\hyperlink{namespaceblocks__mod_a3245bdadbec6bb123c517921d1503b
 \begin{DoxyCompactList}\small\item\em Method to run the solver on the data on this Block for the current timestep. Time for some actual numerical work! \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a306a753acc9b8bb9107ebda481162180}{blocks\+\_\+mod\+::svtotracers}} (self)
 \begin{DoxyCompactList}\small\item\em Method to write the data in the SV back to the Tracer objects in the list. \end{DoxyCompactList}\item 
-real(prec) function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_a569c8a4a94791d4c0c24697b351ca8f2}{blocks\+\_\+mod\+::getsvvar}} (self, idx)
-\begin{DoxyCompactList}\small\item\em returns a given variable for all the tracers on the block \end{DoxyCompactList}\item 
-logical function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_a2fdac72f343c10f38d1acb3f5779de18}{blocks\+\_\+mod\+::getsvactive}} (self)
-\begin{DoxyCompactList}\small\item\em returns the active tracers array on the block \end{DoxyCompactList}\item 
-integer function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_af9cfa830fff1b8986efba72fa4c82473}{blocks\+\_\+mod\+::getsvid}} (self)
-\begin{DoxyCompactList}\small\item\em returns the tracers id array on the block \end{DoxyCompactList}\item 
-integer function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_abd5099df59aeafdc3b318719dd4c8d20}{blocks\+\_\+mod\+::getsvsource}} (self)
-\begin{DoxyCompactList}\small\item\em returns the tracers land\+Int\+Mask array on the block \end{DoxyCompactList}\item 
-integer function, dimension(self\%ltracer\%getsize()) \mbox{\hyperlink{namespaceblocks__mod_a046c07d2d955655055d78e37b6e622ef}{blocks\+\_\+mod\+::getsvlandintmask}} (self)
-\begin{DoxyCompactList}\small\item\em returns the tracers land\+Int\+Mask array on the block \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_ab70bfe5cdce5a717115cfbac04f606a0}{blocks\+\_\+mod\+::cleansv}} (self)
 \begin{DoxyCompactList}\small\item\em Method to clean out the State Vector object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a5a9992de40470e417ec8e40e688f6a0e}{blocks\+\_\+mod\+::sendtracer}} (blk, trc)
-\begin{DoxyCompactList}\small\item\em Method to send a Tracer from the current Block to another Block. Checks if Block index exists, if not, Tracer is not added to any Block Tracer list. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Method to send a Tracer from the current Block to another Block. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespaceblocks__mod_a1e632738786730731a48d9a432f6ab84}{blocks\+\_\+mod\+::sendsource}} (blk, src)
+\begin{DoxyCompactList}\small\item\em Method to send a Source from the current Block to another Block. \end{DoxyCompactList}\item 
 integer function, public \mbox{\hyperlink{namespaceblocks__mod_a62e8fb0d6b2535b4499c7a4d848c24ba}{blocks\+\_\+mod\+::getblockindex}} (pt)
 \begin{DoxyCompactList}\small\item\em Returns the index of a Block for a given set of coordinates. \end{DoxyCompactList}\item 
-logical function \mbox{\hyperlink{namespaceblocks__mod_ad8d92210b3d4ade090d2a19b97f4c88e}{blocks\+\_\+mod\+::trcinbox}} (trc, testbox)
-\begin{DoxyCompactList}\small\item\em Returns true if the point is inside the requested box. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespaceblocks__mod_a101d0a23b5b56baf6e5bd35bc7b677b0}{blocks\+\_\+mod\+::trcinbbox}} (trc, testbox)
+\begin{DoxyCompactList}\small\item\em Returns true if the point is inside the requested bounding box. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a6eab8b323cb15dcecb5c6b0c31b4e246}{blocks\+\_\+mod\+::printblock}} (self)
 \begin{DoxyCompactList}\small\item\em Method to print basic info about the block. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespaceblocks__mod_a10f356706988c45a255922fe70851488}{blocks\+\_\+mod\+::printdetailblock}} (self)

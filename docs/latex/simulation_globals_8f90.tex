@@ -13,9 +13,9 @@ type \mbox{\hyperlink{structsimulationglobals__mod_1_1constants__t}{simulationgl
 \begin{DoxyCompactList}\small\item\em Case Constants class. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1filenames__t}{simulationglobals\+\_\+mod\+::filenames\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em File names class. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structsimulationglobals__mod_1_1src__parm__t}{simulationglobals\+\_\+mod\+::src\+\_\+parm\+\_\+t}}
-\begin{DoxyCompactList}\small\item\em Lists for Source parameters. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__t}{simulationglobals\+\_\+mod\+::sim\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Simulation related counters and others. \end{DoxyCompactList}\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1output__t}{simulationglobals\+\_\+mod\+::output\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Simulation related counters and others. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1var__names__t}{simulationglobals\+\_\+mod\+::var\+\_\+names\+\_\+t}}
 \item 
@@ -23,7 +23,11 @@ type \mbox{\hyperlink{structsimulationglobals__mod_1_1maskvals__t}{simulationglo
 \item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1tracertypes__t}{simulationglobals\+\_\+mod\+::tracertypes\+\_\+t}}
 \item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1datatypes__t}{simulationglobals\+\_\+mod\+::datatypes\+\_\+t}}
+\item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1sim__time__t}{simulationglobals\+\_\+mod\+::sim\+\_\+time\+\_\+t}}
+\item 
+type \mbox{\hyperlink{structsimulationglobals__mod_1_1sources__t}{simulationglobals\+\_\+mod\+::sources\+\_\+t}}
 \item 
 type \mbox{\hyperlink{structsimulationglobals__mod_1_1globals__class}{simulationglobals\+\_\+mod\+::globals\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Globals class -\/ This is a container for every global variable on the simulation. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -77,8 +81,14 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a77d7175bc03e472ee9a
 \begin{DoxyCompactList}\small\item\em incrementing output file count. \end{DoxyCompactList}\item 
 integer function \mbox{\hyperlink{namespacesimulationglobals__mod_a2b76dc3e6cbf1256253c54903df8393b}{simulationglobals\+\_\+mod\+::getnumoutfile}} (self)
 \begin{DoxyCompactList}\small\item\em Returns the number of output files written. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a20a4476e2a8dbec4c1aaa202a14b4a40}{simulationglobals\+\_\+mod\+::buildlists}} (self)
-\begin{DoxyCompactList}\small\item\em Method to build the parameters list of the Sources. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a1b94fa3858d556fc974a7ac6b18625cb}{simulationglobals\+\_\+mod\+::addtooutputpool}} (self, var)
+\begin{DoxyCompactList}\small\item\em adds a variable name to the output pool. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a046b75c2e163809ea467da6340f1829c}{simulationglobals\+\_\+mod\+::setoutputfields}} (self, fields, to\+Output)
+\begin{DoxyCompactList}\small\item\em adds variable fields one by one to the output pool, given a string and boolean list. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ac0323793c29be7c79a735ca766fb8a78}{simulationglobals\+\_\+mod\+::getoutputpoolarray}} (self, array)
+\begin{DoxyCompactList}\small\item\em adds a variable name to the output pool. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacesimulationglobals__mod_a17dc711ec02d5aea0c33006939da8dec}{simulationglobals\+\_\+mod\+::inoutputpool}} (self, var)
+\begin{DoxyCompactList}\small\item\em Returns true if a given var is in the output pool. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ada0b6ffc5e112afbd86cdaa8d9aa55d8}{simulationglobals\+\_\+mod\+::setparam}} (self, parmkey, parmvalue)
 \begin{DoxyCompactList}\small\item\em Private parameter setting method. Builds the simulation parametric space from the input case file. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3d337e9c28136dd9c67fa576f05cd44b}{simulationglobals\+\_\+mod\+::check}} (self)
@@ -93,6 +103,10 @@ subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a7d41fc05216d326ae8c
 \begin{DoxyCompactList}\small\item\em Rho\+Ref setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a3b24d0338ee34782c8e2ab57bba7b5f6}{simulationglobals\+\_\+mod\+::setbeachinglevel}} (self, read\+\_\+\+Beaching\+Level)
 \begin{DoxyCompactList}\small\item\em Beaching Level setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_aacd46eb198a99699d7be61b807363fc6}{simulationglobals\+\_\+mod\+::setbeachingstopprob}} (self, read\+\_\+\+Beaching\+Stop\+Prob)
+\begin{DoxyCompactList}\small\item\em Beaching stop probability setting routine. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a70465a87d621a450f8b100fad0d29bc9}{simulationglobals\+\_\+mod\+::setdiffusioncoeff}} (self, read\+\_\+\+Diffusion\+Coeff)
+\begin{DoxyCompactList}\small\item\em Horizontal Diffusion coefficient setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_ad36c21a592a3230ce848804075abc97e}{simulationglobals\+\_\+mod\+::setsmalldt}} (self, dt)
 \begin{DoxyCompactList}\small\item\em small\+Dt setting routine. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationglobals__mod_a139cb36f8366e6aec875c7977235fd68}{simulationglobals\+\_\+mod\+::printconstants}} (self)
@@ -115,6 +129,10 @@ logical function \mbox{\hyperlink{namespacesimulationglobals__mod_a12410ee549ead
 \begin{DoxyCompactList}\small\item\em Method that checks if an element is already on the list. Returns false if it is. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
+\item 
+type(string), public \mbox{\hyperlink{namespacesimulationglobals__mod_a359d52eab96ddcaba05e0504eff0ef37}{simulationglobals\+\_\+mod\+::notread}}
+\item 
+type(string), public \mbox{\hyperlink{namespacesimulationglobals__mod_a34d00a17e5931ddf3ab1a361f6299ae3}{simulationglobals\+\_\+mod\+::notset}}
 \item 
 type(globals\+\_\+class), public \mbox{\hyperlink{namespacesimulationglobals__mod_acf1e2786d81bd0fe337a8458efce8733}{simulationglobals\+\_\+mod\+::globals}}
 \end{DoxyCompactItemize}

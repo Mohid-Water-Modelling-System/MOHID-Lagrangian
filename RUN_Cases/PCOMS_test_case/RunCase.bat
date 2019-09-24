@@ -14,6 +14,9 @@ set mohidlagrangian="%tools%/MOHIDLagrangian.exe"
 set preprocessorDir=../../src/MOHIDLagrangianPreProcessor
 set PreProcessor="%preprocessorDir%/MOHIDLagrangianPreProcessor.py"
 
+set postProcessorDir=../../src\MOHIDLagrangianPostProcessor
+set postProcessor="%postProcessorDir%/MOHIDLagrangianPostprocessor.py"
+
 rem "dirout" is created to store results or it is cleaned if it already exists
 if exist %dirout% del /Q %dirout%\*.*
 if not exist %dirout% mkdir %dirout%
@@ -26,6 +29,8 @@ python %PreProcessor% -i %dirout%/%name%.xml -o %dirout%
 
 %mohidlagrangian% -i %dirout%/%name%.xml -o %dirout%
 if not "%ERRORLEVEL%" == "0" goto fail
+
+python %postProcessor% -i %name%.xml -o %dirout%
 
 :success
 echo All done

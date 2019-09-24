@@ -1,5 +1,6 @@
 var structsimulationinputstreamer__mod_1_1inputfilemodel__class =
 [
+    [ "setreadstatus", "structsimulationinputstreamer__mod_1_1inputfilemodel__class.html#a3761f6ea173cbede69de2ad1b3f94ac6", null ],
     [ "endtime", "structsimulationinputstreamer__mod_1_1inputfilemodel__class.html#ad25a4514610666475497835d54346a76", null ],
     [ "name", "structsimulationinputstreamer__mod_1_1inputfilemodel__class.html#a882b0dfc49829e8a04905a7ead0e97a3", null ],
     [ "starttime", "structsimulationinputstreamer__mod_1_1inputfilemodel__class.html#a722618dceb1aeba15c68e5313a14405f", null ],

@@ -101,8 +101,8 @@ real(prec) function \mbox{\hyperlink{namespacefieldtypes__mod_a1012f73b2800753dd
 \begin{DoxyCompactList}\small\item\em Method that returns the field\textquotesingle{}s maximum value (scalar) \end{DoxyCompactList}\item 
 real(prec) function \mbox{\hyperlink{namespacefieldtypes__mod_aec092e7c0b82a7b3a828ae18af80b810}{getfieldminbound}} (self)
 \begin{DoxyCompactList}\small\item\em Method that returns the field\textquotesingle{}s minimum value (scalar) \end{DoxyCompactList}\item 
-type(\mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}) function, public \mbox{\hyperlink{namespacefieldtypes__mod_a73c64e544ca15d30975aad5a35c2d904}{getgfield}} (a\+Field)
-\begin{DoxyCompactList}\small\item\em Function that returns a generic field object given a field object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+subroutine \mbox{\hyperlink{namespacefieldtypes__mod_a214565d2002baff775a030611630fc32}{getgfield}} (self, a\+Field)
+\begin{DoxyCompactList}\small\item\em method that initializes a generic field object given a field object \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -134,21 +134,21 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 308 of file fields\+Types.\+f90.
+Definition at line 298 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-308     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-309     self%name = \textcolor{stringliteral}{''}
-310     self%units = \textcolor{stringliteral}{''}
-311     self%dim = mv
-312     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keyword}{deallocate}(self%scalar1d%field)
-313     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keyword}{deallocate}(self%scalar2d%field)
-314     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keyword}{deallocate}(self%scalar3d%field)
-315     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keyword}{deallocate}(self%scalar4d%field)
-316     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keyword}{deallocate}(self%vectorial2d%field)
-317     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keyword}{deallocate}(self%vectorial3d%field)
-318     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keyword}{deallocate}(self%vectorial4d%field)
+298     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+299     self%name = \textcolor{stringliteral}{''}
+300     self%units = \textcolor{stringliteral}{''}
+301     self%dim = mv
+302     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keyword}{deallocate}(self%scalar1d%field)
+303     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keyword}{deallocate}(self%scalar2d%field)
+304     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keyword}{deallocate}(self%scalar3d%field)
+305     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keyword}{deallocate}(self%scalar4d%field)
+306     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keyword}{deallocate}(self%vectorial2d%field)
+307     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keyword}{deallocate}(self%vectorial3d%field)
+308     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keyword}{deallocate}(self%vectorial4d%field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_aeb05bd1de9be296711016ad5b607a091}\label{namespacefieldtypes__mod_aeb05bd1de9be296711016ad5b607a091}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!cleanscalar1dfield@{cleanscalar1dfield}}
@@ -170,12 +170,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 527 of file fields\+Types.\+f90.
+Definition at line 517 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-527     \textcolor{keywordtype}{class}(scalar1d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
-528     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
+517     \textcolor{keywordtype}{class}(scalar1d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
+518     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a26a4170db6067cf4ba85099f9701ff4c}\label{namespacefieldtypes__mod_a26a4170db6067cf4ba85099f9701ff4c}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!cleanscalar2dfield@{cleanscalar2dfield}}
@@ -197,12 +197,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 554 of file fields\+Types.\+f90.
+Definition at line 544 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-554     \textcolor{keywordtype}{class}(scalar2d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
-555     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
+544     \textcolor{keywordtype}{class}(scalar2d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
+545     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a9f3716bcbd2524ed608c86920cab8693}\label{namespacefieldtypes__mod_a9f3716bcbd2524ed608c86920cab8693}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!cleanscalar3dfield@{cleanscalar3dfield}}
@@ -224,12 +224,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 581 of file fields\+Types.\+f90.
+Definition at line 571 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-581     \textcolor{keywordtype}{class}(scalar3d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
-582     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
+571     \textcolor{keywordtype}{class}(scalar3d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
+572     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_aaabae216913c347395d5e19ea2c22286}\label{namespacefieldtypes__mod_aaabae216913c347395d5e19ea2c22286}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!cleanscalar4dfield@{cleanscalar4dfield}}
@@ -251,12 +251,12 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 608 of file fields\+Types.\+f90.
+Definition at line 598 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-608     \textcolor{keywordtype}{class}(scalar4d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
-609     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
+598     \textcolor{keywordtype}{class}(scalar4d\_field\_class), \textcolor{keywordtype}{intent(out)} :: self
+599     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%field)) \textcolor{keyword}{deallocate}(self%field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_aad356f6f10d8edc58c56f02c796423f3}\label{namespacefieldtypes__mod_aad356f6f10d8edc58c56f02c796423f3}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!compare@{compare}}
@@ -273,35 +273,35 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,name,units,field} & \\
+\mbox{\tt in}  & {\em self,gfield} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 271 of file fields\+Types.\+f90.
+Definition at line 261 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-271     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-272     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: gfield
-273     \textcolor{keywordtype}{type}(string) :: outext
-274     comp = .true.
-275     \textcolor{keywordflow}{if} (self%name /= gfield%name) comp = .false.
-276     \textcolor{keywordflow}{if} (self%units /= gfield%units) comp = .false. \textcolor{comment}{!might be asking too much...}
-277     \textcolor{keywordflow}{if} (self%dim /= gfield%dim) comp = .false.
-278     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar1d%field)) comp = .false.
-279     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar2d%field)) comp = .false.
-280     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar3d%field)) comp = .false.
-281     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar4d%field)) comp = .false.
-282     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%vectorial2d%field)) comp = .false.
-283     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%vectorial3d%field)) comp = .false.
-284     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%vectorial4d%field)) comp = .false.
+261     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+262     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: gfield
+263     \textcolor{keywordtype}{type}(string) :: outext
+264     comp = .true.
+265     \textcolor{keywordflow}{if} (self%name /= gfield%name) comp = .false.
+266     \textcolor{keywordflow}{if} (self%units /= gfield%units) comp = .false. \textcolor{comment}{!might be asking too much...}
+267     \textcolor{keywordflow}{if} (self%dim /= gfield%dim) comp = .false.
+268     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar1d%field)) comp = .false.
+269     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar2d%field)) comp = .false.
+270     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar3d%field)) comp = .false.
+271     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%scalar4d%field)) comp = .false.
+272     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%vectorial2d%field)) comp = .false.
+273     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%vectorial3d%field)) comp = .false.
+274     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field) .and. .not. \textcolor{keyword}{allocated}(gfield%vectorial4d%field)) comp = .false.
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a67cc0dfdc7206a2769746ff7879a4375}\label{namespacefieldtypes__mod_a67cc0dfdc7206a2769746ff7879a4375}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!concatenate@{concatenate}}
 \index{concatenate@{concatenate}!fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}}
 \subsubsection{\texorpdfstring{concatenate()}{concatenate()}}
-{\footnotesize\ttfamily subroutine fieldtypes\+\_\+mod\+::concatenate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(in)}]{gfield,  }\item[{logical, dimension(\+:), intent(in), optional}]{used\+Posi }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine fieldtypes\+\_\+mod\+::concatenate (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{type(\mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(in)}]{gfield,  }\item[{logical, dimension(\+:), intent(in), optional}]{used\+Posi }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -312,128 +312,120 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,gfield} & \\
+\mbox{\tt in}  & {\em self,gfield,used\+Posi} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 152 of file fields\+Types.\+f90.
+Definition at line 150 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-152     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-153     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: gfield
-154     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: usedPosi 
-155     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: usedPos
-156     \textcolor{keywordtype}{integer} :: fDim, nUsedPos, i, j
-157     \textcolor{keywordtype}{type}(string) :: fType
-158     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field1d
-159     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: field2d
-160     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: field3d
-161     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field4d
-162 
-163     fdim = self%dim
-164     ftype = self%getGFieldType()
-165     \textcolor{keywordflow}{if} (gfield%dim /= fdim) \textcolor{keywordflow}{return}
-166     \textcolor{keywordflow}{if} (gfield%getGFieldType() /= ftype) \textcolor{keywordflow}{return}
-167     
-168     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(usedposi)) \textcolor{keywordflow}{then}
-169         \textcolor{keyword}{allocate}(usedpos, source = usedposi)
-170         nusedpos = count(usedpos)
-171 \textcolor{keywordflow}{    end if}
-172     
-173     \textcolor{keywordflow}{if} (ftype == \textcolor{stringliteral}{'Scalar'}) \textcolor{keywordflow}{then}
-174         \textcolor{keywordflow}{if} (fdim == 1) \textcolor{keywordflow}{then}
-175             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
-176                 nusedpos = \textcolor{keyword}{size}(gfield%scalar1d%field)
-177                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
-178                 usedpos = .true.
-179 \textcolor{keywordflow}{            end if}
-180             \textcolor{keyword}{allocate}(field1d(\textcolor{keyword}{size}(self%scalar1d%field) + nusedpos))
-181             field1d(1:\textcolor{keyword}{size}(self%scalar1d%field)) = self%scalar1d%field
-182             i= \textcolor{keyword}{size}(self%scalar1d%field)+1
-183             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
-184                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
-185                     field1d(i) = gfield%scalar1d%field(j)
-186                     i= i+1
-187 \textcolor{keywordflow}{                end if}
-188 \textcolor{keywordflow}{            end do}
-189             \textcolor{keyword}{deallocate}(self%scalar1d%field)
-190             \textcolor{keyword}{allocate}(self%scalar1d%field, source = field1d)
-191             \textcolor{comment}{!allocate(self%scalar1d%field(size(field1d)))}
-192             \textcolor{comment}{!self%scalar1d%field = field1d}
-193             \textcolor{comment}{!self%scalar1d%field = [self%scalar1d%field, gfield%scalar1d%field]}
-194 \textcolor{keywordflow}{        end if}
-195         \textcolor{keywordflow}{if} (fdim == 2) \textcolor{keywordflow}{then}
-196             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
-197                 nusedpos = \textcolor{keyword}{size}(gfield%scalar2d%field,2)
-198                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
-199                 usedpos = .true.
-200 \textcolor{keywordflow}{            end if}
-201             \textcolor{keyword}{allocate}(field2d(\textcolor{keyword}{size}(self%scalar2d%field,1),\textcolor{keyword}{size}(self%scalar2d%field,2) + nusedpos))
-202             field2d(:,1:\textcolor{keyword}{size}(self%scalar2d%field,2)) = self%scalar2d%field
-203             i= \textcolor{keyword}{size}(self%scalar2d%field, 2) +1
-204             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
-205                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
-206                     field2d(:, i) = gfield%scalar2d%field(:, j)
-207                     i= i+1
-208 \textcolor{keywordflow}{                end if}
-209 \textcolor{keywordflow}{            end do}
-210             \textcolor{comment}{!field2d(:,size(self%scalar2d%field,2)+1:size(field2d,2)) = gfield%scalar2d%field}
-211             \textcolor{keyword}{deallocate}(self%scalar2d%field)
-212             \textcolor{keyword}{allocate}(self%scalar2d%field, source = field2d)
-213             \textcolor{comment}{!allocate(self%scalar2d%field(size(field2d,1), size(field2d,2)))}
-214             \textcolor{comment}{!self%scalar2d%field = field2d}
-215 \textcolor{keywordflow}{        end if}
-216         \textcolor{keywordflow}{if} (fdim == 3) \textcolor{keywordflow}{then}
-217             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
-218                 nusedpos = \textcolor{keyword}{size}(gfield%scalar3d%field,3)
-219                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
-220                 usedpos = .true.
-221 \textcolor{keywordflow}{            end if}
-222             \textcolor{keyword}{allocate}(field3d(\textcolor{keyword}{size}(self%scalar3d%field,1),\textcolor{keyword}{size}(self%scalar3d%field,2),\textcolor{keyword}{size}(self%scalar3d
+150     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+151     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: gfield
+152     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: usedPosi 
+153     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: usedPos
+154     \textcolor{keywordtype}{integer} :: fDim, nUsedPos, i, j
+155     \textcolor{keywordtype}{type}(string) :: fType
+156     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field1d
+157     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: field2d
+158     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: field3d
+159     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field4d
+160 
+161     fdim = self%dim
+162     ftype = self%getGFieldType()
+163     \textcolor{keywordflow}{if} (gfield%dim /= fdim) \textcolor{keywordflow}{return}
+164     \textcolor{keywordflow}{if} (gfield%getGFieldType() /= ftype) \textcolor{keywordflow}{return}
+165     
+166     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(usedposi)) \textcolor{keywordflow}{then}
+167         \textcolor{keyword}{allocate}(usedpos, source = usedposi)
+168         nusedpos = count(usedpos)
+169 \textcolor{keywordflow}{    end if}
+170     
+171     \textcolor{keywordflow}{if} (ftype == \textcolor{stringliteral}{'Scalar'}) \textcolor{keywordflow}{then}
+172         \textcolor{keywordflow}{if} (fdim == 1) \textcolor{keywordflow}{then}
+173             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
+174                 nusedpos = \textcolor{keyword}{size}(gfield%scalar1d%field)
+175                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
+176                 usedpos = .true.
+177 \textcolor{keywordflow}{            end if}
+178             \textcolor{keyword}{allocate}(field1d(\textcolor{keyword}{size}(self%scalar1d%field) + nusedpos))
+179             field1d(1:\textcolor{keyword}{size}(self%scalar1d%field)) = self%scalar1d%field
+180             i= \textcolor{keyword}{size}(self%scalar1d%field)+1
+181             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
+182                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
+183                     field1d(i) = gfield%scalar1d%field(j)
+184                     i= i+1
+185 \textcolor{keywordflow}{                end if}
+186 \textcolor{keywordflow}{            end do}
+187             \textcolor{keyword}{deallocate}(self%scalar1d%field)
+188             \textcolor{keyword}{allocate}(self%scalar1d%field(\textcolor{keyword}{size}(field1d)))
+189             self%scalar1d%field = field1d
+190 \textcolor{keywordflow}{        end if}
+191         \textcolor{keywordflow}{if} (fdim == 2) \textcolor{keywordflow}{then}
+192             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
+193                 nusedpos = \textcolor{keyword}{size}(gfield%scalar2d%field,2)
+194                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
+195                 usedpos = .true.
+196 \textcolor{keywordflow}{            end if}
+197             \textcolor{keyword}{allocate}(field2d(\textcolor{keyword}{size}(self%scalar2d%field,1),\textcolor{keyword}{size}(self%scalar2d%field,2) + nusedpos))
+198             field2d(:,1:\textcolor{keyword}{size}(self%scalar2d%field,2)) = self%scalar2d%field
+199             i= \textcolor{keyword}{size}(self%scalar2d%field, 2) +1
+200             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
+201                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
+202                     field2d(:, i) = gfield%scalar2d%field(:, j)
+203                     i= i+1
+204 \textcolor{keywordflow}{                end if}
+205 \textcolor{keywordflow}{            end do}            
+206             \textcolor{keyword}{deallocate}(self%scalar2d%field)            
+207             \textcolor{keyword}{allocate}(self%scalar2d%field(\textcolor{keyword}{size}(field2d,1), \textcolor{keyword}{size}(field2d,2)))
+208             self%scalar2d%field = field2d
+209 \textcolor{keywordflow}{        end if}
+210         \textcolor{keywordflow}{if} (fdim == 3) \textcolor{keywordflow}{then}
+211             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
+212                 nusedpos = \textcolor{keyword}{size}(gfield%scalar3d%field,3)
+213                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
+214                 usedpos = .true.
+215 \textcolor{keywordflow}{            end if}
+216             \textcolor{keyword}{allocate}(field3d(\textcolor{keyword}{size}(self%scalar3d%field,1),\textcolor{keyword}{size}(self%scalar3d%field,2),\textcolor{keyword}{size}(self%scalar3d
       %field,3) + nusedpos))
-223             field3d(:,:,1:\textcolor{keyword}{size}(self%scalar3d%field,3)) = self%scalar3d%field
-224             i= \textcolor{keyword}{size}(self%scalar3d%field, 3) +1
-225             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
-226                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
-227                     field3d(:,:, i) = gfield%scalar3d%field(:,:, j)
-228                     i= i+1
-229 \textcolor{keywordflow}{                end if}
-230 \textcolor{keywordflow}{            end do}
-231             \textcolor{comment}{!field3d(:,:,size(self%scalar3d%field,3)+1:size(field3d,3)) = gfield%scalar3d%field}
-232             \textcolor{keyword}{deallocate}(self%scalar3d%field)
-233             \textcolor{keyword}{allocate}(self%scalar3d%field, source = field3d)
-234             \textcolor{comment}{!allocate(self%scalar3d%field(size(field3d,1), size(field3d,2), size(field3d,3)))}
-235             \textcolor{comment}{!self%scalar3d%field = field3d}
-236 \textcolor{keywordflow}{        end if}
-237         \textcolor{keywordflow}{if} (fdim == 4) \textcolor{keywordflow}{then}
-238             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
-239                 nusedpos = \textcolor{keyword}{size}(gfield%scalar4d%field,4)
-240                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
-241                 usedpos = .true.
-242 \textcolor{keywordflow}{            end if}
-243             \textcolor{keyword}{allocate}(field4d(\textcolor{keyword}{size}(self%scalar4d%field,1),\textcolor{keyword}{size}(self%scalar4d%field,2),\textcolor{keyword}{size}(self%scalar4d
+217             field3d(:,:,1:\textcolor{keyword}{size}(self%scalar3d%field,3)) = self%scalar3d%field
+218             i= \textcolor{keyword}{size}(self%scalar3d%field, 3) +1
+219             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
+220                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
+221                     field3d(:,:, i) = gfield%scalar3d%field(:,:, j)
+222                     i= i+1
+223 \textcolor{keywordflow}{                end if}
+224 \textcolor{keywordflow}{            end do}
+225             \textcolor{keyword}{deallocate}(self%scalar3d%field)
+226             \textcolor{keyword}{allocate}(self%scalar3d%field(\textcolor{keyword}{size}(field3d,1), \textcolor{keyword}{size}(field3d,2), \textcolor{keyword}{size}(field3d,3)))
+227             self%scalar3d%field = field3d
+228 \textcolor{keywordflow}{        end if}
+229         \textcolor{keywordflow}{if} (fdim == 4) \textcolor{keywordflow}{then}
+230             \textcolor{keywordflow}{if} (.not.\textcolor{keyword}{allocated}(usedpos)) \textcolor{keywordflow}{then}
+231                 nusedpos = \textcolor{keyword}{size}(gfield%scalar4d%field,4)
+232                 \textcolor{keyword}{allocate}(usedpos(nusedpos))
+233                 usedpos = .true.
+234 \textcolor{keywordflow}{            end if}
+235             \textcolor{keyword}{allocate}(field4d(\textcolor{keyword}{size}(self%scalar4d%field,1),\textcolor{keyword}{size}(self%scalar4d%field,2),\textcolor{keyword}{size}(self%scalar4d
       %field,3),\textcolor{keyword}{size}(self%scalar4d%field,4) + nusedpos))
-244             field4d(:,:,:,1:\textcolor{keyword}{size}(self%scalar4d%field,4)) = self%scalar4d%field
-245              i= \textcolor{keyword}{size}(self%scalar4d%field, 4) +1
-246             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
-247                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
-248                     field4d(:,:,:, i) = gfield%scalar4d%field(:,:,:, j)
-249                     i= i+1
-250 \textcolor{keywordflow}{                end if}
-251 \textcolor{keywordflow}{            end do}
-252             \textcolor{comment}{!field4d(:,:,:,size(self%scalar4d%field,4)+1:size(field4d,4)) = gfield%scalar4d%field}
-253             \textcolor{keyword}{deallocate}(self%scalar4d%field)
-254             \textcolor{keyword}{allocate}(self%scalar4d%field, source = field4d)
-255             \textcolor{comment}{!allocate(self%scalar4d%field(size(field4d,1), size(field4d,2), size(field4d,3),
-       size(field4d,4)))}
-256             \textcolor{comment}{!self%scalar4d%field = field4d}
-257 \textcolor{keywordflow}{        end if}
-258     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (ftype == \textcolor{stringliteral}{'Vectorial'}) \textcolor{keywordflow}{then}
-259         \textcolor{keywordflow}{return}
-260 \textcolor{keywordflow}{    end if}
-261 
+236             field4d(:,:,:,1:\textcolor{keyword}{size}(self%scalar4d%field,4)) = self%scalar4d%field
+237              i= \textcolor{keyword}{size}(self%scalar4d%field, 4) +1
+238             \textcolor{keywordflow}{do} j= 1, \textcolor{keyword}{size}(usedpos)
+239                 \textcolor{keywordflow}{if} (usedpos(j)) \textcolor{keywordflow}{then}
+240                     field4d(:,:,:, i) = gfield%scalar4d%field(:,:,:, j)
+241                     i= i+1
+242 \textcolor{keywordflow}{                end if}
+243 \textcolor{keywordflow}{            end do}
+244             \textcolor{keyword}{deallocate}(self%scalar4d%field)
+245             \textcolor{keyword}{allocate}(self%scalar4d%field(\textcolor{keyword}{size}(field4d,1), \textcolor{keyword}{size}(field4d,2), \textcolor{keyword}{size}(field4d,3), \textcolor{keyword}{size}(field4d,4)
+      ))
+246             self%scalar4d%field = field4d
+247 \textcolor{keywordflow}{        end if}
+248     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (ftype == \textcolor{stringliteral}{'Vectorial'}) \textcolor{keywordflow}{then}
+249         \textcolor{keywordflow}{return}
+250 \textcolor{keywordflow}{    end if}
+251 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a4ec7b627804dfcdf20e3374ecc1cf459}\label{namespacefieldtypes__mod_a4ec7b627804dfcdf20e3374ecc1cf459}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!delgfield@{delgfield}}
@@ -443,21 +435,21 @@ Definition at line 152 of file fields\+Types.\+f90.
 
 
 
-Definition at line 322 of file fields\+Types.\+f90.
+Definition at line 312 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-322     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-323     self%name = \textcolor{stringliteral}{''}
-324     self%units = \textcolor{stringliteral}{''}
-325     self%dim = mv
-326     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keyword}{deallocate}(self%scalar1d%field)
-327     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keyword}{deallocate}(self%scalar2d%field)
-328     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keyword}{deallocate}(self%scalar3d%field)
-329     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keyword}{deallocate}(self%scalar4d%field)
-330     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keyword}{deallocate}(self%vectorial2d%field)
-331     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keyword}{deallocate}(self%vectorial3d%field)
-332     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keyword}{deallocate}(self%vectorial4d%field)
+312     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+313     self%name = \textcolor{stringliteral}{''}
+314     self%units = \textcolor{stringliteral}{''}
+315     self%dim = mv
+316     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keyword}{deallocate}(self%scalar1d%field)
+317     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keyword}{deallocate}(self%scalar2d%field)
+318     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keyword}{deallocate}(self%scalar3d%field)
+319     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keyword}{deallocate}(self%scalar4d%field)
+320     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keyword}{deallocate}(self%vectorial2d%field)
+321     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keyword}{deallocate}(self%vectorial3d%field)
+322     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keyword}{deallocate}(self%vectorial4d%field)
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -481,30 +473,30 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 866 of file fields\+Types.\+f90.
+Definition at line 857 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-866     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
-867     \textcolor{keywordtype}{type}(string) :: outext
-868     \textcolor{keywordflow}{select type}(self)
-869 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
-870 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
-871         getfieldmaxbound = maxval(self%field)
-872 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
-873         getfieldmaxbound = maxval(self%field)
-874 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
-875         getfieldmaxbound = maxval(self%field)
-876 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
-877         getfieldmaxbound = maxval(self%field)
-878 \textcolor{keywordflow}{    class is} (vectorial\_field\_class)
-879         getfieldmaxbound = mv
-880 \textcolor{keywordflow}{        class default}
-881         outext = \textcolor{stringliteral}{'[field\_class::getFieldMaxBound]: Unexepected type of content, not a scalar or vectorial
+857     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+858     \textcolor{keywordtype}{type}(string) :: outext
+859     \textcolor{keywordflow}{select type}(self)
+860 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
+861 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
+862         getfieldmaxbound = maxval(self%field)
+863 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
+864         getfieldmaxbound = maxval(self%field)
+865 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
+866         getfieldmaxbound = maxval(self%field)
+867 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
+868         getfieldmaxbound = maxval(self%field)
+869 \textcolor{keywordflow}{    class is} (vectorial\_field\_class)
+870         getfieldmaxbound = mv
+871 \textcolor{keywordflow}{        class default}
+872         outext = \textcolor{stringliteral}{'[field\_class::getFieldMaxBound]: Unexepected type of content, not a scalar or vectorial
        Field'}
-882         \textcolor{keyword}{call }log%put(outext)
-883         stop
-884 \textcolor{keywordflow}{    end select}
+873         \textcolor{keyword}{call }log%put(outext)
+874         stop
+875 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_aec092e7c0b82a7b3a828ae18af80b810}\label{namespacefieldtypes__mod_aec092e7c0b82a7b3a828ae18af80b810}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!getfieldminbound@{getfieldminbound}}
@@ -521,30 +513,30 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 893 of file fields\+Types.\+f90.
+Definition at line 884 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-893     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
-894     \textcolor{keywordtype}{type}(string) :: outext
-895     \textcolor{keywordflow}{select type}(self)
-896 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
-897 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
-898         getfieldminbound = minval(self%field)
-899 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
-900         getfieldminbound = minval(self%field)
-901 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
-902         getfieldminbound = minval(self%field)
-903 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
-904         getfieldminbound = minval(self%field)
-905 \textcolor{keywordflow}{    class is} (vectorial\_field\_class)
-906         getfieldminbound = mv
-907 \textcolor{keywordflow}{        class default}
-908         outext = \textcolor{stringliteral}{'[field\_class::getFieldMinBound]: Unexepected type of content, not a scalar or vectorial
+884     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+885     \textcolor{keywordtype}{type}(string) :: outext
+886     \textcolor{keywordflow}{select type}(self)
+887 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
+888 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
+889         getfieldminbound = minval(self%field)
+890 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
+891         getfieldminbound = minval(self%field)
+892 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
+893         getfieldminbound = minval(self%field)
+894 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
+895         getfieldminbound = minval(self%field)
+896 \textcolor{keywordflow}{    class is} (vectorial\_field\_class)
+897         getfieldminbound = mv
+898 \textcolor{keywordflow}{        class default}
+899         outext = \textcolor{stringliteral}{'[field\_class::getFieldMinBound]: Unexepected type of content, not a scalar or vectorial
        Field'}
-909         \textcolor{keyword}{call }log%put(outext)
-910         stop
-911 \textcolor{keywordflow}{    end select}
+900         \textcolor{keyword}{call }log%put(outext)
+901         stop
+902 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_afad53b4aed8733a243672c2dc19f62f3}\label{namespacefieldtypes__mod_afad53b4aed8733a243672c2dc19f62f3}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!getfieldnearestindex@{getfieldnearestindex}}
@@ -566,16 +558,16 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 364 of file fields\+Types.\+f90.
+Definition at line 354 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-364     \textcolor{keywordtype}{class}(scalar1d\_field\_class), \textcolor{keywordtype}{intent(in)} :: self
-365     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: value
-366     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: comp
-367     \textcolor{keyword}{allocate}(comp(\textcolor{keyword}{size}(self%field)))
-368     comp = \textcolor{keywordtype}{value}
-369     getfieldnearestindex = minloc(abs(comp - self%field), dim=1)
+354     \textcolor{keywordtype}{class}(scalar1d\_field\_class), \textcolor{keywordtype}{intent(in)} :: self
+355     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: value
+356     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: comp
+357     \textcolor{keyword}{allocate}(comp(\textcolor{keyword}{size}(self%field)))
+358     comp = \textcolor{keywordtype}{value}
+359     getfieldnearestindex = minloc(abs(comp - self%field), dim=1)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_ab8a0fa52771fc81b6f8a39cbb9ad2c34}\label{namespacefieldtypes__mod_ab8a0fa52771fc81b6f8a39cbb9ad2c34}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!getfieldshape@{getfieldshape}}
@@ -592,39 +584,39 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 829 of file fields\+Types.\+f90.
+Definition at line 820 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-829     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
-830     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getFieldShape
-831     \textcolor{keywordtype}{type}(string) :: outext
-832 
-833     \textcolor{keywordflow}{select type}(self)
-834 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
-835 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
-836         \textcolor{keyword}{allocate}(getfieldshape(1))
-837         getfieldshape(1) = \textcolor{keyword}{size}(self%field)
-838 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
-839         \textcolor{keyword}{allocate}(getfieldshape(2))
+820     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+821     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getFieldShape
+822     \textcolor{keywordtype}{type}(string) :: outext
+823 
+824     \textcolor{keywordflow}{select type}(self)
+825 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
+826 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
+827         \textcolor{keyword}{allocate}(getfieldshape(1))
+828         getfieldshape(1) = \textcolor{keyword}{size}(self%field)
+829 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
+830         \textcolor{keyword}{allocate}(getfieldshape(2))
+831         getfieldshape(1) = \textcolor{keyword}{size}(self%field,1)
+832         getfieldshape(2) = \textcolor{keyword}{size}(self%field,2)
+833 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
+834         \textcolor{keyword}{allocate}(getfieldshape(3))
+835         getfieldshape(1) = \textcolor{keyword}{size}(self%field,1)
+836         getfieldshape(2) = \textcolor{keyword}{size}(self%field,2)
+837         getfieldshape(3) = \textcolor{keyword}{size}(self%field,3)
+838 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
+839         \textcolor{keyword}{allocate}(getfieldshape(4))
 840         getfieldshape(1) = \textcolor{keyword}{size}(self%field,1)
 841         getfieldshape(2) = \textcolor{keyword}{size}(self%field,2)
-842 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
-843         \textcolor{keyword}{allocate}(getfieldshape(3))
-844         getfieldshape(1) = \textcolor{keyword}{size}(self%field,1)
-845         getfieldshape(2) = \textcolor{keyword}{size}(self%field,2)
-846         getfieldshape(3) = \textcolor{keyword}{size}(self%field,3)
-847 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
-848         \textcolor{keyword}{allocate}(getfieldshape(4))
-849         getfieldshape(1) = \textcolor{keyword}{size}(self%field,1)
-850         getfieldshape(2) = \textcolor{keyword}{size}(self%field,2)
-851         getfieldshape(3) = \textcolor{keyword}{size}(self%field,3)
-852         getfieldshape(4) = \textcolor{keyword}{size}(self%field,4)
-853 \textcolor{keywordflow}{        class default}
-854         outext = \textcolor{stringliteral}{'[field\_class::getFieldShape]: Unexepected type of content, not a scalar Field'}
-855         \textcolor{keyword}{call }log%put(outext)
-856         stop
-857 \textcolor{keywordflow}{    end select}
+842         getfieldshape(3) = \textcolor{keyword}{size}(self%field,3)
+843         getfieldshape(4) = \textcolor{keyword}{size}(self%field,4)
+844 \textcolor{keywordflow}{        class default}
+845         outext = \textcolor{stringliteral}{'[field\_class::getFieldShape]: Unexepected type of content, not a scalar Field'}
+846         \textcolor{keyword}{call }log%put(outext)
+847         stop
+848 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_ac35041b0ab166699a4fda1d0fa02ec67}\label{namespacefieldtypes__mod_ac35041b0ab166699a4fda1d0fa02ec67}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!getfieldslice@{getfieldslice}}
@@ -641,51 +633,51 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 783 of file fields\+Types.\+f90.
+Definition at line 774 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-783     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
-784     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: llbound, uubound
-785     \textcolor{keywordtype}{type}(generic\_field\_class) :: getFieldSlice
-786     \textcolor{keywordtype}{logical} :: sliced
-787     \textcolor{keywordtype}{type}(string) :: outext
-788     sliced = .false.
-789     \textcolor{keywordflow}{select type}(self)
-790 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
-791 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
-792         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 1) \textcolor{keywordflow}{then}
-793             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1)))
-794             sliced = .true.
-795 \textcolor{keywordflow}{        end if}
-796 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
-797         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 2) \textcolor{keywordflow}{then}
-798             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1),llbound(2
+774     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+775     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: llbound, uubound
+776     \textcolor{keywordtype}{type}(generic\_field\_class) :: getFieldSlice
+777     \textcolor{keywordtype}{logical} :: sliced
+778     \textcolor{keywordtype}{type}(string) :: outext
+779     sliced = .false.
+780     \textcolor{keywordflow}{select type}(self)
+781 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
+782 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
+783         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 1) \textcolor{keywordflow}{then}
+784             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1)))
+785             sliced = .true.
+786 \textcolor{keywordflow}{        end if}
+787 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
+788         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 2) \textcolor{keywordflow}{then}
+789             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1),llbound(2
       ):uubound(2)))
-799             sliced = .true.
-800 \textcolor{keywordflow}{        end if}
-801 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
-802         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 3) \textcolor{keywordflow}{then}
-803             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(
+790             sliced = .true.
+791 \textcolor{keywordflow}{        end if}
+792 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
+793         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 3) \textcolor{keywordflow}{then}
+794             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(
       2):uubound(2), llbound(3):uubound(3)))
-804             sliced = .true.
-805 \textcolor{keywordflow}{        end if}
-806 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
-807         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 4) \textcolor{keywordflow}{then}
-808             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(
+795             sliced = .true.
+796 \textcolor{keywordflow}{        end if}
+797 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
+798         \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(llbound) == 4) \textcolor{keywordflow}{then}
+799             \textcolor{keyword}{call }getfieldslice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(
       2):uubound(2), llbound(3):uubound(3), llbound(4):uubound(4)))
-809             sliced = .true.
-810 \textcolor{keywordflow}{        end if}
-811 \textcolor{keywordflow}{        class default}
-812         outext = \textcolor{stringliteral}{'[field\_class::getFieldSlice]: Unexepected type of content, not a scalar Field'}
-813         \textcolor{keyword}{call }log%put(outext)
-814         stop
-815 \textcolor{keywordflow}{    end select}
-816     \textcolor{keywordflow}{if} (.not.sliced) \textcolor{keywordflow}{then}
-817         outext = \textcolor{stringliteral}{'[field\_class::getFieldSlice]: type of Field and dimensions do not match'}
-818         \textcolor{keyword}{call }log%put(outext)
-819         stop
-820 \textcolor{keywordflow}{    end if}
+800             sliced = .true.
+801 \textcolor{keywordflow}{        end if}
+802 \textcolor{keywordflow}{        class default}
+803         outext = \textcolor{stringliteral}{'[field\_class::getFieldSlice]: Unexepected type of content, not a scalar Field'}
+804         \textcolor{keyword}{call }log%put(outext)
+805         stop
+806 \textcolor{keywordflow}{    end select}
+807     \textcolor{keywordflow}{if} (.not.sliced) \textcolor{keywordflow}{then}
+808         outext = \textcolor{stringliteral}{'[field\_class::getFieldSlice]: type of Field and dimensions do not match'}
+809         \textcolor{keyword}{call }log%put(outext)
+810         stop
+811 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a5faf9c157541acaa9681be2d59eda850}\label{namespacefieldtypes__mod_a5faf9c157541acaa9681be2d59eda850}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!getfieldtype@{getfieldtype}}
@@ -702,85 +694,78 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 762 of file fields\+Types.\+f90.
+Definition at line 753 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-762     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
-763     \textcolor{keywordtype}{type}(string) :: getFieldType
-764     \textcolor{keywordtype}{type}(string) :: outext
-765     \textcolor{keywordflow}{select type}(self)
-766 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
-767         getfieldtype = \textcolor{stringliteral}{'Scalar'}
-768 \textcolor{keywordflow}{    class is} (vectorial\_field\_class)
-769         getfieldtype = \textcolor{stringliteral}{'Vectorial'}
-770 \textcolor{keywordflow}{        class default}
-771         outext = \textcolor{stringliteral}{'[field\_class::getFieldType]: Unexepected type of content, not a scalar or vectorial
+753     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+754     \textcolor{keywordtype}{type}(string) :: getFieldType
+755     \textcolor{keywordtype}{type}(string) :: outext
+756     \textcolor{keywordflow}{select type}(self)
+757 \textcolor{keywordflow}{    class is} (scalar\_field\_class)
+758         getfieldtype = \textcolor{stringliteral}{'Scalar'}
+759 \textcolor{keywordflow}{    class is} (vectorial\_field\_class)
+760         getfieldtype = \textcolor{stringliteral}{'Vectorial'}
+761 \textcolor{keywordflow}{        class default}
+762         outext = \textcolor{stringliteral}{'[field\_class::getFieldType]: Unexepected type of content, not a scalar or vectorial
        Field'}
-772         \textcolor{keyword}{call }log%put(outext)
-773         stop
-774 \textcolor{keywordflow}{    end select}
+763         \textcolor{keyword}{call }log%put(outext)
+764         stop
+765 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacefieldtypes__mod_a73c64e544ca15d30975aad5a35c2d904}\label{namespacefieldtypes__mod_a73c64e544ca15d30975aad5a35c2d904}} 
+\mbox{\Hypertarget{namespacefieldtypes__mod_a214565d2002baff775a030611630fc32}\label{namespacefieldtypes__mod_a214565d2002baff775a030611630fc32}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!getgfield@{getgfield}}
 \index{getgfield@{getgfield}!fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}}
 \subsubsection{\texorpdfstring{getgfield()}{getgfield()}}
-{\footnotesize\ttfamily type(\mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}) function, public fieldtypes\+\_\+mod\+::getgfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfieldtypes__mod_1_1field__class}{field\+\_\+class}}), intent(in)}]{a\+Field }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily subroutine fieldtypes\+\_\+mod\+::getgfield (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structfieldtypes__mod_1_1generic__field__class}{generic\+\_\+field\+\_\+class}}), intent(inout)}]{self,  }\item[{class(\mbox{\hyperlink{structfieldtypes__mod_1_1field__class}{field\+\_\+class}}), intent(in)}]{a\+Field }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Function that returns a generic field object given a field object. 
+method that initializes a generic field object given a field object 
 
 \begin{DoxyAuthor}{Author}
 Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em a\+Field} & \\
+\mbox{\tt in}  & {\em self,a\+Field} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 921 of file fields\+Types.\+f90.
+Definition at line 912 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-921     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: aField
-922     \textcolor{keywordtype}{type}(generic\_field\_class) :: getGField
-923     \textcolor{keywordtype}{logical} :: done
-924     \textcolor{keywordtype}{type}(string) :: outext
-925     done = .false.
-926     \textcolor{keywordflow}{select type}(afield)
-927 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
-928         \textcolor{keyword}{call }getgfield%initialize(afield%name, afield%units, afield%field)
-929         done = .true.
-930         \textcolor{keywordflow}{return}
-931 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
-932         \textcolor{keyword}{call }getgfield%initialize(afield%name, afield%units, afield%field)
-933         done = .true.
-934         \textcolor{keywordflow}{return}
-935 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
-936         \textcolor{keyword}{call }getgfield%initialize(afield%name, afield%units, afield%field)
-937         done = .true.
-938         \textcolor{keywordflow}{return}
-939 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
-940         \textcolor{keyword}{call }getgfield%initialize(afield%name, afield%units, afield%field)
-941         done = .true.
-942         \textcolor{keywordflow}{return}
-943 \textcolor{keywordflow}{    end select}
-944     \textcolor{keywordflow}{if} (.not.done) \textcolor{keywordflow}{then}
-945         outext = \textcolor{stringliteral}{'[fieldTypes::getGField] Unexepected type of content, not a scalar Field'}
-946         \textcolor{keyword}{call }log%put(outext)
-947         stop
-948 \textcolor{keywordflow}{    end if}
+912     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+913     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: aField
+914     \textcolor{keywordtype}{logical} :: done
+915     \textcolor{keywordtype}{type}(string) :: outext
+916     done = .false.
+917     \textcolor{keywordflow}{select type}(afield)
+918 \textcolor{keywordflow}{    class is} (scalar1d\_field\_class)
+919         \textcolor{keyword}{call }self%initialize(afield%name, afield%units, afield%field)
+920         done = .true.
+921         \textcolor{keywordflow}{return}
+922 \textcolor{keywordflow}{    class is} (scalar2d\_field\_class)
+923         \textcolor{keyword}{call }self%initialize(afield%name, afield%units, afield%field)
+924         done = .true.
+925         \textcolor{keywordflow}{return}
+926 \textcolor{keywordflow}{    class is} (scalar3d\_field\_class)
+927         \textcolor{keyword}{call }self%initialize(afield%name, afield%units, afield%field)
+928         done = .true.
+929         \textcolor{keywordflow}{return}
+930 \textcolor{keywordflow}{    class is} (scalar4d\_field\_class)
+931         \textcolor{keyword}{call }self%initialize(afield%name, afield%units, afield%field)
+932         done = .true.
+933         \textcolor{keywordflow}{return}
+934 \textcolor{keywordflow}{    end select}
+935     \textcolor{keywordflow}{if} (.not.done) \textcolor{keywordflow}{then}
+936         outext = \textcolor{stringliteral}{'[generic\_field\_class::getGField] Unexepected type of content, not a scalar Field'}
+937         \textcolor{keyword}{call }log%put(outext)
+938         stop
+939 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
-Here is the caller graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{namespacefieldtypes__mod_a73c64e544ca15d30975aad5a35c2d904_icgraph}
-\end{center}
-\end{figure}
 \mbox{\Hypertarget{namespacefieldtypes__mod_abd34452f9afd91c4b9eeb60c51908312}\label{namespacefieldtypes__mod_abd34452f9afd91c4b9eeb60c51908312}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!getgfieldtype@{getgfieldtype}}
 \index{getgfieldtype@{getgfieldtype}!fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}}
@@ -796,18 +781,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 700 of file fields\+Types.\+f90.
+Definition at line 690 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-700     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: self
-701     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) getgfieldtype = self%scalar1d%getFieldType()
-702     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) getgfieldtype = self%scalar2d%getFieldType()
-703     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) getgfieldtype = self%scalar3d%getFieldType()
-704     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) getgfieldtype = self%scalar4d%getFieldType()
-705     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) getgfieldtype = self%vectorial2d%getFieldType()
-706     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) getgfieldtype = self%vectorial3d%getFieldType()
-707     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) getgfieldtype = self%vectorial4d%getFieldType()
+690     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: self
+691     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) getgfieldtype = self%scalar1d%getFieldType()
+692     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) getgfieldtype = self%scalar2d%getFieldType()
+693     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) getgfieldtype = self%scalar3d%getFieldType()
+694     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) getgfieldtype = self%scalar4d%getFieldType()
+695     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) getgfieldtype = self%vectorial2d%getFieldType()
+696     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) getgfieldtype = self%vectorial3d%getFieldType()
+697     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) getgfieldtype = self%vectorial4d%getFieldType()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a3f1571ad15733a3f2fff43e35f309416}\label{namespacefieldtypes__mod_a3f1571ad15733a3f2fff43e35f309416}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!inits1d@{inits1d}}
@@ -829,23 +814,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 342 of file fields\+Types.\+f90.
+Definition at line 332 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-342     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-343     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:)} :: field
-344     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-345     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-346     \textcolor{keywordtype}{type}(string) :: outext
-347     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keywordflow}{then}
-348         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 1D field already allocated'}
-349         \textcolor{keyword}{call }log%put(outext)
-350         stop
-351     \textcolor{keywordflow}{else}
-352         \textcolor{keyword}{call }self%scalar1d%initialize(name, units, 1, field)
-353         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 1)
-354 \textcolor{keywordflow}{    end if}
+332     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+333     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:)} :: field
+334     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+335     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+336     \textcolor{keywordtype}{type}(string) :: outext
+337     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keywordflow}{then}
+338         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 1D field already allocated'}
+339         \textcolor{keyword}{call }log%put(outext)
+340         stop
+341     \textcolor{keywordflow}{else}
+342         \textcolor{keyword}{call }self%scalar1d%initialize(name, units, 1, field)
+343         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 1)
+344 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -874,23 +859,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 379 of file fields\+Types.\+f90.
+Definition at line 369 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-379     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-380     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
-381     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-382     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-383     \textcolor{keywordtype}{type}(string) :: outext
-384     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keywordflow}{then}
-385         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 2D field already allocated'}
-386         \textcolor{keyword}{call }log%put(outext)
-387         stop
-388     \textcolor{keywordflow}{else}
-389         \textcolor{keyword}{call }self%scalar2d%initialize(name, units, 2, field)
-390         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 2)
-391 \textcolor{keywordflow}{    end if}
+369     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+370     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+371     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+372     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+373     \textcolor{keywordtype}{type}(string) :: outext
+374     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keywordflow}{then}
+375         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 2D field already allocated'}
+376         \textcolor{keyword}{call }log%put(outext)
+377         stop
+378     \textcolor{keywordflow}{else}
+379         \textcolor{keyword}{call }self%scalar2d%initialize(name, units, 2, field)
+380         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 2)
+381 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -919,23 +904,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 401 of file fields\+Types.\+f90.
+Definition at line 391 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-401     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-402     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
-403     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-404     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-405     \textcolor{keywordtype}{type}(string) :: outext
-406     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keywordflow}{then}
-407         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 3D field already allocated'}
-408         \textcolor{keyword}{call }log%put(outext)
-409         stop
-410     \textcolor{keywordflow}{else}
-411         \textcolor{keyword}{call }self%scalar3d%initialize(name, units, 3, field)
-412         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 3)
-413 \textcolor{keywordflow}{    end if}
+391     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+392     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+393     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+394     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+395     \textcolor{keywordtype}{type}(string) :: outext
+396     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keywordflow}{then}
+397         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 3D field already allocated'}
+398         \textcolor{keyword}{call }log%put(outext)
+399         stop
+400     \textcolor{keywordflow}{else}
+401         \textcolor{keyword}{call }self%scalar3d%initialize(name, units, 3, field)
+402         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 3)
+403 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -964,23 +949,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 423 of file fields\+Types.\+f90.
+Definition at line 413 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-423     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-424     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
-425     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-426     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-427     \textcolor{keywordtype}{type}(string) :: outext
-428     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keywordflow}{then}
-429         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 4D field already allocated'}
-430         \textcolor{keyword}{call }log%put(outext)
-431         stop
-432     \textcolor{keywordflow}{else}
-433         \textcolor{keyword}{call }self%scalar4d%initialize(name, units, 4, field)
-434         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 4)
-435 \textcolor{keywordflow}{    end if}
+413     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+414     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+415     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+416     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+417     \textcolor{keywordtype}{type}(string) :: outext
+418     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keywordflow}{then}
+419         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: scalar 4D field already allocated'}
+420         \textcolor{keyword}{call }log%put(outext)
+421         stop
+422     \textcolor{keywordflow}{else}
+423         \textcolor{keyword}{call }self%scalar4d%initialize(name, units, 4, field)
+424         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 4)
+425 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -1009,17 +994,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 511 of file fields\+Types.\+f90.
+Definition at line 501 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-511     \textcolor{keywordtype}{class}(scalar1d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-512     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:)} :: field
-513     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-514     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-515     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-516     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
-517     \textcolor{keyword}{allocate}(self%field, source = field)
+501     \textcolor{keywordtype}{class}(scalar1d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+502     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:)} :: field
+503     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+504     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+505     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+506     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+507     \textcolor{keyword}{allocate}(self%field, source = field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a1a3160727c99017639d758aad9031df5}\label{namespacefieldtypes__mod_a1a3160727c99017639d758aad9031df5}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!initscalar2dfield@{initscalar2dfield}}
@@ -1041,17 +1026,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 538 of file fields\+Types.\+f90.
+Definition at line 528 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-538     \textcolor{keywordtype}{class}(scalar2d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-539     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
-540     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-541     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-542     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-543     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
-544     \textcolor{keyword}{allocate}(self%field, source = field)
+528     \textcolor{keywordtype}{class}(scalar2d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+529     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+530     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+531     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+532     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+533     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+534     \textcolor{keyword}{allocate}(self%field, source = field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a3f2b90bc391ea5b84ead8069ee90f515}\label{namespacefieldtypes__mod_a3f2b90bc391ea5b84ead8069ee90f515}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!initscalar3dfield@{initscalar3dfield}}
@@ -1073,17 +1058,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 565 of file fields\+Types.\+f90.
+Definition at line 555 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-565     \textcolor{keywordtype}{class}(scalar3d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-566     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
-567     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-568     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-569     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-570     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
-571     \textcolor{keyword}{allocate}(self%field, source = field)
+555     \textcolor{keywordtype}{class}(scalar3d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+556     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+557     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+558     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+559     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+560     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+561     \textcolor{keyword}{allocate}(self%field, source = field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a21dba84bb8fdb02d8bf5fd0052b51283}\label{namespacefieldtypes__mod_a21dba84bb8fdb02d8bf5fd0052b51283}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!initscalar4dfield@{initscalar4dfield}}
@@ -1105,17 +1090,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 592 of file fields\+Types.\+f90.
+Definition at line 582 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-592     \textcolor{keywordtype}{class}(scalar4d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-593     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
-594     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-595     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-596     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-597     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
-598     \textcolor{keyword}{allocate}(self%field, source = field)
+582     \textcolor{keywordtype}{class}(scalar4d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+583     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+584     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+585     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+586     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+587     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+588     \textcolor{keyword}{allocate}(self%field, source = field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_ad1af664e23793260f9c2fcd03829a1f5}\label{namespacefieldtypes__mod_ad1af664e23793260f9c2fcd03829a1f5}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!initv2d@{initv2d}}
@@ -1137,23 +1122,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 445 of file fields\+Types.\+f90.
+Definition at line 435 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-445     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-446     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
-447     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-448     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-449     \textcolor{keywordtype}{type}(string) :: outext
-450     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keywordflow}{then}
-451         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 2D field already allocated'}
-452         \textcolor{keyword}{call }log%put(outext)
-453         stop
-454     \textcolor{keywordflow}{else}
-455         \textcolor{keyword}{call }self%vectorial2d%initialize(name, units, 2, field)
-456         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 2)
-457 \textcolor{keywordflow}{    end if}
+435     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+436     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+437     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+438     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+439     \textcolor{keywordtype}{type}(string) :: outext
+440     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keywordflow}{then}
+441         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 2D field already allocated'}
+442         \textcolor{keyword}{call }log%put(outext)
+443         stop
+444     \textcolor{keywordflow}{else}
+445         \textcolor{keyword}{call }self%vectorial2d%initialize(name, units, 2, field)
+446         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 2)
+447 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -1182,23 +1167,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 467 of file fields\+Types.\+f90.
+Definition at line 457 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-467     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-468     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
-469     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-470     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-471     \textcolor{keywordtype}{type}(string) :: outext
-472     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keywordflow}{then}
-473         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 3D field already allocated'}
-474         \textcolor{keyword}{call }log%put(outext)
-475         stop
-476     \textcolor{keywordflow}{else}
-477         \textcolor{keyword}{call }self%vectorial3d%initialize(name, units, 3, field)
-478         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 3)
-479 \textcolor{keywordflow}{    end if}
+457     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+458     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+459     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+460     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+461     \textcolor{keywordtype}{type}(string) :: outext
+462     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keywordflow}{then}
+463         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 3D field already allocated'}
+464         \textcolor{keyword}{call }log%put(outext)
+465         stop
+466     \textcolor{keywordflow}{else}
+467         \textcolor{keyword}{call }self%vectorial3d%initialize(name, units, 3, field)
+468         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 3)
+469 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -1227,23 +1212,23 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 489 of file fields\+Types.\+f90.
+Definition at line 479 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-489     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-490     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
-491     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-492     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-493     \textcolor{keywordtype}{type}(string) :: outext
-494     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keywordflow}{then}
-495         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 4D field already allocated'}
-496         \textcolor{keyword}{call }log%put(outext)
-497         stop
-498     \textcolor{keywordflow}{else}
-499         \textcolor{keyword}{call }self%vectorial4d%initialize(name, units, 4, field)
-500         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 4)
-501 \textcolor{keywordflow}{    end if}
+479     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+480     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+481     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+482     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+483     \textcolor{keywordtype}{type}(string) :: outext
+484     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keywordflow}{then}
+485         outext = \textcolor{stringliteral}{'[generic\_field\_class::initialize]: vectorial 4D field already allocated'}
+486         \textcolor{keyword}{call }log%put(outext)
+487         stop
+488     \textcolor{keywordflow}{else}
+489         \textcolor{keyword}{call }self%vectorial4d%initialize(name, units, 4, field)
+490         \textcolor{keyword}{call }self%setFieldMetadata(name, units, 4)
+491 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -1272,17 +1257,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 619 of file fields\+Types.\+f90.
+Definition at line 609 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-619     \textcolor{keywordtype}{class}(vectorial2d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-620     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
-621     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-622     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-623     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-624     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
-625     \textcolor{keyword}{allocate}(self%field, source = field)
+609     \textcolor{keywordtype}{class}(vectorial2d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+610     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:)} :: field
+611     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+612     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+613     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+614     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+615     \textcolor{keyword}{allocate}(self%field, source = field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a20d935cfa1513350667d04f969be5e26}\label{namespacefieldtypes__mod_a20d935cfa1513350667d04f969be5e26}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!initvectorial3dfield@{initvectorial3dfield}}
@@ -1304,17 +1289,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 635 of file fields\+Types.\+f90.
+Definition at line 625 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-635     \textcolor{keywordtype}{class}(vectorial3d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-636     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
-637     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-638     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-639     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-640     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
-641     \textcolor{keyword}{allocate}(self%field, source = field)
+625     \textcolor{keywordtype}{class}(vectorial3d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+626     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:)} :: field
+627     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+628     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+629     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+630     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+631     \textcolor{keyword}{allocate}(self%field, source = field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_ad458710e4a2d6c40a3dfa7f19481cd5a}\label{namespacefieldtypes__mod_ad458710e4a2d6c40a3dfa7f19481cd5a}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!initvectorial4dfield@{initvectorial4dfield}}
@@ -1336,17 +1321,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 651 of file fields\+Types.\+f90.
+Definition at line 641 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-651     \textcolor{keywordtype}{class}(vectorial4d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-652     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
-653     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-654     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-655     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-656     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
-657     \textcolor{keyword}{allocate}(self%field, source = field)
+641     \textcolor{keywordtype}{class}(vectorial4d\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+642     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: field
+643     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+644     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+645     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+646     \textcolor{keyword}{call }self%setFieldMetadata(name, units, dim)
+647     \textcolor{keyword}{allocate}(self%field, source = field)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a5a556fba603c1d39b20713fdbc813332}\label{namespacefieldtypes__mod_a5a556fba603c1d39b20713fdbc813332}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!printfield@{printfield}}
@@ -1363,19 +1348,20 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 746 of file fields\+Types.\+f90.
+Definition at line 736 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-746     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
-747     \textcolor{keywordtype}{type}(string) :: outext, t(4)
-748     t(1) = self%dim
-749     t(2) = self%getFieldType()
-750     t(3) = self%getFieldMinBound()
-751     t(4) = self%getFieldMaxBound()
-752     outext = t(2)//\textcolor{stringliteral}{' field['}//self%name//\textcolor{stringliteral}{'] has dimensionality '}//t(1)//\textcolor{stringliteral}{' and is in '}//self%units//\textcolor{stringliteral}{' - ['}//
-      t(3)//\textcolor{stringliteral}{';'}//t(4)//\textcolor{stringliteral}{']'}
-753     \textcolor{keyword}{call }log%put(outext,.false.)
+736     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(in)} :: self
+737     \textcolor{keywordtype}{type}(string) :: outext, t(5)
+738     t(1) = self%dim
+739     t(2) = self%getFieldType()
+740     t(3) = self%getFieldMinBound()
+741     t(4) = self%getFieldMaxBound()
+742     \textcolor{comment}{!t(5) = self%getFieldShape()}
+743     outext = t(2)//\textcolor{stringliteral}{' field['}//self%name//\textcolor{stringliteral}{'] has dimensionality '}//t(1)//\textcolor{stringliteral}{' and is in '}//self%units//\textcolor{stringliteral}{' - ['}//
+      t(3)//\textcolor{stringliteral}{';'}//t(4)//\textcolor{stringliteral}{']'}\textcolor{comment}{!, ('//t(5)//')'}
+744     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a63d399d72fffde3fe8169b76cce59259}\label{namespacefieldtypes__mod_a63d399d72fffde3fe8169b76cce59259}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!printgenericfield@{printgenericfield}}
@@ -1392,18 +1378,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 683 of file fields\+Types.\+f90.
+Definition at line 673 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-683     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: self
-684     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keyword}{call }self%scalar1d%print()
-685     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keyword}{call }self%scalar2d%print()
-686     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keyword}{call }self%scalar3d%print()
-687     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keyword}{call }self%scalar4d%print()
-688     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keyword}{call }self%vectorial2d%print()
-689     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keyword}{call }self%vectorial3d%print()
-690     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keyword}{call }self%vectorial4d%print()
+673     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: self
+674     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar1d%field)) \textcolor{keyword}{call }self%scalar1d%print()
+675     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar2d%field)) \textcolor{keyword}{call }self%scalar2d%print()
+676     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar3d%field)) \textcolor{keyword}{call }self%scalar3d%print()
+677     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%scalar4d%field)) \textcolor{keyword}{call }self%scalar4d%print()
+678     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial2d%field)) \textcolor{keyword}{call }self%vectorial2d%print()
+679     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial3d%field)) \textcolor{keyword}{call }self%vectorial3d%print()
+680     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%vectorial4d%field)) \textcolor{keyword}{call }self%vectorial4d%print()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_ad8f3bf57dafb3eac18e5a3198e36047c}\label{namespacefieldtypes__mod_ad8f3bf57dafb3eac18e5a3198e36047c}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!replacemetadata@{replacemetadata}}
@@ -1425,15 +1411,15 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 294 of file fields\+Types.\+f90.
+Definition at line 284 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-294     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-295     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-296     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-297     self%name = name
-298     self%units = units
+284     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+285     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+286     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+287     self%name = name
+288     self%units = units
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_abc601ce9f8a974f426e876cc4c02e2a2}\label{namespacefieldtypes__mod_abc601ce9f8a974f426e876cc4c02e2a2}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!setfieldmetadata@{setfieldmetadata}}
@@ -1455,17 +1441,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 668 of file fields\+Types.\+f90.
+Definition at line 658 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-668     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-669     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-670     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
-671     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
-672     self%name = name
-673     self%units = units
-674     self%dim = dim
+658     \textcolor{keywordtype}{class}(field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+659     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+660     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: units
+661     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: dim
+662     self%name = name
+663     self%units = units
+664     self%dim = dim
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacefieldtypes__mod_a0babd6327ed77199d5437d17de34bafe}\label{namespacefieldtypes__mod_a0babd6327ed77199d5437d17de34bafe}} 
 \index{fieldtypes\+\_\+mod@{fieldtypes\+\_\+mod}!test@{test}}
@@ -1482,30 +1468,30 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 716 of file fields\+Types.\+f90.
+Definition at line 706 of file fields\+Types.\+f90.
 
 
 \begin{DoxyCode}
-716     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
-717     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2, gfield3
-718     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field1
-719     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: field2
-720     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: field3
-721     \textcolor{keywordtype}{type}(string) :: name1, name2, name3
-722     \textcolor{keywordtype}{type}(string) :: units1, units2, units3
-723     \textcolor{keyword}{allocate}(field1(50))
-724     \textcolor{keyword}{allocate}(field2(20,60))
-725     \textcolor{keyword}{allocate}(field3(2,3,4))
-726     name1 = \textcolor{stringliteral}{'testfield1d'}
-727     name2 = \textcolor{stringliteral}{'testfield2d'}
-728     name3 = \textcolor{stringliteral}{'testfield3d'}
-729     units1 = \textcolor{stringliteral}{'m/s'}
-730     units2 = \textcolor{stringliteral}{'km'}
-731     units3 = \textcolor{stringliteral}{'ms-1'}
-732     \textcolor{keyword}{call }gfield1%initialize(name1, units1, field1)
-733     \textcolor{keyword}{call }gfield2%initialize(name2, units2, field2)
-734     \textcolor{keyword}{call }gfield3%initialize(name3, units3, field3)
-735     \textcolor{keyword}{call }gfield1%print()
-736     \textcolor{keyword}{call }gfield2%print()
-737     \textcolor{keyword}{call }gfield3%print()
+706     \textcolor{keywordtype}{class}(generic\_field\_class), \textcolor{keywordtype}{intent(inout)} :: self
+707     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2, gfield3
+708     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field1
+709     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: field2
+710     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: field3
+711     \textcolor{keywordtype}{type}(string) :: name1, name2, name3
+712     \textcolor{keywordtype}{type}(string) :: units1, units2, units3
+713     \textcolor{keyword}{allocate}(field1(50))
+714     \textcolor{keyword}{allocate}(field2(20,60))
+715     \textcolor{keyword}{allocate}(field3(2,3,4))
+716     name1 = \textcolor{stringliteral}{'testfield1d'}
+717     name2 = \textcolor{stringliteral}{'testfield2d'}
+718     name3 = \textcolor{stringliteral}{'testfield3d'}
+719     units1 = \textcolor{stringliteral}{'m/s'}
+720     units2 = \textcolor{stringliteral}{'km'}
+721     units3 = \textcolor{stringliteral}{'ms-1'}
+722     \textcolor{keyword}{call }gfield1%initialize(name1, units1, field1)
+723     \textcolor{keyword}{call }gfield2%initialize(name2, units2, field2)
+724     \textcolor{keyword}{call }gfield3%initialize(name3, units3, field3)
+725     \textcolor{keyword}{call }gfield1%print()
+726     \textcolor{keyword}{call }gfield2%print()
+727     \textcolor{keyword}{call }gfield3%print()
 \end{DoxyCode}

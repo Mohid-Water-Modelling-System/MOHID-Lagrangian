@@ -152,7 +152,7 @@
     !> Sets the global variables responsible for controling field outputs.
     !> reads options from a xml file and adds a variable field to the print poll
     !> accordingly
-    !> @param[in] case_node
+    !> @param[in] exeNode
     !---------------------------------------------------------------------------
     subroutine setOutputFields(exeNode)
     type(Node), intent(in), pointer :: exeNode
@@ -197,6 +197,7 @@
         call Log%put(outext,.false.)
     endif
     !calling the globals method to set the output variable field list
+    if (.not.allocated(fieldNameArray)) allocate(fieldNameArray(0))
     call Globals%Output%setOutputFields(fieldNameArray, toOutput)
 
     end subroutine setOutputFields
@@ -210,7 +211,6 @@
     !---------------------------------------------------------------------------
     subroutine init_naming(case_node)
     type(Node), intent(in), pointer :: case_node
-
     type(Node), pointer :: naming_node          !< Single naming block to process
     type(Node), pointer :: temp
     type(NodeList), pointer :: namingfileList

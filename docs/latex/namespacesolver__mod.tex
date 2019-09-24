@@ -56,17 +56,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 184 of file solver.\+f90.
+Definition at line 185 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-184     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-185     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
-186     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-187     \textcolor{keywordtype}{type}(string) :: interpName
-188     self%solverType = flag
-189     self%name = name
-190     \textcolor{keyword}{call }self%Kernel%initialize()
+185     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+186     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: flag
+187     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+188     \textcolor{keywordtype}{type}(string) :: interpName
+189     self%solverType = flag
+190     self%name = name
+191     \textcolor{keyword}{call }self%Kernel%initialize()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}\label{namespacesolver__mod_a54ea6899cce026a7a5da2dd05922628f}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!printsolver@{printsolver}}
@@ -83,14 +83,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 199 of file solver.\+f90.
+Definition at line 200 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-199     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-200     \textcolor{keywordtype}{type}(string) :: outext, t
-201     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
-202     \textcolor{keyword}{call }log%put(outext,.false.)
+200     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+201     \textcolor{keywordtype}{type}(string) :: outext, t
+202     outext = \textcolor{stringliteral}{'Solver algorithm is '}//self%name
+203     \textcolor{keyword}{call }log%put(outext,.false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6af}\label{namespacesolver__mod_a75c5c8b01ae4ae193ff03dbe7e5fc6af}} 
 \index{solver\+\_\+mod@{solver\+\_\+mod}!runstep@{runstep}}
@@ -142,7 +142,7 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,state,bdata,time,dt} & \\
+\mbox{\tt in}  & {\em self,sv,bdata,time,dt} & \\
 \hline
 \end{DoxyParams}
 
@@ -232,44 +232,44 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 138 of file solver.\+f90.
+Definition at line 139 of file solver.\+f90.
 
 
 \begin{DoxyCode}
-138     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
-139     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: sv
-140     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-141     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-142     \textcolor{keywordtype}{type}(stateVector\_class) :: intSv
-143     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: k1, k2, k3, k4
-144     \textcolor{keywordtype}{integer} :: i
-145 
-146     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sv)
-147         \textcolor{comment}{!creating intermediate step state vectors}
-148         \textcolor{keyword}{call }sv(i)%copyState(intsv)
-149         \textcolor{keyword}{allocate}(k1(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
-150         \textcolor{keyword}{allocate}(k2(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
-151         \textcolor{keyword}{allocate}(k3(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
-152         \textcolor{keyword}{allocate}(k4(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
-153         \textcolor{comment}{!1st step}
-154         k1 = self%Kernel%run(sv(i), bdata, time, dt)*dt
-155         intsv%state = sv(i)%state + k1*0.5
-156         \textcolor{comment}{!2nd step}
-157         k2 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt
-158         intsv%state = sv(i)%state + k2*0.5
-159         \textcolor{comment}{!3rd step}
-160         k3 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt
-161         intsv%state = sv(i)%state + k3
-162         \textcolor{comment}{!4th step}
-163         k4 = self%Kernel%run(intsv, bdata, time + dt, dt)*dt
-164         \textcolor{comment}{!computing the new state}
-165         sv(i)%state = sv(i)%state + (k1 + 2.0*k2 + 2.0*k3 + k4)/6.0
-166         \textcolor{comment}{!deallocating}
-167         \textcolor{keyword}{call }intsv%finalize()
-168         \textcolor{keyword}{deallocate}(k1)
-169         \textcolor{keyword}{deallocate}(k2)
-170         \textcolor{keyword}{deallocate}(k3)
-171         \textcolor{keyword}{deallocate}(k4)
-172 \textcolor{keywordflow}{    end do}
-173 
+139     \textcolor{keywordtype}{class}(solver\_class), \textcolor{keywordtype}{intent(inout)} :: self
+140     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(inout)} :: sv
+141     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+142     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+143     \textcolor{keywordtype}{type}(stateVector\_class) :: intSv
+144     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: k1, k2, k3, k4
+145     \textcolor{keywordtype}{integer} :: i
+146 
+147     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(sv)
+148         \textcolor{comment}{!creating intermediate step state vectors}
+149         \textcolor{keyword}{call }sv(i)%copyState(intsv)
+150         \textcolor{keyword}{allocate}(k1(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+151         \textcolor{keyword}{allocate}(k2(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+152         \textcolor{keyword}{allocate}(k3(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+153         \textcolor{keyword}{allocate}(k4(\textcolor{keyword}{size}(sv(i)%state, 1), \textcolor{keyword}{size}(sv(i)%state, 2)))
+154         \textcolor{comment}{!1st step}
+155         k1 = self%Kernel%run(sv(i), bdata, time, dt)*dt
+156         intsv%state = sv(i)%state + k1*0.5
+157         \textcolor{comment}{!2nd step}
+158         k2 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt
+159         intsv%state = sv(i)%state + k2*0.5
+160         \textcolor{comment}{!3rd step}
+161         k3 = self%Kernel%run(intsv, bdata, time + 0.5*dt, dt)*dt
+162         intsv%state = sv(i)%state + k3
+163         \textcolor{comment}{!4th step}
+164         k4 = self%Kernel%run(intsv, bdata, time + dt, dt)*dt
+165         \textcolor{comment}{!computing the new state}
+166         sv(i)%state = sv(i)%state + (k1 + 2.0*k2 + 2.0*k3 + k4)/6.0
+167         \textcolor{comment}{!deallocating}
+168         \textcolor{keyword}{call }intsv%finalize()
+169         \textcolor{keyword}{deallocate}(k1)
+170         \textcolor{keyword}{deallocate}(k2)
+171         \textcolor{keyword}{deallocate}(k3)
+172         \textcolor{keyword}{deallocate}(k4)
+173 \textcolor{keywordflow}{    end do}
+174 
 \end{DoxyCode}

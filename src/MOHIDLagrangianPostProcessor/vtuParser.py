@@ -14,12 +14,12 @@ class VTUParser:
         reader = vtk.vtkXMLUnstructuredGridReader()
         reader.SetFileName(self.fileName)
         reader.Update()
-        nvars = reader.GetOutput().GetNumberOfArrays()
+        nvars = reader.GetOutput().GetPointData().GetNumberOfArrays()
         for i in range(0,nvars):
-            self.part_vars.append().GetArrayName(i)
+            self.part_vars.append(reader.GetOutput().GetPointData().GetArrayName(i))
         if var == 'coords':
             vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
-        if var in self.part_vars:
+        elif var in self.part_vars:
             vtu_vars = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
         return vtu_vars
     

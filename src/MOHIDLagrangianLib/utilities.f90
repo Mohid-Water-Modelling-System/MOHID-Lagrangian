@@ -58,7 +58,7 @@
     !> @brief
     !> Function that returns a real with a time in seconds of a given date
     !> string, counting from a given date.
-    !> @param[in] self, dateStr
+    !> @param[in] self, dateStr, RefDate
     !---------------------------------------------------------------------------
     real(prec) function getRelativeTimeFromString(self, dateStr, RefDate)
     class(utils_class), intent(in) :: self
@@ -178,7 +178,7 @@
     !> @brief
     !> Returns a vector in meters given an array in
     !> geographical coordinates (lon, lat, z) and a lattitude
-    !> @param[in] self, geovec, lat
+    !> @param[in] self, geovec
     !---------------------------------------------------------------------------
     elemental type(vector) function geo2m_vecFull(self, geovec)
     class(utils_class), intent(in) :: self
@@ -197,7 +197,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns an array of coordinates converted to degrees. 
-    !> @param[in] self, geovec, lat, component
+    !> @param[in] self, geovec, lat, isLat
     !---------------------------------------------------------------------------
     function geo2m_comp(self, geovec, lat, isLat)
     class(utils_class), intent(in) :: self
@@ -219,7 +219,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Returns an array of coordinates converted to degrees. 
-    !> @param[in] self, geovec, lat, component
+    !> @param[in] self, geovec, lat, isLat
     !---------------------------------------------------------------------------
     function geo2m_compSingle(self, geovec, lat, isLat)
     class(utils_class), intent(in) :: self
@@ -261,7 +261,7 @@
     !> @brief
     !> Returns a vector in geographical coordinates
     !> (lon, lat, z) given an array in meters and a lattitude
-    !> @param[in] self, mvec, lat
+    !> @param[in] self, mvec
     !---------------------------------------------------------------------------
     elemental type(vector) function m2geo_vecFull(self, mvec)
     class(utils_class), intent(in) :: self
@@ -280,7 +280,7 @@
     !> @brief
     !> Returns a vector in geographical coordinates
     !> (lon, lat, z) given an array in meters and a lattitude
-    !> @param[in] self, mvec, lat
+    !> @param[in] self, mvec, lat, component
     !---------------------------------------------------------------------------
     function m2geo_comp(self, mvec, lat, component)
     class(utils_class), intent(in) :: self
@@ -363,7 +363,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Logical function that checks if a number is bounded between 2 values
-    !> @param[in] self, nums, minBound, maxBound
+    !> @param[in] self, nums, minBound, maxBound, eta
     !---------------------------------------------------------------------------
     logical function isBoundedSingle(self, nums, minBound, maxBound, eta)
     class(utils_class), intent(in) :: self
@@ -381,7 +381,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Logical function that checks if a set of numbers are bounded between 2 values
-    !> @param[in] self, nums, minBound, maxBound
+    !> @param[in] self, nums, minBound, maxBound, eta
     !---------------------------------------------------------------------------
     logical function isBoundedArray(self, nums, minBound, maxBound, eta)
     class(utils_class), intent(in) :: self

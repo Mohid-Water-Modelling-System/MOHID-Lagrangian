@@ -15,7 +15,7 @@ type \mbox{\hyperlink{structsources__mod_1_1source__stencil}{sources\+\_\+mod\+:
 \begin{DoxyCompactList}\small\item\em Type -\/ holder for the tracer creation stencil of the source. \end{DoxyCompactList}\item 
 type \mbox{\hyperlink{structsources__mod_1_1source__class}{sources\+\_\+mod\+::source\+\_\+class}}
 \begin{DoxyCompactList}\small\item\em Type -\/ The source class. \end{DoxyCompactList}\item 
-type \mbox{\hyperlink{structsources__mod_1_1source__group__class}{sources\+\_\+mod\+::source\+\_\+group\+\_\+class}}
+type \mbox{\hyperlink{structsources__mod_1_1sourcearray__class}{sources\+\_\+mod\+::sourcearray\+\_\+class}}
 \end{DoxyCompactItemize}
 \subsection*{Modules}
 \begin{DoxyCompactItemize}
@@ -30,18 +30,28 @@ subroutine \mbox{\hyperlink{namespacesources__mod_a6da3303e5c39d77c0111ec50623bf
 subroutine \mbox{\hyperlink{namespacesources__mod_aee745aa084adcfa41ecfc3469b90aa8e}{sources\+\_\+mod\+::killsources}} (self)
 \begin{DoxyCompactList}\small\item\em source group destructor -\/ deallocates sources objects \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesources__mod_a683ca7e4aca7a0050aad9f506569fca9}{sources\+\_\+mod\+::linkproperty}} (src, ptype, pname)
-\begin{DoxyCompactList}\small\item\em source property setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em source property setting procedure -\/ initializes Source variables \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesources__mod_aa76f16f8ee96bc86b553aa54d420321c}{sources\+\_\+mod\+::setpropertynames}} (self, srcid\+\_\+str, ptype, pname)
 \begin{DoxyCompactList}\small\item\em source property setting routine, calls source by id to set its properties \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesources__mod_abbb4557b46c533439fe258cecf31a76c}{sources\+\_\+mod\+::setpropertyatributes}} (src, pname, pvalue)
+subroutine \mbox{\hyperlink{namespacesources__mod_a9c2faf82364c7af60abc1ec25b23c7b5}{sources\+\_\+mod\+::setpropertynumber}} (src, n\+Props)
+\begin{DoxyCompactList}\small\item\em Allocates the space for the properties. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a2b7d1a3856735fdb0fb4ff142e38668d}{sources\+\_\+mod\+::setpropertyatribute}} (src, i, p\+Name, p\+Value)
+\begin{DoxyCompactList}\small\item\em source property atribute setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_ac486d29030348958c06dfebd8ddc0d5e}{sources\+\_\+mod\+::setpropertybaseatribute}} (src, pname, pvalue)
 \begin{DoxyCompactList}\small\item\em source property atribute setting proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesources__mod_a6fcfcb690cd1b9375915b01f7ddbe801}{sources\+\_\+mod\+::check}} (self)
 \begin{DoxyCompactList}\small\item\em Method that checks for the consistency of the Source properties. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesources__mod_af7fab14b56573184d5ca4371409118b0}{sources\+\_\+mod\+::setvariablerate}} (self, filename)
-\begin{DoxyCompactList}\small\item\em Method that reads a csv file with variable emission rate data, allocates the space, and stores the data in the Source. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesources__mod_a0d56083fdc0453f03f9dfdb24f704ac4}{sources\+\_\+mod\+::getvariablerate}} (self, index)
+subroutine \mbox{\hyperlink{namespacesources__mod_a66fda4b5042b49bb82d085166c06fcb9}{sources\+\_\+mod\+::getvariablerate}} (self, filename, rate\+Scale)
+\begin{DoxyCompactList}\small\item\em Method that reads a file with variable emission rate data, allocates the space, and stores the data in the Source. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_a2777c01e39726d0acdafa7dabd8c1a6d}{sources\+\_\+mod\+::setvariablerate}} (self, index)
 \begin{DoxyCompactList}\small\item\em Method that sets the rate for the current time step, in case of a variable rate. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesources__mod_aef3551e97236f03fc73fcf77276bb318}{sources\+\_\+mod\+::initializesource}} (src, id, name, emitting\+\_\+rate, emitting\+\_\+fixed\+\_\+rate, rate\+\_\+file, start, finish, source\+\_\+geometry, shapetype)
+subroutine \mbox{\hyperlink{namespacesources__mod_a1d419dd3048cff4cba05de4dd05b6556}{sources\+\_\+mod\+::getvariableposition}} (self, filename)
+\begin{DoxyCompactList}\small\item\em Method that reads a file with variable position data, allocates the space, and stores the data in the Source. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_ace7df80935a9daf416ecebad865f6b69}{sources\+\_\+mod\+::setvariableposition}} (self, index)
+\begin{DoxyCompactList}\small\item\em Method that sets the position for the current time step, in case of a variable position. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_af1e3a9c32dc0c7dbea57d1b05183a696}{sources\+\_\+mod\+::setactivetimes}} (self, active\+Times)
+\begin{DoxyCompactList}\small\item\em Method that sets active times logical array of the Source. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacesources__mod_abbddcd8606c9bf9463ffe6eaf1e9cbfd}{sources\+\_\+mod\+::initializesource}} (src, id, name, emitting\+\_\+rate, emitting\+\_\+fixed\+\_\+rate, rate\+\_\+file, rate\+Scale, posi\+\_\+fixed, posi\+\_\+file, active\+Times, source\+\_\+geometry, shapetype, res)
 \begin{DoxyCompactList}\small\item\em source inititialization proceadure -\/ initializes Source variables \end{DoxyCompactList}\item 
 logical function \mbox{\hyperlink{namespacesources__mod_ac4e4f33da78d030e1b56a48789da6a05}{sources\+\_\+mod\+::isparticulate}} (self)
 \begin{DoxyCompactList}\small\item\em Returns particulate status of this Source, i.\+e, true if the emitted Tracers are actually a collection of particles with an evolving concentration. \end{DoxyCompactList}\item 
@@ -52,5 +62,5 @@ subroutine \mbox{\hyperlink{namespacesources__mod_a641fe9ecc295e486a714c1aaa133d
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-type(source\+\_\+group\+\_\+class), public \mbox{\hyperlink{namespacesources__mod_ab04ea8c02cdf83a1a356c8710ae811d5}{sources\+\_\+mod\+::tempsources}}
+type(sourcearray\+\_\+class), public \mbox{\hyperlink{namespacesources__mod_adafecf0cf9ade0b7a85421a5801a920e}{sources\+\_\+mod\+::tempsources}}
 \begin{DoxyCompactList}\small\item\em Temporary Source array, used exclusively for building the case from a description file. \end{DoxyCompactList}\end{DoxyCompactItemize}

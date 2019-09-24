@@ -48,7 +48,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that parses a MOHID time series file and stores the data internaly.
-    !> @param[in] self, filename
+    !> @param[in] self, filename, varList
     !---------------------------------------------------------------------------
     subroutine getFile(self, filename, varList)
     class(mTimeSeriesParser_class), intent(inout) :: self

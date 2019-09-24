@@ -4,6 +4,7 @@ var structfieldtypes__mod_1_1generic__field__class =
     [ "concatenate", "structfieldtypes__mod_1_1generic__field__class.html#a6424e68038376c898b08883fe1ed1304", null ],
     [ "delgfield", "structfieldtypes__mod_1_1generic__field__class.html#a14b5aa7f77712f703849552381484eed", null ],
     [ "finalize", "structfieldtypes__mod_1_1generic__field__class.html#ab787d81bd092318c61cb43fe0b255dca", null ],
+    [ "getgfield", "structfieldtypes__mod_1_1generic__field__class.html#a7f87f8c7bbef845b3164831b369c752e", null ],
     [ "getgfieldtype", "structfieldtypes__mod_1_1generic__field__class.html#a293a405922469cfc6e2fd61401a0bac7", null ],
     [ "initialize", "structfieldtypes__mod_1_1generic__field__class.html#a0fa61024cf22776788544cf848d767d7", null ],
     [ "inits1d", "structfieldtypes__mod_1_1generic__field__class.html#a6a077022127f5450a2e77c034704ad2d", null ],

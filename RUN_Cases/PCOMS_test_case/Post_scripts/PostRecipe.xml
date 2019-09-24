@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<postProcessing>
+	<EulerianMeasures>
+		<measures>
+			<field key = "residence_time"/>
+		</measures>
+		<gridDefinition>
+			<units value= "relative"/>
+			<resolution x="150" y="500" z="1"/>
+		</gridDefinition>
+	</EulerianMeasures>
+	<convertFiles>
+		<format key="hdf5"/>
+	</convertFiles>
+</postProcessing>

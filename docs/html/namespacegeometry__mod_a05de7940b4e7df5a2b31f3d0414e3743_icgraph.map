@@ -1,3 +1,4 @@
 <map id="geometry_mod::sphere_np_count" name="geometry_mod::sphere_np_count">
 <area shape="rect" id="node2" href="$namespacegeometry__mod.html#ad790edd694561b33dad20cfa3a14e8f2" title="method to get the number of points that fill a given geometry " alt="" coords="208,13,360,39"/>
+<area shape="rect" id="node3" href="$namespacegeometry__mod.html#a12f7679eb15f32630680f2b8504827b3" title="returns an array of points that fill a given shape " alt="" coords="408,13,589,39"/>
 </map>

@@ -27,11 +27,12 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="18" name="ReleaseBox1" />
+				<resolution x="150" y="150" z="15" units_comment="metres (m)"/>
 				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
-					<point x="-8.95" y="42.10" z="-1" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="1.0" units_comment="metres (m)"/>
+					<point x="-8.95" y="42.10" z="-2.0" units_comment="(deg,deg,m)"/>
+					<size x="100000" y="100000" z="2.0" units_comment="metres (m)"/>
 				</box>
 			</source>
 			<source>

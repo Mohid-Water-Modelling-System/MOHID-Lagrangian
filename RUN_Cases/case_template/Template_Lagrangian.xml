@@ -14,6 +14,13 @@
 		<variableNaming>
 			<file name="ncNamesLibrary_case1.xml"/>
 		</variableNaming>
+		<outputFields>
+			<file name="data/outputFields.xml"/>
+		</outputFields>
+		<postProcessing>
+			<file name="postProcessing/PostRecipe.xml"/>
+			<!-- <file name="postProcessing/PostRecipe2.xml"/> -->
+		</postProcessing>
 	</execution>
 	<caseDefinitions>
 		<inputData>
@@ -21,6 +28,7 @@
 			<inputDataDir name="nc_fields/currents/case12" type="hydrodynamic"/>
 			<inputDataDir name="nc_fields/currents/case13" type="waves"/>
 			<inputDataDir name="nc_fields/currents/case14" type="meteorology"/>
+			<inputDataDir name="nc_fields/WQ/fileBla" type="waterProperties"/>
 		</inputData>
 		<simulation>
 			<resolution x="50" y="200" z="10" units_comment="metres (m)"/>

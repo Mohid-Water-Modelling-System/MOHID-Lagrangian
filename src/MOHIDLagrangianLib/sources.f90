@@ -222,7 +222,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source property atribute setting proceadure - initializes Source variables
-    !> @param[in] src, pname, pvalue
+    !> @param[in] src, i, pName, pValue
     !---------------------------------------------------------------------------
     subroutine setPropertyAtribute(src, i, pName, pValue)
     class(source_class), intent(inout) :: src
@@ -290,7 +290,7 @@
     !> @brief
     !> Method that reads a file with variable emission rate data, allocates
     !> the space, and stores the data in the Source.
-    !> @param[in] self, filename
+    !> @param[in] self, filename, rateScale
     !---------------------------------------------------------------------------
     subroutine getVariableRate(self, filename, rateScale)
     class(source_class), intent(inout) :: self
@@ -476,7 +476,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source inititialization proceadure - initializes Source variables
-    !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, start, finish, source_geometry, shapetype
+    !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, shapetype, res
     !---------------------------------------------------------------------------
     subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, shapetype, res)
     class(source_class) :: src

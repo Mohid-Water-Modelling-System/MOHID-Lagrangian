@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -123,7 +123,10 @@ Data Types</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - sphere class.  <a href="structgeometry__mod_1_1sphere.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeometry__mod_1_1box.html">geometry_mod::box</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - point class.  <a href="structgeometry__mod_1_1box.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - box class.  <a href="structgeometry__mod_1_1box.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgeometry__mod_1_1polygon.html">geometry_mod::polygon</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type - polygon class.  <a href="structgeometry__mod_1_1polygon.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -146,9 +149,9 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:ad790edd694561b33dad20cfa3a14e8f2"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#ad790edd694561b33dad20cfa3a14e8f2">geometry_mod::fillsize</a> (self, shapetype, dp)</td></tr>
 <tr class="memdesc:ad790edd694561b33dad20cfa3a14e8f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to get the number of points that fill a given geometry  <a href="namespacegeometry__mod.html#ad790edd694561b33dad20cfa3a14e8f2">More...</a><br /></td></tr>
 <tr class="separator:ad790edd694561b33dad20cfa3a14e8f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d97564e04562532b5389bfb91aa676b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a1d97564e04562532b5389bfb91aa676b">geometry_mod::fill</a> (self, shapetype, dp, fillsize, ptlist)</td></tr>
-<tr class="memdesc:a1d97564e04562532b5389bfb91aa676b"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to get the list of points that fill a given geometry  <a href="namespacegeometry__mod.html#a1d97564e04562532b5389bfb91aa676b">More...</a><br /></td></tr>
-<tr class="separator:a1d97564e04562532b5389bfb91aa676b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12f7679eb15f32630680f2b8504827b3"><td class="memItemLeft" align="right" valign="top">type(vector) function, dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a12f7679eb15f32630680f2b8504827b3">geometry_mod::getfillpoints</a> (self, shapetype, dp)</td></tr>
+<tr class="memdesc:a12f7679eb15f32630680f2b8504827b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns an array of points that fill a given shape  <a href="namespacegeometry__mod.html#a12f7679eb15f32630680f2b8504827b3">More...</a><br /></td></tr>
+<tr class="separator:a12f7679eb15f32630680f2b8504827b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a38edbff02aa0ff5f16a16c39bf778e"><td class="memItemLeft" align="right" valign="top">type(vector) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a4a38edbff02aa0ff5f16a16c39bf778e">geometry_mod::getcenter</a> (self, shapetype)</td></tr>
 <tr class="memdesc:a4a38edbff02aa0ff5f16a16c39bf778e"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to get the baricenter of a given geometry  <a href="namespacegeometry__mod.html#a4a38edbff02aa0ff5f16a16c39bf778e">More...</a><br /></td></tr>
 <tr class="separator:a4a38edbff02aa0ff5f16a16c39bf778e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,21 +161,39 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a524c5d28a80fb6729b102126485605ce"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a524c5d28a80fb6729b102126485605ce">geometry_mod::getnumpoints</a> (self, shapetype)</td></tr>
 <tr class="memdesc:a524c5d28a80fb6729b102126485605ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">method the points defining a given geometry  <a href="namespacegeometry__mod.html#a524c5d28a80fb6729b102126485605ce">More...</a><br /></td></tr>
 <tr class="separator:a524c5d28a80fb6729b102126485605ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41e0a6999c6edccb70fe20ec80d32709"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a41e0a6999c6edccb70fe20ec80d32709">geometry_mod::setboundingbox</a> (self, zMin, zMax)</td></tr>
+<tr class="memdesc:a41e0a6999c6edccb70fe20ec80d32709"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to set the bounding box of a polygon  <a href="namespacegeometry__mod.html#a41e0a6999c6edccb70fe20ec80d32709">More...</a><br /></td></tr>
+<tr class="separator:a41e0a6999c6edccb70fe20ec80d32709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee5a288df947e30d7e46c37a2f7ca9d2"><td class="memItemLeft" align="right" valign="top">type(polygon) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#aee5a288df947e30d7e46c37a2f7ca9d2">geometry_mod::getmetricpolygon</a> (self)</td></tr>
+<tr class="memdesc:aee5a288df947e30d7e46c37a2f7ca9d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns a polygon in metric units, centered at the origin  <a href="namespacegeometry__mod.html#aee5a288df947e30d7e46c37a2f7ca9d2">More...</a><br /></td></tr>
+<tr class="separator:aee5a288df947e30d7e46c37a2f7ca9d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed4426181ca851b41717edd50268e5f3"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#aed4426181ca851b41717edd50268e5f3">geometry_mod::printgeometry</a> (self, shapetype)</td></tr>
 <tr class="memdesc:aed4426181ca851b41717edd50268e5f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">method to print the details of a given geometry  <a href="namespacegeometry__mod.html#aed4426181ca851b41717edd50268e5f3">More...</a><br /></td></tr>
 <tr class="separator:aed4426181ca851b41717edd50268e5f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14008da67dcaf75e468b4487f0d96ef4"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a14008da67dcaf75e468b4487f0d96ef4">geometry_mod::setpolygon</a> (self, poly, fileName, zMin_str, zMax_str)</td></tr>
+<tr class="memdesc:a14008da67dcaf75e468b4487f0d96ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a polygon from a given file.  <a href="namespacegeometry__mod.html#a14008da67dcaf75e468b4487f0d96ef4">More...</a><br /></td></tr>
+<tr class="separator:a14008da67dcaf75e468b4487f0d96ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05de7940b4e7df5a2b31f3d0414e3743"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a05de7940b4e7df5a2b31f3d0414e3743">geometry_mod::sphere_np_count</a> (dp, r)</td></tr>
 <tr class="memdesc:a05de7940b4e7df5a2b31f3d0414e3743"><td class="mdescLeft">&#160;</td><td class="mdescRight">private function that returns the number of points distributed on a grid with spacing dp inside a sphere  <a href="namespacegeometry__mod.html#a05de7940b4e7df5a2b31f3d0414e3743">More...</a><br /></td></tr>
 <tr class="separator:a05de7940b4e7df5a2b31f3d0414e3743"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c03a4ea3de6763940396dbeb3908ebc"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a6c03a4ea3de6763940396dbeb3908ebc">geometry_mod::sphere_grid</a> (dp, r, np, ptlist)</td></tr>
-<tr class="memdesc:a6c03a4ea3de6763940396dbeb3908ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">private routine that returns the points distributed on a grid with spacing dp inside a sphere  <a href="namespacegeometry__mod.html#a6c03a4ea3de6763940396dbeb3908ebc">More...</a><br /></td></tr>
-<tr class="separator:a6c03a4ea3de6763940396dbeb3908ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaffceaeb22689f0aaee4568c662f192a"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#aaffceaeb22689f0aaee4568c662f192a">geometry_mod::polygonnpcount</a> (dp, polyIn)</td></tr>
+<tr class="memdesc:aaffceaeb22689f0aaee4568c662f192a"><td class="mdescLeft">&#160;</td><td class="mdescRight">private function that returns the number of points distributed on a grid with spacing dp inside a polygon  <a href="namespacegeometry__mod.html#aaffceaeb22689f0aaee4568c662f192a">More...</a><br /></td></tr>
+<tr class="separator:aaffceaeb22689f0aaee4568c662f192a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4862bb9e5bbc62fd581a34c4249b84d1"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a4862bb9e5bbc62fd581a34c4249b84d1">geometry_mod::polygongrid</a> (dp, polyIn, ptlist)</td></tr>
+<tr class="memdesc:a4862bb9e5bbc62fd581a34c4249b84d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">private routine that returns the points distributed on a grid with spacing dp inside a polygon  <a href="namespacegeometry__mod.html#a4862bb9e5bbc62fd581a34c4249b84d1">More...</a><br /></td></tr>
+<tr class="separator:a4862bb9e5bbc62fd581a34c4249b84d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b4ea4b26bc4f50dbfa3ba8b1d3fb2f2"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a9b4ea4b26bc4f50dbfa3ba8b1d3fb2f2">geometry_mod::sphere_grid</a> (dp, centerPt, r, np, ptlist)</td></tr>
+<tr class="memdesc:a9b4ea4b26bc4f50dbfa3ba8b1d3fb2f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">private routine that returns the points distributed on a grid with spacing dp inside a sphere  <a href="namespacegeometry__mod.html#a9b4ea4b26bc4f50dbfa3ba8b1d3fb2f2">More...</a><br /></td></tr>
+<tr class="separator:a9b4ea4b26bc4f50dbfa3ba8b1d3fb2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae87e4ecff2d21a839da2b82919b5fd0b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#ae87e4ecff2d21a839da2b82919b5fd0b">geometry_mod::box_grid</a> (dp, size, np, ptlist)</td></tr>
 <tr class="memdesc:ae87e4ecff2d21a839da2b82919b5fd0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">private routine that returns the points distributed on a grid with spacing dp inside a box  <a href="namespacegeometry__mod.html#ae87e4ecff2d21a839da2b82919b5fd0b">More...</a><br /></td></tr>
 <tr class="separator:ae87e4ecff2d21a839da2b82919b5fd0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcb09c0f5274c27cb79b0dd009ed94b3"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#abcb09c0f5274c27cb79b0dd009ed94b3">geometry_mod::line_grid</a> (dp, dist, np, ptlist)</td></tr>
-<tr class="memdesc:abcb09c0f5274c27cb79b0dd009ed94b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">private routine that returns the points distributed on a grid with spacing dp along a line  <a href="namespacegeometry__mod.html#abcb09c0f5274c27cb79b0dd009ed94b3">More...</a><br /></td></tr>
-<tr class="separator:abcb09c0f5274c27cb79b0dd009ed94b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48e38bde8ea77f5e1bb42d3fa2c85037"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a48e38bde8ea77f5e1bb42d3fa2c85037">geometry_mod::line_grid</a> (dist, np, ptlist)</td></tr>
+<tr class="memdesc:a48e38bde8ea77f5e1bb42d3fa2c85037"><td class="mdescLeft">&#160;</td><td class="mdescRight">private routine that returns the points distributed on a grid with spacing dp along a line  <a href="namespacegeometry__mod.html#a48e38bde8ea77f5e1bb42d3fa2c85037">More...</a><br /></td></tr>
+<tr class="separator:a48e38bde8ea77f5e1bb42d3fa2c85037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51bc27aa95191008da7496c7b67b1bf4"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegeometry__mod.html#a51bc27aa95191008da7496c7b67b1bf4">geometry_mod::pointinpolygon</a> (pt, poly, zmin, zmax)</td></tr>
+<tr class="memdesc:a51bc27aa95191008da7496c7b67b1bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">private function that returns true for a point in a polygon, assumed regular on the vertical coordinate  <a href="namespacegeometry__mod.html#a51bc27aa95191008da7496c7b67b1bf4">More...</a><br /></td></tr>
+<tr class="separator:a51bc27aa95191008da7496c7b67b1bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>

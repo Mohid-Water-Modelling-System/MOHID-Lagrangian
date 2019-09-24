@@ -12,7 +12,7 @@ import xarray as xr
 def MOHIDCurvilinearCorrect(MOHID_file, outdir, modified_suffix='_m'):
     # set decode_cf to False
     # Value error related to multiple _fill_value appears.
-    ds = xr.open_dataset(MOHID_file,decode_cf=False)
+    ds = xr.open_dataset(MOHID_file,decode_cf=True)
     ds['line_c'] = ds.lat[:,0]
     ds['column_c'] = ds.lon[0,:]
     ds=ds.drop(['lat','lon'])

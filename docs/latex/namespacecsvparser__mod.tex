@@ -13,17 +13,16 @@ type \mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+c
 \subsection*{Functions/\+Subroutines}
 \begin{DoxyCompactItemize}
 \item 
-subroutine \mbox{\hyperlink{namespacecsvparser__mod_aa200ea4f5e06c67f7a627af0a70450a6}{getfile}} (self, csvdoc, csvfilename, header\+\_\+row)
+subroutine \mbox{\hyperlink{namespacecsvparser__mod_abb79b5f7cda09a8a89eb9c5cb3fb126c}{getfile}} (self, csvfilename, header\+\_\+row)
+\begin{DoxyCompactList}\small\item\em Method that parses a csv file and returns the file with the data. Gets and trashes the header. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacecsvparser__mod_aa7dbe42af8b97daccf58fc7be9939f60}{getdatabylabel}} (self, data\+Name, data\+\_\+out)
+\begin{DoxyCompactList}\small\item\em Method that gets data from a column of a csV file, given a string with a variable name. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacecsvparser__mod_a29e2d40db736b6ff9fb100ef316e0ebe}{getfiletofileobject}} (self, csvdoc, csvfilename, header\+\_\+row)
 \begin{DoxyCompactList}\small\item\em Method that parses a csv file and returns the file with the data. Gets and trashes the header. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacecsvparser__mod_ae966faafebb8c4035e12e0bb24de717c}{getcolumn}} (self, csvdoc, csvfilename, column, data\+\_\+out)
 \begin{DoxyCompactList}\small\item\em Method that gets data from a column of a .csv file. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacecsvparser__mod_a8f56a69c948d139a3e9c88476f25305d}{closefile}} (self, csvdoc)
 \begin{DoxyCompactList}\small\item\em Method that closes a .csv file. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\subsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-type(\mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+class}}), public \mbox{\hyperlink{namespacecsvparser__mod_ab6217ec53c20650314f678ba29d4c105}{csvreader}}
-\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -55,13 +54,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 99 of file csv\+Parser.\+f90.
+Definition at line 205 of file csv\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-99     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-100     \textcolor{keywordtype}{type}(csv\_file), \textcolor{keywordtype}{intent(inout)} :: csvdoc
-101     \textcolor{keyword}{call }csvdoc%destroy()
+205     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+206     \textcolor{keywordtype}{type}(csv\_file), \textcolor{keywordtype}{intent(inout)} :: csvdoc
+207     \textcolor{keyword}{call }csvdoc%destroy()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacecsvparser__mod_ae966faafebb8c4035e12e0bb24de717c}\label{namespacecsvparser__mod_ae966faafebb8c4035e12e0bb24de717c}} 
 \index{csvparser\+\_\+mod@{csvparser\+\_\+mod}!getcolumn@{getcolumn}}
@@ -83,31 +82,162 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 76 of file csv\+Parser.\+f90.
+Definition at line 182 of file csv\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-76     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-77     \textcolor{keywordtype}{type}(csv\_file), \textcolor{keywordtype}{intent(inout)} :: csvdoc
-78     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: csvfilename
-79     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: column
-80     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: data\_out
-81     \textcolor{keywordtype}{logical} :: status
-82     \textcolor{keywordtype}{type}(string) :: outext
-83     \textcolor{keyword}{call }csvdoc%get(column, data\_out, status)
-84     \textcolor{keywordflow}{if} (status .eqv. .false.) \textcolor{keywordflow}{then}
-85         outext = column
-86         outext = \textcolor{stringliteral}{'[CSVReader::getFile]: Cannot get data from column'}// outext //\textcolor{stringliteral}{' .csv file '}// csvfilename
-       //\textcolor{stringliteral}{', stoping'}
-87         \textcolor{keyword}{call }log%put(outext)
-88         stop
-89 \textcolor{keywordflow}{    end if}
+182     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+183     \textcolor{keywordtype}{type}(csv\_file), \textcolor{keywordtype}{intent(inout)} :: csvdoc
+184     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: csvfilename
+185     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: column
+186     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: data\_out
+187     \textcolor{keywordtype}{logical} :: status
+188     \textcolor{keywordtype}{type}(string) :: outext
+189     \textcolor{keyword}{call }csvdoc%get(column, data\_out, status)
+190     \textcolor{keywordflow}{if} (status .eqv. .false.) \textcolor{keywordflow}{then}
+191         outext = column
+192         outext = \textcolor{stringliteral}{'[csvparser\_class::getFile]: Cannot get data from column'}// outext //\textcolor{stringliteral}{' .csv file '}// 
+      csvfilename //\textcolor{stringliteral}{', stoping'}
+193         \textcolor{keyword}{call }log%put(outext)
+194         stop
+195 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacecsvparser__mod_aa200ea4f5e06c67f7a627af0a70450a6}\label{namespacecsvparser__mod_aa200ea4f5e06c67f7a627af0a70450a6}} 
+\mbox{\Hypertarget{namespacecsvparser__mod_aa7dbe42af8b97daccf58fc7be9939f60}\label{namespacecsvparser__mod_aa7dbe42af8b97daccf58fc7be9939f60}} 
+\index{csvparser\+\_\+mod@{csvparser\+\_\+mod}!getdatabylabel@{getdatabylabel}}
+\index{getdatabylabel@{getdatabylabel}!csvparser\+\_\+mod@{csvparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getdatabylabel()}{getdatabylabel()}}
+{\footnotesize\ttfamily subroutine csvparser\+\_\+mod\+::getdatabylabel (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), intent(in)}]{data\+Name,  }\item[{real(prec), dimension(\+:), intent(out), allocatable}]{data\+\_\+out }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that gets data from a column of a csV file, given a string with a variable name. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,data\+Name,data\+\_\+out} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 131 of file csv\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+131     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+132     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: dataName
+133     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{intent(out)} :: data\_out
+134     \textcolor{keywordtype}{integer} :: idx
+135     \textcolor{keywordtype}{type}(string) :: outext
+136 
+137     idx = utils%find\_str(self%varName, dataname)
+138     \textcolor{keywordflow}{if} (idx == mv\_int) \textcolor{keywordflow}{then}
+139         outext = \textcolor{stringliteral}{'[csvparser\_class::getDataByLabel]: File '}//self%filename//\textcolor{stringliteral}{' doesn'}\textcolor{stringliteral}{'t list variable
+       representing '}//dataname//\textcolor{stringliteral}{', stoping'}
+140         \textcolor{keyword}{call }log%put(outext)
+141         stop
+142 \textcolor{keywordflow}{    end if}
+143     \textcolor{keyword}{allocate}(data\_out(\textcolor{keyword}{size}(self%dataMatrix,1)))
+144     data\_out = self%dataMatrix(:,idx)
+145 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacecsvparser__mod_abb79b5f7cda09a8a89eb9c5cb3fb126c}\label{namespacecsvparser__mod_abb79b5f7cda09a8a89eb9c5cb3fb126c}} 
 \index{csvparser\+\_\+mod@{csvparser\+\_\+mod}!getfile@{getfile}}
 \index{getfile@{getfile}!csvparser\+\_\+mod@{csvparser\+\_\+mod}}
 \subsubsection{\texorpdfstring{getfile()}{getfile()}}
-{\footnotesize\ttfamily subroutine csvparser\+\_\+mod\+::getfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(csv\+\_\+file), intent(inout)}]{csvdoc,  }\item[{type(string), intent(in)}]{csvfilename,  }\item[{integer, intent(in)}]{header\+\_\+row }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine csvparser\+\_\+mod\+::getfile (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{csvfilename,  }\item[{integer, intent(in)}]{header\+\_\+row }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Method that parses a csv file and returns the file with the data. Gets and trashes the header. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,csvfilename,header\+\_\+row} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 59 of file csv\+Parser.\+f90.
+
+
+\begin{DoxyCode}
+59     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(inout)} :: self
+60     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: csvfilename
+61     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: header\_row
+62     \textcolor{keywordtype}{character(len=30)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: header\_csv
+63     \textcolor{keywordtype}{type}(string) :: header, temp
+64     \textcolor{keywordtype}{type}(csv\_file) :: csvdoc
+65     \textcolor{keywordtype}{logical} :: status
+66     \textcolor{keywordtype}{integer} :: nColumns, nVals, i
+67     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: test\_data
+68     \textcolor{keywordtype}{type}(string) :: outext
+69 
+70     outext = \textcolor{stringliteral}{'-> Reading .csv file '}// csvfilename
+71     \textcolor{keyword}{call }log%put(outext)
+72     \textcolor{keyword}{call }csvdoc%read(csvfilename%chars(), header\_row=header\_row, status\_ok=status)
+73     \textcolor{keywordflow}{if} (status .eqv. .false.) \textcolor{keywordflow}{then}
+74         outext = \textcolor{stringliteral}{'[csvparser\_class::getFile]: Cannot open .csv file, supposedly at '}// csvfilename //\textcolor{stringliteral}{',
+       stoping'}
+75         \textcolor{keyword}{call }log%put(outext)
+76         stop
+77 \textcolor{keywordflow}{    end if}
+78     \textcolor{comment}{! get the header}
+79     \textcolor{keyword}{call }csvdoc%get\_header(header\_csv,status)
+80 
+81     \textcolor{comment}{!cleaning up the header and getting individual data labels}
+82     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(header\_csv)
+83         header = header // header\_csv(i)
+84 \textcolor{keywordflow}{    end do}
+85     temp = header%replace(old=\textcolor{stringliteral}{'!'}, new=\textcolor{stringliteral}{''})
+86     temp = temp%replace(old=\textcolor{stringliteral}{'  '}, new=\textcolor{stringliteral}{' '})
+87     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while} (temp/= header)
+88         header = temp
+89         temp = header%replace(old=\textcolor{stringliteral}{'  '}, new=\textcolor{stringliteral}{' '})
+90 \textcolor{keywordflow}{    end do}
+91     \textcolor{comment}{!spliting and storing in parser object}
+92     \textcolor{keyword}{call }header%split(tokens=self%varName, sep=\textcolor{stringliteral}{' '})
+93     ncolumns = \textcolor{keyword}{size}(self%varName)
+94     \textcolor{keyword}{call }csvdoc%get(1, test\_data, status)
+95     \textcolor{keywordflow}{if} (status .eqv. .false.) \textcolor{keywordflow}{then}
+96         outext = 1
+97         outext = \textcolor{stringliteral}{'[csvparser\_class::getFile]: Cannot get data from column'}// outext //\textcolor{stringliteral}{' .csv file '}// 
+      csvfilename //\textcolor{stringliteral}{', stoping'}
+98         \textcolor{keyword}{call }log%put(outext)
+99         stop
+100 \textcolor{keywordflow}{    end if}
+101     nvals = \textcolor{keyword}{size}(test\_data)
+102     \textcolor{keyword}{allocate}(self%dataMatrix(nvals, ncolumns))
+103     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dataMatrix,2)
+104         \textcolor{keyword}{call }csvdoc%get(i, test\_data, status)
+105         \textcolor{keywordflow}{if} (status .eqv. .false.) \textcolor{keywordflow}{then}
+106             outext = i
+107             outext = \textcolor{stringliteral}{'[csvparser\_class::getFile]: Cannot get data from column'}// outext //\textcolor{stringliteral}{' .csv file '}// 
+      csvfilename //\textcolor{stringliteral}{', stoping'}
+108             \textcolor{keyword}{call }log%put(outext)
+109             stop
+110 \textcolor{keywordflow}{        end if}
+111         self%dataMatrix(:,i) = test\_data
+112 \textcolor{keywordflow}{    end do}
+113     self%filename = csvfilename
+114 
+115     \textcolor{comment}{! print*, self%filename%chars()}
+116     \textcolor{comment}{! do i=1, size(self%varName)}
+117     \textcolor{comment}{!     print*, self%varName(i)%chars()}
+118     \textcolor{comment}{! end do}
+119     \textcolor{comment}{! print*, self%dataMatrix}
+120 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacecsvparser__mod_a29e2d40db736b6ff9fb100ef316e0ebe}\label{namespacecsvparser__mod_a29e2d40db736b6ff9fb100ef316e0ebe}} 
+\index{csvparser\+\_\+mod@{csvparser\+\_\+mod}!getfiletofileobject@{getfiletofileobject}}
+\index{getfiletofileobject@{getfiletofileobject}!csvparser\+\_\+mod@{csvparser\+\_\+mod}}
+\subsubsection{\texorpdfstring{getfiletofileobject()}{getfiletofileobject()}}
+{\footnotesize\ttfamily subroutine csvparser\+\_\+mod\+::getfiletofileobject (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+class}}), intent(in)}]{self,  }\item[{type(csv\+\_\+file), intent(inout)}]{csvdoc,  }\item[{type(string), intent(in)}]{csvfilename,  }\item[{integer, intent(in)}]{header\+\_\+row }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -123,40 +253,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 52 of file csv\+Parser.\+f90.
+Definition at line 156 of file csv\+Parser.\+f90.
 
 
 \begin{DoxyCode}
-52     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(in)} :: self
-53     \textcolor{keywordtype}{type}(csv\_file), \textcolor{keywordtype}{intent(inout)} :: csvdoc
-54     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: csvfilename
-55     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: header\_row
-56     \textcolor{keywordtype}{character(len=30)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: header
-57     \textcolor{keywordtype}{logical} :: status
-58     \textcolor{keywordtype}{type}(string) :: outext
-59     \textcolor{keyword}{call }csvdoc%read(csvfilename%chars(), header\_row=header\_row, status\_ok=status)
-60     \textcolor{keywordflow}{if} (status .eqv. .false.) \textcolor{keywordflow}{then}
-61         outext = \textcolor{stringliteral}{'[CSVReader::getFile]: Cannot open .csv file, supposedly at '}// csvfilename //\textcolor{stringliteral}{', stoping'}
-62         \textcolor{keyword}{call }log%put(outext)
-63         stop
-64 \textcolor{keywordflow}{    end if}
-65     \textcolor{comment}{! get the header}
-66     \textcolor{keyword}{call }csvdoc%get\_header(header,status)
-\end{DoxyCode}
-
-
-\subsection{Variable Documentation}
-\mbox{\Hypertarget{namespacecsvparser__mod_ab6217ec53c20650314f678ba29d4c105}\label{namespacecsvparser__mod_ab6217ec53c20650314f678ba29d4c105}} 
-\index{csvparser\+\_\+mod@{csvparser\+\_\+mod}!csvreader@{csvreader}}
-\index{csvreader@{csvreader}!csvparser\+\_\+mod@{csvparser\+\_\+mod}}
-\subsubsection{\texorpdfstring{csvreader}{csvreader}}
-{\footnotesize\ttfamily type(\mbox{\hyperlink{structcsvparser__mod_1_1csvparser__class}{csvparser\+\_\+class}}), public csvparser\+\_\+mod\+::csvreader}
-
-
-
-Definition at line 37 of file csv\+Parser.\+f90.
-
-
-\begin{DoxyCode}
-37     \textcolor{keywordtype}{type}(csvparser\_class) :: CSVReader
+156     \textcolor{keywordtype}{class}(csvparser\_class), \textcolor{keywordtype}{intent(in)} :: self
+157     \textcolor{keywordtype}{type}(csv\_file), \textcolor{keywordtype}{intent(inout)} :: csvdoc
+158     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: csvfilename
+159     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: header\_row
+160     \textcolor{keywordtype}{character(len=30)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: header
+161     \textcolor{keywordtype}{logical} :: status
+162     \textcolor{keywordtype}{type}(string) :: outext
+163     outext = \textcolor{stringliteral}{'-> Reading .csv file '}// csvfilename
+164     \textcolor{keyword}{call }log%put(outext)
+165     \textcolor{keyword}{call }csvdoc%read(csvfilename%chars(), header\_row=header\_row, status\_ok=status)
+166     \textcolor{keywordflow}{if} (status .eqv. .false.) \textcolor{keywordflow}{then}
+167         outext = \textcolor{stringliteral}{'[csvparser\_class::getFile]: Cannot open .csv file, supposedly at '}// csvfilename //\textcolor{stringliteral}{',
+       stoping'}
+168         \textcolor{keyword}{call }log%put(outext)
+169         stop
+170 \textcolor{keywordflow}{    end if}
+171     \textcolor{comment}{! get the header}
+172     \textcolor{keyword}{call }csvdoc%get\_header(header,status)
 \end{DoxyCode}
