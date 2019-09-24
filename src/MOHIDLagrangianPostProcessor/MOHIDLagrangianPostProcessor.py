@@ -407,9 +407,10 @@ class GridBasedMeasures:
         #When you alter the dimensions of the netcdf, you cannot overwrite the
         # netcdf. We ha create a new one without extension, remove the old one,
         # and rename the first one.
-        ds.to_netcdf(self.netcdf_output_file.replace('.nc',''))
+        nc_squeezed = self.netcdf_output_file.replace('.nc','')
+        ds.to_netcdf(nc_squeezed)
         os.remove(self.netcdf_output_file)
-        os.rename(self.netcdf_output_file + '.nc')
+        os.rename(nc_squeezed, nc_squeezed+'.nc')
         
 #    def age(self):#        
 #        print('--> Computing age on grid')       
