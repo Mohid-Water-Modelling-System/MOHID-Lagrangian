@@ -289,7 +289,46 @@ class GridBasedMeasures:
         
             if 'residence_time' in measures: self.writeResidence_time(counts_t, source)
             if 'concentrations' in measures: self.writeConcentrations(counts_t, source)
+        
+           r_idx = self.var_to_grid(source=source)
+    
+        
+    def var_to_grid(self,varname,source):
+        # counts 2d and 3d are splitted in two functions. 
+        nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
+        nt = self.time[self.timeMask].size
+        
+        i = 0
+        t = 0
+        for vtu_step in self.pvd_data.vtu_data:
+            if self.timeMask[t] == True:
+                r = vtu_step.points('coords')
+                var = vtu_step.points(varname)
+                if source != 'global':
+                    source_mask = vtu_step.points('source') == int(source)
+                    r = r[source_mask]
+                    var = var[source_mask]
+                    
+                # Find the indices of the box in each dimension
+                x_dig = np.digitize(r[:,0],self.grid['depth'])
+                y_dig = np.digitize(r[:,1],self.grid['latitude'])
+                z_dig = np.digitize(r[:,2],self.grid['longitude'])
                 
+                r_d = np.c_[x_dig,y_dig,z_dig]
+                
+                r_idx = to1D(r_d,nx,ny,nz)
+                n_counts = np.zeros((nt,nx*ny*nz))
+
+                for k in range(0,nx*ny*nz):
+                    n_counts[t,i] = np.mean(var[k==r_idx])
+                
+                i = i+1
+            t = t+1
+                             
+        return n_counts.reshape((nt,nz,ny,nx))
+        
+
+             
     def writeResidence_time(self,counts_t,source):        
         print('--> Computing residence time on grid for source:' + source)        
         # Read netcdf, compute concentrations, compute residence tiem
@@ -424,7 +463,19 @@ class GridBasedMeasures:
 #        if 'residence_time' in measures:
 #            self.writeResidence_time()
 
-        
+
+def to1D(ridx, ni,nj,nk):
+    return (ridx[:,2]* ni * nj) + (ridx[:,1] * ni) + ridx[:,0]
+
+
+def to3D(idx, ni,nj,nk):
+    k = np.int32(idx / (ni * nj))
+    idx = idx - (k * ni * nj)
+    j = np.int32(idx / ni)
+    i = idx % ni
+    return  np.c_[i, j, k]
+
+       
 def getRecipeListFromCase(xmlFile):
     recipeList =[]        
     #parsing case definition file
