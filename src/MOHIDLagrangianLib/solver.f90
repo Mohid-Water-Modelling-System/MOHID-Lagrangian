@@ -75,7 +75,7 @@
     !> explicit scheme with low computational cost. Implements
     !> \f$ {\vec {x}}_{t+\Delta t}={\vec {x}}_{t}+{\vec {v}}_{t}\Delta t+{\frac {1}{2}}{\vec {a}}({\vec {x}}_{t})\Delta t^{2}\f$
     !> \f$ {\vec {v}}_{t+\Delta t}={\vec {v}}_{t}+\frac{{\vec {a}}_{t+\Delta t}+{\vec {a}}_{t}}{2}\Delta t\f$
-    !> @param[in] self, state, bdata, time, dt
+    !> @param[in] self, sv, bdata, time, dt
     !---------------------------------------------------------------------------
     subroutine runStepEuler(self, sv, bdata, time, dt)
     class(solver_class), intent(inout) :: self
@@ -173,7 +173,6 @@
     end do
 
     end subroutine runStepRK4
-
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

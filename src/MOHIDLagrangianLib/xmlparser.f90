@@ -300,7 +300,7 @@
     !> @brief
     !> Method that retrieves a node from within a node.
     !> Returns a nullifyed pointer if not found, stops if mandatory.
-    !> @param[in] self, currentNode, targetNode, targetNodeName, read_flag, mandatory
+    !> @param[in] self, filename, vertex
     !---------------------------------------------------------------------------
     subroutine getPolygonFromKMZFile(self, filename, vertex)
     class(xmlparser_class), intent(in) :: self

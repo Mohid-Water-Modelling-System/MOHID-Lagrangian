@@ -329,7 +329,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> method to set the bounding box of a polygon
-    !> @param[in] self
+    !> @param[in] self, zMin, zMax
     !---------------------------------------------------------------------------
     subroutine setBoundingBox(self, zMin, zMax)
     class(polygon), intent(inout) :: self
@@ -359,7 +359,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> returns a polygon in metric units, centered at the origin
-    !> @param[in] self, shapetype
+    !> @param[in] self
     !---------------------------------------------------------------------------
     type(polygon) function getMetricPolygon(self)
     class(polygon), intent(in) :: self
@@ -719,7 +719,7 @@
     !> @brief
     !> private function that returns true for a point in a polygon, assumed
     !> regular on the vertical coordinate
-    !> @param[in] pt, poly
+    !> @param[in] pt, poly, zmin, zmax
     !---------------------------------------------------------------------------
     logical function pointInPolygon(pt, poly, zmin, zmax)
     type(vector), intent(in) :: pt

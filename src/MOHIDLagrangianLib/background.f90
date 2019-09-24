@@ -398,7 +398,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> returns an array witn a sliced dimension
-    !> @param[in] self, domain, time
+    !> @param[in] self, numDim, llbound, uubound
     !---------------------------------------------------------------------------
     function getSlabDim(self, numDim, llbound, uubound)
     class(background_class), intent(in) :: self

@@ -52,7 +52,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that runs the chosen interpolator method on the given data.
-    !> @param[in] self, state, bdata, time, var_dt, var_name
+    !> @param[in] self, state, bdata, time, var_dt, var_name, toInterp
     !---------------------------------------------------------------------------
     subroutine run(self, state, bdata, time, var_dt, var_name, toInterp)
     class(interpolator_class), intent(in) :: self
@@ -135,7 +135,7 @@
     !> divided into 16 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !> @param[in] self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
     function interp4D(self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
@@ -218,7 +218,7 @@
     !> divided into 4 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !> @param[in] self, x, y, t, out, field, n_fv, n_cv, n_tv, n_e
     !---------------------------------------------------------------------------
     function interp3D(self, x, y, t, out, field, n_fv, n_cv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
@@ -280,7 +280,7 @@
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array.
-    !> @param[in] self, xdata, bdata, dimName
+    !> @param[in] self, xdata, bdata, dimName, out
     !---------------------------------------------------------------------------
     function getArrayCoord(self, xdata, bdata, dimName, out)
     class(interpolator_class), intent(in) :: self
@@ -302,7 +302,7 @@
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array. Works only for regularly spaced data.
-    !> @param[in] self, xdata, bdata, dim
+    !> @param[in] self, xdata, bdata, dim, out
     !---------------------------------------------------------------------------
     function getArrayCoordRegular(self, xdata, bdata, dim, out)
     class(interpolator_class), intent(in) :: self
@@ -329,7 +329,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Returns the array coordinate of a point, along a given dimension.
-    !> @param[in] self, xdata, bdata, dim
+    !> @param[in] self, xdata, bdata, dim, out
     ! !---------------------------------------------------------------------------
     function getArrayCoordNonRegular(self, xdata, bdata, dim, out)
     class(interpolator_class), intent(in) :: self
@@ -413,7 +413,7 @@
     !> @brief
     !> Returns the array coordinate of a point, along a given dimension.
     !> Works only for regularly spaced data.
-    !> @param[in] self, xdata, bdata, dimName
+    !> @param[in] self, xdata, bdata, dimName, eta
     !---------------------------------------------------------------------------
     function getPointCoordRegular(self, xdata, bdata, dimName, eta)
     class(interpolator_class), intent(in) :: self

@@ -76,7 +76,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Checks if file should be read and sets appropriate flag
-    !> @param[in] self, bufferSize
+    !> @param[in] self, lastReadTime, bufferSize
     !---------------------------------------------------------------------------
     subroutine setReadStatus(self, lastReadTime, bufferSize)
     class(inputFileModel_class), intent(inout) :: self
@@ -343,6 +343,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Initializes the input writer object, imports metadata on input files
+    !> @param[in] self, blocks
     !---------------------------------------------------------------------------
     subroutine initInputStreamer(self, blocks)
     class(input_streamer_class), intent(inout) :: self

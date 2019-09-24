@@ -57,7 +57,7 @@
     !> @brief
     !> output streamer method to check if it is writ time, and call a 
     !> step writer. Assembles output file name and updates streamer data.
-    !> @param[in] self, blocks
+    !> @param[in] self, blocks, numTracers, simTimer
     !---------------------------------------------------------------------------
     subroutine WriteStep(self, blocks, numTracers, simTimer)
     class(output_streamer_class), intent(inout) :: self
@@ -81,7 +81,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Streamer method to call an appropriate writer.
-    !> @param[in] self, filename, blocks
+    !> @param[in] self, filename, numTracers, blocks, outputVars
     !---------------------------------------------------------------------------
     subroutine WriteStepSerial(self, filename, numTracers, blocks, outputVars)
     class(output_streamer_class), intent(inout) :: self
@@ -150,7 +150,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> writes log entry with data regarding current output
-    !> @param[in] self
+    !> @param[in] self, numTracers, simTimer, fileName
     !---------------------------------------------------------------------------
     subroutine writeOutputSummary(self, numTracers, simTimer, fileName)
     class(output_streamer_class), intent(in) :: self

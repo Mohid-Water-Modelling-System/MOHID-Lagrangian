@@ -354,7 +354,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Aging kernel. Sets the age variable to be updated by dt by the solver
-    !> @param[in] self
+    !> @param[in] self, sv
     !---------------------------------------------------------------------------
     function Aging(self, sv)
     class(kernel_class), intent(in) :: self
@@ -379,7 +379,7 @@
     !> instants to model diffusion processes. These are valid while the tracer
     !> travels a given mixing length, propotional to the resolution of the
     !> background (and its ability to resove motion scales)
-    !> @param[in] self, sv, bdata, time
+    !> @param[in] self, sv, bdata, time, dt
     !---------------------------------------------------------------------------
     function DiffusionMixingLength(self, sv, bdata, time, dt)
     class(kernel_class), intent(inout) :: self
@@ -484,7 +484,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Linear degradation kernel.
-    !> @param[in] self, sv, degRate
+    !> @param[in] self, sv
     !---------------------------------------------------------------------------
     function DegradationLinear(self, sv)
     class(kernel_class), intent(in) :: self
