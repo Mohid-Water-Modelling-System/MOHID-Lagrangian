@@ -46,6 +46,7 @@ import xarray as xr
 import os
 import sys
 import argparse
+from numba import jit
 #from scipy.interpolate import griddata
 
 # This environment variable avoids error on locking file when writing.
@@ -283,20 +284,29 @@ class GridBasedMeasures:
        
         return counts_t
     
-    def general_counting(self,measures):
+    def writeVars(self, measures):
+        
+        exclusions = ['residence_time', 'concentrations', 'velocity']
+        
         for source in self.sources['id'].keys():
             counts_t = self.counts(source=source)
-        
             if 'residence_time' in measures: self.writeResidence_time(counts_t, source)
             if 'concentrations' in measures: self.writeConcentrations(counts_t, source)
-        
-           r_idx = self.var_to_grid(source=source)
+            #if 'velocity' in measures: self.writeVelocity(counts_t, source)
+            for measure in measures:
+                if measure not in exclusions:
+                    r_idx=self.var_to_grid(measure, source)
+                    self.writeVar(r_idx, measure+'_'+source)
+                 
+                
     
         
     def var_to_grid(self,varname,source):
+        print('--> Computing '+ varname +' on grid for source:' + source)
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
+        n_counts = np.zeros((nt,nz,ny,nx))
         
         i = 0
         t = 0
@@ -308,24 +318,28 @@ class GridBasedMeasures:
                     source_mask = vtu_step.points('source') == int(source)
                     r = r[source_mask]
                     var = var[source_mask]
-                    
+                
                 # Find the indices of the box in each dimension
-                x_dig = np.digitize(r[:,0],self.grid['depth'])
-                y_dig = np.digitize(r[:,1],self.grid['latitude'])
-                z_dig = np.digitize(r[:,2],self.grid['longitude'])
-                
-                r_d = np.c_[x_dig,y_dig,z_dig]
-                
-                r_idx = to1D(r_d,nx,ny,nz)
-                n_counts = np.zeros((nt,nx*ny*nz))
+                #z_dig2 = np.digitize(r[:,0],self.grid['depth'],right=True)-1
+                z_dig = np.int32((r[:,0] - min((self.grid['depth'])))/abs(self.grid['depth'][2]-self.grid['depth'][1]))
+                #y_dig2 = np.digitize(r[:,1],self.grid['latitude'],right=True)-1
+                y_dig = np.int32((r[:,1] - min((self.grid['latitude'])))/abs(self.grid['latitude'][2]-self.grid['latitude'][1]))
+                #x_dig2 = np.digitize(r[:,2],self.grid['longitude'],right=True)-1
+                x_dig = np.int32((r[:,2] - min((self.grid['longitude'])))/abs(self.grid['longitude'][2]-self.grid['longitude'][1]))
+#                r_d = np.c_[z_dig, y_dig, x_dig]
+#                r_idx = to1D(r_d, nz, ny, nx)
+                try:
+                    r_idx = np.ravel_multi_index((z_dig,y_dig,x_dig),(nz,ny,nx))
+                except:
+                    continue
 
-                for k in range(0,nx*ny*nz):
-                    n_counts[t,i] = np.mean(var[k==r_idx])
+                N = nx*ny*nz    
+                n_counts[i]=np.reshape(cellCounting(r_idx,var,N),(nz,ny,nx))
                 
                 i = i+1
             t = t+1
                              
-        return n_counts.reshape((nt,nz,ny,nx))
+        return n_counts
         
 
              
@@ -402,10 +416,10 @@ class GridBasedMeasures:
         ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
 
-    def write(self,variable):
-        print('--> Writing '+ variable)
+    def writeVar(self,vardata, varname):
+        print('--> Writing '+ varname)
         ds = xr.open_dataset(self.netcdf_output_file)
-        ds[variable] = (getattr(self,variable)['dims'], getattr(self,variable))
+        ds[varname] = (self.dims, vardata)
         ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
         
@@ -456,7 +470,7 @@ class GridBasedMeasures:
         #writting fields
         self.writeCount()
         self.writeVolume()
-        self.general_counting(measures)
+        self.writeVars(measures)
         #self.write('volume')
 #        if 'concentrations' in measures:
 #            self.writeConcentrations()
@@ -474,6 +488,17 @@ def to3D(idx, ni,nj,nk):
     j = np.int32(idx / ni)
     i = idx % ni
     return  np.c_[i, j, k]
+
+@jit
+def cellCounting(r_idx,var,N):
+    gridcounts = np.zeros(N)
+    for k in range(0,N):
+        var_selected = var[k==r_idx]
+        if var_selected.size == 0:
+            gridcounts[k] = 0
+        else:
+           gridcounts[k] =np.sum(var_selected)/var_selected.size
+    return gridcounts
 
        
 def getRecipeListFromCase(xmlFile):
