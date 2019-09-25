@@ -3,6 +3,7 @@
 import vtk
 from vtk.util.numpy_support import vtk_to_numpy
 import glob
+import numpy as np
 
 class VTUParser:
     def __init__(self,vtu_file):
@@ -19,6 +20,9 @@ class VTUParser:
             self.part_vars.append(reader.GetOutput().GetPointData().GetArrayName(i))
         if var == 'coords':
             vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
+        elif var == 'velocity':
+            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
+            vtu_vars = np.sqrt(vtu_vars[:,0]**2 + vtu_vars[:,1]**2 + vtu_vars[:,2]**2)
         elif var in self.part_vars:
             vtu_vars = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))
         return vtu_vars

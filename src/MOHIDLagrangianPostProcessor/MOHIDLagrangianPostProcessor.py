@@ -141,8 +141,9 @@ class GridBasedMeasures:
         dict_source = {}
         for source in tree.find('caseDefinitions/sourceDefinitions')[:]:
             id_source = source.find('setsource').attrib['id']
-            dict_source[id_source] = None
-        dict_source['global'] = None
+            name_source = source.find('setsource').attrib['name']
+            dict_source[id_source] = name_source
+        dict_source['global'] = 'global'
         self.sources['id'] = dict_source
             # at the moment we don't require specific information just the ids.
             # In a future releases if we are going to compute measures using 
@@ -190,8 +191,6 @@ class GridBasedMeasures:
             self.grid ={'longitude': np.linspace(x_min,x_max,np.int(x_step+1)),
                         'latitude': np.linspace(y_min,y_max,np.int(y_step+1)),
                         'depth': np.linspace(z_min,z_max,np.int(z_step+1))}
-            #if z_step < 2:
-            #    self.grid['depth'] = np.array([z_min,z_max])
     
         elif units_value == 'meters':
             y_c = (y_max+y_min)/2.
@@ -201,7 +200,7 @@ class GridBasedMeasures:
             self.grid['longitude'] = np.arange(x_min,x_max,dlon)
             self.grid['depth'] = np.arange(z_min,z_max,z_step)                                
         for key,value in self.grid.items():
-            self.centers[key] = (value[:-1] + value[1:])/2.            
+                self.centers[key] = (value[:-1] + value[1:])/2.
         return
         
     
@@ -292,11 +291,11 @@ class GridBasedMeasures:
             counts_t = self.counts(source=source)
             if 'residence_time' in measures: self.writeResidence_time(counts_t, source)
             if 'concentrations' in measures: self.writeConcentrations(counts_t, source)
-            #if 'velocity' in measures: self.writeVelocity(counts_t, source)
+
             for measure in measures:
                 if measure not in exclusions:
                     r_idx=self.var_to_grid(measure, source)
-                    self.writeVar(r_idx, measure+'_'+source)
+                    self.writeVar(r_idx, measure+'_'+self.sources['id'][str(source)])
                  
                 
     
@@ -321,13 +320,13 @@ class GridBasedMeasures:
                 
                 # Find the indices of the box in each dimension
                 #z_dig2 = np.digitize(r[:,0],self.grid['depth'],right=True)-1
-                z_dig = np.int32((r[:,0] - min((self.grid['depth'])))/abs(self.grid['depth'][2]-self.grid['depth'][1]))
+                z_dig = np.int32((r[:,0] - min((self.grid['depth'])))/abs(self.grid['depth'][1]-self.grid['depth'][0]))
                 #y_dig2 = np.digitize(r[:,1],self.grid['latitude'],right=True)-1
-                y_dig = np.int32((r[:,1] - min((self.grid['latitude'])))/abs(self.grid['latitude'][2]-self.grid['latitude'][1]))
+                y_dig = np.int32((r[:,1] - min((self.grid['latitude'])))/abs(self.grid['latitude'][1]-self.grid['latitude'][0]))
                 #x_dig2 = np.digitize(r[:,2],self.grid['longitude'],right=True)-1
-                x_dig = np.int32((r[:,2] - min((self.grid['longitude'])))/abs(self.grid['longitude'][2]-self.grid['longitude'][1]))
-#                r_d = np.c_[z_dig, y_dig, x_dig]
-#                r_idx = to1D(r_d, nz, ny, nx)
+                x_dig = np.int32((r[:,2] - min((self.grid['longitude'])))/abs(self.grid['longitude'][1]-self.grid['longitude'][0]))
+                #r_d = np.c_[z_dig, y_dig, x_dig]
+                #r_idx = to1D(r_d, nz, ny, nx)
                 try:
                     r_idx = np.ravel_multi_index((z_dig,y_dig,x_dig),(nz,ny,nx))
                 except:
@@ -345,54 +344,30 @@ class GridBasedMeasures:
              
     def writeResidence_time(self,counts_t,source):        
         print('--> Computing residence time on grid for source:' + source)        
-        # Read netcdf, compute concentrations, compute residence tiem
-        # compute global 
-#        ds = xr.open_dataset(self.netcdf_output_file)        
-#        counts_t = self.counts()
-#        self.residence_time = np.zeros(counts_t.shape[1:])
-#        for t_s in range(0,counts_t.shape[0]):
-#            self.residence_time = (counts_t[t_s]>0) * self.dt + self.residence_time            
-#        ds['residence_time_global'] = (self.dims[1:], self.residence_time)
-#        ds.close()
-#        ds.to_netcdf(self.netcdf_output_file,'a')           
-        
-        # compute per source        
-#        for source in self.sources['id'].keys():
-#            counts_t = self.counts(source=source)
+
         ds = xr.open_dataset(self.netcdf_output_file) 
         self.residence_time = np.zeros(counts_t.shape[1:])
         for t_s in range(0,counts_t.shape[0]):
             self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time                   
-        var_name ='residence_time_source_' + source.zfill(3)
+        var_name ='residence_time_source_' + self.sources['id'][str(source)]
         ds[var_name] = (self.dims[1:],self.residence_time)
         ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
         ds.close()
-        ds.to_netcdf(self.netcdf_output_file,'a')        
+        ds.to_netcdf(self.netcdf_output_file,'a')
         return
  
     
     def writeConcentrations(self,counts_t,source):        
         print('--> Computing concentrations on grid for source:' + source)
-#        ds = xr.open_dataset(self.netcdf_output_file)        
-#        # Compute concentrations: total number of particles
-#        counts_t = self.counts()        
-#        conc_area = counts_t.sum(axis=1)/self.area
-#        conc_volume = counts_t/self.volume
-#        ds['concentration_area'] = (['time','latitude','longitude'], conc_area)
-#        ds['concentration_volume'] = (self.dims, conc_volume)
-#        ds.close()
-#        ds.to_netcdf(self.netcdf_output_file,'a')   
-        # Compute concentrations: particles of each source        
-#        for source in self.sources['id'].keys():
-#        counts_t = self.counts(source=source)
+
         ds = xr.open_dataset(self.netcdf_output_file)
         conc_area = counts_t.sum(axis=1)/self.area
         conc_volume = counts_t/self.volume        
-        var_name_as = 'concentration_area_source_' + source.zfill(3)
+        var_name_as = 'concentration_area_source_' + self.sources['id'][str(source)]
         ds[var_name_as] = (['time','latitude','longitude'], conc_area)
         ds[var_name_as].attrs = {'long_name':'concentration',
                                   'units':'ppm*m'}            
-        var_name_vs = 'concentration_volume_source_' + source.zfill(3)
+        var_name_vs = 'concentration_volume_source_' + self.sources['id'][str(source)]
         ds[var_name_vs] = (self.dims, conc_volume)
         ds[var_name_vs].attrs = {'long_name':'concentration',
                                   'units':'ppm*m*m'}        
@@ -422,6 +397,20 @@ class GridBasedMeasures:
         ds[varname] = (self.dims, vardata)
         ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
+    
+    def checkNc(self):
+        ds = xr.open_dataset(self.netcdf_output_file)
+        if ds.depth.size == 1:
+            ds = ds.squeeze(dim='depth',drop=True)
+            print('->The nc has a depth degenerated dimension: Squeezing...' )
+        ds.close()
+        #When you alter the dimensions of the netcdf, you cannot overwrite the
+        # netcdf. We ha create a new one without extension, remove the old one,
+        # and rename the first one.
+        nc_squeezed = self.netcdf_output_file.replace('.nc','')
+        ds.to_netcdf(nc_squeezed)
+        os.remove(self.netcdf_output_file)
+        os.rename(nc_squeezed, nc_squeezed+'.nc')
         
 #    def age(self):#        
 #        print('--> Computing age on grid')       
@@ -471,6 +460,7 @@ class GridBasedMeasures:
         self.writeCount()
         self.writeVolume()
         self.writeVars(measures)
+        self.checkNc()
         #self.write('volume')
 #        if 'concentrations' in measures:
 #            self.writeConcentrations()
