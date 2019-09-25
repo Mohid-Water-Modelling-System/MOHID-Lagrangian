@@ -399,18 +399,25 @@ class GridBasedMeasures:
         ds.to_netcdf(self.netcdf_output_file,'a')
     
     def checkNc(self):
-        ds = xr.open_dataset(self.netcdf_output_file)
         if ds.depth.size == 1:
-            ds = ds.squeeze(dim='depth',drop=True)
             print('->The nc has a depth degenerated dimension: Squeezing...' )
-        ds.close()
+            ds = xr.open_dataset(self.netcdf_output_file)
+            ds = ds.squeeze(dim='depth',drop=True)
+            nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
+            ds.to_netcdf(nc_squeezed)
+            ds.close()
+            try:
+                os.remove(self.netcdf_output_file)
+                os.rename(nc_squeezed, nc_squeezed+'.nc')
+            except:
+                print('The file cannot be deleted')
+                continue
+           
+        
         #When you alter the dimensions of the netcdf, you cannot overwrite the
         # netcdf. We ha create a new one without extension, remove the old one,
         # and rename the first one.
-        nc_squeezed = self.netcdf_output_file.replace('.nc','')
-        ds.to_netcdf(nc_squeezed)
-        os.remove(self.netcdf_output_file)
-        os.rename(nc_squeezed, nc_squeezed+'.nc')
+
         
 #    def age(self):#        
 #        print('--> Computing age on grid')       
