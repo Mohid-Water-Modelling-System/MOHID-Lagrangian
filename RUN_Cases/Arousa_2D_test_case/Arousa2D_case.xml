@@ -16,8 +16,8 @@
 			<file name="data/NamesLibrary.xml"/>
 		</variableNaming>
 		<postProcessing>
-			<file name="Post_scripts/PostRecipe_Arousa.xml"/>
-			<!-- <file name="Post_scripts/PostRecipe_Arousa_2.xml"/> -->
+			<!-- <file name="Post_scripts/PostRecipe_Arousa.xml"/> -->
+			<file name="Post_scripts/PostRecipe_Arousa_2.xml"/>
 		</postProcessing>
 	</execution>
 	<caseDefinitions>
@@ -92,7 +92,7 @@
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="-" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
 		</constants>
 	</caseDefinitions>
 </case>
