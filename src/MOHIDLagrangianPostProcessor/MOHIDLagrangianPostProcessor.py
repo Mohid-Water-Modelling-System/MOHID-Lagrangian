@@ -337,7 +337,7 @@ class GridBasedMeasures:
                 if (source != 'global') and (self.beach == '0'):
                     source_mask = vtu_step.points('source') == int(source)
                     r=r[source_mask]
-                    var = var[source_mask*beach_mask]
+                    var = var[source_mask]
                 if (source != 'global') and (self.beach == '1'):
                     source_mask = vtu_step.points('source') == int(source)
                     beach_mask = vtu_step.points('state') < 0.5
@@ -346,7 +346,7 @@ class GridBasedMeasures:
                 elif (source == 'global') and (self.beach == '1'):
                     beach_mask = vtu_step.points('state') < 0.5
                     r = r[beach_mask]
-                    var = var[beach_mask]
+                    var = var[beach_mask*beach_mask]
                 elif (source != 'global') and (self.beach == '2'):
                     source_mask = vtu_step.points('source') == int(source)
                     beach_mask = vtu_step.points('state') >= 0.5
@@ -438,22 +438,22 @@ class GridBasedMeasures:
     
     
     def checkNc(self):
-        ds = xr.open_dataset(self.netcdf_output_file)
-        if ds.depth.size == 1:
-            print('->The nc has a depth degenerated dimension: Squeezing...' )
-            ds = ds.squeeze(dim='depth',drop=True)
-            # When you alter the dimensions of the netcdf, you cannot overwrite the
-            # netcdf. We ha create a new one without extension, remove the old one,
-            # and rename the first one.
-            nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
-            ds.to_netcdf(nc_squeezed)
-            ds.close()
-            try:
-                #os.remove(self.netcdf_output_file)
-                os.replace(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
-            except:
-                print('The file cannot be deleted')
-                pass
+        with xr.open_dataset(self.netcdf_output_file) as ds:
+            if ds.depth.size == 1:
+                print('->The nc has a depth degenerated dimension: Squeezing...' )
+                ds = ds.squeeze(dim='depth',drop=True)
+                # When you alter the dimensions of the netcdf, you cannot overwrite the
+                # netcdf. We ha create a new one without extension, remove the old one,
+                # and rename the first one.
+                nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
+                ds.close()
+                ds.to_netcdf(nc_squeezed)
+                try:                
+                    os.remove(self.netcdf_output_file)
+                    os.replace(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
+                except:
+                    print('The file cannot be deleted')
+                    pass
                    
 
     def run_postprocessing(self, outDir, measures):
