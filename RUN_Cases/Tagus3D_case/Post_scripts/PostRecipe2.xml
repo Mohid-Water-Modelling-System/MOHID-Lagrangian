@@ -3,6 +3,7 @@
 	<EulerianMeasures>
 		<measures>
 			<field key="concentrations"/>
+			<field key="residence_time"/>
 		</measures>
 		<gridDefinition>
 			<units value="relative"/>

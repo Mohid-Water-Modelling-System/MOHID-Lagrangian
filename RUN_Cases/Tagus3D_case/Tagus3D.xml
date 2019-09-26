@@ -29,23 +29,22 @@
 			<resolution dp="150" units_comment="metres (m)"/>
 			<timestep dt="360.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-10.0134" y="38.1687" z="-1000" units_comment="(deg,deg,m)"/>
-			<BoundingBoxMax x="-8.9115" y="39.2044" z="2" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.9115" y="39.2044" z="5" units_comment="(deg,deg,m)"/>
 		</simulation>
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Box1" />
-				<resolution x="350" y="350" z="20" units_comment="metres (m)"/>
+				<resolution x="350" y="350" z="10" units_comment="metres (m)"/>
 				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
-					<point x="-10.0" y="38.26" z="-50" units_comment="(deg,deg,m)"/>
-					<size x="200000" y="100000" z="50" units_comment="metres (m)"/>
+					<point x="-10.0" y="38.26" z="-40" units_comment="(deg,deg,m)"/>
+					<size x="200000" y="100000" z="42" units_comment="metres (m)"/>
 				</box>
 			</source>
 		</sourceDefinitions>
 		<constants>
 			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
-			<Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />
 		</constants>
 	</caseDefinitions>
 </case>
