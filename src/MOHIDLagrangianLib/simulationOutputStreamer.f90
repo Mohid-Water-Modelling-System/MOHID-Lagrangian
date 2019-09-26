@@ -193,7 +193,7 @@
     call Globals%Output%getOutputPoolArray(self%outputVariables)
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
-        call self%hdf5Writter%initialize()
+        !call self%hdf5Writter%initialize()
     end if
     end subroutine initOutputStreamer
 

@@ -333,20 +333,24 @@
     beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
 
     Beaching = svDt
+    
+    if (Globals%Constants%BeachingStopProb /= 0.0) then !beaching is completely turned off if the stopping propability is zero
 
-    !getting the bounds for the interpolation of the land interaction field that correspond to beaching
-    lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
-    ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
+        !getting the bounds for the interpolation of the land interaction field that correspond to beaching
+        lbound = (Globals%Mask%beachVal + Globals%Mask%waterVal)*0.5
+        ubound = (Globals%Mask%beachVal + Globals%Mask%landVal)*0.5
 
-    !beachWeight = 1 - 0.5*(sv%landIntMask - lbound)/(ubound-lbound) !linear distance weight for beaching
-    beachWeight = 1 - 0.9*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
+        !beachWeight = 1 - 0.5*(sv%landIntMask - lbound)/(ubound-lbound) !linear distance weight for beaching
+        beachWeight = 1 - 0.9*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-lbound) !quadratic weight
 
-    !replacing 1.0 with a coefficient from beaching where needed
-    where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand*beachWeight
-    do i=1,3
-        Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
-        sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
-    end do
+        !replacing 1.0 with a coefficient from beaching where needed
+        where(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachCoeff = beachCoeffRand*beachWeight
+        do i=1,3
+            Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
+            sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
+        end do
+    
+    end if
 
     end function Beaching
 
