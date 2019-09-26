@@ -110,14 +110,12 @@ class GridBasedMeasures:
     
     def get_beach(self):
         root = ET.parse(self.xml_recipe).getroot()
-        for parameter in root.findall('EulerianMeasures/measures/parameter'):
-            if parameter.get('beach') == '1':
-                self.beach = np.int(parameter.get('beach')) == 1
+        for parameter in root.findall('EulerianMeasures/measures/filters/filter'):
+            if parameter.get('key') == 'beaching':
+                self.beach = parameter.get('value')
             else:
-                self.beach = False
-        
-        print('Counting with beaching', self.beach)
-            
+                self.beach = '0'
+                    
     
     def get_time_axis(self):
         root= ET.parse(self.xml_file).getroot()
@@ -285,16 +283,23 @@ class GridBasedMeasures:
         for vtu_step in self.pvd_data.vtu_data:
             if self.timeMask[t] == True:
                 r = vtu_step.points('coords')
-                if (source != 'global') and (self.beach):
+                if (source != 'global') and (self.beach == '0'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    r=r[source_mask]
+                elif (source != 'global') and (self.beach == '1'):
                     source_mask = vtu_step.points('source') == int(source)
                     beach_mask = vtu_step.points('state') < 0.5
                     r=r[source_mask*beach_mask]
-                elif (source != 'global') and (self.beach == False):
-                    source_mask = vtu_step.points('source') == int(source)
-                    r=r[source_mask]
-                elif (source == 'global') and (self.beach == True):
+                elif (source == 'global') and (self.beach == '1'):
                     beach_mask = vtu_step.points('state') < 0.5
-                    r = r[beach_mask] 
+                    r = r[beach_mask]
+                elif (source != 'global') and (self.beach == '2'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r=r[source_mask*beach_mask]
+                elif (source == 'global') and (self.beach == '2'):
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r = r[beach_mask]
                 counts_t[i], _ = np.histogramdd(r,bins=bins) 
                 i=i+1
             t=t+1
@@ -329,18 +334,29 @@ class GridBasedMeasures:
             if self.timeMask[t] == True:
                 r = vtu_step.points('coords')
                 var = vtu_step.points(varname)
-                if (source != 'global') and (self.beach):
+                if (source != 'global') and (self.beach == '0'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    r=r[source_mask]
+                    var = var[source_mask*beach_mask]
+                if (source != 'global') and (self.beach == '1'):
                     source_mask = vtu_step.points('source') == int(source)
                     beach_mask = vtu_step.points('state') < 0.5
                     r=r[source_mask*beach_mask]
                     var = var[source_mask*beach_mask]
-                elif (source != 'global') and (self.beach == False):
-                    source_mask = vtu_step.points('source') == int(source)
-                    r=r[source_mask]
-                    var = var[source_mask]
-                elif (source == 'global') and (self.beach == True):
+                elif (source == 'global') and (self.beach == '1'):
                     beach_mask = vtu_step.points('state') < 0.5
-                    r = r[beach_mask] 
+                    r = r[beach_mask]
+                    var = var[beach_mask]
+                elif (source != 'global') and (self.beach == '2'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r=r[source_mask*beach_mask]
+                    var = var[source_mask*beach_mask]
+                elif (source == 'global') and (self.beach == '2'):
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r = r[beach_mask]
+                    var = var[beach_mask]
+
                 
                 # Find the indices of the box in each dimension
                 z_dig = np.int32((r[:,0] - min((self.grid['depth'])))/abs(self.grid['depth'][1]-self.grid['depth'][0]))
@@ -359,7 +375,7 @@ class GridBasedMeasures:
                 
                 i = i+1
             t = t+1
-        counts_t[:,np.all(counts_t==0,axis=0)] = np.nan                     
+        counts_t[:,np.all(counts_t == 0.,axis=0)] = np.nan                  
         return counts_t
         
 
