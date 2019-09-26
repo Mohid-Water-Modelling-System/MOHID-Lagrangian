@@ -22,7 +22,7 @@ copy %name%.xml %dirout%
 
 rem CODES are executed according the selected parameters of execution in this case
 
-python %PreProcessor% -i %dirout%/%name%.xml -o %dirout%
+python -W ignore %PreProcessor% -i %dirout%/%name%.xml -o %dirout%
 
 %mohidlagrangian% -i %dirout%/%name%.xml -o %dirout%
 if not "%ERRORLEVEL%" == "0" goto fail

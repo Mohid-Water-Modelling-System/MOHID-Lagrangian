@@ -30,7 +30,7 @@ python %PreProcessor% -i %dirout%/%name%.xml -o %dirout%
 %mohidlagrangian% -i %dirout%/%name%.xml -o %dirout%
 if not "%ERRORLEVEL%" == "0" goto fail
 
-python %postProcessor% -i %name%.xml -o %dirout%
+python -W ignore %postProcessor% -i %name%.xml -o %dirout%
 
 :success
 echo All done
