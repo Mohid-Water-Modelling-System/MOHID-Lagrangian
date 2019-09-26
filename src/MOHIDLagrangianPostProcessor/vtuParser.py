@@ -21,7 +21,7 @@ class VTUParser:
         if var == 'coords':
             vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
         elif var == 'velocity':
-            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPoints().GetData())[:,::-1]
+            vtu_vars = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))[:,::-1]
             vtu_vars = np.sqrt(vtu_vars[:,0]**2 + vtu_vars[:,1]**2 + vtu_vars[:,2]**2)
         elif var in self.part_vars:
             vtu_vars = vtk_to_numpy(reader.GetOutput().GetPointData().GetArray(var))

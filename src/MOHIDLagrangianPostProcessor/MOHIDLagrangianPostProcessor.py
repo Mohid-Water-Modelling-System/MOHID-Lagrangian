@@ -285,7 +285,7 @@ class GridBasedMeasures:
     
     def writeVars(self, measures):
         
-        exclusions = ['residence_time', 'concentrations', 'velocity']
+        exclusions = ['residence_time', 'concentrations']
         
         for source in self.sources['id'].keys():
             counts_t = self.counts(source=source)
@@ -409,10 +409,9 @@ class GridBasedMeasures:
             nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
             ds.to_netcdf(nc_squeezed)
             ds.close()
-        
             try:
-                os.remove(self.netcdf_output_file)
-                os.rename(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
+                #os.remove(self.netcdf_output_file)
+                os.replace(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
             except:
                 print('The file cannot be deleted')
                 pass
