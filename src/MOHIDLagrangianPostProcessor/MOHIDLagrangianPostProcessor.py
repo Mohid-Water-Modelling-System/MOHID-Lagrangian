@@ -88,7 +88,6 @@ class GridBasedMeasures:
         self.pvd_data = PVDParser(self.pvd_file)
         self.nFiles = len(vtuParser.validVtuFilesList(outdir))
         self.sources = {'id':{}}
-        self.grid_steps = [50.,0.005,0.005]
         self.ISO_time_origin = MDateTime.getDateStringFromDateTime(MDateTime.BaseDateTime())
         self.grid  = {}
         self.centers = {}
@@ -98,6 +97,7 @@ class GridBasedMeasures:
         self.dims = ['time','depth','latitude','longitude']
         self.time = []
         self.timeMask = []
+        self.beach = []
         self.netcdf_output_file = outdirLocal+'/'+os.path.basename(self.xml_file.replace('.xml','.nc'))
         if os.path.exists(outdirLocal):
             os_dir.deleteDirForce(outdirLocal)
@@ -106,6 +106,16 @@ class GridBasedMeasures:
         
     def get_pvd(self, outDir):
         self.pvd_data.get_vtu_files(outDir)
+    
+    def get_beach(self):
+        root = ET.parse(self.xml_recipe).getroot()
+        for parameter in root.findall('EulerianMeasures/measures/parameter'):
+            if parameter.get('beach') == '1':
+                self.beach = np.int(parameter.get('beach')) == 1
+            else:
+                self.beach = False
+        
+        print('Counting with beaching', self.beach)
             
     
     def get_time_axis(self):
@@ -266,6 +276,7 @@ class GridBasedMeasures:
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
+        mask = None
         
         counts_t = np.zeros((nt,nz,ny,nx))
         i = 0
@@ -274,13 +285,20 @@ class GridBasedMeasures:
         for vtu_step in self.pvd_data.vtu_data:
             if self.timeMask[t] == True:
                 r = vtu_step.points('coords')
-                if source != 'global':
+                if (source != 'global') and (self.beach):
                     source_mask = vtu_step.points('source') == int(source)
-                    r = r[source_mask]
-                counts_t[i], _ = np.histogramdd(r,bins=bins) 
+                    beach_mask = vtu_step.points('state') > 1
+                    r=r[source_mask*beach_mask]
+                elif (source != 'global') and (self.beach == False):
+                    source_mask = vtu_step.points('source') == int(source)
+                    r=r[source_mask]
+
+
+                counts_t[i], _ = np.histogramdd(r,bins=bins)
                 i=i+1
             t=t+1
-       
+
+        counts_t[:,np.all(counts_t == 0.,axis=0)] = np.nan
         return counts_t
     
     def writeVars(self, measures):
@@ -305,7 +323,8 @@ class GridBasedMeasures:
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
-        n_counts = np.zeros((nt,nz,ny,nx))
+        counts_t = np.zeros((nt,nz,ny,nx))
+        mask = None
         
         i = 0
         t = 0
@@ -313,11 +332,17 @@ class GridBasedMeasures:
             if self.timeMask[t] == True:
                 r = vtu_step.points('coords')
                 var = vtu_step.points(varname)
-                if source != 'global':
+                if (source != 'global') and (self.beach):
                     source_mask = vtu_step.points('source') == int(source)
-                    r = r[source_mask]
+                    beach_mask = vtu_step.points('state') > 1
+                    r=r[source_mask*beach_mask]
+                    var = var[source_mask*beach_mask]
+                elif (source != 'global') and (self.beach == False):
+                    source_mask = vtu_step.points('source') == int(source)
+                    r=r[source_mask]
                     var = var[source_mask]
-                
+
+  
                 # Find the indices of the box in each dimension
                 #z_dig2 = np.digitize(r[:,0],self.grid['depth'],right=True)-1
                 z_dig = np.int32((r[:,0] - min((self.grid['depth'])))/abs(self.grid['depth'][1]-self.grid['depth'][0]))
@@ -333,22 +358,23 @@ class GridBasedMeasures:
                     continue
 
                 N = nx*ny*nz    
-                n_counts[i]=np.reshape(cellCounting(r_idx,var,N),(nz,ny,nx))
+                counts_t[i]=np.reshape(cellCounting(r_idx,var,N),(nz,ny,nx))
                 
                 i = i+1
             t = t+1
-                             
-        return n_counts
+       
+        counts_t[:,np.all(counts_t==0,axis=0)] = np.nan                      
+        return counts_t
         
 
-             
     def writeResidence_time(self,counts_t,source):        
         print('--> Computing residence time on grid for source:' + source)        
 
         ds = xr.open_dataset(self.netcdf_output_file) 
         self.residence_time = np.zeros(counts_t.shape[1:])
         for t_s in range(0,counts_t.shape[0]):
-            self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time                   
+            self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time
+        self.residence_time[self.residence_time == 0] = np.nan
         var_name ='residence_time_source_' + self.sources['id'][str(source)]
         ds[var_name] = (self.dims[1:],self.residence_time)
         ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
@@ -366,11 +392,11 @@ class GridBasedMeasures:
         var_name_as = 'concentration_area_source_' + self.sources['id'][str(source)]
         ds[var_name_as] = (['time','latitude','longitude'], conc_area)
         ds[var_name_as].attrs = {'long_name':'concentration',
-                                  'units':'ppm*m'}            
+                                  'units':'pp m*m'}            
         var_name_vs = 'concentration_volume_source_' + self.sources['id'][str(source)]
         ds[var_name_vs] = (self.dims, conc_volume)
         ds[var_name_vs].attrs = {'long_name':'concentration',
-                                  'units':'ppm*m*m'}        
+                                  'units':'pp m*m*m'}        
         ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
         return
@@ -404,12 +430,11 @@ class GridBasedMeasures:
             print('->The nc has a depth degenerated dimension: Squeezing...' )
             ds = ds.squeeze(dim='depth',drop=True)
             # When you alter the dimensions of the netcdf, you cannot overwrite the
-            # netcdf. We ha create a new one without extension, remove the old one,
+            # netcdf. We have created a new one without extension, remove the old one,
             # and rename the first one.
             nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
             ds.to_netcdf(nc_squeezed)
-            ds.close()
-        
+            ds.close()   
             try:
                 os.remove(self.netcdf_output_file)
                 os.rename(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
@@ -463,6 +488,7 @@ class GridBasedMeasures:
         self.get_time_axis()
         self.get_grid()
         self.get_sources()
+        self.get_beach()
         self.get_areas()
         self.get_netcdf_header()
         #writting fields
