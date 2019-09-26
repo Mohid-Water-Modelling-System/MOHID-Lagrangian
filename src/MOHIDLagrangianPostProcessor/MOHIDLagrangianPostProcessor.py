@@ -98,6 +98,7 @@ class GridBasedMeasures:
         self.dims = ['time','depth','latitude','longitude']
         self.time = []
         self.timeMask = []
+        self.beach = []
         self.netcdf_output_file = outdirLocal+'/'+os.path.basename(self.xml_file.replace('.xml','.nc'))
         if os.path.exists(outdirLocal):
             os_dir.deleteDirForce(outdirLocal)
@@ -106,7 +107,15 @@ class GridBasedMeasures:
         
     def get_pvd(self, outDir):
         self.pvd_data.get_vtu_files(outDir)
-            
+    
+    def get_beach(self):
+        root = ET.parse(self.xml_recipe).getroot()
+        for parameter in root.findall('EulerianMeasures/measures/filters/filter'):
+            if parameter.get('key') == 'beaching':
+                self.beach = parameter.get('value')
+            else:
+                self.beach = '0'
+                    
     
     def get_time_axis(self):
         root= ET.parse(self.xml_file).getroot()
@@ -274,13 +283,27 @@ class GridBasedMeasures:
         for vtu_step in self.pvd_data.vtu_data:
             if self.timeMask[t] == True:
                 r = vtu_step.points('coords')
-                if source != 'global':
+                if (source != 'global') and (self.beach == '0'):
                     source_mask = vtu_step.points('source') == int(source)
-                    r = r[source_mask]
+                    r=r[source_mask]
+                elif (source != 'global') and (self.beach == '1'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    beach_mask = vtu_step.points('state') < 0.5
+                    r=r[source_mask*beach_mask]
+                elif (source == 'global') and (self.beach == '1'):
+                    beach_mask = vtu_step.points('state') < 0.5
+                    r = r[beach_mask]
+                elif (source != 'global') and (self.beach == '2'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r=r[source_mask*beach_mask]
+                elif (source == 'global') and (self.beach == '2'):
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r = r[beach_mask]
                 counts_t[i], _ = np.histogramdd(r,bins=bins) 
                 i=i+1
             t=t+1
-       
+        counts_t[:,np.all(counts_t == 0.,axis=0)] = np.nan
         return counts_t
     
     def writeVars(self, measures):
@@ -303,7 +326,7 @@ class GridBasedMeasures:
         # counts 2d and 3d are splitted in two functions. 
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
-        n_counts = np.zeros((nt,nz,ny,nx))
+        counts_t = np.zeros((nt,nz,ny,nx))
         
         i = 0
         t = 0
@@ -311,10 +334,29 @@ class GridBasedMeasures:
             if self.timeMask[t] == True:
                 r = vtu_step.points('coords')
                 var = vtu_step.points(varname)
-                if source != 'global':
+                if (source != 'global') and (self.beach == '0'):
                     source_mask = vtu_step.points('source') == int(source)
-                    r = r[source_mask]
-                    var = var[source_mask]
+                    r=r[source_mask]
+                    var = var[source_mask*beach_mask]
+                if (source != 'global') and (self.beach == '1'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    beach_mask = vtu_step.points('state') < 0.5
+                    r=r[source_mask*beach_mask]
+                    var = var[source_mask*beach_mask]
+                elif (source == 'global') and (self.beach == '1'):
+                    beach_mask = vtu_step.points('state') < 0.5
+                    r = r[beach_mask]
+                    var = var[beach_mask]
+                elif (source != 'global') and (self.beach == '2'):
+                    source_mask = vtu_step.points('source') == int(source)
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r=r[source_mask*beach_mask]
+                    var = var[source_mask*beach_mask]
+                elif (source == 'global') and (self.beach == '2'):
+                    beach_mask = vtu_step.points('state') >= 0.5
+                    r = r[beach_mask]
+                    var = var[beach_mask]
+
                 
                 # Find the indices of the box in each dimension
                 z_dig = np.int32((r[:,0] - min((self.grid['depth'])))/abs(self.grid['depth'][1]-self.grid['depth'][0]))
@@ -329,12 +371,12 @@ class GridBasedMeasures:
                 
                 r_idx = np.ravel_multi_index((z_dig,y_dig,x_dig),(nz,ny,nx))
                 N = nx*ny*nz    
-                n_counts[i]=np.reshape(cellCounting(r_idx,var,N),(nz,ny,nx))
+                counts_t[i]=np.reshape(cellCounting(r_idx,var,N),(nz,ny,nx))
                 
                 i = i+1
             t = t+1
-                             
-        return n_counts
+        counts_t[:,np.all(counts_t == 0.,axis=0)] = np.nan                  
+        return counts_t
         
 
     def writeResidence_time(self,counts_t,source):        
@@ -343,7 +385,8 @@ class GridBasedMeasures:
         ds = xr.open_dataset(self.netcdf_output_file) 
         self.residence_time = np.zeros(counts_t.shape[1:])
         for t_s in range(0,counts_t.shape[0]):
-            self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time                   
+            self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time
+        self.residence_time[self.residence_time == 0] = np.nan                   
         var_name ='residence_time_source_' + self.sources['id'][str(source)]
         ds[var_name] = (self.dims[1:],self.residence_time)
         ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
@@ -418,6 +461,7 @@ class GridBasedMeasures:
         self.get_time_axis()
         self.get_grid()
         self.get_sources()
+        self.get_beach()
         self.get_areas()
         self.get_netcdf_header()
         #writting fields
