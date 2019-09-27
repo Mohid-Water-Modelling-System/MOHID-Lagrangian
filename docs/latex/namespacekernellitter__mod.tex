@@ -1,0 +1,151 @@
+\hypertarget{namespacekernellitter__mod}{}\section{kernellitter\+\_\+mod Module Reference}
+\label{namespacekernellitter__mod}\index{kernellitter\+\_\+mod@{kernellitter\+\_\+mod}}
+\subsection*{Data Types}
+\begin{DoxyCompactItemize}
+\item 
+type \mbox{\hyperlink{structkernellitter__mod_1_1kernellitter__class}{kernellitter\+\_\+class}}
+\end{DoxyCompactItemize}
+\subsection*{Functions/\+Subroutines}
+\begin{DoxyCompactItemize}
+\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernellitter__mod_ab3201eb9917816dbd1043be44120efcb}{degradationlinear}} (self, sv)
+\begin{DoxyCompactList}\small\item\em Linear degradation kernel. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernellitter__mod_a6dfc58ed5badd008180abb729e1bca82}{buoyancy}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Computes the vertical velocity due to buoyancy of the litter tracers. \end{DoxyCompactList}\item 
+subroutine \mbox{\hyperlink{namespacekernellitter__mod_a145c58d91c7654c5c4f8beac04b608b6}{initkernellitter}} (self)
+\begin{DoxyCompactList}\small\item\em Initializer method adpated from for kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacekernellitter__mod_a6dfc58ed5badd008180abb729e1bca82}\label{namespacekernellitter__mod_a6dfc58ed5badd008180abb729e1bca82}} 
+\index{kernellitter\+\_\+mod@{kernellitter\+\_\+mod}!buoyancy@{buoyancy}}
+\index{buoyancy@{buoyancy}!kernellitter\+\_\+mod@{kernellitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{buoyancy()}{buoyancy()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernellitter\+\_\+mod\+::buoyancy (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernellitter__mod_1_1kernellitter__class}{kernellitter\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(in)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time }\end{DoxyParamCaption})}
+
+
+
+Computes the vertical velocity due to buoyancy of the litter tracers. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,bdata,time} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 72 of file kernel\+Litter.\+f90.
+
+
+\begin{DoxyCode}
+72     \textcolor{keywordtype}{class}(kernelLitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+73     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
+74     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+75     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+76     \textcolor{keywordtype}{integer} :: np, nf, bkg, rIdx, rhoIdx
+77     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+78     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
+79     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: requiredVars
+80     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: Buoyancy
+81     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1))} :: fDensity, kVisco
+82     \textcolor{keywordtype}{type}(string) :: tag
+83     
+84     \textcolor{keyword}{allocate}(requiredvars(2))
+85     requiredvars(1) = globals%Var%temp
+86     requiredvars(2) = globals%Var%sal
+87     
+88     buoyancy = 0.0
+89     \textcolor{comment}{!interpolate each background}
+90     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+91         \textcolor{keywordflow}{if} (bdata(bkg)%initialized) \textcolor{keywordflow}{then}
+92             \textcolor{keywordflow}{if}(bdata(bkg)%hasVars(requiredvars)) \textcolor{keywordflow}{then}
+93                 np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+94                 nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
+95                 \textcolor{keyword}{allocate}(var\_dt(np,nf))
+96                 \textcolor{keyword}{allocate}(var\_name(nf))
+97                 \textcolor{comment}{!interpolating all of the data}
+98                 \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name, requiredvars)
+99                 \textcolor{comment}{!compute density}
+100                 \textcolor{comment}{!fDensity = f(temp, sal)}
+101                 \textcolor{comment}{!kVisco = f(temp, sal)}
+102                 \textcolor{comment}{!write dw/dt}
+103                 tag = \textcolor{stringliteral}{'radius'}
+104                 ridx = utils%find\_str(sv%varName, tag, .true.)
+105                 tag = \textcolor{stringliteral}{'density'}
+106                 rhoidx = utils%find\_str(sv%varName, tag, .true.)
+107                 buoyancy(:,3) = 2.0/9.0*(sv%state(:,rhoidx) - fdensity)*globals%Constants%Gravity%z*sv
+      %state(:,ridx)*sv%state(:,ridx)/kvisco
+108                 \textcolor{keyword}{deallocate}(var\_dt)
+109                 \textcolor{keyword}{deallocate}(var\_name)
+110 \textcolor{keywordflow}{            end if}
+111 \textcolor{keywordflow}{        end if}
+112 \textcolor{keywordflow}{    end do}
+113     
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacekernellitter__mod_ab3201eb9917816dbd1043be44120efcb}\label{namespacekernellitter__mod_ab3201eb9917816dbd1043be44120efcb}} 
+\index{kernellitter\+\_\+mod@{kernellitter\+\_\+mod}!degradationlinear@{degradationlinear}}
+\index{degradationlinear@{degradationlinear}!kernellitter\+\_\+mod@{kernellitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{degradationlinear()}{degradationlinear()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernellitter\+\_\+mod\+::degradationlinear (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernellitter__mod_1_1kernellitter__class}{kernellitter\+\_\+class}}), intent(in)}]{self,  }\item[{type(statevector\+\_\+class), intent(inout)}]{sv }\end{DoxyParamCaption})}
+
+
+
+Linear degradation kernel. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 48 of file kernel\+Litter.\+f90.
+
+
+\begin{DoxyCode}
+48     \textcolor{keywordtype}{class}(kernelLitter\_class), \textcolor{keywordtype}{intent(in)} :: self
+49     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+50     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: DegradationLinear
+51     \textcolor{keywordtype}{integer} :: nf, idx
+52     \textcolor{keywordtype}{type}(string) :: tag
+53     
+54     degradationlinear = 0.0
+55     tag = \textcolor{stringliteral}{'condition'}
+56     nf = utils%find\_str(sv%varName, tag, .true.)
+57     tag = \textcolor{stringliteral}{'degradation\_rate'}
+58     idx = utils%find\_str(sv%varName, tag, .true.)
+59     
+60     degradationlinear(:,nf) = -sv%state(:,idx)
+61     \textcolor{keywordflow}{where}(sv%state(:,nf) < 0.0) sv%active = .false.
+62     
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacekernellitter__mod_a145c58d91c7654c5c4f8beac04b608b6}\label{namespacekernellitter__mod_a145c58d91c7654c5c4f8beac04b608b6}} 
+\index{kernellitter\+\_\+mod@{kernellitter\+\_\+mod}!initkernellitter@{initkernellitter}}
+\index{initkernellitter@{initkernellitter}!kernellitter\+\_\+mod@{kernellitter\+\_\+mod}}
+\subsubsection{\texorpdfstring{initkernellitter()}{initkernellitter()}}
+{\footnotesize\ttfamily subroutine kernellitter\+\_\+mod\+::initkernellitter (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernellitter__mod_1_1kernellitter__class}{kernellitter\+\_\+class}}), intent(inout)}]{self }\end{DoxyParamCaption})}
+
+
+
+Initializer method adpated from for kernel class. Sets the type of kernel and the interpolator to evaluate it. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Garaboa Paz -\/ G\+F\+NL 
+\end{DoxyAuthor}
+
+
+Definition at line 123 of file kernel\+Litter.\+f90.
+
+
+\begin{DoxyCode}
+123     \textcolor{keywordtype}{class}(kernelLitter\_class), \textcolor{keywordtype}{intent(inout)} :: self
+124     \textcolor{keywordtype}{type}(string) :: interpName
+125     interpname = \textcolor{stringliteral}{'linear'}
+126     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
+\end{DoxyCode}

@@ -12,14 +12,12 @@
     ! DATE          : September 2019
     ! REVISION      : Canelas 0.1
     !> @author
-    !> Daniel Garaboa Paz
+    !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Defines an abstract physics kernel class.
+    !> Defines an abstract physics kernel class for litter associated processes.
     !> This class has several methods, that should be designed on a one method - one
-    !> process approach. Different types of state vectors (corresponding to different
-    !> types of tracers, with different quantities attached), will be affected by
-    !> different processes (some suffer beaching, others don't have diffusion, etc)
+    !> process approach.
     !> The output of every kernel should be a 2D matrix, where a row represents the
     !> derivative of the state vector of a given tracer. n columns - n variables.
     !> This is the step were interpolation and physics actually happen.
@@ -29,7 +27,7 @@
     use background_mod
     use interpolator_mod    
 
-    type :: kernelLitter_class        !< Solver class
+    type :: kernelLitter_class        !< Litter kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
     contains
     procedure :: initialize => initKernelLitter    
@@ -68,7 +66,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Computes the vertical velocity due to buoyancy of the litter tracers
-    !> @param[in] self, sv, bdata, time, dt
+    !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function Buoyancy(self, sv, bdata, time)
     class(kernelLitter_class), intent(inout) :: self
@@ -118,7 +116,7 @@
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
-    !> Initializer method adpated from for solver kernel class. Sets the type of
+    !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
     !---------------------------------------------------------------------------
     subroutine initKernelLitter(self)

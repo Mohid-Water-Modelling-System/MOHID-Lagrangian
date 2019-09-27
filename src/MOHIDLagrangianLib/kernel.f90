@@ -31,7 +31,7 @@
     
     use kernelLitter_mod
 
-    type :: kernel_class        !< Solver class
+    type :: kernel_class        !< Kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel        
     contains
     procedure :: initialize => initKernel
@@ -44,7 +44,6 @@
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
-    !procedure, private :: DegradationLinear
     end type kernel_class
     
     type(kernelLitter_class) :: Litter       !< litter kernels
@@ -514,7 +513,7 @@
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
-    !> Initializer method adpated from for solver kernel class. Sets the type of
+    !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
     !---------------------------------------------------------------------------
     subroutine initKernel(self)

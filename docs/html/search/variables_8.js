@@ -12,7 +12,7 @@ var searchData=
   ['integrator',['integrator',['../structsimulationglobals__mod_1_1parameters__t.html#a1489379b1bb839280c0715470250c9f5',1,'simulationglobals_mod::parameters_t']]],
   ['integratorindexes',['integratorindexes',['../structsimulationglobals__mod_1_1parameters__t.html#adf4a0c840f5b357417f8c729f33c6428',1,'simulationglobals_mod::parameters_t']]],
   ['integratornames',['integratornames',['../structsimulationglobals__mod_1_1parameters__t.html#aede2d1d4d08c9f3d8b4b4f68029eed65',1,'simulationglobals_mod::parameters_t']]],
-  ['interpolator',['interpolator',['../structkernel__mod_1_1kernel__class.html#a9ad0ab75e7c6a0eff5e24d9d5cd3a72d',1,'kernel_mod::kernel_class']]],
+  ['interpolator',['interpolator',['../structkernel__mod_1_1kernel__class.html#a9ad0ab75e7c6a0eff5e24d9d5cd3a72d',1,'kernel_mod::kernel_class::interpolator()'],['../structkernellitter__mod_1_1kernellitter__class.html#a76f96b14a094f09db8cb72d56fea7ecf',1,'kernellitter_mod::kernellitter_class::interpolator()']]],
   ['interptype',['interptype',['../structinterpolator__mod_1_1interpolator__class.html#afdfac8b305fd660e113fcc4b2145a8da',1,'interpolator_mod::interpolator_class']]],
   ['iterator',['iterator',['../structabstract__linkedlist__mod_1_1linkedlist.html#a96f2e50678291a2552e6c2cc54bc288d',1,'abstract_linkedlist_mod::linkedlist']]]
 ];

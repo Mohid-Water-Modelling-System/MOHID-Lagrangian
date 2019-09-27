@@ -720,8 +720,9 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> returns true if a given set of strings (array) is contained in a list of strings
-    !> @param[in] self, varList, reqVars
+    !> returns true if a given set of variable names in a string array is 
+    !> contained in the variable list of the background
+    !> @param[in] self, reqVars
     !---------------------------------------------------------------------------
     logical function hasVars(self, reqVars)
     class(background_class), intent(in) :: self

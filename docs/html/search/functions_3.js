@@ -2,7 +2,7 @@ var searchData=
 [
   ['decompose',['decompose',['../structsimulation__mod_1_1simulation__class.html#a559d8d450db2c6b568cb6e0e4dbab350',1,'simulation_mod::simulation_class']]],
   ['decomposedomain',['decomposedomain',['../namespacesimulation__mod.html#a2b8198a9fb3f7671c6b45192a0b9740c',1,'simulation_mod']]],
-  ['degradationlinear',['degradationlinear',['../structkernel__mod_1_1kernel__class.html#a03d66a6a01bf605d9fca2f5636548993',1,'kernel_mod::kernel_class::degradationlinear()'],['../namespacekernel__mod.html#a43899c5dd3f82ed3dc4aade9aefd7a44',1,'kernel_mod::degradationlinear()']]],
+  ['degradationlinear',['degradationlinear',['../structkernellitter__mod_1_1kernellitter__class.html#ac0baa73b7ea63898095e6345271bccc4',1,'kernellitter_mod::kernellitter_class::degradationlinear()'],['../namespacekernellitter__mod.html#ab3201eb9917816dbd1043be44120efcb',1,'kernellitter_mod::degradationlinear()']]],
   ['deletecontent',['deletecontent',['../structcontainer__mod_1_1container.html#a69d57b2b6fd0f7b337e438657df27653',1,'container_mod::container::deletecontent()'],['../namespacecontainer__mod.html#a005e6cba51f5837a8bef1f05bb899c08',1,'container_mod::deletecontent()']]],
   ['delgfield',['delgfield',['../structfieldtypes__mod_1_1generic__field__class.html#a14b5aa7f77712f703849552381484eed',1,'fieldtypes_mod::generic_field_class::delgfield()'],['../namespacefieldtypes__mod.html#a4ec7b627804dfcdf20e3374ecc1cf459',1,'fieldtypes_mod::delgfield()']]],
   ['detailedprint',['detailedprint',['../structblocks__mod_1_1block__class.html#a937d8dca8393460bc718dafa8a5c03ac',1,'blocks_mod::block_class::detailedprint()'],['../structsimulationmemory__mod_1_1memory__t.html#a909f0aceaaee770e5a20e3878651dfda',1,'simulationmemory_mod::memory_t::detailedprint()']]],

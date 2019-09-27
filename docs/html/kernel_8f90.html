@@ -97,7 +97,8 @@ $(document).ready(function(){initNavTree('kernel_8f90.html','');});
   <div class="summary">
 <a href="#nested-classes">Data Types</a> &#124;
 <a href="#namespaces">Modules</a> &#124;
-<a href="#func-members">Functions/Subroutines</a>  </div>
+<a href="#func-members">Functions/Subroutines</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">kernel.f90 File Reference</div>  </div>
 </div><!--header-->
@@ -144,15 +145,15 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a92805ef71e30527b27de4efd7561f8f7"><td class="memItemLeft" align="right" valign="top">real(prec) function, dimension(size(sv%state, 1), size(sv%state, 2))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacekernel__mod.html#a92805ef71e30527b27de4efd7561f8f7">kernel_mod::diffusionisotropic</a> (self, sv, dt)</td></tr>
 <tr class="memdesc:a92805ef71e30527b27de4efd7561f8f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Diffusion Kernel, computes the anisotropic diffusion assuming a constant diffusion coefficient. D = 1 m/s.  <a href="namespacekernel__mod.html#a92805ef71e30527b27de4efd7561f8f7">More...</a><br /></td></tr>
 <tr class="separator:a92805ef71e30527b27de4efd7561f8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43899c5dd3f82ed3dc4aade9aefd7a44"><td class="memItemLeft" align="right" valign="top">real(prec) function, dimension(size(sv%state, 1), size(sv%state, 2))&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacekernel__mod.html#a43899c5dd3f82ed3dc4aade9aefd7a44">kernel_mod::degradationlinear</a> (self, sv)</td></tr>
-<tr class="memdesc:a43899c5dd3f82ed3dc4aade9aefd7a44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear degradation kernel.  <a href="namespacekernel__mod.html#a43899c5dd3f82ed3dc4aade9aefd7a44">More...</a><br /></td></tr>
-<tr class="separator:a43899c5dd3f82ed3dc4aade9aefd7a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4444d73e7295ba4b58add9b726de3135"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacekernel__mod.html#a4444d73e7295ba4b58add9b726de3135">kernel_mod::hasrequiredvars</a> (self, varList, reqVars)</td></tr>
-<tr class="memdesc:a4444d73e7295ba4b58add9b726de3135"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns true if a given set of strings (array) is contained in a list of strings  <a href="namespacekernel__mod.html#a4444d73e7295ba4b58add9b726de3135">More...</a><br /></td></tr>
-<tr class="separator:a4444d73e7295ba4b58add9b726de3135"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26c62a8eec723402e20142e68ba7ec65"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacekernel__mod.html#a26c62a8eec723402e20142e68ba7ec65">kernel_mod::initkernel</a> (self)</td></tr>
-<tr class="memdesc:a26c62a8eec723402e20142e68ba7ec65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializer method adpated from for solver kernel class. Sets the type of kernel and the interpolator to evaluate it.  <a href="namespacekernel__mod.html#a26c62a8eec723402e20142e68ba7ec65">More...</a><br /></td></tr>
+<tr class="memdesc:a26c62a8eec723402e20142e68ba7ec65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializer method adpated from for kernel class. Sets the type of kernel and the interpolator to evaluate it.  <a href="namespacekernel__mod.html#a26c62a8eec723402e20142e68ba7ec65">More...</a><br /></td></tr>
 <tr class="separator:a26c62a8eec723402e20142e68ba7ec65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a787f41bde87184610d6f926a6aaa704d"><td class="memItemLeft" align="right" valign="top">type(kernellitter_class)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacekernel__mod.html#a787f41bde87184610d6f926a6aaa704d">kernel_mod::litter</a></td></tr>
+<tr class="memdesc:a787f41bde87184610d6f926a6aaa704d"><td class="mdescLeft">&#160;</td><td class="mdescRight">litter kernels  <a href="namespacekernel__mod.html#a787f41bde87184610d6f926a6aaa704d">More...</a><br /></td></tr>
+<tr class="separator:a787f41bde87184610d6f926a6aaa704d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

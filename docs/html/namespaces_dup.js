@@ -14,6 +14,7 @@ var namespaces_dup =
     [ "hdf5writter_mod", "namespacehdf5writter__mod.html", null ],
     [ "interpolator_mod", "namespaceinterpolator__mod.html", null ],
     [ "kernel_mod", "namespacekernel__mod.html", null ],
+    [ "kernellitter_mod", "namespacekernellitter__mod.html", null ],
     [ "link_mod", "namespacelink__mod.html", null ],
     [ "mtimeseriesparser_mod", "namespacemtimeseriesparser__mod.html", null ],
     [ "netcdfparser_mod", "namespacenetcdfparser__mod.html", null ],

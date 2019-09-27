@@ -4,6 +4,9 @@ var searchData=
   ['kernel_2ef90',['kernel.f90',['../kernel_8f90.html',1,'']]],
   ['kernel_5fclass',['kernel_class',['../structkernel__mod_1_1kernel__class.html',1,'kernel_mod']]],
   ['kernel_5fmod',['kernel_mod',['../namespacekernel__mod.html',1,'']]],
+  ['kernellitter_2ef90',['kernelLitter.f90',['../kernel_litter_8f90.html',1,'']]],
+  ['kernellitter_5fclass',['kernellitter_class',['../structkernellitter__mod_1_1kernellitter__class.html',1,'kernellitter_mod']]],
+  ['kernellitter_5fmod',['kernellitter_mod',['../namespacekernellitter__mod.html',1,'']]],
   ['key',['key',['../structlink__mod_1_1link.html#a3f4862b7d40b8f01c7c65f85d1a567ef',1,'link_mod::link']]],
   ['killsources',['killsources',['../namespacesources__mod.html#aee745aa084adcfa41ecfc3469b90aa8e',1,'sources_mod']]]
 ];
