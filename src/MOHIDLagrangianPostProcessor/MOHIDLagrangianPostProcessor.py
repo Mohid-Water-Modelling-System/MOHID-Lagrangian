@@ -88,7 +88,6 @@ class GridBasedMeasures:
         self.pvd_data = PVDParser(self.pvd_file)
         self.nFiles = len(vtuParser.validVtuFilesList(outdir))
         self.sources = {'id':{}}
-        self.grid_steps = [50.,0.005,0.005]
         self.ISO_time_origin = MDateTime.getDateStringFromDateTime(MDateTime.BaseDateTime())
         self.grid  = {}
         self.centers = {}
@@ -322,7 +321,7 @@ class GridBasedMeasures:
                  
                 
     def var_to_grid(self,varname,source):
-        print('--> Computing '+ varname +' on grid for source:' + self.sources['id'][str(source)])
+        print('--> Computing '+ varname +' on grid for source: ' + self.sources['id'][str(source)])
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
         counts_t = np.zeros((nt,nz,ny,nx))
@@ -379,7 +378,7 @@ class GridBasedMeasures:
         
 
     def writeResidence_time(self,counts_t,source):        
-        print('--> Computing residence time on grid for source:' + self.sources['id'][str(source)])        
+        print('--> Computing residence time on grid for source: ' + self.sources['id'][str(source)])        
         ds = xr.open_dataset(self.netcdf_output_file) 
         self.residence_time = np.zeros(counts_t.shape[1:])
         for t_s in range(0,counts_t.shape[0]):
@@ -394,7 +393,7 @@ class GridBasedMeasures:
  
     
     def writeConcentrations(self,counts_t,source):        
-        print('--> Computing concentrations on grid for source:' + self.sources['id'][str(source)])
+        print('--> Computing concentrations on grid for source: ' + self.sources['id'][str(source)])
         ds = xr.open_dataset(self.netcdf_output_file)
         conc_area = counts_t.sum(axis=1)/self.area
         conc_volume = counts_t/self.volume        
@@ -428,7 +427,7 @@ class GridBasedMeasures:
 
 
     def writeVar(self,vardata, varname, source):
-        print('--> Writing '+ varname + ' for source:',self.sources['id'][str(source)])
+        print('--> Writing '+ varname + ' for source: ',self.sources['id'][str(source)])
         ds = xr.open_dataset(self.netcdf_output_file)
         ds[varname] = (self.dims, vardata)
         ds.close()
