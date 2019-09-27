@@ -53,6 +53,7 @@
     procedure :: makeLandMaskField
     procedure :: makeResolutionField
     procedure :: copy
+    procedure :: hasVars
     procedure, private :: getSlabDim
     procedure, private :: getPointDimIndexes
     procedure :: finalize => cleanBackground
@@ -715,6 +716,25 @@
     call self%fields%reset()               ! reset list iterator
 
     end subroutine copy
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns true if a given set of strings (array) is contained in a list of strings
+    !> @param[in] self, varList, reqVars
+    !---------------------------------------------------------------------------
+    logical function hasVars(self, reqVars)
+    class(background_class), intent(in) :: self
+    type(string), dimension(:), intent(in) :: reqVars
+    integer :: i
+    hasVars = .true.
+    do i=1, size(reqVars)
+        if (self%variables%notRepeated(reqVars(i))) then
+            hasVars = .false.
+            return
+        end if
+    end do
+    end function hasVars
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
