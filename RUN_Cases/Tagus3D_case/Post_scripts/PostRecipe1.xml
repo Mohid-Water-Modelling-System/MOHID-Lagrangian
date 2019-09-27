@@ -9,7 +9,11 @@
 		</measures>
 		<gridDefinition>
 			<units value="meters" comments="relative, meters, degrees"/>
-			<resolution x="500" y="1500" z="100"/>
+			<resolution x="500" y="1500" z="500"/>
 		</gridDefinition>
 	</EulerianMeasures>
+	<time>
+		<start value= "2019 06 27 00 00 00" />
+		<end value  = "2019 06 28 00 00 00" />
+	</time>
 </postProcessing>

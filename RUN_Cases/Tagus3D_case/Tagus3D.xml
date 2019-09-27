@@ -26,7 +26,7 @@
 		<simulation>
 			<resolution dp="150" units_comment="metres (m)"/>
 			<timestep dt="360.0" units_comment="seconds (s)"/>
-			<BoundingBoxMin x="-10.0134" y="38.1687" z="-1000" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMin x="-10.0134" y="38.1687" z="-100" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.9115" y="39.2044" z="5" units_comment="(deg,deg,m)"/>
 		</simulation>
 		<sourceDefinitions>
