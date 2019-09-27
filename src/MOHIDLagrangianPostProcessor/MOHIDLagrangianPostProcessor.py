@@ -438,22 +438,23 @@ class GridBasedMeasures:
     
     
     def checkNc(self):
-        with xr.open_dataset(self.netcdf_output_file) as ds:
+        with xr.open_dataset(self.netcdf_output_file,autoclose=True) as ds:
             if ds.depth.size == 1:
+                ds_sq = ds.load()
+                ds.close()
                 print('->The nc has a depth degenerated dimension: Squeezing...' )
-                ds = ds.squeeze(dim='depth',drop=True)
+                ds_sq = ds_sq.squeeze(dim='depth',drop=True)
                 # When you alter the dimensions of the netcdf, you cannot overwrite the
                 # netcdf. We ha create a new one without extension, remove the old one,
                 # and rename the first one.
-                nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
-                ds.close()
-                ds.to_netcdf(nc_squeezed)
-                try:                
-                    os.remove(self.netcdf_output_file)
-                    os.replace(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
-                except:
-                    print('The file cannot be deleted')
-                    pass
+                #nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
+                ds_sq.to_netcdf(self.netcdf_output_file)
+#               try:                
+#                    os.unlink(self.netcdf_output_file)
+#                    os.replace(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
+#                except:
+#                    print('The file cannot be deleted')
+#                    pass
                    
 
     def run_postprocessing(self, outDir, measures):
