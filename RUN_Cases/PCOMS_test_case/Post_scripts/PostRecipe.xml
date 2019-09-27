@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <postProcessing>
 	<EulerianMeasures>
-		<measures>
-			<field key = "residence_time"/>
+		<measures>			
 			<filters>
 				<filter key = "beaching" value= "1" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
 			</filters>
 		</measures>
 		<gridDefinition>
 			<units value= "relative" comments="relative, meters, degrees"/>
-			<resolution x="150" y="500" z="1"/>
+			<resolution x="200" y="400" z="1"/>
 		</gridDefinition>
 	</EulerianMeasures>
 	<convertFiles>

@@ -6,9 +6,11 @@
 	</time>
 	<EulerianMeasures>
 		<measures>
-			<!-- field key = "residence_time" /> -->
-			<field key="concentrations" />
+			<field key="residence_time"/>
+			<field key="concentrations"/>
 			<field key="age"/>
+			<field key="velocity"/>
+			<field key="id"/>
 			<filters>
 				<filter key="beaching" value="1" comments="0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
 			</filters>
