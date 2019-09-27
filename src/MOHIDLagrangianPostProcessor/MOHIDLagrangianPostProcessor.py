@@ -318,12 +318,11 @@ class GridBasedMeasures:
             for measure in measures:
                 if measure not in exclusions:
                     r_idx=self.var_to_grid(measure, source)
-                    self.writeVar(r_idx, measure+'_'+self.sources['id'][str(source)])
+                    self.writeVar(r_idx, measure, source)
                  
                 
     def var_to_grid(self,varname,source):
-        print('--> Computing '+ varname +' on grid for source:' + source)
-        # counts 2d and 3d are splitted in two functions. 
+        print('--> Computing '+ varname +' on grid for source:' + self.sources['id'][str(source)])
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
         counts_t = np.zeros((nt,nz,ny,nx))
@@ -380,14 +379,13 @@ class GridBasedMeasures:
         
 
     def writeResidence_time(self,counts_t,source):        
-        print('--> Computing residence time on grid for source:' + source)        
-
+        print('--> Computing residence time on grid for source:' + self.sources['id'][str(source)])        
         ds = xr.open_dataset(self.netcdf_output_file) 
         self.residence_time = np.zeros(counts_t.shape[1:])
         for t_s in range(0,counts_t.shape[0]):
             self.residence_time = (counts_t[t_s] > 0) * self.dt + self.residence_time
         self.residence_time[self.residence_time == 0] = np.nan                   
-        var_name ='residence_time_source_' + self.sources['id'][str(source)]
+        var_name ='residence_time_' + self.sources['id'][str(source)]
         ds[var_name] = (self.dims[1:],self.residence_time)
         ds[var_name].attrs = {'long_name':'residence_time', 'units':'s'}
         ds.close()
@@ -396,18 +394,18 @@ class GridBasedMeasures:
  
     
     def writeConcentrations(self,counts_t,source):        
-        print('--> Computing concentrations on grid for source:' + source)
+        print('--> Computing concentrations on grid for source:' + self.sources['id'][str(source)])
         ds = xr.open_dataset(self.netcdf_output_file)
         conc_area = counts_t.sum(axis=1)/self.area
         conc_volume = counts_t/self.volume        
-        var_name_as = 'concentration_area_source_' + self.sources['id'][str(source)]
+        var_name_as = 'concentration_area_' + self.sources['id'][str(source)]
         ds[var_name_as] = (['time','latitude','longitude'], conc_area)
         ds[var_name_as].attrs = {'long_name':'concentration',
-                                  'units':'ppm*m'}            
-        var_name_vs = 'concentration_volume_source_' + self.sources['id'][str(source)]
+                                  'units':'pp/m^2'}            
+        var_name_vs = 'concentration_volume_' + self.sources['id'][str(source)]
         ds[var_name_vs] = (self.dims, conc_volume)
         ds[var_name_vs].attrs = {'long_name':'concentration',
-                                  'units':'ppm*m*m'}        
+                                  'units':'pp/m^3'}        
         ds.close()
         ds.to_netcdf(self.netcdf_output_file,'a')
         return
@@ -429,8 +427,8 @@ class GridBasedMeasures:
         ds.to_netcdf(self.netcdf_output_file,'a')
 
 
-    def writeVar(self,vardata, varname):
-        print('--> Writing '+ varname)
+    def writeVar(self,vardata, varname, source):
+        print('--> Writing '+ varname + ' for source:',self.sources['id'][str(source)])
         ds = xr.open_dataset(self.netcdf_output_file)
         ds[varname] = (self.dims, vardata)
         ds.close()
