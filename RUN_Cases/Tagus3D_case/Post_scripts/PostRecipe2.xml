@@ -4,9 +4,12 @@
 		<measures>
 			<field key="concentrations"/>
 			<field key="residence_time"/>
+			<filters>
+				<filter key = "beaching" value= "1" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
+			</filters>
 		</measures>
 		<gridDefinition>
-			<units value="relative"/>
+			<units value="relative" comments="relative, meters, degrees"/>
 			<resolution x="50" y="70" z="5"/>
 		</gridDefinition>
 	</EulerianMeasures>
