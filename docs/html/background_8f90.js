@@ -15,6 +15,7 @@ var background_8f90 =
     [ "gethyperslab", "background_8f90.html#ae26fda3baab915148ec5749d1eda2ea6", null ],
     [ "getpointdimindexes", "background_8f90.html#ac799224ce7ad219bf1fb4f1f42508f45", null ],
     [ "getslabdim", "background_8f90.html#a09d61976c4545e8753eb4594044b109d", null ],
+    [ "hasvars", "background_8f90.html#aaea077e7c8efb080233831f42e90bd9a", null ],
     [ "makelandmaskfield", "background_8f90.html#a26fbde130644e684871804b73de8d51b", null ],
     [ "makeresolutionfield", "background_8f90.html#aac8ce1ba8edcc9b7669d427318191552", null ],
     [ "print_fieldlist", "background_8f90.html#acdcc52b4fb298bc145a121f9e8a4b929", null ],

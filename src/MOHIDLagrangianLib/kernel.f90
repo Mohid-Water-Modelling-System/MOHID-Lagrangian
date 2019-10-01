@@ -28,9 +28,11 @@
     use stateVector_mod
     use background_mod
     use interpolator_mod
+    
+    use kernelLitter_mod
 
-    type :: kernel_class        !< Solver class
-        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
+    type :: kernel_class        !< Kernel class
+        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel        
     contains
     procedure :: initialize => initKernel
     procedure :: run => runKernel
@@ -42,10 +44,10 @@
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
-    procedure, private :: DegradationLinear
-    procedure, private :: hasRequiredVars
     end type kernel_class
-
+    
+    type(kernelLitter_class) :: Litter       !< litter kernels
+    
     public :: kernel_class
     contains
 
@@ -71,10 +73,10 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + self%DegradationLinear(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)
         runKernel = self%Beaching(sv, runKernel)
     end if
 
@@ -110,7 +112,7 @@
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
-            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+            if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
@@ -166,7 +168,7 @@
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
-            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+            if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
@@ -227,7 +229,7 @@
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
-            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+            if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
@@ -279,7 +281,7 @@
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
-            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+            if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
@@ -406,7 +408,7 @@
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
-            if(self%hasRequiredVars(bdata(bkg)%variables, requiredVars)) then
+            if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
@@ -484,54 +486,34 @@
 
     end function DiffusionIsotropic
     
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> Linear degradation kernel.
-    !> @param[in] self, sv
-    !---------------------------------------------------------------------------
-    function DegradationLinear(self, sv)
-    class(kernel_class), intent(in) :: self
-    type(stateVector_class), intent(inout) :: sv
-    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DegradationLinear
-    integer :: nf, idx
-    type(string) :: tag
-
-    DegradationLinear = 0.0
-    tag = 'condition'
-    nf = Utils%find_str(sv%varName, tag, .true.)
-    tag = 'degradation_rate'
-    idx = Utils%find_str(sv%varName, tag, .true.)
-    
-    DegradationLinear(:,nf) = -sv%state(:,idx)
-    where(sv%state(:,nf) < 0.0) sv%active = .false.
-
-    end function DegradationLinear
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> returns true if a given set of strings (array) is contained in a list of strings
-    !> @param[in] self, varList, reqVars
-    !---------------------------------------------------------------------------
-    logical function hasRequiredVars(self, varList, reqVars)
-    class(kernel_class), intent(in) :: self
-    type(stringList_class) :: varList
-    type(string), dimension(:), intent(in) :: reqVars
-    integer :: i
-    hasRequiredVars = .true.
-    do i=1, size(reqVars)
-        if (varList%notRepeated(reqVars(i))) then
-            hasRequiredVars = .false.
-            return
-        end if
-    end do
-    end function hasRequiredVars
+    !!---------------------------------------------------------------------------
+    !!> @author Ricardo Birjukovs Canelas - MARETEC
+    !!> @brief
+    !!> Linear degradation kernel.
+    !!> @param[in] self, sv
+    !!---------------------------------------------------------------------------
+    !function DegradationLinear(self, sv)
+    !class(kernel_class), intent(in) :: self
+    !type(stateVector_class), intent(inout) :: sv
+    !real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DegradationLinear
+    !integer :: nf, idx
+    !type(string) :: tag
+    !
+    !DegradationLinear = 0.0
+    !tag = 'condition'
+    !nf = Utils%find_str(sv%varName, tag, .true.)
+    !tag = 'degradation_rate'
+    !idx = Utils%find_str(sv%varName, tag, .true.)
+    !
+    !DegradationLinear(:,nf) = -sv%state(:,idx)
+    !where(sv%state(:,nf) < 0.0) sv%active = .false.
+    !
+    !end function DegradationLinear
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
-    !> Initializer method adpated from for solver kernel class. Sets the type of
+    !> Initializer method adpated from for kernel class. Sets the type of
     !> kernel and the interpolator to evaluate it.
     !---------------------------------------------------------------------------
     subroutine initKernel(self)
@@ -539,6 +521,7 @@
     type(string) :: interpName
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
+    call Litter%initialize()
     end subroutine initKernel
 
     end module kernel_mod

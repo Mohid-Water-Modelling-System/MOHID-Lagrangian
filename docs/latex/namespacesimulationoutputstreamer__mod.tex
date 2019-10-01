@@ -119,7 +119,7 @@ Definition at line 189 of file simulation\+Output\+Streamer.\+f90.
 193     \textcolor{keyword}{call }globals%Output%getOutputPoolArray(self%outputVariables)
 194     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
 195         \textcolor{keyword}{call }self%vtkWritter%initialize()
-196         \textcolor{keyword}{call }self%hdf5Writter%initialize()
+196         \textcolor{comment}{!call self%hdf5Writter%initialize()}
 197 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}\label{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}} 

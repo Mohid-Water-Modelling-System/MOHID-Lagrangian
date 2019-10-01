@@ -41,6 +41,8 @@ subroutine \mbox{\hyperlink{namespacebackground__mod_aac8ce1ba8edcc9b7669d427318
 \begin{DoxyCompactList}\small\item\em Method to use a stored binary field to make a resolution proxy for the underlying mesh. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_ac6241a19bbe0f4b2482f95ed3d84056d}{copy}} (self, bkg)
 \begin{DoxyCompactList}\small\item\em Method that copies all data in another Background object. \end{DoxyCompactList}\item 
+logical function \mbox{\hyperlink{namespacebackground__mod_aaea077e7c8efb080233831f42e90bd9a}{hasvars}} (self, req\+Vars)
+\begin{DoxyCompactList}\small\item\em returns true if a given set of variable names in a string array is contained in the variable list of the background \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_a1610fcc9ce260beb3c35418e92a63391}{cleanbackground}} (self)
 \begin{DoxyCompactList}\small\item\em Method that cleans all data in the Background object. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacebackground__mod_a843a471a68ce83809e3ed0a40886a4e7}{cleanfields}} (self)
@@ -92,36 +94,36 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 84 of file background.\+f90.
+Definition at line 85 of file background.\+f90.
 
 
 \begin{DoxyCode}
-84     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-85     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: gfield
-86     \textcolor{keywordtype}{logical} :: added
-87     added = .false.
-88     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar1d%field)) \textcolor{keywordflow}{then}
-89         \textcolor{keyword}{call }self%fields%add(gfield%scalar1d)
-90         added = .true.
-91 \textcolor{keywordflow}{    end if}
-92     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar2d%field)) \textcolor{keywordflow}{then}
-93         \textcolor{keyword}{call }self%fields%add(gfield%scalar2d)
-94         added = .true.
-95 \textcolor{keywordflow}{    end if}
-96     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar3d%field)) \textcolor{keywordflow}{then}
-97         \textcolor{keyword}{call }self%fields%add(gfield%scalar3d)
-98         added = .true.
-99 \textcolor{keywordflow}{    end if}
-100     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar4d%field)) \textcolor{keywordflow}{then}
-101         \textcolor{keyword}{call }self%fields%add(gfield%scalar4d)
-102         added = .true.
-103 \textcolor{keywordflow}{    end if}
-104     \textcolor{comment}{!if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)}
-105     \textcolor{comment}{!if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)}
-106     \textcolor{comment}{!if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)}
-107     \textcolor{keywordflow}{if} (added) \textcolor{keywordflow}{then}
-108         \textcolor{keywordflow}{if}(self%variables%notRepeated(gfield%name)) \textcolor{keyword}{call }self%variables%add(gfield%name)
-109 \textcolor{keywordflow}{    end if}
+85     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+86     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{intent(in)} :: gfield
+87     \textcolor{keywordtype}{logical} :: added
+88     added = .false.
+89     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar1d%field)) \textcolor{keywordflow}{then}
+90         \textcolor{keyword}{call }self%fields%add(gfield%scalar1d)
+91         added = .true.
+92 \textcolor{keywordflow}{    end if}
+93     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar2d%field)) \textcolor{keywordflow}{then}
+94         \textcolor{keyword}{call }self%fields%add(gfield%scalar2d)
+95         added = .true.
+96 \textcolor{keywordflow}{    end if}
+97     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar3d%field)) \textcolor{keywordflow}{then}
+98         \textcolor{keyword}{call }self%fields%add(gfield%scalar3d)
+99         added = .true.
+100 \textcolor{keywordflow}{    end if}
+101     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(gfield%scalar4d%field)) \textcolor{keywordflow}{then}
+102         \textcolor{keyword}{call }self%fields%add(gfield%scalar4d)
+103         added = .true.
+104 \textcolor{keywordflow}{    end if}
+105     \textcolor{comment}{!if (allocated(gfield%vectorial2d%field)) call self%fields%add(gfield%vectorial2d)}
+106     \textcolor{comment}{!if (allocated(gfield%vectorial3d%field)) call self%fields%add(gfield%vectorial3d)}
+107     \textcolor{comment}{!if (allocated(gfield%vectorial4d%field)) call self%fields%add(gfield%vectorial4d)}
+108     \textcolor{keywordflow}{if} (added) \textcolor{keywordflow}{then}
+109         \textcolor{keywordflow}{if}(self%variables%notRepeated(gfield%name)) \textcolor{keyword}{call }self%variables%add(gfield%name)
+110 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a02fa44cb4575159362bfa3b55520d387}\label{namespacebackground__mod_a02fa44cb4575159362bfa3b55520d387}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!appendbackgroundbytime@{appendbackgroundbytime}}
@@ -143,96 +145,96 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 197 of file background.\+f90.
+Definition at line 198 of file background.\+f90.
 
 
 \begin{DoxyCode}
-197     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-198     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(in)} :: bkg
-199     \textcolor{keywordtype}{type}(generic\_field\_class) :: tempGField, tempGField2
-200     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: gField
-201     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)} :: done
-202     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: newTime
-203     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField, bField
-204     \textcolor{keywordtype}{type}(string) :: outext, name, units
-205     \textcolor{keywordtype}{integer} :: i, j, k
-206     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: usedTime
-207 
-208     done = .false.
-209     \textcolor{comment}{!check that dimensions are compatible}
-210     \textcolor{comment}{!spacial dims must be the same, temporal must be consecutive}
-211     \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(self%dim) == \textcolor{keyword}{size}(bkg%dim)) \textcolor{keywordflow}{then} \textcolor{comment}{!ammount of dimensions is the same}
-212         \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(bkg%dim)
-213             j = self%getDimIndex(bkg%dim(i)%name) \textcolor{comment}{!getting the same dimension for the fields}
-214             \textcolor{keywordflow}{if} (bkg%dim(i)%name /= globals%Var%time) \textcolor{keywordflow}{then}  \textcolor{comment}{!dimension is not 'time'}
-215                 \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(bkg%dim(i)%field) == \textcolor{keyword}{size}(self%dim(j)%field)) \textcolor{keywordflow}{then} \textcolor{comment}{!size of the arrays is the same}
-216                     done = all(bkg%dim(i)%field == self%dim(j)%field)  \textcolor{comment}{!dimensions array is the same}
-217 \textcolor{keywordflow}{                end if}
-218             \textcolor{keywordflow}{else}
-219                 \textcolor{comment}{!done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or
+198     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+199     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(in)} :: bkg
+200     \textcolor{keywordtype}{type}(generic\_field\_class) :: tempGField, tempGField2
+201     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: gField
+202     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{intent(out)} :: done
+203     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: newTime
+204     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField, bField
+205     \textcolor{keywordtype}{type}(string) :: outext, name, units
+206     \textcolor{keywordtype}{integer} :: i, j, k
+207     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: usedTime
+208 
+209     done = .false.
+210     \textcolor{comment}{!check that dimensions are compatible}
+211     \textcolor{comment}{!spacial dims must be the same, temporal must be consecutive}
+212     \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(self%dim) == \textcolor{keyword}{size}(bkg%dim)) \textcolor{keywordflow}{then} \textcolor{comment}{!ammount of dimensions is the same}
+213         \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(bkg%dim)
+214             j = self%getDimIndex(bkg%dim(i)%name) \textcolor{comment}{!getting the same dimension for the fields}
+215             \textcolor{keywordflow}{if} (bkg%dim(i)%name /= globals%Var%time) \textcolor{keywordflow}{then}  \textcolor{comment}{!dimension is not 'time'}
+216                 \textcolor{keywordflow}{if} (\textcolor{keyword}{size}(bkg%dim(i)%field) == \textcolor{keyword}{size}(self%dim(j)%field)) \textcolor{keywordflow}{then} \textcolor{comment}{!size of the arrays is the same}
+217                     done = all(bkg%dim(i)%field == self%dim(j)%field)  \textcolor{comment}{!dimensions array is the same}
+218 \textcolor{keywordflow}{                end if}
+219             \textcolor{keywordflow}{else}
+220                 \textcolor{comment}{!done = all(bkg%dim(i)%field >= maxval(self%dim(j)%field)) !time arrays are consecutive or
        the same}
-220                 \textcolor{keyword}{allocate}(newtime, source = self%dim(j)%field)
-221                 \textcolor{keyword}{call }utils%appendArraysUniqueReal(newtime, bkg%dim(i)%field, usedtime)
-222                 \textcolor{comment}{!check if new time dimension is consistent (monotonic and not repeating)}
-223                 done = all(newtime(2:)-newtime(1:\textcolor{keyword}{size}(newtime)-1) > 0)
-224                 name = self%dim(j)%name
-225                 units = self%dim(j)%units
-226                 \textcolor{keyword}{call }self%dim(j)%finalize()
-227                 \textcolor{keyword}{call }self%dim(j)%initialize(name, units, 1, newtime)
-228 \textcolor{keywordflow}{            end if}
-229 \textcolor{keywordflow}{        end do}
-230 \textcolor{keywordflow}{    end if}
-231     \textcolor{keywordflow}{if} (.not.done) \textcolor{keywordflow}{return}
-232 
-233     \textcolor{keyword}{allocate}(gfield(self%fields%getSize()))
-234     i=1
-235     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-236     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
-237         afield => self%fields%currentValue()
-238         \textcolor{keywordflow}{select type}(afield)
-239 \textcolor{keywordflow}{        class is} (field\_class)
-240             \textcolor{keyword}{call }gfield(i)%getGField(afield)
-241             \textcolor{keyword}{call }bkg%fields%reset()
-242             \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(bkg%fields%moreValues())
-243                 bfield => bkg%fields%currentValue()
-244                 \textcolor{keywordflow}{select type}(bfield)
-245 \textcolor{keywordflow}{                class is} (field\_class)
-246                     \textcolor{keywordflow}{if} (bfield%name == afield%name) \textcolor{keywordflow}{then}
-247                         \textcolor{keyword}{call }tempgfield%getGField(bfield)
-248                         \textcolor{comment}{!append the new time instances of the field}
-249                         \textcolor{keyword}{call }gfield(i)%concatenate(tempgfield, usedtime)
-250                         \textcolor{keyword}{call }tempgfield%finalize()
-251                         \textcolor{keywordflow}{exit}
-252 \textcolor{keywordflow}{                    end if}
-253 \textcolor{keywordflow}{                end select}
-254                 \textcolor{keyword}{call }bkg%fields%next()
-255                 \textcolor{keyword}{nullify}(bfield)
-256 \textcolor{keywordflow}{            end do}
-257             \textcolor{keyword}{call }bkg%fields%reset()
-258 \textcolor{keywordflow}{            class default}
-259             outext = \textcolor{stringliteral}{'[Background::appendBackgroundByTime] Unexepected type of content, not a Field'}
-260             \textcolor{keyword}{call }log%put(outext)
-261             stop
-262 \textcolor{keywordflow}{        end select}
-263         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
-264         i = i+1
-265         \textcolor{keyword}{nullify}(afield)
-266 \textcolor{keywordflow}{    end do}
-267     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-268 
-269     \textcolor{keyword}{call }self%cleanFields()
-270     \textcolor{keyword}{call }self%fields%finalize()
-271 
-272     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(gfield)
-273         \textcolor{keyword}{call }self%add(gfield(i))
-274 \textcolor{keywordflow}{    end do}
-275 
-276     \textcolor{keywordflow}{if}(.not.self%check()) \textcolor{keywordflow}{then}
-277         outext = \textcolor{stringliteral}{'[Background::appendBackgroundByTime]: non-conformant Background, stoping '}
-278         \textcolor{keyword}{call }log%put(outext)
-279         stop
-280 \textcolor{keywordflow}{    end if}
-281 
+221                 \textcolor{keyword}{allocate}(newtime, source = self%dim(j)%field)
+222                 \textcolor{keyword}{call }utils%appendArraysUniqueReal(newtime, bkg%dim(i)%field, usedtime)
+223                 \textcolor{comment}{!check if new time dimension is consistent (monotonic and not repeating)}
+224                 done = all(newtime(2:)-newtime(1:\textcolor{keyword}{size}(newtime)-1) > 0)
+225                 name = self%dim(j)%name
+226                 units = self%dim(j)%units
+227                 \textcolor{keyword}{call }self%dim(j)%finalize()
+228                 \textcolor{keyword}{call }self%dim(j)%initialize(name, units, 1, newtime)
+229 \textcolor{keywordflow}{            end if}
+230 \textcolor{keywordflow}{        end do}
+231 \textcolor{keywordflow}{    end if}
+232     \textcolor{keywordflow}{if} (.not.done) \textcolor{keywordflow}{return}
+233 
+234     \textcolor{keyword}{allocate}(gfield(self%fields%getSize()))
+235     i=1
+236     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+237     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
+238         afield => self%fields%currentValue()
+239         \textcolor{keywordflow}{select type}(afield)
+240 \textcolor{keywordflow}{        class is} (field\_class)
+241             \textcolor{keyword}{call }gfield(i)%getGField(afield)
+242             \textcolor{keyword}{call }bkg%fields%reset()
+243             \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(bkg%fields%moreValues())
+244                 bfield => bkg%fields%currentValue()
+245                 \textcolor{keywordflow}{select type}(bfield)
+246 \textcolor{keywordflow}{                class is} (field\_class)
+247                     \textcolor{keywordflow}{if} (bfield%name == afield%name) \textcolor{keywordflow}{then}
+248                         \textcolor{keyword}{call }tempgfield%getGField(bfield)
+249                         \textcolor{comment}{!append the new time instances of the field}
+250                         \textcolor{keyword}{call }gfield(i)%concatenate(tempgfield, usedtime)
+251                         \textcolor{keyword}{call }tempgfield%finalize()
+252                         \textcolor{keywordflow}{exit}
+253 \textcolor{keywordflow}{                    end if}
+254 \textcolor{keywordflow}{                end select}
+255                 \textcolor{keyword}{call }bkg%fields%next()
+256                 \textcolor{keyword}{nullify}(bfield)
+257 \textcolor{keywordflow}{            end do}
+258             \textcolor{keyword}{call }bkg%fields%reset()
+259 \textcolor{keywordflow}{            class default}
+260             outext = \textcolor{stringliteral}{'[Background::appendBackgroundByTime] Unexepected type of content, not a Field'}
+261             \textcolor{keyword}{call }log%put(outext)
+262             stop
+263 \textcolor{keywordflow}{        end select}
+264         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
+265         i = i+1
+266         \textcolor{keyword}{nullify}(afield)
+267 \textcolor{keywordflow}{    end do}
+268     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+269 
+270     \textcolor{keyword}{call }self%cleanFields()
+271     \textcolor{keyword}{call }self%fields%finalize()
+272 
+273     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(gfield)
+274         \textcolor{keyword}{call }self%add(gfield(i))
+275 \textcolor{keywordflow}{    end do}
+276 
+277     \textcolor{keywordflow}{if}(.not.self%check()) \textcolor{keywordflow}{then}
+278         outext = \textcolor{stringliteral}{'[Background::appendBackgroundByTime]: non-conformant Background, stoping '}
+279         \textcolor{keyword}{call }log%put(outext)
+280         stop
+281 \textcolor{keywordflow}{    end if}
+282 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_af2f517e4aa946491744e012153045bd4}\label{namespacebackground__mod_af2f517e4aa946491744e012153045bd4}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!check@{check}}
@@ -249,40 +251,40 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 950 of file background.\+f90.
+Definition at line 971 of file background.\+f90.
 
 
 \begin{DoxyCode}
-950     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
-951     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: dimSize, fieldShape
-952     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField
-953     \textcolor{keywordtype}{logical} :: equal
-954     \textcolor{keywordtype}{integer} :: i
-955     \textcolor{keywordtype}{type}(string) :: outext
-956     check = .true.
-957     equal = .true.
-958     \textcolor{keywordflow}{if} (.not.self%initialized) check = .false.
-959     \textcolor{keyword}{allocate}(dimsize(\textcolor{keyword}{size}(self%dim)))
-960     \textcolor{keyword}{allocate}(fieldshape(\textcolor{keyword}{size}(self%dim)))
-961     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
-962         dimsize(i) = \textcolor{keyword}{size}(self%dim(i)%field)
-963 \textcolor{keywordflow}{    end do}
-964     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-965     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
-966         afield => self%fields%currentValue()
-967         \textcolor{keywordflow}{select type}(afield)
-968 \textcolor{keywordflow}{        class is} (field\_class)
-969             equal = all(dimsize.eq.afield%getFieldShape())
-970             \textcolor{keywordflow}{if} (.not.equal) check = .false.
-971 \textcolor{keywordflow}{            class default}
-972             outext = \textcolor{stringliteral}{'[background\_class::check] Unexepected type of content, not a scalar Field'}
-973             \textcolor{keyword}{call }log%put(outext)
-974             stop
-975 \textcolor{keywordflow}{        end select}
-976         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
-977 \textcolor{keywordflow}{    end do}
-978     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-979 
+971     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
+972     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: dimSize, fieldShape
+973     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField
+974     \textcolor{keywordtype}{logical} :: equal
+975     \textcolor{keywordtype}{integer} :: i
+976     \textcolor{keywordtype}{type}(string) :: outext
+977     check = .true.
+978     equal = .true.
+979     \textcolor{keywordflow}{if} (.not.self%initialized) check = .false.
+980     \textcolor{keyword}{allocate}(dimsize(\textcolor{keyword}{size}(self%dim)))
+981     \textcolor{keyword}{allocate}(fieldshape(\textcolor{keyword}{size}(self%dim)))
+982     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
+983         dimsize(i) = \textcolor{keyword}{size}(self%dim(i)%field)
+984 \textcolor{keywordflow}{    end do}
+985     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+986     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
+987         afield => self%fields%currentValue()
+988         \textcolor{keywordflow}{select type}(afield)
+989 \textcolor{keywordflow}{        class is} (field\_class)
+990             equal = all(dimsize.eq.afield%getFieldShape())
+991             \textcolor{keywordflow}{if} (.not.equal) check = .false.
+992 \textcolor{keywordflow}{            class default}
+993             outext = \textcolor{stringliteral}{'[background\_class::check] Unexepected type of content, not a scalar Field'}
+994             \textcolor{keyword}{call }log%put(outext)
+995             stop
+996 \textcolor{keywordflow}{        end select}
+997         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
+998 \textcolor{keywordflow}{    end do}
+999     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+1000 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a1610fcc9ce260beb3c35418e92a63391}\label{namespacebackground__mod_a1610fcc9ce260beb3c35418e92a63391}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!cleanbackground@{cleanbackground}}
@@ -299,26 +301,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 725 of file background.\+f90.
+Definition at line 746 of file background.\+f90.
 
 
 \begin{DoxyCode}
-725     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-726     \textcolor{keywordtype}{integer} :: i
-727     self%initialized = .false.
-728     self%id = mv\_int
-729     self%name = \textcolor{stringliteral}{''}
-730     self%extents%size = 0.0
-731     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%dim)) \textcolor{keywordflow}{then}
-732         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
-733             \textcolor{keyword}{call }self%dim(i)%finalize()
-734 \textcolor{keywordflow}{        end do}
-735         \textcolor{keyword}{deallocate}(self%dim)
-736 \textcolor{keywordflow}{    end if}
-737     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%regularDim)) \textcolor{keyword}{deallocate}(self%regularDim)
-738     \textcolor{keyword}{call }self%cleanFields()
-739     \textcolor{keyword}{call }self%fields%finalize()
-740     \textcolor{keyword}{call }self%variables%finalize()
+746     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+747     \textcolor{keywordtype}{integer} :: i
+748     self%initialized = .false.
+749     self%id = mv\_int
+750     self%name = \textcolor{stringliteral}{''}
+751     self%extents%size = 0.0
+752     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%dim)) \textcolor{keywordflow}{then}
+753         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
+754             \textcolor{keyword}{call }self%dim(i)%finalize()
+755 \textcolor{keywordflow}{        end do}
+756         \textcolor{keyword}{deallocate}(self%dim)
+757 \textcolor{keywordflow}{    end if}
+758     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(self%regularDim)) \textcolor{keyword}{deallocate}(self%regularDim)
+759     \textcolor{keyword}{call }self%cleanFields()
+760     \textcolor{keyword}{call }self%fields%finalize()
+761     \textcolor{keyword}{call }self%variables%finalize()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a843a471a68ce83809e3ed0a40886a4e7}\label{namespacebackground__mod_a843a471a68ce83809e3ed0a40886a4e7}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!cleanfields@{cleanfields}}
@@ -335,34 +337,34 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 749 of file background.\+f90.
+Definition at line 770 of file background.\+f90.
 
 
 \begin{DoxyCode}
-749     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-750     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-751     \textcolor{keywordtype}{type}(string) :: outext
-752     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-753     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
-754         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
-755         \textcolor{keywordflow}{select type}(curr)
-756 \textcolor{keywordflow}{        class is} (scalar1d\_field\_class)
-757             \textcolor{keyword}{call }curr%finalize()
-758 \textcolor{keywordflow}{        class is} (scalar2d\_field\_class)
-759             \textcolor{keyword}{call }curr%finalize()
-760 \textcolor{keywordflow}{        class is} (scalar3d\_field\_class)
-761             \textcolor{keyword}{call }curr%finalize()
-762 \textcolor{keywordflow}{        class is} (scalar4d\_field\_class)
-763             \textcolor{keyword}{call }curr%finalize()
-764 \textcolor{keywordflow}{            class default}
-765             outext = \textcolor{stringliteral}{'[background\_class::cleanFields] Unexepected type of content, not a scalar Field'}
-766             \textcolor{keyword}{call }log%put(outext)
-767             stop
-768 \textcolor{keywordflow}{        end select}
-769         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
-770         \textcolor{keyword}{nullify}(curr)
-771 \textcolor{keywordflow}{    end do}
-772     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+770     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+771     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+772     \textcolor{keywordtype}{type}(string) :: outext
+773     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+774     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
+775         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
+776         \textcolor{keywordflow}{select type}(curr)
+777 \textcolor{keywordflow}{        class is} (scalar1d\_field\_class)
+778             \textcolor{keyword}{call }curr%finalize()
+779 \textcolor{keywordflow}{        class is} (scalar2d\_field\_class)
+780             \textcolor{keyword}{call }curr%finalize()
+781 \textcolor{keywordflow}{        class is} (scalar3d\_field\_class)
+782             \textcolor{keyword}{call }curr%finalize()
+783 \textcolor{keywordflow}{        class is} (scalar4d\_field\_class)
+784             \textcolor{keyword}{call }curr%finalize()
+785 \textcolor{keywordflow}{            class default}
+786             outext = \textcolor{stringliteral}{'[background\_class::cleanFields] Unexepected type of content, not a scalar Field'}
+787             \textcolor{keyword}{call }log%put(outext)
+788             stop
+789 \textcolor{keywordflow}{        end select}
+790         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
+791         \textcolor{keyword}{nullify}(curr)
+792 \textcolor{keywordflow}{    end do}
+793     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_ad0096fb6a5a11854fd70a7ce58dc3000}\label{namespacebackground__mod_ad0096fb6a5a11854fd70a7ce58dc3000}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!constructor@{constructor}}
@@ -384,19 +386,19 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 119 of file background.\+f90.
+Definition at line 120 of file background.\+f90.
 
 
 \begin{DoxyCode}
-119     \textcolor{keywordtype}{type}(background\_class) :: constructor
-120     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-121     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-122     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: extents
-123     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: dims
-124     constructor%initialized = .true.
-125     \textcolor{keyword}{call }constructor%setID(id, name)
-126     \textcolor{keyword}{call }constructor%setExtents(extents)
-127     \textcolor{keyword}{call }constructor%setDims(dims)
+120     \textcolor{keywordtype}{type}(background\_class) :: constructor
+121     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+122     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+123     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: extents
+124     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: dims
+125     constructor%initialized = .true.
+126     \textcolor{keyword}{call }constructor%setID(id, name)
+127     \textcolor{keyword}{call }constructor%setExtents(extents)
+128     \textcolor{keyword}{call }constructor%setDims(dims)
 \end{DoxyCode}
 Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -420,51 +422,51 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 676 of file background.\+f90.
+Definition at line 677 of file background.\+f90.
 
 
 \begin{DoxyCode}
-676     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-677     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(in)} :: bkg
-678     \textcolor{keywordtype}{integer} :: i
-679     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField
-680     \textcolor{keywordtype}{type}(generic\_field\_class) :: gField
-681     \textcolor{keywordtype}{type}(string) :: outext
-682 
-683     \textcolor{keywordflow}{if}(self%initialized) \textcolor{keyword}{call }self%finalize()
-684     self%initialized = bkg%initialized
-685     self%id = bkg%id
-686     self%name = bkg%name
-687     self%extents%pt = bkg%extents%pt
-688     self%extents%size = bkg%extents%size
-689     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(bkg%dim)) \textcolor{keywordflow}{then}
-690         \textcolor{keyword}{allocate}(self%dim(\textcolor{keyword}{size}(bkg%dim)))
-691         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(bkg%dim)
-692             \textcolor{keyword}{call }self%dim(i)%initialize(bkg%dim(i)%name, bkg%dim(i)%units, 1, bkg%dim(i)%field)
-693 \textcolor{keywordflow}{        end do}
-694 \textcolor{keywordflow}{    end if}
-695     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(bkg%regularDim)) \textcolor{keywordflow}{then}
-696         \textcolor{keyword}{allocate}(self%regularDim(\textcolor{keyword}{size}(bkg%regularDim)))
-697         self%regularDim = bkg%regularDim
-698 \textcolor{keywordflow}{    end if}
-699     \textcolor{keyword}{call }bkg%fields%reset()               \textcolor{comment}{! reset list iterator}
-700     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(bkg%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
-701         afield => bkg%fields%currentValue()
-702         \textcolor{keywordflow}{select type}(afield)
-703 \textcolor{keywordflow}{        class is} (field\_class)
-704             \textcolor{keyword}{call }gfield%getGField(afield)
-705 \textcolor{keywordflow}{            class default}
-706             outext = \textcolor{stringliteral}{'[Background::copy] Unexepected type of content, not a Field'}
-707             \textcolor{keyword}{call }log%put(outext)
-708             stop
-709 \textcolor{keywordflow}{        end select}
-710         \textcolor{keyword}{call }self%add(gfield)
-711         \textcolor{keyword}{call }gfield%finalize()
-712         \textcolor{keyword}{nullify}(afield)
-713         \textcolor{keyword}{call }bkg%fields%next()            \textcolor{comment}{! increment the list iterator}
-714 \textcolor{keywordflow}{    end do}
-715     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-716 
+677     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+678     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(in)} :: bkg
+679     \textcolor{keywordtype}{integer} :: i
+680     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField
+681     \textcolor{keywordtype}{type}(generic\_field\_class) :: gField
+682     \textcolor{keywordtype}{type}(string) :: outext
+683 
+684     \textcolor{keywordflow}{if}(self%initialized) \textcolor{keyword}{call }self%finalize()
+685     self%initialized = bkg%initialized
+686     self%id = bkg%id
+687     self%name = bkg%name
+688     self%extents%pt = bkg%extents%pt
+689     self%extents%size = bkg%extents%size
+690     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(bkg%dim)) \textcolor{keywordflow}{then}
+691         \textcolor{keyword}{allocate}(self%dim(\textcolor{keyword}{size}(bkg%dim)))
+692         \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(bkg%dim)
+693             \textcolor{keyword}{call }self%dim(i)%initialize(bkg%dim(i)%name, bkg%dim(i)%units, 1, bkg%dim(i)%field)
+694 \textcolor{keywordflow}{        end do}
+695 \textcolor{keywordflow}{    end if}
+696     \textcolor{keywordflow}{if} (\textcolor{keyword}{allocated}(bkg%regularDim)) \textcolor{keywordflow}{then}
+697         \textcolor{keyword}{allocate}(self%regularDim(\textcolor{keyword}{size}(bkg%regularDim)))
+698         self%regularDim = bkg%regularDim
+699 \textcolor{keywordflow}{    end if}
+700     \textcolor{keyword}{call }bkg%fields%reset()               \textcolor{comment}{! reset list iterator}
+701     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(bkg%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
+702         afield => bkg%fields%currentValue()
+703         \textcolor{keywordflow}{select type}(afield)
+704 \textcolor{keywordflow}{        class is} (field\_class)
+705             \textcolor{keyword}{call }gfield%getGField(afield)
+706 \textcolor{keywordflow}{            class default}
+707             outext = \textcolor{stringliteral}{'[Background::copy] Unexepected type of content, not a Field'}
+708             \textcolor{keyword}{call }log%put(outext)
+709             stop
+710 \textcolor{keywordflow}{        end select}
+711         \textcolor{keyword}{call }self%add(gfield)
+712         \textcolor{keyword}{call }gfield%finalize()
+713         \textcolor{keyword}{nullify}(afield)
+714         \textcolor{keyword}{call }bkg%fields%next()            \textcolor{comment}{! increment the list iterator}
+715 \textcolor{keywordflow}{    end do}
+716     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+717 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a64c3966a113bc0f3b603c591bc345ca1}\label{namespacebackground__mod_a64c3966a113bc0f3b603c591bc345ca1}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!getdimextents@{getdimextents}}
@@ -486,26 +488,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 171 of file background.\+f90.
+Definition at line 172 of file background.\+f90.
 
 
 \begin{DoxyCode}
-171     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
-172     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-173     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: mandatory
-174     \textcolor{keywordtype}{logical} :: mand
-175     \textcolor{keywordtype}{integer} :: i
-176     \textcolor{keywordtype}{real(prec)} :: dimExtent(2)
-177     mand = .true.
-178     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) mand = mandatory
-179     i = self%getDimIndex(name, mand)
-180     \textcolor{keywordflow}{if} ( i/= mv\_int) \textcolor{keywordflow}{then}
-181         dimextent(1) = self%dim(i)%getFieldMinBound()
-182         dimextent(2) = self%dim(i)%getFieldMaxBound()
-183     \textcolor{keywordflow}{else}
-184         dimextent(1) = mv
-185         dimextent(2) = mv
-186 \textcolor{keywordflow}{    end if}
+172     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
+173     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+174     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: mandatory
+175     \textcolor{keywordtype}{logical} :: mand
+176     \textcolor{keywordtype}{integer} :: i
+177     \textcolor{keywordtype}{real(prec)} :: dimExtent(2)
+178     mand = .true.
+179     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) mand = mandatory
+180     i = self%getDimIndex(name, mand)
+181     \textcolor{keywordflow}{if} ( i/= mv\_int) \textcolor{keywordflow}{then}
+182         dimextent(1) = self%dim(i)%getFieldMinBound()
+183         dimextent(2) = self%dim(i)%getFieldMaxBound()
+184     \textcolor{keywordflow}{else}
+185         dimextent(1) = mv
+186         dimextent(2) = mv
+187 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a8a4c5fdcda63376bc3a984e9612dfb63}\label{namespacebackground__mod_a8a4c5fdcda63376bc3a984e9612dfb63}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!getdimindex@{getdimindex}}
@@ -527,36 +529,36 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 137 of file background.\+f90.
+Definition at line 138 of file background.\+f90.
 
 
 \begin{DoxyCode}
-137     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
-138     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-139     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: mandatory
-140     \textcolor{keywordtype}{integer} :: i
-141     \textcolor{keywordtype}{type}(string) :: outext
-142     \textcolor{keywordtype}{logical} found
-143     found = .false.
-144     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
-145         \textcolor{keywordflow}{if} (self%dim(i)%name == name) \textcolor{keywordflow}{then}
-146             found = .true.
-147             getdimindex = i
-148             \textcolor{keywordflow}{return}
-149 \textcolor{keywordflow}{        end if}
-150 \textcolor{keywordflow}{    end do}
-151     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
-152         \textcolor{keywordflow}{if} (mandatory) \textcolor{keywordflow}{then}
-153             \textcolor{keywordflow}{if} (.not. found) \textcolor{keywordflow}{then}
-154                 outext = \textcolor{stringliteral}{'[background\_class::getDimIndex]: Field dimensions dont contain a field called '}//
+138     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
+139     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+140     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{optional}, \textcolor{keywordtype}{intent(in)} :: mandatory
+141     \textcolor{keywordtype}{integer} :: i
+142     \textcolor{keywordtype}{type}(string) :: outext
+143     \textcolor{keywordtype}{logical} found
+144     found = .false.
+145     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
+146         \textcolor{keywordflow}{if} (self%dim(i)%name == name) \textcolor{keywordflow}{then}
+147             found = .true.
+148             getdimindex = i
+149             \textcolor{keywordflow}{return}
+150 \textcolor{keywordflow}{        end if}
+151 \textcolor{keywordflow}{    end do}
+152     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(mandatory)) \textcolor{keywordflow}{then}
+153         \textcolor{keywordflow}{if} (mandatory) \textcolor{keywordflow}{then}
+154             \textcolor{keywordflow}{if} (.not. found) \textcolor{keywordflow}{then}
+155                 outext = \textcolor{stringliteral}{'[background\_class::getDimIndex]: Field dimensions dont contain a field called '}//
        name //\textcolor{stringliteral}{', stoping'}
-155                 \textcolor{keyword}{call }log%put(outext)
-156                 stop
-157 \textcolor{keywordflow}{            end if}
-158         \textcolor{keywordflow}{else}
-159             getdimindex = mv\_int
-160 \textcolor{keywordflow}{        end if}
-161 \textcolor{keywordflow}{    end if}
+156                 \textcolor{keyword}{call }log%put(outext)
+157                 stop
+158 \textcolor{keywordflow}{            end if}
+159         \textcolor{keywordflow}{else}
+160             getdimindex = mv\_int
+161 \textcolor{keywordflow}{        end if}
+162 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_ae26fda3baab915148ec5749d1eda2ea6}\label{namespacebackground__mod_ae26fda3baab915148ec5749d1eda2ea6}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!gethyperslab@{gethyperslab}}
@@ -578,95 +580,95 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 291 of file background.\+f90.
+Definition at line 292 of file background.\+f90.
 
 
 \begin{DoxyCode}
-291     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
-292     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: domain
-293     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: time(2)
-294     \textcolor{keywordtype}{real(prec)} :: ltime(2)
-295     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: backgrounDims
-296     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: gfield
-297     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-298     \textcolor{keywordtype}{type}(box) :: extents
-299     \textcolor{keywordtype}{type}(vector) :: pt
-300     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(3,2)} :: dimExtents
-301     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: llbound
-302     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: uubound
-303     \textcolor{keywordtype}{integer} :: temp\_int
-304     \textcolor{keywordtype}{type}(string) :: outext
-305     \textcolor{keywordtype}{integer} :: i
-306 
-307     ltime = self%getDimExtents(globals%Var%time)
-308     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(time)) ltime = time
-309     \textcolor{comment}{!finding index bounds of the slicing geometry}
-310     \textcolor{keyword}{allocate}(llbound(\textcolor{keyword}{size}(self%dim)))
-311     \textcolor{keyword}{allocate}(uubound(\textcolor{keyword}{size}(self%dim)))
-312     llbound = self%getPointDimIndexes(domain%pt, ltime(1))
-313     uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
-314     \textcolor{comment}{!slicing dimensions}
-315     \textcolor{keyword}{allocate}(backgroundims(\textcolor{keyword}{size}(self%dim)))
-316     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
-317         \textcolor{keywordflow}{if} (llbound(i) > uubound(i)) \textcolor{keywordflow}{then} \textcolor{comment}{!because We're not inverting the dimension and fields - Needs to
+292     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
+293     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: domain
+294     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)}, \textcolor{keywordtype}{optional} :: time(2)
+295     \textcolor{keywordtype}{real(prec)} :: ltime(2)
+296     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: backgrounDims
+297     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: gfield
+298     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+299     \textcolor{keywordtype}{type}(box) :: extents
+300     \textcolor{keywordtype}{type}(vector) :: pt
+301     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(3,2)} :: dimExtents
+302     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: llbound
+303     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: uubound
+304     \textcolor{keywordtype}{integer} :: temp\_int
+305     \textcolor{keywordtype}{type}(string) :: outext
+306     \textcolor{keywordtype}{integer} :: i
+307 
+308     ltime = self%getDimExtents(globals%Var%time)
+309     \textcolor{keywordflow}{if} (\textcolor{keyword}{present}(time)) ltime = time
+310     \textcolor{comment}{!finding index bounds of the slicing geometry}
+311     \textcolor{keyword}{allocate}(llbound(\textcolor{keyword}{size}(self%dim)))
+312     \textcolor{keyword}{allocate}(uubound(\textcolor{keyword}{size}(self%dim)))
+313     llbound = self%getPointDimIndexes(domain%pt, ltime(1))
+314     uubound = self%getPointDimIndexes(domain%pt+domain%size, ltime(2))
+315     \textcolor{comment}{!slicing dimensions}
+316     \textcolor{keyword}{allocate}(backgroundims(\textcolor{keyword}{size}(self%dim)))
+317     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
+318         \textcolor{keywordflow}{if} (llbound(i) > uubound(i)) \textcolor{keywordflow}{then} \textcolor{comment}{!because We're not inverting the dimension and fields - Needs to
        be corrected}
-318             temp\_int = llbound(i)
-319             llbound(i) = uubound(i)
-320             uubound(i) = temp\_int
-321 \textcolor{keywordflow}{        end if}
-322         llbound(i) = max(1, llbound(i)-2) \textcolor{comment}{!adding safety net to index bounds}
-323         uubound(i) = min(uubound(i)+2, \textcolor{keyword}{size}(self%dim(i)%field))
-324         \textcolor{keyword}{call }backgroundims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound
+319             temp\_int = llbound(i)
+320             llbound(i) = uubound(i)
+321             uubound(i) = temp\_int
+322 \textcolor{keywordflow}{        end if}
+323         llbound(i) = max(1, llbound(i)-2) \textcolor{comment}{!adding safety net to index bounds}
+324         uubound(i) = min(uubound(i)+2, \textcolor{keyword}{size}(self%dim(i)%field))
+325         \textcolor{keyword}{call }backgroundims(i)%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim(i, llbound
       (i), uubound(i)))
-325 \textcolor{keywordflow}{    end do}
-326     \textcolor{comment}{!slicing variables}
-327     \textcolor{keyword}{allocate}(gfield(self%fields%getSize()))
-328     i=1
-329     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-330     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
-331         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
-332         \textcolor{keywordflow}{select type}(curr)
-333 \textcolor{keywordflow}{        class is} (field\_class)
-334             gfield(i) = curr%getFieldSlice(llbound, uubound)
-335 \textcolor{keywordflow}{            class default}
-336             outext = \textcolor{stringliteral}{'[background\_class::getHyperSlab] Unexepected type of content, not a scalar Field'}
-337             \textcolor{keyword}{call }log%put(outext)
-338             stop
-339 \textcolor{keywordflow}{        end select}
-340         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
-341         i = i+1
-342         \textcolor{keyword}{nullify}(curr)
-343 \textcolor{keywordflow}{    end do}
-344     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-345     \textcolor{comment}{!creating bounding box}
-346     dimextents = 0.0
-347     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(backgroundims)
-348         \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%lon) \textcolor{keywordflow}{then}
-349             dimextents(1,1) = backgroundims(i)%getFieldMinBound()
-350             dimextents(1,2) = backgroundims(i)%getFieldMaxBound()
-351         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%lat) \textcolor{keywordflow}{then}
-352             dimextents(2,1) = backgroundims(i)%getFieldMinBound()
-353             dimextents(2,2) = backgroundims(i)%getFieldMaxBound()
-354         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%level) \textcolor{keywordflow}{then}
-355             dimextents(3,1) = backgroundims(i)%getFieldMinBound()
-356             dimextents(3,2) = backgroundims(i)%getFieldMaxBound()
-357 \textcolor{keywordflow}{        end if}
-358 \textcolor{keywordflow}{    end do}
-359     extents%pt = dimextents(1,1)*ex + dimextents(2,1)*ey + dimextents(3,1)*ez
-360     pt = dimextents(1,2)*ex + dimextents(2,2)*ey + dimextents(3,2)*ez
-361     extents%size = pt - extents%pt
-362     \textcolor{comment}{!creating the sliced background}
-363     gethyperslab = constructor(1, self%name, extents, backgroundims)
-364     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(gfield)
-365         \textcolor{keyword}{call }gethyperslab%add(gfield(i))
-366 \textcolor{keywordflow}{    end do}
-367 
-368     \textcolor{keywordflow}{if}(.not.self%check()) \textcolor{keywordflow}{then}
-369         outext = \textcolor{stringliteral}{'[Background::getHyperSlab]: non-conformant Background, stoping '}
-370         \textcolor{keyword}{call }log%put(outext)
-371         stop
-372 \textcolor{keywordflow}{    end if}
-373 
+326 \textcolor{keywordflow}{    end do}
+327     \textcolor{comment}{!slicing variables}
+328     \textcolor{keyword}{allocate}(gfield(self%fields%getSize()))
+329     i=1
+330     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+331     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
+332         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
+333         \textcolor{keywordflow}{select type}(curr)
+334 \textcolor{keywordflow}{        class is} (field\_class)
+335             gfield(i) = curr%getFieldSlice(llbound, uubound)
+336 \textcolor{keywordflow}{            class default}
+337             outext = \textcolor{stringliteral}{'[background\_class::getHyperSlab] Unexepected type of content, not a scalar Field'}
+338             \textcolor{keyword}{call }log%put(outext)
+339             stop
+340 \textcolor{keywordflow}{        end select}
+341         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
+342         i = i+1
+343         \textcolor{keyword}{nullify}(curr)
+344 \textcolor{keywordflow}{    end do}
+345     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+346     \textcolor{comment}{!creating bounding box}
+347     dimextents = 0.0
+348     \textcolor{keywordflow}{do} i = 1, \textcolor{keyword}{size}(backgroundims)
+349         \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%lon) \textcolor{keywordflow}{then}
+350             dimextents(1,1) = backgroundims(i)%getFieldMinBound()
+351             dimextents(1,2) = backgroundims(i)%getFieldMaxBound()
+352         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%lat) \textcolor{keywordflow}{then}
+353             dimextents(2,1) = backgroundims(i)%getFieldMinBound()
+354             dimextents(2,2) = backgroundims(i)%getFieldMaxBound()
+355         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (backgroundims(i)%name == globals%Var%level) \textcolor{keywordflow}{then}
+356             dimextents(3,1) = backgroundims(i)%getFieldMinBound()
+357             dimextents(3,2) = backgroundims(i)%getFieldMaxBound()
+358 \textcolor{keywordflow}{        end if}
+359 \textcolor{keywordflow}{    end do}
+360     extents%pt = dimextents(1,1)*ex + dimextents(2,1)*ey + dimextents(3,1)*ez
+361     pt = dimextents(1,2)*ex + dimextents(2,2)*ey + dimextents(3,2)*ez
+362     extents%size = pt - extents%pt
+363     \textcolor{comment}{!creating the sliced background}
+364     gethyperslab = constructor(1, self%name, extents, backgroundims)
+365     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(gfield)
+366         \textcolor{keyword}{call }gethyperslab%add(gfield(i))
+367 \textcolor{keywordflow}{    end do}
+368 
+369     \textcolor{keywordflow}{if}(.not.self%check()) \textcolor{keywordflow}{then}
+370         outext = \textcolor{stringliteral}{'[Background::getHyperSlab]: non-conformant Background, stoping '}
+371         \textcolor{keyword}{call }log%put(outext)
+372         stop
+373 \textcolor{keywordflow}{    end if}
+374 
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -695,26 +697,26 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 383 of file background.\+f90.
+Definition at line 384 of file background.\+f90.
 
 
 \begin{DoxyCode}
-383     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
-384     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
-385     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
-386     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getPointDimIndexes
-387     \textcolor{keywordtype}{integer} :: i
-388     \textcolor{keyword}{allocate}(getpointdimindexes(\textcolor{keyword}{size}(self%dim)))
-389     \textcolor{keywordflow}{do} i= 1, \textcolor{keyword}{size}(self%dim)
-390         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%lon) getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex(
+384     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
+385     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{intent(in)} :: pt
+386     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+387     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getPointDimIndexes
+388     \textcolor{keywordtype}{integer} :: i
+389     \textcolor{keyword}{allocate}(getpointdimindexes(\textcolor{keyword}{size}(self%dim)))
+390     \textcolor{keywordflow}{do} i= 1, \textcolor{keyword}{size}(self%dim)
+391         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%lon) getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex(
       pt%x)
-391         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%lat) getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex(
+392         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%lat) getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex(
       pt%y)
-392         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%level) getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex
+393         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%level) getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex
       (pt%z)
-393         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%time)  getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex
+394         \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%time)  getpointdimindexes(i) = self%dim(i)%getFieldNearestIndex
       (time)
-394 \textcolor{keywordflow}{    end do}
+395 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a09d61976c4545e8753eb4594044b109d}\label{namespacebackground__mod_a09d61976c4545e8753eb4594044b109d}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!getslabdim@{getslabdim}}
@@ -736,14 +738,49 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 404 of file background.\+f90.
+Definition at line 405 of file background.\+f90.
 
 
 \begin{DoxyCode}
-404     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
-405     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: numDim, llbound, uubound
-406     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getSlabDim
-407     \textcolor{keyword}{allocate}(getslabdim, source = self%dim(numdim)%field(llbound:uubound))
+405     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
+406     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: numDim, llbound, uubound
+407     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: getSlabDim
+408     \textcolor{keyword}{allocate}(getslabdim, source = self%dim(numdim)%field(llbound:uubound))
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacebackground__mod_aaea077e7c8efb080233831f42e90bd9a}\label{namespacebackground__mod_aaea077e7c8efb080233831f42e90bd9a}} 
+\index{background\+\_\+mod@{background\+\_\+mod}!hasvars@{hasvars}}
+\index{hasvars@{hasvars}!background\+\_\+mod@{background\+\_\+mod}}
+\subsubsection{\texorpdfstring{hasvars()}{hasvars()}}
+{\footnotesize\ttfamily logical function background\+\_\+mod\+::hasvars (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), intent(in)}]{self,  }\item[{type(string), dimension(\+:), intent(in)}]{req\+Vars }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+returns true if a given set of variable names in a string array is contained in the variable list of the background 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,req\+Vars} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 728 of file background.\+f90.
+
+
+\begin{DoxyCode}
+728     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(in)} :: self
+729     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: reqVars
+730     \textcolor{keywordtype}{integer} :: i
+731     hasvars = .true.
+732     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(reqvars)
+733         \textcolor{keywordflow}{if} (self%variables%notRepeated(reqvars(i))) \textcolor{keywordflow}{then}
+734             hasvars = .false.
+735             \textcolor{keywordflow}{return}
+736 \textcolor{keywordflow}{        end if}
+737 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a26fbde130644e684871804b73de8d51b}\label{namespacebackground__mod_a26fbde130644e684871804b73de8d51b}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!makelandmaskfield@{makelandmaskfield}}
@@ -760,122 +797,122 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 501 of file background.\+f90.
+Definition at line 502 of file background.\+f90.
 
 
 \begin{DoxyCode}
-501     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-502     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-503     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d
+502     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+503     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+504     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: shiftleftlon3d, shiftuplat3d, shiftrigthlon3d, shiftdownlat3d
       , beach3d
-504     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, 
+505     \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: shiftleftlon4d, shiftuplat4d, shiftrigthlon4d, 
       shiftdownlat4d, shiftUpLevel, shiftDownLevel, beach4d, bed4d
-505     \textcolor{keywordtype}{type}(string) :: outext
-506     \textcolor{keywordtype}{integer} :: dimIndx, k
-507     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-508     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
-509         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
-510         \textcolor{keywordflow}{select type}(curr)
-511 \textcolor{keywordflow}{        class is} (scalar3d\_field\_class)
-512             \textcolor{keywordflow}{if} (curr%name == globals%Var%landIntMask) \textcolor{keywordflow}{then}
-513                 \textcolor{keyword}{allocate}(shiftleftlon3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
-514                 \textcolor{keyword}{allocate}(shiftuplat3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
-515                 \textcolor{keyword}{allocate}(shiftrigthlon3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
-516                 \textcolor{keyword}{allocate}(shiftdownlat3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
-517                 \textcolor{keyword}{allocate}(beach3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
-518                 shiftleftlon3d = .false.
-519                 shiftleftlon3d(:\textcolor{keyword}{size}(curr%field,1)-1,:,:) = abs(curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:) - 
+506     \textcolor{keywordtype}{type}(string) :: outext
+507     \textcolor{keywordtype}{integer} :: dimIndx, k
+508     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+509     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
+510         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
+511         \textcolor{keywordflow}{select type}(curr)
+512 \textcolor{keywordflow}{        class is} (scalar3d\_field\_class)
+513             \textcolor{keywordflow}{if} (curr%name == globals%Var%landIntMask) \textcolor{keywordflow}{then}
+514                 \textcolor{keyword}{allocate}(shiftleftlon3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
+515                 \textcolor{keyword}{allocate}(shiftuplat3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
+516                 \textcolor{keyword}{allocate}(shiftrigthlon3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
+517                 \textcolor{keyword}{allocate}(shiftdownlat3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
+518                 \textcolor{keyword}{allocate}(beach3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
+519                 shiftleftlon3d = .false.
+520                 shiftleftlon3d(:\textcolor{keyword}{size}(curr%field,1)-1,:,:) = abs(curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:) - 
       curr%field(2:,:,:)) /= 0.0
-520                 shiftrigthlon3d = .false.
-521                 shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:)) /
+521                 shiftrigthlon3d = .false.
+522                 shiftrigthlon3d(2:,:,:) = abs(curr%field(2:,:,:) - curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:)) /
       = 0.0
-522                 shiftuplat3d = .false.
-523                 shiftuplat3d(:,:\textcolor{keyword}{size}(curr%field,2)-1,:) = abs(curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:) - curr
+523                 shiftuplat3d = .false.
+524                 shiftuplat3d(:,:\textcolor{keyword}{size}(curr%field,2)-1,:) = abs(curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:) - curr
       %field(:,2:,:)) /= 0.0
-524                 shiftdownlat3d = .false.
-525                 shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:)) /
+525                 shiftdownlat3d = .false.
+526                 shiftdownlat3d(:, 2:,:) = abs(curr%field(:,2:,:) - curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:)) /
       = 0.0
-526                 beach3d = .false.
-527                 beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d \textcolor{comment}{
+527                 beach3d = .false.
+528                 beach3d = shiftleftlon3d .or. shiftrigthlon3d .or. shiftuplat3d .or. shiftdownlat3d \textcolor{comment}{
       !colapsing all the shifts}
-528                 beach3d = beach3d .and. (curr%field == globals%Mask%waterVal) \textcolor{comment}{!just points that were
+529                 beach3d = beach3d .and. (curr%field == globals%Mask%waterVal) \textcolor{comment}{!just points that were
        already wet}
-529                 \textcolor{keywordflow}{where}(beach3d) curr%field = globals%Mask%beachVal
-530                 \textcolor{comment}{!searching for areas that are beach and land and mark them as beach only }
-531                 \textcolor{keywordflow}{do} k=1, \textcolor{keyword}{size}(curr%field,3)
-532                     beach3d(:,:,1) = beach3d(:,:,1) .or. beach3d(:,:,k)
-533                     beach3d(:,:,k) = beach3d(:,:,1)
-534 \textcolor{keywordflow}{                end do}
-535                 \textcolor{keywordflow}{where} ((curr%field == globals%Mask%landVal) .and. beach3d) curr%field = globals%Mask
+530                 \textcolor{keywordflow}{where}(beach3d) curr%field = globals%Mask%beachVal
+531                 \textcolor{comment}{!searching for areas that are beach and land and mark them as beach only }
+532                 \textcolor{keywordflow}{do} k=1, \textcolor{keyword}{size}(curr%field,3)
+533                     beach3d(:,:,1) = beach3d(:,:,1) .or. beach3d(:,:,k)
+534                     beach3d(:,:,k) = beach3d(:,:,1)
+535 \textcolor{keywordflow}{                end do}
+536                 \textcolor{keywordflow}{where} ((curr%field == globals%Mask%landVal) .and. beach3d) curr%field = globals%Mask
       %beachVal
-536 \textcolor{keywordflow}{            end if}
-537 \textcolor{keywordflow}{        class is} (scalar4d\_field\_class)
-538             \textcolor{keywordflow}{if} (curr%name == globals%Var%landIntMask) \textcolor{keywordflow}{then}
-539                 \textcolor{keyword}{allocate}(shiftleftlon4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
+537 \textcolor{keywordflow}{            end if}
+538 \textcolor{keywordflow}{        class is} (scalar4d\_field\_class)
+539             \textcolor{keywordflow}{if} (curr%name == globals%Var%landIntMask) \textcolor{keywordflow}{then}
+540                 \textcolor{keyword}{allocate}(shiftleftlon4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
       curr%field,4)))
-540                 \textcolor{keyword}{allocate}(shiftuplat4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr
+541                 \textcolor{keyword}{allocate}(shiftuplat4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr
       %field,4)))
-541                 \textcolor{keyword}{allocate}(shiftrigthlon4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
+542                 \textcolor{keyword}{allocate}(shiftrigthlon4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
       curr%field,4)))
-542                 \textcolor{keyword}{allocate}(shiftdownlat4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
+543                 \textcolor{keyword}{allocate}(shiftdownlat4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
       curr%field,4)))
-543                 \textcolor{keyword}{allocate}(shiftuplevel(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr
+544                 \textcolor{keyword}{allocate}(shiftuplevel(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr
       %field,4)))
-544                 \textcolor{keyword}{allocate}(shiftdownlevel(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
+545                 \textcolor{keyword}{allocate}(shiftdownlevel(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(
       curr%field,4)))
-545                 \textcolor{keyword}{allocate}(beach4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr
+546                 \textcolor{keyword}{allocate}(beach4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr
       %field,4)))
-546                 \textcolor{keyword}{allocate}(bed4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,
+547                 \textcolor{keyword}{allocate}(bed4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,
       4)))
-547                 shiftleftlon4d = .false.
-548                 shiftleftlon4d(:\textcolor{keyword}{size}(curr%field,1)-1,:,:,:) = abs(curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:,:) -
+548                 shiftleftlon4d = .false.
+549                 shiftleftlon4d(:\textcolor{keyword}{size}(curr%field,1)-1,:,:,:) = abs(curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:,:) -
        curr%field(2:,:,:,:)) /= 0.0
-549                 shiftrigthlon4d = .false.
-550                 shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:
+550                 shiftrigthlon4d = .false.
+551                 shiftrigthlon4d(2:,:,:,:) = abs(curr%field(2:,:,:,:) - curr%field(:\textcolor{keyword}{size}(curr%field,1)-1,:,:
       ,:)) /= 0.0
-551                 shiftdownlat4d = .false.
-552                 shiftdownlat4d(:,:\textcolor{keyword}{size}(curr%field,2)-1,:,:) = abs(curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:,:) -
+552                 shiftdownlat4d = .false.
+553                 shiftdownlat4d(:,:\textcolor{keyword}{size}(curr%field,2)-1,:,:) = abs(curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:,:) -
        curr%field(:,2:,:,:)) /= 0.0
-553                 shiftuplat4d = .false.
-554                 shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:,:)
+554                 shiftuplat4d = .false.
+555                 shiftuplat4d(:,2:,:,:) = abs(curr%field(:,2:,:,:) - curr%field(:,:\textcolor{keyword}{size}(curr%field,2)-1,:,:)
       ) /= 0.0
-555                 shiftuplevel = .false.
-556                 shiftuplevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:\textcolor{keyword}{size}(curr%field,3)-1,:)
+556                 shiftuplevel = .false.
+557                 shiftuplevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:\textcolor{keyword}{size}(curr%field,3)-1,:)
       ) /= 0.0
-557                 shiftdownlevel = .false.
-558                 shiftdownlevel(:,:,:\textcolor{keyword}{size}(curr%field,3)-1,:) = abs(curr%field(:,:,:\textcolor{keyword}{size}(curr%field,3)-1,:) -
+558                 shiftdownlevel = .false.
+559                 shiftdownlevel(:,:,:\textcolor{keyword}{size}(curr%field,3)-1,:) = abs(curr%field(:,:,:\textcolor{keyword}{size}(curr%field,3)-1,:) -
        curr%field(:,:,2:,:)) /= 0.0
-559                 beach4d = .false.
-560                 beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. 
+560                 beach4d = .false.
+561                 beach4d = shiftleftlon4d .or. shiftrigthlon4d .or. shiftuplat4d .or. shiftdownlat4d .or. 
       shiftdownlevel .or. shiftuplevel \textcolor{comment}{!colapsing all the shifts}
-561                 beach4d = beach4d .and. (curr%field == globals%Mask%waterVal) \textcolor{comment}{!just points that were
+562                 beach4d = beach4d .and. (curr%field == globals%Mask%waterVal) \textcolor{comment}{!just points that were
        already wet}
-562                 bed4d = beach4d
-563                 dimindx = self%getDimIndex(globals%Var%level)
-564                 dimindx = minloc(abs(self%dim(dimindx)%field - globals%Constants%BeachingLevel),1)
-565                 beach4d(:,:,:dimindx,:) = .false. \textcolor{comment}{!this must be above a certain level only}
-566                 bed4d(:,:,dimindx:,:) = .false.   \textcolor{comment}{!bellow a certain level}
-567                 \textcolor{keywordflow}{where}(beach4d) curr%field = globals%Mask%beachVal
-568                 \textcolor{keywordflow}{where}(bed4d) curr%field = globals%Mask%bedVal
-569                 \textcolor{comment}{!searching for areas that are beach and land and mark them as beach only }
-570                 \textcolor{keywordflow}{do} k=1, \textcolor{keyword}{size}(curr%field,4)
-571                     beach4d(:,:,:,1) = beach4d(:,:,:,1) .or. beach4d(:,:,:,k)
-572                     beach4d(:,:,:,k) = beach4d(:,:,:,1)
-573 \textcolor{keywordflow}{                end do}
-574                 \textcolor{keywordflow}{where} ((curr%field == globals%Mask%landVal) .and. beach4d) curr%field = globals%Mask
+563                 bed4d = beach4d
+564                 dimindx = self%getDimIndex(globals%Var%level)
+565                 dimindx = minloc(abs(self%dim(dimindx)%field - globals%Constants%BeachingLevel),1)
+566                 beach4d(:,:,:dimindx,:) = .false. \textcolor{comment}{!this must be above a certain level only}
+567                 bed4d(:,:,dimindx:,:) = .false.   \textcolor{comment}{!bellow a certain level}
+568                 \textcolor{keywordflow}{where}(beach4d) curr%field = globals%Mask%beachVal
+569                 \textcolor{keywordflow}{where}(bed4d) curr%field = globals%Mask%bedVal
+570                 \textcolor{comment}{!searching for areas that are beach and land and mark them as beach only }
+571                 \textcolor{keywordflow}{do} k=1, \textcolor{keyword}{size}(curr%field,4)
+572                     beach4d(:,:,:,1) = beach4d(:,:,:,1) .or. beach4d(:,:,:,k)
+573                     beach4d(:,:,:,k) = beach4d(:,:,:,1)
+574 \textcolor{keywordflow}{                end do}
+575                 \textcolor{keywordflow}{where} ((curr%field == globals%Mask%landVal) .and. beach4d) curr%field = globals%Mask
       %beachVal
-575 \textcolor{keywordflow}{            end if}
-576 \textcolor{keywordflow}{            class default}
-577             outext = \textcolor{stringliteral}{'[background\_class::makeLandMaskField] Unexepected type of content, not a 3D or 4D
+576 \textcolor{keywordflow}{            end if}
+577 \textcolor{keywordflow}{            class default}
+578             outext = \textcolor{stringliteral}{'[background\_class::makeLandMaskField] Unexepected type of content, not a 3D or 4D
        scalar Field'}
-578             \textcolor{keyword}{call }log%put(outext)
-579             stop
-580 \textcolor{keywordflow}{        end select}
-581         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
-582         \textcolor{keyword}{nullify}(curr)
-583 \textcolor{keywordflow}{    end do}
-584     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-585 
+579             \textcolor{keyword}{call }log%put(outext)
+580             stop
+581 \textcolor{keywordflow}{        end select}
+582         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
+583         \textcolor{keyword}{nullify}(curr)
+584 \textcolor{keywordflow}{    end do}
+585     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+586 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_aac8ce1ba8edcc9b7669d427318191552}\label{namespacebackground__mod_aac8ce1ba8edcc9b7669d427318191552}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!makeresolutionfield@{makeresolutionfield}}
@@ -892,92 +929,92 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 595 of file background.\+f90.
+Definition at line 596 of file background.\+f90.
 
 
 \begin{DoxyCode}
-595     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-596     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-597     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: xx3d, yy3d
-598     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: xx4d, yy4d, zz4d
-599     \textcolor{keywordtype}{type}(string) :: outext
-600     \textcolor{keywordtype}{integer} :: xIndx, yIndx, zIndx, i, j, k, t
-601     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-602     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
-603         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
-604         \textcolor{keywordflow}{select type}(curr)
-605 \textcolor{keywordflow}{        class is} (scalar3d\_field\_class)
-606             \textcolor{keywordflow}{if} (curr%name == globals%Var%resolution) \textcolor{keywordflow}{then}
-607                 \textcolor{keyword}{allocate}(xx3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
-608                 \textcolor{keyword}{allocate}(yy3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
-609                 xindx = self%getDimIndex(globals%Var%lon)
-610                 yindx = self%getDimIndex(globals%Var%lat)
-611                 \textcolor{keywordflow}{do} j=1, \textcolor{keyword}{size}(xx3d,2)
-612                     xx3d(:,j,1) = utils%geo2m(abs(self%dim(xindx)%field(:\textcolor{keyword}{size}(curr%field,1)-1) - self%dim(
+596     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+597     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+598     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: xx3d, yy3d
+599     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:,:)} :: xx4d, yy4d, zz4d
+600     \textcolor{keywordtype}{type}(string) :: outext
+601     \textcolor{keywordtype}{integer} :: xIndx, yIndx, zIndx, i, j, k, t
+602     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+603     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values}
+604         curr => self%fields%currentValue() \textcolor{comment}{! get current value}
+605         \textcolor{keywordflow}{select type}(curr)
+606 \textcolor{keywordflow}{        class is} (scalar3d\_field\_class)
+607             \textcolor{keywordflow}{if} (curr%name == globals%Var%resolution) \textcolor{keywordflow}{then}
+608                 \textcolor{keyword}{allocate}(xx3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
+609                 \textcolor{keyword}{allocate}(yy3d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3)))
+610                 xindx = self%getDimIndex(globals%Var%lon)
+611                 yindx = self%getDimIndex(globals%Var%lat)
+612                 \textcolor{keywordflow}{do} j=1, \textcolor{keyword}{size}(xx3d,2)
+613                     xx3d(:,j,1) = utils%geo2m(abs(self%dim(xindx)%field(:\textcolor{keyword}{size}(curr%field,1)-1) - self%dim(
       xindx)%field(2:)), self%dim(yindx)%field(j), .false.)
-613 \textcolor{keywordflow}{                end do}
-614                 yy3d(1,:,1) = utils%geo2m(abs(self%dim(yindx)%field(:\textcolor{keyword}{size}(curr%field,2)-1) - self%dim(yindx
+614 \textcolor{keywordflow}{                end do}
+615                 yy3d(1,:,1) = utils%geo2m(abs(self%dim(yindx)%field(:\textcolor{keyword}{size}(curr%field,2)-1) - self%dim(yindx
       )%field(2:)), self%dim(yindx)%field(1), .true.)
-615                 \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(yy3d,1)
-616                     yy3d(i,:,1) = yy3d(1,:,1)
-617 \textcolor{keywordflow}{                end do}
-618                 \textcolor{keywordflow}{do} k=2, \textcolor{keyword}{size}(curr%field,3)
-619                     yy3d(:,:,k) = yy3d(:,:,1)
-620                     xx3d(:,:,k) = xx3d(:,:,1)
-621 \textcolor{keywordflow}{                end do}
-622                 curr%field = (xx3d + yy3d)/2.0
-623 \textcolor{keywordflow}{            end if}
-624 \textcolor{keywordflow}{        class is} (scalar4d\_field\_class)
-625             \textcolor{keywordflow}{if} (curr%name == globals%Var%resolution) \textcolor{keywordflow}{then}
-626                 \textcolor{keyword}{allocate}(xx4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,4
+616                 \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(yy3d,1)
+617                     yy3d(i,:,1) = yy3d(1,:,1)
+618 \textcolor{keywordflow}{                end do}
+619                 \textcolor{keywordflow}{do} k=2, \textcolor{keyword}{size}(curr%field,3)
+620                     yy3d(:,:,k) = yy3d(:,:,1)
+621                     xx3d(:,:,k) = xx3d(:,:,1)
+622 \textcolor{keywordflow}{                end do}
+623                 curr%field = (xx3d + yy3d)/2.0
+624 \textcolor{keywordflow}{            end if}
+625 \textcolor{keywordflow}{        class is} (scalar4d\_field\_class)
+626             \textcolor{keywordflow}{if} (curr%name == globals%Var%resolution) \textcolor{keywordflow}{then}
+627                 \textcolor{keyword}{allocate}(xx4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,4
       )))
-627                 \textcolor{keyword}{allocate}(yy4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,4
+628                 \textcolor{keyword}{allocate}(yy4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,4
       )))
-628                 \textcolor{keyword}{allocate}(zz4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,4
+629                 \textcolor{keyword}{allocate}(zz4d(\textcolor{keyword}{size}(curr%field,1), \textcolor{keyword}{size}(curr%field,2), \textcolor{keyword}{size}(curr%field,3), \textcolor{keyword}{size}(curr%field,4
       )))
-629                 xx4d = -99999.0
-630                 xindx = self%getDimIndex(globals%Var%lon)
-631                 yindx = self%getDimIndex(globals%Var%lat)
-632                 zindx = self%getDimIndex(globals%Var%level)
-633                 \textcolor{keywordflow}{do} j=1, \textcolor{keyword}{size}(xx4d,2)
-634                     xx4d(:,j,1,1) = utils%geo2m(abs(self%dim(xindx)%field(:\textcolor{keyword}{size}(curr%field,1)-1) - self%dim
+630                 xx4d = -99999.0
+631                 xindx = self%getDimIndex(globals%Var%lon)
+632                 yindx = self%getDimIndex(globals%Var%lat)
+633                 zindx = self%getDimIndex(globals%Var%level)
+634                 \textcolor{keywordflow}{do} j=1, \textcolor{keyword}{size}(xx4d,2)
+635                     xx4d(:,j,1,1) = utils%geo2m(abs(self%dim(xindx)%field(:\textcolor{keyword}{size}(curr%field,1)-1) - self%dim
       (xindx)%field(2:)), self%dim(yindx)%field(j), .false.)
-635 \textcolor{keywordflow}{                end do}
-636                 yy4d(1,:,1,1) = utils%geo2m(abs(self%dim(yindx)%field(:\textcolor{keyword}{size}(curr%field,2)-1) - self%dim(
+636 \textcolor{keywordflow}{                end do}
+637                 yy4d(1,:,1,1) = utils%geo2m(abs(self%dim(yindx)%field(:\textcolor{keyword}{size}(curr%field,2)-1) - self%dim(
       yindx)%field(2:)), self%dim(yindx)%field(1), .true.)
-637                 \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(yy4d,1)
-638                     yy4d(i,:,1,1) = yy4d(1,:,1,1)
-639 \textcolor{keywordflow}{                end do}
-640                 \textcolor{keywordflow}{do} k=2, \textcolor{keyword}{size}(curr%field,3)
-641                     xx4d(:,:,k,1) = xx4d(:,:,1,1)
-642                     yy4d(:,:,k,1) = yy4d(:,:,1,1)
-643 \textcolor{keywordflow}{                end do}
-644                 zz4d(1,1,:,1) = abs(self%dim(zindx)%field(:\textcolor{keyword}{size}(curr%field,2)-1) - self%dim(zindx)%field(2:
+638                 \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(yy4d,1)
+639                     yy4d(i,:,1,1) = yy4d(1,:,1,1)
+640 \textcolor{keywordflow}{                end do}
+641                 \textcolor{keywordflow}{do} k=2, \textcolor{keyword}{size}(curr%field,3)
+642                     xx4d(:,:,k,1) = xx4d(:,:,1,1)
+643                     yy4d(:,:,k,1) = yy4d(:,:,1,1)
+644 \textcolor{keywordflow}{                end do}
+645                 zz4d(1,1,:,1) = abs(self%dim(zindx)%field(:\textcolor{keyword}{size}(curr%field,2)-1) - self%dim(zindx)%field(2:
       ))
-645                 \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(zz4d,1)
-646                     zz4d(i,1,:,1) = zz4d(1,1,:,1)
-647 \textcolor{keywordflow}{                end do}
-648                 \textcolor{keywordflow}{do} j=2, \textcolor{keyword}{size}(zz4d,2)
-649                     zz4d(:,j,:,1) = zz4d(:,1,:,1)
-650 \textcolor{keywordflow}{                end do}
-651                 \textcolor{keywordflow}{do} t=2, \textcolor{keyword}{size}(curr%field,4)
-652                     xx4d(:,:,:,t) = xx4d(:,:,:,1)
-653                     yy4d(:,:,:,t) = yy4d(:,:,:,1)
-654                     zz4d(:,:,:,t) = zz4d(:,:,:,1)
-655 \textcolor{keywordflow}{                end do}
-656                 curr%field = xx4d\textcolor{comment}{!(xx4d + yy4d + zz4d)/3.0}
-657 \textcolor{keywordflow}{            end if}
-658 \textcolor{keywordflow}{            class default}
-659             outext = \textcolor{stringliteral}{'[background\_class::makeResolutionField] Unexepected type of content, not a 3D or 4D
+646                 \textcolor{keywordflow}{do} i=2, \textcolor{keyword}{size}(zz4d,1)
+647                     zz4d(i,1,:,1) = zz4d(1,1,:,1)
+648 \textcolor{keywordflow}{                end do}
+649                 \textcolor{keywordflow}{do} j=2, \textcolor{keyword}{size}(zz4d,2)
+650                     zz4d(:,j,:,1) = zz4d(:,1,:,1)
+651 \textcolor{keywordflow}{                end do}
+652                 \textcolor{keywordflow}{do} t=2, \textcolor{keyword}{size}(curr%field,4)
+653                     xx4d(:,:,:,t) = xx4d(:,:,:,1)
+654                     yy4d(:,:,:,t) = yy4d(:,:,:,1)
+655                     zz4d(:,:,:,t) = zz4d(:,:,:,1)
+656 \textcolor{keywordflow}{                end do}
+657                 curr%field = xx4d\textcolor{comment}{!(xx4d + yy4d + zz4d)/3.0}
+658 \textcolor{keywordflow}{            end if}
+659 \textcolor{keywordflow}{            class default}
+660             outext = \textcolor{stringliteral}{'[background\_class::makeResolutionField] Unexepected type of content, not a 3D or 4D
        scalar Field'}
-660             \textcolor{keyword}{call }log%put(outext)
-661             stop
-662 \textcolor{keywordflow}{        end select}
-663         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
-664         \textcolor{keyword}{nullify}(curr)
-665 \textcolor{keywordflow}{    end do}
-666     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-667 
+661             \textcolor{keyword}{call }log%put(outext)
+662             stop
+663 \textcolor{keywordflow}{        end select}
+664         \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
+665         \textcolor{keyword}{nullify}(curr)
+666 \textcolor{keywordflow}{    end do}
+667     \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+668 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_acdcc52b4fb298bc145a121f9e8a4b929}\label{namespacebackground__mod_acdcc52b4fb298bc145a121f9e8a4b929}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!print\+\_\+fieldlist@{print\+\_\+fieldlist}}
@@ -994,17 +1031,17 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 914 of file background.\+f90.
+Definition at line 935 of file background.\+f90.
 
 
 \begin{DoxyCode}
-914     \textcolor{keywordtype}{class}(fieldsList\_class), \textcolor{keywordtype}{intent(in)} :: this
-915     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
-916     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
-917         \textcolor{keyword}{call }this%printCurrent()
-918         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
-919 \textcolor{keywordflow}{    end do}
-920     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+935     \textcolor{keywordtype}{class}(fieldsList\_class), \textcolor{keywordtype}{intent(in)} :: this
+936     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
+937     \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(this%moreValues())     \textcolor{comment}{! loop while there are values to print}
+938         \textcolor{keyword}{call }this%printCurrent()
+939         \textcolor{keyword}{call }this%next()            \textcolor{comment}{! increment the list iterator}
+940 \textcolor{keywordflow}{    end do}
+941     \textcolor{keyword}{call }this%reset()               \textcolor{comment}{! reset list iterator}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a2bd18f3830c0667741efd086d36753db}\label{namespacebackground__mod_a2bd18f3830c0667741efd086d36753db}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!print\+\_\+fieldlistcurrent@{print\+\_\+fieldlistcurrent}}
@@ -1021,22 +1058,22 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 929 of file background.\+f90.
+Definition at line 950 of file background.\+f90.
 
 
 \begin{DoxyCode}
-929     \textcolor{keywordtype}{class}(fieldsList\_class), \textcolor{keywordtype}{intent(in)} :: this
-930     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
-931     \textcolor{keywordtype}{type}(string) :: outext
-932     curr => this%currentValue() \textcolor{comment}{! get current value}
-933     \textcolor{keywordflow}{select type}(curr)
-934 \textcolor{keywordflow}{    class is} (field\_class)
-935         \textcolor{keyword}{call }curr%print()
-936 \textcolor{keywordflow}{        class default}
-937         outext = \textcolor{stringliteral}{'[fieldsList\_class::print] Unexepected type of content, not a Field'}
-938         \textcolor{keyword}{call }log%put(outext)
-939         stop
-940 \textcolor{keywordflow}{    end select}
+950     \textcolor{keywordtype}{class}(fieldsList\_class), \textcolor{keywordtype}{intent(in)} :: this
+951     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: curr
+952     \textcolor{keywordtype}{type}(string) :: outext
+953     curr => this%currentValue() \textcolor{comment}{! get current value}
+954     \textcolor{keywordflow}{select type}(curr)
+955 \textcolor{keywordflow}{    class is} (field\_class)
+956         \textcolor{keyword}{call }curr%print()
+957 \textcolor{keywordflow}{        class default}
+958         outext = \textcolor{stringliteral}{'[fieldsList\_class::print] Unexepected type of content, not a Field'}
+959         \textcolor{keyword}{call }log%put(outext)
+960         stop
+961 \textcolor{keywordflow}{    end select}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a8a8f225cffcddb742f22a402155b703f}\label{namespacebackground__mod_a8a8f225cffcddb742f22a402155b703f}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!printbackground@{printbackground}}
@@ -1053,25 +1090,25 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 891 of file background.\+f90.
+Definition at line 912 of file background.\+f90.
 
 
 \begin{DoxyCode}
-891     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-892     \textcolor{keywordtype}{type}(string) :: outext, t
-893     \textcolor{keywordtype}{integer} :: i
-894     t = self%id
-895     outext = \textcolor{stringliteral}{'Background['}//t//\textcolor{stringliteral}{', '}//self%name//\textcolor{stringliteral}{'] is a'}
-896     \textcolor{keyword}{call }log%put(outext,.false.)
-897     \textcolor{keyword}{call }geometry%print(self%extents)
-898     outext = \textcolor{stringliteral}{'The dimensions fields are:'}
-899     \textcolor{keyword}{call }log%put(outext,.false.)
-900     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
-901         \textcolor{keyword}{call }self%dim(i)%print()
-902 \textcolor{keywordflow}{    end do}
-903     outext = \textcolor{stringliteral}{'The data fields are:'}
-904     \textcolor{keyword}{call }log%put(outext,.false.)
-905     \textcolor{keyword}{call }self%fields%print()
+912     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+913     \textcolor{keywordtype}{type}(string) :: outext, t
+914     \textcolor{keywordtype}{integer} :: i
+915     t = self%id
+916     outext = \textcolor{stringliteral}{'Background['}//t//\textcolor{stringliteral}{', '}//self%name//\textcolor{stringliteral}{'] is a'}
+917     \textcolor{keyword}{call }log%put(outext,.false.)
+918     \textcolor{keyword}{call }geometry%print(self%extents)
+919     outext = \textcolor{stringliteral}{'The dimensions fields are:'}
+920     \textcolor{keyword}{call }log%put(outext,.false.)
+921     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(self%dim)
+922         \textcolor{keyword}{call }self%dim(i)%print()
+923 \textcolor{keywordflow}{    end do}
+924     outext = \textcolor{stringliteral}{'The data fields are:'}
+925     \textcolor{keyword}{call }log%put(outext,.false.)
+926     \textcolor{keyword}{call }self%fields%print()
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a06d96d4627391d74feb105a842a87dc0}\label{namespacebackground__mod_a06d96d4627391d74feb105a842a87dc0}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!setdims@{setdims}}
@@ -1093,29 +1130,29 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 782 of file background.\+f90.
+Definition at line 803 of file background.\+f90.
 
 
 \begin{DoxyCode}
-782     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-783     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: dims
-784     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: rest
-785     \textcolor{keywordtype}{integer} :: i
-786     \textcolor{keywordtype}{real(prec)} ::fmin, fmax, eta,dreg
-787     \textcolor{keywordtype}{integer} :: f\_1,f\_N
-788     \textcolor{keyword}{allocate}(self%dim, source = dims)
-789     \textcolor{keyword}{allocate}(self%regularDim(\textcolor{keyword}{size}(dims)))
-790     self%regularDim = .false.
-791     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dims)
-792         fmin = self%dim(i)%getFieldMinBound() 
-793         fmax = self%dim(i)%getFieldMaxBound()
-794         eta = (fmax-fmin)/(10.0*\textcolor{keyword}{size}(self%dim(i)%field))
-795         dreg = (fmax-fmin)/(\textcolor{keyword}{size}(self%dim(i)%field))
-796         \textcolor{keyword}{allocate}(rest(\textcolor{keyword}{size}(self%dim(i)%field)-1))
-797         rest = dims(i)%field(2:)-dims(i)%field(:\textcolor{keyword}{size}(self%dim(i)%field)-1)
-798         self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
-799         \textcolor{keyword}{deallocate}(rest)
-800 \textcolor{keywordflow}{    end do}
+803     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+804     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: dims
+805     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: rest
+806     \textcolor{keywordtype}{integer} :: i
+807     \textcolor{keywordtype}{real(prec)} ::fmin, fmax, eta,dreg
+808     \textcolor{keywordtype}{integer} :: f\_1,f\_N
+809     \textcolor{keyword}{allocate}(self%dim, source = dims)
+810     \textcolor{keyword}{allocate}(self%regularDim(\textcolor{keyword}{size}(dims)))
+811     self%regularDim = .false.
+812     \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(dims)
+813         fmin = self%dim(i)%getFieldMinBound() 
+814         fmax = self%dim(i)%getFieldMaxBound()
+815         eta = (fmax-fmin)/(10.0*\textcolor{keyword}{size}(self%dim(i)%field))
+816         dreg = (fmax-fmin)/(\textcolor{keyword}{size}(self%dim(i)%field))
+817         \textcolor{keyword}{allocate}(rest(\textcolor{keyword}{size}(self%dim(i)%field)-1))
+818         rest = dims(i)%field(2:)-dims(i)%field(:\textcolor{keyword}{size}(self%dim(i)%field)-1)
+819         self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
+820         \textcolor{keyword}{deallocate}(rest)
+821 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_ae8871564866fdd657a25f6a5a2256c33}\label{namespacebackground__mod_ae8871564866fdd657a25f6a5a2256c33}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!setextents@{setextents}}
@@ -1137,13 +1174,13 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 810 of file background.\+f90.
+Definition at line 831 of file background.\+f90.
 
 
 \begin{DoxyCode}
-810     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-811     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: bbox
-812     self%extents = bbox
+831     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+832     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: bbox
+833     self%extents = bbox
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a4feaccf688558d8590ece4f09c65c977}\label{namespacebackground__mod_a4feaccf688558d8590ece4f09c65c977}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!setid@{setid}}
@@ -1165,15 +1202,15 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 822 of file background.\+f90.
+Definition at line 843 of file background.\+f90.
 
 
 \begin{DoxyCode}
-822     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-823     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-824     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
-825     self%id = id
-826     self%name = name
+843     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+844     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+845     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: name
+846     self%id = id
+847     self%name = name
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a2c75c9011305adad2f19fc2233df700d}\label{namespacebackground__mod_a2c75c9011305adad2f19fc2233df700d}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!shedmemory@{shedmemory}}
@@ -1190,88 +1227,88 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 417 of file background.\+f90.
+Definition at line 418 of file background.\+f90.
 
 
 \begin{DoxyCode}
-417     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-418     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: llbound
-419     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: uubound
-420     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: newTime
-421     \textcolor{keywordtype}{type}(string) :: outext, name, units
-422     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: gField
-423     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField
-424     \textcolor{keywordtype}{logical} :: done
-425     \textcolor{keywordtype}{integer} :: i, j
-426 
-427     \textcolor{keywordflow}{if} (self%initialized) \textcolor{keywordflow}{then}
-428         done = .false.
-429         \textcolor{keyword}{allocate}(llbound(\textcolor{keyword}{size}(self%dim)))
-430         \textcolor{keyword}{allocate}(uubound(\textcolor{keyword}{size}(self%dim)))
-431         \textcolor{comment}{!select valid time coordinate array elements}
-432         \textcolor{keywordflow}{do} i= 1, \textcolor{keyword}{size}(self%dim)
-433             llbound(i) = 1
-434             uubound(i) = \textcolor{keyword}{size}(self%dim(i)%field)
-435 
-436             \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%time) \textcolor{keywordflow}{then}
-437                 \textcolor{keywordflow}{if} (self%dim(i)%field(1) < globals%SimTime%CurrTime - globals%Parameters%BufferSize) \textcolor{keywordflow}{then}
-438                     llbound(i) = self%dim(i)%getFieldNearestIndex(globals%SimTime%CurrTime - globals
+418     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+419     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: llbound
+420     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: uubound
+421     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: newTime
+422     \textcolor{keywordtype}{type}(string) :: outext, name, units
+423     \textcolor{keywordtype}{type}(generic\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: gField
+424     \textcolor{keywordtype}{class}(*), \textcolor{keywordtype}{pointer} :: aField
+425     \textcolor{keywordtype}{logical} :: done
+426     \textcolor{keywordtype}{integer} :: i, j
+427 
+428     \textcolor{keywordflow}{if} (self%initialized) \textcolor{keywordflow}{then}
+429         done = .false.
+430         \textcolor{keyword}{allocate}(llbound(\textcolor{keyword}{size}(self%dim)))
+431         \textcolor{keyword}{allocate}(uubound(\textcolor{keyword}{size}(self%dim)))
+432         \textcolor{comment}{!select valid time coordinate array elements}
+433         \textcolor{keywordflow}{do} i= 1, \textcolor{keyword}{size}(self%dim)
+434             llbound(i) = 1
+435             uubound(i) = \textcolor{keyword}{size}(self%dim(i)%field)
+436 
+437             \textcolor{keywordflow}{if} (self%dim(i)%name == globals%Var%time) \textcolor{keywordflow}{then}
+438                 \textcolor{keywordflow}{if} (self%dim(i)%field(1) < globals%SimTime%CurrTime - globals%Parameters%BufferSize) \textcolor{keywordflow}{then}
+439                     llbound(i) = self%dim(i)%getFieldNearestIndex(globals%SimTime%CurrTime - globals
       %Parameters%BufferSize/2.0)
-439                     \textcolor{keywordflow}{if} (llbound(i) == self%dim(i)%getFieldNearestIndex(globals%SimTime%CurrTime)) llbound(i
+440                     \textcolor{keywordflow}{if} (llbound(i) == self%dim(i)%getFieldNearestIndex(globals%SimTime%CurrTime)) llbound(i
       ) = llbound(i) - 1
-440                     \textcolor{keywordflow}{if} (llbound(i) > 2) \textcolor{keywordflow}{then}
-441                         uubound(i) = \textcolor{keyword}{size}(self%dim(i)%field)
-442                         j=\textcolor{keyword}{size}(self%dim(i)%field(llbound(i):uubound(i)))
-443                         \textcolor{keyword}{allocate}(newtime(j))
-444                         newtime = self%dim(i)%field(llbound(i):uubound(i))
-445                         \textcolor{comment}{!allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i))) !gfortran
+441                     \textcolor{keywordflow}{if} (llbound(i) > 2) \textcolor{keywordflow}{then}
+442                         uubound(i) = \textcolor{keyword}{size}(self%dim(i)%field)
+443                         j=\textcolor{keyword}{size}(self%dim(i)%field(llbound(i):uubound(i)))
+444                         \textcolor{keyword}{allocate}(newtime(j))
+445                         newtime = self%dim(i)%field(llbound(i):uubound(i))
+446                         \textcolor{comment}{!allocate(newTime, source = self%getSlabDim(i, llbound(i), uubound(i))) !gfortran
        doesn't like this...}
-446                         name = self%dim(i)%name
-447                         units = self%dim(i)%units
-448                         \textcolor{keyword}{call }self%dim(i)%finalize()
-449                         \textcolor{keyword}{call }self%dim(i)%initialize(name, units, 1, newtime)
-450                         done  = .true.
-451 \textcolor{keywordflow}{                    end if}
-452                     \textcolor{keywordflow}{exit}
-453 \textcolor{keywordflow}{                end if}
-454 \textcolor{keywordflow}{            end if}
-455 \textcolor{keywordflow}{        end do}
-456         \textcolor{keywordflow}{if} (done) \textcolor{keywordflow}{then}
-457             \textcolor{comment}{!slice variables accordingly}
-458             \textcolor{keyword}{allocate}(gfield(self%fields%getSize()))
-459             i=1
-460             \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-461             \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
-462                 afield => self%fields%currentValue()
-463                 \textcolor{keywordflow}{select type}(afield)
-464 \textcolor{keywordflow}{                class is} (field\_class)
-465                     gfield(i) = afield%getFieldSlice(llbound, uubound)
-466 \textcolor{keywordflow}{                    class default}
-467                     outext = \textcolor{stringliteral}{'[Background::ShedMemory] Unexepected type of content, not a Field'}
-468                     \textcolor{keyword}{call }log%put(outext)
-469                     stop
-470 \textcolor{keywordflow}{                end select}
-471                 \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
-472                 i = i+1
-473                 \textcolor{keyword}{nullify}(afield)
-474 \textcolor{keywordflow}{            end do}
-475             \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
-476 
-477             \textcolor{keyword}{call }self%cleanFields()
-478             \textcolor{keyword}{call }self%fields%finalize()
-479 
-480             \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(gfield)
-481                 \textcolor{keyword}{call }self%add(gfield(i))
-482 \textcolor{keywordflow}{            end do}
-483 
-484             \textcolor{keywordflow}{if}(.not.self%check()) \textcolor{keywordflow}{then}
-485                 outext = \textcolor{stringliteral}{'[Background::ShedMemory]: non-conformant Background, stoping '}
-486                 \textcolor{keyword}{call }log%put(outext)
-487                 stop
-488 \textcolor{keywordflow}{            end if}
-489 \textcolor{keywordflow}{        end if}
-490 \textcolor{keywordflow}{    end if}
-491 
+447                         name = self%dim(i)%name
+448                         units = self%dim(i)%units
+449                         \textcolor{keyword}{call }self%dim(i)%finalize()
+450                         \textcolor{keyword}{call }self%dim(i)%initialize(name, units, 1, newtime)
+451                         done  = .true.
+452 \textcolor{keywordflow}{                    end if}
+453                     \textcolor{keywordflow}{exit}
+454 \textcolor{keywordflow}{                end if}
+455 \textcolor{keywordflow}{            end if}
+456 \textcolor{keywordflow}{        end do}
+457         \textcolor{keywordflow}{if} (done) \textcolor{keywordflow}{then}
+458             \textcolor{comment}{!slice variables accordingly}
+459             \textcolor{keyword}{allocate}(gfield(self%fields%getSize()))
+460             i=1
+461             \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+462             \textcolor{keywordflow}{do} \textcolor{keywordflow}{while}(self%fields%moreValues())     \textcolor{comment}{! loop while there are values to process}
+463                 afield => self%fields%currentValue()
+464                 \textcolor{keywordflow}{select type}(afield)
+465 \textcolor{keywordflow}{                class is} (field\_class)
+466                     gfield(i) = afield%getFieldSlice(llbound, uubound)
+467 \textcolor{keywordflow}{                    class default}
+468                     outext = \textcolor{stringliteral}{'[Background::ShedMemory] Unexepected type of content, not a Field'}
+469                     \textcolor{keyword}{call }log%put(outext)
+470                     stop
+471 \textcolor{keywordflow}{                end select}
+472                 \textcolor{keyword}{call }self%fields%next()            \textcolor{comment}{! increment the list iterator}
+473                 i = i+1
+474                 \textcolor{keyword}{nullify}(afield)
+475 \textcolor{keywordflow}{            end do}
+476             \textcolor{keyword}{call }self%fields%reset()               \textcolor{comment}{! reset list iterator}
+477 
+478             \textcolor{keyword}{call }self%cleanFields()
+479             \textcolor{keyword}{call }self%fields%finalize()
+480 
+481             \textcolor{keywordflow}{do} i=1, \textcolor{keyword}{size}(gfield)
+482                 \textcolor{keyword}{call }self%add(gfield(i))
+483 \textcolor{keywordflow}{            end do}
+484 
+485             \textcolor{keywordflow}{if}(.not.self%check()) \textcolor{keywordflow}{then}
+486                 outext = \textcolor{stringliteral}{'[Background::ShedMemory]: non-conformant Background, stoping '}
+487                 \textcolor{keyword}{call }log%put(outext)
+488                 stop
+489 \textcolor{keywordflow}{            end if}
+490 \textcolor{keywordflow}{        end if}
+491 \textcolor{keywordflow}{    end if}
+492 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacebackground__mod_a3cee95b9b5d3aae83df33334981f2b27}\label{namespacebackground__mod_a3cee95b9b5d3aae83df33334981f2b27}} 
 \index{background\+\_\+mod@{background\+\_\+mod}!test@{test}}
@@ -1288,56 +1325,56 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 835 of file background.\+f90.
+Definition at line 856 of file background.\+f90.
 
 
 \begin{DoxyCode}
-835     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
-836     \textcolor{keywordtype}{type}(background\_class) :: background1
-837     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2, gfield3
-838     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field1
-839     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: field2
-840     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: field3
-841     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: any\_field\_3d
-842     \textcolor{keywordtype}{type}(string) :: name1, name2, name3, bname
-843     \textcolor{keywordtype}{type}(string) :: units1, units2, units3
-844     \textcolor{keywordtype}{type}(box) :: backgroundbbox
-845     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: backgroundims
-846     \textcolor{comment}{!generating fields}
-847     \textcolor{comment}{!inquire nc dimensions}
-848     \textcolor{comment}{!allocate approptiate real matrix (1d, 2d, 3d ..)}
-849     \textcolor{keyword}{allocate}(field1(50))
-850     \textcolor{keyword}{allocate}(field2(20,60))
-851     \textcolor{keyword}{allocate}(field3(2,3,4))
-852     \textcolor{comment}{!inquire nc field name and units}
-853     name1 = \textcolor{stringliteral}{'testfield1d'}
-854     name2 = \textcolor{stringliteral}{'testfield2d'}
-855     name3 = \textcolor{stringliteral}{'testfield3d'}
-856     units1 = \textcolor{stringliteral}{'m/s'}
-857     units2 = \textcolor{stringliteral}{'km'}
-858     units3 = \textcolor{stringliteral}{'ms-1'}
-859     \textcolor{comment}{!nc\_get\_var - stores data in allocated matrix}
-860     \textcolor{comment}{!put data in generic field}
-861     \textcolor{keyword}{call }gfield1%initialize(name1, units1, field1)
-862     \textcolor{keyword}{call }gfield2%initialize(name2, units2, field2)
-863     \textcolor{keyword}{call }gfield3%initialize(name3, units3, field3)
-864     \textcolor{comment}{!assembling our Background}
-865     \textcolor{comment}{!nc inquire dimensions names}
-866     bname = \textcolor{stringliteral}{'TestBackground'}
-867     name1 = \textcolor{stringliteral}{'lon'}
-868     name2 = \textcolor{stringliteral}{'lat'}
-869     \textcolor{comment}{!make background bounding box (this should come from the block + a margin)}
-870     backgroundbbox%pt = 1*ex + 2*ey + 3*ez
-871     backgroundbbox%size = 4*ex + 5*ey + 6*ez
-872     \textcolor{comment}{!allocate space for the dimensions vectors of the background}
-873     \textcolor{keyword}{allocate}(backgroundims(2))
-874     \textcolor{comment}{!inquire dimensions units, and data}
-875     \textcolor{keyword}{call }backgroundims(1)%initialize(name1,units2,1, field1)
-876     \textcolor{keyword}{call }backgroundims(2)%initialize(name2,units2,1, field1)
-877     \textcolor{comment}{!construct background}
-878     background1 = background(5, bname, backgroundbbox, backgroundims)
-879     \textcolor{keyword}{call }background1%add(gfield1)
-880     \textcolor{keyword}{call }background1%add(gfield2)
-881     \textcolor{keyword}{call }background1%add(gfield3)
-882     \textcolor{keyword}{call }background1%print()
+856     \textcolor{keywordtype}{class}(background\_class), \textcolor{keywordtype}{intent(inout)} :: self
+857     \textcolor{keywordtype}{type}(background\_class) :: background1
+858     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2, gfield3
+859     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: field1
+860     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:)} :: field2
+861     \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: field3
+862     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:,:,:)} :: any\_field\_3d
+863     \textcolor{keywordtype}{type}(string) :: name1, name2, name3, bname
+864     \textcolor{keywordtype}{type}(string) :: units1, units2, units3
+865     \textcolor{keywordtype}{type}(box) :: backgroundbbox
+866     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: backgroundims
+867     \textcolor{comment}{!generating fields}
+868     \textcolor{comment}{!inquire nc dimensions}
+869     \textcolor{comment}{!allocate approptiate real matrix (1d, 2d, 3d ..)}
+870     \textcolor{keyword}{allocate}(field1(50))
+871     \textcolor{keyword}{allocate}(field2(20,60))
+872     \textcolor{keyword}{allocate}(field3(2,3,4))
+873     \textcolor{comment}{!inquire nc field name and units}
+874     name1 = \textcolor{stringliteral}{'testfield1d'}
+875     name2 = \textcolor{stringliteral}{'testfield2d'}
+876     name3 = \textcolor{stringliteral}{'testfield3d'}
+877     units1 = \textcolor{stringliteral}{'m/s'}
+878     units2 = \textcolor{stringliteral}{'km'}
+879     units3 = \textcolor{stringliteral}{'ms-1'}
+880     \textcolor{comment}{!nc\_get\_var - stores data in allocated matrix}
+881     \textcolor{comment}{!put data in generic field}
+882     \textcolor{keyword}{call }gfield1%initialize(name1, units1, field1)
+883     \textcolor{keyword}{call }gfield2%initialize(name2, units2, field2)
+884     \textcolor{keyword}{call }gfield3%initialize(name3, units3, field3)
+885     \textcolor{comment}{!assembling our Background}
+886     \textcolor{comment}{!nc inquire dimensions names}
+887     bname = \textcolor{stringliteral}{'TestBackground'}
+888     name1 = \textcolor{stringliteral}{'lon'}
+889     name2 = \textcolor{stringliteral}{'lat'}
+890     \textcolor{comment}{!make background bounding box (this should come from the block + a margin)}
+891     backgroundbbox%pt = 1*ex + 2*ey + 3*ez
+892     backgroundbbox%size = 4*ex + 5*ey + 6*ez
+893     \textcolor{comment}{!allocate space for the dimensions vectors of the background}
+894     \textcolor{keyword}{allocate}(backgroundims(2))
+895     \textcolor{comment}{!inquire dimensions units, and data}
+896     \textcolor{keyword}{call }backgroundims(1)%initialize(name1,units2,1, field1)
+897     \textcolor{keyword}{call }backgroundims(2)%initialize(name2,units2,1, field1)
+898     \textcolor{comment}{!construct background}
+899     background1 = background(5, bname, backgroundbbox, backgroundims)
+900     \textcolor{keyword}{call }background1%add(gfield1)
+901     \textcolor{keyword}{call }background1%add(gfield2)
+902     \textcolor{keyword}{call }background1%add(gfield3)
+903     \textcolor{keyword}{call }background1%print()
 \end{DoxyCode}

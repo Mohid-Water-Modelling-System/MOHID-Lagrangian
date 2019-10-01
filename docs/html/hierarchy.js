@@ -35,6 +35,7 @@ var hierarchy =
     [ "simulationinputstreamer_mod::inputfilemodel_class", "structsimulationinputstreamer__mod_1_1inputfilemodel__class.html", null ],
     [ "interpolator_mod::interpolator_class", "structinterpolator__mod_1_1interpolator__class.html", null ],
     [ "kernel_mod::kernel_class", "structkernel__mod_1_1kernel__class.html", null ],
+    [ "kernellitter_mod::kernellitter_class", "structkernellitter__mod_1_1kernellitter__class.html", null ],
     [ "abstract_linkedlist_mod::linkedlist", "structabstract__linkedlist__mod_1_1linkedlist.html", null ],
     [ "linkedlist", null, [
       [ "background_mod::fieldslist_class", "structbackground__mod_1_1fieldslist__class.html", null ],
@@ -84,12 +85,12 @@ var hierarchy =
     [ "simulationtestmaker_mod::testmaker_class", "structsimulationtestmaker__mod_1_1testmaker__class.html", null ],
     [ "simulationtimer_mod::timer_class", "structsimulationtimer__mod_1_1timer__class.html", null ],
     [ "tracerbase_mod::tracer", "interfacetracerbase__mod_1_1tracer.html", null ],
+    [ "tracerbase_mod::tracer_class", "structtracerbase__mod_1_1tracer__class.html", null ],
     [ "tracer_class", null, [
       [ "tracerpaper_mod::paper_class", "structtracerpaper__mod_1_1paper__class.html", null ],
       [ "tracerplastic_mod::plastic_class", "structtracerplastic__mod_1_1plastic__class.html", null ],
       [ "traceruser_mod::usertracer_class", "structtraceruser__mod_1_1usertracer__class.html", null ]
     ] ],
-    [ "tracerbase_mod::tracer_class", "structtracerbase__mod_1_1tracer__class.html", null ],
     [ "tracerbase_mod::tracer_par_class", "structtracerbase__mod_1_1tracer__par__class.html", null ],
     [ "tracerbase_mod::tracer_state_class", "structtracerbase__mod_1_1tracer__state__class.html", null ],
     [ "simulationglobals_mod::tracertypes_t", "structsimulationglobals__mod_1_1tracertypes__t.html", null ],

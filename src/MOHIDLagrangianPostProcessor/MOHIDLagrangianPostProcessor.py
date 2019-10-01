@@ -88,7 +88,6 @@ class GridBasedMeasures:
         self.pvd_data = PVDParser(self.pvd_file)
         self.nFiles = len(vtuParser.validVtuFilesList(outdir))
         self.sources = {'id':{}}
-        self.grid_steps = [50.,0.005,0.005]
         self.ISO_time_origin = MDateTime.getDateStringFromDateTime(MDateTime.BaseDateTime())
         self.grid  = {}
         self.centers = {}
@@ -322,7 +321,7 @@ class GridBasedMeasures:
                  
                 
     def var_to_grid(self,varname,source):
-        print('--> Computing '+ varname +' on grid for source:' + self.sources['id'][str(source)])
+        print('--> Computing '+ varname +' on grid for source: ' + self.sources['id'][str(source)])
         nz,ny,nx = [np.size(self.centers[key]) for key in ['depth','latitude','longitude']]
         nt = self.time[self.timeMask].size
         counts_t = np.zeros((nt,nz,ny,nx))
@@ -336,7 +335,7 @@ class GridBasedMeasures:
                 if (source != 'global') and (self.beach == '0'):
                     source_mask = vtu_step.points('source') == int(source)
                     r=r[source_mask]
-                    var = var[source_mask*beach_mask]
+                    var = var[source_mask]
                 if (source != 'global') and (self.beach == '1'):
                     source_mask = vtu_step.points('source') == int(source)
                     beach_mask = vtu_step.points('state') < 0.5
@@ -345,7 +344,7 @@ class GridBasedMeasures:
                 elif (source == 'global') and (self.beach == '1'):
                     beach_mask = vtu_step.points('state') < 0.5
                     r = r[beach_mask]
-                    var = var[beach_mask]
+                    var = var[beach_mask*beach_mask]
                 elif (source != 'global') and (self.beach == '2'):
                     source_mask = vtu_step.points('source') == int(source)
                     beach_mask = vtu_step.points('state') >= 0.5
@@ -379,7 +378,7 @@ class GridBasedMeasures:
         
 
     def writeResidence_time(self,counts_t,source):        
-        print('--> Computing residence time on grid for source:' + self.sources['id'][str(source)])        
+        print('--> Computing residence time on grid for source: ' + self.sources['id'][str(source)])        
         ds = xr.open_dataset(self.netcdf_output_file) 
         self.residence_time = np.zeros(counts_t.shape[1:])
         for t_s in range(0,counts_t.shape[0]):
@@ -394,7 +393,7 @@ class GridBasedMeasures:
  
     
     def writeConcentrations(self,counts_t,source):        
-        print('--> Computing concentrations on grid for source:' + self.sources['id'][str(source)])
+        print('--> Computing concentrations on grid for source: ' + self.sources['id'][str(source)])
         ds = xr.open_dataset(self.netcdf_output_file)
         conc_area = counts_t.sum(axis=1)/self.area
         conc_volume = counts_t/self.volume        
@@ -428,7 +427,7 @@ class GridBasedMeasures:
 
 
     def writeVar(self,vardata, varname, source):
-        print('--> Writing '+ varname + ' for source:',self.sources['id'][str(source)])
+        print('--> Writing '+ varname + ' for source: ',self.sources['id'][str(source)])
         ds = xr.open_dataset(self.netcdf_output_file)
         ds[varname] = (self.dims, vardata)
         ds.close()
@@ -436,22 +435,23 @@ class GridBasedMeasures:
     
     
     def checkNc(self):
-        ds = xr.open_dataset(self.netcdf_output_file)
-        if ds.depth.size == 1:
-            print('->The nc has a depth degenerated dimension: Squeezing...' )
-            ds = ds.squeeze(dim='depth',drop=True)
-            # When you alter the dimensions of the netcdf, you cannot overwrite the
-            # netcdf. We ha create a new one without extension, remove the old one,
-            # and rename the first one.
-            nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
-            ds.to_netcdf(nc_squeezed)
-            ds.close()
-            try:
-                #os.remove(self.netcdf_output_file)
-                os.replace(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
-            except:
-                print('The file cannot be deleted')
-                pass
+        with xr.open_dataset(self.netcdf_output_file,autoclose=True) as ds:
+            if ds.depth.size == 1:
+                ds_sq = ds.load()
+                ds.close()
+                print('->The nc has a depth degenerated dimension: Squeezing...' )
+                ds_sq = ds_sq.squeeze(dim='depth',drop=True)
+                # When you alter the dimensions of the netcdf, you cannot overwrite the
+                # netcdf. We ha create a new one without extension, remove the old one,
+                # and rename the first one.
+                #nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
+                ds_sq.to_netcdf(self.netcdf_output_file)
+#               try:                
+#                    os.unlink(self.netcdf_output_file)
+#                    os.replace(nc_squeezed, nc_squeezed.replace('_sq.nc','.nc'))
+#                except:
+#                    print('The file cannot be deleted')
+#                    pass
                    
 
     def run_postprocessing(self, outDir, measures):

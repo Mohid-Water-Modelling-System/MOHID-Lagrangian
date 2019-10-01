@@ -11,6 +11,7 @@ var structbackground__mod_1_1background__class =
     [ "gethyperslab", "structbackground__mod_1_1background__class.html#acb4a97a67f51e509fade50ed4b085f07", null ],
     [ "getpointdimindexes", "structbackground__mod_1_1background__class.html#a12daf122cea65ebd459e8507ae2389fa", null ],
     [ "getslabdim", "structbackground__mod_1_1background__class.html#ac7e39271ba1838a3f1548f10ff658de1", null ],
+    [ "hasvars", "structbackground__mod_1_1background__class.html#aa440524c5d056e02dafe44b0ee699cbd", null ],
     [ "makelandmaskfield", "structbackground__mod_1_1background__class.html#a0ecab872ceea6e2ad4274daa4670459e", null ],
     [ "makeresolutionfield", "structbackground__mod_1_1background__class.html#a7509bacd43458ebee54bb0092422f26d", null ],
     [ "print", "structbackground__mod_1_1background__class.html#aa1c611fb6813d423cba8f53bdf25465d", null ],
