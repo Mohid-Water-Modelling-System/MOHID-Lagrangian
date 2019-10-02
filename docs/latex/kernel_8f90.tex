@@ -31,9 +31,10 @@ real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hy
 \begin{DoxyCompactList}\small\item\em mixing length diffusion kernel, computes random velocities at given instants to model diffusion processes. These are valid while the tracer travels a given mixing length, propotional to the resolution of the background (and its ability to resove motion scales) \end{DoxyCompactList}\item 
 real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a92805ef71e30527b27de4efd7561f8f7}{kernel\+\_\+mod\+::diffusionisotropic}} (self, sv, dt)
 \begin{DoxyCompactList}\small\item\em Diffusion Kernel, computes the anisotropic diffusion assuming a constant diffusion coefficient. D = 1 m/s. \end{DoxyCompactList}\item 
-real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a43899c5dd3f82ed3dc4aade9aefd7a44}{kernel\+\_\+mod\+::degradationlinear}} (self, sv)
-\begin{DoxyCompactList}\small\item\em Linear degradation kernel. \end{DoxyCompactList}\item 
-logical function \mbox{\hyperlink{namespacekernel__mod_a4444d73e7295ba4b58add9b726de3135}{kernel\+\_\+mod\+::hasrequiredvars}} (self, var\+List, req\+Vars)
-\begin{DoxyCompactList}\small\item\em returns true if a given set of strings (array) is contained in a list of strings \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}{kernel\+\_\+mod\+::initkernel}} (self)
-\begin{DoxyCompactList}\small\item\em Initializer method adpated from for solver kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initializer method adpated from for kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(kernellitter\+\_\+class) \mbox{\hyperlink{namespacekernel__mod_a787f41bde87184610d6f926a6aaa704d}{kernel\+\_\+mod\+::litter}}
+\begin{DoxyCompactList}\small\item\em litter kernels \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -14,7 +14,7 @@ postProcessor=${postProcessorDir}/MOHIDLagrangianPostProcessor.py
 # CODES are executed according the selected parameters of execution in this testcase
 errcode=0
 
-python $postProcessor -i ${name}.xml -o $dirout
+python -W ignore $postProcessor -i ${name}.xml -o $dirout
 
 if [ $errcode -eq 0 ]; then
   echo All done

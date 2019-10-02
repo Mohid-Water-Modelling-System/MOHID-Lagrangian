@@ -11,7 +11,7 @@ rem "executables" are renamed and called from their directory
 set postProcessorDir=../../src\MOHIDLagrangianPostProcessor
 set postProcessor="%postProcessorDir%/MOHIDLagrangianPostprocessor.py"
 
-python %postProcessor% -i %name%.xml -o %dirout% 
+python -W ignore %postProcessor% -i %name%.xml -o %dirout% 
 
 :success
 echo All done

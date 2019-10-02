@@ -44,9 +44,9 @@
     implicit none
     type(string) :: outext
 
-    version  ="v0.1"
-    author   ="R. Birjukovs Canelas"
-    date     ="28-06-2019"
+    version  ="v0.2"
+    author   ="R. Birjukovs Canelas - D. Garaboa Paz"
+    date     ="25-09-2019"
 
     outext = ' __  __  ___  _   _ ___ ____  _                                      _              '//new_line('a')//&
         ' |  \/  |/ _ \| | | |_ _|  _ \| |    __ _  __ _ _ __ __ _ _ __   __ _(_) __ _ _ __  '//new_line('a')//&
@@ -59,7 +59,7 @@
         '  R. Birjukovs Canelas'//new_line('a')//&
         '  MARETEC - Research Centre for Marine, Environment and Technology'//new_line('a')//&
         '  University of Lisbon - IST'//new_line('a')//&
-        '  A. Daniel Garaboa'//new_line('a')//&
+        '  A. Daniel Garaboa Paz'//new_line('a')//&
         '  Non-Linear Physics Group - University of Santiago de Compostela, Spain'//new_line('a')//&
         ''//new_line('a')//&
         '  MOHID Lagrangian is free software: you can redistribute it and/or'//new_line('a')//&

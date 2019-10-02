@@ -34,7 +34,7 @@ if [ $errcode -eq 0 ]; then
   errcode=$?
 fi
 
-python $mohidPostprocessor -i ${name}.xml -o $dirout
+python -W ignore $mohidPostprocessor -i ${name}.xml -o $dirout
 
 if [ $errcode -eq 0 ]; then
   echo All done

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['hasrequiredvars',['hasrequiredvars',['../structkernel__mod_1_1kernel__class.html#ae32f72181313bee935a0ded1885c3602',1,'kernel_mod::kernel_class::hasrequiredvars()'],['../namespacekernel__mod.html#a4444d73e7295ba4b58add9b726de3135',1,'kernel_mod::hasrequiredvars()']]],
+  ['hasvars',['hasvars',['../structbackground__mod_1_1background__class.html#aa440524c5d056e02dafe44b0ee699cbd',1,'background_mod::background_class::hasvars()'],['../namespacebackground__mod.html#aaea077e7c8efb080233831f42e90bd9a',1,'background_mod::hasvars()']]],
   ['hdf5file_5fclass',['hdf5file_class',['../structhdf5parser__mod_1_1hdf5file__class.html',1,'hdf5parser_mod']]],
   ['hdf5parser_2ef90',['HDF5Parser.f90',['../_h_d_f5_parser_8f90.html',1,'']]],
   ['hdf5parser_5fmod',['hdf5parser_mod',['../namespacehdf5parser__mod.html',1,'']]],

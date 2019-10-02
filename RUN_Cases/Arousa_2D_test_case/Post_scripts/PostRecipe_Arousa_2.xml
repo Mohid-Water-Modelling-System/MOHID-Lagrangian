@@ -3,11 +3,16 @@
 	<EulerianMeasures>
 		<measures>
 			<field key = "residence_time"/>
-			<field key = "concentrations"/>
+			<filters>
+				<filter key = "beaching" value= "1" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
+			</filters>
 		</measures>
 		<gridDefinition>
-			<units value= "relative"/>
-			<resolution x="200" y="200" z="2"/>
+			<units value= "relative" comments="relative, meters, degrees"/>
+			<resolution x="200" y="200" z="1"/>
 		</gridDefinition>
 	</EulerianMeasures>
+	<convertFiles>
+		<format key="hdf5"/>
+	</convertFiles>
 </postProcessing>

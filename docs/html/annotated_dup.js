@@ -13,6 +13,7 @@ var annotated_dup =
     [ "hdf5writter_mod", "namespacehdf5writter__mod.html", "namespacehdf5writter__mod" ],
     [ "interpolator_mod", "namespaceinterpolator__mod.html", "namespaceinterpolator__mod" ],
     [ "kernel_mod", "namespacekernel__mod.html", "namespacekernel__mod" ],
+    [ "kernellitter_mod", "namespacekernellitter__mod.html", "namespacekernellitter__mod" ],
     [ "link_mod", "namespacelink__mod.html", "namespacelink__mod" ],
     [ "mtimeseriesparser_mod", "namespacemtimeseriesparser__mod.html", "namespacemtimeseriesparser__mod" ],
     [ "netcdfparser_mod", "namespacenetcdfparser__mod.html", "namespacenetcdfparser__mod" ],
