@@ -154,9 +154,26 @@
         aSource => self%LSource%currentValue()  ! get current value
         select type(aSource)
         class is (source_class)
+<<<<<<< HEAD
             if (Globals%SimTime%CurrTime <= aSource%par%stoptime) then       !CurrTime smaller than Source end time
                 if (Globals%SimTime%CurrTime >= aSource%par%startime) then   !CurrTime larger than source start time
                     aSource%now%active = .true.
+=======
+            aSource%now%active = aSource%par%activeTime(Globals%Sim%getnumdt())
+            if (aSource%now%active) then
+                if (.not.aSource%par%fixed_position) then
+                    !check if in the domain
+                    aSource%now%active = TrcInBBox(aSource%now%pos, BBox)
+                    if (aSource%now%active) then
+                        !check if in this block
+                        blk = getBlockIndex(aSource%now%pos)
+                        if (blk /= self%id) then        !Source is on a different block than the current one                        
+                            call sendSource(blk,aSource)
+                            call self%LSource%removeCurrent() !this also advances the iterator to the next position
+                            notremoved = .false.
+                        end if
+                    end if
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
                 end if
             else            !CurrTime larger than Source end time
                 aSource%now%active = .false.
@@ -339,9 +356,13 @@
             allocate(self%BlockState(i)%active(self%trcType(i,2)))
             allocate(self%BlockState(i)%source(self%trcType(i,2)))
             allocate(self%BlockState(i)%id(self%trcType(i,2)))
+<<<<<<< HEAD
             allocate(self%BlockState(i)%landMask(self%trcType(i,2)))
             self%BlockState(i)%landMask = Globals%Mask%waterVal
             allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))
+=======
+            allocate(self%BlockState(i)%landIntMask(self%trcType(i,2)))            
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
             self%BlockState(i)%landIntMask = Globals%Mask%waterVal
         end do
         call self%LTracer%reset()                   ! reset list iterator

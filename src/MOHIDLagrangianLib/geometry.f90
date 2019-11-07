@@ -303,6 +303,54 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+<<<<<<< HEAD
+=======
+    !> method to set the bounding box of a polygon
+    !> @param[in] self, zMin, zMax
+    !---------------------------------------------------------------------------
+    subroutine setBoundingBox(self, zMin, zMax)
+    class(polygon), intent(inout) :: self
+    real(prec), intent(in), optional :: zMin
+    real(prec), intent(in), optional :: zMax
+    integer :: i
+    self%bbMin = self%vertex(1)
+    self%bbMax = self%vertex(1)
+    do i= 2, size(self%vertex)
+        self%bbMin%x = min(self%bbMin%x, self%vertex(i)%x)
+        self%bbMin%y = min(self%bbMin%y, self%vertex(i)%y)
+        self%bbMin%z = min(self%bbMin%z, self%vertex(i)%z)
+        self%bbMax%x = max(self%bbMax%x, self%vertex(i)%x)
+        self%bbMax%y = max(self%bbMax%y, self%vertex(i)%y)
+        self%bbMax%z = max(self%bbMax%z, self%vertex(i)%z)
+    end do
+    if (present(zMin)) then
+        if (present(zMax)) then
+            self%bbMin%z = zMin
+            self%bbMax%z = zMax
+        end if
+    end if
+    self%pt = Geometry%getCenter(self)
+    end subroutine setBoundingBox
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> returns a polygon in metric units, centered at the origin
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    type(polygon) function getMetricPolygon(self)
+    class(polygon), intent(in) :: self
+
+    allocate(getMetricPolygon%vertex(size(self%vertex)))
+    getMetricPolygon%vertex = Utils%geo2m(self%vertex - self%pt)
+    call getMetricPolygon%setBoundingBox(self%bbMin%z-self%bbMin%z/2.0, self%bbMax%z-self%bbMin%z/2.0)
+    getMetricPolygon%pt = self%pt
+    end function getMetricPolygon
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     !> method to print the details of a given geometry
     !> @param[in] self, shapetype
     !---------------------------------------------------------------------------
@@ -461,6 +509,42 @@
     if (np == 1) then !Just the origin
         ptlist(1)= 0*ex + 0*ey +0*ez
     end if
+<<<<<<< HEAD
     end subroutine
+=======
+    end subroutine line_grid
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private function that returns true for a point in a polygon, assumed
+    !> regular on the vertical coordinate
+    !> @param[in] pt, poly, zmin, zmax
+    !---------------------------------------------------------------------------
+    logical function pointInPolygon(pt, poly, zmin, zmax)
+    type(vector), intent(in) :: pt
+    type(vector), dimension(:), intent(in) :: poly
+    real(prec), intent(in) :: zmin
+    real(prec), intent(in) :: zmax
+    integer :: i, ip1
+    real(prec) :: t
+
+    pointInPolygon = .false.
+    if (pt%z <= zmax ) then
+        if (pt%z >= zmin ) then
+            do i = 1, size(poly)
+                ip1 = mod ( i, size(poly) ) + 1
+                if ( poly(ip1)%y < pt%y .eqv. pt%y <= poly(i)%y ) then
+                    t = pt%x - poly(i)%x - ( pt%y - poly(i)%y ) * ( poly(ip1)%x - poly(i)%x ) / ( poly(ip1)%y - poly(i)%y )
+                    if ( t < 0.0D+00 ) then
+                        pointInPolygon = .not.pointInPolygon
+                    end if
+                end if
+            end do
+        end if
+    end if
+
+    end function pointInPolygon
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 
     end module geometry_mod

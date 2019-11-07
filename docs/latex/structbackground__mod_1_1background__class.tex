@@ -24,7 +24,13 @@ procedure \mbox{\hyperlink{structbackground__mod_1_1background__class_acb4a97a67
 \item 
 procedure \mbox{\hyperlink{structbackground__mod_1_1background__class_adbeedbb2d82107fe8dca02b72ffadcec}{shedmemory}}
 \item 
-procedure \mbox{\hyperlink{structbackground__mod_1_1background__class_a1995f020f28b9800b39a265dfce1f868}{makelandmask}}
+procedure \mbox{\hyperlink{structbackground__mod_1_1background__class_a0ecab872ceea6e2ad4274daa4670459e}{makelandmaskfield}}
+\item 
+procedure \mbox{\hyperlink{structbackground__mod_1_1background__class_a7509bacd43458ebee54bb0092422f26d}{makeresolutionfield}}
+\item 
+procedure \mbox{\hyperlink{structbackground__mod_1_1background__class_a07f5655551267d4801e1e87a1d188420}{copy}}
+\item 
+procedure \mbox{\hyperlink{structbackground__mod_1_1background__class_aa440524c5d056e02dafe44b0ee699cbd}{hasvars}}
 \item 
 procedure, private \mbox{\hyperlink{structbackground__mod_1_1background__class_ac7e39271ba1838a3f1548f10ff658de1}{getslabdim}}
 \item 
@@ -60,9 +66,11 @@ type(\mbox{\hyperlink{structgeometry__mod_1_1box}{box}}) \mbox{\hyperlink{struct
 type(scalar1d\+\_\+field\+\_\+class), dimension(\+:), allocatable \mbox{\hyperlink{structbackground__mod_1_1background__class_a086f319ce4f039190699578d69927013}{dim}}
 \begin{DoxyCompactList}\small\item\em Dimensions of the Background fields (time,lon,lat,level for example) \end{DoxyCompactList}\item 
 logical, dimension(\+:), allocatable \mbox{\hyperlink{structbackground__mod_1_1background__class_a78b62368ed110d33fd809e8ff101839b}{regulardim}}
-\begin{DoxyCompactList}\small\item\em Logical that points. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Flag that indicates if the respective dimension is regular or irregular. \end{DoxyCompactList}\item 
 type(\mbox{\hyperlink{structbackground__mod_1_1fieldslist__class}{fieldslist\+\_\+class}}) \mbox{\hyperlink{structbackground__mod_1_1background__class_a68b750f0476dc75b886638a45a45f8f6}{fields}}
-\begin{DoxyCompactList}\small\item\em Linked list to store the fields in the Background. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Linked list to store the fields in the Background. \end{DoxyCompactList}\item 
+type(stringlist\+\_\+class) \mbox{\hyperlink{structbackground__mod_1_1background__class_af6524c71d9bc6c9b4226fe6e362f04fd}{variables}}
+\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -81,7 +89,7 @@ Definition at line 37 of file background.\+f90.
 
 
 
-Definition at line 46 of file background.\+f90.
+Definition at line 47 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_a2d01f214966eea8a261c03a39d36743a}\label{structbackground__mod_1_1background__class_a2d01f214966eea8a261c03a39d36743a}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!append@{append}}
@@ -91,7 +99,7 @@ Definition at line 46 of file background.\+f90.
 
 
 
-Definition at line 49 of file background.\+f90.
+Definition at line 50 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_ac6df939097034b1b810ab1e4dca9857a}\label{structbackground__mod_1_1background__class_ac6df939097034b1b810ab1e4dca9857a}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!check@{check}}
@@ -101,7 +109,7 @@ Definition at line 49 of file background.\+f90.
 
 
 
-Definition at line 60 of file background.\+f90.
+Definition at line 64 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_ae4dfe47f7233a9755631095933ed6276}\label{structbackground__mod_1_1background__class_ae4dfe47f7233a9755631095933ed6276}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!cleanfields@{cleanfields}}
@@ -111,7 +119,17 @@ Definition at line 60 of file background.\+f90.
 
 
 
-Definition at line 56 of file background.\+f90.
+Definition at line 60 of file background.\+f90.
+
+\mbox{\Hypertarget{structbackground__mod_1_1background__class_a07f5655551267d4801e1e87a1d188420}\label{structbackground__mod_1_1background__class_a07f5655551267d4801e1e87a1d188420}} 
+\index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!copy@{copy}}
+\index{copy@{copy}!background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}}
+\subsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily procedure background\+\_\+mod\+::background\+\_\+class\+::copy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 55 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_aa41872e2623f1fb7da1fd4b930e6b100}\label{structbackground__mod_1_1background__class_aa41872e2623f1fb7da1fd4b930e6b100}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!finalize@{finalize}}
@@ -121,7 +139,7 @@ Definition at line 56 of file background.\+f90.
 
 
 
-Definition at line 55 of file background.\+f90.
+Definition at line 59 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_adecdce1f527c3ccb5f57d8b267023f4f}\label{structbackground__mod_1_1background__class_adecdce1f527c3ccb5f57d8b267023f4f}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!getdimextents@{getdimextents}}
@@ -131,7 +149,7 @@ Definition at line 55 of file background.\+f90.
 
 
 
-Definition at line 48 of file background.\+f90.
+Definition at line 49 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_a91992b0ccc0956daecda2f250ba934d6}\label{structbackground__mod_1_1background__class_a91992b0ccc0956daecda2f250ba934d6}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!getdimindex@{getdimindex}}
@@ -141,7 +159,7 @@ Definition at line 48 of file background.\+f90.
 
 
 
-Definition at line 47 of file background.\+f90.
+Definition at line 48 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_acb4a97a67f51e509fade50ed4b085f07}\label{structbackground__mod_1_1background__class_acb4a97a67f51e509fade50ed4b085f07}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!gethyperslab@{gethyperslab}}
@@ -151,7 +169,7 @@ Definition at line 47 of file background.\+f90.
 
 
 
-Definition at line 50 of file background.\+f90.
+Definition at line 51 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_a12daf122cea65ebd459e8507ae2389fa}\label{structbackground__mod_1_1background__class_a12daf122cea65ebd459e8507ae2389fa}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!getpointdimindexes@{getpointdimindexes}}
@@ -161,7 +179,7 @@ Definition at line 50 of file background.\+f90.
 
 
 
-Definition at line 54 of file background.\+f90.
+Definition at line 58 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_ac7e39271ba1838a3f1548f10ff658de1}\label{structbackground__mod_1_1background__class_ac7e39271ba1838a3f1548f10ff658de1}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!getslabdim@{getslabdim}}
@@ -171,17 +189,37 @@ Definition at line 54 of file background.\+f90.
 
 
 
+Definition at line 57 of file background.\+f90.
+
+\mbox{\Hypertarget{structbackground__mod_1_1background__class_aa440524c5d056e02dafe44b0ee699cbd}\label{structbackground__mod_1_1background__class_aa440524c5d056e02dafe44b0ee699cbd}} 
+\index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!hasvars@{hasvars}}
+\index{hasvars@{hasvars}!background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}}
+\subsubsection{\texorpdfstring{hasvars()}{hasvars()}}
+{\footnotesize\ttfamily procedure background\+\_\+mod\+::background\+\_\+class\+::hasvars (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 56 of file background.\+f90.
+
+\mbox{\Hypertarget{structbackground__mod_1_1background__class_a0ecab872ceea6e2ad4274daa4670459e}\label{structbackground__mod_1_1background__class_a0ecab872ceea6e2ad4274daa4670459e}} 
+\index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!makelandmaskfield@{makelandmaskfield}}
+\index{makelandmaskfield@{makelandmaskfield}!background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}}
+\subsubsection{\texorpdfstring{makelandmaskfield()}{makelandmaskfield()}}
+{\footnotesize\ttfamily procedure background\+\_\+mod\+::background\+\_\+class\+::makelandmaskfield (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
 Definition at line 53 of file background.\+f90.
 
-\mbox{\Hypertarget{structbackground__mod_1_1background__class_a1995f020f28b9800b39a265dfce1f868}\label{structbackground__mod_1_1background__class_a1995f020f28b9800b39a265dfce1f868}} 
-\index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!makelandmask@{makelandmask}}
-\index{makelandmask@{makelandmask}!background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}}
-\subsubsection{\texorpdfstring{makelandmask()}{makelandmask()}}
-{\footnotesize\ttfamily procedure background\+\_\+mod\+::background\+\_\+class\+::makelandmask (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structbackground__mod_1_1background__class_a7509bacd43458ebee54bb0092422f26d}\label{structbackground__mod_1_1background__class_a7509bacd43458ebee54bb0092422f26d}} 
+\index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!makeresolutionfield@{makeresolutionfield}}
+\index{makeresolutionfield@{makeresolutionfield}!background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}}
+\subsubsection{\texorpdfstring{makeresolutionfield()}{makeresolutionfield()}}
+{\footnotesize\ttfamily procedure background\+\_\+mod\+::background\+\_\+class\+::makeresolutionfield (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Definition at line 52 of file background.\+f90.
+Definition at line 54 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_aa1c611fb6813d423cba8f53bdf25465d}\label{structbackground__mod_1_1background__class_aa1c611fb6813d423cba8f53bdf25465d}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!print@{print}}
@@ -191,7 +229,7 @@ Definition at line 52 of file background.\+f90.
 
 
 
-Definition at line 62 of file background.\+f90.
+Definition at line 66 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_a5a4418427175db3e0d549fc328369993}\label{structbackground__mod_1_1background__class_a5a4418427175db3e0d549fc328369993}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!setdims@{setdims}}
@@ -201,7 +239,7 @@ Definition at line 62 of file background.\+f90.
 
 
 
-Definition at line 57 of file background.\+f90.
+Definition at line 61 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_a2265e90a0a0685465a17721576919af5}\label{structbackground__mod_1_1background__class_a2265e90a0a0685465a17721576919af5}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!setextents@{setextents}}
@@ -211,7 +249,7 @@ Definition at line 57 of file background.\+f90.
 
 
 
-Definition at line 58 of file background.\+f90.
+Definition at line 62 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_aa9fde21edbd805c17a6610d9db2ef4a4}\label{structbackground__mod_1_1background__class_aa9fde21edbd805c17a6610d9db2ef4a4}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!setid@{setid}}
@@ -221,7 +259,7 @@ Definition at line 58 of file background.\+f90.
 
 
 
-Definition at line 59 of file background.\+f90.
+Definition at line 63 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_adbeedbb2d82107fe8dca02b72ffadcec}\label{structbackground__mod_1_1background__class_adbeedbb2d82107fe8dca02b72ffadcec}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!shedmemory@{shedmemory}}
@@ -231,7 +269,7 @@ Definition at line 59 of file background.\+f90.
 
 
 
-Definition at line 51 of file background.\+f90.
+Definition at line 52 of file background.\+f90.
 
 \mbox{\Hypertarget{structbackground__mod_1_1background__class_abe7c9e689ba522cbd15754980ef1cc47}\label{structbackground__mod_1_1background__class_abe7c9e689ba522cbd15754980ef1cc47}} 
 \index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!test@{test}}
@@ -241,7 +279,7 @@ Definition at line 51 of file background.\+f90.
 
 
 
-Definition at line 61 of file background.\+f90.
+Definition at line 65 of file background.\+f90.
 
 
 
@@ -358,7 +396,7 @@ Definition at line 40 of file background.\+f90.
 
 
 
-Logical that points. 
+Flag that indicates if the respective dimension is regular or irregular. 
 
 
 
@@ -367,6 +405,20 @@ Definition at line 43 of file background.\+f90.
 
 \begin{DoxyCode}
 43         \textcolor{keywordtype}{logical}, \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: regularDim
+\end{DoxyCode}
+\mbox{\Hypertarget{structbackground__mod_1_1background__class_af6524c71d9bc6c9b4226fe6e362f04fd}\label{structbackground__mod_1_1background__class_af6524c71d9bc6c9b4226fe6e362f04fd}} 
+\index{background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}!variables@{variables}}
+\index{variables@{variables}!background\+\_\+mod\+::background\+\_\+class@{background\+\_\+mod\+::background\+\_\+class}}
+\subsubsection{\texorpdfstring{variables}{variables}}
+{\footnotesize\ttfamily type(stringlist\+\_\+class) background\+\_\+mod\+::background\+\_\+class\+::variables\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line 45 of file background.\+f90.
+
+
+\begin{DoxyCode}
+45         \textcolor{keywordtype}{type}(stringList\_class) :: variables
 \end{DoxyCode}
 
 

@@ -9,6 +9,13 @@ Collaboration diagram for geometry\+\_\+mod\+:\+:geometry\+\_\+class\+:\nopagebr
 \includegraphics[width=208pt]{structgeometry__mod_1_1geometry__class__coll__graph}
 \end{center}
 \end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+procedure, public \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_aff5dcf860e40f15d8a509f9bc2acdab3}{getfillpoints}}
+\begin{DoxyCompactList}\small\item\em returns a list of points that fill a given shape \end{DoxyCompactList}\item 
+procedure, public \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_ae9157930057bde1cb5e17ac97071015d}{setpolygon}}
+\begin{DoxyCompactList}\small\item\em assembles a polygon from a file \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -19,9 +26,7 @@ procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a6dfcc19f822da
 procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a435975f73e28fc8c9f04b47c390cb089}{allocateshape}}
 \begin{DoxyCompactList}\small\item\em Returns allocated Shape with a specific shape given a name. \end{DoxyCompactList}\item 
 procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}{fillsize}}
-\begin{DoxyCompactList}\small\item\em Gets the number of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) \end{DoxyCompactList}\item 
-procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}{fill}}
-\begin{DoxyCompactList}\small\item\em Gets the list of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Gets the number of points that fill a geometry. \end{DoxyCompactList}\item 
 procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a691891378a677185f2f13e736f68ff11}{getcenter}}
 \begin{DoxyCompactList}\small\item\em Function that retuns the shape baricenter. \end{DoxyCompactList}\item 
 procedure \mbox{\hyperlink{structgeometry__mod_1_1geometry__class_a4dd64d46f41c5c429a0b2b88250fa04e}{getpoints}}
@@ -40,7 +45,7 @@ type(string), dimension(\+:), allocatable \mbox{\hyperlink{structgeometry__mod_1
 \subsection{Detailed Description}
 
 
-Definition at line 33 of file geometry.\+f90.
+Definition at line 37 of file geometry.\+f90.
 
 
 
@@ -57,21 +62,7 @@ Returns allocated Shape with a specific shape given a name.
 
 
 
-Definition at line 38 of file geometry.\+f90.
-
-\mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}\label{structgeometry__mod_1_1geometry__class_a0afee5607f0e2443a862741e40794368}} 
-\index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!fill@{fill}}
-\index{fill@{fill}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
-\subsubsection{\texorpdfstring{fill()}{fill()}}
-{\footnotesize\ttfamily procedure geometry\+\_\+mod\+::geometry\+\_\+class\+::fill (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-Gets the list of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) 
-
-
-
-Definition at line 40 of file geometry.\+f90.
+Definition at line 42 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}\label{structgeometry__mod_1_1geometry__class_a75f5a37d0b38c8baf66ee5089ea44d7a}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!fillsize@{fillsize}}
@@ -81,11 +72,11 @@ Definition at line 40 of file geometry.\+f90.
 
 
 
-Gets the number of points that fill a geometry (based on G\+L\+O\+B\+A\+L\+S\+::dp) 
+Gets the number of points that fill a geometry. 
 
 
 
-Definition at line 39 of file geometry.\+f90.
+Definition at line 43 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a691891378a677185f2f13e736f68ff11}\label{structgeometry__mod_1_1geometry__class_a691891378a677185f2f13e736f68ff11}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!getcenter@{getcenter}}
@@ -99,7 +90,21 @@ Function that retuns the shape baricenter.
 
 
 
-Definition at line 41 of file geometry.\+f90.
+Definition at line 45 of file geometry.\+f90.
+
+\mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_aff5dcf860e40f15d8a509f9bc2acdab3}\label{structgeometry__mod_1_1geometry__class_aff5dcf860e40f15d8a509f9bc2acdab3}} 
+\index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!getfillpoints@{getfillpoints}}
+\index{getfillpoints@{getfillpoints}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
+\subsubsection{\texorpdfstring{getfillpoints()}{getfillpoints()}}
+{\footnotesize\ttfamily procedure, public geometry\+\_\+mod\+::geometry\+\_\+class\+::getfillpoints (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns a list of points that fill a given shape 
+
+
+
+Definition at line 44 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a8988388d683fbf7e5727a39b71d3c479}\label{structgeometry__mod_1_1geometry__class_a8988388d683fbf7e5727a39b71d3c479}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!getnumpoints@{getnumpoints}}
@@ -113,7 +118,7 @@ Function that returns the number of points (vertexes) that define the geometrica
 
 
 
-Definition at line 43 of file geometry.\+f90.
+Definition at line 47 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a4dd64d46f41c5c429a0b2b88250fa04e}\label{structgeometry__mod_1_1geometry__class_a4dd64d46f41c5c429a0b2b88250fa04e}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!getpoints@{getpoints}}
@@ -127,7 +132,7 @@ Function that retuns the points (vertexes) that define the geometrical shape.
 
 
 
-Definition at line 42 of file geometry.\+f90.
+Definition at line 46 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}\label{structgeometry__mod_1_1geometry__class_a97a9a90ff4143d41fe57eb0e6d1c76a1}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!initialize@{initialize}}
@@ -141,7 +146,7 @@ Builds the geometry list, possible geometry types (new types must be manually ad
 
 
 
-Definition at line 36 of file geometry.\+f90.
+Definition at line 40 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_a6dfcc19f822da875bebc58c3bf26e999}\label{structgeometry__mod_1_1geometry__class_a6dfcc19f822da875bebc58c3bf26e999}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!inlist@{inlist}}
@@ -155,7 +160,7 @@ checks if a given geometry is defined as a derived type (new types must be manua
 
 
 
-Definition at line 37 of file geometry.\+f90.
+Definition at line 41 of file geometry.\+f90.
 
 \mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_afbb83bea5cd3f73708b448d3c732ea7c}\label{structgeometry__mod_1_1geometry__class_afbb83bea5cd3f73708b448d3c732ea7c}} 
 \index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!print@{print}}
@@ -169,7 +174,21 @@ prints the geometry type and contents
 
 
 
-Definition at line 44 of file geometry.\+f90.
+Definition at line 49 of file geometry.\+f90.
+
+\mbox{\Hypertarget{structgeometry__mod_1_1geometry__class_ae9157930057bde1cb5e17ac97071015d}\label{structgeometry__mod_1_1geometry__class_ae9157930057bde1cb5e17ac97071015d}} 
+\index{geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}!setpolygon@{setpolygon}}
+\index{setpolygon@{setpolygon}!geometry\+\_\+mod\+::geometry\+\_\+class@{geometry\+\_\+mod\+::geometry\+\_\+class}}
+\subsubsection{\texorpdfstring{setpolygon()}{setpolygon()}}
+{\footnotesize\ttfamily procedure, public geometry\+\_\+mod\+::geometry\+\_\+class\+::setpolygon (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+assembles a polygon from a file 
+
+
+
+Definition at line 48 of file geometry.\+f90.
 
 
 
@@ -186,11 +205,11 @@ String list with the name of possible geometry types.
 
 
 
-Definition at line 34 of file geometry.\+f90.
+Definition at line 38 of file geometry.\+f90.
 
 
 \begin{DoxyCode}
-34         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: list
+38         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: list
 \end{DoxyCode}
 
 

@@ -177,29 +177,32 @@ Definition at line 214 of file simulation\+Test\+Maker.\+f90.
 214     \textcolor{keywordtype}{class}(testmaker\_class), \textcolor{keywordtype}{intent(inout)} :: self
 215     \textcolor{keywordtype}{type}(box), \textcolor{keywordtype}{intent(in)} :: testbox
 216     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{intent(inout)} :: testbackground
-217     \textcolor{keywordtype}{type}(scalar1d\_field\_class), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: testbackgroundims
-218     \textcolor{keywordtype}{type}(generic\_field\_class) :: gfield1, gfield2,gfield3
-219     \textcolor{keywordtype}{type}(ncfile\_class) :: ncFile
-220     \textcolor{keywordtype}{type}(string) :: ncFileName
-221     \textcolor{keywordtype}{integer} :: i
-222     
-223     \textcolor{comment}{!testMaker class has no acess to input stream objects, so we hack it}
-224     ncfilename = globals%Names%inputFile(1)
-225     \textcolor{keyword}{call }ncfile%initialize(ncfilename)    
-226     \textcolor{keyword}{call }ncfile%getVarDimensions(globals%Var%u, testbackgroundims)
-227     \textcolor{keyword}{call }ncfile%getVar(globals%Var%u, gfield1)
-228     \textcolor{keyword}{call }ncfile%getVar(globals%Var%v, gfield2)
-229     \textcolor{keyword}{call }ncfile%getVar(globals%Var%w, gfield3)
-230     \textcolor{keyword}{call }ncfile%finalize()
-231    
-232     testbackground = background(1, ncfilename, testbox, testbackgroundims)
-233     \textcolor{keyword}{call }testbackground%add(gfield1)
-234     \textcolor{keyword}{call }testbackground%add(gfield2)
-235     \textcolor{keyword}{call }testbackground%add(gfield3)
+217     \textcolor{comment}{!type(scalar1d\_field\_class), allocatable, dimension(:) :: testbackgroundims}
+218     \textcolor{comment}{!type(generic\_field\_class) :: gfield1, gfield2,gfield3}
+219     \textcolor{comment}{!type(ncfile\_class) :: ncFile}
+220     \textcolor{comment}{!type(string) :: ncFileName}
+221     \textcolor{comment}{!integer :: i}
+222     \textcolor{comment}{!}
+223     \textcolor{comment}{!!testMaker class has no acess to input stream objects, so we hack it}
+224     \textcolor{comment}{!ncFileName = Globals%Names%inputFile(1)}
+225     \textcolor{comment}{!call ncFile%initialize(ncFileName)    }
+226     \textcolor{comment}{!call ncFile%getVarDimensions(Globals%Var%u, testbackgroundims)}
+227     \textcolor{comment}{!call ncFile%getVar(Globals%Var%u, gfield1)}
+228     \textcolor{comment}{!call ncFile%getVar(Globals%Var%v, gfield2)}
+229     \textcolor{comment}{!call ncFile%getVar(Globals%Var%w, gfield3)}
+230     \textcolor{comment}{!call ncFile%finalize()}
+231     \textcolor{comment}{!}
+232     \textcolor{comment}{!testbackground = Background(1, ncFileName, testbox, testbackgroundims)}
+233     \textcolor{comment}{!call testbackground%add(gfield1)}
+234     \textcolor{comment}{!call testbackground%add(gfield2)}
+235     \textcolor{comment}{!call testbackground%add(gfield3)}
 236     
 237     \textcolor{comment}{!call testbackground%print()}
 238     \textcolor{comment}{!print*, testbackground%getDimExtents(Globals%Var%time)}
-239 
+239     
+240     print*, \textcolor{stringliteral}{'Deprecated test, stoping'}
+241     stop
+242     
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationtestmaker__mod_a45bbd32a561c88c18498d88f2d540cc4}\label{namespacesimulationtestmaker__mod_a45bbd32a561c88c18498d88f2d540cc4}} 
 \index{simulationtestmaker\+\_\+mod@{simulationtestmaker\+\_\+mod}!maketaylorgreen@{maketaylorgreen}}

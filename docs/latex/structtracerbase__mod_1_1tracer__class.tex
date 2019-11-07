@@ -31,13 +31,15 @@ procedure \mbox{\hyperlink{structtracerbase__mod_1_1tracer__class_a1142993acbb67
 type(\mbox{\hyperlink{structtracerbase__mod_1_1tracer__par__class}{tracer\+\_\+par\+\_\+class}}) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__class_aca04297200aad39fd04e31b630d9ca50}{par}}
 \begin{DoxyCompactList}\small\item\em To access parameters. \end{DoxyCompactList}\item 
 type(\mbox{\hyperlink{structtracerbase__mod_1_1tracer__state__class}{tracer\+\_\+state\+\_\+class}}) \mbox{\hyperlink{structtracerbase__mod_1_1tracer__class_ad1a1e2f727ad281e2562952d6ba94526}{now}}
-\begin{DoxyCompactList}\small\item\em To access state variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em To access state variables. \end{DoxyCompactList}\item 
+type(string), dimension(\+:), allocatable \mbox{\hyperlink{structtracerbase__mod_1_1tracer__class_a1e2b7783171ffa22fa36b8d74063afff}{varname}}
+\begin{DoxyCompactList}\small\item\em a list of variable names that this tracer has \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Type -\/ The pure Lagrangian tracer class. 
 
-Definition at line 40 of file tracer\+Base.\+f90.
+Definition at line 42 of file tracer\+Base.\+f90.
 
 
 
@@ -50,7 +52,7 @@ Definition at line 40 of file tracer\+Base.\+f90.
 
 
 
-Definition at line 44 of file tracer\+Base.\+f90.
+Definition at line 47 of file tracer\+Base.\+f90.
 
 \mbox{\Hypertarget{structtracerbase__mod_1_1tracer__class_ada976e2f5180866e2d5999c087b38fdc}\label{structtracerbase__mod_1_1tracer__class_ada976e2f5180866e2d5999c087b38fdc}} 
 \index{tracerbase\+\_\+mod\+::tracer\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+class}!getstatearray@{getstatearray}}
@@ -60,7 +62,7 @@ Definition at line 44 of file tracer\+Base.\+f90.
 
 
 
-Definition at line 45 of file tracer\+Base.\+f90.
+Definition at line 48 of file tracer\+Base.\+f90.
 
 \mbox{\Hypertarget{structtracerbase__mod_1_1tracer__class_a1142993acbb67b4fe43c52b554165e71}\label{structtracerbase__mod_1_1tracer__class_a1142993acbb67b4fe43c52b554165e71}} 
 \index{tracerbase\+\_\+mod\+::tracer\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+class}!print@{print}}
@@ -70,7 +72,7 @@ Definition at line 45 of file tracer\+Base.\+f90.
 
 
 
-Definition at line 47 of file tracer\+Base.\+f90.
+Definition at line 50 of file tracer\+Base.\+f90.
 
 \mbox{\Hypertarget{structtracerbase__mod_1_1tracer__class_ac8e61a82082c401bff8c726e0089a5e7}\label{structtracerbase__mod_1_1tracer__class_ac8e61a82082c401bff8c726e0089a5e7}} 
 \index{tracerbase\+\_\+mod\+::tracer\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+class}!setstatearray@{setstatearray}}
@@ -80,7 +82,7 @@ Definition at line 47 of file tracer\+Base.\+f90.
 
 
 
-Definition at line 46 of file tracer\+Base.\+f90.
+Definition at line 49 of file tracer\+Base.\+f90.
 
 
 
@@ -97,11 +99,11 @@ To access state variables.
 
 
 
-Definition at line 42 of file tracer\+Base.\+f90.
+Definition at line 44 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-42         \textcolor{keywordtype}{type}(tracer\_state\_class) :: now
+44         \textcolor{keywordtype}{type}(tracer\_state\_class) :: now
 \end{DoxyCode}
 \mbox{\Hypertarget{structtracerbase__mod_1_1tracer__class_aca04297200aad39fd04e31b630d9ca50}\label{structtracerbase__mod_1_1tracer__class_aca04297200aad39fd04e31b630d9ca50}} 
 \index{tracerbase\+\_\+mod\+::tracer\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+class}!par@{par}}
@@ -115,11 +117,29 @@ To access parameters.
 
 
 
-Definition at line 41 of file tracer\+Base.\+f90.
+Definition at line 43 of file tracer\+Base.\+f90.
 
 
 \begin{DoxyCode}
-41         \textcolor{keywordtype}{type}(tracer\_par\_class)   :: par
+43         \textcolor{keywordtype}{type}(tracer\_par\_class)   :: par
+\end{DoxyCode}
+\mbox{\Hypertarget{structtracerbase__mod_1_1tracer__class_a1e2b7783171ffa22fa36b8d74063afff}\label{structtracerbase__mod_1_1tracer__class_a1e2b7783171ffa22fa36b8d74063afff}} 
+\index{tracerbase\+\_\+mod\+::tracer\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+class}!varname@{varname}}
+\index{varname@{varname}!tracerbase\+\_\+mod\+::tracer\+\_\+class@{tracerbase\+\_\+mod\+::tracer\+\_\+class}}
+\subsubsection{\texorpdfstring{varname}{varname}}
+{\footnotesize\ttfamily type(string), dimension(\+:), allocatable tracerbase\+\_\+mod\+::tracer\+\_\+class\+::varname\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+a list of variable names that this tracer has 
+
+
+
+Definition at line 45 of file tracer\+Base.\+f90.
+
+
+\begin{DoxyCode}
+45         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: varName
 \end{DoxyCode}
 
 

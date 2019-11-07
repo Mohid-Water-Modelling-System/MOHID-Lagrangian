@@ -54,7 +54,7 @@
     !> @brief
     !> output streamer method to check if it is writ time, and call a 
     !> step writer. Assembles output file name and updates streamer data.
-    !> @param[in] self, blocks
+    !> @param[in] self, blocks, numTracers, simTimer
     !---------------------------------------------------------------------------
     subroutine WriteStep(self, blocks, numTracers, simTimer)
     class(output_streamer_class), intent(inout) :: self
@@ -64,8 +64,13 @@
     type(string) :: fileName
     
     if (self%CheckWriteTime()) then
+<<<<<<< HEAD
         fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
         call self%WriteStepSerial(fileName, blocks)
+=======
+        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Output%getnumOutFile())
+        call self%WriteStepSerial(fileName, numTracers, blocks, self%outputVariables)
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
         call self%writeOutputSummary(numTracers, simTimer, fileName)
         call Globals%Sim%setlastOutNumDt(Globals%Sim%getnumdt())
         call Globals%Sim%increment_numoutfile()
@@ -78,15 +83,25 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Streamer method to call an appropriate writer.
-    !> @param[in] self, filename, blocks
+    !> @param[in] self, filename, numTracers, blocks, outputVars
     !---------------------------------------------------------------------------
+<<<<<<< HEAD
     subroutine WriteStepSerial(self, filename, blocks)
+=======
+    subroutine WriteStepSerial(self, filename, numTracers, blocks, outputVars)
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
+    integer, intent(in) :: numTracers
     type(string), intent(in) :: filename                    !< name of the case to add
 
     if (self%OutputFormat == 2) then !VTK file selected
+<<<<<<< HEAD
         call self%vtkWritter%TracerSerial(filename, blocks)
+=======
+        call self%vtkWritter%TracerSerial(filename, numTracers, blocks, outputVars)
+        !call self%hdf5Writter%TracerSerial(filename, blocks)
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     end if
 
     end subroutine WriteStepSerial
@@ -143,7 +158,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> writes log entry with data regarding current output
-    !> @param[in] self
+    !> @param[in] self, numTracers, simTimer, fileName
     !---------------------------------------------------------------------------
     subroutine writeOutputSummary(self, numTracers, simTimer, fileName)
     class(output_streamer_class), intent(in) :: self
@@ -185,6 +200,10 @@
     self%LastWriteTime = Globals%SimTime%CurrTime
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
+<<<<<<< HEAD
+=======
+        !call self%hdf5Writter%initialize()
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     end if
     end subroutine initOutputStreamer
 

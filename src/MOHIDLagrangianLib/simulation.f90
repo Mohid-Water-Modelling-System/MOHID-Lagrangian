@@ -406,7 +406,9 @@
     integer :: i, blk, ntrc
     !iterate every Source to distribute
     ntrc = 0
+    allocate(Globals%Sources%sourcesID(size(tempSources%src)))
     do i=1, size(tempSources%src)
+        Globals%Sources%sourcesID(i) = tempSources%src(i)%par%id
         blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))
         call sBlock(blk)%putSource(tempSources%src(i))
         ntrc = ntrc + tempSources%src(i)%stencil%total_np

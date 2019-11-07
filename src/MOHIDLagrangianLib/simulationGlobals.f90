@@ -143,7 +143,12 @@
         type(string) :: level
         type(string) :: time
         type(string) :: landIntMask
+<<<<<<< HEAD
         type(string) :: landMask
+=======
+        type(string) :: resolution
+        type(string) :: rate
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -188,6 +193,11 @@
     procedure :: setCurrDateTime
     procedure :: getDateTimeStamp
     end type sim_time_t
+    
+    type :: sources_t
+        integer, allocatable, dimension(:) :: sourcesID
+    contains    
+    end type sources_t
 
     type :: globals_class   !<Globals class - This is a container for every global variable on the simulation
         type(parameters_t)  :: Parameters
@@ -200,6 +210,11 @@
         type(sim_time_t)    :: SimTime
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
+<<<<<<< HEAD
+=======
+        type(dataTypes_t)   :: DataTypes
+        type(sources_t)     :: Sources
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     contains
     procedure :: initialize => setdefaults
     procedure :: setTimeDate
@@ -311,7 +326,6 @@
     self%lat     = 'lat'
     self%level   = 'level'
     self%time    = 'time'
-    self%landMask    = 'landMask'
     self%landIntMask = 'landIntMask'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
@@ -672,11 +686,77 @@
     !> @brief
     !> Returns the number of output files written.
     !---------------------------------------------------------------------------
+<<<<<<< HEAD
     integer function getnumoutfile(self)
     implicit none
     class(sim_t), intent(inout) :: self
     getnumoutfile = self%numoutfile
     end function getnumoutfile
+=======
+    integer function getnumOutFile(self)
+    class(output_t), intent(inout) :: self
+    getnumOutFile = self%numOutFile
+    end function getnumOutFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds a variable name to the output pool.
+    !---------------------------------------------------------------------------
+    subroutine addToOutputPool(self, var)
+    class(output_t), intent(inout) :: self
+    type(string), intent(in) :: var
+    if (self%varToOutput%notRepeated(var)) call self%varToOutput%add(var)
+    end subroutine addToOutputPool
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds variable fields one by one to the output pool, given a string and 
+    !> boolean list.
+    !---------------------------------------------------------------------------
+    subroutine setOutputFields(self, fields, toOutput)
+    class(output_t), intent(inout) :: self
+    type(string), dimension(:), intent(in) :: fields
+    logical, dimension(:), intent(in) :: toOutput
+    integer :: i
+    if (size(fields) > 0) then
+        do i= 1, size(fields)
+            if (toOutput(i)) call self%addToOutputPool(fields(i))
+        end do
+    end if
+    end subroutine setOutputFields
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> adds a variable name to the output pool.
+    !---------------------------------------------------------------------------
+    subroutine getOutputPoolArray(self, array)
+    class(output_t), intent(inout) :: self
+    type(string), intent(out), allocatable, dimension(:) :: array
+    class(*), pointer :: curr
+    integer :: i
+    type(string) :: outext
+    i=1
+    allocate(array(self%varToOutput%getSize()))
+    call self%varToOutput%reset()               ! reset list iterator
+    do while(self%varToOutput%moreValues())     ! loop while there are values to print
+        curr => self%varToOutput%currentValue() ! get current value
+        select type(curr)
+        class is (string)
+            array(i) = curr
+            class default
+            outext = '[Globals::getOutputPoolArray] Unexepected type of content, not a string'
+            call Log%put(outext)
+            stop
+        end select
+        call self%varToOutput%next()            ! increment the list iterator
+        i = i + 1
+    end do
+    call self%varToOutput%reset()               ! reset list iterator
+    end subroutine getOutputPoolArray
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

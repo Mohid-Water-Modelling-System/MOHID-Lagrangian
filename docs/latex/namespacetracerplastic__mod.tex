@@ -58,38 +58,59 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 123 of file tracer\+Plastic.\+f90.
+Definition at line 135 of file tracer\+Plastic.\+f90.
 
 
 \begin{DoxyCode}
-123     \textcolor{keywordtype}{type}(plastic\_class) :: constructor
-124     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
-125     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
-126     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
-127     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
-128 
-129     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
-130     constructor%tracer\_class = tracer(id, src, time, p)
-131     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
-132     constructor%par%id = id \textcolor{comment}{!forcing}
-133     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
-134     \textcolor{comment}{!now initialize the specific components of this derived type}
-135     constructor%par%ttype = globals%Types%plastic
-136     \textcolor{comment}{!material parameters}
-137     constructor%mpar%degradation\_rate = src%prop%degrd\_rate
-138     constructor%mpar%particulate = src%prop%particulate
-139     constructor%mpar%size = src%prop%radius
-140     \textcolor{comment}{!material state}
-141     constructor%mnow%density = src%prop%density
-142     constructor%mnow%condition = src%prop%condition
-143     constructor%mnow%radius = src%prop%radius
-144     constructor%mnow%concentration = mv
-145     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
-146         constructor%mpar%size = src%prop%pt\_radius \textcolor{comment}{!correcting size to now mean particle size, not tracer
+135     \textcolor{keywordtype}{type}(plastic\_class) :: constructor
+136     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: id
+137     \textcolor{keywordtype}{class}(source\_class), \textcolor{keywordtype}{intent(in)} :: src
+138     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+139     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: p
+140     \textcolor{keywordtype}{integer} :: idx
+141     \textcolor{keywordtype}{type}(string) :: tag
+142 
+143     \textcolor{comment}{!use the base class constructor to build the base of our new derived type}
+144     constructor%tracer\_class = tracer(id, src, time, p, constructor%getNumVars())
+145     \textcolor{comment}{!VERY NICE IFORT BUG (I think) - only some of the variables get used using the base constructor...}
+146     constructor%par%id = id \textcolor{comment}{!forcing}
+147     constructor%par%idsource = src%par%id \textcolor{comment}{!forcing}
+148 
+149     \textcolor{comment}{!now initialize the specific components of this derived type}
+150     constructor%par%ttype = globals%Types%plastic
+151     constructor%mpar%particulate = src%prop%particulate
+152     constructor%mpar%size = src%prop%radius
+153     \textcolor{comment}{!material state}
+154     constructor%mnow%density = src%prop%density
+155     constructor%mnow%radius = src%prop%radius
+156     \textcolor{comment}{!constructor%mnow%concentration = MV}
+157     \textcolor{comment}{!default values}
+158     constructor%mnow%condition = 1.0
+159     constructor%mnow%degradation\_rate = 1/(100*365*24*3600)
+160     \textcolor{comment}{!try to find value from material types files}
+161     tag = \textcolor{stringliteral}{'condition'}
+162     idx = utils%find\_str(src%prop%propName, tag, .false.)
+163     \textcolor{keywordflow}{if} (idx /= mv\_int) \textcolor{keywordflow}{then}
+164         constructor%mnow%condition = src%prop%propValue(idx)
+165 \textcolor{keywordflow}{    end if}
+166     tag = \textcolor{stringliteral}{'degradation\_rate'}
+167     idx = utils%find\_str(src%prop%propName, tag, .false.)
+168     \textcolor{keywordflow}{if} (idx /= mv\_int) \textcolor{keywordflow}{then}
+169         constructor%mnow%degradation\_rate = src%prop%propValue(idx)
+170 \textcolor{keywordflow}{    end if}
+171 
+172     \textcolor{keywordflow}{if} (constructor%mpar%particulate) \textcolor{keywordflow}{then}
+173         \textcolor{comment}{!constructor%mpar%size = src%prop%pt\_radius !correcting size to now mean particle size, not tracer
        size}
-147         constructor%mnow%concentration = src%prop%ini\_concentration
-148 \textcolor{keywordflow}{    end if}
-149 
+174         \textcolor{comment}{!constructor%mnow%concentration = src%prop%ini\_concentration}
+175 \textcolor{keywordflow}{    end if}
+176     
+177     \textcolor{comment}{!filling the rest of the varName list}
+178     constructor%varName(12) = globals%Var%density
+179     constructor%varName(13) = \textcolor{stringliteral}{'radius'}
+180     constructor%varName(14) = \textcolor{stringliteral}{'condition'}
+181     constructor%varName(15) = \textcolor{stringliteral}{'degradation\_rate'}
+182     constructor%varName(16) = \textcolor{stringliteral}{'concentration'}
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -118,7 +139,7 @@ Definition at line 70 of file tracer\+Plastic.\+f90.
 
 \begin{DoxyCode}
 70     \textcolor{keywordtype}{class}(plastic\_class), \textcolor{keywordtype}{intent(in)} :: self
-71     getnumvars = 10
+71     getnumvars = 16
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -155,10 +176,16 @@ Definition at line 80 of file tracer\+Plastic.\+f90.
 86     getstatearray(4) = self%now%vel%x
 87     getstatearray(5) = self%now%vel%y
 88     getstatearray(6) = self%now%vel%z
-89     getstatearray(7) = self%mnow%density
-90     getstatearray(8) = self%mnow%radius
-91     getstatearray(9) = self%mnow%condition
-92     getstatearray(10) = self%mnow%concentration
+89     getstatearray(7) = self%now%diffusionVel%x
+90     getstatearray(8) = self%now%diffusionVel%y
+91     getstatearray(9) = self%now%diffusionVel%z
+92     getstatearray(10) = self%now%usedMixingLenght
+93     getstatearray(11) = self%now%age
+94     getstatearray(12) = self%mnow%density
+95     getstatearray(13) = self%mnow%radius
+96     getstatearray(14) = self%mnow%condition
+97     getstatearray(15) = self%mnow%degradation\_rate
+98     getstatearray(16) = self%mnow%concentration
 \end{DoxyCode}
 Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
@@ -182,21 +209,27 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 101 of file tracer\+Plastic.\+f90.
+Definition at line 107 of file tracer\+Plastic.\+f90.
 
 
 \begin{DoxyCode}
-101     \textcolor{keywordtype}{class}(plastic\_class), \textcolor{keywordtype}{intent(inout)} :: self
-102     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: stateArray
-103     \textcolor{comment}{!if(size(stateArray)<self%getNumVars())}
-104     self%now%pos%x = statearray(1)
-105     self%now%pos%y = statearray(2)
-106     self%now%pos%z = statearray(3)
-107     self%now%vel%x = statearray(4)
-108     self%now%vel%y = statearray(5)
-109     self%now%vel%z = statearray(6)
-110     self%mnow%density = statearray(7)
-111     self%mnow%radius = statearray(8)
-112     self%mnow%condition = statearray(9)
-113     self%mnow%concentration = statearray(10)    
+107     \textcolor{keywordtype}{class}(plastic\_class), \textcolor{keywordtype}{intent(inout)} :: self
+108     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: stateArray
+109     \textcolor{comment}{!if(size(stateArray)<self%getNumVars())}
+110     self%now%pos%x = statearray(1)
+111     self%now%pos%y = statearray(2)
+112     self%now%pos%z = statearray(3)
+113     self%now%vel%x = statearray(4)
+114     self%now%vel%y = statearray(5)
+115     self%now%vel%z = statearray(6)
+116     self%now%diffusionVel%z = statearray(7)
+117     self%now%diffusionVel%z = statearray(8)
+118     self%now%diffusionVel%z = statearray(9)
+119     self%now%usedMixingLenght = statearray(10)
+120     self%now%age   = statearray(11)
+121     self%mnow%density = statearray(12)
+122     self%mnow%radius = statearray(13)
+123     self%mnow%condition = statearray(14)
+124     self%mnow%degradation\_rate = statearray(15)
+125     self%mnow%concentration = statearray(16)
 \end{DoxyCode}

@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -121,11 +121,11 @@ Data Types</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1filenames__t.html">simulationglobals_mod::filenames_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">File names class.  <a href="structsimulationglobals__mod_1_1filenames__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1src__parm__t.html">simulationglobals_mod::src_parm_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lists for Source parameters.  <a href="structsimulationglobals__mod_1_1src__parm__t.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1sim__t.html">simulationglobals_mod::sim_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation related counters and others.  <a href="structsimulationglobals__mod_1_1sim__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1output__t.html">simulationglobals_mod::output_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation related counters and others.  <a href="structsimulationglobals__mod_1_1output__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1var__names__t.html">simulationglobals_mod::var_names_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,7 +133,11 @@ Data Types</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1tracertypes__t.html">simulationglobals_mod::tracertypes_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1datatypes__t.html">simulationglobals_mod::datatypes_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1sim__time__t.html">simulationglobals_mod::sim_time_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1sources__t.html">simulationglobals_mod::sources_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">type &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationglobals__mod_1_1globals__class.html">simulationglobals_mod::globals_class</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Globals class - This is a container for every global variable on the simulation.  <a href="structsimulationglobals__mod_1_1globals__class.html#details">More...</a><br /></td></tr>
@@ -210,9 +214,18 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a2b76dc3e6cbf1256253c54903df8393b"><td class="memItemLeft" align="right" valign="top">integer function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a2b76dc3e6cbf1256253c54903df8393b">simulationglobals_mod::getnumoutfile</a> (self)</td></tr>
 <tr class="memdesc:a2b76dc3e6cbf1256253c54903df8393b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of output files written.  <a href="namespacesimulationglobals__mod.html#a2b76dc3e6cbf1256253c54903df8393b">More...</a><br /></td></tr>
 <tr class="separator:a2b76dc3e6cbf1256253c54903df8393b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20a4476e2a8dbec4c1aaa202a14b4a40"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a20a4476e2a8dbec4c1aaa202a14b4a40">simulationglobals_mod::buildlists</a> (self)</td></tr>
-<tr class="memdesc:a20a4476e2a8dbec4c1aaa202a14b4a40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to build the parameters list of the Sources.  <a href="namespacesimulationglobals__mod.html#a20a4476e2a8dbec4c1aaa202a14b4a40">More...</a><br /></td></tr>
-<tr class="separator:a20a4476e2a8dbec4c1aaa202a14b4a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b94fa3858d556fc974a7ac6b18625cb"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a1b94fa3858d556fc974a7ac6b18625cb">simulationglobals_mod::addtooutputpool</a> (self, var)</td></tr>
+<tr class="memdesc:a1b94fa3858d556fc974a7ac6b18625cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds a variable name to the output pool.  <a href="namespacesimulationglobals__mod.html#a1b94fa3858d556fc974a7ac6b18625cb">More...</a><br /></td></tr>
+<tr class="separator:a1b94fa3858d556fc974a7ac6b18625cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a046b75c2e163809ea467da6340f1829c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a046b75c2e163809ea467da6340f1829c">simulationglobals_mod::setoutputfields</a> (self, fields, toOutput)</td></tr>
+<tr class="memdesc:a046b75c2e163809ea467da6340f1829c"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds variable fields one by one to the output pool, given a string and boolean list.  <a href="namespacesimulationglobals__mod.html#a046b75c2e163809ea467da6340f1829c">More...</a><br /></td></tr>
+<tr class="separator:a046b75c2e163809ea467da6340f1829c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0323793c29be7c79a735ca766fb8a78"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#ac0323793c29be7c79a735ca766fb8a78">simulationglobals_mod::getoutputpoolarray</a> (self, array)</td></tr>
+<tr class="memdesc:ac0323793c29be7c79a735ca766fb8a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">adds a variable name to the output pool.  <a href="namespacesimulationglobals__mod.html#ac0323793c29be7c79a735ca766fb8a78">More...</a><br /></td></tr>
+<tr class="separator:ac0323793c29be7c79a735ca766fb8a78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17dc711ec02d5aea0c33006939da8dec"><td class="memItemLeft" align="right" valign="top">logical function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a17dc711ec02d5aea0c33006939da8dec">simulationglobals_mod::inoutputpool</a> (self, var)</td></tr>
+<tr class="memdesc:a17dc711ec02d5aea0c33006939da8dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if a given var is in the output pool.  <a href="namespacesimulationglobals__mod.html#a17dc711ec02d5aea0c33006939da8dec">More...</a><br /></td></tr>
+<tr class="separator:a17dc711ec02d5aea0c33006939da8dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada0b6ffc5e112afbd86cdaa8d9aa55d8"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#ada0b6ffc5e112afbd86cdaa8d9aa55d8">simulationglobals_mod::setparam</a> (self, parmkey, parmvalue)</td></tr>
 <tr class="memdesc:ada0b6ffc5e112afbd86cdaa8d9aa55d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Private parameter setting method. Builds the simulation parametric space from the input case file.  <a href="namespacesimulationglobals__mod.html#ada0b6ffc5e112afbd86cdaa8d9aa55d8">More...</a><br /></td></tr>
 <tr class="separator:ada0b6ffc5e112afbd86cdaa8d9aa55d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -234,6 +247,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a3b24d0338ee34782c8e2ab57bba7b5f6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a3b24d0338ee34782c8e2ab57bba7b5f6">simulationglobals_mod::setbeachinglevel</a> (self, read_BeachingLevel)</td></tr>
 <tr class="memdesc:a3b24d0338ee34782c8e2ab57bba7b5f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Beaching Level setting routine.  <a href="namespacesimulationglobals__mod.html#a3b24d0338ee34782c8e2ab57bba7b5f6">More...</a><br /></td></tr>
 <tr class="separator:a3b24d0338ee34782c8e2ab57bba7b5f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacd46eb198a99699d7be61b807363fc6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#aacd46eb198a99699d7be61b807363fc6">simulationglobals_mod::setbeachingstopprob</a> (self, read_BeachingStopProb)</td></tr>
+<tr class="memdesc:aacd46eb198a99699d7be61b807363fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Beaching stop probability setting routine.  <a href="namespacesimulationglobals__mod.html#aacd46eb198a99699d7be61b807363fc6">More...</a><br /></td></tr>
+<tr class="separator:aacd46eb198a99699d7be61b807363fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70465a87d621a450f8b100fad0d29bc9"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a70465a87d621a450f8b100fad0d29bc9">simulationglobals_mod::setdiffusioncoeff</a> (self, read_DiffusionCoeff)</td></tr>
+<tr class="memdesc:a70465a87d621a450f8b100fad0d29bc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Horizontal Diffusion coefficient setting routine.  <a href="namespacesimulationglobals__mod.html#a70465a87d621a450f8b100fad0d29bc9">More...</a><br /></td></tr>
+<tr class="separator:a70465a87d621a450f8b100fad0d29bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad36c21a592a3230ce848804075abc97e"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#ad36c21a592a3230ce848804075abc97e">simulationglobals_mod::setsmalldt</a> (self, dt)</td></tr>
 <tr class="memdesc:ad36c21a592a3230ce848804075abc97e"><td class="mdescLeft">&#160;</td><td class="mdescRight">smallDt setting routine.  <a href="namespacesimulationglobals__mod.html#ad36c21a592a3230ce848804075abc97e">More...</a><br /></td></tr>
 <tr class="separator:ad36c21a592a3230ce848804075abc97e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -267,6 +286,10 @@ Functions/Subroutines</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a359d52eab96ddcaba05e0504eff0ef37"><td class="memItemLeft" align="right" valign="top">type(string), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a359d52eab96ddcaba05e0504eff0ef37">simulationglobals_mod::notread</a></td></tr>
+<tr class="separator:a359d52eab96ddcaba05e0504eff0ef37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34d00a17e5931ddf3ab1a361f6299ae3"><td class="memItemLeft" align="right" valign="top">type(string), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#a34d00a17e5931ddf3ab1a361f6299ae3">simulationglobals_mod::notset</a></td></tr>
+<tr class="separator:a34d00a17e5931ddf3ab1a361f6299ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf1e2786d81bd0fe337a8458efce8733"><td class="memItemLeft" align="right" valign="top">type(globals_class), public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesimulationglobals__mod.html#acf1e2786d81bd0fe337a8458efce8733">simulationglobals_mod::globals</a></td></tr>
 <tr class="separator:acf1e2786d81bd0fe337a8458efce8733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

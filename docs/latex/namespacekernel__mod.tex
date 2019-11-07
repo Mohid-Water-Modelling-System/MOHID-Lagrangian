@@ -10,15 +10,135 @@ type \mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}
 \item 
 real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ae17673ed6d32a4e7f6e54276e6430cc9}{runkernel}} (self, sv, bdata, time, dt)
 \begin{DoxyCompactList}\small\item\em Adaptation from run\+Solver (Ricardo) method that evaluates the specific kernel, according to the selected kernel. \end{DoxyCompactList}\item 
-real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_aec47ab247a9afc2a7fdc272620b3c5e8}{lagrangiankinematic}} (self, sv, bdata, time, dt)
+subroutine \mbox{\hyperlink{namespacekernel__mod_a1032cd0a40cff8301fcf2ca880c81039}{setcommonprocesses}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Sets the state vector land interaction mask values and corrects for maximum level of tracers. Accounts for global periodicity. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a7a181eab538ac32b3bddcf4bb34503bd}{lagrangiankinematic}} (self, sv, bdata, time)
 \begin{DoxyCompactList}\small\item\em Lagrangian Kernel, evaluate the velocities at given points using the interpolants and split the evaluation part from the solver module. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a69811135e6a881c537873c59451f689e}{stokesdrift}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Computes the influence of wave velocity in tracer kinematics. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ae9cf0f11335d49476ce48a37c2fbde83}{windage}} (self, sv, bdata, time)
+\begin{DoxyCompactList}\small\item\em Computes the influence of wind velocity in tracer kinematics. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ad243eaeb4e5d667795477e81ce6136c9}{beaching}} (self, sv, sv\+Dt)
+\begin{DoxyCompactList}\small\item\em Beaching Kernel, uses the already updated state vector and determines if and how beaching occurs. Affects the state vector and state vector derivative. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_ac2352f3964b072607ed042e70a59b9f2}{aging}} (self, sv)
+\begin{DoxyCompactList}\small\item\em Aging kernel. Sets the age variable to be updated by dt by the solver. \end{DoxyCompactList}\item 
+real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a065d7965d3a572a524cfd6bdd4729898}{diffusionmixinglength}} (self, sv, bdata, time, dt)
+\begin{DoxyCompactList}\small\item\em mixing length diffusion kernel, computes random velocities at given instants to model diffusion processes. These are valid while the tracer travels a given mixing length, propotional to the resolution of the background (and its ability to resove motion scales) \end{DoxyCompactList}\item 
 real(prec) function, dimension(size(sv\%state, 1), size(sv\%state, 2)) \mbox{\hyperlink{namespacekernel__mod_a92805ef71e30527b27de4efd7561f8f7}{diffusionisotropic}} (self, sv, dt)
 \begin{DoxyCompactList}\small\item\em Diffusion Kernel, computes the anisotropic diffusion assuming a constant diffusion coefficient. D = 1 m/s. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}{initkernel}} (self)
-\begin{DoxyCompactList}\small\item\em Initializer method adpated from for solver kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initializer method adpated from for kernel class. Sets the type of kernel and the interpolator to evaluate it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+type(kernellitter\+\_\+class) \mbox{\hyperlink{namespacekernel__mod_a787f41bde87184610d6f926a6aaa704d}{litter}}
+\begin{DoxyCompactList}\small\item\em litter kernels \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Function/\+Subroutine Documentation}
+\mbox{\Hypertarget{namespacekernel__mod_ac2352f3964b072607ed042e70a59b9f2}\label{namespacekernel__mod_ac2352f3964b072607ed042e70a59b9f2}} 
+\index{kernel\+\_\+mod@{kernel\+\_\+mod}!aging@{aging}}
+\index{aging@{aging}!kernel\+\_\+mod@{kernel\+\_\+mod}}
+\subsubsection{\texorpdfstring{aging()}{aging()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernel\+\_\+mod\+::aging (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(in)}]{self,  }\item[{type(statevector\+\_\+class), intent(in)}]{sv }\end{DoxyParamCaption})}
+
+
+
+Aging kernel. Sets the age variable to be updated by dt by the solver. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 366 of file kernel.\+f90.
+
+
+\begin{DoxyCode}
+366     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(in)} :: self
+367     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
+368     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: Aging
+369     \textcolor{keywordtype}{integer} :: nf
+370     \textcolor{keywordtype}{type}(string) :: tag
+371 
+372     aging = 0.0
+373     tag = \textcolor{stringliteral}{'age'}
+374     nf = utils%find\_str(sv%varName, tag, .true.)
+375     \textcolor{comment}{!setting the age variable to be updated by dt by the solver for all tracers}
+376     \textcolor{comment}{!effectively, we're just setting the derivative of 'age' to be 1.0 :)}
+377     aging(:,nf) = 1.0
+378 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacekernel__mod_ad243eaeb4e5d667795477e81ce6136c9}\label{namespacekernel__mod_ad243eaeb4e5d667795477e81ce6136c9}} 
+\index{kernel\+\_\+mod@{kernel\+\_\+mod}!beaching@{beaching}}
+\index{beaching@{beaching}!kernel\+\_\+mod@{kernel\+\_\+mod}}
+\subsubsection{\texorpdfstring{beaching()}{beaching()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernel\+\_\+mod\+::beaching (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(inout)}]{sv,  }\item[{real(prec), dimension(size(sv\%state,1),size(sv\%state,2)), intent(in)}]{sv\+Dt }\end{DoxyParamCaption})}
+
+
+
+Beaching Kernel, uses the already updated state vector and determines if and how beaching occurs. Affects the state vector and state vector derivative. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,sv\+Dt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 322 of file kernel.\+f90.
+
+
+\begin{DoxyCode}
+322     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+323     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+324     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))}, \textcolor{keywordtype}{intent(in)} :: svDt
+325     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: Beaching
+326     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1))} :: beachCoeff
+327     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1))} :: beachCoeffRand
+328     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1))} :: beachWeight
+329     \textcolor{keywordtype}{real(prec)} :: lbound, ubound
+330     \textcolor{keywordtype}{integer} :: i
+331 
+332     beachcoeff = 1.0
+333     \textcolor{keyword}{call }random\_number(beachcoeffrand) \textcolor{comment}{!this is a uniform distribution generator}
+334     beachcoeffrand = max(0.0, beachcoeffrand - globals%Constants%BeachingStopProb)  \textcolor{comment}{!clipping the last % to
+       zero}
+335     beachcoeffrand = beachcoeffrand*(1.0/max(maxval(beachcoeffrand),1.0)) \textcolor{comment}{!normalizing}
+336 
+337     beaching = svdt
+338     
+339     \textcolor{keywordflow}{if} (globals%Constants%BeachingStopProb /= 0.0) \textcolor{keywordflow}{then} \textcolor{comment}{!beaching is completely turned off if the stopping
+       propability is zero}
+340 
+341         \textcolor{comment}{!getting the bounds for the interpolation of the land interaction field that correspond to beaching}
+342         lbound = (globals%Mask%beachVal + globals%Mask%waterVal)*0.5
+343         ubound = (globals%Mask%beachVal + globals%Mask%landVal)*0.5
+344 
+345         \textcolor{comment}{!beachWeight = 1 - 0.5*(sv%landIntMask - lbound)/(ubound-lbound) !linear distance weight for
+       beaching}
+346         beachweight = 1 - 0.9*(sv%landIntMask - lbound)/(ubound-lbound)*(sv%landIntMask - lbound)/(ubound-
+      lbound) \textcolor{comment}{!quadratic weight}
+347 
+348         \textcolor{comment}{!replacing 1.0 with a coefficient from beaching where needed}
+349         \textcolor{keywordflow}{where}(sv%landIntMask <= ubound .and. sv%landIntMask >= lbound) beachcoeff = beachcoeffrand*
+      beachweight
+350         \textcolor{keywordflow}{do} i=1,3
+351             beaching(:,i) = svdt(:,i)*beachcoeff \textcolor{comment}{!position derivative is affected}
+352             sv%state(:,i+3) = sv%state(:,i+3)*beachcoeff \textcolor{comment}{!so are the velocities}
+353 \textcolor{keywordflow}{        end do}
+354     
+355 \textcolor{keywordflow}{    end if}
+356 
+\end{DoxyCode}
 \mbox{\Hypertarget{namespacekernel__mod_a92805ef71e30527b27de4efd7561f8f7}\label{namespacekernel__mod_a92805ef71e30527b27de4efd7561f8f7}} 
 \index{kernel\+\_\+mod@{kernel\+\_\+mod}!diffusionisotropic@{diffusionisotropic}}
 \index{diffusionisotropic@{diffusionisotropic}!kernel\+\_\+mod@{kernel\+\_\+mod}}
@@ -39,32 +159,127 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyParams}
 
 
-Definition at line 136 of file kernel.\+f90.
+Definition at line 465 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-136     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-137     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
-138     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
-139     \textcolor{keywordtype}{integer} :: np, i
-140     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: rand\_vel\_u, rand\_vel\_v,rand\_vel\_w
-141     \textcolor{keywordtype}{real(prec)} :: D = 1.
-142     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: DiffusionIsotropic
-143 
-144     diffusionisotropic = 0.0
-145     np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
-146     \textcolor{keyword}{allocate}(rand\_vel\_u(np), rand\_vel\_v(np), rand\_vel\_w(np))
-147     \textcolor{keyword}{call }random\_number(rand\_vel\_u)
-148     \textcolor{keyword}{call }random\_number(rand\_vel\_v)
-149     \textcolor{keyword}{call }random\_number(rand\_vel\_w)
-150     \textcolor{comment}{!update velocities}
-151     \textcolor{comment}{! For the moment we set D = 1 m/s, then the D parameter}
-152     \textcolor{comment}{! should be part of the array of tracers parameter}
-153     diffusionisotropic(:,1) = utils%m2geo((2.*rand\_vel\_u-1.)*sqrt(2.*d/dt), sv%state(:,2), .false.)
-154     diffusionisotropic(:,2) = utils%m2geo((2.*rand\_vel\_v-1.)*sqrt(2.*d/dt), sv%state(:,2), .true.)
-155     \textcolor{comment}{!DiffusionIsotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*D*0.0005/dt)}
-156     \textcolor{keywordflow}{where} (sv%state(:,6) /= 0.0) diffusionisotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*d*0.0005/dt)
-157 
+465     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+466     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
+467     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
+468     \textcolor{keywordtype}{integer} :: np, i
+469     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: rand\_vel\_u, rand\_vel\_v,rand\_vel\_w
+470     \textcolor{keywordtype}{real(prec)} :: D = 1.
+471     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: DiffusionIsotropic
+472 
+473     diffusionisotropic = 0.0
+474     np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+475     \textcolor{keyword}{allocate}(rand\_vel\_u(np), rand\_vel\_v(np), rand\_vel\_w(np))
+476     \textcolor{keyword}{call }random\_number(rand\_vel\_u)
+477     \textcolor{keyword}{call }random\_number(rand\_vel\_v)
+478     \textcolor{keyword}{call }random\_number(rand\_vel\_w)
+479     \textcolor{comment}{!update velocities}
+480     \textcolor{comment}{! For the moment we set D = 1 m/s, then the D parameter}
+481     \textcolor{comment}{! should be part of the array of tracers parameter}
+482     diffusionisotropic(:,1) = utils%m2geo((2.*rand\_vel\_u-1.)*sqrt(2.*d/dt), sv%state(:,2), .false.)
+483     diffusionisotropic(:,2) = utils%m2geo((2.*rand\_vel\_v-1.)*sqrt(2.*d/dt), sv%state(:,2), .true.)
+484     \textcolor{comment}{!DiffusionIsotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*D*0.0005/dt)}
+485     \textcolor{keywordflow}{where} (sv%state(:,6) /= 0.0) diffusionisotropic(:,3) = (2.*rand\_vel\_w-1.)*sqrt(2.*d*0.0005/dt)
+486 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacekernel__mod_a065d7965d3a572a524cfd6bdd4729898}\label{namespacekernel__mod_a065d7965d3a572a524cfd6bdd4729898}} 
+\index{kernel\+\_\+mod@{kernel\+\_\+mod}!diffusionmixinglength@{diffusionmixinglength}}
+\index{diffusionmixinglength@{diffusionmixinglength}!kernel\+\_\+mod@{kernel\+\_\+mod}}
+\subsubsection{\texorpdfstring{diffusionmixinglength()}{diffusionmixinglength()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernel\+\_\+mod\+::diffusionmixinglength (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(inout)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})}
+
+
+
+mixing length diffusion kernel, computes random velocities at given instants to model diffusion processes. These are valid while the tracer travels a given mixing length, propotional to the resolution of the background (and its ability to resove motion scales) 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,bdata,time,dt} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 391 of file kernel.\+f90.
+
+
+\begin{DoxyCode}
+391     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+392     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+393     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+394     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+395     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: dt
+396     \textcolor{keywordtype}{integer} :: np, nf, bkg
+397     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+398     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
+399     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: requiredVars
+400     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: DiffusionMixingLength
+401     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: resolution
+402     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: rand\_vel\_u, rand\_vel\_v, rand\_vel\_w
+403 
+404     \textcolor{keyword}{allocate}(requiredvars(1))
+405     requiredvars(1) = globals%Var%resolution
+406 
+407     diffusionmixinglength = 0.0
+408     \textcolor{comment}{!interpolate each background}
+409     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+410         \textcolor{keywordflow}{if} (bdata(bkg)%initialized) \textcolor{keywordflow}{then}
+411             \textcolor{keywordflow}{if}(bdata(bkg)%hasVars(requiredvars)) \textcolor{keywordflow}{then}
+412                 np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+413                 nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
+414                 \textcolor{keyword}{allocate}(var\_dt(np,nf))
+415                 \textcolor{keyword}{allocate}(var\_name(nf))
+416 
+417                 \textcolor{keyword}{allocate}(resolution(np))
+418                 \textcolor{keyword}{allocate}(rand\_vel\_u(np), rand\_vel\_v(np), rand\_vel\_w(np))
+419                 \textcolor{keyword}{call }random\_number(rand\_vel\_u)
+420                 \textcolor{keyword}{call }random\_number(rand\_vel\_v)
+421                 \textcolor{keyword}{call }random\_number(rand\_vel\_w)
+422                 \textcolor{comment}{!interpolating all of the data}
+423                 \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name, requiredvars)
+424                 \textcolor{comment}{!update resolution estimate}
+425                 nf = utils%find\_str(var\_name, globals%Var%resolution, .true.)
+426                 resolution = var\_dt(:,nf)
+427                 \textcolor{comment}{!if we are still in the same path, use the same random velocity, do nothing}
+428                 \textcolor{comment}{!if we ran the path, new random velocities are generated and placed}
+429                 \textcolor{keywordflow}{where} (sv%state(:,10) > 2.0*resolution)
+430                     diffusionmixinglength(:,7) = (2.*rand\_vel\_u-1.)*sqrt(globals%Constants%DiffusionCoeff*
+      abs(sv%state(:,4))/dt)/dt
+431                     diffusionmixinglength(:,8) = (2.*rand\_vel\_v-1.)*sqrt(globals%Constants%DiffusionCoeff*
+      abs(sv%state(:,5))/dt)/dt
+432                     diffusionmixinglength(:,9) = (2.*rand\_vel\_w-1.)*sqrt(0.000001*globals%Constants
+      %DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
+433                     sv%state(:,10) = 0.0
+434                     \textcolor{comment}{!update system positions}
+435                     diffusionmixinglength(:,1) = utils%m2geo(diffusionmixinglength(:,7), sv%state(:,2), .
+      false.)*dt
+436                     diffusionmixinglength(:,2) = utils%m2geo(diffusionmixinglength(:,8), sv%state(:,2), .
+      true.)*dt
+437                     diffusionmixinglength(:,3) = diffusionmixinglength(:,9)*dt
+438                 \textcolor{keywordflow}{elsewhere}
+439                     \textcolor{comment}{!update system positions}
+440                     diffusionmixinglength(:,1) = utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
+441                     diffusionmixinglength(:,2) = utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
+442                     diffusionmixinglength(:,3) = sv%state(:,9)
+443 \textcolor{keywordflow}{                end where}
+444                 \textcolor{comment}{!update system velocities}
+445                 \textcolor{comment}{!sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt}
+446                 \textcolor{comment}{!sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt}
+447                 \textcolor{comment}{!sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt                }
+448                 \textcolor{comment}{!update used mixing length}
+449                 diffusionmixinglength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5
+      ) + sv%state(:,6)*sv%state(:,6))
+450                 \textcolor{keyword}{deallocate}(var\_dt)
+451                 \textcolor{keyword}{deallocate}(var\_name)
+452 \textcolor{keywordflow}{            end if}
+453 \textcolor{keywordflow}{        end if}
+454 \textcolor{keywordflow}{    end do}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}\label{namespacekernel__mod_a26c62a8eec723402e20142e68ba7ec65}} 
 \index{kernel\+\_\+mod@{kernel\+\_\+mod}!initkernel@{initkernel}}
@@ -74,27 +289,28 @@ Definition at line 136 of file kernel.\+f90.
 
 
 
-Initializer method adpated from for solver kernel class. Sets the type of kernel and the interpolator to evaluate it. 
+Initializer method adpated from for kernel class. Sets the type of kernel and the interpolator to evaluate it. 
 
 \begin{DoxyAuthor}{Author}
 Daniel Garaboa Paz -\/ G\+F\+NL 
 \end{DoxyAuthor}
 
 
-Definition at line 167 of file kernel.\+f90.
+Definition at line 520 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-167     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-168     \textcolor{keywordtype}{type}(string) :: interpName
-169     interpname = \textcolor{stringliteral}{'linear'}
-170     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
+520     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+521     \textcolor{keywordtype}{type}(string) :: interpName
+522     interpname = \textcolor{stringliteral}{'linear'}
+523     \textcolor{keyword}{call }self%Interpolator%initialize(1,interpname)
+524     \textcolor{keyword}{call }litter%initialize()
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacekernel__mod_aec47ab247a9afc2a7fdc272620b3c5e8}\label{namespacekernel__mod_aec47ab247a9afc2a7fdc272620b3c5e8}} 
+\mbox{\Hypertarget{namespacekernel__mod_a7a181eab538ac32b3bddcf4bb34503bd}\label{namespacekernel__mod_a7a181eab538ac32b3bddcf4bb34503bd}} 
 \index{kernel\+\_\+mod@{kernel\+\_\+mod}!lagrangiankinematic@{lagrangiankinematic}}
 \index{lagrangiankinematic@{lagrangiankinematic}!kernel\+\_\+mod@{kernel\+\_\+mod}}
 \subsubsection{\texorpdfstring{lagrangiankinematic()}{lagrangiankinematic()}}
-{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernel\+\_\+mod\+::lagrangiankinematic (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(inout)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time,  }\item[{real(prec), intent(in)}]{dt }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernel\+\_\+mod\+::lagrangiankinematic (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(inout)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time }\end{DoxyParamCaption})}
 
 
 
@@ -105,65 +321,64 @@ Daniel Garaboa Paz -\/ U\+SC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,sv,bdata,time,dt} & \\
+\mbox{\tt in}  & {\em self,sv,bdata,time} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 76 of file kernel.\+f90.
+Definition at line 153 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-76     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-77     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
-78     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-79     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-80     \textcolor{keywordtype}{integer} :: np, nf, bkg, i
-81     \textcolor{keywordtype}{real(prec)} :: maxLevel(2)
-82     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
-83     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
-84     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: LagrangianKinematic
-85 
-86     lagrangiankinematic = 0.0
-87     \textcolor{comment}{!interpolate each background}
-88     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
-89         np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
-90         nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
-91         \textcolor{keyword}{allocate}(var\_dt(np,nf))
-92         \textcolor{keyword}{allocate}(var\_name(nf))
-93         \textcolor{comment}{!correcting for maximum admissible level in the background}
-94         maxlevel = bdata(bkg)%getDimExtents(globals%Var%level, .false.)
-95         \textcolor{keywordflow}{if} (maxlevel(2) /= mv) \textcolor{keywordflow}{where} (sv%state(:,3) > maxlevel(2)) sv%state(:,3) = maxlevel(2)-0.00001
-96         \textcolor{comment}{!interpolating all of the data}
-97         \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name)
-98         \textcolor{comment}{!write dx/dt}
-99         nf = utils%find\_str(var\_name, globals%Var%u, .true.)
-100         lagrangiankinematic(:,1) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .false.)
-101         sv%state(:,4) = var\_dt(:,nf)
-102         nf = utils%find\_str(var\_name, globals%Var%v, .true.)
-103         lagrangiankinematic(:,2) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .true.)
-104         sv%state(:,5) = var\_dt(:,nf)
-105         nf = utils%find\_str(var\_name, globals%Var%w, .false.)
-106         \textcolor{keywordflow}{if} (nf /= mv\_int) \textcolor{keywordflow}{then}
-107             lagrangiankinematic(:,3) = var\_dt(:,nf)
-108             sv%state(:,6) = var\_dt(:,nf)
-109         \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (nf == mv\_int) \textcolor{keywordflow}{then}
-110             lagrangiankinematic(:,3) = 0.0
-111             sv%state(:,6) = 0.0
-112 \textcolor{keywordflow}{        end if}
-113         \textcolor{comment}{!update land mask status}
-114         nf = utils%find\_str(var\_name, globals%Var%landMask, .false.)
-115         \textcolor{keywordflow}{if} (nf /= mv\_int) sv%landMask = nint(var\_dt(:,nf))
-116         \textcolor{keywordflow}{if} (nf == mv\_int) sv%landMask = globals%Mask%waterVal
-117         \textcolor{comment}{!marking tracers for deletion because they are in land}
-118         \textcolor{keywordflow}{where}(sv%landMask == 2) sv%active = .false.
-119         \textcolor{comment}{!update land interaction status}
-120         nf = utils%find\_str(var\_name, globals%Var%landIntMask, .false.)
-121         \textcolor{keywordflow}{if} (nf /= mv\_int) sv%landIntMask = nint(var\_dt(:,nf))
-122         \textcolor{keywordflow}{if} (nf == mv\_int) sv%landIntMask = globals%Mask%waterVal
-123         \textcolor{comment}{!update other vars...}
-124 \textcolor{keywordflow}{    end do}
-125 
+153     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+154     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+155     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+156     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+157     \textcolor{keywordtype}{integer} :: np, nf, bkg, i
+158     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+159     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
+160     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: requiredVars
+161     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: LagrangianKinematic
+162 
+163     \textcolor{keyword}{allocate}(requiredvars(2))
+164     requiredvars(1) = globals%Var%u
+165     requiredvars(2) = globals%Var%v
+166 
+167     lagrangiankinematic = 0.0
+168     \textcolor{comment}{!interpolate each background}
+169     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+170         \textcolor{keywordflow}{if} (bdata(bkg)%initialized) \textcolor{keywordflow}{then}
+171             \textcolor{keywordflow}{if}(bdata(bkg)%hasVars(requiredvars)) \textcolor{keywordflow}{then}
+172                 np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+173                 nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
+174                 \textcolor{keyword}{allocate}(var\_dt(np,nf))
+175                 \textcolor{keyword}{allocate}(var\_name(nf))
+176 
+177                 \textcolor{comment}{!interpolating all of the data}
+178                 \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name)
+179 
+180                 \textcolor{comment}{!write dx/dt}
+181                 nf = utils%find\_str(var\_name, globals%Var%u, .true.)
+182                 lagrangiankinematic(:,1) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .false.)
+183                 sv%state(:,4) = var\_dt(:,nf)
+184                 nf = utils%find\_str(var\_name, globals%Var%v, .true.)
+185                 lagrangiankinematic(:,2) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .true.)
+186                 sv%state(:,5) = var\_dt(:,nf)
+187                 nf = utils%find\_str(var\_name, globals%Var%w, .false.)
+188                 \textcolor{keywordflow}{if} (nf /= mv\_int) \textcolor{keywordflow}{then}
+189                     lagrangiankinematic(:,3) = var\_dt(:,nf)
+190                     sv%state(:,6) = var\_dt(:,nf)
+191                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (nf == mv\_int) \textcolor{keywordflow}{then}
+192                     lagrangiankinematic(:,3) = 0.0
+193                     sv%state(:,6) = 0.0
+194 \textcolor{keywordflow}{                end if}
+195 
+196                 \textcolor{keyword}{deallocate}(var\_dt)
+197                 \textcolor{keyword}{deallocate}(var\_name)
+198 \textcolor{keywordflow}{            end if}
+199 \textcolor{keywordflow}{        end if}
+200 \textcolor{keywordflow}{    end do}
+201 
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacekernel__mod_ae17673ed6d32a4e7f6e54276e6430cc9}\label{namespacekernel__mod_ae17673ed6d32a4e7f6e54276e6430cc9}} 
 \index{kernel\+\_\+mod@{kernel\+\_\+mod}!runkernel@{runkernel}}
@@ -185,22 +400,273 @@ Daniel Garaboa Paz -\/ G\+F\+NL
 \end{DoxyParams}
 
 
-Definition at line 52 of file kernel.\+f90.
+Definition at line 62 of file kernel.\+f90.
 
 
 \begin{DoxyCode}
-52     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
-53     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
-54     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
-55     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
-56     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: runKernel
-57 
-58     \textcolor{keywordflow}{if} (sv%ttype == globals%Types%base) \textcolor{keywordflow}{then}
-59         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) \textcolor{comment}{!+ self%DiffusionIsotropic(sv, dt)}
-60     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%paper) \textcolor{keywordflow}{then}
-61         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) \textcolor{comment}{!+ self%DiffusionIsotropic(sv, dt)}
-62     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%plastic) \textcolor{keywordflow}{then}
-63         runkernel = self%LagrangianKinematic(sv, bdata, time, dt) \textcolor{comment}{!+ self%DiffusionIsotropic(sv, dt)}
-64 \textcolor{keywordflow}{    end if}
-65 
+62     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+63     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+64     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+65     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time, dt
+66     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: runKernel
+67 
+68     \textcolor{comment}{!running preparations for kernel lanch}
+69     \textcolor{keyword}{call }self%setCommonProcesses(sv, bdata, time)
+70 
+71     \textcolor{comment}{!running kernels for each type of tracer}
+72     \textcolor{keywordflow}{if} (sv%ttype == globals%Types%base) \textcolor{keywordflow}{then}
+73         runkernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self
+      %Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
+74         runkernel = self%Beaching(sv, runkernel)
+75     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%paper) \textcolor{keywordflow}{then}
+76         runkernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self
+      %Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + litter
+      %DegradationLinear(sv)
+77         runkernel = self%Beaching(sv, runkernel)
+78     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (sv%ttype == globals%Types%plastic) \textcolor{keywordflow}{then}
+79         runkernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self
+      %Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + litter
+      %DegradationLinear(sv)
+80         runkernel = self%Beaching(sv, runkernel)
+81 \textcolor{keywordflow}{    end if}
+82 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacekernel__mod_a1032cd0a40cff8301fcf2ca880c81039}\label{namespacekernel__mod_a1032cd0a40cff8301fcf2ca880c81039}} 
+\index{kernel\+\_\+mod@{kernel\+\_\+mod}!setcommonprocesses@{setcommonprocesses}}
+\index{setcommonprocesses@{setcommonprocesses}!kernel\+\_\+mod@{kernel\+\_\+mod}}
+\subsubsection{\texorpdfstring{setcommonprocesses()}{setcommonprocesses()}}
+{\footnotesize\ttfamily subroutine kernel\+\_\+mod\+::setcommonprocesses (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(inout)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time }\end{DoxyParamCaption})}
+
+
+
+Sets the state vector land interaction mask values and corrects for maximum level of tracers. Accounts for global periodicity. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,bdata,time} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 94 of file kernel.\+f90.
+
+
+\begin{DoxyCode}
+94     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+95     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(inout)} :: sv
+96     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+97     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+98     \textcolor{keywordtype}{integer} :: np, nf, bkg
+99     \textcolor{keywordtype}{real(prec)} :: maxLevel(2)
+100     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+101     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
+102     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: requiredVars
+103 
+104     \textcolor{keyword}{allocate}(requiredvars(2))
+105     requiredvars(1) = globals%Var%landIntMask
+106     requiredvars(2) = globals%Var%resolution
+107         
+108     \textcolor{comment}{! global periodicity conditions}
+109     \textcolor{keywordflow}{where} (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
+110     \textcolor{keywordflow}{where} (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
+111 
+112     \textcolor{comment}{!interpolate each background}
+113     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+114         \textcolor{keywordflow}{if} (bdata(bkg)%initialized) \textcolor{keywordflow}{then}
+115             \textcolor{keywordflow}{if}(bdata(bkg)%hasVars(requiredvars)) \textcolor{keywordflow}{then}
+116                 np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+117                 nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
+118                 \textcolor{keyword}{allocate}(var\_dt(np,nf))
+119                 \textcolor{keyword}{allocate}(var\_name(nf))
+120 
+121                 \textcolor{comment}{!correcting for maximum admissible level in the background}
+122                 maxlevel = bdata(bkg)%getDimExtents(globals%Var%level, .false.)
+123                 \textcolor{keywordflow}{if} (maxlevel(2) /= mv) \textcolor{keywordflow}{where} (sv%state(:,3) > maxlevel(2)) sv%state(:,3) = maxlevel(2)-0.00
+      001
+124 
+125                 \textcolor{comment}{!interpolating all of the data}
+126                 \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name, requiredvars)
+127 
+128                 \textcolor{comment}{!update land interaction status}
+129                 nf = utils%find\_str(var\_name, globals%Var%landIntMask)
+130                 sv%landIntMask = var\_dt(:,nf)
+131                 \textcolor{comment}{!marking tracers for deletion because they are in land}
+132                 \textcolor{keywordflow}{where}(int(sv%landIntMask + globals%Mask%landVal*0.05) == globals%Mask%landVal) sv%active = 
+      .false.
+133                 \textcolor{comment}{!update resolution proxy}
+134                 nf = utils%find\_str(var\_name, globals%Var%resolution)
+135                 sv%resolution = var\_dt(:,nf)
+136 
+137                 \textcolor{keyword}{deallocate}(var\_dt)
+138                 \textcolor{keyword}{deallocate}(var\_name)
+139 \textcolor{keywordflow}{            end if}
+140 \textcolor{keywordflow}{        end if}
+141 \textcolor{keywordflow}{    end do}
+142 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacekernel__mod_a69811135e6a881c537873c59451f689e}\label{namespacekernel__mod_a69811135e6a881c537873c59451f689e}} 
+\index{kernel\+\_\+mod@{kernel\+\_\+mod}!stokesdrift@{stokesdrift}}
+\index{stokesdrift@{stokesdrift}!kernel\+\_\+mod@{kernel\+\_\+mod}}
+\subsubsection{\texorpdfstring{stokesdrift()}{stokesdrift()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernel\+\_\+mod\+::stokesdrift (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(in)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time }\end{DoxyParamCaption})}
+
+
+
+Computes the influence of wave velocity in tracer kinematics. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,bdata,time} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 211 of file kernel.\+f90.
+
+
+\begin{DoxyCode}
+211     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+212     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
+213     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+214     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+215     \textcolor{keywordtype}{integer} :: np, nf, bkg
+216     \textcolor{keywordtype}{real(prec)} :: waveCoeff
+217     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+218     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
+219     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: requiredVars
+220     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: StokesDrift
+221     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1))} :: depth
+222 
+223     \textcolor{keyword}{allocate}(requiredvars(2))
+224     requiredvars(1) = globals%Var%vsdx
+225     requiredvars(2) = globals%Var%vsdy
+226 
+227     wavecoeff = 0.01
+228     stokesdrift = 0.0
+229     \textcolor{comment}{!interpolate each background}
+230     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+231         \textcolor{keywordflow}{if} (bdata(bkg)%initialized) \textcolor{keywordflow}{then}
+232             \textcolor{keywordflow}{if}(bdata(bkg)%hasVars(requiredvars)) \textcolor{keywordflow}{then}
+233                 np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+234                 nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
+235                 \textcolor{keyword}{allocate}(var\_dt(np,nf))
+236                 \textcolor{keyword}{allocate}(var\_name(nf))
+237                 \textcolor{comment}{!interpolating all of the data}
+238                 \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name)
+239                 \textcolor{comment}{!computing the depth weight}
+240                 depth = sv%state(:,3)
+241                 \textcolor{keywordflow}{where} (depth>=0.0) depth = 0.0
+242                 depth = exp(depth)
+243                 \textcolor{comment}{!write dx/dt}
+244                 nf = utils%find\_str(var\_name, globals%Var%vsdx, .true.)
+245                 stokesdrift(:,1) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .false.)*wavecoeff*depth
+246                 nf = utils%find\_str(var\_name, globals%Var%vsdy, .true.)
+247                 stokesdrift(:,2) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .true.)*wavecoeff*depth
+248                 \textcolor{keyword}{deallocate}(var\_dt)
+249                 \textcolor{keyword}{deallocate}(var\_name)
+250 \textcolor{keywordflow}{            end if}
+251 \textcolor{keywordflow}{        end if}
+252 \textcolor{keywordflow}{    end do}
+253 
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacekernel__mod_ae9cf0f11335d49476ce48a37c2fbde83}\label{namespacekernel__mod_ae9cf0f11335d49476ce48a37c2fbde83}} 
+\index{kernel\+\_\+mod@{kernel\+\_\+mod}!windage@{windage}}
+\index{windage@{windage}!kernel\+\_\+mod@{kernel\+\_\+mod}}
+\subsubsection{\texorpdfstring{windage()}{windage()}}
+{\footnotesize\ttfamily real(prec) function, dimension(size(sv\%state,1),size(sv\%state,2)) kernel\+\_\+mod\+::windage (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structkernel__mod_1_1kernel__class}{kernel\+\_\+class}}), intent(inout)}]{self,  }\item[{type(statevector\+\_\+class), intent(in)}]{sv,  }\item[{type(\mbox{\hyperlink{structbackground__mod_1_1background__class}{background\+\_\+class}}), dimension(\+:), intent(in)}]{bdata,  }\item[{real(prec), intent(in)}]{time }\end{DoxyParamCaption})}
+
+
+
+Computes the influence of wind velocity in tracer kinematics. 
+
+\begin{DoxyAuthor}{Author}
+Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC 
+\end{DoxyAuthor}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em self,sv,bdata,time} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 263 of file kernel.\+f90.
+
+
+\begin{DoxyCode}
+263     \textcolor{keywordtype}{class}(kernel\_class), \textcolor{keywordtype}{intent(inout)} :: self
+264     \textcolor{keywordtype}{type}(stateVector\_class), \textcolor{keywordtype}{intent(in)} :: sv
+265     \textcolor{keywordtype}{type}(background\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: bdata
+266     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{intent(in)} :: time
+267     \textcolor{keywordtype}{integer} :: np, nf, bkg
+268     \textcolor{keywordtype}{real(prec)} :: windCoeff
+269     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:,:)}, \textcolor{keywordtype}{allocatable} :: var\_dt
+270     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: var\_name
+271     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: requiredVars
+272     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1),size(sv%state,2))} :: Windage
+273     \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(size(sv%state,1))} :: depth
+274 
+275     \textcolor{keyword}{allocate}(requiredvars(2))
+276     requiredvars(1) = globals%Var%u10
+277     requiredvars(2) = globals%Var%v10
+278 
+279     windcoeff = 0.03
+280     windage = 0.0
+281     \textcolor{comment}{!interpolate each background}
+282     \textcolor{keywordflow}{do} bkg = 1, \textcolor{keyword}{size}(bdata)
+283         \textcolor{keywordflow}{if} (bdata(bkg)%initialized) \textcolor{keywordflow}{then}
+284             \textcolor{keywordflow}{if}(bdata(bkg)%hasVars(requiredvars)) \textcolor{keywordflow}{then}
+285                 np = \textcolor{keyword}{size}(sv%active) \textcolor{comment}{!number of Tracers}
+286                 nf = bdata(bkg)%fields%getSize() \textcolor{comment}{!number of fields to interpolate}
+287                 \textcolor{keyword}{allocate}(var\_dt(np,nf))
+288                 \textcolor{keyword}{allocate}(var\_name(nf))
+289                 \textcolor{comment}{!interpolating all of the data}
+290                 \textcolor{keyword}{call }self%Interpolator%run(sv%state, bdata(bkg), time, var\_dt, var\_name)
+291                 \textcolor{comment}{!computing the depth weight}
+292                 depth = sv%state(:,3)
+293                 \textcolor{keywordflow}{where} (depth>=0.0) depth = 0.0
+294                 \textcolor{comment}{!where (depth == 0.0) }
+295                 \textcolor{comment}{!    nf = Utils%find\_str(var\_name, Globals%Var%u10, .true.)}
+296                 \textcolor{comment}{!    Windage(:,1) = Utils%m2geo(var\_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth}
+297                 \textcolor{comment}{!    nf = Utils%find\_str(var\_name, Globals%Var%v10, .true.)}
+298                 \textcolor{comment}{!    Windage(:,2) = Utils%m2geo(var\_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth}
+299                 \textcolor{comment}{!end where}
+300                 depth = exp(10.0*depth)
+301                 \textcolor{comment}{!write dx/dt}
+302                 nf = utils%find\_str(var\_name, globals%Var%u10, .true.)
+303                 windage(:,1) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .false.)*windcoeff*depth
+304                 nf = utils%find\_str(var\_name, globals%Var%v10, .true.)
+305                 windage(:,2) = utils%m2geo(var\_dt(:,nf), sv%state(:,2), .true.)*windcoeff*depth
+306                 \textcolor{keyword}{deallocate}(var\_dt)
+307                 \textcolor{keyword}{deallocate}(var\_name)
+308 \textcolor{keywordflow}{            end if}
+309 \textcolor{keywordflow}{        end if}
+310 \textcolor{keywordflow}{    end do}
+311 
+\end{DoxyCode}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacekernel__mod_a787f41bde87184610d6f926a6aaa704d}\label{namespacekernel__mod_a787f41bde87184610d6f926a6aaa704d}} 
+\index{kernel\+\_\+mod@{kernel\+\_\+mod}!litter@{litter}}
+\index{litter@{litter}!kernel\+\_\+mod@{kernel\+\_\+mod}}
+\subsubsection{\texorpdfstring{litter}{litter}}
+{\footnotesize\ttfamily type(kernellitter\+\_\+class) kernel\+\_\+mod\+::litter}
+
+
+
+litter kernels 
+
+
+
+Definition at line 49 of file kernel.\+f90.
+
+
+\begin{DoxyCode}
+49     \textcolor{keywordtype}{type}(kernelLitter\_class) :: Litter
 \end{DoxyCode}

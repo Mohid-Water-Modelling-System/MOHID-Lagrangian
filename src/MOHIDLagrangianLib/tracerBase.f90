@@ -128,7 +128,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Base Tracer constructor
-    !> @param[in] id, src, time, p
+    !> @param[in] id, src, time, p, varNum
     !---------------------------------------------------------------------------
     function constructor(id, src, time, p)
     type(tracer_class) :: constructor

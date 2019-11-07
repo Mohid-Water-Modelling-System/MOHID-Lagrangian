@@ -1,4 +1,5 @@
 <map id="blocks_mod::getblockindex" name="blocks_mod::getblockindex">
-<area shape="rect" id="node2" href="$namespaceblocks__mod.html#aa178415bcc40cf169744d356e1a09c6b" title="Method to distribute the Tracers to their correct Blocks. " alt="" coords="236,5,429,32"/>
-<area shape="rect" id="node3" href="$namespacesimulation__mod.html#a447c6d709de6aa360a65d39d660e627b" title="Simulation method to distribute the Sources to the Blocks, allocate the respective Tracers and redist..." alt="" coords="233,56,432,83"/>
+<area shape="rect" id="node2" href="$namespaceblocks__mod.html#ab9e57cbf0103b632b2b2dfa4e4d4139c" title="Method to activate and deactivate the sources on this block, based on GlobalsSimTimeCurrTime. " alt="" coords="233,5,445,32"/>
+<area shape="rect" id="node3" href="$namespaceblocks__mod.html#aa178415bcc40cf169744d356e1a09c6b" title="Method to distribute the Tracers to their correct Blocks. " alt="" coords="243,56,436,83"/>
+<area shape="rect" id="node4" href="$namespacesimulation__mod.html#a447c6d709de6aa360a65d39d660e627b" title="Simulation method to distribute the Sources to the Blocks, allocate the respective Tracers and redist..." alt="" coords="240,107,439,133"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="tracerplastic_mod::plastic_class" name="tracerplastic_mod::plastic_class">
-<area shape="rect" id="node3" href="$structtracerplastic__mod_1_1plastic__par__class.html" title="{tracerplastic_mod::\lplastic_par_class\n|&#45; degradation_rate\l&#45; particulate\l&#45; size\l|}" alt="" coords="123,13,256,134"/>
-<area shape="rect" id="node4" href="$structtracerplastic__mod_1_1plastic__state__class.html" title="Type &#45; State variables of a tracer object representing a plastic material. " alt="" coords="281,5,415,141"/>
+<area shape="rect" id="node3" href="$structtracerplastic__mod_1_1plastic__par__class.html" title="{tracerplastic_mod::\lplastic_par_class\n|&#45; particulate\l&#45; size\l|}" alt="" coords="123,27,256,134"/>
+<area shape="rect" id="node4" href="$structtracerplastic__mod_1_1plastic__state__class.html" title="Type &#45; State variables of a tracer object representing a plastic material. " alt="" coords="281,5,415,156"/>
 </map>
