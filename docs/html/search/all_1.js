@@ -6,9 +6,12 @@ var searchData=
   ['background_5fmod',['background_mod',['../namespacebackground__mod.html',1,'']]],
   ['base',['base',['../structsimulationglobals__mod_1_1tracertypes__t.html#a809513560a6ee14cba1bb397a5c73404',1,'simulationglobals_mod::tracertypes_t']]],
   ['basedatetime',['basedatetime',['../structsimulationglobals__mod_1_1parameters__t.html#a1bededd2546224cb5b4ebb290105a078',1,'simulationglobals_mod::parameters_t::basedatetime()'],['../structsimulationglobals__mod_1_1sim__time__t.html#acb3499d167bf9a0c7f6974efa8f88424',1,'simulationglobals_mod::sim_time_t::basedatetime()']]],
-  ['baselist',['baselist',['../structsimulationglobals__mod_1_1src__parm__t.html#ad17cf719066b0385f9e88a09ea61071b',1,'simulationglobals_mod::src_parm_t']]],
+  ['bbmax',['bbmax',['../structgeometry__mod_1_1polygon.html#a466582ac4df0ff7e8e0fbd74a7778a88',1,'geometry_mod::polygon']]],
+  ['bbmin',['bbmin',['../structgeometry__mod_1_1polygon.html#a962e69bdf4fc506d07445927f9f45776',1,'geometry_mod::polygon']]],
   ['bbox',['bbox',['../namespaceboundingbox__mod.html#a45e98e492bb546328c98f618a74622ec',1,'boundingbox_mod']]],
+  ['beaching',['beaching',['../structkernel__mod_1_1kernel__class.html#a8fb79882cea4947812f75cb3e39c9617',1,'kernel_mod::kernel_class::beaching()'],['../namespacekernel__mod.html#ad243eaeb4e5d667795477e81ce6136c9',1,'kernel_mod::beaching()']]],
   ['beachinglevel',['beachinglevel',['../structsimulationglobals__mod_1_1constants__t.html#a735a778cb615271495fe8d5dc2b964b7',1,'simulationglobals_mod::constants_t']]],
+  ['beachingstopprob',['beachingstopprob',['../structsimulationglobals__mod_1_1constants__t.html#a4f4f1254678f9c76367b50991561e9dd',1,'simulationglobals_mod::constants_t']]],
   ['beachval',['beachval',['../structsimulationglobals__mod_1_1maskvals__t.html#a68a1cb8107af729c423523b42da036e0',1,'simulationglobals_mod::maskvals_t']]],
   ['bedval',['bedval',['../structsimulationglobals__mod_1_1maskvals__t.html#a300c996800a60fde8b960454efa5250b',1,'simulationglobals_mod::maskvals_t']]],
   ['block_5fclass',['block_class',['../structblocks__mod_1_1block__class.html',1,'blocks_mod']]],
@@ -29,6 +32,6 @@ var searchData=
   ['box',['box',['../structgeometry__mod_1_1box.html',1,'geometry_mod']]],
   ['box_5fgrid',['box_grid',['../namespacegeometry__mod.html#ae87e4ecff2d21a839da2b82919b5fd0b',1,'geometry_mod']]],
   ['buffersize',['buffersize',['../structsimulationglobals__mod_1_1parameters__t.html#a897b2f6d34ecad28a7ceb45c1dcb8dfd',1,'simulationglobals_mod::parameters_t::buffersize()'],['../structsimulationinputstreamer__mod_1_1input__streamer__class.html#a840b26872bc3a8ddb8bab387590860d6',1,'simulationinputstreamer_mod::input_streamer_class::buffersize()']]],
-  ['buildlists',['buildlists',['../structsimulationglobals__mod_1_1src__parm__t.html#a0dd15ea4d9d7bb28eb4bca8a3a4262f1',1,'simulationglobals_mod::src_parm_t::buildlists()'],['../namespacesimulationglobals__mod.html#a20a4476e2a8dbec4c1aaa202a14b4a40',1,'simulationglobals_mod::buildlists()']]],
-  ['buildvars',['buildvars',['../structsimulationglobals__mod_1_1var__names__t.html#a9a30996df58e3c94b86e6661291f4305',1,'simulationglobals_mod::var_names_t::buildvars()'],['../namespacesimulationglobals__mod.html#a4aa829af1699c705e46f47bb023ac162',1,'simulationglobals_mod::buildvars()']]]
+  ['buildvars',['buildvars',['../structsimulationglobals__mod_1_1var__names__t.html#a9a30996df58e3c94b86e6661291f4305',1,'simulationglobals_mod::var_names_t::buildvars()'],['../namespacesimulationglobals__mod.html#a4aa829af1699c705e46f47bb023ac162',1,'simulationglobals_mod::buildvars()']]],
+  ['buoyancy',['buoyancy',['../structkernellitter__mod_1_1kernellitter__class.html#ae273210976c4a16ec9e76dff0a1ef034',1,'kernellitter_mod::kernellitter_class::buoyancy()'],['../namespacekernellitter__mod.html#a6dfc58ed5badd008180abb729e1bca82',1,'kernellitter_mod::buoyancy()']]]
 ];

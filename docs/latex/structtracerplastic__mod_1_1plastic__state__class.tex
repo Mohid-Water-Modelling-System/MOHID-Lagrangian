@@ -23,6 +23,8 @@ real(prec) \mbox{\hyperlink{structtracerplastic__mod_1_1plastic__state__class_ad
 \begin{DoxyCompactList}\small\item\em Tracer radius (m) \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structtracerplastic__mod_1_1plastic__state__class_ad97fc611c4c04bc78fa396b1bcc4c20a}{condition}}
 \begin{DoxyCompactList}\small\item\em Material condition (1-\/0) \end{DoxyCompactList}\item 
+real(prec) \mbox{\hyperlink{structtracerplastic__mod_1_1plastic__state__class_a2f155448ba50f5f28b289e690de2c8d1}{degradation\+\_\+rate}}
+\begin{DoxyCompactList}\small\item\em degradation rate of the material \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structtracerplastic__mod_1_1plastic__state__class_a90a24749c122f418f54c66f0b5d6a2e7}{concentration}}
 \begin{DoxyCompactList}\small\item\em Particle concentration. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -30,7 +32,7 @@ real(prec) \mbox{\hyperlink{structtracerplastic__mod_1_1plastic__state__class_a9
 \subsection{Detailed Description}
 Type -\/ State variables of a tracer object representing a plastic material. 
 
-Definition at line 36 of file tracer\+Plastic.\+f90.
+Definition at line 35 of file tracer\+Plastic.\+f90.
 
 
 
@@ -65,11 +67,29 @@ Material condition (1-\/0)
 
 
 
+Definition at line 38 of file tracer\+Plastic.\+f90.
+
+
+\begin{DoxyCode}
+38         \textcolor{keywordtype}{real(prec)} :: condition
+\end{DoxyCode}
+\mbox{\Hypertarget{structtracerplastic__mod_1_1plastic__state__class_a2f155448ba50f5f28b289e690de2c8d1}\label{structtracerplastic__mod_1_1plastic__state__class_a2f155448ba50f5f28b289e690de2c8d1}} 
+\index{tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}!degradation\+\_\+rate@{degradation\+\_\+rate}}
+\index{degradation\+\_\+rate@{degradation\+\_\+rate}!tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}}
+\subsubsection{\texorpdfstring{degradation\+\_\+rate}{degradation\_rate}}
+{\footnotesize\ttfamily real(prec) tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class\+::degradation\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+degradation rate of the material 
+
+
+
 Definition at line 39 of file tracer\+Plastic.\+f90.
 
 
 \begin{DoxyCode}
-39         \textcolor{keywordtype}{real(prec)} :: condition
+39         \textcolor{keywordtype}{real(prec)} :: degradation\_rate
 \end{DoxyCode}
 \mbox{\Hypertarget{structtracerplastic__mod_1_1plastic__state__class_aa3cc141bbe8b1bf06f439e335c5477db}\label{structtracerplastic__mod_1_1plastic__state__class_aa3cc141bbe8b1bf06f439e335c5477db}} 
 \index{tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}!density@{density}}
@@ -83,11 +103,11 @@ density of the material
 
 
 
-Definition at line 37 of file tracer\+Plastic.\+f90.
+Definition at line 36 of file tracer\+Plastic.\+f90.
 
 
 \begin{DoxyCode}
-37         \textcolor{keywordtype}{real(prec)} :: density
+36         \textcolor{keywordtype}{real(prec)} :: density
 \end{DoxyCode}
 \mbox{\Hypertarget{structtracerplastic__mod_1_1plastic__state__class_adcabfc8dd732395f9721677448baf4c0}\label{structtracerplastic__mod_1_1plastic__state__class_adcabfc8dd732395f9721677448baf4c0}} 
 \index{tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class@{tracerplastic\+\_\+mod\+::plastic\+\_\+state\+\_\+class}!radius@{radius}}
@@ -101,11 +121,11 @@ Tracer radius (m)
 
 
 
-Definition at line 38 of file tracer\+Plastic.\+f90.
+Definition at line 37 of file tracer\+Plastic.\+f90.
 
 
 \begin{DoxyCode}
-38         \textcolor{keywordtype}{real(prec)} :: radius
+37         \textcolor{keywordtype}{real(prec)} :: radius
 \end{DoxyCode}
 
 

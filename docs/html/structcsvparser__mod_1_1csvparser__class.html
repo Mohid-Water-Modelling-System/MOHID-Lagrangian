@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -96,6 +96,7 @@ $(document).ready(function(){initNavTree('structcsvparser__mod_1_1csvparser__cla
 <div class="header">
   <div class="summary">
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="structcsvparser__mod_1_1csvparser__class-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">csvparser_mod::csvparser_class Type Reference</div>  </div>
@@ -109,16 +110,29 @@ Collaboration diagram for csvparser_mod::csvparser_class:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
+<tr class="memitem:a9b0867325f70b9683aa558da0e5c6ddd"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#a9b0867325f70b9683aa558da0e5c6ddd">getfiletofileobject</a></td></tr>
+<tr class="separator:a9b0867325f70b9683aa558da0e5c6ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac81d9b3ae0e228bc9e0005b0f59246dd"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#ac81d9b3ae0e228bc9e0005b0f59246dd">getfile</a></td></tr>
 <tr class="separator:ac81d9b3ae0e228bc9e0005b0f59246dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78bad130ba3380571a2a19ae419c5668"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#a78bad130ba3380571a2a19ae419c5668">getdatabylabel</a></td></tr>
+<tr class="separator:a78bad130ba3380571a2a19ae419c5668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5181391410574d31ea7ed93091f2d21a"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#a5181391410574d31ea7ed93091f2d21a">getcolumn</a></td></tr>
 <tr class="separator:a5181391410574d31ea7ed93091f2d21a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1daa0b05831e325af862044831d5aade"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#a1daa0b05831e325af862044831d5aade">closefile</a></td></tr>
 <tr class="separator:a1daa0b05831e325af862044831d5aade"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:aa3632225cd36ea1ad9e8c0493a218886"><td class="memItemLeft" align="right" valign="top">type(string)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#aa3632225cd36ea1ad9e8c0493a218886">filename</a></td></tr>
+<tr class="separator:aa3632225cd36ea1ad9e8c0493a218886"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acad38d37d73d0cb6ca80f98cde3d56b4"><td class="memItemLeft" align="right" valign="top">type(string), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#acad38d37d73d0cb6ca80f98cde3d56b4">varname</a></td></tr>
+<tr class="separator:acad38d37d73d0cb6ca80f98cde3d56b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb06725049484011f39d9183adc9d192"><td class="memItemLeft" align="right" valign="top">real(prec), dimension(:,:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsvparser__mod_1_1csvparser__class.html#afb06725049484011f39d9183adc9d192">datamatrix</a></td></tr>
+<tr class="separator:afb06725049484011f39d9183adc9d192"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="csv_parser_8f90_source.html#l00029">29</a> of file <a class="el" href="csv_parser_8f90_source.html">csvParser.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00033">33</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a1daa0b05831e325af862044831d5aade"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1daa0b05831e325af862044831d5aade">&#9670;&nbsp;</a></span>closefile()</h2>
@@ -143,7 +157,7 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="csv_parser_8f90_source.html#l00033">33</a> of file <a class="el" href="csv_parser_8f90_source.html">csvParser.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00043">43</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
 
 </div>
 </div>
@@ -170,7 +184,34 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="csv_parser_8f90_source.html#l00032">32</a> of file <a class="el" href="csv_parser_8f90_source.html">csvParser.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00042">42</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
+
+</div>
+</div>
+<a id="a78bad130ba3380571a2a19ae419c5668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78bad130ba3380571a2a19ae419c5668">&#9670;&nbsp;</a></span>getdatabylabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure csvparser_mod::csvparser_class::getdatabylabel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00041">41</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
 
 </div>
 </div>
@@ -197,12 +238,112 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="csv_parser_8f90_source.html#l00031">31</a> of file <a class="el" href="csv_parser_8f90_source.html">csvParser.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00040">40</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
 
 </div>
 </div>
+<a id="a9b0867325f70b9683aa558da0e5c6ddd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b0867325f70b9683aa558da0e5c6ddd">&#9670;&nbsp;</a></span>getfiletofileobject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure csvparser_mod::csvparser_class::getfiletofileobject </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00039">39</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="afb06725049484011f39d9183adc9d192"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb06725049484011f39d9183adc9d192">&#9670;&nbsp;</a></span>datamatrix</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec), dimension(:,:), allocatable csvparser_mod::csvparser_class::datamatrix</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00037">37</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordtype">real(prec)</span>, <span class="keywordtype">dimension(:,:)</span>, <span class="keywordtype">allocatable</span> :: dataMatrix</div></div><!-- fragment -->
+</div>
+</div>
+<a id="aa3632225cd36ea1ad9e8c0493a218886"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3632225cd36ea1ad9e8c0493a218886">&#9670;&nbsp;</a></span>filename</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(string) csvparser_mod::csvparser_class::filename</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00035">35</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordtype">type</span>(string) :: filename</div></div><!-- fragment -->
+</div>
+</div>
+<a id="acad38d37d73d0cb6ca80f98cde3d56b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad38d37d73d0cb6ca80f98cde3d56b4">&#9670;&nbsp;</a></span>varname</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(string), dimension(:), allocatable csvparser_mod::csvparser_class::varname</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="csvparser_8f90_source.html#l00036">36</a> of file <a class="el" href="csvparser_8f90_source.html">csvparser.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordtype">type</span>(string), <span class="keywordtype">dimension(:)</span>, <span class="keywordtype">allocatable</span> :: varName</div></div><!-- fragment -->
+</div>
+</div>
 <hr/>The documentation for this type was generated from the following file:<ul>
-<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="csv_parser_8f90_source.html">csvParser.f90</a></li>
+<li>C:/Users/RBC_workhorse/Documents/GitHub/MOHID-Lagrangian/src/MOHIDLagrangianLib/<a class="el" href="csvparser_8f90_source.html">csvparser.f90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

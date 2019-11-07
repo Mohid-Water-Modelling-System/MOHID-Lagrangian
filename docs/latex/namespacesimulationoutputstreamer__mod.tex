@@ -15,7 +15,7 @@ type \mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__c
 \item 
 subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a689f65c821b78d46b142653214338b85}{writestep}} (self, blocks, num\+Tracers, sim\+Timer)
 \begin{DoxyCompactList}\small\item\em output streamer method to check if it is writ time, and call a step writer. Assembles output file name and updates streamer data. \end{DoxyCompactList}\item 
-subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_af116b4ea9abff9117b9b1b9b5e6ab690}{writestepserial}} (self, filename, blocks)
+subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a0382795016b75f3724cd7483857a4ec8}{writestepserial}} (self, filename, num\+Tracers, blocks, output\+Vars)
 \begin{DoxyCompactList}\small\item\em Streamer method to call an appropriate writer. \end{DoxyCompactList}\item 
 subroutine \mbox{\hyperlink{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}{writedomain}} (self, filename, bbox, npbbox, blocks)
 \begin{DoxyCompactList}\small\item\em Public simulation domain writting routine. \end{DoxyCompactList}\item 
@@ -60,14 +60,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 119 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 126 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-119     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-120     checkwritetime = .false.
-121     \textcolor{keywordflow}{if} ((globals%SimTime%CurrTime - self%LastWriteTime) >= self%OutputIntervalTime) checkwritetime = .true.
-122     \textcolor{keywordflow}{if} (globals%SimTime%CurrTime == 0.0) checkwritetime = .true.
+126     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+127     checkwritetime = .false.
+128     \textcolor{keywordflow}{if} ((globals%SimTime%CurrTime - self%LastWriteTime) >= self%OutputIntervalTime) checkwritetime = .true.
+129     \textcolor{keywordflow}{if} (globals%SimTime%CurrTime == 0.0) checkwritetime = .true.
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_adc0f21d337c283eee1f5f13b2eb51d52}\label{namespacesimulationoutputstreamer__mod_adc0f21d337c283eee1f5f13b2eb51d52}} 
 \index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!closeoutputstreamer@{closeoutputstreamer}}
@@ -84,14 +84,14 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 197 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 206 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-197     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-198     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
-199         \textcolor{keyword}{call }self%vtkWritter%finalize()
-200 \textcolor{keywordflow}{    end if}
+206     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+207     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+208         \textcolor{keyword}{call }self%vtkWritter%finalize()
+209 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a9ab3e2101fbed18ea896729f7201e1aa}\label{namespacesimulationoutputstreamer__mod_a9ab3e2101fbed18ea896729f7201e1aa}} 
 \index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!initoutputstreamer@{initoutputstreamer}}
@@ -108,17 +108,19 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 
-Definition at line 182 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 189 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-182     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-183     self%OutputFormat = globals%Parameters%OutputFormat
-184     self%OutputIntervalTime = globals%Parameters%OutputWriteTime
-185     self%LastWriteTime = globals%SimTime%CurrTime
-186     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
-187         \textcolor{keyword}{call }self%vtkWritter%initialize()
-188 \textcolor{keywordflow}{    end if}
+189     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+190     self%OutputFormat = globals%Parameters%OutputFormat
+191     self%OutputIntervalTime = globals%Parameters%OutputWriteTime
+192     self%LastWriteTime = globals%SimTime%CurrTime
+193     \textcolor{keyword}{call }globals%Output%getOutputPoolArray(self%outputVariables)
+194     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+195         \textcolor{keyword}{call }self%vtkWritter%initialize()
+196         \textcolor{comment}{!call self%hdf5Writter%initialize()}
+197 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}\label{namespacesimulationoutputstreamer__mod_a2c660b4331c576befebcf037b82b8d7a}} 
 \index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!writedomain@{writedomain}}
@@ -148,18 +150,18 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 101 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 108 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-101     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-102     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
-103     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
-104     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
-105     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
-106     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
-107         \textcolor{keyword}{call }self%vtkWritter%Domain(filename, bbox, npbbox, blocks)
-108 \textcolor{keywordflow}{    end if}
+108     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+109     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+110     \textcolor{keywordtype}{class}(boundingbox\_class), \textcolor{keywordtype}{intent(in)} :: bbox
+111     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: npbbox
+112     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+113     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+114         \textcolor{keyword}{call }self%vtkWritter%Domain(filename, bbox, npbbox, blocks)
+115 \textcolor{keywordflow}{    end if}
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a6f01bdc663fe5f4a842150a6aac90f67}\label{namespacesimulationoutputstreamer__mod_a6f01bdc663fe5f4a842150a6aac90f67}} 
 \index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!writeoutputheader@{writeoutputheader}}
@@ -181,21 +183,21 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyParams}
 
 
-Definition at line 132 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 139 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-132     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(in)} :: self
-133     \textcolor{keywordtype}{type}(string) :: outext
-134     outext =         \textcolor{stringliteral}{
+139     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(in)} :: self
+140     \textcolor{keywordtype}{type}(string) :: outext
+141     outext =         \textcolor{stringliteral}{
       '==================================================================================================================='}//new\_line(\textcolor{stringliteral}{'a'})
-135     outext = outext//\textcolor{stringliteral}{'                                             Simulation starting'}//new\_line(\textcolor{stringliteral}{'a'})
-136     outext = outext//\textcolor{stringliteral}{'
+142     outext = outext//\textcolor{stringliteral}{'                                             Simulation starting'}//new\_line(\textcolor{stringliteral}{'a'})
+143     outext = outext//\textcolor{stringliteral}{'
        ==================================================================================================================='}
-137     \textcolor{keyword}{call }log%put(outext,.false.)
-138     outext = \textcolor{stringliteral}{'    Output time    |   Simulation time   |      Finish time    |     % | Tracer # |  Steps |
+144     \textcolor{keyword}{call }log%put(outext,.false.)
+145     outext = \textcolor{stringliteral}{'    Output time    |   Simulation time   |      Finish time    |     % | Tracer # |  Steps |
        sim/time | output file'}
-139     \textcolor{keyword}{call }log%put(outext, .false.)
+146     \textcolor{keyword}{call }log%put(outext, .false.)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a8b34c75e869c6409de7d6e5ceca5cca7}\label{namespacesimulationoutputstreamer__mod_a8b34c75e869c6409de7d6e5ceca5cca7}} 
 \index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!writeoutputsummary@{writeoutputsummary}}
@@ -212,41 +214,41 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self} & \\
+\mbox{\tt in}  & {\em self,num\+Tracers,sim\+Timer,file\+Name} & \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 149 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 156 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-149     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(in)} :: self
-150     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: numTracers
-151     \textcolor{keywordtype}{type}(timer\_class), \textcolor{keywordtype}{intent(in)} :: simTimer
-152     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: fileName
-153     \textcolor{keywordtype}{type}(string) :: outext, temp
-154     \textcolor{keywordtype}{type}(datetime) :: finishDateTime
-155     \textcolor{keywordtype}{type}(timedelta) :: estimTimeDelta
-156     \textcolor{keywordtype}{integer} :: totalSecsToFinish
-157     temp = globals%SimTime%CurrDate%isoformat(\textcolor{stringliteral}{' '})
-158     temp = temp%basename(strip\_last\_extension=.true.)
-159     outext = \textcolor{stringliteral}{'| '}//temp
-160     finishdatetime = finishdatetime%now()
-161     estimtimedelta = globals%SimTime%EndDate - globals%SimTime%StartDate
-162     totalsecstofinish = estimtimedelta%total\_seconds()/(globals%SimDefs%dt/simtimer%getElapsedLast())
-163     estimtimedelta = timedelta(0,0,0,totalsecstofinish,0)
-164     finishdatetime = finishdatetime + estimtimedelta
-165     temp = finishdatetime%isoformat(\textcolor{stringliteral}{' '})
-166     temp = temp%basename(strip\_last\_extension=.true.)
-167     outext = outext//\textcolor{stringliteral}{' | '}//temp
-168     outext = outext//\textcolor{stringliteral}{' | '}//utils%real2str(\textcolor{stringliteral}{'(f5.1)'}, (globals%SimTime%CurrTime/globals%Parameters%TimeMax*1
+156     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(in)} :: self
+157     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: numTracers
+158     \textcolor{keywordtype}{type}(timer\_class), \textcolor{keywordtype}{intent(in)} :: simTimer
+159     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: fileName
+160     \textcolor{keywordtype}{type}(string) :: outext, temp
+161     \textcolor{keywordtype}{type}(datetime) :: finishDateTime
+162     \textcolor{keywordtype}{type}(timedelta) :: estimTimeDelta
+163     \textcolor{keywordtype}{integer} :: totalSecsToFinish
+164     temp = globals%SimTime%CurrDate%isoformat(\textcolor{stringliteral}{' '})
+165     temp = temp%basename(strip\_last\_extension=.true.)
+166     outext = \textcolor{stringliteral}{'| '}//temp
+167     finishdatetime = finishdatetime%now()
+168     estimtimedelta = globals%SimTime%EndDate - globals%SimTime%StartDate
+169     totalsecstofinish = estimtimedelta%total\_seconds()/(globals%SimDefs%dt/simtimer%getElapsedLast())
+170     estimtimedelta = timedelta(0,0,0,totalsecstofinish,0)
+171     finishdatetime = finishdatetime + estimtimedelta
+172     temp = finishdatetime%isoformat(\textcolor{stringliteral}{' '})
+173     temp = temp%basename(strip\_last\_extension=.true.)
+174     outext = outext//\textcolor{stringliteral}{' | '}//temp
+175     outext = outext//\textcolor{stringliteral}{' | '}//utils%real2str(\textcolor{stringliteral}{'(f5.1)'}, (globals%SimTime%CurrTime/globals%Parameters%TimeMax*1
       00.0))
-169     outext = outext//\textcolor{stringliteral}{' | '}//utils%int2str(\textcolor{stringliteral}{'(i8.1)'}, numtracers)
-170     outext = outext//\textcolor{stringliteral}{' | '}//utils%int2str(\textcolor{stringliteral}{'(i6.1)'}, globals%Sim%getnumdt())
-171     outext = outext//\textcolor{stringliteral}{' | '}//utils%real2str(\textcolor{stringliteral}{'(f8.2)'}, globals%SimDefs%dt/simtimer%getElapsedLast())   
-172     outext = outext//\textcolor{stringliteral}{' | '}//filename
-173     \textcolor{keyword}{call }log%put(outext)
+176     outext = outext//\textcolor{stringliteral}{' | '}//utils%int2str(\textcolor{stringliteral}{'(i8.1)'}, numtracers)
+177     outext = outext//\textcolor{stringliteral}{' | '}//utils%int2str(\textcolor{stringliteral}{'(i6.1)'}, globals%Sim%getnumdt())
+178     outext = outext//\textcolor{stringliteral}{' | '}//utils%real2str(\textcolor{stringliteral}{'(f8.2)'}, globals%SimDefs%dt/simtimer%getElapsedLast())   
+179     outext = outext//\textcolor{stringliteral}{' | '}//filename
+180     \textcolor{keyword}{call }log%put(outext)
 \end{DoxyCode}
 \mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a689f65c821b78d46b142653214338b85}\label{namespacesimulationoutputstreamer__mod_a689f65c821b78d46b142653214338b85}} 
 \index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!writestep@{writestep}}
@@ -263,38 +265,38 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,blocks} & \\
+\mbox{\tt in}  & {\em self,blocks,num\+Tracers,sim\+Timer} & \\
 \hline
 \mbox{\tt in}  & {\em blocks} & Case Blocks \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 60 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 63 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-60     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-61     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
-62     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: numTracers
-63     \textcolor{keywordtype}{type}(timer\_class), \textcolor{keywordtype}{intent(in)} :: simTimer
-64     \textcolor{keywordtype}{type}(string) :: fileName
-65     
-66     \textcolor{keywordflow}{if} (self%CheckWriteTime()) \textcolor{keywordflow}{then}
-67         filename = globals%Names%casename//\textcolor{stringliteral}{'\_'}//utils%int2str(\textcolor{stringliteral}{'(i5.5)'},globals%Sim%getnumoutfile())
-68         \textcolor{keyword}{call }self%WriteStepSerial(filename, blocks)
-69         \textcolor{keyword}{call }self%writeOutputSummary(numtracers, simtimer, filename)
-70         \textcolor{keyword}{call }globals%Sim%setlastOutNumDt(globals%Sim%getnumdt())
-71         \textcolor{keyword}{call }globals%Sim%increment\_numoutfile()
-72         self%LastWriteTime = globals%SimTime%CurrTime
-73 \textcolor{keywordflow}{    end if}
-74 
+63     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+64     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+65     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: numTracers
+66     \textcolor{keywordtype}{type}(timer\_class), \textcolor{keywordtype}{intent(in)} :: simTimer
+67     \textcolor{keywordtype}{type}(string) :: fileName
+68     
+69     \textcolor{keywordflow}{if} (self%CheckWriteTime()) \textcolor{keywordflow}{then}
+70         filename = globals%Names%casename//\textcolor{stringliteral}{'\_'}//utils%int2str(\textcolor{stringliteral}{'(i5.5)'},globals%Output%getnumOutFile())
+71         \textcolor{keyword}{call }self%WriteStepSerial(filename, numtracers, blocks, self%outputVariables)
+72         \textcolor{keyword}{call }self%writeOutputSummary(numtracers, simtimer, filename)
+73         \textcolor{keyword}{call }globals%Output%setlastOutNumDt(globals%Sim%getnumdt())
+74         \textcolor{keyword}{call }globals%Output%increment\_numOutFile()
+75         self%LastWriteTime = globals%SimTime%CurrTime
+76 \textcolor{keywordflow}{    end if}
+77 
 \end{DoxyCode}
-\mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_af116b4ea9abff9117b9b1b9b5e6ab690}\label{namespacesimulationoutputstreamer__mod_af116b4ea9abff9117b9b1b9b5e6ab690}} 
+\mbox{\Hypertarget{namespacesimulationoutputstreamer__mod_a0382795016b75f3724cd7483857a4ec8}\label{namespacesimulationoutputstreamer__mod_a0382795016b75f3724cd7483857a4ec8}} 
 \index{simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}!writestepserial@{writestepserial}}
 \index{writestepserial@{writestepserial}!simulationoutputstreamer\+\_\+mod@{simulationoutputstreamer\+\_\+mod}}
 \subsubsection{\texorpdfstring{writestepserial()}{writestepserial()}}
-{\footnotesize\ttfamily subroutine simulationoutputstreamer\+\_\+mod\+::writestepserial (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename,  }\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(in)}]{blocks }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily subroutine simulationoutputstreamer\+\_\+mod\+::writestepserial (\begin{DoxyParamCaption}\item[{class(\mbox{\hyperlink{structsimulationoutputstreamer__mod_1_1output__streamer__class}{output\+\_\+streamer\+\_\+class}}), intent(inout)}]{self,  }\item[{type(string), intent(in)}]{filename,  }\item[{integer, intent(in)}]{num\+Tracers,  }\item[{class(\mbox{\hyperlink{structblocks__mod_1_1block__class}{block\+\_\+class}}), dimension(\+:), intent(in)}]{blocks,  }\item[{type(string), dimension(\+:), intent(in)}]{output\+Vars }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -305,25 +307,31 @@ Ricardo Birjukovs Canelas -\/ M\+A\+R\+E\+T\+EC
 \end{DoxyAuthor}
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em self,filename,blocks} & \\
+\mbox{\tt in}  & {\em self,filename,num\+Tracers,blocks,output\+Vars} & \\
 \hline
 \mbox{\tt in}  & {\em blocks} & Case Blocks\\
 \hline
-\mbox{\tt in}  & {\em filename} & name of the case to add \\
+\mbox{\tt in}  & {\em filename} & name of the case to add\\
+\hline
+\mbox{\tt in}  & {\em outputvars} & names of the output variables to print \\
 \hline
 \end{DoxyParams}
 
 
-Definition at line 84 of file simulation\+Output\+Streamer.\+f90.
+Definition at line 87 of file simulation\+Output\+Streamer.\+f90.
 
 
 \begin{DoxyCode}
-84     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
-85     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
-86     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
-87 
-88     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
-89         \textcolor{keyword}{call }self%vtkWritter%TracerSerial(filename, blocks)
-90 \textcolor{keywordflow}{    end if}
-91 
+87     \textcolor{keywordtype}{class}(output\_streamer\_class), \textcolor{keywordtype}{intent(inout)} :: self
+88     \textcolor{keywordtype}{class}(block\_class), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: blocks
+89     \textcolor{keywordtype}{integer}, \textcolor{keywordtype}{intent(in)} :: numTracers
+90     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{intent(in)} :: filename
+91     \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{intent(in)} :: outputVars
+92     
+93 
+94     \textcolor{keywordflow}{if} (self%OutputFormat == 2) \textcolor{keywordflow}{then} \textcolor{comment}{!VTK file selected}
+95         \textcolor{keyword}{call }self%vtkWritter%TracerSerial(filename, numtracers, blocks, outputvars)
+96         \textcolor{comment}{!call self%hdf5Writter%TracerSerial(filename, blocks)}
+97 \textcolor{keywordflow}{    end if}
+98 
 \end{DoxyCode}

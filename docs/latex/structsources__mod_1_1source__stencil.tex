@@ -17,6 +17,8 @@ Collaboration diagram for sources\+\_\+mod\+:\+:source\+\_\+stencil\+:\nopagebre
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
+type(vector) \mbox{\hyperlink{structsources__mod_1_1source__stencil_af97e78ed335c0a3509cb397ba7ad2f25}{dp}}
+\begin{DoxyCompactList}\small\item\em resolution in x, y and z directions \end{DoxyCompactList}\item 
 integer \mbox{\hyperlink{structsources__mod_1_1source__stencil_a11ed46a8e923b5902cc02420d88158c5}{np}}
 \begin{DoxyCompactList}\small\item\em Number of tracers by emission. \end{DoxyCompactList}\item 
 integer \mbox{\hyperlink{structsources__mod_1_1source__stencil_ad7373d51bdf50a4595b6c0fa69f7f915}{total\+\_\+np}}
@@ -28,11 +30,29 @@ type(vector), dimension(\+:), allocatable \mbox{\hyperlink{structsources__mod_1_
 \subsection{Detailed Description}
 Type -\/ holder for the tracer creation stencil of the source. 
 
-Definition at line 71 of file sources.\+f90.
+Definition at line 68 of file sources.\+f90.
 
 
 
 \subsection{Member Data Documentation}
+\mbox{\Hypertarget{structsources__mod_1_1source__stencil_af97e78ed335c0a3509cb397ba7ad2f25}\label{structsources__mod_1_1source__stencil_af97e78ed335c0a3509cb397ba7ad2f25}} 
+\index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}!dp@{dp}}
+\index{dp@{dp}!sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}}
+\subsubsection{\texorpdfstring{dp}{dp}}
+{\footnotesize\ttfamily type(vector) sources\+\_\+mod\+::source\+\_\+stencil\+::dp\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+resolution in x, y and z directions 
+
+
+
+Definition at line 69 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+69         \textcolor{keywordtype}{type}(vector) :: dp
+\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__stencil_a11ed46a8e923b5902cc02420d88158c5}\label{structsources__mod_1_1source__stencil_a11ed46a8e923b5902cc02420d88158c5}} 
 \index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}!np@{np}}
 \index{np@{np}!sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}}
@@ -45,11 +65,11 @@ Number of tracers by emission.
 
 
 
-Definition at line 72 of file sources.\+f90.
+Definition at line 70 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-72         \textcolor{keywordtype}{integer} :: np
+70         \textcolor{keywordtype}{integer} :: np
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__stencil_a154e50e2872650da574d0a1148e3065a}\label{structsources__mod_1_1source__stencil_a154e50e2872650da574d0a1148e3065a}} 
 \index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}!ptlist@{ptlist}}
@@ -63,11 +83,11 @@ list of points (coordinates), relative to the source geometry point, to be gener
 
 
 
-Definition at line 74 of file sources.\+f90.
+Definition at line 72 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-74         \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: ptlist
+72         \textcolor{keywordtype}{type}(vector), \textcolor{keywordtype}{allocatable}, \textcolor{keywordtype}{dimension(:)} :: ptlist
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__stencil_ad7373d51bdf50a4595b6c0fa69f7f915}\label{structsources__mod_1_1source__stencil_ad7373d51bdf50a4595b6c0fa69f7f915}} 
 \index{sources\+\_\+mod\+::source\+\_\+stencil@{sources\+\_\+mod\+::source\+\_\+stencil}!total\+\_\+np@{total\+\_\+np}}
@@ -81,11 +101,11 @@ Total number of tracers that this source will generate.
 
 
 
-Definition at line 73 of file sources.\+f90.
+Definition at line 71 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-73         \textcolor{keywordtype}{integer} :: total\_np
+71         \textcolor{keywordtype}{integer} :: total\_np
 \end{DoxyCode}
 
 

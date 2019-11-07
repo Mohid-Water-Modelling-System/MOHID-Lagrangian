@@ -53,6 +53,57 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+<<<<<<< HEAD
+=======
+    !> Function that returns a real with a time in seconds of a given date
+    !> string, counting from a given date.
+    !> @param[in] self, dateStr, RefDate
+    !---------------------------------------------------------------------------
+    real(prec) function getRelativeTimeFromString(self, dateStr, RefDate)
+    class(utils_class), intent(in) :: self
+    type(string), intent(in) :: dateStr
+    type(datetime), intent(in) :: RefDate
+    type(string), allocatable :: dc(:)
+    integer, dimension(6) :: AbsoluteDateStr
+    type(datetime) :: AbsoluteDate
+    type(timedelta) :: delta
+
+    call dateStr%split(tokens=dc, sep=' ')
+    if (size(dc) > 1) then
+        AbsoluteDateStr = self%getDateFromISOString(dateStr)
+        AbsoluteDate = self%getDateTimeFromDate(AbsoluteDateStr)
+        delta = AbsoluteDate - RefDate
+        getRelativeTimeFromString = delta%total_seconds()
+    else
+        getRelativeTimeFromString = dateStr%to_number(kind=1._R4P)
+    end if
+
+    end function getRelativeTimeFromString
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Function that returns a real with a time in seconds of a given date
+    !> string, counting from a given date.
+    !> @param[in] self, dateArray
+    !---------------------------------------------------------------------------
+    type(datetime) function getDateTimeFromDate(self, dateArray)
+    class(utils_class), intent(in) :: self
+    integer, dimension(6), intent(in) :: dateArray
+    type(string) :: outext
+    if (size(dateArray) == 6) then
+        getDateTimeFromDate = datetime(dateArray(1), dateArray(2), dateArray(3), dateArray(4), dateArray(5), dateArray(6))
+    else
+        outext = '[Utils::getDateTimeFromDate] Array is not the correct size, check iso date specs. Stopping'
+        call Log%put(outext)
+        stop
+    end if
+    end function getDateTimeFromDate
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     !> Function that returns an integer array of type (year, month, day, hour,
     !> minute, second) from an ISO date string.
     !> @param[in] self, dateStr
@@ -127,9 +178,32 @@
     !> @brief
     !> Returns a vector in meters given an array in
     !> geographical coordinates (lon, lat, z) and a lattitude
-    !> @param[in] self, geovec, lat
+    !> @param[in] self, geovec
     !---------------------------------------------------------------------------
+<<<<<<< HEAD
     function geo2m_comp(self, geovec, lat, component)
+=======
+    elemental type(vector) function geo2m_vecFull(self, geovec)
+    class(utils_class), intent(in) :: self
+    type(vector), intent(in) :: geovec
+    integer :: R
+    real(prec) :: pi
+    pi = 4*atan(1.0)
+    R = 6378137 !earth radius in meters
+    !pi = 3.1415926
+    geo2m_vecFull = geovec
+    geo2m_vecFull%x = geo2m_vecFull%x*(R*pi/180.0)*cos(pi*geo2m_vecFull%y/180.0)
+    geo2m_vecFull%y = geo2m_vecFull%y*(R*pi/180.0)
+    end function geo2m_vecFull
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns an array of coordinates converted to degrees. 
+    !> @param[in] self, geovec, lat, isLat
+    !---------------------------------------------------------------------------
+    function geo2m_comp(self, geovec, lat, isLat)
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     class(utils_class), intent(in) :: self
     real(prec), dimension(:), intent(in) :: geovec
     real(prec), dimension(:), intent(in) :: lat
@@ -145,6 +219,31 @@
         geo2m_comp = geo2m_comp*((R*pi/180.0)*cos(pi*lat/180.0))
     end if
     end function geo2m_comp
+<<<<<<< HEAD
+=======
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns an array of coordinates converted to degrees. 
+    !> @param[in] self, geovec, lat, isLat
+    !---------------------------------------------------------------------------
+    function geo2m_compSingle(self, geovec, lat, isLat)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: geovec
+    real(prec), intent(in) :: lat
+    logical, intent(in) :: isLat
+    real(prec), dimension(size(geovec)) :: geo2m_compSingle
+    integer :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378137 !earth radius in meters
+    if (isLat) then
+        geo2m_compSingle = geovec*(R*pi/180.0)
+    else
+        geo2m_compSingle = geovec*((R*pi/180.0)*cos(pi*lat/180.0))
+    end if
+    end function geo2m_compSingle
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -171,8 +270,30 @@
     !> @brief
     !> Returns a vector in geographical coordinates
     !> (lon, lat, z) given an array in meters and a lattitude
-    !> @param[in] self, mvec, lat
+    !> @param[in] self, mvec
     !---------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+    elemental type(vector) function m2geo_vecFull(self, mvec)
+    class(utils_class), intent(in) :: self
+    type(vector), intent(in) :: mvec
+    real(prec) :: R
+    real(prec) :: pi
+    pi = 4*atan(1.0)
+    R = 6378137.0 !earth radius in meters
+    m2geo_vecFull=mvec
+    m2geo_vecFull%y = mvec%y/(R*pi/180.0)
+    m2geo_vecFull%x = mvec%x/((R*pi/180.0)*cos(pi*m2geo_vecFull%y/180.0))
+    end function m2geo_vecFull
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in geographical coordinates
+    !> (lon, lat, z) given an array in meters and a lattitude
+    !> @param[in] self, mvec, lat, component
+    !---------------------------------------------------------------------------
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     function m2geo_comp(self, mvec, lat, component)
     class(utils_class), intent(in) :: self
     real(prec), dimension(:), intent(in) :: mvec
@@ -254,7 +375,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Logical function that checks if a number is bounded between 2 values
-    !> @param[in] self, nums, minBound, maxBound
+    !> @param[in] self, nums, minBound, maxBound, eta
     !---------------------------------------------------------------------------
     logical function isBoundedSingle(self, nums, minBound, maxBound, eta)
     class(utils_class), intent(in) :: self
@@ -272,7 +393,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Logical function that checks if a set of numbers are bounded between 2 values
-    !> @param[in] self, nums, minBound, maxBound
+    !> @param[in] self, nums, minBound, maxBound, eta
     !---------------------------------------------------------------------------
     logical function isBoundedArray(self, nums, minBound, maxBound, eta)
     class(utils_class), intent(in) :: self

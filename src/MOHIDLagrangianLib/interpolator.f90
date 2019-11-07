@@ -51,7 +51,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that runs the chosen interpolator method on the given data.
-    !> @param[in] self, state, bdata, time, var_dt, var_name
+    !> @param[in] self, state, bdata, time, var_dt, var_name, toInterp
     !---------------------------------------------------------------------------
     subroutine run(self, state, bdata, time, var_dt, var_name)
     class(interpolator_class), intent(in) :: self
@@ -114,7 +114,7 @@
     !> divided into 16 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !> @param[in] self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e
     !---------------------------------------------------------------------------
     function interp4D(self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
@@ -185,7 +185,7 @@
     !> divided into 4 sub-hypercubes by the point in question. The weight of each
     !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
     !> of the whole hypercube.
-    !> @param[in] self, x, y, z, t, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !> @param[in] self, x, y, t, out, field, n_fv, n_cv, n_tv, n_e
     !---------------------------------------------------------------------------
     function interp3D(self, x, y, t, field, n_fv, n_cv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
@@ -236,7 +236,7 @@
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array.
-    !> @param[in] self, xdata, bdata, dimName
+    !> @param[in] self, xdata, bdata, dimName, out
     !---------------------------------------------------------------------------
     function getArrayCoord(self, xdata, bdata, dimName)
     class(interpolator_class), intent(in) :: self
@@ -257,7 +257,7 @@
     !> @brief
     !> Returns the array coordinates of a set of points, given a coordinate
     !> array. Works only for regularly spaced data.
-    !> @param[in] self, xdata, bdata, dim
+    !> @param[in] self, xdata, bdata, dim, out
     !---------------------------------------------------------------------------
     function getArrayCoordRegular(self, xdata, bdata, dim)
     class(interpolator_class), intent(in) :: self
@@ -282,7 +282,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Returns the array coordinate of a point, along a given dimension.
-    !> @param[in] self, xdata, bdata, dim
+    !> @param[in] self, xdata, bdata, dim, out
     ! !---------------------------------------------------------------------------
     function getArrayCoordNonRegular(self, xdata, bdata, dim)
     class(interpolator_class), intent(in) :: self
@@ -316,6 +316,52 @@
     !> Works only for regularly spaced data.
     !> @param[in] self, xdata, bdata, dimName
     !---------------------------------------------------------------------------
+<<<<<<< HEAD
+=======
+    function getPointCoordNonRegular(self, xdata, bdata, dimName)
+    class(interpolator_class), intent(in) :: self
+    real(prec), intent(in):: xdata              !< Tracer coordinate component
+    type(background_class), intent(in) :: bdata !< Background to use
+    type(string), intent(in) :: dimName
+    integer :: dim                              !< corresponding background dimension
+    real(prec) :: getPointCoordNonRegular       !< coordinates in array index
+    type(string) :: outext
+    integer :: i
+    integer :: idx_1, idx_2, n_idx
+    logical :: found
+
+    found = .false.
+    dim = bdata%getDimIndex(dimName)
+    if(size(bdata%dim(dim)%field) == 1) then
+        getPointCoordNonRegular = 1
+        return
+    end if
+    n_idx = size(bdata%dim(dim)%field)
+    do i = 2, n_idx
+        if (bdata%dim(dim)%field(i) >= xdata) then
+            idx_1 = i-1
+            idx_2 = i
+            found = .true.
+            exit
+        end if
+    end do
+    if (.not.found) then
+        outext = '[Interpolator::getPointCoordNonRegular] Point not contained in "'//dimName//'" dimension, stoping'
+        call Log%put(outext)
+        stop
+    end if
+    getPointCoordNonRegular = idx_1 + abs((xdata-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
+    
+    end function getPointCoordNonRegular
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns the array coordinate of a point, along a given dimension.
+    !> Works only for regularly spaced data.
+    !> @param[in] self, xdata, bdata, dimName, eta
+    !---------------------------------------------------------------------------
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     function getPointCoordRegular(self, xdata, bdata, dimName, eta)
     class(interpolator_class), intent(in) :: self
     real(prec), intent(in):: xdata              !< Tracer coordinate component

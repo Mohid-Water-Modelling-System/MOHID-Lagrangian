@@ -37,7 +37,7 @@
   <td id="projectlogo"><img alt="Logo" src="ML_logo2_small.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">MOHID Lagrangian
-   &#160;<span id="projectnumber">0.1</span>
+   &#160;<span id="projectnumber">0.2</span>
    </div>
    <div id="projectbrief">Lagrangian module/standalone app for the MOHID system</div>
   </td>
@@ -110,7 +110,7 @@ Collaboration diagram for simulationinputstreamer_mod::input_streamer_class:</di
 <div class="dyncontent">
 <div class="center"><img src="structsimulationinputstreamer__mod_1_1input__streamer__class__coll__graph.png" border="0" usemap="#simulationinputstreamer__mod_1_1input__streamer__class_coll__map" alt="Collaboration graph"/></div>
 <map name="simulationinputstreamer__mod_1_1input__streamer__class_coll__map" id="simulationinputstreamer__mod_1_1input__streamer__class_coll__map">
-<area shape="rect" id="node2" href="structsimulationinputstreamer__mod_1_1inputfilemodel__class.html" title="{simulationinputstreamer\l_mod::inputfilemodel_class\n|&#45; name\l&#45; starttime\l&#45; endtime\l&#45; used\l&#45; toread\l|}" alt="" coords="9,5,188,156"/>
+<area shape="rect" id="node2" href="structsimulationinputstreamer__mod_1_1inputfilemodel__class.html" title="{simulationinputstreamer\l_mod::inputfilemodel_class\n|&#45; name\l&#45; starttime\l&#45; endtime\l&#45; used\l&#45; toread\l|&#45; setreadstatus()\l}" alt="" coords="9,5,188,156"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -120,8 +120,14 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a52470b6d47f3ce270f9fdc14ccfa25d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76d4d67d354652f319fd93a340049cfb"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a76d4d67d354652f319fd93a340049cfb">loaddatafromstack</a></td></tr>
 <tr class="separator:a76d4d67d354652f319fd93a340049cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fb8a5031b4f6aaf7adb725089f9fd2d"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a8fb8a5031b4f6aaf7adb725089f9fd2d">getfullfile</a></td></tr>
-<tr class="separator:a8fb8a5031b4f6aaf7adb725089f9fd2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94846e4dd810043b8a37ad3c3956cc90"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a94846e4dd810043b8a37ad3c3956cc90">getcurrentsfile</a></td></tr>
+<tr class="separator:a94846e4dd810043b8a37ad3c3956cc90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6bcefe11cfb52813a77d33e34f00b49"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#af6bcefe11cfb52813a77d33e34f00b49">getwindsfile</a></td></tr>
+<tr class="separator:af6bcefe11cfb52813a77d33e34f00b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb42eb9df1c82a466e655819ae4ca5d3"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#afb42eb9df1c82a466e655819ae4ca5d3">getwavesfile</a></td></tr>
+<tr class="separator:afb42eb9df1c82a466e655819ae4ca5d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3dc916f99caa5cf314f85b425ea666d"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#aa3dc916f99caa5cf314f85b425ea666d">getwaterpropsfile</a></td></tr>
+<tr class="separator:aa3dc916f99caa5cf314f85b425ea666d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1582178235a956bb2aae6c98d25fa7a"><td class="memItemLeft" align="right" valign="top">procedure, private&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#aa1582178235a956bb2aae6c98d25fa7a">resetreadstatus</a></td></tr>
 <tr class="separator:aa1582178235a956bb2aae6c98d25fa7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3faf35d98fba46362d3771ab1dac9ba"><td class="memItemLeft" align="right" valign="top">procedure&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#af3faf35d98fba46362d3771ab1dac9ba">print</a> =&gt; printInputStreamer</td></tr>
@@ -135,24 +141,43 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:aa12635920288984ada44e425ea05bf10"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of input file metadata for currents  <a href="#aa12635920288984ada44e425ea05bf10">More...</a><br /></td></tr>
 <tr class="separator:aa12635920288984ada44e425ea05bf10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff314be52a74d7bfb4db1e3b56c8b539"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structsimulationinputstreamer__mod_1_1inputfilemodel__class.html">inputfilemodel_class</a>), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#aff314be52a74d7bfb4db1e3b56c8b539">windsinputfile</a></td></tr>
-<tr class="memdesc:aff314be52a74d7bfb4db1e3b56c8b539"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of input file metadata for currents  <a href="#aff314be52a74d7bfb4db1e3b56c8b539">More...</a><br /></td></tr>
+<tr class="memdesc:aff314be52a74d7bfb4db1e3b56c8b539"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of input file metadata for winds  <a href="#aff314be52a74d7bfb4db1e3b56c8b539">More...</a><br /></td></tr>
 <tr class="separator:aff314be52a74d7bfb4db1e3b56c8b539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afaf4ae68e00fdca31e5c59dadd94e05d"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structsimulationinputstreamer__mod_1_1inputfilemodel__class.html">inputfilemodel_class</a>), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#afaf4ae68e00fdca31e5c59dadd94e05d">wavesinputfile</a></td></tr>
-<tr class="memdesc:afaf4ae68e00fdca31e5c59dadd94e05d"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of input file metadata for currents  <a href="#afaf4ae68e00fdca31e5c59dadd94e05d">More...</a><br /></td></tr>
+<tr class="memdesc:afaf4ae68e00fdca31e5c59dadd94e05d"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of input file metadata for waves  <a href="#afaf4ae68e00fdca31e5c59dadd94e05d">More...</a><br /></td></tr>
 <tr class="separator:afaf4ae68e00fdca31e5c59dadd94e05d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa11930d0892a06d4d824cac8da9b4026"><td class="memItemLeft" align="right" valign="top">type(<a class="el" href="structsimulationinputstreamer__mod_1_1inputfilemodel__class.html">inputfilemodel_class</a>), dimension(:), allocatable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#aa11930d0892a06d4d824cac8da9b4026">waterpropsinputfile</a></td></tr>
+<tr class="memdesc:aa11930d0892a06d4d824cac8da9b4026"><td class="mdescLeft">&#160;</td><td class="mdescRight">array of input file metadata for water properties  <a href="#aa11930d0892a06d4d824cac8da9b4026">More...</a><br /></td></tr>
+<tr class="separator:aa11930d0892a06d4d824cac8da9b4026"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a375225e0aa1ed0f08363da1bafc139e3"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a375225e0aa1ed0f08363da1bafc139e3">lastcurrentsreadtime</a></td></tr>
+<tr class="separator:a375225e0aa1ed0f08363da1bafc139e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac395ab94f76af36fa3e039f32b38416"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#aac395ab94f76af36fa3e039f32b38416">lastwindsreadtime</a></td></tr>
+<tr class="separator:aac395ab94f76af36fa3e039f32b38416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6319b7afca64a7e4a0c20616ff6cbb80"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a6319b7afca64a7e4a0c20616ff6cbb80">lastwavesreadtime</a></td></tr>
+<tr class="separator:a6319b7afca64a7e4a0c20616ff6cbb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a281ca1f48f66bc5ce10ea815bc38dcf0"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a281ca1f48f66bc5ce10ea815bc38dcf0">lastwaterpropsreadtime</a></td></tr>
+<tr class="separator:a281ca1f48f66bc5ce10ea815bc38dcf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520a1494948348d832566cee439c2638"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a520a1494948348d832566cee439c2638">nfiletypes</a></td></tr>
+<tr class="separator:a520a1494948348d832566cee439c2638"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a840b26872bc3a8ddb8bab387590860d6"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a840b26872bc3a8ddb8bab387590860d6">buffersize</a></td></tr>
 <tr class="memdesc:a840b26872bc3a8ddb8bab387590860d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">half of the biggest tail of data behind current time  <a href="#a840b26872bc3a8ddb8bab387590860d6">More...</a><br /></td></tr>
 <tr class="separator:a840b26872bc3a8ddb8bab387590860d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a827d38efa4fcc80677907577c173eb14"><td class="memItemLeft" align="right" valign="top">real(prec)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a827d38efa4fcc80677907577c173eb14">lastreadtime</a></td></tr>
-<tr class="separator:a827d38efa4fcc80677907577c173eb14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f87d37ed71015e51cf39eb3c33d86f8"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a6f87d37ed71015e51cf39eb3c33d86f8">currentsbkgindex</a></td></tr>
+<tr class="separator:a6f87d37ed71015e51cf39eb3c33d86f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8972bcc887d3a6d0ffabfffb08a616"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#acb8972bcc887d3a6d0ffabfffb08a616">windsbkgindex</a></td></tr>
+<tr class="separator:acb8972bcc887d3a6d0ffabfffb08a616"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eeac60df733bf08af360334b8143536"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a0eeac60df733bf08af360334b8143536">wavesbkgindex</a></td></tr>
+<tr class="separator:a0eeac60df733bf08af360334b8143536"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4737044af6c5f1cc1206282be4b920d0"><td class="memItemLeft" align="right" valign="top">integer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsimulationinputstreamer__mod_1_1input__streamer__class.html#a4737044af6c5f1cc1206282be4b920d0">waterpropsbkgindex</a></td></tr>
+<tr class="separator:a4737044af6c5f1cc1206282be4b920d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Input Streamer class. </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00044">44</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00046">46</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a8fb8a5031b4f6aaf7adb725089f9fd2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fb8a5031b4f6aaf7adb725089f9fd2d">&#9670;&nbsp;</a></span>getfullfile()</h2>
+<a id="a94846e4dd810043b8a37ad3c3956cc90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94846e4dd810043b8a37ad3c3956cc90">&#9670;&nbsp;</a></span>getcurrentsfile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +186,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">procedure simulationinputstreamer_mod::input_streamer_class::getfullfile </td>
+          <td class="memname">procedure, private simulationinputstreamer_mod::input_streamer_class::getcurrentsfile </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -174,7 +199,88 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00054">54</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00062">62</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+
+</div>
+</div>
+<a id="aa3dc916f99caa5cf314f85b425ea666d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3dc916f99caa5cf314f85b425ea666d">&#9670;&nbsp;</a></span>getwaterpropsfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private simulationinputstreamer_mod::input_streamer_class::getwaterpropsfile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00065">65</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+
+</div>
+</div>
+<a id="afb42eb9df1c82a466e655819ae4ca5d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb42eb9df1c82a466e655819ae4ca5d3">&#9670;&nbsp;</a></span>getwavesfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private simulationinputstreamer_mod::input_streamer_class::getwavesfile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00064">64</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+
+</div>
+</div>
+<a id="af6bcefe11cfb52813a77d33e34f00b49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6bcefe11cfb52813a77d33e34f00b49">&#9670;&nbsp;</a></span>getwindsfile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">procedure, private simulationinputstreamer_mod::input_streamer_class::getwindsfile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00063">63</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -201,7 +307,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00052">52</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00060">60</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -228,7 +334,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00061">61</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -255,7 +361,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00056">56</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00067">67</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -282,7 +388,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00055">55</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00066">66</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
 
 </div>
 </div>
@@ -309,8 +415,32 @@ Private Attributes</h2></td></tr>
 
 <p>half of the biggest tail of data behind current time </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00049">49</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">real(prec)</span> :: bufferSize</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00057">57</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">real(prec)</span> :: bufferSize</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a6f87d37ed71015e51cf39eb3c33d86f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f87d37ed71015e51cf39eb3c33d86f8">&#9670;&nbsp;</a></span>currentsbkgindex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulationinputstreamer_mod::input_streamer_class::currentsbkgindex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">integer</span> :: currentsBkgIndex, windsBkgIndex, wavesBkgIndex, waterPropsBkgIndex</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aa12635920288984ada44e425ea05bf10"></a>
@@ -335,12 +465,12 @@ Private Attributes</h2></td></tr>
 
 <p>array of input file metadata for currents </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00046">46</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordtype">type</span>(inputFileModel_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: currentsInputFile</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00048">48</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">type</span>(inputFileModel_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: currentsInputFile</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a827d38efa4fcc80677907577c173eb14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a827d38efa4fcc80677907577c173eb14">&#9670;&nbsp;</a></span>lastreadtime</h2>
+<a id="a375225e0aa1ed0f08363da1bafc139e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a375225e0aa1ed0f08363da1bafc139e3">&#9670;&nbsp;</a></span>lastcurrentsreadtime</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -349,7 +479,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">real(prec) simulationinputstreamer_mod::input_streamer_class::lastreadtime</td>
+          <td class="memname">real(prec) simulationinputstreamer_mod::input_streamer_class::lastcurrentsreadtime</td>
         </tr>
       </table>
   </td>
@@ -359,8 +489,104 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00050">50</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">real(prec)</span> :: lastReadTime</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00052">52</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">real(prec)</span> :: lastCurrentsReadTime</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a281ca1f48f66bc5ce10ea815bc38dcf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a281ca1f48f66bc5ce10ea815bc38dcf0">&#9670;&nbsp;</a></span>lastwaterpropsreadtime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) simulationinputstreamer_mod::input_streamer_class::lastwaterpropsreadtime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00055">55</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">real(prec)</span> :: lastWaterPropsReadTime</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a6319b7afca64a7e4a0c20616ff6cbb80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6319b7afca64a7e4a0c20616ff6cbb80">&#9670;&nbsp;</a></span>lastwavesreadtime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) simulationinputstreamer_mod::input_streamer_class::lastwavesreadtime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00054">54</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">real(prec)</span> :: lastWavesReadTime</div></div><!-- fragment -->
+</div>
+</div>
+<a id="aac395ab94f76af36fa3e039f32b38416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac395ab94f76af36fa3e039f32b38416">&#9670;&nbsp;</a></span>lastwindsreadtime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">real(prec) simulationinputstreamer_mod::input_streamer_class::lastwindsreadtime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00053">53</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">real(prec)</span> :: lastWindsReadTime</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a520a1494948348d832566cee439c2638"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a520a1494948348d832566cee439c2638">&#9670;&nbsp;</a></span>nfiletypes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulationinputstreamer_mod::input_streamer_class::nfiletypes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00056">56</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">integer</span> :: nFileTypes</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ae5370d8623318a5fc15db31e99cfd148"></a>
@@ -383,8 +609,82 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00045">45</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordtype">logical</span> :: useInputFiles</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00047">47</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">logical</span> :: useInputFiles</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a4737044af6c5f1cc1206282be4b920d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4737044af6c5f1cc1206282be4b920d0">&#9670;&nbsp;</a></span>waterpropsbkgindex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulationinputstreamer_mod::input_streamer_class::waterpropsbkgindex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+
+</div>
+</div>
+<a id="aa11930d0892a06d4d824cac8da9b4026"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa11930d0892a06d4d824cac8da9b4026">&#9670;&nbsp;</a></span>waterpropsinputfile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">type(<a class="el" href="structsimulationinputstreamer__mod_1_1inputfilemodel__class.html">inputfilemodel_class</a>), dimension(:), allocatable simulationinputstreamer_mod::input_streamer_class::waterpropsinputfile</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>array of input file metadata for water properties </p>
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00051">51</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">type</span>(inputFileModel_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: waterPropsInputFile</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a0eeac60df733bf08af360334b8143536"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eeac60df733bf08af360334b8143536">&#9670;&nbsp;</a></span>wavesbkgindex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulationinputstreamer_mod::input_streamer_class::wavesbkgindex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+
 </div>
 </div>
 <a id="afaf4ae68e00fdca31e5c59dadd94e05d"></a>
@@ -407,10 +707,34 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>array of input file metadata for currents </p>
+<p>array of input file metadata for waves </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00048">48</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordtype">type</span>(inputFileModel_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: wavesInputFile</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00050">50</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">type</span>(inputFileModel_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: wavesInputFile</div></div><!-- fragment -->
+</div>
+</div>
+<a id="acb8972bcc887d3a6d0ffabfffb08a616"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb8972bcc887d3a6d0ffabfffb08a616">&#9670;&nbsp;</a></span>windsbkgindex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer simulationinputstreamer_mod::input_streamer_class::windsbkgindex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00058">58</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+
 </div>
 </div>
 <a id="aff314be52a74d7bfb4db1e3b56c8b539"></a>
@@ -433,10 +757,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>array of input file metadata for currents </p>
+<p>array of input file metadata for winds </p>
 
-<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00047">47</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordtype">type</span>(inputFileModel_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: windsInputFile</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="simulation_input_streamer_8f90_source.html#l00049">49</a> of file <a class="el" href="simulation_input_streamer_8f90_source.html">simulationInputStreamer.f90</a>.</p>
+<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">type</span>(inputFileModel_class), <span class="keywordtype">allocatable</span>, <span class="keywordtype">dimension(:)</span> :: windsInputFile</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this type was generated from the following file:<ul>

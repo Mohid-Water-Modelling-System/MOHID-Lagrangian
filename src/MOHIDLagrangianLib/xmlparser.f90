@@ -291,4 +291,40 @@
     end if
     end subroutine gotoNode
 
+<<<<<<< HEAD
+=======
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that retrieves a node from within a node.
+    !> Returns a nullifyed pointer if not found, stops if mandatory.
+    !> @param[in] self, filename, vertex
+    !---------------------------------------------------------------------------
+    subroutine getPolygonFromKMZFile(self, filename, vertex)
+    class(xmlparser_class), intent(in) :: self
+    type(string), intent(in) :: filename
+    type(vector), dimension(:), allocatable, intent(out) :: vertex
+    type(Node), pointer :: xmlDoc, xmlNode
+    type(string) :: outext, tag
+    real(prec), dimension(:), allocatable :: temp
+    integer :: i
+
+    call self%getFile(xmlDoc,fileName)
+    xmlNode => item(getElementsByTagName(xmlDoc, "coordinates"), 0)
+    allocate(temp(countrts(getTextContent(xmlNode), 0.0d0)))
+    call extractDataContent(xmlNode,temp)
+    if (mod(size(temp),3) /= 0) then
+        outext='[xmlParser::getPolygonFromKMZFile]: 3D Polygon is not well defined, stoping'
+        call Log%put(outext)
+        stop
+    else
+        allocate(vertex(size(temp)/3))
+        do i=1, size(vertex)
+            vertex(i) = temp(1+(i-1)*3)*ex + temp(2+(i-1)*3)*ey + temp(3+(i-1)*3)*ez
+        end do
+    end if    
+
+    end subroutine getPolygonFromKMZFile
+
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     end module xmlParser_mod

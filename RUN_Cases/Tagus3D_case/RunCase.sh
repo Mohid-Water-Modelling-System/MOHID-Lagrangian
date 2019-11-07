@@ -13,6 +13,12 @@ mohidlagrangian=${tools}/MOHIDLagrangian
 preprocessorDir=../../src/MOHIDLagrangianPreProcessor
 mohidPreprocessor=${preprocessorDir}/MOHIDLagrangianPreProcessor.py
 
+<<<<<<< HEAD
+=======
+postProcessorDir=../../src/MOHIDLagrangianPostProcessor
+mohidPostprocessor=${postProcessorDir}/MOHIDLagrangianPostProcessor.py
+
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 # "dirout" is created to store results or it is cleaned if it already exists
 if [ -e $dirout ]; then
   rm -f -r $dirout
@@ -31,6 +37,10 @@ if [ $errcode -eq 0 ]; then
   errcode=$?
 fi
 
+<<<<<<< HEAD
+=======
+python -W ignore $mohidPostprocessor -i ${name}.xml -o $dirout
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 
 if [ $errcode -eq 0 ]; then
   echo All done

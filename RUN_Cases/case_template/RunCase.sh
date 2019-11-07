@@ -23,7 +23,7 @@ cp ${name}.xml $dirout/
 
 # CODES are executed according the selected parameters of execution in this testcase
 
-python $mohidPreprocessor -i $dirout/${name}.xml -o $dirout
+python -W ignore $mohidPreprocessor -i $dirout/${name}.xml -o $dirout
 
 errcode=0
 if [ $errcode -eq 0 ]; then

@@ -64,6 +64,141 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+<<<<<<< HEAD
+=======
+    !> Checks if file should be read and sets appropriate flag
+    !> @param[in] self, lastReadTime, bufferSize
+    !---------------------------------------------------------------------------
+    subroutine setReadStatus(self, lastReadTime, bufferSize)
+    class(inputFileModel_class), intent(inout) :: self
+    real(prec), intent(in) :: lastReadTime
+    real(prec), intent(in) :: bufferSize
+    if (self%endTime >= Globals%SimTime%CurrTime) then
+        if (self%startTime <= Globals%SimTime%CurrTime + bufferSize) then
+            if (.not.self%used) self%toRead = .true.
+            if (lastReadTime >= self%endTime) self%toRead = .false.
+        end if
+    end if
+    end subroutine setReadStatus
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a
+    !> currents input file
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getCurrentsFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+
+    allocate(varList(5))
+    allocate(syntecticVar(5))
+    varList(1) = Globals%Var%u
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%v
+    syntecticVar(2) = .false.
+    varList(3) = Globals%Var%w
+    syntecticVar(3) = .false.
+    varList(4) = Globals%Var%landIntMask
+    syntecticVar(4) = .true. 
+    varList(5) = Globals%Var%resolution
+    syntecticVar(5) = .true.
+
+    !need to send to different readers here if different file formats
+    getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    call getCurrentsFile%makeLandMaskField()
+    call getCurrentsFile%makeResolutionField()
+
+    end function getCurrentsFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a
+    !> meteorology input file (winds)
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getWindsFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+
+    allocate(varList(2))
+    allocate(syntecticVar(2))
+    varList(1) = Globals%Var%u10
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%v10
+    syntecticVar(2) = .false.
+
+    !need to send to different readers here if different file formats
+    getWindsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+
+    end function getWindsFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a
+    !> waves input file (stokes drift velocity)
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getWavesFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+
+    allocate(varList(2))
+    allocate(syntecticVar(2))
+    varList(1) = Globals%Var%vsdx
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%vsdy
+    syntecticVar(2) = .false.
+
+    !need to send to different readers here if different file formats
+    getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+
+    end function getWavesFile
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> instantiates and returns a background object with the data from a
+    !> water properties input file (temperature, density, salinity)
+    !> @param[in] self, fileName
+    !---------------------------------------------------------------------------
+    type(background_class) function getWaterPropsFile(self, fileName)
+    class(input_streamer_class), intent(in) :: self
+    type(string), intent(in) :: fileName
+    type(string), allocatable, dimension(:) :: varList
+    logical, allocatable, dimension(:) :: syntecticVar
+    type(ncReader_class) :: ncReader
+
+    allocate(varList(3))
+    allocate(syntecticVar(3))
+    varList(1) = Globals%Var%temp
+    syntecticVar(1) = .false.
+    varList(2) = Globals%Var%sal
+    syntecticVar(2) = .false.
+    varList(3) = Globals%Var%density
+    syntecticVar(3) = .false.
+
+    !need to send to different readers here if different file formats
+    getWaterPropsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+
+    end function getWaterPropsFile
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     !> loads data from files and populates the backgrounds accordingly
     !> @param[in] self, bbox, blocks
     !---------------------------------------------------------------------------
@@ -189,6 +324,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Initializes the input writer object, imports metadata on input files
+    !> @param[in] self, blocks
     !---------------------------------------------------------------------------
     subroutine initInputStreamer(self)
     class(input_streamer_class), intent(inout) :: self

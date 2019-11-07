@@ -17,70 +17,30 @@ Collaboration diagram for sources\+\_\+mod\+:\+:source\+\_\+prop\+:\nopagebreak
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-type(string) \mbox{\hyperlink{structsources__mod_1_1source__prop_a071dfa986af6218c0add70010ab2a37e}{property\+\_\+type}}
+type(string) \mbox{\hyperlink{structsources__mod_1_1source__prop_ad1b7ee214a68f28d2298847ae63154cf}{propertytype}}
 \begin{DoxyCompactList}\small\item\em source property type (plastic, paper, fish, etc) \end{DoxyCompactList}\item 
-type(string) \mbox{\hyperlink{structsources__mod_1_1source__prop_a3b01eb6b3826bc1ac3a97609929692bb}{property\+\_\+name}}
+type(string) \mbox{\hyperlink{structsources__mod_1_1source__prop_aa1f7e8b3d4cb5fb2d53686524c192a91}{propertysubtype}}
 \begin{DoxyCompactList}\small\item\em source property name \end{DoxyCompactList}\item 
 logical \mbox{\hyperlink{structsources__mod_1_1source__prop_af02d964cfaa712c12127327719794fde}{particulate}}
 \begin{DoxyCompactList}\small\item\em true for a Source that emitts particulate tracers (a concentration of particles) \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structsources__mod_1_1source__prop_af4cc47a1f8a8d28088150eba368d80a5}{radius}}
 \begin{DoxyCompactList}\small\item\em radius of the emitted Tracers (size of the particle if not particulate, volume of the Tracer if particulate) \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsources__mod_1_1source__prop_a66219c6ba24db75abf401de5c5fa875d}{pt\+\_\+radius}}
-\begin{DoxyCompactList}\small\item\em radius of the emitted particles (Tracers if not particulate) \end{DoxyCompactList}\item 
 real(prec) \mbox{\hyperlink{structsources__mod_1_1source__prop_ac569c18f02e33c5ca95f423bcb9fb30e}{density}}
 \begin{DoxyCompactList}\small\item\em density of the Tracers \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsources__mod_1_1source__prop_a0276a57d6c2ebd9f6ce2c5c780b00b2f}{condition}}
-\begin{DoxyCompactList}\small\item\em condition of the Tracers \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsources__mod_1_1source__prop_a6c302a7a21c554720641b4f377489794}{degrd\+\_\+rate}}
-\begin{DoxyCompactList}\small\item\em degradation rate of the Tracers \end{DoxyCompactList}\item 
-real(prec) \mbox{\hyperlink{structsources__mod_1_1source__prop_a1e3fba85e54d3fbab3b133507ce7e226}{ini\+\_\+concentration}}
-\begin{DoxyCompactList}\small\item\em initial concentration of particles if particulate \end{DoxyCompactList}\end{DoxyCompactItemize}
+type(string), dimension(\+:), allocatable \mbox{\hyperlink{structsources__mod_1_1source__prop_a2f979ab9110ca8df63e276a2a04d5002}{propname}}
+\begin{DoxyCompactList}\small\item\em name of a given property \end{DoxyCompactList}\item 
+real(prec), dimension(\+:), allocatable \mbox{\hyperlink{structsources__mod_1_1source__prop_a7d82686562092b327fae70c8f3c89b01}{propvalue}}
+\begin{DoxyCompactList}\small\item\em value of a given property \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Type -\/ material properties of a source object. 
 
-Definition at line 42 of file sources.\+f90.
+Definition at line 45 of file sources.\+f90.
 
 
 
 \subsection{Member Data Documentation}
-\mbox{\Hypertarget{structsources__mod_1_1source__prop_a0276a57d6c2ebd9f6ce2c5c780b00b2f}\label{structsources__mod_1_1source__prop_a0276a57d6c2ebd9f6ce2c5c780b00b2f}} 
-\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!condition@{condition}}
-\index{condition@{condition}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
-\subsubsection{\texorpdfstring{condition}{condition}}
-{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+prop\+::condition\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-condition of the Tracers 
-
-
-
-Definition at line 49 of file sources.\+f90.
-
-
-\begin{DoxyCode}
-49         \textcolor{keywordtype}{real(prec)} :: condition
-\end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__prop_a6c302a7a21c554720641b4f377489794}\label{structsources__mod_1_1source__prop_a6c302a7a21c554720641b4f377489794}} 
-\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!degrd\+\_\+rate@{degrd\+\_\+rate}}
-\index{degrd\+\_\+rate@{degrd\+\_\+rate}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
-\subsubsection{\texorpdfstring{degrd\+\_\+rate}{degrd\_rate}}
-{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+prop\+::degrd\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-degradation rate of the Tracers 
-
-
-
-Definition at line 50 of file sources.\+f90.
-
-
-\begin{DoxyCode}
-50         \textcolor{keywordtype}{real(prec)} :: degrd\_rate
-\end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__prop_ac569c18f02e33c5ca95f423bcb9fb30e}\label{structsources__mod_1_1source__prop_ac569c18f02e33c5ca95f423bcb9fb30e}} 
 \index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!density@{density}}
 \index{density@{density}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
@@ -93,29 +53,11 @@ density of the Tracers
 
 
 
-Definition at line 48 of file sources.\+f90.
+Definition at line 50 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-48         \textcolor{keywordtype}{real(prec)} :: density
-\end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__prop_a1e3fba85e54d3fbab3b133507ce7e226}\label{structsources__mod_1_1source__prop_a1e3fba85e54d3fbab3b133507ce7e226}} 
-\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!ini\+\_\+concentration@{ini\+\_\+concentration}}
-\index{ini\+\_\+concentration@{ini\+\_\+concentration}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
-\subsubsection{\texorpdfstring{ini\+\_\+concentration}{ini\_concentration}}
-{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+prop\+::ini\+\_\+concentration\hspace{0.3cm}{\ttfamily [private]}}
-
-
-
-initial concentration of particles if particulate 
-
-
-
-Definition at line 51 of file sources.\+f90.
-
-
-\begin{DoxyCode}
-51         \textcolor{keywordtype}{real(prec)} :: ini\_concentration
+50         \textcolor{keywordtype}{real(prec)} :: density
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__prop_af02d964cfaa712c12127327719794fde}\label{structsources__mod_1_1source__prop_af02d964cfaa712c12127327719794fde}} 
 \index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!particulate@{particulate}}
@@ -129,17 +71,17 @@ true for a Source that emitts particulate tracers (a concentration of particles)
 
 
 
-Definition at line 45 of file sources.\+f90.
+Definition at line 48 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-45         \textcolor{keywordtype}{logical} :: particulate
+48         \textcolor{keywordtype}{logical} :: particulate
 \end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__prop_a3b01eb6b3826bc1ac3a97609929692bb}\label{structsources__mod_1_1source__prop_a3b01eb6b3826bc1ac3a97609929692bb}} 
-\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!property\+\_\+name@{property\+\_\+name}}
-\index{property\+\_\+name@{property\+\_\+name}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
-\subsubsection{\texorpdfstring{property\+\_\+name}{property\_name}}
-{\footnotesize\ttfamily type(string) sources\+\_\+mod\+::source\+\_\+prop\+::property\+\_\+name\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsources__mod_1_1source__prop_aa1f7e8b3d4cb5fb2d53686524c192a91}\label{structsources__mod_1_1source__prop_aa1f7e8b3d4cb5fb2d53686524c192a91}} 
+\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!propertysubtype@{propertysubtype}}
+\index{propertysubtype@{propertysubtype}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
+\subsubsection{\texorpdfstring{propertysubtype}{propertysubtype}}
+{\footnotesize\ttfamily type(string) sources\+\_\+mod\+::source\+\_\+prop\+::propertysubtype\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -147,17 +89,17 @@ source property name
 
 
 
-Definition at line 44 of file sources.\+f90.
+Definition at line 47 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-44         \textcolor{keywordtype}{type}(string) :: property\_name
+47         \textcolor{keywordtype}{type}(string) :: propertySubType
 \end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__prop_a071dfa986af6218c0add70010ab2a37e}\label{structsources__mod_1_1source__prop_a071dfa986af6218c0add70010ab2a37e}} 
-\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!property\+\_\+type@{property\+\_\+type}}
-\index{property\+\_\+type@{property\+\_\+type}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
-\subsubsection{\texorpdfstring{property\+\_\+type}{property\_type}}
-{\footnotesize\ttfamily type(string) sources\+\_\+mod\+::source\+\_\+prop\+::property\+\_\+type\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsources__mod_1_1source__prop_ad1b7ee214a68f28d2298847ae63154cf}\label{structsources__mod_1_1source__prop_ad1b7ee214a68f28d2298847ae63154cf}} 
+\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!propertytype@{propertytype}}
+\index{propertytype@{propertytype}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
+\subsubsection{\texorpdfstring{propertytype}{propertytype}}
+{\footnotesize\ttfamily type(string) sources\+\_\+mod\+::source\+\_\+prop\+::propertytype\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -165,29 +107,47 @@ source property type (plastic, paper, fish, etc)
 
 
 
-Definition at line 43 of file sources.\+f90.
+Definition at line 46 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-43         \textcolor{keywordtype}{type}(string) :: property\_type
+46         \textcolor{keywordtype}{type}(string) :: propertyType
 \end{DoxyCode}
-\mbox{\Hypertarget{structsources__mod_1_1source__prop_a66219c6ba24db75abf401de5c5fa875d}\label{structsources__mod_1_1source__prop_a66219c6ba24db75abf401de5c5fa875d}} 
-\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!pt\+\_\+radius@{pt\+\_\+radius}}
-\index{pt\+\_\+radius@{pt\+\_\+radius}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
-\subsubsection{\texorpdfstring{pt\+\_\+radius}{pt\_radius}}
-{\footnotesize\ttfamily real(prec) sources\+\_\+mod\+::source\+\_\+prop\+::pt\+\_\+radius\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{structsources__mod_1_1source__prop_a2f979ab9110ca8df63e276a2a04d5002}\label{structsources__mod_1_1source__prop_a2f979ab9110ca8df63e276a2a04d5002}} 
+\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!propname@{propname}}
+\index{propname@{propname}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
+\subsubsection{\texorpdfstring{propname}{propname}}
+{\footnotesize\ttfamily type(string), dimension(\+:), allocatable sources\+\_\+mod\+::source\+\_\+prop\+::propname\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-radius of the emitted particles (Tracers if not particulate) 
+name of a given property 
 
 
 
-Definition at line 47 of file sources.\+f90.
+Definition at line 51 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-47         \textcolor{keywordtype}{real(prec)} :: pt\_radius
+51         \textcolor{keywordtype}{type}(string), \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: propName
+\end{DoxyCode}
+\mbox{\Hypertarget{structsources__mod_1_1source__prop_a7d82686562092b327fae70c8f3c89b01}\label{structsources__mod_1_1source__prop_a7d82686562092b327fae70c8f3c89b01}} 
+\index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!propvalue@{propvalue}}
+\index{propvalue@{propvalue}!sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}}
+\subsubsection{\texorpdfstring{propvalue}{propvalue}}
+{\footnotesize\ttfamily real(prec), dimension(\+:), allocatable sources\+\_\+mod\+::source\+\_\+prop\+::propvalue\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+value of a given property 
+
+
+
+Definition at line 52 of file sources.\+f90.
+
+
+\begin{DoxyCode}
+52         \textcolor{keywordtype}{real(prec)}, \textcolor{keywordtype}{dimension(:)}, \textcolor{keywordtype}{allocatable} :: propValue
 \end{DoxyCode}
 \mbox{\Hypertarget{structsources__mod_1_1source__prop_af4cc47a1f8a8d28088150eba368d80a5}\label{structsources__mod_1_1source__prop_af4cc47a1f8a8d28088150eba368d80a5}} 
 \index{sources\+\_\+mod\+::source\+\_\+prop@{sources\+\_\+mod\+::source\+\_\+prop}!radius@{radius}}
@@ -201,11 +161,11 @@ radius of the emitted Tracers (size of the particle if not particulate, volume o
 
 
 
-Definition at line 46 of file sources.\+f90.
+Definition at line 49 of file sources.\+f90.
 
 
 \begin{DoxyCode}
-46         \textcolor{keywordtype}{real(prec)} :: radius
+49         \textcolor{keywordtype}{real(prec)} :: radius
 \end{DoxyCode}
 
 

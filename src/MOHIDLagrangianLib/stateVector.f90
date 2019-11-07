@@ -36,7 +36,14 @@
         integer :: ttype
         type(trcPtr_class), allocatable, dimension(:) :: trc   !< pointer to the Tracer
         real(prec), allocatable, dimension(:,:) :: state
+<<<<<<< HEAD
         integer, allocatable, dimension(:) :: landMask, landIntMask, source, id
+=======
+        type(string), allocatable, dimension(:) :: varName
+        integer, allocatable, dimension(:) :: source, id
+        real(prec) , allocatable, dimension(:) :: landIntMask
+        real(prec) , allocatable, dimension(:) :: resolution
+>>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
         logical, allocatable, dimension(:) :: active
         integer :: idx
     contains
@@ -60,9 +67,7 @@
     
     newsv%ttype = self%ttype
     allocate(newsv%state(size(self%state,1), size(self%state,2)))
-    newsv%state = self%state
-    allocate(newsv%landMask(size(self%landMask)))
-    newsv%landMask = self%landMask
+    newsv%state = self%state    
     allocate(newsv%landIntMask(size(self%landIntMask)))
     newsv%landIntMask = self%landIntMask
     allocate(newsv%active(size(self%active)))
@@ -108,7 +113,6 @@
     self%ttype = MV
     if (allocated(self%trc)) deallocate(self%trc)
     if (allocated(self%state)) deallocate(self%state)
-    if (allocated(self%landMask)) deallocate(self%landMask)
     if (allocated(self%landIntMask)) deallocate(self%landIntMask)
     if (allocated(self%active)) deallocate(self%active)
     if (allocated(self%source)) deallocate(self%source)

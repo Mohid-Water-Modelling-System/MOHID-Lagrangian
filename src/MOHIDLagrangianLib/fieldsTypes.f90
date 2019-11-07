@@ -265,7 +265,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that compares the metadata of a scalar 1D field to the object field
-    !> @param[in] self, name, units, field
+    !> @param[in] self, gfield
     !---------------------------------------------------------------------------
     logical function compare(self, gfield) result(comp)
     class(generic_field_class), intent(inout) :: self
