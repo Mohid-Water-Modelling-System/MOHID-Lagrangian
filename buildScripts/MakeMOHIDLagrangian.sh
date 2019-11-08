@@ -14,7 +14,12 @@ echo Build directory is $dirout
 
 # building initial libs
 cd $dirout
+echo Running cmake for MOHID Lagrangian $1
+if [[ $1 == "Intel" ]]; then
+cmake -Wno-dev -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_Fortran_COMPILER_ID="Intel" ..
+echo Running make for MOHID Lagrangian
+else
 echo Running cmake for MOHID Lagrangian
 cmake -Wno-dev ..
-echo Running make for MOHID Lagrangian
+fi
 make
