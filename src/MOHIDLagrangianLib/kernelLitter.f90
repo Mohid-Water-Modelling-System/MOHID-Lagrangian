@@ -22,10 +22,12 @@
     !> derivative of the state vector of a given tracer. n columns - n variables.
     !> This is the step were interpolation and physics actually happen.
     !------------------------------------------------------------------------------
+    use kernelBuoyancy_mod 
     use common_modules
     use stateVector_mod
     use background_mod
-    use interpolator_mod    
+    use interpolator_mod
+       
 
     type :: kernelLitter_class        !< Litter kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
@@ -96,20 +98,28 @@
                 allocate(var_name(nf))
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+                fDensity = seaWaterDensity(temp, sal,0)
+                kVisco = absolutoSeaWaterViscosity(temp,sal)
+                tag = 'radius'
+                rIdx = Utils%find_str(sv%varName, tag, .true.)
+                tag = 'density'
+                rhoIdx = Utils%find_str(sv%varName, tag, .true.)
+                Buoyancy(:,3) = 2.0/9.0*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisc
                 !compute density
-                !fDensity = f(temp, sal)
-                !kVisco = f(temp, sal)
-                !write dw/dt
+                deallocate(var_dt)
+                deallocate(var_name)
+            else
+                kVisco = 1050
+                fDensity = 1025
                 tag = 'radius'
                 rIdx = Utils%find_str(sv%varName, tag, .true.)
                 tag = 'density'
                 rhoIdx = Utils%find_str(sv%varName, tag, .true.)
                 Buoyancy(:,3) = 2.0/9.0*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
-                deallocate(var_dt)
-                deallocate(var_name)
-            end if
+            endif
         end if
     end do
+
     
     end function Buoyancy
     

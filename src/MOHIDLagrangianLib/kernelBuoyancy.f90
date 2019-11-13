@@ -1,7 +1,7 @@
-module kernelBuoyancy
+module kernelBuoyancy_mod
     
     use common_modules
-
+ ! Density constants
  !  density of seawater at zero pressure constants
     real(prec),parameter :: a0 = 999.842594
     real(prec),parameter :: a1 =   6.793952e-2
@@ -49,6 +49,17 @@ module kernelBuoyancy
     real(prec),parameter :: m1 =  2.0816E-8
     real(prec),parameter :: m2 =  9.1697E-10
 
+! viscosity Constants constants
+    real(prec),parameter :: n1 = -3.79418
+    real(prec),parameter :: n2 = 604.129
+    real(prec),parameter :: n3 = 139.18
+    real(prec),parameter :: o1 = 1.474E-3
+    real(prec),parameter :: o2 = 1.5E-5
+    real(prec),parameter :: o3 = -3.927E-8
+    real(prec),parameter :: p1 = 1.0734E-5
+    real(prec),parameter :: p2 = -8.5E-8
+    real(prec),parameter :: p3 = 2.23E-10
+
 
     contains
 !---------------------------------------------------------------------------
@@ -95,6 +106,12 @@ function secantBulkModulus(S, T, P)
 
 end function secantBulkModulus
 
+
+!---------------------------------------------------------------------------
+!> @author Daniel Garaboa Paz - USC 
+!> @brief
+!> Method that returns secant bulk modulus
+!---------------------------------------------------------------------------
 function seaWaterDensity(S, T, P)
     real(prec), dimension(:),intent(in) :: S,T,P
     real(prec),dimension(size(S)) :: Pbar
@@ -116,4 +133,25 @@ function seaWaterDensity(S, T, P)
 end function seaWaterDensity
 
 
-end module kernelBuoyancy
+!---------------------------------------------------------------------------
+!> @author Daniel Garaboa Paz - USC 
+!> @brief
+!> Method that returns secant bulk modulus
+!---------------------------------------------------------------------------
+function absoluteSeaWaterViscosity(S,T)
+    real(prec), dimension(:),intent(in) :: S,T
+    real(prec), dimension(size(S)):: mu_W,mu_R,A,B
+    real(prec),dimension(size(S)):: secantBulkModulus
+!    The dynamic viscosity correlation of sea water is given by:								
+!		[kg/m s]		
+!	nu  = mu / density			[m²/s]
+							
+	mu_W =	exp(n1 + n2/(n3 +T))		
+	mu_R =	1 + A*S + B*S*S²		
+	A = 	o1 + o2*T + o3*T*T		
+	B = 	p1 + p2*T + p3*T*T	
+
+    seaWaterViscosity  = mu_w*mu_R*10E-3
+end function absoluteSeaWaterViscosity
+
+end module kernelBuoyancy_mod
