@@ -141,6 +141,11 @@ class GridBasedMeasures:
             if parameter.tag == 'end':
                 time_end = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
                 self.timeMask = self.timeMask & (self.time < time_end)
+            if parameter.tag == 'stride':
+                stride = np.int(parameter.get('value'))
+                self.timeMask[::stride] = False
+    
+
     
     
     def get_sources(self):
