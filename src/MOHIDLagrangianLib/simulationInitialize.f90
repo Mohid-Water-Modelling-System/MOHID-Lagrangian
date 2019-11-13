@@ -140,8 +140,6 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-<<<<<<< HEAD
-=======
     !> Sets the global variables responsible for controling field outputs.
     !> reads options from a xml file and adds a variable field to the print poll
     !> accordingly
@@ -198,7 +196,6 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     !> naming xml parser routine. Reads the naming file(s), opens the file(s) and
     !> stores the naming conventions for input files
     !> @param[in] case_node

@@ -1,4 +1,4 @@
-    module kernel_mod
+module kernel_mod
     !------------------------------------------------------------------------------
     !        IST/MARETEC, Water Modelling Group, Mohid modelling system
     !        USC/GFNL, Group of NonLinear Physics, Mohid modelling system
@@ -18,7 +18,7 @@
     !> Defines an abstract physics kernel class.
     !> This class has several methods, that should be designed on a one method - one
     !> process approach. Different types of state vectors (corresponding to different
-    !> types of tracers, with different quantities attached), will be affected by 
+    !> types of tracers, with different quantities attached), will be affected by
     !> different processes (some suffer beaching, others don't have diffusion, etc)
     !> The output of every kernel should be a 2D matrix, where a row represents the
     !> derivative of the state vector of a given tracer. n columns - n variables.
@@ -36,15 +36,14 @@
     contains
     procedure :: initialize => initKernel
     procedure :: run => runKernel
+    procedure, private :: setCommonProcesses
     procedure, private :: LagrangianKinematic
+    procedure, private :: DiffusionMixingLength
     procedure, private :: DiffusionIsotropic
-<<<<<<< HEAD
-=======
     procedure, private :: StokesDrift
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     end type kernel_class
     
     type(kernelLitter_class) :: Litter       !< litter kernels
@@ -66,27 +65,24 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
 
+    !running preparations for kernel lanch
+    call self%setCommonProcesses(sv, bdata, time)
+
+    !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
+        runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-<<<<<<< HEAD
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
-    else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time, dt) !+ self%DiffusionIsotropic(sv, dt)
-=======
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)
         runKernel = self%Beaching(sv, runKernel)
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     end if
 
     end function runKernel
 
     !---------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Sets the state vector land interaction mask values and corrects for
@@ -147,52 +143,30 @@
     end subroutine setCommonProcesses
 
     !---------------------------------------------------------------------------
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Lagrangian Kernel, evaluate the velocities at given points
     !> using the interpolants and split the evaluation part from the solver module.
-    !> @param[in] self, sv, bdata, time, dt
+    !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function LagrangianKinematic(self, sv, bdata, time, dt)
+    function LagrangianKinematic(self, sv, bdata, time)
     class(kernel_class), intent(inout) :: self
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec), intent(in) :: time
     integer :: np, nf, bkg, i
-    real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: LagrangianKinematic
+
+    allocate(requiredVars(2))
+    requiredVars(1) = Globals%Var%u
+    requiredVars(2) = Globals%Var%v
 
     LagrangianKinematic = 0.0
     !interpolate each background
     do bkg = 1, size(bdata)
-<<<<<<< HEAD
-        np = size(sv%active) !number of Tracers
-        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-        allocate(var_dt(np,nf))
-        allocate(var_name(nf))
-        !correcting for maximum admissible level in the background
-        maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-        if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-        !interpolating all of the data
-        call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-        !write dx/dt
-        nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-        LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
-        sv%state(:,4) = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-        LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
-        sv%state(:,5) = var_dt(:,nf)
-        nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-        if (nf /= MV_INT) then
-            LagrangianKinematic(:,3) = var_dt(:,nf)
-            sv%state(:,6) = var_dt(:,nf)
-        else if (nf == MV_INT) then
-            LagrangianKinematic(:,3) = 0.0
-            sv%state(:,6) = 0.0
-=======
         if (bdata(bkg)%initialized) then
             if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
@@ -222,26 +196,12 @@
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
         end if
-        !update land mask status
-        nf = Utils%find_str(var_name, Globals%Var%landMask, .false.)
-        if (nf /= MV_INT) sv%landMask = nint(var_dt(:,nf))
-        if (nf == MV_INT) sv%landMask = Globals%Mask%waterVal
-        !marking tracers for deletion because they are in land
-        where(sv%landMask == 2) sv%active = .false.
-        !update land interaction status
-        nf = Utils%find_str(var_name, Globals%Var%landIntMask, .false.)
-        if (nf /= MV_INT) sv%landIntMask = nint(var_dt(:,nf))
-        if (nf == MV_INT) sv%landIntMask = Globals%Mask%waterVal
-        !update other vars...
     end do
 
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Computes the influence of wave velocity in tracer kinematics
@@ -495,7 +455,6 @@
     end function DiffusionMixingLength
 
     !---------------------------------------------------------------------------
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Diffusion Kernel, computes the anisotropic diffusion assuming a constant
@@ -526,8 +485,6 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
     end function DiffusionIsotropic
-<<<<<<< HEAD
-=======
     
     !!---------------------------------------------------------------------------
     !!> @author Ricardo Birjukovs Canelas - MARETEC
@@ -552,7 +509,6 @@
     !where(sv%state(:,nf) < 0.0) sv%active = .false.
     !
     !end function DegradationLinear
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL

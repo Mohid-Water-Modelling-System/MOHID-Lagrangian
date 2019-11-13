@@ -64,13 +64,8 @@
     type(string) :: fileName
     
     if (self%CheckWriteTime()) then
-<<<<<<< HEAD
-        fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Sim%getnumoutfile())
-        call self%WriteStepSerial(fileName, blocks)
-=======
         fileName = Globals%Names%casename//'_'//Utils%int2str('(i5.5)',Globals%Output%getnumOutFile())
         call self%WriteStepSerial(fileName, numTracers, blocks, self%outputVariables)
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
         call self%writeOutputSummary(numTracers, simTimer, fileName)
         call Globals%Sim%setlastOutNumDt(Globals%Sim%getnumdt())
         call Globals%Sim%increment_numoutfile()
@@ -85,23 +80,15 @@
     !> Streamer method to call an appropriate writer.
     !> @param[in] self, filename, numTracers, blocks, outputVars
     !---------------------------------------------------------------------------
-<<<<<<< HEAD
-    subroutine WriteStepSerial(self, filename, blocks)
-=======
     subroutine WriteStepSerial(self, filename, numTracers, blocks, outputVars)
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     class(output_streamer_class), intent(inout) :: self
     class(block_class), dimension(:), intent(in) :: blocks  !< Case Blocks
     integer, intent(in) :: numTracers
     type(string), intent(in) :: filename                    !< name of the case to add
 
     if (self%OutputFormat == 2) then !VTK file selected
-<<<<<<< HEAD
-        call self%vtkWritter%TracerSerial(filename, blocks)
-=======
         call self%vtkWritter%TracerSerial(filename, numTracers, blocks, outputVars)
         !call self%hdf5Writter%TracerSerial(filename, blocks)
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     end if
 
     end subroutine WriteStepSerial
@@ -200,10 +187,7 @@
     self%LastWriteTime = Globals%SimTime%CurrTime
     if (self%OutputFormat == 2) then !VTK file selected
         call self%vtkWritter%initialize()
-<<<<<<< HEAD
-=======
         !call self%hdf5Writter%initialize()
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     end if
     end subroutine initOutputStreamer
 

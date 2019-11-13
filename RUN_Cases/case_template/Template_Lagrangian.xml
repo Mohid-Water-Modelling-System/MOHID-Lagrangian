@@ -11,12 +11,6 @@
 			<parameter key="OutputWriteTime" value="900" comment="Time out data (1/Hz)" units_comment="seconds" />
 			<parameter key="OutputFormat" value="2" comment="Output file format. NetCDF=1; VTK=2 (default=2)" />
 		</parameters>
-<<<<<<< HEAD
-	</execution>
-	<caseDefinitions>
-		<inputData>
-			<inputDataDir name="nc_fields/currents/case1"/>
-=======
 		<variableNaming>
 			<file name="ncNamesLibrary_case1.xml"/>
 		</variableNaming>
@@ -35,7 +29,6 @@
 			<inputDataDir name="nc_fields/currents/case13" type="waves"/>
 			<inputDataDir name="nc_fields/currents/case14" type="meteorology"/>
 			<inputDataDir name="nc_fields/WQ/fileBla" type="waterProperties"/>
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>

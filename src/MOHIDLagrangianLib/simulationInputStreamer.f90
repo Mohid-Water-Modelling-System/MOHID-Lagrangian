@@ -64,8 +64,6 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-<<<<<<< HEAD
-=======
     !> Checks if file should be read and sets appropriate flag
     !> @param[in] self, lastReadTime, bufferSize
     !---------------------------------------------------------------------------
@@ -198,7 +196,6 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     !> loads data from files and populates the backgrounds accordingly
     !> @param[in] self, bbox, blocks
     !---------------------------------------------------------------------------

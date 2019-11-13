@@ -8,15 +8,12 @@
 			<parameter key="Threads" value="auto" comment="Computation threads for shared memory computation (default=auto)" />			
 			<parameter key="OutputWriteTime" value="2700" comment="Time out data (1/Hz)" units_comment="seconds" />
 		</parameters>
-<<<<<<< HEAD
-=======
 		<variableNaming>
 			<file name="data/ncNamesLibrary.xml"/>
 		</variableNaming>
 		<postProcessing>
 			<file name="Post_scripts/PostRecipe.xml"/>
 		</postProcessing>
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 	</execution>
 	<caseDefinitions>
 		<inputData>

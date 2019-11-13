@@ -75,15 +75,9 @@
     !> @brief
     !> Public Tracer writting routine. Writes Tracer data in binary XML VTK
     !> format using an unstructured grid. Serial writer for serial files.
-<<<<<<< HEAD
-    !> @param[in] self, filename, blocks
-    !---------------------------------------------------------------------------
-    subroutine TracerSerial(self, filename, blocks)
-=======
     !> @param[in] self, filename, numTracers, blocks, outputVars
     !---------------------------------------------------------------------------
     subroutine TracerSerial(self, filename, numTracers, blocks, outputVars)
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     class(vtkwritter_class), intent(inout) :: self
     type(string), intent(in) :: filename
     integer, intent(in) :: numTracers
@@ -99,39 +93,14 @@
     integer(I4P), dimension(1:nc) :: offset     !< Cells offset
     integer(I4P), dimension(1:nc) :: connect    !< Connectivity
     logical, allocatable, dimension(:) :: active
-<<<<<<< HEAD
-=======
     real(prec), allocatable, dimension(:) :: fillValue
     real(prec), allocatable, dimension(:) :: ghostNode
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
 
     extfilename = filename%chars()//'.vtu'
     fullfilename = Globals%Names%outpath//'/'//extfilename
 
 
     error = vtkfile%initialize(format=self%formatType%chars(), filename=fullfilename%chars(), mesh_topology='UnstructuredGrid')
-<<<<<<< HEAD
-    !Write the data of each block
-    do i = 1, size(blocks)
-        if (blocks(i)%LTracer%getSize() > 0) then
-            allocate(active(blocks(i)%LTracer%getSize()))
-            active = blocks(i)%getSVActive()
-            np = count(active)
-            error = vtkfile%xml_writer%write_piece(np=np, nc=nc)
-            error = vtkfile%xml_writer%write_geo(np=np, nc=nc, x=pack(blocks(i)%getSVvar(1), active), y=pack(blocks(i)%getSVvar(2), active), z=pack(blocks(i)%getSVvar(3), active))
-            error = vtkfile%xml_writer%write_connectivity(nc=nc, connectivity=connect, offset=offset, cell_type=cell_type)
-            error = vtkfile%xml_writer%write_dataarray(location='node', action='open')            
-            error = vtkfile%xml_writer%write_dataarray(data_name='id', x=pack(blocks(i)%getSVId(), active))
-            error = vtkfile%xml_writer%write_dataarray(data_name='source', x=pack(blocks(i)%getSVSource(), active))
-            !error = vtkfile%xml_writer%write_dataarray(data_name='landMask', x=pack(blocks(i)%AoT%landMask, blocks(i)%AoT%active))
-            error = vtkfile%xml_writer%write_dataarray(data_name='landIntMask', x=pack(blocks(i)%getSVlandIntMask(), active))
-            error = vtkfile%xml_writer%write_dataarray(data_name='velocity', x=pack(blocks(i)%getSVvar(4), active), y=pack(blocks(i)%getSVvar(5), active), z=pack(blocks(i)%getSVvar(6), active))
-            error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
-            error = vtkfile%xml_writer%write_piece()
-            deallocate(active)
-        end if
-    end do
-=======
     if (numTracers > 0) then        
         !Write the data of each block
         do i = 1, size(blocks)
@@ -207,7 +176,6 @@
         deallocate(offset)
         deallocate(cell_type)
     end if
->>>>>>> 7720def890b1fcc03633c26c74ed1bc7e049e2f7
     error = vtkfile%finalize()
     self%numVtkFiles = self%numVtkFiles + 1
     
