@@ -81,6 +81,7 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
+    real(prec) :: P = 0.
     type(string) :: tag
     
     allocate(requiredVars(2))
@@ -98,8 +99,8 @@
                 allocate(var_name(nf))
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                fDensity = seaWaterDensity(temp, sal,0)
-                kVisco = absolutoSeaWaterViscosity(temp,sal)
+                fDensity = seaWaterDensity(var_dt(:,1), var_dt(:,2),P)
+                kVisco = absoluteSeaWaterViscosity(var_dt(:,1), var_dt(:,2))
                 tag = 'radius'
                 rIdx = Utils%find_str(sv%varName, tag, .true.)
                 tag = 'density'
@@ -108,6 +109,7 @@
                 !compute density
                 deallocate(var_dt)
                 deallocate(var_name)
+                print*,'COMPUTING BUOYANCY with salt'
             else
                 kVisco = 1050
                 fDensity = 1025
@@ -116,6 +118,7 @@
                 tag = 'density'
                 rhoIdx = Utils%find_str(sv%varName, tag, .true.)
                 Buoyancy(:,3) = 2.0/9.0*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
+                print*,'COMPUTING BUOYANCY with constant'
             endif
         end if
     end do

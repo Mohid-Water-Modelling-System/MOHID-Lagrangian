@@ -88,7 +88,8 @@ end function seawaterDensityZeroPressure
 !> Method that returns secant bulk modulus
 !---------------------------------------------------------------------------
 function secantBulkModulus(S, T, P)
-    real(prec), dimension(:),intent(in) :: S,T,P
+    real(prec), dimension(:),intent(in) :: S,T
+    real(prec),intent(in) :: P
     real(prec), dimension(size(S)):: AW,BW,KW,SR,A,K0,B
     real(prec),dimension(size(S)):: secantBulkModulus
     !--- Pure water terms ---
@@ -113,8 +114,9 @@ end function secantBulkModulus
 !> Method that returns secant bulk modulus
 !---------------------------------------------------------------------------
 function seaWaterDensity(S, T, P)
-    real(prec), dimension(:),intent(in) :: S,T,P
-    real(prec),dimension(size(S)) :: Pbar
+    real(prec), dimension(:),intent(in) :: S,T
+    real(prec),intent(in) :: P
+    real(prec) :: Pbar
     real(prec),dimension(size(S)) :: seaWaterDensity
     !Compute density of seawater from salinity, temperature, and pressure
     !Usage: dens(S, T, [P])
@@ -141,17 +143,18 @@ end function seaWaterDensity
 function absoluteSeaWaterViscosity(S,T)
     real(prec), dimension(:),intent(in) :: S,T
     real(prec), dimension(size(S)):: mu_W,mu_R,A,B
-    real(prec),dimension(size(S)):: secantBulkModulus
-!    The dynamic viscosity correlation of sea water is given by:								
-!		[kg/m s]		
-!	nu  = mu / density			[m²/s]
+    real(prec),dimension(size(S)):: absoluteSeaWaterViscosity
+! The dynamic viscosity correlation of sea water is given by:								
+! [kg/m s]		
+! nu  = mu / density			[m²/s]
+! El-Dessouky, Ettouny (2002): Fundamentals of Sea Water Desalination (Appendix A: Themodynamic Properties)    
 							
 	mu_W =	exp(n1 + n2/(n3 +T))		
-	mu_R =	1 + A*S + B*S*S²		
+	mu_R =	1 + A*S + B*S*S		
 	A = 	o1 + o2*T + o3*T*T		
 	B = 	p1 + p2*T + p3*T*T	
 
-    seaWaterViscosity  = mu_w*mu_R*10E-3
+    absoluteSeaWaterViscosity  = mu_w*mu_R*10E-3
 end function absoluteSeaWaterViscosity
 
 end module kernelBuoyancy_mod
