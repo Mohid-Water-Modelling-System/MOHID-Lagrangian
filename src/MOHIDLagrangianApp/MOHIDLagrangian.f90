@@ -16,54 +16,54 @@
 
     program MOHIDLagrangian
 
-    use flap !Command line argument lib   
-    use common_modules
-    use simulation_mod
-
-    implicit none
-
-    !-----------------------------------------------------------------------------------------------------------------------------------
-    type(command_line_interface) :: cli
-    integer :: ierr
+        use flap !Command line argument lib   
+        use common_modules
+        use simulation_mod
     
-    character(len=CHAR_LEN)  :: casefilename_char
-    character(len=CHAR_LEN)  :: outpath_char
-    type(string) :: casefilename !< Simulation input case file
-    type(string) :: outpath      !< Simulation output path
-
-    type(simulation_class) :: Sim !< Simulation object
-
-    !-----------------------------------------------------------------------------------------------------------------------------------
-
-    ! Initialize command line arguments
-    call cli%init(description = 'MOHID Lagrangian command line argument parser')
-
-    ! Register keys for key/value pairs.
-    call cli%add( switch = '--infile', switch_ab = '-i', &
-        help = 'input definition file (.xml)', &
-        required = .true., act = 'store', error = ierr )
-    if (ierr/=0) stop
-    call cli%add( switch = '--outpath', switch_ab = '-o', &
-        help = 'output path', required = .true., &
-        act = 'store', error = ierr )
-    if (ierr/=0) stop
-    call cli%get( switch = '-i', val = casefilename_char, error = ierr )
-    if (ierr/=0) stop
-    call cli%get( switch = '-o', val = outpath_char, error = ierr )
-    if (ierr/=0) stop
-    ! Store the arguments with each respective variable    
-    casefilename=trim(casefilename_char)
-    outpath=trim(outpath_char)
-    ! Completing the outpath with the separator
-    outpath=outpath//'/'
-
-    !Our Lagrangian adventure starts here. Strap on. In case of emergency landing put your head between your knees.
-    call Sim%initialize(casefilename,outpath)
-
-    !Main time cycle
-    call Sim%run()
-
-    ! Finalization of the program - deallocation, file closing, etc
-    call Sim%finalize()
-
-    end program MOHIDLagrangian
+        implicit none
+    
+        !-----------------------------------------------------------------------------------------------------------------------------------
+        type(command_line_interface) :: cli
+        integer :: ierr
+        
+        character(len=CHAR_LEN)  :: casefilename_char
+        character(len=CHAR_LEN)  :: outpath_char
+        type(string) :: casefilename !< Simulation input case file
+        type(string) :: outpath      !< Simulation output path
+    
+        type(simulation_class) :: Sim !< Simulation object
+    
+        !-----------------------------------------------------------------------------------------------------------------------------------
+    
+        ! Initialize command line arguments
+        call cli%init(description = 'MOHID Lagrangian command line argument parser')
+    
+        ! Register keys for key/value pairs.
+        call cli%add( switch = '--infile', switch_ab = '-i', &
+            help = 'input definition file (.xml)', &
+            required = .true., act = 'store', error = ierr )
+        if (ierr/=0) stop
+        call cli%add( switch = '--outpath', switch_ab = '-o', &
+            help = 'output path', required = .true., &
+            act = 'store', error = ierr )
+        if (ierr/=0) stop
+        call cli%get( switch = '-i', val = casefilename_char, error = ierr )
+        if (ierr/=0) stop
+        call cli%get( switch = '-o', val = outpath_char, error = ierr )
+        if (ierr/=0) stop
+        ! Store the arguments with each respective variable    
+        casefilename=trim(casefilename_char)
+        outpath=trim(outpath_char)
+        ! Completing the outpath with the separator
+        outpath=outpath//'/'
+    
+        !Our Lagrangian adventure starts here. Strap on. In case of emergency landing put your head between your knees.
+        call Sim%initialize(casefilename,outpath)
+    
+        !Main time cycle
+        call Sim%run()
+    
+        ! Finalization of the program - deallocation, file closing, etc
+        call Sim%finalize()
+    
+        end program MOHIDLagrangian

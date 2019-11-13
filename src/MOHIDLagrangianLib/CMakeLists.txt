@@ -96,4 +96,3 @@ add_library(${LIB_NAME} ${LIB_SRC})
 set_property(TARGET ${LIB_NAME} PROPERTY FOLDER "libraries")
 set_property(TARGET ${LIB_NAME} PROPERTY LINKER_LANGUAGE Fortran)
 
-
