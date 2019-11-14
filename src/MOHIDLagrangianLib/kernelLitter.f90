@@ -81,15 +81,16 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
-    real(prec) :: P = 0.
+    real(prec) :: P = 1013.
     type(string) :: tag
-    
+    logical :: ViscoDensFields = .false.
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
     
     Buoyancy = 0.0
     !interpolate each background
+    !Compute buoyancy using state equation for temperature and viscosity
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
             if(bdata(bkg)%hasVars(requiredVars)) then
@@ -99,31 +100,34 @@
                 allocate(var_name(nf))
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                fDensity = seaWaterDensity(var_dt(:,1), var_dt(:,2),P)
-                kVisco = absoluteSeaWaterViscosity(var_dt(:,1), var_dt(:,2))
+                fDensity = seaWaterDensity(var_dt(:,2), var_dt(:,1),P)
+                kVisco = absoluteSeaWaterViscosity(var_dt(:,2), var_dt(:,1))
                 tag = 'radius'
                 rIdx = Utils%find_str(sv%varName, tag, .true.)
                 tag = 'density'
                 rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-                Buoyancy(:,3) = 2.0/9.0*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisc
-                !compute density
+                !Buoyancy(:,3) = ((fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx)))*sqrt(8.*sv%state(:,rIdx)*abs(9.81*(sv%state(:,rhoIdx) - fDensity))/(3.*1.4*fDensity)) 
+                Buoyancy(:,3) = 1.82*((sv%state(:,rIdx)*9.81*(fDensity-sv%state(:,rhoIdx)))/fDensity)**(1./2.)
+                !Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
+     
                 deallocate(var_dt)
                 deallocate(var_name)
-                print*,'COMPUTING BUOYANCY with salt'
-            else
-                kVisco = 1050
-                fDensity = 1025
-                tag = 'radius'
-                rIdx = Utils%find_str(sv%varName, tag, .true.)
-                tag = 'density'
-                rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-                Buoyancy(:,3) = 2.0/9.0*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
-                print*,'COMPUTING BUOYANCY with constant'
+                ViscoDensFields = .true.
             endif
-        end if
+        endif
     end do
 
-    
+    !I there is no salt and temperatue Compute buoyancy using constant density and temp
+    if (ViscoDensFields == .false.) then 
+        kVisco = 1.09E-3
+        fDensity = 1023
+        tag = 'radius'
+        rIdx = Utils%find_str(sv%varName, tag, .true.)
+        tag = 'density'
+        rhoIdx = Utils%find_str(sv%varName, tag, .true.)
+        Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
+    endif
+
     end function Buoyancy
     
     !---------------------------------------------------------------------------
