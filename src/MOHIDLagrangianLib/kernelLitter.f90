@@ -106,6 +106,7 @@
                 rIdx = Utils%find_str(sv%varName, tag, .true.)
                 tag = 'density'
                 rhoIdx = Utils%find_str(sv%varName, tag, .true.)
+                ! Three different models - using the number for reynolds regime 1<Re<100
                 !Buoyancy(:,3) = ((fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx)))*sqrt(8.*sv%state(:,rIdx)*abs(9.81*(sv%state(:,rhoIdx) - fDensity))/(3.*1.4*fDensity)) 
                 Buoyancy(:,3) = 1.82*((sv%state(:,rIdx)*9.81*(fDensity-sv%state(:,rhoIdx)))/fDensity)**(1./2.)
                 !Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
@@ -118,6 +119,7 @@
     end do
 
     !I there is no salt and temperatue Compute buoyancy using constant density and temp
+    ! and standardad terminal velocity
     if (ViscoDensFields == .false.) then 
         kVisco = 1.09E-3
         fDensity = 1023
