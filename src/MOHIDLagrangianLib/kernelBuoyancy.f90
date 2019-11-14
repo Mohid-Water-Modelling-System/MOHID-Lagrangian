@@ -149,12 +149,12 @@ function absoluteSeaWaterViscosity(S,T)
 ! nu  = mu / density			[m²/s]
 ! El-Dessouky, Ettouny (2002): Fundamentals of Sea Water Desalination (Appendix A: Themodynamic Properties)    
 							
-	mu_W =	exp(n1 + n2/(n3 +T))		
-	mu_R =	1 + A*S + B*S*S		
+	mu_W =	exp(n1 + n2/(n3 +T))				
 	A = 	o1 + o2*T + o3*T*T		
-	B = 	p1 + p2*T + p3*T*T	
+    B = 	p1 + p2*T + p3*T*T	
+    mu_R =	1 + A*S + B*S*S
 
-    absoluteSeaWaterViscosity  = mu_w*mu_R*10E-3
+    absoluteSeaWaterViscosity  = mu_w*mu_R*0.001
 end function absoluteSeaWaterViscosity
 
 end module kernelBuoyancy_mod
