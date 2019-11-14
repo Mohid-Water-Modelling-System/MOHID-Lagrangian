@@ -20,19 +20,6 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/modules)
 INCLUDE_DIRECTORIES(${CMAKE_Fortran_MODULE_DIRECTORY})
 
-#################################################################
-# CONFIGURATION TYPES & BUILD MODE
-#################################################################
-
-SET(CMAKE_CONFIGURATION_TYPES DEBUG RELEASE)
-IF(NOT CMAKE_BUILD_TYPE)
-  SET(CMAKE_BUILD_TYPE RELEASE CACHE STRING
-      "Choose the type of build, options are: NONE DEBUG RELEASE"
-      FORCE)
-
-  SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS NONE DEBUG RELEASE)
-ENDIF(NOT CMAKE_BUILD_TYPE)
-
 
 #======================#
 # Enable/disable libraries

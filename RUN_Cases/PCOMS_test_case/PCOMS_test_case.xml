@@ -17,7 +17,7 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="hydrodynamic_input_data" type="hydrodynamic"/>
+			<inputDataDir name="hydrodynamic_input_data"/>
 		</inputData>
 		<simulation>
 			<resolution dp="1500" units_comment="metres (m)"/>
@@ -35,7 +35,10 @@
 					<size x="900000" y="1500000" z="1.0" units_comment="metres (m)"/>
 				</box>
 			</source>			
-		</sourceDefinitions>
+		</sourceDefinitions>		
+		<variableNaming>
+			<file name="data/ncNamesLibrary.xml"/>
+		</variableNaming>
 		<constants>
 			<BeachingLevel value="-3.5" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />			
 		</constants>

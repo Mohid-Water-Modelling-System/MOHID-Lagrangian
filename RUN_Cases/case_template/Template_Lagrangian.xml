@@ -31,7 +31,7 @@
 			<inputDataDir name="nc_fields/WQ/fileBla" type="waterProperties"/>
 		</inputData>
 		<simulation>
-			<resolution x="50" y="200" z="10" units_comment="metres (m)"/>
+			<resolution dp="50" units_comment="metres (m)"/>
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-9.1" y="42.39" z="-1" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.72" y="42.68" z="1" units_comment="(deg,deg,m)"/>
@@ -39,7 +39,6 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="18" name="Spill_007" />
-				<resolution dp="50" units_comment="metres (m)"/>
 				<rate_dt value="1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="15" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
@@ -55,10 +54,7 @@
 			</source>
 			<source>
 				<setsource id="2" name="Emissary_2" />
-				<rateTimeSeries> 
-					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>
-					<scale value="1.01" comment="scales the data on the file by this factor (not time)" />
-				</rateTimeSeries>
+				<rate_file name="data/discharge_2.csv" comment="name of csv file with discharge information (time and rate columns)" />
 				<line>
 					<pointa x="1" y="2" z="-10" units_comment="(deg,deg,m)"/>
 					<pointb x="1.001" y="2.00001" z="7" units_comment="(deg,deg,m)"/>
@@ -66,7 +62,6 @@
 			</source>
 			<source>
 				<setsource id="3" name="Mistery_discharge_0" />
-				<resolution x="500" y="100" z="1" units_comment="metres (m)"/>
 				<rate_dt value="3" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="1.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<sphere radius="2.65" units_comment="metres (m)">
@@ -80,49 +75,12 @@
 				<sphere radius="0.95" units_comment="metres (m)">
 					<point x="9.05" y="2.0" z="0" units_comment="(deg,deg,m)"/>
 				</sphere>
-				<positionTimeSeries> 
-					<file name="data/spill_trajectory.dat" />
-				</positionTimeSeries>
 			</source>
 			<source>
 				<setsource id="7" name="Mistery_discharge_2" />
-				<rateTimeSeries> 
-					<file name="data/discharge_example2.dat" />					
-				</rateTimeSeries>
+				<rate_dt value="5" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="10.125" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="9.025" y="5.0" z="0.75" units_comment="(deg,deg,m)"/>
-				<positionTimeSeries> 
-					<file name="data/spill_trajectory.csv" />
-				</positionTimeSeries>
-			</source>
-			<source>
-				<setsource id="4" name="PolygonKMZ" />
-				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
-				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<polygon>
-					<file name="data/polygon1.kmz"/>
-					<verticalBoundingBox min="0.0" max="0.0"/>
-				</polygon>
-			</source>
-			<source>
-				<setsource id="5" name="PolygonKMZ2" />
-				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
-				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<polygon>
-					<file name="data/polygon1.kmz"/>
-				</polygon>
-			</source>
-			<source>
-				<setsource id="8" name="PolygonXY" />
-				<resolution x="80" y="50" z="150" units_comment="metres (m)"/>
-				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<polygon>
-					<file name="data/polygon1.xy"/>
-					<verticalBoundingBox min="0.0" max="0.0"/>
-				</polygon>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
@@ -132,6 +90,9 @@
 			</types>
 			<file name="data/materialTypes_example.xml"/>
 		</sourceTypes>
+		<variableNaming>
+			<file name="ncNamesLibrary_case1.xml"/>
+		</variableNaming>
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
