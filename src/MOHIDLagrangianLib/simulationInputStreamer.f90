@@ -238,6 +238,12 @@
                 call self%wavesInputFile(i)%setReadStatus(self%lastWavesReadTime, self%BufferSize)
             end do
         end if
+
+        if (allocated(self%waterPropsInputFile)) then
+            do i=1, size(self%waterPropsInputFile)
+                call self%waterPropsInputFile(i)%setReadStatus(self%lastWaterPropsReadTime, self%BufferSize)
+            end do
+        end if
         !read selected files
         if (allocated(self%currentsInputFile)) then
             do i=1, size(self%currentsInputFile)
@@ -364,6 +370,7 @@
     self%currentsBkgIndex = 0
     self%windsBkgIndex = 0
     self%wavesBkgIndex = 0
+    self%waterPropsBkgIndex = 0
     nBkg = 0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
@@ -515,6 +522,11 @@
             self%wavesInputFile(i)%toRead = .false.
         end do
     end if
+    if (allocated(self%waterPropsInputFile)) then
+        do i=1, size(self%waterPropsInputFile)
+            self%waterPropsInputFile(i)%toRead = .false.
+        end do
+    end if
     end subroutine resetReadStatus
 
     !---------------------------------------------------------------------------
@@ -552,6 +564,14 @@
         do i=1, size(self%wavesInputFile)
             outext = outext//new_line('a')
             outext = outext//'---->File '//self%wavesInputFile(i)%name
+        end do
+    end if
+    if (allocated(self%waterPropsInputFile)) then
+        if (written) outext = outext//new_line('a')
+        outext = outext//'--->'//Globals%DataTypes%waterProps%startcase()//' data '
+        do i=1, size(self%waterPropsInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%waterPropsInputFile(i)%name
         end do
     end if
     if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'
