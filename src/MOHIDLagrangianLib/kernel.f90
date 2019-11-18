@@ -291,12 +291,6 @@
                 !computing the depth weight
                 depth = sv%state(:,3)
                 where (depth>=0.0) depth = 0.0
-                !where (depth == 0.0)
-                !    nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
-                !    Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
-                !    nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
-                !    Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
-                !end where
                 depth = exp(10.0*depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
@@ -485,30 +479,6 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
     end function DiffusionIsotropic
-
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> Linear degradation kernel.
-    !!> @param[in] self, sv
-    !!---------------------------------------------------------------------------
-    !function DegradationLinear(self, sv)
-    !class(kernel_class), intent(in) :: self
-    !type(stateVector_class), intent(inout) :: sv
-    !real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DegradationLinear
-    !integer :: nf, idx
-    !type(string) :: tag
-    !
-    !DegradationLinear = 0.0
-    !tag = 'condition'
-    !nf = Utils%find_str(sv%varName, tag, .true.)
-    !tag = 'degradation_rate'
-    !idx = Utils%find_str(sv%varName, tag, .true.)
-    !
-    !DegradationLinear(:,nf) = -sv%state(:,idx)
-    !where(sv%state(:,nf) < 0.0) sv%active = .false.
-    !
-    !end function DegradationLinear
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
