@@ -62,7 +62,7 @@
 		<time name="time">
 			<variant name="time" />
 			<variant name="Time" />
-			<variant name="TIME" />		
+			<variant name="TIME" />
 		</time>
 	</dimensions>
 </naming>
