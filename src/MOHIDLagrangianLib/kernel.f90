@@ -1,4 +1,4 @@
-module kernel_mod
+    module kernel_mod
     !------------------------------------------------------------------------------
     !        IST/MARETEC, Water Modelling Group, Mohid modelling system
     !        USC/GFNL, Group of NonLinear Physics, Mohid modelling system
@@ -28,11 +28,11 @@ module kernel_mod
     use stateVector_mod
     use background_mod
     use interpolator_mod
-    
+
     use kernelLitter_mod
 
     type :: kernel_class        !< Kernel class
-        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel        
+        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
     contains
     procedure :: initialize => initKernel
     procedure :: run => runKernel
@@ -45,9 +45,9 @@ module kernel_mod
     procedure, private :: Beaching
     procedure, private :: Aging
     end type kernel_class
-    
+
     type(kernelLitter_class) :: Litter       !< litter kernels
-    
+
     public :: kernel_class
     contains
 
@@ -104,7 +104,7 @@ module kernel_mod
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
-        
+
     ! global periodicity conditions
     where (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
     where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
@@ -291,7 +291,7 @@ module kernel_mod
                 !computing the depth weight
                 depth = sv%state(:,3)
                 where (depth>=0.0) depth = 0.0
-                !where (depth == 0.0) 
+                !where (depth == 0.0)
                 !    nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
                 !    Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
                 !    nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
@@ -335,7 +335,7 @@ module kernel_mod
     beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
 
     Beaching = svDt
-    
+
     if (Globals%Constants%BeachingStopProb /= 0.0) then !beaching is completely turned off if the stopping propability is zero
 
         !getting the bounds for the interpolation of the land interaction field that correspond to beaching
@@ -351,7 +351,7 @@ module kernel_mod
             Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
             sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
         end do
-    
+
     end if
 
     end function Beaching
@@ -444,7 +444,7 @@ module kernel_mod
                 !update system velocities
                 !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
                 !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
-                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt                
+                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
                 deallocate(var_dt)
@@ -485,7 +485,7 @@ module kernel_mod
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
     end function DiffusionIsotropic
-    
+
     !!---------------------------------------------------------------------------
     !!> @author Ricardo Birjukovs Canelas - MARETEC
     !!> @brief

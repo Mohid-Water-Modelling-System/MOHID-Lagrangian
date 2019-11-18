@@ -3640,6 +3640,7 @@ cd1 :   if (ready_ .EQ. IDLE_ERR_) then
         !Local-----------------------------------------------------------------
         real   , dimension(:, :, :), pointer    :: DWZ, DZZ, DUZ, DVZ, SZZ, DZI, DZE, DWZ_Xgrad, DWZ_Ygrad
         real   , dimension(:, :   ), pointer    :: DUX, DVY
+        real   , dimension(:, :   ), pointer    :: DZX, DZY        
         real                                    :: aux
         integer                                 :: FacesOption
         integer                                 :: ILB, IUB, JLB, JUB, KLB, KUB
@@ -3681,7 +3682,6 @@ cd1 :   if (ready_ .EQ. IDLE_ERR_) then
         !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
         do j = JLB, JUB
         do i = ILB, IUB
-
             if (WaterPoints3D(i, j, k) == WaterPoint) then
 
                 DWZ(i, j, k) = SZZ(i, j, k-1) - SZZ(i, j, k  )
@@ -3704,7 +3704,7 @@ cd1:    if (FacesOption == MinTickness) then
 
                 if (WaterPoints3D(i, j - 1, k) == WaterPoint .and.                            &
                     WaterPoints3D(i, j    , k) == WaterPoint) then
-                    DUZ(i, j, k) =  min(DWZ(i, j-1, k), DWZ(i, j, k))
+                    DUZ(i, j, k) = min(DWZ(i, j-1, k), DWZ(i, j, k))
                 endif
 
             enddo
@@ -3735,16 +3735,12 @@ cd1:    if (FacesOption == MinTickness) then
 
         else if (FacesOption == AverageTickness) then cd1
 
-            !! $OMP MASTER
-            !Gets DZX, DZY
+            !Gets DUX, DVY
             call GetHorizontalGrid(Me%ObjHorizontalGrid, DUX = DUX, DVY = DVY, &
                                    STAT = STAT_CALL)
 
             if (STAT_CALL /= SUCCESS_)                                                  &
-                stop 'ComputeAreas - Geometry - ERR01'
-            !! $OMP END MASTER
-
-            !! $OMP BARRIER
+                stop 'ComputeDistances - Geometry - ERR01'
 
             !Computes DUZ
             !$OMP PARALLEL PRIVATE(i,j,k)
@@ -3757,7 +3753,7 @@ cd1:    if (FacesOption == MinTickness) then
                     WaterPoints3D(i, j    , k) == WaterPoint) then
 
                     DUZ(i, j, k) =  (DWZ(i, j, k)     * DUX(i, j - 1) +                  &
-                                     DWZ(i, j - 1, k) * DUX(i, j))    /                  &
+                                        DWZ(i, j - 1, k) * DUX(i, j))    /                  &
                                     (DUX(i, j - 1)    + DUX(i, j))
 
                 endif
@@ -3780,7 +3776,7 @@ cd1:    if (FacesOption == MinTickness) then
                     WaterPoints3D(i    , j, k) == WaterPoint) then
 
                     DVZ(i, j, k) =  (DWZ(i, j, k)     * DVY(i - 1, j) +                  &
-                                     DWZ(i - 1, j, k) * DVY(i, j))    /                  &
+                                        DWZ(i - 1, j, k) * DVY(i, j))    /                  &
                                     (DVY(i - 1, j)    + DVY(i, j))
 
                 endif
@@ -3791,19 +3787,14 @@ cd1:    if (FacesOption == MinTickness) then
             enddo
             !$OMP END PARALLEL
 
-            !! $OMP MASTER
             !Nullifies auxilary pointers
             call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DUX, STAT = STAT_CALL)
             if (STAT_CALL /= SUCCESS_)                                                   &
                 stop 'ComputeDistances - Geometry - ERR02'
 
-
             call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DVY, STAT = STAT_CALL)
             if (STAT_CALL /= SUCCESS_)                                                   &
                 stop 'ComputeDistances - Geometry - ERR03'
-            !! $OMP END MASTER
-
-            !! $OMP BARRIER
 
         endif cd1
 
@@ -3813,11 +3804,9 @@ cd1:    if (FacesOption == MinTickness) then
         !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
         do j = JLB, JUB
         do i = ILB, IUB
-
             if (WaterPoints3D(i, j, k) == WaterPoint) then
                 DZZ(i, j, k) =  (DWZ(i, j, k+1) + DWZ(i, j, k)) / 2.0
             endif
-
         enddo
         enddo
         !$OMP END DO NOWAIT
@@ -3830,14 +3819,12 @@ cd1:    if (FacesOption == MinTickness) then
         !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
         do j = JLB+1, JUB
         do i = ILB  , IUB
-
             if (WaterPoints3D(i, j - 1, k) == WaterPoint .and.                            &
                 WaterPoints3D(i, j    , k) == WaterPoint) then
 
-                DZE(i, j, k) =  (DUZ(i, j, k+1) + DUZ(i, j, k)) / 2.
+                DZE(i, j, k) = (DUZ(i, j, k+1) + DUZ(i, j, k)) / 2.0
 
             endif
-
         enddo
         enddo
         !$OMP END DO NOWAIT
@@ -3850,21 +3837,27 @@ cd1:    if (FacesOption == MinTickness) then
         !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
         do j = JLB  , JUB
         do i = ILB+1, IUB
-
             if (WaterPoints3D(i - 1, j, k) == WaterPoint .and.                            &
                 WaterPoints3D(i    , j, k) == WaterPoint) then
 
-                DZI(i, j, k) =  (DVZ(i, j, k+1) + DVZ(i, j, k)) / 2.
+                DZI(i, j, k) = (DVZ(i, j, k+1) + DVZ(i, j, k)) / 2.0
 
             endif
-
         enddo
         enddo
         !$OMP END DO NOWAIT
         enddo
         !$OMP END PARALLEL
+        
 
-!Computes DWZ_Xgrad
+        !Gets DZX, DZY
+        call GetHorizontalGrid(Me%ObjHorizontalGrid, DZX = DZX, DZY = DZY, STAT = STAT_CALL)
+        if (STAT_CALL /= SUCCESS_)                                             &
+            stop 'ComputeDistances - Geometry - ERR04'
+        
+        
+
+!Computes DWZ_Xgrad = layer tickness gradient in the X diretion divided by the thickness 
         !$OMP PARALLEL PRIVATE(i,j,k,aux)
         do k = KLB  , KUB
         !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
@@ -3874,21 +3867,18 @@ cd1:    if (FacesOption == MinTickness) then
             if (WaterPoints3D(i, j - 1, k) == WaterPoint .and.                            &
                 WaterPoints3D(i, j    , k) == WaterPoint) then
 
-                aux=(DWZ(i, j-1, k) + DWZ(i, j, k))
-
-                if (DUZ(i, j, k) > 0. .and. aux > 0.) then
-                    DWZ_Xgrad(i, j, k) = DWZ(i, j, k) / aux
+                if (DWZ(i, j, k) > 0. .and. DWZ(i, j-1, k) > 0.) then
+                    ![m]                    
+                    aux=(DWZ(i, j-1, k) + DWZ(i, j, k)) / 2.
+                     ![1/m] =  [m] /[m] / [m]
+                    DWZ_Xgrad(i, j, k) = (DWZ(i, j, k) -  DWZ(i, j-1, k)) / aux / DZX(i, j-1)
                 else
-                    DWZ_Xgrad(i, j, k) = 0.5
+                    DWZ_Xgrad(i, j, k) = 0.
                 endif
 
-            else if (WaterPoints3D(i, j - 1, k) == WaterPoint) then
-
+            else 
+                
                 DWZ_Xgrad(i, j, k) =  0.
-
-            else if (WaterPoints3D(i, j    , k) == WaterPoint) then
-
-                DWZ_Xgrad(i, j, k) =   1.
 
             endif
 
@@ -3898,7 +3888,7 @@ cd1:    if (FacesOption == MinTickness) then
         enddo
         !$OMP END PARALLEL
 
-!Computes DWZ_Ygrad
+!Computes DWZ_Ygrad = layer tickness gradient in the Y diretion divided by the thickness 
         !$OMP PARALLEL PRIVATE(i,j,k,aux)
         do k = KLB  , KUB
         !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
@@ -3908,21 +3898,18 @@ cd1:    if (FacesOption == MinTickness) then
             if (WaterPoints3D(i - 1, j, k) == WaterPoint .and.                            &
                 WaterPoints3D(i    , j, k) == WaterPoint) then
 
-                aux= (DWZ(i, j, k) + DWZ(i-1, j, k))
-
-                if (DVZ(i, j, k) > 0. .and. aux > 0.) then
-                    DWZ_Ygrad(i, j, k) =  DWZ(i, j, k)/aux
+                if (DWZ(i, j, k) > 0. .and.  DWZ(i-1, j, k) > 0.) then
+                    ![m]
+                    aux= (DWZ(i, j, k) + DWZ(i-1, j, k)) / 2.                     
+                    ![1/m] =  [m] /[m] / [m]
+                    DWZ_Ygrad(i, j, k) =  (DWZ(i, j, k) -  DWZ(i-1, j, k))/  DZY(i-1, j) /aux
                 else
-                    DWZ_Ygrad(i, j, k) = 0.5
+                    DWZ_Ygrad(i, j, k) = 0.0
                 endif
 
-            else if (WaterPoints3D(i - 1, j, k) == WaterPoint) then
+            else 
 
                 DWZ_Ygrad(i, j, k) =  0.
-
-            else if (WaterPoints3D(i    , j, k) == WaterPoint) then
-
-                DWZ_Ygrad(i, j, k) =   1.
 
             endif
 
@@ -3931,6 +3918,17 @@ cd1:    if (FacesOption == MinTickness) then
         !$OMP END DO NOWAIT
         enddo
         !$OMP END PARALLEL
+        
+        !Nullifies auxilary pointers
+        call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DZX, STAT = STAT_CALL)
+        if (STAT_CALL /= SUCCESS_)                                             &
+            stop 'ComputeDistances - Geometry - ERR05'
+
+
+        call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DZY, STAT = STAT_CALL)
+        if (STAT_CALL /= SUCCESS_)                                             &
+            stop 'ComputeDistances - Geometry - ERR06'
+        
 
         if (MonitorPerformance) call StopWatch ("ModuleGeometry", "ComputeDistances")
 
@@ -3946,7 +3944,7 @@ cd1:    if (FacesOption == MinTickness) then
         !Arguments-------------------------------------------------------------
 
         !Local-----------------------------------------------------------------
-        real, dimension(:, :), pointer          :: DUX, DVY, DZX, DZY
+        real, dimension(:, :), pointer          :: DUX, DVY
         integer                                 :: ILB, IUB, JLB, JUB, KLB, KUB
         integer                                 :: i, j, k, STAT_CALL
         integer                                 :: CHUNK
@@ -3962,8 +3960,7 @@ cd1:    if (FacesOption == MinTickness) then
         KUB = Me%WorkSize%KUB
 
         !Gets DUX, DVY
-        call GetHorizontalGrid(Me%ObjHorizontalGrid, DUX = DUX, DVY = DVY,      &
-                               DZX = DZX, DZY = DZY, STAT = STAT_CALL)
+        call GetHorizontalGrid(Me%ObjHorizontalGrid, DUX = DUX, DVY = DVY, STAT = STAT_CALL)
         if (STAT_CALL /= SUCCESS_)                                             &
             stop 'ComputeVolumes - Geometry - ERR01'
 
@@ -4063,16 +4060,6 @@ cd1:    if (FacesOption == MinTickness) then
             stop 'ComputeVolumes - Geometry - ERR03'
 
 
-        !Nullifies auxilary pointers
-        call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DZX, STAT = STAT_CALL)
-        if (STAT_CALL /= SUCCESS_)                                             &
-            stop 'ComputeVolumes - Geometry - ERR04'
-
-
-        call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DZY, STAT = STAT_CALL)
-        if (STAT_CALL /= SUCCESS_)                                             &
-            stop 'ComputeVolumes - Geometry - ERR05'
-
         !----------------------------------------------------------------------
 
     end subroutine ComputeVolumes
@@ -4107,48 +4094,55 @@ cd1:    if (FacesOption == MinTickness) then
         DUZ => Me%Distances%DUZ
         DVZ => Me%Distances%DVZ
 
-        !Gets DZX, DZY
+        !Gets DXX, DYY
         call GetHorizontalGrid(Me%ObjHorizontalGrid, DXX = DXX, DYY = DYY, STAT = STAT_CALL)
         if (STAT_CALL /= SUCCESS_)stop 'ComputeAreas - Geometry - ERR01'
 
         if (MonitorPerformance) call StartWatch ("ModuleGeometry", "ComputeAreas")
 
-        CHUNK = Chunk_J(JLB,JUB)
-        !$OMP PARALLEL PRIVATE(i,j,k,WaterLevel)
-
-        do k = KLB, KUB
+        CHUNK = Chunk_K(KLB,KUB)
+        !Sobrinho
+        !$OMP PARALLEL PRIVATE(i,j,k)
         !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
+        do k = KLB, KUB
         do j = JLB, JUB
         do i = ILB, IUB
             !Calculo das areas nas faces nos pontos de calculo U's (AREA_U(I,J,K))
 !PCL
             Me%Areas%AreaU(i, j, k) = DUZ(i, j, k) * DYY (i, j)
-
 !PCL
             Me%Areas%AreaV(i, j, k) = DVZ(i, j, k) * DXX (i, j)
 
-            if (Me%Areas%Impermeability) then
-
-                WaterLevel = max(-Me%Distances%SZZ(i, j, KUB), -Me%Distances%SZZ(i, j+1, KUB))
-
-                Me%Areas%AreaU(i, j, k) = Me%Areas%AreaU(i, j, k) *             &
-                                         (Me%Areas%Coef_U(k) + WaterLevel * Me%Areas%CoefX_U(k))
-
-                WaterLevel = max(-Me%Distances%SZZ(i, j, KUB), -Me%Distances%SZZ(i+1, j, KUB))
-
-                Me%Areas%AreaV(i, j, k) = Me%Areas%AreaV(i, j, k) *             &
-                                         (Me%Areas%Coef_V(k) + WaterLevel * Me%Areas%CoefX_V(k))
-
-
-
-            endif
-
+        enddo
         enddo
         enddo
         !$OMP END DO
-        enddo
-
         !$OMP END PARALLEL
+        
+        if (Me%Areas%Impermeability) then        
+        !Sobrinho
+            !$OMP PARALLEL PRIVATE(i,j,k,WaterLevel)
+            !$OMP DO SCHEDULE(DYNAMIC, CHUNK)
+            do k = KLB, KUB
+            do j = JLB, JUB
+            do i = ILB, IUB
+
+                    WaterLevel = max(-Me%Distances%SZZ(i, j, KUB), -Me%Distances%SZZ(i, j+1, KUB))
+
+                    Me%Areas%AreaU(i, j, k) = Me%Areas%AreaU(i, j, k) *             &
+                                             (Me%Areas%Coef_U(k) + WaterLevel * Me%Areas%CoefX_U(k))
+
+                    WaterLevel = max(-Me%Distances%SZZ(i, j, KUB), -Me%Distances%SZZ(i+1, j, KUB))
+
+                    Me%Areas%AreaV(i, j, k) = Me%Areas%AreaV(i, j, k) *             &
+                                             (Me%Areas%Coef_V(k) + WaterLevel * Me%Areas%CoefX_V(k))
+
+            enddo
+            enddo
+            enddo
+            !$OMP END DO
+            !$OMP END PARALLEL
+        endif
 
         if (MonitorPerformance) call StopWatch ("ModuleGeometry", "ComputeAreas")
 
@@ -4156,11 +4150,8 @@ cd1:    if (FacesOption == MinTickness) then
         call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DXX, STAT = STAT_CALL)
         if (STAT_CALL /= SUCCESS_)stop 'ComputeAreas - Geometry - ERR02'
 
-
-
         call UnGetHorizontalGrid(Me%ObjHorizontalGrid, DYY, STAT = STAT_CALL)
         if (STAT_CALL /= SUCCESS_) stop 'ComputeAreas - Geometry - ERR03'
-
 
         !nullify local pointer
         nullify(DUZ, DVZ)
@@ -4184,31 +4175,28 @@ cd1:    if (FacesOption == MinTickness) then
         integer                                 :: i, j, k
         integer                                 :: CHUNK
 
-        !Worksize
         ILB = Me%WorkSize%ILB
         IUB = Me%WorkSize%IUB
-
+        
         JLB = Me%WorkSize%JLB
         JUB = Me%WorkSize%JUB
-
+        
         KLB = Me%WorkSize%KLB
         KUB = Me%WorkSize%KUB
 
         if (MonitorPerformance) call StartWatch ("ModuleGeometry", "StoreVolumeZOld")
 
-        CHUNK = Chunk_J(JLB,JUB)
+        CHUNK = Chunk_K(KLB,KUB)
         !$OMP PARALLEL PRIVATE(i,j,k)
-
-        do k = KLB, KUB
         !$OMP DO SCHEDULE(STATIC, CHUNK)
+        do k = KLB, KUB
         do j = JLB, JUB
         do i = ILB, IUB
             Me%Volumes%VolumeZOld(i, j ,k) = Me%Volumes%VolumeZ(i, j ,k)
         enddo
         enddo
-        !$OMP END DO
         enddo
-
+        !$OMP END DO
         !$OMP END PARALLEL
 
         if (MonitorPerformance) call StopWatch ("ModuleGeometry", "StoreVolumeZOld")
