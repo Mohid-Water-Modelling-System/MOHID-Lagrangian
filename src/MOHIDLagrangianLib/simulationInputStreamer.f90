@@ -104,8 +104,8 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
 
-    allocate(varList(5))
-    allocate(syntecticVar(5))
+    allocate(varList(6))
+    allocate(syntecticVar(6))
     varList(1) = Globals%Var%u
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v
@@ -116,11 +116,14 @@
     syntecticVar(4) = .true. 
     varList(5) = Globals%Var%resolution
     syntecticVar(5) = .true.
+    varList(6) = Globals%Var%bathymetry
+    syntecticVar(6) = .true.
 
     !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMaskField()
     call getCurrentsFile%makeResolutionField()
+    call getCurrentsFile%makeBathymetryField()
 
     end function getCurrentsFile
 
