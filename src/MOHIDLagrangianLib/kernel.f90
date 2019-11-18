@@ -81,6 +81,8 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     end if
+    
+    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
 
     end function runKernel
 

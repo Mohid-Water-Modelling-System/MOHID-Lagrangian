@@ -21,14 +21,14 @@
     !> derivative of the state vector of a given tracer. n columns - n variables.
     !> This is the step were interpolation and physics actually happen.
     !------------------------------------------------------------------------------
-    
+
     module kernelVerticalMotion_mod
 
     use common_modules
     use stateVector_mod
     use background_mod
     use interpolator_mod
-    
+
     ! Density constants
     !  density of seawater at zero pressure constants
     real(prec),parameter :: a0 = 999.842594
@@ -94,16 +94,17 @@
     contains
     procedure :: initialize => initKernelVerticalMotion
     procedure :: Buoyancy
+    procedure :: CorrectVerticalBounds
     end type kernelVerticalMotion_class
-    
+
     public :: kernelVerticalMotion_class
 
     contains
-    
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Computes the vertical velocity due to buoyancy of the litter tracers
+    !> Computes the vertical velocity due to buoyancy of the tracers
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function Buoyancy(self, sv, bdata, time)
@@ -123,7 +124,7 @@
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
-
+    
     Buoyancy = 0.0
     !interpolate each background
     !Compute buoyancy using state equation for temperature and viscosity
@@ -164,9 +165,61 @@
         rhoIdx = Utils%find_str(sv%varName, tag, .true.)
         Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
     endif
-
-    end function Buoyancy
     
+    end function Buoyancy
+
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Corrects vertical position of the tracers according to data limits
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function CorrectVerticalBounds(self, sv, svDt, bdata, time, dt)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: svDt
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time, dt
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: CorrectVerticalBounds
+    integer :: np, nf, bkg
+    real(prec) :: maxLevel(2)
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    
+    CorrectVerticalBounds = svDt
+
+    allocate(requiredVars(1))
+    requiredVars(1) = Globals%Var%bathymetry
+
+    !interpolate each background
+    do bkg = 1, size(bdata)
+        if (bdata(bkg)%initialized) then
+            if(bdata(bkg)%hasVars(requiredVars)) then
+                np = size(sv%active) !number of Tracers
+                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                allocate(var_dt(np,nf))
+                allocate(var_name(nf))
+
+                !correcting for maximum admissible level in the background
+                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                if (maxLevel(2) /= MV) where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt > maxLevel(2)) CorrectVerticalBounds(:,3) = (maxLevel(2)-sv%state(:,3))/dt*0.99
+
+                !interpolating all of the data
+                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+
+                !update minium vertical position
+                nf = Utils%find_str(var_name, Globals%Var%bathymetry)
+                where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,nf)) CorrectVerticalBounds(:,3) = (var_dt(:,nf)-sv%state(:,3))/dt*0.99
+
+                deallocate(var_dt)
+                deallocate(var_name)
+            end if
+        end if
+    end do
+
+    end function CorrectVerticalBounds
+
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
@@ -179,9 +232,10 @@
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
     end subroutine initKernelVerticalMotion
-    
-    !orphan functions
-    
+
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !orphan functions, enter at your own risk
+
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
