@@ -30,6 +30,7 @@
     use interpolator_mod
 
     use kernelLitter_mod
+    use kernelVerticalMotion_mod
 
     type :: kernel_class        !< Kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
@@ -47,6 +48,7 @@
     end type kernel_class
 
     type(kernelLitter_class) :: Litter       !< litter kernels
+    type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
 
     public :: kernel_class
     contains
@@ -73,10 +75,10 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)+ Litter%Buoyancy(sv, bdata, time)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)+ VerticalMotion%Buoyancy(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv) + Litter%Buoyancy(sv, bdata, time)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     end if
 
@@ -492,6 +494,7 @@
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
     call Litter%initialize()
+    call VerticalMotion%initialize()
     end subroutine initKernel
 
     end module kernel_mod
