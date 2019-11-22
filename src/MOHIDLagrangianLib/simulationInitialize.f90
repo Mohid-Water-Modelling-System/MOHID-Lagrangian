@@ -383,7 +383,7 @@
             att_name="value"
             call XMLReader%getNodeAttribute(source_ratefile, tag, att_name, att_val, readflag, mandatory = .false.)            
             if (readflag) then
-                rateScale = att_val%to_number(kind=1._R4P)
+                rateScale = att_val%to_number(kind=1._R8P)
             end if
         end if
         if (.not.rateRead) then
