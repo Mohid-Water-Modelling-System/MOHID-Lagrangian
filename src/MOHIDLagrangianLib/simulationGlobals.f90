@@ -154,6 +154,8 @@
         type(string) :: time
         type(string) :: landIntMask
         type(string) :: resolution
+        type(string) :: bathymetry
+        type(string) :: surface
         type(string) :: rate
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
@@ -361,6 +363,8 @@
     self%time    = 'time'
     self%landIntMask = 'landIntMask'
     self%resolution = 'resolution'
+    self%bathymetry = 'bathymetry'
+    self%surface    = 'surface'
     self%rate = 'rate'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
