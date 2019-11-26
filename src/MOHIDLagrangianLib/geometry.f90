@@ -448,8 +448,8 @@
     vertBounds = .false.
     if (zMin_str /= notRead) then
         if(zMax_str /= notRead) then
-            zMin = zMin_str%to_number(kind=1._R4P)
-            zMax = zMax_str%to_number(kind=1._R4P)
+            zMin = zMin_str%to_number(kind=1._R8P)
+            zMax = zMax_str%to_number(kind=1._R8P)
             vertBounds = .true.
         end if
     end if

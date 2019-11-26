@@ -389,11 +389,11 @@
                 tag="startTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%currentsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                self%currentsInputFile(i+1)%startTime = att_val%to_number(kind=1._R8P)
                 tag="endTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%currentsInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%currentsInputFile(i+1)%used = .false.
             end do
             deallocate(fileNames)
@@ -417,11 +417,11 @@
                 tag="startTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%windsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                self%windsInputFile(i+1)%startTime = att_val%to_number(kind=1._R8P)
                 tag="endTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%windsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%windsInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%windsInputFile(i+1)%used = .false.
             end do
             deallocate(fileNames)
@@ -445,11 +445,11 @@
                 tag="startTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%wavesInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                self%wavesInputFile(i+1)%startTime = att_val%to_number(kind=1._R8P)
                 tag="endTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%wavesInputFile(i+1)%used = .false.
             end do
             nBkg = nBkg + 1
@@ -472,11 +472,11 @@
                 tag="startTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%waterPropsInputFile(i+1)%startTime = att_val%to_number(kind=1._R4P)
+                self%waterPropsInputFile(i+1)%startTime = att_val%to_number(kind=1._R8P)
                 tag="endTime"
                 att_name="value"
                 call XMLReader%getNodeAttribute(fileNode, tag, att_name, att_val)
-                self%waterPropsInputFile(i+1)%endTime = att_val%to_number(kind=1._R4P)
+                self%waterPropsInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%waterPropsInputFile(i+1)%used = .false.
             end do
             nBkg = nBkg + 1

@@ -852,10 +852,10 @@
         end if
         sizem=sizeof(self%WarmUpTime)
     elseif(parmkey%chars()=="WarmUpTime") then
-        self%WarmUpTime=parmvalue%to_number(kind=1._R4P)
+        self%WarmUpTime=parmvalue%to_number(kind=1._R8P)
         sizem=sizeof(self%WarmUpTime)
     elseif(parmkey%chars()=="OutputWriteTime") then
-        self%OutputWriteTime=parmvalue%to_number(kind=1._R4P)
+        self%OutputWriteTime=parmvalue%to_number(kind=1._R8P)
         sizem=sizeof(self%OutputWriteTime)
     elseif(parmkey%chars()=="Start") then
         date = Utils%getDateFromISOString(parmvalue)
@@ -989,7 +989,7 @@
     class(constants_t), intent(inout) :: self
     type(string), intent(in) :: read_z0
     integer :: sizem
-    self%Z0=read_z0%to_number(kind=1._R4P)
+    self%Z0=read_z0%to_number(kind=1._R8P)
     sizem = sizeof(self%Z0)
     call SimMemory%adddef(sizem)
     end subroutine
@@ -1006,7 +1006,7 @@
     type(string), intent(in) :: read_rho
     type(string) :: outext
     integer :: sizem
-    self%RhoRef=read_rho%to_number(kind=1._R4P)
+    self%RhoRef=read_rho%to_number(kind=1._R8P)
     if (self%RhoRef <= 0.0) then
         outext='RhoRef must be positive and non-zero, stopping'
         call Log%put(outext)
@@ -1027,11 +1027,11 @@
     type(string), intent(in) :: read_BeachingLevel
     type(string) :: outext
     integer :: sizem
-    if (read_BeachingLevel%to_number(kind=1._R4P) > 0.0) then
+    if (read_BeachingLevel%to_number(kind=1._R8P) > 0.0) then
         outext='Beaching level must be negative, assuming default value'
         call Log%put(outext)
     else
-        self%BeachingLevel=read_BeachingLevel%to_number(kind=1._R4P)
+        self%BeachingLevel=read_BeachingLevel%to_number(kind=1._R8P)
     endif
     sizem = sizeof(self%BeachingLevel)
     call SimMemory%adddef(sizem)
@@ -1048,11 +1048,11 @@
     type(string), intent(in) :: read_BeachingStopProb
     type(string) :: outext
     integer :: sizem
-    if (read_BeachingStopProb%to_number(kind=1._R4P) < 0.0) then
+    if (read_BeachingStopProb%to_number(kind=1._R8P) < 0.0) then
         outext='Beaching stopping probability must be zero or positive, assuming default value'
         call Log%put(outext)
     else
-        self%BeachingStopProb =read_BeachingStopProb%to_number(kind=1._R4P)*0.01 !user input is in %
+        self%BeachingStopProb =read_BeachingStopProb%to_number(kind=1._R8P)*0.01 !user input is in %
     endif
     sizem = sizeof(self%BeachingStopProb)
     call SimMemory%adddef(sizem)
@@ -1069,11 +1069,11 @@
     type(string), intent(in) :: read_DiffusionCoeff
     type(string) :: outext
     integer :: sizem
-    if (read_DiffusionCoeff%to_number(kind=1._R4P) < 0.0) then
+    if (read_DiffusionCoeff%to_number(kind=1._R8P) < 0.0) then
         outext='Diffusion coefficient must be zero or positive, assuming default value'
         call Log%put(outext)
     else
-        self%DiffusionCoeff =read_DiffusionCoeff%to_number(kind=1._R4P)
+        self%DiffusionCoeff =read_DiffusionCoeff%to_number(kind=1._R8P)
     endif
     sizem = sizeof(self%DiffusionCoeff)
     call SimMemory%adddef(sizem)
@@ -1156,7 +1156,7 @@
     type(string), intent(in) :: read_dt
     type(string) :: outext
     integer :: sizem
-    self%dt=read_dt%to_number(kind=1._R4P)
+    self%dt=read_dt%to_number(kind=1._R8P)
     if (self%dt <= 0.0) then
         outext='dt must be positive and non-zero, stopping'
         call Log%put(outext)
