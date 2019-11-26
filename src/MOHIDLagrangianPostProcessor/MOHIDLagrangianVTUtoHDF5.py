@@ -16,7 +16,7 @@ sys.path.append(commonPath)
 import os_dir
 import MDateTime
 
-import vtuParser
+import MOHIDLagrangianPVDParser
 
 
 class vtu2hdf5:
@@ -24,8 +24,8 @@ class vtu2hdf5:
         self.xmlCaseFile = xmlCaseFile
         self.xmlRecipe = xmlRecipe
         self.dataDir = dataDir
-        self.vtuFiles = vtuParser.validVtuFilesList(dataDir)
-        self.nVtuFiles = len(vtuParser.validVtuFilesList(dataDir))        
+        self.vtuFiles = MOHIDLagrangianPVDParser.getVtuFilesList(dataDir)
+        self.nVtuFiles = len(MOHIDLagrangianPVDParser.getVtuFilesList(dataDir))        
         self.ISO_time_origin = MDateTime.getDateStringFromDateTime(MDateTime.BaseDateTime())
         self.time = []
         self.timeMask = []
