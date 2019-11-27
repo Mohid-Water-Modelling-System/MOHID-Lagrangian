@@ -694,17 +694,21 @@
             if (curr%name == Globals%Var%bathymetry) then                
                 allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(bathymetry(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
-                bathymetry = 0.0
+                bathymetry = 0.
                 shiftUpLevel = .false.
                 shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
                 dimIndx = self%getDimIndex(Globals%Var%level)
-                do t=1, size(curr%field,3)
+                print*,'MINIMUN AND MAXIMUM DEPTH',self%dim(dimIndx)%field(size(curr%field,3)),self%dim(dimIndx)%field(1)
+                do t=1, size(curr%field,4)
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
-                            bathymetry(i,j,:,t) = self%dim(dimIndx)%field(findloc(shiftUpLevel(i,j,:,t), .true.))
+                            bathymetry(i,j,:,t) = self%dim(dimIndx)%field(findloc(shiftUpLevel(i,j,:,t), .True.))
                         end do
                     end do
                 end do
+
+            where(bathymetry == 0.) bathymetry = self%dim(dimIndx)%field(size(curr%field,3)) !> where bathymetry is 0. (not index found) set it with top layer of your extent
+            curr%field = bathymetry
             end if
             class default
             outext = '[background_class::makeBathymetryField] Unexepected type of content, not a 3D or 4D scalar Field'
