@@ -698,7 +698,6 @@
                 shiftUpLevel = .false.
                 shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
                 dimIndx = self%getDimIndex(Globals%Var%level)
-                print*,'MINIMUN AND MAXIMUM DEPTH',self%dim(dimIndx)%field(size(curr%field,3)),self%dim(dimIndx)%field(1)
                 do t=1, size(curr%field,4)
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
