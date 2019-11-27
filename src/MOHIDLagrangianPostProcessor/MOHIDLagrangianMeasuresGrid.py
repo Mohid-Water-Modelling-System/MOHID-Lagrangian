@@ -6,7 +6,6 @@ Created on Fri Oct  4 10:24:41 2019
 @author: gfnl143
 """
 import numpy as np
-import xarray as xr
 
 
 def getConcentrationsVolume(gridTimeInstance):

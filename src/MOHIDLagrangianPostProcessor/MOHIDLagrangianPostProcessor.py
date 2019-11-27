@@ -60,13 +60,13 @@ import MDateTime
 
 from about import License
 
-import MOHIDLagrangianVTUtoHDF5
+from MOHIDLagrangianVTUtoHDF5 import vtu2hdf5
 from MOHIDLagrangianPVDParser import PVDParser
-from MOHIDLagrangianXMLReader import getBeachFromRecipe, getSourcesDictFromXML, getRecipeListFromCase,getFieldsFromRecipe
+from MOHIDLagrangianXMLReader import getBeachFromRecipe, getSourcesDictFromXML, getRecipeListFromCase,getFieldsFromRecipe,checkHDF5WriteRecipe
 from MOHIDLagrangianRectangularGrid import RectangularGridBase
 from MOHIDLagrangianTime import FilesTimesHandler 
 from MOHIDLagrangianNcWriter import NetcdfParser
-from MOHIDLagrangianMeasuresGrid import *
+from MOHIDLagrangianMeasuresGrid import getResidenceTime,getCountsInCell,getConcentrationsArea,getConcentrationsVolume,getVariableMeanCell
  
 
     
@@ -110,6 +110,7 @@ class MOHIDLagrangianGridBasedMeasures:
         self.grid = []
         self.netcdfWriter = []
         self.outputFile = []
+        self.gridBasicMeasures = ['residence_time','concentrations']
 
 
     def initialize(self,xml_file, xml_recipe, outdir, outdirLocal):
@@ -124,15 +125,19 @@ class MOHIDLagrangianGridBasedMeasures:
         self.netcdfWriter = NetcdfParser(self.outputFile)
         self.netcdfWriter.initDataset(self.grid,self.base.FileTimeHandler)
         
-        
-    def run(self,measures):
     
+    
+    def run(self,measures):
+        print('-> Measures to compute: ', measures)
+        print('-> Sources: ',self.base.sources['id'])
+        
         t = 0
         for vtu_step in self.base.pvdReader.vtuFileHandlers:
             for source in self.base.sources['id'].keys():
-                particlePos = vtu_step.getVtuVariableData('coords', source, beachCondition=self.base.beachCondition)
+                particlePos = vtu_step.getVtuVariableData('coords', source, beachCondition=self.base.beachCondition) 
                 self.grid.getCountsInCell(particlePos)
                 nCounts = getCountsInCell(self.grid)
+                #
                 self.netcdfWriter.appendVariableTimeStepToDataset('n_counts_'+self.base.sources['id'][source],nCounts,t)
                 
                 if 'residence_time' in measures:
@@ -145,32 +150,27 @@ class MOHIDLagrangianGridBasedMeasures:
                     self.netcdfWriter.appendVariableTimeStepToDataset('concentration_volume_'+self.base.sources['id'][source],ConcentrationsArea,t)
                     self.netcdfWriter.appendVariableTimeStepToDataset('concentration_area'+self.base.sources['id'][source],ConcentrationsVolume,t)
                 
-                if 'age' in measures:
-                    varInParticles = vtu_step.getVtuVariableData('age', source, beachCondition=self.base.beachCondition)
-                    self.grid.getMeanDataInCell(varInParticles)
-                    varInCell = getVariableMeanCell(self.grid, 'age')
-                    self.netcdfWriter.appendVariableTimeStepToDataset('age_'+self.base.sources['id'][source],varInCell,t)
-                    
+                for measure in measures:
+                    if measure not in self.gridBasicMeasures:
+                        varInParticles = vtu_step.getVtuVariableData(measure, source, beachCondition=self.base.beachCondition)
+                        self.grid.getMeanDataInCell(varInParticles)
+                        varInCell = getVariableMeanCell(self.grid, measure)
+                        self.netcdfWriter.appendVariableTimeStepToDataset(measure+'_'+self.base.sources['id'][source],varInCell,t)
+            
+            
             t = t + 1
-            print('Percentaje of execution',100*(t/len(self.base.pvdReader.vtuFileHandlers)))    
+            progress = '-> Progress: %4.2f' %(100*(t/len(self.base.pvdReader.vtuFileHandlers)))
+            print(progress ,end='\r')    
 
 
 
                
 
-def run_postprocessing(caseXML, recipe, outDir, outDirLocal,measures):
-    PostProcessing = MOHIDLagrangianGridBasedMeasures()
-    PostProcessing.initialize(caseXML, recipe, outDir, outDirLocal)
-    PostProcessing.run(measures)
-
-
-def checkHDF5WriteRecipe(xmlFile):
-    convert = False
-    root = ET.parse(xmlFile).getroot()    
-    for formats in root.findall('convertFiles/format'):
-        if formats.get('key') == 'hdf5':
-            convert = True
-    return convert
+def runPostprocessing(caseXML, recipe, outDir, outDirLocal,measures):
+    postProcessor = MOHIDLagrangianGridBasedMeasures()
+    postProcessor.initialize(caseXML, recipe, outDir, outDirLocal)
+    postProcessor.run(measures)
+    return postProcessor
 
 
 def main():
@@ -204,8 +204,8 @@ def main():
         print('-> Running recipe', recipe)
         outDirLocal = outDir + '/postProcess_' +os.path.basename(os_dir.filename_without_ext(recipe)) + '/' 
         measures = getFieldsFromRecipe(recipe)
-        run_postprocessing(caseXML, recipe, outDir, outDirLocal,measures)
+        postProcessorBase = runPostprocessing(caseXML, recipe, outDir, outDirLocal,measures)
         if checkHDF5WriteRecipe(recipe):
-            MOHIDLagrangianVTUtoHDF5.run(caseXML, recipe, outDir)
+           vtu2hdf5(postProcessorBase, outDir)
 
 main()

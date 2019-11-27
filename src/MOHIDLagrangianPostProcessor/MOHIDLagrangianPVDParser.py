@@ -42,7 +42,8 @@ class VTUParser:
             if beachCondition == '0' : beachMask = True
             elif beachCondition == '1' : beachMask = state < 0.5
             elif beachCondition == '2' : beachMask = state >= 0.5
-            else: beachMask = True
+        else: 
+            beachMask = True
             
         if variableName == 'coords':
             vtu_vars = vtk_to_numpy(VTUParser.reader.GetOutput().GetPoints().GetData())[:,::-1]
@@ -53,7 +54,8 @@ class VTUParser:
             vtu_vars = vtk_to_numpy(VTUParser.reader.GetOutput().GetPointData().GetArray(variableName))
         
         if source or beachCondition:        
-            vtu_vars=vtu_vars[sourceMask*beachMask]
+            vtu_vars=vtu_vars[sourceMask*beachMask].squeeze()
+
         return vtu_vars
             
             
@@ -79,9 +81,10 @@ class PVDParser:
             self.vtuFileHandlers.append(VTUParser(vtuFile))
     
     def updateVtuFileHandlers(self, fileList):
-        self.vtuHeaders = []
+        self.vtuFileHandlers = []
+        self.vtuFilelist = fileList
         for vtuFile in self.vtuFilelist:
-            self.vtuHeaders.append(VTUParser(vtuFile))
+            self.vtuFileHandlers.append(VTUParser(vtuFile))
 
 
 

@@ -18,9 +18,9 @@ def cellCountingJIT(rIdCell,nCells):
     return cellCounts
 
 @jit(nopython=True)
-def cellMeanDataJIT(rIdCell,nCells,varData):
-    cellMean = np.empty(nCells)
-    for idCell in range(0,nCells):
+def cellMeanDataJIT(rIdCell,nCells,validCells,varData):
+    cellMean = np.zeros(nCells)
+    for idCell in validCells:
         dataInCell = (idCell == rIdCell)*varData
         if dataInCell.size == 0:
             cellMean[idCell] = 0
@@ -41,6 +41,7 @@ class RectangularGridBase:
         self.dims = dims
         self.coords = {}
         self.countsInCell = []
+        self.validCells = []
         self.meanDataInCell=[]
         self.rIdCell = []
     
@@ -76,7 +77,7 @@ class RectangularGridBase:
             if parameter.tag == 'units':
                 units_value = parameter.get('value')                
         
-        print('Domain limits: ',x_min,x_max,y_min,y_max,z_min,z_max)
+        print('-> Grid counting domain: lon:[',x_min,x_max,'] lat:[',y_min,y_max,'],depth:[',z_min,z_max),']'
         
         if units_value == 'degrees':
             self.grid[2] = np.arange(x_min,x_max,x_step)
@@ -145,6 +146,7 @@ class RectangularGridBase:
         z_dig = np.digitize(particlePositions[:,0],self.grid[0],right=True)
         y_dig = np.digitize(particlePositions[:,1],self.grid[1],right=True)
         x_dig = np.digitize(particlePositions[:,2],self.grid[2],right=True)
+        self.rIdCell = np.ravel_multi_index((z_dig,y_dig,x_dig),(nz,ny,nx),mode='clip')
 
 #        z_dig = np.int32((particlePositions[:,0] - min(self.grid[0]))/abs(self.grid[0][1]-self.grid[0][0]))
 #        z_dig[z_dig >= (nz-1)] = nz-1 
@@ -156,8 +158,8 @@ class RectangularGridBase:
 #        x_dig[x_dig >= (nx-1)] = nx-1 
 #        x_dig[0 > x_dig] = 0 
 
-        self.rIdCell = np.ravel_multi_index((z_dig,y_dig,x_dig),(nz,ny,nx),mode='clip')
-        #print(self.rIdCell) 
+        
+
       
     def getCountsInCell(self,particlePositions):
         nz = self.cellCenters[0].size
@@ -165,14 +167,16 @@ class RectangularGridBase:
         nx = self.cellCenters[2].size
         self.PositionsToIdCell(particlePositions)
         nCells = nx*ny*nz
-        self.countsInCell = np.reshape(cellCountingJIT(self.rIdCell,nCells),(nz,ny,nx))
+        IdCounts = cellCountingJIT(self.rIdCell,nCells)
+        self.validCells = np.where(IdCounts > 0)[0]
+        self.countsInCell = np.reshape(IdCounts,(nz,ny,nx))
           
     def getMeanDataInCell(self,varData):
         nz = self.cellCenters[0].size
         ny = self.cellCenters[1].size
         nx = self.cellCenters[2].size
         nCells = nx*ny*nz
-        cellMean = cellMeanDataJIT(self.rIdCell,nCells,varData)
+        cellMean = cellMeanDataJIT(self.rIdCell,nCells,self.validCells,varData)
         self.meanDataInCell = np.reshape(cellMean,(nz,ny,nx))
 
     def shape(self):
@@ -182,30 +186,30 @@ class RectangularGridBase:
     
 
 
-class RectangularGridBaseTime(RectangularGridBase):
-    
-    def __init__(self,TimeGrid):
-        self.cellCountsT = []
-        self.activeCells = []
-        self.timeAxis = []
-        
-    
-    def shape(self):
-        nr = map(len,self.grid)
-        nt = len(self.timeAxis.time)
-        return nt+nr 
-        
-    def setnCounts(self):
-        self.cellCounts = np.zeros((self.shape))
-    
-    def getCountsPerCell(self,particlePositions,timeInstant):
-        self.cellCounts[timeInstant] = self.cellCounting(particlePositions)
-    
-    def getMeanDataInCell(self,varData,timeInstant):
-        self.cellMean[timeInstant] = self.cellMeanData(varData)
-    
-    def getCoords(self):
-        self.getCoords()
-        self.coords['time'] = (['time'],self.timeAxis.time) 
+#class RectangularGridBaseTime(RectangularGridBase):
+#    
+#    def __init__(self,TimeGrid):
+#        self.cellCountsT = []
+#        self.activeCells = []
+#        self.timeAxis = []
+#        
+#    
+#    def shape(self):
+#        nr = map(len,self.grid)
+#        nt = len(self.timeAxis.time)
+#        return nt+nr 
+#        
+#    def setnCounts(self):
+#        self.cellCounts = np.zeros((self.shape))
+#    
+#    def getCountsPerCell(self,particlePositions,timeInstant):
+#        self.cellCounts[timeInstant] = self.cellCounting(particlePositions)
+#    
+#    def getMeanDataInCell(self,varData,timeInstant):
+#        self.cellMean[timeInstant] = self.cellMeanData(varData)
+#    
+#    def getCoords(self):
+#        self.getCoords()
+#        self.coords['time'] = (['time'],self.timeAxis.time) 
 
 
