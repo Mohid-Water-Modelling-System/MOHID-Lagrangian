@@ -318,8 +318,7 @@
     type(vector) :: res
     real(prec), dimension(:,:), allocatable :: activeTimes
 
-    rateScale = 1.0
-    res = 0.0    
+
     readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
@@ -346,7 +345,7 @@
         att_name="dp"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
-            res = att_val%to_number(kind=1._R4P)
+            res = att_val%to_number(kind=1._R8P)
         else
             call XMLReader%getNodeVector(source_node, tag, res, readflag, .false.)
             if (.not.readflag) res = 0.0
@@ -358,7 +357,7 @@
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
             rateRead = .true.
-            emitting_rate = 1.0/(att_val%to_number(kind=1._R4P)*Globals%SimDefs%dt)
+            emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
             emitting_fixed = .true.
         end if
         tag="rate"
@@ -366,7 +365,7 @@
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
             rateRead = .true.
-            emitting_rate = att_val%to_number(kind=1._R4P)
+            emitting_rate = att_val%to_number(kind=1._R8P)
             emitting_fixed = .true.
         end if
         tag="rateTimeSeries"
@@ -383,7 +382,10 @@
             att_name="value"
             call XMLReader%getNodeAttribute(source_ratefile, tag, att_name, att_val, readflag, mandatory = .false.)            
             if (readflag) then
-                rateScale = att_val%to_number(kind=1._R4P)
+                rateScale = att_val%to_number(kind=1._R8P)
+                print*, "scale------", rateScale
+            else
+                rateScale = 1.0
             end if
         end if
         if (.not.rateRead) then
@@ -467,7 +469,7 @@
     att_name="dp"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
     if (read_flag) then
-        coords = att_val%to_number(kind=1._R4P)
+        coords = att_val%to_number(kind=1._R8P)
     else
         call XMLReader%getNodeVector(simdefs_node, tag, coords)
     end if
