@@ -34,6 +34,7 @@
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
         type(string) :: rate_file               !< File name of the emission rate data (csv, .dat)
         real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
+        real(prec) :: rateScale 
         logical :: fixed_position               !< Type of position mode: true-fixed position; false-variable position(from file)
         type(string) :: position_file           !< File name of the position data (csv, .dat)
         type(vector), dimension(:), allocatable :: variable_position !< Position read from the position_file of the Source - interpolated on a regular time series spaced dt
@@ -231,7 +232,7 @@
     integer, intent(in) :: i
     type(string) :: outext
     src%prop%propName(i) = pName
-    src%prop%propValue(i) = pValue%to_number(kind=1._R4P)
+    src%prop%propValue(i) = pValue%to_number(kind=1._R8P)
     end subroutine setPropertyAtribute
 
     !---------------------------------------------------------------------------
@@ -251,9 +252,9 @@
             src%prop%particulate = .true.
         end if
     case ('radius')
-        src%prop%radius = pvalue%to_number(kind=1._R4P)
+        src%prop%radius = pvalue%to_number(kind=1._R8P)
     case ('density')
-        src%prop%density = pvalue%to_number(kind=1._R4P)
+        src%prop%density = pvalue%to_number(kind=1._R8P)
         case default
         outext='[Sources::setPropertyBaseAtribute]: unexpected atribute '//pname//' for property '//src%prop%propertySubType//', ignoring'
         call Log%put(outext)
@@ -504,6 +505,7 @@
     if (.not.emitting_fixed_rate) then
         call src%getVariableRate(src%par%rate_file, rateScale)
     end if
+    src%par%rateScale = rateScale
     !Setting possible variable position
     src%par%fixed_position = posi_fixed
     src%par%position_file = posi_file
@@ -562,6 +564,7 @@
     subroutine setotalnp(self)
     implicit none
     class(source_class), intent(inout) :: self
+    print*,'3',self%par%emitting_rate
     self%stencil%total_np=int(count(self%par%activeTime)*Globals%SimDefs%dt*self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 
@@ -590,7 +593,9 @@
         temp_str(2)=src%par%emitting_rate
         outext = outext//'       Emitting '//temp_str(1)//' tracers at '//temp_str(2)//' Hz'
     else
-        outext = outext//'       Emitting '//temp_str(1)//' tracers at a rate defined in '//src%par%rate_file
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at a rate defined in '//src%par%rate_file//new_line('a')
+        temp_str(2) = src%par%rateScale
+        outext = outext//'       scaled by '//temp_str(2)
     end if    
     call Log%put(outext,.false.)
     end subroutine printSource

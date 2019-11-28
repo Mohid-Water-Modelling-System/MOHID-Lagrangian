@@ -43,3 +43,11 @@ def getFieldsFromRecipe(xmlFile):
     for fieldName in root.findall('EulerianMeasures/measures/field'):
         fieldList.append(fieldName.get('key'))    
     return fieldList
+
+def checkHDF5WriteRecipe(xmlFile):
+    convert = False
+    root = ET.parse(xmlFile).getroot()    
+    for formats in root.findall('convertFiles/format'):
+        if formats.get('key') == 'hdf5':
+            convert = True
+    return convert

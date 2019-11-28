@@ -76,7 +76,7 @@
         delta = AbsoluteDate - RefDate
         getRelativeTimeFromString = delta%total_seconds()
     else
-        getRelativeTimeFromString = dateStr%to_number(kind=1._R4P)
+        getRelativeTimeFromString = dateStr%to_number(kind=1._R8P)
     end if
 
     end function getRelativeTimeFromString
@@ -118,7 +118,7 @@
     call dateStr%split(tokens=dc, sep=' ')
     if (size(dc) == 6) then
         do i=1, size(dc)
-            getDateFromISOString(i) = dc(i)%to_number(kind=1._R4P)
+            getDateFromISOString(i) = dc(i)%to_number(kind=1._R8P)
         end do
     else
         outext = '[Utils::getDateFromISOString] Date '// dateStr //' not in correct format. Eg. "2009 03 01 00 00 00"'

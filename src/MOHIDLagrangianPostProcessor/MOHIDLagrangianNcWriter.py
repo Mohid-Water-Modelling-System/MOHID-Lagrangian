@@ -82,44 +82,41 @@ class NetcdfParser:
             self.dataset[dimensionName].attrs = getDimsAttrs(dimensionName)
         
         self.dataset.to_netcdf(self.fileName)
-        print('DATASET_SAVED')
+        print('-> Dataset initizalized in: ',self.fileName)
         return
 
     def appendVariableTimeStepToDataset(self,variableNetcdfName,dataArray,step):
         #print('--> Writing '+ variableNetcdfName)
         ds = Dataset(self.fileName,'a')
         if step == 0:
-            vnew = ds.createVariable(variableNetcdfName,'i4',dataArray['dims'])
+            formatData = str(dataArray['data'].dtype.kind) + str(dataArray['data'].dtype.alignment)
+            _ = ds.createVariable(variableNetcdfName,formatData,dataArray['dims'])
         appendvar = ds.variables[variableNetcdfName]
         appendvar[step] = dataArray['data']
         ds.close()
-                  
-    def appendVariableToDataset(self,variableNetcdfName,dataArray):
-        print('--> Writing '+ variableNetcdfName) #' for source: ',self.sources['id'][str(source)])
-        ds = xr.open_dataset(self.fileName)
-        self.dataset[variableNetcdfName] = dataArray
-        ds.close()
-        ds.to_netcdf(self.fileName,'a')
-        return
-    
-    def checkDataset(self):
-        with xr.open_dataset(self.fileName) as ds:
-            if ds.depth.size == 1:
-                ds_sq = ds.load()
-                ds.close()
-                print('->The nc has a depth degenerated dimension: Squeezing...' )
-                ds_sq = ds_sq.squeeze(dim='depth',drop=True)
-                # When you alter the dimensions of the netcdf, you cannot overwrite the
-                # netcdf. We ha create a new one without extension, remove the old one,
-                # and rename the first one.
-                #nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
-                ds_sq.to_netcdf(self.fileName)
-        
-        
-        
-        
-        
 
-            
-    
-    
+
+""" Xarray implementation -- deprecated
+#   The Xarray do not let to append data to a existing dataset. This formulation
+#   was replaced by native netcdf Dataset package                  
+#    def appendVariableToDataset(self,variableNetcdfName,dataArray):
+#        print('--> Writing '+ variableNetcdfName) #' for source: ',self.sources['id'][str(source)])
+#        ds = xr.open_dataset(self.fileName)
+#        self.dataset[variableNetcdfName] = dataArray
+#        ds.close()
+#        ds.to_netcdf(self.fileName,'a')
+#        return
+#    
+#    def checkDataset(self):
+#        with xr.open_dataset(self.fileName) as ds:
+#            if ds.depth.size == 1:
+#                ds_sq = ds.load()
+#                ds.close()
+#                print('->The nc has a depth degenerated dimension: Squeezing...' )
+#                ds_sq = ds_sq.squeeze(dim='depth',drop=True)
+#                # When you alter the dimensions of the netcdf, you cannot overwrite the
+#                # netcdf. We ha create a new one without extension, remove the old one,
+#                # and rename the first one.
+#                #nc_squeezed = self.netcdf_output_file.replace('.nc','_sq.nc')
+#                ds_sq.to_netcdf(self.fileName)
+"""

@@ -30,7 +30,6 @@ class FilesTimesHandler:
         for parameter in root.findall('execution/parameters/parameter'):
             if parameter.get('key') == 'Start':
                 self.startTime = parameter.get('value')
-
             if parameter.get('key') == 'End':
                 self.endTime = parameter.get('value')
             if parameter.get('key') == 'OutputWriteTime':
@@ -40,7 +39,7 @@ class FilesTimesHandler:
         
             
     def getTimeMaskFromRecipe(self,xmlRecipe):
-        root= ET.parse(xmlRecipe).getroot()
+        root = ET.parse(xmlRecipe).getroot()
         self.timeMask = np.ones(self.timeAxis.size,dtype=np.bool)
         for parameter in root.findall('time/'):
             if parameter.tag == 'start':
@@ -68,3 +67,4 @@ class FilesTimesHandler:
             t = t + 1
         
         self.fileList = croppedFileList
+        return croppedFileList
