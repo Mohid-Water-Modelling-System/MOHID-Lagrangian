@@ -504,6 +504,7 @@
     src%par%rate_file = rate_file
     if (.not.emitting_fixed_rate) then
         call src%getVariableRate(src%par%rate_file, rateScale)
+        src%par%emitting_rate=sum(src%par%variable_rate)/size(src%par%variable_rate)
     end if
     src%par%rateScale = rateScale
     !Setting possible variable position
