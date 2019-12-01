@@ -564,7 +564,6 @@
     subroutine setotalnp(self)
     implicit none
     class(source_class), intent(inout) :: self
-    print*,'3',self%par%emitting_rate
     self%stencil%total_np=int(count(self%par%activeTime)*Globals%SimDefs%dt*self%par%emitting_rate*self%stencil%np)
     end subroutine setotalnp
 
