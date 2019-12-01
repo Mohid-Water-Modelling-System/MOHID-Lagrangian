@@ -21,28 +21,4 @@ else
 echo Running cmake for MOHID Lagrangian
 cmake -Wno-dev ..
 fi
-make 
-
-
-#pyv="$(python -V 2>&1)"
-#ver=${pyv:7:1}
-#if [ $ver != "3" ];
-#then 
-#  echo 'Python 3 is required to use MOHIDLagrangian Software'
-#  echo 'Please, install it' 
-#  exit 1
-#fi
-
-#echo 'Installing required python packages'
-#if ! type conda &> /dev/null;
-#then
-#     conda install netcdf4 xarray numba vtk
-#elif ! type pip &> /dev/null;
-#then
-#     pip install netcdf4 xarray numba vtk
-#else;
-#then
-#    echo 'You do not have <conda> or <pip> installed'
-#    echo 'Please install it before continue'
-#    exit 1
-#fi
+make
