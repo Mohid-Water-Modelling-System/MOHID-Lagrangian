@@ -34,7 +34,7 @@
         logical :: emitting_fixed_rate          !< Type of emitter rate: true-fixed rate(Hz); false-variable(from file)
         type(string) :: rate_file               !< File name of the emission rate data (csv, .dat)
         real(prec), dimension(:), allocatable :: variable_rate !< Emission rate read from the rate_file of the Source - interpolated on a regular time series spaced dt
-        real(prec) :: rateScale 
+        real(prec) :: rateScale                 !< Scaling for the variable emission rate
         logical :: fixed_position               !< Type of position mode: true-fixed position; false-variable position(from file)
         type(string) :: position_file           !< File name of the position data (csv, .dat)
         type(vector), dimension(:), allocatable :: variable_position !< Position read from the position_file of the Source - interpolated on a regular time series spaced dt
@@ -504,6 +504,7 @@
     src%par%rate_file = rate_file
     if (.not.emitting_fixed_rate) then
         call src%getVariableRate(src%par%rate_file, rateScale)
+        src%par%emitting_rate=sum(src%par%variable_rate)/size(src%par%variable_rate)
     end if
     src%par%rateScale = rateScale
     !Setting possible variable position
