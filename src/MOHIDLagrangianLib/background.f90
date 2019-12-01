@@ -52,6 +52,7 @@
     procedure :: ShedMemory
     procedure :: makeLandMaskField
     procedure :: makeResolutionField
+    procedure :: makeBathymetryField
     procedure :: copy
     procedure :: hasVars
     procedure, private :: getSlabDim
@@ -667,6 +668,58 @@
     call self%fields%reset()               ! reset list iterator
 
     end subroutine makeResolutionField
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to use a stored binary field to make a bathymetry field - depends on fill values
+    !---------------------------------------------------------------------------
+    subroutine makeBathymetryField(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    logical, allocatable, dimension(:,:,:,:) :: shiftUpLevel
+    real(prec), allocatable, dimension(:,:,:,:) :: bathymetry
+    type(string) :: outext
+    integer :: dimIndx, i, j, t
+    
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == Globals%Var%bathymetry) then
+                curr%field = MV
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == Globals%Var%bathymetry) then                
+                allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(bathymetry(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                bathymetry = 0.
+                shiftUpLevel = .false.
+                shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) /= 0.0
+                dimIndx = self%getDimIndex(Globals%Var%level)
+                do t=1, size(curr%field,4)
+                    do j=1, size(curr%field,2)
+                        do i=1, size(curr%field,1)
+                            bathymetry(i,j,:,t) = self%dim(dimIndx)%field(findloc(shiftUpLevel(i,j,:,t), .True.))
+                        end do
+                    end do
+                end do
+
+            where(bathymetry == 0.) bathymetry = self%dim(dimIndx)%field(size(curr%field,3)) !> where bathymetry is 0. (not index found) set it with top layer of your extent
+            curr%field = bathymetry
+            end if
+            class default
+            outext = '[background_class::makeBathymetryField] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    call self%fields%reset()               ! reset list iterator
+
+    end subroutine makeBathymetryField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

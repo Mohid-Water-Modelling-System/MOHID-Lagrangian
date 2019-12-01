@@ -134,6 +134,7 @@ def run():
         inputFile = [inputFileCurrents, inputFileWaves, inputFileWinds, inputFileWaterProps]
         inputType = ['hydrodynamic', 'waves', 'meteorology', 'waterProperties']
 		
+        inputType=[inputType[i] for i in range(0,len(inputType)) if inputFile[i] != []]
 		#going trough every file, extracting some metadata and writting in the indexer file, for each file type
         i=0
         for inputList in inputFile:
