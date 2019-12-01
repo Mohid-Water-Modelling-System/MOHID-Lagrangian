@@ -318,7 +318,6 @@
     type(vector) :: res
     real(prec), dimension(:,:), allocatable :: activeTimes
 
-
     readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
@@ -382,7 +381,7 @@
             att_name="value"
             call XMLReader%getNodeAttribute(source_ratefile, tag, att_name, att_val, readflag, mandatory = .false.)            
             if (readflag) then
-                rateScale = att_val%to_number(kind=1._R8P)
+                rateScale = att_val%to_number(kind=1._R8P) 
             else
                 rateScale = 1.0
             end if
