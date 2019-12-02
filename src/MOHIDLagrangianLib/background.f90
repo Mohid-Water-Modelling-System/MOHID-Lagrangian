@@ -680,7 +680,7 @@
     logical, allocatable, dimension(:,:,:,:) :: shiftUpLevel
     real(prec), allocatable, dimension(:,:,:,:) :: bathymetry
     type(string) :: outext
-    integer :: dimIndx, i, j, t
+    integer :: dimIndx, i, j, t, k
     
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
@@ -701,7 +701,10 @@
                 do t=1, size(curr%field,4)
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
-                            bathymetry(i,j,:,t) = self%dim(dimIndx)%field(findloc(shiftUpLevel(i,j,:,t), .True.))
+                            do k=1, size(shiftUpLevel(i,j,:,t))
+                                if (shiftUpLevel(i,j,k,t)) exit
+                            end do
+                            bathymetry(i,j,:,t) = self%dim(dimIndx)%field(k)
                         end do
                     end do
                 end do
