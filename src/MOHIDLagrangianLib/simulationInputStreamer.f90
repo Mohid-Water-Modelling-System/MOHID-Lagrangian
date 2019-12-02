@@ -104,8 +104,8 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
 
-    allocate(varList(5))
-    allocate(syntecticVar(5))
+    allocate(varList(6))
+    allocate(syntecticVar(6))
     varList(1) = Globals%Var%u
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v
@@ -116,11 +116,14 @@
     syntecticVar(4) = .true. 
     varList(5) = Globals%Var%resolution
     syntecticVar(5) = .true.
+    varList(6) = Globals%Var%bathymetry
+    syntecticVar(6) = .true.
 
     !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMaskField()
     call getCurrentsFile%makeResolutionField()
+    call getCurrentsFile%makeBathymetryField()
 
     end function getCurrentsFile
 
@@ -236,6 +239,12 @@
         if (allocated(self%wavesInputFile)) then
             do i=1, size(self%wavesInputFile)
                 call self%wavesInputFile(i)%setReadStatus(self%lastWavesReadTime, self%BufferSize)
+            end do
+        end if
+
+        if (allocated(self%waterPropsInputFile)) then
+            do i=1, size(self%waterPropsInputFile)
+                call self%waterPropsInputFile(i)%setReadStatus(self%lastWaterPropsReadTime, self%BufferSize)
             end do
         end if
         !read selected files
@@ -364,6 +373,7 @@
     self%currentsBkgIndex = 0
     self%windsBkgIndex = 0
     self%wavesBkgIndex = 0
+    self%waterPropsBkgIndex = 0
     nBkg = 0
 
     call XMLReader%getFile(xmlInputs,Globals%Names%inputsXmlFilename, mandatory = .false.)
@@ -515,6 +525,11 @@
             self%wavesInputFile(i)%toRead = .false.
         end do
     end if
+    if (allocated(self%waterPropsInputFile)) then
+        do i=1, size(self%waterPropsInputFile)
+            self%waterPropsInputFile(i)%toRead = .false.
+        end do
+    end if
     end subroutine resetReadStatus
 
     !---------------------------------------------------------------------------
@@ -552,6 +567,14 @@
         do i=1, size(self%wavesInputFile)
             outext = outext//new_line('a')
             outext = outext//'---->File '//self%wavesInputFile(i)%name
+        end do
+    end if
+    if (allocated(self%waterPropsInputFile)) then
+        if (written) outext = outext//new_line('a')
+        outext = outext//'--->'//Globals%DataTypes%waterProps%startcase()//' data '
+        do i=1, size(self%waterPropsInputFile)
+            outext = outext//new_line('a')
+            outext = outext//'---->File '//self%waterPropsInputFile(i)%name
         end do
     end if
     if (.not.self%useInputFiles) outext = '-->Input streamer stack is empty, no input data'
