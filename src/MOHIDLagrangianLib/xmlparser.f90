@@ -164,7 +164,7 @@
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
             read_flag = .true.
-            !if (att_value%to_number(kind=1._R8P) <= 1.0/100000.0) read_flag = .false.
+            if (att_value%to_number(kind=1._R8P) <= 1.0/10000000000000.0) read_flag = .false.
         end if
     else
         if(.not.mand) then

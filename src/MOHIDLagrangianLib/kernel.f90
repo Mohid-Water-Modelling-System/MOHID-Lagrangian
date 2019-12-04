@@ -349,6 +349,11 @@
             Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
             sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
         end do
+        !zero vertical velocity in beached particles?
+        !where (beachCoeff /= 1.0)
+        !    Beaching(:,3) = 0.0
+        !    sv%state(:,6) = 0.0
+        !end where
 
     end if
 
