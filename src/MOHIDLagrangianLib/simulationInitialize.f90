@@ -249,8 +249,11 @@
     type(Node), intent(in), pointer :: source           !<Working xml node
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
     class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
+    type(NodeList), pointer :: pointList
+    type(Node), pointer :: currPointNode
     type(string) :: outext
-    type(string) :: tag, att_name, geoFileName, zMin, zMax 
+    type(string) :: tag, att_name, geoFileName, zMin, zMax
+    integer :: i
     select type (source_shape)
     type is (shape)
     class is (box)
@@ -266,6 +269,15 @@
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
         tag='pointb'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%last)
+    class is (polyline)
+        pointList => getElementsByTagname(source_detail, "point")
+        allocate(source_shape%point(getLength(pointList)-1))
+        currPointNode => item(pointList, 0)
+        call XMLReader%getLeafVector(currPointNode, source_shape%pt)
+        do i = 1, getLength(pointList) - 1
+            currPointNode => item(pointList, i)
+            call XMLReader%getLeafVector(currPointNode, source_shape%point(i))
+        end do        
     class is (sphere)
         tag='point'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
