@@ -28,11 +28,12 @@
     use stateVector_mod
     use background_mod
     use interpolator_mod
-    
+
     use kernelLitter_mod
+    use kernelVerticalMotion_mod
 
     type :: kernel_class        !< Kernel class
-        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel        
+        type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
     contains
     procedure :: initialize => initKernel
     procedure :: run => runKernel
@@ -45,9 +46,10 @@
     procedure, private :: Beaching
     procedure, private :: Aging
     end type kernel_class
-    
+
     type(kernelLitter_class) :: Litter       !< litter kernels
-    
+    type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
+
     public :: kernel_class
     contains
 
@@ -73,12 +75,14 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)+ VerticalMotion%Buoyancy(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     end if
+    
+    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
 
     end function runKernel
 
@@ -104,7 +108,7 @@
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
-        
+
     ! global periodicity conditions
     where (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
     where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
@@ -291,12 +295,6 @@
                 !computing the depth weight
                 depth = sv%state(:,3)
                 where (depth>=0.0) depth = 0.0
-                !where (depth == 0.0) 
-                !    nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
-                !    Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
-                !    nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
-                !    Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
-                !end where
                 depth = exp(10.0*depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
@@ -335,7 +333,7 @@
     beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
 
     Beaching = svDt
-    
+
     if (Globals%Constants%BeachingStopProb /= 0.0) then !beaching is completely turned off if the stopping propability is zero
 
         !getting the bounds for the interpolation of the land interaction field that correspond to beaching
@@ -351,7 +349,12 @@
             Beaching(:,i) = svDt(:,i)*beachCoeff !position derivative is affected
             sv%state(:,i+3) = sv%state(:,i+3)*beachCoeff !so are the velocities
         end do
-    
+        !zero vertical velocity in beached particles?
+        !where (beachCoeff /= 1.0)
+        !    Beaching(:,3) = 0.0
+        !    sv%state(:,6) = 0.0
+        !end where
+
     end if
 
     end function Beaching
@@ -444,7 +447,7 @@
                 !update system velocities
                 !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
                 !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
-                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt                
+                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
                 deallocate(var_dt)
@@ -485,30 +488,6 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
 
     end function DiffusionIsotropic
-    
-    !!---------------------------------------------------------------------------
-    !!> @author Ricardo Birjukovs Canelas - MARETEC
-    !!> @brief
-    !!> Linear degradation kernel.
-    !!> @param[in] self, sv
-    !!---------------------------------------------------------------------------
-    !function DegradationLinear(self, sv)
-    !class(kernel_class), intent(in) :: self
-    !type(stateVector_class), intent(inout) :: sv
-    !real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DegradationLinear
-    !integer :: nf, idx
-    !type(string) :: tag
-    !
-    !DegradationLinear = 0.0
-    !tag = 'condition'
-    !nf = Utils%find_str(sv%varName, tag, .true.)
-    !tag = 'degradation_rate'
-    !idx = Utils%find_str(sv%varName, tag, .true.)
-    !
-    !DegradationLinear(:,nf) = -sv%state(:,idx)
-    !where(sv%state(:,nf) < 0.0) sv%active = .false.
-    !
-    !end function DegradationLinear
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
@@ -522,6 +501,7 @@
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
     call Litter%initialize()
+    call VerticalMotion%initialize()
     end subroutine initKernel
 
     end module kernel_mod

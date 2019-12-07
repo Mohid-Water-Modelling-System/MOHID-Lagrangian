@@ -63,6 +63,18 @@
 				</line>
 			</source>
 			<source>
+				<setsource id="20" name="Polyline20" />
+				<rate value="0.001" comment="emission rate (Hz)" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />				
+				<polyline>
+					<point x="-8.91" y="42.48" z="0" units_comment="(deg,deg,m)"/>
+					<point x="-8.90" y="42.51" z="0" units_comment="(deg,deg,m)"/>
+					<point x="-8.94" y="42.51" z="0" units_comment="(deg,deg,m)"/>
+					<point x="-8.95" y="42.54" z="0" units_comment="(deg,deg,m)"/>
+					<point x="-8.93" y="42.54" z="0" units_comment="(deg,deg,m)"/>
+				</polyline>
+			</source>
+			<source>
 				<setsource id="3" name="ReleasePoint17" />
 				<rateTimeSeries> 
 					<file name="data/discharge_example.csv" comment="name of csv file with discharge information (time and rate columns)"/>

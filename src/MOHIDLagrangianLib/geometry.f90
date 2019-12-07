@@ -59,6 +59,10 @@
     type, extends(shape) :: line    !<Type - line class
         type(vector) :: last            !< Coordinates of the end point
     end type
+    
+    type, extends(shape) :: polyline    !<Type - line class
+        type(vector), dimension(:), allocatable :: point            !< point array
+    end type
 
     type, extends(shape) :: sphere  !<Type - sphere class
         real(prec) :: radius            !< Sphere radius (m)
@@ -78,7 +82,7 @@
 
     type(geometry_class) :: Geometry
 
-    public :: shape, point, line, sphere, box, polygon
+    public :: shape, point, line, sphere, box, polygon, polyline
     public :: Geometry
 
     contains
@@ -105,6 +109,8 @@
         allocate(line::shape_obj)
     case ('polygon')
         allocate(polygon::shape_obj)
+    case ('polyline')
+        allocate(polyline::shape_obj)
         case default
         outext='[Geometry::allocateShape]: unexpected type for geometry object "'//name//'", stoping'
         call Log%put(outext)
@@ -119,12 +125,13 @@
     !---------------------------------------------------------------------------
     subroutine allocatelist(self)
     class(geometry_class), intent(inout) :: self
-    allocate(self%list(5))
+    allocate(self%list(6))
     self%list(1) ='point'
     self%list(2) ='line'
     self%list(3) ='box'
     self%list(4) ='sphere'
     self%list(5) ='polygon'
+    self%list(6) ='polyline'
     end subroutine allocatelist
 
     !---------------------------------------------------------------------------
@@ -166,9 +173,9 @@
     class is (point)
         fillSize = 1
     class is (line)
-        temp = shapetype%pt - shapetype%last
-        temp = Utils%geo2m(temp, shapetype%pt%y)
-        fillSize = max(int(temp%normL2()/dp%normL2()),1)
+        fillSize = lineNpCount(dp, shapetype%pt, shapetype%last)
+    class is (polyline)
+        fillSize = polylineNpCount(dp, shapetype)
     class is (sphere)
         fillSize = sphere_np_count(dp, shapetype%radius)
     class is (polygon)
@@ -204,6 +211,8 @@
         getFillPoints(1)=0.0
     class is (line)
         call line_grid(Utils%geo2m(shapetype%last-shapetype%pt, shapetype%pt%y), fillSize, getFillPoints)
+    class is (polyline)
+        call polylineGrid(dp, shapetype, getFillPoints)
     class is (sphere)
         call sphere_grid(dp, shapetype%pt, shapetype%radius, fillSize, getFillPoints)
     class is (polygon)
@@ -234,6 +243,8 @@
         center = shapetype%pt
     class is (line)
         center = shapetype%pt + (shapetype%last-shapetype%pt)/2.0
+    class is (polyline)
+        center = polylineCenter(shapetype)
     class is (sphere)
         center = shapetype%pt
     class is (polygon)
@@ -281,6 +292,11 @@
         allocate(pts(n))
         pts(1) = shapetype%pt
         pts(2) = shapetype%last
+    class is (polyline)
+        n = self%getnumPoints(shapetype)
+        allocate(pts(n))
+        pts(1) = shapetype%pt
+        pts(2:) = shapetype%point
     class is (sphere)
         n = self%getnumPoints(shapetype)
         allocate(pts(n))
@@ -314,6 +330,8 @@
         getnumPoints = 1
     class is (line)
         getnumPoints = 2
+    class is (polyline)
+        getnumPoints = size(shapetype%point) + 1
     class is (sphere)
         getnumPoints = 1
     class is (polygon)
@@ -379,7 +397,7 @@
     subroutine printGeometry(self, shapetype)
     class(geometry_class), intent(in) :: self
     class(shape) :: shapetype
-
+    integer :: i
     type(vector) :: temp(2)
     type(string) :: temp_str(6)
     type(string) :: outext
@@ -402,7 +420,14 @@
         temp_str(5) = shapetype%last%y
         temp_str(6) = shapetype%last%z
         outext='      Line from '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')//&
-            '       to '//temp_str(4)//' X '//temp_str(5)//' X '//temp_str(6)
+            '       to '//temp_str(4)//' '//temp_str(5)//' '//temp_str(6)
+    class is (polyline)
+        i = size(shapetype%point)
+        temp_str(4) = shapetype%point(i)%x
+        temp_str(5) = shapetype%point(i)%y
+        temp_str(6) = shapetype%point(i)%z
+        outext='      Polyline from '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')//&
+            '       to '//temp_str(4)//' '//temp_str(5)//' '//temp_str(6)
     class is (sphere)
         temp_str(4) = shapetype%radius
         outext='      Sphere at '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')//&
@@ -415,7 +440,7 @@
         temp_str(5) = shapetype%bbMax%y
         temp_str(6) = shapetype%bbMax%z
         outext='      polygon contained in min['//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//']'//new_line('a')//&
-            '       max['//temp_str(4)//' X '//temp_str(5)//' X '//temp_str(6)//']'
+            '       max['//temp_str(4)//' '//temp_str(5)//' '//temp_str(6)//']'
         class default
         outext='[geometry::print] : unexpected type for geometry object, stoping'
         call Log%put(outext)
@@ -448,8 +473,8 @@
     vertBounds = .false.
     if (zMin_str /= notRead) then
         if(zMax_str /= notRead) then
-            zMin = zMin_str%to_number(kind=1._R4P)
-            zMax = zMax_str%to_number(kind=1._R4P)
+            zMin = zMin_str%to_number(kind=1._R8P)
+            zMax = zMax_str%to_number(kind=1._R8P)
             vertBounds = .true.
         end if
     end if
@@ -555,6 +580,51 @@
         np=1
     end if
     end function sphere_np_count
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private function that returns the number of points distributed allong a
+    !> line with spacing dp
+    !> @param[in] dp, firstPoint, lastPoint
+    !---------------------------------------------------------------------------
+    integer function lineNpCount(dp, firstPoint, lastPoint)
+    type(vector), intent(in) :: dp
+    type(vector), intent(in) :: firstPoint
+    type(vector), intent(in) :: lastPoint
+    type(vector) :: temp
+    
+    temp = firstPoint - lastPoint
+    temp = Utils%geo2m(temp, firstPoint%y)
+    lineNpCount = max(int(temp%normL2()/dp%normL2()),1)
+    if (lineNpCount == 0) then !Just the center point
+        lineNpCount=1
+    end if
+
+    end function lineNpCount
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private function that returns the number of points distributed allong a
+    !> polyline with spacing dp
+    !> @param[in] dp, polylineObj
+    !---------------------------------------------------------------------------
+    integer function polylineNpCount(dp, polylineObj)
+    type(vector), intent(in) :: dp
+    type(polyline), intent(in) :: polylineObj    
+    integer :: i
+    
+    polylineNpCount = lineNpCount(dp, polylineObj%pt, polylineObj%point(1))
+    do i=1, size(polylineObj%point)-1
+        polylineNpCount = polylineNpCount + lineNpCount(dp, polylineObj%point(i), polylineObj%point(i+1))
+    end do    
+    
+    if (polylineNpCount == 0) then !Just the center point
+        polylineNpCount=1
+    end if
+
+    end function polylineNpCount
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -693,26 +763,80 @@
         ptlist(1)= 0*ex + 0*ey +0*ez
     end if
     end subroutine box_grid
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private routine that returns the points distributed on a polyline
+    !> with spacing dp
+    !> @param[in] dp, polylineObj, ptlist
+    !---------------------------------------------------------------------------
+    subroutine polylineGrid(dp, polylineObj, ptlist)
+    type(vector), intent(in) :: dp
+    type(polyline), intent(in) :: polylineObj
+    type(vector), dimension(:), intent(out) :: ptlist
+    type(vector) :: offset
+    integer :: i, nptsSegm, accm
+    
+    if (size(ptlist) == 1) then
+        ptlist(1) = polylineObj%pt
+        return
+    end if
+    nptsSegm = lineNpCount(dp, polylineObj%pt, polylineObj%point(1))
+    call line_grid(Utils%geo2m(polylineObj%point(1)-polylineObj%pt, polylineObj%pt%y), nptsSegm, ptlist(1:nptsSegm))
+    accm = nptsSegm    
+    do i=1, size(polylineObj%point)-1
+        offset = ptlist(accm)
+        nptsSegm = lineNpCount(dp, polylineObj%point(i), polylineObj%point(i+1))
+        call line_grid(Utils%geo2m(polylineObj%point(i+1)-polylineObj%point(i), polylineObj%point(i)%y), nptsSegm, ptlist(accm + 1 : accm + nptsSegm), offset)
+        accm = accm + nptsSegm
+    end do
+
+    end subroutine polylineGrid
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> private routine that returns the points distributed on a grid
     !> with spacing dp along a line
-    !> @param[in] dist, np, ptlist
+    !> @param[in] dist, np, ptlist, offset
     !---------------------------------------------------------------------------
-    subroutine line_grid(dist, np, ptlist)
+    subroutine line_grid(dist, np, ptlist, offset)
     type(vector), intent(in) :: dist
     integer, intent(in)::  np
     type(vector), intent(out) :: ptlist(np)
+    type(vector), intent(in), optional :: offset
+    type(vector) :: offset_
     integer :: i, j, k, p
+    offset_ = 0*ex + 0*ey +0*ez
+    if (present(offset)) offset_ = offset
     do p=1, np
-        ptlist(p) = dist*(p-1)/np
+        ptlist(p) = dist*(p-1)/np + offset_
     end do
     if (np == 1) then !Just the origin
-        ptlist(1)= 0*ex + 0*ey +0*ez
+        ptlist(1)= 0*ex + 0*ey +0*ez + offset_
     end if
     end subroutine line_grid
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> private routine that returns the center of a polyline
+    !> @param[in] polylineObj
+    !---------------------------------------------------------------------------
+    type(vector) function polylineCenter(polylineObj)
+    type(polyline), intent(in) :: polylineObj
+    integer :: i, num
+    
+    polylineCenter = polylineObj%pt
+    num = 1
+    do i=1, size(polylineObj%point)
+        polylineCenter = polylineCenter + polylineObj%point(i)
+        num = num + 1
+    end do
+    polylineCenter = polylineCenter/num
+
+    end function polylineCenter
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

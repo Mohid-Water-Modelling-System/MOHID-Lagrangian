@@ -38,6 +38,7 @@
     procedure :: closeFile
     procedure :: getLeafAttribute
     procedure :: getNodeAttribute
+    procedure :: getLeafVector
     procedure :: getNodeVector
     procedure :: gotoNode
     procedure :: getPolygonFromKMZFile
@@ -164,7 +165,7 @@
         att_value=trim(att_value_chars)
         if (present(read_flag)) then
             read_flag = .true.
-            if (att_value%to_number(kind=1._R4P) <= 1.0/100000.0) read_flag = .false.
+            if (att_value%to_number(kind=1._R8P) <= 1.0/10000000000000.0) read_flag = .false.
         end if
     else
         if(.not.mand) then
@@ -178,6 +179,25 @@
         end if
     end if
     end subroutine getNodeAttribute
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to parse xyz vectors in xml files.
+    !> Vector must be in format '<nodeName x="vec%x" y="vec%y" z="vec%z"/>'
+    !> @param[in] self, xmlnode, vec
+    !---------------------------------------------------------------------------
+    subroutine getLeafVector(self, xmlnode, vec)
+    class(xmlparser_class), intent(in) :: self
+    type(Node), intent(in), pointer :: xmlnode  !<Working xml node
+    type(vector), intent(inout) :: vec          !<Vector to fill with read contents
+    
+    vec%x=MV !marking the array as not read
+    call extractDataAttribute(xmlnode, "x", vec%x) !using FOX function
+    call extractDataAttribute(xmlnode, "y", vec%y)
+    call extractDataAttribute(xmlnode, "z", vec%z)
+    
+    end subroutine getLeafVector
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -225,7 +245,7 @@
         call extractDataAttribute(nodedetail, "z", vec%z)
         if (present(read_flag)) then
             read_flag =.true.
-            if (vec%normL2() <= 1.0/100000.0) read_flag = .false.
+            if (vec%normL2() <= 1.0/10000000000.0) read_flag = .false.
         end if
     else
         if(.not.mand) then

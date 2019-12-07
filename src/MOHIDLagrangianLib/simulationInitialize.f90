@@ -249,8 +249,11 @@
     type(Node), intent(in), pointer :: source           !<Working xml node
     type(Node), intent(in), pointer :: source_detail    !<Working xml node details
     class(shape), intent(inout) :: source_shape         !<Geometrical object to fill
+    type(NodeList), pointer :: pointList
+    type(Node), pointer :: currPointNode
     type(string) :: outext
-    type(string) :: tag, att_name, geoFileName, zMin, zMax 
+    type(string) :: tag, att_name, geoFileName, zMin, zMax
+    integer :: i
     select type (source_shape)
     type is (shape)
     class is (box)
@@ -266,6 +269,15 @@
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
         tag='pointb'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%last)
+    class is (polyline)
+        pointList => getElementsByTagname(source_detail, "point")
+        allocate(source_shape%point(getLength(pointList)-1))
+        currPointNode => item(pointList, 0)
+        call XMLReader%getLeafVector(currPointNode, source_shape%pt)
+        do i = 1, getLength(pointList) - 1
+            currPointNode => item(pointList, i)
+            call XMLReader%getLeafVector(currPointNode, source_shape%point(i))
+        end do        
     class is (sphere)
         tag='point'
         call XMLReader%getNodeVector(source_detail,tag,source_shape%pt)
@@ -317,9 +329,7 @@
     class(shape), allocatable :: source_shape
     type(vector) :: res
     real(prec), dimension(:,:), allocatable :: activeTimes
-
-    rateScale = 1.0
-    res = 0.0    
+    
     readflag = .false.
     outext='-->Reading case Sources'
     call Log%put(outext,.false.)
@@ -346,7 +356,7 @@
         att_name="dp"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
-            res = att_val%to_number(kind=1._R4P)
+            res = att_val%to_number(kind=1._R8P)
         else
             call XMLReader%getNodeVector(source_node, tag, res, readflag, .false.)
             if (.not.readflag) res = 0.0
@@ -358,7 +368,7 @@
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
             rateRead = .true.
-            emitting_rate = 1.0/(att_val%to_number(kind=1._R4P)*Globals%SimDefs%dt)
+            emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
             emitting_fixed = .true.
         end if
         tag="rate"
@@ -366,7 +376,7 @@
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
         if (readflag) then
             rateRead = .true.
-            emitting_rate = att_val%to_number(kind=1._R4P)
+            emitting_rate = att_val%to_number(kind=1._R8P)
             emitting_fixed = .true.
         end if
         tag="rateTimeSeries"
@@ -383,7 +393,9 @@
             att_name="value"
             call XMLReader%getNodeAttribute(source_ratefile, tag, att_name, att_val, readflag, mandatory = .false.)            
             if (readflag) then
-                rateScale = att_val%to_number(kind=1._R4P)
+                rateScale = att_val%to_number(kind=1._R8P)
+            else
+                rateScale = 1.0
             end if
         end if
         if (.not.rateRead) then
@@ -467,7 +479,7 @@
     att_name="dp"
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
     if (read_flag) then
-        coords = att_val%to_number(kind=1._R4P)
+        coords = att_val%to_number(kind=1._R8P)
     else
         call XMLReader%getNodeVector(simdefs_node, tag, coords)
     end if
