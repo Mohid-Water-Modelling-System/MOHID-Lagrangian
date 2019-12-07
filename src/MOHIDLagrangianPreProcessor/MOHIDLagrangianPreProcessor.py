@@ -48,7 +48,7 @@ from datetime import datetime, timedelta
 import glob
 
 basePath = os.path.dirname(os.path.realpath(__file__))
-commonPath = os.path.abspath(os.path.join(basePath, "Common"))
+commonPath = os.path.abspath(os.path.join(basePath, "../Common"))
 sys.path.append(commonPath)
 import os_dir
 import about
@@ -66,7 +66,7 @@ def run():
     argParser.add_argument("-i", "--input", dest="caseXML",
                     help=".xml file with the case definition for the MOHID Lagrangian run", metavar=".xml")
     argParser.add_argument("-o", "--outputDir", dest="outDir",
-                    help="output directory", metavar=".xml")
+                    help="output directory", metavar="dir")
     args = argParser.parse_args()
     
     caseXML = getattr(args,'caseXML')
@@ -76,60 +76,83 @@ def run():
     #parsing case definition file
     root = ET.parse(caseXML).getroot()
     
-    dataDir = []
-    dataType = []
-    for type_tag in root.findall('caseDefinitions/inputData/inputDataDir'):
-        dataDir.append(type_tag.get('name'))
-        dataType.append(type_tag.get('type'))
+    dataList = []
+    for type_tag in root.findall('caseDefinitions/inputData/inputDataDir'):        
+        dataList.append((type_tag.get('name'), type_tag.get('type')))
     
     for type_tag in root.findall('execution/parameters/parameter'):
         if type_tag.get('key') == 'Start':
             StartTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")            
         if type_tag.get('key') == 'End':
             EndTime = datetime.strptime(type_tag.get('value'), "%Y %m %d %H %M %S")
-    
+            
     #------------------------------------------------------
-    if len(dataDir) > 1:
-        print('-> Input data directories are', dataDir)
+    if len(dataList) > 1:
+        print('-> Input data directories are', [row[0] for row in dataList])
     else:
-        print('-> Input data directory is', dataDir)
+        print('-> Input data directory is', dataList)
+
         
     #------------------------------------------------------
-    fileExtensions = ['.nc', '.nc4']  
+    fileExtensions = ['.nc', '.nc4']
+    
+    #going for each input directory and indexing its files
+    inputFileCurrents = []
+    inputFileWinds = []
+    inputFileWaves = []
+    inputFileWaterProps = []
+    for idir in dataList:
+        for ext in fileExtensions:
+            if idir[1] == 'hydrodynamic':
+                inputFileCurrents.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+            if idir[1] == 'waves':
+                inputFileWaves.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+            if idir[1] == 'meteorology':
+                inputFileWinds.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+            if idir[1] == 'waterProperties':
+                inputFileWaterProps.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
+    #cleaning list of empty values
+    inputFileCurrents = list(filter(None, inputFileCurrents))
+    inputFileWinds = list(filter(None, inputFileWinds))
+    inputFileWaves = list(filter(None, inputFileWaves))
+    inputFileWaterProps = list(filter(None, inputFileWaterProps))
     
     #going for each input directory and indexing its files
     inputFiles = []
-    for idir in dataDir:
+    for idir in dataList:
         for ext in fileExtensions:
-            inputFiles.append(glob.glob(idir+ '/**/*'+ext, recursive=True))
+            inputFiles.append(glob.glob(idir[0]+ '/**/*'+ext, recursive=True))
     #cleaning list of empty values
     inputFiles = list(filter(None, inputFiles))
-	
-    if not inputFiles:
-
+    
+    nInputs = len(inputFileCurrents) + len(inputFileWinds) + len(inputFileWaves) + len(inputFileWaterProps)
+    if nInputs == 0:
         print('No input files found. Supported files are ', fileExtensions)
-    
-    else:
-    
+    else:    
         indexerFileName = os_dir.filename_without_ext(caseXML)+'_inputs'
         indexer = xmlWriter.xmlWriter(indexerFileName)
+        inputFile = [inputFileCurrents, inputFileWaves, inputFileWinds, inputFileWaterProps]
+        inputType = ['hydrodynamic', 'waves', 'meteorology', 'waterProperties']
 		
-		#going trough every file, extracting some metadata and writting in the indexer file
-        ncMeta = []
-        for idir in inputFiles:
-            for ifile in idir:
-                print('--> reading file', ifile)
-                ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
-		
-        ncMeta.sort(key=lambda x: x.startTime)
-		
-        indexer.openCurrentsCollection()
-		
-        print('--> indexing currents data')
-        for ncfile in ncMeta:
-            indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))
-		
-        indexer.closeCurrentsCollection()
+        inputType=[inputType[i] for i in range(0,len(inputType)) if inputFile[i] != []]
+		#going trough every file, extracting some metadata and writting in the indexer file, for each file type
+        i=0
+        for inputList in inputFile:
+            if len(inputList) > 0:
+                ncMeta = []
+                for idir in inputList:
+                    for ifile in idir:
+                        print('--> reading file', ifile)
+                        ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
+                ncMeta.sort(key=lambda x: x.startTime)
+                indexer.openCollection(inputType[i])
+                print('--> indexing',inputType[i],'data')
+                for ncfile in ncMeta:
+                    indexer.writeFile(ncfile.getName(), ncfile.getstartTime(), ncfile.getendTime(), ncfile.getstartDate().strftime("%Y %m %d %H %M %S"), ncfile.getendDate().strftime("%Y %m %d %H %M %S"))		
+                indexer.closeCollection(inputType[i])
+                i = i+1
+        
         indexer.closeFile()
+        print('-> All done, wrote', indexerFileName+'.xml', 'indexing file')
             
 run()

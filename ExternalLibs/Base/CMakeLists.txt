@@ -34,16 +34,16 @@ SET(THIRDPARTY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/thirdparty)
 INCLUDE_DIRECTORIES(${CMAKE_Fortran_MODULE_DIRECTORY})
 
 #################################################################
-# CONFIGURATION TYPES & BUILD MODE & BUILD_TESTS
+# CONFIGURATION TYPES & BUILD MODE
 #################################################################
 
-SET(CMAKE_CONFIGURATION_TYPES RELEASE)
+SET(CMAKE_CONFIGURATION_TYPES DEBUG RELEASE)
 IF(NOT CMAKE_BUILD_TYPE)
   SET(CMAKE_BUILD_TYPE RELEASE CACHE STRING
       "Choose the type of build, options are: NONE DEBUG RELEASE"
       FORCE)
 
-  SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS NONE RELEASE)
+  SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS NONE DEBUG RELEASE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 
 #################################################################
@@ -68,7 +68,7 @@ ELSEIF (${CMAKE_Fortran_COMPILER_ID} STREQUAL "Intel" OR Fortran_COMPILER_NAME M
   set(FORTRAN_FLAGS " -fpp -heap-arrays -nostandard-realloc-lhs ${EXTRA_FLAGS} ")
   set (CMAKE_Fortran_FLAGS "${FORTRAN_FLAGS} ${MACROS} ${INCLUDES}" CACHE STRING "" FORCE)
   set (CMAKE_Fortran_FLAGS_RELEASE "-O3 ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -traceback -g -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
+  set (CMAKE_Fortran_FLAGS_DEBUG   "-O0 -traceback -debug all -check all -ftrapuv -warn nointerfaces ${EXTRA_FLAGS} " CACHE STRING "" FORCE)
 # A partir de CMake 3.1
 # -prof-gen:srcpos -prof-dir${PROJECT_BINARY_DIR}
 
