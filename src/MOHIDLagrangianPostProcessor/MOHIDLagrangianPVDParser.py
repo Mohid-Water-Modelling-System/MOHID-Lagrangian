@@ -34,7 +34,7 @@ class VTUParser:
         VTUParser.reader.Update()
         if source:
             if source == 'global': 
-                sourceMask = True
+                sourceMask = np.bool(True)
             else:                
                 sourceMask = vtk_to_numpy(VTUParser.reader.GetOutput().GetPointData().GetArray('source')) == np.int(source)
         if beachCondition:
@@ -43,7 +43,7 @@ class VTUParser:
             elif beachCondition == '1' : beachMask = state < 0.5
             elif beachCondition == '2' : beachMask = state >= 0.5
         else: 
-            beachMask = True
+            beachMask = np.bool(True)
             
         if variableName == 'coords':
             vtu_vars = vtk_to_numpy(VTUParser.reader.GetOutput().GetPoints().GetData())[:,::-1]
@@ -53,9 +53,12 @@ class VTUParser:
         elif variableName in VTUParser.availableVtuVars:
             vtu_vars = vtk_to_numpy(VTUParser.reader.GetOutput().GetPointData().GetArray(variableName))
         
-        if source or beachCondition:        
-            vtu_vars=vtu_vars[sourceMask*beachMask].squeeze()
-
+        if source or beachCondition:
+            if ( (np.size(sourceMask & beachMask) == 1) and ((sourceMask & beachMask) == True)):
+                return vtu_vars
+            else:
+                vtu_vars=vtu_vars[sourceMask*beachMask]
+            
         return vtu_vars
             
             
