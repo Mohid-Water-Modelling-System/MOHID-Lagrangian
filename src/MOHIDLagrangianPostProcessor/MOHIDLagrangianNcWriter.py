@@ -41,7 +41,7 @@ def getDimsAttrs(dimensionName,dimensionData=None):
             attrs['valid_max']= np.max(dimensionData)
     elif dimensionName == 'time':
         attrs = {'long_name':'time',
-         'units':'seconds since 1950-01-01 00:00:00'}
+         'units':'days since 1950-01-01 00:00:00'}
 
     return attrs
 
