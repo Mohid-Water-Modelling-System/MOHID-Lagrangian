@@ -50,11 +50,12 @@ def vtu2hdf5(postProcessor,dataDir):
             source.attrs['Minimum'] = min(r)
             source.attrs['Units'] = '-'
             #writing time
-            dateArray = MDateTime.getMOHIDDateFromTimeStamp(postProcessor.time[f])                    
+            dateArray = MDateTime.getMOHIDDateFromTimeStamp(postProcessor.base.FileTimeHandler.timeAxis[f])                    
             date = time.create_dataset('Time_00001', data=dateArray, dtype='f')
             date.attrs['Maximum'] = max(dateArray)
             date.attrs['Minimum'] = min(dateArray)
             date.attrs['Units'] = 'YYYY/MM/DD HH:MM:SS'
+            f = f+1
                             
 
 

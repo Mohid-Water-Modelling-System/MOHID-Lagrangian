@@ -77,7 +77,8 @@ class RectangularGridBase:
             if parameter.tag == 'units':
                 units_value = parameter.get('value')                
         
-        print('-> Grid counting domain: lon:[',x_min,x_max,'] lat:[',y_min,y_max,'],depth:[',z_min,z_max),']'
+        print('-> Grid counting domain: lon:[',x_min,x_max,'] lat:[',y_min,y_max,'],depth:[',z_min,z_max,']')
+        
         
         if units_value == 'degrees':
             self.grid[2] = np.arange(x_min,x_max,x_step)
@@ -98,6 +99,7 @@ class RectangularGridBase:
             self.grid[1] = np.arange(y_min,y_max,dlat)
             self.grid[0] = np.arange(z_min,z_max,z_step)
         
+        print('-> Grid cells lon:[',self.grid[2].size,'] lat:[',self.grid[1].size,'],depth:[',self.grid[0].size,']')
         return
     
     def getCellCenters(self):

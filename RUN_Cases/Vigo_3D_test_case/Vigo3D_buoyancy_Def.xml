@@ -14,12 +14,12 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="nc_fields/hydrodynamic" type="hydrodynamic"/>
-            <inputDataDir name="nc_fields/water_properties" type="waterProperties"/>
+			<inputDataDir name="nc_fields\hydrodynamic" type="hydrodynamic"/>
+      			<inputDataDir name="nc_fields\water_properties" type="waterProperties"/>
 		</inputData>
 		<simulation>
 			<resolution dp="150" units_comment="metres (m)"/>
-			<timestep dt="360.0" units_comment="seconds (s)"/>
+			<timestep dt="30.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>
 		</simulation>
