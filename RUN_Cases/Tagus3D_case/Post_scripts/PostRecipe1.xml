@@ -9,7 +9,7 @@
 		</measures>
 		<gridDefinition>
 			<units value="relative" comments="relative, meters, degrees"/>
-			<resolution x="200" y="200" z="3"/>
+			<resolution x="200" y="200" z="5"/>
 		</gridDefinition>
 	</EulerianMeasures>
 	<time>
