@@ -129,7 +129,10 @@ class MOHIDLagrangianGridBasedMeasures:
     
     def run(self,measures):
         print('-> Measures to compute: ', measures)
-        print('-> Sources: ',self.base.sources['id'])
+        
+        print('-> Sources: ')
+        for i in self.base.sources['id']:
+            print('\t',self.base.sources['id'][i])
         
         t = 0
         for vtu_step in self.base.pvdReader.vtuFileHandlers:
