@@ -57,6 +57,7 @@ sys.path.append(commonPath)
 
 import os_dir
 import MDateTime
+import numpy as np
 
 from about import License
 
@@ -136,6 +137,7 @@ class MOHIDLagrangianGridBasedMeasures:
         
         t = 0
         for vtu_step in self.base.pvdReader.vtuFileHandlers:
+            s=0
             for source in self.base.sources['id'].keys():
                 particlePos = vtu_step.getVtuVariableData('coords', source, beachCondition=self.base.beachCondition) 
                 self.grid.getCountsInCell(particlePos)
@@ -145,8 +147,12 @@ class MOHIDLagrangianGridBasedMeasures:
                 
                 if 'residence_time' in measures:
                     ResidenceTime = getResidenceTime(self.grid,self.base.FileTimeHandler.dt)
+                    if t == 0:  
+                        ResidenceTimeAccum = len(self.base.sources['id'].keys())*[np.zeros_like(ResidenceTime['data'])]
+                    ResidenceTimeAccum[s] = ResidenceTime['data'] + ResidenceTimeAccum[s]    
+                    ResidenceTime['data'] = ResidenceTimeAccum[s]
                     self.netcdfWriter.appendVariableTimeStepToDataset('residence_time_'+self.base.sources['id'][source],ResidenceTime,t)
-                
+                    
                 if 'concentrations' in measures:
                     ConcentrationsArea = getConcentrationsArea(self.grid)
                     ConcentrationsVolume = getConcentrationsVolume(self.grid)
@@ -160,7 +166,7 @@ class MOHIDLagrangianGridBasedMeasures:
                         varInCell = getVariableMeanCell(self.grid, measure)
                         self.netcdfWriter.appendVariableTimeStepToDataset(measure+'_'+self.base.sources['id'][source],varInCell,t)
             
-            
+                s = s+1
             t = t + 1
             progress = '-> Progress: %4.2f' %(100*(t/len(self.base.pvdReader.vtuFileHandlers)))
             print(progress ,end='\r')    
