@@ -37,7 +37,7 @@
 	<paper>
 		<cardboard_1>
 			<particulate value="false" />
-			<density value="1.0" />
+			<density value="1050" />
 			<radius value="0.1" />
 			<property key="condition" value="0.95" />
 			<property key="degradation_rate" value="0.0" />

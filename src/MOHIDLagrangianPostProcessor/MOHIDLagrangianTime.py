@@ -49,7 +49,7 @@ class FilesTimesHandler:
                 timeRecipeEnd = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
                 self.timeMask = self.timeMask & (self.timeAxis < timeRecipeEnd)
             if parameter.tag == 'step':
-                step = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
+                step = np.int64(parameter.get('value'))
                 self.timeMask[::step] = False
         self.timeAxis = self.timeAxis[self.timeMask]
     

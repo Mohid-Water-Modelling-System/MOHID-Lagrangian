@@ -41,7 +41,7 @@ def getDimsAttrs(dimensionName,dimensionData=None):
             attrs['valid_max']= np.max(dimensionData)
     elif dimensionName == 'time':
         attrs = {'long_name':'time',
-         'units':'seconds since 1950-01-01 00:00:00'}
+         'units':'days since 1950-01-01 00:00:00'}
 
     return attrs
 
@@ -71,7 +71,7 @@ class NetcdfParser:
         self.fileName = fileName
         
     def initDataset(self,spatialGrid,timeGrid):
-        coords = {'time':('time',timeGrid.timeAxis),
+        coords = {'time':('time',timeGrid.timeAxis.round(decimals=10)),
                   spatialGrid.dims[0]: (spatialGrid.dims[0],spatialGrid.cellCenters[0]),
                   spatialGrid.dims[1]: (spatialGrid.dims[1],spatialGrid.cellCenters[1]),
                   spatialGrid.dims[2]: (spatialGrid.dims[2],spatialGrid.cellCenters[2]),

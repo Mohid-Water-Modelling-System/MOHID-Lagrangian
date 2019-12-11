@@ -8,8 +8,8 @@
 			</filters>
 		</measures>
 		<gridDefinition>
-			<units value="meters" comments="relative, meters, degrees"/>
-			<resolution x="500" y="1500" z="500"/>
+			<units value="relative" comments="relative, meters, degrees"/>
+			<resolution x="200" y="200" z="5"/>
 		</gridDefinition>
 	</EulerianMeasures>
 	<time>
