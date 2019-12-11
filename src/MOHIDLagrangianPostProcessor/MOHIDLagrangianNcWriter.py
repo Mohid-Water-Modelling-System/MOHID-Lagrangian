@@ -71,7 +71,7 @@ class NetcdfParser:
         self.fileName = fileName
         
     def initDataset(self,spatialGrid,timeGrid):
-        coords = {'time':('time',timeGrid.timeAxis),
+        coords = {'time':('time',timeGrid.timeAxis.round(decimals=10)),
                   spatialGrid.dims[0]: (spatialGrid.dims[0],spatialGrid.cellCenters[0]),
                   spatialGrid.dims[1]: (spatialGrid.dims[1],spatialGrid.cellCenters[1]),
                   spatialGrid.dims[2]: (spatialGrid.dims[2],spatialGrid.cellCenters[2]),

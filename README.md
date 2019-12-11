@@ -1,4 +1,4 @@
-## MOHID Lagrangian - V0.2 - Work in progress!
+## MOHID Lagrangian - V0.3 - Work in progress!
 
 ![Vigo3D](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
 
@@ -23,3 +23,4 @@ GNU General Public License. See the [GNU General Public License](http://www.gnu.
 <!--[![Build Status](https://travis-ci.org/RBCanelas/MOHID-Lagrangian.svg?branch=master)](https://travis-ci.org/RBCanelas/MOHID-Lagrangian)-->
 
 [![License](https://img.shields.io/badge/license-GNU%20GeneraL%20Public%20License%20v3,%20GPLv3-blue.svg)]()
+3
