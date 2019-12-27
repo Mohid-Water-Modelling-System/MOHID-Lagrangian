@@ -25,6 +25,7 @@
 
     type, extends(box) :: boundingbox_class
         type(vector) :: offset
+        type(vector) :: center
     contains
     procedure :: initialize => initboundingbox
     procedure :: print      => printboundingbox
@@ -47,6 +48,8 @@
     self%pt = Globals%SimDefs%Pointmin
     self%size = Globals%SimDefs%Pointmax - Globals%SimDefs%Pointmin
     self%offset = -self%pt !distance to the origin - local reference
+    self%center = (Globals%SimDefs%Pointmin + Globals%SimDefs%Pointmax)/2.0
+    call Globals%SimDefs%setCenter(self%center)
     end subroutine initboundingbox
 
     !---------------------------------------------------------------------------
