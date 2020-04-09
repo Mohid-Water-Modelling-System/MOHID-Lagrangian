@@ -35,6 +35,8 @@
     type :: paper_state_class             !<Type - State variables of a tracer object representing a paper material
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
+        real(prec) :: volume                        !< Tracer volume (m3)
+        real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
         real(prec) :: degradation_rate              !< degradation rate of the material
         real(prec) :: concentration                 !< Particle concentration
@@ -68,7 +70,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(paper_class), intent(in) :: self
-    getNumVars = 16
+    getNumVars = 18
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -93,9 +95,11 @@
     getStateArray(11) = self%now%age
     getStateArray(12) = self%mnow%density
     getStateArray(13) = self%mnow%radius
-    getStateArray(14) = self%mnow%condition
-    getStateArray(15) = self%mnow%degradation_rate
-    getStateArray(16) = self%mnow%concentration
+    getStateArray(14) = self%mnow%volume
+    getStateArray(15) = self%mnow%area
+    getStateArray(16) = self%mnow%condition
+    getStateArray(17) = self%mnow%degradation_rate
+    getStateArray(18) = self%mnow%concentration
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -120,9 +124,11 @@
     self%now%age   = StateArray(11)
     self%mnow%density = StateArray(12)
     self%mnow%radius = StateArray(13)
-    self%mnow%condition = StateArray(14)
-    self%mnow%degradation_rate = StateArray(15)
-    self%mnow%concentration = StateArray(16)
+    self%mnow%volume = StateArray(14)
+    self%mnow%area = StateArray(15)
+    self%mnow%condition = StateArray(16)
+    self%mnow%degradation_rate = StateArray(17)
+    self%mnow%concentration = StateArray(18)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -148,12 +154,12 @@
 
     !now initialize the specific components of this derived type
     constructor%par%ttype = Globals%Types%paper
-    !material parameters
-    !constructor%mpar%degradation_rate = src%prop%degrd_rate
     constructor%mpar%particulate = src%prop%particulate
     constructor%mpar%size = src%prop%radius
+    !material state
     constructor%mnow%radius = src%prop%radius
-    !constructor%mnow%concentration = MV
+    constructor%mnow%volume = src%prop%volume
+    constructor%mnow%area = src%prop%area
     !material state
     constructor%mnow%density = src%prop%density
     !default values
@@ -179,9 +185,11 @@
     !filling the rest of the varName list
     constructor%varName(12) = Globals%Var%density
     constructor%varName(13) = 'radius'
-    constructor%varName(14) = 'condition'
-    constructor%varName(15) = 'degradation_rate'
-    constructor%varName(16) = 'concentration'
+    constructor%varName(14) = 'volume'
+    constructor%varName(15) = 'area'
+    constructor%varName(16) = 'condition'
+    constructor%varName(17) = 'degradation_rate'
+    constructor%varName(18) = 'concentration'
     end function constructor
 
     end module tracerPaper_mod
