@@ -5,6 +5,8 @@
 			<particulate value="false" />
 			<density value="0.7" />
 			<radius value="0.2" />
+			<volume value="0.002" />
+			<area value="0.2" />
 			<property key="condition" value="0.95" />
 			<property key="degradation_rate" value="0.00000000158" />
 		</bag_1>
@@ -12,6 +14,8 @@
 			<particulate value="false" />
 			<density value="0.2" />
 			<radius value="0.5" />
+			<volume value="0.002" />
+			<area value="0.2" />
 			<property key="condition" value="0.91" />
 			<property key="degradation_rate" value="0.000000000317" />
 		</expanded_polysryrene_1>
@@ -19,6 +23,8 @@
 			<particulate value="true" />
 			<density value="0.2" />
 			<radius value="2.4" />
+			<volume value="0.002" />
+			<area value="0.2" />
 			<property key="condition" value="0.97" />
 			<property key="degradation_rate" value="0.000000000317" />
 			<property key="intitial_concentration" value="0.05" />
@@ -28,6 +34,8 @@
 			<particulate value="true" />
 			<density value="0.24" />
 			<radius value="2.4" />
+			<volume value="0.002" />
+			<area value="0.2" />
 			<property key="condition" value="0.90" />
 			<property key="degradation_rate" value="0.000000000317" />
 			<property key="intitial_concentration" value="0.005" />
@@ -39,6 +47,8 @@
 			<particulate value="false" />
 			<density value="0.98" />
 			<radius value="0.5" />
+			<volume value="0.002" />
+			<area value="0.2" />
 			<property key="condition" value="0.75" />
 			<property key="degradation_rate" value="0.00000000634" />
 		</cardboard_1>

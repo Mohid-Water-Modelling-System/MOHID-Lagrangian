@@ -20,7 +20,7 @@ def getDimsAttrs(dimensionName,dimensionData=None):
         'valid_max': 180.0}
         if dimensionData != None:
             attrs['valid_min']= np.min(dimensionData)
-            attrs['valid_max']: np.max(dimensionData)
+            attrs['valid_max']= np.max(dimensionData)
     elif dimensionName == 'latitude':
         attrs = {'long_name': 'latitude',\
         'standard_name': 'latitude',\
@@ -30,7 +30,7 @@ def getDimsAttrs(dimensionName,dimensionData=None):
         'valid_max': 90.0}
         if dimensionData != None:
             attrs['valid_min']= np.min(dimensionData)
-            attrs['valid_max']: np.max(dimensionData)
+            attrs['valid_max']= np.max(dimensionData)
     elif dimensionName == 'depth':
         attrs = {'long_name': 'depth',\
         'standard_name': 'depth',\

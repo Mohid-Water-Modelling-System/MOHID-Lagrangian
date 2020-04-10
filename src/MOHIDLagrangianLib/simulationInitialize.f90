@@ -103,7 +103,13 @@
             call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
             tag = 'radius'
             call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
-            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)           
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'volume'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'area'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
         end if
     end do
     outext='-->Sources properties are set'
