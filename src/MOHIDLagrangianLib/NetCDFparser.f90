@@ -227,6 +227,7 @@
     allocate(self%varData(self%nVars))
     do i=1, self%nVars
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
+
         call self%check()
         self%varData(i)%name = trim(varName)
         self%varData(i)%simName = Globals%Var%getVarSimName(self%varData(i)%name)
