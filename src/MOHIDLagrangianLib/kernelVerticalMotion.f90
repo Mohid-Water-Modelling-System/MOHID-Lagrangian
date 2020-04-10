@@ -145,6 +145,7 @@
                 rhoIdx = Utils%find_str(sv%varName, tag, .true.)
                 ! Three different models - using the number for reynolds regime 1<Re<100
                 ! PENDING: Improve the buoyancy formulation based on Reynolds number and variable C_D
+                !Buoyancy(:,3) = sqrt(2)((sv%state(:,rIdx)*9.81*(fDensity-sv%state(:,rhoIdx)))/fDensity)**(1./2.)
                 !uoyancy(:,3) = ((fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx)))*sqrt(8.*sv%state(:,rIdx)*abs(9.81*(sv%state(:,rhoIdx) - fDensity))/(3.*0.4*fDensity))
                 !Buoyancy(:,3) = 1.82*((sv%state(:,rIdx)*9.81*(fDensity-sv%state(:,rhoIdx)))/fDensity)**(1./2.)
                 !Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
@@ -163,8 +164,9 @@
         tag = 'radius'
         rIdx = Utils%find_str(sv%varName, tag, .true.)
         tag = 'density'
-        rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-        Buoyancy(:,3) = (2.0/9.0)*(fDensity-sv%state(:,rhoIdx))*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
+        rhoIdx = Utils%find_str(sv%varName, tag, .true.) 
+        ! The gravity has negative sign.  
+        Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx)-fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
     endif
     
     end function Buoyancy
@@ -201,18 +203,14 @@
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-
                 !correcting for maximum admissible level in the background
                 maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
                 if (maxLevel(2) /= MV) where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2)) CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.99
-                
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-
                 !update minium vertical position
                 nf = Utils%find_str(var_name, Globals%Var%bathymetry)
                 where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,nf)) CorrectVerticalBounds(:,3) = ((var_dt(:,nf)-sv%state(:,3))/dt)*0.99
-                
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
