@@ -5,7 +5,7 @@
 			<parameter key="Start" value="2018 09 05 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
 			<parameter key="End"   value="2018 09 06 15 00 00" comment="Date of final instant" units_comment="ISO format" />
 			<parameter key="Integrator" value="2" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
-			<parameter key="Threads" value="4" comment="Computation threads for shared memory computation (default=auto)" />
+			<parameter key="Threads" value="2" comment="Computation threads for shared memory computation (default=auto)" />
 			<parameter key="OutputWriteTime" value="720" comment="Time out data (1/Hz)" units_comment="seconds" />
 		</parameters>
 		<variableNaming>
@@ -14,8 +14,8 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="nc_fields\hydrodynamic" type="hydrodynamic"/>
-      			<inputDataDir name="nc_fields\water_properties" type="waterProperties"/>
+			<inputDataDir name="nc_fields/hydrodynamic" type="hydrodynamic"/>
+      		<inputDataDir name="nc_fields/water_properties" type="waterProperties"/>
 		</inputData>
 		<simulation>
 			<resolution dp="150" units_comment="metres (m)"/>
@@ -25,26 +25,58 @@
 		</simulation>
 		<sourceDefinitions>
 			<source>
-				<setsource id="18" name="ReleaseBox1" />
+				<setsource id="1" name="Lagrangian" />
 				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
 				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<box>
 					<point x="-8.95" y="42.10" z="-15.0" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="0.5" units_comment="metres (m)"/>
+					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
+				</box>
+			</source>
+			<source>
+				<setsource id="2" name="heavy_net" />
+				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
+				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<box>
+					<point x="-8.95" y="42.10" z="-10.0" units_comment="(deg,deg,m)"/>
+					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
+				</box>
+			</source>
+			<source>
+				<setsource id="3" name="bag_1" />
+				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
+				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<box>
+					<point x="-8.95" y="42.10" z="-5.0" units_comment="(deg,deg,m)"/>
+					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
+				</box>
+			</source>
+			<source>
+				<setsource id="4" name="cardboard" />
+				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
+				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<box>
+					<point x="-8.95" y="42.10" z="-20.0" units_comment="(deg,deg,m)"/>
+					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
 				</box>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-				<type source="18" type="paper" property="cardboard_1" comment="" />
+				<type source="1" type="base" property="" comment="" />
+                <type source="2" type="plastic" property="heavy_net" comment="" />
+                <type source="3" type="plastic" property="bag_1" comment="" />
+                <type source="4" type="paper" property="cardboard_1" comment="" />
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
-            <Z0 value="-0.19" comment="Reference local 'zero' level. Default = 0.0" units_comment="m" />
 		</constants>
 	</caseDefinitions>
 </case>
