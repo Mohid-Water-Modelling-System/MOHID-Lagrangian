@@ -29,7 +29,7 @@
     use background_mod
     use interpolator_mod
 
-    ! Density constants
+
     !  density of seawater at zero pressure constants
     real(prec),parameter :: a0 = 999.842594
     real(prec),parameter :: a1 =   6.793952e-2
@@ -95,6 +95,8 @@
     procedure :: initialize => initKernelVerticalMotion
     procedure :: Buoyancy
     procedure :: CorrectVerticalBounds
+    procedure :: Reynolds
+    procedure :: DragCoefficient
     end type kernelVerticalMotion_class
 
     public :: kernelVerticalMotion_class
@@ -112,13 +114,17 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, rIdx, rhoIdx
+    integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
-    real(prec) :: P = 1013.
+    real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
+    real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber,kViscoRelation
+    real(prec) :: P = 1013., meanDensity = 1027.
+    real(prec) :: meanKvisco = 1.09E-3
+
     type(string) :: tag
     logical :: ViscoDensFields = .false.
     allocate(requiredVars(2))
@@ -139,16 +145,45 @@
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
                 fDensity = seaWaterDensity(var_dt(:,2), var_dt(:,1),P)
                 kVisco = absoluteSeaWaterViscosity(var_dt(:,2), var_dt(:,1))
+                ! Viscosity on boundaries could be 0. This avoid overdumped values on viscosity
+                kViscoRelation = abs(1.-(kvisco/meanKvisco))
+                where(kViscoRelation > 1.)
+                    kVisco = meanKvisco
+                endwhere
+                ! Read variables
                 tag = 'radius'
                 rIdx = Utils%find_str(sv%varName, tag, .true.)
                 tag = 'density'
                 rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-                ! Three different models - using the number for reynolds regime 1<Re<100
-                ! PENDING: Improve the buoyancy formulation based on Reynolds number and variable C_D
-                !Buoyancy(:,3) = sqrt(2)((sv%state(:,rIdx)*9.81*(fDensity-sv%state(:,rhoIdx)))/fDensity)**(1./2.)
-                !uoyancy(:,3) = ((fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx)))*sqrt(8.*sv%state(:,rIdx)*abs(9.81*(sv%state(:,rhoIdx) - fDensity))/(3.*0.4*fDensity))
-                !Buoyancy(:,3) = 1.82*((sv%state(:,rIdx)*9.81*(fDensity-sv%state(:,rhoIdx)))/fDensity)**(1./2.)
-                !Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx) - fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
+                tag = 'volume'
+                volIdx = Utils%find_str(sv%varName, tag, .true.)
+                tag = 'area'
+                areaIdx = Utils%find_str(sv%varName, tag, .true.)
+                ! Get the direction of buoyancy ( + to the surface, - to the bottom)
+                signZ = (fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx))
+                where(signZ == 0.0)
+                    signZ = 1.0
+                endwhere
+                ! Boundary density values could be 0. This avoid underdumped values on density
+                densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
+                where (densityRelation > 1.)
+                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
+                endwhere    
+                ! Get drag and shapefactor
+                shapeFactor = sv%state(:,volIdx)/sv%state(:,areaIdx)
+                reynoldsNumber = self%Reynolds(sv, kvisco, sv%state(:,rIdx)) 
+                cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
+                ! Get buoyancy
+                Buoyancy(:,3) = signZ*sqrt((-2*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation) 
+                !if (any(abs(Buoyancy(:,3)) > 1)) then
+                !    print*, 'Abnormal buoyancy found'
+                !    print*, 'sinZ range',minval(signZ),maxval(signZ) 
+                !    print*, 'c_d range',minval(cd),maxval(cd) 
+                !    print*, 'shape Factor',minval(shapeFactor),maxval(shapeFactor) 
+                !    print*, 'densityRelation',minval(densityRelation),maxval(densityRelation) 
+                !    print*, 'buoyancy',minval(buoyancy(:,3)),maxval(buoyancy(:,3))
+                !    print*, 'reynolds',minval(reynoldsNumber),maxval(reynoldsNumber)  
+                !end if
                 deallocate(var_dt)
                 deallocate(var_name)
                 ViscoDensFields = .true.
@@ -156,11 +191,11 @@
         endif
     end do
 
-    !I there is no salt and temperatue Compute buoyancy using constant density and temp
+    ! If there is no salt and temperature Compute buoyancy using constant density and temp
     ! and standardad terminal velocity
     if (.not.ViscoDensFields) then
         kVisco = 1.09E-3
-        fDensity = 1023
+        fDensity = 1023.0
         tag = 'radius'
         rIdx = Utils%find_str(sv%varName, tag, .true.)
         tag = 'density'
@@ -170,6 +205,63 @@
     endif
     
     end function Buoyancy
+
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Get the particle reynolds number
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function Reynolds(self, sv, kvisco, characteristicLength)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    real(prec), dimension(size(sv%state,1)) :: kvisco, characteristicLength
+    real(prec), dimension(size(sv%state,1)) :: Reynolds
+    
+    Reynolds = abs(sv%state(:,3))*characteristicLength/kvisco
+
+    end function Reynolds
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Approach the particle drag coefficient based on shape factor
+    !> @param[in] self, sv, shapeFactor, characteristicLength 
+    !---------------------------------------------------------------------------
+    function DragCoefficient(self, shapeFactor, charateristicLength, Reynolds)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    real(prec), dimension(:), intent(in):: shapeFactor, charateristicLength, reynolds
+    real(prec), dimension(size(shapeFactor,1)) :: DragCoefficient
+    DragCoefficient = 1.
+
+    where(shapeFactor <= (1./6.)*characteristicLength)      ! ~Cube/Relation
+        dragCoefficient = 1.00
+    elsewhere(shapeFactor <= (1./4.)*characteristicLength)  ! ~Rectangle/Cilinder relation 
+        dragCoefficient =  0.8
+    elsewhere(shapeFactor <= (2./.3)*characteristicLength) ! ~ Sphere relation 
+        dragCoefficient = (24.00/Reynolds)*(1+0.173*Reynolds**0.657) + 0.413/(1.+16300*Reynolds**(-1.09))
+    endwhere
+    
+    end function DragCoefficient
+
+        !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> check the buoyancy for abnormal values
+    !> @param[in] self, sv, shapeFactor, characteristicLength 
+    !---------------------------------------------------------------------------
+    function checkBuoyancy(self, sv, values)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    real(prec), dimension(size(sv%state,1)) :: values
+    
+    if (any(abs(values) > 1)) then
+        print*, 'Abnormal verticalVelocity'
+    end if
+        
+    end function checkBuoyancy
+
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
