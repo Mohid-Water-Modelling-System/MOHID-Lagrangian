@@ -97,6 +97,7 @@
     procedure :: CorrectVerticalBounds
     procedure :: Reynolds
     procedure :: DragCoefficient
+    procedure :: SphericalShapeFactor
     end type kernelVerticalMotion_class
 
     public :: kernelVerticalMotion_class
@@ -121,7 +122,7 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
-    real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber,kViscoRelation
+    real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
     real(prec) :: P = 1013., meanDensity = 1027.
     real(prec) :: meanKvisco = 1.09E-3
 
@@ -170,20 +171,23 @@
                     densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
                 endwhere    
                 ! Get drag and shapefactor
-                shapeFactor = sv%state(:,volIdx)/sv%state(:,areaIdx)
-                reynoldsNumber = self%Reynolds(sv, kvisco, sv%state(:,rIdx)) 
+                shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
+                reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
                 cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
                 ! Get buoyancy
-                Buoyancy(:,3) = signZ*sqrt((-2*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation) 
-                !if (any(abs(Buoyancy(:,3)) > 1)) then
-                !    print*, 'Abnormal buoyancy found'
-                !    print*, 'sinZ range',minval(signZ),maxval(signZ) 
-                !    print*, 'c_d range',minval(cd),maxval(cd) 
-                !    print*, 'shape Factor',minval(shapeFactor),maxval(shapeFactor) 
-                !    print*, 'densityRelation',minval(densityRelation),maxval(densityRelation) 
-                !    print*, 'buoyancy',minval(buoyancy(:,3)),maxval(buoyancy(:,3))
-                !    print*, 'reynolds',minval(reynoldsNumber),maxval(reynoldsNumber)  
-                !end if
+                where (reynoldsNumber /=0.)
+                    Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
+                endwhere
+                if (any(abs(Buoyancy(:,3)) > 1)) then
+                    print*, 'Abnormal buoyancy found'
+                    print*, 'sinZ range',minval(signZ),maxval(signZ) 
+                    print*, 'c_d range',minval(cd),maxval(cd) 
+                    print*, 'shape Factor',minval(shapeFactor),maxval(shapeFactor) 
+                    print*, 'densityRelation',minval(densityRelation),maxval(densityRelation) 
+                    print*, 'buoyancy',minval(buoyancy(:,3)),maxval(buoyancy(:,3))
+                    print*, 'reynolds',minval(reynoldsNumber),maxval(reynoldsNumber)  
+                    print*, 'kvisco',minval(kvisco),maxval(kvisco)
+                end if
                 deallocate(var_dt)
                 deallocate(var_name)
                 ViscoDensFields = .true.
@@ -213,13 +217,12 @@
     !> Get the particle reynolds number
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function Reynolds(self, sv, kvisco, characteristicLength)
+    function Reynolds(self, characteristicVelocity, kvisco, characteristicLength)
     class(kernelVerticalMotion_class), intent(inout) :: self
-    type(stateVector_class), intent(in) :: sv
-    real(prec), dimension(size(sv%state,1)) :: kvisco, characteristicLength
-    real(prec), dimension(size(sv%state,1)) :: Reynolds
+    real(prec), dimension(:) , intent(in) :: characteristicVelocity, kvisco, characteristicLength
+    real(prec), dimension(size(characteristicVelocity)) :: Reynolds
     
-    Reynolds = abs(sv%state(:,3))*characteristicLength/kvisco
+    Reynolds = abs(characteristicVelocity)*characteristicLength/kvisco
 
     end function Reynolds
 
@@ -233,16 +236,20 @@
     class(kernelVerticalMotion_class), intent(inout) :: self
     real(prec), dimension(:), intent(in):: shapeFactor, charateristicLength, reynolds
     real(prec), dimension(size(shapeFactor,1)) :: DragCoefficient
-    DragCoefficient = 1.
 
-    where(shapeFactor <= (1./6.)*characteristicLength)      ! ~Cube/Relation
-        dragCoefficient = 1.00
-    elsewhere(shapeFactor <= (1./4.)*characteristicLength)  ! ~Rectangle/Cilinder relation 
-        dragCoefficient =  0.8
-    elsewhere(shapeFactor <= (2./.3)*characteristicLength) ! ~ Sphere relation 
-        dragCoefficient = (24.00/Reynolds)*(1+0.173*Reynolds**0.657) + 0.413/(1.+16300*Reynolds**(-1.09))
-    endwhere
-    
+    dragCoefficient = (24.00/Reynolds)*(1. + 0.173*Reynolds**0.657) + 0.413/(1.+16300*Reynolds**(-1.09))
+
+    ! Alternative implementation    
+    !where (Reynolds <= 0.2)
+    !    dragCoefficient = (24.00/Reynolds)
+    !elsewhere((Reynolds < 0.2) * (Reynolds <= 1000))
+    !    dragCoefficient = (24.00/Reynolds) + 3./sqrt(Reynolds) + 0.34
+    !elsewhere((Reynolds <= 1000) * (Reynolds <= 100000))
+    !    dragCoefficient = 0.44
+    !elsewhere
+    !    dragCoefficient = 0.2
+    !endwhere
+
     end function DragCoefficient
 
         !---------------------------------------------------------------------------
@@ -255,14 +262,31 @@
     class(kernelVerticalMotion_class), intent(inout) :: self
     type(stateVector_class), intent(in) :: sv
     real(prec), dimension(size(sv%state,1)) :: values
-    
+    logical :: checkBuoyancy
+
     if (any(abs(values) > 1)) then
-        print*, 'Abnormal verticalVelocity'
+        print*, '>> WARNING: Abnormal vertical velocity detected'
+        checkBuoyancy = .false.
+    else
+        checkBuoyancy = .true.
     end if
         
     end function checkBuoyancy
 
-
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC 
+    !> @brief
+    !> Gets the spherical object shapefactor
+    !> @param[in] self, sv, bdata, time
+    !--------------------------------------------------------------------------- 
+    function SphericalShapeFactor(self, area, volume)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    real(prec), dimension(:), intent(in):: area, volume
+    real(prec), dimension(size(area)) :: SphericalShapeFactor
+    real(prec) :: pi
+    pi = 4.*atan(1.)
+    SphericalShapeFactor = (6.*volume/pi)**(1./3.)/sqrt(4.*area/pi)
+    end function SphericalShapeFactor
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
