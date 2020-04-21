@@ -162,26 +162,25 @@
     z1 = ceiling(z)
     t1 = ceiling(t)
 
-    ! Compute the "normalized coordinates" of the particle inside the data field box
-    xd = (x-x0)/(x1-x0)
-    yd = (y-y0)/(y1-y0)
-    zd = (z-z0)/(z1-z0)
-    td = (t-t0)/(t1-t0)
-
     where (out)
-        x0 = 1.0
-        x1 = 1.0
-        y0 = 1.0
-        y1 = 1.0
-        z0 = 1.0
-        z1 = 1.0
+    x0 = 1.0
+    x1 = 1.0
+    y0 = 1.0
+    y1 = 1.0
+    z0 = 1.0
+    z1 = 1.0
     end where
 
-    ! In case that particle is on a point box, we set it to 0 to avoid inf errors
-    where (x1 == x0) xd = 0.
-    where (y1 == y0) yd = 0.
-    where (z1 == z0) zd = 0.
-    if (t1 == t0)    td = 0.
+    xd = 0.
+    yd = 0.
+    zd = 0.
+    td = 0.
+    
+    ! Compute the "normalized coordinates" of the particle inside the data field box
+    where (x1 /= x0) xd = (x-x0)/(x1-x0)
+    where (y1 /= y0) yd = (y-y0)/(y1-y0)
+    where (z1 /= z0) zd = (z-z0)/(z1-z0)
+    if (t1 /= t0) td = (t-t0)/(t1-t0)
 
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     forall(i=1:n_e)
