@@ -151,63 +151,42 @@
                 where(kViscoRelation > 1.)
                     kVisco = meanKvisco
                 endwhere
-                ! Read variables
-                tag = 'radius'
-                rIdx = Utils%find_str(sv%varName, tag, .true.)
-                tag = 'density'
-                rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-                tag = 'volume'
-                volIdx = Utils%find_str(sv%varName, tag, .true.)
-                tag = 'area'
-                areaIdx = Utils%find_str(sv%varName, tag, .true.)
-                ! Get the direction of buoyancy ( + to the surface, - to the bottom)
-                signZ = (fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx))
-                where(signZ == 0.0)
-                    signZ = 1.0
-                endwhere
-                ! Boundary density values could be 0. This avoid underdumped values on density
-                densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
-                where (densityRelation > 1.)
-                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
-                endwhere    
-                ! Get drag and shapefactor
-                shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
-                reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
-                cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
-                ! Get buoyancy
-                where (reynoldsNumber /=0.)
-                    Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
-                endwhere
-                if (any(abs(Buoyancy(:,3)) > 1)) then
-                    print*, 'Abnormal buoyancy found'
-                    print*, 'sinZ range',minval(signZ),maxval(signZ) 
-                    print*, 'c_d range',minval(cd),maxval(cd) 
-                    print*, 'shape Factor',minval(shapeFactor),maxval(shapeFactor) 
-                    print*, 'densityRelation',minval(densityRelation),maxval(densityRelation) 
-                    print*, 'buoyancy',minval(buoyancy(:,3)),maxval(buoyancy(:,3))
-                    print*, 'reynolds',minval(reynoldsNumber),maxval(reynoldsNumber)  
-                    print*, 'kvisco',minval(kvisco),maxval(kvisco)
-                end if
-                deallocate(var_dt)
-                deallocate(var_name)
-                ViscoDensFields = .true.
-            endif
+            else
+                fDensity = meanDensity
+                kVisco = meanKvisco
+            end if
+            ! Read variables
+            tag = 'radius'
+            rIdx = Utils%find_str(sv%varName, tag, .true.)
+            tag = 'density'
+            rhoIdx = Utils%find_str(sv%varName, tag, .true.)
+            tag = 'volume'
+            volIdx = Utils%find_str(sv%varName, tag, .true.)
+            tag = 'area'
+            areaIdx = Utils%find_str(sv%varName, tag, .true.)
+            ! Get the direction of buoyancy ( + to the surface, - to the bottom)
+            signZ = (fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx))
+            where(signZ == 0.0)
+                signZ = 1.0
+            endwhere
+            ! Boundary density values could be 0. This avoid underdumped values on density
+            densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
+            where (densityRelation > 1.)
+                densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
+            endwhere    
+            ! Get drag and shapefactor
+            shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
+            reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
+            cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
+            ! Get buoyancy
+            where (reynoldsNumber /=0.)
+                Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
+            endwhere
+            if (allocated(var_dt)) deallocate(var_dt)
+            if (allocated(var_name)) deallocate(var_name)
         endif
     end do
 
-    ! If there is no salt and temperature Compute buoyancy using constant density and temp
-    ! and standardad terminal velocity
-    if (.not.ViscoDensFields) then
-        kVisco = 1.09E-3
-        fDensity = 1023.0
-        tag = 'radius'
-        rIdx = Utils%find_str(sv%varName, tag, .true.)
-        tag = 'density'
-        rhoIdx = Utils%find_str(sv%varName, tag, .true.) 
-        ! The gravity has negative sign.  
-        Buoyancy(:,3) = (2.0/9.0)*(sv%state(:,rhoIdx)-fDensity)*Globals%Constants%Gravity%z*sv%state(:,rIdx)*sv%state(:,rIdx)/kVisco
-    endif
-    
     end function Buoyancy
 
 
