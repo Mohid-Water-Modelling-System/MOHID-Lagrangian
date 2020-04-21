@@ -182,6 +182,9 @@
             where (reynoldsNumber /=0.)
                 Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
             endwhere
+            where (Buoyancy(:,3) /= Buoyancy(:,3))
+                Buoyancy(:,3) = 0.0    
+            end where
             if (allocated(var_dt)) deallocate(var_dt)
             if (allocated(var_name)) deallocate(var_name)
         endif
