@@ -204,6 +204,10 @@
     endif
     !calling the globals method to set the output variable field list
     if (.not.allocated(fieldNameArray)) allocate(fieldNameArray(0))
+    if (.not.allocated(toOutput)) then
+        allocate(toOutput(0))
+        toOutput = .false.
+    end if
     call Globals%Output%setOutputFields(fieldNameArray, toOutput)
 
     end subroutine setOutputFields
