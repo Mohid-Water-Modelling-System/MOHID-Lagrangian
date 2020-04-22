@@ -147,8 +147,9 @@
                 fDensity = seaWaterDensity(var_dt(:,2), var_dt(:,1),P)
                 kVisco = absoluteSeaWaterViscosity(var_dt(:,2), var_dt(:,1))
                 ! Viscosity on boundaries could be 0. This avoid overdumped values on viscosity
+                ! Viscosity relation of 90 % related to mean water density are allowed.
                 kViscoRelation = abs(1.-(kvisco/meanKvisco))
-                where(kViscoRelation > 1.)
+                where(kViscoRelation >= 0.9)
                     kVisco = meanKvisco
                 endwhere
             else
@@ -169,9 +170,10 @@
             where(signZ == 0.0)
                 signZ = 1.0
             endwhere
-            ! Boundary density values could be 0. This avoid underdumped values on density
+            ! Boundary density values could be 0. This avoid underdumped values on density. 
+            ! Just density relation of 90 % related to mean water density are allowed.
             densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
-            where (densityRelation > 1.)
+            where (densityRelation >= 0.9)
                 densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
             endwhere    
             ! Get drag and shapefactor
