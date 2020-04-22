@@ -115,7 +115,7 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx
+    integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx, temp1, temp2
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
@@ -137,60 +137,90 @@
     !Compute buoyancy using state equation for temperature and viscosity
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
+            if (bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                fDensity = seaWaterDensity(var_dt(:,2), var_dt(:,1),P)
-                kVisco = absoluteSeaWaterViscosity(var_dt(:,2), var_dt(:,1))
+                tag = Globals%Var%temp
+                temp1 = Utils%find_str(var_name, tag, .true.)
+                tag = Globals%Var%sal
+                temp2 = Utils%find_str(var_name, tag, .true.)
+                fDensity = seaWaterDensity(var_dt(:,temp2), var_dt(:,temp1),P)
+                kVisco = absoluteSeaWaterViscosity(var_dt(:,temp2), var_dt(:,temp1))
                 ! Viscosity on boundaries could be 0. This avoid overdumped values on viscosity
                 ! Viscosity relation of 90 % related to mean water density are allowed.
                 kViscoRelation = abs(1.-(kvisco/meanKvisco))
                 where(kViscoRelation >= 0.9)
                     kVisco = meanKvisco
+                    fDensity = meanDensity
                 endwhere
-            else
-                fDensity = meanDensity
-                kVisco = meanKvisco
+                ! Read variables
+                tag = 'radius'
+                rIdx = Utils%find_str(sv%varName, tag, .true.)
+                tag = 'density'
+                rhoIdx = Utils%find_str(sv%varName, tag, .true.)
+                tag = 'volume'
+                volIdx = Utils%find_str(sv%varName, tag, .true.)
+                tag = 'area'
+                areaIdx = Utils%find_str(sv%varName, tag, .true.)
+                ! Get the direction of buoyancy ( + to the surface, - to the bottom)
+                signZ = -1.0
+                where(fDensity-sv%state(:,rhoIdx) >= 0)
+                    signZ = 1.0
+                endwhere
+                ! Boundary density values could be 0. This avoid underdumped values on density. 
+                ! Just density relation of 90 % related to mean water density are allowed.
+                densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
+                where (densityRelation >= 0.9)
+                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
+                endwhere    
+                ! Get drag and shapefactor
+                shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
+                reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
+                cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
+                ! Get buoyancy
+                where (reynoldsNumber /=0.)
+                    Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
+                endwhere
+                if (allocated(var_dt)) deallocate(var_dt)
+                if (allocated(var_name)) deallocate(var_name)
+                ViscoDensFields = .true.
             end if
-            ! Read variables
-            tag = 'radius'
-            rIdx = Utils%find_str(sv%varName, tag, .true.)
-            tag = 'density'
-            rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-            tag = 'volume'
-            volIdx = Utils%find_str(sv%varName, tag, .true.)
-            tag = 'area'
-            areaIdx = Utils%find_str(sv%varName, tag, .true.)
-            ! Get the direction of buoyancy ( + to the surface, - to the bottom)
-            signZ = (fDensity-sv%state(:,rhoIdx))/abs(fDensity-sv%state(:,rhoIdx))
-            where(signZ == 0.0)
-                signZ = 1.0
-            endwhere
-            ! Boundary density values could be 0. This avoid underdumped values on density. 
-            ! Just density relation of 90 % related to mean water density are allowed.
-            densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
-            where (densityRelation >= 0.9)
-                densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
-            endwhere    
-            ! Get drag and shapefactor
-            shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
-            reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
-            cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
-            ! Get buoyancy
-            where (reynoldsNumber /=0.)
-                Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
-            endwhere
-            where (Buoyancy(:,3) /= Buoyancy(:,3))
-                Buoyancy(:,3) = 0.0    
-            end where
-            if (allocated(var_dt)) deallocate(var_dt)
-            if (allocated(var_name)) deallocate(var_name)
-        endif
+        end if
     end do
+    
+    !I there is no salt and temperatue Compute buoyancy using constant density and temp
+    ! and standardad terminal velocity
+    if (.not. ViscoDensFields) then
+        kVisco = meanKvisco
+        fDensity = meanDensity
+        tag = 'radius'
+        rIdx = Utils%find_str(sv%varName, tag, .true.)
+        tag = 'density'
+        rhoIdx = Utils%find_str(sv%varName, tag, .true.)
+        tag = 'volume'
+        volIdx = Utils%find_str(sv%varName, tag, .true.)
+        tag = 'area'
+        areaIdx = Utils%find_str(sv%varName, tag, .true.)
+        signZ = -1.0
+        where(fDensity-sv%state(:,rhoIdx) >= 0)
+            signZ = 1.0
+        endwhere
+        ! Boundary density values could be 0. This avoid underdumped values on density. 
+        ! Just density relation of 90 % related to mean water density are allowed.
+        densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))          
+        ! Get drag and shapefactor
+        shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
+        reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
+        cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
+        ! Get buoyancy
+        where (reynoldsNumber /=0.)
+            Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
+        end where                
+    end if
 
     end function Buoyancy
 
@@ -399,6 +429,9 @@
     !"""
     Pbar = 0.1*P !# Convert to bar
     seaWaterDensity= seawaterDensityZeroPressure(S,T)/(1 - Pbar/secantBulkModulus(S,T,Pbar))
+    where (seaWaterDensity /= seaWaterDensity)
+        seaWaterDensity = 1027.0
+    end where
     end function seaWaterDensity
 
     !---------------------------------------------------------------------------
@@ -421,6 +454,9 @@
     mu_R =	1 + A*S + B*S*S
 
     absoluteSeaWaterViscosity  = mu_w*mu_R*0.001
+    where (absoluteSeaWaterViscosity /= absoluteSeaWaterViscosity)
+        absoluteSeaWaterViscosity = 1.09E-3
+    end where
     end function absoluteSeaWaterViscosity
 
     end module kernelVerticalMotion_mod
