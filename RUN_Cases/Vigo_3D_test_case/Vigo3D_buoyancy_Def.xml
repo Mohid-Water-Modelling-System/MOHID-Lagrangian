@@ -19,57 +19,35 @@
 		</inputData>
 		<simulation>
 			<resolution dp="150" units_comment="metres (m)"/>
-			<timestep dt="30.0" units_comment="seconds (s)"/>
-			<BoundingBoxMin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
-			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>
+			<timestep dt="60.0" units_comment="seconds (s)"/>
+			<BoundingBoxMin x="-8.95" y="42.10" z="-100" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.61" y="42.44" z="10" units_comment="(deg,deg,m)"/>
 		</simulation>
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Lagrangian" />
-				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<rate value="0.1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-8.95" y="42.10" z="-15.0" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
-				</box>
+				<point x="-8.7" y="42.41" z="-1" units_comment="(deg,deg,m)"/>
 			</source>
 			<source>
 				<setsource id="2" name="heavy_net" />
-				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<rate value="0.1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-8.95" y="42.10" z="-10.0" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
-				</box>
+				<point x="-8.84" y="42.13" z="-1" units_comment="(deg,deg,m)"/>
 			</source>
 			<source>
-				<setsource id="3" name="bag_1" />
-				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-8.95" y="42.10" z="-5.0" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
-				</box>
-			</source>
-			<source>
-				<setsource id="4" name="cardboard" />
-				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
-				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-8.95" y="42.10" z="-20.0" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="1" units_comment="metres (m)"/>
-				</box>
+				<setsource id="3" name="cardboard" />
+				<rate value="0.1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0.0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<point x="-8.64" y="42.3" z="-1" units_comment="(deg,deg,m)" />
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
+                <type source="1" type="base" property="" comment="" />
                 <type source="2" type="plastic" property="heavy_net" comment="" />
-                <type source="3" type="plastic" property="bag_1" comment="" />
-                <type source="4" type="paper" property="cardboard_1" comment="" />
+                <type source="3" type="paper" property="cardboard_1" comment="" />
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
