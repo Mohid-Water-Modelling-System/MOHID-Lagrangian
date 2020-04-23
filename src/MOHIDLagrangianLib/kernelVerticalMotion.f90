@@ -151,7 +151,7 @@
                 kVisco = absoluteSeaWaterViscosity(var_dt(:,temp2), var_dt(:,temp1))
                 ! Viscosity on boundaries could be 0. Avoid overdumped values on viscosity
                 ! Viscosity relation of 90 % related to mean water density are allowed.
-                kViscoRelation = abs(1.-(kvisco/meanKvisco))
+                kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
                 where(kViscoRelation >= 0.9)
                     kVisco = Globals%Constants%MeanKvisco
                     fDensity = Globals%Constants%MeanDensity
@@ -174,7 +174,7 @@
                 ! Just density relation of 90 % related to mean water density are allowed.
                 densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
                 where (densityRelation >= 0.9)
-                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
+                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
                 endwhere    
                 ! Get drag and shapefactor
                 shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
