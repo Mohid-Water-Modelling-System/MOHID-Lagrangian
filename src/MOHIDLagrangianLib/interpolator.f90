@@ -163,12 +163,12 @@
     t1 = ceiling(t)
 
     where (out)
-    x0 = 1.0
-    x1 = 1.0
-    y0 = 1.0
-    y1 = 1.0
-    z0 = 1.0
-    z1 = 1.0
+    x0 = 1
+    x1 = 1
+    y0 = 1
+    y1 = 1
+    z0 = 1
+    z1 = 1
     end where
 
     xd = 0.
@@ -351,7 +351,7 @@
     do id = 1,size(xdata)
         if (.not. out(id)) then
             do i = 2, size(bdata%dim(dim)%field)
-                if (bdata%dim(dim)%field(i) > xdata(id)) then
+                if (bdata%dim(dim)%field(i) >= xdata(id)) then
                     idx_1 = i-1
                     idx_2 = i
                     exit
