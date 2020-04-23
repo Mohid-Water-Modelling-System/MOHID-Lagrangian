@@ -541,12 +541,6 @@
         if (readflag) then
             call Globals%Constants%setz0(att_val)
         endif
-        tag="RhoRef"
-        att_name="value"
-        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag) then
-            call Globals%Constants%setrho(att_val)
-        endif
         tag="BeachingLevel"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
@@ -564,6 +558,18 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setDiffusionCoeff(att_val)
+        endif
+        tag="MeanDensity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMeanDensity(att_val)
+        endif
+        tag="MeanKViscosity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMeanKVisco(att_val)
         endif
     endif
     call Globals%Constants%print()

@@ -26,26 +26,25 @@
 		<sourceDefinitions>
 			<source>
 				<setsource id="1" name="Lagrangian" />
-				<rate value="0.1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<rate value="0.1" comment="emission rate (Hz)" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="-8.7" y="42.41" z="-1" units_comment="(deg,deg,m)"/>
 			</source>
 			<source>
-				<setsource id="2" name="heavy_net" />
-				<rate value="0.1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<setsource id="2" name="someHeavyNet" />
+				<rate value="0.1" comment="emission rate (Hz)" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="-8.84" y="42.13" z="-1" units_comment="(deg,deg,m)"/>
 			</source>
 			<source>
-				<setsource id="3" name="cardboard" />
-				<rate value="0.1" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<setsource id="3" name="someCardboard" />
+				<rate value="0.1" comment="emission rate (Hz)" />
 				<active start="0.0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<point x="-8.64" y="42.3" z="-1" units_comment="(deg,deg,m)" />
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-                <type source="1" type="base" property="" comment="" />
                 <type source="2" type="plastic" property="heavy_net" comment="" />
                 <type source="3" type="paper" property="cardboard_1" comment="" />
 			</types>
@@ -53,7 +52,9 @@
 		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+			<DiffusionCoeff value="1.25" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+			<MeanDensity value="1028.0" comment="Mean medium density. Default = 1027.0" units_comment="kg/m3" />	
+			<MeanKViscosity value="0.00110" comment="Mean medium kinematic viscosity. Default = 0.00109" units_comment="m2/s" />	
 		</constants>
 	</caseDefinitions>
 </case>

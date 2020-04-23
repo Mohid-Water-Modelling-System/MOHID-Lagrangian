@@ -162,15 +162,6 @@
     z1 = ceiling(z)
     t1 = ceiling(t)
 
-!    where (out)
-!    x0 = 1
-!    x1 = 1
-!    y0 = 1
-!    y1 = 1
-!    z0 = 1
-!    z1 = 1
-!    end where
-
     xd = 0.
     yd = 0.
     zd = 0.
@@ -182,30 +173,28 @@
     where (z1 /= z0) zd = (z-z0)/(z1-z0)
     if (t1 /= t0) td = (t-t0)/(t1-t0)
 
-    ! Interpolation on the first dimension and collapse it to a three dimension problem
-
+    
     interp4D = 0.0
-
+    
+    ! Interpolation on the first dimension and collapse it to a three dimension problem
     do concurrent(i=1:n_e, .not. out(i))
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
         c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
         c110(i) = field(x0(i),y1(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t0)*xd(i)
-
         c001(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i) !y0x0z0t0!  y0x1z0t0
         c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
-        c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
-    
-    ! Interpolation on the second dimension and collapse it to a two dimension problem
+        c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)    
+        ! Interpolation on the second dimension and collapse it to a two dimension problem
         c00(i) = c000(i)*(1.-yd(i))+c100(i)*yd(i)
         c10(i) = c010(i)*(1.-yd(i))+c110(i)*yd(i)
         c01(i) = c001(i)*(1.-yd(i))+c101(i)*yd(i)
         c11(i) = c011(i)*(1.-yd(i))+c111(i)*yd(i)
-    ! Interpolation on the third dimension and collapse it to a one dimension problem
+        ! Interpolation on the third dimension and collapse it to a one dimension problem
         c0(i) = c00(i)*(1.-zd(i))+c10(i)*zd(i)
         c1(i) = c01(i)*(1.-zd(i))+c11(i)*zd(i)
-    ! Interpolation on the time dimension and get the final result.
+        ! Interpolation on the time dimension and get the final result.
         interp4D(i) = c0(i)*(1.-td)+c1(i)*td
     end do
     
@@ -238,42 +227,37 @@
     real(prec), dimension(n_e) :: interp3D                      !< Field evaluated at x,y,z,t
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
-
     x0 = floor(x)
     y0 = floor(y)
     t0 = floor(t)
     x1 = ceiling(x)
     y1 = ceiling(y)
     t1 = ceiling(t)
+    
     ! Compute the "normalized coordinates" of the particle inside the data field box
     xd = (x-x0)/(x1-x0)
     yd = (y-y0)/(y1-y0)
     td = (t-t0)/(t1-t0)
 
-    where (out)
-        x0 = 1.0
-        x1 = 1.0
-        y0 = 1.0
-        y1 = 1.0
-    end where
-
     ! In case that particle is on a point box, we set it to 0 to avoid inf errors
     where (x1 == x0) xd = 0.
     where (y1 == y0) yd = 0.
     if (t1 == t0)    td = 0.
+    
+    interp3D = 0.0
+    
     ! Interpolation on the first dimension and collapse it to a three dimension problem
-    forall(i=1:n_e)
+    do concurrent(i=1:n_e, .not. out(i))
         c00(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c10(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
         c01(i) = field(x0(i),y0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),t1)*xd(i)
         c11(i) = field(x0(i),y1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),t1)*xd(i)
-    end forall
-    ! Interpolation on the second dimension and collapse it to a two dimension problem
-    c0 = c00*(1.-yd)+c10*yd
-    c1 = c01*(1.-yd)+c11*yd
-    ! Interpolation on the time dimension and get the final result.
-    interp3D = c0*(1.-td)+c1*td
-    where (out) interp3D = 0.0
+        ! Interpolation on the second dimension and collapse it to a two dimension problem
+        c0(i) = c00(i)*(1.-yd(i))+c10(i)*yd(i)
+        c1(i) = c01(i)*(1.-yd(i))+c11(i)*yd(i)
+        ! Interpolation on the time dimension and get the final result.
+        interp3D(i) = c0(i)*(1.-td)+c1(i)*td
+    end do
 
     end function interp3D
 
