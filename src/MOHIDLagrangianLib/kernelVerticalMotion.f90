@@ -123,8 +123,7 @@
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
     real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
-    real(prec) :: P = 1013., meanDensity = 1027.
-    real(prec) :: meanKvisco = 1.09E-3
+    real(prec) :: P = 1013.
 
     type(string) :: tag
     logical :: ViscoDensFields = .false.
@@ -150,12 +149,12 @@
                 temp2 = Utils%find_str(var_name, tag, .true.)
                 fDensity = seaWaterDensity(var_dt(:,temp2), var_dt(:,temp1),P)
                 kVisco = absoluteSeaWaterViscosity(var_dt(:,temp2), var_dt(:,temp1))
-                ! Viscosity on boundaries could be 0. This avoid overdumped values on viscosity
+                ! Viscosity on boundaries could be 0. Avoid overdumped values on viscosity
                 ! Viscosity relation of 90 % related to mean water density are allowed.
-                kViscoRelation = abs(1.-(kvisco/meanKvisco))
+                kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
                 where(kViscoRelation >= 0.9)
-                    kVisco = meanKvisco
-                    fDensity = meanDensity
+                    kVisco = Globals%Constants%MeanKvisco
+                    fDensity = Globals%Constants%MeanDensity
                 endwhere
                 ! Read variables
                 tag = 'radius'
@@ -175,7 +174,7 @@
                 ! Just density relation of 90 % related to mean water density are allowed.
                 densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
                 where (densityRelation >= 0.9)
-                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/meanDensity))
+                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
                 endwhere    
                 ! Get drag and shapefactor
                 shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
@@ -185,8 +184,8 @@
                 where (reynoldsNumber /=0.)
                     Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
                 endwhere
-                if (allocated(var_dt)) deallocate(var_dt)
-                if (allocated(var_name)) deallocate(var_name)
+                deallocate(var_dt)
+                deallocate(var_name)
                 ViscoDensFields = .true.
             end if
         end if
@@ -195,8 +194,8 @@
     !I there is no salt and temperatue Compute buoyancy using constant density and temp
     ! and standardad terminal velocity
     if (.not. ViscoDensFields) then
-        kVisco = meanKvisco
-        fDensity = meanDensity
+        kVisco = Globals%Constants%MeanKvisco
+        fDensity = Globals%Constants%MeanDensity
         tag = 'radius'
         rIdx = Utils%find_str(sv%varName, tag, .true.)
         tag = 'density'
@@ -430,7 +429,7 @@
     Pbar = 0.1*P !# Convert to bar
     seaWaterDensity= seawaterDensityZeroPressure(S,T)/(1 - Pbar/secantBulkModulus(S,T,Pbar))
     where (seaWaterDensity /= seaWaterDensity)
-        seaWaterDensity = 1027.0
+        seaWaterDensity = Globals%Constants%MeanDensity
     end where
     end function seaWaterDensity
 
@@ -455,7 +454,7 @@
 
     absoluteSeaWaterViscosity  = mu_w*mu_R*0.001
     where (absoluteSeaWaterViscosity /= absoluteSeaWaterViscosity)
-        absoluteSeaWaterViscosity = 1.09E-3
+        absoluteSeaWaterViscosity = Globals%Constants%MeanKvisco
     end where
     end function absoluteSeaWaterViscosity
 

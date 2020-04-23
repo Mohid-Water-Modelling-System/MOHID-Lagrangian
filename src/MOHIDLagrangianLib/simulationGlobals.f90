@@ -91,6 +91,8 @@
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
         real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
+        real(prec)   :: MeanDensity = 1027.0 !< mean ocean water density.
+        real(prec)   :: MeanKVisco = 1.09E-3 !< mean ocean water kinematic viscosity 
     contains
     procedure :: setgravity
     procedure :: setz0
