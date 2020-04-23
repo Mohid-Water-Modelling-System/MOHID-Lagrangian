@@ -162,14 +162,14 @@
     z1 = ceiling(z)
     t1 = ceiling(t)
 
-    where (out)
-    x0 = 1
-    x1 = 1
-    y0 = 1
-    y1 = 1
-    z0 = 1
-    z1 = 1
-    end where
+!    where (out)
+!    x0 = 1
+!    x1 = 1
+!    y0 = 1
+!    y1 = 1
+!    z0 = 1
+!    z1 = 1
+!    end where
 
     xd = 0.
     yd = 0.
@@ -183,7 +183,10 @@
     if (t1 /= t0) td = (t-t0)/(t1-t0)
 
     ! Interpolation on the first dimension and collapse it to a three dimension problem
-    forall(i=1:n_e)
+
+    interp4D = 0.0
+
+    do concurrent(i=1:n_e, .not. out(i))
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
         c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
@@ -193,19 +196,19 @@
         c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
         c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
-    end forall
+    
     ! Interpolation on the second dimension and collapse it to a two dimension problem
-    c00 = c000*(1.-yd)+c100*yd
-    c10 = c010*(1.-yd)+c110*yd
-    c01 = c001*(1.-yd)+c101*yd
-    c11 = c011*(1.-yd)+c111*yd
+        c00(i) = c000(i)*(1.-yd(i))+c100(i)*yd(i)
+        c10(i) = c010(i)*(1.-yd(i))+c110(i)*yd(i)
+        c01(i) = c001(i)*(1.-yd(i))+c101(i)*yd(i)
+        c11(i) = c011(i)*(1.-yd(i))+c111(i)*yd(i)
     ! Interpolation on the third dimension and collapse it to a one dimension problem
-    c0 = c00*(1.-zd)+c10*zd
-    c1 = c01*(1.-zd)+c11*zd
+        c0(i) = c00(i)*(1.-zd(i))+c10(i)*zd(i)
+        c1(i) = c01(i)*(1.-zd(i))+c11(i)*zd(i)
     ! Interpolation on the time dimension and get the final result.
-    interp4D = c0*(1.-td)+c1*td
-    where (out) interp4D = 0.0
-
+        interp4D(i) = c0(i)*(1.-td)+c1(i)*td
+    end do
+    
     end function interp4D
 
     !---------------------------------------------------------------------------
@@ -340,16 +343,18 @@
     integer :: id, idx_1, idx_2                                 
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
     real(prec) :: minBound, maxBound
+
     if(size(bdata%dim(dim)%field) == 1) then
         getArrayCoordNonRegular = 1
         return
     end if
+    
+    getArrayCoordNonRegular = 1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
-    do id = 1,size(xdata)
-        if (.not. out(id)) then
+    do concurrent(id = 1:size(xdata), .not. out(id))
             do i = 2, size(bdata%dim(dim)%field)
                 if (bdata%dim(dim)%field(i) >= xdata(id)) then
                     idx_1 = i-1
@@ -357,10 +362,7 @@
                     exit
                 end if
             end do
-            getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
-        else
-            getArrayCoordNonRegular(id) = 1.0
-        end if
+        getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
     end do
     end function getArrayCoordNonRegular
 
