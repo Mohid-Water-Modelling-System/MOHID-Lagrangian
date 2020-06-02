@@ -2,6 +2,8 @@
 
 clear
 
+export KMP_STACKSIZE=1G
+
 # "name" and "dirout" are named according to the testcase
 name=Vigo3D_buoyancy_Def
 dirout=${name}_out
