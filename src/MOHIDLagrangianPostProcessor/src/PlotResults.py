@@ -6,16 +6,20 @@ Created on Wed Jun  3 15:48:27 2020
 @author: gfnl143
 """
 
-from src.XMLReader import getPlotTypeFromRecipe, getPlotMeasuresFromRecipe, getPlotTimeFromRecipe
+import pandas as pd
+import xarray as xr
+from math import floor
 
 import matplotlib.pyplot as plt
-from math import floor
 from matplotlib.cm import get_cmap
 from matplotlib import patheffects
-import xarray as xr
+
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+
+from src.XMLReader import getPlotTypeFromRecipe, getPlotMeasuresFromRecipe
+from src.XMLReader import getPlotWeightFromRecipe, getPlotTimeFromRecipe
 
 
 def utm_from_lon(lon):
@@ -77,7 +81,73 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
             linewidth=linewidth, zorder=3)
 
 
-def toPlot(dataArray, output_filename, plot_type='contourf'):
+def toPlotTimeSteps(dataArray, output_filename, plot_type='contourf'):
+    """
+
+
+    Args:
+        dataArray (TYPE): DESCRIPTION.
+        output_filename (TYPE): DESCRIPTION.
+        plot_type (TYPE, optional): DESCRIPTION. Defaults to 'contourf'.
+
+    Returns:
+        None.
+
+    """
+
+    time_slice = slice(0, -1, int(dataArray.time.size/4))
+    fig, axarr = plt.subplots(nrows=2, ncols=2, figsize=(15, 10),
+                              subplot_kw={'projection': ccrs.PlateCarree()})
+
+    request = cimgt.Stamen('terrain-background')
+
+    extent = [dataArray.longitude.min(),
+              dataArray.longitude.max(),
+              dataArray.latitude.min(),
+              dataArray.latitude.max()]
+
+    time_step = 0
+    for ax in axarr.flat:
+        dataArray_step = dataArray.isel(time=time_step)
+        getattr(dataArray_step.plot, plot_type)('longitude', 'latitude',
+                                                cmap=get_cmap("jet"),
+                                                robust=True,
+                                                ax=ax,
+                                                projection=ccrs.PlateCarree(),
+                                                cbar_kwargs={'shrink': 0.6})
+
+        ax.set_extent(extent)
+        ax.add_image(request, 11)
+        gl = ax.gridlines(draw_labels=True, color='black')
+        gl.xlabels_top = gl.ylabels_right = False
+        gl.xformatter = LONGITUDE_FORMATTER
+        gl.yformatter = LATITUDE_FORMATTER
+        scale_bar(ax, ccrs.PlateCarree(), 10)
+
+        time_step += 1
+
+    # Creating the title from the filename
+    # If you do a cumsum(mean), the title should look in the same way.
+    title = getTitleFromFilename(output_filename)
+    fig.suptitle(title, fontsize = 'x-large')
+
+    fig.savefig(output_filename, dpi=300)
+    plt.close()
+
+
+def toPlotTimeStep(dataArray, output_filename, plot_type='contourf'):
+    """
+
+
+    Args:
+        dataArray (TYPE): DESCRIPTION.
+        output_filename (TYPE): DESCRIPTION.
+        plot_type (TYPE, optional): DESCRIPTION. Defaults to 'contourf'.
+
+    Returns:
+        None.
+
+    """
     fig = plt.figure(figsize=(15, 10))
     request = cimgt.Stamen('terrain-background')
     ax = plt.subplot(projection=ccrs.PlateCarree())
@@ -86,13 +156,13 @@ def toPlot(dataArray, output_filename, plot_type='contourf'):
               dataArray.longitude.max(),
               dataArray.latitude.min(),
               dataArray.latitude.max()]
-
     ax.set_extent(extent)
 
     getattr(dataArray.plot, plot_type)('longitude', 'latitude',
                                        ax=ax,
                                        cmap=get_cmap("jet"),
-                                       zorder=10
+                                       zorder=10,
+                                       robust=True
                                        )
 
     ax.add_image(request, 11)
@@ -103,31 +173,128 @@ def toPlot(dataArray, output_filename, plot_type='contourf'):
     gl.yformatter = LATITUDE_FORMATTER
     scale_bar(ax, ccrs.PlateCarree(), 10)
 
+    # Creating the title from the filename
+    # If you do a cumsum(mean), the title should look in the same way.
+    title = getTitleFromFilename(output_filename)
+    fig.suptitle(title, fontsize='x-large')
+
     fig.savefig(output_filename, dpi=300)
     plt.close()
 
 
+def toPlot(dataArray, output_filename, plot_type='contourf'):
+    """
+    
+
+    Args:
+        dataArray (TYPE): DESCRIPTION.
+        output_filename (TYPE): DESCRIPTION.
+        plot_type (TYPE, optional): DESCRIPTION. Defaults to 'contourf'.
+
+    Returns:
+        None.
+
+    """
+    if dataArray.time.size == 1:
+        toPlotTimeStep(dataArray, output_filename, plot_type)
+    else:
+        toPlotTimeSteps(dataArray, output_filename, plot_type)
+
+
+def getTitleFromFilename(filename, debug_title=False):
+    """
+    
+
+    Args:
+        filename (TYPE): DESCRIPTION.
+        debug_title (TYPE, optional): DESCRIPTION. Defaults to False.
+
+    Returns:
+        TYPE: DESCRIPTION.
+
+    """
+
+    methods_str = filename.split('.')[0].split('-')[:-1]  # Turn the results in operation order.
+    var_str = filename.split('.')[0].split('-')[-1]       # Get the var name
+    methods_funcstyle = [methods_str[0]] + ['('+methods_str[k] for k in range(1, len(methods_str))]
+    title_funcstyle = methods_funcstyle + ['(']+[var_str] + ['(t)'] + [')']*(len(methods_str)-1)
+
+    if debug_title is True:
+        print('-> method_str', methods_str)
+        print('-> title_funcsyle: ', title_funcstyle)
+        print('-> var_str: ', var_str)
+        print('-> methods_funcstyle: ', methods_funcstyle)
+
+    return ''.join(title_funcstyle)
+
+
+def isResamplable(ds, time_group, measure):
+    """
+
+
+    Args:
+        ds (TYPE): DESCRIPTION.
+        time_group (TYPE): DESCRIPTION.
+        measure (TYPE): DESCRIPTION.
+
+    Returns:
+        flag (TYPE): DESCRIPTION.
+
+    """
+    flag = measure in dir(ds.resample(time=time_group))
+    return flag
+
+
+def weightDataset(dataset, weight_file):
+    df = pd.read_csv(weight_file)
+    df = df.set_index('name')
+
+    for datasetVar in list(dataset.keys()):
+        for indexVar in df.index:
+            if indexVar in datasetVar:
+                weight = df.loc[indexVar, 'weight']
+                dataset[datasetVar] = dataset[datasetVar]*df.loc[indexVar, 'weight']
+                print('-> Weighting', datasetVar, ' by ', weight)
+
+    return dataset
+
+
 def plotResultsFromRecipe(outDir, xml_recipe):
-    time_group = getPlotTimeFromRecipe(xml_recipe)
+    """
+
+
+    Args:
+        outDir (TYPE): DESCRIPTION.
+        xml_recipe (TYPE): DESCRIPTION.
+
+    Returns:
+        None.
+
+    """
+    # they returns a list.
+    time_group = getPlotTimeFromRecipe(xml_recipe)[0]
     methods = getPlotMeasuresFromRecipe(xml_recipe)
-    plot_type = getPlotTypeFromRecipe(xml_recipe)
+    plot_type = getPlotTypeFromRecipe(xml_recipe)[0]
+    weight_file = getPlotWeightFromRecipe(xml_recipe)[0]
 
     print('-> Plotting results:')
     print('-> Grouping time steps:', time_group)
     print('-> Methods:', methods)
     print('-> Plot_type', plot_type)
 
-    if 'all' in time_group:
-        ds = xr.open_mfdataset(outDir+'*.nc')
-    # else:
-    #     ds = xr.open_mfdataset(outDir+'*.nc').groupby(time_group)
+    ds = xr.open_mfdataset(outDir+'*.nc')
+    variables = list(ds.keys())
+
+    if weight_file:
+        ds = weightDataset(ds, weight_file)
 
     if ds['depth'].size == 1:
         ds = ds.drop_dims('depth')
     else:
         ds = ds.isel(depth=-1)
 
-    variables = list(ds.keys())
+#    if time_group != 'all':
+#        ds = xr.open_mfdataset(outDir+'*.nc').resample(time=time_group[0])
 
     for variable in variables:
         _da = ds[variable]
@@ -136,9 +303,15 @@ def plotResultsFromRecipe(outDir, xml_recipe):
         else:
             _da = ds[variable]
 
+        # if time_group != 'all':
+        #     _da = _da.resample(time=time_group[0])
+
         _method = ''
         for method in methods:
+            if time_group != 'all':
+                if isResamplable(_da, time_group, method):
+                    _da = _da.resample(time=time_group)
             _da = getattr(_da, method)(dim='time')
-            _method = _method + method
+            _method = method + '-' + _method
         _da = _da.where(_da != 0)
-        toPlot(_da, _method + '_' + variable + '.png', plot_type[0])
+        toPlot(_da, _method + variable + '.png', plot_type)

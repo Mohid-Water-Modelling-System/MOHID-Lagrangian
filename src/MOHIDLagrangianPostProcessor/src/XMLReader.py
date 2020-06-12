@@ -87,3 +87,10 @@ def getPlotTypeFromRecipe(xmlFile):
     for fieldName in root.findall('plot/type'):
         fieldList.append(fieldName.get('value'))
     return fieldList
+
+def getPlotWeightFromRecipe(xmlFile):
+    fieldList = []
+    root = ET.parse(xmlFile).getroot()
+    for fieldName in root.findall('plot/weight'):
+        fieldList.append(fieldName.get('file'))
+    return fieldList

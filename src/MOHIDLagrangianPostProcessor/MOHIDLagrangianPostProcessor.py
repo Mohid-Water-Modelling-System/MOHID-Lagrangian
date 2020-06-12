@@ -179,7 +179,7 @@ def main():
     argParser.add_argument("-o", "--outputDir", dest="outDir",
                     help="output directory", metavar="dir")
     argParser.add_argument("-po", "--plot-only", dest="plotonly",
-                    help="output directory", metavar="plotonly")
+                    help="output directory", action='store_true')
     args = argParser.parse_args()
 
 
@@ -199,9 +199,12 @@ def main():
     for recipe in recipeXML:
         print('-> Running recipe', recipe)
         outDirLocal = outDir + '/postProcess_' + os.path.basename(os_dir.filename_without_ext(recipe)) + '/' 
-        if args.plotonly =='yes':
+
+        # If plotonly flag > Runs only plotting stage
+        if args.plotonly == True:
              plotResultsFromRecipe(outDirLocal, recipe)
              return
+
         measures = getFieldsFromRecipe(recipe)
         postProcessorBase = runPostprocessing(caseXML, recipe, outDir, outDirLocal, measures)
         if checkHDF5WriteRecipe(recipe):
