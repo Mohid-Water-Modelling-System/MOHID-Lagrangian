@@ -63,7 +63,7 @@ from src.Time import FilesTimesHandler
 from src.NcWriter import NetcdfParser
 from src.MeasuresGrid import getResidenceTime, getCountsInCell, getConcentrationsArea,getConcentrationsVolume,getVariableMeanCell
 from src.PlotResults import *
-
+from tqdm import tqdm
 
 class MOHIDLagrangianPostProcessorBase:
 
@@ -124,9 +124,9 @@ class MOHIDLagrangianGridBasedMeasures:
         for i in self.base.sources['id']:
             print('\t', self.base.sources['id'][i])
         t = 0
-        for vtu_step in self.base.pvdReader.vtuFileHandlers:
+        for vtu_step in tqdm(self.base.pvdReader.vtuFileHandlers, desc='Global'):
             s = 0
-            for source in self.base.sources['id'].keys():
+            for source in tqdm(self.base.sources['id'].keys(),'Source'):
                 particlePos = vtu_step.getVtuVariableData('coords', source, beachCondition=self.base.beachCondition) 
                 self.grid.getCountsInCell(particlePos)
                 nCounts = getCountsInCell(self.grid)

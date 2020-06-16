@@ -21,6 +21,9 @@ then
 elif [ "$1" == "-debug" ]
 then
     cmake -Wno-dev -DCMAKE_BUILD_TYPE=debug ..
+elif [ "$1" == "-intel" ]
+then
+	cmake -Wno-dev -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_Fortran_COMPILER_ID="Intel" ..
 else [ -z "$1" ]
     cmake -Wno-dev ..
 fi
