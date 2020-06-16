@@ -92,8 +92,9 @@ class MOHIDLagrangianPostProcessorBase:
     def getMOHIDLagrangianBase(self):
         self.getPVDReader()
         self.getTimeFileHandler()
+        print(self.FileTimeHandler.cropFileList())
         self.pvdReader.updateVtuFileHandlers(self.FileTimeHandler.cropFileList())
-
+        print(self.pvdReader.vtuFileHandlers)
 
 class MOHIDLagrangianGridBasedMeasures:
 
@@ -145,7 +146,7 @@ class MOHIDLagrangianGridBasedMeasures:
                     ConcentrationsArea = getConcentrationsArea(self.grid)
                     ConcentrationsVolume = getConcentrationsVolume(self.grid)
                     self.netcdfWriter.appendVariableTimeStepToDataset('concentration_volume_'+self.base.sources['id'][source],ConcentrationsArea,t)
-                    self.netcdfWriter.appendVariableTimeStepToDataset('concentration_area'+self.base.sources['id'][source],ConcentrationsVolume,t)
+                    self.netcdfWriter.appendVariableTimeStepToDataset('concentration_area_'+self.base.sources['id'][source],ConcentrationsVolume,t)
 
                 for measure in measures:
                     if measure not in self.gridBasicMeasures:

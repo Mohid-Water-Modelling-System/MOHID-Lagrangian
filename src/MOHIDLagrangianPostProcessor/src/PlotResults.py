@@ -117,7 +117,7 @@ def toPlotTimeSteps(dataArray, output_filename, plot_type='contourf'):
                                                 cbar_kwargs={'shrink': 0.6})
 
         ax.set_extent(extent)
-        ax.add_image(request, 11)
+        ax.add_image(request, 2)
         gl = ax.gridlines(draw_labels=True, color='black')
         gl.xlabels_top = gl.ylabels_right = False
         gl.xformatter = LONGITUDE_FORMATTER
@@ -165,7 +165,7 @@ def toPlotTimeStep(dataArray, output_filename, plot_type='contourf'):
                                        robust=True
                                        )
 
-    ax.add_image(request, 11)
+    ax.add_image(request, 2)
 
     gl = ax.gridlines(draw_labels=True, color='black')
     gl.xlabels_top = gl.ylabels_right = False
@@ -195,10 +195,12 @@ def toPlot(dataArray, output_filename, plot_type='contourf'):
         None.
 
     """
-    if dataArray.time.size == 1:
-        toPlotTimeStep(dataArray, output_filename, plot_type)
+    
+    if 'time' in dataArray:
+        if dataArray.time.size > 1:
+            toPlotTimeSteps(dataArray, output_filename, plot_type)
     else:
-        toPlotTimeSteps(dataArray, output_filename, plot_type)
+        toPlotTimeStep(dataArray, output_filename, plot_type)
 
 
 def getTitleFromFilename(filename, debug_title=False):
@@ -272,10 +274,10 @@ def plotResultsFromRecipe(outDir, xml_recipe):
 
     """
     # they returns a list.
-    time_group = getPlotTimeFromRecipe(xml_recipe)[0]
+    time_group = getPlotTimeFromRecipe(xml_recipe)
     methods = getPlotMeasuresFromRecipe(xml_recipe)
-    plot_type = getPlotTypeFromRecipe(xml_recipe)[0]
-    weight_file = getPlotWeightFromRecipe(xml_recipe)[0]
+    plot_type = getPlotTypeFromRecipe(xml_recipe)
+    weight_file = getPlotWeightFromRecipe(xml_recipe)
 
     print('-> Plotting results:')
     print('-> Grouping time steps:', time_group)
@@ -286,32 +288,31 @@ def plotResultsFromRecipe(outDir, xml_recipe):
     variables = list(ds.keys())
 
     if weight_file:
-        ds = weightDataset(ds, weight_file)
+        ds = weightDataset(ds, weight_file[0])
 
     if ds['depth'].size == 1:
-        ds = ds.drop_dims('depth')
-    else:
-        ds = ds.isel(depth=-1)
+        ds = ds.squeeze()
+    # else:
+    #     ds = ds.isel(depth=-1)
 
-#    if time_group != 'all':
-#        ds = xr.open_mfdataset(outDir+'*.nc').resample(time=time_group[0])
+    # if time_group != 'all':
+    #    ds = xr.open_mfdataset(outDir+'*.nc').resample(time=time_group[0])
 
     for variable in variables:
+
         _da = ds[variable]
-        if 'depth' in ds:
-            _da = ds[variable].isel(depth=-1)
-        else:
-            _da = ds[variable]
+        if 'depth' in _da:
+            _da = _da.isel(depth=-1)
 
         # if time_group != 'all':
         #     _da = _da.resample(time=time_group[0])
 
         _method = ''
         for method in methods:
-            if time_group != 'all':
-                if isResamplable(_da, time_group, method):
-                    _da = _da.resample(time=time_group)
+            if time_group[0] != 'all':
+                if isResamplable(_da, time_group[0], method):
+                    _da = _da.resample(time=time_group[0])
             _da = getattr(_da, method)(dim='time')
             _method = method + '-' + _method
         _da = _da.where(_da != 0)
-        toPlot(_da, _method + variable + '.png', plot_type)
+        toPlot(_da, _method + variable + '.png', plot_type[0])
