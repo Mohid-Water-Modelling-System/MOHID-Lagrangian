@@ -112,15 +112,15 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
     for ax in axarr.flat:
         dataArray_step = dataArray.isel(time=time_step)
         getattr(dataArray_step.plot, plot_type)('longitude', 'latitude',
-                                                cmap=get_cmap("jet"),
+                                                cmap=get_cmap("rainbow"),
                                                 robust=True,
                                                 ax=ax,
                                                 projection=ccrs.PlateCarree(),
                                                 cbar_kwargs={'shrink': 0.6})
 
         ax.set_extent(extent)
-        ax.add_feature(cartopy.feature.LAND(scale='10m'), color=np.array((0.75, 0.75, 0.75)))
-        ax.add_feature(cartopy.feature.OCEAN(scale='10m'), color='white')
+        ax.add_feature(cartopy.feature.LAND, color=np.array((0.75, 0.75, 0.75)))
+        ax.add_feature(cartopy.feature.OCEAN, color='white')
         #ax.add_image(request, 2)
         gl = ax.gridlines(draw_labels=True, color='black')
         gl.xlabels_top = gl.ylabels_right = False
@@ -163,14 +163,14 @@ def toPlotTimeStep(dataArray, output_filename, title, plot_type='contourf'):
 
     getattr(dataArray.plot, plot_type)('longitude', 'latitude',
                                        ax=ax,
-                                       cmap=get_cmap("jet"),
+                                       cmap=get_cmap("rainbow"),
                                        zorder=10,
                                        robust=True
                                        )
 
     #ax.add_image(request, 2)
-    ax.add_feature(cartopy.feature.LAND(scale='10m'), color=np.array((0.75, 0.75, 0.75)))
-    ax.add_feature(cartopy.feature.OCEAN(scale='10m'), color='white')
+    ax.add_feature(cartopy.feature.LAND, color=np.array((0.75, 0.75, 0.75)))
+    ax.add_feature(cartopy.feature.OCEAN, color='white')
     gl = ax.gridlines(draw_labels=True, color='black')
     gl.xlabels_top = gl.ylabels_right = False
     gl.xformatter = LONGITUDE_FORMATTER
