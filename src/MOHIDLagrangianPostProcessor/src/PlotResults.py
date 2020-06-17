@@ -116,12 +116,10 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
     time_step = 0
     for ax in axarr.flat:
         dataArray_step = dataArray.isel(time=time_step)
-        print(dataArray_step)
         getattr(dataArray_step.plot, plot_type)(x='longitude',y='latitude',
                                                 cmap=get_cmap("rainbow"),
                                                 robust=True,
                                                 ax=ax,
-                                                projection=ccrs.PlateCarree(),
                                                 cbar_kwargs={'shrink': 0.6})
 
         ax.set_extent(extent)
@@ -132,7 +130,6 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
         gl.xformatter = LONGITUDE_FORMATTER
         gl.yformatter = LATITUDE_FORMATTER
         scale_bar(ax, ccrs.PlateCarree(), 10)
-
         time_step += 1
 
     # Creating the title from the filename
@@ -209,9 +206,11 @@ def toPlot(dataArray, output_filename, title, plot_type='contourf'):
 
     """
 
-    if 'time' in dataArray:
+    if 'time' in dataArray.dims:
         if dataArray.time.size > 1:
+            print('MULTIPLE FILES')
             toPlotTimeSteps(dataArray, output_filename, title, plot_type)
+            
     else:
         dataArray = dataArray.isel(time=0)
         toPlotTimeStep(dataArray, output_filename, title, plot_type)
@@ -314,16 +313,8 @@ def plotResultsFromRecipe(outDir, xml_recipe):
     if weight_file:
         ds = weightDataset(ds, weight_file[0])
 
-    # if ds['depth'].size == 1:
-    #     ds = ds.squeeze()
-    # else:
-    #     ds = ds.isel(depth=-1)
-
-
     for variable in variables:
-
         da = ds[variable]
-        
         if 'depth' in da.dims:
             da = da.isel(depth=-1)
             
@@ -332,9 +323,14 @@ def plotResultsFromRecipe(outDir, xml_recipe):
             if time_group[0] != 'all':
                 if isResamplable(da, time_group[0], method):
                     da = da.resample(time=time_group[0])
+                    
             da = getattr(da, method)(dim='time')
+            print(da.time.size)
             method = method + '-' + _method
+            
         da = da.where(da != 0)
+
         output_filename = outDir + method + variable + '.png'
         title = getTitleFromMethods(method + '-' + variable)
+        
         toPlot(da, output_filename, title, plot_type[0])
