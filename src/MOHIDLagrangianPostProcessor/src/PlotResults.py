@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
 from matplotlib import patheffects
 
-import cartopy
+import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 import cartopy.io.img_tiles as cimgt
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
@@ -102,16 +102,22 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
                               subplot_kw={'projection': ccrs.PlateCarree()})
 
     #request = cimgt.Stamen('terrain-background')
+    #ax.add_image(request, 2)
 
     extent = [dataArray.longitude.min(),
               dataArray.longitude.max(),
               dataArray.latitude.min(),
               dataArray.latitude.max()]
 
+    land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
+                                            edgecolor='face',
+                                            facecolor=np.array((0.75, 0.75, 0.75)))
+
     time_step = 0
     for ax in axarr.flat:
         dataArray_step = dataArray.isel(time=time_step)
-        getattr(dataArray_step.plot, plot_type)('longitude', 'latitude',
+        print(dataArray_step)
+        getattr(dataArray_step.plot, plot_type)(x='longitude',y='latitude',
                                                 cmap=get_cmap("rainbow"),
                                                 robust=True,
                                                 ax=ax,
@@ -119,10 +125,9 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
                                                 cbar_kwargs={'shrink': 0.6})
 
         ax.set_extent(extent)
-        ax.add_feature(cartopy.feature.LAND, color=np.array((0.75, 0.75, 0.75)))
-        ax.add_feature(cartopy.feature.OCEAN, color='white')
-        #ax.add_image(request, 2)
-        gl = ax.gridlines(draw_labels=True, color='black')
+        ax.add_feature(land_10m)
+        ax.add_feature(cfeature.OCEAN, color='white')
+        gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
         gl.xlabels_top = gl.ylabels_right = False
         gl.xformatter = LONGITUDE_FORMATTER
         gl.yformatter = LATITUDE_FORMATTER
@@ -153,6 +158,7 @@ def toPlotTimeStep(dataArray, output_filename, title, plot_type='contourf'):
     """
     fig = plt.figure(figsize=(15, 10))
     #request = cimgt.Stamen('terrain-background')
+    #ax.add_image(request, 2)
     ax = plt.subplot(projection=ccrs.PlateCarree())
 
     extent = [dataArray.longitude.min(),
@@ -161,17 +167,21 @@ def toPlotTimeStep(dataArray, output_filename, title, plot_type='contourf'):
               dataArray.latitude.max()]
     ax.set_extent(extent)
 
-    getattr(dataArray.plot, plot_type)('longitude', 'latitude',
+    land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
+                                            edgecolor='face',
+                                            facecolor=np.array((0.75, 0.75, 0.75)))
+
+    getattr(dataArray.plot, plot_type)(x='longitude',y='latitude',
                                        ax=ax,
                                        cmap=get_cmap("rainbow"),
                                        zorder=10,
-                                       robust=True
+                                       robust=True,
+                                       cbar_kwargs={'shrink': 0.6}
                                        )
 
-    #ax.add_image(request, 2)
-    ax.add_feature(cartopy.feature.LAND, color=np.array((0.75, 0.75, 0.75)))
-    ax.add_feature(cartopy.feature.OCEAN, color='white')
-    gl = ax.gridlines(draw_labels=True, color='black')
+    ax.add_feature(land_10m)
+    ax.add_feature(cfeature.OCEAN, color='white')
+    gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
     gl.xlabels_top = gl.ylabels_right = False
     gl.xformatter = LONGITUDE_FORMATTER
     gl.yformatter = LATITUDE_FORMATTER
@@ -203,6 +213,7 @@ def toPlot(dataArray, output_filename, title, plot_type='contourf'):
         if dataArray.time.size > 1:
             toPlotTimeSteps(dataArray, output_filename, title, plot_type)
     else:
+        dataArray = dataArray.isel(time=0)
         toPlotTimeStep(dataArray, output_filename, title, plot_type)
 
 
@@ -303,23 +314,19 @@ def plotResultsFromRecipe(outDir, xml_recipe):
     if weight_file:
         ds = weightDataset(ds, weight_file[0])
 
-    if ds['depth'].size == 1:
-        ds = ds.squeeze()
+    # if ds['depth'].size == 1:
+    #     ds = ds.squeeze()
     # else:
     #     ds = ds.isel(depth=-1)
 
-    # if time_group != 'all':
-    #    ds = xr.open_mfdataset(outDir+'*.nc').resample(time=time_group[0])
 
     for variable in variables:
 
         da = ds[variable]
-        if 'depth' in da:
+        
+        if 'depth' in da.dims:
             da = da.isel(depth=-1)
-
-        # if time_group != 'all':
-        #     _da = _da.resample(time=time_group[0])
-
+            
         _method = ''
         for method in methods:
             if time_group[0] != 'all':
@@ -327,7 +334,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
                     da = da.resample(time=time_group[0])
             da = getattr(da, method)(dim='time')
             method = method + '-' + _method
-        da = da.where(da != 0)
+        #da = da.where(da != 0)
         output_filename = outDir + method + variable + '.png'
-        title = getTitleFromMethods(method + variable)
+        title = getTitleFromMethods(method + '-' + variable)
         toPlot(da, output_filename, title, plot_type[0])
