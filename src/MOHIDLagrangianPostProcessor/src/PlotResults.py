@@ -334,7 +334,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
                     da = da.resample(time=time_group[0])
             da = getattr(da, method)(dim='time')
             method = method + '-' + _method
-        #da = da.where(da != 0)
+        da = da.where(da != 0)
         output_filename = outDir + method + variable + '.png'
         title = getTitleFromMethods(method + '-' + variable)
         toPlot(da, output_filename, title, plot_type[0])
