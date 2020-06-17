@@ -92,9 +92,8 @@ class MOHIDLagrangianPostProcessorBase:
     def getMOHIDLagrangianBase(self):
         self.getPVDReader()
         self.getTimeFileHandler()
-        print(self.FileTimeHandler.cropFileList())
         self.pvdReader.updateVtuFileHandlers(self.FileTimeHandler.cropFileList())
-        print(self.pvdReader.vtuFileHandlers)
+
 
 class MOHIDLagrangianGridBasedMeasures:
 

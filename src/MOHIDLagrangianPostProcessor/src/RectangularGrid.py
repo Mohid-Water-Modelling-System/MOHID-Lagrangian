@@ -59,6 +59,7 @@ class RectangularGridBase:
                 x_min = np.float(bbox_min.get('x'))
                 y_min = np.float(bbox_min.get('y'))
                 z_min = np.float(bbox_min.get('z'))
+
             if parameter.tag == 'BoundingBoxMax':
                 x_max = np.float(parameter.get('x'))
                 y_max = np.float(parameter.get('y'))
@@ -69,6 +70,7 @@ class RectangularGridBase:
                 x_max = np.float(bbox_max.get('x'))
                 y_max = np.float(bbox_max.get('y'))
                 z_max = np.float(bbox_max.get('z'))
+
             if parameter.tag == 'resolution':
                 x_step = np.float(parameter.get('x'))
                 y_step = np.float(parameter.get('y'))
@@ -109,20 +111,27 @@ class RectangularGridBase:
             self.cellCenters.append((value[:-1] + value[1:])/2.)
         return
 
-    def getCellAreas(self):
+    def getCellAreas(self, units='km'):
         # check in order to reverse the axis dimensions
         # depths, lats, lons = np.meshgrid(self.grid['depth'],self.grid['latitude'],self.grid['longitude'],indexing='ij')
         # dx = (lons[1:]-lons[:-1])*(np.pi/180.)*6371837. * np.cos((np.pi/180.)*((lats[:-1] + lats[1:])/2.))
         dlon = (self.grid[2][1:] - self.grid[2][:-1])
         dlat = (self.grid[1][1:] - self.grid[1][:-1])
         y_c = (self.grid[1][1:] + self.grid[1][:-1])/2.
+        # dx and dlon are in meters
         dx = dlon[np.newaxis, :] * (cte.degreesToRad * cte.earthRadius * np.cos(cte.degreesToRad*(y_c[:,np.newaxis])))
         dy = dlat*cte.degreesToRad*cte.earthRadius
+        if units == 'km':
+            dx = dx/1000.
+            dy = dy/1000.
         self.cellArea = dx*dy[:, np.newaxis]
 
-    def getCellVolumes(self):
+    def getCellVolumes(self, units='km'):
         dz = self.grid[0][1:]-self.grid[0][:-1]
+        if units == 'km':
+            dz = dz/1000.
         self.cellVolume = dz[:, np.newaxis, np.newaxis] * self.cellArea[np.newaxis, :, :]
+
 
     def getCoords(self):
         self.coords = {self.dims[0]: ([self.dims[0]], self.cellCenters[0]),
@@ -164,14 +173,17 @@ class RectangularGridBase:
 
 
     def getCountsInCell(self, particlePositions):
-        nz = self.cellCenters[0].size
-        ny = self.cellCenters[1].size
-        nx = self.cellCenters[2].size
-        self.PositionsToIdCell(particlePositions)
-        nCells = nx*ny*nz
-        IdCounts = cellCountingJIT(self.rIdCell, nCells)
-        self.validCells = np.where(IdCounts > 0)[0]
-        self.countsInCell = np.reshape(IdCounts, (nz, ny, nx))
+        #nz = self.cellCenters[0].size
+        #ny = self.cellCenters[1].size
+        #nx = self.cellCenters[2].size
+        #self.PositionsToIdCell(particlePositions)
+        #nCells = nx*ny*nz
+        #IdCounts = cellCountingJIT(self.rIdCell, nCells)
+        self.countsInCell,_ = np.histogramdd(particlePositions, self.grid)
+        #print(particlePositions.shape,self.grid)
+        #self.validCells = self.countsInCell > 0
+        #self.validCells = np.where(IdCounts > 0)[0]
+        #self.countsInCell = np.reshape(IdCounts, (nz, ny, nx))
 
     def getMeanDataInCell(self, varData):
         nz = self.cellCenters[0].size

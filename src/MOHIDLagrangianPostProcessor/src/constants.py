@@ -7,6 +7,6 @@ Created on Thu Oct  3 14:54:50 2019
 """
 import numpy as np
 
-earthRadius = 6371837.
-degreesToRad = (np.pi/180.)
-daysToSeconds = 3600.*24.
+earthRadius = 6371837.          # meters
+degreesToRad = (np.pi/180.)     # radians
+daysToSeconds = 3600.*24.       # seconds

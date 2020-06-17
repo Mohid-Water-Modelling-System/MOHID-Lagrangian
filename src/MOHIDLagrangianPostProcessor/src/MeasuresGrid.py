@@ -8,6 +8,21 @@ Created on Fri Oct  4 10:24:41 2019
 import numpy as np
 
 
+def to_dict(dict_coords, dims, data, units, long_name):
+    d = {}
+    d['coords'] = {k: v for k, v in dict_coords if k in dims}
+    d['dims'] = dims
+    d['data'] = data
+    d['attrs'] = {'units': units, 'long_name': long_name}
+    return d
+
+def is2D(array):
+    return array.ndim == 2
+
+def is2Dlayer(array):
+    return (array.ndim == 3) and (array.shape[0] == 1)
+
+
 def getConcentrationsVolume(gridTimeInstance):
     """
     Get the number of particles in a cell divided by the volume.
@@ -19,22 +34,21 @@ def getConcentrationsVolume(gridTimeInstance):
         d (dict): Dictionary with dataArray format
 
     """
-    baseName = 'concentration_volume'
+    long_name = 'concentration_volume'
     units = 'pp / m^3'
     dims = ['time', 'depth', 'latitude', 'longitude']
-    data = gridTimeInstance.countsInCell/gridTimeInstance.cellVolume[np.newaxis]
-    if data.shape[0] == 1:
+    data = gridTimeInstance.countsInCell/gridTimeInstance.cellVolume
+    dict_coords = gridTimeInstance.coords.items()
+
+    # If depth has one layer, squeeze depth 'layer'
+    if is2Dlayer(data):
         dims = ['time', 'latitude', 'longitude']
         data = np.squeeze(data, axis=0)
 
-    d = {}
-    d['coords'] = {k: v for k, v in gridTimeInstance.coords.items() if k in dims}
-    d['dims'] = dims
-    d['data'] = data
-    d['attrs'] = {'units': units,
-                  'long_name': baseName}
+    # turn into dataArray-ready dict
+    da_dict = to_dict(dict_coords, dims, data, units, long_name)
 
-    return d
+    return da_dict
 
 
 def getConcentrationsArea(gridTimeInstance):
@@ -49,22 +63,20 @@ def getConcentrationsArea(gridTimeInstance):
 
     """
 
-    baseName = 'concentration_area'
+    long_name = 'concentration_area'
     units = 'pp / m^2'
     dims = ['time', 'depth', 'latitude', 'longitude']
-    data = gridTimeInstance.countsInCell.sum(axis=1)/gridTimeInstance.cellArea
-    if data.shape[0] == 1:
+    dict_coords = gridTimeInstance.coords.items()
+    data = gridTimeInstance.countsInCell.sum(axis=0)/gridTimeInstance.cellArea
+
+    if is2Dlayer(data):
         dims = ['time', 'latitude', 'longitude']
         data = np.squeeze(data, axis=0)
 
-    d = {}
-    d['coords'] = {k: v for k, v in gridTimeInstance.coords.items() if k in dims}
-    d['dims'] = dims
-    d['data'] = data
-    d['attrs'] = {'units': units,
-                  'long_name': baseName}
+    # turn into dataArray-ready dict
+    da_dict = to_dict(dict_coords, dims, data, units, long_name)
 
-    return d
+    return da_dict
 
 
 def getResidenceTime(gridTimeInstance, dt):
@@ -78,22 +90,20 @@ def getResidenceTime(gridTimeInstance, dt):
         d (dict): Dictionary with dataArray format
 
     """
-    baseName = 'residence_time'
+    long_name = 'residence_time'
     units = 'pp / m^3'
     dims = ['time', 'depth', 'latitude', 'longitude']
     data = (gridTimeInstance.countsInCell > 0)*dt
-    if data.shape[0] == 1:
+    dict_coords = gridTimeInstance.coords.items()
+
+    if is2Dlayer(data):
         dims = ['time', 'latitude', 'longitude']
         data = np.squeeze(data, axis=0)
 
-    d = {}
-    d['coords'] = {k: v for k, v in gridTimeInstance.coords.items() if k in dims}
-    d['dims'] = dims
-    d['data'] = data
-    d['attrs'] = {'units': units,
-                  'long_name': baseName}
+    # turn into dataArray-ready dict
+    da_dict = to_dict(dict_coords, dims, data, units, long_name)
 
-    return d
+    return da_dict
 
 
 def getCountsInCell(gridTimeInstance):
@@ -107,22 +117,20 @@ def getCountsInCell(gridTimeInstance):
         d (dict): Dictionary with dataArray format
 
     """
-    baseName = 'counts'
+    long_name = 'counts'
     units = 'ppb'
     dims = ['time', 'depth', 'latitude', 'longitude']
     data = gridTimeInstance.countsInCell
-    if data.shape[0] == 1:
+    dict_coords = gridTimeInstance.coords.items()
+
+    if is2Dlayer(data):
         dims = ['time', 'latitude', 'longitude']
         data = np.squeeze(data, axis=0)
 
-    d = {}
-    d['coords'] = {k: v for k, v in gridTimeInstance.coords.items() if k in dims}
-    d['dims'] = dims
-    d['data'] = data
-    d['attrs'] = {'units': units,
-                  'long_name': baseName}
+    # turn into dataArray-ready dict
+    da_dict = to_dict(dict_coords, dims, data, units, long_name)
 
-    return d
+    return da_dict
 
 
 def getVariableMeanCell(gridTimeInstance, varName, units=''):
@@ -131,25 +139,23 @@ def getVariableMeanCell(gridTimeInstance, varName, units=''):
 
     Args:
         gridTimeInstance (RectangularGridBase): Initialized RectangularGridBase.
-        units (string): Units of the variable 
+        units (string): Units of the variable
 
     Returns:
         d (dict): Dictionary with dataArray format
 
     """
 
-    baseName = varName
+    long_name = varName
     dims = ['time', 'depth', 'latitude', 'longitude']
     data = gridTimeInstance.meanDataInCell
-    if data.shape[0] == 1:
+    dict_coords = gridTimeInstance.coords.items()
+
+    if is2Dlayer(data):
         dims = ['time', 'latitude', 'longitude']
         data = np.squeeze(data, axis=0)
 
-    d = {}
-    d['coords'] = {k: v for k, v in gridTimeInstance.coords.items() if k in dims}
-    d['dims'] = dims
-    d['data'] = data
-    d['attrs'] = {'units': units,
-                  'long_name': baseName}
+    # turn into dataArray-ready dict
+    da_dict = to_dict(dict_coords, dims, data, units, long_name)
 
-    return d
+    return da_dict
