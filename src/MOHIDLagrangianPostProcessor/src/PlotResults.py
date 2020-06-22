@@ -97,16 +97,22 @@ def toPlotTimeSteps(dataArray, output_filename, title,
         None.
 
     """
-    if 'time' in dataArray:
-        time_key = 'time'
-        time_slice = slice(0, -1, int(dataArray.time.size/4))
+    time_key = dataArray.dims[0]
+    time_size = dataArray.shape[0]
+
+    if time_size == 4:
+        nrows = 2
+        ncols = 2
+    elif time_size == 12:
+        nrows = 3
+        ncols = 4
     else:
-        time_key = dataArray.dims[0]
         time_slice = slice(0, -1, int(dataArray[time_key].size/4))
-    
-    dataArray = dataArray.isel({time_key:time_slice})
-        
-    fig, axarr = plt.subplots(nrows=2, ncols=2, figsize=(15, 10),
+        dataArray = dataArray.isel({time_key:time_slice})
+        nrows = 2
+        ncols = 2
+
+    fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=(15, 10),
                               subplot_kw={'projection': ccrs.PlateCarree()})
 
     #request = cimgt.Stamen('terrain-background')
