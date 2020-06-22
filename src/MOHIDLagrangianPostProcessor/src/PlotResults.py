@@ -72,7 +72,7 @@ def toPlotTimeSteps(dataArray, output_filename, title,
 
     time_step = 0
     for ax in axarr.flat:
-        dataArray_step = dataArray.isel({time_key:time_step})
+        dataArray_step = dataArray[time_step,:,:] # BUG with.isel({time_key:time_step})
         getattr(dataArray_step.plot, plot_type)(x='longitude', y='latitude',
                                                 cmap=get_cmap("rainbow"),
                                                 ax=ax,
