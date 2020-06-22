@@ -8,12 +8,14 @@ Created on Wed Jun  3 15:48:27 2020
 
 import pandas as pd
 import xarray as xr
-from math import floor
+
 import numpy as np
 
 import matplotlib.pyplot as plt
 from matplotlib.cm import get_cmap
-from matplotlib import patheffects
+
+from src.PlotFeatures import scale_bar, get_extent, get_color_lims
+from src.PlotFeatures import get_title_methods, get_horizontal_scale
 
 import cartopy.feature as cfeature
 import cartopy.crs as ccrs
@@ -24,66 +26,7 @@ from src.XMLReader import getPlotTypeFromRecipe, getPlotMeasuresFromRecipe
 from src.XMLReader import getPlotWeightFromRecipe, getPlotTimeFromRecipe
 
 
-def utm_from_lon(lon):
-    """
-    utm_from_lon - UTM zone for a longitude
-
-    Not right for some polar regions (Norway, Svalbard, Antartica)
-
-    :param float lon: longitude
-    :return: UTM zone number
-    :rtype: int
-    """
-    return floor((lon + 180) / 6) + 1
-
-
-def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
-              units='km', m_per_unit=1000):
-    """
-
-    http://stackoverflow.com/a/35705477/1072212
-    ax is the axes to draw the scalebar on.
-    proj is the projection the axes are in
-    location is center of the scalebar in axis coordinates ie.
-    0.5 is the middle of the plot
-    length is the length of the scalebar in km.
-    linewidth is the thickness of the scalebar.
-    units is the name of the unit
-    m_per_unit is the number of meters in a unit
-    """
-    # find lat/lon center to find best UTM zone
-    x0, x1, y0, y1 = ax.get_extent(proj.as_geodetic())
-    # Projection in metres
-    utm = ccrs.UTM(utm_from_lon((x0+x1)/2))
-    # Get the extent of the plotted area in coordinates in metres
-    x0, x1, y0, y1 = ax.get_extent(utm)
-    # Turn the specified scalebar location into coordinates in metres
-    sbcx, sbcy = x0 + (x1 - x0) * location[0], y0 + (y1 - y0) * location[1]
-    # Generate the x coordinate for the ends of the scalebar
-    bar_xs = [sbcx - length * m_per_unit/2, sbcx + length * m_per_unit/2]
-    # buffer for scalebar
-    buffer = [patheffects.withStroke(linewidth=5, foreground="w")]
-    # Plot the scalebar with buffer
-    ax.plot(bar_xs, [sbcy, sbcy], transform=utm, color='k',
-            linewidth=linewidth, path_effects=buffer)
-    # buffer for text
-    buffer = [patheffects.withStroke(linewidth=3, foreground="w")]
-    # Plot the scalebar label
-    t0 = ax.text(sbcx, sbcy, str(length) + ' ' + units, transform=utm,
-                 horizontalalignment='center', verticalalignment='bottom',
-                 path_effects=buffer, zorder=2)
-
-    left = x0+(x1-x0)*0.05
-    # Plot the N arrow
-    t1 = ax.text(left, sbcy, u'\u25B2\nN', transform=utm,
-                 horizontalalignment='center', verticalalignment='bottom',
-                 path_effects=buffer, zorder=2)
-    # Plot the scalebar without buffer, in case covered by text buffer
-    ax.plot(bar_xs, [sbcy, sbcy], transform=utm, color='k',
-            linewidth=linewidth, zorder=3)
-
-
-def toPlotTimeSteps(dataArray, output_filename, title, 
+def toPlotTimeSteps(dataArray, output_filename, title,
                     plot_type='contourf', robust=True):
     """
 
@@ -118,17 +61,10 @@ def toPlotTimeSteps(dataArray, output_filename, title,
     #request = cimgt.Stamen('terrain-background')
     #ax.add_image(request, 2)
 
-    extent = [dataArray.longitude.min(),
-              dataArray.longitude.max(),
-              dataArray.latitude.min(),
-              dataArray.latitude.max()]
+    extent = get_extent(dataArray)
+    vmin, vmax = get_color_lims(dataArray, robust=True)
+    scale_bar_lenght = get_horizontal_scale(dataArray)
 
-    if robust is True:
-        vmin = dataArray.quantile(0.02).values
-        vmax = dataArray.quantile(0.98).values
-    else:
-        vmin = dataArray.min().values
-        vmax = dataArray.max().values
 
     land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
                                             edgecolor='face',
@@ -152,7 +88,7 @@ def toPlotTimeSteps(dataArray, output_filename, title,
         gl.xlabels_top = gl.ylabels_right = False
         gl.xformatter = LONGITUDE_FORMATTER
         gl.yformatter = LATITUDE_FORMATTER
-        scale_bar(ax, ccrs.PlateCarree(), 10)
+        scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
         time_step += 1
 
     # Creating the title from the filename
@@ -181,19 +117,11 @@ def toPlotTimeStep(dataArray, output_filename, title,
     #request = cimgt.Stamen('terrain-background')
     #ax.add_image(request, 2)
 
-    if robust is True:
-        vmin = dataArray.quantile(0.02).values
-        vmax = dataArray.quantile(0.98).values
-    else:
-        vmin = dataArray.min().values
-        vmax = dataArray.max().values
-
     ax = plt.subplot(projection=ccrs.PlateCarree())
 
-    extent = [dataArray.longitude.min(),
-              dataArray.longitude.max(),
-              dataArray.latitude.min(),
-              dataArray.latitude.max()]
+    extent = get_extent(dataArray)
+    vmin, vmax = get_color_lims(dataArray, robust=True)
+
     ax.set_extent(extent)
 
     land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
@@ -245,32 +173,6 @@ def toPlot(dataArray, output_filename, title, plot_type='contourf'):
     else:
         dataArray = dataArray[0,:,:]
         toPlotTimeStep(dataArray, output_filename, title, plot_type)
-
-
-def getTitleFromMethods(methods, debug_title=False):
-    """
-
-    Args:
-        filename (TYPE): DESCRIPTION.
-        debug_title (TYPE, optional): DESCRIPTION. Defaults to False.
-
-    Returns:
-        TYPE: DESCRIPTION.
-
-    """
-
-    methods_str = methods.split('-')[:-1]  # Turn the results in operation order.
-    var_str = methods.split('-')[-1]       # Get the var name
-    methods_funcstyle = [methods_str[0]] + ['('+methods_str[k] for k in range(1, len(methods_str))]
-    title_funcstyle = methods_funcstyle + ['(']+[var_str] + ['(t)'] + [')']*(len(methods_str)-1)
-
-    if debug_title is True:
-        print('-> method_str', methods_str)
-        print('-> title_funcsyle: ', title_funcstyle)
-        print('-> var_str: ', var_str)
-        print('-> methods_funcstyle: ', methods_funcstyle)
-
-    return ''.join(title_funcstyle)
 
 
 def GroupResample(da, time_group, time_freq, measure):
@@ -371,19 +273,19 @@ def plotResultsFromRecipe(outDir, xml_recipe):
         if 'depth' in da.dims:
             da = da.isel(depth=-1)
 
-        _method = ''
+        methods_list = []
         for method in methods:
             if group_freq != 'all':
                 if isGroupable(da, group_type, group_freq, method):
                     da = GroupResample(da, group_type, group_freq, method)
-                    
+
             da = getattr(da, method)(dim='time')
-            method = method + '-' + _method
+            methods_list.append(method)
 
         if ('contour' in plot_type[0]) == False:
             da = da.where(da != 0)
 
-        output_filename = outDir + method + variable + '.png'
-        title = getTitleFromMethods(method + '-' + variable)
+        output_filename = outDir + '-'.join(methods_list) + '-' + variable + '.png'
+        title = get_title_methods(methods_list, variable)
 
         toPlot(da, output_filename, title, plot_type[0])
