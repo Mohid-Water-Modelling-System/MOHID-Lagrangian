@@ -372,7 +372,8 @@ def plotResultsFromRecipe(outDir, xml_recipe):
             da = getattr(da, method)(dim='time')
             method = method + '-' + _method
 
-        da = da.where(da != 0)
+        if ('contour' in plot_type[0]) == False:
+            da = da.where(da != 0)
 
         output_filename = outDir + method + variable + '.png'
         title = getTitleFromMethods(method + '-' + variable)
