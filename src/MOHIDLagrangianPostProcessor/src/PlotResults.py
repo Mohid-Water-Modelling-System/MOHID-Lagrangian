@@ -103,6 +103,8 @@ def toPlotTimeSteps(dataArray, output_filename, title,
     else:
         time_key = dataArray.dims[0]
         time_slice = slice(0, -1, int(dataArray[time_key].size/4))
+    
+    dataArray = dataArray.isel({time_key:time_slice})
         
     fig, axarr = plt.subplots(nrows=2, ncols=2, figsize=(15, 10),
                               subplot_kw={'projection': ccrs.PlateCarree()})
