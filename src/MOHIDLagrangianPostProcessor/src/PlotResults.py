@@ -51,7 +51,7 @@ def toPlotTimeSteps(dataArray, output_filename, title,
         ncols = 4
     else:
         time_slice = slice(0, -1, int(time_size/4))
-        dataArray = dataArray.isel({time_key: time_slice})
+        dataArray = dataArray[time_slice,:,:]
         nrows = 2
         ncols = 2
 
@@ -171,7 +171,7 @@ def toPlot(dataArray, output_filename, title, plot_type='contourf'):
         toPlotTimeSteps(dataArray, output_filename, title, plot_type)
 
     else:
-        dataArray = dataArray[0,:,:]
+        dataArray = dataArray[0, :,:]
         toPlotTimeStep(dataArray, output_filename, title, plot_type)
 
 
