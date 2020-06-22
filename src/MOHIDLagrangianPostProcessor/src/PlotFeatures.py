@@ -13,7 +13,7 @@ import cartopy.crs as ccrs
 import xarray as xr
 
 
-def get_color_lims(dataArray, robust=True, min_quartile=0.02, max_quartile=0.98):
+def get_color_lims(dataArray, robust=True, min_quartile=0.01, max_quartile=0.99):
     if robust is True:
         vmin = dataArray.quantile(min_quartile).values
         vmax = dataArray.quantile(max_quartile).values
@@ -76,7 +76,7 @@ def get_title_methods(methods: list, variable: str,
 
     methods_variable_list = methods[::-1] + [measure_name] + ['t']
     start_parethesis = '('.join(methods_variable_list)
-    end_parenthesis = ''.join(len(methods_variable_list)*[')'])
+    end_parenthesis = ''.join((len(methods_variable_list)-1)*[')'])
 
 
     title = r"$\bf{Method :}$" + start_parethesis + end_parenthesis + '\n'+\
@@ -85,16 +85,15 @@ def get_title_methods(methods: list, variable: str,
     return title
 
 
-
 def get_source_from_variable(variable: str):
     """
     get the source name from variable
 
     Args:
-        variable (str): DESCRIPTION.
+        variable (str): variable name from postprocessor
 
     Returns:
-        source_name (TYPE): DESCRIPTION.
+        source_name (str): source name
 
     """
 
@@ -105,7 +104,7 @@ def get_source_from_variable(variable: str):
 
     for post_measure in post_measures:
         if post_measure in variable:
-            source_name = variable.replace(post_measure,'')
+            source_name = variable.replace(post_measure, '')
 
     return source_name
 
@@ -182,7 +181,7 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
     left = x0+(x1-x0)*0.05
     # Plot the N arrow
     t1 = ax.text(left, sbcy, u'\u25B2\nN', transform=utm,
-                 horizontalalignment='center', verticalalignment='bottom',
+                 horizontalalignment='left', verticalalignment='bottom',
                  path_effects=buffer, zorder=2)
     # Plot the scalebar without buffer, in case covered by text buffer
     ax.plot(bar_xs, [sbcy, sbcy], transform=utm, color='k',
