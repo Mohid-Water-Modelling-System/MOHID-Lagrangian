@@ -50,8 +50,8 @@ def toPlotTimeSteps(dataArray, output_filename, title,
         nrows = 3
         ncols = 4
     else:
-        time_slice = slice(0, -1, int(dataArray[time_key].size/4))
-        dataArray = dataArray.isel({time_key:time_slice})
+        time_slice = slice(0, -1, int(time_size/4))
+        dataArray = dataArray.isel({time_key: time_slice})
         nrows = 2
         ncols = 2
 

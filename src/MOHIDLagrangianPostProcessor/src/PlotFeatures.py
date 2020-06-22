@@ -13,14 +13,28 @@ import cartopy.crs as ccrs
 import xarray as xr
 
 
-def get_color_lims(dataArray, robust=True, min_quartile=0.01, max_quartile=0.99):
+def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
+                   min_quartile=0.01, max_quartile=0.99):
+    """
+
+
+    Args:
+        dataArray (xr.DataArray): DESCRIPTION.
+        robust (bool, optional): DESCRIPTION. Defaults to True.
+        min_quartile (float, optional): DESCRIPTION. Defaults to 0.01.
+        max_quartile (float, optional): DESCRIPTION. Defaults to 0.99.
+
+    Returns:
+        vmin (float): DESCRIPTION.
+        vmax (float): DESCRIPTION.
+
+    """
     if robust is True:
         vmin = dataArray.quantile(min_quartile).values
         vmax = dataArray.quantile(max_quartile).values
     else:
         vmin = dataArray.min().values
         vmax = dataArray.max().values
-
     return vmin, vmax
 
 
@@ -83,6 +97,7 @@ def get_title_methods(methods: list, variable: str,
     r"$\bf{Source :}$" + source_name
 
     return title
+
 
 
 def get_source_from_variable(variable: str):
@@ -181,7 +196,7 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
     left = x0+(x1-x0)*0.05
     # Plot the N arrow
     t1 = ax.text(left, sbcy, u'\u25B2\nN', transform=utm,
-                 horizontalalignment='left', verticalalignment='bottom',
+                 horizontalalignment='center', verticalalignment='bottom',
                  path_effects=buffer, zorder=2)
     # Plot the scalebar without buffer, in case covered by text buffer
     ax.plot(bar_xs, [sbcy, sbcy], transform=utm, color='k',
