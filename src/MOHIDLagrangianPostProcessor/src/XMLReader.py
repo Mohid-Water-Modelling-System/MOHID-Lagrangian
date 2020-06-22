@@ -66,12 +66,11 @@ def checkPlotRecipe(xmlFile):
 
 
 def getPlotTimeFromRecipe(xmlFile):
-    fieldList = []
     root = ET.parse(xmlFile).getroot()
-    for fieldName in root.findall('plot/time'):
-        fieldList.append(fieldName.get('value'))
-    return fieldList
-
+    fieldName = root.findall('plot/time')[0]
+    freq = fieldName.get('value')
+    kind = fieldName.get('key')
+    return freq, kind
 
 def getPlotMeasuresFromRecipe(xmlFile):
     fieldList = []

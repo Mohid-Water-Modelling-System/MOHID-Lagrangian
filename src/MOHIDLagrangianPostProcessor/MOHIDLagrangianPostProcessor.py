@@ -104,7 +104,7 @@ class MOHIDLagrangianGridBasedMeasures:
         self.outputFile = []
         self.gridBasicMeasures = ['residence_time', 'concentrations']
 
-    def initialize(self,xml_file, xml_recipe, outdir, outdirLocal):
+    def initialize(self, xml_file, xml_recipe, outdir, outdirLocal):
         self.base = MOHIDLagrangianPostProcessorBase(xml_file, xml_recipe, outdir, outdirLocal)
         self.base.getMOHIDLagrangianBase()
 
@@ -115,7 +115,6 @@ class MOHIDLagrangianGridBasedMeasures:
 
         self.netcdfWriter = NetcdfParser(self.outputFile)
         self.netcdfWriter.initDataset(self.grid, self.base.FileTimeHandler)
-
 
     def run(self, measures):
         print('-> Measures to compute: ', measures)

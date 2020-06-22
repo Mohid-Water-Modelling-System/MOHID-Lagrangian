@@ -83,7 +83,8 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
             linewidth=linewidth, zorder=3)
 
 
-def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
+def toPlotTimeSteps(dataArray, output_filename, title, 
+                    plot_type='contourf', robust=True):
     """
 
 
@@ -96,8 +97,13 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
         None.
 
     """
-
-    time_slice = slice(0, -1, int(dataArray.time.size/4))
+    if 'time' in dataArray:
+        time_key = 'time'
+        time_slice = slice(0, -1, int(dataArray.time.size/4))
+    else:
+        time_key = dataArray.dims[0]
+        time_slice = slice(0, -1, int(dataArray[time_key].size/4))
+        
     fig, axarr = plt.subplots(nrows=2, ncols=2, figsize=(15, 10),
                               subplot_kw={'projection': ccrs.PlateCarree()})
 
@@ -109,18 +115,27 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
               dataArray.latitude.min(),
               dataArray.latitude.max()]
 
+    if robust is True:
+        vmin = dataArray.quantile(0.02).values
+        vmax = dataArray.quantile(0.98).values
+    else:
+        vmin = dataArray.min().values
+        vmax = dataArray.max().values
+
     land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
                                             edgecolor='face',
                                             facecolor=np.array((0.75, 0.75, 0.75)))
 
     time_step = 0
     for ax in axarr.flat:
-        dataArray_step = dataArray.isel(time=time_step)
-        getattr(dataArray_step.plot, plot_type)(x='longitude',y='latitude',
+        dataArray_step = dataArray.isel({time_key:time_step})
+        getattr(dataArray_step.plot, plot_type)(x='longitude', y='latitude',
                                                 cmap=get_cmap("rainbow"),
-                                                robust=True,
                                                 ax=ax,
-                                                cbar_kwargs={'shrink': 0.6})
+                                                cbar_kwargs={'shrink': 0.6},
+                                                vmin=vmin,
+                                                vmax=vmax
+                                                )
 
         ax.set_extent(extent)
         ax.add_feature(land_10m)
@@ -140,7 +155,8 @@ def toPlotTimeSteps(dataArray, output_filename, title, plot_type='contourf'):
     plt.close()
 
 
-def toPlotTimeStep(dataArray, output_filename, title, plot_type='contourf'):
+def toPlotTimeStep(dataArray, output_filename, title,
+                   plot_type='contourf', robust=True):
     """
 
 
@@ -156,6 +172,14 @@ def toPlotTimeStep(dataArray, output_filename, title, plot_type='contourf'):
     fig = plt.figure(figsize=(15, 10))
     #request = cimgt.Stamen('terrain-background')
     #ax.add_image(request, 2)
+
+    if robust is True:
+        vmin = dataArray.quantile(0.02).values
+        vmax = dataArray.quantile(0.98).values
+    else:
+        vmin = dataArray.min().values
+        vmax = dataArray.max().values
+
     ax = plt.subplot(projection=ccrs.PlateCarree())
 
     extent = [dataArray.longitude.min(),
@@ -168,12 +192,13 @@ def toPlotTimeStep(dataArray, output_filename, title, plot_type='contourf'):
                                             edgecolor='face',
                                             facecolor=np.array((0.75, 0.75, 0.75)))
 
-    getattr(dataArray.plot, plot_type)(x='longitude',y='latitude',
+    getattr(dataArray.plot, plot_type)(x='longitude', y='latitude',
                                        ax=ax,
                                        cmap=get_cmap("rainbow"),
                                        zorder=10,
-                                       robust=True,
-                                       cbar_kwargs={'shrink': 0.6}
+                                       cbar_kwargs={'shrink': 0.6},
+                                       vmin=vmin,
+                                       vmax=vmax
                                        )
 
     ax.add_feature(land_10m)
@@ -206,13 +231,11 @@ def toPlot(dataArray, output_filename, title, plot_type='contourf'):
 
     """
 
-    if 'time' in dataArray.dims:
-        if dataArray.time.size > 1:
-            print('MULTIPLE FILES')
-            toPlotTimeSteps(dataArray, output_filename, title, plot_type)
-            
+    if (len(dataArray.dims) > 2) and (dataArray.shape[0] > 1):
+        toPlotTimeSteps(dataArray, output_filename, title, plot_type)
+
     else:
-        dataArray = dataArray.isel(time=0)
+        dataArray = dataArray[0,:,:]
         toPlotTimeStep(dataArray, output_filename, title, plot_type)
 
 
@@ -242,7 +265,7 @@ def getTitleFromMethods(methods, debug_title=False):
     return ''.join(title_funcstyle)
 
 
-def isResamplable(ds, time_group, measure):
+def GroupResample(da, time_group, time_freq, measure):
     """
 
 
@@ -255,7 +278,29 @@ def isResamplable(ds, time_group, measure):
         flag (TYPE): DESCRIPTION.
 
     """
-    flag = measure in dir(ds.resample(time=time_group))
+    if time_group == 'resample':
+         da = da.resample(time=time_freq)
+    elif time_group == 'groupby':
+         da = da.groupby(time_freq)
+    return da
+
+def isGroupable(da, time_group, time_freq, measure):
+    """
+
+
+    Args:
+        ds (TYPE): DESCRIPTION.
+        time_group (TYPE): DESCRIPTION.
+        measure (TYPE): DESCRIPTION.
+
+    Returns:
+        flag (TYPE): DESCRIPTION.
+
+    """
+    if time_group == 'resample':
+        flag = (measure in dir(da.resample(time=time_freq)))
+    elif time_group == 'groupby':
+        flag = (measure in dir(da.groupby(time_freq)))
     return flag
 
 
@@ -297,13 +342,13 @@ def plotResultsFromRecipe(outDir, xml_recipe):
 
     """
     # they returns a list.
-    time_group = getPlotTimeFromRecipe(xml_recipe)
+    group_freq, group_type = getPlotTimeFromRecipe(xml_recipe)
     methods = getPlotMeasuresFromRecipe(xml_recipe)
     plot_type = getPlotTypeFromRecipe(xml_recipe)
     weight_file = getPlotWeightFromRecipe(xml_recipe)
 
     print('-> Plotting results:')
-    print('-> Grouping time steps:', time_group)
+    print('-> Grouping time steps:',group_freq, group_type)
     print('-> Methods:', methods)
     print('-> Plot_type', plot_type)
 
@@ -314,23 +359,22 @@ def plotResultsFromRecipe(outDir, xml_recipe):
         ds = weightDataset(ds, weight_file[0])
 
     for variable in variables:
-        da = ds[variable]
+        da = ds[variable].load()
         if 'depth' in da.dims:
             da = da.isel(depth=-1)
-            
+
         _method = ''
         for method in methods:
-            if time_group[0] != 'all':
-                if isResamplable(da, time_group[0], method):
-                    da = da.resample(time=time_group[0])
+            if group_freq != 'all':
+                if isGroupable(da, group_type, group_freq, method):
+                    da = GroupResample(da, group_type, group_freq, method)
                     
             da = getattr(da, method)(dim='time')
-            print(da.time.size)
             method = method + '-' + _method
-            
+
         da = da.where(da != 0)
 
         output_filename = outDir + method + variable + '.png'
         title = getTitleFromMethods(method + '-' + variable)
-        
+
         toPlot(da, output_filename, title, plot_type[0])
