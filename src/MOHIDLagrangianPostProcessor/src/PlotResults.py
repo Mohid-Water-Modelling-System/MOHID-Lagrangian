@@ -20,12 +20,13 @@ from src.PlotFeatures import scale_bar, get_extent, get_color_lims
 from src.PlotFeatures import get_title_methods, get_horizontal_scale
 from src.PlotFeatures import hastime, isgroupable, group_resample
 from src.PlotFeatures import weight_dataset, get_background_map
+from src.PlotFeatures import get_cbar_position
 
 from src.XMLReader import getPlotTypeFromRecipe, getPlotMeasuresFromRecipe
 from src.XMLReader import getPlotWeightFromRecipe, getPlotTimeFromRecipe
 
 
-def plot_it(dataArray, output_filename, title, plot_type='contourf'):
+def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
     """
 
 
@@ -78,14 +79,14 @@ def plot_it(dataArray, output_filename, title, plot_type='contourf'):
             dataArray_step = dataArray.isel({time_key: time_step})
         else:
             dataArray_step = dataArray
-        getattr(dataArray_step.plot, plot_type)(x='longitude', y='latitude',
-                                                cmap=get_cmap("rainbow"),
-                                                ax=ax,
-                                                cbar_kwargs={'shrink': 0.6},
-                                                vmin=vmin,
-                                                vmax=vmax,
-                                                zorder=1
-                                                )
+        p = getattr(dataArray_step.plot, plot_type)(x='longitude', y='latitude',
+                                                    cmap=get_cmap("rainbow"),
+                                                    ax=ax,
+                                                    vmin=vmin,
+                                                    vmax=vmax,
+                                                    zorder=1,
+                                                    add_colorbar = False
+                                                    )
 
         ax = get_background_map(ax, extent)
         gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
@@ -95,9 +96,15 @@ def plot_it(dataArray, output_filename, title, plot_type='contourf'):
         scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
         time_step += 1
 
+    #creating the colorbar.
+    cbar_x, cbar_y, size_x, size_y = get_cbar_position(axarr)
+    cbar_ax = fig.add_axes([cbar_x, cbar_y, size_x, size_y])
+    cbar = fig.colorbar(p, cax=cbar_ax)
+    cbar.set_label(units)
+
     # Creating the title from the filename
     fig.suptitle(title, fontsize='x-large')
-    plt.tight_layout()
+    fig.tight_layout()
     fig.savefig(output_filename, dpi=300)
     plt.close()
 
@@ -129,11 +136,13 @@ def plotResultsFromRecipe(outDir, xml_recipe):
     ds = xr.open_mfdataset(outDir+'*.nc')
     variables = list(ds.keys())
 
-    if weight_file:
-        ds = weight_dataset(ds, weight_file[0])
+   # if weight_file:
+   #     ds = weight_dataset(ds, weight_file[0])
 
     for variable in variables:
         da = ds[variable].load()
+        units = da.units
+        
         if 'depth' in da.dims:
             da = da.isel(depth=-1)
 
@@ -152,4 +161,4 @@ def plotResultsFromRecipe(outDir, xml_recipe):
         output_filename = outDir + '-'.join(methods_list) + '-' + variable + '.png'
         title = get_title_methods(methods_list, variable)
 
-        plot_it(da, output_filename, title, plot_type[0])
+        plot_it(da, output_filename, title, units, plot_type[0])

@@ -36,7 +36,7 @@ class FilesTimesHandler:
 
     def getTimeMaskFromRecipe(self, xmlRecipe):
         root = ET.parse(xmlRecipe).getroot()
-        self.timeMask = np.zeros(self.timeAxis.size, dtype=np.bool)
+        self.timeMask = np.ones(self.timeAxis.size, dtype=np.bool)
         for parameter in root.findall('time/'):
             if parameter.tag == 'start':
                 timeRecipeStart = MDateTime.getTimeStampFromISODateString(parameter.get('value'))
@@ -46,7 +46,9 @@ class FilesTimesHandler:
                 self.timeMask = self.timeMask & (self.timeAxis < timeRecipeEnd)
             if parameter.tag == 'step':
                 step = np.int64(parameter.get('value'))
-                self.timeMask[::step] = True
+                bufferTimeMask = np.zeros(self.timeAxis.size, dtype=np.bool)
+                bufferTimeMask[::step] = True
+                self.timeMask = self.timeMask & bufferTimeMask
         self.timeAxis = self.timeAxis[self.timeMask]
 
     def initializeTimeGrid(self, xmlFile, xmlRecipe):

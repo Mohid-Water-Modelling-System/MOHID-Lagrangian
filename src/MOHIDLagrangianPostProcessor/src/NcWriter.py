@@ -52,7 +52,7 @@ def getDimsAttrs(dimensionName, dimensionData=None):
 def getVarsAttrs(variableName):
     if variableName == 'concentration':
         attrs = {'long_name': 'concentration',
-                 'units': 'pp/m^2'}
+                 'units': 'p/km^2'}
     elif variableName == 'residence_time':
         attrs = {'long_name': 'residence_time',
                  'units': 's'}
@@ -94,7 +94,8 @@ class NetcdfParser:
         ds = Dataset(self.fileName, 'a')
         if step == 0:
             formatData = str(dataArray['data'].dtype.kind) + str(dataArray['data'].dtype.alignment)
-            _ = ds.createVariable(variableNetcdfName, formatData, dataArray['dims'])
+            ncvar = ds.createVariable(variableNetcdfName, formatData, dataArray['dims'])
+            ncvar.units = dataArray['attrs']['units']
         appendvar = ds.variables[variableNetcdfName]
         appendvar[step] = dataArray['data']
         ds.close()

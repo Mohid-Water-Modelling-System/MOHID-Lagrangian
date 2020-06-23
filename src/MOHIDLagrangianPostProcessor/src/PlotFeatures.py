@@ -242,6 +242,34 @@ def get_source_from_variable(variable: str):
     return source_name
 
 
+def get_cbar_position(axarr: list):
+    """
+    get the source name from variable
+
+    Args:
+        axarr (list): list with axis
+
+    Returns:
+        source_name (str): source name
+
+    """
+
+    limits = np.zeros((axarr.flatten().size, 4))
+    for i, ax in enumerate(axarr.flat):
+        limits[i, :] = ax.get_position().bounds
+
+    limits[:, 2] = limits[:,0] + limits[:,2]
+    limits[:, 3] = limits[:,1] + limits[:,3]
+
+    cbar_x = np.max(limits[:,3]) + (1-np.max(limits[:,3]))*0.45
+    y_size = (np.max(limits[:,3]) - np.min(limits[:,1]))
+    cbar_y = np.min(limits[:,1]) + y_size*0.15
+
+    size_x = 0.015
+    size_y = np.max(limits[:,3]) - cbar_y - y_size*0.15
+    return cbar_x, cbar_y, size_x, size_y
+
+
 def get_measure_from_variable(variable: str):
     """
     get the measure from variable

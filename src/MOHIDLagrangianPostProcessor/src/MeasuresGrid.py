@@ -35,7 +35,7 @@ def getConcentrationsVolume(gridTimeInstance):
 
     """
     long_name = 'concentration_volume'
-    units = 'pp / m^3'
+    units = 'p/km^3'
     dims = ['time', 'depth', 'latitude', 'longitude']
     data = gridTimeInstance.countsInCell/gridTimeInstance.cellVolume
     dict_coords = gridTimeInstance.coords.items()
@@ -64,7 +64,7 @@ def getConcentrationsArea(gridTimeInstance):
     """
 
     long_name = 'concentration_area'
-    units = 'pp / m^2'
+    units = 'p/km^2'
     dims = ['time', 'depth', 'latitude', 'longitude']
     dict_coords = gridTimeInstance.coords.items()
     data = gridTimeInstance.countsInCell.sum(axis=0)/gridTimeInstance.cellArea
@@ -91,7 +91,7 @@ def getResidenceTime(gridTimeInstance, dt):
 
     """
     long_name = 'residence_time'
-    units = 'pp / m^3'
+    units = 's'
     dims = ['time', 'depth', 'latitude', 'longitude']
     data = (gridTimeInstance.countsInCell > 0)*dt
     dict_coords = gridTimeInstance.coords.items()
@@ -133,7 +133,7 @@ def getCountsInCell(gridTimeInstance):
     return da_dict
 
 
-def getVariableMeanCell(gridTimeInstance, varName, units=''):
+def getVariableMeanCell(gridTimeInstance, varName, units='n.u'):
     """
     Get the mean value of variable in a cell
 
