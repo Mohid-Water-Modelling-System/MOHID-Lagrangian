@@ -7,16 +7,135 @@ Created on Mon Jun 22 15:28:44 2020
 """
 
 import numpy as np
+import pandas as pd
+import xarray as xr
 from math import floor
 from matplotlib import patheffects
+
 import cartopy.crs as ccrs
-import xarray as xr
+import cartopy.feature as cfeature
+import cartopy.io.img_tiles as cimgt
+
+
+def hastime(dataArray: xr.DataArray) -> bool:
+    """
+    Check if dataArray has time or not
+
+    Alternative future implementation based on key search:
+
+    dims = len(dataArray.shape)
+    time_dim_size = dataArray.shape[0]
+    if (dims >= 3) and (time_dim_size >= 1):
+        dim_name = ['time','year','week','month','season','day',
+                    'hour','minute','second']
+        flag = any([name in dataArray for name in dim_name])
+
+    Args:
+        dataArray (xr.DataArray): DESCRIPTION.
+
+
+    Returns:
+        bool: DESCRIPTION.
+
+    """
+    flag = False
+    dims = len(dataArray.shape)
+    time_dim_size = dataArray.shape[0]
+    if (dims >= 3) and (time_dim_size >= 1):
+        flag = True
+    else:
+        flag = False
+
+    return flag
+
+
+def group_resample(da, time_group, time_freq, measure):
+    """
+
+
+    Args:
+        ds (TYPE): DESCRIPTION.
+        time_group (TYPE): DESCRIPTION.
+        measure (TYPE): DESCRIPTION.
+
+    Returns:
+        flag (TYPE): DESCRIPTION.
+
+    """
+    if time_group == 'resample':
+        da = da.resample(time=time_freq)
+    elif time_group == 'groupby':
+        da = da.groupby(time_freq)
+    return da
+
+
+def isgroupable(da, time_group, time_freq, measure):
+    """
+
+
+    Args:
+        ds (TYPE): DESCRIPTION.
+        time_group (TYPE): DESCRIPTION.
+        measure (TYPE): DESCRIPTION.
+
+    Returns:
+        flag (TYPE): DESCRIPTION.
+
+    """
+    if time_group == 'resample':
+        flag = (measure in dir(da.resample(time=time_freq)))
+    elif time_group == 'groupby':
+        flag = (measure in dir(da.groupby(time_freq)))
+    return flag
+
+
+def weight_dataset(dataset, weight_file):
+    """
+
+
+    Args:
+        dataset (TYPE): DESCRIPTION.
+        weight_file (TYPE): DESCRIPTION.
+
+    Returns:
+        dataset (TYPE): DESCRIPTION.
+
+    """
+    df = pd.read_csv(weight_file)
+    df = df.set_index('name')
+
+    for datasetVar in list(dataset.keys()):
+        for indexVar in df.index:
+            if indexVar in datasetVar:
+                weight = df.loc[indexVar, 'weight']
+                dataset[datasetVar] = dataset[datasetVar]*df.loc[indexVar, 'weight']
+                print('-> Weighting', datasetVar, ' by ', weight)
+
+    return dataset
+
+
+
+def get_background_map(ax, extent):
+    gray_color = np.array((0.75, 0.75, 0.75))
+    extent_size = abs(extent[1]-extent[0])
+    if extent_size > 1:  # one degree ~ 111 km
+        land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
+                                                edgecolor='face',
+                                                facecolor=gray_color)
+        ax.add_feature(land_10m)
+        ax.add_feature(cfeature.OCEAN, color='white')
+
+    else:
+        stamen_terrain = cimgt.Stamen('toner-background')
+        stamen_terrain.desired_tile_form = 'L'
+        ax.add_image(stamen_terrain, 11, cmap='gray_r')
+    return ax
 
 
 def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
-                   min_quartile=0.01, max_quartile=0.99):
+                   min_quartile=0.02, max_quartile=0.99):
     """
-
+    Get the vmax and vmin from the dataArray
 
     Args:
         dataArray (xr.DataArray): DESCRIPTION.
@@ -97,7 +216,6 @@ def get_title_methods(methods: list, variable: str,
     r"$\bf{Source :}$" + source_name
 
     return title
-
 
 
 def get_source_from_variable(variable: str):
@@ -194,8 +312,9 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
                  path_effects=buffer, zorder=2)
 
     left = x0+(x1-x0)*0.05
+    up = y0+(y1-y0)*0.9
     # Plot the N arrow
-    t1 = ax.text(left, sbcy, u'\u25B2\nN', transform=utm,
+    t1 = ax.text(left, up, u'\u25B2\nN', transform=utm,
                  horizontalalignment='center', verticalalignment='bottom',
                  path_effects=buffer, zorder=2)
     # Plot the scalebar without buffer, in case covered by text buffer
