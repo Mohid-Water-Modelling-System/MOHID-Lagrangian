@@ -11,6 +11,7 @@ import pandas as pd
 import xarray as xr
 from math import floor
 from matplotlib import patheffects
+import matplotlib.cm, matplotlib.colors
 
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -114,7 +115,6 @@ def weight_dataset(dataset, weight_file):
     return dataset
 
 
-
 def get_background_map(ax, extent):
     gray_color = np.array((0.75, 0.75, 0.75))
     extent_size = abs(extent[1]-extent[0])
@@ -128,12 +128,12 @@ def get_background_map(ax, extent):
     else:
         stamen_terrain = cimgt.Stamen('toner-background')
         stamen_terrain.desired_tile_form = 'L'
-        ax.add_image(stamen_terrain, 11, cmap='gray_r')
+        ax.add_image(stamen_terrain, 11, cmap='gray_r', norm=matplotlib.colors.PowerNorm(2))
     return ax
 
 
 def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
-                   min_quartile=0.02, max_quartile=0.99):
+                   min_quartile=0.05, max_quartile=0.99):
     """
     Get the vmax and vmin from the dataArray
 

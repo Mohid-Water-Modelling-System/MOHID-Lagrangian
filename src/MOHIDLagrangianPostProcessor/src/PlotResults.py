@@ -38,7 +38,7 @@ def plot_it(dataArray, output_filename, title, plot_type='contourf'):
         None.
 
     """
-    
+
     time_plot_flag = hastime(dataArray)
 
     if time_plot_flag:
@@ -97,7 +97,7 @@ def plot_it(dataArray, output_filename, title, plot_type='contourf'):
 
     # Creating the title from the filename
     fig.suptitle(title, fontsize='x-large')
-
+    plt.tight_layout()
     fig.savefig(output_filename, dpi=300)
     plt.close()
 
