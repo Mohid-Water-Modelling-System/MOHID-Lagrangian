@@ -62,7 +62,13 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
     else:
         nrows = ncols = 1
 
-    fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=(15, 15),
+
+    if nrows == ncols:
+        figsize = (17,15)
+    elif ncols > nrows:
+        figsize = (20,15)
+
+    fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize,
                               subplot_kw={'projection': ccrs.PlateCarree()})
 
     # genralization -> make one subplot iterable.
@@ -102,7 +108,7 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
     cbar_x, cbar_y, size_x, size_y = get_cbar_position(axarr)
     cbar_ax = fig.add_axes([cbar_x, cbar_y, size_x, size_y])
     cbar = fig.colorbar(p, cax=cbar_ax)
-    cbar.set_clim(vmin,vmax)
+    cbar.set_clim(vmin, vmax)
     cbar.set_label(units)
 
     # Creating the title from the filename
@@ -145,7 +151,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
     for variable in variables:
         da = ds[variable].load()
         units = da.units
-        
+
         if 'depth' in da.dims:
             da = da.isel(depth=-1)
 
@@ -158,8 +164,8 @@ def plotResultsFromRecipe(outDir, xml_recipe):
             da = getattr(da, method)(dim='time')
             methods_list.append(method)
 
-        if ('contour' in plot_type[0]) == False:
-            da = da.where(da != 0)
+        # if ('contour' in plot_type[0]) == False:
+        da = da.where(da != 0)
 
         output_filename = outDir + '-'.join(methods_list) + '-' + variable + '.png'
         title = get_title_methods(methods_list, variable)

@@ -50,7 +50,10 @@ def getDimsAttrs(dimensionName, dimensionData=None):
 
 
 def getVarsAttrs(variableName):
-    if variableName == 'concentration':
+    if variableName == 'concentration_area':
+        attrs = {'long_name': 'concentration',
+                 'units': 'p/km^2'}
+    elif variableName == 'concentration_volume':
         attrs = {'long_name': 'concentration',
                  'units': 'p/km^2'}
     elif variableName == 'residence_time':
