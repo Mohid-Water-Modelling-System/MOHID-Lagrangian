@@ -62,7 +62,7 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
     else:
         nrows = ncols = 1
 
-    fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=(15, 12),
+    fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=(15, 15),
                               subplot_kw={'projection': ccrs.PlateCarree()})
 
     # genralization -> make one subplot iterable.
