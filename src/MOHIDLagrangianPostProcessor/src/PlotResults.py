@@ -85,14 +85,19 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
             dataArray_step = dataArray.isel({time_key: time_step})
         else:
             dataArray_step = dataArray
-        p = getattr(dataArray_step.plot, plot_type)(x='longitude', y='latitude',
-                                                    cmap=get_cmap("rainbow"),
-                                                    ax=ax,
-                                                    vmin=vmin,
-                                                    vmax=vmax,
-                                                    zorder=1,
-                                                    add_colorbar = False
-                                                    )
+
+        try:
+            p = getattr(dataArray_step.plot, plot_type)(x='longitude', y='latitude',
+                                                        cmap=get_cmap("rainbow"),
+                                                        ax=ax,
+                                                        vmin=vmin,
+                                                        vmax=vmax,
+                                                        zorder=1,
+                                                        add_colorbar = False
+                                                        )
+        except:
+            print('-> WARNING: Could not plot', title)
+            continue
 
         ax = get_background_map(ax, extent)
         gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
