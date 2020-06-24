@@ -93,8 +93,8 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
         gl.xlabels_top = gl.ylabels_right = False
         gl.xformatter = LONGITUDE_FORMATTER
         gl.yformatter = LATITUDE_FORMATTER
-        if np.abs((extent[3]-extent[2])/((extent[1]-extent[0]))) > 1.5:
-            gl.xlabel_style = {'rotation': 45}    
+        if np.abs((extent[3]-extent[2])>((extent[1]-extent[0]))):
+            gl.xlabel_style = {'rotation': 45}
         scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
         time_step += 1
 
