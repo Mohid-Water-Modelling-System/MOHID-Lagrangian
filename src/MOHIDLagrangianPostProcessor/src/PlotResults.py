@@ -95,19 +95,19 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
                                                         zorder=1,
                                                         add_colorbar = False
                                                         )
+            ax = get_background_map(ax, extent)
+            gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
+            gl.xlabels_top = gl.ylabels_right = False
+            gl.xformatter = LONGITUDE_FORMATTER
+            gl.yformatter = LATITUDE_FORMATTER
+            if np.abs((extent[3]-extent[2])>((extent[1]-extent[0]))):
+                gl.xlabel_style = {'rotation': 45}
+            scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
+            time_step += 1
+
         except:
             print('-> WARNING: Could not plot', title)
             continue
-
-        ax = get_background_map(ax, extent)
-        gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
-        gl.xlabels_top = gl.ylabels_right = False
-        gl.xformatter = LONGITUDE_FORMATTER
-        gl.yformatter = LATITUDE_FORMATTER
-        if np.abs((extent[3]-extent[2])>((extent[1]-extent[0]))):
-            gl.xlabel_style = {'rotation': 45}
-        scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
-        time_step += 1
 
     # creating the colorbar.
     cbar_x, cbar_y, size_x, size_y = get_cbar_position(axarr)
