@@ -13,7 +13,8 @@ def to_dict(dict_coords, dims, data, units, long_name):
     d['coords'] = {k: v for k, v in dict_coords if k in dims}
     d['dims'] = dims
     d['data'] = data
-    d['attrs'] = {'units': units, 'long_name': long_name}
+    d['attrs'] = {'units': units,
+                  'long_name': long_name}
     return d
 
 def is2D(array):
@@ -35,7 +36,7 @@ def getConcentrationsVolume(gridTimeInstance):
 
     """
     long_name = 'concentration_volume'
-    units = 'p/km^3'
+    units = 'particles/km^3'
     dims = ['time', 'depth', 'latitude', 'longitude']
     data = gridTimeInstance.countsInCell/gridTimeInstance.cellVolume
     dict_coords = gridTimeInstance.coords.items()
@@ -64,7 +65,7 @@ def getConcentrationsArea(gridTimeInstance):
     """
 
     long_name = 'concentration_area'
-    units = 'p/km^2'
+    units = 'particles/km^2'
     dims = ['time', 'depth', 'latitude', 'longitude']
     dict_coords = gridTimeInstance.coords.items()
     data = gridTimeInstance.countsInCell.sum(axis=0)/gridTimeInstance.cellArea
@@ -118,7 +119,7 @@ def getCountsInCell(gridTimeInstance):
 
     """
     long_name = 'counts'
-    units = 'ppb'
+    units = 'particles-per-box'
     dims = ['time', 'depth', 'latitude', 'longitude']
     data = gridTimeInstance.countsInCell
     dict_coords = gridTimeInstance.coords.items()

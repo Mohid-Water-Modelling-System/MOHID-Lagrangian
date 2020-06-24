@@ -62,7 +62,7 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
     else:
         nrows = ncols = 1
 
-    fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=(15, 10),
+    fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=(15, 12),
                               subplot_kw={'projection': ccrs.PlateCarree()})
 
     # genralization -> make one subplot iterable.
@@ -93,19 +93,22 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
         gl.xlabels_top = gl.ylabels_right = False
         gl.xformatter = LONGITUDE_FORMATTER
         gl.yformatter = LATITUDE_FORMATTER
+        if np.abs((extent[3]-extent[2])/((extent[1]-extent[0]))) > 1.5:
+            gl.xlabel_style = {'rotation': 45}    
         scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
         time_step += 1
 
-    #creating the colorbar.
+    # creating the colorbar.
     cbar_x, cbar_y, size_x, size_y = get_cbar_position(axarr)
     cbar_ax = fig.add_axes([cbar_x, cbar_y, size_x, size_y])
     cbar = fig.colorbar(p, cax=cbar_ax)
+    cbar.set_clim(vmin,vmax)
     cbar.set_label(units)
 
     # Creating the title from the filename
     fig.suptitle(title, fontsize='x-large')
     fig.tight_layout()
-    fig.savefig(output_filename, dpi=300)
+    fig.savefig(output_filename, dpi=150)
     plt.close()
 
 
@@ -136,8 +139,8 @@ def plotResultsFromRecipe(outDir, xml_recipe):
     ds = xr.open_mfdataset(outDir+'*.nc')
     variables = list(ds.keys())
 
-   # if weight_file:
-   #     ds = weight_dataset(ds, weight_file[0])
+    if weight_file:
+       ds = weight_dataset(ds, weight_file[0])
 
     for variable in variables:
         da = ds[variable].load()

@@ -254,19 +254,24 @@ def get_cbar_position(axarr: list):
 
     """
 
-    limits = np.zeros((axarr.flatten().size, 4))
+    axarr_limits = np.zeros((axarr.flatten().size, 4))
     for i, ax in enumerate(axarr.flat):
-        limits[i, :] = ax.get_position().bounds
+         axarr_limits[i, :] = ax.get_position().bounds
 
-    limits[:, 2] = limits[:,0] + limits[:,2]
-    limits[:, 3] = limits[:,1] + limits[:,3]
+    axarr_limits[:, 2] = axarr_limits[:,0] + axarr_limits[:,2]
+    axarr_limits[:, 3] = axarr_limits[:,1] + axarr_limits[:,3]
 
-    cbar_x = np.max(limits[:,3]) + (1-np.max(limits[:,3]))*0.45
-    y_size = (np.max(limits[:,3]) - np.min(limits[:,1]))
-    cbar_y = np.min(limits[:,1]) + y_size*0.15
+    # array with min_x, min_y, max_x ,max_y_
+    min_x = np.min(axarr_limits[:,0])
+    min_y = np.min(axarr_limits[:,1])
+    max_x = np.max(axarr_limits[:,2])
+    max_y = np.max(axarr_limits[:,3])
+    
+    cbar_x = max_x + (1 - max_x)*0.35
+    cbar_y = min_y + (max_y - min_y)*0.15
 
     size_x = 0.015
-    size_y = np.max(limits[:,3]) - cbar_y - y_size*0.15
+    size_y = (max_y-min_y)*0.65
     return cbar_x, cbar_y, size_x, size_y
 
 
@@ -339,7 +344,7 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
                  horizontalalignment='center', verticalalignment='bottom',
                  path_effects=buffer, zorder=2)
 
-    left = x0+(x1-x0)*0.05
+    left = x0+(x1-x0)*0.15
     up = y0+(y1-y0)*0.9
     # Plot the N arrow
     t1 = ax.text(left, up, u'\u25B2\nN', transform=utm,
