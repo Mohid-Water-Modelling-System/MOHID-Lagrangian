@@ -113,8 +113,9 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
             scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
             time_step += 1
 
-        except:
+        except Exception as exc:
               print('-> WARNING: Could not plot', title)
+              print('-> ERROR:',exc)
               return
 
     # creating the colorbar.

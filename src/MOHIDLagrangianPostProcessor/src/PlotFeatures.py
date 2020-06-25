@@ -13,6 +13,7 @@ from math import floor
 from matplotlib import patheffects
 import matplotlib.cm, matplotlib.colors
 
+import cartopy
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.img_tiles as cimgt
@@ -116,19 +117,35 @@ def weight_dataset(dataset, weight_file):
 
 
 def get_background_map(ax, extent):
-    gray_color = np.array((0.75, 0.75, 0.75))
-    extent_width = np.abs(extent[1]-extent[0]) # degrees
+    """
+    Get the background map based on the width of extent in degrees.
+
+    Args:
+        ax (cartopy.mpl.geoaxes.GeoAxes): DESCRIPTION.
+        extent (list): DESCRIPTION.
+
+    Returns:
+        ax (TYPE): DESCRIPTION.
+
+    """
+    gray_color_RGB = np.array((0.75, 0.75, 0.75))
+    extent_width = np.abs(extent[1]-extent[0])
     if extent_width > 2:  # one degree ~ 111 km
         land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
                                                 edgecolor='face',
-                                                facecolor=gray_color)
+                                                facecolor=gray_color_RGB)
         ax.add_feature(land_10m)
         ax.add_feature(cfeature.OCEAN, color='white')
 
     else:
         stamen_terrain = cimgt.Stamen('toner-background')
         stamen_terrain.desired_tile_form = 'L'
-        ax.add_image(stamen_terrain, 11, cmap='gray_r', norm=matplotlib.colors.PowerNorm(2))
+        # tile - color limist RGB [0, 256]
+        # 0 -  5 water - white
+        # 5 - 64 land - white gray
+        boundaries_RGB_tiles = [0, 5, 64]
+        norm = matplotlib.colors.BoundaryNorm(boundaries=boundaries_RGB_tiles, ncolors=64)
+        ax.add_image(stamen_terrain, 11, cmap='gray_r', norm=norm)
     return ax
 
 
@@ -208,12 +225,11 @@ def get_title_methods(methods: list, variable: str,
     measure_name = get_measure_from_variable(variable)
 
     methods_variable_list = methods[::-1] + [measure_name] + ['t']
-    start_parethesis = '('.join(methods_variable_list)
+    start_parenthesis = '('.join(methods_variable_list)
     end_parenthesis = ''.join((len(methods_variable_list)-1)*[')'])
 
-
-    title = r"$\bf{Method :}$" + start_parethesis + end_parenthesis + '\n'+\
-    r"$\bf{Source :}$" + source_name
+    title = r"$\bf{Method :}$" + start_parenthesis + end_parenthesis + '\n' + \
+        r"$\bf{Source :}$" + source_name
 
     return title
 
@@ -253,20 +269,20 @@ def get_cbar_position(axarr: list):
         source_name (str): source name
 
     """
-
+    # limits = [x, y, size_x, size_y]
     axarr_limits = np.zeros((axarr.flatten().size, 4))
     for i, ax in enumerate(axarr.flat):
-         axarr_limits[i, :] = ax.get_position().bounds
+        axarr_limits[i, :] = ax.get_position().bounds
 
-    axarr_limits[:, 2] = axarr_limits[:,0] + axarr_limits[:,2]
-    axarr_limits[:, 3] = axarr_limits[:,1] + axarr_limits[:,3]
+    axarr_limits[:, 2] = axarr_limits[:, 0] + axarr_limits[:, 2]
+    axarr_limits[:, 3] = axarr_limits[:, 1] + axarr_limits[:, 3]
 
-    # array with min_x, min_y, max_x ,max_y_
-    min_x = np.min(axarr_limits[:,0])
-    min_y = np.min(axarr_limits[:,1])
-    max_x = np.max(axarr_limits[:,2])
-    max_y = np.max(axarr_limits[:,3])
-    
+    # array with min_x, min_y, max_x, max_y
+    min_x = np.min(axarr_limits[:, 0])
+    min_y = np.min(axarr_limits[:, 1])
+    max_x = np.max(axarr_limits[:, 2])
+    max_y = np.max(axarr_limits[:, 3])
+
     cbar_x = max_x + (1 - max_x)*0.35
     cbar_y = min_y + (max_y - min_y)*0.15
 
@@ -344,7 +360,7 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
                  horizontalalignment='center', verticalalignment='bottom',
                  path_effects=buffer, zorder=2)
 
-    left = x0+(x1-x0)*0.15
+    left = x0+(x1-x0)*0.1
     up = y0+(y1-y0)*0.9
     # Plot the N arrow
     t1 = ax.text(left, up, u'\u25B2\nN', transform=utm,
