@@ -11,7 +11,9 @@ import xarray as xr
 import numpy as np
 
 import matplotlib.pyplot as plt
+import matplotlib.cm as cmx
 from matplotlib.cm import get_cmap
+import matplotlib.colors as colors
 
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
@@ -81,44 +83,51 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
 
     time_step = 0
     for ax in axarr.flat:
+
         if time_plot_flag:
             dataArray_step = dataArray.isel({time_key: time_step})
         else:
             dataArray_step = dataArray
 
         try:
-            p = getattr(dataArray_step.plot, plot_type)(x='longitude', y='latitude',
-                                                        cmap=get_cmap("rainbow"),
-                                                        ax=ax,
-                                                        vmin=vmin,
-                                                        vmax=vmax,
-                                                        zorder=1,
-                                                        add_colorbar = False
-                                                        )
+            setup_plot = {'cmap': get_cmap('rainbow'),
+                          'ax': ax,
+                          'vmin': vmin,
+                          'vmax': vmax,
+                          'zorder': 1,
+                          'add_colorbar': False}
+
+            p = getattr(dataArray_step.plot, plot_type)(x='longitude',
+                                                        y='latitude',
+                                                        **setup_plot)
+
             ax = get_background_map(ax, extent)
             gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
             gl.xlabels_top = gl.ylabels_right = False
             gl.xformatter = LONGITUDE_FORMATTER
             gl.yformatter = LATITUDE_FORMATTER
-            if np.abs((extent[3]-extent[2])>((extent[1]-extent[0]))):
+
+            if np.abs((extent[3]-extent[2]) > ((extent[1]-extent[0]))):
                 gl.xlabel_style = {'rotation': 45}
+
             scale_bar(ax, ccrs.PlateCarree(), scale_bar_lenght)
             time_step += 1
 
         except:
-            print('-> WARNING: Could not plot', title)
-            continue
+              print('-> WARNING: Could not plot', title)
+              return
 
     # creating the colorbar.
-    cbar_x, cbar_y, size_x, size_y = get_cbar_position(axarr)
+    cbar_x, cbar_y, size_x, size_y = get_cbar_position(axarr) # get extent
     cbar_ax = fig.add_axes([cbar_x, cbar_y, size_x, size_y])
-    cbar = fig.colorbar(p, cax=cbar_ax)
-    cbar.set_clim(vmin, vmax)
+    cNorm = colors.Normalize(vmin=setup_plot['vmin'], vmax=setup_plot['vmax'])
+    scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=setup_plot['cmap'])
+    cbar = fig.colorbar(scalarMap, cax=cbar_ax)
     cbar.set_label(units)
-
     # Creating the title from the filename
     fig.suptitle(title, fontsize='x-large')
-    fig.tight_layout()
+    #fig.tight_layout()
+    # Save the title
     fig.savefig(output_filename, dpi=150)
     plt.close()
 

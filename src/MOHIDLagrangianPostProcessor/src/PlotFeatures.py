@@ -117,8 +117,8 @@ def weight_dataset(dataset, weight_file):
 
 def get_background_map(ax, extent):
     gray_color = np.array((0.75, 0.75, 0.75))
-    extent_size = abs(extent[1]-extent[0])
-    if extent_size > 0.5:  # one degree ~ 111 km
+    extent_width = np.abs(extent[1]-extent[0]) # degrees
+    if extent_width > 2:  # one degree ~ 111 km
         land_10m = cfeature.NaturalEarthFeature('physical', 'land', '10m',
                                                 edgecolor='face',
                                                 facecolor=gray_color)
