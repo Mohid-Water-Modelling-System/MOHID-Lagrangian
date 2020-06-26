@@ -6,23 +6,17 @@ Created on Wed Jun  3 15:48:27 2020
 @author: gfnl143
 """
 
-import pandas as pd
+
 import xarray as xr
 import numpy as np
 
 import matplotlib.pyplot as plt
 import matplotlib.cm as cmx
-from matplotlib.cm import get_cmap
-import matplotlib.colors as colors
 
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
-from src.PlotFeatures import scale_bar, get_extent, get_color_lims
-from src.PlotFeatures import get_title_methods, get_horizontal_scale
-from src.PlotFeatures import hastime, isgroupable, group_resample
-from src.PlotFeatures import weight_dataset, get_background_map
-from src.PlotFeatures import get_cbar_position
+from src.PlotFeatures import *
 
 from src.XMLReader import getPlotTypeFromRecipe, getPlotMeasuresFromRecipe
 from src.XMLReader import getPlotWeightFromRecipe, getPlotTimeFromRecipe
@@ -64,23 +58,23 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
     else:
         nrows = ncols = 1
 
-
     if nrows == ncols:
-        figsize = (17,15)
+        figsize = (17, 15)
     elif ncols > nrows:
-        figsize = (20,15)
+        figsize = (20, 15)
 
     fig, axarr = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize,
                               subplot_kw={'projection': ccrs.PlateCarree()})
 
-    # genralization -> make one subplot iterable.
+    # generalization -> make one subplot iterable.
     if not isinstance(axarr, np.ndarray):
         axarr = np.array([axarr])
 
     extent = get_extent(dataArray)
     vmin, vmax = get_color_lims(dataArray, robust=True)
     scale_bar_lenght = get_horizontal_scale(dataArray)
-
+    cmap_key = get_cmap_key(vmin, vmax)
+    cmap_norm = get_cmap_norm(vmin,vmax)
     time_step = 0
     for ax in axarr.flat:
 
@@ -90,16 +84,16 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
             dataArray_step = dataArray
 
         try:
-            setup_plot = {'cmap': get_cmap('rainbow'),
+            setup_plot = {'x':'longitude',
+                          'y':'latitude',
+                          'cmap': cmap_key,
                           'ax': ax,
                           'vmin': vmin,
                           'vmax': vmax,
                           'zorder': 1,
                           'add_colorbar': False}
 
-            p = getattr(dataArray_step.plot, plot_type)(x='longitude',
-                                                        y='latitude',
-                                                        **setup_plot)
+            p = getattr(dataArray_step.plot, plot_type)(**setup_plot)
 
             ax = get_background_map(ax, extent)
             gl = ax.gridlines(draw_labels=True, color='gray', linestyle='--')
@@ -118,11 +112,10 @@ def plot_it(dataArray, output_filename, title, units, plot_type='contourf',):
               print('-> ERROR:',exc)
               return
 
-    # creating the colorbar.
+    # Creating a common colorbar.
     cbar_x, cbar_y, size_x, size_y = get_cbar_position(axarr) # get extent
     cbar_ax = fig.add_axes([cbar_x, cbar_y, size_x, size_y])
-    cNorm = colors.Normalize(vmin=setup_plot['vmin'], vmax=setup_plot['vmax'])
-    scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=setup_plot['cmap'])
+    scalarMap = cmx.ScalarMappable(norm=cmap_norm, cmap=cmap_key)
     cbar = fig.colorbar(scalarMap, cax=cbar_ax)
     cbar.set_label(units)
     # Creating the title from the filename
@@ -160,12 +153,27 @@ def plotResultsFromRecipe(outDir, xml_recipe):
     ds = xr.open_mfdataset(outDir+'*.nc')
     variables = list(ds.keys())
 
-    if weight_file:
-       ds = weight_dataset(ds, weight_file[0])
+    # sources = map(get_source_from_variable, variables)
+    # materials = map(get_material_from_variable, variables)
 
-    for variable in variables:
+    # # remove duplicates elements
+    # sources = list(dict.fromkeys(sources))
+    # materials = list(dict.fromkeys(materials))
+
+    # print(list(sources))
+    # print(list(materials))
+
+
+
+    for idxvar, variable in enumerate(variables):
         da = ds[variable].load()
         units = da.units
+        
+        if weight_file:
+            if idxvar == 0:
+                print("->Weighting sources with:", weight_file[0] )
+                print("   %-30s | %9s" % ('Source', 'Weight'))
+            da = weight_dataarray_with_csv(da, weight_file[0])
 
         if 'depth' in da.dims:
             da = da.isel(depth=-1)
@@ -179,7 +187,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
             da = getattr(da, method)(dim='time')
             methods_list.append(method)
 
-        # if ('contour' in plot_type[0]) == False:
+
         da = da.where(da != 0)
 
         output_filename = outDir + '-'.join(methods_list) + '-' + variable + '.png'

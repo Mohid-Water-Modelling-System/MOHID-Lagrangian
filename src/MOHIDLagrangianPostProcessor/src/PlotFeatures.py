@@ -11,9 +11,8 @@ import pandas as pd
 import xarray as xr
 from math import floor
 from matplotlib import patheffects
-import matplotlib.cm, matplotlib.colors
+import matplotlib.colors as mcolors
 
-import cartopy
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.img_tiles as cimgt
@@ -91,29 +90,100 @@ def isgroupable(da, time_group, time_freq, measure):
     return flag
 
 
-def weight_dataset(dataset, weight_file):
+def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
     """
-
+    
 
     Args:
-        dataset (TYPE): DESCRIPTION.
-        weight_file (TYPE): DESCRIPTION.
+        dataset (xr.Dataset): DESCRIPTION.
+        weight_file (str): DESCRIPTION.
 
     Returns:
         dataset (TYPE): DESCRIPTION.
 
     """
+
     df = pd.read_csv(weight_file)
-    df = df.set_index('name')
+    df = df.set_index('source')
 
     for datasetVar in list(dataset.keys()):
         for indexVar in df.index:
             if indexVar in datasetVar:
                 weight = df.loc[indexVar, 'weight']
                 dataset[datasetVar] = dataset[datasetVar]*df.loc[indexVar, 'weight']
-                print('-> Weighting', datasetVar, ' by ', weight)
+                print("-> %-30s | %4.1f" % (datasetVar, weight))
 
     return dataset
+
+
+def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.DataArray:
+    """
+    
+
+    Args:
+        dataset (xr.Dataset): DESCRIPTION.
+        weight_file (str): DESCRIPTION.
+
+    Returns:
+        dataset (TYPE): DESCRIPTION.
+
+    """
+
+    df = pd.read_csv(weight_file)
+    df = df.set_index('source')
+    
+    for indexVar in df.index:
+        if indexVar in dataArray.name:
+            weight = df.loc[indexVar, 'weight']
+            dataArray = dataArray*df.loc[indexVar, 'weight']
+            print("-> %-30s | %4.1f" % (dataArray.name, weight))
+
+    return dataArray
+
+
+def get_cmap_key(vmin: float, vmax: float) -> str: 
+    """
+    Get the cmap key based on limits.
+
+    If the boundary limits are positive and negative, returns a divergent cmap.
+
+    Args:
+        vmin (float): Data minimum
+        vmax (float): Daata Maximum
+
+    Returns:
+        cmap_key (str): Returns a str with the color key code.
+
+    """
+    if vmin*vmax > 0:
+        cmap_key = 'rainbow'
+    else:
+        cmap_key = 'RdBu_r'
+    return cmap_key
+
+
+def get_cmap_norm(vmin: float, vmax: float) -> mcolors:
+    """
+    Get the cmap norm  key based on limits.
+
+    If the boundary limits are positive and negative, returns a  0 divergent
+    norm.
+
+    Args:
+        vmin (float): Data minimum
+        vmax (float): Daata Maximum
+
+
+    Returns:
+        mcolors: norm.
+
+    """
+    if vmin*vmax >= 0:
+        cNorm = mcolors.Normalize(vmin=vmin, vmax=vmax)
+    else:
+        color_max = np.max((np.abs(vmax), np.abs(vmin)))
+        cNorm = mcolors.TwoSlopeNorm(vmin=-color_max, vmax=color_max, vcenter = 0)
+    return cNorm
 
 
 def get_background_map(ax, extent):
@@ -144,7 +214,7 @@ def get_background_map(ax, extent):
         # 0 -  5 water - white
         # 5 - 64 land - white gray
         boundaries_RGB_tiles = [0, 5, 64]
-        norm = matplotlib.colors.BoundaryNorm(boundaries=boundaries_RGB_tiles, ncolors=64)
+        norm = mcolors.BoundaryNorm(boundaries=boundaries_RGB_tiles, ncolors=64)
         ax.add_image(stamen_terrain, 11, cmap='gray_r', norm=norm)
     return ax
 
@@ -174,7 +244,17 @@ def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
     return vmin, vmax
 
 
-def get_extent(dataArray):
+def get_extent(dataArray: xr.DataArray) -> list:
+    """
+    
+
+    Args:
+        dataArray (xr.DataArray): DESCRIPTION.
+
+    Returns:
+        list: DESCRIPTION.
+
+    """
     extent = [dataArray.longitude.min(),
               dataArray.longitude.max(),
               dataArray.latitude.min(),
@@ -258,6 +338,56 @@ def get_source_from_variable(variable: str):
     return source_name
 
 
+def get_material_from_variable(variable: str):
+    """
+    get the source name from variable
+
+    Args:
+        variable (str): variable name from postprocessor
+
+    Returns:
+        source_name (str): source name
+
+    """
+
+    post_measures = ['concentration_volume_',
+                     'concentration_area_',
+                     'n_counts_',
+                     'residence_time_']
+
+    material_names = ['light', 'heavy', 'medium']
+
+    for post_measure in post_measures:
+        if post_measure in variable:
+            source_name = variable.replace(post_measure, '')
+
+    for material_name in material_names:
+        if material_name in source_name:
+            material_name = source_name.replace(material_name, '')
+
+    return material_name
+
+
+def get_measure_from_variable(variable: str):
+    """
+    get the measure from variable
+
+    Args:
+        variable (str): DESCRIPTION.
+
+    Returns:
+        post_measure (TYPE): DESCRIPTION.
+
+    """
+
+    post_measures = ['concentration_volume_', 'concentration_area_',
+                     'n_counts_', 'residence_time_']
+
+    for post_measure in post_measures:
+        if post_measure in variable:
+            return post_measure
+
+
 def get_cbar_position(axarr: list):
     """
     get the source name from variable
@@ -289,26 +419,6 @@ def get_cbar_position(axarr: list):
     size_x = 0.015
     size_y = (max_y-min_y)*0.65
     return cbar_x, cbar_y, size_x, size_y
-
-
-def get_measure_from_variable(variable: str):
-    """
-    get the measure from variable
-
-    Args:
-        variable (str): DESCRIPTION.
-
-    Returns:
-        post_measure (TYPE): DESCRIPTION.
-
-    """
-
-    post_measures = ['concentration_volume_', 'concentration_area_',
-                     'n_counts_', 'residence_time_']
-
-    for post_measure in post_measures:
-        if post_measure in variable:
-            return post_measure
 
 
 def utm_from_lon(lon):
