@@ -2,6 +2,9 @@
 
 clear
 
+ulimit -s hard
+export OMP_STACKSIZE=512M
+
 # "name" and "dirout" are named according to the testcase
 name=PCOMS_test_case
 dirout=${name}_out
