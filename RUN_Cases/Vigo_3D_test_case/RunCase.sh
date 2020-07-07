@@ -2,6 +2,9 @@
 
 clear
 
+ulimit -s hard
+export OMP_STACKSIZE=512M
+
 # "name" and "dirout" are named according to the testcase
 name=Vigo3D_Def
 dirout=${name}_out
