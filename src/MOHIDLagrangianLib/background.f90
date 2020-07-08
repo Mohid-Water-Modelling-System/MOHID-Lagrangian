@@ -690,30 +690,35 @@
             if (curr%name == Globals%Var%bathymetry) then
                 curr%field = MV
             end if
-        class is (scalar4d_field_class)
-            if (curr%name == Globals%Var%bathymetry) then                
+        class is (scalar4d_field_class)               
+            if (curr%name == Globals%Var%bathymetry) then         
                 allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(bathymetry(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 dimIndx = self%getDimIndex(Globals%Var%level)
                 bathymetry = self%dim(dimIndx)%field(size(curr%field,3))
-                shiftUpLevel = .false.
-                shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) == 0.0
-                shiftUpLevel(:,:,1,:) = abs(curr%field(:,:,2,:) - curr%field(:,:,1,:)) == 0.0
-                shiftUpLevel(:,:,size(curr%field,3),:) = abs(curr%field(:,:,size(curr%field,3),:) - curr%field(:,:,size(curr%field,3)-1,:)) == 0.0
-                do t=1, size(curr%field,4)
-                    do j=1, size(curr%field,2)
-                        do i=1, size(curr%field,1)
-                            do k=1, size(shiftUpLevel(i,j,:,t))
-                                if (all(shiftUpLevel(i,j,k:size(curr%field,3),t))) then 
-                                    bathymetry(i,j,:,t) = self%dim(dimIndx)%field(k)
-                                    exit
-                                end if
+                if (size(curr%field,3) == 1) then   ! if netcdf data has one depth layer.
+                    curr%field = bathymetry
+                else
+                    dimIndx = self%getDimIndex(Globals%Var%level)
+                    bathymetry = self%dim(dimIndx)%field(size(curr%field,3))
+                    shiftUpLevel = .false.
+                    shiftUpLevel(:,:,2:,:) = abs(curr%field(:,:,2:,:) - curr%field(:,:,:size(curr%field,3)-1,:)) == 0.0
+                    shiftUpLevel(:,:,1,:) = abs(curr%field(:,:,2,:) - curr%field(:,:,1,:)) == 0.0
+                    shiftUpLevel(:,:,size(curr%field,3),:) = abs(curr%field(:,:,size(curr%field,3),:) - curr%field(:,:,size(curr%field,3)-1,:)) == 0.0
+                    do t=1, size(curr%field,4)
+                        do j=1, size(curr%field,2)
+                            do i=1, size(curr%field,1)
+                                do k=1, size(shiftUpLevel(i,j,:,t))
+                                    if (all(shiftUpLevel(i,j,k:size(curr%field,3),t))) then 
+                                        bathymetry(i,j,:,t) = self%dim(dimIndx)%field(k)
+                                        exit
+                                    end if
+                                end do
                             end do
                         end do
                     end do
-                end do
-                    
-                curr%field = bathymetry
+                    curr%field = bathymetry
+                end if
             end if
             class default
             outext = '[background_class::makeBathymetryField] Unexepected type of content, not a 3D or 4D scalar Field'

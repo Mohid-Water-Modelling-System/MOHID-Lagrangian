@@ -22,6 +22,7 @@
     use stateVector_mod
     use background_mod
     use fieldTypes_mod
+    USE ieee_arithmetic
 
     implicit none
     private
@@ -140,7 +141,7 @@
     function interp4D(self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions in array coordinates
-    real(prec), intent(in) :: t                                      !< time to interpolate to in array coordinates
+    real(prec), intent(in) :: t                                           !< time to interpolate to in array coordinates
     logical, dimension(:), intent(in) :: out
     real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
     integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                         !< field dimensions
@@ -150,26 +151,26 @@
     real(prec), dimension(n_e) :: c101, c011, c111, c00, c10, c01, c11, c0, c1
     real(prec) :: td
     integer :: i, t0, t1
-    real(prec), dimension(n_e) :: interp4D                      !< Field evaluated at x,y,z,t
+    real(prec), dimension(n_e) :: interp4D                                !< Field evaluated at x,y,z,t
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
-    x0 = floor(x)
-    y0 = floor(y)
-    z0 = floor(z)
+    do concurrent(i=1:n_e, .not. out(i))
+        x0(i) = floor(x(i))
+        x1(i) = ceiling(x(i))
+        y0(i) = floor(y(i))
+        y1(i) = ceiling(y(i))
+        z0(i) = floor(z(i))
+        z1(i) = ceiling(z(i))
+    end do
+
     t0 = floor(t)
-    x1 = ceiling(x)
-    y1 = ceiling(y)
-    z1 = ceiling(z)
     t1 = ceiling(t)
 
-!    where (out)
-!    x0 = 1
-!    x1 = 1
-!    y0 = 1
-!    y1 = 1
-!    z0 = 1
-!    z1 = 1
-!    end where
+    ! If depth layer has one layer
+    if (n_pv == 1) then
+        z0 = 1
+        z1 = 1
+    end if
 
     xd = 0.
     yd = 0.
@@ -183,7 +184,6 @@
     if (t1 /= t0) td = (t-t0)/(t1-t0)
 
     ! Interpolation on the first dimension and collapse it to a three dimension problem
-
     interp4D = 0.0
 
     do concurrent(i=1:n_e, .not. out(i))
@@ -196,7 +196,7 @@
         c101(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
         c011(i) = field(x0(i),y0(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t1)*xd(i)
         c111(i) = field(x0(i),y1(i),z1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z1(i),t1)*xd(i)
-    
+        
     ! Interpolation on the second dimension and collapse it to a two dimension problem
         c00(i) = c000(i)*(1.-yd(i))+c100(i)*yd(i)
         c10(i) = c010(i)*(1.-yd(i))+c110(i)*yd(i)
@@ -235,7 +235,7 @@
     real(prec), dimension(n_e) :: c0, c1
     real(prec) :: td
     integer :: i, t0, t1
-    real(prec), dimension(n_e) :: interp3D                      !< Field evaluated at x,y,z,t
+    real(prec), dimension(n_e) :: interp3D                              !< Field evaluated at x,y,z,t
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
 
