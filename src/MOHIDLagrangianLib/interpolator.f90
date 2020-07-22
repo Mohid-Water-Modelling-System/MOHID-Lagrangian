@@ -238,42 +238,42 @@
     real(prec), dimension(n_e) :: interp3D                              !< Field evaluated at x,y,z,t
 
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
+    do concurrent(i=1:n_e, .not. out(i))
+        x0(i) = floor(x(i))
+        x1(i) = ceiling(x(i))
+        y0(i) = floor(y(i))
+        y1(i) = ceiling(y(i))
+    end do
 
-    x0 = floor(x)
-    y0 = floor(y)
     t0 = floor(t)
-    x1 = ceiling(x)
-    y1 = ceiling(y)
     t1 = ceiling(t)
+
     ! Compute the "normalized coordinates" of the particle inside the data field box
-    xd = (x-x0)/(x1-x0)
-    yd = (y-y0)/(y1-y0)
-    td = (t-t0)/(t1-t0)
+    xd = 0.
+    yd = 0.
+    td = 0.
+    
+    ! Compute the "normalized coordinates" of the particle inside the data field box
+    where (x1 /= x0) xd = (x-x0)/(x1-x0)
+    where (y1 /= y0) yd = (y-y0)/(y1-y0)
+    if (t1 /= t0) td = (t-t0)/(t1-t0)
 
-    where (out)
-        x0 = 1.0
-        x1 = 1.0
-        y0 = 1.0
-        y1 = 1.0
-    end where
 
-    ! In case that particle is on a point box, we set it to 0 to avoid inf errors
-    where (x1 == x0) xd = 0.
-    where (y1 == y0) yd = 0.
-    if (t1 == t0)    td = 0.
+    interp3D = 0.0
+
     ! Interpolation on the first dimension and collapse it to a three dimension problem
-    forall(i=1:n_e)
+    do concurrent(i=1:n_e, .not. out(i))
         c00(i) = field(x0(i),y0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c10(i) = field(x0(i),y1(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),t0)*xd(i)
         c01(i) = field(x0(i),y0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),t1)*xd(i)
         c11(i) = field(x0(i),y1(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),t1)*xd(i)
-    end forall
+    
     ! Interpolation on the second dimension and collapse it to a two dimension problem
-    c0 = c00*(1.-yd)+c10*yd
-    c1 = c01*(1.-yd)+c11*yd
+        c0(i) = c00(i)*(1.-yd(i))+c10(i)*yd(i)
+        c1(i) = c01(i)*(1.-yd(i))+c11(i)*yd(i)
     ! Interpolation on the time dimension and get the final result.
-    interp3D = c0*(1.-td)+c1*td
-    where (out) interp3D = 0.0
+        interp3D(i) = c0(i)*(1.-td)+c1(i)*td
+    end do
 
     end function interp3D
 
