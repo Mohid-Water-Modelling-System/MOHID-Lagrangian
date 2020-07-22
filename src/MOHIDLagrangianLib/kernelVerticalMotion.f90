@@ -98,6 +98,7 @@
     procedure :: Reynolds
     procedure :: DragCoefficient
     procedure :: SphericalShapeFactor
+    procedure :: Divergence
     end type kernelVerticalMotion_class
 
     public :: kernelVerticalMotion_class
@@ -320,10 +321,14 @@
     type(string), dimension(:), allocatable :: requiredVars
     
     CorrectVerticalBounds = svDt
+    
+    ! if vertical dvdt is 0, don't correct
+    if (all(CorrectVerticalBounds(:,3) == 0.)) then
+        return
+    end if
 
     allocate(requiredVars(1))
     requiredVars(1) = Globals%Var%bathymetry
-
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
@@ -457,5 +462,92 @@
         absoluteSeaWaterViscosity = Globals%Constants%MeanKvisco
     end where
     end function absoluteSeaWaterViscosity
+
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> WIP: Divergence Kernel, estimate the vertical velocity based on divergence.
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function Divergence(self, sv, bdata, time)
+        class(kernelVerticalMotion_class), intent(inout) :: self
+        type(stateVector_class), intent(inout) :: sv
+        type(stateVector_class) :: x0, x1, y0, y1
+        type(background_class), dimension(:), intent(in) :: bdata
+        real(prec), intent(in) :: time 
+        real(prec) :: dr = 0.01
+        integer :: np, nf, bkg, i
+        real(prec), dimension(:,:), allocatable :: v1,v0,u1,u0
+        type(string), dimension(:), allocatable :: var_name
+        type(string), dimension(:), allocatable :: requiredVars
+
+        real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Divergence
+        real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: uv_x0, uv_x1, uv_y0, uv_y1
+        real(prec), dimension(size(sv%state,1)) :: u_x0, u_x1, v_y0, v_y1
+        
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%u
+        requiredVars(2) = Globals%Var%v
+        requiredVars(3) = Globals%Var%w
+
+        ! If w-vertical velocity in the background use it.
+        do bkg = 1, size(bdata)
+            if (bdata(bkg)%initialized) then
+                if(bdata(bkg)%hasVars(requiredVars)) then
+                    Divergence = 0.
+                    return
+                end if
+            end if
+        end do
+
+        ! If w-vertical velocity is not in the background. Continue   
+        Divergence = 0.
+
+        ! Creating points to compute derivative.
+        call sv%copyState(x0)
+        call sv%copyState(x1)
+        call sv%copyState(y0)
+        call sv%copyState(y1)
+
+        x0%state(:,1) = x0%state(:,1) - dr
+        x1%state(:,1) = x1%state(:,1) + dr
+        y0%state(:,2) = y0%state(:,2) - dr
+        y1%state(:,2) = y1%state(:,2) + dr
+
+        ! interpolate each background
+        do bkg = 1, size(bdata)
+            if (bdata(bkg)%initialized) then
+                if(bdata(bkg)%hasVars(requiredVars(1:2))) then
+                    np = size(sv%active)             ! number of Tracers
+                    nf = bdata(bkg)%fields%getSize() ! number of fields to interpolate
+
+                    allocate(var_name(nf))
+                    
+                    call self%Interpolator%run(x0%state, bdata(bkg), time, uv_x0, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+                    u_x0 = Utils%m2geo(uv_x0(:,nf), x0%state(:,2), .false.)
+
+                    call self%Interpolator%run(x1%state, bdata(bkg), time, uv_x1, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+                    u_x1 = Utils%m2geo(uv_x1(:,nf), x1%state(:,2), .false.)
+
+                    call self%Interpolator%run(y0%state, bdata(bkg), time, uv_y0, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+                    v_y0 = Utils%m2geo(uv_y0(:,nf), y0%state(:,2), .true.)
+
+                    call self%Interpolator%run(y1%state, bdata(bkg), time, uv_y1, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+                    v_y1 = Utils%m2geo(uv_y1(:,nf), y1%state(:,2), .true.)
+
+                    deallocate(var_name)
+                end if
+            end if
+        end do
+        
+        Divergence(:,3) = -((u_x1-u_x0)/(2.*dr) + (v_y1-v_y0)/(2.*dr))
+
+    end function Divergence
+     
 
     end module kernelVerticalMotion_mod
