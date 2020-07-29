@@ -19,3 +19,10 @@ Makefile
 *.h
 *.Po
 *.log
+CMakeSettings.json
+.vs/VSWorkspaceState.json
+.vs/slnx.sqlite
+.vs/ProjectSettings.json
+.vs/MOHID-Lagrangian/v16/.suo
+.vs/cmake.db
+.vs/CMake Overview
