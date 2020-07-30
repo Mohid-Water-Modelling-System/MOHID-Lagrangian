@@ -8,6 +8,8 @@ Created on Thu Oct  3 15:06:29 2019
 import xarray as xr
 import numpy as np
 from netCDF4 import Dataset
+from src.Grid import Grid
+from src.Polygon import Polygon
 
 
 def getDimsAttrs(dimensionName, dimensionData=None):
@@ -46,6 +48,10 @@ def getDimsAttrs(dimensionName, dimensionData=None):
         attrs = {'long_name': 'time',
                  'units': 'days since 1950-01-01 00:00:00'}
 
+    elif dimensionName == 'index':
+        attrs = {'long_name': 'polygon_identified',
+                 'units': 'id'}
+
     return attrs
 
 
@@ -76,22 +82,41 @@ def getVarsAttrs(variableName):
 class NetcdfParser:
 
     def __init__(self, fileName):
-        self.dataset = []
         self.fileName = fileName
 
-    def initDataset(self, spatialGrid, timeGrid):
+    def initPolygonDataset(self, polygon, timeGrid):
+        coords = {'time': ('time', timeGrid.timeAxis.round(decimals=10)),
+                  polygon.dim: (polygon.dim, polygon.ids)}
+
+        dataset = xr.Dataset(None, coords=coords)
+
+        for dimensionName in dataset.dims:
+            dataset[dimensionName].attrs = getDimsAttrs(dimensionName)
+
+        dataset.to_netcdf(self.fileName)
+        print('-> Dataset initizalized in: ', self.fileName)
+
+
+    def initGridDataset(self, spatialGrid, timeGrid):
         coords = {'time': ('time', timeGrid.timeAxis.round(decimals=10)),
                   spatialGrid.dims[0]: (spatialGrid.dims[0], spatialGrid.cellCenters[0]), 
                   spatialGrid.dims[1]: (spatialGrid.dims[1], spatialGrid.cellCenters[1]), 
                   spatialGrid.dims[2]: (spatialGrid.dims[2], spatialGrid.cellCenters[2]), 
                   }
-        self.dataset = xr.Dataset(None, coords=coords)
+        dataset = xr.Dataset(None, coords=coords)
 
-        for dimensionName in self.dataset.dims:
-            self.dataset[dimensionName].attrs = getDimsAttrs(dimensionName)
+        for dimensionName in dataset.dims:
+            dataset[dimensionName].attrs = getDimsAttrs(dimensionName)
 
-        self.dataset.to_netcdf(self.fileName)
+        dataset.to_netcdf(self.fileName)
         print('-> Dataset initizalized in: ', self.fileName)
+
+
+    def initDataset(self, spatialData, timeData):
+        if isinstance(spatialData, Polygon):
+            self.initPolygonDataset(spatialData, timeData)
+        elif isinstance(spatialData, Grid):
+            self.initGridDataset(spatialData, timeData)
 
     def appendVariableTimeStepToDataset(self, variableNetcdfName, dataArray, step):
         ds = Dataset(self.fileName, 'a')

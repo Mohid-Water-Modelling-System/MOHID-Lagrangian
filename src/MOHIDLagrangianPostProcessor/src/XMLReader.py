@@ -22,6 +22,7 @@ def getSourcesDictFromXML(xmlFile):
 
 def getBeachFromRecipe(xmlFile):
     root = ET.parse(xmlFile).getroot()
+    beach = '0'
     for parameter in root.findall('EulerianMeasures/measures/filters/filter'):
         if parameter.get('key') == 'beaching':
             beach = parameter.get('value')
@@ -72,12 +73,28 @@ def getPlotTimeFromRecipe(xmlFile):
     kind = fieldName.get('key')
     return freq, kind
 
+
 def getPlotMeasuresFromRecipe(xmlFile):
     fieldList = []
     root = ET.parse(xmlFile).getroot()
     for fieldName in root.findall('plot/measure'):
         fieldList.append(fieldName.get('key'))
     return fieldList
+
+
+def getPolygonFileFromRecipe(xmlFile):
+    fieldList = []
+    root = ET.parse(xmlFile).getroot()
+    for fieldName in root.findall('EulerianMeasures/polygonDefinition/file'):
+        fieldList.append(fieldName.get('name'))
+    return fieldList[0]
+
+def isPolygonOrGrid(xmlFile):
+    if len(getPolygonFileFromRecipe(xmlFile)) >= 1:
+        postType = 'polygon'
+    else:
+        postType = 'grid'
+    return postType
 
 
 def getPlotTypeFromRecipe(xmlFile):
@@ -94,3 +111,20 @@ def getPlotWeightFromRecipe(xmlFile):
     for fieldName in root.findall('plot/weight'):
         fieldList.append(fieldName.get('file'))
     return fieldList
+
+
+def getGroupFromRecipe(xmlFile):
+    fieldList = []
+    root = ET.parse(xmlFile).getroot()
+    for fieldName in root.findall('plot/group'):
+        fieldList.append(fieldName.get('key'))
+    return fieldList
+
+
+def getNormalizeFromRecipe(xmlFile):
+    fieldList = []
+    root = ET.parse(xmlFile).getroot()
+    for fieldName in root.findall('plot//normalize'):
+            fieldList.append(fieldName.get('key'))
+    return fieldList
+

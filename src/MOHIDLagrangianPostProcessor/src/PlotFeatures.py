@@ -13,6 +13,7 @@ from math import floor
 from matplotlib import patheffects
 import matplotlib.colors as mcolors
 
+import geopandas as gpd
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import cartopy.io.img_tiles as cimgt
@@ -244,7 +245,7 @@ def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
     return vmin, vmax
 
 
-def get_extent(dataArray: xr.DataArray) -> list:
+def get_grid_extent(dataArray: xr.DataArray) -> list:
     """
     
 
@@ -260,6 +261,31 @@ def get_extent(dataArray: xr.DataArray) -> list:
               dataArray.latitude.min(),
               dataArray.latitude.max()]
     return extent
+
+
+def get_polygon_extent(geoDataframe: gpd.GeoDataFrame) -> list:
+    """
+    
+
+    Args:
+        dataArray (xr.DataArray): DESCRIPTION.
+
+    Returns:
+        list: DESCRIPTION.
+
+    """
+    extent = geoDataframe.total_bounds
+    return [extent[0], extent[2], extent[1], extent[3]]
+
+
+def get_extent(inputdata) -> list:
+    """
+    Get extent from Datarray or GeoDataframe
+    """
+    if isinstance(inputdata, xr.DataArray):
+        return get_grid_extent(inputdata)
+    elif isinstance(inputdata, gpd.GeoDataFrame):
+        return get_polygon_extent(inputdata)
 
 
 def get_horizontal_scale(dataArray: xr.DataArray) -> np.int:

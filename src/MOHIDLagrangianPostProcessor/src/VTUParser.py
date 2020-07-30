@@ -6,62 +6,59 @@ Created on Wed Jun  3 12:29:02 2020
 """
 
 import vtk
-from vtk.util.numpy_support import vtk_to_numpy
+import glob
 import numpy as np
+from src.VTUReader import getSourceMaskFromVTU, getBeachMaskFromVTU
+from src.VTUReader import getVariableArrayFromVTU
 
 
 class VTUParser:
-    reader = vtk.vtkXMLUnstructuredGridReader()
-    nvars = []
-    parentFile = []
-    availableVtuVars = []
-    reader = []
 
-    @classmethod
-    def getVtuVarsFromInitialFile(cls, initialVtuFile):
-        cls.parentFile = initialVtuFile
-        cls.reader = vtk.vtkXMLUnstructuredGridReader()
-        cls.reader.SetFileName(cls.parentFile)
-        cls.reader.Update()
-        cls.nvars = cls.reader.GetOutput().GetPointData().GetNumberOfArrays()
-        for i in range(0, cls.nvars):
-            cls.availableVtuVars.append(cls.reader.GetOutput().GetPointData().GetArrayName(i))
-
-    def __init__(self, vtuFile):
-        self.fileName = vtuFile
+    def __init__(self, outDir):
+        self.outDir = outDir
+        self.fileList, self.parentFile = self.getfileList()
         self.part_vars = ['coords']
+        self.vtkReader = vtk.vtkXMLUnstructuredGridReader()
+        self.nvars = self.getNumberOfVars()
+        self.availableVtuVars = self.getAvailableVars()
 
-    def getVtuVariableData(self, variableName, source='global', beachCondition=None):
-        VTUParser.reader.SetFileName(self.fileName)
-        VTUParser.reader.Update()
-        if source:
-            if source == 'global':
-                sourceMask = np.bool(True)
-            else:
-                sourceMask = vtk_to_numpy(VTUParser.reader.GetOutput().GetPointData().GetArray('source')) == np.int(source)
-        if beachCondition:
-            state = vtk_to_numpy(VTUParser.reader.GetOutput().GetPointData().GetArray('state'))
-            if beachCondition == '0':
-                beachMask = True
-            elif beachCondition == '1':
-                beachMask = state < 0.5
-            elif beachCondition == '2':
-                beachMask = state >= 0.5
-        else:
-            beachMask = np.bool(True)
+    def getfileList(self):
+        vtuList = glob.glob(self.outDir+'/*_?????.vtu')
+        vtuList.sort()
+        parentFile = vtuList[0]
+        fileList = vtuList[1:]
+        return fileList, parentFile
 
-        if variableName == 'coords':
-            vtu_vars = vtk_to_numpy(VTUParser.reader.GetOutput().GetPoints().GetData())[:,::-1]
-        elif variableName == 'velocity':
-            vtu_vars = vtk_to_numpy(VTUParser.reader.GetOutput().GetPointData().GetArray(variableName))
-            vtu_vars = np.sqrt(vtu_vars[:, 0]**2 + vtu_vars[:, 1]**2 + vtu_vars[:, 2]**2)
-        elif variableName in VTUParser.availableVtuVars:
-            vtu_vars = vtk_to_numpy(VTUParser.reader.GetOutput().GetPointData().GetArray(variableName))
+    def updateFileList(self, fileList):
+        self.fileList = fileList
+
+    def getNumberOfVars(self):
+        self.vtkReader.SetFileName(self.parentFile)
+        self.vtkReader.Update()
+        return self.vtkReader.GetOutput().GetPointData().GetNumberOfArrays()
+
+    def getAvailableVars(self) -> list:
+        self.vtkReader.SetFileName(self.parentFile)
+        self.vtkReader.Update()
+        variableList = []
+        for i in range(0, self.nvars):
+            variableList.append(self.vtkReader.GetOutput().GetPointData().GetArrayName(i))
+            return variableList
+
+    def updateReaderWithFile(self, fileName):
+        self.vtkReader.SetFileName(fileName)
+        self.vtkReader.Update()
+
+    def getVariableData(self, variableName, source='global', beachCondition=None):
+        sourceMask = getSourceMaskFromVTU(self.vtkReader, source)
+        beachMask = getBeachMaskFromVTU(self.vtkReader, beachCondition)
+        vtuVarArray = getVariableArrayFromVTU(self.vtkReader, variableName)
 
         if source or beachCondition:
-            if ((np.size(sourceMask & beachMask) == 1) and ((sourceMask & beachMask) == True)):
-                return vtu_vars
+            if ((np.size(sourceMask & beachMask) == 1) and
+               ((sourceMask & beachMask) == True)):
+                return vtuVarArray
             else:
-                vtu_vars = vtu_vars[sourceMask*beachMask]
+                vtuVarArray = vtuVarArray[sourceMask*beachMask]
 
-        return vtu_vars
+        return vtuVarArray

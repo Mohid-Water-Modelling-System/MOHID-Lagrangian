@@ -131,7 +131,7 @@ def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.Dat
             dataArray = dataArray.values*df.loc[indexVar, 'weight']
             print("-> %-30s | %4.1f" % (dataArray.name, weight))
 
-    return dataarray
+    return dataArray
 
 dataset_file = 'Arousa2D_case.nc'
 weight_file = 'weight.csv'

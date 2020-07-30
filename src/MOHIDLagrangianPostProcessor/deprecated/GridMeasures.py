@@ -24,7 +24,7 @@ def is2Dlayer(array):
     return (array.ndim == 3) and (array.shape[0] == 1)
 
 
-def getConcentrationsVolume(gridTimeInstance):
+def getConcentrationsVolume(grid, nCounts):
     """
     Get the number of particles in a cell divided by the volume.
 
@@ -38,8 +38,8 @@ def getConcentrationsVolume(gridTimeInstance):
     long_name = 'concentration_volume'
     units = 'particles/km^3'
     dims = ['time', 'depth', 'latitude', 'longitude']
-    data = gridTimeInstance.countsInCell/gridTimeInstance.cellVolume
-    dict_coords = gridTimeInstance.coords.items()
+    data = nCounts/grid.cellVolume
+    dict_coords = grid.coords.items()
 
     # If depth has one layer, squeeze depth 'layer'
     if is2Dlayer(data):
@@ -52,7 +52,7 @@ def getConcentrationsVolume(gridTimeInstance):
     return da_dict
 
 
-def getConcentrationsArea(gridTimeInstance):
+def getConcentrationsArea(grid, nCounts):
     """
     Get the number of particles in the whole column divided by the area column.
 
@@ -67,8 +67,8 @@ def getConcentrationsArea(gridTimeInstance):
     long_name = 'concentration_area'
     units = 'particles/km^2'
     dims = ['time', 'depth', 'latitude', 'longitude']
-    dict_coords = gridTimeInstance.coords.items()
-    data = gridTimeInstance.countsInCell.sum(axis=0)/gridTimeInstance.cellArea
+    dict_coords = grid.coords.items()
+    data = nCounts.sum(axis=0)/grid.cellArea
 
     if is2Dlayer(data):
         dims = ['time', 'latitude', 'longitude']
@@ -80,7 +80,7 @@ def getConcentrationsArea(gridTimeInstance):
     return da_dict
 
 
-def getResidenceTime(gridTimeInstance, dt):
+def getResidenceTime(grid, nCounts, dt):
     """
     Get the time that a cell contains particles.
 
@@ -94,8 +94,8 @@ def getResidenceTime(gridTimeInstance, dt):
     long_name = 'residence_time'
     units = 's'
     dims = ['time', 'depth', 'latitude', 'longitude']
-    data = (gridTimeInstance.countsInCell > 0)*dt
-    dict_coords = gridTimeInstance.coords.items()
+    data = (nCounts > 0)*dt
+    dict_coords = grid.coords.items()
 
     if is2Dlayer(data):
         dims = ['time', 'latitude', 'longitude']

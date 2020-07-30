@@ -31,8 +31,9 @@ class FilesTimesHandler:
                 self.endTime = parameter.get('value')
             if parameter.get('key') == 'OutputWriteTime':
                 self.dt = np.float(parameter.get('value'))
+        nFiles = len(self.fileList)
         startTimeStamp = MDateTime.getTimeStampFromISODateString(self.startTime)
-        self.timeAxis = np.array([startTimeStamp + i*self.dt/daysToSeconds for i in range(0,len(self.fileList))])
+        self.timeAxis = np.array([startTimeStamp + i*self.dt/daysToSeconds for i in range(0,nFiles)])
 
     def getTimeMaskFromRecipe(self, xmlRecipe):
         root = ET.parse(xmlRecipe).getroot()
@@ -56,12 +57,12 @@ class FilesTimesHandler:
         self.getTimeMaskFromRecipe(xmlRecipe)
 
     def cropFileList(self):
-        t = 0
+        tidx = 0
         croppedFileList = []
         for fileName in self.fileList:
-            if self.timeMask[t] == True:
+            if self.timeMask[tidx] == True:
                 croppedFileList.append(fileName)
-            t = t + 1
+            tidx += 1
 
         self.fileList = croppedFileList
         return croppedFileList

@@ -44,6 +44,7 @@ import os
 import sys
 import argparse
 
+
 # This environment variable avoids error on locking file when writing.
 os.environ['HDF5_USE_FILE_LOCKING'] = 'FALSE'
 
@@ -53,118 +54,11 @@ sys.path.append(commonPath)
 
 import os_dir
 import MDateTime
-import numpy as np
 from about import License
-from src.VTUtoHDF5 import vtu2hdf5
-from src.PVDParser import PVDParser
 from src.XMLReader import *
-from src.RectangularGrid import RectangularGridBase
-from src.Time import FilesTimesHandler 
-from src.NcWriter import NetcdfParser
-from src.MeasuresGrid import getResidenceTime, getCountsInCell, getConcentrationsArea,getConcentrationsVolume,getVariableMeanCell
 from src.PlotResults import *
-from tqdm import tqdm
-
-class MOHIDLagrangianPostProcessorBase:
-
-    def __init__(self, xml_file, xml_recipe, outdir, outdirLocal):
-        self.xml_file = xml_file
-        self.xml_recipe = xml_recipe
-        self.pvd_file = outdir + '/' + self.xml_file.replace('.xml', '.pvd')
-        self.pvd_data = PVDParser(self.pvd_file)
-        self.beachCondition = getBeachFromRecipe(xml_recipe)
-        self.sources = getSourcesDictFromXML(xml_file)
-        self.outdir = outdir
-        self.outdirLocal = outdirLocal
-        self.time = []
-        if os.path.exists(outdirLocal):
-            os_dir.deleteDirForce(outdirLocal)
-        os.mkdir(outdirLocal)
-
-    def getPVDReader(self):
-        self.pvdReader = PVDParser(self.pvd_file)
-        self.pvdReader.getVtuFileHandlers(self.outdir)
-
-    def getTimeFileHandler(self):
-        self.FileTimeHandler = FilesTimesHandler(self.pvdReader.vtuFilelist)
-        self.FileTimeHandler.initializeTimeGrid(self.xml_file, self.xml_recipe)
-
-    def getMOHIDLagrangianBase(self):
-        self.getPVDReader()
-        self.getTimeFileHandler()
-        self.pvdReader.updateVtuFileHandlers(self.FileTimeHandler.cropFileList())
-
-
-class MOHIDLagrangianGridBasedMeasures:
-
-    def __init__(self):
-        self.base = []
-        self.grid = []
-        self.netcdfWriter = []
-        self.outputFile = []
-        self.gridBasicMeasures = ['residence_time', 'concentrations']
-
-    def initialize(self, xml_file, xml_recipe, outdir, outdirLocal):
-        self.base = MOHIDLagrangianPostProcessorBase(xml_file, xml_recipe, outdir, outdirLocal)
-        self.base.getMOHIDLagrangianBase()
-
-        self.outputFile = outdirLocal + self.base.xml_file.replace('.xml', '.nc')
-
-        self.grid = RectangularGridBase(xml_recipe, xml_file)
-        self.grid.initializeGrid()
-
-        self.netcdfWriter = NetcdfParser(self.outputFile)
-        self.netcdfWriter.initDataset(self.grid, self.base.FileTimeHandler)
-
-    def run(self, measures):
-        print('-> Measures to compute: ', measures)
-
-        print('-> Sources: ')
-        for i in self.base.sources['id']:
-            print('\t', self.base.sources['id'][i])
-        t = 0
-        for vtu_step in tqdm(self.base.pvdReader.vtuFileHandlers, desc='Global'):
-            s = 0
-            for source in tqdm(self.base.sources['id'].keys(),'Source'):
-                particlePos = vtu_step.getVtuVariableData('coords', source, beachCondition=self.base.beachCondition) 
-                self.grid.getCountsInCell(particlePos)
-                nCounts = getCountsInCell(self.grid)
-                #
-                self.netcdfWriter.appendVariableTimeStepToDataset('n_counts_'+self.base.sources['id'][source],nCounts,t)
-
-                if 'residence_time' in measures:
-                    ResidenceTime = getResidenceTime(self.grid, self.base.FileTimeHandler.dt)
-                    if t == 0:
-                        ResidenceTimeAccum = len(self.base.sources['id'].keys())*[np.zeros_like(ResidenceTime['data'])]
-                    ResidenceTimeAccum[s] = ResidenceTime['data'] + ResidenceTimeAccum[s]
-                    ResidenceTime['data'] = ResidenceTimeAccum[s]
-                    self.netcdfWriter.appendVariableTimeStepToDataset('residence_time_'+self.base.sources['id'][source],ResidenceTime,t)
-
-                if 'concentrations' in measures:
-                    ConcentrationsArea = getConcentrationsArea(self.grid)
-                    self.netcdfWriter.appendVariableTimeStepToDataset('concentration_area_'+self.base.sources['id'][source],ConcentrationsArea,t)
-                    if self.grid.grid[0].size > 2:
-                        ConcentrationsVolume = getConcentrationsVolume(self.grid)
-                        self.netcdfWriter.appendVariableTimeStepToDataset('concentration_volume_'+self.base.sources['id'][source],ConcentrationsVolume,t)
-
-                for measure in measures:
-                    if measure not in self.gridBasicMeasures:
-                        varInParticles = vtu_step.getVtuVariableData(measure, source, beachCondition=self.base.beachCondition)
-                        self.grid.getMeanDataInCell(varInParticles)
-                        varInCell = getVariableMeanCell(self.grid, measure)
-                        self.netcdfWriter.appendVariableTimeStepToDataset(measure+'_'+self.base.sources['id'][source],varInCell,t)
-                s = s+1
-            t = t + 1
-            progress = '-> Progress: %4.2f' %(100*(t/len(self.base.pvdReader.vtuFileHandlers)))
-            print(progress, end='\r')
-
-
-def runPostprocessing(caseXML, recipe, outDir, outDirLocal, measures):
-    postProcessor = MOHIDLagrangianGridBasedMeasures()
-    postProcessor.initialize(caseXML, recipe, outDir, outDirLocal)
-    postProcessor.run(measures)
-    return postProcessor
-
+from src.PostProcessor import PostProcessor
+from src.GridBase import GridBase
 
 def main():
     lic = License()
@@ -205,8 +99,8 @@ def main():
              plotResultsFromRecipe(outDirLocal, recipe)
              return
 
-        measures = getFieldsFromRecipe(recipe)
-        postProcessorBase = runPostprocessing(caseXML, recipe, outDir, outDirLocal, measures)
+        postProcessor = PostProcessor(caseXML, recipe, outDir, outDirLocal)
+        postProcessor.run()
         if checkHDF5WriteRecipe(recipe):
             vtu2hdf5(postProcessorBase, outDir)
         if checkPlotRecipe(recipe):

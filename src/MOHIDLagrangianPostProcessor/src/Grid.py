@@ -10,12 +10,14 @@ import xml.etree.ElementTree as ET
 import src.constants as cte
 from numba import jit
 
+
 @jit(nopython=True)
 def cellCountingJIT(rIdCell, nCells):
     cellCounts = np.empty(nCells)
     for idCell in range(0, nCells):
         cellCounts[idCell] = np.sum(idCell == rIdCell)
     return cellCounts
+
 
 @jit(nopython=True)
 def cellMeanDataJIT(rIdCell, nCells, validCells, varData):
@@ -29,7 +31,7 @@ def cellMeanDataJIT(rIdCell, nCells, validCells, varData):
     return cellMean
 
 
-class RectangularGridBase:
+class Grid:
 
     def __init__(self, xml_recipe, xml_file, dims=['depth', 'latitude', 'longitude']):
         self.xml_recipe = xml_recipe
@@ -132,7 +134,6 @@ class RectangularGridBase:
             dz = dz/1000.
         self.cellVolume = dz[:, np.newaxis, np.newaxis] * self.cellArea[np.newaxis, :, :]
 
-
     def getCoords(self):
         self.coords = {self.dims[0]: ([self.dims[0]], self.cellCenters[0]),
                        self.dims[1]: ([self.dims[1]], self.cellCenters[1]),
@@ -161,29 +162,12 @@ class RectangularGridBase:
                                             (nz, ny, nx),
                                             mode='clip')
 
-#        z_dig = np.int32((particlePositions[:,0] - min(self.grid[0]))/abs(self.grid[0][1]-self.grid[0][0]))
-#        z_dig[z_dig >= (nz-1)] = nz-1 
-#        z_dig[0 > z_dig] = 0 
-#        y_dig = np.int32((particlePositions[:,1] - min(self.grid[1]))/abs(self.grid[1][1]-self.grid[1][0]))
-#        y_dig[y_dig >= (ny-1)] = ny-1 
-#        y_dig[0 > y_dig] = 0
-#        x_dig = np.int32((particlePositions[:,2] - min(self.grid[2]))/abs(self.grid[2][1]-self.grid[2][0]))
-#        x_dig[x_dig >= (nx-1)] = nx-1 
-#        x_dig[0 > x_dig] = 0 
-
-
     def getCountsInCell(self, particlePositions):
-        #nz = self.cellCenters[0].size
-        #ny = self.cellCenters[1].size
-        #nx = self.cellCenters[2].size
-        #self.PositionsToIdCell(particlePositions)
-        #nCells = nx*ny*nz
-        #IdCounts = cellCountingJIT(self.rIdCell, nCells)
-        self.countsInCell,_ = np.histogramdd(particlePositions, self.grid)
-        #print(particlePositions.shape,self.grid)
-        #self.validCells = self.countsInCell > 0
-        #self.validCells = np.where(IdCounts > 0)[0]
-        #self.countsInCell = np.reshape(IdCounts, (nz, ny, nx))
+        countsInCell, _ = np.histogramdd(particlePositions, self.grid)
+        # self.validCells = self.countsInCell > 0
+        # self.validCells = np.where(IdCounts > 0)[0]
+        # self.countsInCell = np.reshape(IdCounts, (nz, ny, nx))
+        return countsInCell
 
     def getMeanDataInCell(self, varData):
         nz = self.cellCenters[0].size
@@ -194,4 +178,4 @@ class RectangularGridBase:
         self.meanDataInCell = np.reshape(cellMean, (nz, ny, nx))
 
     def shape(self):
-        return map(len,self.grid)
+        return map(len, self.grid)
