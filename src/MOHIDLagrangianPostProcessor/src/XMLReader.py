@@ -87,7 +87,7 @@ def getPolygonFileFromRecipe(xmlFile):
     root = ET.parse(xmlFile).getroot()
     for fieldName in root.findall('EulerianMeasures/polygonDefinition/file'):
         fieldList.append(fieldName.get('name'))
-    return fieldList[0]
+    return fieldList
 
 def isPolygonOrGrid(xmlFile):
     if len(getPolygonFileFromRecipe(xmlFile)) >= 1:
