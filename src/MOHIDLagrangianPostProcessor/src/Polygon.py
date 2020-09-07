@@ -10,7 +10,7 @@ from src.XMLReader import getPolygonFileFromRecipe
 class Polygon:
 
     def __init__(self, xml_file, xml_recipe):
-        self.fileName = getPolygonFileFromRecipe(xml_recipe)
+        self.fileName = getPolygonFileFromRecipe(xml_recipe)[0]
         self.geoDataFrame = gpd.read_file(self.fileName).to_crs({"init": 'EPSG:4326'})
         self.dim = 'index'
         self.ids = np.arange(0, self.geoDataFrame.shape[0])
