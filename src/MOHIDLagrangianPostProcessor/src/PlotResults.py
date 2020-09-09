@@ -190,9 +190,9 @@ class PlotGrid(Plot):
         self.setColorbar()
 
         for ax in self.axarr.flat:
-            
+
             extent = get_extent(self.dataArray)
-            
+
             if hastime(self.dataArray):
                 dataArray_step = self.dataArray.isel({self.time_key: time_step})
             else:
@@ -200,7 +200,7 @@ class PlotGrid(Plot):
 
             setup_plot = self.getSetupDict(ax)
             _ = getattr(dataArray_step.plot, self.plot_type)(**setup_plot)
-            
+
             self.getBackground(ax, extent)
             self.getScaleBar(ax)
         # Creating the title from the filename
@@ -272,7 +272,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
 
         if weight_file:
             if idxvar == 0:
-                print("->Weighting sources with:", weight_file[0] )
+                print("->Weighting sources with:", weight_file[0])
                 print("   %-40s | %9s" % ('Source', 'Weight'))
             da = weight_dataarray_with_csv(da, weight_file[0])
 
@@ -309,7 +309,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
 
         #plot_grid(da, output_filename, title, units, plot_type[0])
         if polygon_file:
-            plotter = PlotPolygon(da, output_filename, title, units, polygon_file)
+            plotter = PlotPolygon(da, output_filename, title, units, polygon_file[0])
             plotter.getPlots()
         else:
             plotter = PlotGrid(da, output_filename, title, units, plot_type[0])
