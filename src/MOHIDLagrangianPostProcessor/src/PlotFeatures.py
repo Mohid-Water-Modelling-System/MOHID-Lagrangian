@@ -84,6 +84,7 @@ def isgroupable(da, time_group, time_freq, measure):
         flag (TYPE): DESCRIPTION.
 
     """
+    flag = False
     if time_group == 'resample':
         flag = (measure in dir(da.resample(time=time_freq)))
     elif time_group == 'groupby':
@@ -93,7 +94,7 @@ def isgroupable(da, time_group, time_freq, measure):
 
 def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
     """
-    
+
 
     Args:
         dataset (xr.Dataset): DESCRIPTION.
@@ -119,7 +120,7 @@ def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
 
 def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.DataArray:
     """
-    
+
 
     Args:
         dataset (xr.Dataset): DESCRIPTION.
@@ -132,7 +133,7 @@ def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.Dat
 
     df = pd.read_csv(weight_file)
     df = df.set_index('source')
-    
+
     for indexVar in df.index:
         if indexVar in dataArray.name:
             weight = df.loc[indexVar, 'weight']
