@@ -2,6 +2,8 @@
 
 clear
 
+conda activate MOHID-Lagrangian
+
 ulimit -s hard
 export OMP_STACKSIZE=512M
 

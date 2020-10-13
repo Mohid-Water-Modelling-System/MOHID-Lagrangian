@@ -2,6 +2,8 @@
 
 clear
 
+conda activate MOHID-Lagrangian
+
 # "name" and "dirout" are named according to the testcase
 name=PCOMS_test_case
 dirout=${name}_out

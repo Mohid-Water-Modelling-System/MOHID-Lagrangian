@@ -1,6 +1,7 @@
 #!/bin/bash
-
 clear
+
+conda activate MOHID-Lagrangian
 
 export KMP_STACKSIZE=1G
 
