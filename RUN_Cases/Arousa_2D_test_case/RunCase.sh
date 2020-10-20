@@ -2,8 +2,11 @@
 
 clear
 
+# Activate conda environment from shell. Minimum conda version required 4.6
+eval "$(conda shell.bash hook)"
 conda activate MOHID-Lagrangian
 
+# Increase stacksizes in Linux.
 ulimit -s hard
 export OMP_STACKSIZE=512M
 
