@@ -49,7 +49,7 @@
 
     type(kernelLitter_class) :: Litter       !< litter kernels
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
-
+ 
     public :: kernel_class
     contains
 
@@ -72,14 +72,21 @@
 
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + &
-                    self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + VerticalMotion%Divergence(sv, bdata, time)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Divergence(sv, bdata, time)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
+                    VerticalMotion%Resuspension(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Divergence(sv, bdata, time)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
+                    VerticalMotion%Resuspension(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     end if
     
@@ -163,7 +170,7 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
-    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: LagrangianKinematic
+    real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
 
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
@@ -184,20 +191,22 @@
 
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
                 sv%state(:,4) = var_dt(:,nf)
                 nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
                 sv%state(:,5) = var_dt(:,nf)
                 nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-                if (nf /= MV_INT) then
-                    LagrangianKinematic(:,3) = var_dt(:,nf)
-                    sv%state(:,6) = var_dt(:,nf)
-                else if (nf == MV_INT) then
+                if ((nf /= MV_INT) .and. (Globals%Constants%VerticalVelMethod == 1)) then
+                    LagrangianKinematic(:,3) = var_dt(:, nf)
+                    sv%state(:,6) = var_dt(:, nf)
+                else if ((nf /= MV_INT) .and. (Globals%Constants%VerticalVelMethod == 2)) then
+                    LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
+                    sv%state(:,6) = LagrangianKinematic(:,3)
+                else if ((nf == MV_INT) .or. (Globals%Constants%VerticalVelMethod == 3)) then
                     LagrangianKinematic(:,3) = 0.0
                     sv%state(:,6) = 0.0
                 end if
-
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
@@ -331,7 +340,7 @@
     beachCoeff = 1.0
     call random_number(beachCoeffRand) !this is a uniform distribution generator
     beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
-    beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
+    beachCoeffRand = beachCoeffRand*(1.0/maxval(beachCoeffRand)) !normalizing
 
     Beaching = svDt
 

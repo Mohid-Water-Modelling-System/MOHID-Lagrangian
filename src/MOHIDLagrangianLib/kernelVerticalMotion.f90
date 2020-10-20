@@ -99,6 +99,7 @@
     procedure :: DragCoefficient
     procedure :: SphericalShapeFactor
     procedure :: Divergence
+    procedure :: Resuspension
     end type kernelVerticalMotion_class
 
     public :: kernelVerticalMotion_class
@@ -124,6 +125,7 @@
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
     real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
+    real(prec), dimension(2):: maxLevel
     real(prec) :: P = 1013.
 
     type(string) :: tag
@@ -131,8 +133,14 @@
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
-    
+
     Buoyancy = 0.0
+
+    !maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+    !if (maxLevel(2) /= MV) then
+    !    return
+    !end if
+    
     !interpolate each background
     !Compute buoyancy using state equation for temperature and viscosity
     do bkg = 1, size(bdata)
@@ -301,6 +309,7 @@
     pi = 4.*atan(1.)
     SphericalShapeFactor = (6.*volume/pi)**(1./3.)/sqrt(4.*area/pi)
     end function SphericalShapeFactor
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -353,6 +362,68 @@
 
     end function CorrectVerticalBounds
 
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - MARETEC
+    !> @brief
+    !> Resuspend particles based on horizontal velocity module motion. 
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function Resuspension(self, sv, bdata, time)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
+    integer :: np, nf, bkg, nf_u, nf_v, nf_lim
+    real(prec) :: maxLevel(2), landIntThreshold
+    real(prec), dimension(:,:), allocatable :: var_dt
+    real(prec), dimension(:), allocatable :: velocity_mod
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    
+    Resuspension = 0.0
+    landIntThreshold = -0.75
+
+    if (Globals%Constants%ResuspensionCoeff > 0.0) then
+
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%u
+        requiredVars(2) = Globals%Var%v
+        requiredVars(3) = Globals%Var%landIntMask
+
+        !interpolate each background
+        do bkg = 1, size(bdata)
+            if (bdata(bkg)%initialized) then
+                if(bdata(bkg)%hasVars(requiredVars)) then
+                    np = size(sv%active) !number of Tracers
+                    nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                    allocate(var_dt(np,nf))
+                    allocate(var_name(nf))
+                    allocate(velocity_mod(np))
+                    !interpolating all of the data
+                    call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+                    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+                    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+                    nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
+                    ! compute velocity modulus.
+                    velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
+                    ! Resuspension apply if level data has more than 1 dimension.
+                    maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                    if (maxLevel(2) /= MV) then
+                        ! Resuspension apply based on threshold.
+                        ! Tracer jumps in the w equals to horizontal velocity.
+                        where (var_dt(:,nf_lim) < landIntThreshold)  Resuspension(:,3) = Globals%Constants%ResuspensionCoeff*velocity_mod 
+                    end if
+                    deallocate(var_dt)
+                    deallocate(var_name)
+                end if
+            end if
+        end do
+    end if
+    
+    end function Resuspension
+    
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
@@ -482,7 +553,7 @@
         type(string), dimension(:), allocatable :: var_name
         type(string), dimension(:), allocatable :: requiredVars
 
-        real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Divergence
+        real(prec), dimension(size(sv%state,1)) :: Divergence
         real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: uv_x0, uv_x1, uv_y0, uv_y1
         real(prec), dimension(size(sv%state,1)) :: u_x0, u_x1, v_y0, v_y1
         
@@ -491,17 +562,6 @@
         requiredVars(2) = Globals%Var%v
         requiredVars(3) = Globals%Var%w
 
-        ! If w-vertical velocity in the background use it.
-        do bkg = 1, size(bdata)
-            if (bdata(bkg)%initialized) then
-                if(bdata(bkg)%hasVars(requiredVars)) then
-                    Divergence = 0.
-                    return
-                end if
-            end if
-        end do
-
-        ! If w-vertical velocity is not in the background. Continue   
         Divergence = 0.
 
         ! Creating points to compute derivative.
@@ -545,7 +605,7 @@
             end if
         end do
         
-        Divergence(:,3) = -((u_x1-u_x0)/(2.*dr) + (v_y1-v_y0)/(2.*dr))
+        Divergence = -((u_x1-u_x0)/(2.*dr) + (v_y1-v_y0)/(2.*dr))
 
     end function Divergence
      
