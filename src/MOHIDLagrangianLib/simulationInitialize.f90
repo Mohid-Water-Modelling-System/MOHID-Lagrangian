@@ -565,6 +565,18 @@
         if (readflag) then
             call Globals%Constants%setDiffusionCoeff(att_val)
         endif
+        tag="ResuspensionCoeff"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionCoeff(att_val)
+        endif
+        tag="VerticalVelMethod"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setVerticalVelMethod(att_val)
+        endif
     endif
     call Globals%Constants%print()
 
