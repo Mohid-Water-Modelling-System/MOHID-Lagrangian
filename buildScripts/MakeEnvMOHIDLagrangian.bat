@@ -2,7 +2,7 @@
 title MOHID-Lagrangian python installer
 
 echo ----------------------------------------------------------------------
-echo       Python packages installer for MOHID Lagrangian
+echo       Anaconda environment installer for MOHID Lagrangian
 echo ----------------------------------------------------------------------
 
 where conda >nul 2>nul
@@ -11,7 +11,7 @@ if %ERRORLEVEL% NEQ 0 (
 	echo Install it or add it to your path.
 ) else (
 	echo Installing python packages in a new enironment MOHID-Lagrangian...
-	conda create --name MOHID-Lagrangian python=3.6 --file requirements.txt
+	conda create --name MOHID-Lagrangian python=3.6 --file requirementsWin.txt
 	conda activate MOHID-Lagrangian
 )
 

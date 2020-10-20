@@ -11,7 +11,7 @@ then
 	echo 'Install it or add it to your path.'
     exit
 else
-	echo Installing python packages in a new enironment MOHID-Lagrangian...
-	conda create --name MOHID-Lagrangian python=3.6 --file requirements.txt
-	conda activate MOHID-Lagrangian
+	echo Installing python packages in a new environment MOHID-Lagrangian...
+	conda create --name MOHID-Lagrangian python=3.7 --file requirementsLinux.txt
+	#.conda activate MOHID-Lagrangian
 fi
