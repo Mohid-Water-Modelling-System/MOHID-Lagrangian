@@ -91,6 +91,8 @@
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+            <ResuspensionCoeff value="0.0" comment="Resuspension amplitude velocity factor. Default = 0.0" units_comment="n.u" />
+            <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
 		</constants>
 	</caseDefinitions>
 </case>
