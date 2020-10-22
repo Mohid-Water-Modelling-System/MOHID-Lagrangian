@@ -129,25 +129,23 @@
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-
                 !correcting for maximum admissible level in the background
                 maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
                 if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
                 !marking tracers for deletion because they are in land
-                where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
+                if (Globals%Constants%RemoveLandTracer == 1) then
+                     where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
+                end if
                 !update resolution proxy
-                nf = Utils%find_str(var_name, Globals%Var%resolution)
+                nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
                 sv%resolution = var_dt(:,nf)
-
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
@@ -185,10 +183,8 @@
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u, .true.)
                 LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
@@ -259,8 +255,8 @@
                 StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
                 nf = Utils%find_str(var_name, Globals%Var%vsdy, .true.)
                 StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
@@ -311,8 +307,8 @@
                 Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
                 nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
                 Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
@@ -424,9 +420,8 @@
             if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-
+                allocate(var_dt(np,nf))
                 allocate(resolution(np))
                 allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
                 call random_number(rand_vel_u)
@@ -460,6 +455,8 @@
                 !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
+                deallocate(rand_vel_u, rand_vel_v, rand_vel_w)
+                deallocate(resolution)
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
