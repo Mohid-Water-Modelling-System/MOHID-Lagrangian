@@ -167,7 +167,7 @@
     finishDateTime = finishDateTime%now()
     estimTimeDelta = Globals%SimTime%EndDate - Globals%SimTime%StartDate
     if (simTimer%getElapsedLast() == 0.0) then
-        totalSecsToFinish = 0.
+        totalSecsToFinish = 0.0
     else
         totalSecsToFinish = estimTimeDelta%total_seconds()/(Globals%SimDefs%dt/simTimer%getElapsedLast())
     endif
@@ -180,7 +180,7 @@
     outext = outext//' | '//Utils%int2str('(i8.1)', numTracers)
     outext = outext//' | '//Utils%int2str('(i6.1)', Globals%Sim%getnumdt())
     if (simTimer%getElapsedLast() == 0.0) then
-        outext = outext//' | '// Utils%real2str('(f8.2)', 0.)
+        outext = outext//' | '// Utils%real2str('(f8.2)',Globals%SimDefs%dt*0.0)
     else
         outext = outext//' | '//Utils%real2str('(f8.2)',(Globals%SimDefs%dt/simTimer%getElapsedLast()))
     endif
