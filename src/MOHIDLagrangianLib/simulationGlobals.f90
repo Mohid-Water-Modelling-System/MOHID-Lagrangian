@@ -92,7 +92,7 @@
         real(prec)   :: ResuspensionCoeff = 0.0   !< Resuspension velocity amplitud factor (default=0) 
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
         real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
-        integer      :: VerticalVelMethod = 1.0 !< Vertical velocity method
+        integer      :: VerticalVelMethod = 1 !< Vertical velocity method
         integer      :: RemoveLandTracer = 0 !< Vertical velocity method
         real(prec)   :: MeanDensity = 1027.0 !< mean ocean water density.
         real(prec)   :: MeanKVisco = 1.09E-3 !< mean ocean water kinematic viscosity 
