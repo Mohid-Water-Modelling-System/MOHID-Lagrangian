@@ -93,6 +93,7 @@
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
         real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
         integer      :: VerticalVelMethod = 1.0 !< Vertical velocity method
+        integer      :: RemoveLandTracer = 0 !< Vertical velocity method
         real(prec)   :: MeanDensity = 1027.0 !< mean ocean water density.
         real(prec)   :: MeanKVisco = 1.09E-3 !< mean ocean water kinematic viscosity 
     contains
@@ -105,6 +106,7 @@
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
     procedure :: setVerticalVelMethod
+    procedure :: setRemoveLandTracer
     procedure :: print => printconstants
     end type constants_t
 
@@ -1119,6 +1121,27 @@
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
+    !> Choose if tracers must be removed when they reach land or not
+    !> @param[in] self, read_BeachingLevel
+    !---------------------------------------------------------------------------
+    subroutine setRemoveLandTracer(self, read_RemoveLandTracer)
+        class(constants_t), intent(inout) :: self
+        type(string), intent(in) :: read_RemoveLandTracer
+        type(string) :: outext
+        integer :: sizem
+        if ((read_RemoveLandTracer%to_number(kind=1._I8P) < 0) .OR. (read_RemoveLandTracer%to_number(kind=1._I8P) > 1)) then
+            outext='Remove land tracers option must be 0:No or 1:yes, assuming default value'
+            call Log%put(outext)
+        else
+            self%RemoveLandTracer=read_RemoveLandTracer%to_number(kind=1._I8P)
+        end if
+        sizem = sizeof(self%RemoveLandTracer)
+        call SimMemory%adddef(sizem)
+    end subroutine setRemoveLandTracer
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
     !> Resuspension setting routine or not
     !> @param[in] self, read_BeachingLevel
     !---------------------------------------------------------------------------
@@ -1185,7 +1208,9 @@
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
     temp_str(1)=self%VerticalVelMethod
-    outext = outext//'       VerticalVelMethod = '//temp_str(1)//''
+    outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%RemoveLandTracer
+    outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printconstants
 

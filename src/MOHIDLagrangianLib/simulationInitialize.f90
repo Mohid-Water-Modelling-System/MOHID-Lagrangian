@@ -577,6 +577,12 @@
         if (readflag) then
             call Globals%Constants%setVerticalVelMethod(att_val)
         endif
+        tag="RemoveLandTracer"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setRemoveLandTracer(att_val)
+        endif
     endif
     call Globals%Constants%print()
 
