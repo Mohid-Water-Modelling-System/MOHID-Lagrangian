@@ -125,16 +125,17 @@
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
     real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
-    real(prec), dimension(2):: maxLevel
+    real(prec), dimension(2) :: maxLevel
     real(prec) :: P = 1013.
 
     type(string) :: tag
     logical :: ViscoDensFields = .false.
+
+    Buoyancy = 0.0
+    
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
-
-    Buoyancy = 0.0
 
     !maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
     !if (maxLevel(2) /= MV) then
@@ -203,6 +204,24 @@
     !I there is no salt and temperatue Compute buoyancy using constant density and temp
     ! and standardad terminal velocity
     if (.not. ViscoDensFields) then
+
+        ! Check if your domain data has depth level to move in vertical motion.
+        requiredVars(1)=Globals%var%u
+        requiredVars(2)=Globals%var%v
+        do bkg = 1, size(bdata)
+            if (bdata(bkg)%initialized) then
+                if (bdata(bkg)%hasVars(requiredVars)) then
+                    maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                    if (maxLevel(2) == MV) then
+                        return
+                    end if
+                end if
+            end if
+        end do
+
+        ! interpolate each background
+        ! Compute buoyancy using state equation for temperature and viscosity
+
         kVisco = Globals%Constants%MeanKvisco
         fDensity = Globals%Constants%MeanDensity
         tag = 'radius'
@@ -217,6 +236,7 @@
         where(fDensity-sv%state(:,rhoIdx) >= 0)
             signZ = 1.0
         endwhere
+       
         ! Boundary density values could be 0. This avoid underdumped values on density. 
         ! Just density relation of 90 % related to mean water density are allowed.
         densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))          
@@ -396,27 +416,28 @@
         do bkg = 1, size(bdata)
             if (bdata(bkg)%initialized) then
                 if(bdata(bkg)%hasVars(requiredVars)) then
-                    np = size(sv%active) !number of Tracers
-                    nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                    allocate(var_dt(np,nf))
-                    allocate(var_name(nf))
-                    allocate(velocity_mod(np))
-                    !interpolating all of the data
-                    call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
-                    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
-                    nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
-                    ! compute velocity modulus.
-                    velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
-                    ! Resuspension apply if level data has more than 1 dimension.
                     maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-                    if (maxLevel(2) /= MV) then
+                    if (maxLevel(2) == MV) then
+                        return ! if it is 2 dimensional data, return
+                    else if (maxLevel(2) /= MV) then
+                        np = size(sv%active) !number of Tracers
+                        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                        allocate(var_dt(np,nf))
+                        allocate(var_name(nf))
+                        !interpolating all of the data
+                        call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+                        nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+                        nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+                        nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
+                        ! compute velocity modulus.
+                        velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
+                        ! Resuspension apply if level data has more than 1 dimension.
                         ! Resuspension apply based on threshold.
                         ! Tracer jumps in the w equals to horizontal velocity.
-                        where (var_dt(:,nf_lim) < landIntThreshold)  Resuspension(:,3) = Globals%Constants%ResuspensionCoeff*velocity_mod 
+                        where (var_dt(:,nf_lim) < landIntThreshold)  Resuspension(:,3) = Globals%Constants%ResuspensionCoeff*velocity_mod
+                        deallocate(var_name)
+                        deallocate(var_dt) 
                     end if
-                    deallocate(var_name)
-                    deallocate(var_dt)
                 end if
             end if
         end do
