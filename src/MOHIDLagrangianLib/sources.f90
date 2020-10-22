@@ -217,8 +217,8 @@
     integer, intent(in) :: nProps
     if(allocated(src%prop%propName)) deallocate(src%prop%propName)
     if(allocated(src%prop%propValue)) deallocate(src%prop%propValue)
-    allocate(src%prop%propName(nProps))
     allocate(src%prop%propValue(nProps))
+    allocate(src%prop%propName(nProps))
     end subroutine setPropertyNumber
 
     !---------------------------------------------------------------------------

@@ -455,9 +455,9 @@
         end do
         !initializing Source j
         call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, source_shape, res)
-
-        deallocate(source_shape)
+       
         deallocate(activeTimes)
+        deallocate(source_shape)
     enddo
 
     end subroutine init_sources

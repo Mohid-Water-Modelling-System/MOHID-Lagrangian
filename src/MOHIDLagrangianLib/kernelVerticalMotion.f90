@@ -193,8 +193,8 @@
                 where (reynoldsNumber /=0.)
                     Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
                 endwhere
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
                 ViscoDensFields = .true.
             end if
         end if
@@ -354,8 +354,8 @@
                 !update minium vertical position
                 nf = Utils%find_str(var_name, Globals%Var%bathymetry)
                 where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,nf)) CorrectVerticalBounds(:,3) = ((var_dt(:,nf)-sv%state(:,3))/dt)*0.99
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
@@ -378,7 +378,7 @@
     integer :: np, nf, bkg, nf_u, nf_v, nf_lim
     real(prec) :: maxLevel(2), landIntThreshold
     real(prec), dimension(:,:), allocatable :: var_dt
-    real(prec), dimension(:), allocatable :: velocity_mod
+    real(prec), dimension(size(sv%state,1)) :: velocity_mod
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     
@@ -415,8 +415,8 @@
                         ! Tracer jumps in the w equals to horizontal velocity.
                         where (var_dt(:,nf_lim) < landIntThreshold)  Resuspension(:,3) = Globals%Constants%ResuspensionCoeff*velocity_mod 
                     end if
-                    deallocate(var_dt)
                     deallocate(var_name)
+                    deallocate(var_dt)
                 end if
             end if
         end do
