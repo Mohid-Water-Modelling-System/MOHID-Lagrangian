@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Jun  3 15:48:27 2020
-
-@author: gfnl143
-"""
 
 import xarray as xr
 import numpy as np
@@ -18,13 +13,14 @@ from .Utils import *
 import geopandas as gpd
 
 class Plot:
+
     def __init__(self, dataArray, output_filename, title, units):
         self.dataArray = dataArray
         self.fig = []
         self.axarr = []
         self.cbar = []
         self.extent = []
-        self.time_key = 'time'
+        self.time_key = get_time_key(dataArray)
         self.time_size = self.dataArray.shape[0]
         self.setup_plot = {}
         self.output_filename = output_filename
@@ -40,6 +36,13 @@ class Plot:
                 self.dataArray = self.dataArray.isel({self.time_key: time_slice})
 
     def setFigureAxisLayout(self):
+        """
+        Creates the figure layout to plot.
+
+        Returns:
+            None.
+
+        """
         time_plot_flag = hastime(self.dataArray)
         if time_plot_flag:
             if self.time_size < 4:
@@ -136,7 +139,7 @@ class PlotPolygon(Plot):
 
             extent = get_extent(geoDataFrame)
             ax = self.getBackground(ax, extent)
-            
+
             if hastime(self.dataArray):
                 dataArray_step = self.dataArray.isel({self.time_key: time_step})
             else:
@@ -148,15 +151,17 @@ class PlotPolygon(Plot):
             extent = get_extent(geoDataFrame)
             ax = self.getBackground(ax, extent)
             setupPlotDict = self.getSetupDict(ax)
-            
+
             geoDataFrame.plot(column=varName, **setupPlotDict)
-            time_step +=1 
-            
-        # Creating the title from the filename
+            time_step += 1
+
+        # Creating the suptitle from the filename
         self.fig.suptitle(self.title, fontsize='x-large')
-        # fig.tight_layout()
-        # Save the title
+        # Save the image
         self.fig.savefig(self.output_filename, dpi=150)
+        # Save the shapefile 
+        shapefile = self.output_filename.split('.')[0]+'.shp'
+        geoDataFrame.to_file(shapefile)
         plt.close()
 
 
@@ -189,10 +194,10 @@ class PlotGrid(Plot):
         self.setSliceTimeDataArray
         self.setColorbar()
 
+        time_step = 0
         for ax in self.axarr.flat:
 
             extent = get_extent(self.dataArray)
-
             if hastime(self.dataArray):
                 dataArray_step = self.dataArray.isel({self.time_key: time_step})
             else:
@@ -203,6 +208,8 @@ class PlotGrid(Plot):
 
             self.getBackground(ax, extent)
             self.getScaleBar(ax)
+            time_step += 1
+
         # Creating the title from the filename
         self.fig.suptitle(self.title, fontsize='x-large')
         # fig.tight_layout()
@@ -224,7 +231,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
         None.
 
     """
-    # they returns a list.
+    # Read the xml attributes.
     group_freq, group_type = getPlotTimeFromRecipe(xml_recipe)
     groups = getGroupFromRecipe(xml_recipe)
     methods = getPlotMeasuresFromRecipe(xml_recipe)
@@ -302,16 +309,14 @@ def plotResultsFromRecipe(outDir, xml_recipe):
                 units = units + normalized_name
                 da.values = da.values/normal_max
 
-        da = da.where(da != 0)
+        da = da.where(da != 0)  # Values with 0 consider as missing value
 
         output_filename = outDir + '-'.join(methods_list) + '-' + variable + '.png'
         title = get_title_methods(methods_list, variable)
 
-        #plot_grid(da, output_filename, title, units, plot_type[0])
         if polygon_file:
             plotter = PlotPolygon(da, output_filename, title, units, polygon_file[0])
             plotter.getPlots()
         else:
             plotter = PlotGrid(da, output_filename, title, units, plot_type[0])
             plotter.getPlots()
-#        plot_it(da, output_filename, title, units, plot_type[0], polygon_file)

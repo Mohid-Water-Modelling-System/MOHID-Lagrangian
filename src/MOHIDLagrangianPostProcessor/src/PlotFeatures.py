@@ -51,9 +51,17 @@ def hastime(dataArray: xr.DataArray) -> bool:
     return flag
 
 
-def group_resample(da, time_group, time_freq, measure):
-    """
+def get_time_key(da: xr.DataArray):
+    dim_name = ['time','year','week','month','season','day',
+            'hour','minute','second']
+    da_dim_names = list(da.dims)
+    time_key = [name for name in dim_name if name in da_dim_names]
+    return time_key[0]
+         
 
+def group_resample(da:xr.DataArray, time_group, time_freq, measure):
+    """
+    
 
     Args:
         ds (TYPE): DESCRIPTION.
@@ -266,7 +274,6 @@ def get_grid_extent(dataArray: xr.DataArray) -> list:
 
 def get_polygon_extent(geoDataframe: gpd.GeoDataFrame) -> list:
     """
-    
 
     Args:
         dataArray (xr.DataArray): DESCRIPTION.

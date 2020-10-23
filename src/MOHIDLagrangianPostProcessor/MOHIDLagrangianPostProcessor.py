@@ -59,6 +59,7 @@ from src.XMLReader import *
 from src.PlotResults import *
 from src.PostProcessor import PostProcessor
 from src.GridBase import GridBase
+from src.VTUtoHDF5 import *
 
 def main():
     lic = License()
