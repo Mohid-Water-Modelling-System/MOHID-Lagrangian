@@ -336,7 +336,7 @@
     beachCoeff = 1.0
     call random_number(beachCoeffRand) !this is a uniform distribution generator
     beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
-    where (beachCoeffRand /=0 )  beachCoeffRand = beachCoeffRand*(1.0/maxval(beachCoeffRand))
+    where (beachCoeffRand /= 0.0 ) beachCoeffRand = beachCoeffRand*(1.0/maxval(beachCoeffRand))
 
     Beaching = svDt
 
