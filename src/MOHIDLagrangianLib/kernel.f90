@@ -252,9 +252,9 @@
                 depth = exp(depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%vsdx, .true.)
-                StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
                 nf = Utils%find_str(var_name, Globals%Var%vsdy, .true.)
-                StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
                 deallocate(var_name)
                 deallocate(var_dt)
             end if
@@ -304,9 +304,9 @@
                 depth = exp(10.0*depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
-                Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
                 nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
-                Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
                 deallocate(var_name)
                 deallocate(var_dt)
             end if
