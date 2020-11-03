@@ -99,7 +99,6 @@
     contains
     procedure :: setgravity
     procedure :: setz0
-    procedure :: setrho
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
     procedure :: setDiffusionCoeff
