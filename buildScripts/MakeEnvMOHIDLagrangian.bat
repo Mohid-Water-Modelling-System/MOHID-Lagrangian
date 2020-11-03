@@ -11,7 +11,7 @@ if %ERRORLEVEL% NEQ 0 (
 	echo Install it or add it to your path.
 ) else (
 	echo Installing python packages in a new enironment MOHID-Lagrangian...
-	conda create --name MOHID-Lagrangian python=3.6 --file requirementsWin.txt
+	conda env create -f environment.yml
 	conda activate MOHID-Lagrangian
 )
 

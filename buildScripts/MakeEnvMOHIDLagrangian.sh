@@ -12,6 +12,6 @@ then
     exit
 else
 	echo Installing python packages in a new environment MOHID-Lagrangian...
-	conda create --name MOHID-Lagrangian python=3.7 --file requirementsLinux.txt
+	conda env create -f environment.yml
 	#.conda activate MOHID-Lagrangian
 fi
