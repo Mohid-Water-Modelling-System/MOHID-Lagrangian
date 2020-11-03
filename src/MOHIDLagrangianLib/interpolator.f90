@@ -185,7 +185,7 @@
 
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
-
+    
     do concurrent(i=1:n_e, .not. out(i))
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
