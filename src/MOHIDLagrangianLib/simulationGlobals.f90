@@ -86,21 +86,27 @@
     type :: constants_t    !< Case Constants class
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
+        real(prec)   :: RhoRef = 1000.0     !< Reference density of the medium (default=1000.0) (kg m-3)
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
+        real(prec)   :: ResuspensionCoeff = 0.0   !< Resuspension velocity amplitud factor (default=0) 
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
         real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
-        real(prec)   :: MeanDensity = 1027.0 !< mean medium density (kg m-3)
-        real(prec)   :: MeanKVisco = 1.09E-3 !< mean medium kinematic viscosity (m2/s)
+        integer      :: VerticalVelMethod = 1 !< Vertical velocity method
+        integer      :: RemoveLandTracer = 0 !< Vertical velocity method
+        real(prec)   :: MeanDensity = 1027.0 !< mean ocean water density.
+        real(prec)   :: MeanKVisco = 1.09E-3 !< mean ocean water kinematic viscosity
     contains
     procedure :: setgravity
     procedure :: setz0
+    procedure :: setrho
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
     procedure :: setDiffusionCoeff
     procedure :: setSmallDt
-    procedure :: setMeanDensity
-    procedure :: setMeanKVisco
+    procedure :: setResuspensionCoeff
+    procedure :: setVerticalVelMethod
+    procedure :: setRemoveLandTracer
     procedure :: print => printconstants
     end type constants_t
 
@@ -195,6 +201,7 @@
         integer :: base  = 0
         integer :: paper   = 1
         integer :: plastic = 2
+        integer :: coliform = 3
     contains
     end type tracerTypes_t
 
@@ -312,9 +319,10 @@
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
     self%Constants%DiffusionCoeff = 1.0
+    self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
-    self%Constants%MeanDensity = 1027.0
-    self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%ResuspensionCoeff = 0.0
+    self%Constants%VerticalVelMethod = 0.0
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -1068,6 +1076,69 @@
     end subroutine setDiffusionCoeff
 
     !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Resuspension setting routine or not
+    !> @param[in] self, read_BeachingLevel
+    !---------------------------------------------------------------------------
+    subroutine setResuspensionCoeff(self, read_ResuspensionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionCoeff
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspensionCoeff%to_number(kind=1._R8P) < 0.0) then
+        outext='Resuspension factor must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspensionCoeff=read_ResuspensionCoeff%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspensionCoeff)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionCoeff
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Choose if tracers must be removed when they reach land or not
+    !> @param[in] self, read_BeachingLevel
+    !---------------------------------------------------------------------------
+    subroutine setRemoveLandTracer(self, read_RemoveLandTracer)
+        class(constants_t), intent(inout) :: self
+        type(string), intent(in) :: read_RemoveLandTracer
+        type(string) :: outext
+        integer :: sizem
+        if ((read_RemoveLandTracer%to_number(kind=1._I8P) < 0) .OR. (read_RemoveLandTracer%to_number(kind=1._I8P) > 1)) then
+            outext='Remove land tracers option must be 0:No or 1:yes, assuming default value'
+            call Log%put(outext)
+        else
+            self%RemoveLandTracer=read_RemoveLandTracer%to_number(kind=1._I8P)
+        end if
+        sizem = sizeof(self%RemoveLandTracer)
+        call SimMemory%adddef(sizem)
+    end subroutine setRemoveLandTracer
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Resuspension setting routine or not
+    !> @param[in] self, read_BeachingLevel
+    !---------------------------------------------------------------------------
+    subroutine setVerticalVelMethod(self, read_VerticalVelMethod)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_VerticalVelMethod
+    type(string) :: outext
+    integer :: sizem
+    if ((read_VerticalVelMethod%to_number(kind=1._I8P) < 0) .OR. (read_VerticalVelMethod%to_number(kind=1._I8P) > 3)) then
+        outext='Vertical velocity method must be 1:From velocity fields, 2:Divergence or 3:Disabled, assuming default value'
+        call Log%put(outext)
+    else
+        self%VerticalVelMethod=read_VerticalVelMethod%to_number(kind=1._I8P)
+    endif
+    sizem = sizeof(self%VerticalVelMethod)
+    call SimMemory%adddef(sizem)
+    end subroutine setVerticalVelMethod
+
+    !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> smallDt setting routine.
@@ -1152,11 +1223,14 @@
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingStopProb
     outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
-    temp_str(1)=self%MeanDensity
-    outext = outext//'       MeanDensity = '//temp_str(1)//' kg/m^3'//new_line('a')
-    temp_str(1)=self%MeanKVisco
-    outext = outext//'       MeanKVisco = '//temp_str(1)//' m2/s'
-
+    temp_str(1)=self%RhoRef
+    outext = outext//'       RhoRef = '//temp_str(1)//' kg/m^3'//new_line('a')
+    temp_str(1)=self%ResuspensionCoeff
+    outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%VerticalVelMethod
+    outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%RemoveLandTracer
+    outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printconstants
 

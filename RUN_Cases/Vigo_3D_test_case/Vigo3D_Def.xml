@@ -46,13 +46,15 @@
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-				<type source="18" type='paper' property="cardboard_1" comment="" />
+				<type source="18" type="base" property="" comment="" />
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+       			 <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+
 		</constants>
 	</caseDefinitions>
 </case>
