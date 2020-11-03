@@ -14,4 +14,9 @@
 	<convertFiles>
 		<format key="hdf5"/>
 	</convertFiles>
+    <plot>
+        <time value='all' comments='season, monthly, yearly or any other acepted pandas groupby'/>
+        <method key='mean' comments='any implicit method, mean, std, diff, cumsum'/>
+        <map type='contourf' comments='contour,pcolormesh,imshow'/> 
+    </plot>
 </postProcessing>
