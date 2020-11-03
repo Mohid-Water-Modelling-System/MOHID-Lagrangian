@@ -7,7 +7,7 @@ eval "$(conda shell.bash hook)"
 conda activate MOHID-Lagrangian
 
 # "name" and "dirout" are named according to the testcase
-name=Arousa2D_case
+name=Vigo3D_Def
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
