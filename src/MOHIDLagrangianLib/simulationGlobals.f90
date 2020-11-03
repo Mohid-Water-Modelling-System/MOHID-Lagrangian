@@ -86,19 +86,21 @@
     type :: constants_t    !< Case Constants class
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
-        real(prec)   :: RhoRef = 1000.0    !< Reference density of the medium (default=1000.0) (kg m-3)
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
         real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
         real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
         real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
+        real(prec)   :: MeanDensity = 1027.0 !< mean medium density (kg m-3)
+        real(prec)   :: MeanKVisco = 1.09E-3 !< mean medium kinematic viscosity (m2/s)
     contains
     procedure :: setgravity
     procedure :: setz0
-    procedure :: setrho
     procedure :: setBeachingLevel
     procedure :: setBeachingStopProb
     procedure :: setDiffusionCoeff
     procedure :: setSmallDt
+    procedure :: setMeanDensity
+    procedure :: setMeanKVisco
     procedure :: print => printconstants
     end type constants_t
 
@@ -310,8 +312,9 @@
     self%Constants%BeachingLevel = -3.0
     self%Constants%BeachingStopProb = 0.50
     self%Constants%DiffusionCoeff = 1.0
-    self%Constants%RhoRef = 1000.0
     self%Constants%smallDt = 0.0
+    self%Constants%MeanDensity = 1027.0
+    self%Constants%MeanKVisco = 1.09E-3
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -1000,29 +1003,7 @@
     sizem = sizeof(self%Z0)
     call SimMemory%adddef(sizem)
     end subroutine
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> RhoRef setting routine.
-    !> @param[in] self, read_rho
-    !---------------------------------------------------------------------------
-    subroutine setrho(self,read_rho)
-    implicit none
-    class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_rho
-    type(string) :: outext
-    integer :: sizem
-    self%RhoRef=read_rho%to_number(kind=1._R8P)
-    if (self%RhoRef <= 0.0) then
-        outext='RhoRef must be positive and non-zero, stopping'
-        call Log%put(outext)
-        stop
-    endif
-    sizem = sizeof(self%RhoRef)
-    call SimMemory%adddef(sizem)
-    end subroutine
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -1106,6 +1087,48 @@
     sizem = sizeof(self%smallDt)
     call SimMemory%adddef(sizem)
     end subroutine setSmallDt
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Beaching stop probability setting routine.
+    !> @param[in] self, read_MeanDensity
+    !---------------------------------------------------------------------------
+    subroutine setMeanDensity(self, read_MeanDensity)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_MeanDensity
+    type(string) :: outext
+    integer :: sizem
+    if (read_MeanDensity%to_number(kind=1._R8P) <= 0.0) then
+        outext='Mean medium density must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%MeanDensity =read_MeanDensity%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%MeanDensity)
+    call SimMemory%adddef(sizem)
+    end subroutine setMeanDensity
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Beaching stop probability setting routine.
+    !> @param[in] self, read_MeanDensity
+    !---------------------------------------------------------------------------
+    subroutine setMeanKVisco(self, read_MeanKVisco)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_MeanKVisco
+    type(string) :: outext
+    integer :: sizem
+    if (read_MeanKVisco%to_number(kind=1._R8P) <= 0.0) then
+        outext='Mean medium kinematic viscosity must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%MeanKVisco =read_MeanKVisco%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%MeanKVisco)
+    call SimMemory%adddef(sizem)
+    end subroutine setMeanKVisco
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1129,8 +1152,10 @@
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingStopProb
     outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
-    temp_str(1)=self%RhoRef
-    outext = outext//'       RhoRef = '//temp_str(1)//' kg/m^3'
+    temp_str(1)=self%MeanDensity
+    outext = outext//'       MeanDensity = '//temp_str(1)//' kg/m^3'//new_line('a')
+    temp_str(1)=self%MeanKVisco
+    outext = outext//'       MeanKVisco = '//temp_str(1)//' m2/s'
 
     call Log%put(outext,.false.)
     end subroutine printconstants
