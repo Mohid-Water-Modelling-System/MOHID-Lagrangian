@@ -570,18 +570,18 @@
         real(prec), intent(in) :: time 
         real(prec) :: dr = 0.01
         integer :: np, nf, bkg, i
-        real(prec), dimension(:,:), allocatable :: v1,v0,u1,u0
+        real(prec), dimension(:,:), allocatable :: v1,v0,u1,u0, var_dt
         type(string), dimension(:), allocatable :: var_name
         type(string), dimension(:), allocatable :: requiredVars
 
-        real(prec), dimension(size(sv%state,1)) :: Divergence
+        real(prec), dimension(size(sv%state,1)) :: Divergence, resolution
         real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: uv_x0, uv_x1, uv_y0, uv_y1
-        real(prec), dimension(size(sv%state,1)) :: u_x0, u_x1, v_y0, v_y1
+        real(prec), dimension(size(sv%state,1)) :: u_x0, u_x1, v_y0, v_y1, dx,dy
         
         allocate(requiredVars(3))
         requiredVars(1) = Globals%Var%u
         requiredVars(2) = Globals%Var%v
-        requiredVars(3) = Globals%Var%w
+        requiredVars(3) = Globals%Var%resolution
 
         Divergence = 0.
 
@@ -591,36 +591,47 @@
         call sv%copyState(y0)
         call sv%copyState(y1)
 
-        x0%state(:,1) = x0%state(:,1) - dr
-        x1%state(:,1) = x1%state(:,1) + dr
-        y0%state(:,2) = y0%state(:,2) - dr
-        y1%state(:,2) = y1%state(:,2) + dr
-
         ! interpolate each background
         do bkg = 1, size(bdata)
             if (bdata(bkg)%initialized) then
-                if(bdata(bkg)%hasVars(requiredVars(1:2))) then
+                if(bdata(bkg)%hasVars(requiredVars)) then
                     np = size(sv%active)             ! number of Tracers
                     nf = bdata(bkg)%fields%getSize() ! number of fields to interpolate
-
                     allocate(var_name(nf))
+                    allocate(var_dt(np,nf))
+
+                    call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
                     
+                    nf = Utils%find_str(var_name, Globals%Var%resolution, .true.)
+                    resolution = var_dt(:,nf)
+                    !if we are still in the same path, use the same random velocity, do nothing
+                    !if we ran the path, new random velocities are generated and placed
+  
+                    dx = Utils%m2geo(resolution, sv%state(:,2), .false.)
+                    dy = Utils%m2geo(resolution, sv%state(:,2), .true.)
+
+                    x0%state(:,1) = x0%state(:,1) - dx
+                    x1%state(:,1) = x1%state(:,1) + dx
+                    y0%state(:,2) = y0%state(:,2) - dy
+                    y1%state(:,2) = y1%state(:,2) + dy
+            
                     call self%Interpolator%run(x0%state, bdata(bkg), time, uv_x0, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                    u_x0 = Utils%m2geo(uv_x0(:,nf), x0%state(:,2), .false.)
+                    u_x0 = Utils%m2geo(uv_x0(:,nf), y0%state(:,2), .true.)
 
                     call self%Interpolator%run(x1%state, bdata(bkg), time, uv_x1, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                    u_x1 = Utils%m2geo(uv_x1(:,nf), x1%state(:,2), .false.)
+                    u_x1 = Utils%m2geo(uv_x1(:,nf), y1%state(:,2), .true.)
 
                     call self%Interpolator%run(y0%state, bdata(bkg), time, uv_y0, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                    v_y0 = Utils%m2geo(uv_y0(:,nf), y0%state(:,2), .true.)
+                    v_y0 = Utils%m2geo(uv_y0(:,nf), y0%state(:,2), .false.)
 
                     call self%Interpolator%run(y1%state, bdata(bkg), time, uv_y1, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                    v_y1 = Utils%m2geo(uv_y1(:,nf), y1%state(:,2), .true.)
+                    v_y1 = Utils%m2geo(uv_y1(:,nf), y1%state(:,2), .false.)
 
+                    deallocate(var_dt)
                     deallocate(var_name)
                 end if
             end if
