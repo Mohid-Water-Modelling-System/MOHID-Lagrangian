@@ -95,7 +95,7 @@
         integer      :: VerticalVelMethod = 1 !< Vertical velocity method
         integer      :: RemoveLandTracer = 0 !< Vertical velocity method
         real(prec)   :: MeanDensity = 1027.0 !< mean ocean water density.
-        real(prec)   :: MeanKVisco = 1.09E-3 !< mean ocean water kinematic viscosity 
+        real(prec)   :: MeanKVisco = 1.09E-3 !< mean ocean water kinematic viscosity
     contains
     procedure :: setgravity
     procedure :: setz0
@@ -1011,29 +1011,7 @@
     sizem = sizeof(self%Z0)
     call SimMemory%adddef(sizem)
     end subroutine
-
-    !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
-    !> @brief
-    !> RhoRef setting routine.
-    !> @param[in] self, read_rho
-    !---------------------------------------------------------------------------
-    subroutine setrho(self,read_rho)
-    implicit none
-    class(constants_t), intent(inout) :: self
-    type(string), intent(in) :: read_rho
-    type(string) :: outext
-    integer :: sizem
-    self%RhoRef=read_rho%to_number(kind=1._R8P)
-    if (self%RhoRef <= 0.0) then
-        outext='RhoRef must be positive and non-zero, stopping'
-        call Log%put(outext)
-        stop
-    endif
-    sizem = sizeof(self%RhoRef)
-    call SimMemory%adddef(sizem)
-    end subroutine
-
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -1180,6 +1158,48 @@
     sizem = sizeof(self%smallDt)
     call SimMemory%adddef(sizem)
     end subroutine setSmallDt
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Beaching stop probability setting routine.
+    !> @param[in] self, read_MeanDensity
+    !---------------------------------------------------------------------------
+    subroutine setMeanDensity(self, read_MeanDensity)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_MeanDensity
+    type(string) :: outext
+    integer :: sizem
+    if (read_MeanDensity%to_number(kind=1._R8P) <= 0.0) then
+        outext='Mean medium density must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%MeanDensity =read_MeanDensity%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%MeanDensity)
+    call SimMemory%adddef(sizem)
+    end subroutine setMeanDensity
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Beaching stop probability setting routine.
+    !> @param[in] self, read_MeanDensity
+    !---------------------------------------------------------------------------
+    subroutine setMeanKVisco(self, read_MeanKVisco)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_MeanKVisco
+    type(string) :: outext
+    integer :: sizem
+    if (read_MeanKVisco%to_number(kind=1._R8P) <= 0.0) then
+        outext='Mean medium kinematic viscosity must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%MeanKVisco =read_MeanKVisco%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%MeanKVisco)
+    call SimMemory%adddef(sizem)
+    end subroutine setMeanKVisco
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

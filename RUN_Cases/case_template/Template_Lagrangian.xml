@@ -137,8 +137,9 @@
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
 			<Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />
-			<Z0 value="2.16" comment="Reference local 'zero' level. Default = 0.0" units_comment="m" />
-			<RhoRef value="1001.45" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />			
+			<Z0 value="2.16" comment="Reference local 'zero' level. Default = 0.0" units_comment="m" />	
+			<MeanDensity value="1028.0" comment="Mean medium density. Default = 1027.0" units_comment="kg/m3" />	
+			<MeanKViscosity value="0.00110" comment="Mean medium kinematic viscosity. Default = 0.00109" units_comment="m2/s" />
 		</constants>
 	</caseDefinitions>
 </case>
