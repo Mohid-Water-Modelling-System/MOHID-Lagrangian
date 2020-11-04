@@ -44,6 +44,7 @@ class VTUParser:
         for i in range(0, self.nvars):
             variableList.append(self.vtkReader.GetOutput().GetPointData().GetArrayName(i))
             return variableList
+        return variableList
 
     def updateReaderWithFile(self, fileName):
         self.vtkReader.SetFileName(fileName)
