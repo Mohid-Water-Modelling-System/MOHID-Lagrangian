@@ -138,7 +138,7 @@
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
                 !marking tracers for deletion because they are in land
-                if (Globals%Constants%RemoveLandTracer == 1) then
+                if (Globals%SimDefs%RemoveLandTracer == 1) then
                      where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
                 end if
                 !update resolution proxy
@@ -193,13 +193,13 @@
                 LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
                 sv%state(:,5) = var_dt(:,nf)
                 nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-                if ((nf /= MV_INT) .and. (Globals%Constants%VerticalVelMethod == 1)) then
+                if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
                     LagrangianKinematic(:,3) = var_dt(:, nf)
                     sv%state(:,6) = var_dt(:, nf)
-                else if ((nf /= MV_INT) .and. (Globals%Constants%VerticalVelMethod == 2)) then
+                else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
                     LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
                     sv%state(:,6) = LagrangianKinematic(:,3)
-                else if ((nf == MV_INT) .or. (Globals%Constants%VerticalVelMethod == 3)) then
+                else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
                     LagrangianKinematic(:,3) = 0.0
                     sv%state(:,6) = 0.0
                 end if
