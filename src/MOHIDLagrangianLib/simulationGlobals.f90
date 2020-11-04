@@ -105,7 +105,8 @@
     procedure :: setDiffusionCoeff
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
-    
+    procedure :: setMeanDensity
+    procedure :: setMeanKVisco    
     procedure :: print => printconstants
     end type constants_t
 
