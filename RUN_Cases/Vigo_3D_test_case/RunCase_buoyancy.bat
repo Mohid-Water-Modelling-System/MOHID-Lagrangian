@@ -8,10 +8,9 @@ rem "name" and "dirout" are named according to the case
 set name=Vigo3D_buoyancy_Def
 set dirout=%name%_out
 
-set KMP_STACKSIZE=1G
 rem "executables" are renamed and called from their directory
 
-set tools=../../build/bin/DEBUG
+set tools=../../build/bin/RELEASE
 set mohidlagrangian="%tools%/MOHIDLagrangian.exe"
 
 set preprocessorDir=../../src/MOHIDLagrangianPreProcessor
