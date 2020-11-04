@@ -35,7 +35,8 @@ class VTUParser:
     def getNumberOfVars(self):
         self.vtkReader.SetFileName(self.parentFile)
         self.vtkReader.Update()
-        return self.vtkReader.GetOutput().GetPointData().GetNumberOfArrays()
+        number_of_arrays = self.vtkReader.GetOutput().GetPointData().GetNumberOfArrays()
+        return number_of_arrays
 
     def getAvailableVars(self) -> list:
         self.vtkReader.SetFileName(self.parentFile)
@@ -43,7 +44,6 @@ class VTUParser:
         variableList = []
         for i in range(0, self.nvars):
             variableList.append(self.vtkReader.GetOutput().GetPointData().GetArrayName(i))
-            return variableList
         return variableList
 
     def updateReaderWithFile(self, fileName):
