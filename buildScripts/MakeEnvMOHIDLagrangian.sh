@@ -12,6 +12,6 @@ then
     exit
 else
 	echo Installing python packages in a new environment MOHID-Lagrangian...
-	conda env create -f environment.yml
+	conda env create -f environmentLinux.yml
 	#.conda activate MOHID-Lagrangian
 fi
