@@ -22,6 +22,8 @@
 			<timestep dt="60.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-8.95" y="42.10" z="-100" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.61" y="42.44" z="10" units_comment="(deg,deg,m)"/>
+            <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
 		</simulation>
 		<sourceDefinitions>
 			<source>
@@ -93,8 +95,6 @@
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
             <ResuspensionCoeff value="0.0" comment="Resuspension amplitude velocity factor. Default = 0.0" units_comment="n.u" />
-            <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
-            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
 		</constants>
 	</caseDefinitions>
 </case>

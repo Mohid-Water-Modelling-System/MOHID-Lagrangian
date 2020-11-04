@@ -29,6 +29,7 @@
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-9.1" y="42.40" z="-1" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.75" y="42.66" z="1" units_comment="(deg,deg,m)"/>
+			<RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
 		</simulation>
 		<sourceDefinitions>
 			<source>
@@ -104,8 +105,7 @@
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
-            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />            
 		</constants>
 	</caseDefinitions>
 </case>

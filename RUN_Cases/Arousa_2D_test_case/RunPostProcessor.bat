@@ -5,7 +5,7 @@ call activate MOHID-Lagrangian
 
 rem "name" and "dirout" are named according to the case
 
-set name=Arousa2D
+set name=Arousa2D_case
 set dirout=%name%_out
 
 rem "executables" are renamed and called from their directory
