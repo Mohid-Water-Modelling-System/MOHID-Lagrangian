@@ -257,10 +257,10 @@ class GridBase:
 
         timeIdx = 0
         vtuFileList = vtuParser.fileList
-        for vtuFile in tqdm(vtuFileList, desc='Global'):
+        for vtuFile in tqdm(vtuFileList, desc='Progress:', position=0, leave=True):
             sourceIdx = 0
             vtuParser.updateReaderWithFile(vtuFile)
-            for sourceID, sourceName in tqdm(sourcesDict.items(), 'Source'):
+            for sourceID, sourceName in sourcesDict.items():
 
                 # get particle position
                 particlePos = vtuParser.getVariableData('coords', sourceID, beachCondition=self.beachCondition)
@@ -290,5 +290,5 @@ class GridBase:
 
                 sourceIdx += 1
             timeIdx += 1
-            progress = '-> Progress: %4.2f' %(100*(timeIdx/len(vtuFileList)))
-            print(progress, end='\r')
+            #progress = '-> Progress: %4.2f' %(100*(timeIdx/len(vtuFileList)))
+            #print(progress, end='\r')
