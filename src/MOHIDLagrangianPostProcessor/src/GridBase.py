@@ -137,15 +137,15 @@ class RawCounts:
 
 class ResidenceTime:
 
-    def __init__(self, grid, base_name='', units =''):
+    def __init__(self, grid, dt, base_name='', units =''):
         self.grid = grid
         self.base_name = base_name
         self.long_name = base_name
         self.units = units
         self.dims = ['time', 'depth', 'latitude', 'longitude']
         self.coords = grid.coords.items()
-        self.accum = []
-        self.dt = []
+        self.accum = np.array([])
+        self.dt = np.array(dt)
         self.tidx = 0
 
     def increase_tidx(self):
@@ -153,8 +153,8 @@ class ResidenceTime:
 
     def getMeasure(self, nCounts):
         data = (nCounts > 0)*self.dt
-        if self.tidx == 1:
-            self.accum = np.zeros_like(data)
+        if self.tidx == 0:
+            self.accum = np.zeros_like(nCounts)
         else:
             data = data + self.accum
 
@@ -163,9 +163,12 @@ class ResidenceTime:
             data = np.squeeze(data, axis=0)
 
         # Increase the counter
-        self.increate_tidx()
+        self.increase_tidx()
 
         return data
+    
+    def addSourceName(self, source_name):
+        return self.base_name + '_' + source_name
 
     def get_variable_name(self, source_name):
         return self.base_name + source_name
