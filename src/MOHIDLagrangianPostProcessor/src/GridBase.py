@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import numpy as np
 
 from src.XMLReader import *
 from src.Grid import Grid
+import numpy as np
 from tqdm import tqdm
 
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Created on Wed Jun  3 12:29:02 2020
 
@@ -49,6 +48,8 @@ class VTUParser:
     def updateReaderWithFile(self, fileName):
         self.vtkReader.SetFileName(fileName)
         self.vtkReader.Update()
+        self.nvars = self.getNumberOfVars()
+        self.availableVtuVars = self.getAvailableVars()
 
     def getVariableData(self, variableName, source='global', beachCondition=None):
         sourceMask = getSourceMaskFromVTU(self.vtkReader, source)

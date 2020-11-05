@@ -5,24 +5,27 @@ import os
 import sys
 import os_dir
 import MDateTime
+from src.VTUReader import *
 
 basePath = os.path.dirname(os.path.realpath(__file__))
 commonPath = os.path.abspath(os.path.join(basePath, "../Common"))
 sys.path.append(commonPath)
 
 
-def vtu2hdf5(postProcessor, dataDir):
-    outdirLocal = dataDir + '/postProcess_'+os.path.basename(os_dir.filename_without_ext(postProcessor.base.xml_recipe))+'_hdf5'                
+def vtu2hdf5(vtuParser, FileTimeHandler, dataDir, outDirLocal):
+    outdirLocal = outDirLocal + '_hdf5'
     if os.path.exists(outdirLocal):
         os_dir.deleteDirForce(outdirLocal)
     os.mkdir(outdirLocal)
     f = 0
     print('-> Converting .vtu to .hdf5, MOHID formated')
-    for vtuFile in postProcessor.base.pvdReader.vtuFileHandlers:
-        # convert the file
-        r = vtuFile.getVtuVariableData('coords')
-        hdf5FileName = os_dir.filename_without_ext(os.path.basename(vtuFile.fileName))+'.hdf5'
-        print('--> '+os.path.basename(vtuFile.fileName)+' -> '+hdf5FileName)
+    vtuFileList = vtuParser.fileList
+    for vtuFile in vtuFileList:
+        vtuParser.updateReaderWithFile(vtuFile)
+        # get particle position
+        r = vtuParser.getVariableData('coords')
+        hdf5FileName = os_dir.filename_without_ext(os.path.basename(vtuFile))+'.hdf5'
+        print('--> ' + os.path.basename(vtuFile) + ' -> ' + hdf5FileName)
         with h5py.File(outdirLocal + '/' + hdf5FileName ,'a') as hdf5File:
             # main groups
             grid = hdf5File.create_group("Grid")
@@ -43,13 +46,13 @@ def vtu2hdf5(postProcessor, dataDir):
             zz.attrs['Maximum'] = max(r[:, 0])
             zz.attrs['Minimum'] = min(r[:, 0])
             zz.attrs['Units'] = 'm'
-            r = vtuFile.getVtuVariableData('source')
+            r = vtuParser.getVariableData('source')
             source = group1.create_dataset('Origin ID/Origin ID_00001', data=r, dtype='f')
             source.attrs['Maximum'] = max(r)
             source.attrs['Minimum'] = min(r)
             source.attrs['Units'] = '-'
             # writing time
-            dateArray = MDateTime.getMOHIDDateFromTimeStamp(postProcessor.base.FileTimeHandler.timeAxis[f])
+            dateArray = MDateTime.getMOHIDDateFromTimeStamp(FileTimeHandler.timeAxis[f])
             date = time.create_dataset('Time_00001', data=dateArray, dtype='f')
             date.attrs['Maximum'] = max(dateArray)
             date.attrs['Minimum'] = min(dateArray)

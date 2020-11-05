@@ -1,10 +1,5 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  3 15:54:52 2019
 
-@author: gfnl143
-"""
 import xml.etree.ElementTree as ET
 import numpy as np
 import MDateTime
@@ -22,7 +17,7 @@ class FilesTimesHandler:
         self.endTime = []
         self.dt = []
 
-    def getTimeAxisFromXML(self, xmlFile):
+    def setTimeAxisFromXML(self, xmlFile:str):
         root = ET.parse(xmlFile).getroot()
         for parameter in root.findall('execution/parameters/parameter'):
             if parameter.get('key') == 'Start':
@@ -35,7 +30,17 @@ class FilesTimesHandler:
         startTimeStamp = MDateTime.getTimeStampFromISODateString(self.startTime)
         self.timeAxis = np.array([startTimeStamp + i*self.dt/daysToSeconds for i in range(0,nFiles)])
 
-    def getTimeMaskFromRecipe(self, xmlRecipe):
+    def setTimeMaskFromRecipe(self, xmlRecipe:str):
+        """
+        
+
+        Args:
+            xmlRecipe (TYPE): DESCRIPTION.
+
+        Returns:
+            None.
+
+        """
         root = ET.parse(xmlRecipe).getroot()
         self.timeMask = np.ones(self.timeAxis.size, dtype=np.bool)
         for parameter in root.findall('time/'):
@@ -53,8 +58,8 @@ class FilesTimesHandler:
         self.timeAxis = self.timeAxis[self.timeMask]
 
     def initializeTimeGrid(self, xmlFile, xmlRecipe):
-        self.getTimeAxisFromXML(xmlFile)
-        self.getTimeMaskFromRecipe(xmlRecipe)
+        self.setTimeAxisFromXML(xmlFile)
+        self.setTimeMaskFromRecipe(xmlRecipe)
 
     def cropFileList(self):
         tidx = 0

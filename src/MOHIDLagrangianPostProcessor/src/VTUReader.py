@@ -24,6 +24,15 @@ def getStateArrayFromVTU(VTKReader) -> np.array:
     else:
         return vtk_to_numpy(state_array)
 
+
+def getArrayFromVTU(VTKReader, array_name) -> np.array:
+    state_array = VTKReader.GetOutput().GetPointData().GetArray(array_name)
+    if state_array == None:
+        return np.zeros(1)
+    else:
+        return vtk_to_numpy(state_array)
+
+
 def getCoordsArrayFromVTU(VTKReader) -> np.array:
     return vtk_to_numpy(VTKReader.GetOutput().GetPoints().GetData())[:, ::-1]
 
@@ -39,8 +48,8 @@ def getVariableArrayFromVTU(VTKReader, variableName) -> np.array:
         vtu_vars = getCoordsArrayFromVTU(VTKReader)
     elif variableName == 'velocity':
         vtu_vars = getVelocityModuleFromVTU(VTKReader)
-    elif variableName in VTKReader.availableVtuVars:
-        vtu_vars = getVariableArrayFromVTU(VTKReader, variableName)
+    else:
+        vtu_vars = getArrayFromVTU(VTKReader, variableName)
     return vtu_vars
 
 
