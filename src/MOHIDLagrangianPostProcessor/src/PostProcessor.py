@@ -50,4 +50,4 @@ class PostProcessor:
             polygonBase.run(measures, sources, vtuParser, fileTimeHandler, netcdfWriter)
 
         if checkHDF5WriteRecipe(self.xml_recipe):
-            vtu2hdf5(vtuParser,fileTimeHandler, self.outdir, self.outdirLocal)
+            vtu2hdf5(vtuParser, fileTimeHandler, self.outdirLocal)

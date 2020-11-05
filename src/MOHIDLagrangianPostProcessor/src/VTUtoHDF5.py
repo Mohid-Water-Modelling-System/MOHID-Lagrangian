@@ -12,11 +12,11 @@ commonPath = os.path.abspath(os.path.join(basePath, "../Common"))
 sys.path.append(commonPath)
 
 
-def vtu2hdf5(vtuParser, FileTimeHandler, dataDir, outDirLocal):
-    outdirLocal = outDirLocal + '_hdf5'
-    if os.path.exists(outdirLocal):
-        os_dir.deleteDirForce(outdirLocal)
-    os.mkdir(outdirLocal)
+def vtu2hdf5(vtuParser, FileTimeHandler, outDirLocal):
+    outdirhdf5 = outDirLocal[:-1] + '_hdf5'
+    if os.path.exists(outdirhdf5):
+        os_dir.deleteDirForce(outdirhdf5)
+    os.mkdir(outdirhdf5)
     f = 0
     print('-> Converting .vtu to .hdf5, MOHID formated')
     vtuFileList = vtuParser.fileList
@@ -26,7 +26,7 @@ def vtu2hdf5(vtuParser, FileTimeHandler, dataDir, outDirLocal):
         r = vtuParser.getVariableData('coords')
         hdf5FileName = os_dir.filename_without_ext(os.path.basename(vtuFile))+'.hdf5'
         print('--> ' + os.path.basename(vtuFile) + ' -> ' + hdf5FileName)
-        with h5py.File(outdirLocal + '/' + hdf5FileName ,'a') as hdf5File:
+        with h5py.File(outdirhdf5 + '/' + hdf5FileName ,'a') as hdf5File:
             # main groups
             grid = hdf5File.create_group("Grid")
             results = hdf5File.create_group("Results")

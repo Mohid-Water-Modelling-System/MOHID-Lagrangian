@@ -290,5 +290,3 @@ class GridBase:
 
                 sourceIdx += 1
             timeIdx += 1
-            #progress = '-> Progress: %4.2f' %(100*(timeIdx/len(vtuFileList)))
-            #print(progress, end='\r')
