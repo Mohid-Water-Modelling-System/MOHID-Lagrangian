@@ -18,8 +18,11 @@ def getSourceArrayFromVTU(VTKReader) -> np.array:
 
 
 def getStateArrayFromVTU(VTKReader) -> np.array:
-    return vtk_to_numpy(VTKReader.GetOutput().GetPointData().GetArray('state'))
-
+    state_array = VTKReader.GetOutput().GetPointData().GetArray('state')
+    if state_array == None:
+        return np.zeros(1)
+    else:
+        return vtk_to_numpy(state_array)
 
 def getCoordsArrayFromVTU(VTKReader) -> np.array:
     return vtk_to_numpy(VTKReader.GetOutput().GetPoints().GetData())[:, ::-1]
@@ -41,7 +44,7 @@ def getVariableArrayFromVTU(VTKReader, variableName) -> np.array:
     return vtu_vars
 
 
-def getBeachMaskFromVTU(VTKReader, beachCondition: int) -> np.bool:
+def getBeachMaskFromVTU(VTKReader, beachCondition = 0) -> np.bool:
     if beachCondition:
         state = getStateArrayFromVTU(VTKReader)
         if beachCondition == '0':
