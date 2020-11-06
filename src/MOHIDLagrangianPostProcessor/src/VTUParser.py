@@ -31,15 +31,23 @@ class VTUParser:
     def updateFileList(self, fileList):
         self.fileList = fileList
 
-    def getNumberOfVars(self):
-        self.vtkReader.SetFileName(self.parentFile)
-        self.vtkReader.Update()
+    def getNumberOfVars(self, file=None) -> list:
+        if file is None:
+            self.vtkReader.SetFileName(self.parentFile)
+            self.vtkReader.Update()
+        else:
+            self.vtkReader.SetFileName(file)
+            self.vtkReader.Update()
         number_of_arrays = self.vtkReader.GetOutput().GetPointData().GetNumberOfArrays()
         return number_of_arrays
 
-    def getAvailableVars(self) -> list:
-        self.vtkReader.SetFileName(self.parentFile)
-        self.vtkReader.Update()
+    def getAvailableVars(self, file=None) -> list:
+        if file is None:
+            self.vtkReader.SetFileName(self.parentFile)
+            self.vtkReader.Update()
+        else:
+            self.vtkReader.SetFileName(file)
+            self.vtkReader.Update()
         variableList = []
         for i in range(0, self.nvars):
             variableList.append(self.vtkReader.GetOutput().GetPointData().GetArrayName(i))
@@ -48,8 +56,9 @@ class VTUParser:
     def updateReaderWithFile(self, fileName):
         self.vtkReader.SetFileName(fileName)
         self.vtkReader.Update()
-        self.nvars = self.getNumberOfVars()
-        self.availableVtuVars = self.getAvailableVars()
+        self.nvars = self.getNumberOfVars(fileName)
+        self.availableVtuVars = self.getAvailableVars(fileName)
+
 
     def getVariableData(self, variableName, source='global', beachCondition=None):
         sourceMask = getSourceMaskFromVTU(self.vtkReader, source)
@@ -62,5 +71,4 @@ class VTUParser:
                 return vtuVarArray
             else:
                 vtuVarArray = vtuVarArray[sourceMask*beachMask]
-
         return vtuVarArray

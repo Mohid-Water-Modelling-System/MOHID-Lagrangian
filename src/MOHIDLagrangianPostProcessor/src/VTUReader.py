@@ -53,7 +53,7 @@ def getVariableArrayFromVTU(VTKReader, variableName) -> np.array:
     return vtu_vars
 
 
-def getBeachMaskFromVTU(VTKReader, beachCondition = 0) -> np.bool:
+def getBeachMaskFromVTU(VTKReader, beachCondition) -> np.bool:
     if beachCondition:
         state = getStateArrayFromVTU(VTKReader)
         if beachCondition == '0':

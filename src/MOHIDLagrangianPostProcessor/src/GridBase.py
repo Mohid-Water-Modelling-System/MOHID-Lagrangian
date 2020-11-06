@@ -137,7 +137,7 @@ class RawCounts:
 
 class ResidenceTime:
 
-    def __init__(self, grid, dt, base_name='', units =''):
+    def __init__(self, grid, dt, base_name='residence_time', units ='s'):
         self.grid = grid
         self.base_name = base_name
         self.long_name = base_name
@@ -156,7 +156,7 @@ class ResidenceTime:
         if self.tidx == 0:
             self.accum = np.zeros_like(nCounts)
         else:
-            data = data + self.accum
+            self.accum = data + self.accum
 
         if is2Dlayer(data):
             self.dims = ['time', 'latitude', 'longitude']
@@ -165,13 +165,10 @@ class ResidenceTime:
         # Increase the counter
         self.increase_tidx()
 
-        return data
-    
+        return self.accum
+
     def addSourceName(self, source_name):
         return self.base_name + '_' + source_name
-
-    def get_variable_name(self, source_name):
-        return self.base_name + source_name
 
     def toDataArrayDict(self, data):
         d = {}
@@ -260,6 +257,7 @@ class GridBase:
         for vtuFile in tqdm(vtuFileList, desc='Progress:', position=0, leave=True):
             sourceIdx = 0
             vtuParser.updateReaderWithFile(vtuFile)
+
             for sourceID, sourceName in sourcesDict.items():
 
                 # get particle position
@@ -273,6 +271,7 @@ class GridBase:
                 if 'residence_time' in measures:
                     dataArrayDict, sourceName = ResidenceCounter.run(nCountsArray, sourceName)
                     netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+
                 if 'concentrations' in measures:
                     dataArrayDict, sourceName = AreaCounter.run(nCountsArray, sourceName)
                     netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
