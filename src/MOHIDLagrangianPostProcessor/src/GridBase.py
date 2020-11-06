@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import numpy as np
 
 from src.XMLReader import *
 from src.Grid import Grid
+import numpy as np
 from tqdm import tqdm
 
 
@@ -137,15 +137,15 @@ class RawCounts:
 
 class ResidenceTime:
 
-    def __init__(self, grid, base_name='', units =''):
+    def __init__(self, grid, dt, base_name='residence_time', units ='s'):
         self.grid = grid
         self.base_name = base_name
         self.long_name = base_name
         self.units = units
         self.dims = ['time', 'depth', 'latitude', 'longitude']
         self.coords = grid.coords.items()
-        self.accum = []
-        self.dt = []
+        self.accum = np.array([])
+        self.dt = np.array(dt)
         self.tidx = 0
 
     def increase_tidx(self):
@@ -153,22 +153,22 @@ class ResidenceTime:
 
     def getMeasure(self, nCounts):
         data = (nCounts > 0)*self.dt
-        if self.tidx == 1:
-            self.accum = np.zeros_like(data)
+        if self.tidx == 0:
+            self.accum = np.zeros_like(nCounts)
         else:
-            data = data + self.accum
+            self.accum = data + self.accum
 
         if is2Dlayer(data):
             self.dims = ['time', 'latitude', 'longitude']
             data = np.squeeze(data, axis=0)
 
         # Increase the counter
-        self.increate_tidx()
+        self.increase_tidx()
 
-        return data
+        return self.accum
 
-    def get_variable_name(self, source_name):
-        return self.base_name + source_name
+    def addSourceName(self, source_name):
+        return self.base_name + '_' + source_name
 
     def toDataArrayDict(self, data):
         d = {}
@@ -254,10 +254,11 @@ class GridBase:
 
         timeIdx = 0
         vtuFileList = vtuParser.fileList
-        for vtuFile in tqdm(vtuFileList, desc='Global'):
+        for vtuFile in tqdm(vtuFileList, desc='Progress:', position=0, leave=True):
             sourceIdx = 0
             vtuParser.updateReaderWithFile(vtuFile)
-            for sourceID, sourceName in tqdm(sourcesDict.items(), 'Source'):
+
+            for sourceID, sourceName in sourcesDict.items():
 
                 # get particle position
                 particlePos = vtuParser.getVariableData('coords', sourceID, beachCondition=self.beachCondition)
@@ -270,6 +271,7 @@ class GridBase:
                 if 'residence_time' in measures:
                     dataArrayDict, sourceName = ResidenceCounter.run(nCountsArray, sourceName)
                     netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+
                 if 'concentrations' in measures:
                     dataArrayDict, sourceName = AreaCounter.run(nCountsArray, sourceName)
                     netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
@@ -287,5 +289,3 @@ class GridBase:
 
                 sourceIdx += 1
             timeIdx += 1
-            progress = '-> Progress: %4.2f' %(100*(timeIdx/len(vtuFileList)))
-            print(progress, end='\r')

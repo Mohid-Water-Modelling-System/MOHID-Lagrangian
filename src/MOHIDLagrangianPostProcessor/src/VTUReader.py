@@ -18,7 +18,19 @@ def getSourceArrayFromVTU(VTKReader) -> np.array:
 
 
 def getStateArrayFromVTU(VTKReader) -> np.array:
-    return vtk_to_numpy(VTKReader.GetOutput().GetPointData().GetArray('state'))
+    state_array = VTKReader.GetOutput().GetPointData().GetArray('state')
+    if state_array == None:
+        return np.zeros(1)
+    else:
+        return vtk_to_numpy(state_array)
+
+
+def getArrayFromVTU(VTKReader, array_name) -> np.array:
+    state_array = VTKReader.GetOutput().GetPointData().GetArray(array_name)
+    if state_array == None:
+        return np.zeros(1)
+    else:
+        return vtk_to_numpy(state_array)
 
 
 def getCoordsArrayFromVTU(VTKReader) -> np.array:
@@ -36,12 +48,12 @@ def getVariableArrayFromVTU(VTKReader, variableName) -> np.array:
         vtu_vars = getCoordsArrayFromVTU(VTKReader)
     elif variableName == 'velocity':
         vtu_vars = getVelocityModuleFromVTU(VTKReader)
-    elif variableName in VTKReader.availableVtuVars:
-        vtu_vars = getVariableArrayFromVTU(VTKReader, variableName)
+    else:
+        vtu_vars = getArrayFromVTU(VTKReader, variableName)
     return vtu_vars
 
 
-def getBeachMaskFromVTU(VTKReader, beachCondition: int) -> np.bool:
+def getBeachMaskFromVTU(VTKReader, beachCondition) -> np.bool:
     if beachCondition:
         state = getStateArrayFromVTU(VTKReader)
         if beachCondition == '0':

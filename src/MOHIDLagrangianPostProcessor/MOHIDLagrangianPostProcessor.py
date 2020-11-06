@@ -59,7 +59,7 @@ from src.XMLReader import *
 from src.PlotResults import *
 from src.PostProcessor import PostProcessor
 from src.GridBase import GridBase
-from src.VTUtoHDF5 import *
+
 
 def main():
     lic = License()
@@ -96,14 +96,13 @@ def main():
         outDirLocal = outDir + '/postProcess_' + os.path.basename(os_dir.filename_without_ext(recipe)) + '/' 
 
         # If plotonly flag > Runs only plotting stage
-        if args.plotonly == True:
-             plotResultsFromRecipe(outDirLocal, recipe)
-             return
+        if args.plotonly is True:
+            plotResultsFromRecipe(outDirLocal, recipe)
+            return
 
         postProcessor = PostProcessor(caseXML, recipe, outDir, outDirLocal)
         postProcessor.run()
-        if checkHDF5WriteRecipe(recipe):
-            vtu2hdf5(postProcessorBase, outDir)
+
         if checkPlotRecipe(recipe):
             plotResultsFromRecipe(outDirLocal, recipe)
 

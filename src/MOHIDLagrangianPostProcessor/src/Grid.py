@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct  3 14:44:32 2019
@@ -164,6 +163,7 @@ class Grid:
 
     def getCountsInCell(self, particlePositions):
         countsInCell, _ = np.histogramdd(particlePositions, self.grid)
+        
         # self.validCells = self.countsInCell > 0
         # self.validCells = np.where(IdCounts > 0)[0]
         # self.countsInCell = np.reshape(IdCounts, (nz, ny, nx))

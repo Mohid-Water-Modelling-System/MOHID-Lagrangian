@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from src.XMLReader import *
+from src.VTUtoHDF5 import *
 from src.VTUParser import VTUParser
 from src.Time import FilesTimesHandler
 from src.GridBase import GridBase
@@ -47,3 +48,6 @@ class PostProcessor:
             polygonBase = PolygonBase(self.xml_file, self.xml_recipe)
             netcdfWriter.initDataset(polygonBase.polygon, fileTimeHandler)
             polygonBase.run(measures, sources, vtuParser, fileTimeHandler, netcdfWriter)
+
+        if checkHDF5WriteRecipe(self.xml_recipe):
+            vtu2hdf5(vtuParser, fileTimeHandler, self.outdirLocal)

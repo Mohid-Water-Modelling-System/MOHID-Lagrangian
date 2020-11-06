@@ -78,12 +78,9 @@ def get_measure_from_variable(variable: str):
         if post_measure in variable:
             return post_measure
 
-def print_weight_info():
-    return
 
 def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
     """
-    
 
     Args:
         dataset (xr.Dataset): DESCRIPTION.
@@ -110,7 +107,7 @@ def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
 
 def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.DataArray:
     """
-    
+
 
     Args:
         dataset (xr.Dataset): DESCRIPTION.
@@ -126,15 +123,9 @@ def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.Dat
     print("-> %-30s | %9s" % ('Source', 'Weight'))
     print("")
     for indexVar in df.index:
-        if indexVar in dataArrayName:
+        if indexVar in dataArray:
             weight = df.loc[indexVar, 'weight']
             dataArray = dataArray.values*df.loc[indexVar, 'weight']
             print("-> %-30s | %4.1f" % (dataArray.name, weight))
 
     return dataArray
-
-dataset_file = 'Arousa2D_case.nc'
-weight_file = 'weight.csv'
-
-dataset = xr.open_dataset(dataset_file)
-ds = weight_dataset_with_csv(dataset, weight_file)
