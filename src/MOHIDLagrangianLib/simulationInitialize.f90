@@ -504,6 +504,18 @@
         call XMLReader%getNodeVector(simdefs_node, pts(i), coords)
         call Globals%SimDefs%setboundingbox(pts(i), coords)
     enddo
+    tag="VerticalVelMethod"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setVerticalVelMethod(att_val)
+    endif
+    tag="RemoveLandTracer"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setRemoveLandTracer(att_val)
+    endif
     call Globals%SimDefs%print()
 
     end subroutine init_simdefs
@@ -564,19 +576,20 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setResuspensionCoeff(att_val)
-        endif
-        tag="VerticalVelMethod"
+        endif                
+        tag="MeanDensity"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
-            call Globals%Constants%setVerticalVelMethod(att_val)
+            call Globals%Constants%setMeanDensity(att_val)
         endif
-        tag="RemoveLandTracer"
+        tag="MeanKViscosity"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
-            call Globals%Constants%setRemoveLandTracer(att_val)
+            call Globals%Constants%setMeanKVisco(att_val)
         endif
+        
     endif
     call Globals%Constants%print()
 
