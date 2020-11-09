@@ -89,6 +89,7 @@ def getPolygonFileFromRecipe(xmlFile):
         fieldList.append(fieldName.get('name'))
     return fieldList
 
+
 def isPolygonOrGrid(xmlFile):
     if len(getPolygonFileFromRecipe(xmlFile)) >= 1:
         postType = 'polygon'
@@ -124,7 +125,7 @@ def getGroupFromRecipe(xmlFile):
 def getNormalizeFromRecipe(xmlFile):
     fieldList = []
     root = ET.parse(xmlFile).getroot()
-    for fieldName in root.findall('plot//normalize'):
+    for fieldName in root.findall('plot/normalize'):
             fieldList.append(fieldName.get('key'))
     return fieldList
 

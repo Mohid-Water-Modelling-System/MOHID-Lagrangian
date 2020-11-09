@@ -2,12 +2,14 @@
 
 from src.XMLReader import getBeachFromRecipe
 from src.Polygon import Polygon
+from src.GridBase import MeasuresBase
 from tqdm import tqdm
 
 
-class ConcentrationArea:
+class ConcentrationArea(MeasuresBase):
 
     def __init__(self, polygon):
+        MeasuresBase.__init__()
         self.polygon = polygon
         self.base_name = 'concentration_area'
         self.long_name = 'concentration_area'
@@ -19,28 +21,11 @@ class ConcentrationArea:
         data = nCounts/self.polygon.geoDataFrame.area
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
 
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
-
-
-class RawCounts:
+class RawCounts(MeasuresBase):
 
     def __init__(self, polygon):
+        MeasuresBase.__init__()
         self.polygon = polygon
         self.base_name = 'n_counts'
         self.long_name = 'n_counts'
@@ -52,23 +37,6 @@ class RawCounts:
         data = nCounts
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
-
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
 
 
 class PolygonBase:

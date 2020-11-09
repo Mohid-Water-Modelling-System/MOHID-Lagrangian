@@ -6,16 +6,6 @@ import numpy as np
 from tqdm import tqdm
 
 
-def to_dict(dict_coords, dims, data, units, long_name):
-    d = {}
-    d['coords'] = {k: v for k, v in dict_coords if k in dims}
-    d['dims'] = dims
-    d['data'] = data
-    d['attrs'] = {'units': units,
-                  'long_name': long_name}
-    return d
-
-
 def is2D(array):
     return array.ndim == 2
 
@@ -24,9 +14,52 @@ def is2Dlayer(array):
     return (array.ndim == 3) and (array.shape[0] == 1)
 
 
-class ConcentrationArea:
+class MeasuresBase:
+    
+    @staticmethod
+    def toDataArrayDict(dict_coords, dims, data, units, long_name):
+        d = {}
+        d['coords'] = {k: v for k, v in dict_coords if k in dims}
+        d['dims'] = dims
+        d['data'] = data
+        d['attrs'] = {'units': units,
+                      'long_name': long_name}
+        return d
+
+    def __init__(self):
+        self.grid = []
+        self.base_name = []
+        self.long_name = []
+        self.units = []
+        self.dims = []
+        self.coords = []
+
+    def getMeasure(self, nCounts):
+        pass
+
+    def addSourceName(self, source_name):
+        return self.base_name + '_' + source_name
+
+    def toDataArrayDict(self, data):
+        d = {}
+        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
+        d['dims'] = self.dims
+        d['data'] = data
+        d['attrs'] = {'units': self.units,
+                      'long_name': self.long_name}
+        return d
+
+    def run(self, nCounts, source_name):
+        data = self.getMeasure(nCounts)
+        var_name = self.addSourceName(source_name)
+        var_dict = self.toDataArrayDict(data)
+        return var_dict, var_name
+
+
+class ConcentrationArea(MeasuresBase):
 
     def __init__(self, grid):
+        MeasuresBase.__init__(self)
         self.grid = grid
         self.base_name = 'concentrations'
         self.long_name = 'concentration_area'
@@ -43,29 +76,11 @@ class ConcentrationArea:
 
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
 
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
-
-
-class ConcentrationVolume:
+class ConcentrationVolume(MeasuresBase):
 
     def __init__(self, grid):
+        MeasuresBase.__init__(self)
         self.grid = grid
         self.base_name = 'concentrations'
         self.long_name = 'concentration_volume'
@@ -80,28 +95,11 @@ class ConcentrationVolume:
             data = np.squeeze(data, axis=0)
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
 
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
-
-
-class RawCounts:
+class RawCounts(MeasuresBase):
 
     def __init__(self, grid):
+        MeasuresBase.__init__(self)
         self.grid = grid
         self.base_name = 'n_counts'
         self.long_name = 'n_counts'
@@ -116,28 +114,11 @@ class RawCounts:
             data = np.squeeze(data, axis=0)
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
 
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
-
-
-class ResidenceTime:
+class ResidenceTime(MeasuresBase):
 
     def __init__(self, grid, dt, base_name='residence_time', units ='s'):
+        MeasuresBase.__init__(self)
         self.grid = grid
         self.base_name = base_name
         self.long_name = base_name
@@ -167,28 +148,11 @@ class ResidenceTime:
 
         return self.accum
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
 
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
-
-
-class VarInCell:
+class VarInCell(MeasuresBase):
 
     def __init__(self, grid, base_name='base_name', units='units'):
+        MeasuresBase.__init__(self)
         self.grid = grid
         self.base_name = base_name
         self.long_name = base_name
@@ -197,29 +161,11 @@ class VarInCell:
         self.coords = grid.coords.items()
 
     def getMeasure(self, varInCell):
-        data = varInCell
-        if is2Dlayer(data):
+        if is2Dlayer(varInCell):
             self.dims = ['time', 'latitude', 'longitude']
-            data = np.squeeze(data, axis=0)
+            data = np.squeeze(varInCell, axis=0)
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
-
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
 
 
 class GridBase:

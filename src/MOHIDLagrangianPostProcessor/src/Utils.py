@@ -22,7 +22,7 @@ def getTotalAmmountEmitted(dataset):
         return n
 
 
-def getMeanStdGlobal(dataset, dim = None):
+def getMeanStdGlobal(dataset, dim=None):
     if dim is None:
         return dataset['n_counts_global'].mean(), dataset['n_counts_global'].std()
     else:

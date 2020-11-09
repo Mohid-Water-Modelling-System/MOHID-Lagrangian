@@ -57,11 +57,11 @@ def get_time_key(da: xr.DataArray):
     da_dim_names = list(da.dims)
     time_key = [name for name in dim_name if name in da_dim_names]
     return time_key[0]
-         
+
 
 def group_resample(da:xr.DataArray, time_group, time_freq, measure):
     """
-    
+
 
     Args:
         ds (TYPE): DESCRIPTION.
@@ -143,7 +143,7 @@ def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.Dat
     df = df.set_index('source')
 
     for indexVar in df.index:
-        if indexVar in dataArray.name:
+        if indexVar in dataArray:
             weight = df.loc[indexVar, 'weight']
             dataArray = dataArray*df.loc[indexVar, 'weight']
             print("-> %-30s | %4.1f" % (dataArray.name, weight))
@@ -256,7 +256,6 @@ def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
 
 def get_grid_extent(dataArray: xr.DataArray) -> list:
     """
-    
 
     Args:
         dataArray (xr.DataArray): DESCRIPTION.

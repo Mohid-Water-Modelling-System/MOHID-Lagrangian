@@ -1,6 +1,11 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Plot results module. 
 
+
+"""
+import matplotlib
+matplotlib.use("Agg")
 import xarray as xr
 import numpy as np
 import matplotlib.pyplot as plt
@@ -159,7 +164,7 @@ class PlotPolygon(Plot):
         self.fig.suptitle(self.title, fontsize='x-large')
         # Save the image
         self.fig.savefig(self.output_filename, dpi=150)
-        # Save the shapefile 
+        # Save the shapefile
         shapefile = self.output_filename.split('.')[0]+'.shp'
         geoDataFrame.to_file(shapefile)
         plt.close()
@@ -180,7 +185,7 @@ class PlotGrid(Plot):
 
         else:
             setup_plot = {'x':'longitude',
-                          'y':'latitude',
+                          'y':'latitude'}
                           'cmap': cmap_key,
                           'ax': ax,
                           'vmin': vmin,
@@ -214,7 +219,7 @@ class PlotGrid(Plot):
         self.fig.suptitle(self.title, fontsize='x-large')
         # fig.tight_layout()
         # Save the title
-        self.fig.savefig(self.output_filename, dpi=150)
+        plt.savefig(self.output_filename, dpi=150)
         plt.close()
 
 
@@ -279,7 +284,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
 
         if weight_file:
             if idxvar == 0:
-                print("->Weighting sources with:", weight_file[0])
+                print("-> Weighting sources with:", weight_file[0])
                 print("   %-40s | %9s" % ('Source', 'Weight'))
             da = weight_dataarray_with_csv(da, weight_file[0])
 
@@ -298,7 +303,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
         if normalize:
             if normalize == 'total':
                 # units are place before.
-                # Datarray lost attributes whern dataArray arithmetic broadcast
+                # Datarray lost attributes whern dataArray arithmetic broadcast.
                 # is done
                 units = units + normalized_name
                 da.values = (da.values/normalized_ammount)*100.
@@ -309,7 +314,7 @@ def plotResultsFromRecipe(outDir, xml_recipe):
                 units = units + normalized_name
                 da.values = da.values/normal_max
 
-        da = da.where(da != 0)  # Values with 0 consider as missing value
+        da = da.where(da != 0)  # Values with 0 consider as missing value.
 
         output_filename = outDir + '-'.join(methods_list) + '-' + variable + '.png'
         title = get_title_methods(methods_list, variable)

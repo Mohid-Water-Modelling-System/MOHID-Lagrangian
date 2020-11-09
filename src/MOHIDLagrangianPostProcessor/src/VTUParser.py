@@ -8,7 +8,7 @@ import vtk
 import glob
 import numpy as np
 from src.VTUReader import getSourceMaskFromVTU, getBeachMaskFromVTU
-from src.VTUReader import getVariableArrayFromVTU
+from src.VTUReader import getVariableFromVTU
 
 
 class VTUParser:
@@ -59,11 +59,10 @@ class VTUParser:
         self.nvars = self.getNumberOfVars(fileName)
         self.availableVtuVars = self.getAvailableVars(fileName)
 
-
     def getVariableData(self, variableName, source='global', beachCondition=None):
         sourceMask = getSourceMaskFromVTU(self.vtkReader, source)
         beachMask = getBeachMaskFromVTU(self.vtkReader, beachCondition)
-        vtuVarArray = getVariableArrayFromVTU(self.vtkReader, variableName)
+        vtuVarArray = getVariableFromVTU(self.vtkReader, variableName)
 
         if source or beachCondition:
             if ((np.size(sourceMask & beachMask) == 1) and
