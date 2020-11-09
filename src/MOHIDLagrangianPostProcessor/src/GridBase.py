@@ -38,7 +38,7 @@ class MeasuresBase:
         pass
 
     def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
+        return self.long_name + '_' + source_name
 
     def toDataArrayDict(self, data):
         d = {}
@@ -61,7 +61,7 @@ class ConcentrationArea(MeasuresBase):
     def __init__(self, grid):
         MeasuresBase.__init__(self)
         self.grid = grid
-        self.base_name = 'concentrations'
+        self.base_name = 'concentration'
         self.long_name = 'concentration_area'
         self.units = 'particles/km^2'
         self.dims = ['time', 'depth', 'latitude', 'longitude']
@@ -82,7 +82,7 @@ class ConcentrationVolume(MeasuresBase):
     def __init__(self, grid):
         MeasuresBase.__init__(self)
         self.grid = grid
-        self.base_name = 'concentrations'
+        self.base_name = 'concentration'
         self.long_name = 'concentration_volume'
         self.units = 'particles/km^3'
         self.dims = ['time', 'depth', 'latitude', 'longitude']
@@ -211,27 +211,27 @@ class GridBase:
 
                 # get raw counts
                 nCountsArray = self.grid.getCountsInCell(particlePos)
-                dataArrayDict, sourceName = RawCounter.run(nCountsArray, sourceName)
-                netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+                dataArrayDict, dataArrayName = RawCounter.run(nCountsArray, sourceName)
+                netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
 
                 if 'residence_time' in measures:
-                    dataArrayDict, sourceName = ResidenceCounter.run(nCountsArray, sourceName)
-                    netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+                    dataArrayDict, dataArrayName = ResidenceCounter.run(nCountsArray, sourceName)
+                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
 
                 if 'concentrations' in measures:
-                    dataArrayDict, sourceName = AreaCounter.run(nCountsArray, sourceName)
-                    netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
-
-                    dataArrayDict, sourceName = VolumeCounter.run(nCountsArray, sourceName)
-                    netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+                    dataArrayDict, dataArrayName = AreaCounter.run(nCountsArray, sourceName)
+                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
+                    dataArrayDict, dataArrayName = VolumeCounter.run(nCountsArray, sourceName)
+                    
+                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
 
                 for measure in VarInCellCounter:
                     if measure not in self.gridBasicMeasures:
                         varInParticles = vtuParser.getVariableData(measure, sourceID, beachCondition = self.beachCondition)
                         self.grid.getMeanDataInCell(varInParticles)
                         varInCell = VarInCellCounter[measure].run(self.grid, measure=measure)
-                        dataArrayDict, sourceName = VarInCellCounter[measure].run(nCountsArray)
-                        netcdfWriter.appendVariableTimeStepToDataset(sourceName,dataArrayDict,timeIdx)
+                        dataArrayDict, dataArrayName = VarInCellCounter[measure].run(nCountsArray)
+                        netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
 
                 sourceIdx += 1
             timeIdx += 1

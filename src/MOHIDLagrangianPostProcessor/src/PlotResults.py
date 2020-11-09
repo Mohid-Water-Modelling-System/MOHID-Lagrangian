@@ -185,7 +185,7 @@ class PlotGrid(Plot):
 
         else:
             setup_plot = {'x':'longitude',
-                          'y':'latitude'}
+                          'y':'latitude',
                           'cmap': cmap_key,
                           'ax': ax,
                           'vmin': vmin,
