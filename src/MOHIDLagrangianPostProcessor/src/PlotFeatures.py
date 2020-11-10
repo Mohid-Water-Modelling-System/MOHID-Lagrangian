@@ -121,7 +121,7 @@ def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
             if indexVar in datasetVar.names:
                 weight = df.loc[indexVar, 'weight']
                 dataset[datasetVar] = dataset[datasetVar]*df.loc[indexVar, 'weight']
-                print("-> %-30s | %4.1f" % (datasetVar, weight))
+                print("-> %-40s | %4.1f" % (datasetVar, weight))
 
     return dataset
 
@@ -146,7 +146,7 @@ def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.Dat
         if indexVar in dataArray.name:
             weight = df.loc[indexVar, 'weight']
             dataArray = dataArray*df.loc[indexVar, 'weight']
-            print("-> %-30s | %4.1f" % (dataArray.name, weight))
+            print("-> %-40s | %4.1f" % (dataArray.name, weight))
 
     return dataArray
 

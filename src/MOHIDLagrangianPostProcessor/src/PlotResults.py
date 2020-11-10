@@ -186,8 +186,8 @@ class PlotGrid(Plot):
         else:
             setup_plot = {'x':'longitude',
                           'y':'latitude',
-                          'cmap': cmap_key,
                           'ax': ax,
+                          'cmap': cmap_key,
                           'vmin': vmin,
                           'vmax': vmax,
                           'zorder': 1,
@@ -219,7 +219,7 @@ class PlotGrid(Plot):
         self.fig.suptitle(self.title, fontsize='x-large')
         # fig.tight_layout()
         # Save the title
-        plt.savefig(self.output_filename, dpi=150)
+        self.fig.savefig(self.output_filename, dpi=150)
         plt.close()
 
 

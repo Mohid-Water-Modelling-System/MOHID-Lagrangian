@@ -15,23 +15,23 @@ class NetcdfParser:
     def initDataset(self, spatialGrid, timeGrid):
 
         coords = {**timeGrid.coords, **spatialGrid.coords}
-                  
+
         dataset = xr.Dataset(None, coords=coords)
-        
+
         for dimensionName in dataset.dims:
             dataset[dimensionName].attrs = NetcdfParser.getDimsAttrs(dimensionName)
-        
+
         dataset.to_netcdf(self.fileName)
+
         print('-> Dataset initizalized in: ', self.fileName)
 
-
-    def appendVariableTimeStepToDataset(self, variableNetcdfName, dataArray, step):
+    def appendVariableTimeStepToDataset(self, variableName, dataArray, step):
         ds = Dataset(self.fileName, 'a')
         if step == 0:
             formatData = str(dataArray['data'].dtype.kind) + str(dataArray['data'].dtype.alignment)
-            ncvar = ds.createVariable(variableNetcdfName, formatData, dataArray['dims'])
+            ncvar = ds.createVariable(variableName, formatData, dataArray['dims'])
             ncvar.units = dataArray['attrs']['units']
-        appendvar = ds.variables[variableNetcdfName]
+        appendvar = ds.variables[variableName]
         appendvar[step] = dataArray['data']
         ds.close()
 
