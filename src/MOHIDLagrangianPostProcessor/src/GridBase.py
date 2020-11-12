@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+""" Module compute the measures using the grid"""
 
 from src.XMLReader import *
 from src.Grid import Grid
@@ -7,24 +8,17 @@ from tqdm import tqdm
 
 
 def is2D(array):
+    """Check if an array is 2D."""
     return array.ndim == 2
 
 
 def is2Dlayer(array):
+    """"Check if an array is 3D array with shape [n_i,n_j,1]"""
     return (array.ndim == 3) and (array.shape[0] == 1)
 
 
 class MeasuresBase:
-    
-    @staticmethod
-    def toDataArrayDict(dict_coords, dims, data, units, long_name):
-        d = {}
-        d['coords'] = {k: v for k, v in dict_coords if k in dims}
-        d['dims'] = dims
-        d['data'] = data
-        d['attrs'] = {'units': units,
-                      'long_name': long_name}
-        return d
+    """Parent class to build child measure classes"""
 
     def __init__(self):
         self.grid = []
@@ -35,6 +29,7 @@ class MeasuresBase:
         self.coords = []
 
     def getMeasure(self, nCounts):
+        """Measure to """
         pass
 
     def addSourceName(self, source_name):
@@ -222,7 +217,7 @@ class GridBase:
                     dataArrayDict, dataArrayName = AreaCounter.run(nCountsArray, sourceName)
                     netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
                     dataArrayDict, dataArrayName = VolumeCounter.run(nCountsArray, sourceName)
-                    
+
                     netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
 
                 for measure in VarInCellCounter:

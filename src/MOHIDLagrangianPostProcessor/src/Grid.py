@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Module to manage the grid and cell based methods.
+Module to create the grid and the cell based methods.
 """
 import numpy as np
 import xml.etree.ElementTree as ET
@@ -10,7 +10,7 @@ from numba import jit
 
 class GridJIT:
     """
-    Grid functions using jit (just in time compiler)
+    Class with grid functions using jit (just in time compiler)
     """
 
     @jit(nopython=True)

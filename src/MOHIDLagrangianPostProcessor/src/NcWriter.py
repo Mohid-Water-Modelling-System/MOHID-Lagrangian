@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-""" Module to manage the store of the results in netcdf format. """
+""" Module to manage and store the results in netcdf format. """
 
 import xarray as xr
 import numpy as np
 from netCDF4 import Dataset
-from src.Grid import Grid
-from src.Polygon import Polygon
+
 
 class NetcdfParser:
 
@@ -13,22 +12,50 @@ class NetcdfParser:
         self.fileName = fileName
 
     def initDataset(self, spatialGrid, timeGrid):
+        """ Initialize an empyt netcdf dataset using the Grid/time
+        coordinates.
+
+        Args:
+            spatialGrid (Grid): Grid instance.
+            timeGrid (Time): Time instance
+
+        Returns:
+            None.
+
+        """
 
         coords = {**timeGrid.coords, **spatialGrid.coords}
-
         dataset = xr.Dataset(None, coords=coords)
 
+        # Add attributes to dimensions (CF-compliant).
         for dimensionName in dataset.dims:
             dataset[dimensionName].attrs = NetcdfParser.getDimsAttrs(dimensionName)
 
         dataset.to_netcdf(self.fileName)
-
         print('-> Dataset initizalized in: ', self.fileName)
 
-    def appendVariableTimeStepToDataset(self, variableName, dataArray, step):
+    def appendVariableTimeStepToDataset(self, variableName: str,
+                                        dataArray: xr.DataArray, step: int):
+        """
+        Append variable data on time dimension
+
+        Args:
+            variableName (str): Name of the variable to append.
+            dataArray (xr.DataArray): variable data to append
+            step (int): time dimension index where to append.
+
+        Returns:
+            None.
+
+        """
+
         ds = Dataset(self.fileName, 'a')
+        # At first step -> initilize headers for each variable.
         if step == 0:
-            formatData = str(dataArray['data'].dtype.kind) + str(dataArray['data'].dtype.alignment)
+            # get the data type: (f4,f8, i4, i8...)
+            data_kind = str(dataArray['data'].dtype.kind)
+            data_alingment = str(dataArray['data'].dtype.alignment)
+            formatData = data_kind + data_alingment
             ncvar = ds.createVariable(variableName, formatData, dataArray['dims'])
             ncvar.units = dataArray['attrs']['units']
         appendvar = ds.variables[variableName]
@@ -36,7 +63,20 @@ class NetcdfParser:
         ds.close()
 
     @staticmethod
-    def getDimsAttrs(dimensionName, dimensionData=None):
+    def getDimsAttrs(dimensionName: str, dimensionData=None) -> dict:
+        """
+         Get dimension attributtes (CF-Compliant).
+
+        Args:
+            dimensionName (str): Name of the dimension to inquire attrs
+            dimensionData (np.array/xr.ataArray, optional): Data dimension
+            to find min and max values.Defaults to None.
+
+        Returns:
+            dict: DESCRIPTION.
+
+        """
+
         if dimensionName == 'longitude':
             attrs = {'long_name': 'longitude',
                      'standard_name': 'longitude',
@@ -79,7 +119,13 @@ class NetcdfParser:
         return attrs
 
     @staticmethod
-    def getVarsAttrs(variableName):
+    def getVarsAttrs(variableName: str) -> dict:
+        """
+            Gets the variable attributtes (CF-Compliant).
+
+            Args:
+                variableName (str): Variable name to inquire attrs
+        """
         if variableName == 'concentration_area':
             attrs = {'long_name': 'concentration',
                      'units': 'p/km^2'}
@@ -100,4 +146,3 @@ class NetcdfParser:
         else:
             attrs = {}
         return attrs
-

@@ -1,9 +1,6 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jun 22 15:28:44 2020
-
-@author: gfnl143
+Module with functions related to plotting stage.
 """
 
 import numpy as np
@@ -51,27 +48,52 @@ def hastime(dataArray: xr.DataArray) -> bool:
     return flag
 
 
-def get_time_key(da: xr.DataArray):
-    dim_name = ['time','year','week','month','season','day',
-            'hour','minute','second']
+def get_time_key(da: xr.DataArray) -> str:
+    """
+    Get the time "key" from a dataArray.
+
+    Args:
+        da (xr.DataArray): Input Datarray.
+
+    Returns:
+        str: DESCRIPTION.
+
+    """
+    dim_name = ['time', 'year', 'week', 'month', 'season', 'day',
+                'hour', 'minute', 'second']
     da_dim_names = list(da.dims)
     time_key = [name for name in dim_name if name in da_dim_names]
     return time_key[0]
 
 
-def group_resample(da:xr.DataArray, time_group, time_freq, measure):
+def group_resample(da:xr.DataArray, time_group:str, time_freq:str):
     """
-
+    Resample/group the DataArray based on the time frequency.
 
     Args:
-        ds (TYPE): DESCRIPTION.
-        time_group (TYPE): DESCRIPTION.
-        measure (TYPE): DESCRIPTION.
+        da (xr.DataArray): Input dataArray
+        time_group (str): 'resample/group' method to group data.
+        time_freq (TYPE): Frequency to apply one or other group method.
 
-    Returns:
-        flag (TYPE): DESCRIPTION.
+    'resample': Any pandas resample method: '3M', '2Y',...
+    'group': Any xarray group method: 'time.week','time.season','time.'
+
+     Returns:
+        da (TYPE): grouped or resampled dataArray
+
+    Example:
+        Consider a timeseries of two years with dayly data.
+
+        Resample: split the dataset into time intervals from freq.
+        Ex: '1M', will split the timeseries
+        split the timeseries into months.
+        Group: group dataset time steps based on time_freq. Ex. 'time.month'.
+        Will split the series into 12 months, and group all Januarys
+
+
 
     """
+
     if time_group == 'resample':
         da = da.resample(time=time_freq)
     elif time_group == 'groupby':
