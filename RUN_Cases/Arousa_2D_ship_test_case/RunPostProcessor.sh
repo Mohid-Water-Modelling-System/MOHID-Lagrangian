@@ -3,11 +3,11 @@
 clear
 
 # Activate conda environment from shell. Minimum conda version required 4.6
-eval "$(conda shell.bash hook)"
-conda activate MOHID-Lagrangian
+#eval "$(conda shell.bash hook)"
+#conda activate MOHID-Lagrangian
 
 # "name" and "dirout" are named according to the testcase
-name=Arousa2D_case
+name=Arousa2D_ship_case
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
