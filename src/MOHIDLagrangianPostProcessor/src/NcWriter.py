@@ -65,8 +65,8 @@ class NetcdfParser:
 
     def increaseTimeIdx(self):
         """Increase time index."""
-        self.timeIdx = +1
-    
+        self.timeIdx += 1
+
     def resetTimeIdx(self):
         """Reset time index."""
         self.timeIdx = 0

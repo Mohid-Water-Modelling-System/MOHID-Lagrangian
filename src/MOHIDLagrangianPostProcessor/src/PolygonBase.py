@@ -58,6 +58,7 @@ class PolygonBase:
         if 'concentrations' in measures:
             AreaCounter = ConcentrationArea(self.polygon)
 
+        netcdfWriter.resetTimeIdx()
         for vtuFile in tqdm(vtuParser.fileList, desc='Progres'):
 
             sourceIdx = 0

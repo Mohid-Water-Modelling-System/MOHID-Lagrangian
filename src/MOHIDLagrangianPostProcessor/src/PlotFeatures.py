@@ -546,23 +546,27 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
 
 class Normalizer:
     
-    def __init__(self,method, dataset):
+    def __init__(self, method, dataset):
         self.method = method
         self.ds = dataset
         self.factor = []
         self.normalized_name = []
-
+        self.setFactor()
+        self.setMethodName()
+        
+    @staticmethod
     def getTotalAmmountEmitted(dataset):
         if 'n_counts_global' in dataset:
             n = dataset['n_counts_global'].diff('time').sum().values
             return n
-    
+    @staticmethod
     def getMeanStdGlobal(dataset, dim=None):
         if dim is None:
             return dataset['n_counts_global'].mean(), dataset['n_counts_global'].std()
         else:
             return dataset['n_counts_global'].mean(dim=dim), dataset['n_counts_global'].std(dim=dim)
 
+    @staticmethod
     def getMaxGlobal(dataset):
         return dataset['n_counts_global'].max()
 
@@ -575,7 +579,7 @@ class Normalizer:
             self.factor = Normalizer.getMeanStdGlobal(self.ds,dim='time')
         if self.method == 'max':
             self.factor = Normalizer.getMaxGlobal(self.ds)
-            
+
     def setMethodName(self):
         if self.method == 'total':
             self.normalized_name = '% over total emmited'
@@ -588,11 +592,11 @@ class Normalizer:
     
     def getNormalizedUnits(self, units):
         if self.method == 'total':
-            units = units + normalized_name
+            units = units + self.normalized_name
         elif (self.method == 'mean') or (self.method == 'mean-zonal'):
-            units = units + normalized_name
+            units = units + self.normalized_name
         elif self.method == 'max':
-            units = units + normalized_name
+            units = units + self.normalized_name
         return units
             
     def getNormalizedDataArray(self, da):

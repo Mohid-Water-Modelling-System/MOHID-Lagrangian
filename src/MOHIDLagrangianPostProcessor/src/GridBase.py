@@ -193,9 +193,8 @@ class GridBase:
             if measure not in self.gridBasicMeasures:
                 VarInCellCounter[measure] = VarInCell(self.grid, base_name=measure)
 
-        timeIdx = 0
+        netcdfWriter.resetTimeIdx()
         vtuFileList = vtuParser.fileList
-        
         for vtuFile in tqdm(vtuFileList, desc='Progress', position=0, leave=True):
             sourceIdx = 0
             vtuParser.updateReaderWithFile(vtuFile)

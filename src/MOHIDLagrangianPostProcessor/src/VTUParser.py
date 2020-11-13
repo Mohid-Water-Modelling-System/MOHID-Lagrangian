@@ -39,7 +39,7 @@ class VTUParser:
             int: number of available variables.
 
         """
-      
+
         if file is None:
             self.vtkReader.SetFileName(self.parentFile)
             self.vtkReader.Update()
@@ -51,7 +51,7 @@ class VTUParser:
 
     def getAvailableVars(self, file=None) -> list:
         """Get the names of the variables available in a vtu files.
-        
+
         Args:
             file (str, optional): name of the input file. Defaults to None.
 
@@ -78,7 +78,18 @@ class VTUParser:
         self.availableVtuVars = self.getAvailableVars(fileName)
 
     def getVariableData(self, variableName, source='global', beachCondition=None):
-        """Reads the variable from the current VTU filename. """
+        """Reads the variable from the current VTU filename.
+
+        Args:
+            variableName (str): available vtu variable.
+            source (str, optional): source name to read. Defaults to 'global'.
+            beachCondition (str, optional): '0,1,2'. . Defaults to None.
+
+        Returns:
+            vtuVarArray (np.array): Array with variable choosen
+
+        """
+        
         sourceMask = getSourceMaskFromVTU(self.vtkReader, source)
         beachMask = getBeachMaskFromVTU(self.vtkReader, beachCondition)
         vtuVarArray = getVariableFromVTU(self.vtkReader, variableName)

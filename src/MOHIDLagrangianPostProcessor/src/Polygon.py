@@ -41,9 +41,9 @@ class Polygon:
     @staticmethod
     def geoseries_to_geodataframe(geoserie):
         """ Converts a geoseries into a geodataFrame.
-        
+
         Args:
-            geoserie (GeoSeries): Input Geoseries 
+            geoserie (GeoSeries): Input Geoseries
 
         Returns:
             envgdf (gpd.GeoDataframe): Input Geodataframe
@@ -55,7 +55,11 @@ class Polygon:
         return envgdf
 
     def getCountsInPolygon(self, points):
-        """ Counts the number of points inside each polygon."""
+        """ Counts the number of points inside each polygon.
+            
+            points(Geodataframe): Points position.
+            
+        """
         self.geoDataFrame['index'] = self.ids
         if points.shape[0] == 0:
             countsArray = np.zeros_like(self.ids)
@@ -66,6 +70,4 @@ class Polygon:
             df.columns = ['index', 'counts']
             counts = self.geoDataFrame.merge(df, on='index', how='outer')
             countsArray = counts['counts'].values
-        #polygon['index_right'] =  df.index_right
-        #polygon['counts'] =  df.counts
         return countsArray
