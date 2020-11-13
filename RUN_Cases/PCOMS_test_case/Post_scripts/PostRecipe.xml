@@ -18,6 +18,6 @@
     <plot>
         <time value='all' comments='season, monthly, yearly or any other acepted pandas groupby'/>
         <measure key='mean' comments='any implicit method, mean, std, diff, cumsum'/>
-        <type value='contourf' comments='contour,pcolormesh,imshow'/> 
+        <type value='imshow' comments='contour,pcolormesh,imshow'/> 
     </plot>
 </postProcessing>
