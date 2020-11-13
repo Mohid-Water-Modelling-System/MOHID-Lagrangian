@@ -9,7 +9,7 @@ from tqdm import tqdm
 class ConcentrationArea(MeasuresBase):
 
     def __init__(self, polygon):
-        MeasuresBase.__init__()
+        MeasuresBase.__init__(self)
         self.polygon = polygon
         self.base_name = 'concentration_area'
         self.long_name = 'concentration_area'
@@ -25,7 +25,7 @@ class ConcentrationArea(MeasuresBase):
 class RawCounts(MeasuresBase):
 
     def __init__(self, polygon):
-        MeasuresBase.__init__()
+        MeasuresBase.__init__(self)
         self.polygon = polygon
         self.base_name = 'n_counts'
         self.long_name = 'n_counts'
@@ -58,13 +58,11 @@ class PolygonBase:
         if 'concentrations' in measures:
             AreaCounter = ConcentrationArea(self.polygon)
 
-        # Initialize the measures:
-        timeIdx = 0
-        for vtuFile in tqdm(vtuParser.fileList, desc='Global'):
+        for vtuFile in tqdm(vtuParser.fileList, desc='Progres'):
 
             sourceIdx = 0
             vtuParser.updateReaderWithFile(vtuFile)
-            for sourceID, sourceName in tqdm(sourcesDict.items(), 'Source'):
+            for sourceID, sourceName in sourcesDict.items():
 
                 # get particle position
                 particlePos = vtuParser.getVariableData('coords', sourceID, beachCondition=self.beachCondition)
@@ -76,13 +74,11 @@ class PolygonBase:
                 nCountsArray = self.polygon.getCountsInPolygon(points)
 
                 dataArrayDict, sourceName = RawCounter.run(nCountsArray, sourceName)
-                netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+                netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict)
 
                 if 'concentrations' in measures:
                     dataArrayDict, sourceName = AreaCounter.run(nCountsArray, sourceName)
-                    netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+                    netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict)
 
                 sourceIdx += 1
-            timeIdx += 1
-        progress = '-> Progress: %4.2f' %(100*(timeIdx/len(vtuParser.fileList)))
-        print(progress, end='\r')
+            netcdfWriter.increaseTimeIdx()

@@ -22,13 +22,13 @@ class FilesTimesHandler:
 
     def setTimeAxisFromXML(self, xmlFile:str):
         """Sets a time-axis based on the file xml file and the vtu-files written.
-        
+
         Args:
             xmlFile (str): path to the xml file.
-        
+
         Returns:
             None.
-        
+
         """
         root = ET.parse(xmlFile).getroot()
         for parameter in root.findall('execution/parameters/parameter'):
@@ -67,11 +67,11 @@ class FilesTimesHandler:
                 bufferTimeMask = np.zeros(self.timeAxis.size, dtype=np.bool)
                 bufferTimeMask[::step] = True
                 self.timeMask = self.timeMask & bufferTimeMask
-    
+
     def updateTimeAxisWithMask(self):
         """ Updates the time axis with mask."""
         self.timeAxis = self.timeAxis[self.timeMask]
-    
+
     def setTimeCoords(self):
         """Sets coords variable to pass to xarray methods"""
         self.coords = {'time': ('time', self.timeAxis.round(decimals=10))}
