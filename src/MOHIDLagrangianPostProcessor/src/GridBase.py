@@ -195,7 +195,8 @@ class GridBase:
 
         timeIdx = 0
         vtuFileList = vtuParser.fileList
-        for vtuFile in tqdm(vtuFileList, desc='Progress:', position=0, leave=True):
+        
+        for vtuFile in tqdm(vtuFileList, desc='Progress', position=0, leave=True):
             sourceIdx = 0
             vtuParser.updateReaderWithFile(vtuFile)
 
@@ -207,18 +208,18 @@ class GridBase:
                 # get raw counts
                 nCountsArray = self.grid.getCountsInCell(particlePos)
                 dataArrayDict, dataArrayName = RawCounter.run(nCountsArray, sourceName)
-                netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
+                netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
 
                 if 'residence_time' in measures:
                     dataArrayDict, dataArrayName = ResidenceCounter.run(nCountsArray, sourceName)
-                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
+                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
 
                 if 'concentrations' in measures:
                     dataArrayDict, dataArrayName = AreaCounter.run(nCountsArray, sourceName)
-                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
+                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
                     dataArrayDict, dataArrayName = VolumeCounter.run(nCountsArray, sourceName)
 
-                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
+                    netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
 
                 for measure in VarInCellCounter:
                     if measure not in self.gridBasicMeasures:
@@ -226,7 +227,7 @@ class GridBase:
                         self.grid.getMeanDataInCell(varInParticles)
                         varInCell = VarInCellCounter[measure].run(self.grid, measure=measure)
                         dataArrayDict, dataArrayName = VarInCellCounter[measure].run(nCountsArray)
-                        netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict, timeIdx)
+                        netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
 
                 sourceIdx += 1
-            timeIdx += 1
+            netcdfWriter.increaseTimeIdx()

@@ -10,6 +10,7 @@ class NetcdfParser:
 
     def __init__(self, fileName):
         self.fileName = fileName
+        self.timeIdx = 0
 
     def initDataset(self, spatialGrid, timeGrid):
         """ Initialize an empyt netcdf dataset using the Grid/time
@@ -35,7 +36,7 @@ class NetcdfParser:
         print('-> Dataset initizalized in: ', self.fileName)
 
     def appendVariableTimeStepToDataset(self, variableName: str,
-                                        dataArray: xr.DataArray, step: int):
+                                        dataArray: xr.DataArray):
         """
         Append variable data on time dimension
 
@@ -51,7 +52,7 @@ class NetcdfParser:
 
         ds = Dataset(self.fileName, 'a')
         # At first step -> initilize headers for each variable.
-        if step == 0:
+        if self.timeIdx == 0:
             # get the data type: (f4,f8, i4, i8...)
             data_kind = str(dataArray['data'].dtype.kind)
             data_alingment = str(dataArray['data'].dtype.alignment)
@@ -59,8 +60,16 @@ class NetcdfParser:
             ncvar = ds.createVariable(variableName, formatData, dataArray['dims'])
             ncvar.units = dataArray['attrs']['units']
         appendvar = ds.variables[variableName]
-        appendvar[step] = dataArray['data']
+        appendvar[self.timeIdx] = dataArray['data']
         ds.close()
+
+    def increaseTimeIdx(self):
+        """Increase time index."""
+        self.timeIdx = +1
+    
+    def resetTimeIdx(self):
+        """Reset time index."""
+        self.timeIdx = 0
 
     @staticmethod
     def getDimsAttrs(dimensionName: str, dimensionData=None) -> dict:
