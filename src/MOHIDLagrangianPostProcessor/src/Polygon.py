@@ -56,9 +56,9 @@ class Polygon:
 
     def getCountsInPolygon(self, points):
         """ Counts the number of points inside each polygon.
-            
+
             points(Geodataframe): Points position.
-            
+
         """
         self.geoDataFrame['index'] = self.ids
         if points.shape[0] == 0:

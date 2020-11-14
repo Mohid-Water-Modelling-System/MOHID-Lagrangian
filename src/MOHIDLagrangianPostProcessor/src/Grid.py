@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Module to create the grid and the cell based methods.
+Module to create a grid and the cell based methods.
 """
 import numpy as np
 import xml.etree.ElementTree as ET
@@ -73,10 +73,8 @@ class Grid:
         self.coords = {}
         self.countsInCell = []
         self.validCells = []
-        self.meanDataInCell = []
-        self.rIdCell = []
         self.nCells = []
-        self.shape =[]
+        self.shape = []
 
     def setGrid(self):
         root = ET.parse(self.xml_recipe).getroot()
@@ -203,11 +201,10 @@ class Grid:
         cellCentersPositions = np.c_[cellZ.flatten(),
                                      cellY.flatten(),
                                      cellX.flatten()]
-        self.cellsIds = self.positionsToIdCell(cellCentersPositions)
+        self.cellIds = self.positionsToIdCell(cellCentersPositions)
 
     def positionsToIdCell(self, particlePositions: np.array):
-        """
-        Turns [z,y,x] array position into [id] cell where the particle is.
+        """Turns [z,y,x] array into [id] of cell (where the particle is).
 
         Args:
             particlePositions (np.array): [z,y,x] array position.
@@ -216,7 +213,6 @@ class Grid:
             None.
 
         """
-
         if np.size(particlePositions.shape) == 1:
             particlePositions = particlePositions[np.newaxis, :]
 
@@ -225,7 +221,6 @@ class Grid:
         x_dig = np.digitize(particlePositions[:, 2], self.grid[2], right=True)
 
         rIdCell = np.ravel_multi_index((z_dig, y_dig, x_dig), self.shape, mode='clip')
-
         return rIdCell
 
     def getCountsInCell(self, particlePositions: np.array) -> np.array:
@@ -240,10 +235,9 @@ class Grid:
 
         """
         countsInCell, _ = np.histogramdd(particlePositions, self.grid)
-
         return countsInCell
 
-    def getValidCells(self, countsInCell):
+    def setValidCells(self, countsInCell):
         """
         set the cells where ther are particles
 
@@ -254,7 +248,8 @@ class Grid:
             countsInCell (np.array): number of particles in each cell.
 
         """
-        return countsInCell > np.array(0.)
+        mask = (countsInCell > np.array(0.)).flatten()
+        self.validCells = self.cellIds[mask]
 
     def getMeanDataInCell(self, particlePositions: np.array, varData: np.array):
         """
@@ -269,7 +264,7 @@ class Grid:
         """
         rIdCell = self.positionsToIdCell(particlePositions)
         cellMean = GridJIT.cellMeanData(rIdCell, self.nCells,
-                                        self.cellsIds, varData)
+                                        self.validCells, varData)
 
         return np.reshape(cellMean, self.shape)
 

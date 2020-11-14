@@ -203,9 +203,11 @@ class GridBase:
 
                 # get particle position
                 particlePos = vtuParser.getVariableData('coords', sourceID, beachCondition=self.beachCondition)
-
-                # get raw counts
+                # get counts
                 nCountsArray = self.grid.getCountsInCell(particlePos)
+                # Update valid cells (to avoid to compute measures on empty cells)
+                self.grid.setValidCells(nCountsArray)
+
                 dataArrayDict, dataArrayName = RawCounter.run(nCountsArray, sourceName)
                 netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
 
