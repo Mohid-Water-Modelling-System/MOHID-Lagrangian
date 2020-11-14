@@ -23,7 +23,7 @@
 			<BoundingBoxMin x="-8.95" y="42.10" z="-100" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.61" y="42.44" z="10" units_comment="(deg,deg,m)"/>
             <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
-            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+            <RemoveLandTracer value="1" comment="Remove tracers on land 0:No, 1:Yes. Default = 1" />
 		</simulation>
 		<sourceDefinitions>
 			<source>

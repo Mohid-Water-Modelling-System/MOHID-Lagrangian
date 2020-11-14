@@ -8,6 +8,7 @@ from src.XMLReader import getPolygonFileFromRecipe
 
 
 class Polygon:
+    """ Class to create a polygon from a shapefile and perform counts.""" 
 
     def __init__(self, xml_file, xml_recipe):
         self.fileName = getPolygonFileFromRecipe(xml_recipe)[0]
@@ -17,18 +18,19 @@ class Polygon:
         self.coords = {self.dim: (self.dim, self.ids)}
 
     def updateCrsGeoDataFrame(self):
+        """ Transform the projection of the shapefile to EPSG:4326"""
         if self.geoDataFrame.crs['init'] != 'EPSG:4326':
             self.geoDataFrame = self.geoDataFrame.to_crs({"init": 'EPSG:4326'})
 
     @staticmethod
     def array_to_geoseries(array: np.array) -> GeoSeries:
-        """
+        """ Converts a numpy array x,y into a geoseries.
 
         Args:
-            array (np.array): DESCRIPTION.
+            array (np.array): particle positions [z,y,x]
 
         Returns:
-            GeoSeries: DESCRIPTION.
+            GeoSeries: geoseries with position x,y.
 
         """
         x = array[:, 2]
@@ -38,11 +40,26 @@ class Polygon:
 
     @staticmethod
     def geoseries_to_geodataframe(geoserie):
+        """ Converts a geoseries into a geodataFrame.
+
+        Args:
+            geoserie (GeoSeries): Input Geoseries
+
+        Returns:
+            envgdf (gpd.GeoDataframe): Input Geodataframe
+
+        """
+
         envgdf = gpd.GeoDataFrame(gpd.GeoSeries(geoserie))
         envgdf = envgdf.rename(columns={0: 'geometry'}).set_geometry('geometry')
         return envgdf
 
     def getCountsInPolygon(self, points):
+        """ Counts the number of points inside each polygon.
+            
+            points(Geodataframe): Points position.
+            
+        """
         self.geoDataFrame['index'] = self.ids
         if points.shape[0] == 0:
             countsArray = np.zeros_like(self.ids)
@@ -53,6 +70,4 @@ class Polygon:
             df.columns = ['index', 'counts']
             counts = self.geoDataFrame.merge(df, on='index', how='outer')
             countsArray = counts['counts'].values
-        #polygon['index_right'] =  df.index_right
-        #polygon['counts'] =  df.counts
         return countsArray

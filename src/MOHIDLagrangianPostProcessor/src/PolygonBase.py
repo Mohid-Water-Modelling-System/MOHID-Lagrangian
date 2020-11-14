@@ -2,12 +2,14 @@
 
 from src.XMLReader import getBeachFromRecipe
 from src.Polygon import Polygon
+from src.GridBase import MeasuresBase
 from tqdm import tqdm
 
 
-class ConcentrationArea:
+class ConcentrationArea(MeasuresBase):
 
     def __init__(self, polygon):
+        MeasuresBase.__init__(self)
         self.polygon = polygon
         self.base_name = 'concentration_area'
         self.long_name = 'concentration_area'
@@ -19,28 +21,11 @@ class ConcentrationArea:
         data = nCounts/self.polygon.geoDataFrame.area
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
 
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
-
-
-class RawCounts:
+class RawCounts(MeasuresBase):
 
     def __init__(self, polygon):
+        MeasuresBase.__init__(self)
         self.polygon = polygon
         self.base_name = 'n_counts'
         self.long_name = 'n_counts'
@@ -52,23 +37,6 @@ class RawCounts:
         data = nCounts
         return data
 
-    def addSourceName(self, source_name):
-        return self.base_name + '_' + source_name
-
-    def toDataArrayDict(self, data):
-        d = {}
-        d['coords'] = {k: v for k, v in self.coords if k in self.dims}
-        d['dims'] = self.dims
-        d['data'] = data
-        d['attrs'] = {'units': self.units,
-                      'long_name': self.long_name}
-        return d
-
-    def run(self, nCounts, source_name):
-        data = self.getMeasure(nCounts)
-        var_name = self.addSourceName(source_name)
-        var_dict = self.toDataArrayDict(data)
-        return var_dict, var_name
 
 
 class PolygonBase:
@@ -90,13 +58,12 @@ class PolygonBase:
         if 'concentrations' in measures:
             AreaCounter = ConcentrationArea(self.polygon)
 
-        # Initialize the measures:
-        timeIdx = 0
-        for vtuFile in tqdm(vtuParser.fileList, desc='Global'):
+        netcdfWriter.resetTimeIdx()
+        for vtuFile in tqdm(vtuParser.fileList, desc='Progres'):
 
             sourceIdx = 0
             vtuParser.updateReaderWithFile(vtuFile)
-            for sourceID, sourceName in tqdm(sourcesDict.items(), 'Source'):
+            for sourceID, sourceName in sourcesDict.items():
 
                 # get particle position
                 particlePos = vtuParser.getVariableData('coords', sourceID, beachCondition=self.beachCondition)
@@ -108,13 +75,11 @@ class PolygonBase:
                 nCountsArray = self.polygon.getCountsInPolygon(points)
 
                 dataArrayDict, sourceName = RawCounter.run(nCountsArray, sourceName)
-                netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+                netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict)
 
                 if 'concentrations' in measures:
                     dataArrayDict, sourceName = AreaCounter.run(nCountsArray, sourceName)
-                    netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict, timeIdx)
+                    netcdfWriter.appendVariableTimeStepToDataset(sourceName, dataArrayDict)
 
                 sourceIdx += 1
-            timeIdx += 1
-        progress = '-> Progress: %4.2f' %(100*(timeIdx/len(vtuParser.fileList)))
-        print(progress, end='\r')
+            netcdfWriter.increaseTimeIdx()

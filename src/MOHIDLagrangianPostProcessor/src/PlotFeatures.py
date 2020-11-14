@@ -1,9 +1,6 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jun 22 15:28:44 2020
-
-@author: gfnl143
+Module with functions related to plotting stage.
 """
 
 import numpy as np
@@ -51,65 +48,92 @@ def hastime(dataArray: xr.DataArray) -> bool:
     return flag
 
 
-def get_time_key(da: xr.DataArray):
-    dim_name = ['time','year','week','month','season','day',
-            'hour','minute','second']
+def get_time_key(da: xr.DataArray) -> str:
+    """
+    Get the time "key" from a dataArray.
+
+    Args:
+        da (xr.DataArray): Input Datarray.
+
+    Returns:
+        str: DESCRIPTION.
+
+    """
+    dim_name = ['time', 'year', 'week', 'month', 'season', 'day',
+                'hour', 'minute', 'second']
     da_dim_names = list(da.dims)
     time_key = [name for name in dim_name if name in da_dim_names]
     return time_key[0]
-         
 
-def group_resample(da:xr.DataArray, time_group, time_freq, measure):
+
+def group_resample(da: xr.DataArray, group_type: str,
+                   time_freq: str) -> xr.DataArray:
     """
-    
+    Resample/group the DataArray based on the time frequency.
 
     Args:
-        ds (TYPE): DESCRIPTION.
-        time_group (TYPE): DESCRIPTION.
-        measure (TYPE): DESCRIPTION.
+        da (xr.DataArray): Input dataArray
+        group_type (str): 'resample/group' method to group data.
+        time_freq (TYPE): Frequency to apply one or other group method.
 
-    Returns:
-        flag (TYPE): DESCRIPTION.
+    'resample': Any pandas resample method: '3M', '2Y',...
+    'group': Any xarray group method: 'time.week','time.season','time.'
+
+     Returns:
+        da (TYPE): grouped or resampled dataArray
+
+    Example:
+        Consider a timeseries of two years with dayly data.
+
+        Resample: split the dataset into time intervals from freq.
+        Ex: '1M', will split the timeseries
+        split the timeseries into months.
+        Group: group dataset time steps based on time_freq. Ex. 'time.month'.
+        Will split the series into 12 months, and group all Januarys
+
+
 
     """
-    if time_group == 'resample':
+
+    if group_type == 'resample':
         da = da.resample(time=time_freq)
-    elif time_group == 'groupby':
+    elif group_type == 'groupby':
         da = da.groupby(time_freq)
     return da
 
 
-def isgroupable(da, time_group, time_freq, measure):
+def isgroupable(da: xr.DataArray, group_type: str, time_freq: str,
+                method: str) -> bool:
     """
-
+    Check if the dataset is groupable using the provided measure
 
     Args:
-        ds (TYPE): DESCRIPTION.
-        time_group (TYPE): DESCRIPTION.
-        measure (TYPE): DESCRIPTION.
+        da (xr.DataArray): Input dataArray
+        group_type (str): 'resample/group' method to group data.
+        time_freq (srtE): Frequency to apply one or other group method.
 
     Returns:
-        flag (TYPE): DESCRIPTION.
+        flag (bool): True if the measure can be applied.
 
     """
     flag = False
-    if time_group == 'resample':
-        flag = (measure in dir(da.resample(time=time_freq)))
-    elif time_group == 'groupby':
-        flag = (measure in dir(da.groupby(time_freq)))
+    if group_type == 'resample':
+        flag = (method in dir(da.resample(time=time_freq)))
+    elif group_type == 'groupby':
+        flag = (method in dir(da.groupby(time_freq)))
     return flag
 
 
-def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
+def weight_dataset_with_csv(dataset: xr.Dataset, weight_file: str) -> xr.Dataset:
     """
-
+    Multiply the dataset using the source weight provided in the csv file.
 
     Args:
-        dataset (xr.Dataset): DESCRIPTION.
-        weight_file (str): DESCRIPTION.
+        dataset (xr.Dataset): Input dataset to weight.
+        weight_file (str): File with each weight per source
 
     Returns:
-        dataset (TYPE): DESCRIPTION.
+        dataset (xr.Dataset): Weighted dataset
 
     """
 
@@ -118,24 +142,25 @@ def weight_dataset_with_csv(dataset:xr.Dataset, weight_file:str) -> xr.Dataset:
 
     for datasetVar in list(dataset.keys()):
         for indexVar in df.index:
-            if indexVar in datasetVar:
+            if indexVar in datasetVar.names:
                 weight = df.loc[indexVar, 'weight']
                 dataset[datasetVar] = dataset[datasetVar]*df.loc[indexVar, 'weight']
-                print("-> %-30s | %4.1f" % (datasetVar, weight))
+                print("-> %-40s | %4.1f" % (datasetVar, weight))
 
     return dataset
 
 
-def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.DataArray:
+def weight_dataarray_with_csv(dataArray: xr.DataArray,
+                              weight_file: str) -> xr.DataArray:
     """
-
+    Multiply the dataArray within the source weight provided in the csv file.
 
     Args:
-        dataset (xr.Dataset): DESCRIPTION.
-        weight_file (str): DESCRIPTION.
+        dataArray (xr.DataArray): Input dataArray to weight.
+        weight_file (str): File with each weight per source
 
     Returns:
-        dataset (TYPE): DESCRIPTION.
+        dataset (xr.Dataset): Weighted dataset
 
     """
 
@@ -146,12 +171,12 @@ def weight_dataarray_with_csv(dataArray:xr.DataArray, weight_file:str) -> xr.Dat
         if indexVar in dataArray.name:
             weight = df.loc[indexVar, 'weight']
             dataArray = dataArray*df.loc[indexVar, 'weight']
-            print("-> %-30s | %4.1f" % (dataArray.name, weight))
+            print("-> %-40s | %4.1f" % (dataArray.name, weight))
 
     return dataArray
 
 
-def get_cmap_key(vmin: float, vmax: float) -> str: 
+def get_cmap_key(vmin: float, vmax: float) -> str:
     """
     Get the cmap key based on limits.
 
@@ -192,7 +217,9 @@ def get_cmap_norm(vmin: float, vmax: float) -> mcolors:
         cNorm = mcolors.Normalize(vmin=vmin, vmax=vmax)
     else:
         color_max = np.max((np.abs(vmax), np.abs(vmin)))
-        cNorm = mcolors.TwoSlopeNorm(vmin=-color_max, vmax=color_max, vcenter = 0)
+        cNorm = mcolors.TwoSlopeNorm(vmin=-color_max,
+                                     vmax=color_max,
+                                     vcenter=0)
     return cNorm
 
 
@@ -236,8 +263,9 @@ def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
 
     Args:
         dataArray (xr.DataArray): DESCRIPTION.
-        robust (bool, optional): DESCRIPTION. Defaults to True.
-        min_quartile (float, optional): DESCRIPTION. Defaults to 0.01.
+        robust (bool, optional): True, slice data between min and max quartile.
+        extremes. Defaults to True.
+        min_quartile (float, optional): DESCRIPTION. Defaults to 0.05.
         max_quartile (float, optional): DESCRIPTION. Defaults to 0.99.
 
     Returns:
@@ -256,13 +284,13 @@ def get_color_lims(dataArray: xr.DataArray, robust: bool = True,
 
 def get_grid_extent(dataArray: xr.DataArray) -> list:
     """
-    
+    Get the dataArray domains limits [x_min, x_max, y_min, y_max]
 
     Args:
-        dataArray (xr.DataArray): DESCRIPTION.
+        dataArray (xr.DataArray): Input dataArray.
 
     Returns:
-        list: DESCRIPTION.
+        list: extent with [x_min, x_max, y_min, y_max]
 
     """
     extent = [dataArray.longitude.min(),
@@ -274,12 +302,12 @@ def get_grid_extent(dataArray: xr.DataArray) -> list:
 
 def get_polygon_extent(geoDataframe: gpd.GeoDataFrame) -> list:
     """
-
+    Get the GeoDataframe domains limits x_min, x_max, y_min, y_max]
     Args:
-        dataArray (xr.DataArray): DESCRIPTION.
+        dataArray (gpd.GeoDataFrame): Input geodataframe.
 
     Returns:
-        list: DESCRIPTION.
+        list:  extent with [x_min, x_max, y_min, y_max]
 
     """
     extent = geoDataframe.total_bounds
@@ -288,7 +316,7 @@ def get_polygon_extent(geoDataframe: gpd.GeoDataFrame) -> list:
 
 def get_extent(inputdata) -> list:
     """
-    Get extent from Datarray or GeoDataframe
+    Get extent from Datarray or GeoDataframe  [x_min, x_max, y_min, y_max]
     """
     if isinstance(inputdata, xr.DataArray):
         return get_grid_extent(inputdata)
@@ -513,3 +541,73 @@ def scale_bar(ax, proj, length, location=(0.5, 0.05), linewidth=3,
     # Plot the scalebar without buffer, in case covered by text buffer
     ax.plot(bar_xs, [sbcy, sbcy], transform=utm, color='k',
             linewidth=linewidth, zorder=3)
+
+
+
+class Normalizer:
+    
+    def __init__(self, method, dataset):
+        self.method = method
+        self.ds = dataset
+        self.factor = []
+        self.normalized_name = []
+        self.setFactor()
+        self.setMethodName()
+        
+    @staticmethod
+    def getTotalAmmountEmitted(dataset):
+        if 'n_counts_global' in dataset:
+            n = dataset['n_counts_global'].diff('time').sum().values
+            return n
+    @staticmethod
+    def getMeanStdGlobal(dataset, dim=None):
+        if dim is None:
+            return dataset['n_counts_global'].mean(), dataset['n_counts_global'].std()
+        else:
+            return dataset['n_counts_global'].mean(dim=dim), dataset['n_counts_global'].std(dim=dim)
+
+    @staticmethod
+    def getMaxGlobal(dataset):
+        return dataset['n_counts_global'].max()
+
+    def setFactor(self):
+        if self.method == 'total':
+            self.factor = Normalizer.getTotalAmmountEmitted(self.ds)
+        if self.method == 'mean':
+            self.factor= Normalizer.getMeanStdGlobal(self.ds)
+        if self.method == 'mean-zonal':
+            self.factor = Normalizer.getMeanStdGlobal(self.ds,dim='time')
+        if self.method == 'max':
+            self.factor = Normalizer.getMaxGlobal(self.ds)
+
+    def setMethodName(self):
+        if self.method == 'total':
+            self.normalized_name = '% over total emmited'
+        if self.method == 'mean':
+            self.normalized_name = 'normalized over climate mean'
+        if self.method == 'mean-zonal':
+            self.normalized_name = 'normalized over climate zonal-mean'
+        if self.method == 'max':
+            self.normalize_name = 'normalized over maximum'
+    
+    def getNormalizedUnits(self, units):
+        if self.method == 'total':
+            units = units + self.normalized_name
+        elif (self.method == 'mean') or (self.method == 'mean-zonal'):
+            units = units + self.normalized_name
+        elif self.method == 'max':
+            units = units + self.normalized_name
+        return units
+            
+    def getNormalizedDataArray(self, da):
+        if self.method == 'total':
+            # units are place before.
+            # Datarray lost attributes whern dataArray arithmetic broadcast.
+            # is done
+            da.values = (da.values/self.factor)*100.
+        elif (self.method == 'mean') or (self.method == 'mean-zonal'):
+            da = da/self.factor[0]
+        elif self.method == 'max':
+            da.values = da.values/self.factor
+
+        return da

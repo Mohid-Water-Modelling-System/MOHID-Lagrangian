@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <postProcessing>
+	<time>
+		<start value= "2019 06 27 00 00 00" />
+		<end value  = "2019 06 28 00 00 00" />
+	</time>	
 	<EulerianMeasures>
 		<measures>
 			<field key = "concentrations"/>
@@ -12,16 +16,10 @@
 			<resolution x="100" y="100" z="1"/>
 		</gridDefinition>
 	</EulerianMeasures>
-	<time>
-		<start value= "2019 06 27 00 00 00" />
-		<end value  = "2019 06 28 00 00 00" />
-	</time>	
     <plot>
-        <weight file='postScripts/weights.csv' comments='Weights data by a source value'/>
-        <time value='W' comments='season, month, year'/>
+        <time key="resample"  value='W' comments='season, month, year'/>
         <measure key='cumsum' comments='any implicit method, mean, std, diff, cumsum'/>
-        <measure key='diff' comments='any implicit method, mean, std, diff, cumsum'/>
         <measure key='mean' comments='any implicit method, mean, std, diff, cumsum'/>
-        <type value='contourf' comments='contour,contourf,pcolormesh,imshow'/> 
+        <type value='imshow' comments='contour,contourf,pcolormesh,imshow'/> 
     </plot>
 </postProcessing>

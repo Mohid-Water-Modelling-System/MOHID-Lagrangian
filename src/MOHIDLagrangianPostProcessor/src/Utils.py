@@ -15,20 +15,3 @@ def groupByWords(_list, words):
         _list = filterByTrue(_list, mask)
     return _list
 
-
-def getTotalAmmountEmitted(dataset):
-    if 'n_counts_global' in dataset:
-        n = dataset['n_counts_global'].diff('time').sum().values
-        return n
-
-
-def getMeanStdGlobal(dataset, dim = None):
-    if dim is None:
-        return dataset['n_counts_global'].mean(), dataset['n_counts_global'].std()
-    else:
-        return dataset['n_counts_global'].mean(dim=dim), dataset['n_counts_global'].std(dim=dim)
-
-
-def getMaxStdGlobal(dataset):
-    return dataset['n_counts_global'].max()
-

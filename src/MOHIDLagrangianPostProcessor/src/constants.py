@@ -1,10 +1,6 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  3 14:54:50 2019
+""" Module with physical constants. """
 
-@author: gfnl143
-"""
 import numpy as np
 
 earthRadius = 6371837.          # meters

@@ -1,4 +1,4 @@
-id,name,weight
+id,source,weight
 1,Box1,5
 4,PolygonTest,10
 2,ReleaseLine10,1000

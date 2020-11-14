@@ -314,7 +314,7 @@
     self%SimDefs%Pointmax = 0.0
     self%SimDefs%Center = 0.0
     self%SimDefs%VerticalVelMethod = 1
-    self%SimDefs%RemoveLandTracer = 0
+    self%SimDefs%RemoveLandTracer = 1
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
@@ -1349,7 +1349,7 @@
     outext = outext//'       Pointmax (BB) is '//new_line('a')//&
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
     if (self%autoblocksize) then
-        outext = outext//'       Blocks are automatically sized'
+        outext = outext//'       Blocks are automatically sized'//new_line('a')
     else
         temp_str(1)=self%blocksize%x
         temp_str(2)=self%blocksize%y
