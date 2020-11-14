@@ -20,6 +20,7 @@ class VTUParser:
         self.availableVtuVars = self.getAvailableVars()
 
     def getfileList(self):
+        
         vtuList = glob.glob(self.outDir+'/*_?????.vtu')
         vtuList.sort()
         parentFile = vtuList[0]
@@ -31,7 +32,7 @@ class VTUParser:
 
     def getNumberOfVars(self, file=None) -> int:
         """Get the number of variables available in a vtu file.
-        
+
         Args:
             file (str, optional): name of the input file. Defaults to None.
 
