@@ -559,6 +559,7 @@ class Normalizer:
         if 'n_counts_global' in dataset:
             n = dataset['n_counts_global'].diff('time').sum().values
             return n
+    
     @staticmethod
     def getMeanStdGlobal(dataset, dim=None):
         if dim is None:

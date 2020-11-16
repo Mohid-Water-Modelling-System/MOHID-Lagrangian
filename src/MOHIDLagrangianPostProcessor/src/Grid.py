@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Module to create the grid and the cell based methods.
+Module to create a grid and the cell based methods.
 """
 import numpy as np
 import xml.etree.ElementTree as ET
@@ -68,14 +68,13 @@ class Grid:
         self.cellCenters = []
         self.cellArea = []
         self.cellVolume = []
+        self.cellIds = []
         self.dims = dims
         self.coords = {}
         self.countsInCell = []
         self.validCells = []
-        self.meanDataInCell = []
-        self.rIdCell = []
         self.nCells = []
-        self.shape =[]
+        self.shape = []
 
     def setGrid(self):
         root = ET.parse(self.xml_recipe).getroot()
@@ -146,7 +145,7 @@ class Grid:
         self.nCells = nz*ny*nx
 
     def setCellCenters(self):
-        "Set the cell centers based on the middle point between extremes."
+        "Set the cell centers based on the middle point between cell faces."
         for value in self.grid:
             self.cellCenters.append((value[:-1] + value[1:])/2.)
 
@@ -196,9 +195,16 @@ class Grid:
                        self.dims[1]: ([self.dims[1]], self.cellCenters[1]),
                        self.dims[2]: ([self.dims[2]], self.cellCenters[2])}
 
-    def PositionsToIdCell(self, particlePositions: np.array):
-        """
-        Turns [z,y,x] array position into [id] cell where the particle is.
+    def setCellIds(self):
+        "Set the coords dictionary of the grid using the cell centers."
+        cellZ, cellY, cellX = np.meshgrid(*self.cellCenters)
+        cellCentersPositions = np.c_[cellZ.flatten(),
+                                     cellY.flatten(),
+                                     cellX.flatten()]
+        self.cellIds = self.positionsToIdCell(cellCentersPositions)
+
+    def positionsToIdCell(self, particlePositions: np.array):
+        """Turns [z,y,x] array into [id] of cell (where the particle is).
 
         Args:
             particlePositions (np.array): [z,y,x] array position.
@@ -207,7 +213,6 @@ class Grid:
             None.
 
         """
-
         if np.size(particlePositions.shape) == 1:
             particlePositions = particlePositions[np.newaxis, :]
 
@@ -215,9 +220,8 @@ class Grid:
         y_dig = np.digitize(particlePositions[:, 1], self.grid[1], right=True)
         x_dig = np.digitize(particlePositions[:, 2], self.grid[2], right=True)
 
-        self.rIdCell = np.ravel_multi_index((z_dig, y_dig, x_dig),
-                                            self.shape,
-                                            mode='clip')
+        rIdCell = np.ravel_multi_index((z_dig, y_dig, x_dig), self.shape, mode='clip')
+        return rIdCell
 
     def getCountsInCell(self, particlePositions: np.array) -> np.array:
         """
@@ -231,13 +235,23 @@ class Grid:
 
         """
         countsInCell, _ = np.histogramdd(particlePositions, self.grid)
-
-        # self.validCells = self.countsInCell > 0
-        # self.validCells = np.where(IdCounts > 0)[0]
-        # self.countsInCell = np.reshape(IdCounts, (nz, ny, nx))
         return countsInCell
 
-    def getMeanDataInCell(self, varData: np.array):
+    def setValidCells(self, countsInCell):
+        """
+        set the cells where ther are particles
+
+        Args:
+            particlePositions (np.array): [z,y,x] array position.
+
+        Returns:
+            countsInCell (np.array): number of particles in each cell.
+
+        """
+        mask = (countsInCell > np.array(0.)).flatten()
+        self.validCells = self.cellIds[mask]
+
+    def getMeanDataInCell(self, particlePositions: np.array, varData: np.array):
         """
         Computes the mean value of the particle properties inside a cell.
 
@@ -248,9 +262,11 @@ class Grid:
             None.
 
         """
-        cellMean = GridJIT.cellMeanData(self.rIdCell, self.nCells, 
+        rIdCell = self.positionsToIdCell(particlePositions)
+        cellMean = GridJIT.cellMeanData(rIdCell, self.nCells,
                                         self.validCells, varData)
-        self.meanDataInCell = np.reshape(cellMean, self.shape)
+
+        return np.reshape(cellMean, self.shape)
 
     def shape(self) -> list:
         """
@@ -270,3 +286,4 @@ class Grid:
         self.setCoords()
         self.setCellAreas()
         self.setCellVolumes()
+        self.setCellIds()

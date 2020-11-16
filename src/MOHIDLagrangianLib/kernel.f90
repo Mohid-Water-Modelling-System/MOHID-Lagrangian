@@ -414,6 +414,9 @@
     requiredVars(1) = Globals%Var%resolution
 
     DiffusionMixingLength = 0.0
+
+    if (Globals%Constants%DiffusionCoeff == 0.0) return
+
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
@@ -434,7 +437,7 @@
                 resolution = var_dt(:,nf)
                 !if we are still in the same path, use the same random velocity, do nothing
                 !if we ran the path, new random velocities are generated and placed
-                where (sv%state(:,10) > 2.0*resolution)
+                where ((sv%state(:,10) > 2.0*resolution) .and. (sv%landIntMask < Globals%Mask%landVal))
                     DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
                     DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
                     DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
@@ -489,10 +492,10 @@
     !update velocities
     ! For the moment we set D = 1 m/s, then the D parameter
     ! should be part of the array of tracers parameter
-    DiffusionIsotropic(:,1) = Utils%m2geo((2.*rand_vel_u-1.)*sqrt(2.*D/dt), sv%state(:,2), .false.)
-    DiffusionIsotropic(:,2) = Utils%m2geo((2.*rand_vel_v-1.)*sqrt(2.*D/dt), sv%state(:,2), .true.)
+    DiffusionIsotropic(:,1) = Utils%m2geo((2.*rand_vel_u-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff/dt), sv%state(:,2), .false.)
+    DiffusionIsotropic(:,2) = Utils%m2geo((2.*rand_vel_v-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff/dt), sv%state(:,2), .true.)
     !DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
-    where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
+    where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff*0.0005/dt)
 
     end function DiffusionIsotropic
 

@@ -617,19 +617,19 @@
             
                     call self%Interpolator%run(x0%state, bdata(bkg), time, uv_x0, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                    u_x0 = Utils%m2geo(uv_x0(:,nf), y0%state(:,2), .true.)
+                    u_x0 = Utils%m2geo(uv_x0(:,nf), y0%state(:,2), .false.)
 
                     call self%Interpolator%run(x1%state, bdata(bkg), time, uv_x1, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                    u_x1 = Utils%m2geo(uv_x1(:,nf), y1%state(:,2), .true.)
+                    u_x1 = Utils%m2geo(uv_x1(:,nf), y1%state(:,2), .false.)
 
                     call self%Interpolator%run(y0%state, bdata(bkg), time, uv_y0, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                    v_y0 = Utils%m2geo(uv_y0(:,nf), y0%state(:,2), .false.)
+                    v_y0 = Utils%m2geo(uv_y0(:,nf), y0%state(:,2), .true.)
 
                     call self%Interpolator%run(y1%state, bdata(bkg), time, uv_y1, var_name)
                     nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                    v_y1 = Utils%m2geo(uv_y1(:,nf), y1%state(:,2), .false.)
+                    v_y1 = Utils%m2geo(uv_y1(:,nf), y1%state(:,2), .true.)
 
                     deallocate(var_dt)
                     deallocate(var_name)

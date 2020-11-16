@@ -203,9 +203,11 @@ class GridBase:
 
                 # get particle position
                 particlePos = vtuParser.getVariableData('coords', sourceID, beachCondition=self.beachCondition)
-
-                # get raw counts
+                # get counts
                 nCountsArray = self.grid.getCountsInCell(particlePos)
+                # Update valid cells (to avoid to compute measures on empty cells)
+                self.grid.setValidCells(nCountsArray)
+
                 dataArrayDict, dataArrayName = RawCounter.run(nCountsArray, sourceName)
                 netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
 
@@ -223,9 +225,8 @@ class GridBase:
                 for measure in VarInCellCounter:
                     if measure not in self.gridBasicMeasures:
                         varInParticles = vtuParser.getVariableData(measure, sourceID, beachCondition = self.beachCondition)
-                        self.grid.getMeanDataInCell(varInParticles)
-                        varInCell = VarInCellCounter[measure].run(self.grid, measure=measure)
-                        dataArrayDict, dataArrayName = VarInCellCounter[measure].run(nCountsArray)
+                        varInCell = self.grid.getMeanDataInCell(particlePos, varInParticles)
+                        dataArrayDict, dataArrayName = VarInCellCounter[measure].run(varInCell, sourceName)
                         netcdfWriter.appendVariableTimeStepToDataset(dataArrayName, dataArrayDict)
 
                 sourceIdx += 1

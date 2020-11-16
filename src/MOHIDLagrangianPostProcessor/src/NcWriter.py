@@ -7,6 +7,8 @@ from netCDF4 import Dataset
 
 
 class NetcdfParser:
+    
+    """Class to manage and store the results in netcdf format. """
 
     def __init__(self, fileName):
         self.fileName = fileName
