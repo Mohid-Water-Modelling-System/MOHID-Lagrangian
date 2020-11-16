@@ -26,6 +26,7 @@ dependencies:
   - dask=2.30.0
   - dask-core=2.30.0
   - distributed=2.30.0
+  - descartes=1.1.0
   - expat=2.2.10
   - fiona=1.8.13.post1
   - freetype=2.8
