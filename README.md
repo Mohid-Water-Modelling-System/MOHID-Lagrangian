@@ -8,6 +8,14 @@
 
 *Floating passive tracers on a [CMEMS](http://marine.copernicus.eu/) Atlantic currents solution.*
 
+![Arousa](https://github.com/Mohid-Water-Modelling-System/MOHID-Lagrangian/blob/master/docs/diff-mean-n_counts_PolygonTest.png)
+
+*Hourly mean tracer concentration on the Arousa intertidal test case.*
+
+![PCOMS](https://github.com/Mohid-Water-Modelling-System/MOHID-Lagrangian/blob/master/docs/mean-concentration_area_Box1.png)
+
+*Mean tracer concentration on the PCOMS test case*
+
 MOHIDLagragian is a both a library for the [MOHID Water Modelling System](http://www.mohid.com) and a standalone program. The library implements the necessary tools to generate a comprehensive Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
 
 The MOHIDLagrangian program is a specific implementation of the library, designed as a post-processing or online tool, ready to be forced with other models.
