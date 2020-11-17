@@ -103,7 +103,13 @@
             call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
             tag = 'radius'
             call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
-            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)           
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'volume'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
+            tag = 'area'
+            call XMLReader%getNodeAttribute(anode, tag, att_name, att_val)
+            call tempSources%src(i)%setPropertyBaseAtribute(tag, att_val)
         end if
     end do
     outext='-->Sources properties are set'
@@ -198,6 +204,10 @@
     endif
     !calling the globals method to set the output variable field list
     if (.not.allocated(fieldNameArray)) allocate(fieldNameArray(0))
+    if (.not.allocated(toOutput)) then
+        allocate(toOutput(0))
+        toOutput = .false.
+    end if
     call Globals%Output%setOutputFields(fieldNameArray, toOutput)
 
     end subroutine setOutputFields
@@ -445,9 +455,9 @@
         end do
         !initializing Source j
         call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, source_shape, res)
-
-        deallocate(source_shape)
+       
         deallocate(activeTimes)
+        deallocate(source_shape)
     enddo
 
     end subroutine init_sources
@@ -494,6 +504,18 @@
         call XMLReader%getNodeVector(simdefs_node, pts(i), coords)
         call Globals%SimDefs%setboundingbox(pts(i), coords)
     enddo
+    tag="VerticalVelMethod"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setVerticalVelMethod(att_val)
+    endif
+    tag="RemoveLandTracer"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setRemoveLandTracer(att_val)
+    endif
     call Globals%SimDefs%print()
 
     end subroutine init_simdefs
@@ -531,12 +553,6 @@
         if (readflag) then
             call Globals%Constants%setz0(att_val)
         endif
-        tag="RhoRef"
-        att_name="value"
-        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
-        if (readflag) then
-            call Globals%Constants%setrho(att_val)
-        endif
         tag="BeachingLevel"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
@@ -555,6 +571,25 @@
         if (readflag) then
             call Globals%Constants%setDiffusionCoeff(att_val)
         endif
+        tag="ResuspensionCoeff"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionCoeff(att_val)
+        endif                
+        tag="MeanDensity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMeanDensity(att_val)
+        endif
+        tag="MeanKViscosity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMeanKVisco(att_val)
+        endif
+        
     endif
     call Globals%Constants%print()
 

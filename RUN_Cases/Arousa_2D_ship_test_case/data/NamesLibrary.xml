@@ -34,6 +34,20 @@
 			<variant name="Rate" />
 			<variant name="RATE" />
 		</emission_rate>
+        <eastward_wind name="u10">
+            <variant name="u10" comment="used in ECWMF"/>
+        </eastward_wind>
+        <northward_wind name="v10">
+            <variant name="v10" comment="used in ECWMF"/>
+        </northward_wind>
+        <sea_surface_wave_stokes_drift_x_velocity name="VSDX" comment="used in CMEMS">
+                <variant name="VSDX" comment="used in CMEMS"/>
+		<variant name="vsdx" comment="used in CMEMS"/>
+        </sea_surface_wave_stokes_drift_x_velocity>
+        <sea_surface_wave_stokes_drift_y_velocity name="VSDY" comment="used in CMEMS">
+		<variant name="VSDY" comment="used in CMEMS"/>
+                <variant name="vsdy" comment="used in CMEMS"/>
+        </sea_surface_wave_stokes_drift_y_velocity>
 	</variables>
 	<dimensions>
 		<longitude name="lon">

@@ -227,6 +227,7 @@
     allocate(self%varData(self%nVars))
     do i=1, self%nVars
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
+
         call self%check()
         self%varData(i)%name = trim(varName)
         self%varData(i)%simName = Globals%Var%getVarSimName(self%varData(i)%name)
@@ -290,6 +291,7 @@
     real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
     type(string) :: dimName, dimUnits
     integer :: i, j, k, l
+    logical :: increase_flag, neg_flag 
 
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName) then   !found the requested var
@@ -314,55 +316,39 @@
                         ! 0) index = (1,2,3,.....n),
                         !    axis = (-bottom,..., +surface)
                         ! To check this and adjust the data to this criteria, we need to check the two following conditions
-
                         if (dimName == Globals%Var%level) then
-                            !1) The depth must decrease in absolute value. If it does not decrease, must be reversed.
-                            ! |axis_i - axis_i+1| => 0
+                            !1) The depth must increase. If it does not increase, must be reversed.
+                            !2) The axis should be negative. If it is not negative, negate it.
 
-                            if (all(abs(tempRealArray(:size(tempRealArray)-1) - tempRealArray(2:)) >= 0) .eqv. .false.)  then
+                            increase_flag = all(tempRealArray(2:) >= tempRealArray(:size(tempRealArray)-1)) 
+                            neg_flag = all(tempRealArray(:) <= 0)
+
+                            if ((increase_flag .eqv. .true.) .and. (neg_flag .eqv. .true.))  then
+                                self%dimData(k)%reverse_data = .false.
+                                self%dimData(k)%reverse_axis = .false.
+                                self%dimData(k)%negate = .false.
+                            else if ((increase_flag .eqv. .true.) .and. (neg_flag .eqv. .false.))  then
                                 self%dimData(k)%reverse_data = .true.
                                 self%dimData(k)%reverse_axis = .true.
-                            end if
+                                self%dimData(k)%negate = .true.
+                            else if ((increase_flag .eqv. .false.) .and. (neg_flag .eqv. .false.)) then
+                                self%dimData(k)%reverse_data = .false.
+                                self%dimData(k)%reverse_axis = .false.
+                                self%dimData(k)%negate = .true.
+                            else if ((increase_flag .eqv. .false.) .and. (neg_flag .eqv. .true.)) then
+                                self%dimData(k)%reverse_data = .true.
+                                self%dimData(k)%reverse_axis = .true.
+                                self%dimData(k)%negate = .false.
+                            end if 
 
                             if (self%dimData(k)%reverse_axis .eqv. .true.) then
                                 tempRealArray = tempRealArray(size(tempRealArray):1:-1)
                             end if
 
-                            !2) The axis must be negative and It grows to surface. If it does not grow, it must be negated.
-                            ! axis_i+1 > axis_i
-                            if (all(tempRealArray(2:) >= tempRealArray(:size(tempRealArray)-1)) .eqv. .false.) then
-                                self%dimData(k)%negate = .true.
-                            end if
-
                             if (self%dimData(k)%negate .eqv. .true.) then
                                 tempRealArray = -tempRealArray
                             end if
-
-
-                            ! if ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) < tempRealArray(size(tempRealArray))) then
-                            !     self%dimData(k)%reverse_axis = .false.
-                            !     self%dimData(k)%negate = .false.
-                            !     self%dimData(k)%reverse_data = .false.
-                            ! elseif ((tempRealArray(1) <= 0) .and. (tempRealArray(1)) > tempRealArray(size(tempRealArray))) then
-                            !     self%dimData(k)%reverse_axis = .true.
-                            !     self%dimData(k)%negate = .false.
-                            !     self%dimData(k)%reverse_data = .true.
-                            !     !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong directon. Correcting...'
-                            ! elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) > tempRealArray(size(tempRealArray)))) then
-                            !     self%dimData(k)%reverse_axis = .false.
-                            !     self%dimData(k)%negate = .true.
-                            !     self%dimData(k)%reverse_data = .false.
-                            !     !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sing/direction. Correcting...'
-                            ! elseif ((tempRealArray(1) >= 0) .and. (tempRealArray(1) < tempRealArray(size(tempRealArray)))) then
-                            !     self%dimData(k)%reverse_axis = .true.
-                            !     self%dimData(k)%negate = .true.
-                            !     self%dimData(k)%reverse_data = .true.
-                            !     !print*, '[NetCDFparser::warning]:', 'The axis',k,'has wrong sign. Correcting...'
-                            ! end if
-
-
-
-
+                        
                         end if
                         !need to check for 'time' variable specific issues
                         if (dimName == Globals%Var%time) then

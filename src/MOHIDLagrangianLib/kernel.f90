@@ -49,7 +49,7 @@
 
     type(kernelLitter_class) :: Litter       !< litter kernels
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
-
+ 
     public :: kernel_class
     contains
 
@@ -72,13 +72,21 @@
 
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%paper) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv)+ VerticalMotion%Buoyancy(sv, bdata, time)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
+                    VerticalMotion%Resuspension(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
-        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time)
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
+                    VerticalMotion%Resuspension(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     end if
     
@@ -121,25 +129,23 @@
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-
                 !correcting for maximum admissible level in the background
                 maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
                 if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
                 !marking tracers for deletion because they are in land
-                where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
+                if (Globals%SimDefs%RemoveLandTracer == 1) then
+                     where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
+                end if
                 !update resolution proxy
-                nf = Utils%find_str(var_name, Globals%Var%resolution)
+                nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
                 sv%resolution = var_dt(:,nf)
-
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
@@ -162,7 +168,7 @@
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
-    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: LagrangianKinematic
+    real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
 
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
@@ -177,26 +183,26 @@
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)
+                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
                 sv%state(:,4) = var_dt(:,nf)
                 nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)
+                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
                 sv%state(:,5) = var_dt(:,nf)
                 nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-                if (nf /= MV_INT) then
-                    LagrangianKinematic(:,3) = var_dt(:,nf)
-                    sv%state(:,6) = var_dt(:,nf)
-                else if (nf == MV_INT) then
+                if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
+                    LagrangianKinematic(:,3) = var_dt(:, nf)
+                    sv%state(:,6) = var_dt(:, nf)
+                else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
+                    LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
+                    sv%state(:,6) = LagrangianKinematic(:,3)
+                else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
                     LagrangianKinematic(:,3) = 0.0
                     sv%state(:,6) = 0.0
                 end if
-
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
@@ -246,11 +252,11 @@
                 depth = exp(depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%vsdx, .true.)
-                StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*waveCoeff*depth
                 nf = Utils%find_str(var_name, Globals%Var%vsdy, .true.)
-                StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
-                deallocate(var_dt)
+                where(sv%landIntMask < Globals%Mask%landVal) StokesDrift(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*waveCoeff*depth
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
@@ -298,11 +304,11 @@
                 depth = exp(10.0*depth)
                 !write dx/dt
                 nf = Utils%find_str(var_name, Globals%Var%u10, .true.)
-                Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
+                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,1) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .false.)*windCoeff*depth
                 nf = Utils%find_str(var_name, Globals%Var%v10, .true.)
-                Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
-                deallocate(var_dt)
+                where(sv%landIntMask < Globals%Mask%landVal) Windage(:,2) = Utils%m2geo(var_dt(:,nf), sv%state(:,2), .true.)*windCoeff*depth
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
@@ -330,7 +336,7 @@
     beachCoeff = 1.0
     call random_number(beachCoeffRand) !this is a uniform distribution generator
     beachCoeffRand = max(0.0, beachCoeffRand - Globals%Constants%BeachingStopProb)  !clipping the last % to zero
-    beachCoeffRand = beachCoeffRand*(1.0/max(maxval(beachCoeffRand),1.0)) !normalizing
+    where (beachCoeffRand /= 0.0 ) beachCoeffRand = beachCoeffRand*(1.0/maxval(beachCoeffRand))
 
     Beaching = svDt
 
@@ -408,15 +414,17 @@
     requiredVars(1) = Globals%Var%resolution
 
     DiffusionMixingLength = 0.0
+
+    if (Globals%Constants%DiffusionCoeff == 0.0) return
+
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
             if(bdata(bkg)%hasVars(requiredVars)) then
                 np = size(sv%active) !number of Tracers
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-
+                allocate(var_dt(np,nf))
                 allocate(resolution(np))
                 allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
                 call random_number(rand_vel_u)
@@ -429,7 +437,7 @@
                 resolution = var_dt(:,nf)
                 !if we are still in the same path, use the same random velocity, do nothing
                 !if we ran the path, new random velocities are generated and placed
-                where (sv%state(:,10) > 2.0*resolution)
+                where ((sv%state(:,10) > 2.0*resolution) .and. (sv%landIntMask < Globals%Mask%landVal))
                     DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
                     DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
                     DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
@@ -450,6 +458,8 @@
                 !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
+                deallocate(rand_vel_u, rand_vel_v, rand_vel_w)
+                deallocate(resolution)
                 deallocate(var_dt)
                 deallocate(var_name)
             end if
@@ -482,10 +492,10 @@
     !update velocities
     ! For the moment we set D = 1 m/s, then the D parameter
     ! should be part of the array of tracers parameter
-    DiffusionIsotropic(:,1) = Utils%m2geo((2.*rand_vel_u-1.)*sqrt(2.*D/dt), sv%state(:,2), .false.)
-    DiffusionIsotropic(:,2) = Utils%m2geo((2.*rand_vel_v-1.)*sqrt(2.*D/dt), sv%state(:,2), .true.)
+    DiffusionIsotropic(:,1) = Utils%m2geo((2.*rand_vel_u-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff/dt), sv%state(:,2), .false.)
+    DiffusionIsotropic(:,2) = Utils%m2geo((2.*rand_vel_v-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff/dt), sv%state(:,2), .true.)
     !DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
-    where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*D*0.0005/dt)
+    where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff*0.0005/dt)
 
     end function DiffusionIsotropic
 

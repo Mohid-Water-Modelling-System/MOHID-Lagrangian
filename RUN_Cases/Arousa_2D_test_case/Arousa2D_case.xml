@@ -4,7 +4,7 @@
 		<parameters>
 			<parameter key="Start" value="2018 01 02 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
 			<parameter key="End"   value="2018 02 04 00 00 00" comment="Date of final instant" units_comment="ISO format" />
-			<parameter key="Integrator" value="3" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
+			<parameter key="Integrator" value="2" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
 			<parameter key="Threads" value="4" comment="Computation threads for shared memory computation (default=auto)" />			
 			<parameter key="OutputWriteTime" value="3600" comment="Time out data (1/Hz)" units_comment="seconds" />			
 		</parameters>
@@ -29,6 +29,7 @@
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-9.1" y="42.40" z="-1" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.75" y="42.66" z="1" units_comment="(deg,deg,m)"/>
+			<RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 1" />
 		</simulation>
 		<sourceDefinitions>
 			<source>
@@ -96,15 +97,15 @@
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-				<type source="2" type='plastic' property="bag_1" comment="" />
-				<type source="3" type='paper' property="cardboard_1" comment="" />
+				<type source="2" type="base" property="" comment="" />
+				<type source="3" type="base" property="" comment="" />
 			</types>
 			<file name="data/materialTypes.xml"/>
 		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />            
 		</constants>
 	</caseDefinitions>
 </case>

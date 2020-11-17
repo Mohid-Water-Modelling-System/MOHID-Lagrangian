@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <postProcessing>
 	<EulerianMeasures>
-		<measures>			
+		<measures>	
+			<field key = "concentrations"/>		
 			<filters>
 				<filter key = "beaching" value= "1" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
 			</filters>
@@ -14,4 +15,9 @@
 	<convertFiles>
 		<format key="hdf5"/>
 	</convertFiles>
+    <plot>
+        <time value='all' comments='season, monthly, yearly or any other acepted pandas groupby'/>
+        <measure key='mean' comments='any implicit method, mean, std, diff, cumsum'/>
+        <type value='imshow' comments='contour,pcolormesh,imshow'/> 
+    </plot>
 </postProcessing>
