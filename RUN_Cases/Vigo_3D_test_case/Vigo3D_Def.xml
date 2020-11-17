@@ -51,6 +51,7 @@
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
+		</sourceDefinitions>
 		<constants>
 			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
