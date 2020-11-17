@@ -3,42 +3,39 @@
 	<plastic>
 		<bag_1>
 			<particulate value="false" />
-			<density value="0.7" />
-			<radius value="0.2" />
+			<density value="950.0" />
+			<radius value="0.02" />
+			<volume value="0.0004" />
+			<area value="0.04" />
 			<property key="condition" value="0.95" />
 			<property key="degradation_rate" value="0.00000000158" />
 		</bag_1>
-		<expanded_polysryrene_1>
+		<heavy_net>
 			<particulate value="false" />
-			<density value="0.2" />
-			<radius value="0.5" />
+			<density value="1100.0" />
+			<radius value="0.02" />
+			<volume value="0.00002" />
+			<area value="0.025" />
 			<property key="condition" value="0.91" />
 			<property key="degradation_rate" value="0.000000000317" />
-		</expanded_polysryrene_1>
-		<expanded_polysryrene_10>
-			<particulate value="true" />
-			<density value="0.2" />
-			<radius value="2.4" />
-			<property key="condition" value="0.97" />
-			<property key="degradation_rate" value="0.000000000317" />
-			<property key="intitial_concentration" value="0.05" />
-			<property key="particle_radius" value="0.005" />
-		</expanded_polysryrene_10>
-		<expanded_polysryrene_12>
-			<particulate value="true" />
-			<density value="0.24" />
-			<radius value="2.4" />
-			<property key="condition" value="0.90" />
-			<property key="degradation_rate" value="0.000000000317" />
-			<property key="intitial_concentration" value="0.005" />
-			<property key="particle_radius" value="0.0025" />
-		</expanded_polysryrene_12>
+		</heavy_net>
+        <mussel_peg>
+			<particulate value="false" />
+			<density value="950.0" />
+			<radius value="0.17" />
+			<volume value="0.000017" />
+			<area value="0.0017" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.00000000158" />
+		</mussel_peg>
 	</plastic>
 	<paper>
 		<cardboard_1>
 			<particulate value="false" />
-			<density value="1050" />
-			<radius value="0.1" />
+			<density value="1050.0" />
+			<radius value="0.01" />
+			<volume value="0.0002" />
+			<area value="0.02" />
 			<property key="condition" value="0.95" />
 			<property key="degradation_rate" value="0.0" />
 		</cardboard_1>

@@ -1,6 +1,8 @@
 @echo off
 cls
 
+call activate MOHID-Lagrangian
+
 rem "name" and "dirout" are named according to the case
 
 set name=Arousa2D_ship_case

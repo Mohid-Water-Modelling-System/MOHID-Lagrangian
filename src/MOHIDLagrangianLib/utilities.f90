@@ -34,6 +34,10 @@
     procedure :: getRelativeTimeFromString
     procedure :: getDateTimeFromDate
     procedure :: find_str
+    procedure :: geo2cart_vec, geo2cart_comp, geo2cart_compSingle
+    generic   :: geo2cart => geo2cart_vec, geo2cart_comp, geo2cart_compSingle
+    procedure :: cart2geo_vec, cart2geo_comp
+    generic   :: cart2geo => cart2geo_vec, cart2geo_comp
     procedure :: geo2m_vec, geo2m_comp, geo2m_compSingle, geo2m_vecFull
     generic   :: geo2m => geo2m_vec, geo2m_comp, geo2m_compSingle, geo2m_vecFull
     procedure :: m2geo_vec, m2geo_comp, m2geo_vecFull
@@ -152,6 +156,123 @@
         end if
     end if
     end function find_str
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in meters given an array in
+    !> geographical coordinates (lon, lat, z), using a refecence point
+    !> @param[in] self, geovec
+    !---------------------------------------------------------------------------
+    elemental type(vector) function geo2cart_vec(self, geovec, ref)
+    class(utils_class), intent(in) :: self
+    type(vector), intent(in) :: geovec
+    type(vector), intent(in) :: ref
+    integer :: R
+    real(prec) :: pi
+    pi = 4*atan(1.0)
+    R = 6378000 !earth radius in meters
+    geo2cart_vec%x = (geovec%x - ref%x)*(R*pi/180.0)*cos(pi*geovec%y/180.0)
+    geo2cart_vec%y = (geovec%y - ref%y)*(R*pi/180.0)
+    end function geo2cart_vec
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns an array of coordinates converted to degrees, using a refecence 
+    !> point
+    !> @param[in] self, geovec, lat, isLat
+    !---------------------------------------------------------------------------
+    function geo2cart_comp(self, geovec, lat, ref, isLat)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: geovec
+    real(prec), dimension(:), intent(in) :: lat
+    type(vector), intent(in) :: ref
+    logical, intent(in) :: isLat
+    real(prec), dimension(size(geovec)) :: geo2cart_comp
+    integer :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378000 !earth radius in meters
+    if (isLat) then
+        geo2cart_comp = (geovec - ref%y)*(R*pi/180.0)
+    else
+        geo2cart_comp = (geovec - ref%x)*((R*pi/180.0)*cos(pi*lat/180.0))
+    end if
+    end function geo2cart_comp
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a coordinate converted to degrees, using a refecence 
+    !> point
+    !> @param[in] self, geovec, lat, isLat
+    !---------------------------------------------------------------------------
+    function geo2cart_compSingle(self, geovec, lat, ref, isLat)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: geovec
+    real(prec), intent(in) :: lat
+    type(vector), intent(in) :: ref
+    logical, intent(in) :: isLat
+    real(prec), dimension(size(geovec)) :: geo2cart_compSingle
+    integer :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378000 !earth radius in meters
+    if (isLat) then
+        geo2cart_compSingle = (geovec - ref%y)*(R*pi/180.0)
+    else
+        geo2cart_compSingle = (geovec - ref%x)*((R*pi/180.0)*cos(pi*lat/180.0))
+    end if
+    end function geo2cart_compSingle
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in geographical coordinates
+    !> (lon, lat, z) given an array in meters, using a refecence 
+    !> point
+    !> @param[in] self, mvec
+    !---------------------------------------------------------------------------
+    elemental type(vector) function cart2geo_vec(self, mvec, ref)
+    class(utils_class), intent(in) :: self
+    type(vector), intent(in) :: mvec
+    type(vector), intent(in) :: ref
+    real(prec) :: R
+    real(prec) :: pi
+    pi = 4*atan(1.0)
+    R = 6378000 !earth radius in meters
+    cart2geo_vec%y = mvec%y/(R*pi/180.0) + ref%y
+    cart2geo_vec%x = mvec%x/((R*pi/180.0)*cos(pi*mvec%y/180.0)) + ref%x
+    end function cart2geo_vec
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Returns a vector in geographical coordinates
+    !> (lon, lat, z) given an array in meters, using a refecence 
+    !> point
+    !> @param[in] self, mvec, lat, component
+    !---------------------------------------------------------------------------
+    function cart2geo_comp(self, mvec, lat, ref, isLat)
+    class(utils_class), intent(in) :: self
+    real(prec), dimension(:), intent(in) :: mvec
+    real(prec), dimension(:), intent(in) :: lat
+    type(vector), intent(in) :: ref
+    logical, intent(in) :: isLat
+    real(prec), dimension(size(mvec)) :: cart2geo_comp
+    real(prec) :: R
+    real(prec) :: pi = 4*atan(1.0)
+    R = 6378000 !earth radius in meters
+    if (isLat) then
+        cart2geo_comp = mvec/(R*pi/180.0)+ ref%y
+    else
+        cart2geo_comp = mvec/((R*pi/180.0)*cos(pi*lat/180.0)) + ref%x
+    end if
+    end function cart2geo_comp
+    
+    
+    
+    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -191,7 +312,7 @@
     geo2m_vecFull = geovec
     geo2m_vecFull%x = geo2m_vecFull%x*(R*pi/180.0)*cos(pi*geo2m_vecFull%y/180.0)
     geo2m_vecFull%y = geo2m_vecFull%y*(R*pi/180.0)
-    end function geo2m_vecFull
+    end function geo2m_vecFull    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -236,6 +357,10 @@
         geo2m_compSingle = geovec*((R*pi/180.0)*cos(pi*lat/180.0))
     end if
     end function geo2m_compSingle
+    
+    
+    
+    
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

@@ -35,6 +35,8 @@
 			<timestep dt="1200.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-9.1" y="42.39" z="-1" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.72" y="42.68" z="1" units_comment="(deg,deg,m)"/>
+			<VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+			<RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
 		</simulation>
 		<sourceDefinitions>
 			<source>
@@ -136,9 +138,11 @@
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<BeachingStopProb value="80" comment="Probablity of beaching stopping a tracer. Default = 50%" units_comment="%" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
-			<Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />
-			<Z0 value="2.16" comment="Reference local 'zero' level. Default = 0.0" units_comment="m" />
-			<RhoRef value="1001.45" comment="Reference density of the fluid. Default = 1000.0" units_comment="kg/m^3" />			
+			<Gravity x="0" y="0" z="-9.81" comment="Gravitational acceleration, Default = (0,0,-9.81)" units_comment="m/s^2" />						
+			<ResuspensionCoeff value="0.0" comment="Resuspension amplitude velocity factor. Default = 0.0" units_comment="n.u" />
+			<Z0 value="2.16" comment="Reference local 'zero' level. Default = 0.0" units_comment="m" />	
+			<MeanDensity value="1028.0" comment="Mean medium density. Default = 1027.0" units_comment="kg/m3" />	
+			<MeanKViscosity value="0.00110" comment="Mean medium kinematic viscosity. Default = 0.00109" units_comment="m2/s" />
 		</constants>
 	</caseDefinitions>
 </case>

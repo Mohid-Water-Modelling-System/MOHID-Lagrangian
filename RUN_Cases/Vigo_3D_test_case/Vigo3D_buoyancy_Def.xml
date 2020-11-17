@@ -5,7 +5,7 @@
 			<parameter key="Start" value="2018 09 05 00 00 00" comment="Date of initial instant" units_comment="space delimited ISO 8601 format up to seconds" />
 			<parameter key="End"   value="2018 09 06 15 00 00" comment="Date of final instant" units_comment="ISO format" />
 			<parameter key="Integrator" value="2" comment="Integration Algorithm 1:Euler, 2:Multi-Step Euler, 3:RK4 (default=1)" />			
-			<parameter key="Threads" value="4" comment="Computation threads for shared memory computation (default=auto)" />
+			<parameter key="Threads" value="2" comment="Computation threads for shared memory computation (default=auto)" />
 			<parameter key="OutputWriteTime" value="720" comment="Time out data (1/Hz)" units_comment="seconds" />
 		</parameters>
 		<variableNaming>
@@ -14,37 +14,84 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="nc_fields\hydrodynamic" type="hydrodynamic"/>
-      			<inputDataDir name="nc_fields\water_properties" type="waterProperties"/>
+			<inputDataDir name="nc_fields/hydrodynamic" type="hydrodynamic"/>
+      		<inputDataDir name="nc_fields/water_properties" type="waterProperties"/>
 		</inputData>
 		<simulation>
 			<resolution dp="150" units_comment="metres (m)"/>
-			<timestep dt="30.0" units_comment="seconds (s)"/>
-			<BoundingBoxMin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
-			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>
+			<timestep dt="60.0" units_comment="seconds (s)"/>
+			<BoundingBoxMin x="-8.95" y="42.10" z="-100" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.61" y="42.44" z="10" units_comment="(deg,deg,m)"/>
+            <VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
+            <RemoveLandTracer value="1" comment="Remove tracers on land 0:No, 1:Yes. Default = 1" />
 		</simulation>
 		<sourceDefinitions>
 			<source>
-				<setsource id="18" name="ReleaseBox1" />
-				<resolution x="250" y="250" z="1" units_comment="metres (m)"/>
-				<rate_dt value="9996" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<setsource id="1" name="Lerez_River_Lagrangian" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
-				<box>
-					<point x="-8.95" y="42.10" z="-15.0" units_comment="(deg,deg,m)"/>
-					<size x="100000" y="100000" z="0.5" units_comment="metres (m)"/>
-				</box>
+				<point x="-8.7" y="42.41" z="-1" units_comment="(deg,deg,m)"/>
+				<rateTimeSeries> 
+					<file name="data/Lerez.dat" comment="name of csv file with discharge information (time and rate columns)"/>
+					<scale value="0.3" comment="scales the data on the file by this factor (not time)" />
+				</rateTimeSeries>
+			</source>
+			<source>
+				<setsource id="2" name="Minhor_cardboard_heavy_net" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<point x="-8.84" y="42.13" z="-1" units_comment="(deg,deg,m)"/>
+				<rateTimeSeries> 
+					<file name="data/Minor.dat" comment="name of csv file with discharge information (time and rate columns)"/>
+					<scale value="0.2" comment="scales the data on the file by this factor (not time)" />
+				</rateTimeSeries>
+			</source>
+			<source>
+				<setsource id="3" name="Minhor_cardboard" />
+				<active start="0.0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<point x="-8.64" y="42.3" z="-1" units_comment="(deg,deg,m)" />
+				<rateTimeSeries> 
+					<file name="data/Verdugo.dat" comment="name of csv file with discharge information (time and rate columns)"/>
+					<scale value="0.3" comment="scales the data on the file by this factor (not time)" />
+				</rateTimeSeries>
+			</source>
+			<source>
+				<setsource id="4" name="Bateas_area_example" />
+				<resolution x="125" y="125" z="150" units_comment="metres (m)"/>
+				<rate_dt value="40" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<polygon>
+					<file name="data/Batea.kmz"/>
+                    <verticalBoundingBox min="-1.0" max="-1.0"/>
+				</polygon>
+			</source>
+			<source>
+				<setsource id="5" name="Vigo_port" />
+				<rate_dt value="30.0" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0.0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+				<point x="-8.74" y="42.24" z="-1" units_comment="(deg,deg,m)" />
+			</source>
+			<source>
+				<setsource id="7" name="stupid_boat" />
+				<rate_dt value="30.0" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
+				<active start="0.0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
+                <point x="-8.74" y="42.24" z="-1" units_comment="(deg,deg,m)" />
+				<positionTimeSeries> 
+					<file name="data/spill_trajectory.dat" />
+				</positionTimeSeries>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-				<type source="18" type="paper" property="cardboard_1" comment="" />
+                <type source="2" type="plastic" property="heavy_net" comment="" />
+                <type source="3" type="paper" property="cardboard_1" comment="" />
+                <type source="4" type="plastic" property="mussel_peg" comment="" />
+                <type source="5" type="paper" property="cardboard_1" comment="" />
 			</types>
 			<file name="materialTypes.xml"/>
 		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-3.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
 			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
-            <Z0 value="-0.19" comment="Reference local 'zero' level. Default = 0.0" units_comment="m" />
+            <ResuspensionCoeff value="0.0" comment="Resuspension amplitude velocity factor. Default = 0.0" units_comment="n.u" />
 		</constants>
 	</caseDefinitions>
 </case>

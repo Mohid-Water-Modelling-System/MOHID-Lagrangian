@@ -164,5 +164,12 @@ if(WINDOWS)
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
 			"${item}"
 			$<TARGET_FILE_DIR:${BIN_NAME}>)
-	ENDFOREACH(item)	
+	ENDFOREACH(item)
+	set(dlls_PATH ${PROJECT_SOURCE_DIR}/ExternalLibs/dlls)
+	FOREACH(item ${dlls_PATH})
+	  add_custom_command(TARGET ${BIN_NAME} POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			"${item}"
+			$<TARGET_FILE_DIR:${BIN_NAME}>)
+	ENDFOREACH(item)
 endif()

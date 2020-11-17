@@ -2,6 +2,13 @@
 
 clear
 
+# Activate conda environment from shell. Minimum conda version required 4.6
+eval "$(conda shell.bash hook)"
+conda activate MOHID-Lagrangian
+
+ulimit -s hard
+export OMP_STACKSIZE=512M
+
 # "name" and "dirout" are named according to the testcase
 name=Vigo3D_Def
 dirout=${name}_out

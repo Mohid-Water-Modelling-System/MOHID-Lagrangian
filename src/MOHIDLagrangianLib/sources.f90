@@ -48,6 +48,8 @@
         type(string) :: propertySubType         !< source property name
         logical :: particulate                  !< true for a Source that emitts particulate tracers (a concentration of particles)
         real(prec) :: radius                    !< radius of the emitted Tracers (size of the particle if not particulate, volume of the Tracer if particulate)
+        real(prec) :: volume                    !< volume of the emitted particles
+        real(prec) :: area                      !< surface area  of the emitted particles
         real(prec) :: density                   !< density of the Tracers
         type(string), dimension(:), allocatable :: propName !< name of a given property
         real(prec), dimension(:), allocatable :: propValue  !< value of a given property
@@ -215,8 +217,8 @@
     integer, intent(in) :: nProps
     if(allocated(src%prop%propName)) deallocate(src%prop%propName)
     if(allocated(src%prop%propValue)) deallocate(src%prop%propValue)
-    allocate(src%prop%propName(nProps))
     allocate(src%prop%propValue(nProps))
+    allocate(src%prop%propName(nProps))
     end subroutine setPropertyNumber
 
     !---------------------------------------------------------------------------
@@ -253,6 +255,10 @@
         end if
     case ('radius')
         src%prop%radius = pvalue%to_number(kind=1._R8P)
+    case ('volume')
+        src%prop%volume = pvalue%to_number(kind=1._R8P)
+    case ('area')
+        src%prop%area = pvalue%to_number(kind=1._R8P)
     case ('density')
         src%prop%density = pvalue%to_number(kind=1._R8P)
         case default
@@ -275,12 +281,18 @@
     if (self%prop%radius == MV) then
         failed = .true.
         temp(2) = 'radius'
+    elseif (self%prop%volume == MV) then
+        failed = .true.
+        temp(2) = 'volume'
+    elseif (self%prop%area == MV) then
+        failed = .true.
+        temp(2) = 'area'
     elseif (self%prop%density == MV) then
         failed = .true.
         temp(2) = 'density'
     end if
     if (failed) then
-        outext = 'Property '//temp(2)//' from Source id = '//temp(1)//' is not set, stoping'
+        outext = 'Property '//temp(2)//' from Source id = '//temp(1)//' is not set in the material property library file, stoping'
         call Log%put(outext)
         stop
     end if
@@ -521,6 +533,8 @@
     src%prop%propertySubType = "base"
     src%prop%particulate = .false.
     src%prop%radius = MV
+    src%prop%volume = MV
+    src%prop%area = MV
     src%prop%density = MV
     !Setting state variables
     src%now%age=0.0

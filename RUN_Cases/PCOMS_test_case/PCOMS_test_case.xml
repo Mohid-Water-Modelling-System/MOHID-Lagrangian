@@ -13,6 +13,7 @@
 		</variableNaming>
 		<postProcessing>
 			<file name="Post_scripts/PostRecipe.xml"/>
+            <file name="Post_scripts/PostRecipe_Polygon.xml"/>
 		</postProcessing>
 	</execution>
 	<caseDefinitions>
