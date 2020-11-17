@@ -1,4 +1,4 @@
-## MOHID Lagrangian - V0.8 - Work in progress!
+## MOHID Lagrangian - V0.8
 
 MOHID Lagragian is a comprehensive high-performance Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
 
