@@ -1,6 +1,7 @@
 ## MOHID Lagrangian - V0.8
 
 MOHID Lagragian is a comprehensive high-performance Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
+Altough mainly developed for oceanographic and fluvial contexts, application to atmospheric and other planetary settings should be trivial. 
 
 Available functionalities are
 
