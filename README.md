@@ -17,7 +17,7 @@ Available functionalities are
 - Cross-platform compliant, tested and deployed
 - Cmake based project, easy to set up for local compilation if required
   
-  
+Output examples
   
 ![Vigo3D](https://github.com/mohid-water-modelling-system/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
 
