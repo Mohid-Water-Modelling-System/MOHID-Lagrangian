@@ -8,12 +8,14 @@ Available functionalities are
 - Robust pre-processing, modelling and post-processing tools
 - Support for netcdf-cf files with currents, winds and wave fields, as well as water quality (salinity, temperature)
 - Ability to model passive, bouyant and degrading tracers
-- Beaching and resuspension models and options
+- Stokes drift, windage, beaching, resuspension and turbulent diffusion models and options
 - Ability to model millions of tracers in a modest laptop machine
 - Simple and fully documented simulation set-up files, ready to be abstracted by a UI
 - Raw vtk time encoded output, directly compatible with Paraview and other standard post-processors and renderers
-- Flexible python post processor, capable of computing volumetric averages and cumulative integrations, exporting the results to standard netcfd files (so you can explore the results using GIS software or publish to a thredds server) and producing high-quality maped plots using matplotlib and pandas, all scripted in cross-simulation reuseable post-processing recipes, ready to be automated
-- Documentation on instalation, code structure, and useage. Fully self contained examples to get you started
+- Flexible python post processor, using cross-simulation reuseable post-processing recipes, ready to be automated
+- Computation of volumetric averages and cumulative integrations, exporting the results to standard netcfd files, so you can explore the results using GIS software or publish to a thredds server
+- Production of high-quality maped plots using matplotlib and pandas, allowing for arbitrary calendar, integration types, subdomains including polygons and plot type combinations
+- Documentation on instalation, code structure, case preparation, post processing and general useage. Fully self contained examples to get you started
 - Pre-built windows executable
 - Cross-platform compliant, tested and deployed
 - Cmake based project, easy to set up for local compilation if required
