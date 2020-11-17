@@ -14,7 +14,7 @@ Available functionalities are
 - Raw vtk time encoded output, directly compatible with Paraview and other standard post-processors and renderers
 - Flexible python post processor, using cross-simulation reuseable post-processing recipes, ready to be automated
 - Computation of volumetric averages and cumulative integrations, exporting the results to standard netcfd files, so you can explore the results using GIS software or publish to a thredds server
-- Production of high-quality maped plots using matplotlib and pandas, allowing for arbitrary calendar, integration types, subdomains including polygons and plot type combinations
+- Production of high-quality mapped plots and shapefiles using matplotlib and pandas, allowing for arbitrary calendar, integration types, subdomains including polygons and plot type combinations
 - Documentation on instalation, code structure, case preparation, post processing and general useage. Fully self contained examples to get you started
 - Pre-built windows executable
 - Cross-platform compliant, tested and deployed
@@ -37,6 +37,10 @@ Output examples
 ![PCOMS](https://github.com/Mohid-Water-Modelling-System/MOHID-Lagrangian/blob/master/docs/mean-concentration_area_Box1.png)
 
 *Mean tracer concentration on the PCOMS test case*
+
+![PCOMS2](https://github.com/Mohid-Water-Modelling-System/MOHID-Lagrangian/blob/master/docs/mean-concentration_area_n_counts_global.png)
+
+*Mean tracer concentration on the PCOMS test case using the EU Marine Directives polygons*
 
 Check out our [code documentation page](https://mohid-water-modelling-system.github.io/MOHID-Lagrangian/)!
 
