@@ -1,10 +1,10 @@
-## MOHID Lagrangian - V0.3 - Work in progress!
+## MOHID Lagrangian - V0.8 - Work in progress!
 
-![Vigo3D](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
+![Vigo3D](https://github.com/mohid-water-modelling-system/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
 
 *3D passive tracers on a [MOHID](http://www.mohid.com) operational currents solution in Vigo region, Galiza, Spain.*
 
-![Atlantic1](https://github.com/RBCanelas/MOHID-Lagrangian/blob/dev/docs/Atlantic_2016_2017_density.gif)
+![Atlantic1](https://github.com/mohid-water-modelling-system/MOHID-Lagrangian/blob/dev/docs/Atlantic_2016_2017_density.gif)
 
 *Floating passive tracers on a [CMEMS](http://marine.copernicus.eu/) Atlantic currents solution.*
 
