@@ -1,5 +1,22 @@
 ## MOHID Lagrangian - V0.8 - Work in progress!
 
+MOHID Lagragian is a comprehensive high-performance Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
+
+Available functionalities are
+
+- Robust pre-processing, modelling and post-processing tools
+- Support for netcdf-cf files with currents, winds and wave fields, as well as water quality (salinity, temperature)
+- Ability to model passive, bouyant and degrading tracers
+- Beaching and resuspension models and options
+- Ability to model millions of tracers in a modest laptop machine
+- Simple and fully documented simulation set-up files, ready to be abstracted by a UI
+- Raw vtk time encoded output, directly compatible with Paraview and other standard post-processors and renderers
+- Flexible python post processor, capable of computing volumetric averages and cumulative integrations, exporting the results to standard netcfd files (so you can explore the results using GIS software or publish to a thredds server) and producing high-quality maped plots using matplotlib and pandas, all scripted in cross-simulation reuseable post-processing recipes, ready to be automated
+- Documentation on instalation, code structure, and useage. Fully self contained examples to get you started
+- Pre-built windows executable
+- Cross-platform compliant, tested and deployed
+- Cmake based project, easy to set up for local compilation if required
+
 ![Vigo3D](https://github.com/mohid-water-modelling-system/MOHID-Lagrangian/blob/dev/docs/Vigo3DnoDiffusion.gif)
 
 *3D passive tracers on a [MOHID](http://www.mohid.com) operational currents solution in Vigo region, Galiza, Spain.*
@@ -16,10 +33,6 @@
 
 *Mean tracer concentration on the PCOMS test case*
 
-MOHIDLagragian is a both a library for the [MOHID Water Modelling System](http://www.mohid.com) and a standalone program. The library implements the necessary tools to generate a comprehensive Lagrangian tracer model, with sources, sinks, particle types and several options for forcing and I/O.
-
-The MOHIDLagrangian program is a specific implementation of the library, designed as a post-processing or online tool, ready to be forced with other models.
-
 Check out our [code documentation page](https://mohid-water-modelling-system.github.io/MOHID-Lagrangian/)!
 
 ## Help, Bugs, Feedback
@@ -31,4 +44,3 @@ GNU General Public License. See the [GNU General Public License](http://www.gnu.
 <!--[![Build Status](https://travis-ci.org/RBCanelas/MOHID-Lagrangian.svg?branch=master)](https://travis-ci.org/RBCanelas/MOHID-Lagrangian)-->
 
 [![License](https://img.shields.io/badge/license-GNU%20GeneraL%20Public%20License%20v3,%20GPLv3-blue.svg)]()
-3
