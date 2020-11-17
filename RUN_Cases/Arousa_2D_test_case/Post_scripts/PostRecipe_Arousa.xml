@@ -20,6 +20,6 @@
         <weight file='Post_scripts/weights.csv' comments='Weights data by a source value'/>
         <measure key="diff" comments="xarray dataset time-dime functions: diff, cumsum"/>
         <measure key="mean" comments="xarray implicit time-collapsing operator: mean, std, diff, cumsum"/>
-        <type value="imshow" comments="Type of graphic to plot: contour, contourf, pcolormesh, imshow"/> 
+        <type value="contourf" comments="Type of graphic to plot: contour, contourf, pcolormesh, imshow"/> 
     </plot>
 </postProcessing>
