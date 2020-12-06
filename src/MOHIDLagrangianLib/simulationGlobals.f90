@@ -470,7 +470,7 @@
         getVarSimName = self%v10
         return
     end if
-    !searching for rad   Sobrinho
+    !searching for rad
     if (var == self%rad .or. .not.self%radVariants%notRepeated(var)) then
         getVarSimName = self%rad
         return
@@ -575,7 +575,7 @@
     call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
     tag="northward_wind"
     call self%setCurrVar(tag, self%Var%v10, self%Var%v10Variants, varNode)
-    tag="surface_radiation" !Sobrinho
+    tag="surface_radiation"
     call self%setCurrVar(tag, self%Var%rad, self%Var%radVariants, varNode)
 
     end subroutine setVarNames

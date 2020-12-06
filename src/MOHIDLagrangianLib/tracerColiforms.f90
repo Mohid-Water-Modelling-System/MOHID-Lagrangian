@@ -41,7 +41,7 @@
         real(prec) :: T90                           !< T90 mortality of the coliforms (seconds)
         real(prec) :: sw_extinction_coef            !< Short wave radiation extinction coef (1/m)
         real(prec) :: sw_percentage                 !< Short wave radiation percentage of incoming radiation (0-1)
-        logical    :: T90_variable                  !< Variable T90 decay 
+        integer    :: T90_variable                  !< Variable T90 decay 
         integer    :: T90_method                    !< Fecal decay according to 1: Canteras et al. (1995). 2: Chapra (1997)
         real(prec) :: concentration                 !< Particle concentration
     end type coliform_state_class
@@ -177,7 +177,8 @@
     !default values
     constructor%mnow%T90 = 1/7200
     constructor%mnow%condition = 1.0
-    constructor%mnow%T90_variable = .false.
+    constructor%mnow%T90_variable = 0
+    constructor%mnow%concentration = 1000000
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)

@@ -46,11 +46,12 @@
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
+    !procedure, private :: Dilution
     end type kernel_class
 
     type(kernelLitter_class) :: Litter       !< litter kernels
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
-    type(kernelColiform_class) :: Coliform       !< Sobrinho
+    type(kernelColiform_class) :: Coliform !< coliform kernels
  
     public :: kernel_class
     contains
@@ -90,10 +91,10 @@
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
                     VerticalMotion%Resuspension(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
-    else if (sv%ttype == Globals%Types%coliform) then !Sobrinho
+    else if (sv%ttype == Globals%Types%coliform) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + &
-                    self%Aging(sv) + coliform%MortalityT90(sv, bdata, time)
+                    self%Aging(sv) + coliform%MortalityT90(sv, bdata, time) !+ coliform%Dilution(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     end if
     
@@ -505,7 +506,7 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff*0.0005/dt)
 
     end function DiffusionIsotropic
-
+    
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
