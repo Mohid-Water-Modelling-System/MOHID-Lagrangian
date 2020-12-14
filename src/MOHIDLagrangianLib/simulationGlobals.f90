@@ -41,6 +41,9 @@
     procedure :: print => print_stringList
     procedure :: printCurrent => print_stringListCurrent
     procedure :: notRepeated
+    procedure :: makeUnion
+    procedure :: toArray
+    procedure :: copy
     end type stringList_class
 
     type :: parameters_t   !< Parameters class
@@ -190,6 +193,17 @@
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
     end type var_names_t
+    
+    type :: varBackground_t
+        integer :: bkgIndex = 0
+        type(stringList_class) :: bkgVars 
+    contains
+    end type varBackground_t
+    
+    type :: varBackgroundDict_t
+        type(varBackground_t), allocatable, dimension(:) :: bkgDict 
+    contains
+    end type varBackgroundDict_t
 
     type :: maskVals_t
         real(prec) :: landVal  = 2.0
@@ -239,6 +253,7 @@
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
         type(sim_t)         :: Sim
+        type(varBackgroundDict_t) :: BackgroundVarDict
         type(output_t)      :: Output
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
@@ -254,6 +269,7 @@
     procedure :: setVarNames
     procedure :: setDimNames
     procedure :: setCurrVar
+    procedure :: fillBackgroundDict
     end type globals_class
     
     type(string) :: notRead
@@ -263,7 +279,7 @@
     type(globals_class) :: Globals
 
     !Public access vars
-    public :: Globals, stringList_class, notRead, notSet
+    public :: Globals, stringList_class, notRead, notSet, varBackground_t
 
     contains
 
@@ -635,6 +651,30 @@
     end if
 
     end subroutine setCurrVar
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> 
+    !---------------------------------------------------------------------------
+    subroutine fillBackgroundDict(self, idx, variables)
+    class(globals_class), intent(inout) :: self
+    integer, intent(in) :: idx
+    type(stringList_class), intent(inout) :: variables
+    integer :: i
+    
+    do i=1, size(self%BackgroundVarDict%bkgDict)
+        if (self%BackgroundVarDict%bkgDict(i)%bkgIndex == 0) then
+            self%BackgroundVarDict%bkgDict(i)%bkgIndex = idx
+            call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
+            exit
+        else if(self%BackgroundVarDict%bkgDict(i)%bkgIndex == idx) then
+            call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
+            exit
+        end if
+    end do
+    
+    end subroutine fillBackgroundDict
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1440,5 +1480,77 @@
     end do
     call this%reset()               ! reset list iterator
     end function notRepeated
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to make the union of two string lists.
+    !---------------------------------------------------------------------------
+    subroutine makeUnion(this, other)
+    class(stringList_class), intent(inout) :: this
+    class(stringList_class), intent(inout) :: other
+    type(string), allocatable, dimension(:) :: otherList
+    integer :: i
+    
+    call other%toArray(otherList)
+    do i = 1, size(otherList)
+        if (this%notRepeated(otherList(i))) then
+            call this%add(otherList(i))
+        end if
+    end do
+        
+    end subroutine makeUnion
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to copy string lists.
+    !---------------------------------------------------------------------------
+    subroutine copy(this, other)
+    class(stringList_class), intent(inout) :: this
+    class(stringList_class), intent(inout ) :: other
+    type(string), allocatable, dimension(:) :: otherList
+    integer :: i
+    
+    call other%toArray(otherList)
+    call this%finalize()
+    do i = 1, size(otherList)        
+        call this%add(otherList(i))
+    end do
+        
+    end subroutine copy
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that gets an array with the contents of the list.
+    !---------------------------------------------------------------------------
+    subroutine toArray(this, currList)
+    class(stringList_class), intent(inout) :: this   
+    class(*), pointer :: curr
+    type(string) :: outext
+    type(string), allocatable, dimension(:), intent(inout) :: currList
+    integer :: i
+    
+    i =1
+    allocate(currList(this%getSize()))
+    
+    call this%reset()               ! reset list iterator
+    do while(this%moreValues())     ! loop while there are values to print
+        curr => this%currentValue() ! get current value
+        select type(curr)
+        class is (string)
+            currList(i) = curr
+            i = i + 1
+            class default
+            outext = '[stringList_class::toArray] Unexepected type of content, not a string'
+            call Log%put(outext)
+            stop
+        end select
+        call this%next()            ! increment the list iterator
+    end do
+    call this%reset()    ! reset list iterator
+    
+    end subroutine toArray
 
     end module simulationGlobals_mod

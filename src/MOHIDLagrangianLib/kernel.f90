@@ -28,7 +28,8 @@
     use stateVector_mod
     use background_mod
     use interpolator_mod
-
+    use kernelUtils_mod
+    
     use kernelLitter_mod
     use kernelVerticalMotion_mod
     use kernelColiform_mod
@@ -52,6 +53,7 @@
     type(kernelLitter_class) :: Litter       !< litter kernels
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
     type(kernelColiform_class) :: Coliform !< coliform kernels
+    type(kernelUtils_class) :: KernelUtils   !< kernel utils
  
     public :: kernel_class
     contains
@@ -181,41 +183,66 @@
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
-
+    
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    
     LagrangianKinematic = 0.0
-    !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-                !write dx/dt
-                nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
-                sv%state(:,4) = var_dt(:,nf)
-                nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
-                sv%state(:,5) = var_dt(:,nf)
-                nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-                if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
-                    LagrangianKinematic(:,3) = var_dt(:, nf)
-                    sv%state(:,6) = var_dt(:, nf)
-                else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
-                    LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
-                    sv%state(:,6) = LagrangianKinematic(:,3)
-                else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
-                    LagrangianKinematic(:,3) = 0.0
-                    sv%state(:,6) = 0.0
-                end if
-                deallocate(var_dt)
-                deallocate(var_name)
-            end if
-        end if
-    end do
+    !write dx/dt
+    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+    LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
+    sv%state(:,4) = var_dt(:,nf)
+    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+    LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
+    sv%state(:,5) = var_dt(:,nf)
+    nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+    if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
+        LagrangianKinematic(:,3) = var_dt(:, nf)
+        sv%state(:,6) = var_dt(:, nf)
+    else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
+        LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
+        sv%state(:,6) = LagrangianKinematic(:,3)
+    else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
+        LagrangianKinematic(:,3) = 0.0
+        sv%state(:,6) = 0.0
+    end if
+
+    deallocate(var_dt)
+    deallocate(var_name)
+            
+    !LagrangianKinematic = 0.0
+    !!interpolate each background
+    !do bkg = 1, size(bdata)
+    !    if (bdata(bkg)%initialized) then
+    !        if(bdata(bkg)%hasVars(requiredVars)) then
+    !            np = size(sv%active) !number of Tracers
+    !            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+    !            allocate(var_dt(np,nf))
+    !            allocate(var_name(nf))
+    !            !interpolating all of the data
+    !            call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
+    !            !write dx/dt
+    !            nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+    !            LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
+    !            sv%state(:,4) = var_dt(:,nf)
+    !            nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+    !            LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
+    !            sv%state(:,5) = var_dt(:,nf)
+    !            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+    !            if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
+    !                LagrangianKinematic(:,3) = var_dt(:, nf)
+    !                sv%state(:,6) = var_dt(:, nf)
+    !            else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
+    !                LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
+    !                sv%state(:,6) = LagrangianKinematic(:,3)
+    !            else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
+    !                LagrangianKinematic(:,3) = 0.0
+    !                sv%state(:,6) = 0.0
+    !            end if
+    !            deallocate(var_dt)
+    !            deallocate(var_name)
+    !        end if
+    !    end if
+    !end do
 
     end function LagrangianKinematic
 
@@ -516,10 +543,14 @@
     subroutine initKernel(self)
     class(kernel_class), intent(inout) :: self
     type(string) :: interpName
+    
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
     call Litter%initialize()
     call VerticalMotion%initialize()
+    
+    call KernelUtils%initialize() 
+    
     end subroutine initKernel
 
     end module kernel_mod

@@ -269,6 +269,8 @@
                         if (self%lastCurrentsReadTime == -1.0) self%lastCurrentsReadTime = tempTime(2)
                         self%lastCurrentsReadTime = min(tempTime(2), self%lastCurrentsReadTime)
                     end do
+                    !add bkg info to dict
+                    call Globals%fillBackgroundDict(self%currentsBkgIndex, tempBkgd%variables)
                     !clean out the temporary background data
                     call tempBkgd%finalize()
                 end if
@@ -293,6 +295,8 @@
                         if (self%lastWindsReadTime == -1.0) self%lastWindsReadTime = tempTime(2)
                         self%lastWindsReadTime = min(tempTime(2), self%lastWindsReadTime)
                     end do
+                    !add bkg info to dict
+                    call Globals%fillBackgroundDict(self%windsBkgIndex, tempBkgd%variables)
                     !clean out the temporary background data
                     call tempBkgd%finalize()
                 end if
@@ -317,6 +321,8 @@
                         if (self%lastWavesReadTime == -1.0) self%lastWavesReadTime = tempTime(2)
                         self%lastWavesReadTime = min(tempTime(2), self%lastWavesReadTime)
                     end do
+                    !add bkg info to dict
+                    call Globals%fillBackgroundDict(self%wavesBkgIndex, tempBkgd%variables)
                     !clean out the temporary background data
                     call tempBkgd%finalize()
                 end if
@@ -340,7 +346,9 @@
                         tempTime = blocks(j)%Background(self%waterPropsBkgIndex)%getDimExtents(Globals%Var%time)
                         if (self%lastWaterPropsReadTime == -1.0) self%lastWaterPropsReadTime = tempTime(2)
                         self%lastWaterPropsReadTime = min(tempTime(2), self%lastWaterPropsReadTime)
-                    end do
+                    end do                    
+                    !add bkg info to dict
+                    call Globals%fillBackgroundDict(self%waterPropsBkgIndex, tempBkgd%variables)
                     !clean out the temporary background data
                     call tempBkgd%finalize()
                 end if
@@ -502,6 +510,8 @@
     do i=1, size(blocks)
         allocate(blocks(i)%Background(nBkg))
     end do
+    !allocating bkg var dictionary
+    allocate(Globals%BackgroundVarDict%bkgDict(nBkg))
     end subroutine initInputStreamer
 
     !---------------------------------------------------------------------------
