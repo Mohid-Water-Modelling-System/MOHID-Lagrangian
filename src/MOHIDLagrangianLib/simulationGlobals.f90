@@ -161,6 +161,7 @@
         type(string) :: vsdy
         type(string) :: u10
         type(string) :: v10
+        type(string) :: rad
         type(string) :: lon
         type(string) :: lat
         type(string) :: level
@@ -180,6 +181,7 @@
         type(stringList_class) :: vsdyVariants
         type(stringList_class) :: u10Variants
         type(stringList_class) :: v10Variants
+        type(stringList_class) :: radVariants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
@@ -389,6 +391,7 @@
     self%vsdy    = 'vsdy'
     self%u10     = 'u10'
     self%v10     = 'v10'
+    self%rad     = 'rad'
     self%lon     = 'lon'
     self%lat     = 'lat'
     self%level   = 'level'
@@ -481,6 +484,11 @@
     !searching for v10
     if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
         getVarSimName = self%v10
+        return
+    end if
+    !searching for rad
+    if (var == self%rad .or. .not.self%radVariants%notRepeated(var)) then
+        getVarSimName = self%rad
         return
     end if
     !searching for lon
@@ -583,6 +591,8 @@
     call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
     tag="northward_wind"
     call self%setCurrVar(tag, self%Var%v10, self%Var%v10Variants, varNode)
+    tag="surface_radiation"
+    call self%setCurrVar(tag, self%Var%rad, self%Var%radVariants, varNode)
 
     end subroutine setVarNames
 

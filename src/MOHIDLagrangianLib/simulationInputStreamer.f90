@@ -141,12 +141,14 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
 
-    allocate(varList(2))
-    allocate(syntecticVar(2))
+    allocate(varList(3))
+    allocate(syntecticVar(3))
     varList(1) = Globals%Var%u10
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v10
     syntecticVar(2) = .false.
+    varList(3) = Globals%Var%rad
+    syntecticVar(3) = .false.
 
     !need to send to different readers here if different file formats
     getWindsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
