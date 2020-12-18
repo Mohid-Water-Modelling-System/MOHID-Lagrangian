@@ -96,7 +96,7 @@
     else if (sv%ttype == Globals%Types%coliform) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + &
-                    self%Aging(sv) + coliform%MortalityT90(sv, bdata, time) !+ coliform%Dilution(sv, bdata, time)
+                    self%Aging(sv) + coliform%MortalityT90(sv, bdata, time) + coliform%Dilution(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
     end if
     
@@ -148,8 +148,8 @@
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
                 !marking tracers for deletion because they are in land
-                if (Globals%SimDefs%RemoveLandTracer == 1) then
-                     where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
+                if (globals%simdefs%removelandtracer == 1) then
+                     where(int(sv%landintmask + globals%mask%landval*0.05) == globals%mask%landval) sv%active = .false.
                 end if
                 !update resolution proxy
                 nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
@@ -187,7 +187,6 @@
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     
     LagrangianKinematic = 0.0
-    !write dx/dt
     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
     LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
     sv%state(:,4) = var_dt(:,nf)
@@ -205,12 +204,12 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
-
+    
     deallocate(var_dt)
     deallocate(var_name)
             
     !LagrangianKinematic = 0.0
-    !!interpolate each background
+    !!!interpolate each background
     !do bkg = 1, size(bdata)
     !    if (bdata(bkg)%initialized) then
     !        if(bdata(bkg)%hasVars(requiredVars)) then

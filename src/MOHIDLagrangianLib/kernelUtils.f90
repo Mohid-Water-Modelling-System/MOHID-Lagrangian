@@ -37,7 +37,7 @@
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
-    !> 
+    !> calls interpolator for each required var. Seaches in every background
     !---------------------------------------------------------------------------
     subroutine runInterpolatorOnVars(self, sv, bdata, time, requiredVars, var_dt, var_name, justRequired)
     class(kernelUtils_class), intent(inout) :: self
@@ -68,8 +68,9 @@
         j=1
         do i=1, size(bkgToInterpolate)
             call bkgToInterpolate(i)%bkgVars%toArray(currList)
-            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bkgToInterpolate(i)%bkgVars%getSize()), var_name(j:j+bkgToInterpolate(i)%bkgVars%getSize()), currList)
-            j = j + bkgToInterpolate(i)%bkgVars%getSize() + 1
+            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), var_name(j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), currList)
+            j = j + bkgToInterpolate(i)%bkgVars%getSize()
+            deallocate (currList)
         end do
     else
         nf = 0
@@ -80,8 +81,8 @@
         allocate(var_name(nf))
         j=1
         do i=1, size(bkgToInterpolate)
-            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()), var_name(j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()))
-            j = j + bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize() + 1
+            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()-1), var_name(j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()-1))
+            j = j + bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()
         end do
     end if
     
@@ -90,7 +91,7 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> 
+    !> Gets intersection between required var and background
     !---------------------------------------------------------------------------
     subroutine getBackgroundDictIntersection(self, reqVars, bkgVarsIntersect)
     class(kernelUtils_class), intent(inout) :: self
