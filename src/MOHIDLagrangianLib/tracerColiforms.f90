@@ -36,6 +36,7 @@
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: volume                        !< Tracer volume (m3)
+        real(prec) :: initial_volume                !< Tracer initial volume (m3)
         real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
         real(prec) :: T90                           !< T90 mortality of the coliforms (seconds)
@@ -74,7 +75,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 22
+    getNumVars = 23
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -108,6 +109,7 @@
     getStateArray(20) = self%mnow%sw_percentage
     getStateArray(21) = self%mnow%sw_extinction_coef
     getStateArray(22) = self%mnow%concentration
+    getStateArray(23) = self%mnow%initial_volume
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -141,6 +143,7 @@
     self%mnow%sw_percentage = StateArray(20)
     self%mnow%sw_extinction_coef = StateArray(21)
     self%mnow%concentration = StateArray(22)
+    self%mnow%initial_volume = StateArray(23)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -215,6 +218,18 @@
         constructor%mnow%sw_extinction_coef = src%prop%propValue(idx)
     end if
     
+    tag = 'initial_volume'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%initial_volume = src%prop%propValue(idx)
+    end if
+    
+    tag = 'concentration'
+    idx = Utils%find_str(src%prop%propName, tag, .false.)
+    if (idx /= MV_INT) then
+        constructor%mnow%concentration = src%prop%propValue(idx)
+    end if
+    
     if (constructor%mpar%particulate) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
@@ -232,6 +247,7 @@
     constructor%varName(20) = 'sw_percentage'
     constructor%varName(21) = 'sw_extinction_coef'
     constructor%varName(22) = 'concentration'
+    constructor%varName(23) = 'initial_volume'
     
     end function constructor
 
