@@ -145,6 +145,8 @@ def run():
                         print('--> reading file', ifile)
                         ncMeta.append(ncMetaParser.ncMetadata(ifile, StartTime))
                 ncMeta.sort(key=lambda x: x.startTime)
+                # Going throug all the files and check the time axis integrity.
+                ncMetaParser.ncDimParser.checkTime(ncMeta)
                 indexer.openCollection(inputType[i])
                 print('--> indexing',inputType[i],'data')
                 for ncfile in ncMeta:

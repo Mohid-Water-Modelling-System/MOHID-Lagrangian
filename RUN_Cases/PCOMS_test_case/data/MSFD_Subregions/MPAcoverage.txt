@@ -1,0 +1,11 @@
+OBJECTID	Region	Subregion	Tot_prc_cov	prc_cov_0to1	prc_cov_1to12	prc_cov_12toEND
+1	North-east Atlantic Ocean	Bay of Biscay and the Iberian Coast	3.226181	48.888563	15.771761	1.726038
+2	North-east Atlantic Ocean	Macaronesia	0.7842	27.991605	4.015803	0.610416
+3	Baltic Sea	Baltic Sea	13.535356	36.14367	16.352787	3.868909
+4	Mediterranean Sea	Western Mediterranean Sea	15.634603	60.375873	29.58007	10.143492
+5	Mediterranean Sea	Ionian Sea and the Central Mediterranean Sea	1.614756	30.462944	2.700035	0
+6	Black Sea	Black Sea	4.479794	77.948845	19.281371	0
+7	Mediterranean Sea	Adriatic Sea	2.032419	17.028359	1.356103	0
+8	Mediterranean Sea	Aegean-Levantine Sea	2.598814	14.22944	2.436806	0
+9	North-east Atlantic Ocean	Greater North Sea, incl. the Kattegat and the English Channel	17.942061	63.434705	32.380671	11.243125
+10	North-east Atlantic Ocean	Celtic Seas	4.416465	47.468587	8.895222	2.322802

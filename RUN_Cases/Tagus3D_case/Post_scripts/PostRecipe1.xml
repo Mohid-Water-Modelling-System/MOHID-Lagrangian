@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <postProcessing>
-	<EulerianMeasures>	
+	<time>
+		<start value= "2019 06 27 00 00 00" />
+		<end value  = "2019 06 28 00 00 00" />
+	</time>	
+	<EulerianMeasures>
 		<measures>
-			<field key="residence_time"/>
+			<field key = "concentrations"/>
 			<filters>
 				<filter key = "beaching" value= "1" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
 			</filters>
 		</measures>
 		<gridDefinition>
-			<units value="relative" comments="relative, meters, degrees"/>
-			<resolution x="200" y="200" z="5"/>
+			<units value= "relative" comments="relative, meters, degrees"/>
+			<resolution x="100" y="100" z="1"/>
 		</gridDefinition>
 	</EulerianMeasures>
-	<time>
-		<start value= "2019 06 27 00 00 00" />
-		<end value  = "2019 06 28 00 00 00" />
-	</time>
+    <plot>
+        <time key="resample"  value='W' comments='season, month, year'/>
+        <measure key='cumsum' comments='any implicit method, mean, std, diff, cumsum'/>
+        <measure key='mean' comments='any implicit method, mean, std, diff, cumsum'/>
+        <type value='imshow' comments='contour,contourf,pcolormesh,imshow'/> 
+    </plot>
 </postProcessing>

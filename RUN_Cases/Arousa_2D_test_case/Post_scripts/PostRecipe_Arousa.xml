@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <postProcessing>
+    <time>
+        <step value="1" />
+    </time>
 	<EulerianMeasures>
 		<measures>
-			<field key = "velocity"/>
+			<field key = "concentrations"/>
 			<filters>
-				<filter key = "beaching" value= "1" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
+				<filter key = "beaching" value= "0" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
 			</filters>
 		</measures>
 		<gridDefinition>
@@ -12,4 +15,11 @@
 			<resolution x="100" y="100" z="1"/>
 		</gridDefinition>
 	</EulerianMeasures>	
+    <plot>
+        <time key="groupby" value="time.hour" comments='key: group, value: time.season, time.month, time.year. Resample: ' />
+        <weight file='Post_scripts/weights.csv' comments='Weights data by a source value'/>
+        <measure key="diff" comments="xarray dataset time-dime functions: diff, cumsum"/>
+        <measure key="mean" comments="xarray implicit time-collapsing operator: mean, std, diff, cumsum"/>
+        <type value="contourf" comments="Type of graphic to plot: contour, contourf, pcolormesh, imshow"/> 
+    </plot>
 </postProcessing>

@@ -98,6 +98,8 @@
     procedure :: Reynolds
     procedure :: DragCoefficient
     procedure :: SphericalShapeFactor
+    procedure :: Divergence
+    procedure :: Resuspension
     end type kernelVerticalMotion_class
 
     public :: kernelVerticalMotion_class
@@ -123,15 +125,23 @@
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
     real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
+    real(prec), dimension(2) :: maxLevel
     real(prec) :: P = 1013.
 
     type(string) :: tag
     logical :: ViscoDensFields = .false.
+
+    Buoyancy = 0.0
+    
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
+
+    !maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+    !if (maxLevel(2) /= MV) then
+    !    return
+    !end if
     
-    Buoyancy = 0.0
     !interpolate each background
     !Compute buoyancy using state equation for temperature and viscosity
     do bkg = 1, size(bdata)
@@ -184,8 +194,8 @@
                 where (reynoldsNumber /=0.)
                     Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
                 endwhere
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
                 ViscoDensFields = .true.
             end if
         end if
@@ -194,6 +204,24 @@
     !I there is no salt and temperatue Compute buoyancy using constant density and temp
     ! and standardad terminal velocity
     if (.not. ViscoDensFields) then
+
+        ! Check if your domain data has depth level to move in vertical motion.
+        requiredVars(1)=Globals%var%u
+        requiredVars(2)=Globals%var%v
+        do bkg = 1, size(bdata)
+            if (bdata(bkg)%initialized) then
+                if (bdata(bkg)%hasVars(requiredVars)) then
+                    maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                    if (maxLevel(2) == MV) then
+                        return
+                    end if
+                end if
+            end if
+        end do
+
+        ! interpolate each background
+        ! Compute buoyancy using state equation for temperature and viscosity
+
         kVisco = Globals%Constants%MeanKvisco
         fDensity = Globals%Constants%MeanDensity
         tag = 'radius'
@@ -208,6 +236,7 @@
         where(fDensity-sv%state(:,rhoIdx) >= 0)
             signZ = 1.0
         endwhere
+       
         ! Boundary density values could be 0. This avoid underdumped values on density. 
         ! Just density relation of 90 % related to mean water density are allowed.
         densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))          
@@ -300,6 +329,7 @@
     pi = 4.*atan(1.)
     SphericalShapeFactor = (6.*volume/pi)**(1./3.)/sqrt(4.*area/pi)
     end function SphericalShapeFactor
+
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -320,10 +350,14 @@
     type(string), dimension(:), allocatable :: requiredVars
     
     CorrectVerticalBounds = svDt
+    
+    ! if vertical dvdt is 0, don't correct
+    if (all(CorrectVerticalBounds(:,3) == 0.)) then
+        return
+    end if
 
     allocate(requiredVars(1))
     requiredVars(1) = Globals%Var%bathymetry
-
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
@@ -340,14 +374,77 @@
                 !update minium vertical position
                 nf = Utils%find_str(var_name, Globals%Var%bathymetry)
                 where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,nf)) CorrectVerticalBounds(:,3) = ((var_dt(:,nf)-sv%state(:,3))/dt)*0.99
-                deallocate(var_dt)
                 deallocate(var_name)
+                deallocate(var_dt)
             end if
         end if
     end do
 
     end function CorrectVerticalBounds
 
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - MARETEC
+    !> @brief
+    !> Resuspend particles based on horizontal velocity module motion. 
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function Resuspension(self, sv, bdata, time)
+    class(kernelVerticalMotion_class), intent(inout) :: self
+    type(stateVector_class), intent(in) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
+    integer :: np, nf, bkg, nf_u, nf_v, nf_lim
+    real(prec) :: maxLevel(2), landIntThreshold
+    real(prec), dimension(:,:), allocatable :: var_dt
+    real(prec), dimension(size(sv%state,1)) :: velocity_mod
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    
+    Resuspension = 0.0
+    landIntThreshold = -0.75
+
+    if (Globals%Constants%ResuspensionCoeff > 0.0) then
+
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%u
+        requiredVars(2) = Globals%Var%v
+        requiredVars(3) = Globals%Var%landIntMask
+
+        !interpolate each background
+        do bkg = 1, size(bdata)
+            if (bdata(bkg)%initialized) then
+                if(bdata(bkg)%hasVars(requiredVars)) then
+                    maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                    if (maxLevel(2) == MV) then
+                        return ! if it is 2 dimensional data, return
+                    else if (maxLevel(2) /= MV) then
+                        np = size(sv%active) !number of Tracers
+                        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+                        allocate(var_dt(np,nf))
+                        allocate(var_name(nf))
+                        !interpolating all of the data
+                        call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+                        nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+                        nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+                        nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
+                        ! compute velocity modulus.
+                        velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
+                        ! Resuspension apply if level data has more than 1 dimension.
+                        ! Resuspension apply based on threshold.
+                        ! Tracer jumps in the w equals to horizontal velocity.
+                        where (var_dt(:,nf_lim) < landIntThreshold)  Resuspension(:,3) = Globals%Constants%ResuspensionCoeff*velocity_mod
+                        deallocate(var_name)
+                        deallocate(var_dt) 
+                    end if
+                end if
+            end if
+        end do
+    end if
+    
+    end function Resuspension
+    
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
@@ -457,5 +554,92 @@
         absoluteSeaWaterViscosity = Globals%Constants%MeanKvisco
     end where
     end function absoluteSeaWaterViscosity
+
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> WIP: Divergence Kernel, estimate the vertical velocity based on divergence.
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    function Divergence(self, sv, bdata, time)
+        class(kernelVerticalMotion_class), intent(inout) :: self
+        type(stateVector_class), intent(inout) :: sv
+        type(stateVector_class) :: x0, x1, y0, y1
+        type(background_class), dimension(:), intent(in) :: bdata
+        real(prec), intent(in) :: time 
+        real(prec) :: dr = 0.01
+        integer :: np, nf, bkg, i
+        real(prec), dimension(:,:), allocatable :: v1,v0,u1,u0, var_dt
+        type(string), dimension(:), allocatable :: var_name
+        type(string), dimension(:), allocatable :: requiredVars
+
+        real(prec), dimension(size(sv%state,1)) :: Divergence, resolution
+        real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: uv_x0, uv_x1, uv_y0, uv_y1
+        real(prec), dimension(size(sv%state,1)) :: u_x0, u_x1, v_y0, v_y1, dx,dy
+        
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%u
+        requiredVars(2) = Globals%Var%v
+        requiredVars(3) = Globals%Var%resolution
+
+        Divergence = 0.
+
+        ! Creating points to compute derivative.
+        call sv%copyState(x0)
+        call sv%copyState(x1)
+        call sv%copyState(y0)
+        call sv%copyState(y1)
+
+        ! interpolate each background
+        do bkg = 1, size(bdata)
+            if (bdata(bkg)%initialized) then
+                if(bdata(bkg)%hasVars(requiredVars)) then
+                    np = size(sv%active)             ! number of Tracers
+                    nf = bdata(bkg)%fields%getSize() ! number of fields to interpolate
+                    allocate(var_name(nf))
+                    allocate(var_dt(np,nf))
+
+                    call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+                    
+                    nf = Utils%find_str(var_name, Globals%Var%resolution, .true.)
+                    resolution = var_dt(:,nf)
+                    !if we are still in the same path, use the same random velocity, do nothing
+                    !if we ran the path, new random velocities are generated and placed
+  
+                    dx = Utils%m2geo(resolution, sv%state(:,2), .false.)
+                    dy = Utils%m2geo(resolution, sv%state(:,2), .true.)
+
+                    x0%state(:,1) = x0%state(:,1) - dx
+                    x1%state(:,1) = x1%state(:,1) + dx
+                    y0%state(:,2) = y0%state(:,2) - dy
+                    y1%state(:,2) = y1%state(:,2) + dy
+            
+                    call self%Interpolator%run(x0%state, bdata(bkg), time, uv_x0, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+                    u_x0 = Utils%m2geo(uv_x0(:,nf), y0%state(:,2), .false.)
+
+                    call self%Interpolator%run(x1%state, bdata(bkg), time, uv_x1, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+                    u_x1 = Utils%m2geo(uv_x1(:,nf), y1%state(:,2), .false.)
+
+                    call self%Interpolator%run(y0%state, bdata(bkg), time, uv_y0, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+                    v_y0 = Utils%m2geo(uv_y0(:,nf), y0%state(:,2), .true.)
+
+                    call self%Interpolator%run(y1%state, bdata(bkg), time, uv_y1, var_name)
+                    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+                    v_y1 = Utils%m2geo(uv_y1(:,nf), y1%state(:,2), .true.)
+
+                    deallocate(var_dt)
+                    deallocate(var_name)
+                end if
+            end if
+        end do
+        
+        Divergence = -((u_x1-u_x0)/(2.*dr) + (v_y1-v_y0)/(2.*dr))
+
+    end function Divergence
+     
 
     end module kernelVerticalMotion_mod

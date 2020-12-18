@@ -20,7 +20,8 @@
 			<resolution dp="150" units_comment="metres (m)"/>
 			<timestep dt="360.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
-			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>
+			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>	
+       		<VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
 		</simulation>
 		<sourceDefinitions>
 			<source>
@@ -39,20 +40,20 @@
 				<rate_dt value="1000" comment="number of timesteps / emission. 1 is every timestep, 5 is every 5 timesteps" />
 				<active start="0" end="end" comment="example: start='12.7' end='end'; start='0.0' end='95' " units_comment="seconds (s)" />
 				<polygon>
-					<file name="source_box2.kmz"/>
+					<file name="data/source_box2.kmz"/>
 					<verticalBoundingBox min="-30.0" max="0.0"/>
 				</polygon>
 			</source>
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-				<type source="18" type='paper' property="cardboard_1" comment="" />
+				<type source="18" type="base" property="" comment="" />
 			</types>
 			<file name="materialTypes.xml"/>
-		</sourceTypes>
+		</sourceTypes>		
 		<constants>
 			<BeachingLevel value="-5.0" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />
-			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />	
+			<DiffusionCoeff value="0.75" comment="Horizontal diffusion coefficient. Default = 1.0" units_comment="m2/s" />
 		</constants>
 	</caseDefinitions>
 </case>

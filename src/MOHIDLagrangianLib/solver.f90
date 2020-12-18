@@ -166,10 +166,11 @@
         sv(i)%state = sv(i)%state + (k1 + 2.0*k2 + 2.0*k3 + k4)/6.0
         !deallocating
         call intSv%finalize()
-        deallocate(k1)
-        deallocate(k2)
-        deallocate(k3)
         deallocate(k4)
+        deallocate(k3)
+        deallocate(k2)
+        deallocate(k1)
+        
     end do
 
     end subroutine runStepRK4

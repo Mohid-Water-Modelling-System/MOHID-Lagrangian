@@ -1,6 +1,8 @@
 @echo off
 cls
 
+call activate MOHID-Lagrangian
+
 rem "name" and "dirout" are named according to the case
 
 set name=Arousa2D_case
@@ -25,12 +27,12 @@ copy %name%.xml %dirout%
 
 rem CODES are executed according the selected parameters of execution in this case
 
-python %PreProcessor% -i %dirout%/%name%.xml -o %dirout%
+call python %PreProcessor% -i %dirout%/%name%.xml -o %dirout%
 
 %mohidlagrangian% -i %dirout%/%name%.xml -o %dirout%
 if not "%ERRORLEVEL%" == "0" goto fail
 
-python -W ignore %postProcessor% -i %name%.xml -o %dirout%
+call python -W ignore %postProcessor% -i %name%.xml -o %dirout%
 
 :success
 echo All done

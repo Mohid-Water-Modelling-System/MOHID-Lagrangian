@@ -143,11 +143,11 @@
 
                     error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
                     error = vtkfile%xml_writer%write_piece()
-                    deallocate(active)
-                    deallocate(fillValue)
-                    deallocate(connect)
-                    deallocate(offset)
                     deallocate(cell_type)
+                    deallocate(offset)
+                    deallocate(connect)
+                    deallocate(fillValue)
+                    deallocate(active)
                 end do
             end if
         end do
@@ -171,10 +171,10 @@
         error = vtkfile%xml_writer%write_dataarray(data_name='source', x=Globals%Sources%sourcesID)
         error = vtkfile%xml_writer%write_dataarray(location='node', action='close')
         error = vtkfile%xml_writer%write_piece()
-        deallocate(ghostNode)        
-        deallocate(connect)
-        deallocate(offset)
+        deallocate(ghostNode)     
         deallocate(cell_type)
+        deallocate(offset)
+        deallocate(connect)
     end if
     error = vtkfile%finalize()
     self%numVtkFiles = self%numVtkFiles + 1
