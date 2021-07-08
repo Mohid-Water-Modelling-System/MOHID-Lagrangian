@@ -22,5 +22,6 @@ module tracers_mod
     use tracerUser_mod     ! User defined type
     use tracerPlastic_mod  ! Plastic particles
     use tracerPaper_mod    ! Paper particles
+	use traceroil_mod      ! Oil particles
 
 end module tracers_mod

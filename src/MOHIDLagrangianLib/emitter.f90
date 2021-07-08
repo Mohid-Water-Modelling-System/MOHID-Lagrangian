@@ -146,7 +146,9 @@
         allocate(trc, source = paperTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
     case ('plastic')
         allocate(trc, source = plasticTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
-        case default
+    case ('oil')
+        allocate(trc, source = oilTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))    
+		case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%propertyType
         call Log%put(outext)
         stop

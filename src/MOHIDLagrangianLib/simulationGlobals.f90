@@ -202,6 +202,7 @@
         integer :: paper   = 1
         integer :: plastic = 2
         integer :: coliform = 3
+		integer :: oil = 4
     contains
     end type tracerTypes_t
 
