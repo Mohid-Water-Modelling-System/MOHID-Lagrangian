@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<materials>
+	<oil>
+		<Heavy>
+			<particulate value="false" />
+			<density value="950.0" />
+			<radius value="0.02" />
+			<volume value="0.0004" />
+			<area value="0.04" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.00000000158" />
+			<property key="API" value="13" />
+			<property key="VISCREF" value="3603" />
+			<property key="OWINTERFACIALTENSION" value="20" />
+			<property key="POURPOINT" value="-30" />
+			<property key="RESINCONTENT" value="-999" />
+			<property key="ASPHALTENECONTENT" value="-999" />
+			<property key="SATURATECONTENT" value="-999" />
+			<property key="WAXCONTENT" value="0" />
+			<property key="MAXVWATERCONTENT" value="80" />
+			<property key="EMULSPARAMETER" value="0" />
+			<property key="OILTYPE" value="0" />
+		</Heavy>
+		
+		<Medium>
+			<particulate value="false" />
+			<density value="950.0" />
+			<radius value="0.02" />
+			<volume value="0.0004" />
+			<area value="0.04" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.00000000158" />
+			<property key="API" value="30" />
+			<property key="VISCREF" value="39" />
+			<property key="OWINTERFACIALTENSION" value="20" />
+			<property key="POURPOINT" value="-30" />
+			<property key="RESINCONTENT" value="-999" />
+			<property key="ASPHALTENECONTENT" value="-999" />
+			<property key="SATURATECONTENT" value="-999" />
+			<property key="WAXCONTENT" value="0" />
+			<property key="MAXVWATERCONTENT" value="70" />
+			<property key="EMULSPARAMETER" value="0" />
+			<property key="OILTYPE" value="0" />
+		</Medium>
+		
+		<Light>
+			<particulate value="false" />
+			<density value="950.0" />
+			<radius value="0.02" />
+			<volume value="0.0004" />
+			<area value="0.04" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.00000000158" />
+			<property key="API" value="40" />
+			<property key="VISCREF" value="8" />
+			<property key="OWINTERFACIALTENSION" value="26" />
+			<property key="POURPOINT" value="-30" />
+			<property key="RESINCONTENT" value="-999" />
+			<property key="ASPHALTENECONTENT" value="-999" />
+			<property key="SATURATECONTENT" value="-999" />
+			<property key="WAXCONTENT" value="0" />
+			<property key="MAXVWATERCONTENT" value="30" />
+			<property key="EMULSPARAMETER" value="0" />
+			<property key="OILTYPE" value="0" />
+		</Light>
+		
+		<Very_Light>
+			<particulate value="false" />
+			<density value="950.0" />
+			<radius value="0.02" />
+			<volume value="0.0004" />
+			<area value="0.04" />
+			<property key="condition" value="0.95" />
+			<property key="degradation_rate" value="0.00000000158" />
+			<property key="API" value="50" />
+			<property key="VISCREF" value="2" />
+			<property key="OWINTERFACIALTENSION" value="26" />
+			<property key="POURPOINT" value="-30" />
+			<property key="RESINCONTENT" value="-999" />
+			<property key="ASPHALTENECONTENT" value="-999" />
+			<property key="SATURATECONTENT" value="-999" />
+			<property key="WAXCONTENT" value="0" />
+			<property key="MAXVWATERCONTENT" value="0" />
+			<property key="EMULSPARAMETER" value="0" />
+			<property key="OILTYPE" value="0" />
+		</Very_Light>
+		
+	</oil>
+</materials>

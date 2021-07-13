@@ -17,7 +17,7 @@
 	</execution>
 	<caseDefinitions>
 		<inputData>
-			<inputDataDir name="hydrodynamic_input_data" type="hydrodynamic"/>
+			<inputDataDir name="../PCOMS_test_case/hydrodynamic_input_data" type="hydrodynamic"/>
 		</inputData>
 		<simulation>
 			<resolution dp="50" units_comment="metres (m)"/>
@@ -38,9 +38,9 @@
 		</sourceDefinitions>
 		<sourceTypes>
 			<types>
-                <type source="1" type="oil" property="oil_1" comment="" />
+                <type source="1" type="oil" property="Heavy" comment="" />
 			</types>
-			<file name="materialTypes.xml"/>
+			<file name="oilTypes.xml"/>
 		</sourceTypes>
 		<constants>
 			<BeachingLevel value="-3.5" comment="Level above which beaching can occur. Default = -3.0" units_comment="m" />			
