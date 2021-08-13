@@ -5,7 +5,7 @@ call activate MOHID-Lagrangian
 
 rem "name" and "dirout" are named according to the case
 
-set name=PCOMS_test_case
+set name=PCOMS_port_spill
 set dirout=%name%_out
 
 rem "executables" are renamed and called from their directory

@@ -7,7 +7,7 @@ eval "$(conda shell.bash hook)"
 conda activate MOHID-Lagrangian
 
 # "name" and "dirout" are named according to the testcase
-name=PCOMS_test_case
+name=PCOMS_port_spill
 dirout=${name}_out
 
 # "executables" are renamed and called from their directory
