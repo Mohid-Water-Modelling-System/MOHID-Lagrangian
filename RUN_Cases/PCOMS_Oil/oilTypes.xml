@@ -20,8 +20,7 @@
 			<property key="MAXVWATERCONTENT" value="80" />
 			<property key="EMULSPARAMETER" value="0" />
 			<property key="OILTYPE" value="0" />
-		</Heavy>
-		
+		</Heavy>		
 		<Medium>
 			<particulate value="false" />
 			<density value="950.0" />
@@ -41,8 +40,7 @@
 			<property key="MAXVWATERCONTENT" value="70" />
 			<property key="EMULSPARAMETER" value="0" />
 			<property key="OILTYPE" value="0" />
-		</Medium>
-		
+		</Medium>		
 		<Light>
 			<particulate value="false" />
 			<density value="950.0" />
@@ -62,8 +60,7 @@
 			<property key="MAXVWATERCONTENT" value="30" />
 			<property key="EMULSPARAMETER" value="0" />
 			<property key="OILTYPE" value="0" />
-		</Light>
-		
+		</Light>		
 		<Very_Light>
 			<particulate value="false" />
 			<density value="950.0" />
@@ -83,7 +80,6 @@
 			<property key="MAXVWATERCONTENT" value="0" />
 			<property key="EMULSPARAMETER" value="0" />
 			<property key="OILTYPE" value="0" />
-		</Very_Light>
-		
+		</Very_Light>		
 	</oil>
 </materials>
