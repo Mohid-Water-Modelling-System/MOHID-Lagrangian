@@ -148,8 +148,8 @@
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
                 !marking tracers for deletion because they are in land
-                if (globals%simdefs%removelandtracer == 1) then
-                     where(int(sv%landintmask + globals%mask%landval*0.05) == globals%mask%landval) sv%active = .false.
+                if (Globals%simdefs%removelandtracer == 1) then
+                     where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
                 end if
                 !update resolution proxy
                 nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
@@ -207,41 +207,6 @@
     
     deallocate(var_dt)
     deallocate(var_name)
-            
-    !LagrangianKinematic = 0.0
-    !!!interpolate each background
-    !do bkg = 1, size(bdata)
-    !    if (bdata(bkg)%initialized) then
-    !        if(bdata(bkg)%hasVars(requiredVars)) then
-    !            np = size(sv%active) !number of Tracers
-    !            nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-    !            allocate(var_dt(np,nf))
-    !            allocate(var_name(nf))
-    !            !interpolating all of the data
-    !            call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-    !            !write dx/dt
-    !            nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    !            LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
-    !            sv%state(:,4) = var_dt(:,nf)
-    !            nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !            LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
-    !            sv%state(:,5) = var_dt(:,nf)
-    !            nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-    !            if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
-    !                LagrangianKinematic(:,3) = var_dt(:, nf)
-    !                sv%state(:,6) = var_dt(:, nf)
-    !            else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
-    !                LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
-    !                sv%state(:,6) = LagrangianKinematic(:,3)
-    !            else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
-    !                LagrangianKinematic(:,3) = 0.0
-    !                sv%state(:,6) = 0.0
-    !            end if
-    !            deallocate(var_dt)
-    !            deallocate(var_name)
-    !        end if
-    !    end if
-    !end do
 
     end function LagrangianKinematic
 
