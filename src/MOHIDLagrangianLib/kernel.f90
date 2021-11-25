@@ -71,12 +71,14 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
+    integer :: thredd_ID
 
     !running preparations for kernel lanch
     call self%setCommonProcesses(sv, bdata, time)
 
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
+        
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv)
@@ -179,13 +181,14 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
-
+    integer :: thredd_ID
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
     
+    !$OMP CRITICAL (UNNAMED)
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-    
+    !$OMP END CRITICAL (UNNAMED)
     LagrangianKinematic = 0.0
     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
     LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
@@ -204,7 +207,6 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
-    
     deallocate(var_dt)
     deallocate(var_name)
 
@@ -228,11 +230,10 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
     real(prec), dimension(size(sv%state,1)) :: depth
-
+    integer :: thredd_ID
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%vsdx
     requiredVars(2) = Globals%Var%vsdy
-
     waveCoeff = 0.01
     StokesDrift = 0.0
     !interpolate each background
@@ -280,11 +281,10 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
     real(prec), dimension(size(sv%state,1)) :: depth
-
+    integer :: thredd_ID
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u10
     requiredVars(2) = Globals%Var%v10
-
     windCoeff = 0.03
     Windage = 0.0
     !interpolate each background
@@ -311,7 +311,6 @@
             end if
         end if
     end do
-
     end function Windage
 
     !---------------------------------------------------------------------------
@@ -376,7 +375,7 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Aging
     integer :: nf
     type(string) :: tag
-
+    integer :: thredd_ID
     Aging = 0.0
     tag = 'age'
     nf = Utils%find_str(sv%varName, tag, .true.)
@@ -408,12 +407,11 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
     real(prec), dimension(:), allocatable :: resolution
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
-
+    integer :: thredd_ID
     allocate(requiredVars(1))
     requiredVars(1) = Globals%Var%resolution
 
     DiffusionMixingLength = 0.0
-
     if (Globals%Constants%DiffusionCoeff == 0.0) return
 
     !interpolate each background
