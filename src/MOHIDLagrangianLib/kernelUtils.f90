@@ -52,7 +52,7 @@
     integer :: np, nf, bkg, i, j
     type(varBackground_t), dimension(:), allocatable :: bkgToInterpolate
     type(string), allocatable, dimension(:) :: currList
-
+    
     call self%getBackgroundDictIntersection(requiredVars, bkgToInterpolate)
     
     localjustRequired = .false.
@@ -96,16 +96,20 @@
     subroutine getBackgroundDictIntersection(self, reqVars, bkgVarsIntersect)
     class(kernelUtils_class), intent(inout) :: self
     type(string), dimension(:), intent(in) :: reqVars
-    type(varBackground_t), dimension(:), allocatable, intent(inout) :: bkgVarsIntersect
+    type(varBackground_t), dimension(:), allocatable, intent(out) :: bkgVarsIntersect
     integer, dimension(:), allocatable :: bkgVarsIntersectNumber
     integer :: i, j, k
+    !To compensate for openMP bug :)
+    type(varBackground_t), dimension(:), allocatable :: localBackgroundVarDict
     
+    allocate(localBackgroundVarDict(size(Globals%BackgroundVarDict%bkgDict)), source=Globals%BackgroundVarDict%bkgDict)
+     
     allocate(bkgVarsIntersectNumber(size(Globals%BackgroundVarDict%bkgDict)))
     bkgVarsIntersectNumber = 0
-        
-    do i=1, size(Globals%BackgroundVarDict%bkgDict)
+    
+    do i=1, size(localBackgroundVarDict)
         do j=1, size(reqVars)
-            if (.not.Globals%BackgroundVarDict%bkgDict(i)%bkgVars%notRepeated(reqVars(j))) then
+            if (.not.localBackgroundVarDict(i)%bkgVars%notRepeated(reqVars(j))) then
                 bkgVarsIntersectNumber(i) = bkgVarsIntersectNumber(i) + 1
             end if
         end do
@@ -117,12 +121,12 @@
             i = i+1
         end if
     end do
-    
+
     allocate(bkgVarsIntersect(i))
     k = 1
-    do i=1, size(Globals%BackgroundVarDict%bkgDict)
+    do i=1, size(localBackgroundVarDict)
         do j=1, size(reqVars)
-            if (.not.Globals%BackgroundVarDict%bkgDict(i)%bkgVars%notRepeated(reqVars(j))) then
+            if (.not.localBackgroundVarDict(i)%bkgVars%notRepeated(reqVars(j))) then
                 bkgVarsIntersect(k)%bkgIndex = i
                 if (bkgVarsIntersect(k)%bkgVars%notRepeated(reqVars(j))) then
                     call bkgVarsIntersect(k)%bkgVars%add(reqVars(j))
@@ -133,7 +137,6 @@
             end if
         end do
     end do    
-    
     end subroutine getBackgroundDictIntersection
 
     !---------------------------------------------------------------------------

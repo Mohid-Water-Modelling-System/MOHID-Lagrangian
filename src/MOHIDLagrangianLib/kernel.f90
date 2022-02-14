@@ -71,7 +71,6 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
-    integer :: thredd_ID
 
     !running preparations for kernel lanch
     call self%setCommonProcesses(sv, bdata, time)
@@ -181,14 +180,13 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
-    integer :: thredd_ID
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
     
-    !$OMP CRITICAL (UNNAMED)
+    !!$OMP CRITICAL (UNNAMED)
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-    !$OMP END CRITICAL (UNNAMED)
+    !!$OMP END CRITICAL (UNNAMED)
     LagrangianKinematic = 0.0
     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
     LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
@@ -230,7 +228,6 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
     real(prec), dimension(size(sv%state,1)) :: depth
-    integer :: thredd_ID
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%vsdx
     requiredVars(2) = Globals%Var%vsdy
@@ -281,7 +278,6 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
     real(prec), dimension(size(sv%state,1)) :: depth
-    integer :: thredd_ID
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u10
     requiredVars(2) = Globals%Var%v10
@@ -375,7 +371,6 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Aging
     integer :: nf
     type(string) :: tag
-    integer :: thredd_ID
     Aging = 0.0
     tag = 'age'
     nf = Utils%find_str(sv%varName, tag, .true.)
@@ -407,7 +402,6 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
     real(prec), dimension(:), allocatable :: resolution
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
-    integer :: thredd_ID
     allocate(requiredVars(1))
     requiredVars(1) = Globals%Var%resolution
 
