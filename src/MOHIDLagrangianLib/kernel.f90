@@ -28,9 +28,11 @@
     use stateVector_mod
     use background_mod
     use interpolator_mod
-
+    use kernelUtils_mod
+    
     use kernelLitter_mod
     use kernelVerticalMotion_mod
+    use kernelColiform_mod
 
     type :: kernel_class        !< Kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
@@ -45,10 +47,13 @@
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
+    !procedure, private :: Dilution
     end type kernel_class
 
     type(kernelLitter_class) :: Litter       !< litter kernels
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
+    type(kernelColiform_class) :: Coliform !< coliform kernels
+    type(kernelUtils_class) :: KernelUtils   !< kernel utils
  
     public :: kernel_class
     contains
@@ -72,6 +77,7 @@
 
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
+        
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv)
@@ -87,6 +93,11 @@
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
                     VerticalMotion%Resuspension(sv, bdata, time)
+        runKernel = self%Beaching(sv, runKernel)
+    else if (sv%ttype == Globals%Types%coliform) then
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%DiffusionMixingLength(sv, bdata, time, dt) + &
+                    self%Aging(sv) + coliform%MortalityT90(sv, bdata, time) + coliform%Dilution(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
     end if
     
@@ -138,8 +149,8 @@
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
                 !marking tracers for deletion because they are in land
-                if (Globals%SimDefs%RemoveLandTracer == 1) then
-                     where(int(sv%landIntMask + Globals%Mask%landVal*0.05) == Globals%Mask%landVal) sv%active = .false.
+                if (Globals%simdefs%removelandtracer == 1) then
+                     where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
                 end if
                 !update resolution proxy
                 nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
@@ -169,45 +180,33 @@
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
-
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
-
+    
+    !!$OMP CRITICAL (UNNAMED)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    !!$OMP END CRITICAL (UNNAMED)
     LagrangianKinematic = 0.0
-    !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name)
-                !write dx/dt
-                nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-                LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
-                sv%state(:,4) = var_dt(:,nf)
-                nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-                LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
-                sv%state(:,5) = var_dt(:,nf)
-                nf = Utils%find_str(var_name, Globals%Var%w, .false.)
-                if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
-                    LagrangianKinematic(:,3) = var_dt(:, nf)
-                    sv%state(:,6) = var_dt(:, nf)
-                else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
-                    LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
-                    sv%state(:,6) = LagrangianKinematic(:,3)
-                else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
-                    LagrangianKinematic(:,3) = 0.0
-                    sv%state(:,6) = 0.0
-                end if
-                deallocate(var_dt)
-                deallocate(var_name)
-            end if
-        end if
-    end do
+    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
+    LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
+    sv%state(:,4) = var_dt(:,nf)
+    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
+    LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
+    sv%state(:,5) = var_dt(:,nf)
+    nf = Utils%find_str(var_name, Globals%Var%w, .false.)
+    if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
+        LagrangianKinematic(:,3) = var_dt(:, nf)
+        sv%state(:,6) = var_dt(:, nf)
+    else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
+        LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
+        sv%state(:,6) = LagrangianKinematic(:,3)
+    else if ((nf == MV_INT) .or. (Globals%SimDefs%VerticalVelMethod == 3)) then
+        LagrangianKinematic(:,3) = 0.0
+        sv%state(:,6) = 0.0
+    end if
+    deallocate(var_dt)
+    deallocate(var_name)
 
     end function LagrangianKinematic
 
@@ -229,11 +228,9 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: StokesDrift
     real(prec), dimension(size(sv%state,1)) :: depth
-
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%vsdx
     requiredVars(2) = Globals%Var%vsdy
-
     waveCoeff = 0.01
     StokesDrift = 0.0
     !interpolate each background
@@ -281,11 +278,9 @@
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Windage
     real(prec), dimension(size(sv%state,1)) :: depth
-
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u10
     requiredVars(2) = Globals%Var%v10
-
     windCoeff = 0.03
     Windage = 0.0
     !interpolate each background
@@ -312,7 +307,6 @@
             end if
         end if
     end do
-
     end function Windage
 
     !---------------------------------------------------------------------------
@@ -377,7 +371,6 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Aging
     integer :: nf
     type(string) :: tag
-
     Aging = 0.0
     tag = 'age'
     nf = Utils%find_str(sv%varName, tag, .true.)
@@ -409,12 +402,10 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
     real(prec), dimension(:), allocatable :: resolution
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
-
     allocate(requiredVars(1))
     requiredVars(1) = Globals%Var%resolution
 
     DiffusionMixingLength = 0.0
-
     if (Globals%Constants%DiffusionCoeff == 0.0) return
 
     !interpolate each background
@@ -498,7 +489,7 @@
     where (sv%state(:,6) /= 0.0) DiffusionIsotropic(:,3) = (2.*rand_vel_w-1.)*sqrt(2.*Globals%Constants%DiffusionCoeff*0.0005/dt)
 
     end function DiffusionIsotropic
-
+    
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - GFNL
     !> @brief
@@ -508,10 +499,14 @@
     subroutine initKernel(self)
     class(kernel_class), intent(inout) :: self
     type(string) :: interpName
+    
     interpName = 'linear'
     call self%Interpolator%initialize(1,interpName)
     call Litter%initialize()
     call VerticalMotion%initialize()
+    
+    call KernelUtils%initialize() 
+    
     end subroutine initKernel
 
     end module kernel_mod
