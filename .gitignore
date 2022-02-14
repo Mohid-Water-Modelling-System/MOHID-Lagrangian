@@ -26,3 +26,7 @@ CMakeSettings.json
 .vs/MOHID-Lagrangian/v16/.suo
 .vs/cmake.db
 .vs/CMake Overview
+build/bin/RELEASE/MOHIDLagrangian.exe
+src/MOHIDLagrangianLib/kernel.f90
+src/MOHIDLagrangianLib/kernelColiforms.f90
+build/bin/RELEASE/MOHIDLagrangian.exe
