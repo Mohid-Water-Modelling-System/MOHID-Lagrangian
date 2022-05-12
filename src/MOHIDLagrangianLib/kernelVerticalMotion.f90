@@ -28,7 +28,7 @@
     use stateVector_mod
     use background_mod
     use interpolator_mod
-
+    use kernelUtils_mod
 
     !  density of seawater at zero pressure constants
     real(prec),parameter :: a0 = 999.842594
@@ -101,6 +101,8 @@
     procedure :: Divergence
     procedure :: Resuspension
     end type kernelVerticalMotion_class
+    
+    type(kernelUtils_class) :: KernelUtils_VerticalMotion   !< kernel utils
 
     public :: kernelVerticalMotion_class
 
@@ -373,6 +375,7 @@
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
                 !update minium vertical position
                 nf = Utils%find_str(var_name, Globals%Var%bathymetry)
+                !Dont let particles drop below bathymetric value. in this case, vertical displacement is forced to make the particle reach the bathymetric value*0.99
                 where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,nf)) CorrectVerticalBounds(:,3) = ((var_dt(:,nf)-sv%state(:,3))/dt)*0.99
                 deallocate(var_name)
                 deallocate(var_dt)
@@ -383,10 +386,71 @@
     end function CorrectVerticalBounds
 
 
-    !---------------------------------------------------------------------------
+    !!!---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - MARETEC
     !> @brief
     !> Resuspend particles based on horizontal velocity module motion. 
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    !function Resuspension(self, sv, bdata, time)
+    !class(kernelVerticalMotion_class), intent(inout) :: self
+    !type(stateVector_class), intent(in) :: sv
+    !type(background_class), dimension(:), intent(in) :: bdata
+    !real(prec), intent(in) :: time
+    !real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
+    !integer :: np, nf, bkg, nf_u, nf_v, nf_lim
+    !real(prec) :: maxLevel(2), landIntThreshold
+    !real(prec), dimension(:,:), allocatable :: var_dt
+    !real(prec), dimension(size(sv%state,1)) :: velocity_mod
+    !type(string), dimension(:), allocatable :: var_name
+    !type(string), dimension(:), allocatable :: requiredVars
+    !
+    !Resuspension = 0.0
+    !landIntThreshold = -0.75
+    !
+    !if (Globals%Constants%ResuspensionCoeff > 0.0) then
+    !
+    !    allocate(requiredVars(3))
+    !    requiredVars(1) = Globals%Var%u
+    !    requiredVars(2) = Globals%Var%v
+    !    requiredVars(3) = Globals%Var%landIntMask
+    !
+    !    !interpolate each background
+    !    do bkg = 1, size(bdata)
+    !        if (bdata(bkg)%initialized) then
+    !            if(bdata(bkg)%hasVars(requiredVars)) then
+    !                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+    !                if (maxLevel(2) == MV) then
+    !                    return ! if it is 2 dimensional data, return
+    !                else if (maxLevel(2) /= MV) then
+    !                    np = size(sv%active) !number of Tracers
+    !                    nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
+    !                    allocate(var_dt(np,nf))
+    !                    allocate(var_name(nf))
+    !                    !interpolating all of the data
+    !                    call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+    !                    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+    !                    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+    !                    nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
+    !                    ! compute velocity modulus.
+    !                    velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
+    !                    ! Resuspension apply if level data has more than 1 dimension.
+    !                    ! Resuspension apply based on threshold.
+    !                    ! Tracer jumps in the w equals to horizontal velocity.
+    !                    where (var_dt(:,nf_lim) < landIntThreshold)  Resuspension(:,3) = Globals%Constants%ResuspensionCoeff*velocity_mod
+    !                    deallocate(var_name)
+    !                    deallocate(var_dt) 
+    !                end if
+    !            end if
+    !        end if
+    !    end do
+    !end if
+    !
+    !end function Resuspension
+    
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Resuspend particles based on shear erosion calculated from horizontal velocity modulus. 
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
     function Resuspension(self, sv, bdata, time)
@@ -395,52 +459,94 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
-    integer :: np, nf, bkg, nf_u, nf_v, nf_lim
-    real(prec) :: maxLevel(2), landIntThreshold
+    integer :: nf, nf_u, nf_v, nf_lim, nf_temp, nf_sal, nf_dwz
+    real(prec) :: landIntThreshold
     real(prec), dimension(:,:), allocatable :: var_dt
-    real(prec), dimension(size(sv%state,1)) :: velocity_mod
+    real(prec), dimension(size(sv%state,1)) :: velocity_mod, shear_stress_currents, water_density, chezyZ, tension, dwz, bat
+    real(4), dimension(size(sv%state,1)) :: aux_r4
+    real(8), dimension(size(sv%state,1)) :: aux_r8
+    real(prec), dimension(size(sv%state,1)) :: tau, CDR, CDS
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
+    real(prec) :: P = 1013.
+    real(prec) :: EP = 1/3
+    real(prec) :: VonKarman = 0.4
+    real(prec) :: Hmin_Chezy = 0.1
+    real(prec) :: REC, REW, FWS, FWR, as, ar, T1, T2, T3, A1, A2, Z0
+    real(prec) ::  CDMS, CDMAXS, CDMR, CDMAXR
     
     Resuspension = 0.0
-    landIntThreshold = -0.75
-
+    landIntThreshold = -0.95
+    write(*,*)"Entrei no Resuspension"
     if (Globals%Constants%ResuspensionCoeff > 0.0) then
-
-        allocate(requiredVars(3))
-        requiredVars(1) = Globals%Var%u
-        requiredVars(2) = Globals%Var%v
-        requiredVars(3) = Globals%Var%landIntMask
-
-        !interpolate each background
-        do bkg = 1, size(bdata)
-            if (bdata(bkg)%initialized) then
-                if(bdata(bkg)%hasVars(requiredVars)) then
-                    maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-                    if (maxLevel(2) == MV) then
-                        return ! if it is 2 dimensional data, return
-                    else if (maxLevel(2) /= MV) then
-                        np = size(sv%active) !number of Tracers
-                        nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                        allocate(var_dt(np,nf))
-                        allocate(var_name(nf))
-                        !interpolating all of the data
-                        call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                        nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
-                        nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
-                        nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
-                        ! compute velocity modulus.
-                        velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
-                        ! Resuspension apply if level data has more than 1 dimension.
-                        ! Resuspension apply based on threshold.
-                        ! Tracer jumps in the w equals to horizontal velocity.
-                        where (var_dt(:,nf_lim) < landIntThreshold)  Resuspension(:,3) = Globals%Constants%ResuspensionCoeff*velocity_mod
-                        deallocate(var_name)
-                        deallocate(var_dt) 
-                    end if
-                end if
-            end if
+        write(*,*)"Entrei no Resuspension a serio"
+        allocate(requiredVars(6))
+        requiredVars(1) = Globals%Var%temp
+        requiredVars(2) = Globals%Var%sal
+        requiredVars(3) = Globals%Var%u
+        requiredVars(4) = Globals%Var%v
+        requiredVars(5) = Globals%Var%dwz
+        requiredVars(6) = Globals%Var%bathymetry
+        
+        !var_dt stores horizontal and interpolation of background data
+        !call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+        write(*,*)"Vou interpolar"
+        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
+        write(*,*)"Interpolei"
+        nf_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        nf_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
+        nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+        nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+        nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
+        nf_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
+        nf_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+        
+        bat = var_dt(:,nf_bat)
+        do i=1,size(sv%state,1)
+            write(*,*)"batimetria = ", bat(i)
         end do
+        
+        !Get bottom velocity and density from var_dt. Density should use verticaly interpolated values
+        velocity_mod = 0
+        Tension = 0
+        ChezyZ = 0
+        water_density = 0
+        if (prec == kind(1._R8P)) aux_r8 = 0
+        if (prec == kind(1._R4P)) aux_r4 = 0
+        write(*,*)"valor minimo de landIntThreshold nas particulas = ", MINVAL(var_dt(:,nf_lim))
+        where (var_dt(:,nf_lim) < landIntThreshold)
+            velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
+            water_density = seaWaterDensity(var_dt(:,nf_sal), var_dt(:,nf_temp),P)
+            !chezyZ = (VonKarman / alog(aux))**2
+            !ChezyZ = (VonKarman / alog(max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity))**2
+            !tension = ChezyZ * velocity_mod * water_density
+        end where
+        write(*,*)"fiz primeiras contas"
+        if (prec == kind(1._R8P)) then
+            where (var_dt(:,nf_lim) < landIntThreshold)
+                aux_r8 = max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+                chezyZ = (VonKarman / dlog(aux_r8))**2
+                !ChezyZ = (VonKarman / alog(max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity))**2
+                tension = ChezyZ * velocity_mod * water_density
+            end where  
+        else
+            where (var_dt(:,nf_lim) < landIntThreshold)
+                aux_r4 = max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+                chezyZ = (VonKarman / alog(aux_r4))**2
+                !ChezyZ = (VonKarman / alog(max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity))**2
+                tension = ChezyZ * velocity_mod * water_density
+            end where  
+        end if
+        write(*,*)"Fiz 2as contas"
+
+        
+        where (var_dt(:,nf_lim) < landIntThreshold .and. Tension>Globals%Constants%Critical_Shear_Erosion)
+            !Particula receb velocidade vertical positiva correspondente a uma percentagem do módulo da velocidade
+            Resuspension(:,3) = Globals%Constants%ResuspensionCoeff * velocity_mod
+        end where 
+        write(*,*)"Acabei"              
+        deallocate(var_name)
+        deallocate(var_dt)
     end if
     
     end function Resuspension

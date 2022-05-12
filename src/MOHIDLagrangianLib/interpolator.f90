@@ -41,6 +41,7 @@
     procedure :: print => printInterpolator
     procedure, private :: test4D
     procedure, private :: interp4D
+    procedure, private :: interp4D_Hor
     procedure, private :: interp3D
     end type interpolator_class
 
@@ -55,7 +56,7 @@
     !> Method that runs the chosen interpolator method on the given data.
     !> @param[in] self, state, bdata, time, var_dt, var_name, toInterp
     !---------------------------------------------------------------------------
-    subroutine run(self, state, bdata, time, var_dt, var_name, toInterp)
+    subroutine run(self, state, bdata, time, var_dt, var_name, toInterp, reqVertInt)
     class(interpolator_class), intent(in) :: self
     real(prec), dimension(:,:), intent(in) :: state
     type(background_class), intent(in) :: bdata
@@ -63,7 +64,8 @@
     real(prec), dimension(:,:), intent(out) :: var_dt
     type(string), dimension(:), intent(out) :: var_name
     type(string), dimension(:), intent(in), optional :: toInterp
-    logical :: interp
+    logical, intent(in), optional :: reqVertInt
+    logical :: interp, requireVertInt
     real(prec) :: newtime
     class(*), pointer :: aField
     integer :: i
@@ -72,13 +74,13 @@
     real(prec), dimension(size(state,1)) :: xx, yy, zz
     logical, dimension(size(state,1)) :: outOfBounds
     real(prec) :: tt
-
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
     i = 1
     call bdata%fields%reset()                   ! reset list iterator
     do while(bdata%fields%moreValues())         ! loop while there are values
         interp = .true.
+        requireVertInt = .true.
         aField => bdata%fields%currentValue()   ! get current value
         select type(aField)
         class is(scalar4d_field_class)          !4D interpolation is possible
@@ -89,13 +91,21 @@
                     end if
                 end if
                 if (interp) then
-                    var_name(i) = aField%name
-                    outOfBounds = .false.
                     xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
                     yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
                     zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
                     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
-                    var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                    var_name(i) = aField%name
+                    outOfBounds = .false.
+                    if (present(reqVertInt)) then
+                        !Interpolate on 2D even if the field is 3D (usefull for Bottom stress)
+                        requireVertInt = reqVertInt
+                    end if
+                    if (requireVertInt) then
+                        var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                    else
+                        var_dt(:,i) = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                    end if  
                 end if
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
@@ -152,7 +162,7 @@
     real(prec) :: td
     integer :: i, t0, t1
     real(prec), dimension(n_e) :: interp4D                                !< Field evaluated at x,y,z,t
-
+    
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     do concurrent(i=1:n_e, .not. out(i))
         x0(i) = floor(x(i))
@@ -162,7 +172,7 @@
         z0(i) = floor(z(i))
         z1(i) = ceiling(z(i))
     end do
-
+    
     t0 = floor(t)
     t1 = ceiling(t)
 
@@ -185,7 +195,9 @@
 
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
-    
+    !write(*,*)'field at k = 9 : ', field(20,20,9,t0)
+    !write(*,*)'field at k = 10 : ', field(20,20,10,t0)
+    !write(*,*)'field at k = 11 : ', field(20,20,11,t0)
     do concurrent(i=1:n_e, .not. out(i))
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
@@ -210,6 +222,75 @@
     end do
     
     end function interp4D
+    
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> method to interpolate a particle position in a given data box based
+    !> on array coordinates. 3d interpolation is a weighted average of 8
+    !> neighbors. Consider the 3D domain between the 8 neighbors. The hypercube is
+    !> divided into 8 sub-hypercubes by the point in question. The weight of each
+    !> neighbor is given by the volume of the opposite sub-hypercube, as a fraction
+    !> of the whole hypercube. vertical interpolation is excluded
+    !> @param[in] self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e
+    !---------------------------------------------------------------------------
+    function interp4D_Hor(self, x, y, z, t, out, field, n_fv, n_cv, n_pv, n_tv, n_e)
+    class(interpolator_class), intent(in) :: self
+    real(prec), dimension(n_e),intent(in):: x, y, z                       !< 1-d. Array of particle component positions in array coordinates
+    real(prec), intent(in) :: t                                           !< time to interpolate to in array coordinates
+    logical, dimension(:), intent(in) :: out
+    real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
+    integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                         !< field dimensions
+    integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
+    integer, dimension(n_e) :: x0, y0, z0, x1, y1
+    real(prec), dimension(n_e) :: xd, yd
+    real(prec), dimension(n_e) :: c00, c10, c01, c11, c0, c1
+    real(prec) :: td
+    integer :: i, t0, t1
+    real(prec), dimension(n_e) :: interp4D_Hor                                !< Field evaluated at x,y,z,t
+    
+    ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
+    do concurrent(i=1:n_e, .not. out(i))
+        x0(i) = floor(x(i))
+        x1(i) = ceiling(x(i))
+        y0(i) = floor(y(i))
+        y1(i) = ceiling(y(i))
+        z0(i) = floor(z(i))
+    end do
+
+    t0 = floor(t)
+    t1 = ceiling(t)
+
+    ! If depth layer has one layer
+    if (n_pv == 1) then
+        z0 = 1
+    end if
+
+    xd = 0.
+    yd = 0.
+    td = 0.
+    
+    ! Compute the "normalized coordinates" of the particle inside the data field box
+    where (x1 /= x0) xd = (x-x0)/(x1-x0)
+    where (y1 /= y0) yd = (y-y0)/(y1-y0)
+    if (t1 /= t0) td = (t-t0)/(t1-t0)
+
+    ! Interpolation on the first dimension and collapse it to a three dimension problem
+    interp4D_Hor = 0.0
+    
+    do concurrent(i=1:n_e, .not. out(i))
+        c00(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
+        c10(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
+        c01(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i)
+        c11(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
+        
+    ! Interpolation on the second dimension and collapse it to a two dimension problem
+        c0(i) = c00(i)*(1.-yd(i))+c10(i)*yd(i)
+        c1(i) = c01(i)*(1.-yd(i))+c11(i)*yd(i)
+    ! Interpolation on the time dimension and get the final result.
+        interp4D_Hor(i) = c0(i)*(1.-td)+c1(i)*td
+    end do
+    
+    end function interp4D_Hor
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -348,20 +429,19 @@
         getArrayCoordNonRegular = 1
         return
     end if
-    
     getArrayCoordNonRegular = 1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
     do concurrent(id = 1:size(xdata), .not. out(id))
-            do i = 2, size(bdata%dim(dim)%field)
-                if (bdata%dim(dim)%field(i) >= xdata(id)) then
-                    idx_1 = i-1
-                    idx_2 = i
-                    exit
-                end if
-            end do
+        do i = 2, size(bdata%dim(dim)%field)
+            if (bdata%dim(dim)%field(i) >= xdata(id)) then
+                idx_1 = i-1
+                idx_2 = i
+                exit
+            end if
+        end do
         getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
     end do
     end function getArrayCoordNonRegular

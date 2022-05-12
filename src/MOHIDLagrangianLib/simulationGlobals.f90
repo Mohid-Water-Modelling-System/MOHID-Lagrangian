@@ -100,6 +100,9 @@
         real(prec)   :: DiffusionCoeff      !< Horizontal diffusion coefficient (-)
         real(prec)   :: MeanDensity         !< mean ocean water density.
         real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
+        integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
+        real(prec)   :: Rugosity            !< Bottom rugosity value (for now the model assumes a constant value over the grid)
+        real(prec)   :: Critical_Shear_Erosion !< Bottom critical shear erosion value (for now the model assumes a constant value over the grid)
     contains
     procedure :: setgravity
     procedure :: setz0
@@ -109,7 +112,10 @@
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
     procedure :: setMeanDensity
-    procedure :: setMeanKVisco    
+    procedure :: setMeanKVisco
+    procedure :: setAddBottomCell
+    procedure :: setRugosity
+    procedure :: setCritical_Shear_Erosion
     procedure :: print => printconstants
     end type constants_t
 
@@ -171,6 +177,8 @@
         type(string) :: bathymetry
         type(string) :: surface
         type(string) :: rate
+        type(string) :: dwz
+        type(stringList_class) :: bathymetryVariants
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -341,8 +349,11 @@
     self%Constants%DiffusionCoeff = 1.0
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
-     self%Constants%MeanDensity = 1027.0
-     self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%MeanDensity = 1027.0
+    self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%AddBottomCell = 0
+    self%Constants%Rugosity = 0.0025
+    self%Constants%Critical_Shear_Erosion = 0.4
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -401,6 +412,8 @@
     self%bathymetry = 'bathymetry'
     self%surface    = 'surface'
     self%rate = 'rate'
+    !DWZ is the distance between two vertical faces of a cube (ex: thichness of the vertical layer)
+    self%dwz = 'dwz'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -408,6 +421,7 @@
     call self%addVar(self%temp)
     call self%addVar(self%sal)
     call self%addVar(self%density)
+    call self%addVar(self%bathymetry) !Sobrinho
     !call self%addVar(self%lon)
     !call self%addVar(self%lat)
     !call self%addVar(self%level)
@@ -435,7 +449,15 @@
     type(string) function getVarSimName(self, var)
     class(var_names_t), intent(inout) :: self
     type(string), intent(in) :: var
+    logical value
 
+    !searching for bathymetry Sobrinho
+    value = self%bathymetryVariants%notRepeated(var)
+    if (var == self%bathymetry .or. .not. value) then
+        getVarSimName = self%bathymetry
+        return
+    end if
+    
     !searching for u
     if (var == self%u .or. .not.self%uVariants%notRepeated(var)) then
         getVarSimName = self%u
@@ -571,6 +593,9 @@
     type(Node), pointer, intent(in) :: varNode
     type(string) :: tag
 
+    !Sobrinho
+    tag="bathymetry"
+    call self%setCurrVar(tag, self%Var%bathymetry, self%Var%bathymetryVariants, varNode)
     tag="eastward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varNode)
     tag="northward_sea_water_velocity"
@@ -1131,7 +1156,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Resuspension setting routine or not
-    !> @param[in] self, read_BeachingLevel
+    !> @param[in] self, read_ResuspensionCoeff
     !---------------------------------------------------------------------------
     subroutine setResuspensionCoeff(self, read_ResuspensionCoeff)
     class(constants_t), intent(inout) :: self
@@ -1147,6 +1172,46 @@
     sizem = sizeof(self%ResuspensionCoeff)
     call SimMemory%adddef(sizem)
     end subroutine setResuspensionCoeff
+    
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Rugosity setting routine or not
+    !> @param[in] self, read_Rugosity
+    !---------------------------------------------------------------------------
+    subroutine setRugosity(self, read_Rugosity)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Rugosity
+    type(string) :: outext
+    integer :: sizem
+    if (read_Rugosity%to_number(kind=1._R8P) < 0.0) then
+        outext='Rugosity must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Rugosity=read_Rugosity%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Rugosity)
+    call SimMemory%adddef(sizem)
+    end subroutine setRugosity
+    
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Critical shear erosion setting routine or not
+    !> @param[in] self, read_Critical_Shear_Erosion
+    !---------------------------------------------------------------------------
+    subroutine setCritical_Shear_Erosion(self, read_Critical_Shear_Erosion)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Critical_Shear_Erosion
+    type(string) :: outext
+    integer :: sizem
+    if (read_Critical_Shear_Erosion%to_number(kind=1._R8P) < 0.0) then
+        outext='Critical_Shear_Erosion must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Critical_Shear_Erosion=read_Critical_Shear_Erosion%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Critical_Shear_Erosion)
+    call SimMemory%adddef(sizem)
+    end subroutine setCritical_Shear_Erosion
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1210,6 +1275,23 @@
     sizem = sizeof(self%MeanKVisco)
     call SimMemory%adddef(sizem)
     end subroutine setMeanKVisco
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Add bottom cell to enable interpolation until the bottom.
+    !> @param[in] self, read_AddBottomCell
+    !---------------------------------------------------------------------------
+    subroutine setAddBottomCell(self, read_AddBottomCell)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_AddBottomCell
+    type(string) :: outext
+    integer :: sizem
+    write(*,*) 'read_AddBottomCell = ', read_AddBottomCell
+    self%AddBottomCell = read_AddBottomCell%to_number(kind=1_I1P)
+    sizem = sizeof(self%AddBottomCell)
+    call SimMemory%adddef(sizem)
+    end subroutine setAddBottomCell
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

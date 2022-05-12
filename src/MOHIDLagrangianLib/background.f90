@@ -47,12 +47,15 @@
     procedure :: add => addField
     procedure :: getDimIndex
     procedure :: getDimExtents
+    procedure, private :: getVarByName4D
     procedure :: append => appendBackgroundByTime
     procedure :: getHyperSlab
     procedure :: ShedMemory
     procedure :: makeLandMaskField
     procedure :: makeResolutionField
     procedure :: makeBathymetryField
+    procedure :: makeBottom
+    procedure :: makeDWZField
     procedure :: copy
     procedure :: hasVars
     procedure, private :: getSlabDim
@@ -162,6 +165,87 @@
         end if
     end if
     end function getDimIndex
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Method that returns a background field matrix - 4D
+    !> @param[in] self, varName, outField, origVar
+    !---------------------------------------------------------------------------
+    subroutine getVarByName4D(self, varName, outField, origVar, mandatory)
+    class(background_class), intent(in) :: self
+    type(string), intent(in) :: varName, origVar
+    real(prec), dimension(:,:,:,:), pointer, intent(out) :: outField
+    logical, optional, intent(in) :: mandatory
+    class(*), pointer :: curr
+    type(string) :: outext
+    logical found
+    
+    !Begin ----------------------------------------------------------------------
+    found = .false.
+    call self%fields%reset()               ! reset list iterator
+do1:do while(self%fields%moreValues())     ! loop while there are values to process
+        curr => self%fields%currentValue()
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == varName) then
+                outext = '[background_class::getVarByName4D] Unexepected type of content, not a 4D scalar Field, scalar3d_field_class'
+                call Log%put(outext)
+                stop
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == varName) then
+                outField => curr%field
+                found = .true.
+            end if
+        class default
+            outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D or 4D scalar Field, default'
+            call Log%put(outext)
+            stop
+        end select
+        if (found) exit do1
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do do1
+    
+    found = .false.
+    !point self%fields to the original variable (before entering this routine)
+    call self%fields%reset()               ! reset list iterator
+do2:do while(self%fields%moreValues())     ! loop while there are values to process
+        curr => self%fields%currentValue()
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == origVar) then
+                outext = '[background_class::getVarByName4D] Unexepected type of content, not a 4D scalar Field'
+                call Log%put(outext)
+                stop
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == origVar) then
+                found = .true.
+            end if
+        class default
+            outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        if (found) exit do2
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do do2
+    
+    !check if property was found and notify user otherwise
+    if (present(mandatory)) then
+        if (mandatory) then
+            if (.not. found) then
+                outext = '[background_class::getVarByName4D]: Field dimensions dont contain a field called '// varName //', stoping'
+                call Log%put(outext)
+                stop
+            end if
+        end if
+    end if
+    
+    end subroutine getVarByName4D
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -305,7 +389,7 @@
     integer :: temp_int
     type(string) :: outext
     integer :: i
-
+    write(*,*) "Entrei getHyperSlab"
     ltime = self%getDimExtents(Globals%Var%time)
     if (present(time)) ltime = time
     !finding index bounds of the slicing geometry
@@ -372,6 +456,8 @@
         call Log%put(outext)
         stop
     end if
+    
+    write(*,*) "Sai getHyperSlab"
 
     end function getHyperSlab
 
@@ -425,7 +511,7 @@
     class(*), pointer :: aField
     logical :: done
     integer :: i, j
-
+    
     if (self%initialized) then
         done = .false.
         allocate(llbound(size(self%dim)))
@@ -644,6 +730,7 @@
                     yy4d(:,:,k,1) = yy4d(:,:,1,1)
                 end do
                 zz4d(1,1,2:,1) = abs(self%dim(zIndx)%field(:size(curr%field,3)-1) - self%dim(zIndx)%field(2:))
+                
                 do i=2, size(zz4d,1)
                     zz4d(i,1,:,1) = zz4d(1,1,:,1)
                 end do
@@ -732,6 +819,120 @@
 
     end subroutine makeBathymetryField
 
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Method that replaces the first bottom cell value by the water cell value above it.
+    subroutine makeBottom(self, varList, syntecticVar)
+    class(background_class), intent(inout) :: self
+    type(string), dimension(:), intent(in) :: varList
+    logical, dimension(:), intent(in) :: syntecticVar
+    class(*), pointer :: curr
+    type(string) :: outext
+    integer :: k, i, j, t, idx   
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            !field is 2D, varying in time so... nothing to do here
+        class is (scalar4d_field_class)
+            do idx=1, size(varList)
+                if (curr%name == varList(idx) .and. .not.syntecticVar(idx)) then
+                    do t=1, size(curr%field,4)
+                    do j=1, size(curr%field,2)
+do3:                do i=1, size(curr%field,1)
+                    do k=2, size(curr%field,3)
+                        if (curr%field(i,j,k,t) /= 0 .and. curr%field(i,j,k-1,t) == 0) then
+                            !Make the first bottom cell value equal to the first water cell value above it.
+                            curr%field(i,j,k-1,t) = curr%field(i,j,k,t)
+                            cycle do3
+                        end if
+                    end do
+                    end do do3
+                    end do
+                    end do
+                end if
+            end do
+        class default
+            outext = '[background_class::makeBottom] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    
+    call self%fields%reset()               ! reset list iterator
+    
+    end subroutine makeBottom
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Method to use a stored binary field to make a dwz field - depends on nc depth variable
+    !---------------------------------------------------------------------------
+    subroutine makeDWZField(self)
+    class(background_class), intent(inout) :: self
+    class(*), pointer :: curr
+    real(prec), allocatable, dimension(:,:,:,:) :: DWZ
+    real(prec), dimension(:,:,:,:), pointer :: bathymetry
+    real(prec), dimension(:), allocatable :: level
+    type(string) :: outext
+    integer :: dimIndx, i, j, t, k
+    logical found
+    
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            if (curr%name == Globals%Var%dwz) then
+                curr%field = MV
+                outext = '[background_class::makeDWZField] Unexepected type of content, not a 4D scalar Field'
+                call Log%put(outext)
+                stop
+            end if
+        class is (scalar4d_field_class)               
+            if (curr%name == Globals%Var%dwz) then         
+                allocate(dwz(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                dimIndx = self%getDimIndex(Globals%Var%level)
+                !Get bathymetry matrix and point curr pointer back to the dwz matrix.
+                call self%getVarByName4D(varName = Globals%Var%bathymetry, outField = bathymetry, origVar = curr%name, mandatory = .true.)
+                dwz = 0
+                !Only covering the bottom for now... need to change this to include the surface
+                do t=1, size(curr%field,4)
+                    do j=1, size(curr%field,2)
+                        do i=1, size(curr%field,1)
+                            found = .false.
+                            do k=1, size(curr%field,3)
+                                if (found) then
+                                    dwz(i,j,k,t) = abs(self%dim(dimIndx)%field(k-1)) - abs(self%dim(dimIndx)%field(k))
+                                else   
+                                    if (self%dim(dimIndx)%field(k) < bathymetry(i,j,1,t)) then
+                                        !Found first
+                                        dwz(i,j,k,t) = (bathymetry(i,j,1,t) - abs(self%dim(dimIndx)%field(k))) * 2
+                                        found = .true.
+                                    end if
+                                end if
+                            end do
+                        end do
+                    end do
+                end do
+                curr%field = dwz
+            end if
+        class default
+            outext = '[background_class::makeDWZField] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    call self%fields%reset()               ! reset list iterator
+
+    end subroutine makeDWZField
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

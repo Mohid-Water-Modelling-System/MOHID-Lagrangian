@@ -98,7 +98,6 @@
         tag = 'sw_percentage'
         SWperidx = Utils%find_str(sv%varName, tag, .true.)
         !w/m2        =   w/m2          *     []
-        write(*,*) 'Max Val rad w= ' , maxval(var_dt(:,rad))
         Radiation_SW = var_dt(:,rad) * sv%state(:,SWperidx)
         !compute light extintion
         depth = sv%state(:,3)

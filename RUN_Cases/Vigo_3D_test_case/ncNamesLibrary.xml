@@ -29,6 +29,10 @@
 			<variant name="Salt" />
 			<variant name="Salinity" />
 		</sea_water_salinity>
+		<bathymetry name="bathymetry">
+			<variant name="bathymetry" comment="used in MOHID and CMEMS" />
+			<variant name="bathym" />
+		</bathymetry>
 	</variables>
 	<dimensions>
 		<longitude name="lon">
@@ -48,11 +52,8 @@
 			<variant name="LATITUDE" />
 		</latitude>
 		<vertical name="level">
-			<variant name="depth" />
-			<variant name="Depth" />
-			<variant name="DEPTH" />
-			<variant name="level" />
 			<variant name="Level" />
+            <variant name="depth" />
 		</vertical>
 		<time name="time">
 			<variant name="time" />

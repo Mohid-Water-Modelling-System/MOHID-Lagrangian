@@ -145,9 +145,11 @@
                 if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
+
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
+                
                 !marking tracers for deletion because they are in land
                 if (Globals%simdefs%removelandtracer == 1) then
                      where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
@@ -184,9 +186,8 @@
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
     
-    !!$OMP CRITICAL (UNNAMED)
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-    !!$OMP END CRITICAL (UNNAMED)
+    
     LagrangianKinematic = 0.0
     nf = Utils%find_str(var_name, Globals%Var%u, .true.)
     LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)

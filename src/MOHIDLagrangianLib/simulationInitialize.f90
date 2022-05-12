@@ -589,6 +589,24 @@
         if (readflag) then
             call Globals%Constants%setMeanKVisco(att_val)
         endif
+        tag="AddBottomCell"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setAddBottomCell(att_val)
+        endif
+        tag="Rugosity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setRugosity(att_val)
+        endif
+        tag="CriticalShearErosion"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setCritical_Shear_Erosion(att_val)
+        endif 
         
     endif
     call Globals%Constants%print()
