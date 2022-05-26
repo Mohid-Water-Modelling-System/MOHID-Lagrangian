@@ -115,6 +115,7 @@
     real(prec), dimension(3,2) :: dimExtents
     integer :: i, realVarIdx
     type(string) :: outext
+    real(prec) :: valorminimo
 
     allocate(gfield(size(syntecticVar)))
     realVarIdx = 0
@@ -130,8 +131,9 @@
             call ncFile%getVarDimensions(varList(i), backgrounDims)
             if (allocated(backgrounDims)) then
                 realVarIdx = i
+                valorminimo = backgrounDims(3)%getFieldMinBound()
                 exit
-            end if            
+            end if 
         end if
     end do
     if (realVarIdx /= 0) then
@@ -170,9 +172,8 @@
     getFullFile = Background(1, name, extents, backgrounDims)
     do i = 1, size(gfield)
         call getFullFile%add(gfield(i))
-        !call gfield(i)%print()
     end do
-    !call getFullFile%print()
+    valorminimo = backgrounDims(3)%getFieldMinBound()
     end function getFullFile
 
     !---------------------------------------------------------------------------
@@ -325,7 +326,6 @@
                         if (dimName == Globals%Var%level) then
                             !1) The depth must increase. If it does not increase, must be reversed.
                             !2) The axis should be negative. If it is not negative, negate it.
-
                             increase_flag = all(tempRealArray(2:) >= tempRealArray(:size(tempRealArray)-1)) 
                             neg_flag = all(tempRealArray(:) <= 0)
 
@@ -524,7 +524,7 @@ do1:                do indx=1, self%nVars
                         if (variable_u_is4D) then
                             do t=1,size(tempRealField4D,4)
                                 do k=1, size(tempRealField4D,3)
-                                    tempRealField4D(:,:,k,t) = tempRealField2D(:,:)
+                                    tempRealField4D(:,:,k,t) = -tempRealField2D(:,:)
                                 end do
                             end do
                             call varField%initialize(varName, self%varData(i)%units, tempRealField4D)

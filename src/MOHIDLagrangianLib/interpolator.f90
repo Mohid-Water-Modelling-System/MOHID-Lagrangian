@@ -68,7 +68,7 @@
     logical :: interp, requireVertInt
     real(prec) :: newtime
     class(*), pointer :: aField
-    integer :: i
+    integer :: i, cenas
     type(string) :: outext
 
     real(prec), dimension(size(state,1)) :: xx, yy, zz
@@ -91,12 +91,13 @@
                     end if
                 end if
                 if (interp) then
+                    !write(*,*)"Variavel a entrar", aField%name
+                    var_name(i) = aField%name
+                    outOfBounds = .false.
                     xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
                     yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
                     zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
                     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
-                    var_name(i) = aField%name
-                    outOfBounds = .false.
                     if (present(reqVertInt)) then
                         !Interpolate on 2D even if the field is 3D (usefull for Bottom stress)
                         requireVertInt = reqVertInt
@@ -104,9 +105,11 @@
                     if (requireVertInt) then
                         var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
                     else
+                        !write(*,*)"Vou para a interpolacao horizontal", aField%name
                         var_dt(:,i) = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
-                    end if  
+                    end if
                 end if
+                !write(*,*)"Variavel a sair", aField%name
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
             if (self%interpType == 1) then !linear interpolation in space and time
@@ -245,7 +248,7 @@
     real(prec), dimension(n_e) :: xd, yd
     real(prec), dimension(n_e) :: c00, c10, c01, c11, c0, c1
     real(prec) :: td
-    integer :: i, t0, t1
+    integer :: i, t0, t1, cenas
     real(prec), dimension(n_e) :: interp4D_Hor                                !< Field evaluated at x,y,z,t
     
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
@@ -375,6 +378,7 @@
     real(prec), dimension(size(xdata)) :: getArrayCoord         !< coordinates in array index
 
     dim = bdata%getDimIndex(dimName)
+    !write(*,*)"dimName = ", dimName
     if (bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordRegular(xdata, bdata, dim, out)
     if (.not.bdata%regularDim(dim)) getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out)
 
@@ -399,12 +403,14 @@
         getArrayCoordRegular = 1
         return
     end if
+    !write(*,*)"Entrei no getArrayCoordRegular"
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
     res = abs(maxBound - minBound)/(size(bdata%dim(dim)%field)-1.0)
     getArrayCoordRegular = (xdata - minBound)/res + 1.0
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
+    !write(*,*)"Sai do getArrayCoordRegular"
     end function getArrayCoordRegular
 
 
@@ -432,18 +438,24 @@
     getArrayCoordNonRegular = 1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
+    
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
+    !write(*,*)"Entrei no getArrayCoordNonRegular"
     do concurrent(id = 1:size(xdata), .not. out(id))
+        !write(*,*)"Posicao = ", xdata(id)
         do i = 2, size(bdata%dim(dim)%field)
+            !write(*,*)"background = ", bdata%dim(dim)%field(i)
             if (bdata%dim(dim)%field(i) >= xdata(id)) then
                 idx_1 = i-1
                 idx_2 = i
+                !write(*,*)"idx_1 e idx_2 = ", idx_1, idx_2
                 exit
             end if
         end do
         getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
     end do
+    !write(*,*)"Sai do getArrayCoordNonRegular"
     end function getArrayCoordNonRegular
 
     !---------------------------------------------------------------------------

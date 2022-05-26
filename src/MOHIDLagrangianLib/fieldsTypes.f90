@@ -339,10 +339,8 @@
         call Log%put(outext)
         stop
     else
-        write(*,*) "Entrei no initS1D: ", name
         call self%scalar1d%initialize(name, units, 1, field)
         call self%setFieldMetadata(name, units, 1)
-        write(*,*) "Sai do initS1D: ", name
     end if
     end subroutine initS1D
 
@@ -378,10 +376,8 @@
         call Log%put(outext)
         stop
     else
-        write(*,*) "Entrei no initS2D: ", name
         call self%scalar2d%initialize(name, units, 2, field)
         call self%setFieldMetadata(name, units, 2)
-        write(*,*) "Sai do initS2D: ", name
     end if
     end subroutine initS2D
 
@@ -922,9 +918,7 @@
     done = .false.
     select type(aField)
     class is (scalar1d_field_class)
-        write(*,*) "Entrei no getGField: ", aField%name
         call self%initialize(aField%name, aField%units, aField%field)
-        write(*,*) "Sai do getGField: ", aField%name
         done = .true.
         return
     class is (scalar2d_field_class)

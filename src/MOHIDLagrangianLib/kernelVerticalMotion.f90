@@ -132,7 +132,6 @@
 
     type(string) :: tag
     logical :: ViscoDensFields = .false.
-
     Buoyancy = 0.0
     
     allocate(requiredVars(2))
@@ -251,7 +250,6 @@
             Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
         end where                
     end if
-
     end function Buoyancy
 
 
@@ -352,7 +350,8 @@
     type(string), dimension(:), allocatable :: requiredVars
     
     CorrectVerticalBounds = svDt
-    
+    !write(*,*)"CorrectVerticalBounds minimo = ", MINVAL(CorrectVerticalBounds(:,3))
+    !write(*,*)"CorrectVerticalBounds maximo = ", MAXVAL(CorrectVerticalBounds(:,3))
     ! if vertical dvdt is 0, don't correct
     if (all(CorrectVerticalBounds(:,3) == 0.)) then
         return
@@ -368,7 +367,8 @@
                 nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
-                !correcting for maximum admissible level in the background
+                !correcting for maximum admissible level in the background (only if option AddBottomCell is not used)
+                ! this is to allow the particles to reach the bathymetry, instead of stoping at the layer centre depth.
                 maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
                 if (maxLevel(2) /= MV) where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2)) CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.99
                 !interpolating all of the data
@@ -376,7 +376,13 @@
                 !update minium vertical position
                 nf = Utils%find_str(var_name, Globals%Var%bathymetry)
                 !Dont let particles drop below bathymetric value. in this case, vertical displacement is forced to make the particle reach the bathymetric value*0.99
+                !write(*,*)"posicao vertical minima = ", MINVAL(sv%state(:,3))
+                !write(*,*)"posicao vertical maxima = ", MAXVAL(sv%state(:,3))
+                !write(*,*)"batimetria minima = ", MINVAL(var_dt(:,nf))
+                !write(*,*)"batimetria maxima = ", MAXVAL(var_dt(:,nf))
                 where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,nf)) CorrectVerticalBounds(:,3) = ((var_dt(:,nf)-sv%state(:,3))/dt)*0.99
+                !write(*,*)"novo CorrectVerticalBounds minimo = ", MINVAL(CorrectVerticalBounds(:,3))
+                !write(*,*)"novo CorrectVerticalBounds maximo = ", MAXVAL(CorrectVerticalBounds(:,3))
                 deallocate(var_name)
                 deallocate(var_dt)
             end if
@@ -461,25 +467,25 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
     integer :: nf, nf_u, nf_v, nf_lim, nf_temp, nf_sal, nf_dwz
     real(prec) :: landIntThreshold
-    real(prec), dimension(:,:), allocatable :: var_dt
+    real(prec), dimension(:,:), allocatable :: var_dt, varVert_dt
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, shear_stress_currents, water_density, chezyZ, tension, dwz, bat
     real(4), dimension(size(sv%state,1)) :: aux_r4
     real(8), dimension(size(sv%state,1)) :: aux_r8
     real(prec), dimension(size(sv%state,1)) :: tau, CDR, CDS
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
+    type(string), dimension(:), allocatable :: var_name, var_name_vert
+    type(string), dimension(:), allocatable :: requiredVars, requiredVerticalVars
     real(prec) :: P = 1013.
     real(prec) :: EP = 1/3
     real(prec) :: VonKarman = 0.4
     real(prec) :: Hmin_Chezy = 0.1
     real(prec) :: REC, REW, FWS, FWR, as, ar, T1, T2, T3, A1, A2, Z0
-    real(prec) ::  CDMS, CDMAXS, CDMR, CDMAXR
+    real(prec) ::  CDMS, CDMAXS, CDMR, CDMAXR, aux_r8_2, chezyZ_2
     
-    Resuspension = 0.0
+    write(*,*)"entrei no Resuspension"
+    Resuspension = 0
     landIntThreshold = -0.95
-    write(*,*)"Entrei no Resuspension"
     if (Globals%Constants%ResuspensionCoeff > 0.0) then
-        write(*,*)"Entrei no Resuspension a serio"
+        !write(*,*)"Entrei no Resuspension a serio"
         allocate(requiredVars(6))
         requiredVars(1) = Globals%Var%temp
         requiredVars(2) = Globals%Var%sal
@@ -488,66 +494,75 @@
         requiredVars(5) = Globals%Var%dwz
         requiredVars(6) = Globals%Var%bathymetry
         
+        allocate(requiredVerticalVars(1))
+        requiredVerticalVars(1) = Globals%Var%landIntMask
+        
         !var_dt stores horizontal and interpolation of background data
         !call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-        write(*,*)"Vou interpolar"
+        !write(*,*)"Vou interpolar"
         call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
-        write(*,*)"Interpolei"
+        
+        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVerticalVars, varVert_dt, var_name_vert, reqVertInt = .true.)
+        !write(*,*)"Interpolei"
         nf_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
         nf_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
         nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
         nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
-        nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
         nf_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
         nf_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+        nf_lim = Utils%find_str(var_name_vert, Globals%Var%landIntMask, .true.)
         
-        bat = var_dt(:,nf_bat)
-        do i=1,size(sv%state,1)
-            write(*,*)"batimetria = ", bat(i)
-        end do
+        !do i=1,size(sv%state,1)
+        !    write(*,*)"batimetria = ", bat(i)
+        !end do
         
         !Get bottom velocity and density from var_dt. Density should use verticaly interpolated values
         velocity_mod = 0
         Tension = 0
         ChezyZ = 0
         water_density = 0
+        bat = 0
         if (prec == kind(1._R8P)) aux_r8 = 0
         if (prec == kind(1._R4P)) aux_r4 = 0
-        write(*,*)"valor minimo de landIntThreshold nas particulas = ", MINVAL(var_dt(:,nf_lim))
-        where (var_dt(:,nf_lim) < landIntThreshold)
+        !write(*,*)"valor minimo de landIntThreshold nas particulas = ", MINVAL(var_dt(:,nf_lim))
+        !write(*,*)"valor maximo de landIntThreshold nas particulas = ", MaxVAL(var_dt(:,nf_lim))
+        where (varVert_dt(:,nf_lim) < landIntThreshold)
             velocity_mod = sqrt(var_dt(:,nf_u)**2 + var_dt(:,nf_v)**2)
             water_density = seaWaterDensity(var_dt(:,nf_sal), var_dt(:,nf_temp),P)
-            !chezyZ = (VonKarman / alog(aux))**2
-            !ChezyZ = (VonKarman / alog(max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity))**2
-            !tension = ChezyZ * velocity_mod * water_density
         end where
-        write(*,*)"fiz primeiras contas"
         if (prec == kind(1._R8P)) then
-            where (var_dt(:,nf_lim) < landIntThreshold)
+            where (varVert_dt(:,nf_lim) < landIntThreshold)
                 aux_r8 = max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
                 chezyZ = (VonKarman / dlog(aux_r8))**2
-                !ChezyZ = (VonKarman / alog(max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity))**2
                 tension = ChezyZ * velocity_mod * water_density
             end where  
         else
-            where (var_dt(:,nf_lim) < landIntThreshold)
+            where (varVert_dt(:,nf_lim) < landIntThreshold)
                 aux_r4 = max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
                 chezyZ = (VonKarman / alog(aux_r4))**2
-                !ChezyZ = (VonKarman / alog(max((var_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity))**2
                 tension = ChezyZ * velocity_mod * water_density
             end where  
         end if
-        write(*,*)"Fiz 2as contas"
-
         
-        where (var_dt(:,nf_lim) < landIntThreshold .and. Tension>Globals%Constants%Critical_Shear_Erosion)
+        where (varVert_dt(:,nf_lim) < landIntThreshold .and. Tension>Globals%Constants%Critical_Shear_Erosion)
             !Particula receb velocidade vertical positiva correspondente a uma percentagem do módulo da velocidade
             Resuspension(:,3) = Globals%Constants%ResuspensionCoeff * velocity_mod
-        end where 
-        write(*,*)"Acabei"              
+        end where
+        bat = var_dt(:,nf_bat)
+        write(*,*)"landIntThreshold = ", landIntThreshold
+        write(*,*)"tensao critica = ", Globals%Constants%Critical_Shear_Erosion
+        do i=1, size(sv%state,1)
+            write(*,*)"estado, Tension  = ", varVert_dt(i,nf_lim), Tension(i)
+            write(*,*)"depth, batimetria = ", sv%state(i,3), var_dt(i,nf_bat)
+            write(*,*)"Resuspension(i,3) = ", Resuspension(i,3)
+        end do
+        
         deallocate(var_name)
+        deallocate(var_name_vert)
         deallocate(var_dt)
+        deallocate(varVert_dt)
     end if
+    write(*,*)"Sai do Resuspension"
     
     end function Resuspension
     

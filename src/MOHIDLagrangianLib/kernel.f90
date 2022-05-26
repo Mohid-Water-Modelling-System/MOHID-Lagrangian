@@ -71,7 +71,9 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
-
+    
+    !write(*,*)"---------------------Entrei nos kernel-------------------"
+    
     !running preparations for kernel lanch
     call self%setCommonProcesses(sv, bdata, time)
 
@@ -87,6 +89,9 @@
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
                     VerticalMotion%Resuspension(sv, bdata, time)
+        !runKernel = self%LagrangianKinematic(sv, bdata, time)  + &
+        !            self%DiffusionMixingLength(sv, bdata, time, dt) + &
+        !            + VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
@@ -102,6 +107,7 @@
     end if
     
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
+    !write(*,*)"---------------------Sai dos kernel-------------------"
 
     end function runKernel
 
@@ -118,12 +124,12 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg
+    integer :: np, nf, bkg, i
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
-
+    !logical firstime
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
@@ -131,7 +137,7 @@
     ! global periodicity conditions
     where (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
     where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
-
+    !firstime=.true.
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
@@ -142,7 +148,19 @@
                 allocate(var_name(nf))
                 !correcting for maximum admissible level in the background
                 maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
+                !write(*,*)"novo background "
+                !if (firstime) then
+                !    do i=1,size(sv%state,1)
+                !        write(*,*)"Level in = ", sv%state(i,3)
+                !    end do
+                !end if
+                
                 if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+                !if (firstime) then
+                !    do i=1,size(sv%state,1)
+                !        write(*,*)"Level out = ", sv%state(i,3)
+                !    end do
+                !end if
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
 
@@ -154,6 +172,14 @@
                 if (Globals%simdefs%removelandtracer == 1) then
                      where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
                 end if
+                !if (firstime) then
+                !    write(*,*)"---------------- estado da particula!----------------"
+                !    do i=1,size(sv%active)
+                !        write(*,*)"estado = ", sv%active(i)
+                !    end do
+                !end if
+                !write(*,*)"acabei ciclo estado "
+                !firstime=.false.
                 !update resolution proxy
                 nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
                 sv%resolution = var_dt(:,nf)
@@ -185,7 +211,6 @@
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
-    
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     
     LagrangianKinematic = 0.0
@@ -405,7 +430,6 @@
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
     allocate(requiredVars(1))
     requiredVars(1) = Globals%Var%resolution
-
     DiffusionMixingLength = 0.0
     if (Globals%Constants%DiffusionCoeff == 0.0) return
 

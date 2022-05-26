@@ -389,7 +389,6 @@ do2:do while(self%fields%moreValues())     ! loop while there are values to proc
     integer :: temp_int
     type(string) :: outext
     integer :: i
-    write(*,*) "Entrei getHyperSlab"
     ltime = self%getDimExtents(Globals%Var%time)
     if (present(time)) ltime = time
     !finding index bounds of the slicing geometry
@@ -457,7 +456,6 @@ do2:do while(self%fields%moreValues())     ! loop while there are values to proc
         stop
     end if
     
-    write(*,*) "Sai getHyperSlab"
 
     end function getHyperSlab
 
@@ -838,7 +836,8 @@ do2:do while(self%fields%moreValues())     ! loop while there are values to proc
             !field is 2D, varying in time so... nothing to do here
         class is (scalar4d_field_class)
             do idx=1, size(varList)
-                if (curr%name == varList(idx) .and. .not.syntecticVar(idx)) then
+                !Let vertical velocity stay 0 and the level below so that the interpolation reduces the vertical velocity.
+                if ((curr%name == varList(idx)) .and. (.not. syntecticVar(idx)) .and. (.not. curr%name == Globals%Var%w)) then
                     do t=1, size(curr%field,4)
                     do j=1, size(curr%field,2)
 do3:                do i=1, size(curr%field,1)
