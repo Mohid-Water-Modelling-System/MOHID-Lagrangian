@@ -47,7 +47,7 @@
     procedure :: add => addField
     procedure :: getDimIndex
     procedure :: getDimExtents
-    procedure, private :: getVarByName4D
+    procedure :: getVarByName4D
     procedure :: append => appendBackgroundByTime
     procedure :: getHyperSlab
     procedure :: ShedMemory
@@ -172,11 +172,14 @@
     !> Method that returns a background field matrix - 4D
     !> @param[in] self, varName, outField, origVar
     !---------------------------------------------------------------------------
-    subroutine getVarByName4D(self, varName, outField, origVar, mandatory)
+    subroutine getVarByName4D(self, varName, outField, outField_1D, outField_2D, origVar, mandatory)
     class(background_class), intent(in) :: self
-    type(string), intent(in) :: varName, origVar
+    type(string), intent(in) :: varName
     real(prec), dimension(:,:,:,:), pointer, intent(out) :: outField
     logical, optional, intent(in) :: mandatory
+    type(string), optional, intent(in) :: origVar
+    real(prec), dimension(:), pointer, optional, intent(out) :: outField_1D
+    real(prec), dimension(:,:), pointer, optional, intent(out) :: outField_2D
     class(*), pointer :: curr
     type(string) :: outext
     logical found
@@ -198,6 +201,26 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
                 outField => curr%field
                 found = .true.
             end if
+        class is (scalar2d_field_class)
+            if (curr%name == varName) then
+                if (present(outField_2D)) then
+                    outField_2D => curr%field
+                    found = .true.
+                else
+                    outext = '[background_class::getVarByName4D] Unexepected type of content, not a 2D scalar Field, scalar2d_field_class'
+                    call Log%put(outext)
+                end if
+            end if
+        class is (scalar1d_field_class)
+            if (curr%name == varName) then
+                if (present(outField_1D)) then
+                    outField_1D => curr%field
+                    found = .true.
+                else
+                    outext = '[background_class::getVarByName4D] Unexepected type of content, not a 1D scalar Field, scalar1d_field_class'
+                    call Log%put(outext) 
+                endif
+            end if
         class default
             outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D or 4D scalar Field, default'
             call Log%put(outext)
@@ -207,33 +230,39 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
         call self%fields%next()            ! increment the list iterator
         nullify(curr)
     end do do1
-    
-    found = .false.
-    !point self%fields to the original variable (before entering this routine)
-    call self%fields%reset()               ! reset list iterator
-do2:do while(self%fields%moreValues())     ! loop while there are values to process
-        curr => self%fields%currentValue()
-        select type(curr)
-        class is (scalar3d_field_class)
-            if (curr%name == origVar) then
-                outext = '[background_class::getVarByName4D] Unexepected type of content, not a 4D scalar Field'
+    if (present(origVar)) then
+        found = .false.
+        !point self%fields to the original variable (before entering this routine)
+        call self%fields%reset()               ! reset list iterator
+do2:    do while(self%fields%moreValues())     ! loop while there are values to process
+            curr => self%fields%currentValue()
+            select type(curr)
+            class is (scalar1d_field_class)
+                if (curr%name == origVar) then
+                    found = .true.
+                end if
+            class is (scalar2d_field_class)
+                if (curr%name == origVar) then
+                    found = .true.
+                end if
+            class is (scalar3d_field_class)
+                if (curr%name == origVar) then
+                    found = .true.
+                end if
+            class is (scalar4d_field_class)
+                if (curr%name == origVar) then
+                    found = .true.
+                end if
+            class default
+                outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D or 4D scalar Field'
                 call Log%put(outext)
                 stop
-            end if
-        class is (scalar4d_field_class)
-            if (curr%name == origVar) then
-                found = .true.
-            end if
-        class default
-            outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D or 4D scalar Field'
-            call Log%put(outext)
-            stop
-        end select
-        if (found) exit do2
-        call self%fields%next()            ! increment the list iterator
-        nullify(curr)
-    end do do2
-    
+            end select
+            if (found) exit do2
+            call self%fields%next()            ! increment the list iterator
+            nullify(curr)
+        end do do2
+    end if
     !check if property was found and notify user otherwise
     if (present(mandatory)) then
         if (mandatory) then
@@ -244,7 +273,6 @@ do2:do while(self%fields%moreValues())     ! loop while there are values to proc
             end if
         end if
     end if
-    
     end subroutine getVarByName4D
 
     !---------------------------------------------------------------------------
@@ -836,8 +864,9 @@ do2:do while(self%fields%moreValues())     ! loop while there are values to proc
             !field is 2D, varying in time so... nothing to do here
         class is (scalar4d_field_class)
             do idx=1, size(varList)
-                !Let vertical velocity stay 0 and the level below so that the interpolation reduces the vertical velocity.
-                if ((curr%name == varList(idx)) .and. (.not. syntecticVar(idx)) .and. (.not. curr%name == Globals%Var%w)) then
+                !Let vertical velocity stay 0 at the level below so that the interpolation reduces the vertical velocity.
+                !Removed this option because it is easier to compute a vertical profile and define velocity=0 at the bottom
+                if ((curr%name == varList(idx)) .and. (.not. syntecticVar(idx))) then
                     do t=1, size(curr%field,4)
                     do j=1, size(curr%field,2)
 do3:                do i=1, size(curr%field,1)

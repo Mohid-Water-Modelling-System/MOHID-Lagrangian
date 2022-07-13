@@ -79,6 +79,7 @@
         integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
         integer         :: VerticalVelMethod !< Vertical velocity method
         integer         :: RemoveLandTracer !< Vertical velocity method
+        integer         :: bathyminNetcdf !< bathymetry is a property inside the netcdf
     contains
     procedure :: setdp
     procedure :: setdt
@@ -87,6 +88,7 @@
     procedure :: setblocksize
     procedure :: setVerticalVelMethod
     procedure :: setRemoveLandTracer
+    procedure :: setbathyminNetcdf
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -226,6 +228,7 @@
         integer :: paper   = 1
         integer :: plastic = 2
         integer :: coliform = 3
+        integer :: seed = 4
     contains
     end type tracerTypes_t
 
@@ -252,6 +255,7 @@
     
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
+        real(prec), allocatable, dimension(:) :: bottom_emission_depth
     contains    
     end type sources_t
 
@@ -341,6 +345,7 @@
     self%SimDefs%Center = 0.0
     self%SimDefs%VerticalVelMethod = 1
     self%SimDefs%RemoveLandTracer = 1
+    self%SimDefs%bathyminNetcdf = 0
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
@@ -351,7 +356,7 @@
     self%Constants%ResuspensionCoeff = 0.0
     self%Constants%MeanDensity = 1027.0
     self%Constants%MeanKVisco = 1.09E-3
-    self%Constants%AddBottomCell = 0
+    self%Constants%AddBottomCell = 1
     self%Constants%Rugosity = 0.0025
     self%Constants%Critical_Shear_Erosion = 0.4
     !filenames
@@ -1287,7 +1292,6 @@
     type(string), intent(in) :: read_AddBottomCell
     type(string) :: outext
     integer :: sizem
-    write(*,*) 'read_AddBottomCell = ', read_AddBottomCell
     self%AddBottomCell = read_AddBottomCell%to_number(kind=1_I1P)
     sizem = sizeof(self%AddBottomCell)
     call SimMemory%adddef(sizem)
@@ -1418,7 +1422,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Choose if tracers must be removed when they reach land or not
-    !> @param[in] self, read_BeachingLevel
+    !> @param[in] self, read_RemoveLandTracer
     !---------------------------------------------------------------------------
     subroutine setRemoveLandTracer(self, read_RemoveLandTracer)
     class(simdefs_t), intent(inout) :: self
@@ -1434,12 +1438,33 @@
     sizem = sizeof(self%RemoveLandTracer)
     call SimMemory%adddef(sizem)
     end subroutine setRemoveLandTracer
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Set bathymetry construct from the bathymetric netcdf property
+    !> @param[in] self, read_bathyminNetcdf
+    !---------------------------------------------------------------------------
+    subroutine setbathyminNetcdf(self, read_bathyminNetcdf)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_bathyminNetcdf
+    type(string) :: outext
+    integer :: sizem
+    if ((read_bathyminNetcdf%to_number(kind=1._I8P) < 0) .OR. (read_bathyminNetcdf%to_number(kind=1._I8P) > 1)) then
+        outext='read bathymetry from netcdf file must be 0:no or 1:yes, assuming default value'
+        call Log%put(outext)
+    else
+        self%bathyminNetcdf=read_bathyminNetcdf%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%bathyminNetcdf)
+    call SimMemory%adddef(sizem)
+    end subroutine setbathyminNetcdf
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Resuspension setting routine or not
-    !> @param[in] self, read_BeachingLevel
+    !> @param[in] self, read_VerticalVelMethod
     !---------------------------------------------------------------------------
     subroutine setVerticalVelMethod(self, read_VerticalVelMethod)
     class(simdefs_t), intent(inout) :: self
@@ -1492,6 +1517,8 @@
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
+    temp_str(1)=self%RemoveLandTracer
+    outext = outext//'       bathyminNetcdf = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printsimdefs
 

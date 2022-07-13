@@ -47,7 +47,6 @@
     procedure, private :: Windage
     procedure, private :: Beaching
     procedure, private :: Aging
-    !procedure, private :: Dilution
     end type kernel_class
 
     type(kernelLitter_class) :: Litter       !< litter kernels
@@ -72,11 +71,9 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
     
-    !write(*,*)"---------------------Entrei nos kernel-------------------"
-    
     !running preparations for kernel lanch
     call self%setCommonProcesses(sv, bdata, time)
-
+    
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
         
@@ -89,9 +86,6 @@
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
                     VerticalMotion%Resuspension(sv, bdata, time)
-        !runKernel = self%LagrangianKinematic(sv, bdata, time)  + &
-        !            self%DiffusionMixingLength(sv, bdata, time, dt) + &
-        !            + VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
@@ -104,10 +98,14 @@
                     self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + coliform%MortalityT90(sv, bdata, time) + coliform%Dilution(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
+    else if (sv%ttype == Globals%Types%seed) then
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
+                    VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time)
+        runKernel = self%Beaching(sv, runKernel)
     end if
     
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
-    !write(*,*)"---------------------Sai dos kernel-------------------"
 
     end function runKernel
 
@@ -124,20 +122,32 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i
+    integer :: np, nf, bkg, i, j, age_col
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
-    !logical firstime
-    allocate(requiredVars(2))
+    type(string) :: tag
+    logical bottom_emmission, bottom_emmission_temp
+    !-----------------------------------------------------------
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
-
+    requiredVars(3) = Globals%Var%bathymetry
+    bottom_emmission = .false.
+    
+    if (size(sv%source) > 0) then
+        !if any of the sources defined by the user has the option bottom_emission then the model must check
+        !wheter any new tracer needs to be positioned at the bottom
+        if (maxval(Globals%Sources%bottom_emission_depth) > 0) then
+            bottom_emmission = .true.
+        end if
+    end if
+    
     ! global periodicity conditions
     where (sv%state(:,1) > 180.0) sv%state(:,1) = sv%state(:,1) - 360.0
     where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
-    !firstime=.true.
+    
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
@@ -147,39 +157,37 @@
                 allocate(var_dt(np,nf))
                 allocate(var_name(nf))
                 !correcting for maximum admissible level in the background
-                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-                !write(*,*)"novo background "
-                !if (firstime) then
-                !    do i=1,size(sv%state,1)
-                !        write(*,*)"Level in = ", sv%state(i,3)
-                !    end do
-                !end if
-                
+                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)   
+                    
                 if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-                !if (firstime) then
-                !    do i=1,size(sv%state,1)
-                !        write(*,*)"Level out = ", sv%state(i,3)
-                !    end do
-                !end if
+
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
 
                 !update land interaction status
                 nf = Utils%find_str(var_name, Globals%Var%landIntMask)
                 sv%landIntMask = var_dt(:,nf)
-                
+                !write(*,*)"state = ", var_dt(1,nf)
+                !if bottom emission is active, check if tracer age is 0 (has just been added to the simulation)
+                ! and if true, place those particles at the bottom (bathymetric value)
+                if (bottom_emmission) then
+                    !write(*,*) "Entrei no bottom_emission = "
+                    nf_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+                    tag = 'age'
+                    age_col = Utils%find_str(sv%varName, tag, .true.)
+                    if ((size(sv%source) > 0) .and. (minval(sv%state(:,age_col)) == 0)) then
+                        !where the age of a tracer is 0, make the vertical position equal to the bathymetric value of the grid cell
+                        !where the tracer is located
+                        where (sv%state(:,age_col) == 0 .and. Globals%Sources%bottom_emission_depth(sv%source(:)) > 0) sv%state(:,3) = var_dt(:,nf_bat) + Globals%Sources%bottom_emission_depth(sv%source(:))
+                        
+                    end if
+                end if
+                    
                 !marking tracers for deletion because they are in land
                 if (Globals%simdefs%removelandtracer == 1) then
                      where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
                 end if
-                !if (firstime) then
-                !    write(*,*)"---------------- estado da particula!----------------"
-                !    do i=1,size(sv%active)
-                !        write(*,*)"estado = ", sv%active(i)
-                !    end do
-                !end if
-                !write(*,*)"acabei ciclo estado "
-                !firstime=.false.
+                
                 !update resolution proxy
                 nf = Utils%find_str(var_name, Globals%Var%resolution,.true.)
                 sv%resolution = var_dt(:,nf)
@@ -188,7 +196,6 @@
             end if
         end if
     end do
-
     end subroutine setCommonProcesses
 
     !---------------------------------------------------------------------------
@@ -203,27 +210,86 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
+    integer :: np, nf, bkg, i, col_u, col_dwz, col_v, col_w, part_idx
+    real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
+    type(string), dimension(:), allocatable :: var_name, var_name_hor
+    type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
     real(prec), dimension(size(sv%state,1), size(sv%state,2)) :: LagrangianKinematic
-    allocate(requiredVars(2))
+    real(prec) :: VonKarman = 0.4
+    real(prec) :: Hmin_Chezy = 0.1
+    real(prec), dimension(size(sv%state,1)) :: chezyZ, dwz, bat
+    real(4), dimension(size(sv%state,1)) :: aux_r4
+    real(8), dimension(size(sv%state,1)) :: aux_r8
+    type(string) :: tag
+    !-------------------------------------------------------------------------------------
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    requiredVars(3) = Globals%Var%landIntMask
+    allocate(requiredHorVars(4))
+    requiredHorVars(1) = Globals%Var%u
+    requiredHorVars(2) = Globals%Var%v
+    requiredHorVars(3) = Globals%Var%w
+    requiredHorVars(4) = Globals%Var%dwz
     
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     LagrangianKinematic = 0.0
-    nf = Utils%find_str(var_name, Globals%Var%u, .true.)
-    LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .false.)
-    sv%state(:,4) = var_dt(:,nf)
-    nf = Utils%find_str(var_name, Globals%Var%v, .true.)
-    LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf), sv%state(:,2), .true.)
-    sv%state(:,5) = var_dt(:,nf)
+    nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
+    !Correct bottom values
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
+    col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
+    col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
+    col_w = Utils%find_str(var_name_hor, Globals%Var%w, .true.)
+    col_dwz = Utils%find_str(var_name_hor, Globals%Var%dwz, .true.)
+    
+    if (prec == kind(1._R8P)) then
+        where ((var_dt(:,nf_lim) < -0.5))
+            aux_r8 = max((var_hor_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+            chezyZ = (VonKarman / dlog(aux_r8))**2
+            sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
+            sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
+        end where
+    else
+        where ((var_dt(:,nf_lim) < -0.5))
+            aux_r4 = max((var_hor_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+            chezyZ = (VonKarman / alog(aux_r4))**2
+            sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
+            sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
+        end where  
+    end if
+    !compute new velocity and position according to the position in the bottom water cell
+    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+    
+    tag = 'particulate'
+    part_idx = Utils%find_str(sv%varName, tag, .true.)
+    where ((var_dt(:,nf_lim) < -0.98) .and. (sv%state(:,part_idx) == 1))
+        LagrangianKinematic(:,1) = 0
+        LagrangianKinematic(:,2) = 0
+    elsewhere (var_dt(:,nf_lim) < -0.5)
+        LagrangianKinematic(:,1) = Utils%m2geo(sv%state(:,4), sv%state(:,2), .false.)
+        LagrangianKinematic(:,2) = Utils%m2geo(sv%state(:,5), sv%state(:,2), .true.)
+    elsewhere
+        LagrangianKinematic(:,1) = Utils%m2geo(var_dt(:, nf_u), sv%state(:,2), .false.)
+        LagrangianKinematic(:,2) = Utils%m2geo(var_dt(:, nf_v), sv%state(:,2), .true.)
+        sv%state(:,4) = var_dt(:,nf_u)
+        sv%state(:,5) = var_dt(:,nf_v)
+    end where
+
     nf = Utils%find_str(var_name, Globals%Var%w, .false.)
     if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
-        LagrangianKinematic(:,3) = var_dt(:, nf)
-        sv%state(:,6) = var_dt(:, nf)
+        !Make the vertical velocity 0 at the bottom.
+        where ((var_dt(:,nf_lim) < -0.98) .and. (sv%state(:,part_idx) == 1))
+            LagrangianKinematic(:,3) = 0
+            sv%state(:,6) = 0
+        elsewhere (var_dt(:,nf_lim) < -0.5)
+            !Reduce velocity towards the bottom following a vertical logaritmic profile
+            LagrangianKinematic(:,3) = var_hor_dt(:,col_w) * chezyZ
+            sv%state(:,6) = LagrangianKinematic(:,3)
+        elsewhere
+            LagrangianKinematic(:,3) = var_dt(:, nf)
+            sv%state(:,6) = var_dt(:, nf)
+        end where
     else if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 2)) then
         LagrangianKinematic(:,3) = VerticalMotion%Divergence(sv, bdata, time)
         sv%state(:,6) = LagrangianKinematic(:,3)
@@ -231,9 +297,11 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
+    
     deallocate(var_dt)
+    deallocate(var_hor_dt)
+    deallocate(var_name_hor)
     deallocate(var_name)
-
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------
@@ -421,18 +489,20 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
-    integer :: np, nf, bkg
+    integer :: np, nf, bkg, part_idx
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
     real(prec), dimension(:), allocatable :: resolution
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
-    allocate(requiredVars(1))
+    type(string) :: tag
+    !Begin---------------------------------------------------------------------------
+    allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%resolution
+    requiredVars(2) = Globals%Var%landIntMask
     DiffusionMixingLength = 0.0
     if (Globals%Constants%DiffusionCoeff == 0.0) return
-
     !interpolate each background
     do bkg = 1, size(bdata)
         if (bdata(bkg)%initialized) then
@@ -468,10 +538,26 @@
                     DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
                     DiffusionMixingLength(:,3) = sv%state(:,9)
                 end where
+                
+                !Deposited particles should not move
+                tag = 'particulate'
+                part_idx = Utils%find_str(sv%varName, tag, .true.)
+                if (any(sv%state(:,part_idx) == 1)) then
+                    !if a single particle is particulate, check if they are at the bottom and don't move them if true.
+                    nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
+                    where ((var_dt(:,nf_lim) < -0.98) .and. (sv%state(:,part_idx) == 1))
+                        !update system positions
+                        DiffusionMixingLength(:,1) = 0
+                        DiffusionMixingLength(:,2) = 0
+                        DiffusionMixingLength(:,3) = 0
+                    end where
+                end if
+                
                 !update system velocities
                 !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
                 !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
                 !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
+
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
                 deallocate(rand_vel_u, rand_vel_v, rand_vel_w)

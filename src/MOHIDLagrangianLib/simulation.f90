@@ -415,8 +415,12 @@
     !iterate every Source to distribute
     ntrc = 0
     allocate(Globals%Sources%sourcesID(size(tempSources%src)))
+    !Sobrinho
+    allocate(Globals%Sources%bottom_emission_depth(size(tempSources%src)))
     do i=1, size(tempSources%src)
         Globals%Sources%sourcesID(i) = tempSources%src(i)%par%id
+        !Sobrinho
+        Globals%Sources%bottom_emission_depth(i) = tempSources%src(i)%par%bottom_emission_depth
         blk = getBlockIndex(Geometry%getCenter(tempSources%src(i)%par%geometry))
         call sBlock(blk)%putSource(tempSources%src(i))
         ntrc = ntrc + tempSources%src(i)%stencil%total_np

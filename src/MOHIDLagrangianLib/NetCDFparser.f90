@@ -127,7 +127,7 @@
     call ncFile%initialize(fileName)
     do i=1, size(syntecticVar)
         if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
-            write(*,*) "antes de getvardimensions var: ", varList(i)
+            !write(*,*) "antes de getvardimensions var: ", varList(i)
             call ncFile%getVarDimensions(varList(i), backgrounDims)
             if (allocated(backgrounDims)) then
                 realVarIdx = i
@@ -139,13 +139,13 @@
     if (realVarIdx /= 0) then
         do i=1, size(syntecticVar)
             if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
-                write(*,*)'Entrei non-syntetic', varList(i)
+                !write(*,*)'Entrei non-syntetic', varList(i)
                 call ncFile%getVar(varList(i), gfield(i))
-                write(*,*)'Sai non-syntetic', varList(i)
+                !write(*,*)'Sai non-syntetic', varList(i)
             else                          !synthetic variable to be constructed based on the field of a normal variable
-                write(*,*)'Entrei syntetic', varList(i)
+                !write(*,*)'Entrei syntetic', varList(i)
                 call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
-                write(*,*)'Sai syntetic', varList(i)
+                !write(*,*)'Sai syntetic', varList(i)
             end if
         end do
     end if
@@ -522,6 +522,7 @@ do1:                do indx=1, self%nVars
                             tempRealField2D = 0.0
                         end where
                         if (variable_u_is4D) then
+                            !For bathymetry, converts the 2D input field into a 4D field to be consistent with velocity matrixes
                             do t=1,size(tempRealField4D,4)
                                 do k=1, size(tempRealField4D,3)
                                     tempRealField4D(:,:,k,t) = -tempRealField2D(:,:)

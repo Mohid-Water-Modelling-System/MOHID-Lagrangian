@@ -503,9 +503,9 @@
     type(string), intent(in) :: name
     type(string), intent(in) :: units
     integer, intent(in) :: dim
-    write(*,*) "A iniciar variavel: ", name
+    !write(*,*) "A iniciar variavel: ", name
     call self%setFieldMetadata(name, units, dim)
-    write(*,*) "finalizei inicializacao variavel: ", name
+    !write(*,*) "finalizei inicializacao variavel: ", name
     allocate(self%field, source = field)
     end subroutine initScalar1dField
 

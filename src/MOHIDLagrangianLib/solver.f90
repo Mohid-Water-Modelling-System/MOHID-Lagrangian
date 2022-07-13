@@ -85,7 +85,16 @@
     integer :: i
 
     do i=1, size(sv)
+        if (size(sv(i)%state(:,1)) > 0) then
+            write(*,*)"Stepeuler i = ", i
+            write(*,*)"Lon id 1 Antes do StepEuler = ", sv(i)%state(1,1)
+            write(*,*)"Lat id 1 Antes do StepEuler = ", sv(i)%state(1,2)
+        end if
         sv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt
+        if (size(sv(i)%state(:,1)) > 0) then
+            write(*,*)"Lon id 1 Depois do StepEuler = ", sv(i)%state(1,1)
+            write(*,*)"Lat id 1 Depois do StepEuler = ", sv(i)%state(1,2)
+        end if
     end do
 
     end subroutine runStepEuler

@@ -104,35 +104,54 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
 
-    allocate(varList(7))
-    allocate(syntecticVar(7))
-    varList(1) = Globals%Var%u
-    syntecticVar(1) = .false.
-    varList(2) = Globals%Var%v
-    syntecticVar(2) = .false.
-    varList(3) = Globals%Var%w
-    syntecticVar(3) = .false.
-    varList(4) = Globals%Var%bathymetry
-    syntecticVar(4) = .false.
-    varList(5) = Globals%Var%landIntMask
-    syntecticVar(5) = .true. 
-    varList(6) = Globals%Var%resolution
-    syntecticVar(6) = .true.
-    !varList(6) = Globals%Var%bathymetry
-    !syntecticVar(6) = .true.
-    varList(7) = Globals%Var%dwz
-    syntecticVar(7) = .true.
-
+    if (Globals%SimDefs%bathyminNetcdf == 1) then
+        allocate(varList(7))
+        allocate(syntecticVar(7))
+        varList(1) = Globals%Var%u
+        syntecticVar(1) = .false.
+        varList(2) = Globals%Var%v
+        syntecticVar(2) = .false.
+        varList(3) = Globals%Var%w
+        syntecticVar(3) = .false.
+        varList(4) = Globals%Var%bathymetry
+        syntecticVar(4) = .false.
+        varList(5) = Globals%Var%landIntMask
+        syntecticVar(5) = .true. 
+        varList(6) = Globals%Var%resolution
+        syntecticVar(6) = .true.
+        varList(7) = Globals%Var%dwz
+        syntecticVar(7) = .true.
+    else
+        allocate(varList(6))
+        allocate(syntecticVar(6))
+        varList(1) = Globals%Var%u
+        syntecticVar(1) = .false.
+        varList(2) = Globals%Var%v
+        syntecticVar(2) = .false.
+        varList(3) = Globals%Var%w
+        syntecticVar(3) = .false.
+        varList(4) = Globals%Var%landIntMask
+        syntecticVar(4) = .true. 
+        varList(5) = Globals%Var%resolution
+        syntecticVar(5) = .true.
+        varList(6) = Globals%Var%dwz
+        syntecticVar(6) = .true.
+    end if
+    
     !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMaskField()
     call getCurrentsFile%makeResolutionField()
-    !call getCurrentsFile%makeBathymetryField()
-    !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of
-    !the cell
-    if (Globals%Constants%AddBottomCell) call getCurrentsFile%makeBottom(varList, syntecticVar)
+    
+    if (.not. Globals%SimDefs%bathyminNetcdf) then
+        call getCurrentsFile%makeBathymetryField() !computes bathymetry using the layer depth and the openpoints from velocity u
+    end if
+    
+    !computes distance between vertical cells
     call getCurrentsFile%makeDWZField()
-
+    !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
+    if (Globals%Constants%AddBottomCell) call getCurrentsFile%makeBottom(varList, syntecticVar)
+    
     end function getCurrentsFile
 
     !---------------------------------------------------------------------------
