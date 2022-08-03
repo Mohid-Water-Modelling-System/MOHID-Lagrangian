@@ -94,7 +94,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> instantiates and returns a background object with the data from a
-    !> currents input file
+    !> currents input file, which includes all instants of time
     !> @param[in] self, fileName
     !---------------------------------------------------------------------------
     type(background_class) function getCurrentsFile(self, fileName)
@@ -104,8 +104,8 @@
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
 
-    allocate(varList(6))
-    allocate(syntecticVar(6))
+    allocate(varList(7))
+    allocate(syntecticVar(7))
     varList(1) = Globals%Var%u
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%v
@@ -116,15 +116,27 @@
     syntecticVar(4) = .true. 
     varList(5) = Globals%Var%resolution
     syntecticVar(5) = .true.
-    varList(6) = Globals%Var%bathymetry
+    varList(6) = Globals%Var%dwz
     syntecticVar(6) = .true.
-
+    if (Globals%SimDefs%bathyminNetcdf == 1) then
+        varList(7) = Globals%Var%bathymetry
+        syntecticVar(7) = .false.
+    else
+        varList(7) = Globals%Var%bathymetry
+        syntecticVar(7) = .true.
+    end if
     !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMaskField()
     call getCurrentsFile%makeResolutionField()
-    call getCurrentsFile%makeBathymetryField()
-
+    if (.not. Globals%SimDefs%bathyminNetcdf) then
+        call getCurrentsFile%makeBathymetryField() !computes bathymetry using the layer depth and the openpoints from velocity u
+    end if
+    !computes distance between vertical cells
+    call getCurrentsFile%makeDWZField()
+    !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
+    if (Globals%Constants%AddBottomCell == 1) call getCurrentsFile%makeBottom(varList, syntecticVar)
+    
     end function getCurrentsFile
 
     !---------------------------------------------------------------------------
@@ -224,7 +236,6 @@
     integer :: fNumber
     real(prec) :: tempTime(2)
     logical :: appended
-
     if (self%useInputFiles) then
         call self%resetReadStatus()
         !check what files on the stack are to read to backgrounds
@@ -355,7 +366,6 @@
             end do
         end if
     end if
-
     end subroutine loadDataFromStack
 
     !---------------------------------------------------------------------------
