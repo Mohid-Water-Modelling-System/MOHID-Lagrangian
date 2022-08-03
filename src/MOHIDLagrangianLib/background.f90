@@ -172,34 +172,28 @@
     !> Method that returns a background field matrix - 4D
     !> @param[in] self, varName, outField, origVar
     !---------------------------------------------------------------------------
-    subroutine getVarByName4D(self, varName, outField, outField_1D, outField_2D, origVar, mandatory)
+    subroutine getVarByName4D(self, varName, outField_1D, outField_2D, outField_3D, outField_4D, origVar)
     class(background_class), intent(in) :: self
     type(string), intent(in) :: varName
-    real(prec), dimension(:,:,:,:), pointer, intent(out) :: outField
-    logical, optional, intent(in) :: mandatory
+    real(prec), dimension(:,:,:,:), pointer, optional, intent(out) :: outField_4D
+    real(prec), dimension(:,:,:), pointer, optional, intent(out) :: outField_3D
     type(string), optional, intent(in) :: origVar
     real(prec), dimension(:), pointer, optional, intent(out) :: outField_1D
     real(prec), dimension(:,:), pointer, optional, intent(out) :: outField_2D
     class(*), pointer :: curr
     type(string) :: outext
-    logical found
-    
+    logical found_orig_var, found
     !Begin ----------------------------------------------------------------------
     found = .false.
     call self%fields%reset()               ! reset list iterator
 do1:do while(self%fields%moreValues())     ! loop while there are values to process
         curr => self%fields%currentValue()
         select type(curr)
-        class is (scalar3d_field_class)
+        class is (scalar1d_field_class)
             if (curr%name == varName) then
-                outext = '[background_class::getVarByName4D] Unexepected type of content, not a 4D scalar Field, scalar3d_field_class'
+                outext = '[background_class::getVarByName4D] Unexepected type of content, not a 1D scalar Field, scalar3d_field_class'
                 call Log%put(outext)
                 stop
-            end if
-        class is (scalar4d_field_class)
-            if (curr%name == varName) then
-                outField => curr%field
-                found = .true.
             end if
         class is (scalar2d_field_class)
             if (curr%name == varName) then
@@ -211,15 +205,25 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
                     call Log%put(outext)
                 end if
             end if
-        class is (scalar1d_field_class)
+        class is (scalar3d_field_class)
             if (curr%name == varName) then
-                if (present(outField_1D)) then
-                    outField_1D => curr%field
+                if (present(outField_3D)) then
+                    outField_3D => curr%field
                     found = .true.
                 else
-                    outext = '[background_class::getVarByName4D] Unexepected type of content, not a 1D scalar Field, scalar1d_field_class'
+                    outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D scalar Field, scalar3d_field_class'
                     call Log%put(outext) 
                 endif
+            end if
+        class is (scalar4d_field_class)
+            if (curr%name == varName) then
+                if (present(outField_4D)) then
+                    outField_4D => curr%field
+                    found = .true.
+                else
+                    outext = '[background_class::getVarByName4D] Unexepected type of content, not a 4D scalar Field, scalar4d_field_class'
+                    call Log%put(outext)
+                end if
             end if
         class default
             outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D or 4D scalar Field, default'
@@ -230,8 +234,8 @@ do1:do while(self%fields%moreValues())     ! loop while there are values to proc
         call self%fields%next()            ! increment the list iterator
         nullify(curr)
     end do do1
+    found_orig_var = .false.
     if (present(origVar)) then
-        found = .false.
         !point self%fields to the original variable (before entering this routine)
         call self%fields%reset()               ! reset list iterator
 do2:    do while(self%fields%moreValues())     ! loop while there are values to process
@@ -239,39 +243,35 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             select type(curr)
             class is (scalar1d_field_class)
                 if (curr%name == origVar) then
-                    found = .true.
+                    found_orig_var = .true.
                 end if
             class is (scalar2d_field_class)
                 if (curr%name == origVar) then
-                    found = .true.
+                    found_orig_var = .true.
                 end if
             class is (scalar3d_field_class)
                 if (curr%name == origVar) then
-                    found = .true.
+                    found_orig_var = .true.
                 end if
             class is (scalar4d_field_class)
                 if (curr%name == origVar) then
-                    found = .true.
+                    found_orig_var = .true.
                 end if
             class default
                 outext = '[background_class::getVarByName4D] Unexepected type of content, not a 3D or 4D scalar Field'
                 call Log%put(outext)
                 stop
             end select
-            if (found) exit do2
+            if (found_orig_var) exit do2
             call self%fields%next()            ! increment the list iterator
             nullify(curr)
         end do do2
     end if
     !check if property was found and notify user otherwise
-    if (present(mandatory)) then
-        if (mandatory) then
-            if (.not. found) then
-                outext = '[background_class::getVarByName4D]: Field dimensions dont contain a field called '// varName //', stoping'
-                call Log%put(outext)
-                stop
-            end if
-        end if
+    if (.not. found_orig_var) then
+        outext = '[background_class::getVarByName4D]: Field dimensions dont contain a field called '// varName //', stoping'
+        call Log%put(outext)
+        stop
     end if
     end subroutine getVarByName4D
 
@@ -794,17 +794,17 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     real(prec), allocatable, dimension(:,:,:,:) :: bathymetry
     type(string) :: outext
     integer :: dimIndx, i, j, t, k
-    
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
         select type(curr)
         class is (scalar3d_field_class)
             if (curr%name == Globals%Var%bathymetry) then
-                curr%field = MV
+                !Defining a constant depth of 100 meter
+                curr%field = -100
             end if
-        class is (scalar4d_field_class)               
-            if (curr%name == Globals%Var%bathymetry) then         
+        class is (scalar4d_field_class)   
+            if (curr%name == Globals%Var%bathymetry) then
                 allocate(shiftUpLevel(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 allocate(bathymetry(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                 dimIndx = self%getDimIndex(Globals%Var%level)
@@ -855,7 +855,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     logical, dimension(:), intent(in) :: syntecticVar
     class(*), pointer :: curr
     type(string) :: outext
-    integer :: k, i, j, t, idx   
+    integer :: k, i, j, t, idx
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
@@ -903,31 +903,43 @@ do3:                do i=1, size(curr%field,1)
     subroutine makeDWZField(self)
     class(background_class), intent(inout) :: self
     class(*), pointer :: curr
-    real(prec), allocatable, dimension(:,:,:,:) :: DWZ
-    real(prec), dimension(:,:,:,:), pointer :: bathymetry
+    real(prec), allocatable, dimension(:,:,:,:) :: dwz4D
+    real(prec), allocatable, dimension(:,:,:) :: dwz3D
+    real(prec), dimension(:,:,:,:), pointer :: bathymetry_4D !3 space dimensions + time (constant)
+    real(prec), dimension(:,:,:), pointer :: bathymetry_3D !3 space dimensions
     real(prec), dimension(:), allocatable :: level
     type(string) :: outext
     integer :: dimIndx, i, j, t, k
     logical found
-    
+    !begin--------------------------------------------------------------------------------------
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
         select type(curr)
         class is (scalar3d_field_class)
             if (curr%name == Globals%Var%dwz) then
-                curr%field = MV
-                outext = '[background_class::makeDWZField] Unexepected type of content, not a 4D scalar Field'
-                call Log%put(outext)
-                stop
-            end if
-        class is (scalar4d_field_class)               
-            if (curr%name == Globals%Var%dwz) then         
-                allocate(dwz(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                allocate(dwz3D(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                 dimIndx = self%getDimIndex(Globals%Var%level)
                 !Get bathymetry matrix and point curr pointer back to the dwz matrix.
-                call self%getVarByName4D(varName = Globals%Var%bathymetry, outField = bathymetry, origVar = curr%name, mandatory = .true.)
-                dwz = 0
+                call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_3D = bathymetry_3D, origVar = curr%name)
+                dwz3D = 0
+                !Only covering the bottom for now... need to change this to include the surface
+                do t=1, size(curr%field,3)
+                    do j=1, size(curr%field,2)
+                        do i=1, size(curr%field,1)
+                            dwz3D(i,j,t) = -bathymetry_3D(i,j,t)
+                        end do
+                    end do
+                end do
+                curr%field = dwz3D
+            end if
+        class is (scalar4d_field_class)               
+            if (curr%name == Globals%Var%dwz) then
+                allocate(dwz4D(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                dimIndx = self%getDimIndex(Globals%Var%level)
+                !Get bathymetry matrix and point curr pointer back to the dwz matrix.
+                call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry_4D, origVar = curr%name)
+                dwz4D = 0
                 !Only covering the bottom for now... need to change this to include the surface
                 do t=1, size(curr%field,4)
                     do j=1, size(curr%field,2)
@@ -935,11 +947,11 @@ do3:                do i=1, size(curr%field,1)
                             found = .false.
                             do k=1, size(curr%field,3)
                                 if (found) then
-                                    dwz(i,j,k,t) = abs(self%dim(dimIndx)%field(k-1)) - abs(self%dim(dimIndx)%field(k))
+                                    dwz4D(i,j,k,t) = abs(self%dim(dimIndx)%field(k-1)) - abs(self%dim(dimIndx)%field(k))
                                 else   
-                                    if (self%dim(dimIndx)%field(k) < bathymetry(i,j,1,t)) then
+                                    if (self%dim(dimIndx)%field(k) > bathymetry_4D(i,j,1,t)) then
                                         !Found first
-                                        dwz(i,j,k,t) = (bathymetry(i,j,1,t) - abs(self%dim(dimIndx)%field(k))) * 2
+                                        dwz4D(i,j,k,t) = abs((bathymetry_4D(i,j,1,t) - (self%dim(dimIndx)%field(k))) * 2)
                                         found = .true.
                                     end if
                                 end if
@@ -947,7 +959,7 @@ do3:                do i=1, size(curr%field,1)
                         end do
                     end do
                 end do
-                curr%field = dwz
+                curr%field = dwz4D
             end if
         class default
             outext = '[background_class::makeDWZField] Unexepected type of content, not a 3D or 4D scalar Field'
@@ -958,7 +970,6 @@ do3:                do i=1, size(curr%field,1)
         nullify(curr)
     end do
     call self%fields%reset()               ! reset list iterator
-
     end subroutine makeDWZField
     
     !---------------------------------------------------------------------------

@@ -41,7 +41,7 @@
         logical, dimension(:), allocatable :: activeTime      !< array of logicals that maps active state for every dt
         type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
-        real(prec) :: bottom_emission_depth     !< emission of tracers at the bottom - Sobrinho
+        real(prec) :: bottom_emission_depth     !< emission of tracers at the bottom
     end type source_par
 
     type :: source_prop                         !<Type - material properties of a source object
@@ -517,7 +517,6 @@
     src%par%emitting_rate=emitting_rate
     src%par%emitting_fixed_rate = emitting_fixed_rate
     src%par%rate_file = rate_file
-    !Sobrinho
     src%par%bottom_emission_depth = bottom_emission_depth
     if (.not.emitting_fixed_rate) then
         call src%getVariableRate(src%par%rate_file, rateScale)

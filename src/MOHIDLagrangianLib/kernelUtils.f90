@@ -42,7 +42,6 @@
     subroutine runInterpolatorOnVars(self, sv, bdata, time, requiredVars, var_dt, var_name, justRequired, reqVertInt)
     class(kernelUtils_class), intent(inout) :: self
     type(stateVector_class), intent(in) :: sv
-    !type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), dimension(:,:), allocatable, intent(inout) :: var_dt
     type(string), dimension(:), allocatable, intent(inout) :: var_name
@@ -53,7 +52,7 @@
     integer :: np, nf, bkg, i, j
     type(varBackground_t), dimension(:), allocatable :: bkgToInterpolate
     type(string), allocatable, dimension(:) :: currList
-    
+    !begin--------------------------------------------------------------------------
     call self%getBackgroundDictIntersection(requiredVars, bkgToInterpolate)
     
     localjustRequired = .false.

@@ -67,18 +67,17 @@
     logical, intent(in), optional :: reqVertInt
     real(prec), dimension(:,:,:,:), pointer :: bathymetry
     real(prec), dimension(:), allocatable :: var_dt_aux
-    logical :: interp, requireVertInt, comeca
+    logical :: interp, requireVertInt
     real(prec) :: newtime
     class(*), pointer :: aField
-    integer :: i, cenas
+    integer :: i
     type(string) :: outext
-
     real(prec), dimension(size(state,1)) :: xx, yy, zz
     logical, dimension(size(state,1)) :: outOfBounds
     real(prec) :: tt
+    !begin----------------------------------------------------------------------------
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
-    comeca = .false.
     i = 1
     call bdata%fields%reset()                   ! reset list iterator
     do while(bdata%fields%moreValues())         ! loop while there are values
@@ -99,18 +98,13 @@
                     xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
                     yy = self%getArrayCoord(state(:,2), bdata, Globals%Var%lat, outOfBounds)
                     zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds)
-                    !if (var_name(i) == Globals%Var%landIntMask) write(*,*) "Valor de zz(1) = ", zz(1)
                     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
                     if (var_name(i) == Globals%Var%landIntMask) then
                         !adjust interpolation to bathymetry rather than vertical layers. important for ressuspension processes
-                        call bdata%getVarByName4D(varName = Globals%Var%bathymetry, outField = bathymetry, origVar = aField%name, mandatory = .true.)
-                        !write(*,*)"Vou entrar no interp4D_Hor para batimetria-----------"
+                        call bdata%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry, origVar = aField%name)
                         allocate(var_dt_aux(size(state,1)))
                         var_dt_aux = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, bathymetry, size(bathymetry,1), size(bathymetry,2), size(bathymetry,3), size(bathymetry,4), size(state,1))
-                        !write(*,*)"Vou entrar com bat no getArrayCoord"
-                        !write(*,*)"Caralhooooo", var_dt_aux(1)
                         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds, bat = var_dt_aux)
-                        !write(*,*) "Valor de zz(1) depois da correcao = ", zz(1)
                         deallocate(var_dt_aux)
                     end if
                     if (present(reqVertInt)) then
@@ -179,6 +173,7 @@
     integer :: i, t0, t1
     real(prec), dimension(n_e) :: interp4D                                !< Field evaluated at x,y,z,t
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
+    
     do concurrent(i=1:n_e, .not. out(i))
         x0(i) = floor(x(i))
         x1(i) = ceiling(x(i))
@@ -187,6 +182,7 @@
         z0(i) = floor(z(i))
         z1(i) = ceiling(z(i))
     end do
+    
     t0 = floor(t)
     t1 = ceiling(t)
 
@@ -199,7 +195,6 @@
     yd = 0.
     zd = 0.
     td = 0.
-    
     ! Compute the "normalized coordinates" of the particle inside the data field box
     where (x1 /= x0) xd = (x-x0)/(x1-x0)
     where (y1 /= y0) yd = (y-y0)/(y1-y0)
@@ -207,10 +202,6 @@
     if (t1 /= t0) td = (t-t0)/(t1-t0)
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
-    
-    !write(*,*)'field at k = 9 : ', field(20,20,9,t0)
-    !write(*,*)'field at k = 10 : ', field(20,20,10,t0)
-    !write(*,*)'field at k = 11 : ', field(20,20,11,t0)
     do concurrent(i=1:n_e, .not. out(i))
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
@@ -232,7 +223,6 @@
     ! Interpolation on the time dimension and get the final result.
         interp4D(i) = c0(i)*(1.-td)+c1(i)*td
     end do
-    
     end function interp4D
     
     !> @author Joao Sobrinho - Colab Atlantic
@@ -253,11 +243,19 @@
     real(prec), dimension(n_fv, n_cv, n_pv, n_tv), intent(in) :: field    !< Field data with dimensions [n_fv,n_cv,n_pv,n_tv]
     integer, intent(in) :: n_fv, n_cv, n_pv, n_tv                         !< field dimensions
     integer, intent(in) :: n_e                                            !< Number of particles to interpolate to
-    integer, dimension(n_e) :: x0, y0, z0, x1, y1
+    integer, dimension(n_e) :: x0, y0, z0, x1, y1, z1
     real(prec), dimension(n_e) :: xd, yd
     real(prec), dimension(n_e) :: c00, c10, c01, c11, c0, c1
     real(prec) :: td
-    integer :: i, t0, t1, cenas
+    real(prec) :: bottom_lower_left_t0, bottom_lower_right_t0
+    real(prec) :: bottom_upper_left_t0, bottom_upper_right_t0
+    real(prec) :: ceiling_lower_left_t0, ceiling_lower_right_t0
+    real(prec) :: ceiling_upper_left_t0, ceiling_upper_right_t0
+    real(prec) :: bottom_lower_left_t1, bottom_lower_right_t1
+    real(prec) :: bottom_upper_left_t1, bottom_upper_right_t1
+    real(prec) :: ceiling_lower_left_t1, ceiling_lower_right_t1
+    real(prec) :: ceiling_upper_left_t1, ceiling_upper_right_t1
+    integer :: i, t0, t1
     real(prec), dimension(n_e) :: interp4D_Hor                                !< Field evaluated at x,y,z,t
     ! From x,y,z,t in array coordinates, find the the box inside the field where the particle is
     do concurrent(i=1:n_e, .not. out(i))
@@ -266,6 +264,7 @@
         y0(i) = floor(y(i))
         y1(i) = ceiling(y(i))
         z0(i) = floor(z(i))
+        z1(i) = ceiling(z(i))
     end do
     t0 = floor(t)
     t1 = ceiling(t)
@@ -273,6 +272,7 @@
     ! If depth layer has one layer
     if (n_pv == 1) then
         z0 = 1
+        z1 = 1
     end if
 
     xd = 0.
@@ -286,10 +286,45 @@
     interp4D_Hor = 0.0
     
     do concurrent(i=1:n_e, .not. out(i))
-        c00(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
-        c10(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
-        c01(i) = field(x0(i),y0(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t1)*xd(i)
-        c11(i) = field(x0(i),y1(i),z0(i),t1)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t1)*xd(i)
+        !Use the first available value in the water column that is not 0
+        bottom_lower_left_t0   = field(x0(i),y0(i),z0(i),t0)
+        bottom_lower_right_t0  = field(x1(i),y0(i),z0(i),t0)
+        bottom_upper_left_t0   = field(x0(i),y1(i),z0(i),t0)
+        bottom_upper_right_t0  = field(x1(i),y1(i),z0(i),t0)
+        bottom_lower_left_t1   = field(x0(i),y0(i),z0(i),t1)
+        bottom_lower_right_t1  = field(x1(i),y0(i),z0(i),t1)
+        bottom_upper_left_t1   = field(x0(i),y1(i),z0(i),t1)
+        bottom_upper_right_t1  = field(x1(i),y1(i),z0(i),t1)
+        ceiling_lower_left_t0  = field(x0(i),y0(i),z1(i),t0)
+        ceiling_lower_right_t0 = field(x1(i),y0(i),z1(i),t0)
+        ceiling_upper_left_t0  = field(x0(i),y1(i),z1(i),t0)
+        ceiling_upper_right_t0 = field(x1(i),y1(i),z1(i),t0)
+        ceiling_lower_left_t1  = field(x0(i),y0(i),z1(i),t1)
+        ceiling_lower_right_t1 = field(x1(i),y0(i),z1(i),t1)
+        ceiling_upper_left_t1  = field(x0(i),y1(i),z1(i),t1)
+        ceiling_upper_right_t1 = field(x1(i),y1(i),z1(i),t1)
+        
+        if (bottom_lower_left_t0 == 0) then
+            bottom_lower_left_t0 = ceiling_lower_left_t0
+            bottom_lower_left_t1 = ceiling_lower_left_t1
+        end if
+        if (bottom_lower_right_t0 == 0) then
+            bottom_lower_right_t0 = ceiling_lower_right_t0
+            bottom_lower_right_t1 = ceiling_lower_right_t1
+        end if
+        if (bottom_upper_left_t0 == 0) then
+            bottom_upper_left_t0 = ceiling_upper_left_t0
+            bottom_upper_left_t1 = ceiling_upper_left_t1
+        end if
+        if (bottom_upper_right_t0 == 0) then
+            bottom_upper_right_t0 = ceiling_upper_right_t0
+            bottom_upper_right_t1 = ceiling_upper_right_t1
+        end if
+
+        c00(i) = bottom_lower_left_t0*(1.-xd(i)) + bottom_lower_right_t0*xd(i) !y0x0z0t0!  y0x1z0t0
+        c10(i) = bottom_upper_left_t0*(1.-xd(i)) + bottom_upper_right_t0*xd(i)
+        c01(i) = bottom_lower_left_t1*(1.-xd(i)) + bottom_lower_right_t1*xd(i)
+        c11(i) = bottom_upper_left_t1*(1.-xd(i)) + bottom_upper_right_t1*xd(i)
         
     ! Interpolation on the second dimension and collapse it to a two dimension problem
         c0(i) = c00(i)*(1.-yd(i))+c10(i)*yd(i)
@@ -389,7 +424,6 @@
         else
             getArrayCoord = self%getArrayCoordNonRegular(xdata, bdata, dim, out)
         end if
-        
     end if 
 
     end function getArrayCoord
@@ -439,7 +473,7 @@
     integer :: id, idx_1, idx_2                                 
     real(prec), dimension(size(xdata)) :: getArrayCoordNonRegular   !< coordinates in array index
     real(prec) :: minBound, maxBound
-
+    
     if(size(bdata%dim(dim)%field) == 1) then
         getArrayCoordNonRegular = 1
         return
@@ -447,34 +481,48 @@
     getArrayCoordNonRegular = 1
     minBound = bdata%dim(dim)%getFieldMinBound()
     maxBound = bdata%dim(dim)%getFieldMaxBound()
-    
     where (xdata < minBound) out = .true.
     where (xdata > maxBound) out = .true.
-    do concurrent(id = 1:size(xdata), .not. out(id))
-        !write(*,*)"id = ", id
-        do i = 2, size(bdata%dim(dim)%field)
-            !write(*,*)"i = ", i
-            !write(*,*)"bdata%dim(dim)%field(i) = ", bdata%dim(dim)%field(i)
-            !write(*,*)"xdata(id) = ", xdata(id)
-            if (bdata%dim(dim)%field(i) >= xdata(id)) then
-                idx_1 = i-1
-                idx_2 = i
-                exit
+    if (present(bat)) then
+        do concurrent(id = 1:size(xdata), .not. out(id))
+            do i = 2, size(bdata%dim(dim)%field)
+                if (bdata%dim(dim)%field(i) >= xdata(id)) then
+                    idx_1 = i-1
+                    idx_2 = i
+                    exit
+                end if
+            end do
+            !getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-max(bdata%dim(dim)%field(idx_1),bat(id)))/(bdata%dim(dim)%field(idx_2)-max(bdata%dim(dim)%field(idx_1),bat(id))))
+            !Bathymetric value is deeper than bottom face of layer where tracer is located
+            if (bat(id) <= bdata%dim(dim)%field(idx_1)) then
+               getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1))) 
+            else
+                !Bathymetry is inside bottom open cell. using max to avoid error when tracer is below the bathymetry (its position is corrected afterwards)
+                getArrayCoordNonRegular(id) = idx_1 + abs((max(xdata(id),bat(id))-bat(id))/(bdata%dim(dim)%field(idx_2)-bat(id))) 
             end if
+            
+            !if (getArrayCoordNonRegular(id) > idx_2 .or. getArrayCoordNonRegular(id) < idx_1) then
+            !    write(*,*) "id : ", id
+            !    write(*,*) "getArrayCoordNonRegular(id) : ", getArrayCoordNonRegular(id)
+            !    write(*,*) "Valores idx_1 e idx_2: ", idx_1, idx_2
+            !    write(*,*) "Bdata idx_1: ", bdata%dim(dim)%field(idx_1)
+            !    write(*,*) "Bdata idx_2: ", bdata%dim(dim)%field(idx_2)
+            !    write(*,*) "Valor do bat = ", bat(id)
+            !    write(*,*) "Valor do xdata: ", xdata(id)
+            !end if
         end do
-
-        if (present(bat)) then
-            !write(*,*)"idx_1 = ", idx_1
-            !write(*,*)"idx_2 = ", idx_2
-            !write(*,*)"xdata(id) = ", xdata(id)
-            !write(*,*)"bdata%dim(dim)%field(idx_1) = ", bdata%dim(dim)%field(idx_1)
-            !write(*,*)"bat(id) = ", bat(id)
-            !write(*,*)"bdata%dim(dim)%field(idx_2) = ", bdata%dim(dim)%field(idx_2)
-            getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-max(bdata%dim(dim)%field(idx_1),bat(id)))/(bdata%dim(dim)%field(idx_2)-max(bdata%dim(dim)%field(idx_1),bat(id))))
-        else
+    else
+        do concurrent(id = 1:size(xdata), .not. out(id))
+            do i = 2, size(bdata%dim(dim)%field)
+                if (bdata%dim(dim)%field(i) >= xdata(id)) then
+                    idx_1 = i-1
+                    idx_2 = i
+                    exit
+                end if
+            end do
             getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1)))
-        end if
-    end do
+        end do
+    end if
     end function getArrayCoordNonRegular
 
     !---------------------------------------------------------------------------
@@ -498,8 +546,6 @@
 
     found = .false.
     dim = bdata%getDimIndex(dimName)
-    !write(*,*)"dim no getPointCoordNonRegular", dim
-    !write(*,*)"size(bdata%dim(dim)%field) no getPointCoordNonRegular", size(bdata%dim(dim)%field)
     if(size(bdata%dim(dim)%field) == 1) then
         getPointCoordNonRegular = 1
         return

@@ -127,7 +127,6 @@
     call ncFile%initialize(fileName)
     do i=1, size(syntecticVar)
         if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
-            !write(*,*) "antes de getvardimensions var: ", varList(i)
             call ncFile%getVarDimensions(varList(i), backgrounDims)
             if (allocated(backgrounDims)) then
                 realVarIdx = i
@@ -139,13 +138,9 @@
     if (realVarIdx /= 0) then
         do i=1, size(syntecticVar)
             if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
-                !write(*,*)'Entrei non-syntetic', varList(i)
                 call ncFile%getVar(varList(i), gfield(i))
-                !write(*,*)'Sai non-syntetic', varList(i)
             else                          !synthetic variable to be constructed based on the field of a normal variable
-                !write(*,*)'Entrei syntetic', varList(i)
                 call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
-                !write(*,*)'Sai syntetic', varList(i)
             end if
         end do
     end if
@@ -481,6 +476,7 @@
                         end if
                     end if
                 end do
+                
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
                 else

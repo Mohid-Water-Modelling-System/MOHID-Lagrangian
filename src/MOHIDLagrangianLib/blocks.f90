@@ -356,7 +356,6 @@
             select type(aTracer)
             class is (tracer_class)
                 tType = aTracer%par%ttype
-                !write(*,*) " in Tipo de tracador", tType
                 do i = 1, size(self%BlockState)
                     if (tType == self%BlockState(i)%ttype) then
                         self%BlockState(i)%state(self%BlockState(i)%idx,:) = aTracer%getStateArray()
@@ -373,7 +372,6 @@
                         exit
                     end if
                 end do
-                !write(*,*) " out Tipo de tracador", tType
                 aTracer%now%active = .false. !only gets flaged as active if the state vector says so when copying back to the Tracers
                 if (.not.builtState) then
                     outext = '[Block::TracersToSV]: Tracer did not find correspoding State Vector, stoping'

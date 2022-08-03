@@ -344,7 +344,7 @@
     self%SimDefs%Pointmax = 0.0
     self%SimDefs%Center = 0.0
     self%SimDefs%VerticalVelMethod = 1
-    self%SimDefs%RemoveLandTracer = 1
+    self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
@@ -356,7 +356,7 @@
     self%Constants%ResuspensionCoeff = 0.0
     self%Constants%MeanDensity = 1027.0
     self%Constants%MeanKVisco = 1.09E-3
-    self%Constants%AddBottomCell = 1
+    self%Constants%AddBottomCell = 0
     self%Constants%Rugosity = 0.0025
     self%Constants%Critical_Shear_Erosion = 0.4
     !filenames
@@ -426,7 +426,7 @@
     call self%addVar(self%temp)
     call self%addVar(self%sal)
     call self%addVar(self%density)
-    call self%addVar(self%bathymetry) !Sobrinho
+    call self%addVar(self%bathymetry)
     !call self%addVar(self%lon)
     !call self%addVar(self%lat)
     !call self%addVar(self%level)
@@ -598,7 +598,6 @@
     type(Node), pointer, intent(in) :: varNode
     type(string) :: tag
 
-    !Sobrinho
     tag="bathymetry"
     call self%setCurrVar(tag, self%Var%bathymetry, self%Var%bathymetryVariants, varNode)
     tag="eastward_sea_water_velocity"
@@ -1321,6 +1320,10 @@
     outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')    
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%Critical_Shear_Erosion
+    outext = outext//'       CriticalShearErosion = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%AddBottomCell
+    outext = outext//'       AddBottomCell = '//temp_str(1)//new_line('a')
     temp_str(1)=self%MeanDensity
     outext = outext//'       MeanDensity = '//temp_str(1)//new_line('a')
     temp_str(1)=self%MeanKVisco
@@ -1517,7 +1520,7 @@
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
-    temp_str(1)=self%RemoveLandTracer
+    temp_str(1)=self%bathyminNetcdf
     outext = outext//'       bathyminNetcdf = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printsimdefs

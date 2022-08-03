@@ -424,7 +424,6 @@
             posi_file = att_val
             posi_fixed = .false.
         end if
-        !Sobrinho
         !reading bottom emission type of source
         readflag = .false.
         tag="bottom_emission_depth"
@@ -465,7 +464,6 @@
             end if
         end do
         !initializing Source j
-        !Sobrinho
         call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, activeTimes, source_geometry, source_shape, res)
        
         deallocate(activeTimes)
@@ -527,7 +525,6 @@
     if (read_flag) then
         call Globals%SimDefs%setRemoveLandTracer(att_val)
     endif
-    call Globals%SimDefs%print()
     
     tag="BathyminNetcdf"
     att_name="value"
@@ -535,7 +532,8 @@
     if (read_flag) then
         call Globals%SimDefs%setBathyminNetcdf(att_val)
     endif
-
+    call Globals%SimDefs%print()
+    
     end subroutine init_simdefs
 
     !---------------------------------------------------------------------------
