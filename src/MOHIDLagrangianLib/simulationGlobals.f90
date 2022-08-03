@@ -41,6 +41,9 @@
     procedure :: print => print_stringList
     procedure :: printCurrent => print_stringListCurrent
     procedure :: notRepeated
+    procedure :: makeUnion
+    procedure :: toArray
+    procedure :: copy
     end type stringList_class
 
     type :: parameters_t   !< Parameters class
@@ -48,14 +51,14 @@
         integer         :: IntegratorIndexes(3)      !< Index list for the integrator selector
         type(string)    :: IntegratorNames(3)        !< Names list for the integrator selector
         integer         :: numOPMthreads             !< number of openMP threads to be used
-        real(prec)      :: WarmUpTime = 0.0          !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
-        real(prec)      :: TimeMax = MV              !< Simulation duration (s)
-        real(prec)      :: OutputWriteTime = MV              !< Output write time (1/Hz)
+        real(prec)      :: WarmUpTime                !< Time to freeze the tracers at simulation start (warmup) (s) (default=0.0)
+        real(prec)      :: TimeMax                   !< Simulation duration (s)
+        real(prec)      :: OutputWriteTime           !< Output write time (1/Hz)
         type(datetime)  :: StartTime                 !< Start date of the simulation
         type(datetime)  :: EndTime                   !< End date of the simulation
         type(datetime)  :: BaseDateTime              !< Base date for time stamping results
         real(prec)      :: BufferSize                !< Controls the frequency of consumption and ammout of input data kept in memory
-        integer         :: OutputFormat = 2          !< Format of the output files (default=2) NetCDF=1, VTK=2
+        integer         :: OutputFormat              !< Format of the output files (default=2) NetCDF=1, VTK=2
         integer         :: OutputFormatIndexes(2)    !< Index list for the output file format selector
         type(string)    :: OutputFormatNames(2)      !< Names list for the output file format selector
     contains
@@ -70,16 +73,22 @@
         type(vector)    ::  Pointmin        !< Point that defines the lowest corner of the simulation bounding box
         type(vector)    ::  Pointmax        !< Point that defines the upper corner of the simulation bounding box
         type(vector)    ::  Center          !< Point that defines the center of the simulation bounding box
-        logical         ::  autoblocksize = .true.   !< Flag for automatic Block sizing
+        logical         ::  autoblocksize   !< Flag for automatic Block sizing
         type(vector)    ::  blocksize       !< Size (xyz) of a Block (sub-domain)
         integer         ::  numblocks       !< Number of blocks in the simulation
         integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
+        integer         :: VerticalVelMethod !< Vertical velocity method
+        integer         :: RemoveLandTracer !< Vertical velocity method
+        integer         :: bathyminNetcdf !< bathymetry is a property inside the netcdf
     contains
     procedure :: setdp
     procedure :: setdt
     procedure :: setboundingbox
     procedure :: setCenter
     procedure :: setblocksize
+    procedure :: setVerticalVelMethod
+    procedure :: setRemoveLandTracer
+    procedure :: setbathyminNetcdf
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -87,11 +96,15 @@
         type(vector) :: Gravity             !< Gravitational acceleration vector (default=(0 0 -9.81)) (m s-2)
         real(prec)   :: Z0 = 0.0            !< Reference local sea level
         real(prec)   :: smallDt             !< Small dt scale, for numeric precision purposes
-        real(prec)   :: BeachingLevel = -3.0 !<Level above which beaching can occur (m)
-        real(prec)   :: BeachingStopProb = 0.50 !< Probablity of beaching stopping a tracer (-)
-        real(prec)   :: DiffusionCoeff = 1.0 !< Horizontal diffusion coefficient (-)
-        real(prec)   :: MeanDensity = 1027.0 !< mean medium density (kg m-3)
-        real(prec)   :: MeanKVisco = 1.09E-3 !< mean medium kinematic viscosity (m2/s)
+        real(prec)   :: BeachingLevel       !<Level above which beaching can occur (m)
+        real(prec)   :: ResuspensionCoeff   !< Resuspension velocity amplitud factor (default=0) 
+        real(prec)   :: BeachingStopProb    !< Probablity of beaching stopping a tracer (-)
+        real(prec)   :: DiffusionCoeff      !< Horizontal diffusion coefficient (-)
+        real(prec)   :: MeanDensity         !< mean ocean water density.
+        real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
+        integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
+        real(prec)   :: Rugosity            !< Bottom rugosity value (for now the model assumes a constant value over the grid)
+        real(prec)   :: Critical_Shear_Erosion !< Bottom critical shear erosion value (for now the model assumes a constant value over the grid)
     contains
     procedure :: setgravity
     procedure :: setz0
@@ -99,8 +112,12 @@
     procedure :: setBeachingStopProb
     procedure :: setDiffusionCoeff
     procedure :: setSmallDt
+    procedure :: setResuspensionCoeff
     procedure :: setMeanDensity
     procedure :: setMeanKVisco
+    procedure :: setAddBottomCell
+    procedure :: setRugosity
+    procedure :: setCritical_Shear_Erosion
     procedure :: print => printconstants
     end type constants_t
 
@@ -152,6 +169,7 @@
         type(string) :: vsdy
         type(string) :: u10
         type(string) :: v10
+        type(string) :: rad
         type(string) :: lon
         type(string) :: lat
         type(string) :: level
@@ -161,6 +179,8 @@
         type(string) :: bathymetry
         type(string) :: surface
         type(string) :: rate
+        type(string) :: dwz
+        type(stringList_class) :: bathymetryVariants
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
@@ -171,6 +191,7 @@
         type(stringList_class) :: vsdyVariants
         type(stringList_class) :: u10Variants
         type(stringList_class) :: v10Variants
+        type(stringList_class) :: radVariants
         type(stringList_class) :: lonVariants
         type(stringList_class) :: latVariants
         type(stringList_class) :: levelVariants
@@ -182,6 +203,17 @@
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
     end type var_names_t
+    
+    type :: varBackground_t
+        integer :: bkgIndex = 0
+        type(stringList_class) :: bkgVars 
+    contains
+    end type varBackground_t
+    
+    type :: varBackgroundDict_t
+        type(varBackground_t), allocatable, dimension(:) :: bkgDict 
+    contains
+    end type varBackgroundDict_t
 
     type :: maskVals_t
         real(prec) :: landVal  = 2.0
@@ -195,6 +227,8 @@
         integer :: base  = 0
         integer :: paper   = 1
         integer :: plastic = 2
+        integer :: coliform = 3
+        integer :: seed = 4
     contains
     end type tracerTypes_t
 
@@ -221,6 +255,7 @@
     
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
+        real(prec), allocatable, dimension(:) :: bottom_emission_depth
     contains    
     end type sources_t
 
@@ -230,6 +265,7 @@
         type(constants_t)   :: Constants
         type(filenames_t)   :: Names
         type(sim_t)         :: Sim
+        type(varBackgroundDict_t) :: BackgroundVarDict
         type(output_t)      :: Output
         type(var_names_t)   :: Var
         type(sim_time_t)    :: SimTime
@@ -245,6 +281,7 @@
     procedure :: setVarNames
     procedure :: setDimNames
     procedure :: setCurrVar
+    procedure :: fillBackgroundDict
     end type globals_class
     
     type(string) :: notRead
@@ -254,7 +291,7 @@
     type(globals_class) :: Globals
 
     !Public access vars
-    public :: Globals, stringList_class, notRead, notSet
+    public :: Globals, stringList_class, notRead, notSet, varBackground_t
 
     contains
 
@@ -306,6 +343,9 @@
     self%SimDefs%Pointmin = 0.0
     self%SimDefs%Pointmax = 0.0
     self%SimDefs%Center = 0.0
+    self%SimDefs%VerticalVelMethod = 1
+    self%SimDefs%RemoveLandTracer = 0
+    self%SimDefs%bathyminNetcdf = 0
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
@@ -313,8 +353,12 @@
     self%Constants%BeachingStopProb = 0.50
     self%Constants%DiffusionCoeff = 1.0
     self%Constants%smallDt = 0.0
+    self%Constants%ResuspensionCoeff = 0.0
     self%Constants%MeanDensity = 1027.0
     self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%AddBottomCell = 0
+    self%Constants%Rugosity = 0.0025
+    self%Constants%Critical_Shear_Erosion = 0.4
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -363,6 +407,7 @@
     self%vsdy    = 'vsdy'
     self%u10     = 'u10'
     self%v10     = 'v10'
+    self%rad     = 'rad'
     self%lon     = 'lon'
     self%lat     = 'lat'
     self%level   = 'level'
@@ -372,6 +417,8 @@
     self%bathymetry = 'bathymetry'
     self%surface    = 'surface'
     self%rate = 'rate'
+    !DWZ is the distance between two vertical faces of a cube (ex: thichness of the vertical layer)
+    self%dwz = 'dwz'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
@@ -379,6 +426,7 @@
     call self%addVar(self%temp)
     call self%addVar(self%sal)
     call self%addVar(self%density)
+    call self%addVar(self%bathymetry)
     !call self%addVar(self%lon)
     !call self%addVar(self%lat)
     !call self%addVar(self%level)
@@ -406,7 +454,15 @@
     type(string) function getVarSimName(self, var)
     class(var_names_t), intent(inout) :: self
     type(string), intent(in) :: var
+    logical value
 
+    !searching for bathymetry Sobrinho
+    value = self%bathymetryVariants%notRepeated(var)
+    if (var == self%bathymetry .or. .not. value) then
+        getVarSimName = self%bathymetry
+        return
+    end if
+    
     !searching for u
     if (var == self%u .or. .not.self%uVariants%notRepeated(var)) then
         getVarSimName = self%u
@@ -455,6 +511,11 @@
     !searching for v10
     if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
         getVarSimName = self%v10
+        return
+    end if
+    !searching for rad
+    if (var == self%rad .or. .not.self%radVariants%notRepeated(var)) then
+        getVarSimName = self%rad
         return
     end if
     !searching for lon
@@ -537,6 +598,8 @@
     type(Node), pointer, intent(in) :: varNode
     type(string) :: tag
 
+    tag="bathymetry"
+    call self%setCurrVar(tag, self%Var%bathymetry, self%Var%bathymetryVariants, varNode)
     tag="eastward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varNode)
     tag="northward_sea_water_velocity"
@@ -557,6 +620,8 @@
     call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
     tag="northward_wind"
     call self%setCurrVar(tag, self%Var%v10, self%Var%v10Variants, varNode)
+    tag="surface_radiation"
+    call self%setCurrVar(tag, self%Var%rad, self%Var%radVariants, varNode)
 
     end subroutine setVarNames
 
@@ -615,6 +680,30 @@
     end if
 
     end subroutine setCurrVar
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> 
+    !---------------------------------------------------------------------------
+    subroutine fillBackgroundDict(self, idx, variables)
+    class(globals_class), intent(inout) :: self
+    integer, intent(in) :: idx
+    type(stringList_class), intent(inout) :: variables
+    integer :: i
+    
+    do i=1, size(self%BackgroundVarDict%bkgDict)
+        if (self%BackgroundVarDict%bkgDict(i)%bkgIndex == 0) then
+            self%BackgroundVarDict%bkgDict(i)%bkgIndex = idx
+            call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
+            exit
+        else if(self%BackgroundVarDict%bkgDict(i)%bkgIndex == idx) then
+            call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
+            exit
+        end if
+    end do
+    
+    end subroutine fillBackgroundDict
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1068,6 +1157,67 @@
     end subroutine setDiffusionCoeff
 
     !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Resuspension setting routine or not
+    !> @param[in] self, read_ResuspensionCoeff
+    !---------------------------------------------------------------------------
+    subroutine setResuspensionCoeff(self, read_ResuspensionCoeff)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_ResuspensionCoeff
+    type(string) :: outext
+    integer :: sizem
+    if (read_ResuspensionCoeff%to_number(kind=1._R8P) < 0.0) then
+        outext='Resuspension factor must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%ResuspensionCoeff=read_ResuspensionCoeff%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%ResuspensionCoeff)
+    call SimMemory%adddef(sizem)
+    end subroutine setResuspensionCoeff
+    
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Rugosity setting routine or not
+    !> @param[in] self, read_Rugosity
+    !---------------------------------------------------------------------------
+    subroutine setRugosity(self, read_Rugosity)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Rugosity
+    type(string) :: outext
+    integer :: sizem
+    if (read_Rugosity%to_number(kind=1._R8P) < 0.0) then
+        outext='Rugosity must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Rugosity=read_Rugosity%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Rugosity)
+    call SimMemory%adddef(sizem)
+    end subroutine setRugosity
+    
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Critical shear erosion setting routine or not
+    !> @param[in] self, read_Critical_Shear_Erosion
+    !---------------------------------------------------------------------------
+    subroutine setCritical_Shear_Erosion(self, read_Critical_Shear_Erosion)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Critical_Shear_Erosion
+    type(string) :: outext
+    integer :: sizem
+    if (read_Critical_Shear_Erosion%to_number(kind=1._R8P) < 0.0) then
+        outext='Critical_Shear_Erosion must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Critical_Shear_Erosion=read_Critical_Shear_Erosion%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Critical_Shear_Erosion)
+    call SimMemory%adddef(sizem)
+    end subroutine setCritical_Shear_Erosion
+    
+    !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> smallDt setting routine.
@@ -1129,6 +1279,22 @@
     sizem = sizeof(self%MeanKVisco)
     call SimMemory%adddef(sizem)
     end subroutine setMeanKVisco
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Add bottom cell to enable interpolation until the bottom.
+    !> @param[in] self, read_AddBottomCell
+    !---------------------------------------------------------------------------
+    subroutine setAddBottomCell(self, read_AddBottomCell)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_AddBottomCell
+    type(string) :: outext
+    integer :: sizem
+    self%AddBottomCell = read_AddBottomCell%to_number(kind=1_I1P)
+    sizem = sizeof(self%AddBottomCell)
+    call SimMemory%adddef(sizem)
+    end subroutine setAddBottomCell
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1151,12 +1317,17 @@
     temp_str(1)=self%BeachingLevel
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingStopProb
-    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
+    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')    
+    temp_str(1)=self%ResuspensionCoeff
+    outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%Critical_Shear_Erosion
+    outext = outext//'       CriticalShearErosion = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%AddBottomCell
+    outext = outext//'       AddBottomCell = '//temp_str(1)//new_line('a')
     temp_str(1)=self%MeanDensity
-    outext = outext//'       MeanDensity = '//temp_str(1)//' kg/m^3'//new_line('a')
+    outext = outext//'       MeanDensity = '//temp_str(1)//new_line('a')
     temp_str(1)=self%MeanKVisco
-    outext = outext//'       MeanKVisco = '//temp_str(1)//' m2/s'
-
+    outext = outext//'       MeanKVisco = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printconstants
 
@@ -1249,6 +1420,69 @@
     sizem = sizeof(bsize)
     call SimMemory%adddef(sizem)
     end subroutine
+    
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Choose if tracers must be removed when they reach land or not
+    !> @param[in] self, read_RemoveLandTracer
+    !---------------------------------------------------------------------------
+    subroutine setRemoveLandTracer(self, read_RemoveLandTracer)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_RemoveLandTracer
+    type(string) :: outext
+    integer :: sizem
+    if ((read_RemoveLandTracer%to_number(kind=1._I8P) < 0) .OR. (read_RemoveLandTracer%to_number(kind=1._I8P) > 1)) then
+        outext='Remove land tracers option must be 0:No or 1:yes, assuming default value'
+        call Log%put(outext)
+    else
+        self%RemoveLandTracer=read_RemoveLandTracer%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%RemoveLandTracer)
+    call SimMemory%adddef(sizem)
+    end subroutine setRemoveLandTracer
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Set bathymetry construct from the bathymetric netcdf property
+    !> @param[in] self, read_bathyminNetcdf
+    !---------------------------------------------------------------------------
+    subroutine setbathyminNetcdf(self, read_bathyminNetcdf)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_bathyminNetcdf
+    type(string) :: outext
+    integer :: sizem
+    if ((read_bathyminNetcdf%to_number(kind=1._I8P) < 0) .OR. (read_bathyminNetcdf%to_number(kind=1._I8P) > 1)) then
+        outext='read bathymetry from netcdf file must be 0:no or 1:yes, assuming default value'
+        call Log%put(outext)
+    else
+        self%bathyminNetcdf=read_bathyminNetcdf%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%bathyminNetcdf)
+    call SimMemory%adddef(sizem)
+    end subroutine setbathyminNetcdf
+
+    !---------------------------------------------------------------------------
+    !> @author Daniel Garaboa Paz - USC
+    !> @brief
+    !> Resuspension setting routine or not
+    !> @param[in] self, read_VerticalVelMethod
+    !---------------------------------------------------------------------------
+    subroutine setVerticalVelMethod(self, read_VerticalVelMethod)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_VerticalVelMethod
+    type(string) :: outext
+    integer :: sizem
+    if ((read_VerticalVelMethod%to_number(kind=1._I8P) < 0) .OR. (read_VerticalVelMethod%to_number(kind=1._I8P) > 3)) then
+        outext='Vertical velocity method must be 1:From velocity fields, 2:Divergence or 3:Disabled, assuming default value'
+        call Log%put(outext)
+    else
+        self%VerticalVelMethod=read_VerticalVelMethod%to_number(kind=1._I8P)
+    endif
+    sizem = sizeof(self%VerticalVelMethod)
+    call SimMemory%adddef(sizem)
+    end subroutine setVerticalVelMethod
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1275,13 +1509,19 @@
     outext = outext//'       Pointmax (BB) is '//new_line('a')//&
         '       '//temp_str(1)//' '//temp_str(2)//' '//temp_str(3)//new_line('a')
     if (self%autoblocksize) then
-        outext = outext//'       Blocks are automatically sized'
+        outext = outext//'       Blocks are automatically sized'//new_line('a')
     else
         temp_str(1)=self%blocksize%x
         temp_str(2)=self%blocksize%y
         outext = outext//'       Blocks are sized '//new_line('a')//&
-            '       '//temp_str(1)//' X '//temp_str(2)
+            '       '//temp_str(1)//' X '//temp_str(2)//new_line('a')
     end if
+    temp_str(1)=self%VerticalVelMethod
+    outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%RemoveLandTracer
+    outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
+    temp_str(1)=self%bathyminNetcdf
+    outext = outext//'       bathyminNetcdf = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printsimdefs
 
@@ -1352,5 +1592,77 @@
     end do
     call this%reset()               ! reset list iterator
     end function notRepeated
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to make the union of two string lists.
+    !---------------------------------------------------------------------------
+    subroutine makeUnion(this, other)
+    class(stringList_class), intent(inout) :: this
+    class(stringList_class), intent(inout) :: other
+    type(string), allocatable, dimension(:) :: otherList
+    integer :: i
+    
+    call other%toArray(otherList)
+    do i = 1, size(otherList)
+        if (this%notRepeated(otherList(i))) then
+            call this%add(otherList(i))
+        end if
+    end do
+        
+    end subroutine makeUnion
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method to copy string lists.
+    !---------------------------------------------------------------------------
+    subroutine copy(this, other)
+    class(stringList_class), intent(inout) :: this
+    class(stringList_class), intent(inout ) :: other
+    type(string), allocatable, dimension(:) :: otherList
+    integer :: i
+    
+    call other%toArray(otherList)
+    call this%finalize()
+    do i = 1, size(otherList)        
+        call this%add(otherList(i))
+    end do
+        
+    end subroutine copy
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> Method that gets an array with the contents of the list.
+    !---------------------------------------------------------------------------
+    subroutine toArray(this, currList)
+    class(stringList_class), intent(inout) :: this   
+    class(*), pointer :: curr
+    type(string) :: outext
+    type(string), allocatable, dimension(:), intent(inout) :: currList
+    integer :: i
+    
+    i =1
+    allocate(currList(this%getSize()))
+    
+    call this%reset()               ! reset list iterator
+    do while(this%moreValues())     ! loop while there are values to print
+        curr => this%currentValue() ! get current value
+        select type(curr)
+        class is (string)
+            currList(i) = curr
+            i = i + 1
+            class default
+            outext = '[stringList_class::toArray] Unexepected type of content, not a string'
+            call Log%put(outext)
+            stop
+        end select
+        call this%next()            ! increment the list iterator
+    end do
+    call this%reset()    ! reset list iterator
+    
+    end subroutine toArray
 
     end module simulationGlobals_mod

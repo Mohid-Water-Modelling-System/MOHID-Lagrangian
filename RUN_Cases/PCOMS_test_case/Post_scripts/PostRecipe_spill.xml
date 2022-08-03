@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<postProcessing>
+	<EulerianMeasures>
+		<measures>
+			<field key = "velocity"/>
+			<filters>
+				<filter key = "beaching" value= "1" comments = "0-all, 1-only non beached particles, 2-only beached (defaut=0)"/>
+			</filters>
+		</measures>
+		<gridDefinition>
+			<units value= "relative" comments="relative, meters, degrees"/>
+			<resolution x="100" y="100" z="1"/>
+		</gridDefinition>
+	</EulerianMeasures>	
+</postProcessing>

@@ -83,11 +83,9 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     integer :: i
-
     do i=1, size(sv)
         sv(i)%state = sv(i)%state + self%Kernel%run(sv(i), bdata, time, dt)*dt
     end do
-
     end subroutine runStepEuler
 
     !---------------------------------------------------------------------------
@@ -107,7 +105,6 @@
     real(prec), allocatable, dimension(:,:) :: predKernel
     real(prec):: mstime
     integer :: i
-
     mstime = time + 0.5*dt
 
     do i=1, size(sv)
@@ -123,7 +120,6 @@
         call predSv%finalize()
         deallocate(predKernel)
     end do
-
     end subroutine runStepMSEuler
 
 
@@ -166,10 +162,11 @@
         sv(i)%state = sv(i)%state + (k1 + 2.0*k2 + 2.0*k3 + k4)/6.0
         !deallocating
         call intSv%finalize()
-        deallocate(k1)
-        deallocate(k2)
-        deallocate(k3)
         deallocate(k4)
+        deallocate(k3)
+        deallocate(k2)
+        deallocate(k1)
+        
     end do
 
     end subroutine runStepRK4

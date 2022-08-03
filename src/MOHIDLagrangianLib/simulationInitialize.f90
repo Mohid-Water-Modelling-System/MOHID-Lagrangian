@@ -334,7 +334,7 @@
     logical :: readflag
     integer :: id
     type(string) :: name, source_geometry, tag, att_name, att_val, rate_file, posi_file
-    real(prec) :: emitting_rate, rateScale, start, finish, temp
+    real(prec) :: emitting_rate, rateScale, start, finish, temp, bottom_emission_depth
     logical :: emitting_fixed, posi_fixed, rateRead
     class(shape), allocatable :: source_shape
     type(vector) :: res
@@ -424,6 +424,16 @@
             posi_file = att_val
             posi_fixed = .false.
         end if
+        !reading bottom emission type of source
+        readflag = .false.
+        tag="bottom_emission_depth"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            bottom_emission_depth = att_val%to_number(kind=1._R8P)
+        else
+            bottom_emission_depth = 0
+        end if
         !Possible list of active intervals, and these might be in absolute dates or relative to sim time
         activeList => getElementsByTagname(source_node, "active")
         allocate(activeTimes(getLength(activeList),2))
@@ -454,10 +464,10 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, activeTimes, source_geometry, source_shape, res)
-
-        deallocate(source_shape)
+        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, activeTimes, source_geometry, source_shape, res)
+       
         deallocate(activeTimes)
+        deallocate(source_shape)
     enddo
 
     end subroutine init_sources
@@ -477,7 +487,6 @@
     type(string) :: pts(2), tag, att_name, att_val
     type(vector) :: coords
     logical :: read_flag
-
     read_flag = .false.
     coords = 0.0
     outext='-->Reading case simulation definitions'
@@ -504,8 +513,27 @@
         call XMLReader%getNodeVector(simdefs_node, pts(i), coords)
         call Globals%SimDefs%setboundingbox(pts(i), coords)
     enddo
+    tag="VerticalVelMethod"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setVerticalVelMethod(att_val)
+    endif
+    tag="RemoveLandTracer"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setRemoveLandTracer(att_val)
+    endif
+    
+    tag="BathyminNetcdf"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setBathyminNetcdf(att_val)
+    endif
     call Globals%SimDefs%print()
-
+    
     end subroutine init_simdefs
 
     !---------------------------------------------------------------------------
@@ -559,6 +587,12 @@
         if (readflag) then
             call Globals%Constants%setDiffusionCoeff(att_val)
         endif
+        tag="ResuspensionCoeff"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setResuspensionCoeff(att_val)
+        endif                
         tag="MeanDensity"
         att_name="value"
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
@@ -571,6 +605,25 @@
         if (readflag) then
             call Globals%Constants%setMeanKVisco(att_val)
         endif
+        tag="AddBottomCell"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setAddBottomCell(att_val)
+        endif
+        tag="Rugosity"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setRugosity(att_val)
+        endif
+        tag="CriticalShearErosion"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setCritical_Shear_Erosion(att_val)
+        endif 
+        
     endif
     call Globals%Constants%print()
 

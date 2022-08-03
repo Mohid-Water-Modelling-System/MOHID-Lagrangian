@@ -28,7 +28,7 @@
     private
 
     type :: paper_par_class               !<Type - parameters of a Lagrangian tracer object representing a paper material
-        logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
+        integer    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type paper_par_class
 
@@ -42,7 +42,7 @@
         real(prec) :: concentration                 !< Particle concentration
     end type paper_state_class
 
-    type, extends(tracer_class) :: paper_class    !<Type - The plastic material Lagrangian tracer class
+    type, extends(tracer_class) :: paper_class    !<Type - The paper material Lagrangian tracer class
         type(paper_par_class)   :: mpar     !<To access material parameters
         type(paper_state_class) :: mnow     !<To access material state variables
     contains
@@ -70,7 +70,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(paper_class), intent(in) :: self
-    getNumVars = 18
+    getNumVars = 19
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -100,6 +100,7 @@
     getStateArray(16) = self%mnow%condition
     getStateArray(17) = self%mnow%degradation_rate
     getStateArray(18) = self%mnow%concentration
+    getStateArray(19) = self%mpar%particulate
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -129,6 +130,7 @@
     self%mnow%condition = StateArray(16)
     self%mnow%degradation_rate = StateArray(17)
     self%mnow%concentration = StateArray(18)
+    self%mpar%particulate = StateArray(19)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -177,7 +179,7 @@
         constructor%mnow%degradation_rate = src%prop%propValue(idx)
     end if
 
-    if (constructor%mpar%particulate) then
+    if (constructor%mpar%particulate==1) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
@@ -190,6 +192,8 @@
     constructor%varName(16) = 'condition'
     constructor%varName(17) = 'degradation_rate'
     constructor%varName(18) = 'concentration'
+    constructor%varName(19) = 'particulate'
+    
     end function constructor
 
     end module tracerPaper_mod
