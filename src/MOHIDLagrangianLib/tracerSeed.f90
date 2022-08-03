@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : tracer_paper
+    ! MODULE        : tracer_Seed
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : April 2018
@@ -13,12 +13,12 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module that defines a Lagrangian tracer class for paper modelling and related methods.
+    !> Module that defines a Lagrangian tracer class for Seed modelling and related methods.
     !> The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all
     !> of it's data and methods
     !------------------------------------------------------------------------------
 
-    module tracerPaper_mod
+    module tracerSeed_mod
 
     use tracerBase_mod
     use common_modules
@@ -27,37 +27,37 @@
     implicit none
     private
 
-    type :: paper_par_class               !<Type - parameters of a Lagrangian tracer object representing a paper material
+    type :: Seed_par_class               !<Type - parameters of a Lagrangian tracer object representing a Seed material
         integer    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
-    end type paper_par_class
+    end type Seed_par_class
 
-    type :: paper_state_class             !<Type - State variables of a tracer object representing a paper material
+    type :: Seed_state_class             !<Type - State variables of a tracer object representing a Seed material
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: volume                        !< Tracer volume (m3)
         real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
-        real(prec) :: degradation_rate              !< degradation rate of the material
+        !real(prec) :: degradation_rate              !< degradation rate of the material
         real(prec) :: concentration                 !< Particle concentration
-    end type paper_state_class
+    end type Seed_state_class
 
-    type, extends(tracer_class) :: paper_class    !<Type - The paper material Lagrangian tracer class
-        type(paper_par_class)   :: mpar     !<To access material parameters
-        type(paper_state_class) :: mnow     !<To access material state variables
+    type, extends(tracer_class) :: Seed_class    !<Type - The Seed material Lagrangian tracer class
+        type(Seed_par_class)   :: mpar     !<To access material parameters
+        type(Seed_state_class) :: mnow     !<To access material state variables
     contains
     procedure :: getNumVars
     procedure :: getStateArray
     procedure :: setStateArray
-    end type paper_class
+    end type Seed_class
 
     !Public access vars
-    public :: paper_class
+    public :: Seed_class
 
     !Public access routines
-    public :: paperTracer
+    public :: SeedTracer
 
-    interface paperTracer !< Constructor
+    interface SeedTracer !< Constructor
     procedure constructor
     end interface
 
@@ -69,8 +69,8 @@
     !> Method that returns the number of variables used by this tracer
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
-    class(paper_class), intent(in) :: self
-    getNumVars = 19
+    class(Seed_class), intent(in) :: self
+    getNumVars = 18
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -79,7 +79,7 @@
     !> Method that returns the state array of this tracer
     !---------------------------------------------------------------------------
     function getStateArray(self)
-    class(paper_class), intent(in) :: self
+    class(Seed_class), intent(in) :: self
     real(prec), allocatable, dimension(:) :: getStateArray
     allocate(getStateArray(self%getNumVars()))
     getStateArray(1) = self%now%pos%x
@@ -98,9 +98,9 @@
     getStateArray(14) = self%mnow%volume
     getStateArray(15) = self%mnow%area
     getStateArray(16) = self%mnow%condition
-    getStateArray(17) = self%mnow%degradation_rate
-    getStateArray(18) = self%mnow%concentration
-    getStateArray(19) = self%mpar%particulate
+    !getStateArray(17) = self%mnow%degradation_rate
+    getStateArray(17) = self%mnow%concentration
+    getStateArray(18) = self%mpar%particulate
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -109,7 +109,7 @@
     !> Method that sets the state array of this tracer
     !---------------------------------------------------------------------------
     subroutine setStateArray(self, stateArray)
-    class(paper_class), intent(inout) :: self
+    class(Seed_class), intent(inout) :: self
     real(prec), dimension(:), intent(in) :: stateArray
     !if(size(stateArray)<self%getNumVars())
     self%now%pos%x = StateArray(1)
@@ -128,19 +128,19 @@
     self%mnow%volume = StateArray(14)
     self%mnow%area = StateArray(15)
     self%mnow%condition = StateArray(16)
-    self%mnow%degradation_rate = StateArray(17)
-    self%mnow%concentration = StateArray(18)
-    self%mpar%particulate = StateArray(19)
+    !self%mnow%degradation_rate = StateArray(17)
+    self%mnow%concentration = StateArray(17)
+    self%mpar%particulate = StateArray(18)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Paper Tracer constructor
+    !> Seed Tracer constructor
     !> @param[in] id, src, time, p
     !---------------------------------------------------------------------------
     function constructor(id, src, time, p)
-    type(paper_class) :: constructor
+    type(Seed_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
@@ -155,45 +155,43 @@
     constructor%par%idsource = src%par%id !forcing
 
     !now initialize the specific components of this derived type
-    constructor%par%ttype = Globals%Types%paper
+    constructor%par%ttype = Globals%Types%Seed
     constructor%mpar%particulate = src%prop%particulate
     constructor%mpar%size = src%prop%radius
     !material state
+    constructor%mnow%density = src%prop%density
     constructor%mnow%radius = src%prop%radius
     constructor%mnow%volume = src%prop%volume
     constructor%mnow%area = src%prop%area
-    !material state
-    constructor%mnow%density = src%prop%density
     !default values
     constructor%mnow%condition = 1.0
-    constructor%mnow%degradation_rate = 1/(5*365*24*3600)
+    !constructor%mnow%degradation_rate = 1/(100*365*24*3600)
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
     if (idx /= MV_INT) then
         constructor%mnow%condition = src%prop%propValue(idx)
     end if
-    tag = 'degradation_rate'
-    idx = Utils%find_str(src%prop%propName, tag, .false.)
-    if (idx /= MV_INT) then
-        constructor%mnow%degradation_rate = src%prop%propValue(idx)
-    end if
+    !tag = 'degradation_rate'
+    !idx = Utils%find_str(src%prop%propName, tag, .false.)
+    !if (idx /= MV_INT) then
+    !    constructor%mnow%degradation_rate = src%prop%propValue(idx)
+    !end if
 
     if (constructor%mpar%particulate==1) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
-
+    
     !filling the rest of the varName list
     constructor%varName(12) = Globals%Var%density
     constructor%varName(13) = 'radius'
     constructor%varName(14) = 'volume'
     constructor%varName(15) = 'area'
     constructor%varName(16) = 'condition'
-    constructor%varName(17) = 'degradation_rate'
-    constructor%varName(18) = 'concentration'
-    constructor%varName(19) = 'particulate'
-    
+    !constructor%varName(17) = 'degradation_rate'
+    constructor%varName(17) = 'concentration'
+    constructor%varName(18) = 'particulate'
     end function constructor
 
-    end module tracerPaper_mod
+    end module tracerSeed_mod

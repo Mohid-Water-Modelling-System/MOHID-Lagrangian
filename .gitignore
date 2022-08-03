@@ -30,3 +30,24 @@ build/bin/RELEASE/MOHIDLagrangian.exe
 src/MOHIDLagrangianLib/kernel.f90
 src/MOHIDLagrangianLib/kernelColiforms.f90
 build/bin/RELEASE/MOHIDLagrangian.exe
+build/bin/RELEASE/MOHIDLagrangian.exe
+RUN_Cases/Debug_case/Command Prompt.lnk
+RUN_Cases/Debug_case/data/Batea.kmz
+RUN_Cases/Debug_case/data/Lerez.dat
+RUN_Cases/Debug_case/data/Minor.dat
+RUN_Cases/Debug_case/data/source_box2.kmz
+RUN_Cases/Debug_case/data/spill_trajectory.dat
+RUN_Cases/Debug_case/data/Verdugo.dat
+RUN_Cases/Debug_case/materialTypes.xml
+RUN_Cases/Debug_case/Debug_case.xml
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022053100.nc
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022060100.nc
+RUN_Cases/Debug_case/nc_fields/hydrodynamic/2022060200.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022053100.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022060100.nc
+RUN_Cases/Debug_case/nc_fields/meteo/2022060200.nc
+RUN_Cases/Debug_case/ncNamesLibrary.xml
+RUN_Cases/Debug_case/outputFields.xml
+RUN_Cases/Debug_case/PV_state.pvsm
+RUN_Cases/Debug_case/RunCase_buoyancy.sh
+RUN_Cases/Debug_case/RunCase_test.bat

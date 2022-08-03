@@ -23,5 +23,6 @@ module tracers_mod
     use tracerPlastic_mod  ! Plastic particles
     use tracerPaper_mod    ! Paper particles
     use tracerColiform_mod    ! Paper particles
+    use tracerSeed_mod    ! Algae Seed particles
 
 end module tracers_mod

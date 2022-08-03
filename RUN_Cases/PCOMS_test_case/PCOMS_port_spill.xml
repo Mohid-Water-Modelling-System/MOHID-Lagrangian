@@ -24,6 +24,7 @@
 			<timestep dt="900.0" units_comment="seconds (s)"/>
 			<BoundingBoxMin x="-12.56" y="34.42" z="-1" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-5.14" y="44.96" z="1" units_comment="(deg,deg,m)"/>
+            <RemoveLandTracer value="0" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
 		</simulation>
 		<sourceDefinitions>
 			<source>

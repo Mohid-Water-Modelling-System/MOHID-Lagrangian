@@ -148,6 +148,8 @@
         allocate(trc, source = plasticTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
     case ('coliform')
         allocate(trc, source = coliformTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
+    case ('seed')
+        allocate(trc, source = seedTracer(Globals%Sim%getnumTracer(), src, Globals%SimTime%CurrTime, p))
         case default
         outext='[Emitter::tracerMaker]: unexpected type for Tracer object: '//src%prop%propertyType
         call Log%put(outext)
