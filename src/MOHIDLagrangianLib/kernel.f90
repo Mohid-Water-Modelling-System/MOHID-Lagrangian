@@ -211,7 +211,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i, col_u, col_dwz, col_v, col_w, part_idx
+    integer :: np, nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
     type(string), dimension(:), allocatable :: requiredVars, requiredHorVars

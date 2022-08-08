@@ -129,7 +129,7 @@
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMaskField()
     call getCurrentsFile%makeResolutionField()
-    if (.not. Globals%SimDefs%bathyminNetcdf) then
+    if (Globals%SimDefs%bathyminNetcdf == 0) then
         call getCurrentsFile%makeBathymetryField() !computes bathymetry using the layer depth and the openpoints from velocity u
     end if
     !computes distance between vertical cells
