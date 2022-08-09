@@ -211,7 +211,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i, col_u, col_dwz, col_v, col_w, part_idx
+    integer :: np, nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
     type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
@@ -219,7 +219,7 @@
     real(prec) :: VonKarman = 0.4
     real(prec) :: Hmin_Chezy = 0.1
     real(prec), dimension(size(sv%state,1)) :: chezyZ, dist2bottom
-    real(4), dimension(size(sv%state,1)) :: aux_r4
+    !real(4), dimension(size(sv%state,1)) :: aux_r4
     real(8), dimension(size(sv%state,1)) :: aux_r8
     real(prec) :: threshold_bot_wat, landIntThreshold
     type(string) :: tag
@@ -256,21 +256,21 @@
     
     !Need to do this double check because landIntMask does not work properly when tracers are near a bottom wall
     !(interpolation gives over 1 but should still be bottom)
-    if (prec == kind(1._R8P)) then
-        where ((var_dt(:,nf_lim) < threshold_bot_wat) .or. (dist2bottom < landIntThreshold))
-            aux_r8 = max((var_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
-            chezyZ = (VonKarman / dlog(aux_r8))**2
-            sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
-            sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
-        end where
-    else
-        where ((var_dt(:,nf_lim) < threshold_bot_wat) .or. (dist2bottom < landIntThreshold))
-            aux_r4 = max((var_hor_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
-            chezyZ = (VonKarman / alog(aux_r4))**2
-            sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
-            sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
-        end where  
-    end if
+    !if (prec == kind(1._R8P)) then
+    where ((var_dt(:,nf_lim) < threshold_bot_wat) .or. (dist2bottom < landIntThreshold))
+        aux_r8 = max((var_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+        chezyZ = (VonKarman / dlog(aux_r8))**2
+        sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
+        sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
+    end where
+    !else
+    !    where ((var_dt(:,nf_lim) < threshold_bot_wat) .or. (dist2bottom < landIntThreshold))
+    !        aux_r4 = max((var_hor_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+    !        chezyZ = (VonKarman / dlog(aux_r8))**2
+    !        sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
+    !        sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
+    !    end where  
+    !end if
     
     !compute new velocity and position according to the position in the bottom water cell
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
