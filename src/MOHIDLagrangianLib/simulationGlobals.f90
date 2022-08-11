@@ -80,6 +80,7 @@
         integer         :: VerticalVelMethod !< Vertical velocity method
         integer         :: RemoveLandTracer !< Vertical velocity method
         integer         :: bathyminNetcdf !< bathymetry is a property inside the netcdf
+        real            :: tracerMaxAge !< removes tracers with age greater than maxTracerAge
     contains
     procedure :: setdp
     procedure :: setdt
@@ -89,6 +90,7 @@
     procedure :: setVerticalVelMethod
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
+    procedure :: settracerMaxAge
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -346,6 +348,7 @@
     self%SimDefs%VerticalVelMethod = 1
     self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
+    self%SimDefs%tracerMaxAge = 0
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
@@ -1462,6 +1465,28 @@
     sizem = sizeof(self%bathyminNetcdf)
     call SimMemory%adddef(sizem)
     end subroutine setbathyminNetcdf
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Set tracer max age
+    !> @param[in] self, read_tracerMaxAge
+    !---------------------------------------------------------------------------
+    subroutine settracerMaxAge(self, read_tracerMaxAge)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_tracerMaxAge
+    type(string) :: outext
+    integer :: sizem
+    if ((read_tracerMaxAge%to_number(kind=1._R8P) < 0)) then
+        outext='read tracerMaxAge must be greater or equal to 0: assuming default value 0'
+        call Log%put(outext)
+    else
+        self%tracerMaxAge=read_tracerMaxAge%to_number(kind=1._R8P)
+    end if
+    sizem = sizeof(self%tracerMaxAge)
+    call SimMemory%adddef(sizem)
+    end subroutine settracerMaxAge
+
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -1522,6 +1547,8 @@
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
     temp_str(1)=self%bathyminNetcdf
     outext = outext//'       bathyminNetcdf = '//temp_str(1)//''
+    temp_str(1)=self%tracerMaxAge
+    outext = outext//'       tracerMaxAge = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printsimdefs
 

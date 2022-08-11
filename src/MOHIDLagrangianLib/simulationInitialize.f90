@@ -532,6 +532,14 @@
     if (read_flag) then
         call Globals%SimDefs%setBathyminNetcdf(att_val)
     endif
+    
+    tag="TracerMaxAge"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%settracerMaxAge(att_val)
+    endif
+    
     call Globals%SimDefs%print()
     
     end subroutine init_simdefs

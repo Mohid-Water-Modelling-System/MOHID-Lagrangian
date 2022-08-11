@@ -186,6 +186,13 @@
                     where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
                 end if
                 
+                !marking tracers for deletion because they are old
+                if (Globals%simdefs%tracerMaxAge > 0) then
+                    tag = 'age'
+                    col_age = Utils%find_str(sv%varName, tag, .true.)
+                    where(sv%state(:,col_age) >= Globals%simdefs%tracerMaxAge) sv%active = .false.
+                end if
+                
                 !update resolution proxy
                 col_res = Utils%find_str(var_name, Globals%Var%resolution,.true.)
                 sv%resolution = var_dt(:,col_res)
@@ -567,11 +574,6 @@
                     DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
                     DiffusionMixingLength(:,3) = sv%state(:,9)
                 end where
-                
-                !update system velocities
-                !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
-                !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
-                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
 
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
