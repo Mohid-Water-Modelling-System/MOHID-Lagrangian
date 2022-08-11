@@ -501,15 +501,6 @@
                 getArrayCoordNonRegular(id) = idx_1 + abs((max(xdata(id),bat(id))-bat(id))/(bdata%dim(dim)%field(idx_2)-bat(id))) 
             end if
             
-            !if (getArrayCoordNonRegular(id) > idx_2 .or. getArrayCoordNonRegular(id) < idx_1) then
-            !    write(*,*) "id : ", id
-            !    write(*,*) "getArrayCoordNonRegular(id) : ", getArrayCoordNonRegular(id)
-            !    write(*,*) "Valores idx_1 e idx_2: ", idx_1, idx_2
-            !    write(*,*) "Bdata idx_1: ", bdata%dim(dim)%field(idx_1)
-            !    write(*,*) "Bdata idx_2: ", bdata%dim(dim)%field(idx_2)
-            !    write(*,*) "Valor do bat = ", bat(id)
-            !    write(*,*) "Valor do xdata: ", xdata(id)
-            !end if
         end do
     else
         do concurrent(id = 1:size(xdata), .not. out(id))
