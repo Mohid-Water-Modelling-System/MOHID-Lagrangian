@@ -112,7 +112,9 @@
                         requireVertInt = reqVertInt
                     end if
                     if (requireVertInt) then
+                        !write(*,*)"------------- Variavel a entrar ---------- : ", aField%name
                         var_dt(:,i) = self%interp4D(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
+                        !write(*,*)"Variavel a Sair -----------------------------------------------"
                     else
                         var_dt(:,i) = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, aField%field, size(aField%field,1), size(aField%field,2), size(aField%field,3), size(aField%field,4), size(state,1))
                     end if
@@ -203,6 +205,17 @@
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
     do concurrent(i=1:n_e, .not. out(i))
+        !if (i ==1) then
+        !    write(*,*)"field(x0(i),y0(i),z0(i),t0) = ", field(x0(i),y0(i),z0(i),t0)
+        !    write(*,*)"field(x1(i),y0(i),z0(i),t0) = ", field(x1(i),y0(i),z0(i),t0)
+        !    write(*,*)"field(x0(i),y1(i),z0(i),t0) = ", field(x0(i),y1(i),z0(i),t0)
+        !    write(*,*)"field(x1(i),y1(i),z0(i),t0) = ", field(x1(i),y1(i),z0(i),t0)
+        !    write(*,*)"field(x0(i),y0(i),z1(i),t0) = ", field(x0(i),y0(i),z1(i),t0)
+        !    write(*,*)"field(x1(i),y0(i),z1(i),t0) = ", field(x1(i),y0(i),z1(i),t0)
+        !    write(*,*)"field(x0(i),y1(i),z1(i),t0) = ", field(x0(i),y1(i),z1(i),t0)
+        !    write(*,*)"field(x1(i),y1(i),z1(i),t0) = ", field(x1(i),y1(i),z1(i),t0)
+        !end if
+        
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
         c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)
@@ -492,7 +505,6 @@
                     exit
                 end if
             end do
-            !getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-max(bdata%dim(dim)%field(idx_1),bat(id)))/(bdata%dim(dim)%field(idx_2)-max(bdata%dim(dim)%field(idx_1),bat(id))))
             !Bathymetric value is deeper than bottom face of layer where tracer is located
             if (bat(id) <= bdata%dim(dim)%field(idx_1)) then
                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1))) 

@@ -412,8 +412,6 @@
                     elsewhere (tempRealField3D == self%varData(i)%fillvalue)
                         tempRealField3D = 0.0
                     end where
-                    !where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
-                    !tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
                 else
                     if (self%varData(i)%fillvalue == MV) then
                         outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
@@ -447,14 +445,19 @@
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
                 call self%check()
                 if (.not.bVar) then
-                    where (tempRealField4D /= self%varData(i)%fillvalue)
-                        tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
-                    elsewhere (tempRealField4D == self%varData(i)%fillvalue)
-                        tempRealField4D = 0.0
-                    end where
-                    
-                    !where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
-                    !tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset    ! scale + offset transform
+                    if (varName == Globals%Var%temp) then
+                        where (tempRealField4D /= self%varData(i)%fillvalue)
+                            tempRealField4D = tempRealField4D - 273.15
+                        elsewhere (tempRealField4D == self%varData(i)%fillvalue)
+                            tempRealField4D = 0.0
+                        end where 
+                    else
+                        where (tempRealField4D /= self%varData(i)%fillvalue)
+                            tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
+                        elsewhere (tempRealField4D == self%varData(i)%fillvalue)
+                            tempRealField4D = 0.0
+                        end where
+                    end if
                 else
                     if (self%varData(i)%fillvalue == MV) then
                         outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'

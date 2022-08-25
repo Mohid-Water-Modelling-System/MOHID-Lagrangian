@@ -169,6 +169,9 @@
         type(string) :: density
         type(string) :: vsdx
         type(string) :: vsdy
+        type(string) :: hs
+        type(string) :: ts
+        type(string) :: wd
         type(string) :: u10
         type(string) :: v10
         type(string) :: rad
@@ -191,6 +194,9 @@
         type(stringList_class) :: densityVariants
         type(stringList_class) :: vsdxVariants
         type(stringList_class) :: vsdyVariants
+        type(stringList_class) :: hsVariants
+        type(stringList_class) :: tsVariants
+        type(stringList_class) :: wdVariants
         type(stringList_class) :: u10Variants
         type(stringList_class) :: v10Variants
         type(stringList_class) :: radVariants
@@ -408,6 +414,9 @@
     self%density = 'density'
     self%vsdx    = 'vsdx'
     self%vsdy    = 'vsdy'
+    self%hs      = 'hs'
+    self%ts      = 'ts'
+    self%wd      = 'wd'
     self%u10     = 'u10'
     self%v10     = 'v10'
     self%rad     = 'rad'
@@ -459,7 +468,7 @@
     type(string), intent(in) :: var
     logical value
 
-    !searching for bathymetry Sobrinho
+    !searching for bathymetry
     value = self%bathymetryVariants%notRepeated(var)
     if (var == self%bathymetry .or. .not. value) then
         getVarSimName = self%bathymetry
@@ -504,6 +513,21 @@
     !searching for vsdy
     if (var == self%vsdy .or. .not.self%vsdyVariants%notRepeated(var)) then
         getVarSimName = self%vsdy
+        return
+    end if
+    !searching for hs
+    if (var == self%hs .or. .not.self%hsVariants%notRepeated(var)) then
+        getVarSimName = self%hs
+        return
+    end if
+    !searching for ts
+    if (var == self%ts .or. .not.self%tsVariants%notRepeated(var)) then
+        getVarSimName = self%ts
+        return
+    end if
+    !searching for wd
+    if (var == self%wd .or. .not.self%wdVariants%notRepeated(var)) then
+        getVarSimName = self%wd
         return
     end if
     !searching for u10
@@ -619,6 +643,12 @@
     call self%setCurrVar(tag, self%Var%vsdx, self%Var%vsdxVariants, varNode)
     tag="sea_surface_wave_stokes_drift_y_velocity"
     call self%setCurrVar(tag, self%Var%vsdy, self%Var%vsdyVariants, varNode)
+    tag="sea_surface_significant_wave_height"
+    call self%setCurrVar(tag, self%Var%hs, self%Var%hsVariants, varNode)
+    tag="sea_surface_wave_mean_period"
+    call self%setCurrVar(tag, self%Var%ts, self%Var%tsVariants, varNode)
+    tag="sea_surface_wave_mean_direction"
+    call self%setCurrVar(tag, self%Var%wd, self%Var%wdVariants, varNode)
     tag="eastward_wind"
     call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
     tag="northward_wind"

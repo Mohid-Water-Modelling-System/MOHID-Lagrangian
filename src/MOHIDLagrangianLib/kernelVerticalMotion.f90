@@ -379,68 +379,249 @@
     
     !> @author Joao Sobrinho - Colab Atlantic
     !> @brief
-    !> Resuspend particles based on shear erosion calculated from horizontal velocity modulus. 
-    !> @param[in] self, sv, bdata, time
+    !> Resuspend particles based on shear erosion calculated from currents and waves. 
+    !> @param[in] self, sv, bdata, time, dt
     !---------------------------------------------------------------------------
-    function Resuspension(self, sv, bdata, time)
+    function Resuspension(self, sv, bdata, time, dt)
     class(kernelVerticalMotion_class), intent(inout) :: self
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time
+    real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
-    integer :: col_lim, col_temp, col_sal, col_dwz, col_bat  
+    integer :: col_lim, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_age
     real(prec) :: landIntThreshold
-    real(prec), dimension(:,:), allocatable :: var_dt, varVert_dt
+    real(prec), dimension(:,:), allocatable :: var_dt, varVert_dt, var_dt2
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, water_density, tension
-    real(prec), dimension(size(sv%state,1)) :: tau, CDR, CDS, dist2bottom
-    type(string), dimension(:), allocatable :: var_name, var_name_vert
-    type(string), dimension(:), allocatable :: requiredVars, requiredVerticalVars
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom
+    type(string), dimension(:), allocatable :: var_name, var_name_vert, var_name_2
+    type(string), dimension(:), allocatable :: requiredVars, requiredVerticalVars, requiredHorVars2
     real(prec) :: P = 1013.
     real(prec) :: EP = 1/3
-    real(prec) :: REC, REW, FWS, FWR, as, ar, T1, T2, T3, A1, A2, Z0
-    real(prec) ::  CDMS, CDMAXS, CDMR, CDMAXR
+    real(prec) :: waterKinematicVisc = 1e-6
+    real(prec) :: taum, taumax, cdr, cds, rec, rew, fw, fws, fwr, as, ar, t1, t2, t3, a1, a2
+    real(prec) :: cdm, cdms, cdmaxs, cdmax, cdmr, cdmaxr, ubw, abw, waveLength, celerity
+    real(prec) :: coefA, coefB, c0, omeg, wavn, cPhi, cWphi, dwz, bat, z0
+    real(prec) :: abs_cos_angle, abs_sin_angle, ubw_aux, aux_1, aux_2, fws1, fwr1, dlog_t1, teste1, teste2, ts
+    type(string) :: tag
+    logical :: escreve
+    !Begin-----------------------------------------------------------------------------------
     Resuspension = 0
     landIntThreshold = -0.98
+    escreve = .false.
+    z0 = Globals%Constants%Rugosity
+    
     if (Globals%Constants%ResuspensionCoeff > 0.0) then
-        allocate(requiredVars(2))
-        requiredVars(1) = Globals%Var%temp
-        requiredVars(2) = Globals%Var%sal
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%hs
+        requiredVars(2) = Globals%Var%ts
+        requiredVars(3) = Globals%Var%wd
         
-        allocate(requiredVerticalVars(3))
-        requiredVerticalVars(1) = Globals%Var%landIntMask
-        requiredVerticalVars(2) = Globals%Var%dwz
-        requiredVerticalVars(3) = Globals%Var%bathymetry
+        allocate(requiredVerticalVars(4))
+        requiredVerticalVars(1) = Globals%Var%dwz
+        requiredVerticalVars(2) = Globals%Var%bathymetry
+        requiredVerticalVars(3) = Globals%Var%temp
+        requiredVerticalVars(4) = Globals%Var%sal
         
-        !var_dt stores horizontal and interpolation of background data
         call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
         call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVerticalVars, varVert_dt, var_name_vert, reqVertInt = .true.)
-        col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
-        col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
+        col_temp = Utils%find_str(var_name_vert, Globals%Var%temp, .true.)
+        col_sal = Utils%find_str(var_name_vert, Globals%Var%sal, .true.)
         col_dwz = Utils%find_str(var_name_vert, Globals%Var%dwz, .true.)
-        col_lim = Utils%find_str(var_name_vert, Globals%Var%landIntMask, .true.)
         col_bat = Utils%find_str(var_name_vert, Globals%Var%bathymetry, .true.)
-        !Get bottom velocity and density from var_dt. Density should use verticaly interpolated values
+        col_hs = Utils%find_str(var_name, Globals%Var%hs, .false.)
+        col_ts = Utils%find_str(var_name, Globals%Var%ts, .false.)
+        col_wd = Utils%find_str(var_name, Globals%Var%wd, .false.)
+        
+        if (col_hs /= MV_INT .and. col_ts /= MV_INT) then
+            allocate(requiredHorVars2(2))
+            requiredHorVars2(1) = Globals%Var%u
+            requiredHorVars2(2) = Globals%Var%v
+            call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredHorVars2, var_dt2, var_name_2, reqVertInt = .false.)
+            col_u = Utils%find_str(var_name_2, Globals%Var%u, .true.)
+            col_v = Utils%find_str(var_name_2, Globals%Var%v, .true.)
+            tag = 'age'
+            col_age = Utils%find_str(sv%varName, tag, .true.)
+        end if 
+
+        !Start computations --------------------------------------------------------------------
         velocity_mod = 0
         Tension = 0
         water_density = 0
         dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - varVert_dt(:,col_bat)) / (varVert_dt(:,col_bat) - varVert_dt(:,col_dwz))
-        !Make calculations where tracer is very close to the bathymetric value
-        !Using equations from the MOHIDWater interface_sediment_water module
-        where ((varVert_dt(:,col_lim) < landIntThreshold) .or. (dist2bottom < landIntThreshold))
-            velocity_mod = sqrt(sv%state(:,4)**2 + sv%state(:,5)**2)
-            water_density = seaWaterDensity(var_dt(:,col_sal), var_dt(:,col_temp),P)
-            tension = velocity_mod * water_density
-        end where
+
+        where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),P)
+        if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
+            write(*,*)"Entrei na parte das ondas"
+            !Found wave fields to use
+            do i=1, size(sv%state,1)
+                if (mod(sv%state(i,col_age),dt*30)==0) then
+                    escreve = .true.
+                    if (dist2bottom(i) < landIntThreshold) then
+                        !TAUM is used for determining the friction governing the current
+                        taum=0.
+                        !TAUMAX is used to determine the threshold of sediment motion
+                        taumax=0.
+                        ubw = 0.001
+                        abw = 0.0011
+                        bat = -varVert_dt(i,col_bat)
+                        
+                        if ((var_dt(i,col_hs) > 0.1) .and. (bat > 5) .and. (var_dt(i,col_ts) > 0.1)) then
+                !----------------------------Start calculation of abw and ubw-------------------------------------------
+                            ts = var_dt(i,col_ts)
+                            hs = var_dt(i,col_hs)
+                            !coefA = Gravity * wavePeriod / (2.*PI). 1.5613113 = gravity/2.*PI
+                            coefA = 1.5613113 * ts
+                            !coefB = 2*Gravity / wavePeriod
+                            coefB = 6.28318 / ts
+                            c0 = sqrt(9.81*bat)
+                            !Velocity modulus without the logaritmic profile close to the bottom
+                            velocity_mod(i) = sqrt(var_dt2(i,col_u)**2+var_dt2(i,col_v)**2)
+                            
+                            celerity = wave_celerity(c0, bat, coefA, coefB)
+                            waveLength = celerity * ts
+                            omeg = 6.28318 / ts
+                            !wavn = 2*pi / wavelength. wavelength = celerity * waveperiod
+                            wavn = 6.28318 / (celerity * ts)
+                            !To avoid sinh results larger then 1e10
+                            ubw= 0
+                            if (wavn * bat < 23.7) ubw = 0.5 * omeg * hs / sinh(wavn * bat)
+                            !To avoid overflow errors
+                            if (ubw < 1e-6)  ubw = 0.    
+                            abw = ubw / omeg
+                !----------------------------End calculation of abw and ubw-------------------------------------------
+                        end if
+                        
+                        dwz = varVert_dt(i,col_dwz)
+                        aux = z0*exp(1.001)
+                        
+                        if (dwz < aux) dwz = aux
+                        
+                        cdr=(0.40/(dlog(dwz/z0)-1.))**2
+                        rec=velocity_mod(i)*dwz/waterKinematicVisc
+                        !rec=velocity_mod(i)*bat/waterKinematicVisc - como esta no soulsbury
+                        cds = 0.
+                        if(velocity_mod(i) > 1e-3) cds=0.0001615*exp(6.*rec**(-0.08))
+                
+                        cdmax = max(cdr,cds)
+                    
+                        if (ubw > 1e-3) then
+                            !Current angle in cartesian convention (angle between the vector and positive x-axis)
+                            !57.2958279 = 180/pi
+                            cPhi = atan2(sv%state(i,5), sv%state(i,4)) * 57.2958279
+                            !(0, 360)
+                            if(cPhi < 0.) cPhi = cPhi + 360
+                            cWphi = var_dt(i,col_wd) - cPhi !Wave - Current angle
+                
+                !---------------------------------Compute drag coefficient ------------------------------------------------
+                            rew=ubw*abw/waterKinematicVisc
+                            fws=0.0521*rew**(-0.187)
+                            fwr=1.39*(abw/z0)**(-0.52)
+                            !fwr=1.39*(abw/Globals%Constants%Rugosity)**(-0.52)
+                            fw=max(fws,fwr)
+                            if(velocity_mod(i) < 1e-3)then !wave-only flow
+                                cdmax=fw
+                            else !combined wave and current flow
+                                !turbulent flow
+                                !Rough-turbulent wave-plus-current shear-stress
+                                abs_cos_angle = abs(cos(cWphi*0.01745328))
+                                abs_sin_angle = abs(sin(cWphi*0.01745328))
+                                ubw_aux = ubw/velocity_mod(i)
+                                fwr1 = fwr*0.5 
+                                aux_1 = ubw_aux*(fwr1)**0.5
+                                fws1 = fws*0.5
+                                aux_2 = ubw_aux*(fws1)**0.5
+                                cds1 = cds**2
+                                ar=0.24
+                                t1=max(ar*(fwr1)**0.5*(abw/z0),12.0)
+                                t2=bat/(t1*z0)
+                                t3=(cdr**2+(fwr1)**2*(ubw_aux)**4)**(0.25)
+                                dlog_t1 = dlog(t1)
+                                a1 = max(t3*(dlog(t2)-1)/(2*dlog_t1), 0.0)
+                                a2 = max(0.40*t3/dlog_t1, 0.0)
+                                cdmr=((a1**2+a2)**0.5-a1)**2
+                                !cdmaxr=((cdmr+t3*ubw/velocity_mod(i)*(fwr/2)**0.5*abs(cos(cWphi*pi/180.)))**2+(t3*ubw/velocity_mod(i)*(fwr/2)**0.5*abs(sin(cWphi*pi/180.)))**2)**0.5
+                                cdmaxr=((cdmr+t3*aux_1*abs_cos_angle)**2+(t3*aux_1*abs_sin_angle)**2)**0.5
+                
+                                !Smooth-turbulent wave-plus-current shear-stress
+                                as=0.24
+                                t1=9*as*rew*(fws1)**0.5*(cds1*(velocity_mod(i)/ubw)**4+(fws1)**2)**(0.25)
+                                t2=(rec/rew)*(ubw_aux)*1/as*(2/fws)**0.5
+                                t3=(cds1+(fws1)**2*(ubw_aux)**4)**(0.25)
+                                dlog_t1 = dlog(t1)
+                                a1 = max(t3*(dlog(t2)-1)/(2*dlog_t1), 0.0)
+                                a2 = max(0.40*t3/dlog_t1, 0.0)
+                                cdms=((a1**2+a2)**0.5-a1)**2
+                                !cdmaxs=((cdmr+t3*ubw/velocity_mod(i)*(fws/2)**0.5*abs(cos(cWphi*pi/180.)))**2+(t3*ubw/velocity_mod(i)*(fws/2)**0.5*abs(sin(cWphi*pi/180.)))**2)**0.5
+                                cdmaxs=((cdms+t3*aux_2*abs_cos_angle)**2+(t3*aux_2*abs_sin_angle)**2)**0.5
+                                if(cdmaxr > cdmaxs)then !flow is rough turbulent
+                                    cdmax=cdmaxr
+                                else !flow is smooth turbulent
+                                    cdmax=cdmaxs
+                                endif
+                            endif
+                !------------------------------------End Compute drag coefficient ------------------------------------------------
+                            if(velocity_mod(i) < 1e-3)then !wave-only flow
+                                tension(i) = 0.5*water_density(i)*fw*ubw**2
+                                if (i == 2) then
+                                    write(*,*)"hs = ", hs
+                                    write(*,*)"bat = ", bat
+                                    write(*,*)"ts = ", ts
+                                    write(*,*)"fw = ", fw
+                                    write(*,*)"ubw = ", ubw
+                                    write(*,*)"tension(i) so ondas = ", tension(i)
+                                end if
+                            else !combined wave and current flow
+                                tension(i) = water_density(i)*cdmax*velocity_mod(i)**2
+                                if (i == 2) then
+                                    write(*,*)"ubw = ", ubw
+                                    write(*,*)"cdmax = ", cdmax
+                                    write(*,*)"fw = ", fw
+                                    write(*,*)"water_density = ", water_density(i)
+                                     write(*,*)"velocity_mod(i) = ", velocity_mod(i)
+                                    write(*,*)"hs = ", hs
+                                    write(*,*)"bat = ", bat
+                                    write(*,*)"ts = ", ts
+                                    write(*,*)"tension(i) correntes mais ondas = ", tension(i)
+                                end if
+                            endif
+                
+                        else !Ubw==0.
+                            tension(i)=water_density(i)*cdmax*velocity_mod(i)**2
+                            if (i == 2) then
+                                write(*,*)"hs = ", hs
+                                write(*,*)"bat = ", bat
+                                write(*,*)"ts = ", ts
+                                write(*,*)"tension(i) ubw = 0 = ", tension(i)
+                            end if
+                        endif
+                    end if
+                end if
+            end do
+            deallocate(var_name_2)
+            deallocate(requiredHorVars2)
+        else
+            !Make calculations where tracer is very close to the bathymetric value
+            !Using equations from the MOHIDWater interface_sediment_water module
+            where (dist2bottom < landIntThreshold)
+                velocity_mod = sqrt(sv%state(:,4)**2 + sv%state(:,5)**2)
+                tension = velocity_mod * water_density
+            end where
+        end if
         
-        where ((varVert_dt(:,col_lim) < landIntThreshold .or. (dist2bottom < landIntThreshold)) .and. Tension>Globals%Constants%Critical_Shear_Erosion)
+        where ((dist2bottom < landIntThreshold) .and. Tension>Globals%Constants%Critical_Shear_Erosion)
             !Tracer gets positive vertical velocity which corresponds to a percentage of the velocity module
             Resuspension(:,3) = Globals%Constants%ResuspensionCoeff * velocity_mod
-        end where
+        end where 
         
         deallocate(var_name)
         deallocate(var_name_vert)
         deallocate(var_dt)
         deallocate(varVert_dt)
+        if ((size(sv%state,1) > 1) .and. (escreve)) then
+            write(*,*)"dist2bottom = ", dist2bottom(2)
+            write(*,*)"tension = ", tension(2)
+            write(*,*)"velocity_mod = ", velocity_mod(2)
+        end if
     end if
     end function Resuspension
     
@@ -554,7 +735,39 @@
     end where
     end function absoluteSeaWaterViscosity
 
-
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - colab atlantic
+    !> @brief
+    !> Method that returns wave celerity
+    !---------------------------------------------------------------------------
+    function wave_celerity(c0, watercolumn, coefa, coefb)
+    real(prec), intent(in) :: c0, watercolumn,coefa, coefb
+    real(prec) :: wave_celerity
+    real(prec) :: x1, x2, f2, f1, csi
+    integer :: maxiterations = 100
+    integer :: it
+    real (prec) :: eps = 5.0e-5
+    !Begin -----------------------------------------------------
+    wave_celerity = c0
+    x2 = wave_celerity + 0.01
+    f2 = x2 - coefa * tanh(coefb * watercolumn / x2)
+    do it = 1, maxiterations
+        f1 = wave_celerity - coefa * tanh(coefb * watercolumn / wave_celerity)
+        ! ---> convergence test
+        if (abs(f1) < eps) return
+        x1 = wave_celerity
+        if (abs(f1) < abs(f2)) then
+            csi= f1/f2
+            wave_celerity = x1 + csi/(csi - 1.0)*(x2 - x1)
+        else
+            csi = f2/f1
+            wave_celerity = x1 + (x2 - x1)/(1.0 - csi)
+        endif
+        f2 = f1
+        x2 = x1
+    end do
+    end function wave_celerity
+    
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
