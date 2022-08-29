@@ -183,11 +183,9 @@
     call SimMemory%initialize()
     !setting every global variable and input parameter to their default
     call Globals%initialize(outpath = outpath)
-    write(*,*)"Globals%initialize"
     !initializing geometry class
     call Geometry%initialize()
     !Check if case file has .xml extension
-    write(*,*)"Geometry%initialize"
     if (casefilename%extension() == '.xml') then
         ! Initialization routines to build the simulation from the input case file
         call InitFromXml(casefilename)
@@ -198,21 +196,15 @@
     endif    
     !Case was read and now we can build/initialize our simulation objects that are case-dependent
     !initilize simulation bounding box
-    write(*,*)"entrei no BBox%initialize"
     call BBox%initialize()
-    write(*,*)"sai do BBox%initialize"
     !decomposing the domain and initializing the Simulation Blocks
     call self%decompose()
-    write(*,*)"sai do decompose"
     !Distributing Sources
-    write(*,*)"entrei no setInitialState"
     call self%setInitialState()
-    write(*,*)"sai do setInitialState"
     !printing memory occupation at the time
     !call SimMemory%detailedprint()
     !Initializing input file streamer
     call self%InputStreamer%initialize(sBlock)
-    write(*,*)"sai do initialize"
     call self%InputStreamer%print()
     !Initializing output file streamer
     call self%OutputStreamer%initialize()

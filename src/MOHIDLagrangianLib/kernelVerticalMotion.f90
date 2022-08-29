@@ -388,11 +388,11 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
-    integer :: col_lim, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_age
+    integer :: col_lim, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_age, col_density
     real(prec) :: landIntThreshold
     real(prec), dimension(:,:), allocatable :: var_dt, varVert_dt, var_dt2
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, water_density, tension
-    real(prec), dimension(size(sv%state,1)) :: dist2bottom
+    real(prec), dimension(size(sv%state,1)) :: dist2bottom, z0
     type(string), dimension(:), allocatable :: var_name, var_name_vert, var_name_2
     type(string), dimension(:), allocatable :: requiredVars, requiredVerticalVars, requiredHorVars2
     real(prec) :: P = 1013.
@@ -400,8 +400,10 @@
     real(prec) :: waterKinematicVisc = 1e-6
     real(prec) :: taum, taumax, cdr, cds, rec, rew, fw, fws, fwr, as, ar, t1, t2, t3, a1, a2
     real(prec) :: cdm, cdms, cdmaxs, cdmax, cdmr, cdmaxr, ubw, abw, waveLength, celerity
-    real(prec) :: coefA, coefB, c0, omeg, wavn, cPhi, cWphi, dwz, bat, z0
-    real(prec) :: abs_cos_angle, abs_sin_angle, ubw_aux, aux_1, aux_2, fws1, fwr1, dlog_t1, teste1, teste2, ts
+    real(prec) :: coefA, coefB, c0, omeg, wavn, cPhi, cWphi, dwz, bat
+    real(prec) :: U, psi, dsilt, dsand, dgravel, kscr, kscmr, kscd, fcs, ffs, kscr_max, kscmr_max, kscd_max
+    real(prec) :: ksc, ks, grainroughnessfactor, d50
+    real(prec) :: abs_cos_angle, abs_sin_angle, ubw_aux, aux_1, aux_2, fws1, fwr1, dlog_t1, ts
     type(string) :: tag
     logical :: escreve
     !Begin-----------------------------------------------------------------------------------
@@ -409,6 +411,11 @@
     landIntThreshold = -0.98
     escreve = .false.
     z0 = Globals%Constants%Rugosity
+    dsilt = 32e-6
+    dsand = 62e-6
+    dgravel = 0.002
+    d50 = 0.0005
+    grainroughnessfactor = 2.5
     
     if (Globals%Constants%ResuspensionCoeff > 0.0) then
         allocate(requiredVars(3))
@@ -441,6 +448,10 @@
             col_v = Utils%find_str(var_name_2, Globals%Var%v, .true.)
             tag = 'age'
             col_age = Utils%find_str(sv%varName, tag, .true.)
+            !tag = 'density'
+            !col_density = Utils%find_str(sv%varName, tag, .true.)
+            !tag = 'radius'
+            !col_radius = Utils%find_str(sv%varName, tag, .true.)
         end if 
 
         !Start computations --------------------------------------------------------------------
@@ -451,7 +462,6 @@
 
         where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),P)
         if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
-            write(*,*)"Entrei na parte das ondas"
             !Found wave fields to use
             do i=1, size(sv%state,1)
                 if (mod(sv%state(i,col_age),dt*30)==0) then
@@ -491,12 +501,52 @@
                 !----------------------------End calculation of abw and ubw-------------------------------------------
                         end if
                         
+                !---------------------------Compute rugosity----------------------------------------------------------
+                        !Average velocity
+                        U = sqrt(sv%state(i,4)**2 + sv%state(i,5)**2)/0.4* (dlog(bat/z0(i)) - 1 + z0(i)/bat)
+                        
+                        uwc2 = U**2 + ubw**2
+                        relativedensity = 2650.0/water_density(i)
+                        !Mobility parameter
+                        psi = uwc2/((relativedensity-1)*9.81*d50)
+
+                        if(d50 < dsilt) then
+                            kscr = 20 * dsilt
+                            kscmr = 0.
+                            kscd = 0.
+                        else
+                            fcs = 1.0
+                            if(d50 > 0.25*dgravel) fcs = (0.25*dgravel/d50)**1.5
+
+                            ffs = 1.0
+                            if(d50 < 1.5*dsand) ffs = d50/(1.5*dsand)
+
+                            !Ripples
+                            kscr_max = 0.075
+                            kscr = min(fcs*d50*(85-65*tanh(0.015*(psi-150))), kscr_max)
+
+                            !Mega-ripples
+                            kscmr_max = min(0.01*bat, 0.2)
+                            kscmr = min(2e-6*ffs*bat*(1-exp(-0.05*psi))*(550-psi), kscmr_max)
+
+                            !Dunes
+                            kscd_max = min(0.04*bat, 0.4)
+                            kscd = min(8e-6*ffs*bat*(1-exp(-0.02*psi))*(600-psi), kscd_max)
+                        endif
+                        !Current-related bed rougnhness
+                        ksc = (kscr**2 + kscmr**2 + kscd**2)**0.5
+                        !Bed rougnhness
+                        ks =  grainroughnessfactor*d50 + ksc
+                        !z0
+                        z0(i) = Ks/30.0
+                !---------------------------End Compute rugosity------------------------------------------------------
+                        
                         dwz = varVert_dt(i,col_dwz)
-                        aux = z0*exp(1.001)
+                        aux = z0(i)*exp(1.001)
                         
                         if (dwz < aux) dwz = aux
                         
-                        cdr=(0.40/(dlog(dwz/z0)-1.))**2
+                        cdr=(0.40/(dlog(dwz/z0(i))-1.))**2
                         rec=velocity_mod(i)*dwz/waterKinematicVisc
                         !rec=velocity_mod(i)*bat/waterKinematicVisc - como esta no soulsbury
                         cds = 0.
@@ -515,7 +565,7 @@
                 !---------------------------------Compute drag coefficient ------------------------------------------------
                             rew=ubw*abw/waterKinematicVisc
                             fws=0.0521*rew**(-0.187)
-                            fwr=1.39*(abw/z0)**(-0.52)
+                            fwr=1.39*(abw/z0(i))**(-0.52)
                             !fwr=1.39*(abw/Globals%Constants%Rugosity)**(-0.52)
                             fw=max(fws,fwr)
                             if(velocity_mod(i) < 1e-3)then !wave-only flow
@@ -532,8 +582,8 @@
                                 aux_2 = ubw_aux*(fws1)**0.5
                                 cds1 = cds**2
                                 ar=0.24
-                                t1=max(ar*(fwr1)**0.5*(abw/z0),12.0)
-                                t2=bat/(t1*z0)
+                                t1=max(ar*(fwr1)**0.5*(abw/z0(i)),12.0)
+                                t2=bat/(t1*z0(i))
                                 t3=(cdr**2+(fwr1)**2*(ubw_aux)**4)**(0.25)
                                 dlog_t1 = dlog(t1)
                                 a1 = max(t3*(dlog(t2)-1)/(2*dlog_t1), 0.0)
@@ -562,37 +612,39 @@
                 !------------------------------------End Compute drag coefficient ------------------------------------------------
                             if(velocity_mod(i) < 1e-3)then !wave-only flow
                                 tension(i) = 0.5*water_density(i)*fw*ubw**2
-                                if (i == 2) then
-                                    write(*,*)"hs = ", hs
-                                    write(*,*)"bat = ", bat
-                                    write(*,*)"ts = ", ts
-                                    write(*,*)"fw = ", fw
-                                    write(*,*)"ubw = ", ubw
-                                    write(*,*)"tension(i) so ondas = ", tension(i)
-                                end if
+                                !if (i == 2) then
+                                !    write(*,*)"hs = ", hs
+                                !    write(*,*)"bat = ", bat
+                                !    write(*,*)"ts = ", ts
+                                !    write(*,*)"fw = ", fw
+                                !    write(*,*)"ubw = ", ubw
+                                !    write(*,*)"z0 = ", z0(i)
+                                !    write(*,*)"tension(i) so ondas = ", tension(i)
+                                !end if
                             else !combined wave and current flow
                                 tension(i) = water_density(i)*cdmax*velocity_mod(i)**2
-                                if (i == 2) then
-                                    write(*,*)"ubw = ", ubw
-                                    write(*,*)"cdmax = ", cdmax
-                                    write(*,*)"fw = ", fw
-                                    write(*,*)"water_density = ", water_density(i)
-                                     write(*,*)"velocity_mod(i) = ", velocity_mod(i)
-                                    write(*,*)"hs = ", hs
-                                    write(*,*)"bat = ", bat
-                                    write(*,*)"ts = ", ts
-                                    write(*,*)"tension(i) correntes mais ondas = ", tension(i)
-                                end if
+                                !if (i == 2) then
+                                !    write(*,*)"ubw = ", ubw
+                                !    write(*,*)"cdmax = ", cdmax
+                                !    write(*,*)"fw = ", fw
+                                !    write(*,*)"water_density = ", water_density(i)
+                                !     write(*,*)"velocity_mod(i) = ", velocity_mod(i)
+                                !    write(*,*)"hs = ", hs
+                                !    write(*,*)"bat = ", bat
+                                !    write(*,*)"ts = ", ts
+                                !    write(*,*)"z0 = ", z0(i)
+                                !    write(*,*)"tension(i) correntes mais ondas = ", tension(i)
+                                !end if
                             endif
                 
                         else !Ubw==0.
                             tension(i)=water_density(i)*cdmax*velocity_mod(i)**2
-                            if (i == 2) then
-                                write(*,*)"hs = ", hs
-                                write(*,*)"bat = ", bat
-                                write(*,*)"ts = ", ts
-                                write(*,*)"tension(i) ubw = 0 = ", tension(i)
-                            end if
+                            !if (i == 2) then
+                            !    write(*,*)"hs = ", hs
+                            !    write(*,*)"bat = ", bat
+                            !    write(*,*)"ts = ", ts
+                            !    write(*,*)"tension(i) ubw = 0 = ", tension(i)
+                            !end if
                         endif
                     end if
                 end if
@@ -617,11 +669,11 @@
         deallocate(var_name_vert)
         deallocate(var_dt)
         deallocate(varVert_dt)
-        if ((size(sv%state,1) > 1) .and. (escreve)) then
-            write(*,*)"dist2bottom = ", dist2bottom(2)
-            write(*,*)"tension = ", tension(2)
-            write(*,*)"velocity_mod = ", velocity_mod(2)
-        end if
+        !if ((size(sv%state,1) > 1) .and. (escreve)) then
+        !    write(*,*)"dist2bottom = ", dist2bottom(2)
+        !    write(*,*)"tension = ", tension(2)
+        !    write(*,*)"velocity_mod = ", velocity_mod(2)
+        !end if
     end if
     end function Resuspension
     

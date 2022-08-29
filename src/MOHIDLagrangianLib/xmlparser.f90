@@ -66,7 +66,6 @@
     logical :: mand
     integer :: err
     type(string) :: outext
-    write(*,*)"entrei no getFile"
     if (present(mandatory)) then
         mand = mandatory
     else
@@ -88,7 +87,6 @@
             stop
         end if
     end if
-    write(*,*)"sai do getFile"
     end subroutine getFile
 
     !---------------------------------------------------------------------------

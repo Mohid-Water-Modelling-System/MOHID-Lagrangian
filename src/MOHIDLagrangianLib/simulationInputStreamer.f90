@@ -103,7 +103,6 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-    write(*,*)"entrada getCurrentsFile"
     allocate(varList(7))
     allocate(syntecticVar(7))
     varList(1) = Globals%Var%u
@@ -136,7 +135,6 @@
     call getCurrentsFile%makeDWZField()
     !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
     if (Globals%Constants%AddBottomCell == 1) call getCurrentsFile%makeBottom(varList, syntecticVar)
-    write(*,*)"saida getCurrentsFile"
     end function getCurrentsFile
 
     !---------------------------------------------------------------------------
@@ -180,7 +178,6 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-    write(*,*)"entrada getWavesFile"
     allocate(varList(5))
     allocate(syntecticVar(5))
     varList(1) = Globals%Var%vsdx
@@ -196,7 +193,6 @@
     
     !need to send to different readers here if different file formats
     getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)
-    write(*,*)"saida getWavesFile"
 
     end function getWavesFile
     

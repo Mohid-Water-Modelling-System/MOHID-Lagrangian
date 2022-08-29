@@ -71,7 +71,6 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
     !running preparations for kernel lanch
-    write(*,*)"entrada runKernel"
     call self%setCommonProcesses(sv, bdata, time)
     
     !running kernels for each type of tracer
@@ -268,28 +267,6 @@
         sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
     end where
     
-    !if (size(sv%state,1) > 1) then
-    !    write(*,*)"bat = ", var_dt(2,col_bat)
-    !    write(*,*)"dwz = ", var_dt(2,col_dwz)
-    !    write(*,*)"depth = ", sv%state(2,3)
-    !    write(*,*)"dist2bottom = ", dist2bottom(2)
-    !    write(*,*)"var_dt(1,nf_lim) = ", var_dt(2,nf_lim)
-    !    write(*,*)"chezyZ = ", chezyZ(2)
-    !    write(*,*)"var_dt(1,col_dwz) = ", var_dt(2,col_dwz)
-    !    write(*,*)"VelU hor = ", var_hor_dt(2,col_u)
-    !    write(*,*)"VelV hor = ", var_hor_dt(2,col_v)
-    !    write(*,*)"VelU final = ", sv%state(2,4)
-    !    write(*,*)"VelV final = ", sv%state(2,5)
-    !end if
-    !else
-    !    where ((var_dt(:,nf_lim) < threshold_bot_wat) .or. (dist2bottom < landIntThreshold))
-    !        aux_r4 = max((var_hor_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
-    !        chezyZ = (VonKarman / dlog(aux_r8))**2
-    !        sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
-    !        sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
-    !    end where  
-    !end if
-    
     !compute new velocity and position according to the position in the bottom water cell
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
@@ -297,13 +274,11 @@
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
     
-    !where (((var_dt(:,nf_lim) < landIntThreshold) .or. (dist2bottom < landIntThreshold)) .and. (sv%state(:,part_idx) == 1))
     where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
         !At the bottom and tracer is particulate
         LagrangianKinematic(:,1) = 0
         LagrangianKinematic(:,2) = 0
     elsewhere (dist2bottom < threshold_bot_wat)
-    !elsewhere (var_dt(:,nf_lim) < threshold_bot_wat)
         LagrangianKinematic(:,1) = Utils%m2geo(sv%state(:,4), sv%state(:,2), .false.)
         LagrangianKinematic(:,2) = Utils%m2geo(sv%state(:,5), sv%state(:,2), .true.)
     elsewhere
@@ -317,11 +292,9 @@
     if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
         !Make the vertical velocity 0 at the bottom.
         where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
-        !where (((var_dt(:,nf_lim) < landIntThreshold) .or. (dist2bottom < landIntThreshold)) .and. (sv%state(:,part_idx) == 1))
             LagrangianKinematic(:,3) = 0
             sv%state(:,6) = 0
         elsewhere (dist2bottom < threshold_bot_wat)
-        !elsewhere (var_dt(:,nf_lim) < threshold_bot_wat)
             !Reduce velocity towards the bottom following a vertical logaritmic profile
             LagrangianKinematic(:,3) = var_hor_dt(:,col_w) * chezyZ
             sv%state(:,6) = LagrangianKinematic(:,3)
