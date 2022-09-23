@@ -869,6 +869,8 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 !Removed this option because it is easier to compute a vertical profile and define velocity=0 at the bottom
                 if ((curr%name == varList(idx)) .and. (.not. syntecticVar(idx))) then
                     do t=1, size(curr%field,4)
+                    !$OMP PARALLEL PRIVATE(j, i, k)
+                    !$OMP DO
                     do j=1, size(curr%field,2)
 do3:                do i=1, size(curr%field,1)
                     do k=2, size(curr%field,3)
@@ -880,6 +882,8 @@ do3:                do i=1, size(curr%field,1)
                     end do
                     end do do3
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                     end do
                 end if
             end do
@@ -925,11 +929,15 @@ do3:                do i=1, size(curr%field,1)
                 dwz3D = 0
                 !Only covering the bottom for now... need to change this to include the surface
                 do t=1, size(curr%field,3)
+                    !$OMP PARALLEL PRIVATE(j, i)
+                    !$OMP DO
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
                             dwz3D(i,j,t) = -bathymetry_3D(i,j,t)
                         end do
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                 end do
                 curr%field = dwz3D
             end if
@@ -942,6 +950,8 @@ do3:                do i=1, size(curr%field,1)
                 dwz4D = 0
                 !Only covering the bottom for now... need to change this to include the surface
                 do t=1, size(curr%field,4)
+                    !$OMP PARALLEL PRIVATE(j, i, k, found)
+                    !$OMP DO
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
                             found = .false.
@@ -958,6 +968,8 @@ do3:                do i=1, size(curr%field,1)
                             end do
                         end do
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                 end do
                 curr%field = dwz4D
             end if
@@ -996,6 +1008,8 @@ do3:                do i=1, size(curr%field,1)
                     allocate(aux_3D(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
                     aux_3D = curr%field
                     do t=1, size(curr%field,3)
+                    !$OMP PARALLEL PRIVATE(j, i)
+                    !$OMP DO
                     do j=2, size(curr%field,2)-1
                     do i=2, size(curr%field,1)-1
                         if (aux_3D(i,j,t) == 0) then
@@ -1004,6 +1018,8 @@ do3:                do i=1, size(curr%field,1)
                         end if
                     end do
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                     end do
                     deallocate(aux_3D)
                 end if
@@ -1014,6 +1030,8 @@ do3:                do i=1, size(curr%field,1)
                     allocate(aux_4D(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
                     aux_4D = curr%field
                     do t=1, size(curr%field,4)
+                    !$OMP PARALLEL PRIVATE(k, j, i)
+                    !$OMP DO
                     do k=1, size(curr%field,3)
                     do j=2, size(curr%field,2)-1
                     do i=2, size(curr%field,1)-1
@@ -1024,6 +1042,8 @@ do3:                do i=1, size(curr%field,1)
                     end do
                     end do
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                     end do
                     deallocate(aux_4D)
                 end if

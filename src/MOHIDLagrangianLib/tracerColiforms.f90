@@ -10,7 +10,7 @@
     ! DATE          : Dec 2020
     ! REVISION      : Sobrinho 0.1
     !> @author
-    !> Joao Barros Sobrinho
+    !> Joao Sobrinho
     !
     ! DESCRIPTION:
     !> Module that defines a Lagrangian tracer class for fecal coliforms modelling and related methods.
@@ -75,7 +75,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 23
+    getNumVars = 24
     end function getNumVars
 
     !---------------------------------------------------------------------------

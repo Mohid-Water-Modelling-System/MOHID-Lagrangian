@@ -107,6 +107,15 @@
         integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
         real(prec)   :: Rugosity            !< Bottom rugosity value (for now the model assumes a constant value over the grid)
         real(prec)   :: Critical_Shear_Erosion !< Bottom critical shear erosion value (for now the model assumes a constant value over the grid)
+        real(prec)   :: TOptBacteriaMin          !< minimum temperature of the optimal interval for the Bacteria growth
+        real(prec)   :: TOptBacteriaMax          !< maximum temperature of the optimal interval for the Bacteria growt
+        real(prec)   :: TBacteriaMin          !< minimum tolerable temperature of the interval for the Bacteria growth
+        real(prec)   :: TBacteriaMax          !< maximum tolerable temperature of the interval for the Bacteria growth
+        real(prec)   :: BK1          !< constant to control temperature response curve shape
+        real(prec)   :: BK2          !< constant to control temperature response curve shape
+        real(prec)   :: BK3          !< constant to control temperature response curve shape
+        real(prec)   :: BK4          !< constant to control temperature response curve shape
+        real(prec)   :: MaxDegradationRate !< maximum degradation rate from bacteria
     contains
     procedure :: setgravity
     procedure :: setz0
@@ -120,6 +129,15 @@
     procedure :: setAddBottomCell
     procedure :: setRugosity
     procedure :: setCritical_Shear_Erosion
+    procedure :: setTOptBacteriaMin
+    procedure :: setTOptBacteriaMax
+    procedure :: setTBacteriaMin
+    procedure :: setTBacteriaMax
+    procedure :: setBK1
+    procedure :: setBK2
+    procedure :: setBK3
+    procedure :: setBK4
+    procedure :: setMaxDegradationRate
     procedure :: print => printconstants
     end type constants_t
 
@@ -237,6 +255,7 @@
         integer :: plastic = 2
         integer :: coliform = 3
         integer :: seed = 4
+        integer :: detritus = 5
     contains
     end type tracerTypes_t
 
@@ -368,6 +387,15 @@
     self%Constants%AddBottomCell = 0
     self%Constants%Rugosity = 0.0025
     self%Constants%Critical_Shear_Erosion = 0.4
+    self%Constants%TOptBacteriaMin = 24.8
+    self%Constants%TOptBacteriaMax = 25.1
+    self%Constants%TBacteriaMin = 5
+    self%Constants%TBacteriaMax = 35
+    self%Constants%BK1 = 0.05
+    self%Constants%BK2 = 0.98
+    self%Constants%BK3 = 0.98
+    self%Constants%BK4 = 0.02
+    self%Constants%MaxDegradationRate = 0.03/86400
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -1328,6 +1356,195 @@
     sizem = sizeof(self%AddBottomCell)
     call SimMemory%adddef(sizem)
     end subroutine setAddBottomCell
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TOptBacteriaMin.
+    !> @param[in] self, read_TOptBacteriaMin
+    !---------------------------------------------------------------------------
+    subroutine setTOptBacteriaMin(self, read_TOptBacteriaMin)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TOptBacteriaMin
+    type(string) :: outext
+    integer :: sizem
+    if (read_TOptBacteriaMin%to_number(kind=1._R8P) <= 0.0) then
+        outext='TOptBacteriaMin must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TOptBacteriaMin =read_TOptBacteriaMin%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TOptBacteriaMin)
+    call SimMemory%adddef(sizem)
+    end subroutine setTOptBacteriaMin
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TOptBacteriaMax.
+    !> @param[in] self, read_TOptBacteriaMax
+    !---------------------------------------------------------------------------
+    subroutine setTOptBacteriaMax(self, read_TOptBacteriaMax)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TOptBacteriaMax
+    type(string) :: outext
+    integer :: sizem
+    if (read_TOptBacteriaMax%to_number(kind=1._R8P) <= 0.0) then
+        outext='TOptBacteriaMax must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TOptBacteriaMax =read_TOptBacteriaMax%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TOptBacteriaMax)
+    call SimMemory%adddef(sizem)
+    end subroutine setTOptBacteriaMax
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TBacteriaMin.
+    !> @param[in] self, read_TBacteriaMin
+    !---------------------------------------------------------------------------
+    subroutine setTBacteriaMin(self, read_TBacteriaMin)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TBacteriaMin
+    type(string) :: outext
+    integer :: sizem
+    if (read_TBacteriaMin%to_number(kind=1._R8P) <= 0.0) then
+        outext='TBacteriaMin must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TBacteriaMin =read_TBacteriaMin%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TBacteriaMin)
+    call SimMemory%adddef(sizem)
+    end subroutine setTBacteriaMin
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TBacteriaMax.
+    !> @param[in] self, read_TBacteriaMax
+    !---------------------------------------------------------------------------
+    subroutine setTBacteriaMax(self, read_TBacteriaMax)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TBacteriaMax
+    type(string) :: outext
+    integer :: sizem
+    if (read_TBacteriaMax%to_number(kind=1._R8P) <= 0.0) then
+        outext='TBacteriaMax must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TBacteriaMax =read_TBacteriaMax%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TBacteriaMax)
+    call SimMemory%adddef(sizem)
+    end subroutine setTBacteriaMax
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK1.
+    !> @param[in] self, read_BK1
+    !---------------------------------------------------------------------------
+    subroutine setBK1(self, read_BK1)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK1
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK1%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK1 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK1 =read_BK1%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK1)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK1
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK2.
+    !> @param[in] self, read_BK2
+    !---------------------------------------------------------------------------
+    subroutine setBK2(self, read_BK2)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK2
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK2%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK2 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK2 =read_BK2%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK2)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK2
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK3.
+    !> @param[in] self, read_BK3
+    !---------------------------------------------------------------------------
+    subroutine setBK3(self, read_BK3)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK3
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK3%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK3 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK3 =read_BK3%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK3)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK3
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK4.
+    !> @param[in] self, read_BK4
+    !---------------------------------------------------------------------------
+    subroutine setBK4(self, read_BK4)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK4
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK4%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK4 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK4 =read_BK4%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK4)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK4
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_MaxDegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setMaxDegradationRate(self, read_MaxDegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_MaxDegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_MaxDegradationRate%to_number(kind=1._R8P) <= 0.0) then
+        outext='MaxDegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400
+    endif
+    sizem = sizeof(self%MaxDegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setMaxDegradationRate
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1350,7 +1567,9 @@
     temp_str(1)=self%BeachingLevel
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingStopProb
-    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')    
+    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
+    temp_str(1)=self%DiffusionCoeff
+    outext = outext//'       DiffusionCoeff = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
     temp_str(1)=self%Critical_Shear_Erosion
@@ -1360,7 +1579,25 @@
     temp_str(1)=self%MeanDensity
     outext = outext//'       MeanDensity = '//temp_str(1)//new_line('a')
     temp_str(1)=self%MeanKVisco
-    outext = outext//'       MeanKVisco = '//temp_str(1)//''
+    outext = outext//'       MeanKVisco = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TOptBacteriaMin
+    outext = outext//'       TOptBacteriaMin = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TOptBacteriaMax
+    outext = outext//'       TOptBacteriaMax = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TBacteriaMin
+    outext = outext//'       TBacteriaMin = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TBacteriaMax
+    outext = outext//'       TBacteriaMax = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK1
+    outext = outext//'       BK1 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK2
+    outext = outext//'       BK2 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK3
+    outext = outext//'       BK3 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK4
+    outext = outext//'       BK4 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%MaxDegradationRate
+    outext = outext//'       MaxDegradationRate = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printconstants
 
