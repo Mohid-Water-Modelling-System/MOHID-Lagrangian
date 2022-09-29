@@ -117,6 +117,8 @@
     syntecticVar(5) = .true.
     varList(6) = Globals%Var%dwz
     syntecticVar(6) = .true.
+    !varList(7) = Globals%Var%ssh
+    !syntecticVar(7) = .false.
     if (Globals%SimDefs%bathyminNetcdf == 1) then
         varList(7) = Globals%Var%bathymetry
         syntecticVar(7) = .false.

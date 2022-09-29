@@ -949,6 +949,7 @@ do3:                do i=1, size(curr%field,1)
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry_4D, origVar = curr%name)
                 dwz4D = 0
                 !Only covering the bottom for now... need to change this to include the surface
+                
                 do t=1, size(curr%field,4)
                     !$OMP PARALLEL PRIVATE(j, i, k, found)
                     !$OMP DO
@@ -957,7 +958,7 @@ do3:                do i=1, size(curr%field,1)
                             found = .false.
                             do k=1, size(curr%field,3)
                                 if (found) then
-                                    dwz4D(i,j,k,t) = abs(self%dim(dimIndx)%field(k-1)) - abs(self%dim(dimIndx)%field(k))
+                                    dwz4D(i,j,k,t) = self%dim(dimIndx)%field(k) - self%dim(dimIndx)%field(k-1)
                                 else   
                                     if (self%dim(dimIndx)%field(k) > bathymetry_4D(i,j,1,t)) then
                                         !Found first

@@ -249,6 +249,7 @@
     requiredHorVars(1) = Globals%Var%u
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
+    !requiredHorVars(4) = Globals%Var%ssh
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     LagrangianKinematic = 0.0
     !Correct bottom values
@@ -257,11 +258,20 @@
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
     col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
+    col_ssh = Utils%find_str(var_name_hor, Globals%Var%ssh, .false.)
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
     
     threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
     landIntThreshold = -0.98
+    
+    !if (col_ssh /= MV_INT) then
+    !    !h = var_dt(:,col_bat)
+    !    part_depth = sv%state(:,3)
+    !else
+    !    h = var_dt(:,col_bat) + var_hor_dt(:,col_ssh)
+    !    part_depth = sv%state(:,3) + var_hor_dt(:,col_ssh)
+    !end if
     
     !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
     dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt(:,col_bat)) / (var_dt(:,col_dwz))
@@ -269,10 +279,12 @@
     !Need to do this double check because landIntMask does not work properly when tracers are near a bottom wall
     !(interpolation gives over 1 but should still be bottom)
     !do i=1, size(sv%state,1)
+    !    write(*,*)"------------ start i ------------ = ", i
     !    write(*,*)"dist2bottom(i) = ", dist2bottom(i)
     !    write(*,*)"depth(i) = ", sv%state(i,3)
     !    write(*,*)"bat(i) = ", var_dt(i,col_bat)
     !    write(*,*)"dwz(i) = ", var_dt(i,col_dwz)
+    !    write(*,*)"------------ end i ------------ = ", i
     !end do
     where (dist2bottom < threshold_bot_wat)
         aux_r8 = max((var_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
@@ -285,12 +297,14 @@
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
     !do i=1, size(sv%state,1)
+    !    write(*,*)"------------ start i ------------ = ", i
     !    write(*,*)"velU_entrada = ", sv%state(i,4)
-    !    write(*,*)"velV_entrada = ", sv%state(i,3)
+    !    write(*,*)"velV_entrada = ", sv%state(i,5)
     !    write(*,*)"VelU_interpol3D(i) = ", var_dt(i,nf_u)
     !    write(*,*)"VelV_interpol3D(i) = ", var_dt(i,nf_v)
     !    write(*,*)"VelU_hor = ", var_hor_dt(i,col_u)
     !    write(*,*)"VelV_hor = ", var_hor_dt(i,col_v)
+    !    write(*,*)"------------ end i ------------ = ", i
     !end do
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
@@ -330,10 +344,12 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
-    do i=1, size(sv%state,1)
-        write(*,*)"velU_saida = ", sv%state(i,4)
-        write(*,*)"velV_saida = ", sv%state(i,5)
-    end do
+    !do i=1, size(sv%state,1)
+    !    write(*,*)"------------ start i ------------ = ", i
+    !    write(*,*)"velU_saida = ", sv%state(i,4)
+    !    write(*,*)"velV_saida = ", sv%state(i,5)
+    !    write(*,*)"------------ end i ------------ = ", i
+    !end do
     deallocate(var_dt)
     deallocate(var_hor_dt)
     deallocate(var_name_hor)

@@ -182,6 +182,7 @@
         type(string) :: u !< Name of the 'u' variable in the model
         type(string) :: v
         type(string) :: w
+        type(string) :: ssh
         type(string) :: temp
         type(string) :: sal
         type(string) :: density
@@ -207,6 +208,7 @@
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
+        type(stringList_class) :: sshVariants
         type(stringList_class) :: tempVariants
         type(stringList_class) :: salVariants
         type(stringList_class) :: densityVariants
@@ -437,6 +439,7 @@
     self%u       = 'u'
     self%v       = 'v'
     self%w       = 'w'
+    self%ssh     = 'ssh'
     self%temp    = 'temp'
     self%sal     = 'sal'
     self%density = 'density'
@@ -463,6 +466,7 @@
     call self%addVar(self%u)
     call self%addVar(self%v)
     call self%addVar(self%w)
+    call self%addVar(self%ssh)
     call self%addVar(self%temp)
     call self%addVar(self%sal)
     call self%addVar(self%density)
@@ -516,6 +520,11 @@
     !searching for w
     if (var == self%w .or. .not.self%wVariants%notRepeated(var)) then
         getVarSimName = self%w
+        return
+    end if
+    !searching for ssh
+    if (var == self%ssh .or. .not.self%sshVariants%notRepeated(var)) then
+        getVarSimName = self%ssh
         return
     end if
     !searching for temp
@@ -661,6 +670,8 @@
     call self%setCurrVar(tag, self%Var%v, self%Var%vVariants, varNode)
     tag="upward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%w, self%Var%wVariants, varNode)
+    tag="sea_surface_height"
+    call self%setCurrVar(tag, self%Var%ssh, self%Var%sshVariants, varNode)
     tag="sea_water_temperature"
     call self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varNode)
     tag="sea_water_salinity"
