@@ -258,7 +258,7 @@
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
     col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
-    col_ssh = Utils%find_str(var_name_hor, Globals%Var%ssh, .false.)
+    !col_ssh = Utils%find_str(var_name_hor, Globals%Var%ssh, .false.)
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
     
