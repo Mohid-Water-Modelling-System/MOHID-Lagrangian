@@ -56,6 +56,7 @@
     procedure :: makeBathymetryField
     procedure :: makeBottom
     procedure :: makeDWZField
+    procedure :: fillClosedPoints
     procedure :: copy
     procedure :: hasVars
     procedure, private :: getSlabDim
@@ -868,6 +869,8 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
                 !Removed this option because it is easier to compute a vertical profile and define velocity=0 at the bottom
                 if ((curr%name == varList(idx)) .and. (.not. syntecticVar(idx))) then
                     do t=1, size(curr%field,4)
+                    !$OMP PARALLEL PRIVATE(j, i, k)
+                    !$OMP DO
                     do j=1, size(curr%field,2)
 do3:                do i=1, size(curr%field,1)
                     do k=2, size(curr%field,3)
@@ -879,6 +882,8 @@ do3:                do i=1, size(curr%field,1)
                     end do
                     end do do3
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                     end do
                 end if
             end do
@@ -919,17 +924,20 @@ do3:                do i=1, size(curr%field,1)
         class is (scalar3d_field_class)
             if (curr%name == Globals%Var%dwz) then
                 allocate(dwz3D(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
-                dimIndx = self%getDimIndex(Globals%Var%level)
                 !Get bathymetry matrix and point curr pointer back to the dwz matrix.
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_3D = bathymetry_3D, origVar = curr%name)
                 dwz3D = 0
                 !Only covering the bottom for now... need to change this to include the surface
                 do t=1, size(curr%field,3)
+                    !$OMP PARALLEL PRIVATE(j, i)
+                    !$OMP DO
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
                             dwz3D(i,j,t) = -bathymetry_3D(i,j,t)
                         end do
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                 end do
                 curr%field = dwz3D
             end if
@@ -941,13 +949,16 @@ do3:                do i=1, size(curr%field,1)
                 call self%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry_4D, origVar = curr%name)
                 dwz4D = 0
                 !Only covering the bottom for now... need to change this to include the surface
+                
                 do t=1, size(curr%field,4)
+                    !$OMP PARALLEL PRIVATE(j, i, k, found)
+                    !$OMP DO
                     do j=1, size(curr%field,2)
                         do i=1, size(curr%field,1)
                             found = .false.
                             do k=1, size(curr%field,3)
                                 if (found) then
-                                    dwz4D(i,j,k,t) = abs(self%dim(dimIndx)%field(k-1)) - abs(self%dim(dimIndx)%field(k))
+                                    dwz4D(i,j,k,t) = self%dim(dimIndx)%field(k) - self%dim(dimIndx)%field(k-1)
                                 else   
                                     if (self%dim(dimIndx)%field(k) > bathymetry_4D(i,j,1,t)) then
                                         !Found first
@@ -958,6 +969,8 @@ do3:                do i=1, size(curr%field,1)
                             end do
                         end do
                     end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
                 end do
                 curr%field = dwz4D
             end if
@@ -971,6 +984,82 @@ do3:                do i=1, size(curr%field,1)
     end do
     call self%fields%reset()               ! reset list iterator
     end subroutine makeDWZField
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Method to fill the closed points of a field. Needed to enable proper 4D interpolation near land
+    !---------------------------------------------------------------------------
+    subroutine fillClosedPoints(self, varList)
+    class(background_class), intent(inout) :: self
+    type(string), dimension(:), intent(in) :: varList
+    real(prec), allocatable, dimension(:,:,:,:) :: aux_4D
+    real(prec), allocatable, dimension(:,:,:) :: aux_3D
+    class(*), pointer :: curr
+    type(string) :: outext
+    integer :: k, i, j, t, idx
+    call self%fields%reset()               ! reset list iterator
+    do while(self%fields%moreValues())     ! loop while there are values
+        curr => self%fields%currentValue() ! get current value
+        select type(curr)
+        class is (scalar3d_field_class)
+            do idx=1, size(varList)
+                if ((curr%name == varList(idx))) then
+                    allocate(aux_3D(size(curr%field,1), size(curr%field,2), size(curr%field,3)))
+                    aux_3D = curr%field
+                    do t=1, size(curr%field,3)
+                    !$OMP PARALLEL PRIVATE(j, i)
+                    !$OMP DO
+                    do j=2, size(curr%field,2)-1
+                    do i=2, size(curr%field,1)-1
+                        if (aux_3D(i,j,t) == 0) then
+                            !Setting the value as the highest in the neighbourhood
+                            curr%field(i,j,t) = max(aux_3D(i,j+1,t), aux_3D(i,j-1,t), aux_3D(i+1,j,t), aux_3D(i-1,j,t))
+                        end if
+                    end do
+                    end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
+                    end do
+                    deallocate(aux_3D)
+                end if
+            end do
+        class is (scalar4d_field_class)
+            do idx=1, size(varList)
+                if ((curr%name == varList(idx))) then
+                    allocate(aux_4D(size(curr%field,1), size(curr%field,2), size(curr%field,3), size(curr%field,4)))
+                    aux_4D = curr%field
+                    do t=1, size(curr%field,4)
+                    !$OMP PARALLEL PRIVATE(k, j, i)
+                    !$OMP DO
+                    do k=1, size(curr%field,3)
+                    do j=2, size(curr%field,2)-1
+                    do i=2, size(curr%field,1)-1
+                        if (aux_4D(i,j,k,t) == 0) then
+                            !Setting the value as the highest in the neighbourhood (left and right)
+                            curr%field(i,j,k,t) = max(aux_4D(i,j+1,k,t), aux_4D(i,j-1,k,t), aux_4D(i+1,j,k,t), aux_4D(i-1,j-1,k,t))
+                        end if
+                    end do
+                    end do
+                    end do
+                    !$OMP END DO
+                    !$OMP END PARALLEL
+                    end do
+                    deallocate(aux_4D)
+                end if
+            end do
+        class default
+            outext = '[background_class::fillClosedPoints] Unexepected type of content, not a 3D or 4D scalar Field'
+            call Log%put(outext)
+            stop
+        end select
+        call self%fields%next()            ! increment the list iterator
+        nullify(curr)
+    end do
+    
+    call self%fields%reset()               ! reset list iterator
+    end subroutine fillClosedPoints
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC

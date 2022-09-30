@@ -66,7 +66,6 @@
     logical :: mand
     integer :: err
     type(string) :: outext
-
     if (present(mandatory)) then
         mand = mandatory
     else

@@ -33,6 +33,7 @@
     use kernelLitter_mod
     use kernelVerticalMotion_mod
     use kernelColiform_mod
+    use kernelDetritus_mod
 
     type :: kernel_class        !< Kernel class
         type(interpolator_class) :: Interpolator !< The interpolator object for the kernel
@@ -52,6 +53,7 @@
     type(kernelLitter_class) :: Litter       !< litter kernels
     type(kernelVerticalMotion_class) :: VerticalMotion   !< VerticalMotion kernels
     type(kernelColiform_class) :: Coliform !< coliform kernels
+    type(kernelDetritus_class) :: Detritus !< coliform kernels
     type(kernelUtils_class) :: KernelUtils   !< kernel utils
  
     public :: kernel_class
@@ -84,13 +86,13 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
-                    VerticalMotion%Resuspension(sv, bdata, time)
+                    VerticalMotion%Resuspension(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
                     self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
-                    VerticalMotion%Resuspension(sv, bdata, time)
+                    VerticalMotion%Resuspension(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%coliform) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
@@ -100,7 +102,13 @@
     else if (sv%ttype == Globals%Types%seed) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
-                    VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time)
+                    VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time, dt)
+        runKernel = self%Beaching(sv, runKernel)
+    else if (sv%ttype == Globals%Types%detritus) then
+        runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
+                    self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
+                    VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time, dt) + &
+                    detritus%Degradation(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
     end if
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
@@ -186,6 +194,13 @@
                     where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
                 end if
                 
+                !marking tracers for deletion because they are old
+                if (Globals%simdefs%tracerMaxAge > 0) then
+                    tag = 'age'
+                    col_age = Utils%find_str(sv%varName, tag, .true.)
+                    where(sv%state(:,col_age) >= Globals%simdefs%tracerMaxAge) sv%active = .false.
+                end if
+                
                 !update resolution proxy
                 col_res = Utils%find_str(var_name, Globals%Var%resolution,.true.)
                 sv%resolution = var_dt(:,col_res)
@@ -219,71 +234,86 @@
     real(prec) :: VonKarman = 0.4
     real(prec) :: Hmin_Chezy = 0.1
     real(prec), dimension(size(sv%state,1)) :: chezyZ, dist2bottom
-    !real(4), dimension(size(sv%state,1)) :: aux_r4
     real(8), dimension(size(sv%state,1)) :: aux_r8
     real(prec) :: threshold_bot_wat, landIntThreshold
     type(string) :: tag
     !-------------------------------------------------------------------------------------
-    allocate(requiredVars(6))
+    allocate(requiredVars(5))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
     requiredVars(3) = Globals%Var%w
-    requiredVars(4) = Globals%Var%landIntMask
-    requiredVars(5) = Globals%Var%bathymetry
-    requiredVars(6) = Globals%Var%dwz
+    requiredVars(4) = Globals%Var%bathymetry
+    requiredVars(5) = Globals%Var%dwz
     
     allocate(requiredHorVars(3))
     requiredHorVars(1) = Globals%Var%u
     requiredHorVars(2) = Globals%Var%v
     requiredHorVars(3) = Globals%Var%w
+    !requiredHorVars(4) = Globals%Var%ssh
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     LagrangianKinematic = 0.0
-    nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
     !Correct bottom values
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
     
     col_u = Utils%find_str(var_name_hor, Globals%Var%u, .true.)
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
     col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
+    !col_ssh = Utils%find_str(var_name_hor, Globals%Var%ssh, .false.)
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
     
     threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
     landIntThreshold = -0.98
     
+    !if (col_ssh /= MV_INT) then
+    !    !h = var_dt(:,col_bat)
+    !    part_depth = sv%state(:,3)
+    !else
+    !    h = var_dt(:,col_bat) + var_hor_dt(:,col_ssh)
+    !    part_depth = sv%state(:,3) + var_hor_dt(:,col_ssh)
+    !end if
+    
     !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
     dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt(:,col_bat)) / (var_dt(:,col_dwz))
     
     !Need to do this double check because landIntMask does not work properly when tracers are near a bottom wall
     !(interpolation gives over 1 but should still be bottom)
-    !if (prec == kind(1._R8P)) then
-    where ((var_dt(:,nf_lim) < threshold_bot_wat) .or. (dist2bottom < landIntThreshold))
+    !do i=1, size(sv%state,1)
+    !    write(*,*)"------------ start i ------------ = ", i
+    !    write(*,*)"dist2bottom(i) = ", dist2bottom(i)
+    !    write(*,*)"depth(i) = ", sv%state(i,3)
+    !    write(*,*)"bat(i) = ", var_dt(i,col_bat)
+    !    write(*,*)"dwz(i) = ", var_dt(i,col_dwz)
+    !    write(*,*)"------------ end i ------------ = ", i
+    !end do
+    where (dist2bottom < threshold_bot_wat)
         aux_r8 = max((var_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
         chezyZ = (VonKarman / dlog(aux_r8))**2
         sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
         sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
     end where
-    !else
-    !    where ((var_dt(:,nf_lim) < threshold_bot_wat) .or. (dist2bottom < landIntThreshold))
-    !        aux_r4 = max((var_hor_dt(:,nf_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
-    !        chezyZ = (VonKarman / dlog(aux_r8))**2
-    !        sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
-    !        sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
-    !    end where  
-    !end if
     
     !compute new velocity and position according to the position in the bottom water cell
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
-    
+    !do i=1, size(sv%state,1)
+    !    write(*,*)"------------ start i ------------ = ", i
+    !    write(*,*)"velU_entrada = ", sv%state(i,4)
+    !    write(*,*)"velV_entrada = ", sv%state(i,5)
+    !    write(*,*)"VelU_interpol3D(i) = ", var_dt(i,nf_u)
+    !    write(*,*)"VelV_interpol3D(i) = ", var_dt(i,nf_v)
+    !    write(*,*)"VelU_hor = ", var_hor_dt(i,col_u)
+    !    write(*,*)"VelV_hor = ", var_hor_dt(i,col_v)
+    !    write(*,*)"------------ end i ------------ = ", i
+    !end do
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
     
-    where (((var_dt(:,nf_lim) < landIntThreshold) .or. (dist2bottom < landIntThreshold)) .and. (sv%state(:,part_idx) == 1))
+    where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
         !At the bottom and tracer is particulate
         LagrangianKinematic(:,1) = 0
         LagrangianKinematic(:,2) = 0
-    elsewhere (var_dt(:,nf_lim) < threshold_bot_wat)
+    elsewhere (dist2bottom < threshold_bot_wat)
         LagrangianKinematic(:,1) = Utils%m2geo(sv%state(:,4), sv%state(:,2), .false.)
         LagrangianKinematic(:,2) = Utils%m2geo(sv%state(:,5), sv%state(:,2), .true.)
     elsewhere
@@ -296,10 +326,10 @@
     nf = Utils%find_str(var_name, Globals%Var%w, .false.)
     if ((nf /= MV_INT) .and. (Globals%SimDefs%VerticalVelMethod == 1)) then
         !Make the vertical velocity 0 at the bottom.
-        where (((var_dt(:,nf_lim) < landIntThreshold) .or. (dist2bottom < landIntThreshold)) .and. (sv%state(:,part_idx) == 1))
+        where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
             LagrangianKinematic(:,3) = 0
             sv%state(:,6) = 0
-        elsewhere (var_dt(:,nf_lim) < threshold_bot_wat)
+        elsewhere (dist2bottom < threshold_bot_wat)
             !Reduce velocity towards the bottom following a vertical logaritmic profile
             LagrangianKinematic(:,3) = var_hor_dt(:,col_w) * chezyZ
             sv%state(:,6) = LagrangianKinematic(:,3)
@@ -314,7 +344,12 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
-    
+    !do i=1, size(sv%state,1)
+    !    write(*,*)"------------ start i ------------ = ", i
+    !    write(*,*)"velU_saida = ", sv%state(i,4)
+    !    write(*,*)"velV_saida = ", sv%state(i,5)
+    !    write(*,*)"------------ end i ------------ = ", i
+    !end do
     deallocate(var_dt)
     deallocate(var_hor_dt)
     deallocate(var_name_hor)
@@ -567,11 +602,6 @@
                     DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
                     DiffusionMixingLength(:,3) = sv%state(:,9)
                 end where
-                
-                !update system velocities
-                !sv%state(:,4) = sv%state(:,4) + DiffusionMixingLength(:,7)*dt
-                !sv%state(:,5) = sv%state(:,5) + DiffusionMixingLength(:,8)*dt
-                !sv%state(:,6) = sv%state(:,6) + DiffusionMixingLength(:,9)*dt
 
                 !update used mixing length
                 DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))

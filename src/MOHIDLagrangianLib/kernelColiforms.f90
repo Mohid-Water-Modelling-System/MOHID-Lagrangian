@@ -45,7 +45,7 @@
     contains
     
     !---------------------------------------------------------------------------
-    !> @author Joao Barros Sobrinho - +Atlantic
+    !> @author Joao Sobrinho - +Atlantic
     !> @brief
     !> T_90 fecal coliforms decay kernel.
     !> @param[in] self, sv, bdata, dt
@@ -122,7 +122,21 @@
             T90 = (2.303 / T90) * 24 * 3600                        
                         
             MortalityT90(:,conc_idx)  =  - sv%state(:,conc_idx) * (alog(10.0) / T90)
-    
+            !
+            !if (size(sv%state,1) > 5000) then
+            !    write(*,*)"MortalityT90(1001,conc_idx) = ", MortalityT90(5001,conc_idx)
+            !    write(*,*)"depth = ", depth(5001)
+            !    write(*,*)"Radiation = ", Radiation(5001)
+            !elseif (size(sv%state,1) > 1000) then
+            !    write(*,*)"MortalityT90(1001,conc_idx) = ", MortalityT90(1001,conc_idx)
+            !    write(*,*)"depth = ", depth(1001)
+            !    write(*,*)"Radiation = ", Radiation(1001)
+            !elseif (size(sv%state,1) > 9) then
+            !    write(*,*)"MortalityT90(10,conc_idx) = ", MortalityT90(10,conc_idx)
+            !    write(*,*)"depth = ", depth(10)
+            !    write(*,*)"Radiation = ", Radiation(10)
+            !end if
+            
         else if (T90_method == 2) then
             !Chapra not yet implemented
         end if
@@ -140,7 +154,7 @@
     end function MortalityT90
     
     
-    !> @author Joao Barros Sobrinho - +Atlantic
+    !> @author Joao Sobrinho - +Atlantic
     !> @brief
     !> Computes the dilution of dissolved material in the water column by increasing its volume
     !> @param[in] self, sv, bdata, time

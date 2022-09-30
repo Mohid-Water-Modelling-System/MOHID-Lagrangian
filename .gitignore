@@ -51,3 +51,4 @@ RUN_Cases/Debug_case/outputFields.xml
 RUN_Cases/Debug_case/PV_state.pvsm
 RUN_Cases/Debug_case/RunCase_buoyancy.sh
 RUN_Cases/Debug_case/RunCase_test.bat
+build/bin/RELEASE/MOHIDLagrangian.exe
