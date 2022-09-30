@@ -115,6 +115,7 @@
     real(prec), dimension(3,2) :: dimExtents
     integer :: i, realVarIdx
     type(string) :: outext
+    real(prec) :: valorminimo
 
     allocate(gfield(size(syntecticVar)))
     realVarIdx = 0
@@ -129,8 +130,9 @@
             call ncFile%getVarDimensions(varList(i), backgrounDims)
             if (allocated(backgrounDims)) then
                 realVarIdx = i
+                valorminimo = backgrounDims(3)%getFieldMinBound()
                 exit
-            end if            
+            end if 
         end if
     end do
     if (realVarIdx /= 0) then
@@ -143,7 +145,8 @@
         end do
     end if
     call ncFile%finalize()
-
+    
+    
     dimExtents = 0.0
     do i = 1, size(backgrounDims)
         if (backgrounDims(i)%name == Globals%Var%lon) then
@@ -160,14 +163,12 @@
     extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
-
     name = fileName%basename(strip_last_extension=.true.)
     getFullFile = Background(1, name, extents, backgrounDims)
     do i = 1, size(gfield)
         call getFullFile%add(gfield(i))
-        !call gfield(i)%print()
     end do
-    !call getFullFile%print()
+    valorminimo = backgrounDims(3)%getFieldMinBound()
     end function getFullFile
 
     !---------------------------------------------------------------------------
@@ -281,7 +282,7 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Reads the dimension fields from the nc file for a given variable.
-    !> returns an array of scalar 1D fields, each with a name, units and data
+    !> returns an array of scalar 1D fields, each with a name, units and data (includes Lat, Lon and Depth)
     !> @param[in] self, varName, dimsArrays
     !---------------------------------------------------------------------------
     subroutine getVarDimensions(self, varName, dimsArrays)
@@ -302,6 +303,7 @@
                         allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
                         dimName = self%dimData(k)%simName
                         dimUnits = self%dimData(k)%units
+                        !Here is where Lat, Lon and Depth are read from the netcdf
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
                         !need to check for 'level' variable specific issues
@@ -319,7 +321,6 @@
                         if (dimName == Globals%Var%level) then
                             !1) The depth must increase. If it does not increase, must be reversed.
                             !2) The axis should be negative. If it is not negative, negate it.
-
                             increase_flag = all(tempRealArray(2:) >= tempRealArray(:size(tempRealArray)-1)) 
                             neg_flag = all(tempRealArray(:) <= 0)
 
@@ -380,16 +381,19 @@
     type(string), optional, intent(in) :: altName, altUnits
     logical :: bVar
     real(prec), allocatable, dimension(:) :: tempRealField1D
+    real(prec), allocatable, dimension(:,:) :: tempRealField2D
     real(prec), allocatable, dimension(:,:,:) :: tempRealField3D
     real(prec), allocatable, dimension(:,:,:,:) :: tempRealField4D
     type(string) :: dimName, varUnits
-    integer :: i, j, k, id_dim, first,last
-    type(dim_t) :: tempDim
-    integer, allocatable, dimension(:) :: varShape
+    integer :: i, j, k, id_dim, first,last, t, indx, j2
+    type(dim_t) :: tempDim, uDim
+    integer, allocatable, dimension(:) :: varShape, u_Shape
     type(string) :: outext
-
+    logical variable_u_is4D
+    
     bVar= .false.
     if(present(binaryVar)) bVar = binaryVar
+    variable_u_is4D = .false.
 
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName ) then   !found the requested var
@@ -403,8 +407,11 @@
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField3D)
                 call self%check()
                 if (.not.bVar) then
-                    where (tempRealField3D == self%varData(i)%fillvalue) tempRealField3D = 0.0
-                    tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset ! scale + offset transform
+                    where (tempRealField3D /= self%varData(i)%fillvalue)
+                        tempRealField3D = tempRealField3D*self%varData(i)%scale + self%varData(i)%offset
+                    elsewhere (tempRealField3D == self%varData(i)%fillvalue)
+                        tempRealField3D = 0.0
+                    end where
                 else
                     if (self%varData(i)%fillvalue == MV) then
                         outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
@@ -433,13 +440,24 @@
                     if(present(altUnits)) varUnits = altUnits
                     call varField%initialize(dimName, varUnits, tempRealField3D)
                 end if
-            else if(self%varData(i)%ndims == 4) then !4D variable
+            else if(self%varData(i)%ndims == 4) then !4D variable                
                 allocate(tempRealField4D(varShape(1),varShape(2),varShape(3),varShape(4)))
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
                 call self%check()
                 if (.not.bVar) then
-                    where (tempRealField4D == self%varData(i)%fillvalue) tempRealField4D = 0.0
-                    tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset    ! scale + offset transform
+                    if (varName == Globals%Var%temp) then
+                        where (tempRealField4D /= self%varData(i)%fillvalue)
+                            tempRealField4D = tempRealField4D - 273.15
+                        elsewhere (tempRealField4D == self%varData(i)%fillvalue)
+                            tempRealField4D = 0.0
+                        end where 
+                    else
+                        where (tempRealField4D /= self%varData(i)%fillvalue)
+                            tempRealField4D = tempRealField4D*self%varData(i)%scale + self%varData(i)%offset
+                        elsewhere (tempRealField4D == self%varData(i)%fillvalue)
+                            tempRealField4D = 0.0
+                        end where
+                    end if
                 else
                     if (self%varData(i)%fillvalue == MV) then
                         outext = '[NetCDFParser::getVar]:WARNING - variables without _fillvalue, you might have some problems in a few moments. Masks will not work properly (beaching, land exclusion,...)'
@@ -461,6 +479,7 @@
                         end if
                     end if
                 end do
+                
                 if (.not.bVar) then
                     call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
                 else
@@ -469,6 +488,60 @@
                     varUnits = self%varData(i)%units
                     if(present(altUnits)) varUnits = altUnits
                     call varField%initialize(dimName, varUnits, tempRealField4D)
+                end if
+            elseif(self%varData(i)%ndims == 2) then !2D variable, for now only bathymetry
+                if (self%varData(i)%simName == Globals%Var%bathymetry) then
+                    allocate(tempRealField2D(varShape(1),varShape(2)))
+do1:                do indx=1, self%nVars
+                        !Find velocity u matrix to get its dimensions
+                        if (self%varData(indx)%simName == Globals%Var%u) then
+                            allocate(u_Shape(self%varData(indx)%ndims))
+                            do j2=1, self%varData(indx)%ndims   !going trough all of the variable dimensions
+                                uDim = self%getDimByDimID(self%varData(indx)%dimids(j2))
+                                u_Shape(j2) = uDim%length
+                            end do
+                            if (self%varData(indx)%ndims == 4) then
+                                variable_u_is4D = .true.
+                                allocate(tempRealField4D(varShape(1),varShape(2), u_Shape(3), u_Shape(4)))
+                                exit do1
+                            else
+                                allocate(tempRealField3D(varShape(1),varShape(2), u_Shape(3)))
+                                exit do1
+                            end if
+                            
+                        end if
+                    end do do1
+                    
+                    self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField2D)
+                    call self%check()
+                    if (.not.bVar) then
+                        where (tempRealField2D /= self%varData(i)%fillvalue)
+                            tempRealField2D = tempRealField2D*self%varData(i)%scale + self%varData(i)%offset
+                        elsewhere (tempRealField2D == self%varData(i)%fillvalue)
+                            tempRealField2D = 0.0
+                        end where
+                        if (variable_u_is4D) then
+                            !For bathymetry, converts the 2D input field into a 4D field to be consistent with velocity matrixes
+                            do t=1,size(tempRealField4D,4)
+                                do k=1, size(tempRealField4D,3)
+                                    tempRealField4D(:,:,k,t) = -tempRealField2D(:,:)
+                                end do
+                            end do
+                            call varField%initialize(varName, self%varData(i)%units, tempRealField4D)
+                        else
+                            !This needs to be completed .... will give errors
+                            call varField%initialize(varName, self%varData(i)%units, tempRealField3D)
+                        end if
+                        
+                    else
+                        outext = '[NetCDFparser::getVar]: Variable '//varName//' is synthetic and cannot have 2D dimensionality. Stopping'
+                        call Log%put(outext)
+                        stop
+                    end if
+                else
+                    outext = '[NetCDFparser::getVar]: Variable '//varName//' is 2D and not bathymetry, so it is not supported. Stopping'
+                    call Log%put(outext)
+                    stop
                 end if
             else
                 outext = '[NetCDFparser::getVar]: Variable '//varName//' has a non-supported dimensionality. Stopping'

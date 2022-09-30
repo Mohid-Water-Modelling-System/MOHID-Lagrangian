@@ -22,7 +22,9 @@
 			<BoundingBoxMin x="-8.98" y="42.15" z="-100" units_comment="(deg,deg,m)"/>
 			<BoundingBoxMax x="-8.64" y="42.41" z="10" units_comment="(deg,deg,m)"/>	
        		<VerticalVelMethod value="1" comment="1:From velocity fields, 2:Divergence based, 3:Disabled. Default = 1" />
-		</simulation>
+            <BathyminNetcdf value="1" comment="bathymetry is a property in the netcdf. 1:true, 0:false (computes from layer depth and openPoints. Default = 1"/>
+            <RemoveLandTracer value="1" comment="Remove tracers on land 0:No, 1:Yes. Default = 0" />
+        </simulation>
 		<sourceDefinitions>
 			<source>
 				<setsource id="18" name="ReleaseBox1" />

@@ -28,6 +28,7 @@
         integer :: id = MV                       !< unique tracer identification
         integer :: idsource = MV                 !< Source to which the tracer belongs
         integer :: ttype
+        integer :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
     end type tracer_par_class
 
     type :: tracer_state_class             !<Type - state variables of a pure Lagrangian tracer object
@@ -69,7 +70,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(tracer_class), intent(in) :: self
-    getNumVars = 11
+    getNumVars = 12
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -92,6 +93,7 @@
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
     getStateArray(11) = self%now%age
+    getStateArray(12) = self%par%particulate
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -113,6 +115,7 @@
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
     self%now%age   = StateArray(11)
+    self%par%particulate = StateArray(12)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -156,6 +159,7 @@
     constructor%par%id = id
     constructor%par%idsource = src%par%id
     constructor%par%ttype = Globals%Types%base
+    constructor%par%particulate = src%prop%particulate
     ! initialize tracer state
     constructor%now%age=0.0
     constructor%now%active = .true.
@@ -176,6 +180,7 @@
     constructor%varName(9) = 'dVelZ'
     constructor%varName(10) = 'mLen'
     constructor%varName(11) = 'age'
+    constructor%varName(12) = 'particulate'
     end function constructor
 
     end module tracerBase_mod

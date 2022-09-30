@@ -39,25 +39,29 @@
     !> @brief
     !> calls interpolator for each required var. Seaches in every background
     !---------------------------------------------------------------------------
-    subroutine runInterpolatorOnVars(self, sv, bdata, time, requiredVars, var_dt, var_name, justRequired)
+    subroutine runInterpolatorOnVars(self, sv, bdata, time, requiredVars, var_dt, var_name, justRequired, reqVertInt)
     class(kernelUtils_class), intent(inout) :: self
-    type(stateVector_class), intent(inout) :: sv
+    type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), dimension(:,:), allocatable, intent(inout) :: var_dt
     type(string), dimension(:), allocatable, intent(inout) :: var_name
     type(string), dimension(:), intent(in) :: requiredVars
-    logical, optional, intent(in) :: justRequired
-    logical :: localjustRequired
+    logical, optional, intent(in) :: justRequired, reqVertInt
+    logical :: localjustRequired, localreqVertInt
     real(prec), intent(in) :: time
     integer :: np, nf, bkg, i, j
     type(varBackground_t), dimension(:), allocatable :: bkgToInterpolate
     type(string), allocatable, dimension(:) :: currList
-    
+    !begin--------------------------------------------------------------------------
     call self%getBackgroundDictIntersection(requiredVars, bkgToInterpolate)
     
     localjustRequired = .false.
     if (present(justRequired)) then
         localjustRequired = justRequired
+    end if
+    localreqVertInt = .true.
+    if (present(reqVertInt)) then
+        localreqVertInt = reqVertInt
     end if
     
     np = size(sv%active) !number of Tracers
@@ -68,7 +72,7 @@
         j=1
         do i=1, size(bkgToInterpolate)
             call bkgToInterpolate(i)%bkgVars%toArray(currList)
-            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), var_name(j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), currList)
+            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), var_name(j:j+bkgToInterpolate(i)%bkgVars%getSize()-1), currList, reqVertInt=localreqVertInt)
             j = j + bkgToInterpolate(i)%bkgVars%getSize()
             deallocate (currList)
         end do
@@ -81,7 +85,7 @@
         allocate(var_name(nf))
         j=1
         do i=1, size(bkgToInterpolate)
-            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()-1), var_name(j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()-1))
+            call self%Interpolator%run(sv%state, bdata(bkgToInterpolate(i)%bkgIndex), time, var_dt(:,j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()-1), var_name(j:j+bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()-1), reqVertInt=localreqVertInt)
             j = j + bdata(bkgToInterpolate(i)%bkgIndex)%fields%getSize()
         end do
     end if

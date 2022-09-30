@@ -10,7 +10,7 @@
     ! DATE          : Dec 2020
     ! REVISION      : Sobrinho 0.1
     !> @author
-    !> Joao Barros Sobrinho
+    !> Joao Sobrinho
     !
     ! DESCRIPTION:
     !> Module that defines a Lagrangian tracer class for fecal coliforms modelling and related methods.
@@ -28,7 +28,7 @@
     private
 
     type :: coliform_par_class               !<Type - parameters of a Lagrangian tracer object representing a coliform cell
-        logical    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
+        integer    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
     end type coliform_par_class
 
@@ -75,7 +75,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 23
+    getNumVars = 24
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -110,6 +110,7 @@
     getStateArray(21) = self%mnow%sw_extinction_coef
     getStateArray(22) = self%mnow%concentration
     getStateArray(23) = self%mnow%initial_volume
+    getStateArray(24) = self%mpar%particulate
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -144,6 +145,7 @@
     self%mnow%sw_extinction_coef = StateArray(21)
     self%mnow%concentration = StateArray(22)
     self%mnow%initial_volume = StateArray(23)
+    self%mpar%particulate = StateArray(24)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -230,7 +232,7 @@
         constructor%mnow%concentration = src%prop%propValue(idx)
     end if
     
-    if (constructor%mpar%particulate) then
+    if (constructor%mpar%particulate==1) then
         !constructor%mpar%size = src%prop%pt_radius !correcting size to now mean particle size, not tracer size
         !constructor%mnow%concentration = src%prop%ini_concentration
     end if
@@ -248,6 +250,7 @@
     constructor%varName(21) = 'sw_extinction_coef'
     constructor%varName(22) = 'concentration'
     constructor%varName(23) = 'initial_volume'
+    constructor%varName(24) = 'particulate'
     
     end function constructor
 

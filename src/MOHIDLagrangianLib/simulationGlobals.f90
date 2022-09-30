@@ -79,6 +79,8 @@
         integer         ::  numblocksx, numblocksy  !<Number of blocks along x and y
         integer         :: VerticalVelMethod !< Vertical velocity method
         integer         :: RemoveLandTracer !< Vertical velocity method
+        integer         :: bathyminNetcdf !< bathymetry is a property inside the netcdf
+        real            :: tracerMaxAge !< removes tracers with age greater than maxTracerAge
     contains
     procedure :: setdp
     procedure :: setdt
@@ -87,6 +89,8 @@
     procedure :: setblocksize
     procedure :: setVerticalVelMethod
     procedure :: setRemoveLandTracer
+    procedure :: setbathyminNetcdf
+    procedure :: settracerMaxAge
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -100,6 +104,18 @@
         real(prec)   :: DiffusionCoeff      !< Horizontal diffusion coefficient (-)
         real(prec)   :: MeanDensity         !< mean ocean water density.
         real(prec)   :: MeanKVisco          !< mean ocean water kinematic viscosity
+        integer      :: AddBottomCell       !< open the first bottom cell and put the same value as the cell above
+        real(prec)   :: Rugosity            !< Bottom rugosity value (for now the model assumes a constant value over the grid)
+        real(prec)   :: Critical_Shear_Erosion !< Bottom critical shear erosion value (for now the model assumes a constant value over the grid)
+        real(prec)   :: TOptBacteriaMin          !< minimum temperature of the optimal interval for the Bacteria growth
+        real(prec)   :: TOptBacteriaMax          !< maximum temperature of the optimal interval for the Bacteria growt
+        real(prec)   :: TBacteriaMin          !< minimum tolerable temperature of the interval for the Bacteria growth
+        real(prec)   :: TBacteriaMax          !< maximum tolerable temperature of the interval for the Bacteria growth
+        real(prec)   :: BK1          !< constant to control temperature response curve shape
+        real(prec)   :: BK2          !< constant to control temperature response curve shape
+        real(prec)   :: BK3          !< constant to control temperature response curve shape
+        real(prec)   :: BK4          !< constant to control temperature response curve shape
+        real(prec)   :: MaxDegradationRate !< maximum degradation rate from bacteria
     contains
     procedure :: setgravity
     procedure :: setz0
@@ -109,7 +125,19 @@
     procedure :: setSmallDt
     procedure :: setResuspensionCoeff
     procedure :: setMeanDensity
-    procedure :: setMeanKVisco    
+    procedure :: setMeanKVisco
+    procedure :: setAddBottomCell
+    procedure :: setRugosity
+    procedure :: setCritical_Shear_Erosion
+    procedure :: setTOptBacteriaMin
+    procedure :: setTOptBacteriaMax
+    procedure :: setTBacteriaMin
+    procedure :: setTBacteriaMax
+    procedure :: setBK1
+    procedure :: setBK2
+    procedure :: setBK3
+    procedure :: setBK4
+    procedure :: setMaxDegradationRate
     procedure :: print => printconstants
     end type constants_t
 
@@ -154,11 +182,15 @@
         type(string) :: u !< Name of the 'u' variable in the model
         type(string) :: v
         type(string) :: w
+        type(string) :: ssh
         type(string) :: temp
         type(string) :: sal
         type(string) :: density
         type(string) :: vsdx
         type(string) :: vsdy
+        type(string) :: hs
+        type(string) :: ts
+        type(string) :: wd
         type(string) :: u10
         type(string) :: v10
         type(string) :: rad
@@ -171,14 +203,20 @@
         type(string) :: bathymetry
         type(string) :: surface
         type(string) :: rate
+        type(string) :: dwz
+        type(stringList_class) :: bathymetryVariants
         type(stringList_class) :: uVariants !< possible names for 'u' in the input files
         type(stringList_class) :: vVariants
         type(stringList_class) :: wVariants
+        type(stringList_class) :: sshVariants
         type(stringList_class) :: tempVariants
         type(stringList_class) :: salVariants
         type(stringList_class) :: densityVariants
         type(stringList_class) :: vsdxVariants
         type(stringList_class) :: vsdyVariants
+        type(stringList_class) :: hsVariants
+        type(stringList_class) :: tsVariants
+        type(stringList_class) :: wdVariants
         type(stringList_class) :: u10Variants
         type(stringList_class) :: v10Variants
         type(stringList_class) :: radVariants
@@ -218,6 +256,8 @@
         integer :: paper   = 1
         integer :: plastic = 2
         integer :: coliform = 3
+        integer :: seed = 4
+        integer :: detritus = 5
     contains
     end type tracerTypes_t
 
@@ -244,6 +284,7 @@
     
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
+        real(prec), allocatable, dimension(:) :: bottom_emission_depth
     contains    
     end type sources_t
 
@@ -332,7 +373,9 @@
     self%SimDefs%Pointmax = 0.0
     self%SimDefs%Center = 0.0
     self%SimDefs%VerticalVelMethod = 1
-    self%SimDefs%RemoveLandTracer = 1
+    self%SimDefs%RemoveLandTracer = 0
+    self%SimDefs%bathyminNetcdf = 0
+    self%SimDefs%tracerMaxAge = 0
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
@@ -341,8 +384,20 @@
     self%Constants%DiffusionCoeff = 1.0
     self%Constants%smallDt = 0.0
     self%Constants%ResuspensionCoeff = 0.0
-     self%Constants%MeanDensity = 1027.0
-     self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%MeanDensity = 1027.0
+    self%Constants%MeanKVisco = 1.09E-3
+    self%Constants%AddBottomCell = 0
+    self%Constants%Rugosity = 0.0025
+    self%Constants%Critical_Shear_Erosion = 0.4
+    self%Constants%TOptBacteriaMin = 24.8
+    self%Constants%TOptBacteriaMax = 25.1
+    self%Constants%TBacteriaMin = 5
+    self%Constants%TBacteriaMax = 35
+    self%Constants%BK1 = 0.05
+    self%Constants%BK2 = 0.98
+    self%Constants%BK3 = 0.98
+    self%Constants%BK4 = 0.02
+    self%Constants%MaxDegradationRate = 0.03/86400
     !filenames
     self%Names%mainxmlfilename = notSet
     self%Names%propsxmlfilename = notSet
@@ -384,11 +439,15 @@
     self%u       = 'u'
     self%v       = 'v'
     self%w       = 'w'
+    self%ssh     = 'ssh'
     self%temp    = 'temp'
     self%sal     = 'sal'
     self%density = 'density'
     self%vsdx    = 'vsdx'
     self%vsdy    = 'vsdy'
+    self%hs      = 'hs'
+    self%ts      = 'ts'
+    self%wd      = 'wd'
     self%u10     = 'u10'
     self%v10     = 'v10'
     self%rad     = 'rad'
@@ -401,13 +460,17 @@
     self%bathymetry = 'bathymetry'
     self%surface    = 'surface'
     self%rate = 'rate'
+    !DWZ is the distance between two vertical faces of a cube (ex: thichness of the vertical layer)
+    self%dwz = 'dwz'
     !adding variables to variable pool - PLACEHOLDER, this should come from tracer constructors
     call self%addVar(self%u)
     call self%addVar(self%v)
     call self%addVar(self%w)
+    call self%addVar(self%ssh)
     call self%addVar(self%temp)
     call self%addVar(self%sal)
     call self%addVar(self%density)
+    call self%addVar(self%bathymetry)
     !call self%addVar(self%lon)
     !call self%addVar(self%lat)
     !call self%addVar(self%level)
@@ -435,7 +498,15 @@
     type(string) function getVarSimName(self, var)
     class(var_names_t), intent(inout) :: self
     type(string), intent(in) :: var
+    logical value
 
+    !searching for bathymetry
+    value = self%bathymetryVariants%notRepeated(var)
+    if (var == self%bathymetry .or. .not. value) then
+        getVarSimName = self%bathymetry
+        return
+    end if
+    
     !searching for u
     if (var == self%u .or. .not.self%uVariants%notRepeated(var)) then
         getVarSimName = self%u
@@ -449,6 +520,11 @@
     !searching for w
     if (var == self%w .or. .not.self%wVariants%notRepeated(var)) then
         getVarSimName = self%w
+        return
+    end if
+    !searching for ssh
+    if (var == self%ssh .or. .not.self%sshVariants%notRepeated(var)) then
+        getVarSimName = self%ssh
         return
     end if
     !searching for temp
@@ -474,6 +550,21 @@
     !searching for vsdy
     if (var == self%vsdy .or. .not.self%vsdyVariants%notRepeated(var)) then
         getVarSimName = self%vsdy
+        return
+    end if
+    !searching for hs
+    if (var == self%hs .or. .not.self%hsVariants%notRepeated(var)) then
+        getVarSimName = self%hs
+        return
+    end if
+    !searching for ts
+    if (var == self%ts .or. .not.self%tsVariants%notRepeated(var)) then
+        getVarSimName = self%ts
+        return
+    end if
+    !searching for wd
+    if (var == self%wd .or. .not.self%wdVariants%notRepeated(var)) then
+        getVarSimName = self%wd
         return
     end if
     !searching for u10
@@ -571,12 +662,16 @@
     type(Node), pointer, intent(in) :: varNode
     type(string) :: tag
 
+    tag="bathymetry"
+    call self%setCurrVar(tag, self%Var%bathymetry, self%Var%bathymetryVariants, varNode)
     tag="eastward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%u, self%Var%uVariants, varNode)
     tag="northward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%v, self%Var%vVariants, varNode)
     tag="upward_sea_water_velocity"
     call self%setCurrVar(tag, self%Var%w, self%Var%wVariants, varNode)
+    tag="sea_surface_height"
+    call self%setCurrVar(tag, self%Var%ssh, self%Var%sshVariants, varNode)
     tag="sea_water_temperature"
     call self%setCurrVar(tag, self%Var%temp, self%Var%tempVariants, varNode)
     tag="sea_water_salinity"
@@ -587,6 +682,12 @@
     call self%setCurrVar(tag, self%Var%vsdx, self%Var%vsdxVariants, varNode)
     tag="sea_surface_wave_stokes_drift_y_velocity"
     call self%setCurrVar(tag, self%Var%vsdy, self%Var%vsdyVariants, varNode)
+    tag="sea_surface_significant_wave_height"
+    call self%setCurrVar(tag, self%Var%hs, self%Var%hsVariants, varNode)
+    tag="sea_surface_wave_mean_period"
+    call self%setCurrVar(tag, self%Var%ts, self%Var%tsVariants, varNode)
+    tag="sea_surface_wave_mean_direction"
+    call self%setCurrVar(tag, self%Var%wd, self%Var%wdVariants, varNode)
     tag="eastward_wind"
     call self%setCurrVar(tag, self%Var%u10, self%Var%u10Variants, varNode)
     tag="northward_wind"
@@ -1131,7 +1232,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Resuspension setting routine or not
-    !> @param[in] self, read_BeachingLevel
+    !> @param[in] self, read_ResuspensionCoeff
     !---------------------------------------------------------------------------
     subroutine setResuspensionCoeff(self, read_ResuspensionCoeff)
     class(constants_t), intent(inout) :: self
@@ -1147,6 +1248,46 @@
     sizem = sizeof(self%ResuspensionCoeff)
     call SimMemory%adddef(sizem)
     end subroutine setResuspensionCoeff
+    
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Rugosity setting routine or not
+    !> @param[in] self, read_Rugosity
+    !---------------------------------------------------------------------------
+    subroutine setRugosity(self, read_Rugosity)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Rugosity
+    type(string) :: outext
+    integer :: sizem
+    if (read_Rugosity%to_number(kind=1._R8P) < 0.0) then
+        outext='Rugosity must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Rugosity=read_Rugosity%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Rugosity)
+    call SimMemory%adddef(sizem)
+    end subroutine setRugosity
+    
+    !> @author Joao Sobrinho - ColabAtlantic
+    !> @brief
+    !> Critical shear erosion setting routine or not
+    !> @param[in] self, read_Critical_Shear_Erosion
+    !---------------------------------------------------------------------------
+    subroutine setCritical_Shear_Erosion(self, read_Critical_Shear_Erosion)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_Critical_Shear_Erosion
+    type(string) :: outext
+    integer :: sizem
+    if (read_Critical_Shear_Erosion%to_number(kind=1._R8P) < 0.0) then
+        outext='Critical_Shear_Erosion must be zero or positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%Critical_Shear_Erosion=read_Critical_Shear_Erosion%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%Critical_Shear_Erosion)
+    call SimMemory%adddef(sizem)
+    end subroutine setCritical_Shear_Erosion
     
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1210,6 +1351,211 @@
     sizem = sizeof(self%MeanKVisco)
     call SimMemory%adddef(sizem)
     end subroutine setMeanKVisco
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Add bottom cell to enable interpolation until the bottom.
+    !> @param[in] self, read_AddBottomCell
+    !---------------------------------------------------------------------------
+    subroutine setAddBottomCell(self, read_AddBottomCell)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_AddBottomCell
+    type(string) :: outext
+    integer :: sizem
+    self%AddBottomCell = read_AddBottomCell%to_number(kind=1_I1P)
+    sizem = sizeof(self%AddBottomCell)
+    call SimMemory%adddef(sizem)
+    end subroutine setAddBottomCell
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TOptBacteriaMin.
+    !> @param[in] self, read_TOptBacteriaMin
+    !---------------------------------------------------------------------------
+    subroutine setTOptBacteriaMin(self, read_TOptBacteriaMin)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TOptBacteriaMin
+    type(string) :: outext
+    integer :: sizem
+    if (read_TOptBacteriaMin%to_number(kind=1._R8P) <= 0.0) then
+        outext='TOptBacteriaMin must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TOptBacteriaMin =read_TOptBacteriaMin%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TOptBacteriaMin)
+    call SimMemory%adddef(sizem)
+    end subroutine setTOptBacteriaMin
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TOptBacteriaMax.
+    !> @param[in] self, read_TOptBacteriaMax
+    !---------------------------------------------------------------------------
+    subroutine setTOptBacteriaMax(self, read_TOptBacteriaMax)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TOptBacteriaMax
+    type(string) :: outext
+    integer :: sizem
+    if (read_TOptBacteriaMax%to_number(kind=1._R8P) <= 0.0) then
+        outext='TOptBacteriaMax must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TOptBacteriaMax =read_TOptBacteriaMax%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TOptBacteriaMax)
+    call SimMemory%adddef(sizem)
+    end subroutine setTOptBacteriaMax
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TBacteriaMin.
+    !> @param[in] self, read_TBacteriaMin
+    !---------------------------------------------------------------------------
+    subroutine setTBacteriaMin(self, read_TBacteriaMin)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TBacteriaMin
+    type(string) :: outext
+    integer :: sizem
+    if (read_TBacteriaMin%to_number(kind=1._R8P) <= 0.0) then
+        outext='TBacteriaMin must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TBacteriaMin =read_TBacteriaMin%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TBacteriaMin)
+    call SimMemory%adddef(sizem)
+    end subroutine setTBacteriaMin
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for TBacteriaMax.
+    !> @param[in] self, read_TBacteriaMax
+    !---------------------------------------------------------------------------
+    subroutine setTBacteriaMax(self, read_TBacteriaMax)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_TBacteriaMax
+    type(string) :: outext
+    integer :: sizem
+    if (read_TBacteriaMax%to_number(kind=1._R8P) <= 0.0) then
+        outext='TBacteriaMax must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%TBacteriaMax =read_TBacteriaMax%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%TBacteriaMax)
+    call SimMemory%adddef(sizem)
+    end subroutine setTBacteriaMax
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK1.
+    !> @param[in] self, read_BK1
+    !---------------------------------------------------------------------------
+    subroutine setBK1(self, read_BK1)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK1
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK1%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK1 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK1 =read_BK1%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK1)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK1
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK2.
+    !> @param[in] self, read_BK2
+    !---------------------------------------------------------------------------
+    subroutine setBK2(self, read_BK2)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK2
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK2%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK2 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK2 =read_BK2%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK2)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK2
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK3.
+    !> @param[in] self, read_BK3
+    !---------------------------------------------------------------------------
+    subroutine setBK3(self, read_BK3)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK3
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK3%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK3 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK3 =read_BK3%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK3)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK3
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for BK4.
+    !> @param[in] self, read_BK4
+    !---------------------------------------------------------------------------
+    subroutine setBK4(self, read_BK4)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_BK4
+    type(string) :: outext
+    integer :: sizem
+    if (read_BK4%to_number(kind=1._R8P) <= 0.0) then
+        outext='BK4 must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%BK4 =read_BK4%to_number(kind=1._R8P)
+    endif
+    sizem = sizeof(self%BK4)
+    call SimMemory%adddef(sizem)
+    end subroutine setBK4
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> defines value for bacterial maximum growth rate (1/d).
+    !> @param[in] self, read_MaxDegradationRate
+    !---------------------------------------------------------------------------
+    subroutine setMaxDegradationRate(self, read_MaxDegradationRate)
+    class(constants_t), intent(inout) :: self
+    type(string), intent(in) :: read_MaxDegradationRate
+    type(string) :: outext
+    integer :: sizem
+    if (read_MaxDegradationRate%to_number(kind=1._R8P) <= 0.0) then
+        outext='MaxDegradationRate must be positive, assuming default value'
+        call Log%put(outext)
+    else
+        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400
+    endif
+    sizem = sizeof(self%MaxDegradationRate)
+    call SimMemory%adddef(sizem)
+    end subroutine setMaxDegradationRate
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -1232,13 +1578,37 @@
     temp_str(1)=self%BeachingLevel
     outext = outext//'       BeachingLevel = '//temp_str(1)//' m'//new_line('a')
     temp_str(1)=self%BeachingStopProb
-    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')    
+    outext = outext//'       BeachingStopProb = '//temp_str(1)//' -'//new_line('a')
+    temp_str(1)=self%DiffusionCoeff
+    outext = outext//'       DiffusionCoeff = '//temp_str(1)//' -'//new_line('a')  
     temp_str(1)=self%ResuspensionCoeff
     outext = outext//'       ResuspensionCoeff = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%Critical_Shear_Erosion
+    outext = outext//'       CriticalShearErosion = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%AddBottomCell
+    outext = outext//'       AddBottomCell = '//temp_str(1)//new_line('a')
     temp_str(1)=self%MeanDensity
     outext = outext//'       MeanDensity = '//temp_str(1)//new_line('a')
     temp_str(1)=self%MeanKVisco
-    outext = outext//'       MeanKVisco = '//temp_str(1)//''
+    outext = outext//'       MeanKVisco = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TOptBacteriaMin
+    outext = outext//'       TOptBacteriaMin = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TOptBacteriaMax
+    outext = outext//'       TOptBacteriaMax = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TBacteriaMin
+    outext = outext//'       TBacteriaMin = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%TBacteriaMax
+    outext = outext//'       TBacteriaMax = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK1
+    outext = outext//'       BK1 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK2
+    outext = outext//'       BK2 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK3
+    outext = outext//'       BK3 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%BK4
+    outext = outext//'       BK4 = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%MaxDegradationRate
+    outext = outext//'       MaxDegradationRate = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printconstants
 
@@ -1336,7 +1706,7 @@
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Choose if tracers must be removed when they reach land or not
-    !> @param[in] self, read_BeachingLevel
+    !> @param[in] self, read_RemoveLandTracer
     !---------------------------------------------------------------------------
     subroutine setRemoveLandTracer(self, read_RemoveLandTracer)
     class(simdefs_t), intent(inout) :: self
@@ -1352,12 +1722,55 @@
     sizem = sizeof(self%RemoveLandTracer)
     call SimMemory%adddef(sizem)
     end subroutine setRemoveLandTracer
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Set bathymetry construct from the bathymetric netcdf property
+    !> @param[in] self, read_bathyminNetcdf
+    !---------------------------------------------------------------------------
+    subroutine setbathyminNetcdf(self, read_bathyminNetcdf)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_bathyminNetcdf
+    type(string) :: outext
+    integer :: sizem
+    if ((read_bathyminNetcdf%to_number(kind=1._I8P) < 0) .OR. (read_bathyminNetcdf%to_number(kind=1._I8P) > 1)) then
+        outext='read bathymetry from netcdf file must be 0:no or 1:yes, assuming default value'
+        call Log%put(outext)
+    else
+        self%bathyminNetcdf=read_bathyminNetcdf%to_number(kind=1._I8P)
+    end if
+    sizem = sizeof(self%bathyminNetcdf)
+    call SimMemory%adddef(sizem)
+    end subroutine setbathyminNetcdf
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Set tracer max age
+    !> @param[in] self, read_tracerMaxAge
+    !---------------------------------------------------------------------------
+    subroutine settracerMaxAge(self, read_tracerMaxAge)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_tracerMaxAge
+    type(string) :: outext
+    integer :: sizem
+    if ((read_tracerMaxAge%to_number(kind=1._R8P) < 0)) then
+        outext='read tracerMaxAge must be greater or equal to 0: assuming default value 0'
+        call Log%put(outext)
+    else
+        self%tracerMaxAge=read_tracerMaxAge%to_number(kind=1._R8P)
+    end if
+    sizem = sizeof(self%tracerMaxAge)
+    call SimMemory%adddef(sizem)
+    end subroutine settracerMaxAge
+
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
     !> Resuspension setting routine or not
-    !> @param[in] self, read_BeachingLevel
+    !> @param[in] self, read_VerticalVelMethod
     !---------------------------------------------------------------------------
     subroutine setVerticalVelMethod(self, read_VerticalVelMethod)
     class(simdefs_t), intent(inout) :: self
@@ -1410,6 +1823,10 @@
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
     outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
+    temp_str(1)=self%bathyminNetcdf
+    outext = outext//'       bathyminNetcdf = '//temp_str(1)//''
+    temp_str(1)=self%tracerMaxAge
+    outext = outext//'       tracerMaxAge = '//temp_str(1)//''
     call Log%put(outext,.false.)
     end subroutine printsimdefs
 
