@@ -278,14 +278,6 @@
     
     !Need to do this double check because landIntMask does not work properly when tracers are near a bottom wall
     !(interpolation gives over 1 but should still be bottom)
-    !do i=1, size(sv%state,1)
-    !    write(*,*)"------------ start i ------------ = ", i
-    !    write(*,*)"dist2bottom(i) = ", dist2bottom(i)
-    !    write(*,*)"depth(i) = ", sv%state(i,3)
-    !    write(*,*)"bat(i) = ", var_dt(i,col_bat)
-    !    write(*,*)"dwz(i) = ", var_dt(i,col_dwz)
-    !    write(*,*)"------------ end i ------------ = ", i
-    !end do
     where (dist2bottom < threshold_bot_wat)
         aux_r8 = max((var_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
         chezyZ = (VonKarman / dlog(aux_r8))**2
@@ -296,16 +288,6 @@
     !compute new velocity and position according to the position in the bottom water cell
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
-    !do i=1, size(sv%state,1)
-    !    write(*,*)"------------ start i ------------ = ", i
-    !    write(*,*)"velU_entrada = ", sv%state(i,4)
-    !    write(*,*)"velV_entrada = ", sv%state(i,5)
-    !    write(*,*)"VelU_interpol3D(i) = ", var_dt(i,nf_u)
-    !    write(*,*)"VelV_interpol3D(i) = ", var_dt(i,nf_v)
-    !    write(*,*)"VelU_hor = ", var_hor_dt(i,col_u)
-    !    write(*,*)"VelV_hor = ", var_hor_dt(i,col_v)
-    !    write(*,*)"------------ end i ------------ = ", i
-    !end do
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
     
@@ -344,12 +326,6 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
-    !do i=1, size(sv%state,1)
-    !    write(*,*)"------------ start i ------------ = ", i
-    !    write(*,*)"velU_saida = ", sv%state(i,4)
-    !    write(*,*)"velV_saida = ", sv%state(i,5)
-    !    write(*,*)"------------ end i ------------ = ", i
-    !end do
     deallocate(var_dt)
     deallocate(var_hor_dt)
     deallocate(var_name_hor)

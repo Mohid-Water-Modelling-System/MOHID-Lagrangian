@@ -633,7 +633,7 @@
             !Resuspension(:,3) = Globals%Constants%ResuspensionCoeff * velocity_mod
             !tracers gets brought up to 0.5m
             Resuspension(:,3) = 0.5/dt
-        end where 
+        end where
         
         deallocate(var_name)
         deallocate(var_name_vert)
