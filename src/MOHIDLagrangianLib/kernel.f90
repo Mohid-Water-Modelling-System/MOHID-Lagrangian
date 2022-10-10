@@ -130,24 +130,27 @@
     real(prec), intent(in) :: time
     integer :: np, nf, bkg, i, j, col_age, col_bat, col_landintmask, col_res
     real(prec) :: maxLevel(2)
-    real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
-    type(string), dimension(:), allocatable :: var_name, var_name_hor
-    type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
+    real(prec), dimension(:,:), allocatable :: var_dt, var_vert_dt
+    type(string), dimension(:), allocatable :: var_name, var_name_vert
+    type(string), dimension(:), allocatable :: requiredVars, requiredVertVars
     type(string) :: tag
     logical bottom_emmission
     !-----------------------------------------------------------
+    !write(*,*)"setCommonProcesses1"
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
     
-    allocate(requiredHorVars(1))
-    requiredHorVars(1) = Globals%Var%bathymetry
+    allocate(requiredVertVars(1))
+    requiredVertVars(1) = Globals%Var%bathymetry
     
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVertVars, var_vert_dt, var_name_vert)
     bottom_emmission = .false.
-    col_bat = Utils%find_str(var_name_hor, Globals%Var%bathymetry, .true.)
-    where (sv%state(:,3) < var_hor_dt(:,col_bat)) sv%state(:,3) = var_hor_dt(:,col_bat)
+    col_bat = Utils%find_str(var_name_vert, Globals%Var%bathymetry, .true.)
+    !write(*,*)"depth setcommon processes 1 = ", sv%state(1,3)
+    where (sv%state(:,3) < var_vert_dt(:,col_bat)) sv%state(:,3) = var_vert_dt(:,col_bat)
+    !write(*,*)"depth setcommon processes 2 = ", sv%state(1,3)
         
     if (size(sv%source) > 0) then
         !if any of the sources defined by the user has the option bottom_emission then the model must check
@@ -209,9 +212,10 @@
             end if
         end if
     end do
-    
-    deallocate(var_hor_dt)
-    deallocate(var_name_hor)
+    !write(*,*)"depth setcommon processes 3 = ", sv%state(1,3)
+    deallocate(var_vert_dt)
+    deallocate(var_name_vert)
+    !write(*,*)"setCommonProcesses2"
     end subroutine setCommonProcesses
 
     !---------------------------------------------------------------------------
@@ -238,6 +242,7 @@
     real(prec) :: threshold_bot_wat, landIntThreshold
     type(string) :: tag
     !-------------------------------------------------------------------------------------
+    !write(*,*)"LagrangianKinematic1"
     allocate(requiredVars(5))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
@@ -262,6 +267,9 @@
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
     
+    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+    
     threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
     landIntThreshold = -0.98
     
@@ -278,33 +286,31 @@
     
     !Need to do this double check because landIntMask does not work properly when tracers are near a bottom wall
     !(interpolation gives over 1 but should still be bottom)
-    !do i=1, size(sv%state,1)
-    !    write(*,*)"------------ start i ------------ = ", i
-    !    write(*,*)"dist2bottom(i) = ", dist2bottom(i)
-    !    write(*,*)"depth(i) = ", sv%state(i,3)
-    !    write(*,*)"bat(i) = ", var_dt(i,col_bat)
-    !    write(*,*)"dwz(i) = ", var_dt(i,col_dwz)
-    !    write(*,*)"------------ end i ------------ = ", i
-    !end do
     where (dist2bottom < threshold_bot_wat)
         aux_r8 = max((var_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
         chezyZ = (VonKarman / dlog(aux_r8))**2
         sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
         sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
     end where
-    
-    !compute new velocity and position according to the position in the bottom water cell
-    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
-    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
     !do i=1, size(sv%state,1)
-    !    write(*,*)"------------ start i ------------ = ", i
-    !    write(*,*)"velU_entrada = ", sv%state(i,4)
-    !    write(*,*)"velV_entrada = ", sv%state(i,5)
-    !    write(*,*)"VelU_interpol3D(i) = ", var_dt(i,nf_u)
-    !    write(*,*)"VelV_interpol3D(i) = ", var_dt(i,nf_v)
-    !    write(*,*)"VelU_hor = ", var_hor_dt(i,col_u)
-    !    write(*,*)"VelV_hor = ", var_hor_dt(i,col_v)
-    !    write(*,*)"------------ end i ------------ = ", i
+    !write(*,*)"------------ start i ------------ = ", i
+    !write(*,*)"dist2bottom(i) = ", dist2bottom(1)
+    !write(*,*)"depth(i) = ", sv%state(1,3)
+    !write(*,*)"bat(i) = ", var_dt(1,col_bat)
+    !write(*,*)"dwz(i) = ", var_dt(1,col_dwz)
+    !write(*,*)"------------ end i ------------ = ", i
+    !end do
+    !compute new velocity and position according to the position in the bottom water cell
+    
+    !do i=1, size(sv%state,1)
+    !write(*,*)"------------ start i ------------ = ", i
+    !write(*,*)"velU_entrada = ", sv%state(1,4)
+    !write(*,*)"velV_entrada = ", sv%state(1,5)
+    !write(*,*)"VelU_interpol3D(i) = ", var_dt(1,nf_u)
+    !write(*,*)"VelV_interpol3D(i) = ", var_dt(1,nf_v)
+    !write(*,*)"VelU_hor = ", var_hor_dt(1,col_u)
+    !write(*,*)"VelV_hor = ", var_hor_dt(1,col_v)
+    !write(*,*)"------------ end i ------------ = ", i
     !end do
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
@@ -345,15 +351,16 @@
         sv%state(:,6) = 0.0
     end if
     !do i=1, size(sv%state,1)
-    !    write(*,*)"------------ start i ------------ = ", i
-    !    write(*,*)"velU_saida = ", sv%state(i,4)
-    !    write(*,*)"velV_saida = ", sv%state(i,5)
-    !    write(*,*)"------------ end i ------------ = ", i
+    !write(*,*)"------------ start i ------------ = ", i
+    !write(*,*)"velU_saida = ", sv%state(1,4)
+    !write(*,*)"velV_saida = ", sv%state(1,5)
+    !write(*,*)"------------ end i ------------ = ", i
     !end do
     deallocate(var_dt)
     deallocate(var_hor_dt)
     deallocate(var_name_hor)
     deallocate(var_name)
+    !write(*,*)"LagrangianKinematic2"
     end function LagrangianKinematic
 
     !---------------------------------------------------------------------------

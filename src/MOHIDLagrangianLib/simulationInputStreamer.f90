@@ -127,6 +127,7 @@
         syntecticVar(7) = .true.
     end if
     !need to send to different readers here if different file formats
+    !write(*,*)"getCurrentsFile1"
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     call getCurrentsFile%makeLandMaskField()
     call getCurrentsFile%makeResolutionField()
@@ -137,6 +138,7 @@
     call getCurrentsFile%makeDWZField()
     !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
     if (Globals%Constants%AddBottomCell == 1) call getCurrentsFile%makeBottom(varList, syntecticVar)
+    !write(*,*)"getCurrentsFile2"
     end function getCurrentsFile
 
     !---------------------------------------------------------------------------
@@ -221,10 +223,12 @@
     varList(3) = Globals%Var%density
     syntecticVar(3) = .false.
 
+    !write(*,*)"getWaterPropsFile1"
     !need to send to different readers here if different file formats
     getWaterPropsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
     !Fill all closed points with the closest value, so that the model can perform the 4D interpolation near land.
     call getWaterPropsFile%fillClosedPoints(varList)
+    !write(*,*)"getWaterPropsFile2"
 
     end function getWaterPropsFile
 
@@ -268,9 +272,13 @@
             end do
         end if
         !read selected files
+        !write(*,*)"loadDataFromStack1"
         if (allocated(self%currentsInputFile)) then
+            !write(*,*)"loadDataFromStack2"
             do i=1, size(self%currentsInputFile)
+                !write(*,*)"loadDataFromStack3"
                 if (self%currentsInputFile(i)%toRead) then
+                    !write(*,*)"loadDataFromStack4"
                     !import data to temporary background
                     tempBkgd = self%getCurrentsFile(self%currentsInputFile(i)%name)
                     self%currentsInputFile(i)%used = .true.
@@ -294,6 +302,7 @@
                 end if
             end do
         end if
+        !write(*,*)"loadDataFromStack5"
         if (allocated(self%windsInputFile)) then
             do i=1, size(self%windsInputFile)
                 if (self%windsInputFile(i)%toRead) then

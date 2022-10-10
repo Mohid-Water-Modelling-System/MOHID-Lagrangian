@@ -93,6 +93,7 @@
                     end if
                 end if
                 if (interp) then
+                    !write(*,*)"var name = ", aField%name
                     var_name(i) = aField%name
                     outOfBounds = .false.
                     xx = self%getArrayCoord(state(:,1), bdata, Globals%Var%lon, outOfBounds)
@@ -101,11 +102,13 @@
                     tt = self%getPointCoordNonRegular(time, bdata, Globals%Var%time)
                     if (var_name(i) == Globals%Var%landIntMask) then
                         !adjust interpolation to bathymetry rather than vertical layers. important for ressuspension processes
+                        !write(*,*)"interpolator run1"
                         call bdata%getVarByName4D(varName = Globals%Var%bathymetry, outField_4D = bathymetry, origVar = aField%name)
                         allocate(var_dt_aux(size(state,1)))
                         var_dt_aux = self%interp4D_Hor(xx, yy, zz, tt, outOfBounds, bathymetry, size(bathymetry,1), size(bathymetry,2), size(bathymetry,3), size(bathymetry,4), size(state,1))
                         zz = self%getArrayCoord(state(:,3), bdata, Globals%Var%level, outOfBounds, bat = var_dt_aux)
                         deallocate(var_dt_aux)
+                        !write(*,*)"interpolator run2"
                     end if
                     if (present(reqVertInt)) then
                         !Interpolate on 2D even if the field is 3D (usefull for Bottom stress)
@@ -119,6 +122,7 @@
                 end if
             end if !add more interpolation types here
         class is(scalar3d_field_class)          !3D interpolation is possible
+            !write(*,*)"interpolator run3"
             if (self%interpType == 1) then !linear interpolation in space and time
                 if (present(toInterp)) then
                     if (.not.(any(toInterp == aField%name))) then
@@ -139,6 +143,7 @@
             outext = '[Interpolator::Run] Unexepected type of field, not correct or supported at the time'
             call Log%put(outext)
             stop
+            !write(*,*)"interpolator run4"
         end select
         call bdata%fields%next()                ! increment the list iterator
         i = i+1 !to select the correct slice of var_dt for the corresponding field
@@ -181,6 +186,17 @@
         y1(i) = ceiling(y(i))
         z0(i) = floor(z(i))
         z1(i) = ceiling(z(i))
+        !write(*,*)" valor em interp4D --- "
+        !write(*,*)" x(i) =", x(i)
+        !write(*,*)" x(i) =", y(i)
+        !write(*,*)" x(i) =", z(i)
+        !write(*,*)" x0(i) =", x0(i)
+        !write(*,*)" y0(i) =", y0(i)
+        !write(*,*)" z0(i) =", z0(i)
+        !write(*,*)" x1(i) =", x1(i)
+        !write(*,*)" y1(i) =", y1(i)
+        !write(*,*)" z1(i) =", z1(i)
+        !write(*,*)" ----------------- "
     end do
     
     t0 = floor(t)
@@ -203,6 +219,25 @@
     ! Interpolation on the first dimension and collapse it to a three dimension problem
     interp4D = 0.0
     do concurrent(i=1:n_e, .not. out(i))
+        !write(*,*)" Field em interp4D --- "
+        !write(*,*)" field(x0(i),y0(i),z0(i),t0) =", field(x0(i),y0(i),z0(i),t0)
+        !write(*,*)" field(x1(i),y0(i),z0(i),t0) =", field(x1(i),y0(i),z0(i),t0)
+        !write(*,*)" field(x0(i),y1(i),z0(i),t0) =", field(x0(i),y1(i),z0(i),t0)
+        !write(*,*)" field(x1(i),y1(i),z0(i),t0) =", field(x1(i),y1(i),z0(i),t0)
+        !write(*,*)" field(x0(i),y0(i),z1(i),t0) =", field(x0(i),y0(i),z1(i),t0)
+        !write(*,*)" field(x1(i),y0(i),z1(i),t0) =", field(x1(i),y0(i),z1(i),t0)
+        !write(*,*)" field(x0(i),y1(i),z1(i),t0) =", field(x0(i),y1(i),z1(i),t0)
+        !write(*,*)" field(x1(i),y1(i),z1(i),t0) =", field(x1(i),y1(i),z1(i),t0)
+        !write(*,*)" Celula acima =", field(x1(i),y1(i),z1(i)+1,t0)
+        !write(*,*)" 2 Celulas acima =", field(x1(i),y1(i),z1(i)+2,t0)
+        !write(*,*)" 3 Celulas acima =", field(x1(i),y1(i),z1(i)+3,t0)
+        !write(*,*)" Celula esquerda =", field(x1(i)-1,y1(i),z1(i),t0)
+        !write(*,*)" Celula direita =", field(x1(i)+1,y1(i),z1(i),t0)
+        !write(*,*)" Celula esquerda cima =", field(x1(i)-1,y1(i),z1(i)+1,t0)
+        !write(*,*)" Celula direita cima =", field(x1(i)+1,y1(i),z1(i)+1,t0)
+        !write(*,*)" 2 Celula esquerda cima =", field(x1(i)-1,y1(i),z1(i)+2,t0)
+        !write(*,*)" 2 Celula direita cima =", field(x1(i)+1,y1(i),z1(i)+2,t0)
+        !write(*,*)" ----------------- "
         c000(i) = field(x0(i),y0(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z0(i),t0)*xd(i) !y0x0z0t0!  y0x1z0t0
         c100(i) = field(x0(i),y1(i),z0(i),t0)*(1.-xd(i)) + field(x1(i),y1(i),z0(i),t0)*xd(i)
         c010(i) = field(x0(i),y0(i),z1(i),t0)*(1.-xd(i)) + field(x1(i),y0(i),z1(i),t0)*xd(i)

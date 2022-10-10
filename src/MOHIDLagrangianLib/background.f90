@@ -128,9 +128,13 @@
     type(box), intent(in) :: extents
     type(scalar1d_field_class), dimension(:), intent(in) :: dims
     constructor%initialized = .true.
+    !write(*,*)"constructor1"
     call constructor%setID(id, name)
+    !write(*,*)"constructor2"
     call constructor%setExtents(extents)
+    !write(*,*)"constructor3"
     call constructor%setDims(dims)
+    !write(*,*)"constructor4"
     end function constructor
 
     !---------------------------------------------------------------------------
@@ -917,6 +921,7 @@ do3:                do i=1, size(curr%field,1)
     integer :: dimIndx, i, j, t, k
     logical found
     !begin--------------------------------------------------------------------------------------
+    !write(*,*)"makeDWZField1"
     call self%fields%reset()               ! reset list iterator
     do while(self%fields%moreValues())     ! loop while there are values
         curr => self%fields%currentValue() ! get current value
@@ -983,6 +988,7 @@ do3:                do i=1, size(curr%field,1)
         nullify(curr)
     end do
     call self%fields%reset()               ! reset list iterator
+    !write(*,*)"makeDWZField2"
     end subroutine makeDWZField
     
     
@@ -1199,14 +1205,22 @@ do3:                do i=1, size(curr%field,1)
     integer :: i
     real(prec) ::fmin, fmax, eta,dreg
     integer :: f_1,f_N
+    !write(*,*)"Set dims"
+    !write(*,*)"dims = ", size(dims)
     allocate(self%dim, source = dims)
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
+    !write(*,*)"dims = ", size(dims)
     do i=1, size(dims)
+        !write(*,*)"i = ", i
         fmin = self%dim(i)%getFieldMinBound() 
+        !write(*,*)"fmin = ", fmin
         fmax = self%dim(i)%getFieldMaxBound()
+        !write(*,*)"fmax = ", fmax
         eta = (fmax-fmin)/(10.0*size(self%dim(i)%field))
+        !write(*,*)"eta = ", eta
         dreg = (fmax-fmin)/(size(self%dim(i)%field))
+        !write(*,*)"dreg = ", dreg
         allocate(rest(size(self%dim(i)%field)-1))
         rest = dims(i)%field(2:)-dims(i)%field(:size(self%dim(i)%field)-1)
         self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
