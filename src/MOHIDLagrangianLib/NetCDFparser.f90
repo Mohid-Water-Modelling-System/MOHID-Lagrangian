@@ -120,7 +120,6 @@
     allocate(gfield(size(syntecticVar)))
     realVarIdx = 0
     units = '-'
-    !write(*,*)"getFullFile1"
     outext = '->Reading '//fileName
     call Log%put(outext,.false.)
 
@@ -135,7 +134,6 @@
             end if 
         end if
     end do
-    !write(*,*)"getFullFile2"
     if (realVarIdx /= 0) then
         do i=1, size(syntecticVar)
             if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
@@ -146,7 +144,6 @@
         end do
     end if
     call ncFile%finalize()
-    !write(*,*)"getFullFile3"
     
     dimExtents = 0.0
     do i = 1, size(backgrounDims)
@@ -161,25 +158,15 @@
             dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
         end if
     end do
-    !write(*,*)"getFullFile4"
     extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
-    !write(*,*)"getFullFile5"
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
-    !write(*,*)"getFullFile6"
     extents%size = pt - extents%pt
-    !write(*,*)"getFullFile7"
     name = fileName%basename(strip_last_extension=.true.)
-    !write(*,*)"getFullFile8"
     getFullFile = Background(1, name, extents, backgrounDims)
-    !write(*,*)"getFullFile9"
     do i = 1, size(gfield)
-        !write(*,*)"getFullFile10", i
         call getFullFile%add(gfield(i))
-        !write(*,*)"getFullFile10", i
     end do
-    !write(*,*)"getFullFile11"
     valorminimo = backgrounDims(3)%getFieldMinBound()
-    !write(*,*)"getFullFile12"
     end function getFullFile
 
     !---------------------------------------------------------------------------

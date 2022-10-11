@@ -199,7 +199,6 @@
                 where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
                     Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
                 endwhere
-                !write(*,*)"Buoyancy 1 = ", Buoyancy(1,3)
                 deallocate(var_name)
                 deallocate(var_dt)
                 ViscoDensFields = .true.
@@ -254,7 +253,6 @@
         where ((reynoldsNumber /=0.) .and. (dist2bottom < landIntThreshold))
             Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
         end where
-        !write(*,*)"Buoyancy 2 = ", Buoyancy(1,3)
     end if
     
     deallocate(var_dt_2)
@@ -376,20 +374,14 @@
                 allocate(var_name(nf))
                 !correcting for maximum admissible level in the background (only if option AddBottomCell is not used)
                 ! this is to allow the particles to reach the bathymetry, instead of stoping at the layer centre depth.
-                !write(*,*)"depth CorrectVerticalBounds 1 = ", sv%state(1,3)
-                !write(*,*)"CorrectVerticalBounds 1 = ", CorrectVerticalBounds(1,3)
                 maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
                 if (maxLevel(2) /= MV) where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2)) CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.99
-                !write(*,*)"CorrectVerticalBounds 2 = ", CorrectVerticalBounds(1,3)
-                !write(*,*)"depth CorrectVerticalBounds 2 = ", sv%state(1,3)
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
                 !update minium vertical position
                 col_bat = Utils%find_str(var_name, Globals%Var%bathymetry)
                 !Dont let particles drop below bathymetric value. in this case, vertical displacement is forced to make the particle reach the bathymetric value*0.99
                 where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,col_bat)) CorrectVerticalBounds(:,3) = ((var_dt(:,col_bat)-sv%state(:,3))/dt)*0.99
-                !write(*,*)"CorrectVerticalBounds 3 = ", CorrectVerticalBounds(1,3)
-                !write(*,*)"depth CorrectVerticalBounds 3 = ", sv%state(1,3)
                 deallocate(var_name)
                 deallocate(var_dt)
             end if
@@ -636,10 +628,6 @@
                     else !Ubw==0.
                         tension(i)=water_density(i)*cdmax*velocity_mod(i)**2
                     endif
-                    !if (i==1) then
-                    !    write(*,*)"Altura de onda em i = ", i, hs
-                    !    write(*,*)"Tension em i = ", i, tension(i)
-                    !end if
                 end if
             end do
             deallocate(var_name_2)
@@ -659,15 +647,6 @@
             !tracers gets brought up to 0.5m
             Resuspension(:,3) = 0.5/dt
         end where 
-        !do i=1, size(sv%state,1)
-        !write(*,*)"------------ start i vertical ------------ = ", i
-        !write(*,*)"dist2bottom = ", dist2bottom(1)
-        !write(*,*)"water_density(1) = ", water_density(1)
-        !write(*,*)"salinity(1) = ", varVert_dt(1,col_sal)
-        !write(*,*)"temperature(1i) = ", varVert_dt(1,col_temp)
-        !write(*,*)"Resuspension(1,3) = ", Resuspension(1,3)
-        !write(*,*)"------------ end i vertical------------ = ", i
-        !end do
         deallocate(var_name)
         deallocate(var_name_vert)
         deallocate(var_dt)
