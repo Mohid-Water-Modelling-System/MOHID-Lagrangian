@@ -492,7 +492,6 @@
                     exit
                 end if
             end do
-            !getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-max(bdata%dim(dim)%field(idx_1),bat(id)))/(bdata%dim(dim)%field(idx_2)-max(bdata%dim(dim)%field(idx_1),bat(id))))
             !Bathymetric value is deeper than bottom face of layer where tracer is located
             if (bat(id) <= bdata%dim(dim)%field(idx_1)) then
                getArrayCoordNonRegular(id) = idx_1 + abs((xdata(id)-bdata%dim(dim)%field(idx_1))/(bdata%dim(dim)%field(idx_2)-bdata%dim(dim)%field(idx_1))) 

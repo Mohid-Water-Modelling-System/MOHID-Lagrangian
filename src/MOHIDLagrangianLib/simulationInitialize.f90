@@ -630,7 +630,61 @@
         call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
         if (readflag) then
             call Globals%Constants%setCritical_Shear_Erosion(att_val)
-        endif 
+        endif
+        tag="ToptBMin"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTOptBacteriaMin(att_val)
+        endif
+        tag="ToptBMax"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTOptBacteriaMax(att_val)
+        endif
+        tag="TBMin"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTBacteriaMin(att_val)
+        endif
+        tag="TBMax"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setTBacteriaMax(att_val)
+        endif
+        tag="BK1"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK1(att_val)
+        endif
+        tag="BK2"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK2(att_val)
+        endif
+        tag="BK3"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK3(att_val)
+        endif
+        tag="BK4"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setBK4(att_val)
+        endif
+        tag="MaxDegradationRate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(constants_node, tag, att_name, att_val,readflag,.false.)
+        if (readflag) then
+            call Globals%Constants%setMaxDegradationRate(att_val)
+        endif
         
     endif
     call Globals%Constants%print()
