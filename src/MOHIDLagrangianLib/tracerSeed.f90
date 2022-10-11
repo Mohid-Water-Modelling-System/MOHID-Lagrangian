@@ -4,7 +4,7 @@
     !
     ! TITLE         : Mohid Model
     ! PROJECT       : Mohid Lagrangian Tracer
-    ! MODULE        : tracer_Seed
+    ! MODULE        : tracer_seed
     ! URL           : http://www.mohid.com
     ! AFFILIATION   : IST/MARETEC, Marine Modelling Group
     ! DATE          : April 2018
@@ -13,12 +13,12 @@
     !> Ricardo Birjukovs Canelas
     !
     ! DESCRIPTION:
-    !> Module that defines a Lagrangian tracer class for Seed modelling and related methods.
+    !> Module that defines a Lagrangian tracer class for seed modelling and related methods.
     !> The type is defined as a derived type from the pule Lagrangian tracer, and hence inherits all
     !> of it's data and methods
     !------------------------------------------------------------------------------
 
-    module tracerSeed_mod
+    module tracerseed_mod
 
     use tracerBase_mod
     use common_modules
@@ -27,12 +27,12 @@
     implicit none
     private
 
-    type :: Seed_par_class               !<Type - parameters of a Lagrangian tracer object representing a Seed material
+    type :: seed_par_class               !<Type - parameters of a Lagrangian tracer object representing a seed material
         integer    :: particulate                   !< flag to indicate if the material is a particle (false) or a collection of particles (true)
         real(prec) :: size                          !< Size (radius) of the particles (equals to the tracer radius if particulate==false)
-    end type Seed_par_class
+    end type seed_par_class
 
-    type :: Seed_state_class             !<Type - State variables of a tracer object representing a Seed material
+    type :: seed_state_class             !<Type - State variables of a tracer object representing a seed material
         real(prec) :: density                       !< density of the material
         real(prec) :: radius                        !< Tracer radius (m)
         real(prec) :: volume                        !< Tracer volume (m3)
@@ -40,24 +40,24 @@
         real(prec) :: condition                     !< Material condition (1-0)
         !real(prec) :: degradation_rate              !< degradation rate of the material
         real(prec) :: concentration                 !< Particle concentration
-    end type Seed_state_class
+    end type seed_state_class
 
-    type, extends(tracer_class) :: Seed_class    !<Type - The Seed material Lagrangian tracer class
-        type(Seed_par_class)   :: mpar     !<To access material parameters
-        type(Seed_state_class) :: mnow     !<To access material state variables
+    type, extends(tracer_class) :: seed_class    !<Type - The seed material Lagrangian tracer class
+        type(seed_par_class)   :: mpar     !<To access material parameters
+        type(seed_state_class) :: mnow     !<To access material state variables
     contains
     procedure :: getNumVars
     procedure :: getStateArray
     procedure :: setStateArray
-    end type Seed_class
+    end type seed_class
 
     !Public access vars
-    public :: Seed_class
+    public :: seed_class
 
     !Public access routines
-    public :: SeedTracer
+    public :: seedTracer
 
-    interface SeedTracer !< Constructor
+    interface seedTracer !< Constructor
     procedure constructor
     end interface
 
@@ -69,7 +69,7 @@
     !> Method that returns the number of variables used by this tracer
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
-    class(Seed_class), intent(in) :: self
+    class(seed_class), intent(in) :: self
     getNumVars = 18
     end function getNumVars
 
@@ -79,7 +79,7 @@
     !> Method that returns the state array of this tracer
     !---------------------------------------------------------------------------
     function getStateArray(self)
-    class(Seed_class), intent(in) :: self
+    class(seed_class), intent(in) :: self
     real(prec), allocatable, dimension(:) :: getStateArray
     allocate(getStateArray(self%getNumVars()))
     getStateArray(1) = self%now%pos%x
@@ -109,7 +109,7 @@
     !> Method that sets the state array of this tracer
     !---------------------------------------------------------------------------
     subroutine setStateArray(self, stateArray)
-    class(Seed_class), intent(inout) :: self
+    class(seed_class), intent(inout) :: self
     real(prec), dimension(:), intent(in) :: stateArray
     !if(size(stateArray)<self%getNumVars())
     self%now%pos%x = StateArray(1)
@@ -136,11 +136,11 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
-    !> Seed Tracer constructor
+    !> seed Tracer constructor
     !> @param[in] id, src, time, p
     !---------------------------------------------------------------------------
     function constructor(id, src, time, p)
-    type(Seed_class) :: constructor
+    type(seed_class) :: constructor
     integer, intent(in) :: id
     class(source_class), intent(in) :: src
     real(prec), intent(in) :: time
@@ -155,7 +155,7 @@
     constructor%par%idsource = src%par%id !forcing
 
     !now initialize the specific components of this derived type
-    constructor%par%ttype = Globals%Types%Seed
+    constructor%par%ttype = Globals%Types%seed
     constructor%mpar%particulate = src%prop%particulate
     constructor%mpar%size = src%prop%radius
     !material state
@@ -194,4 +194,4 @@
     constructor%varName(18) = 'particulate'
     end function constructor
 
-    end module tracerSeed_mod
+    end module tracerseed_mod

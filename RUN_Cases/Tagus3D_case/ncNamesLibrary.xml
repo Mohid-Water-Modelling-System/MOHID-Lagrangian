@@ -6,19 +6,17 @@
 			<variant name="uu" />
 			<variant name="U" />
 			<variant name="uo" comment="used in CMEMS" />
-            <variant name="u_east" comment="used by SINTEF" />
 		</eastward_sea_water_velocity>
 		<northward_sea_water_velocity name="v">
 			<variant name="v" comment="used in MOHID" />
 			<variant name="vv" />
 			<variant name="V" />
 			<variant name="vo" comment="used in CMEMS" />
-            <variant name="v_north" comment="used by SINTEF" />
 		</northward_sea_water_velocity>
 		<upward_sea_water_velocity name="w">
 			<variant name="w" comment="used in MOHID and CMEMS" />
 			<variant name="W" />
-			<variant name="velocity_W" />
+            <variant name="velocity_W" />
 		</upward_sea_water_velocity>
 		<sea_water_temperature name="temp">
 			<variant name="temp" comment="used in MOHID and CMEMS" />

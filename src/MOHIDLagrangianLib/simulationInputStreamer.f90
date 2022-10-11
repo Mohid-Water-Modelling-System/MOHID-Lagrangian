@@ -103,7 +103,6 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-
     allocate(varList(7))
     allocate(syntecticVar(7))
     varList(1) = Globals%Var%u
@@ -118,6 +117,8 @@
     syntecticVar(5) = .true.
     varList(6) = Globals%Var%dwz
     syntecticVar(6) = .true.
+    !varList(7) = Globals%Var%ssh
+    !syntecticVar(7) = .false.
     if (Globals%SimDefs%bathyminNetcdf == 1) then
         varList(7) = Globals%Var%bathymetry
         syntecticVar(7) = .false.
@@ -136,7 +137,6 @@
     call getCurrentsFile%makeDWZField()
     !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
     if (Globals%Constants%AddBottomCell == 1) call getCurrentsFile%makeBottom(varList, syntecticVar)
-    
     end function getCurrentsFile
 
     !---------------------------------------------------------------------------
@@ -180,14 +180,19 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
-
-    allocate(varList(2))
-    allocate(syntecticVar(2))
+    allocate(varList(5))
+    allocate(syntecticVar(5))
     varList(1) = Globals%Var%vsdx
     syntecticVar(1) = .false.
     varList(2) = Globals%Var%vsdy
     syntecticVar(2) = .false.
-
+    varList(3) = Globals%Var%hs
+    syntecticVar(3) = .false.
+    varList(4) = Globals%Var%ts
+    syntecticVar(4) = .false.
+    varList(5) = Globals%Var%wd
+    syntecticVar(5) = .false.
+    
     !need to send to different readers here if different file formats
     getWavesFile = ncReader%getFullFile(fileName, varList, syntecticVar)
 
@@ -218,6 +223,8 @@
 
     !need to send to different readers here if different file formats
     getWaterPropsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    !Fill all closed points with the closest value, so that the model can perform the 4D interpolation near land.
+    call getWaterPropsFile%fillClosedPoints(varList)
 
     end function getWaterPropsFile
 
@@ -384,7 +391,6 @@
     type(string) :: tag, att_name, att_val
     type(string), allocatable, dimension(:) :: fileNames
     integer :: i, nBkg
-
     self%bufferSize = Globals%Parameters%BufferSize
     self%lastCurrentsReadTime = -1.0
     self%lastWindsReadTime = -1.0
@@ -402,7 +408,6 @@
         !Go to the file_collection node
         tag = "file_collection"
         call XMLReader%gotoNode(xmlInputs,xmlInputs,tag)
-
         !For currents data
         tag = Globals%DataTypes%currents
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
@@ -430,7 +435,6 @@
             nBkg = nBkg + 1
             self%currentsBkgIndex = nBkg
         end if
-
         !For wind data
         tag = Globals%DataTypes%winds
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
@@ -482,10 +486,10 @@
                 self%wavesInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%wavesInputFile(i+1)%used = .false.
             end do
+            deallocate(fileNames)
             nBkg = nBkg + 1
             self%wavesBkgIndex = nBkg
         end if
-        
         !For water properties data
         tag = Globals%DataTypes%waterProps
         call XMLReader%gotoNode(xmlInputs,typeNode,tag, mandatory=.false.)
@@ -509,10 +513,10 @@
                 self%waterPropsInputFile(i+1)%endTime = att_val%to_number(kind=1._R8P)
                 self%waterPropsInputFile(i+1)%used = .false.
             end do
+            deallocate(fileNames)
             nBkg = nBkg + 1
             self%waterPropsBkgIndex = nBkg
         end if
-        
     else
         self%useInputFiles = .false.
     end if

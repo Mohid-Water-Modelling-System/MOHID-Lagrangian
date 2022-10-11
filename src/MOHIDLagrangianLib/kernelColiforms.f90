@@ -45,7 +45,7 @@
     contains
     
     !---------------------------------------------------------------------------
-    !> @author Joao Barros Sobrinho - +Atlantic
+    !> @author Joao Sobrinho - +Atlantic
     !> @brief
     !> T_90 fecal coliforms decay kernel.
     !> @param[in] self, sv, bdata, dt
@@ -122,7 +122,8 @@
             T90 = (2.303 / T90) * 24 * 3600                        
                         
             MortalityT90(:,conc_idx)  =  - sv%state(:,conc_idx) * (alog(10.0) / T90)
-    
+            !
+            
         else if (T90_method == 2) then
             !Chapra not yet implemented
         end if
@@ -140,7 +141,7 @@
     end function MortalityT90
     
     
-    !> @author Joao Barros Sobrinho - +Atlantic
+    !> @author Joao Sobrinho - +Atlantic
     !> @brief
     !> Computes the dilution of dissolved material in the water column by increasing its volume
     !> @param[in] self, sv, bdata, time
