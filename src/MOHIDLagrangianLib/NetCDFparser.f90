@@ -120,7 +120,6 @@
     allocate(gfield(size(syntecticVar)))
     realVarIdx = 0
     units = '-'
-    
     outext = '->Reading '//fileName
     call Log%put(outext,.false.)
 
@@ -145,7 +144,6 @@
         end do
     end if
     call ncFile%finalize()
-    
     
     dimExtents = 0.0
     do i = 1, size(backgrounDims)

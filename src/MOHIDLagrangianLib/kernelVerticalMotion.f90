@@ -119,24 +119,35 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx, temp1, temp2
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
+    integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx
+    integer :: col_temp, col_sal, col_dwz, col_bat
+    real(prec), dimension(:,:), allocatable :: var_dt, var_dt_2
+    type(string), dimension(:), allocatable :: var_name, var_name_2
+    type(string), dimension(:), allocatable :: requiredVars, requiredVars_2
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
-    real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco
+    real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
     real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
     real(prec), dimension(2) :: maxLevel
     real(prec) :: P = 1013.
-
+    real(prec) :: landIntThreshold = -0.98
     type(string) :: tag
     logical :: ViscoDensFields = .false.
+    ! Begin -------------------------------------------------------------------------
     Buoyancy = 0.0
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
     
+    allocate(requiredVars_2(2))
+    requiredVars_2(1) = Globals%Var%bathymetry
+    requiredVars_2(2) = Globals%Var%dwz
+    
+    call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars_2, var_dt_2, var_name_2)
+    col_dwz = Utils%find_str(var_name_2, Globals%Var%dwz, .true.)
+    col_bat = Utils%find_str(var_name_2, Globals%Var%bathymetry, .true.)
+                
+    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt_2(:,col_bat)) / (var_dt_2(:,col_dwz))
     !interpolate each background
     !Compute buoyancy using state equation for temperature and viscosity
     do bkg = 1, size(bdata)
@@ -148,12 +159,11 @@
                 allocate(var_name(nf))
                 !interpolating all of the data
                 call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                tag = Globals%Var%temp
-                temp1 = Utils%find_str(var_name, tag, .true.)
-                tag = Globals%Var%sal
-                temp2 = Utils%find_str(var_name, tag, .true.)
-                fDensity = seaWaterDensity(var_dt(:,temp2), var_dt(:,temp1),P)
-                kVisco = absoluteSeaWaterViscosity(var_dt(:,temp2), var_dt(:,temp1))
+                col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+                col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
+                
+                fDensity = seaWaterDensity(var_dt(:,col_sal), var_dt(:,col_temp),P)
+                kVisco = absoluteSeaWaterViscosity(var_dt(:,col_sal), var_dt(:,col_temp))
                 ! Viscosity on boundaries could be 0. Avoid overdumped values on viscosity
                 ! Viscosity relation of 90 % related to mean water density are allowed.
                 kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
@@ -186,7 +196,7 @@
                 reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
                 cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber)
                 ! Get buoyancy
-                where (reynoldsNumber /=0.)
+                where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
                     Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
                 endwhere
                 deallocate(var_name)
@@ -240,10 +250,13 @@
         reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
         cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
         ! Get buoyancy
-        where (reynoldsNumber /=0.)
+        where ((reynoldsNumber /=0.) .and. (dist2bottom < landIntThreshold))
             Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
         end where
     end if
+    
+    deallocate(var_dt_2)
+    deallocate(var_name_2)
     
     end function Buoyancy
 
@@ -368,7 +381,7 @@
                 !update minium vertical position
                 col_bat = Utils%find_str(var_name, Globals%Var%bathymetry)
                 !Dont let particles drop below bathymetric value. in this case, vertical displacement is forced to make the particle reach the bathymetric value*0.99
-                where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,nf)) CorrectVerticalBounds(:,3) = ((var_dt(:,nf)-sv%state(:,3))/dt)*0.99
+                where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,col_bat)) CorrectVerticalBounds(:,3) = ((var_dt(:,col_bat)-sv%state(:,3))/dt)*0.99
                 deallocate(var_name)
                 deallocate(var_dt)
             end if
@@ -454,8 +467,8 @@
         velocity_mod = 0
         Tension = 0
         water_density = 0
-        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - varVert_dt(:,col_bat)) / (varVert_dt(:,col_bat) - varVert_dt(:,col_dwz))
-
+        !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - varVert_dt(:,col_bat)) / (varVert_dt(:,col_bat) - varVert_dt(:,col_dwz))
+        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - varVert_dt(:,col_bat)) / (varVert_dt(:,col_dwz))
         where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),P)
         if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
             !Found wave fields to use
@@ -633,8 +646,7 @@
             !Resuspension(:,3) = Globals%Constants%ResuspensionCoeff * velocity_mod
             !tracers gets brought up to 0.5m
             Resuspension(:,3) = 0.5/dt
-        end where
-        
+        end where 
         deallocate(var_name)
         deallocate(var_name_vert)
         deallocate(var_dt)

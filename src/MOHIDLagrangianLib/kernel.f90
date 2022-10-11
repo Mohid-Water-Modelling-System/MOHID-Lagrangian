@@ -130,9 +130,9 @@
     real(prec), intent(in) :: time
     integer :: np, nf, bkg, i, j, col_age, col_bat, col_landintmask, col_res
     real(prec) :: maxLevel(2)
-    real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
-    type(string), dimension(:), allocatable :: var_name, var_name_hor
-    type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
+    real(prec), dimension(:,:), allocatable :: var_dt, var_vert_dt
+    type(string), dimension(:), allocatable :: var_name, var_name_vert
+    type(string), dimension(:), allocatable :: requiredVars, requiredVertVars
     type(string) :: tag
     logical bottom_emmission
     !-----------------------------------------------------------
@@ -141,13 +141,13 @@
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
     
-    allocate(requiredHorVars(1))
-    requiredHorVars(1) = Globals%Var%bathymetry
+    allocate(requiredVertVars(1))
+    requiredVertVars(1) = Globals%Var%bathymetry
     
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_hor_dt, var_name_hor, reqVertInt = .false.)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVertVars, var_vert_dt, var_name_vert)
     bottom_emmission = .false.
-    col_bat = Utils%find_str(var_name_hor, Globals%Var%bathymetry, .true.)
-    where (sv%state(:,3) < var_hor_dt(:,col_bat)) sv%state(:,3) = var_hor_dt(:,col_bat)
+    col_bat = Utils%find_str(var_name_vert, Globals%Var%bathymetry, .true.)
+    where (sv%state(:,3) < var_vert_dt(:,col_bat)) sv%state(:,3) = var_vert_dt(:,col_bat)
         
     if (size(sv%source) > 0) then
         !if any of the sources defined by the user has the option bottom_emission then the model must check
@@ -209,9 +209,8 @@
             end if
         end if
     end do
-    
-    deallocate(var_hor_dt)
-    deallocate(var_name_hor)
+    deallocate(var_vert_dt)
+    deallocate(var_name_vert)
     end subroutine setCommonProcesses
 
     !---------------------------------------------------------------------------
@@ -262,6 +261,9 @@
     col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
     col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
     
+    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
+    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
+    
     threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
     landIntThreshold = -0.98
     
@@ -285,9 +287,6 @@
         sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
     end where
     
-    !compute new velocity and position according to the position in the bottom water cell
-    nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
-    nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
     
