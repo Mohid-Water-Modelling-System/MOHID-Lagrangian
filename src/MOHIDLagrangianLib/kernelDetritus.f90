@@ -55,12 +55,14 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Degradation
-    real(prec) :: ToptBMin, ToptBMax, TBacteriaMin, TBacteriaMax, BK1, BK2, BK3, BK4, MaxDegradationRate, multiple, max_age
-    real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass
-    type(string), dimension(:), allocatable :: requiredVars
-    integer :: volume_col, radius_col, temp_col, initvol_col, density_col, age_col
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
+    real(prec) :: ToptBMin, ToptBMax, TBacteriaMin, TBacteriaMax, BK1, BK2, BK3, BK4, MaxDegradationRate
+    real(prec) :: max_age, threshold_bot_wat
+    real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature, dist2bottom
+    type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
+    integer :: volume_col, radius_col, col_tempvert, col_temphor, col_dwz, col_bat, initvol_col, density_col, age_col
+    real(prec), dimension(:,:), allocatable :: var_dt, var_dt_hor
+    type(string), dimension(:), allocatable :: var_name, var_name_hor
+    real(prec):: compute_rate = 7200
     type(string) :: tag
     !Begin------------------------------------------------------------------------
     Degradation = 0.0
@@ -75,28 +77,45 @@
     tag = 'age'
     age_col = Utils%find_str(sv%varName, tag, .true.)
     
-    !Method used in bacterial growth limitation by temperature in MOHIDWater
-    ToptBMin = Globals%Constants%TOptBacteriaMin
-    ToptBMax = Globals%Constants%TOptBacteriaMax
-    TBacteriaMin = Globals%Constants%TBacteriaMin
-    TBacteriaMax = Globals%Constants%TBacteriaMax
-    BK1 = Globals%Constants%BK1
-    BK2 = Globals%Constants%BK2
-    BK3 = Globals%Constants%BK3
-    BK4 = Globals%Constants%BK4
-    MaxDegradationRate = Globals%Constants%MaxDegradationRate
-    
-    allocate(requiredVars(1))
-    requiredVars(1) = Globals%Var%temp
-        
-    call KernelUtils_detritus%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
-        
-    temp_col = Utils%find_str(var_name, Globals%Var%temp, .true.)
-    
-    !Compute only when time of the oldest particle is a multiple of 3600s, to reduce simulation time
-    multiple = 7200 / dt
+    !Compute only when time of the oldest particle is a multiple of 7200s, to reduce simulation time
     max_age = maxval(sv%state(:,age_col))
-    if (mod(max_age,multiple) < 1E-3) then
+    if (mod(max_age,compute_rate) < 1E-3) then
+        !Method used in bacterial growth limitation by temperature in MOHIDWater
+        ToptBMin = Globals%Constants%TOptBacteriaMin
+        ToptBMax = Globals%Constants%TOptBacteriaMax
+        TBacteriaMin = Globals%Constants%TBacteriaMin
+        TBacteriaMax = Globals%Constants%TBacteriaMax
+        BK1 = Globals%Constants%BK1
+        BK2 = Globals%Constants%BK2
+        BK3 = Globals%Constants%BK3
+        BK4 = Globals%Constants%BK4
+        MaxDegradationRate = Globals%Constants%MaxDegradationRate
+        landIntThreshold = -0.98
+        
+        allocate(requiredVars(3))
+        requiredVars(1) = Globals%Var%temp
+        requiredVars(2) = Globals%Var%bathymetry
+        requiredVars(3) = Globals%Var%dwz
+        
+        allocate(requiredHorVars(1))
+        requiredHorVars(1) = Globals%Var%temp
+        
+        call KernelUtils_detritus%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+        call KernelUtils_detritus%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_dt_hor, var_name_hor, reqVertInt = .false.)  
+    
+        col_tempvert = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        col_temphor = Utils%find_str(var_name_hor, Globals%Var%temp, .true.)
+        col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
+        col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+        
+        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt(:,col_bat)) / (var_dt(:,col_dwz))
+        threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
+        
+        where (dist2bottom < threshold_bot_wat)
+            temperature = var_dt_hor(:,col_temphor)
+        elsewhere
+            temperature = var_dt(:,col_tempvert)
+        endwhere
         
         mass = sv%state(:,density_col) * sv%state(:,volume_col)
         init_mass = sv%state(:,density_col) * sv%state(:,initvol_col)
@@ -107,27 +126,29 @@
         s1 = (1 / (ToptBMin - TBacteriaMin)) * dlog((BK2 * (1 - BK1)) / (BK1 * (1 - BK2)))
         s2 = (1 / (TBacteriaMax - ToptBMax)) * dlog((BK3 * (1 - BK4))  / (BK4 * (1 - BK3)))
     
-        ya = exp(s1 * (var_dt(:,temp_col) - TBacteriaMin))
-        yb = exp(s2 * (TBacteriaMax - var_dt(:,temp_col)))
+        ya = exp(s1 * (temperature - TBacteriaMin))
+        yb = exp(s2 * (TBacteriaMax - temperature))
     
         xa = (BK1 * ya) / (1 + BK1 * (ya - 1))
         xb = (BK4 * yb) / (1 + BK4 * (yb - 1))
     
         limFactor = xa * xb
         !Kg = Kg    -  Kg  *    []     *          1/s       * s
-        mass = mass - init_mass * limFactor * MaxDegradationRate * dt
+        mass = mass - init_mass * limFactor * MaxDegradationRate * compute_rate
     
         !keeping density untouched, but changing volume
         volume_new = max(mass / sv%state(:,density_col), 0.0)
     
-        Degradation(:,volume_col) = - (sv%state(:,volume_col) - volume_new) / dt        
-    end if
-    
-    deallocate(var_name)
-    deallocate(var_dt)
+        Degradation(:,volume_col) = - (sv%state(:,volume_col) - volume_new) / dt
+        deallocate(var_name)
+        deallocate(var_dt)
+        deallocate(var_name_hor)
+        deallocate(var_dt_hor)
         
-    !matar Detritus com menos de 100 UFC/100ml
-    where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
+        !matar Detritus com menos de 100 UFC/100ml
+        where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
+        
+    end if
     
     end function Degradation
     
