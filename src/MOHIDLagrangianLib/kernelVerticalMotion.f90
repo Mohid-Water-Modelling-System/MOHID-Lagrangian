@@ -121,9 +121,9 @@
     real(prec), intent(in) :: time
     integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx
     integer :: col_temp, col_sal, col_dwz, col_bat
-    real(prec), dimension(:,:), allocatable :: var_dt, var_dt_2
-    type(string), dimension(:), allocatable :: var_name, var_name_2
-    type(string), dimension(:), allocatable :: requiredVars, requiredVars_2
+    real(prec), dimension(:,:), allocatable :: var_dt!, var_dt_2
+    type(string), dimension(:), allocatable :: var_name!, var_name_2
+    type(string), dimension(:), allocatable :: requiredVars!, requiredVars_2
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
@@ -139,15 +139,15 @@
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
     
-    allocate(requiredVars_2(2))
-    requiredVars_2(1) = Globals%Var%bathymetry
-    requiredVars_2(2) = Globals%Var%dwz
+    !allocate(requiredVars_2(2))
+    !requiredVars_2(1) = Globals%Var%bathymetry
+    !requiredVars_2(2) = Globals%Var%dwz
     
-    call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars_2, var_dt_2, var_name_2)
-    col_dwz = Utils%find_str(var_name_2, Globals%Var%dwz, .true.)
-    col_bat = Utils%find_str(var_name_2, Globals%Var%bathymetry, .true.)
+    !call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars_2, var_dt_2, var_name_2)
+    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
                 
-    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt_2(:,col_bat)) / (var_dt_2(:,col_dwz))
+    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
     !interpolate each background
     !Compute buoyancy using state equation for temperature and viscosity
     do bkg = 1, size(bdata)
@@ -255,9 +255,8 @@
         end where
     end if
     
-    deallocate(var_dt_2)
-    deallocate(var_name_2)
-    
+    !deallocate(var_dt_2)
+    !deallocate(var_name_2)
     end function Buoyancy
 
 
@@ -401,13 +400,13 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
-    integer :: col_lim, col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_age, col_density
+    integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd
     real(prec) :: landIntThreshold
-    real(prec), dimension(:,:), allocatable :: var_dt, varVert_dt, var_dt2
+    real(prec), dimension(:,:), allocatable :: var_dt, varVert_dt
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, water_density, tension
     real(prec), dimension(size(sv%state,1)) :: dist2bottom, z0
-    type(string), dimension(:), allocatable :: var_name, var_name_vert, var_name_2
-    type(string), dimension(:), allocatable :: requiredVars, requiredVerticalVars, requiredHorVars2
+    type(string), dimension(:), allocatable :: var_name, var_name_vert
+    type(string), dimension(:), allocatable :: requiredVars, requiredVerticalVars
     real(prec) :: P = 1013.
     real(prec) :: EP = 1/3
     real(prec) :: waterKinematicVisc = 1e-6
@@ -433,42 +432,25 @@
         requiredVars(1) = Globals%Var%hs
         requiredVars(2) = Globals%Var%ts
         requiredVars(3) = Globals%Var%wd
-        
-        allocate(requiredVerticalVars(4))
-        requiredVerticalVars(1) = Globals%Var%dwz
-        requiredVerticalVars(2) = Globals%Var%bathymetry
-        requiredVerticalVars(3) = Globals%Var%temp
-        requiredVerticalVars(4) = Globals%Var%sal
+        allocate(requiredVerticalVars(2))
+        requiredVerticalVars(1) = Globals%Var%temp
+        requiredVerticalVars(2) = Globals%Var%sal
         
         call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
         call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVerticalVars, varVert_dt, var_name_vert, reqVertInt = .true.)
         col_temp = Utils%find_str(var_name_vert, Globals%Var%temp, .true.)
         col_sal = Utils%find_str(var_name_vert, Globals%Var%sal, .true.)
-        col_dwz = Utils%find_str(var_name_vert, Globals%Var%dwz, .true.)
-        col_bat = Utils%find_str(var_name_vert, Globals%Var%bathymetry, .true.)
+        col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+        col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
         col_hs = Utils%find_str(var_name, Globals%Var%hs, .false.)
         col_ts = Utils%find_str(var_name, Globals%Var%ts, .false.)
         col_wd = Utils%find_str(var_name, Globals%Var%wd, .false.)
-        
-        if (col_hs /= MV_INT .and. col_ts /= MV_INT) then
-            allocate(requiredHorVars2(2))
-            requiredHorVars2(1) = Globals%Var%u
-            requiredHorVars2(2) = Globals%Var%v
-            call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredHorVars2, var_dt2, var_name_2, reqVertInt = .false.)
-            col_u = Utils%find_str(var_name_2, Globals%Var%u, .true.)
-            col_v = Utils%find_str(var_name_2, Globals%Var%v, .true.)
-            tag = 'age'
-            col_age = Utils%find_str(sv%varName, tag, .true.)
-            !tag = 'density'
-            !col_density = Utils%find_str(sv%varName, tag, .true.)
-        end if 
 
         !Start computations --------------------------------------------------------------------
         velocity_mod = 0
         Tension = 0
         water_density = 0
-        !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - varVert_dt(:,col_bat)) / (varVert_dt(:,col_bat) - varVert_dt(:,col_dwz))
-        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - varVert_dt(:,col_bat)) / (varVert_dt(:,col_dwz))
+        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
         where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),P)
         if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
             !Found wave fields to use
@@ -480,7 +462,7 @@
                     taumax=0.
                     ubw = 0.001
                     abw = 0.0011
-                    bat = -varVert_dt(i,col_bat)
+                    bat = -sv%state(i,col_bat)
                         
                     if ((var_dt(i,col_hs) > 0.1) .and. (bat > 5) .and. (var_dt(i,col_ts) > 0.1)) then
             !----------------------------Start calculation of abw and ubw-------------------------------------------
@@ -492,7 +474,7 @@
                         coefB = 6.28318 / ts
                         c0 = sqrt(9.81*bat)
                         !Velocity modulus without the logaritmic profile close to the bottom
-                        velocity_mod(i) = sqrt(var_dt2(i,col_u)**2+var_dt2(i,col_v)**2)
+                        velocity_mod(i) = sqrt(sv%state(i,4)**2+sv%state(i,5)**2)
                             
                         celerity = wave_celerity(c0, bat, coefA, coefB)
                         waveLength = celerity * ts
@@ -550,7 +532,7 @@
                     z0(i) = Ks/30.0
             !---------------------------End Compute rugosity------------------------------------------------------
                         
-                    dwz = varVert_dt(i,col_dwz)
+                    dwz = sv%state(i,col_dwz)
                     aux = z0(i)*exp(1.001)
                         
                     if (dwz < aux) dwz = aux
@@ -630,8 +612,6 @@
                     endif
                 end if
             end do
-            deallocate(var_name_2)
-            deallocate(requiredHorVars2)
         else
             !Make calculations where tracer is very close to the bathymetric value
             !Using equations from the MOHIDWater interface_sediment_water module
@@ -640,13 +620,12 @@
                 tension = velocity_mod * water_density
             end where
         end if
-        
         where ((dist2bottom < landIntThreshold) .and. Tension>Globals%Constants%Critical_Shear_Erosion)
             !Tracer gets positive vertical velocity which corresponds to a percentage of the velocity modulus
             !Resuspension(:,3) = Globals%Constants%ResuspensionCoeff * velocity_mod
             !tracers gets brought up to 0.5m
             Resuspension(:,3) = 0.5/dt
-        end where 
+        end where
         deallocate(var_name)
         deallocate(var_name_vert)
         deallocate(var_dt)
@@ -818,6 +797,7 @@
         real(prec), dimension(size(sv%state,1)) :: Divergence, resolution
         real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: uv_x0, uv_x1, uv_y0, uv_y1
         real(prec), dimension(size(sv%state,1)) :: u_x0, u_x1, v_y0, v_y1, dx,dy
+        !Begin -----------------------------------------------------------------------
         
         allocate(requiredVars(3))
         requiredVars(1) = Globals%Var%u

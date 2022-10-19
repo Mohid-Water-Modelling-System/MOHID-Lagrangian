@@ -92,10 +92,8 @@
         MaxDegradationRate = Globals%Constants%MaxDegradationRate
         landIntThreshold = -0.98
         
-        allocate(requiredVars(3))
+        allocate(requiredVars(1))
         requiredVars(1) = Globals%Var%temp
-        requiredVars(2) = Globals%Var%bathymetry
-        requiredVars(3) = Globals%Var%dwz
         
         allocate(requiredHorVars(1))
         requiredHorVars(1) = Globals%Var%temp
@@ -105,10 +103,10 @@
     
         col_tempvert = Utils%find_str(var_name, Globals%Var%temp, .true.)
         col_temphor = Utils%find_str(var_name_hor, Globals%Var%temp, .true.)
-        col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
-        col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+        col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+        col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
         
-        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt(:,col_bat)) / (var_dt(:,col_dwz))
+        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
         threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
         
         where (dist2bottom < threshold_bot_wat)
@@ -146,7 +144,8 @@
         deallocate(var_dt_hor)
         
         !matar Detritus com menos de 100 UFC/100ml
-        where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
+        !where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.
+        where(mass < 0.002) sv%active = .false.
         
     end if
     

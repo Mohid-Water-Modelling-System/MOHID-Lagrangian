@@ -70,7 +70,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(seed_class), intent(in) :: self
-    getNumVars = 18
+    getNumVars = 20
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -98,9 +98,10 @@
     getStateArray(14) = self%mnow%volume
     getStateArray(15) = self%mnow%area
     getStateArray(16) = self%mnow%condition
-    !getStateArray(17) = self%mnow%degradation_rate
     getStateArray(17) = self%mnow%concentration
     getStateArray(18) = self%mpar%particulate
+    getStateArray(19) = self%now%bathymetry
+    getStateArray(20) = self%now%dwz
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -128,9 +129,10 @@
     self%mnow%volume = StateArray(14)
     self%mnow%area = StateArray(15)
     self%mnow%condition = StateArray(16)
-    !self%mnow%degradation_rate = StateArray(17)
     self%mnow%concentration = StateArray(17)
     self%mpar%particulate = StateArray(18)
+    self%now%bathymetry   = StateArray(19)
+    self%now%dwz   = StateArray(20)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -189,7 +191,6 @@
     constructor%varName(14) = 'volume'
     constructor%varName(15) = 'area'
     constructor%varName(16) = 'condition'
-    !constructor%varName(17) = 'degradation_rate'
     constructor%varName(17) = 'concentration'
     constructor%varName(18) = 'particulate'
     end function constructor

@@ -70,7 +70,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(plastic_class), intent(in) :: self
-    getNumVars = 19
+    getNumVars = 21
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -101,6 +101,8 @@
     getStateArray(17) = self%mnow%degradation_rate
     getStateArray(18) = self%mnow%concentration
     getStateArray(19) = self%mpar%particulate
+    getStateArray(20) = self%now%bathymetry
+    getStateArray(21) = self%now%dwz
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -131,6 +133,8 @@
     self%mnow%degradation_rate = StateArray(17)
     self%mnow%concentration = StateArray(18)
     self%mpar%particulate = StateArray(19)
+    self%now%bathymetry   = StateArray(20)
+    self%now%dwz   = StateArray(21)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
