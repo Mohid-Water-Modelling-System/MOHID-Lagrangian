@@ -69,7 +69,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(detritus_class), intent(in) :: self
-    getNumVars = 18
+    getNumVars = 20
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -92,13 +92,15 @@
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
     getStateArray(11) = self%now%age
-    getStateArray(12) = self%mnow%density
-    getStateArray(13) = self%mnow%radius
-    getStateArray(14) = self%mnow%volume
-    getStateArray(15) = self%mnow%area
-    getStateArray(16) = self%mnow%condition
-    getStateArray(17) = self%mpar%particulate
-    getStateArray(18) = self%mnow%initial_volume
+    getStateArray(12) = self%mpar%particulate
+    getStateArray(13) = self%now%bathymetry
+    getStateArray(14) = self%now%dwz
+    getStateArray(15) = self%mnow%density
+    getStateArray(16) = self%mnow%radius
+    getStateArray(17) = self%mnow%volume
+    getStateArray(18) = self%mnow%area
+    getStateArray(19) = self%mnow%condition
+    getStateArray(20) = self%mnow%initial_volume
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -120,14 +122,16 @@
     self%now%diffusionVel%z = StateArray(8)
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
-    self%now%age   = StateArray(11)
-    self%mnow%density = StateArray(12)
-    self%mnow%radius = StateArray(13)
-    self%mnow%volume = StateArray(14)
-    self%mnow%area = StateArray(15)
-    self%mnow%condition = StateArray(16)
-    self%mpar%particulate = StateArray(17)
-    self%mnow%initial_volume = StateArray(18)
+    self%now%age          = StateArray(11)
+    self%mpar%particulate = StateArray(12)
+    self%now%bathymetry   = StateArray(13)
+    self%now%dwz          = StateArray(14)
+    self%mnow%density = StateArray(15)
+    self%mnow%radius = StateArray(16)
+    self%mnow%volume = StateArray(17)
+    self%mnow%area = StateArray(18)
+    self%mnow%condition = StateArray(19)
+    self%mnow%initial_volume = StateArray(20)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -177,13 +181,13 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(12) = Globals%Var%density
-    constructor%varName(13) = 'radius'
-    constructor%varName(14) = 'volume'
-    constructor%varName(15) = 'area'
-    constructor%varName(16) = 'condition'
-    constructor%varName(17) = 'particulate'
-    constructor%varName(18) = 'initial_volume'
+    constructor%varName(15) = Globals%Var%density
+    constructor%varName(16) = 'radius'
+    constructor%varName(17) = 'volume'
+    constructor%varName(18) = 'area'
+    constructor%varName(19) = 'condition'
+    !constructor%varName(20) = 'particulate'
+    constructor%varName(20) = 'initial_volume'
     end function constructor
 
     end module tracerdetritus_mod

@@ -38,6 +38,8 @@
         type(vector) :: vel                     !< Velocity of the tracer (m s-1)
         type(vector) :: diffusionVel            !< Velocity of the tracer due to diffusion processes (m s-1)
         real(prec) :: usedMixingLenght          !< spacial step using current random velocity from diffusion (m)
+        real(prec) :: bathymetry = MV           !< bathymetry value interpolated to the tracers location
+        real(prec) :: dwz = MV                  !< thickness of the vertical cell
     end type tracer_state_class
 
     type :: tracer_class                   !<Type - The pure Lagrangian tracer class
@@ -70,7 +72,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(tracer_class), intent(in) :: self
-    getNumVars = 12
+    getNumVars = 14
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -94,6 +96,8 @@
     getStateArray(10) = self%now%usedMixingLenght
     getStateArray(11) = self%now%age
     getStateArray(12) = self%par%particulate
+    getStateArray(13) = self%now%bathymetry
+    getStateArray(14) = self%now%dwz
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -115,6 +119,8 @@
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
     self%now%age   = StateArray(11)
+    self%now%bathymetry   = StateArray(13)
+    self%now%dwz   = StateArray(14)
     self%par%particulate = StateArray(12)
     end subroutine setStateArray
 
@@ -166,7 +172,8 @@
     constructor%now%pos = src%stencil%ptlist(p) + src%now%pos
     constructor%now%vel = 0.0
     constructor%now%diffusionVel = 0.0
-    constructor%now%usedMixingLenght = 0.0
+    constructor%now%bathymetry = 0.0
+    constructor%now%dwz = 0.0
     ! initialize var name list
     allocate(constructor%varName(varN))
     constructor%varName(1) = 'x'
@@ -181,6 +188,8 @@
     constructor%varName(10) = 'mLen'
     constructor%varName(11) = 'age'
     constructor%varName(12) = 'particulate'
+    constructor%varName(13) = Globals%Var%bathymetry
+    constructor%varName(14) = Globals%Var%dwz
     end function constructor
 
     end module tracerBase_mod

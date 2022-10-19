@@ -128,26 +128,35 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, i, j, col_age, col_bat, col_landintmask, col_res
+    integer :: i, j, col_age, col_bat, col_bat_sv, col_dwz, col_dwz_sv, col_landintmask, col_res
     real(prec) :: maxLevel(2)
-    real(prec), dimension(:,:), allocatable :: var_dt, var_vert_dt
-    type(string), dimension(:), allocatable :: var_name, var_name_vert
-    type(string), dimension(:), allocatable :: requiredVars, requiredVertVars
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
     type(string) :: tag
     logical bottom_emmission
     !-----------------------------------------------------------
-    allocate(requiredVars(3))
+    allocate(requiredVars(4))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
+    requiredVars(4) = Globals%Var%dwz
     
-    allocate(requiredVertVars(1))
-    requiredVertVars(1) = Globals%Var%bathymetry
-    
-    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVertVars, var_vert_dt, var_name_vert)
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     bottom_emmission = .false.
-    col_bat = Utils%find_str(var_name_vert, Globals%Var%bathymetry, .true.)
-    where (sv%state(:,3) < var_vert_dt(:,col_bat)) sv%state(:,3) = var_vert_dt(:,col_bat)
+    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
+    !Set tracers bathymetry
+    col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    sv%state(:,col_bat_sv) = var_dt(:,col_bat)
+    !Set tracers dwz
+    col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
+    col_dwz_sv = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    sv%state(:,col_dwz_sv) = var_dt(:,col_dwz)
+    
+    tag = 'age'
+    col_age = Utils%find_str(sv%varName, tag, .true.)
+    
+    where (sv%state(:,3) < var_dt(:,col_bat)) sv%state(:,3) = var_dt(:,col_bat)
         
     if (size(sv%source) > 0) then
         !if any of the sources defined by the user has the option bottom_emission then the model must check
@@ -161,56 +170,39 @@
     where (sv%state(:,1) < -180.0) sv%state(:,1) = sv%state(:,1) + 360.0
     !interpolate each background
     
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !correcting for maximum admissible level in the background
-                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)   
-                if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                !update land interaction status
-                col_landintmask = Utils%find_str(var_name, Globals%Var%landIntMask)
-                sv%landIntMask = var_dt(:,col_landintmask)
-                !if bottom emission is active, check if tracer age is 0 (has just been added to the simulation)
-                ! and if true, place those particles at the bottom (bathymetric value)
-                if (bottom_emmission) then
-                    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
-                    tag = 'age'
-                    col_age = Utils%find_str(sv%varName, tag, .true.)
-                    if ((size(sv%source) > 0) .and. (minval(sv%state(:,col_age)) == 0)) then
-                        !where the age of a tracer is 0, make the vertical position equal to the bathymetric value of the grid cell
-                        !where the tracer is located
-                        where (sv%state(:,col_age) == 0 .and. Globals%Sources%bottom_emission_depth(sv%source(:)) > 0) sv%state(:,3) = var_dt(:,col_bat) + Globals%Sources%bottom_emission_depth(sv%source(:))
-                    end if
-                end if
+    !correcting for maximum admissible level in the background
+    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)   
+    if (maxLevel(2) /= MV) where (sv%state(:,3) > maxLevel(2)) sv%state(:,3) = maxLevel(2)-0.00001
+    !update land interaction status
+    col_landintmask = Utils%find_str(var_name, Globals%Var%landIntMask)
+    sv%landIntMask = var_dt(:,col_landintmask)
+    !if bottom emission is active, check if tracer age is 0 (has just been added to the simulation)
+    ! and if true, place those particles at the bottom (bathymetric value)
 
-                !marking tracers for deletion because they are in land
-                if (Globals%simdefs%removelandtracer == 1) then
-                    where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
-                end if
-                
-                !marking tracers for deletion because they are old
-                if (Globals%simdefs%tracerMaxAge > 0) then
-                    tag = 'age'
-                    col_age = Utils%find_str(sv%varName, tag, .true.)
-                    where(sv%state(:,col_age) >= Globals%simdefs%tracerMaxAge) sv%active = .false.
-                end if
-                
-                !update resolution proxy
-                col_res = Utils%find_str(var_name, Globals%Var%resolution,.true.)
-                sv%resolution = var_dt(:,col_res)
-                deallocate(var_name)
-                deallocate(var_dt)
-            end if
+    if (bottom_emmission) then
+        if ((size(sv%source) > 0) .and. (minval(sv%state(:,col_age)) == 0)) then
+            !where the age of a tracer is 0, make the vertical position equal to the bathymetric value of the grid cell
+            !where the tracer is located
+            where (sv%state(:,col_age) == 0 .and. Globals%Sources%bottom_emission_depth(sv%source(:)) > 0) sv%state(:,3) = var_dt(:,col_bat) + Globals%Sources%bottom_emission_depth(sv%source(:))
         end if
-    end do
-    deallocate(var_vert_dt)
-    deallocate(var_name_vert)
+    end if
+
+    !marking tracers for deletion because they are in land
+    if (Globals%simdefs%removelandtracer == 1) then
+        where(int(sv%landintmask + Globals%mask%landval*0.05) == Globals%mask%landval) sv%active = .false.
+    end if
+                
+    !marking tracers for deletion because they are old
+    if (Globals%simdefs%tracerMaxAge > 0) then
+        where(sv%state(:,col_age) >= Globals%simdefs%tracerMaxAge) sv%active = .false.
+    end if
+                
+    !update resolution proxy
+    col_res = Utils%find_str(var_name, Globals%Var%resolution,.true.)
+    sv%resolution = var_dt(:,col_res)
+    deallocate(var_name)
+    deallocate(var_dt)
+    
     end subroutine setCommonProcesses
 
     !---------------------------------------------------------------------------
@@ -225,7 +217,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
+    integer :: nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
     type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
@@ -237,12 +229,10 @@
     real(prec) :: threshold_bot_wat, landIntThreshold
     type(string) :: tag
     !-------------------------------------------------------------------------------------
-    allocate(requiredVars(5))
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
     requiredVars(3) = Globals%Var%w
-    requiredVars(4) = Globals%Var%bathymetry
-    requiredVars(5) = Globals%Var%dwz
     
     allocate(requiredHorVars(3))
     requiredHorVars(1) = Globals%Var%u
@@ -258,9 +248,8 @@
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
     col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
     !col_ssh = Utils%find_str(var_name_hor, Globals%Var%ssh, .false.)
-    col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
-    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
-    
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
     
@@ -276,12 +265,12 @@
     !end if
     
     !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
-    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt(:,col_bat)) / (var_dt(:,col_dwz))
+    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
     
     !Need to do this double check because landIntMask does not work properly when tracers are near a bottom wall
     !(interpolation gives over 1 but should still be bottom)
     where (dist2bottom < threshold_bot_wat)
-        aux_r8 = max((var_dt(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
+        aux_r8 = max((sv%state(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
         chezyZ = (VonKarman / dlog(aux_r8))**2
         sv%state(:,4) = var_hor_dt(:,col_u) * chezyZ
         sv%state(:,5) = var_hor_dt(:,col_v) * chezyZ
@@ -514,13 +503,9 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
-    integer :: np, nf, bkg, part_idx, col_dwz, col_bat
+    integer :: np, part_idx, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1)) :: dist2bottom
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
-    real(prec), dimension(:), allocatable :: resolution
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
     type(string) :: tag
     real(prec) :: landIntThreshold
@@ -528,85 +513,58 @@
     landIntThreshold = -0.98
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
-    if (any(sv%state(:,part_idx) == 1)) then
-        allocate(requiredVars(4))
-        requiredVars(1) = Globals%Var%resolution
-        requiredVars(2) = Globals%Var%landIntMask
-        requiredVars(3) = Globals%Var%bathymetry
-        requiredVars(4) = Globals%Var%dwz
-    else
-        allocate(requiredVars(2))
-        requiredVars(1) = Globals%Var%resolution
-        requiredVars(2) = Globals%Var%landIntMask
-    end if
     
     DiffusionMixingLength = 0.0
     if (Globals%Constants%DiffusionCoeff == 0.0) return
     !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_name(nf))
-                allocate(var_dt(np,nf))
-                allocate(resolution(np))
-                allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
-                call random_number(rand_vel_u)
-                call random_number(rand_vel_v)
-                call random_number(rand_vel_w)
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                !update resolution estimate
-                nf = Utils%find_str(var_name, Globals%Var%resolution, .true.)
-                resolution = var_dt(:,nf)
-                !if we are still in the same path, use the same random velocity, do nothing
-                !if we ran the path, new random velocities are generated and placed
-                where ((sv%state(:,10) > 2.0*resolution) .and. (sv%landIntMask < Globals%Mask%landVal))
-                    DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
-                    DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
-                    DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
-                    sv%state(:,10) = 0.0
-                    !update system positions
-                    DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
-                    DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
-                    DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
-                elsewhere
-                    !update system positions
-                    DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
-                    DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
-                    DiffusionMixingLength(:,3) = sv%state(:,9)
-                end where
 
-                !update used mixing length
-                DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
+    np = size(sv%active) !number of Tracers
+    allocate(rand_vel_u(np), rand_vel_v(np), rand_vel_w(np))
+    call random_number(rand_vel_u)
+    call random_number(rand_vel_v)
+    call random_number(rand_vel_w)
+    
+    !if we are still in the same path, use the same random velocity, do nothing
+    !if we ran the path, new random velocities are generated and placed
+    where ((sv%state(:,10) > 2.0*sv%resolution) .and. (sv%landIntMask < Globals%Mask%landVal))
+        DiffusionMixingLength(:,7) = (2.*rand_vel_u-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,4))/dt)/dt
+        DiffusionMixingLength(:,8) = (2.*rand_vel_v-1.)*sqrt(Globals%Constants%DiffusionCoeff*abs(sv%state(:,5))/dt)/dt
+        DiffusionMixingLength(:,9) = (2.*rand_vel_w-1.)*sqrt(0.000001*Globals%Constants%DiffusionCoeff*abs(sv%state(:,6))/dt)/dt
+        sv%state(:,10) = 0.0
+        !update system positions
+        DiffusionMixingLength(:,1) = Utils%m2geo(DiffusionMixingLength(:,7), sv%state(:,2), .false.)*dt
+        DiffusionMixingLength(:,2) = Utils%m2geo(DiffusionMixingLength(:,8), sv%state(:,2), .true.)*dt
+        DiffusionMixingLength(:,3) = DiffusionMixingLength(:,9)*dt
+    elsewhere
+        !update system positions
+        DiffusionMixingLength(:,1) = Utils%m2geo(sv%state(:,7), sv%state(:,2), .false.)
+        DiffusionMixingLength(:,2) = Utils%m2geo(sv%state(:,8), sv%state(:,2), .true.)
+        DiffusionMixingLength(:,3) = sv%state(:,9)
+    end where
+
+    !update used mixing length
+    DiffusionMixingLength(:,10) = sqrt(sv%state(:,4)*sv%state(:,4) + sv%state(:,5)*sv%state(:,5) + sv%state(:,6)*sv%state(:,6))
                 
-                !Deposited particles should not move
-                if (any(sv%state(:,part_idx) == 1)) then
-                    col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
-                    col_bat = Utils%find_str(var_name, Globals%Var%bathymetry, .true.)
-                    !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
-                    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - var_dt(:,col_bat)) / (var_dt(:,col_dwz))
+    !Deposited particles should not move
+    if (any(sv%state(:,part_idx) == 1)) then
+        col_dwz = Utils%find_str(sv%varname, Globals%Var%dwz, .true.)
+        col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry, .true.)
+        !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
+        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
                     
-                    !if a single particle is particulate, check if they are at the bottom and don't move them if true.
-                    nf_lim = Utils%find_str(var_name, Globals%Var%landIntMask, .true.)
-                    where (((var_dt(:,nf_lim) < landIntThreshold) .or. (dist2bottom < landIntThreshold)) .and. (sv%state(:,part_idx) == 1))
-                        !update system positions
-                        DiffusionMixingLength(:,1) = 0
-                        DiffusionMixingLength(:,2) = 0
-                        DiffusionMixingLength(:,3) = 0
-                        DiffusionMixingLength(:,10) = 0
-                    end where
-                end if
-                
-                deallocate(rand_vel_u, rand_vel_v, rand_vel_w)
-                deallocate(resolution)
-                deallocate(var_dt)
-                deallocate(var_name)
-            end if
-        end if
-    end do
+        !if a single particle is particulate, check if they are at the bottom and don't move them if true.
+        where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
+            !update system positions
+            DiffusionMixingLength(:,1) = 0
+            DiffusionMixingLength(:,2) = 0
+            DiffusionMixingLength(:,3) = 0
+            DiffusionMixingLength(:,10) = 0
+        end where
+    end if
+    deallocate(rand_vel_u, rand_vel_v, rand_vel_w)
+
     end function DiffusionMixingLength
+    
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC

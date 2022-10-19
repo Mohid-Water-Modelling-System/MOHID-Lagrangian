@@ -75,7 +75,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 24
+    getNumVars = 26
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -111,6 +111,8 @@
     getStateArray(22) = self%mnow%concentration
     getStateArray(23) = self%mnow%initial_volume
     getStateArray(24) = self%mpar%particulate
+    getStateArray(25) = self%now%bathymetry
+    getStateArray(26) = self%now%dwz
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -146,6 +148,8 @@
     self%mnow%concentration = StateArray(22)
     self%mnow%initial_volume = StateArray(23)
     self%mpar%particulate = StateArray(24)
+    self%now%bathymetry   = StateArray(25)
+    self%now%dwz   = StateArray(26)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -184,6 +188,7 @@
     constructor%mnow%condition = 1.0
     constructor%mnow%T90_variable = 0
     constructor%mnow%concentration = 1000000
+    
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
