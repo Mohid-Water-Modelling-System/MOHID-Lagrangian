@@ -273,14 +273,15 @@
     class(simulation_class), intent(inout) :: self
     integer :: i
     call self%timerPrep%Tic()
-    !$OMP PARALLEL PRIVATE(i)
-    !$OMP DO
+    !for some unkonwn reason this paralellization is causing run-time errors (execution aborted)
+    !!$OMP PARALLEL PRIVATE(i)
+    !!$OMP DO
     do i=1, size(sBlock)
         call sBlock(i)%ConsolidateArrays()
         call sBlock(i)%ShedMemory()
     enddo
-    !$OMP END DO
-    !$OMP END PARALLEL
+    !!$OMP END DO
+    !!$OMP END PARALLEL
     call self%timerPrep%Toc()
     end subroutine BlocksConsolidate
 
