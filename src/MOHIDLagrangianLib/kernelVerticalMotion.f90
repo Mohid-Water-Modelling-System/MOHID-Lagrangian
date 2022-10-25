@@ -121,9 +121,9 @@
     real(prec), intent(in) :: time
     integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx
     integer :: col_temp, col_sal, col_dwz, col_bat
-    real(prec), dimension(:,:), allocatable :: var_dt!, var_dt_2
-    type(string), dimension(:), allocatable :: var_name!, var_name_2
-    type(string), dimension(:), allocatable :: requiredVars!, requiredVars_2
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
@@ -138,10 +138,6 @@
     allocate(requiredVars(2))
     requiredVars(1) = Globals%Var%temp
     requiredVars(2) = Globals%Var%sal
-    
-    !allocate(requiredVars_2(2))
-    !requiredVars_2(1) = Globals%Var%bathymetry
-    !requiredVars_2(2) = Globals%Var%dwz
     
     !call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars_2, var_dt_2, var_name_2)
     col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
@@ -162,7 +158,7 @@
                 col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
                 col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
                 
-                fDensity = seaWaterDensity(var_dt(:,col_sal), var_dt(:,col_temp),P)
+                fDensity = seaWaterDensity(var_dt(:,col_sal), var_dt(:,col_temp),sv%state(:,3))
                 kVisco = absoluteSeaWaterViscosity(var_dt(:,col_sal), var_dt(:,col_temp))
                 ! Viscosity on boundaries could be 0. Avoid overdumped values on viscosity
                 ! Viscosity relation of 90 % related to mean water density are allowed.
@@ -193,7 +189,7 @@
                 endwhere
                 ! Get drag and shapefactor
                 shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
-                reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
+                reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx)*2) 
                 cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber)
                 ! Get buoyancy
                 where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
@@ -247,7 +243,8 @@
         densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))          
         ! Get drag and shapefactor
         shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
-        reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
+        reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx))
+        !reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
         cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
         ! Get buoyancy
         where ((reynoldsNumber /=0.) .and. (dist2bottom < landIntThreshold))
@@ -255,8 +252,6 @@
         end where
     end if
     
-    !deallocate(var_dt_2)
-    !deallocate(var_name_2)
     end function Buoyancy
 
 
@@ -270,8 +265,10 @@
     class(kernelVerticalMotion_class), intent(inout) :: self
     real(prec), dimension(:) , intent(in) :: characteristicVelocity, kvisco, characteristicLength
     real(prec), dimension(size(characteristicVelocity)) :: Reynolds
-    
-    Reynolds = abs(characteristicVelocity)*characteristicLength/kvisco
+    integer :: id
+    !To avoid reynolds with 0 value (which will give infinit value in DragCoefficient 
+    Reynolds = max(abs(characteristicVelocity), 1.0E-8)*characteristicLength/kvisco
+    !Reynolds = abs(characteristicVelocity)*characteristicLength/kvisco
 
     end function Reynolds
 
@@ -416,7 +413,6 @@
     real(prec) :: U, psi, dsilt, dsand, dgravel, kscr, kscmr, kscd, fcs, ffs, kscr_max, kscmr_max, kscd_max
     real(prec) :: ksc, ks, grainroughnessfactor, d50
     real(prec) :: abs_cos_angle, abs_sin_angle, ubw_aux, aux_1, aux_2, fws1, fwr1, dlog_t1, ts
-    type(string) :: tag
     !Begin-----------------------------------------------------------------------------------
     Resuspension = 0
     landIntThreshold = -0.98
@@ -451,7 +447,7 @@
         Tension = 0
         water_density = 0
         dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
-        where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),P)
+        where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),sv%state(:,3))
         if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
             !Found wave fields to use
             do i=1, size(sv%state,1)
@@ -464,7 +460,7 @@
                     abw = 0.0011
                     bat = -sv%state(i,col_bat)
                         
-                    if ((var_dt(i,col_hs) > 0.1) .and. (bat > 5) .and. (var_dt(i,col_ts) > 0.1)) then
+                    if ((var_dt(i,col_hs) > 0.1) .and. (bat > 5.0) .and. (var_dt(i,col_ts) > 0.1)) then
             !----------------------------Start calculation of abw and ubw-------------------------------------------
                         ts = var_dt(i,col_ts)
                         hs = var_dt(i,col_hs)
@@ -492,9 +488,9 @@
                         
             !---------------------------Compute rugosity----------------------------------------------------------
                     !Average velocity
-                    U = sqrt(sv%state(i,4)**2 + sv%state(i,5)**2)/0.4* (dlog(bat/z0(i)) - 1 + z0(i)/bat)
+                    U = sqrt(sv%state(i,4)**2.0 + sv%state(i,5)**2.0)/0.4* (dlog(bat/z0(i)) - 1.0 + z0(i)/bat)
                         
-                    uwc2 = U**2 + ubw**2
+                    uwc2 = U**2.0 + ubw**2.0
                     !Using sand density instead of particle density,
                     !because it is assumed that the bottom is mostly filled by sand and not detritus
                     relativedensity = 2650.0/water_density(i)
@@ -502,7 +498,7 @@
                     psi = uwc2/((relativedensity-1)*9.81*d50)
 
                     if(d50 < dsilt) then
-                        kscr = 20 * dsilt
+                        kscr = 20.0 * dsilt
                         kscmr = 0.
                         kscd = 0.
                     else
@@ -514,18 +510,18 @@
 
                         !Ripples
                         kscr_max = 0.075
-                        kscr = min(fcs*d50*(85-65*tanh(0.015*(psi-150))), kscr_max)
+                        kscr = min(fcs*d50*(85.0-65.0*tanh(0.015*(psi-150.0))), kscr_max)
 
                         !Mega-ripples
                         kscmr_max = min(0.01*bat, 0.2)
-                        kscmr = min(2e-6*ffs*bat*(1-exp(-0.05*psi))*(550-psi), kscmr_max)
+                        kscmr = min(2.0e-6*ffs*bat*(1-exp(-0.05*psi))*(550.0-psi), kscmr_max)
 
                         !Dunes
                         kscd_max = min(0.04*bat, 0.4)
-                        kscd = min(8e-6*ffs*bat*(1-exp(-0.02*psi))*(600-psi), kscd_max)
+                        kscd = min(8.0e-6*ffs*bat*(1-exp(-0.02*psi))*(600.0-psi), kscd_max)
                     endif
                     !Current-related bed rougnhness
-                    ksc = (kscr**2 + kscmr**2 + kscd**2)**0.5
+                    ksc = (kscr**2.0 + kscmr**2.0 + kscd**2.0)**0.5
                     !Bed rougnhness
                     ks =  grainroughnessfactor*d50 + ksc
                     !z0
@@ -537,11 +533,11 @@
                         
                     if (dwz < aux) dwz = aux
                         
-                    cdr=(0.40/(dlog(dwz/z0(i))-1.))**2
+                    cdr=(0.40/(dlog(dwz/z0(i))-1.))**2.0
                     rec=velocity_mod(i)*dwz/waterKinematicVisc
                     !rec=velocity_mod(i)*bat/waterKinematicVisc - como esta no soulsbury
                     cds = 0.
-                    if(velocity_mod(i) > 1e-3) cds=0.0001615*exp(6.*rec**(-0.08))
+                    if(velocity_mod(i) > 1.0e-3) cds=0.0001615*exp(6.0*rec**(-0.08))
                 
                     cdmax = max(cdr,cds)
                     
@@ -550,7 +546,7 @@
                         !57.2958279 = 180/pi
                         cPhi = atan2(sv%state(i,5), sv%state(i,4)) * 57.2958279
                         !(0, 360)
-                        if(cPhi < 0.) cPhi = cPhi + 360
+                        if(cPhi < 0.) cPhi = cPhi + 360.0
                         cWphi = var_dt(i,col_wd) - cPhi !Wave - Current angle
                 
             !---------------------------------Compute drag coefficient ------------------------------------------------
@@ -559,7 +555,7 @@
                         fwr=1.39*(abw/z0(i))**(-0.52)
                         !fwr=1.39*(abw/Globals%Constants%Rugosity)**(-0.52)
                         fw=max(fws,fwr)
-                        if(velocity_mod(i) < 1e-3)then !wave-only flow
+                        if(velocity_mod(i) < 1.0e-3)then !wave-only flow
                             cdmax=fw
                         else !combined wave and current flow
                             !turbulent flow
@@ -571,7 +567,7 @@
                             aux_1 = ubw_aux*(fwr1)**0.5
                             fws1 = fws*0.5
                             aux_2 = ubw_aux*(fws1)**0.5
-                            cds1 = cds**2
+                            cds1 = cds**2.0
                             ar=0.24
                             t1=max(ar*(fwr1)**0.5*(abw/z0(i)),12.0)
                             t2=bat/(t1*z0(i))
@@ -579,19 +575,19 @@
                             dlog_t1 = dlog(t1)
                             a1 = max(t3*(dlog(t2)-1)/(2*dlog_t1), 0.0)
                             a2 = max(0.40*t3/dlog_t1, 0.0)
-                            cdmr=((a1**2+a2)**0.5-a1)**2
+                            cdmr=((a1**2+a2)**0.5-a1)**2.0
                             !cdmaxr=((cdmr+t3*ubw/velocity_mod(i)*(fwr/2)**0.5*abs(cos(cWphi*pi/180.)))**2+(t3*ubw/velocity_mod(i)*(fwr/2)**0.5*abs(sin(cWphi*pi/180.)))**2)**0.5
                             cdmaxr=((cdmr+t3*aux_1*abs_cos_angle)**2+(t3*aux_1*abs_sin_angle)**2)**0.5
                 
                             !Smooth-turbulent wave-plus-current shear-stress
                             as=0.24
-                            t1=9*as*rew*(fws1)**0.5*(cds1*(velocity_mod(i)/ubw)**4+(fws1)**2)**(0.25)
-                            t2=(rec/rew)*(ubw_aux)*1/as*(2/fws)**0.5
+                            t1=9*as*rew*(fws1)**0.5*(cds1*(velocity_mod(i)/ubw)**4.0+(fws1)**2.0)**(0.25)
+                            t2=(rec/rew)*(ubw_aux)*1.0/as*(2.0/fws)**0.5
                             t3=(cds1+(fws1)**2*(ubw_aux)**4)**(0.25)
                             dlog_t1 = dlog(t1)
-                            a1 = max(t3*(dlog(t2)-1)/(2*dlog_t1), 0.0)
+                            a1 = max(t3*(dlog(t2)-1)/(2.0*dlog_t1), 0.0)
                             a2 = max(0.40*t3/dlog_t1, 0.0)
-                            cdms=((a1**2+a2)**0.5-a1)**2
+                            cdms=((a1**2.0+a2)**0.5-a1)**2.0
                             !cdmaxs=((cdmr+t3*ubw/velocity_mod(i)*(fws/2)**0.5*abs(cos(cWphi*pi/180.)))**2+(t3*ubw/velocity_mod(i)*(fws/2)**0.5*abs(sin(cWphi*pi/180.)))**2)**0.5
                             cdmaxs=((cdms+t3*aux_2*abs_cos_angle)**2+(t3*aux_2*abs_sin_angle)**2)**0.5
                             if(cdmaxr > cdmaxs)then !flow is rough turbulent
@@ -601,7 +597,7 @@
                             endif
                         endif
             !------------------------------------End Compute drag coefficient ------------------------------------------------
-                        if(velocity_mod(i) < 1e-3)then !wave-only flow
+                        if(velocity_mod(i) < 1.0e-3)then !wave-only flow
                             tension(i) = 0.5*water_density(i)*fw*ubw**2
                         else !combined wave and current flow
                             tension(i) = water_density(i)*cdmax*velocity_mod(i)**2
@@ -616,7 +612,7 @@
             !Make calculations where tracer is very close to the bathymetric value
             !Using equations from the MOHIDWater interface_sediment_water module
             where (dist2bottom < landIntThreshold)
-                velocity_mod = sqrt(sv%state(:,4)**2 + sv%state(:,5)**2)
+                velocity_mod = sqrt(sv%state(:,4)**2.0 + sv%state(:,5)**2.0)
                 tension = velocity_mod * water_density
             end where
         end if
@@ -658,6 +654,7 @@
     real(prec), dimension(:),intent(in) :: S,T
     real(prec), dimension(size(S)) :: SMOW,RB,RC
     real(prec), dimension(size(S)) :: seawaterDensityZeroPressure
+    integer :: id
     ! --- Computations ---
     ! Density of pure water
     SMOW = a0 + (a1 + (a2 + (a3 + (a4 + a5*T)*T)*T)*T)*T
@@ -673,10 +670,11 @@
     !> Method that returns secant bulk modulus
     !---------------------------------------------------------------------------
     function secantBulkModulus(S, T, P)
-    real(prec), dimension(:),intent(in) :: S,T
-    real(prec),intent(in) :: P
-    real(prec), dimension(size(S)):: AW,BW,KW,SR,A,K0,B
+    real(prec), dimension(:),intent(in) :: S,T,P
+    !real(prec),intent(in) :: P
+    real(prec), dimension(size(S)):: AW,BW,KW,SR,A,K0_local,B
     real(prec),dimension(size(S)):: secantBulkModulus
+    integer :: id
     !--- Pure water terms ---
     AW = h0 + (h1 + (h2 + h3*T)*T)*T
     !--- seawater, P = 0 ---
@@ -684,10 +682,10 @@
     KW = e0 + (e1 + (e2 + (e3 + e4*T)*T)*T)*T
     SR = S**0.5
     A  = AW + (i0 + (i1 + i2*T)*T + j0*SR)*S
-    K0 = KW + (f0 + (f1 + (f2 + f3*T)*T)*T + (g0 + (g1 + g2*T)*T)*SR)*S
+    K0_local = KW + (f0 + (f1 + (f2 + f3*T)*T)*T + (g0 + (g1 + g2*T)*T)*SR)*S
     ! --- General expression ---
     B = BW + (m0 + (m1 + m2*T)*T)*S
-    secantBulkModulus = K0 + (A + B*P)*P
+    secantBulkModulus = K0_local + (A + B*P)*P
     end function secantBulkModulus
 
     !---------------------------------------------------------------------------
@@ -696,10 +694,10 @@
     !> Method that returns secant bulk modulus
     !---------------------------------------------------------------------------
     function seaWaterDensity(S, T, P)
-    real(prec), dimension(:),intent(in) :: S,T
-    real(prec),intent(in) :: P
-    real(prec) :: Pbar
-    real(prec),dimension(size(S)) :: seaWaterDensity
+    real(prec), dimension(:),intent(in) :: S,T,P
+    !real(prec),intent(in) :: P !Input is meters
+    !real(prec) :: Pbar
+    real(prec),dimension(size(S)) :: seaWaterDensity, Pbar
     !Compute density of seawater from salinity, temperature, and pressure
     !Usage: dens(S, T, [P])
     !Input:
@@ -711,8 +709,9 @@
     !    Density,          [kg/m**3]
     !Algorithm: UNESCO 1983
     !"""
-    Pbar = 0.1*P !# Convert to bar
+    Pbar = -0.1*P !# Convert to bar
     seaWaterDensity= seawaterDensityZeroPressure(S,T)/(1 - Pbar/secantBulkModulus(S,T,Pbar))
+    
     where (seaWaterDensity /= seaWaterDensity)
         seaWaterDensity = Globals%Constants%MeanDensity
     end where
