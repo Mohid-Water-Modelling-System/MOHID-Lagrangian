@@ -73,6 +73,7 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
     !running preparations for kernel lanch
+    
     call self%setCommonProcesses(sv, bdata, time)
     
     !running kernels for each type of tracer
@@ -112,7 +113,7 @@
         runKernel = self%Beaching(sv, runKernel)
     end if
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
-
+    
     end function runKernel
 
     !---------------------------------------------------------------------------
@@ -314,6 +315,7 @@
         LagrangianKinematic(:,3) = 0.0
         sv%state(:,6) = 0.0
     end if
+    
     deallocate(var_dt)
     deallocate(var_hor_dt)
     deallocate(var_name_hor)

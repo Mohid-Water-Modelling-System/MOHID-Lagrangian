@@ -119,10 +119,10 @@
         init_mass = sv%state(:,density_col) * sv%state(:,initvol_col)
     
         !Change radius keeping shperical form
-        sv%state(:,radius_col) = (sv%state(:,volume_col)*(0.75)/3.1415926)**(1/3)
-    
-        s1 = (1 / (ToptBMin - TBacteriaMin)) * dlog((BK2 * (1 - BK1)) / (BK1 * (1 - BK2)))
-        s2 = (1 / (TBacteriaMax - ToptBMax)) * dlog((BK3 * (1 - BK4))  / (BK4 * (1 - BK3)))
+        sv%state(:,radius_col) = (sv%state(:,volume_col)*(0.75)*(1.0/3.14159265))**(1.0/3.0)
+        
+        s1 = (1.0 / (ToptBMin - TBacteriaMin)) * dlog((BK2 * (1.0 - BK1)) / (BK1 * (1.0 - BK2)))
+        s2 = (1.0 / (TBacteriaMax - ToptBMax)) * dlog((BK3 * (1.0 - BK4))  / (BK4 * (1.0 - BK3)))
     
         ya = exp(s1 * (temperature - TBacteriaMin))
         yb = exp(s2 * (TBacteriaMax - temperature))
