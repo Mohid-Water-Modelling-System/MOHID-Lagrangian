@@ -40,6 +40,8 @@
         real(prec) :: condition                     !< Material condition (1-0)
         real(prec) :: degradation_rate              !< degradation rate of the material
         real(prec) :: concentration                 !< Particle concentration
+        real(prec) :: temperature                   !< temperature of the tracer
+        real(prec) :: salinity                      !< salinity of the tracer
     end type paper_state_class
 
     type, extends(tracer_class) :: paper_class    !<Type - The paper material Lagrangian tracer class
@@ -70,7 +72,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(paper_class), intent(in) :: self
-    getNumVars = 21
+    getNumVars = 23
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -93,16 +95,18 @@
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
     getStateArray(11) = self%now%age
-    getStateArray(12) = self%mnow%density
-    getStateArray(13) = self%mnow%radius
-    getStateArray(14) = self%mnow%volume
-    getStateArray(15) = self%mnow%area
-    getStateArray(16) = self%mnow%condition
-    getStateArray(17) = self%mnow%degradation_rate
-    getStateArray(18) = self%mnow%concentration
-    getStateArray(19) = self%mpar%particulate
-    getStateArray(20) = self%now%bathymetry
-    getStateArray(21) = self%now%dwz
+    getStateArray(12) = self%mpar%particulate
+    getStateArray(13) = self%now%bathymetry
+    getStateArray(14) = self%now%dwz
+    getStateArray(15) = self%mnow%density
+    getStateArray(16) = self%mnow%radius
+    getStateArray(17) = self%mnow%volume
+    getStateArray(18) = self%mnow%area
+    getStateArray(19) = self%mnow%condition
+    getStateArray(20) = self%mnow%degradation_rate
+    getStateArray(21) = self%mnow%concentration
+    getStateArray(22) = self%mnow%temperature
+    getStateArray(23) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -125,16 +129,18 @@
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
     self%now%age   = StateArray(11)
-    self%mnow%density = StateArray(12)
-    self%mnow%radius = StateArray(13)
-    self%mnow%volume = StateArray(14)
-    self%mnow%area = StateArray(15)
-    self%mnow%condition = StateArray(16)
-    self%mnow%degradation_rate = StateArray(17)
-    self%mnow%concentration = StateArray(18)
-    self%mpar%particulate = StateArray(19)
-    self%now%bathymetry   = StateArray(20)
-    self%now%dwz   = StateArray(21)
+    self%mpar%particulate = StateArray(12)
+    self%now%bathymetry   = StateArray(13)
+    self%now%dwz          = StateArray(14)
+    self%mnow%density = StateArray(15)
+    self%mnow%radius = StateArray(16)
+    self%mnow%volume = StateArray(17)
+    self%mnow%area = StateArray(18)
+    self%mnow%condition = StateArray(19)
+    self%mnow%degradation_rate = StateArray(20)
+    self%mnow%concentration = StateArray(21)
+    self%mnow%temperature = StateArray(22)
+    self%mnow%salinity = StateArray(23)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -171,6 +177,10 @@
     !default values
     constructor%mnow%condition = 1.0
     constructor%mnow%degradation_rate = 1/(5*365*24*3600)
+    
+    constructor%mnow%temperature = 15.0
+    constructor%mnow%salinity = 36.0
+    
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
@@ -189,14 +199,16 @@
     end if
 
     !filling the rest of the varName list
-    constructor%varName(12) = Globals%Var%density
-    constructor%varName(13) = 'radius'
-    constructor%varName(14) = 'volume'
-    constructor%varName(15) = 'area'
-    constructor%varName(16) = 'condition'
-    constructor%varName(17) = 'degradation_rate'
-    constructor%varName(18) = 'concentration'
-    constructor%varName(19) = 'particulate'
+    constructor%varName(15) = Globals%Var%density
+    constructor%varName(16) = 'radius'
+    constructor%varName(17) = 'volume'
+    constructor%varName(18) = 'area'
+    constructor%varName(19) = 'condition'
+    constructor%varName(20) = 'degradation_rate'
+    constructor%varName(21) = 'concentration'
+    !constructor%varName(19) = 'particulate'
+    constructor%varName(22) = 'temp'
+    constructor%varName(23) = 'salt'
     
     end function constructor
 

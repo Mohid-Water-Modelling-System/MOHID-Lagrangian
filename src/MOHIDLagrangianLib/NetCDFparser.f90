@@ -443,9 +443,9 @@
                 self%status = nf90_get_var(self%ncID, self%varData(i)%varid, tempRealField4D)
                 call self%check()
                 if (.not.bVar) then
-                    if (varName == Globals%Var%temp) then
+                    if ((varName == Globals%Var%temp) .and. (Globals%simdefs%Temperature_add_offset /= 0)) then
                         where (tempRealField4D /= self%varData(i)%fillvalue)
-                            tempRealField4D = tempRealField4D - 273.15
+                            tempRealField4D = tempRealField4D + Globals%simdefs%Temperature_add_offset
                         elsewhere (tempRealField4D == self%varData(i)%fillvalue)
                             tempRealField4D = 0.0
                         end where 

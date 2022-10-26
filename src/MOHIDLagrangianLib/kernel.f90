@@ -41,6 +41,7 @@
     procedure :: initialize => initKernel
     procedure :: run => runKernel
     procedure, private :: setCommonProcesses
+    procedure, private :: interpolate_backgrounds
     procedure, private :: LagrangianKinematic
     procedure, private :: DiffusionMixingLength
     procedure, private :: DiffusionIsotropic
@@ -75,6 +76,8 @@
     !running preparations for kernel lanch
     
     call self%setCommonProcesses(sv, bdata, time)
+    
+    call self%interpolate_backgrounds(sv, bdata, time)
     
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
@@ -137,11 +140,10 @@
     type(string) :: tag
     logical bottom_emmission
     !-----------------------------------------------------------
-    allocate(requiredVars(4))
+    allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%landIntMask
     requiredVars(2) = Globals%Var%resolution
     requiredVars(3) = Globals%Var%bathymetry
-    requiredVars(4) = Globals%Var%dwz
     
     call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
     bottom_emmission = .false.
@@ -149,10 +151,6 @@
     !Set tracers bathymetry
     col_bat_sv = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     sv%state(:,col_bat_sv) = var_dt(:,col_bat)
-    !Set tracers dwz
-    col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
-    col_dwz_sv = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
-    sv%state(:,col_dwz_sv) = var_dt(:,col_dwz)
     
     tag = 'age'
     col_age = Utils%find_str(sv%varName, tag, .true.)
@@ -205,6 +203,50 @@
     deallocate(var_dt)
     
     end subroutine setCommonProcesses
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> interpolates background variables to tracers positions
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    subroutine interpolate_backgrounds(self, sv, bdata, time)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: time
+    integer :: col_temp, col_sal, col_temp_sv, col_sal_sv
+    real(prec), dimension(:,:), allocatable :: var_dt
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
+    !-----------------------------------------------------------
+    allocate(requiredVars(3))
+    requiredVars(1) = Globals%Var%temp
+    requiredVars(2) = Globals%Var%sal
+    requiredVars(3) = Globals%Var%dwz
+    
+    call KernelUtils%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name)
+    !Set tracers dwz
+    col_dwz = Utils%find_str(var_name, Globals%Var%dwz, .true.)
+    col_dwz_sv = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    
+    sv%state(:,col_dwz_sv) = var_dt(:,col_dwz)
+    
+    !Set tracers temperature
+    col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+    col_temp_sv = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
+    sv%state(:,col_temp_sv) = var_dt(:,col_temp)
+    
+    !Set tracers salinity
+    col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
+    col_sal_sv = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
+    
+    sv%state(:,col_sal_sv) = var_dt(:,col_sal)
+    
+    deallocate(var_name)
+    deallocate(var_dt)
+    
+    end subroutine interpolate_backgrounds
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC

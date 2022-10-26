@@ -119,120 +119,73 @@
     type(stateVector_class), intent(in) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: np, nf, bkg, rIdx, rhoIdx, areaIdx, volIdx
+    integer :: rIdx, rhoIdx, areaIdx, volIdx
     integer :: col_temp, col_sal, col_dwz, col_bat
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
     real(prec), dimension(size(sv%state,1)) :: ReynoldsNumber, kViscoRelation
     real(prec), dimension(2) :: maxLevel
-    real(prec) :: P = 1013.
     real(prec) :: landIntThreshold = -0.98
     type(string) :: tag
-    logical :: ViscoDensFields = .false.
     ! Begin -------------------------------------------------------------------------
     Buoyancy = 0.0
-    allocate(requiredVars(2))
-    requiredVars(1) = Globals%Var%temp
-    requiredVars(2) = Globals%Var%sal
     
-    !call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars_2, var_dt_2, var_name_2)
     col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
     col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
                 
     dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
-    !interpolate each background
-    !Compute buoyancy using state equation for temperature and viscosity
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if (bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
-                col_sal = Utils%find_str(var_name, Globals%Var%sal, .true.)
-                
-                fDensity = seaWaterDensity(var_dt(:,col_sal), var_dt(:,col_temp),sv%state(:,3))
-                kVisco = absoluteSeaWaterViscosity(var_dt(:,col_sal), var_dt(:,col_temp))
-                ! Viscosity on boundaries could be 0. Avoid overdumped values on viscosity
-                ! Viscosity relation of 90 % related to mean water density are allowed.
-                kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
-                where(kViscoRelation >= 0.9)
-                    kVisco = Globals%Constants%MeanKvisco
-                    fDensity = Globals%Constants%MeanDensity
-                endwhere
-                ! Read variables
-                tag = 'radius'
-                rIdx = Utils%find_str(sv%varName, tag, .true.)
-                tag = 'density'
-                rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-                tag = 'volume'
-                volIdx = Utils%find_str(sv%varName, tag, .true.)
-                tag = 'area'
-                areaIdx = Utils%find_str(sv%varName, tag, .true.)
-                ! Get the direction of buoyancy ( + to the surface, - to the bottom)
-                signZ = -1.0
-                where(fDensity-sv%state(:,rhoIdx) >= 0)
-                    signZ = 1.0
-                endwhere
-                ! Boundary density values could be 0. This avoid underdumped values on density. 
-                ! Just density relation of 90 % related to mean water density are allowed.
-                densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
-                where (densityRelation >= 0.9)
-                    densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
-                endwhere
-                ! Get drag and shapefactor
-                shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
-                reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx)*2) 
-                cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber)
-                ! Get buoyancy
-                where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
-                    Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
-                endwhere
-                deallocate(var_name)
-                deallocate(var_dt)
-                ViscoDensFields = .true.
-            end if
-        end if
-    end do
+    col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
+    col_sal = Utils%find_str(sv%varname, Globals%Var%sal, .false.)
+    tag = 'radius'
+    rIdx = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'density'
+    rhoIdx = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'volume'
+    volIdx = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'area'
+    areaIdx = Utils%find_str(sv%varName, tag, .true.)
+    signZ = -1.0
     
-    !I there is no salt and temperatue Compute buoyancy using constant density and temp
-    ! and standardad terminal velocity
-    if (.not. ViscoDensFields) then
-
-        ! Check if your domain data has depth level to move in vertical motion.
-        requiredVars(1)=Globals%var%u
-        requiredVars(2)=Globals%var%v
-        do bkg = 1, size(bdata)
-            if (bdata(bkg)%initialized) then
-                if (bdata(bkg)%hasVars(requiredVars)) then
-                    maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-                    if (maxLevel(2) == MV) then
-                        return
-                    end if
-                end if
-            end if
-        end do
-
-        ! interpolate each background
+    if ((col_temp /= MV) .and. (col_sal /= MV)) then
+        
+        fDensity = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
+        kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp))
+        
+        kViscoRelation = abs(1.-(kvisco/Globals%Constants%MeanKvisco))
+        where(kViscoRelation >= 0.9)
+            kVisco = Globals%Constants%MeanKvisco
+            fDensity = Globals%Constants%MeanDensity
+        endwhere
+        
+        ! Get the direction of buoyancy ( + to the surface, - to the bottom)
+        signZ = -1.0
+        where(fDensity-sv%state(:,rhoIdx) >= 0)
+            signZ = 1.0
+        endwhere
+        ! Boundary density values could be 0. This avoid underdumped values on density. 
+        ! Just density relation of 90 % related to mean water density are allowed.
+        densityRelation = abs(1.- (sv%state(:,rhoIdx)/fDensity))
+        where (densityRelation >= 0.9)
+            densityRelation = abs(1.- (sv%state(:,rhoIdx)/Globals%Constants%MeanDensity))
+        endwhere
+        ! Get drag and shapefactor
+        shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
+        reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx)*2) 
+        cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber)
+        ! Get buoyancy
+        where ((reynoldsNumber /=0.) .and. (dist2bottom > landIntThreshold))
+            Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
+        endwhere
+        
+    else
+        !If there is no salt and temperatue Compute buoyancy using constant density and temp
+        ! and standardad terminal velocity
         ! Compute buoyancy using state equation for temperature and viscosity
 
         kVisco = Globals%Constants%MeanKvisco
         fDensity = Globals%Constants%MeanDensity
-        tag = 'radius'
-        rIdx = Utils%find_str(sv%varName, tag, .true.)
-        tag = 'density'
-        rhoIdx = Utils%find_str(sv%varName, tag, .true.)
-        tag = 'volume'
-        volIdx = Utils%find_str(sv%varName, tag, .true.)
-        tag = 'area'
-        areaIdx = Utils%find_str(sv%varName, tag, .true.)
+        
         signZ = -1.0
         where(fDensity-sv%state(:,rhoIdx) >= 0)
             signZ = 1.0
@@ -244,7 +197,6 @@
         ! Get drag and shapefactor
         shapeFactor = self%SphericalShapeFactor(sv%state(:,areaIdx),sv%state(:,volIdx))
         reynoldsNumber = self%Reynolds(sv%state(:,6), kvisco, sv%state(:,rIdx))
-        !reynoldsNumber = self%Reynolds(sv%state(:,3), kvisco, sv%state(:,rIdx)) 
         cd = self%dragCoefficient(shapeFactor, sv%state(:,rIdx), reynoldsNumber) 
         ! Get buoyancy
         where ((reynoldsNumber /=0.) .and. (dist2bottom < landIntThreshold))
@@ -399,11 +351,11 @@
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
     integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd
     real(prec) :: landIntThreshold
-    real(prec), dimension(:,:), allocatable :: var_dt, varVert_dt
+    real(prec), dimension(:,:), allocatable :: var_dt
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, water_density, tension
     real(prec), dimension(size(sv%state,1)) :: dist2bottom, z0
-    type(string), dimension(:), allocatable :: var_name, var_name_vert
-    type(string), dimension(:), allocatable :: requiredVars, requiredVerticalVars
+    type(string), dimension(:), allocatable :: var_name
+    type(string), dimension(:), allocatable :: requiredVars
     real(prec) :: P = 1013.
     real(prec) :: EP = 1/3
     real(prec) :: waterKinematicVisc = 1e-6
@@ -424,18 +376,16 @@
     grainroughnessfactor = 2.5
     
     if (Globals%Constants%ResuspensionCoeff > 0.0) then
-        allocate(requiredVars(3))
+        allocate(requiredVars(4))
         requiredVars(1) = Globals%Var%hs
         requiredVars(2) = Globals%Var%ts
         requiredVars(3) = Globals%Var%wd
-        allocate(requiredVerticalVars(2))
-        requiredVerticalVars(1) = Globals%Var%temp
-        requiredVerticalVars(2) = Globals%Var%sal
+        requiredVars(4) = Globals%Var%temp
         
         call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
-        call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVerticalVars, varVert_dt, var_name_vert, reqVertInt = .true.)
-        col_temp = Utils%find_str(var_name_vert, Globals%Var%temp, .true.)
-        col_sal = Utils%find_str(var_name_vert, Globals%Var%sal, .true.)
+        
+        col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        col_sal = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
         col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
         col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
         col_hs = Utils%find_str(var_name, Globals%Var%hs, .false.)
@@ -447,7 +397,8 @@
         Tension = 0
         water_density = 0
         dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
-        where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),sv%state(:,3))
+        where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
+        !where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),sv%state(:,3))
         if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
             !Found wave fields to use
             do i=1, size(sv%state,1)
@@ -623,9 +574,7 @@
             Resuspension(:,3) = 0.5/dt
         end where
         deallocate(var_name)
-        deallocate(var_name_vert)
         deallocate(var_dt)
-        deallocate(varVert_dt)
     end if
     end function Resuspension
     
@@ -695,9 +644,7 @@
     !---------------------------------------------------------------------------
     function seaWaterDensity(S, T, P)
     real(prec), dimension(:),intent(in) :: S,T,P
-    !real(prec),intent(in) :: P !Input is meters
-    !real(prec) :: Pbar
-    real(prec),dimension(size(S)) :: seaWaterDensity, Pbar
+    real(prec),dimension(size(S)) :: seaWaterDensity, Pbar! Pbar enters as meters
     !Compute density of seawater from salinity, temperature, and pressure
     !Usage: dens(S, T, [P])
     !Input:
@@ -712,9 +659,9 @@
     Pbar = -0.1*P !# Convert to bar
     seaWaterDensity= seawaterDensityZeroPressure(S,T)/(1 - Pbar/secantBulkModulus(S,T,Pbar))
     
-    where (seaWaterDensity /= seaWaterDensity)
-        seaWaterDensity = Globals%Constants%MeanDensity
-    end where
+    !where (seaWaterDensity /= seaWaterDensity)
+    !    seaWaterDensity = Globals%Constants%MeanDensity
+    !end where
     end function seaWaterDensity
 
     !---------------------------------------------------------------------------
@@ -737,9 +684,9 @@
     mu_R =	1 + A*S + B*S*S
 
     absoluteSeaWaterViscosity  = mu_w*mu_R*0.001
-    where (absoluteSeaWaterViscosity /= absoluteSeaWaterViscosity)
-        absoluteSeaWaterViscosity = Globals%Constants%MeanKvisco
-    end where
+    !where (absoluteSeaWaterViscosity /= absoluteSeaWaterViscosity)
+    !    absoluteSeaWaterViscosity = Globals%Constants%MeanKvisco
+    !end where
     end function absoluteSeaWaterViscosity
 
     !---------------------------------------------------------------------------

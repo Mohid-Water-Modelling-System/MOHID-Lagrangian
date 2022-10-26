@@ -81,6 +81,7 @@
         integer         :: RemoveLandTracer !< Vertical velocity method
         integer         :: bathyminNetcdf !< bathymetry is a property inside the netcdf
         real            :: tracerMaxAge !< removes tracers with age greater than maxTracerAge
+        real            :: Temperature_add_offset !< adds offset to temperature from netcdf
     contains
     procedure :: setdp
     procedure :: setdt
@@ -91,6 +92,7 @@
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
     procedure :: settracerMaxAge
+    procedure :: setTemperature_add_offset
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -376,6 +378,7 @@
     self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
     self%SimDefs%tracerMaxAge = 0
+    self%SimDefs%Temperature_add_offset = 0
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
@@ -1765,7 +1768,23 @@
     call SimMemory%adddef(sizem)
     end subroutine settracerMaxAge
 
-
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Set Temperature_add_offset
+    !> @param[in] self, read_Temperature_add_offset
+    !---------------------------------------------------------------------------
+    subroutine setTemperature_add_offset(self, read_Temperature_add_offset)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_Temperature_add_offset
+    type(string) :: outext
+    integer :: sizem
+    self%Temperature_add_offset=read_Temperature_add_offset%to_number(kind=1._R8P)
+    
+    sizem = sizeof(self%Temperature_add_offset)
+    call SimMemory%adddef(sizem)
+    end subroutine setTemperature_add_offset
+    
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
@@ -1822,11 +1841,13 @@
     temp_str(1)=self%VerticalVelMethod
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
-    outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
+    outext = outext//'       RemoveLandTracer = '//temp_str(1)//new_line('a')
     temp_str(1)=self%bathyminNetcdf
-    outext = outext//'       bathyminNetcdf = '//temp_str(1)//''
+    outext = outext//'       bathyminNetcdf = '//temp_str(1)//new_line('a')
     temp_str(1)=self%tracerMaxAge
-    outext = outext//'       tracerMaxAge = '//temp_str(1)//''
+    outext = outext//'       tracerMaxAge = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%Temperature_add_offset
+    outext = outext//'       Temperature_add_offset = '//temp_str(1)//""
     call Log%put(outext,.false.)
     end subroutine printsimdefs
 

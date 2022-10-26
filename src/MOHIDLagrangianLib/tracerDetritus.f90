@@ -38,7 +38,9 @@
         real(prec) :: volume                        !< Tracer volume (m3)
         real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
-        real(prec) :: initial_volume             !< initial volume of tracer
+        real(prec) :: initial_volume                !< initial volume of tracer
+        real(prec) :: temperature                   !< temperature of the tracer
+        real(prec) :: salinity                      !< salinity of the tracer
     end type detritus_state_class
 
     type, extends(tracer_class) :: detritus_class    !<Type - The detritus material Lagrangian tracer class
@@ -69,7 +71,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(detritus_class), intent(in) :: self
-    getNumVars = 20
+    getNumVars = 22
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -101,6 +103,8 @@
     getStateArray(18) = self%mnow%area
     getStateArray(19) = self%mnow%condition
     getStateArray(20) = self%mnow%initial_volume
+    getStateArray(21) = self%mnow%temperature
+    getStateArray(22) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -132,6 +136,8 @@
     self%mnow%area = StateArray(18)
     self%mnow%condition = StateArray(19)
     self%mnow%initial_volume = StateArray(20)
+    self%mnow%temperature = StateArray(21)
+    self%mnow%salinity = StateArray(22)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -168,6 +174,9 @@
     !default values
     constructor%mnow%condition = 1.0
     !constructor%mnow%degradation_rate = 1/(100*365*24*3600)
+    constructor%mnow%temperature = 15.0
+    constructor%mnow%salinity = 36.0
+    
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
@@ -188,6 +197,8 @@
     constructor%varName(19) = 'condition'
     !constructor%varName(20) = 'particulate'
     constructor%varName(20) = 'initial_volume'
+    constructor%varName(21) = 'temp'
+    constructor%varName(22) = 'salt'
     end function constructor
 
     end module tracerdetritus_mod

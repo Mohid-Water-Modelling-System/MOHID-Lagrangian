@@ -540,6 +540,13 @@
         call Globals%SimDefs%settracerMaxAge(att_val)
     endif
     
+    tag="Temperature_add_offset"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setTemperature_add_offset(att_val)
+    endif
+    
     call Globals%SimDefs%print()
     
     end subroutine init_simdefs
