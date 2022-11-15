@@ -287,6 +287,7 @@
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
         real(prec), allocatable, dimension(:) :: bottom_emission_depth
+        real(prec), allocatable, dimension(:) :: biofouling_rate
     contains    
     end type sources_t
 
@@ -1554,7 +1555,7 @@
         outext='MaxDegradationRate must be positive, assuming default value'
         call Log%put(outext)
     else
-        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400
+        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400.0
     endif
     sizem = sizeof(self%MaxDegradationRate)
     call SimMemory%adddef(sizem)

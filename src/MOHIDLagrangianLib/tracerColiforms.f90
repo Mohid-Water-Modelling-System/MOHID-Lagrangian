@@ -77,7 +77,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(coliform_class), intent(in) :: self
-    getNumVars = 28
+    getNumVars = 29
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -103,20 +103,21 @@
     getStateArray(12) = self%mpar%particulate
     getStateArray(13) = self%now%bathymetry
     getStateArray(14) = self%now%dwz
-    getStateArray(15) = self%mnow%density
-    getStateArray(16) = self%mnow%radius
-    getStateArray(17) = self%mnow%volume
-    getStateArray(18) = self%mnow%area
-    getStateArray(19) = self%mnow%condition
-    getStateArray(20) = self%mnow%T90
-    getStateArray(21) = self%mnow%T90_variable
-    getStateArray(22) = self%mnow%T90_method
-    getStateArray(23) = self%mnow%sw_percentage
-    getStateArray(24) = self%mnow%sw_extinction_coef
-    getStateArray(25) = self%mnow%concentration
-    getStateArray(26) = self%mnow%initial_volume
-    getStateArray(27) = self%mnow%temperature
-    getStateArray(28) = self%mnow%salinity
+    getStateArray(15) = self%now%dist2bottom
+    getStateArray(16) = self%mnow%density
+    getStateArray(17) = self%mnow%radius
+    getStateArray(18) = self%mnow%volume
+    getStateArray(19) = self%mnow%area
+    getStateArray(20) = self%mnow%condition
+    getStateArray(21) = self%mnow%T90
+    getStateArray(22) = self%mnow%T90_variable
+    getStateArray(23) = self%mnow%T90_method
+    getStateArray(24) = self%mnow%sw_percentage
+    getStateArray(25) = self%mnow%sw_extinction_coef
+    getStateArray(26) = self%mnow%concentration
+    getStateArray(27) = self%mnow%initial_volume
+    getStateArray(28) = self%mnow%temperature
+    getStateArray(29) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -142,23 +143,22 @@
     self%mpar%particulate = StateArray(12)
     self%now%bathymetry   = StateArray(13)
     self%now%dwz          = StateArray(14)
-    self%mnow%density = StateArray(15)
-    self%mnow%radius = StateArray(16)
-    self%mnow%volume = StateArray(17)
-    self%mnow%area = StateArray(18)
-    self%mnow%condition = StateArray(19)
-    self%mnow%T90        = StateArray(20)
-    self%mnow%T90_variable  = StateArray(21)
-    self%mnow%T90_method    = StateArray(22)
-    self%mnow%sw_percentage = StateArray(23)
-    self%mnow%sw_extinction_coef = StateArray(24)
-    self%mnow%concentration = StateArray(25)
-    self%mnow%initial_volume = StateArray(26)
+    self%now%dist2bottom = StateArray(15)
+    self%mnow%density = StateArray(16)
+    self%mnow%radius = StateArray(17)
+    self%mnow%volume = StateArray(18)
+    self%mnow%area = StateArray(19)
+    self%mnow%condition = StateArray(20)
+    self%mnow%T90        = StateArray(21)
+    self%mnow%T90_variable  = StateArray(22)
+    self%mnow%T90_method    = StateArray(23)
+    self%mnow%sw_percentage = StateArray(24)
+    self%mnow%sw_extinction_coef = StateArray(25)
+    self%mnow%concentration = StateArray(26)
+    self%mnow%initial_volume = StateArray(27)
     !self%mpar%particulate = StateArray(24)
-    self%now%bathymetry   = StateArray(27)
-    self%now%dwz   = StateArray(28)
-    self%mnow%temperature = StateArray(27)
-    self%mnow%salinity = StateArray(28)
+    self%mnow%temperature = StateArray(28)
+    self%mnow%salinity = StateArray(29)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -255,21 +255,21 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(15) = Globals%Var%density
-    constructor%varName(16) = 'radius'
-    constructor%varName(17) = 'volume'
-    constructor%varName(18) = 'area'
-    constructor%varName(19) = 'condition'
-    constructor%varName(20) = 'T90'
-    constructor%varName(21) = 'T90_variable'
-    constructor%varName(22) = 'T90_method'
-    constructor%varName(23) = 'sw_percentage'
-    constructor%varName(24) = 'sw_extinction_coef'
-    constructor%varName(25) = 'concentration'
-    constructor%varName(26) = 'initial_volume'
+    constructor%varName(16) = Globals%Var%density
+    constructor%varName(17) = 'radius'
+    constructor%varName(18) = 'volume'
+    constructor%varName(19) = 'area'
+    constructor%varName(20) = 'condition'
+    constructor%varName(21) = 'T90'
+    constructor%varName(22) = 'T90_variable'
+    constructor%varName(23) = 'T90_method'
+    constructor%varName(24) = 'sw_percentage'
+    constructor%varName(25) = 'sw_extinction_coef'
+    constructor%varName(26) = 'concentration'
+    constructor%varName(27) = 'initial_volume'
     !constructor%varName(27) = 'particulate'
-    constructor%varName(27) = 'temp'
-    constructor%varName(28) = 'salt'
+    constructor%varName(28) = 'temp'
+    constructor%varName(29) = 'salt'
     
     end function constructor
 

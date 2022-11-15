@@ -58,10 +58,8 @@
     real(prec) :: ToptBMin, ToptBMax, TBacteriaMin, TBacteriaMax, BK1, BK2, BK3, BK4, MaxDegradationRate
     real(prec) :: max_age, threshold_bot_wat
     real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature, dist2bottom
-    type(string), dimension(:), allocatable :: requiredHorVars
-    integer :: volume_col, radius_col, col_tempvert, col_dwz, col_bat, initvol_col, density_col, age_col
-    real(prec), dimension(:,:), allocatable :: var_dt_hor
-    type(string), dimension(:), allocatable :: var_name_hor
+    integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col
+    !integer :: volume_col, radius_col, col_temp, col_dwz, col_bat, initvol_col, density_col, age_col
     real(prec):: compute_rate = 7200
     type(string) :: tag
     !Begin------------------------------------------------------------------------
@@ -76,6 +74,8 @@
     initvol_col = Utils%find_str(sv%varName, tag, .true.)
     tag = 'age'
     age_col = Utils%find_str(sv%varName, tag, .true.)
+    !tag = 'dist2bottom'
+    !col_dist2bottom = Utils%find_str(sv%varName, tag, .true.) 
     
     !Compute only when time of the oldest particle is a multiple of 7200s, to reduce simulation time
     max_age = maxval(sv%state(:,age_col))
@@ -92,23 +92,14 @@
         MaxDegradationRate = Globals%Constants%MaxDegradationRate
         landIntThreshold = -0.98
         
-        allocate(requiredHorVars(1))
-        requiredHorVars(1) = Globals%Var%temp
+        col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
+        !col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+        !col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
         
-        call KernelUtils_detritus%getInterpolatedFields(sv, bdata, time, requiredHorVars, var_dt_hor, var_name_hor, reqVertInt = .false.)  
-        col_tempvert = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
-        col_temphor = Utils%find_str(var_name_hor, Globals%Var%temp, .true.)
-        col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
-        col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
-        
-        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+        !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+        !dist2bottom = sv%state(:,col_dist2bottom)
         threshold_bot_wat = (Globals%Mask%waterVal + Globals%Mask%bedVal) * 0.5
-        
-        where (dist2bottom < threshold_bot_wat)
-            temperature = var_dt_hor(:,col_temphor)
-        elsewhere
-            temperature = sv%state(:,col_tempvert)
-        endwhere
+        temperature = sv%state(:,col_temp)
         
         mass = sv%state(:,density_col) * sv%state(:,volume_col)
         init_mass = sv%state(:,density_col) * sv%state(:,initvol_col)
@@ -133,10 +124,6 @@
         volume_new = max(mass / sv%state(:,density_col), 0.0)
     
         Degradation(:,volume_col) = - (sv%state(:,volume_col) - volume_new) / dt
-        !deallocate(var_name)
-        !deallocate(var_dt)
-        deallocate(var_name_hor)
-        deallocate(var_dt_hor)
         
         !matar Detritus com menos de 100 UFC/100ml
         !where(sv%state(:,volume_col) < 0.02*sv%state(:,initvol_col)) sv%active = .false.

@@ -38,8 +38,9 @@
         real(prec) :: volume                        !< Tracer volume (m3)
         real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
-        !real(prec) :: degradation_rate              !< degradation rate of the material
-        real(prec) :: concentration                 !< Particle concentration
+        real(prec) :: initial_volume                !< initial volume of tracer
+        real(prec) :: temperature                   !< temperature of the tracer
+        real(prec) :: salinity                      !< salinity of the tracer
     end type seed_state_class
 
     type, extends(tracer_class) :: seed_class    !<Type - The seed material Lagrangian tracer class
@@ -70,7 +71,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(seed_class), intent(in) :: self
-    getNumVars = 20
+    getNumVars = 23
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -93,15 +94,18 @@
     getStateArray(9) = self%now%diffusionVel%z
     getStateArray(10) = self%now%usedMixingLenght
     getStateArray(11) = self%now%age
-    getStateArray(12) = self%mnow%density
-    getStateArray(13) = self%mnow%radius
-    getStateArray(14) = self%mnow%volume
-    getStateArray(15) = self%mnow%area
-    getStateArray(16) = self%mnow%condition
-    getStateArray(17) = self%mnow%concentration
-    getStateArray(18) = self%mpar%particulate
-    getStateArray(19) = self%now%bathymetry
-    getStateArray(20) = self%now%dwz
+    getStateArray(12) = self%mpar%particulate
+    getStateArray(13) = self%now%bathymetry
+    getStateArray(14) = self%now%dwz
+    getStateArray(15) = self%now%dist2bottom
+    getStateArray(16) = self%mnow%density
+    getStateArray(17) = self%mnow%radius
+    getStateArray(18) = self%mnow%volume
+    getStateArray(19) = self%mnow%area
+    getStateArray(20) = self%mnow%condition
+    getStateArray(21) = self%mnow%initial_volume
+    getStateArray(22) = self%mnow%temperature
+    getStateArray(23) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -123,16 +127,19 @@
     self%now%diffusionVel%z = StateArray(8)
     self%now%diffusionVel%z = StateArray(9)
     self%now%usedMixingLenght = StateArray(10)
-    self%now%age   = StateArray(11)
-    self%mnow%density = StateArray(12)
-    self%mnow%radius = StateArray(13)
-    self%mnow%volume = StateArray(14)
-    self%mnow%area = StateArray(15)
-    self%mnow%condition = StateArray(16)
-    self%mnow%concentration = StateArray(17)
-    self%mpar%particulate = StateArray(18)
-    self%now%bathymetry   = StateArray(19)
-    self%now%dwz   = StateArray(20)
+    self%now%age          = StateArray(11)
+    self%mpar%particulate = StateArray(12)
+    self%now%bathymetry   = StateArray(13)
+    self%now%dwz          = StateArray(14)
+    self%now%dist2bottom = StateArray(15)
+    self%mnow%density = StateArray(16)
+    self%mnow%radius = StateArray(17)
+    self%mnow%volume = StateArray(18)
+    self%mnow%area = StateArray(19)
+    self%mnow%condition = StateArray(20)
+    self%mnow%initial_volume = StateArray(21)
+    self%mnow%temperature = StateArray(22)
+    self%mnow%salinity = StateArray(23)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -165,8 +172,11 @@
     constructor%mnow%radius = src%prop%radius
     constructor%mnow%volume = src%prop%volume
     constructor%mnow%area = src%prop%area
+    constructor%mnow%initial_volume = src%prop%volume
     !default values
     constructor%mnow%condition = 1.0
+    constructor%mnow%temperature = 15.0
+    constructor%mnow%salinity = 36.0
     !constructor%mnow%degradation_rate = 1/(100*365*24*3600)
     !try to find value from material types files
     tag = 'condition'
@@ -186,13 +196,15 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(12) = Globals%Var%density
-    constructor%varName(13) = 'radius'
-    constructor%varName(14) = 'volume'
-    constructor%varName(15) = 'area'
-    constructor%varName(16) = 'condition'
-    constructor%varName(17) = 'concentration'
-    constructor%varName(18) = 'particulate'
+    constructor%varName(16) = Globals%Var%density
+    constructor%varName(17) = 'radius'
+    constructor%varName(18) = 'volume'
+    constructor%varName(19) = 'area'
+    constructor%varName(20) = 'condition'
+    !constructor%varName(20) = 'particulate'
+    constructor%varName(21) = 'initial_volume'
+    constructor%varName(22) = 'temp'
+    constructor%varName(23) = 'salt'
     end function constructor
 
     end module tracerseed_mod

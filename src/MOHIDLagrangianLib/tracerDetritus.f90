@@ -71,7 +71,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(detritus_class), intent(in) :: self
-    getNumVars = 22
+    getNumVars = 23
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -97,14 +97,15 @@
     getStateArray(12) = self%mpar%particulate
     getStateArray(13) = self%now%bathymetry
     getStateArray(14) = self%now%dwz
-    getStateArray(15) = self%mnow%density
-    getStateArray(16) = self%mnow%radius
-    getStateArray(17) = self%mnow%volume
-    getStateArray(18) = self%mnow%area
-    getStateArray(19) = self%mnow%condition
-    getStateArray(20) = self%mnow%initial_volume
-    getStateArray(21) = self%mnow%temperature
-    getStateArray(22) = self%mnow%salinity
+    getStateArray(15) = self%now%dist2bottom
+    getStateArray(16) = self%mnow%density
+    getStateArray(17) = self%mnow%radius
+    getStateArray(18) = self%mnow%volume
+    getStateArray(19) = self%mnow%area
+    getStateArray(20) = self%mnow%condition
+    getStateArray(21) = self%mnow%initial_volume
+    getStateArray(22) = self%mnow%temperature
+    getStateArray(23) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -130,14 +131,15 @@
     self%mpar%particulate = StateArray(12)
     self%now%bathymetry   = StateArray(13)
     self%now%dwz          = StateArray(14)
-    self%mnow%density = StateArray(15)
-    self%mnow%radius = StateArray(16)
-    self%mnow%volume = StateArray(17)
-    self%mnow%area = StateArray(18)
-    self%mnow%condition = StateArray(19)
-    self%mnow%initial_volume = StateArray(20)
-    self%mnow%temperature = StateArray(21)
-    self%mnow%salinity = StateArray(22)
+    self%now%dist2bottom = StateArray(15)
+    self%mnow%density = StateArray(16)
+    self%mnow%radius = StateArray(17)
+    self%mnow%volume = StateArray(18)
+    self%mnow%area = StateArray(19)
+    self%mnow%condition = StateArray(20)
+    self%mnow%initial_volume = StateArray(21)
+    self%mnow%temperature = StateArray(22)
+    self%mnow%salinity = StateArray(23)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -190,15 +192,15 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(15) = Globals%Var%density
-    constructor%varName(16) = 'radius'
-    constructor%varName(17) = 'volume'
-    constructor%varName(18) = 'area'
-    constructor%varName(19) = 'condition'
+    constructor%varName(16) = Globals%Var%density
+    constructor%varName(17) = 'radius'
+    constructor%varName(18) = 'volume'
+    constructor%varName(19) = 'area'
+    constructor%varName(20) = 'condition'
     !constructor%varName(20) = 'particulate'
-    constructor%varName(20) = 'initial_volume'
-    constructor%varName(21) = 'temp'
-    constructor%varName(22) = 'salt'
+    constructor%varName(21) = 'initial_volume'
+    constructor%varName(22) = 'temp'
+    constructor%varName(23) = 'salt'
     end function constructor
 
     end module tracerdetritus_mod

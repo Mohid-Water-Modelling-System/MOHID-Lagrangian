@@ -72,7 +72,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(plastic_class), intent(in) :: self
-    getNumVars = 23
+    getNumVars = 24
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -98,15 +98,16 @@
     getStateArray(12) = self%mpar%particulate
     getStateArray(13) = self%now%bathymetry
     getStateArray(14) = self%now%dwz
-    getStateArray(15) = self%mnow%density
-    getStateArray(16) = self%mnow%radius
-    getStateArray(17) = self%mnow%volume
-    getStateArray(18) = self%mnow%area
-    getStateArray(19) = self%mnow%condition
-    getStateArray(20) = self%mnow%degradation_rate
-    getStateArray(21) = self%mnow%concentration
-    getStateArray(22) = self%mnow%temperature
-    getStateArray(23) = self%mnow%salinity
+    getStateArray(15) = self%now%dist2bottom
+    getStateArray(16) = self%mnow%density
+    getStateArray(17) = self%mnow%radius
+    getStateArray(18) = self%mnow%volume
+    getStateArray(19) = self%mnow%area
+    getStateArray(20) = self%mnow%condition
+    getStateArray(21) = self%mnow%degradation_rate
+    getStateArray(22) = self%mnow%concentration
+    getStateArray(23) = self%mnow%temperature
+    getStateArray(24) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -132,15 +133,16 @@
     self%mpar%particulate = StateArray(12)
     self%now%bathymetry   = StateArray(13)
     self%now%dwz          = StateArray(14)
-    self%mnow%density = StateArray(15)
-    self%mnow%radius = StateArray(16)
-    self%mnow%volume = StateArray(17)
-    self%mnow%area = StateArray(18)
-    self%mnow%condition = StateArray(19)
-    self%mnow%degradation_rate = StateArray(20)
-    self%mnow%concentration = StateArray(21)
-    self%mnow%temperature = StateArray(22)
-    self%mnow%salinity = StateArray(23)
+    self%now%dist2bottom = StateArray(15)
+    self%mnow%density = StateArray(16)
+    self%mnow%radius = StateArray(17)
+    self%mnow%volume = StateArray(18)
+    self%mnow%area = StateArray(19)
+    self%mnow%condition = StateArray(20)
+    self%mnow%degradation_rate = StateArray(21)
+    self%mnow%concentration = StateArray(22)
+    self%mnow%temperature = StateArray(23)
+    self%mnow%salinity = StateArray(24)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -198,16 +200,16 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(15) = Globals%Var%density
-    constructor%varName(16) = 'radius'
-    constructor%varName(17) = 'volume'
-    constructor%varName(18) = 'area'
-    constructor%varName(19) = 'condition'
-    constructor%varName(20) = 'degradation_rate'
-    constructor%varName(21) = 'concentration'
+    constructor%varName(16) = Globals%Var%density
+    constructor%varName(17) = 'radius'
+    constructor%varName(18) = 'volume'
+    constructor%varName(19) = 'area'
+    constructor%varName(20) = 'condition'
+    constructor%varName(21) = 'degradation_rate'
+    constructor%varName(22) = 'concentration'
     !constructor%varName(19) = 'particulate'
-    constructor%varName(22) = 'temp'
-    constructor%varName(23) = 'salt'
+    constructor%varName(23) = 'temp'
+    constructor%varName(24) = 'salt'
     end function constructor
 
     end module tracerPlastic_mod

@@ -42,6 +42,7 @@
         type(string) :: source_geometry         !< Source type : 'point', 'line', 'sphere', 'box'
         class(shape), allocatable :: geometry   !< Source geometry
         real(prec) :: bottom_emission_depth     !< emission of tracers at the bottom
+        real(prec) :: biofouling_rate           !< biofouling growth rate
     end type source_par
 
     type :: source_prop                         !<Type - material properties of a source object
@@ -491,9 +492,9 @@
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> source inititialization proceadure - initializes Source variables
-    !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, emitting_type, activeTimes, source_geometry, shapetype, res
+    !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, emitting_type, activeTimes, source_geometry, shapetype, res
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, activeTimes, source_geometry, shapetype, res)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, activeTimes, source_geometry, shapetype, res)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
@@ -503,6 +504,7 @@
     real(prec), intent(in) :: rateScale
     logical, intent(in) :: posi_fixed
     real(prec), intent(in) :: bottom_emission_depth
+    real(prec), intent(in) :: biofouling_rate
     type(string), intent(in) :: posi_file
     real(prec), dimension(:,:), intent(in) :: activeTimes
     type(string), intent(in) :: source_geometry
@@ -518,6 +520,7 @@
     src%par%emitting_fixed_rate = emitting_fixed_rate
     src%par%rate_file = rate_file
     src%par%bottom_emission_depth = bottom_emission_depth
+    src%par%biofouling_rate = biofouling_rate
     if (.not.emitting_fixed_rate) then
         call src%getVariableRate(src%par%rate_file, rateScale)
         src%par%emitting_rate=sum(src%par%variable_rate)/size(src%par%variable_rate)

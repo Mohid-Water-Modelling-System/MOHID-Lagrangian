@@ -42,6 +42,7 @@
     procedure :: run => runKernel
     procedure, private :: setCommonProcesses
     procedure, private :: interpolate_backgrounds
+    procedure, private :: distance2bottom
     procedure, private :: LagrangianKinematic
     procedure, private :: DiffusionMixingLength
     procedure, private :: DiffusionIsotropic
@@ -74,11 +75,10 @@
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: runKernel
     !running preparations for kernel lanch
-    
     call self%setCommonProcesses(sv, bdata, time)
-    
     call self%interpolate_backgrounds(sv, bdata, time)
-    
+    !Computes distance to bottom for all tracers
+    call self%distance2bottom(sv)
     !running kernels for each type of tracer
     if (sv%ttype == Globals%Types%base) then
         
@@ -95,7 +95,7 @@
     else if (sv%ttype == Globals%Types%plastic) then
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%Windage(sv, bdata, time) + self%DiffusionMixingLength(sv, bdata, time, dt) + &
-                    self%Aging(sv) + Litter%DegradationLinear(sv) + VerticalMotion%Buoyancy(sv, bdata, time) + &
+                    self%Aging(sv) + Litter%DegradationLinear(sv) + Litter%BioFouling(sv, dt) + VerticalMotion%Buoyancy(sv, bdata, time) + &
                     VerticalMotion%Resuspension(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
     else if (sv%ttype == Globals%Types%coliform) then
@@ -115,7 +115,7 @@
                     detritus%Degradation(sv, bdata, time, dt)
         runKernel = self%Beaching(sv, runKernel)
     end if
-    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, time, dt)
+    runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, dt)
     
     end function runKernel
 
@@ -201,7 +201,6 @@
     sv%resolution = var_dt(:,col_res)
     deallocate(var_name)
     deallocate(var_dt)
-    
     end subroutine setCommonProcesses
     
     !---------------------------------------------------------------------------
@@ -247,6 +246,28 @@
     deallocate(var_dt)
     
     end subroutine interpolate_backgrounds
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @brief
+    !> computes distance to bottom for all tracers
+    !> @param[in] self, sv, bdata, time
+    !---------------------------------------------------------------------------
+    subroutine distance2bottom(self, sv)
+    class(kernel_class), intent(inout) :: self
+    type(stateVector_class), intent(inout) :: sv
+    integer :: col_dwz, col_bat, col_dist2bottom
+    type(string) :: tag
+    !-----------------------------------------------------------
+    !Set tracers dwz
+    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    
+    sv%state(:,col_dist2bottom) = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+    
+    end subroutine distance2bottom
 
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
@@ -260,7 +281,8 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
+    integer :: nf, i, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom
+    !integer :: nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
     type(string), dimension(:), allocatable :: requiredVars, requiredHorVars
@@ -272,6 +294,9 @@
     real(prec) :: threshold_bot_wat, landIntThreshold
     type(string) :: tag
     !-------------------------------------------------------------------------------------
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+    
     allocate(requiredVars(3))
     requiredVars(1) = Globals%Var%u
     requiredVars(2) = Globals%Var%v
@@ -291,7 +316,7 @@
     col_v = Utils%find_str(var_name_hor, Globals%Var%v, .true.)
     col_w = Utils%find_str(var_name_hor, Globals%Var%w, .false.)
     !col_ssh = Utils%find_str(var_name_hor, Globals%Var%ssh, .false.)
-    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    !col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
     col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
     nf_u = Utils%find_str(var_name, Globals%Var%u, .true.)
     nf_v = Utils%find_str(var_name, Globals%Var%v, .true.)
@@ -308,10 +333,9 @@
     !end if
     
     !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
-    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+    !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+    dist2bottom = sv%state(:,col_dist2bottom)
     
-    !Need to do this double check because landIntMask does not work properly when tracers are near a bottom wall
-    !(interpolation gives over 1 but should still be bottom)
     where (dist2bottom < threshold_bot_wat)
         aux_r8 = max((sv%state(:,col_dwz)/2),Hmin_Chezy) / Globals%Constants%Rugosity
         chezyZ = (VonKarman / dlog(aux_r8))**2
@@ -547,7 +571,8 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
-    integer :: np, part_idx, col_dwz, col_bat
+    integer :: np, part_idx, col_dist2bottom
+    !integer :: np, part_idx, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1)) :: dist2bottom
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
@@ -557,6 +582,8 @@
     landIntThreshold = -0.98
     tag = 'particulate'
     part_idx = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
     
     DiffusionMixingLength = 0.0
     if (Globals%Constants%DiffusionCoeff == 0.0) return
@@ -591,11 +618,11 @@
                 
     !Deposited particles should not move
     if (any(sv%state(:,part_idx) == 1)) then
-        col_dwz = Utils%find_str(sv%varname, Globals%Var%dwz, .true.)
-        col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry, .true.)
+        !col_dwz = Utils%find_str(sv%varname, Globals%Var%dwz, .true.)
+        !col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry, .true.)
         !(Depth - Bathymetry)/(Bathymetry - (bathymetry - dwz) - dwz is a positive number and the rest are negative
-        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
-                    
+        !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+        dist2bottom = sv%state(:,col_dist2bottom)
         !if a single particle is particulate, check if they are at the bottom and don't move them if true.
         where ((dist2bottom < landIntThreshold) .and. (sv%state(:,part_idx) == 1))
             !update system positions

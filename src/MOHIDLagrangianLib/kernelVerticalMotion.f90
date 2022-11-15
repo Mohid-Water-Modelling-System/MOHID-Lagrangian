@@ -120,7 +120,8 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
     integer :: rIdx, rhoIdx, areaIdx, volIdx
-    integer :: col_temp, col_sal, col_dwz, col_bat
+    integer :: col_temp, col_sal, col_dist2bottom
+    !integer :: col_temp, col_sal, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Buoyancy
     real(prec), dimension(size(sv%state,1)) :: fDensity, kVisco, dist2bottom
     real(prec), dimension(size(sv%state,1)) :: signZ, shapeFactor, densityRelation, cd,Re
@@ -130,11 +131,14 @@
     type(string) :: tag
     ! Begin -------------------------------------------------------------------------
     Buoyancy = 0.0
-    
-    col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
-    col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+
+    !col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
+    !col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
                 
-    dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+    !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+    dist2bottom = sv%state(:,col_dist2bottom)
     col_temp = Utils%find_str(sv%varname, Globals%Var%temp, .false.)
     col_sal = Utils%find_str(sv%varname, Globals%Var%sal, .false.)
     tag = 'radius'
@@ -147,7 +151,7 @@
     areaIdx = Utils%find_str(sv%varName, tag, .true.)
     signZ = -1.0
     
-    if ((col_temp /= MV) .and. (col_sal /= MV)) then
+    if ((col_temp /= MV_INT) .and. (col_sal /= MV_INT)) then
         
         fDensity = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
         kVisco = absoluteSeaWaterViscosity(sv%state(:,col_sal), sv%state(:,col_temp))
@@ -203,7 +207,6 @@
             Buoyancy(:,3) = signZ*sqrt((-2.*Globals%Constants%Gravity%z) * (shapeFactor/cd) * densityRelation)
         end where
     end if
-    
     end function Buoyancy
 
 
@@ -292,49 +295,28 @@
     !> Corrects vertical position of the tracers according to data limits
     !> @param[in] self, sv, bdata, time
     !---------------------------------------------------------------------------
-    function CorrectVerticalBounds(self, sv, svDt, bdata, time, dt)
+    function CorrectVerticalBounds(self, sv, svDt, bdata, dt)
     class(kernelVerticalMotion_class), intent(inout) :: self
     type(stateVector_class), intent(in) :: sv
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: svDt
     type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    real(prec), intent(in) :: dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: CorrectVerticalBounds
-    integer :: np, nf, col_bat, bkg
-    real(prec) :: maxLevel(2)
-    real(prec), dimension(:,:), allocatable :: var_dt
-    type(string), dimension(:), allocatable :: var_name
-    type(string), dimension(:), allocatable :: requiredVars
+    integer :: col_bat
+    
+    real(prec), dimension(2) :: maxLevel
     
     CorrectVerticalBounds = svDt
     ! if vertical dvdt is 0, don't correct
     if (all(CorrectVerticalBounds(:,3) == 0.)) then
         return
     end if
-    allocate(requiredVars(1))
-    requiredVars(1) = Globals%Var%bathymetry
-    !interpolate each background
-    do bkg = 1, size(bdata)
-        if (bdata(bkg)%initialized) then
-            if(bdata(bkg)%hasVars(requiredVars)) then
-                np = size(sv%active) !number of Tracers
-                nf = bdata(bkg)%fields%getSize() !number of fields to interpolate
-                allocate(var_dt(np,nf))
-                allocate(var_name(nf))
-                !correcting for maximum admissible level in the background (only if option AddBottomCell is not used)
-                ! this is to allow the particles to reach the bathymetry, instead of stoping at the layer centre depth.
-                maxLevel = bdata(bkg)%getDimExtents(Globals%Var%level, .false.)
-                if (maxLevel(2) /= MV) where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2)) CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.99
-                !interpolating all of the data
-                call self%Interpolator%run(sv%state, bdata(bkg), time, var_dt, var_name, requiredVars)
-                !update minium vertical position
-                col_bat = Utils%find_str(var_name, Globals%Var%bathymetry)
-                !Dont let particles drop below bathymetric value. in this case, vertical displacement is forced to make the particle reach the bathymetric value*0.99
-                where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < var_dt(:,col_bat)) CorrectVerticalBounds(:,3) = ((var_dt(:,col_bat)-sv%state(:,3))/dt)*0.99
-                deallocate(var_name)
-                deallocate(var_dt)
-            end if
-        end if
-    end do
+    
+    maxLevel = bdata(1)%getDimExtents(Globals%Var%level, .false.)
+    if (maxLevel(2) /= MV) where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt >= maxLevel(2)) CorrectVerticalBounds(:,3) =((maxLevel(2)-sv%state(:,3))/dt)*0.99
+    
+    col_bat = Utils%find_str(sv%varname, Globals%Var%bathymetry)
+    where (sv%state(:,3) + CorrectVerticalBounds(:,3)*dt < sv%state(:,col_bat)) CorrectVerticalBounds(:,3) = ((sv%state(:,col_bat)-sv%state(:,3))/dt)*0.99
 
     end function CorrectVerticalBounds
     
@@ -349,7 +331,8 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
-    integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd
+    integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom
+    !integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd
     real(prec) :: landIntThreshold
     real(prec), dimension(:,:), allocatable :: var_dt
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, water_density, tension
@@ -365,7 +348,11 @@
     real(prec) :: U, psi, dsilt, dsand, dgravel, kscr, kscmr, kscd, fcs, ffs, kscr_max, kscmr_max, kscd_max
     real(prec) :: ksc, ks, grainroughnessfactor, d50
     real(prec) :: abs_cos_angle, abs_sin_angle, ubw_aux, aux_1, aux_2, fws1, fwr1, dlog_t1, ts
+    type(string) :: tag
     !Begin-----------------------------------------------------------------------------------
+    tag = 'dist2bottom'
+    col_dist2bottom = Utils%find_str(sv%varName, tag, .true.)
+
     Resuspension = 0
     landIntThreshold = -0.98
     z0 = Globals%Constants%Rugosity
@@ -376,15 +363,14 @@
     grainroughnessfactor = 2.5
     
     if (Globals%Constants%ResuspensionCoeff > 0.0) then
-        allocate(requiredVars(4))
+        allocate(requiredVars(3))
         requiredVars(1) = Globals%Var%hs
         requiredVars(2) = Globals%Var%ts
         requiredVars(3) = Globals%Var%wd
-        requiredVars(4) = Globals%Var%temp
         
         call KernelUtils_VerticalMotion%getInterpolatedFields(sv, bdata, time, requiredVars, var_dt, var_name, reqVertInt = .false.)
         
-        col_temp = Utils%find_str(var_name, Globals%Var%temp, .true.)
+        col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
         col_sal = Utils%find_str(sv%varName, Globals%Var%sal, .true.)
         col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)
         col_bat = Utils%find_str(sv%varName, Globals%Var%bathymetry, .true.)
@@ -396,9 +382,9 @@
         velocity_mod = 0
         Tension = 0
         water_density = 0
-        dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+        !dist2bottom = Globals%Mask%bedVal + (sv%state(:,3) - sv%state(:,col_bat)) / (sv%state(:,col_dwz))
+        dist2bottom = sv%state(:,col_dist2bottom)
         where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(sv%state(:,col_sal), sv%state(:,col_temp),sv%state(:,3))
-        !where (dist2bottom < landIntThreshold) water_density = seaWaterDensity(varVert_dt(:,col_sal), varVert_dt(:,col_temp),sv%state(:,3))
         if ((col_hs /= MV_INT) .and. (col_ts /= MV_INT)) then
             !Found wave fields to use
             do i=1, size(sv%state,1)

@@ -1033,11 +1033,23 @@ do3:                do i=1, size(curr%field,1)
                     do t=1, size(curr%field,4)
                     !!$OMP PARALLEL PRIVATE(k, j, i)
                     !!$OMP DO
+                    !fill all closed cells in the vertical direction
+                    do j=1, size(curr%field,2)
+                    do i=1, size(curr%field,1)
+                    do k=size(curr%field,3)-1, 1, -1
+                        if (aux_4D(i,j,k,t) == 0) then
+                            curr%field(i,j,k,t) = aux_4D(i,j,k+1,t)
+                        end if
+                    end do
+                    end do
+                    end do
+                    !!$OMP END DO
+                    !!$OMP DO
+                    !fill closed cells near land (velocity fields will be used to determine if a cell is open or closed
                     do k=1, size(curr%field,3)
                     do j=2, size(curr%field,2)-1
                     do i=2, size(curr%field,1)-1
                         if (aux_4D(i,j,k,t) == 0) then
-                            !Setting the value as the highest in the neighbourhood (left and right)
                             curr%field(i,j,k,t) = max(aux_4D(i,j+1,k,t), aux_4D(i,j-1,k,t), aux_4D(i+1,j,k,t), aux_4D(i-1,j-1,k,t))
                         end if
                     end do
