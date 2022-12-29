@@ -64,6 +64,7 @@
         real(prec), allocatable, dimension(:,:) :: field !< the data on the scalar data field
     contains
     procedure :: initialize => initScalar2dField
+    procedure :: getFieldNearestIndex2D
     procedure :: finalize => cleanScalar2dField
     end type scalar2d_field_class
 
@@ -358,6 +359,24 @@
     comp = value
     getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)
     end function getFieldNearestIndex
+    
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Method that returns the 2D field's nearest value index (scalar)
+    !> @param[in] self, value
+    !---------------------------------------------------------------------------
+    integer function getFieldNearestIndex2D(self, value, dimID)
+    class(scalar2d_field_class), intent(in) :: self
+    real(prec), intent(in) :: value
+    real(prec), allocatable, dimension(:,:) :: comp
+    integer, intent(in) :: dimID !lat = 1 or lon = 2
+    integer, dimension(size(self%field,dimID)) :: aux
+    type(string) :: outext
+    !begin--------------------------------------------------------------
+    allocate(comp(size(self%field,1), size(self%field,2)))
+    aux = minloc(abs(comp - self%field), DIM=dimID) !output is a 1D array
+    getFieldNearestIndex2D = minval(aux) !get the smallest row or column ID
+    end function getFieldNearestIndex2D
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -851,16 +870,25 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Updated in Dec 2022 by Joao Sbrinho - Colab Atlantic
     !> Method that returns the field's maximum value (scalar)
     !---------------------------------------------------------------------------
-    real(prec) function getFieldMaxBound(self)
+    real(prec) function getFieldMaxBound(self, arrayDim)
     class(field_class), intent(in) :: self
     type(string) :: outext
+    integer, intent(in), optional :: arrayDim !Dimension (columns, rows, depth or time)
+    !Begin-----------------------------------------------
     select type(self)
     class is (scalar_field_class)
     class is (scalar1d_field_class)
         getFieldMaxBound = maxval(self%field)
     class is (scalar2d_field_class)
+        if (present(arrayDim)) then
+            if (arrayDim == 1) getFieldMaxBound = minval(self%field(:,1)) !Lon
+            if (arrayDim == 2) getFieldMaxBound = minval(self%field(1,:)) !Lat
+        else
+            getFieldMaxBound = maxval(self%field)
+        end if
         getFieldMaxBound = maxval(self%field)
     class is (scalar3d_field_class)
         getFieldMaxBound = maxval(self%field)
@@ -874,21 +902,55 @@
         stop
     end select
     end function getFieldMaxBound
+    
+    !!---------------------------------------------------------------------------
+    !!> @author Ricardo Birjukovs Canelas - MARETEC
+    !!> @brief
+    !!> Method that returns the field's maximum value (scalar)
+    !!---------------------------------------------------------------------------
+    !real(prec) function getFieldMaxBound(self)
+    !class(field_class), intent(in) :: self
+    !type(string) :: outext
+    !select type(self)
+    !class is (scalar_field_class)
+    !class is (scalar1d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (scalar2d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (scalar3d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (scalar4d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (vectorial_field_class)
+    !    getFieldMaxBound = MV
+    !    class default
+    !    outext = '[field_class::getFieldMaxBound]: Unexepected type of content, not a scalar or vectorial Field'
+    !    call Log%put(outext)
+    !    stop
+    !end select
+    !end function getFieldMaxBound
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Updated in Dec 2022 by Joao Sbrinho - Colab Atlantic
     !> Method that returns the field's minimum value (scalar)
     !---------------------------------------------------------------------------
-    real(prec) function getFieldMinBound(self)
+    real(prec) function getFieldMinBound(self, arrayDim)
     class(field_class), intent(in) :: self
     type(string) :: outext
+    integer, intent(in), optional :: arrayDim !Dimension (columns, rows, depth or time)
     select type(self)
     class is (scalar_field_class)
     class is (scalar1d_field_class)
         getFieldMinBound = minval(self%field)
     class is (scalar2d_field_class)
-        getFieldMinBound = minval(self%field)
+        if (present(arrayDim)) then
+            if (arrayDim == 1) getFieldMinBound = minval(self%field(:,1)) !Lon
+            if (arrayDim == 2) getFieldMinBound = minval(self%field(1,:)) !Lat
+        else
+            getFieldMinBound = minval(self%field)
+        end if
     class is (scalar3d_field_class)
         getFieldMinBound = minval(self%field)
     class is (scalar4d_field_class)

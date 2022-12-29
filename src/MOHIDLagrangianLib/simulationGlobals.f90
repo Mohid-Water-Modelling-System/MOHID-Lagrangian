@@ -35,7 +35,7 @@
 
     implicit none
     private
-
+    
     type, extends(linkedlist) :: stringList_class !< List of strings class
     contains
     procedure :: print => print_stringList
@@ -232,6 +232,10 @@
     procedure, private :: buildvars
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
+    !Sobrinho
+    procedure, public  :: checkVarSimName
+    procedure, public  :: checkDimensionName
+    procedure, public  :: checkLatOrLon
     end type var_names_t
     
     type :: varBackground_t
@@ -284,6 +288,11 @@
     procedure :: getDateTimeStamp
     end type sim_time_t
     
+    type :: gridTypes_t
+        integer :: curvilinear = 2
+    contains
+    end type gridTypes_t
+    
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
         real(prec), allocatable, dimension(:) :: bottom_emission_depth
@@ -304,6 +313,7 @@
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
         type(dataTypes_t)   :: DataTypes
+        type(gridTypes_t)   :: GridTypes
         type(sources_t)     :: Sources
     contains
     procedure :: initialize => setdefaults
@@ -611,9 +621,194 @@
         getVarSimName = self%rate
         return
     end if
+    
+    !Sobrinho
+    write(*,*)"variable not found"
 
     end function getVarSimName
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model
+    !> @param[in] var
+    !---------------------------------------------------------------------------
+    logical function checkVarSimName(self, var)
+    class(var_names_t), intent(inout) :: self
+    type(string), intent(in) :: var
+    logical value
+    !Begin-------------------------------------------------------------
+    checkVarSimName = .false.
+    !searching for bathymetry
+    value = self%bathymetryVariants%notRepeated(var)
+    if (var == self%bathymetry .or. .not. value) then
+        checkVarSimName = .true.
+        return
+    end if
+    
+    !searching for u
+    if (var == self%u .or. .not.self%uVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for v
+    if (var == self%v .or. .not.self%vVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for w
+    if (var == self%w .or. .not.self%wVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for ssh
+    if (var == self%ssh .or. .not.self%sshVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for temp
+    if (var == self%temp .or. .not.self%tempVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for sal
+    if (var == self%sal .or. .not.self%salVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for density
+    if (var == self%density .or. .not.self%densityVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for vsdx
+    if (var == self%vsdx .or. .not.self%vsdxVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for vsdy
+    if (var == self%vsdy .or. .not.self%vsdyVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for hs
+    if (var == self%hs .or. .not.self%hsVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for ts
+    if (var == self%ts .or. .not.self%tsVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for wd
+    if (var == self%wd .or. .not.self%wdVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for u10
+    if (var == self%u10 .or. .not.self%u10Variants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for v10
+    if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for rad
+    if (var == self%rad .or. .not.self%radVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for time
+    if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for rate
+    if (var == self%rate .or. .not.self%rateVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
 
+    end function checkVarSimName
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model as a dimension variable
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkDimensionName(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkDimensionName = .false.
+    
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+    !searching for time
+    if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+
+    end function checkDimensionName
+
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model as a dimension variable
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkLatOrLon(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkLatOrLon = .false.
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkLatOrLon = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkLatOrLon = .true.
+        return
+    end if
+    end function checkLatOrLon
+    
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief

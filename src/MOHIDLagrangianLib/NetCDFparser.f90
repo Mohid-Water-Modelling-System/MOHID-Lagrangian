@@ -58,6 +58,7 @@
         integer :: varid
         type (string) :: units
         integer :: ndims
+        logical :: isDimensionVar
         integer, allocatable, dimension(:) :: dimids
         integer :: natts
         real(prec) :: offset, scale, fillvalue
@@ -71,10 +72,12 @@
         integer :: nDims, nVars, nAtt, uDimID   !< number of dimensions, variables, attributes and dim IDs on the file
         type(dim_t), allocatable, dimension(:) :: dimData !< metadata from the dimensions on the file
         type(var_t), allocatable, dimension(:) :: varData   !< metadata from the variables on the file
+        !Sobrinho
+        integer :: mDims
+        logical :: grid_2D
         integer :: status
     contains
     procedure :: initialize => getFile
-    procedure :: getVarDimensions
     procedure :: getVarDimensions_variable
     procedure :: getVar
     procedure :: finalize => closeFile
@@ -84,6 +87,7 @@
     procedure, private :: getNCDimMetadata
     procedure, private :: getNCVarMetadata
     procedure, private :: getDimByDimID
+    procedure, private :: check2dGrid
     procedure :: print => printNcInfo
     end type ncfile_class
     
@@ -108,9 +112,9 @@
     type(string), dimension(:), intent(in) :: varList
     logical, dimension(:), intent(in) :: syntecticVar    
     type(ncfile_class) :: ncFile
-    type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
+    !type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
     !Sobrinho
-    type(scalar2d_field_class), allocatable, dimension(:,:) :: backgrounDims_2D
+    type(generic_field_class), allocatable, dimension(:) :: backgrounDims
     type(generic_field_class), allocatable, dimension(:) :: gfield
     type(string) :: name, units
     type(box) :: extents
@@ -130,22 +134,12 @@
     do i=1, size(syntecticVar)
         if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
             !Sobrinho
-            if (Globals%SimDefs%variablegrid == 1) then
-                !Call for lat and lon 2D fields instead of CF compliant
-                call ncFile%getVarDimensions_variable(varList(i), backgrounDims_2D)
-            else
-                call ncFile%getVarDimensions(varList(i), backgrounDims)
-            end if
+            call ncFile%getVarDimensions_variable(varList(i), backgrounDims)
+            !call ncFile%getVarDimensions(varList(i), backgrounDims)
             
-            !Sobrinho
             if (allocated(backgrounDims)) then
                 realVarIdx = i
                 valorminimo = backgrounDims(3)%getFieldMinBound()
-                exit
-            elseif (allocated(backgrounDims_2D)) then
-                !Isto tera de mudar alguma coisa porque e preciso que o metodo seleccione o type (1D, 2D)
-                realVarIdx = i
-                valorminimo = backgrounDims_2D(3)%getFieldMinBound()
                 exit
             end if 
         end if
@@ -163,35 +157,26 @@
     
     dimExtents = 0.0
     
-    if (Globals%SimDefs%variablegrid == 1) then
-        !Ver o que e preciso fazer aqui..o getfieldmin e max pode ter de ser mudado
-        do i = 1, size(backgrounDims)
-            if (backgrounDims(i)%name == Globals%Var%lon) then
-                dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
-                dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-            else if (backgrounDims(i)%name == Globals%Var%lat) then
-                dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
-                dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
-            else if (backgrounDims(i)%name == Globals%Var%level) then
-                dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
-                dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
-            end if
-        end do
-    else
-        do i = 1, size(backgrounDims)
-            if (backgrounDims(i)%name == Globals%Var%lon) then
-                dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
-                dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
-            else if (backgrounDims(i)%name == Globals%Var%lat) then
-                dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
-                dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
-            else if (backgrounDims(i)%name == Globals%Var%level) then
-                dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
-                dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
-            end if
-        end do
-    end if
-    
+    do i = 1, size(backgrounDims)
+        write(*,*) "backgroundDims name = ", backgrounDims(i)%name
+        if (backgrounDims(i)%name == Globals%Var%lon) then
+            dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
+            write(*,*) "dimExtents(1,1) = ", dimExtents(1,1)
+            dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
+            write(*,*) "dimExtents(1,2) = ", dimExtents(1,2)
+        else if (backgrounDims(i)%name == Globals%Var%lat) then
+            dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
+            write(*,*) "dimExtents(2,1) = ", dimExtents(2,1)
+            dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
+            write(*,*) "dimExtents(2,2) = ", dimExtents(2,2)
+        else if (backgrounDims(i)%name == Globals%Var%level) then
+            dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
+            write(*,*) "dimExtents(3,1) = ", dimExtents(3,1)
+            dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
+            write(*,*) "dimExtents(3,2) = ", dimExtents(3,2)
+        end if
+    end do
+    write(*,*) "Sai do ciclo dos backgrounddims"
     extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
@@ -202,6 +187,84 @@
     end do
     valorminimo = backgrounDims(3)%getFieldMinBound()
     end function getFullFile
+    
+    !type(background_class) function getFullFile(self, fileName, varList, syntecticVar)
+    !class(ncReader_class), intent(in) :: self
+    !type(string), intent(in) :: fileName
+    !type(string), dimension(:), intent(in) :: varList
+    !logical, dimension(:), intent(in) :: syntecticVar    
+    !type(ncfile_class) :: ncFile
+    !type(scalar1d_field_class), allocatable, dimension(:) :: backgrounDims
+    !type(generic_field_class), allocatable, dimension(:) :: gfield
+    !type(string) :: name, units
+    !type(box) :: extents
+    !type(vector) :: pt
+    !real(prec), dimension(3,2) :: dimExtents
+    !integer :: i, realVarIdx
+    !type(string) :: outext
+    !real(prec) :: valorminimo
+    !
+    !allocate(gfield(size(syntecticVar)))
+    !realVarIdx = 0
+    !units = '-'
+    !outext = '->Reading '//fileName
+    !call Log%put(outext,.false.)
+    !
+    !call ncFile%initialize(fileName)
+    !do i=1, size(syntecticVar)
+    !    if(.not.syntecticVar(i)) then !finding the first real variable to extract dimension arrays
+    !        call ncFile%getVarDimensions(varList(i), backgrounDims)
+    !        
+    !        if (allocated(backgrounDims)) then
+    !            realVarIdx = i
+    !            valorminimo = backgrounDims(3)%getFieldMinBound()
+    !            exit
+    !        end if 
+    !    end if
+    !end do
+    !if (realVarIdx /= 0) then
+    !    do i=1, size(syntecticVar)
+    !        if(.not.syntecticVar(i)) then !normal variable, put it on a generic field
+    !            call ncFile%getVar(varList(i), gfield(i))
+    !        else                          !synthetic variable to be constructed based on the field of a normal variable
+    !            call ncFile%getVar(varList(realVarIdx), gfield(i), .true., varList(i), units)
+    !        end if
+    !    end do
+    !end if
+    !call ncFile%finalize()
+    !
+    !dimExtents = 0.0
+    !
+    !do i = 1, size(backgrounDims)
+    !    write(*,*) "backgroundDims name = ", backgrounDims(i)%name
+    !    if (backgrounDims(i)%name == Globals%Var%lon) then
+    !        dimExtents(1,1) = backgrounDims(i)%getFieldMinBound()
+    !        write(*,*) "dimExtents(1,1) = ", dimExtents(1,1)
+    !        dimExtents(1,2) = backgrounDims(i)%getFieldMaxBound()
+    !        write(*,*) "dimExtents(1,2) = ", dimExtents(1,2)
+    !    else if (backgrounDims(i)%name == Globals%Var%lat) then
+    !        dimExtents(2,1) = backgrounDims(i)%getFieldMinBound()
+    !        write(*,*) "dimExtents(2,1) = ", dimExtents(2,1)
+    !        dimExtents(2,2) = backgrounDims(i)%getFieldMaxBound()
+    !        write(*,*) "dimExtents(2,2) = ", dimExtents(2,2)
+    !    else if (backgrounDims(i)%name == Globals%Var%level) then
+    !        dimExtents(3,1) = backgrounDims(i)%getFieldMinBound()
+    !        write(*,*) "dimExtents(3,1) = ", dimExtents(3,1)
+    !        dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
+    !        write(*,*) "dimExtents(3,2) = ", dimExtents(3,2)
+    !    end if
+    !end do
+    !write(*,*) "Sai do ciclo dos backgrounddims"
+    !extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
+    !pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
+    !extents%size = pt - extents%pt
+    !name = fileName%basename(strip_last_extension=.true.)
+    !getFullFile = Background(1, name, extents, backgrounDims)
+    !do i = 1, size(gfield)
+    !    call getFullFile%add(gfield(i))
+    !end do
+    !valorminimo = backgrounDims(3)%getFieldMinBound()
+    !end function getFullFile
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -217,6 +280,7 @@
     call self%getNCid()
     call self%getNCglobalMetadata()
     call self%getNCVarMetadata()
+    call self%check2dGrid()
     call self%getNCDimMetadata()
     end subroutine getFile
 
@@ -242,6 +306,8 @@
     subroutine getNCglobalMetadata(self)
     class(ncfile_class), intent(inout) :: self
     self%status = nf90_inquire(self%ncID, self%nDims, self%nVars, self%nAtt, self%uDimID)
+    write(*,*)"entrada getNCglobalMetadata"
+    write(*,*)"number dimensions = ", self%nDims
     call self%check()
     end subroutine getNCglobalMetadata
 
@@ -253,19 +319,21 @@
     !---------------------------------------------------------------------------
     subroutine getNCVarMetadata(self)
     class(ncfile_class), intent(inout) :: self
-    integer :: i, j, ndims, nAtts
+    !Sobrinho
+    integer :: i, j, ndims, nAtts, maxdims
     integer :: dimids(self%nDims)
     integer :: tempStatus
     character(CHAR_LEN) :: varName, units
     allocate(self%varData(self%nVars))
+    maxdims=0
     do i=1, self%nVars
         self%status = nf90_inquire_variable(self%ncID, i, varName, ndims=ndims, dimids=dimids, nAtts=nAtts)
-
         call self%check()
         self%varData(i)%name = trim(varName)
         self%varData(i)%simName = Globals%Var%getVarSimName(self%varData(i)%name)
         self%varData(i)%varid = i
         self%varData(i)%ndims = ndims
+        maxdims = max(maxdims, ndims)
         allocate(self%varData(i)%dimids(ndims))
         self%varData(i)%dimids = dimids(1:ndims)
         self%varData(i)%nAtts = nAtts
@@ -279,35 +347,124 @@
         tempStatus = nf90_get_att(self%ncID, i, "_FillValue", self%varData(i)%fillvalue)
         if (tempStatus == -43) self%varData(i)%fillvalue = MV
     end do
+    self%mDims = maxdims
     end subroutine getNCVarMetadata
 
     !---------------------------------------------------------------------------
-    !> @author Ricardo Birjukovs Canelas - MARETEC
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Inquires the nc file for 2D grid coordinates
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine check2dGrid(self)
+    class(ncfile_class), intent(inout) :: self
+    integer :: i
+    self%grid_2D = .false.
+    do i=1, self%nVars
+        if ((self%varData(i)%ndims == 2) .and. (Globals%Var%checkDimensionName(self%varData(i)%name))) then
+            !Current variable is 2D and is a dimension variable
+            self%grid_2D = .true.
+        end if
+    end do
+    end subroutine check2dGrid
+    
+    !---------------------------------------------------------------------------
+    !> @author Ricardo Birjukovs Canelas - MARETEC and Joao Sobrinho - Colab Atlantic
     !> @brief
     !> Inquires the nc file for dimension metadata
     !> @param[in] self
     !---------------------------------------------------------------------------
     subroutine getNCDimMetadata(self)
     class(ncfile_class), intent(inout) :: self
-    integer :: i, j, dimLength
+    integer :: i, j, k, dimLength
     character(CHAR_LEN) :: dimName
-    allocate(self%dimData(self%nDims))
-    do i=1, self%nDims
-        self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
-        call self%check()
-        self%dimData(i)%name = trim(dimName)
-        self%dimData(i)%simName = Globals%Var%getVarSimName(self%dimData(i)%name)
-        self%dimData(i)%length = dimLength
-        self%status = nf90_inq_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
-        call self%check()
-        do j=1, self%nVars
-            if (self%dimData(i)%name == self%varData(j)%name) then
-                self%dimData(i)%units = self%varData(j)%units
-                self%dimData(i)%varid = self%varData(j)%varid
-                exit
+    logical :: dimNameIsValid
+    type(string) :: outext
+    !Begin -----------------------------------------
+    if (self%grid_2D) then
+        !probably Maretec's netcdf containing 2D lat and lon
+        !use max dims which is the maximum number of dimensions of the variables inside the nc.
+        if (self%mDims < 5 .and. self%mDims > 2) then
+            !3D + time
+            write(*,*)"entrada getNCDimMetadata"
+            write(*,*)"number dimensions = ", self%nDims
+            write(*,*)"number vars = ", self%nVars
+            !data is 3D or 4D
+            allocate(self%dimData(self%mDims))
+            !k goes through max dimensions (3 or 4)
+            k = 1
+            !i goes through all file dimensions (in MOHID 6 are provided) so need to exclude those not wanted.
+            do i = 1, self%nDims
+                if (k > self%mDims) exit
+                self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
+                call self%check()
+                self%dimData(k)%name = trim(dimName)
+                write(*,*)"current dimension variable in file = ", trim(self%dimData(k)%name)
+                dimNameIsValid = Globals%Var%checkDimensionName(self%dimData(k)%name)
+                if (dimNameIsValid) then
+                    !allocate new dimension to the dimData place holder
+                    self%dimData(k)%simName = Globals%Var%getVarSimName(self%dimData(k)%name)
+                    write(*,*)"Sim name of variable in file = ", trim(self%dimData(k)%simName)
+                    self%dimData(k)%length = dimLength
+                    self%status = nf90_inq_dimid(self%ncID, self%dimData(k)%name%chars(), self%dimData(k)%dimid)
+                    write(*,*)"Dim data dimID = ", self%dimData(k)%dimid
+                    call self%check()
+                    do j=1, self%nVars
+                        write(*,*)"dim name = ", self%dimData(k)%name
+                        write(*,*)"vardata name = ", self%varData(j)%name
+                        if (self%dimData(k)%name == self%varData(j)%name) then
+                            self%dimData(k)%units = self%varData(j)%units
+                            self%dimData(k)%varid = self%varData(j)%varid
+                            self%varData(j)%isDimensionVar = dimNameIsValid
+                            write(*,*)"dim data ID = ", self%dimData(i)%varid
+                            exit
+                        end if
+                    end do
+                    k = k + 1
+                end if
+            end do
+            
+            if (k < self%mDims) then
+                outext = '[NetCDFparser::getNCDimMetadata]: the 4D file '//trim(self%filename%chars())// ' has less thant 4 dimension variables. Stopping'
+                call Log%put(outext)
+                stop
             end if
-        end do
-    end do
+        else
+            outext = '[NetCDFparser::getNCDimMetadata]: ncfile '//trim(self%filename%chars())//' has less than 3 or more than 4 dimensions. Stopping'
+            call Log%put(outext)
+            stop
+        end if
+    
+    else
+        allocate(self%dimData(self%nDims))
+        write(*,*)"entrada getNCDimMetadata"
+        write(*,*)"number dimensions = ", self%nDims
+        write(*,*)"number vars = ", self%nVars
+        do i=1, self%nDims
+            self%status = nf90_inquire_dimension(self%ncID, i, dimName, dimLength)
+            call self%check()
+            self%dimData(i)%name = trim(dimName)
+            write(*,*)"current dimension variable in file = ", self%dimData(i)%name
+            self%dimData(i)%simName = Globals%Var%getVarSimName(self%dimData(i)%name)
+            write(*,*)"Sim name of variable in file = ", self%dimData(i)%simName
+            self%dimData(i)%length = dimLength
+            self%status = nf90_inq_dimid(self%ncID, self%dimData(i)%name%chars(), self%dimData(i)%dimid)
+            write(*,*)"Dim data dimID = ", self%dimData(i)%dimid
+            call self%check()
+            do j=1, self%nVars
+                write(*,*)"dim name = ", self%dimData(i)%name
+                write(*,*)"vardata name = ", self%varData(j)%name
+                if (self%dimData(i)%name == self%varData(j)%name) then
+                    self%dimData(i)%units = self%varData(j)%units
+                    self%dimData(i)%varid = self%varData(j)%varid
+                    write(*,*)"dim data ID = ", self%dimData(i)%varid
+                    exit
+                end if
+            end do
+        end do    
+    end if
+
+    write(*,*)"saida getNCDimMetadata"
     end subroutine getNCDimMetadata
 
     !---------------------------------------------------------------------------
@@ -320,94 +477,126 @@
     subroutine getVarDimensions_variable(self, varName, dimsArrays)
     class(ncfile_class), intent(inout) :: self
     type(string), intent(in) :: varName
-    type(scalar2d_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
-    real(prec), allocatable, dimension(:) :: tempRealArray, tempRealArrayDelta
+    type(generic_field_class), allocatable, dimension(:), intent(out) :: dimsArrays
+    real(prec), allocatable, dimension(:) :: tempRealArray1D
+    real(prec), allocatable, dimension(:,:) :: tempRealArray2D
     type(string) :: dimName, dimUnits
-    integer :: i, j, k, l
-    logical :: increase_flag, neg_flag 
-
+    integer, allocatable, dimension(:) :: varShape
+    integer :: i, j, k, ndim, var
+    type(dim_t) :: tempDim
+    logical :: increase_flag, neg_flag, foundDimVar, LatOrLon
+    !Begin-----------------------------------------------------------------------
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName) then   !found the requested var
-            write(*,*)"dims var name = ", varName
-            write(*,*)"number of fims in varname = ", self%varData(i)%ndims
-            !Ask here if user is providing a 2D lat and lon field and then allocate a dimsarrays that is of type scalar2d_field_class
+            write(*,*)"var name = ", varName
+            write(*,*)"number of dims in varname = ", self%varData(i)%ndims
+            allocate(dimsArrays(self%varData(i)%ndims)) !allocating dimension fields
+            !Get vector dimension vectors
+            do ndim =1, self%varData(i)%ndims   !going trough all of the variable dimensions
+                tempDim = self%getDimByDimID(self%varData(i)%dimids(ndim))
+                varShape(ndim) = tempDim%length
+            end do
             
-            allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
                 write(*,*)"dims dimension = ", self%nDims
-                do k=1, self%nDims  !going trough all available dimensions of the file
-                    write(*,*)"self%varData(i)%dimids(j) = ", self%varData(i)%dimids(j)
-                    write(*,*)"self%dimData(k)%dimid = ", self%dimData(k)%dimid
+                do k=1, self%mDims  !going trough the dimensions of the file
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
-                        !Sobrinho
-                        allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
-                        dimName = self%dimData(k)%simName
-                        write(*,*)"Dim name = ", dimName
-                        dimUnits = self%dimData(k)%units
-                        write(*,*)"dimUnits = ", dimUnits
-                        write(*,*)"self%dimData(k)%varid = ", self%dimData(k)%varid
-                        !Here is where Lat, Lon and Depth are read from the netcdf
-                        self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
-                        call self%check()
-                        !need to check for 'level' variable specific issues
-
-                        !@Daniel
-                        ! To interpolate on regular meshes, the search cell method uses the lower bound data and the 1 index
-                        ! as a reference to locate the point inside the data cell in time, longitude and latitude axis.
-                        ! To be consistent, the cell search in depth dimension must be done in the same way. It means:
-                        ! The lower bound in depth axis (maximum depth) must be in the 1 index (lower bound) and growing 
-                        ! up till the surface (minimum depth, upper bound) .
-                        ! SO:
-                        ! 0) index = (1,2,3,.....n),
-                        !    axis = (-bottom,..., +surface)
-                        ! To check this and adjust the data to this criteria, we need to check the two following conditions
-                        if (dimName == Globals%Var%level) then
-                            !1) The depth must increase. If it does not increase, must be reversed.
-                            !2) The axis should be negative. If it is not negative, negate it.
-                            increase_flag = all(tempRealArray(2:) >= tempRealArray(:size(tempRealArray)-1)) 
-                            neg_flag = all(tempRealArray(:) <= 0)
-
-                            if ((increase_flag .eqv. .true.) .and. (neg_flag .eqv. .true.))  then
-                                self%dimData(k)%reverse_data = .false.
-                                self%dimData(k)%reverse_axis = .false.
-                                self%dimData(k)%negate = .false.
-                            else if ((increase_flag .eqv. .true.) .and. (neg_flag .eqv. .false.))  then
-                                self%dimData(k)%reverse_data = .true.
-                                self%dimData(k)%reverse_axis = .true.
-                                self%dimData(k)%negate = .true.
-                            else if ((increase_flag .eqv. .false.) .and. (neg_flag .eqv. .false.)) then
-                                self%dimData(k)%reverse_data = .false.
-                                self%dimData(k)%reverse_axis = .false.
-                                self%dimData(k)%negate = .true.
-                            else if ((increase_flag .eqv. .false.) .and. (neg_flag .eqv. .true.)) then
-                                self%dimData(k)%reverse_data = .true.
-                                self%dimData(k)%reverse_axis = .true.
-                                self%dimData(k)%negate = .false.
-                            end if 
-
-                            if (self%dimData(k)%reverse_axis .eqv. .true.) then
-                                tempRealArray = tempRealArray(size(tempRealArray):1:-1)
-                            end if
-
-                            if (self%dimData(k)%negate .eqv. .true.) then
-                                tempRealArray = -tempRealArray
-                            end if
+                        foundDimVar = .false.
+                        if (self%grid_2D) then
+                            do var = 1, self%nVars !going trough all file variables
+                                LatOrLon = Globals%Var%checkLatOrLon(self%varData(var)%name)
+                                if (LatOrLon) then
+                                    !Lat or Lon found, so allocate 2D field
+                                    write(*,*)"varShape(1) = ", varShape(1)
+                                    write(*,*)"varShape(2) = ", varShape(2)
+                                    allocate(tempRealArray2D(varShape(1), varShape(2))) !allocating a place to read the field data to
+                                    dimName = self%varData(var)%simName
+                                    write(*,*)"simulation name of dimension = ", dimName
+                                    dimUnits = self%varData(var)%units
+                                    write(*,*)"dimUnits of dimension = ", dimUnits
+                                    !Here is where Lat, Lon and Depth are read from the netcdf
+                                    self%status = nf90_get_var(self%ncID, self%varData(var)%varid, tempRealArray2D)
+                                    call self%check()
+                                    foundDimVar = .true.
+                                end if
+                            end do
+                        end if
+                            
+                        !for 1D time or depth
+                        if (.not. foundDimVar) then
+                            allocate(tempRealArray1D(self%dimData(k)%length)) !allocating a place to read the field data to
+                            dimName = self%dimData(k)%simName
+                            write(*,*)"Dim name = ", dimName
+                            dimUnits = self%dimData(k)%units
+                            write(*,*)"dimUnits = ", dimUnits
+                            write(*,*)"self%dimData(k)%varid = ", self%dimData(k)%varid
+                            !Here is where Lat, Lon and Depth are read from the netcdf
+                            self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray1D)
+                            call self%check()
                         
+                            !need to check for 'level' variable specific issues
+    
+                            !@Daniel
+                            ! To interpolate on regular meshes, the search cell method uses the lower bound data and the 1 index
+                            ! as a reference to locate the point inside the data cell in time, longitude and latitude axis.
+                            ! To be consistent, the cell search in depth dimension must be done in the same way. It means:
+                            ! The lower bound in depth axis (maximum depth) must be in the 1 index (lower bound) and growing 
+                            ! up till the surface (minimum depth, upper bound) .
+                            ! SO:
+                            ! 0) index = (1,2,3,.....n),
+                            !    axis = (-bottom,..., +surface)
+                            ! To check this and adjust the data to this criteria, we need to check the two following conditions
+                            if (dimName == Globals%Var%level) then
+                                !1) The depth must increase. If it does not increase, must be reversed.
+                                !2) The axis should be negative. If it is not negative, negate it.
+                                increase_flag = all(tempRealArray1D(2:) >= tempRealArray1D(:size(tempRealArray1D)-1)) 
+                                neg_flag = all(tempRealArray1D(:) <= 0)
+    
+                                if ((increase_flag .eqv. .true.) .and. (neg_flag .eqv. .true.))  then
+                                    self%dimData(k)%reverse_data = .false.
+                                    self%dimData(k)%reverse_axis = .false.
+                                    self%dimData(k)%negate = .false.
+                                else if ((increase_flag .eqv. .true.) .and. (neg_flag .eqv. .false.))  then
+                                    self%dimData(k)%reverse_data = .true.
+                                    self%dimData(k)%reverse_axis = .true.
+                                    self%dimData(k)%negate = .true.
+                                else if ((increase_flag .eqv. .false.) .and. (neg_flag .eqv. .false.)) then
+                                    self%dimData(k)%reverse_data = .false.
+                                    self%dimData(k)%reverse_axis = .false.
+                                    self%dimData(k)%negate = .true.
+                                else if ((increase_flag .eqv. .false.) .and. (neg_flag .eqv. .true.)) then
+                                    self%dimData(k)%reverse_data = .true.
+                                    self%dimData(k)%reverse_axis = .true.
+                                    self%dimData(k)%negate = .false.
+                                end if 
+    
+                                if (self%dimData(k)%reverse_axis .eqv. .true.) then
+                                    tempRealArray1D = tempRealArray1D(size(tempRealArray1D):1:-1)
+                                end if
+    
+                                if (self%dimData(k)%negate .eqv. .true.) then
+                                    tempRealArray1D = -tempRealArray1D
+                                end if
+                        
+                            end if
+                            !need to check for 'time' variable specific issues
+                            if (dimName == Globals%Var%time) then
+                                call correctNCTime(dimUnits, tempRealArray1D)
+                            end if
                         end if
-                        !need to check for 'time' variable specific issues
-                        if (dimName == Globals%Var%time) then
-                            call correctNCTime(dimUnits, tempRealArray)
+                        if (allocated(tempRealArray1D)) then
+                            call dimsArrays(j)%scalar1d%initialize(dimName, dimUnits, 1, tempRealArray1D)
+                            deallocate(tempRealArray1D)
+                        elseif (allocated(tempRealArray2D)) then
+                            call dimsArrays(j)%scalar2d%initialize(dimName, dimUnits, 1, tempRealArray2D)
+                            deallocate(tempRealArray2D)
                         end if
-                        !Sobrinho
-                        call dimsArrays(j)%initialize(dimName, dimUnits, 1, tempRealArray)
-                        if (allocated(tempRealArray)) deallocate(tempRealArray)
-                        if (allocated(tempRealArrayDelta)) deallocate(tempRealArrayDelta)
                     end if
                 end do
             end do
         end if
     end do
-    write(*,*)"sai getvardimentions"
+    write(*,*)"sai getvardimentions_2D"
     end subroutine getVarDimensions_variable
     
     !---------------------------------------------------------------------------
@@ -425,32 +614,34 @@
     type(string) :: dimName, dimUnits
     integer :: i, j, k, l
     logical :: increase_flag, neg_flag 
-
+    !Variable IDs (self%dimData(k)) : 1-time, 2-lat, 3-lon, 4-depth
     do i=1, self%nVars !going trough all variables
         if (self%varData(i)%simName == varName) then   !found the requested var
             write(*,*)"dims var name = ", varName
-            write(*,*)"number of fims in varname = ", self%varData(i)%ndims
+            write(*,*)"number of dims in vardata = ", self%varData(i)%ndims
+            write(*,*)"number of dimensions of file = ", self%nDims
             !Ask here if user is providing a 2D lat and lon field and then allocate a dimsarrays that is of type scalar2d_field_class
             
             allocate(dimsArrays(self%varData(i)%ndims)) !allocating output fields
             do j=1, self%varData(i)%ndims   !going trough all of the variable dimensions
-                write(*,*)"dims dimension = ", self%nDims
+                write(*,*)"j = ", j
                 do k=1, self%nDims  !going trough all available dimensions of the file
-                    write(*,*)"self%varData(i)%dimids(j) = ", self%varData(i)%dimids(j)
-                    write(*,*)"self%dimData(k)%dimid = ", self%dimData(k)%dimid
+                    write(*,*)"Dimension ID of current variable = ", self%varData(i)%dimids(j)
+                    write(*,*)"Current dimension ID = ", self%dimData(k)%dimid
+                    write(*,*)"Dim name = ", self%dimData(k)%name
                     if (self%varData(i)%dimids(j) == self%dimData(k)%dimid) then    !found a corresponding dimension between the variable and the file
                         !Sobrinho
                         allocate(tempRealArray(self%dimData(k)%length)) !allocating a place to read the field data to
+                        write(*,*)"Dim length = ", self%dimData(k)%length
                         dimName = self%dimData(k)%simName
-                        write(*,*)"Dim name = ", dimName
                         dimUnits = self%dimData(k)%units
-                        write(*,*)"dimUnits = ", dimUnits
-                        write(*,*)"self%dimData(k)%varid = ", self%dimData(k)%varid
+                        !write(*,*)"dimUnits = ", dimUnits
+                        write(*,*)"variable ID of dimension = ", self%dimData(k)%varid
                         !Here is where Lat, Lon and Depth are read from the netcdf
                         self%status = nf90_get_var(self%ncID, self%dimData(k)%varid, tempRealArray)
                         call self%check()
                         !need to check for 'level' variable specific issues
-
+    
                         !@Daniel
                         ! To interpolate on regular meshes, the search cell method uses the lower bound data and the 1 index
                         ! as a reference to locate the point inside the data cell in time, longitude and latitude axis.
@@ -466,7 +657,7 @@
                             !2) The axis should be negative. If it is not negative, negate it.
                             increase_flag = all(tempRealArray(2:) >= tempRealArray(:size(tempRealArray)-1)) 
                             neg_flag = all(tempRealArray(:) <= 0)
-
+    
                             if ((increase_flag .eqv. .true.) .and. (neg_flag .eqv. .true.))  then
                                 self%dimData(k)%reverse_data = .false.
                                 self%dimData(k)%reverse_axis = .false.
@@ -484,11 +675,11 @@
                                 self%dimData(k)%reverse_axis = .true.
                                 self%dimData(k)%negate = .false.
                             end if 
-
+    
                             if (self%dimData(k)%reverse_axis .eqv. .true.) then
                                 tempRealArray = tempRealArray(size(tempRealArray):1:-1)
                             end if
-
+    
                             if (self%dimData(k)%negate .eqv. .true.) then
                                 tempRealArray = -tempRealArray
                             end if

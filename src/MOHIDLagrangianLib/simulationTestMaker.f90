@@ -84,7 +84,8 @@
     integer, intent(in) :: res
     type(box), intent(in) :: testbox
     type(background_class), intent(inout) :: testbackground
-    type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
+    !type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
+    type(generic_field_class), allocatable, dimension(:) :: testbackgroundims
     type(generic_field_class) :: gfield1, gfield2, gfield3
     type(string) :: name, units
     real(prec), allocatable, dimension(:) :: sx, sy, sz, t
@@ -124,16 +125,16 @@
     allocate(testbackgroundims(4))
     units = 'deg'
     sx = sx*testbox%size%x/(2.0*pi) + testbox%pt%x
-    call testbackgroundims(1)%initialize(Globals%Var%lon, units, 1, sx)
+    call testbackgroundims(1)%scalar1d%initialize(Globals%Var%lon, units, 1, sx)
     units = 'deg'
     sy = sy*testbox%size%y/(2.0*pi) + testbox%pt%y
-    call testbackgroundims(2)%initialize(Globals%Var%lat, units, 1, sy)
+    call testbackgroundims(2)%scalar1d%initialize(Globals%Var%lat, units, 1, sy)
     units = 'm'
     sz = sz*testbox%size%z/(res-1) + testbox%pt%z
-    call testbackgroundims(3)%initialize(Globals%Var%level, units, 1, sz)
+    call testbackgroundims(3)%scalar1d%initialize(Globals%Var%level, units, 1, sz)
     units = 'seg'
     t = t*Globals%Parameters%TimeMax/(res-1)
-    call testbackgroundims(4)%initialize(Globals%Var%time, units, 1, t)
+    call testbackgroundims(4)%scalar1d%initialize(Globals%Var%time, units, 1, t)
     !construct background
     name = 'Taylor-Green test'
     testbackground = Background(1, name, testbox, testbackgroundims)
@@ -153,7 +154,8 @@
     integer, intent(in) :: res
     type(box), intent(in) :: testbox
     type(background_class), intent(inout) :: testbackground
-    type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
+    !type(scalar1d_field_class), allocatable, dimension(:) :: testbackgroundims
+    type(generic_field_class), allocatable, dimension(:) :: testbackgroundims
     type(generic_field_class) :: gfield1, gfield2, gfield3
     type(string) :: name, units
     real(prec), allocatable, dimension(:) :: sx, sy, sz, t
@@ -186,16 +188,16 @@
     allocate(testbackgroundims(4))
     units = 'deg'
     sx = sx*testbox%size%x/(res-1) + testbox%pt%x
-    call testbackgroundims(1)%initialize(Globals%Var%lon, units, 1, sx)
+    call testbackgroundims(1)%scalar1d%initialize(Globals%Var%lon, units, 1, sx)
     units = 'deg'
     sy = sy*testbox%size%y/(res-1) + testbox%pt%y
-    call testbackgroundims(2)%initialize(Globals%Var%lat, units, 1, sy)
+    call testbackgroundims(2)%scalar1d%initialize(Globals%Var%lat, units, 1, sy)
     units = 'm'
     sz = sz*testbox%size%z/(res-1) + testbox%pt%z
-    call testbackgroundims(3)%initialize(Globals%Var%level, units, 1, sz)
+    call testbackgroundims(3)%scalar1d%initialize(Globals%Var%level, units, 1, sz)
     units = 'seg'
     t = t*Globals%Parameters%TimeMax/(res-1)
-    call testbackgroundims(4)%initialize(Globals%Var%time, units, 1, t)
+    call testbackgroundims(4)%scalar1d%initialize(Globals%Var%time, units, 1, t)
     !construct background
     name = 'Constant velocity test'
     testbackground = Background(1, name, testbox, testbackgroundims)
