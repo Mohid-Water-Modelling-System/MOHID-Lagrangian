@@ -40,7 +40,9 @@
         type(string) :: name                                                    !< Name of the Background
         type(box) :: extents                                                    !< shape::box that defines the extents of the Background solution
         !type(scalar1d_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
-        type(generic_field_class), allocatable, dimension(:) :: dim            !< Dimensions of the Background fields (time,lon,lat,level for example)
+        type(generic_field_class), allocatable, dimension(:) :: dim             !< Dimensions of the Background fields (time,lon,lat,level for example)
+        type(scalar1d_field_class), allocatable, dimension(:) :: dim_1D             !< Dimensions of the Background fields (time,lon,lat,level for example)
+        type(scalar2d_field_class), allocatable, dimension(:) :: dim_2D             !< Dimensions of the Background fields (time,lon,lat,level for example)
         logical, allocatable, dimension(:) :: regularDim                        !< Flag that indicates if the respective dimension is regular or irregular
         type(fieldsList_class) :: fields                                        !< Linked list to store the fields in the Background
         type(stringList_class) :: variables
@@ -75,7 +77,7 @@
     end type background_class
 
     interface Background !< Constructor
-    procedure constructor
+        procedure constructor
     end interface
 
     !Public access vars
@@ -132,11 +134,14 @@
     type(box), intent(in) :: extents
     type(generic_field_class), dimension(:), intent(in) :: dims
     !Begin--------------------------------------------------------
+    !do i=1,
     constructor%initialized = .true.
     call constructor%setID(id, name)
     call constructor%setExtents(extents)
     call constructor%setDims(dims)
+    write(*,*) "Out constructor SetDims"
     end function constructor
+
     
     !function constructor(id, name, extents, dims)
     !type(background_class) :: constructor
@@ -335,7 +340,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
     real(prec), allocatable, dimension(:) :: newTime
     class(*), pointer :: aField, bField
     type(string) :: outext, name, units
-    integer :: i, j, k
+    integer :: i, j
     logical, allocatable, dimension(:) :: usedTime
 
     done = .false.
@@ -584,6 +589,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             call backgrounDims(i)%scalar2d%initialize(self%dim(i)%name, self%dim(i)%units, 1, self%getSlabDim_2D(i,llbound(1),uubound(1),llbound(2),uubound(2)))
         end if
     end do
+    write(*,*)"Acabei inicializacao do backgrounddims"
     !slicing variables
     allocate(gfield(self%fields%getSize()))
     i=1
@@ -603,6 +609,7 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
         nullify(curr)
     end do
     call self%fields%reset()               ! reset list iterator
+    write(*,*)"Acabei getFieldSlice"
     !creating bounding box
     dimExtents = 0.0
     do i = 1, size(backgrounDims)
@@ -617,15 +624,18 @@ do2:    do while(self%fields%moreValues())     ! loop while there are values to 
             dimExtents(3,2) = backgrounDims(i)%getFieldMaxBound()
         end if
     end do
+    
+    write(*,*)"Acabei dimExtents"
     extents%pt = dimExtents(1,1)*ex + dimExtents(2,1)*ey + dimExtents(3,1)*ez
     pt = dimExtents(1,2)*ex + dimExtents(2,2)*ey + dimExtents(3,2)*ez
     extents%size = pt - extents%pt
     !creating the sliced background
+    write(*,*)"extents e pt"
     getHyperSlab = constructor(1, self%name, extents, backgrounDims)
     do i=1, size(gfield)
         call getHyperSlab%add(gfield(i))
     end do
-
+    write(*,*)"acabei hyperslab add"
     if(.not.self%check()) then
         outext = '[Background::getHyperSlab]: non-conformant Background, stoping '
         call Log%put(outext)
@@ -1499,7 +1509,6 @@ do3:                do i=1, size(curr%field,1)
     real(prec), allocatable, dimension(:,:,:) :: dwz3D
     real(prec), dimension(:,:,:,:), pointer :: bathymetry_4D !3 space dimensions + time (constant)
     real(prec), dimension(:,:,:), pointer :: bathymetry_3D !3 space dimensions
-    real(prec), dimension(:), allocatable :: level
     type(string) :: outext
     integer :: dimIndx, i, j, t, k
     logical found
@@ -1827,51 +1836,114 @@ do3:                do i=1, size(curr%field,1)
     !type(scalar1d_field_class), dimension(:), intent(in) :: dims
     type(generic_field_class), dimension(:), intent(in) :: dims
     real(prec), allocatable, dimension(:) :: rest
-    integer :: i
-    real(prec) ::fmin, fmax, eta,dreg
-    integer :: f_1,f_N
+    integer :: i, j, k, count1D, count2D
+    real(prec) ::fmin, fmax, eta,dreg, valorminimo
     !Begin--------------------------------------------------------
-    allocate(self%dim, source = dims)
+    count1D = 0
+    count2D = 0
+    do i=1,size(dims)
+        if (allocated(dims(i)%scalar1d%field)) count1D= count1D+1
+        if (allocated(dims(i)%scalar2d%field)) count2D= count2D+1
+    enddo
+
+    write(*,*)"count1D = ", count1D
+    write(*,*)"count2D = ", count2D
+    allocate(self%dim_1D(count1D))
+    allocate(self%dim_2D(count2D))
+    if (allocated(self%dim_2D(1)%field)) write(*,*)"ja estava alocado!!!"
+    if (allocated(self%dim_2D(2)%field)) write(*,*)"ja estava alocado!!!"
+    j=1
+    k=1
+    do i=1, size(dims)
+        if (allocated(dims(i)%scalar1d%field)) then
+            write(*,*)"entrei 1D"
+            write(*,*)"j = ", j
+            write(*,*)"i = ", i
+            call self%dim_1D(j)%initialize(dims(i)%name, dims(i)%units, 1, dims(i)%scalar1d%field)
+            write(*,*)"sai 1D"
+            j=j+1
+        elseif (allocated(dims(i)%scalar2d%field)) then
+            write(*,*)"entrei 2D"
+            write(*,*)"k = ", k
+            write(*,*)"i = ", i
+            if (allocated(self%dim_2D(k)%field)) write(*,*)"ja estava alocado!!!"
+            call self%dim_2D(k)%initialize(dims(i)%name, dims(i)%units, 2, dims(i)%scalar2d%field)
+            write(*,*)"Sai 2D"
+            k=k+1
+        endif
+    enddo
+    write(*,*)"Agora para a asneira"
+    allocate(self%dim(size(dims)))
+    do i=1, size(dims)
+        if (allocated(dims(i)%scalar1d%field)) then
+            write(*,*)"entrei 1D"
+            write(*,*)"j = ", j
+            write(*,*)"i = ", i
+            call self%dim(i)%initialize(dims(i)%name, dims(i)%units, dims(i)%scalar1d%field)
+            write(*,*)"sai 1D"
+            j=j+1
+        elseif (allocated(dims(i)%scalar2d%field)) then
+            write(*,*)"entrei 2D"
+            write(*,*)"k = ", k
+            write(*,*)"i = ", i
+            if (allocated(self%dim_2D(k)%field)) write(*,*)"ja estava alocado!!!"
+            call self%dim(i)%initialize(dims(i)%name, dims(i)%units, dims(i)%scalar2d%field)
+            write(*,*)"Sai 2D"
+            k=k+1
+        endif
+    enddo
+    
+    
+    !do i=1, size(dims)
+    !    if (allocated(dims(i)%scalar1d%field)) allocate(self%dim(i)%scalar1d, source = dims(i)%scalar1d)
+    !    if (allocated(dims(i)%scalar2d%field)) allocate(self%dim(i)%scalar2d, source = dims(i)%scalar2d)
+    !enddo
+    
     allocate(self%regularDim(size(dims)))
     self%regularDim = .false.
     write(*,*) "In SetDims"
-    do i=1, size(dims)
-        if (allocated(dims(i)%scalar1d%field)) then
-            write(*,*) "allocated field is 1D"
-            fmin = self%dim(i)%scalar1d%getFieldMinBound() 
-            fmax = self%dim(i)%scalar1d%getFieldMaxBound()
-            eta = (fmax-fmin)/(10.0*size(self%dim(i)%scalar1d%field))
-            dreg = (fmax-fmin)/(size(self%dim(i)%scalar1d%field))
-            allocate(rest(size(self%dim(i)%scalar1d%field)-1))
-            rest = dims(i)%scalar1d%field(2:)-dims(i)%scalar1d%field(:size(self%dim(i)%scalar1d%field)-1)
-            self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
-            deallocate(rest)
-        elseif (allocated(dims(i)%scalar2d%field)) then
-            write(*,*) "allocated field is 2D"
-            if (self%dim(i)%name == Globals%Var%lat) then
-                write(*,*) "Var is Lat"
-                write(*,*) "size of lat", size(self%dim(i)%scalar2d%field,1)
-                fmin = self%dim(i)%scalar2d%getFieldMinBound(arrayDim=1) !rows are lat
-                fmax = self%dim(i)%scalar2d%getFieldMaxBound(arrayDim=1) !rows are lat
-                eta = (fmax-fmin)/(10.0*size(self%dim(i)%scalar2d%field,1))
-                dreg = (fmax-fmin)/(size(self%dim(i)%scalar2d%field, 1))
-                allocate(rest(size(self%dim(i)%scalar2d%field, 1)-1))
-                rest = dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(self%dim(i)%scalar2d%field, 1)-1)
-                self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
-                deallocate(rest)
-            elseif (self%dim(i)%name == Globals%Var%lon) then
-                write(*,*) "Var is Lon"
-                fmin = self%dim(i)%scalar2d%getFieldMinBound(arrayDim=2) !columns are lon
-                fmax = self%dim(i)%scalar2d%getFieldMaxBound(arrayDim=2) !columns are lon
-                eta = (fmax-fmin)/(10.0*size(self%dim(i)%scalar2d%field,2))
-                dreg = (fmax-fmin)/(size(self%dim(i)%scalar2d%field,2))
-                allocate(rest(size(self%dim(i)%scalar2d%field,2)-1))
-                rest = dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(self%dim(i)%scalar2d%field,2)-1,1)
-                self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
-                deallocate(rest)
-            endif
-        end if
-    end do
+    !do i=1, size(self%dim)
+    !    if (allocated(self%dim(i)%scalar1d%field)) then
+    !        write(*,*) "allocated field is 1D"
+    !        fmin = self%dim(i)%scalar1d%getFieldMinBound() 
+    !        fmax = self%dim(i)%scalar1d%getFieldMaxBound()
+    !        eta = (fmax-fmin)/(10.0*size(self%dim(i)%scalar1d%field))
+    !        dreg = (fmax-fmin)/(size(self%dim(i)%scalar1d%field))
+    !        allocate(rest(size(self%dim(i)%scalar1d%field)-1))
+    !        rest = dims(i)%scalar1d%field(2:)-dims(i)%scalar1d%field(:size(self%dim(i)%scalar1d%field)-1)
+    !        self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
+    !        deallocate(rest)
+    !    elseif (allocated(self%dim(i)%scalar2d%field)) then
+    !        write(*,*) "allocated field is 2D"
+    !        if (self%dim(i)%name == Globals%Var%lat) then
+    !            write(*,*) "Var is Lat"
+    !            write(*,*) "size of lat", size(self%dim(i)%scalar2d%field,2)
+    !            fmin = self%dim(i)%scalar2d%getFieldMinBound(arrayDim=2) !columns are lat
+    !            write(*,*) "fmin lat", fmin
+    !            fmax = self%dim(i)%scalar2d%getFieldMaxBound(arrayDim=2) !columns are lat
+    !            write(*,*) "fmax lat", fmax
+    !            eta = (fmax-fmin)/(10.0*size(self%dim(i)%scalar2d%field,2))
+    !            dreg = (fmax-fmin)/(size(self%dim(i)%scalar2d%field, 2))
+    !            allocate(rest(size(self%dim(i)%scalar2d%field, 2)-1))
+    !            rest = dims(i)%scalar2d%field(1,2:)-dims(i)%scalar2d%field(1,:size(self%dim(i)%scalar2d%field,2)-1)
+    !            self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
+    !            deallocate(rest)
+    !        elseif (self%dim(i)%name == Globals%Var%lon) then
+    !            write(*,*) "Var is Lon"
+    !            write(*,*) "size of Lon", size(self%dim(i)%scalar2d%field,1)
+    !            fmin = self%dim(i)%scalar2d%getFieldMinBound(arrayDim=1) !rows are lon
+    !            write(*,*) "fmin lon", fmin
+    !            fmax = self%dim(i)%scalar2d%getFieldMaxBound(arrayDim=1) !rows are lon
+    !            write(*,*) "fmax lon", fmax
+    !            eta = (fmax-fmin)/(10.0*size(self%dim(i)%scalar2d%field,1))
+    !            dreg = (fmax-fmin)/(size(self%dim(i)%scalar2d%field,1))
+    !            allocate(rest(size(self%dim(i)%scalar2d%field,1)-1))
+    !            rest = dims(i)%scalar2d%field(2:,1)-dims(i)%scalar2d%field(:size(self%dim(i)%scalar2d%field,1)-1,1)
+    !            self%regularDim(i) = all(abs(rest - dreg) < abs(eta))
+    !            deallocate(rest)
+    !        endif
+    !    end if
+    !end do
     write(*,*) "Out SetDims"
     end subroutine setDims
     
@@ -2070,7 +2142,7 @@ do3:                do i=1, size(curr%field,1)
         aField => self%fields%currentValue()
         select type(aField)
         class is (field_class)
-            equal = ALL(dimSize.eq.aField%getFieldShape())
+            equal = all(dimSize.eq.aField%getFieldShape())
             if (.not.equal) check = .false.
             class default
             outext = '[background_class::check] Unexepected type of content, not a scalar Field'

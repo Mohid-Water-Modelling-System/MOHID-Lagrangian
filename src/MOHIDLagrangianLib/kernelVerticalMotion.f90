@@ -331,8 +331,7 @@
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time, dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Resuspension
-    integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom
-    !integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd
+    integer :: col_temp, col_sal, col_dwz, col_bat, col_hs, col_ts, col_wd, col_dist2bottom, i
     real(prec) :: landIntThreshold
     real(prec), dimension(:,:), allocatable :: var_dt
     real(prec), dimension(size(sv%state,1)) :: velocity_mod, water_density, tension
@@ -343,6 +342,7 @@
     real(prec) :: EP = 1/3
     real(prec) :: waterKinematicVisc = 1e-6
     real(prec) :: taum, taumax, cdr, cds, rec, rew, fw, fws, fwr, as, ar, t1, t2, t3, a1, a2
+    real(prec) :: cds1, aux, relativedensity, uwc2, hs
     real(prec) :: cdm, cdms, cdmaxs, cdmax, cdmr, cdmaxr, ubw, abw, waveLength, celerity
     real(prec) :: coefA, coefB, c0, omeg, wavn, cPhi, cWphi, dwz, bat
     real(prec) :: U, psi, dsilt, dsand, dgravel, kscr, kscmr, kscd, fcs, ffs, kscr_max, kscmr_max, kscd_max

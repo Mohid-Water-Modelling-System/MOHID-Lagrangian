@@ -896,6 +896,14 @@
         getFieldMaxBound = maxval(self%field)
     class is (vectorial_field_class)
         getFieldMaxBound = MV
+    class is (generic_field_class)
+        if (allocated(self%scalar1d%field)) getFieldMaxBound = maxval(self%scalar1d%field)
+        if (allocated(self%scalar2d%field)) getFieldMaxBound = maxval(self%scalar2d%field)
+        if (allocated(self%scalar3d%field)) getFieldMaxBound = maxval(self%scalar3d%field)
+        if (allocated(self%scalar4d%field)) getFieldMaxBound = maxval(self%scalar4d%field)
+        if (allocated(self%vectorial2d%field)) getFieldMaxBound = MV
+        if (allocated(self%vectorial3d%field)) getFieldMaxBound = MV
+        if (allocated(self%vectorial4d%field)) getFieldMaxBound = MV
         class default
         outext = '[field_class::getFieldMaxBound]: Unexepected type of content, not a scalar or vectorial Field'
         call Log%put(outext)
@@ -957,6 +965,14 @@
         getFieldMinBound = minval(self%field)
     class is (vectorial_field_class)
         getFieldMinBound = MV
+    class is (generic_field_class)
+        if (allocated(self%scalar1d%field)) getFieldMinBound = minval(self%scalar1d%field)
+        if (allocated(self%scalar2d%field)) getFieldMinBound = minval(self%scalar2d%field)
+        if (allocated(self%scalar3d%field)) getFieldMinBound = minval(self%scalar3d%field)
+        if (allocated(self%scalar4d%field)) getFieldMinBound = minval(self%scalar4d%field)
+        if (allocated(self%vectorial2d%field)) getFieldMinBound = MV
+        if (allocated(self%vectorial3d%field)) getFieldMinBound = MV
+        if (allocated(self%vectorial4d%field)) getFieldMinBound = MV
         class default
         outext = '[field_class::getFieldMinBound]: Unexepected type of content, not a scalar or vectorial Field'
         call Log%put(outext)

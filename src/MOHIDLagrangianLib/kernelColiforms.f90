@@ -59,31 +59,30 @@
     real(prec), dimension(size(sv%state,1)) :: depth, Radiation_SW, T90, Radiation
     type(string), dimension(:), allocatable :: requiredVars
     real(prec), dimension(2) :: maxLevel
-    integer :: col_SWcoef, col_SWper, temp, sal, rad, T90_method, col_conc, col_T90, col_T90_var, col_T90_varM
+    integer :: col_SWcoef, col_SWper, T90_method, col_conc, col_T90, col_T90_var, col_T90_varM
+    integer :: col_rad, col_sal, col_temp
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string) :: tag
     !Begin------------------------------------------------------------------------
     MortalityT90 = 0.0
-    tag = 'concentration'
-    col_conc = Utils%find_str(sv%varName, tag, .true.)
     tag = 'T90'
     col_T90 = Utils%find_str(sv%varName, tag, .true.)
     tag = 'T90_variable'
     col_T90_var = Utils%find_str(sv%varName, tag, .true.)
     tag = 'T90_method'
     col_T90_varM = Utils%find_str(sv%varName, tag, .true.)
-    tag = 'sw_percentage'
-    col_SWcoef = Utils%find_str(sv%varName, tag, .true.)
     tag = 'sw_extinction_coef'
+    col_SWcoef = Utils%find_str(sv%varName, tag, .true.)
+    tag = 'sw_percentage'
     col_SWper = Utils%find_str(sv%varName, tag, .true.)
         
-    if (all(sv%state(:,T90_varM_idx) == 1)) then
+    if (all(sv%state(:,col_T90_varM) == 1)) then
         T90_method = 1
     else
         T90_method = 2
     end if
-    if (all(sv%state(:,T90_var_idx) == 1)) then
+    if (all(sv%state(:,col_T90_var) == 1)) then
         allocate(requiredVars(1))
         requiredVars(1) = Globals%Var%rad
         
@@ -95,7 +94,7 @@
         col_rad = Utils%find_str(var_name, Globals%Var%rad, .true.)
             
         !w/m2        =   w/m2          *     []
-        Radiation_SW = var_dt(:,rad) * sv%state(:,SWperidx)
+        Radiation_SW = var_dt(:,col_rad) * sv%state(:,col_SWper)
         !compute light extintion
         depth = sv%state(:,3)
             
@@ -104,7 +103,7 @@
         depth = maxLevel(2) - depth
                     
         !compute light exctintion in water column
-        Radiation = Radiation_SW * exp(-sv%state(:,SWcoefidx) * depth)
+        Radiation = Radiation_SW * exp(-sv%state(:,col_SWcoef) * depth)
         !Compute T90
         if (T90_method == 1) then
             !Canteras
@@ -115,7 +114,7 @@
             ![]                        
             T90 = (2.303 / T90) * 24 * 3600                        
                         
-            MortalityT90(:,conc_idx)  =  - sv%state(:,conc_idx) * (alog(10.0) / T90)
+            MortalityT90(:,col_conc)  =  - sv%state(:,col_conc) * (alog(10.0) / T90)
             !
             
         else if (T90_method == 2) then
@@ -126,11 +125,11 @@
         deallocate(var_dt)
     else
         !Use constant T90
-        MortalityT90(:,conc_idx) = - (sv%state(:,conc_idx) * sv%state(:,T90_idx))
+        MortalityT90(:,col_conc) = - (sv%state(:,col_conc) * sv%state(:,col_T90))
     endif
         
     !matar coliformes com menos de 100 UFC/100ml
-    where(sv%state(:,conc_idx) < 100) sv%active = .false.
+    where(sv%state(:,col_conc) < 100) sv%active = .false.
     
     end function MortalityT90
     

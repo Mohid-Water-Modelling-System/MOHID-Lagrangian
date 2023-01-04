@@ -82,6 +82,7 @@
     !begin----------------------------------------------------------------------------
     !Check field extents and what particles will be interpolated
     !interpolate each field to the correspoing slice in var_dt
+    write(*,*)"Entrei interpolador"
     i = 1
     call bdata%fields%reset()                   ! reset list iterator
     do while(bdata%fields%moreValues())         ! loop while there are values
@@ -150,7 +151,7 @@
         i = i+1 !to select the correct slice of var_dt for the corresponding field
     end do
     call bdata%fields%reset()                   ! reset list iterator
-
+    write(*,*)"Sai interpolador"
     end subroutine run
     
     !!---------------------------------------------------------------------------

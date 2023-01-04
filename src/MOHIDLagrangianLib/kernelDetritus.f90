@@ -49,15 +49,16 @@
     !> Detritus degradation rate kernel.
     !> @param[in] self, sv, bdata, dt
     !---------------------------------------------------------------------------
-    function Degradation(self, sv, bdata, time, dt)
+    function Degradation(self, sv, dt)
     class(kernelDetritus_class), intent(in) :: self
     type(stateVector_class), intent(inout) :: sv
-    type(background_class), dimension(:), intent(in) :: bdata
-    real(prec), intent(in) :: time, dt
+    !type(background_class), dimension(:), intent(in) :: bdata
+    real(prec), intent(in) :: dt
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: Degradation
     real(prec) :: ToptBMin, ToptBMax, TBacteriaMin, TBacteriaMax, BK1, BK2, BK3, BK4, MaxDegradationRate
     real(prec) :: max_age, threshold_bot_wat
-    real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature, dist2bottom
+    real(prec), dimension(size(sv%state,1)) :: s1, s2, ya, yb, xa, xb, limFactor, mass, volume_new, init_mass, temperature
+    !real(prec), dimension(size(sv%state,1)) :: dist2bottom
     integer :: volume_col, radius_col, col_temp, initvol_col, density_col, age_col
     !integer :: volume_col, radius_col, col_temp, col_dwz, col_bat, initvol_col, density_col, age_col
     real(prec):: compute_rate = 7200
@@ -90,7 +91,7 @@
         BK3 = Globals%Constants%BK3
         BK4 = Globals%Constants%BK4
         MaxDegradationRate = Globals%Constants%MaxDegradationRate
-        landIntThreshold = -0.98
+        !landIntThreshold = -0.98
         
         col_temp = Utils%find_str(sv%varName, Globals%Var%temp, .true.)
         !col_dwz = Utils%find_str(sv%varName, Globals%Var%dwz, .true.)

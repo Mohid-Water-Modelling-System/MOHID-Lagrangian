@@ -621,9 +621,6 @@
         getVarSimName = self%rate
         return
     end if
-    
-    !Sobrinho
-    write(*,*)"variable not found"
 
     end function getVarSimName
     
@@ -1560,7 +1557,6 @@
     subroutine setAddBottomCell(self, read_AddBottomCell)
     class(constants_t), intent(inout) :: self
     type(string), intent(in) :: read_AddBottomCell
-    type(string) :: outext
     integer :: sizem
     self%AddBottomCell = read_AddBottomCell%to_number(kind=1_I1P)
     sizem = sizeof(self%AddBottomCell)
@@ -1973,7 +1969,6 @@
     subroutine setTemperature_add_offset(self, read_Temperature_add_offset)
     class(simdefs_t), intent(inout) :: self
     type(string), intent(in) :: read_Temperature_add_offset
-    type(string) :: outext
     integer :: sizem
     self%Temperature_add_offset=read_Temperature_add_offset%to_number(kind=1._R8P)
     

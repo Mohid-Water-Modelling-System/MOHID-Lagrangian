@@ -103,6 +103,7 @@
     type(string), allocatable, dimension(:) :: varList
     logical, allocatable, dimension(:) :: syntecticVar
     type(ncReader_class) :: ncReader
+    write(*,*)"Entrei get currentsFile"
     allocate(varList(7))
     allocate(syntecticVar(7))
     varList(1) = Globals%Var%u
@@ -128,8 +129,11 @@
     end if
     !need to send to different readers here if different file formats
     getCurrentsFile = ncReader%getFullFile(fileName, varList, syntecticVar)
+    write(*,*)"entrar makeLandMaskField"
     call getCurrentsFile%makeLandMaskField()
+    write(*,*)"sair makeLandMaskField"
     call getCurrentsFile%makeResolutionField()
+    write(*,*)"sair makeResolutionField"
     if (Globals%SimDefs%bathyminNetcdf == 0) then
         call getCurrentsFile%makeBathymetryField() !computes bathymetry using the layer depth and the openpoints from velocity u
     end if
@@ -137,6 +141,7 @@
     call getCurrentsFile%makeDWZField()
     !Change the value of the first bottom cell to enable interpolation until the bottom and not just until the center of!the cell
     if (Globals%Constants%AddBottomCell == 1) call getCurrentsFile%makeBottom(varList, syntecticVar)
+    write(*,*)"Sai get currentsFile"
     end function getCurrentsFile
 
     !---------------------------------------------------------------------------
@@ -243,6 +248,7 @@
     integer :: fNumber
     real(prec) :: tempTime(2)
     logical :: appended
+    write(*,*)"Entrei loadDataFromStack"
     if (self%useInputFiles) then
         call self%resetReadStatus()
         !check what files on the stack are to read to backgrounds
@@ -268,6 +274,7 @@
             end do
         end if
         !read selected files
+        write(*,*)"read selected files"
         if (allocated(self%currentsInputFile)) then
             do i=1, size(self%currentsInputFile)
                 if (self%currentsInputFile(i)%toRead) then
@@ -277,9 +284,11 @@
                     do j=1, size(blocks)
                         !slice data by block and either join to existing background or add a new one                        
                         if (blocks(j)%Background(self%currentsBkgIndex)%initialized) then
+                            write(*,*)"entrar getHyperSlab correntes"
                             tempBkgd2 = tempBkgd%getHyperSlab(blocks(j)%extents)
                             call blocks(j)%Background(self%currentsBkgIndex)%append(tempBkgd2, appended)
                             call tempBkgd2%finalize()
+                            write(*,*)"sair getHyperSlab correntes"
                         end if
                         if (.not.blocks(j)%Background(self%currentsBkgIndex)%initialized) blocks(j)%Background(self%currentsBkgIndex) = tempBkgd%getHyperSlab(blocks(j)%extents)
                         !save last time already loaded
@@ -288,7 +297,9 @@
                         self%lastCurrentsReadTime = min(tempTime(2), self%lastCurrentsReadTime)
                     end do
                     !add bkg info to dict
+                    write(*,*)"entrar fillBackgroundDict"
                     call Globals%fillBackgroundDict(self%currentsBkgIndex, tempBkgd%variables)
+                    write(*,*)"sair fillBackgroundDict"
                     !clean out the temporary background data
                     call tempBkgd%finalize()
                 end if
@@ -354,6 +365,7 @@
                     self%waterPropsInputFile(i)%used = .true.
                     do j=1, size(blocks)
                         !slice data by block and either join to existing background or add a new one
+                        write(*,*)"entrar getHyperSlab WP"
                         if (blocks(j)%Background(self%waterPropsBkgIndex)%initialized) then
                             tempBkgd2 = tempBkgd%getHyperSlab(blocks(j)%extents)
                             call blocks(j)%Background(self%waterPropsBkgIndex)%append(tempBkgd2, appended)
@@ -364,15 +376,19 @@
                         tempTime = blocks(j)%Background(self%waterPropsBkgIndex)%getDimExtents(Globals%Var%time)
                         if (self%lastWaterPropsReadTime == -1.0) self%lastWaterPropsReadTime = tempTime(2)
                         self%lastWaterPropsReadTime = min(tempTime(2), self%lastWaterPropsReadTime)
+                        write(*,*)"sair getHyperSlab WP"
                     end do                    
                     !add bkg info to dict
+                    write(*,*)"entrar fillBackgroundDict WP"
                     call Globals%fillBackgroundDict(self%waterPropsBkgIndex, tempBkgd%variables)
                     !clean out the temporary background data
                     call tempBkgd%finalize()
+                    write(*,*)"sair fillBackgroundDict WP"
                 end if
             end do
         end if
     end if
+    write(*,*)"Sai loadDataFromStack"
     end subroutine loadDataFromStack
 
     !---------------------------------------------------------------------------

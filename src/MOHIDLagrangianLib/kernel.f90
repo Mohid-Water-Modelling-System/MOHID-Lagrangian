@@ -112,7 +112,7 @@
         runKernel = self%LagrangianKinematic(sv, bdata, time) + self%StokesDrift(sv, bdata, time) + &
                     self%DiffusionMixingLength(sv, bdata, time, dt) + self%Aging(sv) + &
                     VerticalMotion%Buoyancy(sv, bdata, time) + VerticalMotion%Resuspension(sv, bdata, time, dt) + &
-                    detritus%Degradation(sv, bdata, time, dt)
+                    detritus%Degradation(sv, dt)
         runKernel = self%Beaching(sv, runKernel)
     end if
     runKernel = VerticalMotion%CorrectVerticalBounds(sv, runKernel, bdata, dt)
@@ -132,7 +132,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: i, j, col_age, col_bat, col_bat_sv, col_dwz, col_dwz_sv, col_landintmask, col_res
+    integer :: i, j, col_age, col_bat, col_bat_sv, col_landintmask, col_res
     real(prec) :: maxLevel(2)
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
@@ -214,7 +214,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: col_temp, col_sal, col_temp_sv, col_sal_sv
+    integer :: col_temp, col_sal, col_temp_sv, col_sal_sv, col_dwz, col_dwz_sv
     real(prec), dimension(:,:), allocatable :: var_dt
     type(string), dimension(:), allocatable :: var_name
     type(string), dimension(:), allocatable :: requiredVars
@@ -281,7 +281,7 @@
     type(stateVector_class), intent(inout) :: sv
     type(background_class), dimension(:), intent(in) :: bdata
     real(prec), intent(in) :: time
-    integer :: nf, i, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom
+    integer :: nf, nf_u, nf_v, col_u, col_dwz, col_v, col_w, part_idx, col_dist2bottom
     !integer :: nf, i, col_u, col_dwz, col_v, col_w, col_bat, part_idx
     real(prec), dimension(:,:), allocatable :: var_dt, var_hor_dt
     type(string), dimension(:), allocatable :: var_name, var_name_hor
@@ -572,7 +572,6 @@
     real(prec), intent(in) :: time
     real(prec), intent(in) :: dt
     integer :: np, part_idx, col_dist2bottom
-    !integer :: np, part_idx, col_dwz, col_bat
     real(prec), dimension(size(sv%state,1)) :: dist2bottom
     real(prec), dimension(size(sv%state,1),size(sv%state,2)) :: DiffusionMixingLength
     real(prec), dimension(:), allocatable :: rand_vel_u, rand_vel_v, rand_vel_w
