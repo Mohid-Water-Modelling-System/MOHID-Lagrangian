@@ -43,6 +43,7 @@
         class(shape), allocatable :: geometry   !< Source geometry
         real(prec) :: bottom_emission_depth     !< emission of tracers at the bottom
         real(prec) :: biofouling_rate           !< biofouling growth rate
+        real(prec) :: tracer_volume             !< volume of each tracer (for tracers that are a portion of water, not solids)
     end type source_par
 
     type :: source_prop                         !<Type - material properties of a source object
@@ -494,7 +495,7 @@
     !> source inititialization proceadure - initializes Source variables
     !> @param[in] src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, emitting_type, activeTimes, source_geometry, shapetype, res
     !---------------------------------------------------------------------------
-    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, activeTimes, source_geometry, shapetype, res)
+    subroutine initializeSource(src, id, name, emitting_rate, emitting_fixed_rate, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, tracer_volume, activeTimes, source_geometry, shapetype, res)
     class(source_class) :: src
     integer, intent(in) :: id
     type(string), intent(in) :: name
@@ -505,6 +506,7 @@
     logical, intent(in) :: posi_fixed
     real(prec), intent(in) :: bottom_emission_depth
     real(prec), intent(in) :: biofouling_rate
+    real(prec), intent(in) :: tracer_volume
     type(string), intent(in) :: posi_file
     real(prec), dimension(:,:), intent(in) :: activeTimes
     type(string), intent(in) :: source_geometry
@@ -521,6 +523,7 @@
     src%par%rate_file = rate_file
     src%par%bottom_emission_depth = bottom_emission_depth
     src%par%biofouling_rate = biofouling_rate
+    src%par%tracer_volume = tracer_volume
     if (.not.emitting_fixed_rate) then
         call src%getVariableRate(src%par%rate_file, rateScale)
         src%par%emitting_rate=sum(src%par%variable_rate)/size(src%par%variable_rate)
@@ -612,12 +615,13 @@
     temp_str(1)=src%stencil%np
     if (src%par%emitting_fixed_rate) then
         temp_str(2)=src%par%emitting_rate
-        outext = outext//'       Emitting '//temp_str(1)//' tracers at '//temp_str(2)//' Hz'
+        outext = outext//'       Emitting '//temp_str(1)//' tracers at '//temp_str(2)//' Hz or seconds'
     else
         outext = outext//'       Emitting '//temp_str(1)//' tracers at a rate defined in '//src%par%rate_file//new_line('a')
         temp_str(2) = src%par%rateScale
         outext = outext//'       scaled by '//temp_str(2)
-    end if    
+    end if
+    
     call Log%put(outext,.false.)
     end subroutine printSource
 

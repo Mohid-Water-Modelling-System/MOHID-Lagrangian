@@ -186,7 +186,10 @@
     write(*,*) "Sai extents%size"
     name = fileName%basename(strip_last_extension=.true.)
     write(*,*) "Entrei no constructor do Background"
-    getFullFile = Background(1, name, extents, backgrounDims)
+    !For some reason this is not working
+    !getFullFile = Background(1, name, extents, backgrounDims)
+    
+    call getFullFile%construct_dims(1, name, extents, backgrounDims)
     write(*,*) "Sai do constructor do Background"
     do i = 1, size(gfield)
         write(*,*) "Entrei gfield add = ", i

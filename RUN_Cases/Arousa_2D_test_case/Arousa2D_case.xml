@@ -84,6 +84,14 @@
 				<point x="-8.92" y="42.56" z="0" units_comment="(deg,deg,m)"/>
 			</source>
 			<source>
+				<setsource id="6" name="ReleasePoint_2" />
+                <tracer_volume value="1" comment="volume in m3 of each tracer. only used when value > default(0)" />
+				<rateTimeSeries> 
+					<file name="data/discharge_example3.dat" comment="name of mohid.dat file with discharge information (time and flow rate columns)"/>
+				</rateTimeSeries>
+				<point x="-8.96" y="42.56" z="0" units_comment="(deg,deg,m)"/>
+			</source>
+			<source>
 				<setsource id="5" name="ReleasePoint5" />
 				<rateTimeSeries> 
 					<file name="data/discharge_example2.dat" />

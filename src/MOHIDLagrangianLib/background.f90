@@ -48,6 +48,7 @@
         type(stringList_class) :: variables
     contains
     procedure :: add => addField
+    procedure :: construct_dims
     procedure :: getDimIndex
     procedure :: getDimExtents
     procedure :: getVarByName4D
@@ -134,7 +135,6 @@
     type(box), intent(in) :: extents
     type(generic_field_class), dimension(:), intent(in) :: dims
     !Begin--------------------------------------------------------
-    !do i=1,
     constructor%initialized = .true.
     call constructor%setID(id, name)
     call constructor%setExtents(extents)
@@ -156,6 +156,21 @@
     !call constructor%setDims(dims)
     !end function constructor
 
+    
+    subroutine construct_dims(self, id, name, extents, dims)
+    class(background_class), intent(inout) :: self
+    integer, intent(in) :: id
+    type(string), intent(in) :: name
+    type(box), intent(in) :: extents
+    type(generic_field_class), dimension(:), intent(in) :: dims
+    !Begin--------------------------------------------------------
+    write(*,*) "In construct_dims"
+    self%initialized = .true.
+    call self%setID(id, name)
+    call self%setExtents(extents)
+    call self%setDims(dims)
+    write(*,*) "Out construct_dims SetDims"
+    end subroutine construct_dims
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -1839,64 +1854,59 @@ do3:                do i=1, size(curr%field,1)
     integer :: i, j, k, count1D, count2D
     real(prec) ::fmin, fmax, eta,dreg, valorminimo
     !Begin--------------------------------------------------------
-    count1D = 0
-    count2D = 0
-    do i=1,size(dims)
-        if (allocated(dims(i)%scalar1d%field)) count1D= count1D+1
-        if (allocated(dims(i)%scalar2d%field)) count2D= count2D+1
-    enddo
-
-    write(*,*)"count1D = ", count1D
-    write(*,*)"count2D = ", count2D
-    allocate(self%dim_1D(count1D))
-    allocate(self%dim_2D(count2D))
-    if (allocated(self%dim_2D(1)%field)) write(*,*)"ja estava alocado!!!"
-    if (allocated(self%dim_2D(2)%field)) write(*,*)"ja estava alocado!!!"
-    j=1
-    k=1
-    do i=1, size(dims)
-        if (allocated(dims(i)%scalar1d%field)) then
-            write(*,*)"entrei 1D"
-            write(*,*)"j = ", j
-            write(*,*)"i = ", i
-            call self%dim_1D(j)%initialize(dims(i)%name, dims(i)%units, 1, dims(i)%scalar1d%field)
-            write(*,*)"sai 1D"
-            j=j+1
-        elseif (allocated(dims(i)%scalar2d%field)) then
-            write(*,*)"entrei 2D"
-            write(*,*)"k = ", k
-            write(*,*)"i = ", i
-            if (allocated(self%dim_2D(k)%field)) write(*,*)"ja estava alocado!!!"
-            call self%dim_2D(k)%initialize(dims(i)%name, dims(i)%units, 2, dims(i)%scalar2d%field)
-            write(*,*)"Sai 2D"
-            k=k+1
-        endif
-    enddo
-    write(*,*)"Agora para a asneira"
-    allocate(self%dim(size(dims)))
-    do i=1, size(dims)
-        if (allocated(dims(i)%scalar1d%field)) then
-            write(*,*)"entrei 1D"
-            write(*,*)"j = ", j
-            write(*,*)"i = ", i
-            call self%dim(i)%initialize(dims(i)%name, dims(i)%units, dims(i)%scalar1d%field)
-            write(*,*)"sai 1D"
-            j=j+1
-        elseif (allocated(dims(i)%scalar2d%field)) then
-            write(*,*)"entrei 2D"
-            write(*,*)"k = ", k
-            write(*,*)"i = ", i
-            if (allocated(self%dim_2D(k)%field)) write(*,*)"ja estava alocado!!!"
-            call self%dim(i)%initialize(dims(i)%name, dims(i)%units, dims(i)%scalar2d%field)
-            write(*,*)"Sai 2D"
-            k=k+1
-        endif
-    enddo
+    !Com isto nao funcionava utilizando a chamada getfullfile = Background(.....) no NetCDFparser
+    allocate(self%dim, source = dims)
     
-    
+    !Com isto tambem nao:
+    !allocate(self%dim(size(dims)))
     !do i=1, size(dims)
-    !    if (allocated(dims(i)%scalar1d%field)) allocate(self%dim(i)%scalar1d, source = dims(i)%scalar1d)
-    !    if (allocated(dims(i)%scalar2d%field)) allocate(self%dim(i)%scalar2d, source = dims(i)%scalar2d)
+    !    if (allocated(dims(i)%scalar1d%field)) then
+    !        write(*,*)"entrei 1D"
+    !        write(*,*)"i = ", i
+    !        call self%dim(i)%initialize(dims(i)%name, dims(i)%units, dims(i)%scalar1d%field)
+    !        write(*,*)"sai 1D"
+    !        j=j+1
+    !    elseif (allocated(dims(i)%scalar2d%field)) then
+    !        write(*,*)"entrei 2D"
+    !        write(*,*)"i = ", i
+    !        call self%dim(i)%initialize(dims(i)%name, dims(i)%units, dims(i)%scalar2d%field)
+    !        write(*,*)"Sai 2D"
+    !        k=k+1
+    !    endif
+    !enddo
+    
+    !count1D = 0
+    !count2D = 0
+    !do i=1,size(dims)
+    !    if (allocated(dims(i)%scalar1d%field)) count1D= count1D+1
+    !    if (allocated(dims(i)%scalar2d%field)) count2D= count2D+1
+    !enddo
+
+    !write(*,*)"count1D = ", count1D
+    !write(*,*)"count2D = ", count2D
+    !allocate(self%dim_1D(count1D))
+    !allocate(self%dim_2D(count2D))
+    !if (allocated(self%dim_2D(1)%field)) write(*,*)"ja estava alocado!!!"
+    !if (allocated(self%dim_2D(2)%field)) write(*,*)"ja estava alocado!!!"
+    !j=1
+    !k=1
+    !do i=1, size(dims)
+    !    if (allocated(dims(i)%scalar1d%field)) then
+    !        write(*,*)"entrei 1D"
+    !        write(*,*)"j = ", j
+    !        write(*,*)"i = ", i
+    !        call self%dim_1D(j)%initialize(dims(i)%name, dims(i)%units, 1, dims(i)%scalar1d%field)
+    !        write(*,*)"sai 1D"
+    !        j=j+1
+    !    elseif (allocated(dims(i)%scalar2d%field)) then
+    !        write(*,*)"entrei 2D"
+    !        write(*,*)"k = ", k
+    !        write(*,*)"i = ", i
+    !        if (allocated(self%dim_2D(k)%field)) write(*,*)"ja estava alocado!!!"
+    !        call self%dim_2D(k)%initialize(dims(i)%name, dims(i)%units, 2, dims(i)%scalar2d%field)
+    !        write(*,*)"Sai 2D"
+    !        k=k+1
+    !    endif
     !enddo
     
     allocate(self%regularDim(size(dims)))
