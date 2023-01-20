@@ -50,13 +50,25 @@
 
     type, extends(field_class) :: scalar_field_class      !< a scalar field class
     contains
+    procedure :: getFieldNearestIndex
     end type scalar_field_class
+    
+    !Because fortran for some reason does not like me to allocate generic fields in some places
+    type, extends(scalar_field_class) :: scalar_dimfield_class      !< a scalar field class
+        real(prec), allocatable, dimension(:) :: field1D !< the data on the scalar data 1Dfield
+        real(prec), allocatable, dimension(:,:) :: field2D !< the data on the scalar data 2Dfield
+    contains
+    procedure :: initScalardim1dField
+    procedure :: initScalardim2dField
+    generic   :: initialize => initScalardim1dField, initScalardim2dField
+    procedure :: finalize => cleanScalardimField
+    end type scalar_dimfield_class
 
     type, extends(scalar_field_class) :: scalar1d_field_class      !< a 1D scalar field class
         real(prec), allocatable, dimension(:) :: field !< the data on the scalar data field
     contains
     procedure :: initialize => initScalar1dField
-    procedure :: getFieldNearestIndex
+    !procedure :: getFieldNearestIndex
     procedure :: finalize => cleanScalar1dField
     end type scalar1d_field_class
 
@@ -64,6 +76,7 @@
         real(prec), allocatable, dimension(:,:) :: field !< the data on the scalar data field
     contains
     procedure :: initialize => initScalar2dField
+    !procedure :: getFieldNearestIndex2D
     procedure :: finalize => cleanScalar2dField
     end type scalar2d_field_class
 
@@ -135,7 +148,7 @@
 
     !Public access vars
     public :: field_class, generic_field_class
-    public :: scalar_field_class, scalar1d_field_class, scalar2d_field_class, scalar3d_field_class, scalar4d_field_class
+    public :: scalar_field_class, scalar_dimfield_class, scalar1d_field_class, scalar2d_field_class, scalar3d_field_class, scalar4d_field_class
     public :: vectorial_field_class, vectorial2d_field_class, vectorial3d_field_class, vectorial4d_field_class
 
     contains
@@ -345,19 +358,85 @@
     end subroutine initS1D
 
     !---------------------------------------------------------------------------
+    !!> @author Ricardo Birjukovs Canelas - MARETEC
+    !!> @brief
+    !!> Method that returns the field's nearest value index (scalar)
+    !!> @param[in] self, value
+    !!---------------------------------------------------------------------------
+    !integer function getFieldNearestIndex(self, value)
+    !class(scalar1d_field_class), intent(in) :: self
+    !real(prec), intent(in) :: value
+    !real(prec), allocatable, dimension(:) :: comp
+    !allocate(comp(size(self%field)))
+    !comp = value
+    !getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)
+    !end function getFieldNearestIndex
+    
+    !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
     !> Method that returns the field's nearest value index (scalar)
     !> @param[in] self, value
     !---------------------------------------------------------------------------
-    integer function getFieldNearestIndex(self, value)
-    class(scalar1d_field_class), intent(in) :: self
+    integer function getFieldNearestIndex(self, value, dimID)
+    class(scalar_field_class), intent(in) :: self
     real(prec), intent(in) :: value
-    real(prec), allocatable, dimension(:) :: comp
-    allocate(comp(size(self%field)))
-    comp = value
-    getFieldNearestIndex = minloc(abs(comp - self%field), DIM=1)
+    integer, intent(in), optional :: dimID !lat = 1 or lon = 2
+    real(prec), allocatable, dimension(:) :: comp1d
+    real(prec), allocatable, dimension(:,:) :: comp2d
+    integer, allocatable, dimension(:) :: aux
+    type(string) :: outext
+    integer :: i
+    !Begin-----------------------------------------------
+    select type(self)
+    class is (scalar1d_field_class)
+        allocate(comp1d(size(self%field)))
+        comp1d = value
+        getFieldNearestIndex = minloc(abs(comp1d - self%field), DIM=1)
+    class is (scalar_dimfield_class)
+        if (allocated(self%field1D)) then 
+            allocate(comp1d(size(self%field1D)))
+            comp1d = value
+            getFieldNearestIndex = minloc(abs(comp1d - self%field1D), DIM=1)
+        elseif (allocated(self%field2D)) then
+            if (.not. present(dimID)) then
+                outext = '[field_class::getFieldNearestIndex]: for a 2D field, dimID variable must be provided'
+                call Log%put(outext)
+                stop
+            endif
+            allocate(comp2d(size(self%field2D,1), size(self%field2D,2)))
+            !minloc will give an array the size of the perpendicular direction of dimID
+            if (dimID == 1) allocate(aux(size(self%field2D,2)))
+            if (dimID == 2) allocate(aux(size(self%field2D,1)))
+            comp2d = value
+            aux = minloc(abs(comp2d - self%field2D), DIM=dimID) !output is a 1D array
+            getFieldNearestIndex = minval(aux) !get the smallest row or column ID
+        else
+            outext = '[field_class::getFieldNearestIndex]: scalar field must be 1D or 2D'
+            call Log%put(outext)
+            stop
+        endif
+    end select
     end function getFieldNearestIndex
+    
+    !!> @author Joao Sobrinho - Colab Atlantic
+    !!> @brief
+    !!> Method that returns the 2D field's nearest value index (scalar)
+    !!> @param[in] self, value
+    !!---------------------------------------------------------------------------
+    !integer function getFieldNearestIndex2D(self, value, dimID)
+    !class(scalar2d_field_class), intent(in) :: self
+    !real(prec), intent(in) :: value
+    !real(prec), allocatable, dimension(:,:) :: comp
+    !integer, intent(in) :: dimID !lat = 1 or lon = 2
+    !integer, dimension(size(self%field,dimID)) :: aux
+    !type(string) :: outext
+    !!begin--------------------------------------------------------------
+    !allocate(comp(size(self%field,1), size(self%field,2)))
+    !comp = value
+    !aux = minloc(abs(comp - self%field), DIM=dimID) !output is a 1D array
+    !getFieldNearestIndex2D = minval(aux) !get the smallest row or column ID
+    !end function getFieldNearestIndex2D
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -490,6 +569,38 @@
         call self%setFieldMetadata(name, units, 4)
     end if
     end subroutine initV4D
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - colab atlantic
+    !> @brief
+    !> Method that initializes a scalar dim 1D field
+    !> @param[in] self, name, units, dim, field1D
+    !---------------------------------------------------------------------------
+    subroutine initScalardim1dField(self, name, units, dim, field1D)
+    class(scalar_dimfield_class), intent(inout) :: self
+    real(prec), dimension(:), intent(in) :: field1D
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    integer, intent(in) :: dim
+    call self%setFieldMetadata(name, units, dim)
+    allocate(self%field1D, source = field1D)
+    end subroutine initScalardim1dField
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - colab atlantic
+    !> @brief
+    !> Method that initializes a scalar dim 2D field
+    !> @param[in] self, name, units, dim, field2D
+    !---------------------------------------------------------------------------
+    subroutine initScalardim2dField(self, name, units, dim, field2D)
+    class(scalar_dimfield_class), intent(inout) :: self
+    real(prec), dimension(:,:), intent(in) :: field2D
+    type(string), intent(in) :: name
+    type(string), intent(in) :: units
+    integer, intent(in) :: dim
+    call self%setFieldMetadata(name, units, dim)
+    allocate(self%field2D, source = field2D)
+    end subroutine initScalardim2dField
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
@@ -507,6 +618,18 @@
     allocate(self%field, source = field)
     end subroutine initScalar1dField
 
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Method that deallocates a scalar dim field
+    !> @param[in] self
+    !---------------------------------------------------------------------------
+    subroutine cleanScalardimField(self)
+    class(scalar_dimfield_class), intent(out) :: self
+    if (allocated(self%field1D)) deallocate(self%field1D)
+    if (allocated(self%field2D)) deallocate(self%field2D)
+    end subroutine cleanScalardimField
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -791,6 +914,13 @@
         end if
     class is (scalar3d_field_class)
         if (size(llbound) == 3) then
+            !write(*,*)"entrei no slice 3D. "
+            !write(*,*)"llbound(1):uubound(1) = ", llbound(1), uubound(1)
+            !write(*,*)"llbound(2):uubound(2) = ", llbound(2), uubound(2)
+            !write(*,*)"llbound(3):uubound(3) = ", llbound(3), uubound(3)
+            !write(*,*)"size field 1 = ", size(self%field,1)
+            !write(*,*)"size field 2 = ", size(self%field,2)
+            !write(*,*)"size field 3 = ", size(self%field,3)
             call getFieldSlice%initialize(self%name, self%units, self%field(llbound(1):uubound(1), llbound(2):uubound(2), llbound(3):uubound(3)))
             sliced = .true.
         end if
@@ -851,16 +981,31 @@
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Updated in Dec 2022 by Joao Sbrinho - Colab Atlantic
     !> Method that returns the field's maximum value (scalar)
     !---------------------------------------------------------------------------
-    real(prec) function getFieldMaxBound(self)
+    real(prec) function getFieldMaxBound(self, arrayDim)
     class(field_class), intent(in) :: self
     type(string) :: outext
+    integer, intent(in), optional :: arrayDim !Dimension (columns, rows, depth or time)
+    !Begin-----------------------------------------------
     select type(self)
     class is (scalar_field_class)
+    class is (scalar_dimfield_class)
+        if (allocated(self%field1D)) then
+            getFieldMaxBound = maxval(self%field1D)
+        elseif (allocated(self%field2D)) then
+            getFieldMaxBound = maxval(self%field2D)
+        end if
     class is (scalar1d_field_class)
         getFieldMaxBound = maxval(self%field)
     class is (scalar2d_field_class)
+        if (present(arrayDim)) then
+            if (arrayDim == 1) getFieldMaxBound = minval(self%field(:,1)) !Lon
+            if (arrayDim == 2) getFieldMaxBound = minval(self%field(1,:)) !Lat
+        else
+            getFieldMaxBound = maxval(self%field)
+        end if
         getFieldMaxBound = maxval(self%field)
     class is (scalar3d_field_class)
         getFieldMaxBound = maxval(self%field)
@@ -868,33 +1013,89 @@
         getFieldMaxBound = maxval(self%field)
     class is (vectorial_field_class)
         getFieldMaxBound = MV
+    class is (generic_field_class)
+        if (allocated(self%scalar1d%field)) getFieldMaxBound = maxval(self%scalar1d%field)
+        if (allocated(self%scalar2d%field)) getFieldMaxBound = maxval(self%scalar2d%field)
+        if (allocated(self%scalar3d%field)) getFieldMaxBound = maxval(self%scalar3d%field)
+        if (allocated(self%scalar4d%field)) getFieldMaxBound = maxval(self%scalar4d%field)
+        if (allocated(self%vectorial2d%field)) getFieldMaxBound = MV
+        if (allocated(self%vectorial3d%field)) getFieldMaxBound = MV
+        if (allocated(self%vectorial4d%field)) getFieldMaxBound = MV
         class default
         outext = '[field_class::getFieldMaxBound]: Unexepected type of content, not a scalar or vectorial Field'
         call Log%put(outext)
         stop
     end select
     end function getFieldMaxBound
+    
+    !!---------------------------------------------------------------------------
+    !!> @author Ricardo Birjukovs Canelas - MARETEC
+    !!> @brief
+    !!> Method that returns the field's maximum value (scalar)
+    !!---------------------------------------------------------------------------
+    !real(prec) function getFieldMaxBound(self)
+    !class(field_class), intent(in) :: self
+    !type(string) :: outext
+    !select type(self)
+    !class is (scalar_field_class)
+    !class is (scalar1d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (scalar2d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (scalar3d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (scalar4d_field_class)
+    !    getFieldMaxBound = maxval(self%field)
+    !class is (vectorial_field_class)
+    !    getFieldMaxBound = MV
+    !    class default
+    !    outext = '[field_class::getFieldMaxBound]: Unexepected type of content, not a scalar or vectorial Field'
+    !    call Log%put(outext)
+    !    stop
+    !end select
+    !end function getFieldMaxBound
 
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
+    !> Updated in Dec 2022 by Joao Sbrinho - Colab Atlantic
     !> Method that returns the field's minimum value (scalar)
     !---------------------------------------------------------------------------
-    real(prec) function getFieldMinBound(self)
+    real(prec) function getFieldMinBound(self, arrayDim)
     class(field_class), intent(in) :: self
     type(string) :: outext
+    integer, intent(in), optional :: arrayDim !Dimension (columns, rows, depth or time)
     select type(self)
     class is (scalar_field_class)
+    class is (scalar_dimfield_class)
+        if (allocated(self%field1D)) then
+            getFieldMinBound = minval(self%field1D)
+        elseif (allocated(self%field2D)) then
+            getFieldMinBound = minval(self%field2D)
+        end if
     class is (scalar1d_field_class)
         getFieldMinBound = minval(self%field)
     class is (scalar2d_field_class)
-        getFieldMinBound = minval(self%field)
+        if (present(arrayDim)) then
+            if (arrayDim == 1) getFieldMinBound = minval(self%field(:,1)) !Lon
+            if (arrayDim == 2) getFieldMinBound = minval(self%field(1,:)) !Lat
+        else
+            getFieldMinBound = minval(self%field)
+        end if
     class is (scalar3d_field_class)
         getFieldMinBound = minval(self%field)
     class is (scalar4d_field_class)
         getFieldMinBound = minval(self%field)
     class is (vectorial_field_class)
         getFieldMinBound = MV
+    class is (generic_field_class)
+        if (allocated(self%scalar1d%field)) getFieldMinBound = minval(self%scalar1d%field)
+        if (allocated(self%scalar2d%field)) getFieldMinBound = minval(self%scalar2d%field)
+        if (allocated(self%scalar3d%field)) getFieldMinBound = minval(self%scalar3d%field)
+        if (allocated(self%scalar4d%field)) getFieldMinBound = minval(self%scalar4d%field)
+        if (allocated(self%vectorial2d%field)) getFieldMinBound = MV
+        if (allocated(self%vectorial3d%field)) getFieldMinBound = MV
+        if (allocated(self%vectorial4d%field)) getFieldMinBound = MV
         class default
         outext = '[field_class::getFieldMinBound]: Unexepected type of content, not a scalar or vectorial Field'
         call Log%put(outext)

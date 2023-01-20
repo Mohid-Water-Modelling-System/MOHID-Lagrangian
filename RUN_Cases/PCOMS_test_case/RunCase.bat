@@ -16,7 +16,7 @@ set mohidlagrangian="%tools%/MOHIDLagrangian.exe"
 set preprocessorDir=../../src/MOHIDLagrangianPreProcessor
 set PreProcessor="%preprocessorDir%/MOHIDLagrangianPreProcessor.py"
 
-set postProcessorDir=../../src\MOHIDLagrangianPostProcessor
+set postProcessorDir=../../src/MOHIDLagrangianPostProcessor
 set postProcessor="%postProcessorDir%/MOHIDLagrangianPostprocessor.py"
 
 rem "dirout" is created to store results or it is cleaned if it already exists

@@ -38,7 +38,9 @@
         real(prec) :: volume                        !< Tracer volume (m3)
         real(prec) :: area                          !< Tracer area (m2)
         real(prec) :: condition                     !< Material condition (1-0)
-        real(prec) :: initial_volume             !< initial volume of tracer
+        real(prec) :: initial_volume                !< initial volume of tracer
+        real(prec) :: temperature                   !< temperature of the tracer
+        real(prec) :: salinity                      !< salinity of the tracer
     end type detritus_state_class
 
     type, extends(tracer_class) :: detritus_class    !<Type - The detritus material Lagrangian tracer class
@@ -69,7 +71,7 @@
     !---------------------------------------------------------------------------
     integer function getNumVars(self)
     class(detritus_class), intent(in) :: self
-    getNumVars = 20
+    getNumVars = 23
     end function getNumVars
 
     !---------------------------------------------------------------------------
@@ -95,12 +97,15 @@
     getStateArray(12) = self%mpar%particulate
     getStateArray(13) = self%now%bathymetry
     getStateArray(14) = self%now%dwz
-    getStateArray(15) = self%mnow%density
-    getStateArray(16) = self%mnow%radius
-    getStateArray(17) = self%mnow%volume
-    getStateArray(18) = self%mnow%area
-    getStateArray(19) = self%mnow%condition
-    getStateArray(20) = self%mnow%initial_volume
+    getStateArray(15) = self%now%dist2bottom
+    getStateArray(16) = self%mnow%density
+    getStateArray(17) = self%mnow%radius
+    getStateArray(18) = self%mnow%volume
+    getStateArray(19) = self%mnow%area
+    getStateArray(20) = self%mnow%condition
+    getStateArray(21) = self%mnow%initial_volume
+    getStateArray(22) = self%mnow%temperature
+    getStateArray(23) = self%mnow%salinity
     end function getStateArray
 
     !---------------------------------------------------------------------------
@@ -126,12 +131,15 @@
     self%mpar%particulate = StateArray(12)
     self%now%bathymetry   = StateArray(13)
     self%now%dwz          = StateArray(14)
-    self%mnow%density = StateArray(15)
-    self%mnow%radius = StateArray(16)
-    self%mnow%volume = StateArray(17)
-    self%mnow%area = StateArray(18)
-    self%mnow%condition = StateArray(19)
-    self%mnow%initial_volume = StateArray(20)
+    self%now%dist2bottom = StateArray(15)
+    self%mnow%density = StateArray(16)
+    self%mnow%radius = StateArray(17)
+    self%mnow%volume = StateArray(18)
+    self%mnow%area = StateArray(19)
+    self%mnow%condition = StateArray(20)
+    self%mnow%initial_volume = StateArray(21)
+    self%mnow%temperature = StateArray(22)
+    self%mnow%salinity = StateArray(23)
     end subroutine setStateArray
 
     !---------------------------------------------------------------------------
@@ -168,6 +176,9 @@
     !default values
     constructor%mnow%condition = 1.0
     !constructor%mnow%degradation_rate = 1/(100*365*24*3600)
+    constructor%mnow%temperature = 15.0
+    constructor%mnow%salinity = 36.0
+    
     !try to find value from material types files
     tag = 'condition'
     idx = Utils%find_str(src%prop%propName, tag, .false.)
@@ -181,13 +192,15 @@
     end if
     
     !filling the rest of the varName list
-    constructor%varName(15) = Globals%Var%density
-    constructor%varName(16) = 'radius'
-    constructor%varName(17) = 'volume'
-    constructor%varName(18) = 'area'
-    constructor%varName(19) = 'condition'
+    constructor%varName(16) = Globals%Var%density
+    constructor%varName(17) = 'radius'
+    constructor%varName(18) = 'volume'
+    constructor%varName(19) = 'area'
+    constructor%varName(20) = 'condition'
     !constructor%varName(20) = 'particulate'
-    constructor%varName(20) = 'initial_volume'
+    constructor%varName(21) = 'initial_volume'
+    constructor%varName(22) = 'temp'
+    constructor%varName(23) = 'salt'
     end function constructor
 
     end module tracerdetritus_mod

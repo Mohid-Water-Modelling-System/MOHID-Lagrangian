@@ -35,7 +35,7 @@
 
     implicit none
     private
-
+    
     type, extends(linkedlist) :: stringList_class !< List of strings class
     contains
     procedure :: print => print_stringList
@@ -81,6 +81,7 @@
         integer         :: RemoveLandTracer !< Vertical velocity method
         integer         :: bathyminNetcdf !< bathymetry is a property inside the netcdf
         real            :: tracerMaxAge !< removes tracers with age greater than maxTracerAge
+        real            :: Temperature_add_offset !< adds offset to temperature from netcdf
     contains
     procedure :: setdp
     procedure :: setdt
@@ -91,6 +92,7 @@
     procedure :: setRemoveLandTracer
     procedure :: setbathyminNetcdf
     procedure :: settracerMaxAge
+    procedure :: setTemperature_add_offset
     procedure :: print => printsimdefs
     end type simdefs_t
 
@@ -230,6 +232,10 @@
     procedure, private :: buildvars
     procedure, public  :: addVar
     procedure, public  :: getVarSimName
+    !Sobrinho
+    procedure, public  :: checkVarSimName
+    procedure, public  :: checkDimensionName
+    procedure, public  :: checkLatOrLon
     end type var_names_t
     
     type :: varBackground_t
@@ -282,9 +288,15 @@
     procedure :: getDateTimeStamp
     end type sim_time_t
     
+    type :: gridTypes_t
+        integer :: curvilinear = 2
+    contains
+    end type gridTypes_t
+    
     type :: sources_t
         integer, allocatable, dimension(:) :: sourcesID
         real(prec), allocatable, dimension(:) :: bottom_emission_depth
+        real(prec), allocatable, dimension(:) :: biofouling_rate
     contains    
     end type sources_t
 
@@ -301,6 +313,7 @@
         type(maskVals_t)    :: Mask
         type(tracerTypes_t) :: Types
         type(dataTypes_t)   :: DataTypes
+        type(gridTypes_t)   :: GridTypes
         type(sources_t)     :: Sources
     contains
     procedure :: initialize => setdefaults
@@ -376,6 +389,7 @@
     self%SimDefs%RemoveLandTracer = 0
     self%SimDefs%bathyminNetcdf = 0
     self%SimDefs%tracerMaxAge = 0
+    self%SimDefs%Temperature_add_offset = 0
     !simulation constants
     self%Constants%Gravity= 0.0*ex + 0.0*ey -9.81*ez
     self%Constants%Z0 = 0.0
@@ -609,7 +623,189 @@
     end if
 
     end function getVarSimName
+    
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model
+    !> @param[in] var
+    !---------------------------------------------------------------------------
+    logical function checkVarSimName(self, var)
+    class(var_names_t), intent(inout) :: self
+    type(string), intent(in) :: var
+    logical value
+    !Begin-------------------------------------------------------------
+    checkVarSimName = .false.
+    !searching for bathymetry
+    value = self%bathymetryVariants%notRepeated(var)
+    if (var == self%bathymetry .or. .not. value) then
+        checkVarSimName = .true.
+        return
+    end if
+    
+    !searching for u
+    if (var == self%u .or. .not.self%uVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for v
+    if (var == self%v .or. .not.self%vVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for w
+    if (var == self%w .or. .not.self%wVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for ssh
+    if (var == self%ssh .or. .not.self%sshVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for temp
+    if (var == self%temp .or. .not.self%tempVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for sal
+    if (var == self%sal .or. .not.self%salVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for density
+    if (var == self%density .or. .not.self%densityVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for vsdx
+    if (var == self%vsdx .or. .not.self%vsdxVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for vsdy
+    if (var == self%vsdy .or. .not.self%vsdyVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for hs
+    if (var == self%hs .or. .not.self%hsVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for ts
+    if (var == self%ts .or. .not.self%tsVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for wd
+    if (var == self%wd .or. .not.self%wdVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for u10
+    if (var == self%u10 .or. .not.self%u10Variants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for v10
+    if (var == self%v10 .or. .not.self%v10Variants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for rad
+    if (var == self%rad .or. .not.self%radVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for time
+    if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
+    !searching for rate
+    if (var == self%rate .or. .not.self%rateVariants%notRepeated(var)) then
+        checkVarSimName = .true.
+        return
+    end if
 
+    end function checkVarSimName
+    
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model as a dimension variable
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkDimensionName(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkDimensionName = .false.
+    
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+    !searching for level
+    if (var == self%level .or. .not.self%levelVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+    !searching for time
+    if (var == self%time .or. .not.self%timeVariants%notRepeated(var)) then
+        checkDimensionName = .true.
+        return
+    end if
+
+    end function checkDimensionName
+
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> returns true is the input variable name is defined in the model as a dimension variable
+    !> @param[in] self, var
+    !---------------------------------------------------------------------------
+    logical function checkLatOrLon(self, var)
+    type(string), intent(in) :: var
+    class(var_names_t), intent(inout) :: self
+    !Begin-----------------------------------------------------
+    checkLatOrLon = .false.
+    !searching for lon
+    if (var == self%lon .or. .not.self%lonVariants%notRepeated(var)) then
+        checkLatOrLon = .true.
+        return
+    end if
+    !searching for lat
+    if (var == self%lat .or. .not.self%latVariants%notRepeated(var)) then
+        checkLatOrLon = .true.
+        return
+    end if
+    end function checkLatOrLon
+    
+    
     !---------------------------------------------------------------------------
     !> @author Ricardo Birjukovs Canelas - MARETEC
     !> @brief
@@ -763,13 +959,16 @@
     integer, intent(in) :: idx
     type(stringList_class), intent(inout) :: variables
     integer :: i
-    
+    !write(*,*)"Entrei no fillBackgroundDict"
+    !write(*,*)"tamanho do dicionario = ", size(self%BackgroundVarDict%bkgDict)
     do i=1, size(self%BackgroundVarDict%bkgDict)
         if (self%BackgroundVarDict%bkgDict(i)%bkgIndex == 0) then
             self%BackgroundVarDict%bkgDict(i)%bkgIndex = idx
+            !write(*,*)"Index e i = ", idx, i
             call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
             exit
         else if(self%BackgroundVarDict%bkgDict(i)%bkgIndex == idx) then
+            !write(*,*)"Index e i = ", idx, i
             call self%BackgroundVarDict%bkgDict(i)%bkgVars%copy(variables)
             exit
         end if
@@ -1361,7 +1560,6 @@
     subroutine setAddBottomCell(self, read_AddBottomCell)
     class(constants_t), intent(inout) :: self
     type(string), intent(in) :: read_AddBottomCell
-    type(string) :: outext
     integer :: sizem
     self%AddBottomCell = read_AddBottomCell%to_number(kind=1_I1P)
     sizem = sizeof(self%AddBottomCell)
@@ -1551,7 +1749,7 @@
         outext='MaxDegradationRate must be positive, assuming default value'
         call Log%put(outext)
     else
-        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400
+        self%MaxDegradationRate =read_MaxDegradationRate%to_number(kind=1._R8P) / 86400.0
     endif
     sizem = sizeof(self%MaxDegradationRate)
     call SimMemory%adddef(sizem)
@@ -1765,7 +1963,22 @@
     call SimMemory%adddef(sizem)
     end subroutine settracerMaxAge
 
-
+    !---------------------------------------------------------------------------
+    !> @author Joao Sobrinho - Colab Atlantic
+    !> @brief
+    !> Set Temperature_add_offset
+    !> @param[in] self, read_Temperature_add_offset
+    !---------------------------------------------------------------------------
+    subroutine setTemperature_add_offset(self, read_Temperature_add_offset)
+    class(simdefs_t), intent(inout) :: self
+    type(string), intent(in) :: read_Temperature_add_offset
+    integer :: sizem
+    self%Temperature_add_offset=read_Temperature_add_offset%to_number(kind=1._R8P)
+    
+    sizem = sizeof(self%Temperature_add_offset)
+    call SimMemory%adddef(sizem)
+    end subroutine setTemperature_add_offset
+    
     !---------------------------------------------------------------------------
     !> @author Daniel Garaboa Paz - USC
     !> @brief
@@ -1822,11 +2035,13 @@
     temp_str(1)=self%VerticalVelMethod
     outext = outext//'       VerticalVelMethod = '//temp_str(1)//new_line('a')
     temp_str(1)=self%RemoveLandTracer
-    outext = outext//'       RemoveLandTracer = '//temp_str(1)//''
+    outext = outext//'       RemoveLandTracer = '//temp_str(1)//new_line('a')
     temp_str(1)=self%bathyminNetcdf
-    outext = outext//'       bathyminNetcdf = '//temp_str(1)//''
+    outext = outext//'       bathyminNetcdf = '//temp_str(1)//new_line('a')
     temp_str(1)=self%tracerMaxAge
-    outext = outext//'       tracerMaxAge = '//temp_str(1)//''
+    outext = outext//'       tracerMaxAge = '//temp_str(1)//new_line('a')
+    temp_str(1)=self%Temperature_add_offset
+    outext = outext//'       Temperature_add_offset = '//temp_str(1)//""
     call Log%put(outext,.false.)
     end subroutine printsimdefs
 
@@ -1880,6 +2095,7 @@
     type(string) :: outext
     notRepeated = .true.
     call this%reset()               ! reset list iterator
+    !write(*,*)"entrada do while"
     do while(this%moreValues())     ! loop while there are values to print
         curr => this%currentValue() ! get current value
         select type(curr)
@@ -1895,6 +2111,7 @@
         end select
         call this%next()            ! increment the list iterator
     end do
+    !write(*,*)"saida do while"
     call this%reset()               ! reset list iterator
     end function notRepeated
     
@@ -1928,13 +2145,15 @@
     class(stringList_class), intent(inout ) :: other
     type(string), allocatable, dimension(:) :: otherList
     integer :: i
-    
+    !write(*,*)"Entrei na copia"
     call other%toArray(otherList)
     call this%finalize()
-    do i = 1, size(otherList)        
+    !write(*,*)"tamanho da lista = ", size(otherList)
+    do i = 1, size(otherList)
+        !write(*,*)"variavel adicionada = ", trim(otherList(i))
         call this%add(otherList(i))
     end do
-        
+    !write(*,*)"Sai da copia"
     end subroutine copy
     
     !---------------------------------------------------------------------------

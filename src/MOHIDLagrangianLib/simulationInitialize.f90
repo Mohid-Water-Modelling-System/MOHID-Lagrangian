@@ -333,8 +333,8 @@
     integer :: i, j, k
     logical :: readflag
     integer :: id
-    type(string) :: name, source_geometry, tag, att_name, att_val, rate_file, posi_file
-    real(prec) :: emitting_rate, rateScale, start, finish, temp, bottom_emission_depth
+    type(string) :: name, source_geometry, tag, att_name, att_val, att_val2, att_val3, rate_file, posi_file
+    real(prec) :: emitting_rate, rateScale, start, finish, temp, bottom_emission_depth, biofouling_rate, tracer_volume
     logical :: emitting_fixed, posi_fixed, rateRead
     class(shape), allocatable :: source_shape
     type(vector) :: res
@@ -381,6 +381,32 @@
             emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
             emitting_fixed = .true.
         end if
+        tag="rate_seconds"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            tag="rate_seconds"
+            att_name="value"
+            readflag = .false.
+            call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val2, readflag, .false.)
+            if (readflag) then !Recieved rate in seconds
+                tag="rate_trcPerEmission"
+                att_name="value"
+                readflag = .false.
+                call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val3, readflag, .false.)
+                if (readflag) then !Recieved number of tracers per rate_seconds
+                    rateRead = .true.
+                    emitting_rate = 1/att_val2%to_number(kind=1._R8P) * att_val3%to_number(kind=1._R8P) !if 3600s, 5tracers and dt = 60 => 0.08 tracers per DT
+                    emitting_fixed = .true.
+                else !if rate_seconds is used, then rate_trcPerEmission is needed
+                    rateRead = .false.
+                endif
+            else ! recieved rate in dt steps
+                rateRead = .true.
+                emitting_rate = 1.0/(att_val%to_number(kind=1._R8P)*Globals%SimDefs%dt)
+                emitting_fixed = .true.
+            endif
+        end if
         tag="rate"
         att_name="value"
         call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
@@ -389,6 +415,17 @@
             emitting_rate = att_val%to_number(kind=1._R8P)
             emitting_fixed = .true.
         end if
+        !Reading volume of each tracer (to be used with flow rate time series)
+        tag="tracer_volume"
+        att_name="tracer_volume"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            rateRead = .true.
+            tracer_volume = att_val%to_number(kind=1._R8P)
+        else
+            tracer_volume = 0
+        end if
+        
         tag="rateTimeSeries"
         call XMLReader%gotoNode(source_node, source_ratefile, tag, mandatory =.false.)
         if (associated(source_ratefile)) then
@@ -434,6 +471,17 @@
         else
             bottom_emission_depth = 0
         end if
+        !reading biofouling growth rate of this source
+        readflag = .false.
+        tag="biofouling_rate"
+        att_name="value"
+        call XMLReader%getNodeAttribute(source_node, tag, att_name, att_val, readflag, .false.)
+        if (readflag) then
+            biofouling_rate = att_val%to_number(kind=1._R8P)
+        else
+            biofouling_rate = 0
+        end if
+        
         !Possible list of active intervals, and these might be in absolute dates or relative to sim time
         activeList => getElementsByTagname(source_node, "active")
         allocate(activeTimes(getLength(activeList),2))
@@ -464,7 +512,9 @@
             end if
         end do
         !initializing Source j
-        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, posi_fixed, posi_file, bottom_emission_depth, activeTimes, source_geometry, source_shape, res)
+        call tempSources%src(j+1)%initialize(id, name, emitting_rate, emitting_fixed, rate_file, rateScale, &
+                                             posi_fixed, posi_file, bottom_emission_depth, biofouling_rate, &
+                                             tracer_volume, activeTimes, source_geometry, source_shape, res)
        
         deallocate(activeTimes)
         deallocate(source_shape)
@@ -538,6 +588,13 @@
     call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
     if (read_flag) then
         call Globals%SimDefs%settracerMaxAge(att_val)
+    endif
+    
+    tag="Temperature_add_offset"
+    att_name="value"
+    call XMLReader%getNodeAttribute(simdefs_node, tag, att_name, att_val, read_flag, .false.)
+    if (read_flag) then
+        call Globals%SimDefs%setTemperature_add_offset(att_val)
     endif
     
     call Globals%SimDefs%print()
